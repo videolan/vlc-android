@@ -26,9 +26,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AAlbum
-import org.videolan.medialibrary.interfaces.media.AArtist
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum
+import org.videolan.medialibrary.interfaces.media.AbstractArtist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
@@ -38,9 +38,9 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
 class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : MedialibraryViewModel(context),
-        AMedialibrary.MediaCb,
-        AMedialibrary.ArtistsCb by EmptyMLCallbacks,
-        AMedialibrary.AlbumsCb by EmptyMLCallbacks {
+        AbstractMedialibrary.MediaCb,
+        AbstractMedialibrary.ArtistsCb by EmptyMLCallbacks,
+        AbstractMedialibrary.AlbumsCb by EmptyMLCallbacks {
 
     val albumsProvider = AlbumsProvider(parent, context, this)
     val tracksProvider = TracksProvider(parent, context, this)
@@ -48,8 +48,8 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
 
     init {
         when (parent) {
-            is AArtist -> medialibrary.addArtistsCb(this@AlbumSongsViewModel)
-            is AAlbum -> medialibrary.addAlbumsCb(this@AlbumSongsViewModel)
+            is AbstractArtist -> medialibrary.addArtistsCb(this@AlbumSongsViewModel)
+            is AbstractAlbum -> medialibrary.addAlbumsCb(this@AlbumSongsViewModel)
             else -> medialibrary.addMediaCb(this@AlbumSongsViewModel)
         }
     }
@@ -66,8 +66,8 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
 
     override fun onCleared() {
         when (parent) {
-            is AArtist -> medialibrary.removeArtistsCb(this)
-            is AAlbum -> medialibrary.removeAlbumsCb(this)
+            is AbstractArtist -> medialibrary.removeArtistsCb(this)
+            is AbstractAlbum -> medialibrary.removeAlbumsCb(this)
             else -> medialibrary.removeMediaCb(this)
         }
         super.onCleared()

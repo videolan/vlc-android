@@ -38,9 +38,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
-import org.videolan.medialibrary.interfaces.media.APlaylist
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
@@ -71,7 +71,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     private lateinit var searchButtonView: View
     var swipeRefreshLayout: SwipeRefreshLayout? = null
-    lateinit var mediaLibrary: AMedialibrary
+    lateinit var mediaLibrary: AbstractMedialibrary
     var actionMode: ActionMode? = null
     var fabPlay: FloatingActionButton? = null
     open lateinit var viewModel: T
@@ -162,8 +162,8 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             for (item in items) {
                 if (!isStarted()) break
                 when(item) {
-                    is AMediaWrapper -> if (getWritePermission(item.uri)) deleteMedia(item)
-                    is APlaylist -> withContext(Dispatchers.IO) { item.delete() }
+                    is AbstractMediaWrapper -> if (getWritePermission(item.uri)) deleteMedia(item)
+                    is AbstractPlaylist -> withContext(Dispatchers.IO) { item.delete() }
                 }
             }
             if (isStarted()) viewModel.refresh()
@@ -173,12 +173,12 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
         view ?: return false
         when {
-            item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as APlaylist) })
+            item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as AbstractPlaylist) })
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
                 val deleteAction = Runnable {
                     if (isStarted()) launch { deleteMedia(item, false, null) }
                 }
-                val resid = if ((item as AMediaWrapper).type == AMediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
+                val resid = if ((item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
                 UiTools.snackerConfirm(view!!, getString(resid, item.getTitle()), Runnable { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
             }
             else -> return false
@@ -210,7 +210,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         }
     }
 
-    private fun onDeleteFailed(media: AMediaWrapper) {
+    private fun onDeleteFailed(media: AbstractMediaWrapper) {
         if (isAdded) view?.let { UiTools.snacker(it, getString(R.string.msg_delete_failed, media.title)) }
     }
 
@@ -244,35 +244,35 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.ml_menu_sortby_name -> {
-                sortBy(AMedialibrary.SORT_ALPHA)
+                sortBy(AbstractMedialibrary.SORT_ALPHA)
                 return true
             }
             R.id.ml_menu_sortby_filename -> {
-                sortBy(AMedialibrary.SORT_FILENAME)
+                sortBy(AbstractMedialibrary.SORT_FILENAME)
                 return true
             }
             R.id.ml_menu_sortby_length -> {
-                sortBy(AMedialibrary.SORT_DURATION)
+                sortBy(AbstractMedialibrary.SORT_DURATION)
                 return true
             }
             R.id.ml_menu_sortby_date -> {
-                sortBy(AMedialibrary.SORT_RELEASEDATE)
+                sortBy(AbstractMedialibrary.SORT_RELEASEDATE)
                 return true
             }
             R.id.ml_menu_sortby_last_modified -> {
-                sortBy(AMedialibrary.SORT_LASTMODIFICATIONDATE)
+                sortBy(AbstractMedialibrary.SORT_LASTMODIFICATIONDATE)
                 return true
             }
             R.id.ml_menu_sortby_artist_name -> {
-                sortBy(AMedialibrary.SORT_ARTIST)
+                sortBy(AbstractMedialibrary.SORT_ARTIST)
                 return true
             }
             R.id.ml_menu_sortby_album_name -> {
-                sortBy(AMedialibrary.SORT_ALBUM)
+                sortBy(AbstractMedialibrary.SORT_ALBUM)
                 return true
             }
             R.id.ml_menu_sortby_number -> {
-                sortBy(AMedialibrary.SORT_FILESIZE) //TODO
+                sortBy(AbstractMedialibrary.SORT_FILESIZE) //TODO
                 return super.onOptionsItemSelected(item)
             }
             else -> return super.onOptionsItemSelected(item)

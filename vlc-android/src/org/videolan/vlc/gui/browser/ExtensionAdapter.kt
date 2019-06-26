@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ExtensionItemViewBinding
 import org.videolan.vlc.extensions.api.VLCExtensionItem
@@ -36,7 +36,7 @@ class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.
             if (item.type == VLCExtensionItem.TYPE_DIRECTORY) {
                 fragment!!.browseItem(item)
             } else if (item.type == VLCExtensionItem.TYPE_AUDIO || item.type == VLCExtensionItem.TYPE_VIDEO) {
-                val mw = MLServiceLocator.getAMediaWrapper(Uri.parse(item.link))
+                val mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(item.link))
                 mw.setDisplayTitle(item.getTitle())
                 mw.description = item.getSubTitle()
                 mw.type = getTypeAccordingToItem(item.type)
@@ -100,12 +100,12 @@ class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.
 
     private fun getTypeAccordingToItem(type: Int): Int {
         return when (type) {
-            VLCExtensionItem.TYPE_DIRECTORY -> AMediaWrapper.TYPE_DIR
-            VLCExtensionItem.TYPE_VIDEO -> AMediaWrapper.TYPE_VIDEO
-            VLCExtensionItem.TYPE_AUDIO -> AMediaWrapper.TYPE_AUDIO
-            VLCExtensionItem.TYPE_PLAYLIST -> AMediaWrapper.TYPE_PLAYLIST
-            VLCExtensionItem.TYPE_SUBTITLE -> AMediaWrapper.TYPE_SUBTITLE
-            else -> AMediaWrapper.TYPE_ALL
+            VLCExtensionItem.TYPE_DIRECTORY -> AbstractMediaWrapper.TYPE_DIR
+            VLCExtensionItem.TYPE_VIDEO -> AbstractMediaWrapper.TYPE_VIDEO
+            VLCExtensionItem.TYPE_AUDIO -> AbstractMediaWrapper.TYPE_AUDIO
+            VLCExtensionItem.TYPE_PLAYLIST -> AbstractMediaWrapper.TYPE_PLAYLIST
+            VLCExtensionItem.TYPE_SUBTITLE -> AbstractMediaWrapper.TYPE_SUBTITLE
+            else -> AbstractMediaWrapper.TYPE_ALL
         }
     }
 

@@ -12,7 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
@@ -24,12 +24,12 @@ import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var itemSize: Int) : DiffUtilAdapter<AMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var itemSize: Int) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
         if (pagedList is List<*>) {
             @Suppress("UNCHECKED_CAST")
-            update(pagedList as List<AMediaWrapper>)
+            update(pagedList as List<AbstractMediaWrapper>)
         }
     }
 
@@ -79,8 +79,8 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
         this.focusListener = focusListener
     }
 
-    override fun createCB(): DiffCallback<AMediaWrapper> {
-        return object : DiffCallback<AMediaWrapper>() {
+    override fun createCB(): DiffCallback<AbstractMediaWrapper> {
+        return object : DiffCallback<AbstractMediaWrapper>() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = try {
                 oldList[oldItemPosition] == newList[newItemPosition]
                 } catch (e: IndexOutOfBoundsException) {
@@ -143,8 +143,8 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
             var seen = 0L
             var description = item?.description
             var resolution = ""
-            if (item is AMediaWrapper) {
-                if (item.type == AMediaWrapper.TYPE_VIDEO) {
+            if (item is AbstractMediaWrapper) {
+                if (item.type == AbstractMediaWrapper.TYPE_VIDEO) {
                     resolution = generateResolutionClass(item.width, item.height) ?: ""
                     isSquare = false
                     description = if (item.time == 0L) Tools.millisToString(item.length) else Tools.getProgressText(item)

@@ -24,7 +24,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
@@ -37,9 +37,9 @@ import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class HistoryAdapter(private val mEventsHandler: IEventsHandler) : DiffUtilAdapter<AMediaWrapper, HistoryAdapter.ViewHolder>(), MultiSelectAdapter<MediaWrapper> {
+class HistoryAdapter(private val mEventsHandler: IEventsHandler) : DiffUtilAdapter<AbstractMediaWrapper, HistoryAdapter.ViewHolder>(), MultiSelectAdapter<AbstractMediaWrapper> {
     private var mLayoutInflater: LayoutInflater? = null
-    var multiSelectHelper: MultiSelectHelper<AMediaWrapper> = MultiSelectHelper(this, UPDATE_SELECTION)
+    var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper> = MultiSelectHelper(this, UPDATE_SELECTION)
 
     inner class ViewHolder(binding: HistoryItemBinding) : SelectorViewHolder<HistoryItemBinding>(binding) {
 

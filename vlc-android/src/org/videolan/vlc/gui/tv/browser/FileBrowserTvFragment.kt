@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -60,7 +60,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         super.onCreate(savedInstanceState)
         item = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(ITEM) as? MediaLibraryItem
         else arguments?.getParcelable(ITEM) as? MediaLibraryItem
-        viewModel = getBrowserModel(getCategory(), (item as? AMediaWrapper)?.location, true, false)
+        viewModel = getBrowserModel(getCategory(), (item as? AbstractMediaWrapper)?.location, true, false)
 
         viewModel.currentItem = item
 
@@ -69,7 +69,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
             if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "Submit lis of ${items.size} items")
 
             //headers
-            val nbColumns = if ((viewModel as BrowserModel).sort == AMedialibrary.SORT_ALPHA || (viewModel as BrowserModel).sort == AMedialibrary.SORT_DEFAULT) 9 else 1
+            val nbColumns = if ((viewModel as BrowserModel).sort == AbstractMedialibrary.SORT_ALPHA || (viewModel as BrowserModel).sort == AbstractMedialibrary.SORT_DEFAULT) 9 else 1
 
             headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as BrowserModel).sort
@@ -116,14 +116,14 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
     private fun getCategory() = arguments?.getInt(CATEGORY, TYPE_FILE) ?: TYPE_FILE
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        val mediaWrapper = item as AMediaWrapper
+        val mediaWrapper = item as AbstractMediaWrapper
 
-        mediaWrapper.removeFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
-        if (mediaWrapper.type == AMediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
+        mediaWrapper.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+        if (mediaWrapper.type == AbstractMediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
         else TvUtil.openMedia(requireActivity(), item, viewModel as BrowserModel)
     }
 
-    fun browse(media: AMediaWrapper, save: Boolean) {
+    fun browse(media: AbstractMediaWrapper, save: Boolean) {
         val ctx = activity
         if (ctx == null || !isResumed || isRemoving) return
         val ft = ctx.supportFragmentManager.beginTransaction()

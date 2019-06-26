@@ -27,7 +27,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.filter
 import kotlinx.coroutines.channels.mapTo
 import org.videolan.libvlc.Media
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
@@ -65,7 +65,7 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
 
     override fun addMedia(media: MediaLibraryItem) {
         if (media.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            if ((media as AMediaWrapper).type == AMediaWrapper.TYPE_DIR) super.addMedia(Storage(media.uri))
+            if ((media as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_DIR) super.addMedia(Storage(media.uri))
             return
         } else if (media.itemType != MediaLibraryItem.TYPE_STORAGE) return
         super.addMedia(media)

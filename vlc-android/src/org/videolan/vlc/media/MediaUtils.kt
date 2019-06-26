@@ -20,13 +20,13 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AMedialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AAlbum
-import org.videolan.medialibrary.interfaces.media.AFolder
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
-import org.videolan.medialibrary.interfaces.media.APlaylist
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum
+import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -47,7 +47,7 @@ private const val TAG = "VLC/MediaUtils"
 object MediaUtils : CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 
-    fun getSubs(activity: FragmentActivity, mediaList: List<AMediaWrapper>) {
+    fun getSubs(activity: FragmentActivity, mediaList: List<AbstractMediaWrapper>) {
         if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri })
         else {
             val intent = Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SUBS_DL)
@@ -58,7 +58,7 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    fun getSubs(activity: FragmentActivity, media: AMediaWrapper) {
+    fun getSubs(activity: FragmentActivity, media: AbstractMediaWrapper) {
         getSubs(activity, listOf(media))
     }
 
@@ -79,7 +79,7 @@ object MediaUtils : CoroutineScope {
         })
     }
 
-    fun appendMedia(context: Context?, media: List<AMediaWrapper>?) {
+    fun appendMedia(context: Context?, media: List<AbstractMediaWrapper>?) {
         if (media == null || media.isEmpty() || context == null) return
         DialogCallback(context, object : DialogCallback.Runnable {
             override fun run(service: PlaybackService) {
@@ -93,13 +93,13 @@ object MediaUtils : CoroutineScope {
         })
     }
 
-    fun appendMedia(context: Context?, media: AMediaWrapper?) {
+    fun appendMedia(context: Context?, media: AbstractMediaWrapper?) {
         if (media != null) appendMedia(context, arrayListOf(media))
     }
 
-    fun appendMedia(context: Context, array: Array<AMediaWrapper>) = appendMedia(context, array.asList())
+    fun appendMedia(context: Context, array: Array<AbstractMediaWrapper>) = appendMedia(context, array.asList())
 
-    fun insertNext(context: Context?, media: Array<AMediaWrapper>?) {
+    fun insertNext(context: Context?, media: Array<AbstractMediaWrapper>?) {
         if (media == null || context == null) return
         DialogCallback(context, object : DialogCallback.Runnable {
             override fun run(service: PlaybackService) {
@@ -113,12 +113,12 @@ object MediaUtils : CoroutineScope {
         })
     }
 
-    fun insertNext(context: Context?, media: AMediaWrapper?) {
+    fun insertNext(context: Context?, media: AbstractMediaWrapper?) {
         if (media == null || context == null) return
         insertNext(context, arrayOf(media))
     }
 
-    fun openMedia(context: Context?, media: AMediaWrapper?) {
+    fun openMedia(context: Context?, media: AbstractMediaWrapper?) {
         if (media == null || context == null) return
         DialogCallback(context, object : DialogCallback.Runnable {
             override fun run(service: PlaybackService) {
@@ -132,9 +132,9 @@ object MediaUtils : CoroutineScope {
         openMediaNoUi(ctx, media)
     }
 
-    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCApplication.appContext, MLServiceLocator.getAMediaWrapper(uri))
+    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCApplication.appContext, MLServiceLocator.getAbstractMediaWrapper(uri))
 
-    fun openMediaNoUi(context: Context?, media: AMediaWrapper?) {
+    fun openMediaNoUi(context: Context?, media: AbstractMediaWrapper?) {
         if (media == null || context == null) return
         object : BaseCallBack(context) {
             override fun onChanged(service: PlaybackService?) {
@@ -150,19 +150,19 @@ object MediaUtils : CoroutineScope {
         openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position)
     }
 
-    fun playAlbums(context: Context?, provider: MedialibraryProvider<AAlbum>, position: Int, shuffle: Boolean) {
+    fun playAlbums(context: Context?, provider: MedialibraryProvider<AbstractAlbum>, position: Int, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             when (count) {
                 0 -> null
                 in 1..MEDIALIBRARY_PAGE_SIZE -> withContext(Dispatchers.IO) {
-                    mutableListOf<AMediaWrapper>().apply {
+                    mutableListOf<AbstractMediaWrapper>().apply {
                         for (album in provider.getAll()) album.tracks?.let { addAll(it) }
                     }
                 }
                 else -> withContext(Dispatchers.IO) {
-                    mutableListOf<AMediaWrapper>().apply {
+                    mutableListOf<AbstractMediaWrapper>().apply {
                         var index = 0
                         while (index < count) {
                             val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
@@ -179,11 +179,11 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    fun playAll(context: Context?, provider: MedialibraryProvider<AMediaWrapper>, position: Int, shuffle: Boolean) {
+    fun playAll(context: Context?, provider: MedialibraryProvider<AbstractMediaWrapper>, position: Int, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
-            fun play(list: List<AMediaWrapper>) {
+            fun play(list: List<AbstractMediaWrapper>) {
                 service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
@@ -192,7 +192,7 @@ object MediaUtils : CoroutineScope {
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) { provider.getAll().toList() })
                 else -> {
                     var index = 0
-                    val appendList = mutableListOf<AMediaWrapper>()
+                    val appendList = mutableListOf<AbstractMediaWrapper>()
                     while (index < count) {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) { provider.getPage(pageCount, index).toList() }
@@ -210,7 +210,7 @@ object MediaUtils : CoroutineScope {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
-            fun play(list: List<AMediaWrapper>) {
+            fun play(list: List<AbstractMediaWrapper>) {
                 service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
@@ -218,7 +218,7 @@ object MediaUtils : CoroutineScope {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
                     provider.getAll().flatMap {
-                        it.media(provider.type, AMedialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
+                        it.media(provider.type, AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
                     }
                 })
                 else -> {
@@ -227,7 +227,7 @@ object MediaUtils : CoroutineScope {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) {
                             provider.getPage(pageCount, index).flatMap {
-                                it.media(provider.type, AMedialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
+                                it.media(provider.type, AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
                             }
                         }
                         if (index == 0) play(list)
@@ -240,7 +240,7 @@ object MediaUtils : CoroutineScope {
     }
 
     @JvmOverloads
-    fun openList(context: Context?, list: List<AMediaWrapper>, position: Int, shuffle: Boolean = false) {
+    fun openList(context: Context?, list: List<AbstractMediaWrapper>, position: Int, shuffle: Boolean = false) {
         if (Util.isListEmpty(list) || context == null) return
         DialogCallback(context, object : DialogCallback.Runnable {
             override fun run(service: PlaybackService) {
@@ -268,21 +268,21 @@ object MediaUtils : CoroutineScope {
         })
     }
 
-    fun getMediaArtist(ctx: Context, media: AMediaWrapper?) = media?.artist
+    fun getMediaArtist(ctx: Context, media: AbstractMediaWrapper?) = media?.artist
             ?: if (media?.nowPlaying != null) "" else getMediaString(ctx, R.string.unknown_artist)
 
-    fun getMediaReferenceArtist(ctx: Context, media: AMediaWrapper?) = getMediaArtist(ctx, media)
+    fun getMediaReferenceArtist(ctx: Context, media: AbstractMediaWrapper?) = getMediaArtist(ctx, media)
 
-    fun getMediaAlbumArtist(ctx: Context, media: AMediaWrapper?) = media?.albumArtist
+    fun getMediaAlbumArtist(ctx: Context, media: AbstractMediaWrapper?) = media?.albumArtist
             ?: getMediaString(ctx, R.string.unknown_artist)
 
-    fun getMediaAlbum(ctx: Context, media: AMediaWrapper?) = media?.album
+    fun getMediaAlbum(ctx: Context, media: AbstractMediaWrapper?) = media?.album
             ?: if (media?.nowPlaying != null) "" else getMediaString(ctx, R.string.unknown_album)
 
-    fun getMediaGenre(ctx: Context, media: AMediaWrapper?) = media?.genre
+    fun getMediaGenre(ctx: Context, media: AbstractMediaWrapper?) = media?.genre
             ?: getMediaString(ctx, R.string.unknown_genre)
 
-    fun getMediaSubtitle(media: AMediaWrapper): String? {
+    fun getMediaSubtitle(media: AbstractMediaWrapper): String? {
         var subtitle = media.nowPlaying ?: media.artist
         if (media.length > 0L) {
             subtitle = if (TextUtils.isEmpty(subtitle)) Tools.millisToString(media.length)
@@ -291,7 +291,7 @@ object MediaUtils : CoroutineScope {
         return subtitle
     }
 
-    fun getMediaTitle(mediaWrapper: AMediaWrapper) = mediaWrapper.title
+    fun getMediaTitle(mediaWrapper: AbstractMediaWrapper) = mediaWrapper.title
             ?: FileUtils.getFileNameFromPath(mediaWrapper.location)!!
 
     fun getContentMediaUri(data: Uri) = try {
@@ -419,7 +419,7 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    fun retrieveMediaTitle(mw: AMediaWrapper) = try {
+    fun retrieveMediaTitle(mw: AbstractMediaWrapper) = try {
         VLCApplication.appContext.contentResolver.query(mw.uri, null, null, null, null)?.use {
             val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             if (nameIndex > -1 && it.count > 0) {
@@ -434,14 +434,14 @@ object MediaUtils : CoroutineScope {
     } catch (ignored: SecurityException) {
     }
 
-    fun deletePlaylist(playlist: APlaylist) = launch(Dispatchers.IO) { playlist.delete() }
+    fun deletePlaylist(playlist: AbstractPlaylist) = launch(Dispatchers.IO) { playlist.delete() }
 }
 
 @WorkerThread
-fun AFolder.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = AMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AMediaWrapper> {
+fun AbstractFolder.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AbstractMediaWrapper> {
     var index = 0
     val count = mediaCount(type)
-    val all = mutableListOf<AMediaWrapper>()
+    val all = mutableListOf<AbstractMediaWrapper>()
     while (index < count) {
         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
         val list = media(type, sort, desc, pageCount, index)
@@ -451,7 +451,7 @@ fun AFolder.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = AMedialibr
     return all
 }
 
-fun List<AFolder>.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = AMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AMediaWrapper> {
+fun List<AbstractFolder>.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AbstractMediaWrapper> {
     return flatMap { it.getAll(type, sort, desc) }
 }
 

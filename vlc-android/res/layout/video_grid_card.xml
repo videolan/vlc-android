@@ -11,7 +11,7 @@
 
         <variable
             name="media"
-            type="org.videolan.medialibrary.interfaces.media.AMediaWrapper" />
+            type="org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper" />
 
         <variable
             name="seen"

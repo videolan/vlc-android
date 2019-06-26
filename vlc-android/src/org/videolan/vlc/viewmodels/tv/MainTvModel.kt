@@ -30,8 +30,8 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.ExternalMonitor
@@ -56,15 +56,15 @@ private const val TAG = "MainTvModel"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MainTvModel(app: Application) : AndroidViewModel(app), AMedialibrary.OnMedialibraryReadyListener,
-        AMedialibrary.OnDeviceChangeListener, CoroutineScope by MainScope() {
+class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrary.OnMedialibraryReadyListener,
+        AbstractMedialibrary.OnDeviceChangeListener, CoroutineScope by MainScope() {
 
     val context = getApplication<Application>().baseContext!!
-    private val medialibrary = AMedialibrary.getInstance()
+    private val medialibrary = AbstractMedialibrary.getInstance()
     val settings = Settings.getInstance(context)
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
-    private var updatedFavoritList: List<AMediaWrapper> = listOf()
+    private var updatedFavoritList: List<AbstractMediaWrapper> = listOf()
     var showHistory = false
         private set
     // LiveData
@@ -73,7 +73,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AMedialibrary.OnMed
     val videos: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val audioCategories: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val history: LiveData<List<AMediaWrapper>> = MutableLiveData()
+    val history: LiveData<List<AbstractMediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
@@ -129,7 +129,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AMedialibrary.OnMed
 
     private fun updateVideos() = launch {
         context.getFromMl {
-            getPagedVideos(AMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
+            getPagedVideos(AbstractMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
                 add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, it.size, it.size)))
@@ -150,7 +150,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AMedialibrary.OnMed
 
     private fun updatePlaylists() = launch {
         context.getFromMl {
-            getPagedPlaylists(AMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
+            getPagedPlaylists(AbstractMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (playlist as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
                 //                add(DummyItem(HEADER_PLAYLISTS, context.getString(R.string.playlists), ""))
@@ -215,8 +215,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AMedialibrary.OnMed
 
     fun open(activity: FragmentActivity, item: Any?) {
         when (item) {
-            is AMediaWrapper -> when {
-                item.type == AMediaWrapper.TYPE_DIR -> {
+            is AbstractMediaWrapper -> when {
+                item.type == AbstractMediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
@@ -224,7 +224,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AMedialibrary.OnMed
                 }
                 else -> {
                     MediaUtils.openMedia(activity, item)
-                    if (item.type == AMediaWrapper.TYPE_AUDIO) {
+                    if (item.type == AbstractMediaWrapper.TYPE_AUDIO) {
                         activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
                     }
                 }

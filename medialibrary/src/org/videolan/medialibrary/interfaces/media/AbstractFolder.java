@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
-public abstract class AFolder extends MediaLibraryItem {
+public abstract class AbstractFolder extends MediaLibraryItem {
     public static int TYPE_FOLDER_UNKNOWN = 0;
     public static int TYPE_FOLDER_VIDEO = 1;
     public static int TYPE_FOLDER_AUDIO = 2;
@@ -15,21 +15,21 @@ public abstract class AFolder extends MediaLibraryItem {
 
     public String mMrl;
 
-    public AFolder(long id, String name, String mrl) {
+    public AbstractFolder(long id, String name, String mrl) {
         super(id, name);
         mMrl = mrl;
     }
 
-    abstract public AMediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractMediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset);
     abstract public int mediaCount(int type);
-    abstract public AFolder[] subfolders(int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractFolder[] subfolders(int sort, boolean desc, int nbItems, int offset);
     abstract public int subfoldersCount(int type);
-    abstract public AMediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractMediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query, int mediaType);
 
     @Override
-    public AMediaWrapper[] getTracks() {
-        return new AMediaWrapper[0];
+    public AbstractMediaWrapper[] getTracks() {
+        return new AbstractMediaWrapper[0];
     }
 
     @Override
@@ -48,19 +48,19 @@ public abstract class AFolder extends MediaLibraryItem {
         parcel.writeString(mMrl);
     }
 
-    public static Parcelable.Creator<AFolder> CREATOR = new Parcelable.Creator<AFolder>() {
+    public static Parcelable.Creator<AbstractFolder> CREATOR = new Parcelable.Creator<AbstractFolder>() {
         @Override
-        public AFolder createFromParcel(Parcel in) {
-            return MLServiceLocator.getAFolder(in);
+        public AbstractFolder createFromParcel(Parcel in) {
+            return MLServiceLocator.getAbstractFolder(in);
         }
 
         @Override
-        public AFolder[] newArray(int size) {
-            return new AFolder[size];
+        public AbstractFolder[] newArray(int size) {
+            return new AbstractFolder[size];
         }
     };
 
-    public AFolder(Parcel in) {
+    public AbstractFolder(Parcel in) {
         super(in);
         this.mMrl = in.readString();
     }

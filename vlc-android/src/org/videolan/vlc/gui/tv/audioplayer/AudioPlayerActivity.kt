@@ -38,7 +38,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.TvAudioPlayerBinding
@@ -81,14 +81,14 @@ class AudioPlayerActivity : BaseTvActivity() {
         binding.lifecycleOwner = this
         model = ViewModelProviders.of(this).get(PlaylistModel::class.java)
         binding.progress = model.progress
-        model.dataset.observe(this, Observer<List<AMediaWrapper>> { mediaWrappers ->
+        model.dataset.observe(this, Observer<List<AbstractMediaWrapper>> { mediaWrappers ->
             if (mediaWrappers != null) {
                 adapter.setSelection(-1)
                 adapter.update(mediaWrappers)
             }
         })
         model.playerState.observe(this, Observer { playerState -> update(playerState) })
-        val medialist = intent.getParcelableArrayListExtra<AMediaWrapper>(MEDIA_LIST)
+        val medialist = intent.getParcelableArrayListExtra<AbstractMediaWrapper>(MEDIA_LIST)
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
         if (medialist != null) MediaUtils.openList(this, medialist, position)
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
@@ -110,7 +110,7 @@ class AudioPlayerActivity : BaseTvActivity() {
         wasPlaying = state.playing
 
         val mw = model.currentMediaWrapper
-        if (mw != null && !mw.hasFlag(AMediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
+        if (mw != null && !mw.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
             model.switchToVideo()
             finish()
             return
@@ -235,7 +235,7 @@ class AudioPlayerActivity : BaseTvActivity() {
         if (shuffle)
             Collections.shuffle(medias)
         else
-            Collections.sort(medias, MediaComparators.byTrackNumber)
+            Collections.sort(medias, MediaComparators.BY_TRACK_NUMBER)
         model.load(medias, 0)
     }
 

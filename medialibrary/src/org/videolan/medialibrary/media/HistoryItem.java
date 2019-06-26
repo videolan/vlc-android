@@ -6,7 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.videolan.medialibrary.MLServiceLocator;
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 
 import java.util.Date;
 
@@ -22,15 +22,15 @@ public class HistoryItem extends MediaLibraryItem {
         this.insertionDate = insertionDate;
     }
 
-    public AMediaWrapper getMedia() {
-        AMediaWrapper mw = MLServiceLocator.getAMediaWrapper(Uri.parse(mrl));
+    public AbstractMediaWrapper getMedia() {
+        AbstractMediaWrapper mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(mrl));
         mw.setTitle(title);
-        mw.setType(AMediaWrapper.TYPE_STREAM);
+        mw.setType(AbstractMediaWrapper.TYPE_STREAM);
         return mw;
     }
     @Override
-    public AMediaWrapper[] getTracks() {
-        return new AMediaWrapper[]{getMedia()};
+    public AbstractMediaWrapper[] getTracks() {
+        return new AbstractMediaWrapper[]{getMedia()};
     }
 
     @Override

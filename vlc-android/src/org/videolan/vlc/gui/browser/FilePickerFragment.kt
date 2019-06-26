@@ -34,7 +34,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.repository.DirectoryRepository
@@ -80,15 +80,15 @@ class FilePickerFragment : FileBrowserFragment() {
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        val media = item as AMediaWrapper
-        if (media.type == AMediaWrapper.TYPE_DIR)
+        val media = item as AbstractMediaWrapper
+        if (media.type == AbstractMediaWrapper.TYPE_DIR)
             browse(media, true)
         else
             pickFile(media)
 
     }
 
-    private fun pickFile(mw: AMediaWrapper) {
+    private fun pickFile(mw: AbstractMediaWrapper) {
         val i = Intent(Intent.ACTION_PICK)
         i.putExtra(EXTRA_MRL, mw.location)
         requireActivity().setResult(Activity.RESULT_OK, i)
@@ -104,7 +104,7 @@ class FilePickerFragment : FileBrowserFragment() {
                 viewModel.refresh()
             }
             mrl != null -> {
-                val mw = MLServiceLocator.getAMediaWrapper(Uri.parse(FileUtils.getParent(mrl)))
+                val mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(FileUtils.getParent(mrl)))
                 browse(mw, false)
             }
         }

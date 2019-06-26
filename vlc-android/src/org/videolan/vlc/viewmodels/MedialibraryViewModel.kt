@@ -1,15 +1,15 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
-import org.videolan.medialibrary.interfaces.AMedialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 
 
 abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
-        AMedialibrary.OnMedialibraryReadyListener, AMedialibrary.OnDeviceChangeListener  {
+        AbstractMedialibrary.OnMedialibraryReadyListener, AbstractMedialibrary.OnDeviceChangeListener  {
 
-    val medialibrary = AMedialibrary.getInstance().apply {
+    val medialibrary = AbstractMedialibrary.getInstance().apply {
         addOnMedialibraryReadyListener(this@MedialibraryViewModel)
         addOnDeviceChangeListener(this@MedialibraryViewModel)
     }

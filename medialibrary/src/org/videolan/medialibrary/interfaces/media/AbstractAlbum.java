@@ -7,12 +7,12 @@ import android.text.TextUtils;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.MLServiceLocator;
-import org.videolan.medialibrary.interfaces.AMedialibrary;
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
-public abstract class AAlbum extends MediaLibraryItem {
+public abstract class AbstractAlbum extends MediaLibraryItem {
     public static class SpecialRes {
-        public static String UNKNOWN_ALBUM = AMedialibrary.getContext().getString(R.string.unknown_album);
+        public static String UNKNOWN_ALBUM = AbstractMedialibrary.getContext().getString(R.string.unknown_album);
     }
 
     protected int releaseYear;
@@ -22,7 +22,7 @@ public abstract class AAlbum extends MediaLibraryItem {
     protected int mTracksCount;
     protected int duration;
 
-    public AAlbum(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int duration) {
+    public AbstractAlbum(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int duration) {
         super(id, title);
         this.releaseYear = releaseYear;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
@@ -32,13 +32,13 @@ public abstract class AAlbum extends MediaLibraryItem {
         this.duration = duration;
         if (TextUtils.isEmpty(title)) mTitle = SpecialRes.UNKNOWN_ALBUM;
         if (albumArtistId == 1L) {
-            this.albumArtist = AArtist.SpecialRes.UNKNOWN_ARTIST;
+            this.albumArtist = AbstractArtist.SpecialRes.UNKNOWN_ARTIST;
         } else if (albumArtistId == 2L) {
-            this.albumArtist = AArtist.SpecialRes.VARIOUS_ARTISTS;
+            this.albumArtist = AbstractArtist.SpecialRes.VARIOUS_ARTISTS;
         }
     }
 
-    protected AAlbum(Parcel in) {
+    protected AbstractAlbum(Parcel in) {
         super(in);
         this.releaseYear = in.readInt();
         this.artworkMrl = in.readString();
@@ -49,11 +49,11 @@ public abstract class AAlbum extends MediaLibraryItem {
     }
 
     abstract public int getRealTracksCount();
-    abstract public AMediaWrapper[] getTracks(int sort, boolean desc);
-    abstract public AMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
-    abstract public AMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractMediaWrapper[] getTracks(int sort, boolean desc);
+    abstract public AbstractMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
-    abstract public AArtist getAlbumArtist();
+    abstract public AbstractArtist getAlbumArtist();
 
     @Override
     public long getId() {
@@ -84,8 +84,8 @@ public abstract class AAlbum extends MediaLibraryItem {
     }
 
     @Override
-    public AMediaWrapper[] getTracks() {
-        return getTracks(AMedialibrary.SORT_ALBUM, false);
+    public AbstractMediaWrapper[] getTracks() {
+        return getTracks(AbstractMedialibrary.SORT_ALBUM, false);
     }
 
     @Override
@@ -93,16 +93,16 @@ public abstract class AAlbum extends MediaLibraryItem {
         return TYPE_ALBUM;
     }
 
-    public static Parcelable.Creator<AAlbum> CREATOR
-            = new Parcelable.Creator<AAlbum>() {
+    public static Parcelable.Creator<AbstractAlbum> CREATOR
+            = new Parcelable.Creator<AbstractAlbum>() {
         @Override
-        public AAlbum createFromParcel(Parcel in) {
-            return MLServiceLocator.getAAlbum(in);
+        public AbstractAlbum createFromParcel(Parcel in) {
+            return MLServiceLocator.getAbstractAlbum(in);
         }
 
         @Override
-        public AAlbum[] newArray(int size) {
-            return new AAlbum[size];
+        public AbstractAlbum[] newArray(int size) {
+            return new AbstractAlbum[size];
         }
     };
 

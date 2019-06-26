@@ -28,7 +28,7 @@ import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.ExternalMonitor
@@ -107,8 +107,8 @@ open class FileBrowserProvider(
             val file = File(mediaDirLocation)
             if (!file.exists() || !file.canRead()) continue
             storageAccess = true
-            val directory = MLServiceLocator.getAMediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
-            directory.type = AMediaWrapper.TYPE_DIR
+            val directory = MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
+            directory.type = AbstractMediaWrapper.TYPE_DIR
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation)) {
                 directory.setDisplayTitle(internalmemoryTitle)
                 storagePosition = devices.size
@@ -125,9 +125,9 @@ open class FileBrowserProvider(
         }
         if (!storageAccess) return // For first launch, storage access may not already be granted
         if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.value.isEmpty()) {
-            val otg = MLServiceLocator.getAMediaWrapper(Uri.parse("otg://")).apply {
+            val otg = MLServiceLocator.getAbstractMediaWrapper(Uri.parse("otg://")).apply {
                 title = context.getString(R.string.otg_device_title)
-                type = AMediaWrapper.TYPE_DIR
+                type = AbstractMediaWrapper.TYPE_DIR
             }
             otgPosition = devices.size
             devices.add(otg)
@@ -171,9 +171,9 @@ open class FileBrowserProvider(
                 otgPosition = -1
             }
         } else if (otgPosition == -1) {
-            val otg = MLServiceLocator.getAMediaWrapper(Uri.parse("otg://")).apply {
+            val otg = MLServiceLocator.getAbstractMediaWrapper(Uri.parse("otg://")).apply {
                 title = context.getString(R.string.otg_device_title)
-                type = AMediaWrapper.TYPE_DIR
+                type = AbstractMediaWrapper.TYPE_DIR
             }
             otgPosition = storagePosition+1
             dataset.add(otgPosition, otg)

@@ -21,8 +21,8 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.startMedialibrary
@@ -72,21 +72,21 @@ suspend fun retry (
 }
 
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
-fun AMediaWrapper?.isMedia() = this != null && (type == AMediaWrapper.TYPE_AUDIO || type == AMediaWrapper.TYPE_VIDEO)
-fun AMediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == AMediaWrapper.TYPE_DIR || type == AMediaWrapper.TYPE_PLAYLIST)
+fun AbstractMediaWrapper?.isMedia() = this != null && (type == AbstractMediaWrapper.TYPE_AUDIO || type == AbstractMediaWrapper.TYPE_VIDEO)
+fun AbstractMediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == AbstractMediaWrapper.TYPE_DIR || type == AbstractMediaWrapper.TYPE_PLAYLIST)
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
 fun Long.random() = (Random().nextFloat() * this).toLong()
 
 @ExperimentalCoroutinesApi
-suspend inline fun <reified T> Context.getFromMl(crossinline block: AMedialibrary.() -> T) = withContext(Dispatchers.IO) {
-    val ml = AMedialibrary.getInstance()
+suspend inline fun <reified T> Context.getFromMl(crossinline block: AbstractMedialibrary.() -> T) = withContext(Dispatchers.IO) {
+    val ml = AbstractMedialibrary.getInstance()
     if (ml.isStarted) block.invoke(ml)
     else {
         val scan = Settings.getInstance(this@getFromMl).getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON) == ML_SCAN_ON
         suspendCancellableCoroutine { continuation ->
-            val listener = object : AMedialibrary.OnMedialibraryReadyListener {
+            val listener = object : AbstractMedialibrary.OnMedialibraryReadyListener {
                 override fun onMedialibraryReady() {
                     val cb = this
                     if (!continuation.isCompleted) launch(start = CoroutineStart.UNDISPATCHED) {
@@ -105,14 +105,14 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: AMedialibrar
 }
 
 
-fun List<AMediaWrapper>.getWithMLMeta() : List<AMediaWrapper> {
-    if (this is MutableList<AMediaWrapper>) return updateWithMLMeta()
-    val list = mutableListOf<AMediaWrapper>()
+fun List<AbstractMediaWrapper>.getWithMLMeta() : List<AbstractMediaWrapper> {
+    if (this is MutableList<AbstractMediaWrapper>) return updateWithMLMeta()
+    val list = mutableListOf<AbstractMediaWrapper>()
     val ml = VLCApplication.mlInstance
     for (media in this) {
         if (media.id == 0L) {
             val mw = ml.findMedia(media)
-            if (mw.id != 0L) if (mw.type == AMediaWrapper.TYPE_ALL) mw.type = media.type
+            if (mw.id != 0L) if (mw.type == AbstractMediaWrapper.TYPE_ALL) mw.type = media.type
             list.add(mw)
         }
     }
@@ -120,7 +120,7 @@ fun List<AMediaWrapper>.getWithMLMeta() : List<AMediaWrapper> {
 }
 
 
-fun MutableList<AMediaWrapper>.updateWithMLMeta() : MutableList<AMediaWrapper> {
+fun MutableList<AbstractMediaWrapper>.updateWithMLMeta() : MutableList<AbstractMediaWrapper> {
     val iter = listIterator()
     val ml = VLCApplication.mlInstance
     try {
@@ -129,7 +129,7 @@ fun MutableList<AMediaWrapper>.updateWithMLMeta() : MutableList<AMediaWrapper> {
             if (media.id == 0L) {
                 val mw = ml.findMedia(media)
                 if (mw!!.id != 0L) {
-                    if (mw.type == AMediaWrapper.TYPE_ALL) mw.type = media.getType()
+                    if (mw.type == AbstractMediaWrapper.TYPE_ALL) mw.type = media.getType()
                     iter.set(mw)
                 }
             }

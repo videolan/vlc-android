@@ -7,10 +7,10 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AAlbum
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
-import org.videolan.medialibrary.interfaces.media.APlaylist
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.PlaybackService
@@ -38,9 +38,9 @@ object ModelsHelper {
     internal suspend fun splitList(sort: Int, items: Collection<MediaLibraryItem>) = withContext(Dispatchers.IO) {
         val array = mutableMapOf<String, MutableList<MediaLibraryItem>>()
         when (sort) {
-            AMedialibrary.SORT_DEFAULT,
-            AMedialibrary.SORT_FILENAME,
-            AMedialibrary.SORT_ALPHA -> {
+            AbstractMedialibrary.SORT_DEFAULT,
+            AbstractMedialibrary.SORT_FILENAME,
+            AbstractMedialibrary.SORT_ALPHA -> {
                 var currentLetter: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
@@ -53,7 +53,7 @@ object ModelsHelper {
                     array[letter]?.add(item)
                 }
             }
-            AMedialibrary.SORT_DURATION -> {
+            AbstractMedialibrary.SORT_DURATION -> {
                 var currentLengthCategory: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
@@ -66,7 +66,7 @@ object ModelsHelper {
                     array[currentLengthCategory]?.add(item)
                 }
             }
-            AMedialibrary.SORT_RELEASEDATE -> {
+            AbstractMedialibrary.SORT_RELEASEDATE -> {
                 var currentYear: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
@@ -78,11 +78,11 @@ object ModelsHelper {
                     array[currentYear]?.add(item)
                 }
             }
-            AMedialibrary.SORT_ARTIST -> {
+            AbstractMedialibrary.SORT_ARTIST -> {
                 var currentArtist: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val artist = (item as AMediaWrapper).artist ?: ""
+                    val artist = (item as AbstractMediaWrapper).artist ?: ""
                     if (currentArtist === null || !TextUtils.equals(currentArtist, artist)) {
                         currentArtist = artist
                         if (array[currentArtist].isNullOrEmpty()) array[currentArtist] = mutableListOf()
@@ -90,11 +90,11 @@ object ModelsHelper {
                     array[currentArtist]?.add(item)
                 }
             }
-            AMedialibrary.SORT_ALBUM -> {
+            AbstractMedialibrary.SORT_ALBUM -> {
                 var currentAlbum: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val album = (item as AMediaWrapper).album ?: ""
+                    val album = (item as AbstractMediaWrapper).album ?: ""
                     if (currentAlbum === null || !TextUtils.equals(currentAlbum, album)) {
                         currentAlbum = album
                         if (array[currentAlbum].isNullOrEmpty()) array[currentAlbum] = mutableListOf()
@@ -103,7 +103,7 @@ object ModelsHelper {
                 }
             }
         }
-        if (sort == AMedialibrary.SORT_DEFAULT || sort == AMedialibrary.SORT_FILENAME || sort == AMedialibrary.SORT_ALPHA)
+        if (sort == AbstractMedialibrary.SORT_DEFAULT || sort == AbstractMedialibrary.SORT_FILENAME || sort == AbstractMedialibrary.SORT_ALPHA)
             array.toSortedMap()
         else array
     }
@@ -113,9 +113,9 @@ object ModelsHelper {
     }
 
     fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) = if (context !== null) when (sort) {
-        AMedialibrary.SORT_DEFAULT,
-        AMedialibrary.SORT_FILENAME,
-        AMedialibrary.SORT_ALPHA -> {
+        AbstractMedialibrary.SORT_DEFAULT,
+        AbstractMedialibrary.SORT_FILENAME,
+        AbstractMedialibrary.SORT_ALPHA -> {
             val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || ModelsHelper.isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
             if (aboveItem == null) letter
             else {
@@ -123,7 +123,7 @@ object ModelsHelper {
                 if (letter != previous) letter else null
             }
         }
-        AMedialibrary.SORT_DURATION -> {
+        AbstractMedialibrary.SORT_DURATION -> {
             val length = getLength(item)
             val lengthCategory = lengthToCategory(length)
             if (aboveItem == null) lengthCategory
@@ -132,7 +132,7 @@ object ModelsHelper {
                 if (lengthCategory != previous) lengthCategory else null
             }
         }
-        AMedialibrary.SORT_RELEASEDATE -> {
+        AbstractMedialibrary.SORT_RELEASEDATE -> {
             val year = getYear(item)
             if (aboveItem == null) year
             else {
@@ -140,28 +140,28 @@ object ModelsHelper {
                 if (year != previous) year else null
             }
         }
-        AMedialibrary.SORT_LASTMODIFICATIONDATE -> {
-            val timestamp = (item as AMediaWrapper).lastModified
+        AbstractMedialibrary.SORT_LASTMODIFICATIONDATE -> {
+            val timestamp = (item as AbstractMediaWrapper).lastModified
             val category = getTimeCategory(timestamp)
             if (aboveItem == null) getTimeCategoryString(context, category)
             else {
-                val prevCat = getTimeCategory((aboveItem as AMediaWrapper).lastModified)
+                val prevCat = getTimeCategory((aboveItem as AbstractMediaWrapper).lastModified)
                 if (prevCat != category) getTimeCategoryString(context, category) else null
             }
         }
-        AMedialibrary.SORT_ARTIST -> {
-            val artist = (item as AMediaWrapper).artist ?: ""
+        AbstractMedialibrary.SORT_ARTIST -> {
+            val artist = (item as AbstractMediaWrapper).artist ?: ""
             if (aboveItem == null) artist
             else {
-                val previous = (aboveItem as AMediaWrapper).artist ?: ""
+                val previous = (aboveItem as AbstractMediaWrapper).artist ?: ""
                 if (artist != previous) artist else null
             }
         }
-        AMedialibrary.SORT_ALBUM -> {
-            val album = (item as AMediaWrapper).album ?: ""
+        AbstractMedialibrary.SORT_ALBUM -> {
+            val album = (item as AbstractMediaWrapper).album ?: ""
             if (aboveItem == null) album
             else {
-                val previous = (aboveItem as AMediaWrapper).album ?: ""
+                val previous = (aboveItem as AbstractMediaWrapper).album ?: ""
                 if (album != previous) album else null
             }
         }
@@ -189,12 +189,12 @@ object ModelsHelper {
 
     private fun isSpecialItem(item: MediaLibraryItem) = item.itemType == MediaLibraryItem.TYPE_ARTIST
             && (item.id == 1L || item.id == 2L) || item.itemType == MediaLibraryItem.TYPE_ALBUM
-            && item.title == AAlbum.SpecialRes.UNKNOWN_ALBUM
+            && item.title == AbstractAlbum.SpecialRes.UNKNOWN_ALBUM
 
     private fun getLength(media: MediaLibraryItem): Int {
         return when {
-            media.itemType == MediaLibraryItem.TYPE_ALBUM -> (media as AAlbum).duration
-            media.itemType == MediaLibraryItem.TYPE_MEDIA -> (media as AMediaWrapper).length.toInt()
+            media.itemType == MediaLibraryItem.TYPE_ALBUM -> (media as AbstractAlbum).duration
+            media.itemType == MediaLibraryItem.TYPE_MEDIA -> (media as AbstractMediaWrapper).length.toInt()
             else -> 0
         }
     }
@@ -218,22 +218,22 @@ object ModelsHelper {
 
     private fun getYear(media: MediaLibraryItem): String {
         return when (media.itemType) {
-            MediaLibraryItem.TYPE_ALBUM -> if ((media as AAlbum).releaseYear == 0) "-" else media.releaseYear.toString()
-            MediaLibraryItem.TYPE_MEDIA -> if ((media as AMediaWrapper).date == null) "-" else media.date
+            MediaLibraryItem.TYPE_ALBUM -> if ((media as AbstractAlbum).releaseYear == 0) "-" else media.releaseYear.toString()
+            MediaLibraryItem.TYPE_MEDIA -> if ((media as AbstractMediaWrapper).date == null) "-" else media.date
             else -> "-"
         }
     }
 
     fun getTracksCount(media: MediaLibraryItem): Int {
         return when (media.itemType) {
-            MediaLibraryItem.TYPE_ALBUM -> (media as AAlbum).tracksCount
-            MediaLibraryItem.TYPE_PLAYLIST -> (media as APlaylist).tracksCount
+            MediaLibraryItem.TYPE_ALBUM -> (media as AbstractAlbum).tracksCount
+            MediaLibraryItem.TYPE_PLAYLIST -> (media as AbstractPlaylist).tracksCount
             else -> 0
         }
     }
 }
 
-object EmptyMLCallbacks : AMedialibrary.MediaCb, AMedialibrary.ArtistsCb, AMedialibrary.AlbumsCb, AMedialibrary.GenresCb, AMedialibrary.PlaylistsCb {
+object EmptyMLCallbacks : AbstractMedialibrary.MediaCb, AbstractMedialibrary.ArtistsCb, AbstractMedialibrary.AlbumsCb, AbstractMedialibrary.GenresCb, AbstractMedialibrary.PlaylistsCb {
     override fun onMediaAdded() {}
     override fun onMediaModified() {}
     override fun onMediaDeleted() {}
@@ -262,31 +262,31 @@ interface RefreshModel {
 }
 
 fun SortableModel.canSortBy(sort: Int) = when (sort) {
-    AMedialibrary.SORT_DEFAULT -> true
-    AMedialibrary.SORT_ALPHA -> canSortByName()
-    AMedialibrary.SORT_FILENAME -> canSortByFileNameName()
-    AMedialibrary.SORT_DURATION -> canSortByDuration()
-    AMedialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
-    AMedialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
-    AMedialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
-    AMedialibrary.SORT_FILESIZE -> canSortByFileSize()
-    AMedialibrary.SORT_ARTIST -> canSortByArtist()
-    AMedialibrary.SORT_ALBUM -> canSortByAlbum()
-    AMedialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
+    AbstractMedialibrary.SORT_DEFAULT -> true
+    AbstractMedialibrary.SORT_ALPHA -> canSortByName()
+    AbstractMedialibrary.SORT_FILENAME -> canSortByFileNameName()
+    AbstractMedialibrary.SORT_DURATION -> canSortByDuration()
+    AbstractMedialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
+    AbstractMedialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
+    AbstractMedialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
+    AbstractMedialibrary.SORT_FILESIZE -> canSortByFileSize()
+    AbstractMedialibrary.SORT_ARTIST -> canSortByArtist()
+    AbstractMedialibrary.SORT_ALBUM -> canSortByAlbum()
+    AbstractMedialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
     else -> false
 }
 
 fun MedialibraryProvider<*>.canSortBy(sort: Int) = when (sort) {
-    AMedialibrary.SORT_DEFAULT -> true
-    AMedialibrary.SORT_ALPHA -> canSortByName()
-    AMedialibrary.SORT_FILENAME -> canSortByFileNameName()
-    AMedialibrary.SORT_DURATION -> canSortByDuration()
-    AMedialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
-    AMedialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
-    AMedialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
-    AMedialibrary.SORT_FILESIZE -> canSortByFileSize()
-    AMedialibrary.SORT_ARTIST -> canSortByArtist()
-    AMedialibrary.SORT_ALBUM -> canSortByAlbum()
-    AMedialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
+    AbstractMedialibrary.SORT_DEFAULT -> true
+    AbstractMedialibrary.SORT_ALPHA -> canSortByName()
+    AbstractMedialibrary.SORT_FILENAME -> canSortByFileNameName()
+    AbstractMedialibrary.SORT_DURATION -> canSortByDuration()
+    AbstractMedialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
+    AbstractMedialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
+    AbstractMedialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
+    AbstractMedialibrary.SORT_FILESIZE -> canSortByFileSize()
+    AbstractMedialibrary.SORT_ARTIST -> canSortByArtist()
+    AbstractMedialibrary.SORT_ALBUM -> canSortByAlbum()
+    AbstractMedialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
     else -> false
 }

@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 
 public abstract class MediaLibraryItem implements Parcelable {
 
@@ -31,7 +31,7 @@ public abstract class MediaLibraryItem implements Parcelable {
         Stream,
     }
 
-    public abstract AMediaWrapper[] getTracks();
+    public abstract AbstractMediaWrapper[] getTracks();
     public abstract int getTracksCount();
     public abstract int getItemType();
 
@@ -123,7 +123,7 @@ public abstract class MediaLibraryItem implements Parcelable {
         if (getItemType() == TYPE_DUMMY) return TextUtils.equals(getTitle(), other.getTitle());
         if (mId != 0) return mId == other.getId();
         if (getItemType() == TYPE_MEDIA)
-            return TextUtils.equals(((AMediaWrapper)this).getLocation(), ((AMediaWrapper)other).getLocation());
+            return TextUtils.equals(((AbstractMediaWrapper)this).getLocation(), ((AbstractMediaWrapper)other).getLocation());
         if (getItemType() == TYPE_STORAGE)
             return TextUtils.equals(((Storage)this).getName(), ((Storage)other).getName());
         return false;

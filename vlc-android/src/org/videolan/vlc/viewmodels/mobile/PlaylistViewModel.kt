@@ -26,9 +26,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AAlbum
-import org.videolan.medialibrary.interfaces.media.APlaylist
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -39,16 +39,16 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
 class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : MedialibraryViewModel(context),
-        AMedialibrary.MediaCb by EmptyMLCallbacks,
-        AMedialibrary.AlbumsCb by EmptyMLCallbacks,
-        AMedialibrary.PlaylistsCb by EmptyMLCallbacks {
+        AbstractMedialibrary.MediaCb by EmptyMLCallbacks,
+        AbstractMedialibrary.AlbumsCb by EmptyMLCallbacks,
+        AbstractMedialibrary.PlaylistsCb by EmptyMLCallbacks {
     val tracksProvider = TracksProvider(playlist, context, this)
     override val providers : Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(tracksProvider)
 
     init {
         when (playlist) {
-            is APlaylist -> medialibrary.addPlaylistCb(this@PlaylistViewModel)
-            is AAlbum -> medialibrary.addAlbumsCb(this@PlaylistViewModel)
+            is AbstractPlaylist -> medialibrary.addPlaylistCb(this@PlaylistViewModel)
+            is AbstractAlbum -> medialibrary.addAlbumsCb(this@PlaylistViewModel)
             else -> medialibrary.addMediaCb(this@PlaylistViewModel)
         }
     }
@@ -67,8 +67,8 @@ class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : Medi
 
     override fun onCleared() {
         when (playlist) {
-            is APlaylist -> medialibrary.removePlaylistCb(this)
-            is AAlbum -> medialibrary.removeAlbumsCb(this)
+            is AbstractPlaylist -> medialibrary.removePlaylistCb(this)
+            is AbstractAlbum -> medialibrary.removeAlbumsCb(this)
             else -> medialibrary.removeMediaCb(this)
         }
         super.onCleared()

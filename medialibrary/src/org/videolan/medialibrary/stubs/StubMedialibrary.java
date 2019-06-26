@@ -7,19 +7,19 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import org.videolan.medialibrary.MLServiceLocator;
-import org.videolan.medialibrary.interfaces.AMedialibrary;
-import org.videolan.medialibrary.interfaces.media.AAlbum;
-import org.videolan.medialibrary.interfaces.media.AArtist;
-import org.videolan.medialibrary.interfaces.media.AFolder;
-import org.videolan.medialibrary.interfaces.media.AGenre;
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
-import org.videolan.medialibrary.interfaces.media.APlaylist;
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StubMedialibrary extends AMedialibrary {
+public class StubMedialibrary extends AbstractMedialibrary {
 
     private StubDataSource dt = StubDataSource.getInstance();
     private String TAG = this.getClass().getName();
@@ -72,50 +72,50 @@ public class StubMedialibrary extends AMedialibrary {
 
     public String[] getFoldersList() {
         ArrayList<String> results = new ArrayList<>();
-        for (AFolder folder : dt.mFolders) {
+        for (AbstractFolder folder : dt.mFolders) {
             results.add(folder.getTitle());
         }
         return results.toArray(new String[0]);
     }
-    public AMediaWrapper[] getVideos() {
+    public AbstractMediaWrapper[] getVideos() {
         return getVideos(SORT_DEFAULT, false);
     }
 
     //TODO sublist of sorted result ...
-    public AMediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset) {
+    public AbstractMediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset) {
         return dt.sortMedia(dt.secureSublist(dt.mVideoMediaWrappers, offset, offset + nbItems), sort, desc);
     }
 
-    public AMediaWrapper[] getVideos(int sort, boolean desc) {
+    public AbstractMediaWrapper[] getVideos(int sort, boolean desc) {
         return dt.sortMedia(dt.mVideoMediaWrappers, sort, desc);
     }
 
-    public AMediaWrapper[] getRecentVideos() {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getItemType() == AMediaWrapper.TYPE_VIDEO) results.add(media);
+    public AbstractMediaWrapper[] getRecentVideos() {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
+            if (media.getItemType() == AbstractMediaWrapper.TYPE_VIDEO) results.add(media);
         }
-        return results.toArray(new AMediaWrapper[0]);
+        return results.toArray(new AbstractMediaWrapper[0]);
     }
 
-    public AMediaWrapper[] getAudio() {
+    public AbstractMediaWrapper[] getAudio() {
         return getAudio(SORT_DEFAULT, false);
     }
 
-    public AMediaWrapper[] getAudio(int sort, boolean desc) {
+    public AbstractMediaWrapper[] getAudio(int sort, boolean desc) {
         return dt.sortMedia(dt.mAudioMediaWrappers, sort, desc);
     }
 
-    public AMediaWrapper[] getPagedAudio(int sort, boolean desc, int nbitems, int offset) {
+    public AbstractMediaWrapper[] getPagedAudio(int sort, boolean desc, int nbitems, int offset) {
         return dt.sortMedia(dt.secureSublist(dt.mAudioMediaWrappers, offset, offset + nbitems), sort, desc);
     }
 
-    public AMediaWrapper[] getRecentAudio() {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getItemType() == AMediaWrapper.TYPE_AUDIO) results.add(media);
+    public AbstractMediaWrapper[] getRecentAudio() {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
+            if (media.getItemType() == AbstractMediaWrapper.TYPE_AUDIO) results.add(media);
         }
-        return results.toArray(new AMediaWrapper[0]);
+        return results.toArray(new AbstractMediaWrapper[0]);
     }
 
     public int getVideoCount() {
@@ -126,15 +126,15 @@ public class StubMedialibrary extends AMedialibrary {
         return dt.mAudioMediaWrappers.size();
     }
 
-    public AAlbum[] getAlbums() {
+    public AbstractAlbum[] getAlbums() {
         return getAlbums(SORT_DEFAULT, false);
     }
 
-    public AAlbum[] getAlbums(int sort, boolean desc) {
+    public AbstractAlbum[] getAlbums(int sort, boolean desc) {
         return dt.sortAlbum(dt.mAlbums, sort, desc);
     }
 
-    public AAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
+    public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
         return dt.sortAlbum(dt.secureSublist(dt.mAlbums, offset, offset + nbItems), sort, desc);
     }
 
@@ -144,40 +144,40 @@ public class StubMedialibrary extends AMedialibrary {
 
     public int getAlbumsCount(String query) {
         int count = 0;
-        for (AAlbum album : dt.mAlbums) {
+        for (AbstractAlbum album : dt.mAlbums) {
             if (album.getTitle().contains(query)) count++;
         }
         return count;
     }
 
-    public AAlbum getAlbum(long albumId) {
-        for (AAlbum album : dt.mAlbums) {
+    public AbstractAlbum getAlbum(long albumId) {
+        for (AbstractAlbum album : dt.mAlbums) {
             if (album.getId() == albumId) return album;
         }
         return null;
     }
 
-    public AArtist[] getArtists(boolean all) {
+    public AbstractArtist[] getArtists(boolean all) {
         return getArtists(all, SORT_DEFAULT, false);
     }
 
-    private AArtist[] getAlbumArtists() {
-        ArrayList<AArtist> results = new ArrayList<>();
-        for (AAlbum album : dt.mAlbums) {
+    private AbstractArtist[] getAlbumArtists() {
+        ArrayList<AbstractArtist> results = new ArrayList<>();
+        for (AbstractAlbum album : dt.mAlbums) {
             results.add(album.getAlbumArtist());
         }
-        return results.toArray(new AArtist[0]);
+        return results.toArray(new AbstractArtist[0]);
     }
 
-    public AArtist[] getArtists(boolean all, int sort, boolean desc) {
-        ArrayList<AArtist> results;
+    public AbstractArtist[] getArtists(boolean all, int sort, boolean desc) {
+        ArrayList<AbstractArtist> results;
         if (all) results = dt.mArtists;
         else results = new ArrayList<>(Arrays.asList(getAlbumArtists()));
         return dt.sortArtist(results, sort, desc);
     }
 
-    public AArtist[] getPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AArtist> results;
+    public AbstractArtist[] getPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractArtist> results;
         if (all) results = dt.mArtists;
         else results = new ArrayList<>(Arrays.asList(getAlbumArtists()));
         return dt.sortArtist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
@@ -192,28 +192,28 @@ public class StubMedialibrary extends AMedialibrary {
 
     public int getArtistsCount(String query) {
         int count = 0;
-        for (AArtist artist : dt.mArtists) {
+        for (AbstractArtist artist : dt.mArtists) {
             if (artist.getTitle().contains(query)) count++;
         }
         return count;
     }
 
-    public AArtist getArtist(long artistId) {
-        for (AArtist artist : dt.mArtists) {
+    public AbstractArtist getArtist(long artistId) {
+        for (AbstractArtist artist : dt.mArtists) {
             if (artist.getId() == artistId) return artist;
         }
         return null;
     }
 
-    public AGenre[] getGenres() {
-        return dt.mGenres.toArray(new AGenre[0]);
+    public AbstractGenre[] getGenres() {
+        return dt.mGenres.toArray(new AbstractGenre[0]);
     }
 
-    public AGenre[] getGenres(int sort, boolean desc) {
+    public AbstractGenre[] getGenres(int sort, boolean desc) {
         return dt.sortGenre(dt.mGenres, sort, desc);
     }
 
-    public AGenre[] getPagedGenres(int sort, boolean desc, int nbItems, int offset) {
+    public AbstractGenre[] getPagedGenres(int sort, boolean desc, int nbItems, int offset) {
         return dt.sortGenre(dt.secureSublist(dt.mGenres, offset, offset + nbItems), sort, desc);
     }
 
@@ -223,28 +223,28 @@ public class StubMedialibrary extends AMedialibrary {
 
     public int getGenresCount(String query) {
         int count = 0;
-        for (AGenre genre : dt.mGenres) {
+        for (AbstractGenre genre : dt.mGenres) {
             if (genre.getTitle().contains(query)) count++;
         }
         return count;
     }
 
-    public AGenre getGenre(long genreId) {
-        for (AGenre genre : dt.mGenres) {
+    public AbstractGenre getGenre(long genreId) {
+        for (AbstractGenre genre : dt.mGenres) {
             if (genre.getId() == genreId) return genre;
         }
         return null;
     }
 
-    public APlaylist[] getPlaylists() {
-        return dt.mPlaylists.toArray(new APlaylist[0]);
+    public AbstractPlaylist[] getPlaylists() {
+        return dt.mPlaylists.toArray(new AbstractPlaylist[0]);
     }
 
-    public APlaylist[] getPlaylists(int sort, boolean desc) {
+    public AbstractPlaylist[] getPlaylists(int sort, boolean desc) {
         return dt.sortPlaylist(dt.mPlaylists, sort, desc);
     }
 
-    public APlaylist[] getPagedPlaylists(int sort, boolean desc, int nbItems, int offset) {
+    public AbstractPlaylist[] getPagedPlaylists(int sort, boolean desc, int nbItems, int offset) {
         return dt.sortPlaylist(dt.secureSublist(dt.mPlaylists, offset, offset + nbItems), sort, desc);
     }
 
@@ -254,21 +254,21 @@ public class StubMedialibrary extends AMedialibrary {
 
     public int getPlaylistsCount(String query) {
         int count = 0;
-        for (APlaylist playlist : dt.mPlaylists) {
+        for (AbstractPlaylist playlist : dt.mPlaylists) {
             if (playlist.getTitle().contains(query)) count ++;
         }
         return count;
     }
 
-    public APlaylist getPlaylist(long playlistId) {
-        for (APlaylist playlist : dt.mPlaylists) {
+    public AbstractPlaylist getPlaylist(long playlistId) {
+        for (AbstractPlaylist playlist : dt.mPlaylists) {
             if (playlist.getId() == playlistId) return playlist;
         }
         return null;
     }
 
-    public APlaylist createPlaylist(String name) {
-        APlaylist playlist = MLServiceLocator.getAPlaylist(dt.getUUID(), name, 0);
+    public AbstractPlaylist createPlaylist(String name) {
+        AbstractPlaylist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID(), name, 0);
         dt.mPlaylists.add(playlist);
         onPlaylistsAdded();
         return playlist;
@@ -289,25 +289,25 @@ public class StubMedialibrary extends AMedialibrary {
     public void forceParserRetry() {}
     public void forceRescan() {}
 
-    public AMediaWrapper[] lastMediaPlayed() {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        for (AMediaWrapper media : dt.mHistory) {
-            if (media.getItemType() == AMediaWrapper.TYPE_VIDEO ||
-                media.getItemType() == AMediaWrapper.TYPE_AUDIO) results.add(media);
+    public AbstractMediaWrapper[] lastMediaPlayed() {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        for (AbstractMediaWrapper media : dt.mHistory) {
+            if (media.getItemType() == AbstractMediaWrapper.TYPE_VIDEO ||
+                media.getItemType() == AbstractMediaWrapper.TYPE_AUDIO) results.add(media);
             // the native method specifies an nbItems of 100, offset 0
             if (results.size() >= 100) break;
         }
-        return results.toArray(new AMediaWrapper[0]);
+        return results.toArray(new AbstractMediaWrapper[0]);
     }
 
-    public AMediaWrapper[] lastStreamsPlayed() {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        for (AMediaWrapper media : dt.mHistory) {
-            if (media.getItemType() == AMediaWrapper.TYPE_STREAM) results.add(media);
+    public AbstractMediaWrapper[] lastStreamsPlayed() {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        for (AbstractMediaWrapper media : dt.mHistory) {
+            if (media.getItemType() == AbstractMediaWrapper.TYPE_STREAM) results.add(media);
             // the native method specifies an nbItems of 100, offset 0
             if (results.size() >= 100) break;
         }
-        return results.toArray(new AMediaWrapper[0]);
+        return results.toArray(new AbstractMediaWrapper[0]);
     }
 
     //TODO see when it would return false
@@ -319,7 +319,7 @@ public class StubMedialibrary extends AMedialibrary {
     //TODO what if two files have the same name ??
     // TODO what happens in case of false return
     public boolean addToHistory(String mrl, String title) {
-        AMediaWrapper media = getMedia(mrl, title);
+        AbstractMediaWrapper media = getMedia(mrl, title);
         if (media == null) {
             media = addStream(mrl, title);
         }
@@ -329,52 +329,52 @@ public class StubMedialibrary extends AMedialibrary {
     }
 
     // TODO Handle uri to mrl
-    private AMediaWrapper getMedia(String mrl, String title) {
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
+    private AbstractMediaWrapper getMedia(String mrl, String title) {
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getTitle().equals(title)) return media;
         }
-        for (AMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getTitle().equals(title)) return media;
         }
-        for (AMediaWrapper media : dt.mStreamMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
             if (media.getTitle().equals(title)) return media;
         }
         return null;
     }
 
-    public AMediaWrapper getMedia(long id) {
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
+    public AbstractMediaWrapper getMedia(long id) {
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getId() == id) return media;
         }
-        for (AMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getId() == id) return media;
         }
-        for (AMediaWrapper media : dt.mStreamMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
             if (media.getId() == id) return media;
         }
         return null;
     }
 
-    public AMediaWrapper getMedia(Uri uri) {
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
+    public AbstractMediaWrapper getMedia(Uri uri) {
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getUri().equals(uri)) return media;
         }
-        for (AMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getUri().equals(uri)) return media;
         }
-        for (AMediaWrapper media : dt.mStreamMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
             if (media.getUri().equals(uri)) return media;
         }
         return null;
     }
 
-    public AMediaWrapper getMedia(String mrl) {
+    public AbstractMediaWrapper getMedia(String mrl) {
         return null;
     }
 
     /* TODO maybe add a list of medias not in the medialibrary which can be retrieved with mrl to
      * simulate adding a media from system */
-    public AMediaWrapper addMedia(String mrl) {
+    public AbstractMediaWrapper addMedia(String mrl) {
         return null;
     }
 
@@ -382,11 +382,11 @@ public class StubMedialibrary extends AMedialibrary {
         return true;
     }
 
-    public AMediaWrapper addStream(String mrl, String title) {
+    public AbstractMediaWrapper addStream(String mrl, String title) {
         return null;
     }
 
-    public AFolder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset) {
+    public AbstractFolder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset) {
         return null;
     }
 
@@ -398,7 +398,7 @@ public class StubMedialibrary extends AMedialibrary {
 
     public boolean increasePlayCount(long mediaId) {
         for (int i = 0 ; i < dt.mVideoMediaWrappers.size() ; i++) {
-            AMediaWrapper media = dt.mVideoMediaWrappers.get(i);
+            AbstractMediaWrapper media = dt.mVideoMediaWrappers.get(i);
             if (media.getId() == mediaId) {
                 media.setSeen(media.getSeen() + 1);
                 dt.mVideoMediaWrappers.set(i, media);
@@ -408,59 +408,59 @@ public class StubMedialibrary extends AMedialibrary {
     }
 
     public SearchAggregate search(String query) {
-        AMediaWrapper[] videos = searchVideo(query);
-        AMediaWrapper[] tracks = searchAudio(query);
-        AAlbum[] albums = searchAlbum(query);
-        AArtist[] artists = searchArtist(query);
-        AGenre[] genres = searchGenre(query);
-        APlaylist[] playlists = searchPlaylist(query);
+        AbstractMediaWrapper[] videos = searchVideo(query);
+        AbstractMediaWrapper[] tracks = searchAudio(query);
+        AbstractAlbum[] albums = searchAlbum(query);
+        AbstractArtist[] artists = searchArtist(query);
+        AbstractGenre[] genres = searchGenre(query);
+        AbstractPlaylist[] playlists = searchPlaylist(query);
         return new SearchAggregate(albums, artists, genres, videos, tracks, playlists);
     }
 
-    public AMediaWrapper[] searchMedia(String query) {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
+    public AbstractMediaWrapper[] searchMedia(String query) {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getTitle().contains(query)) results.add(media);
         }
-        for (AMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getTitle().contains(query)) results.add(media);
         }
-        for (AMediaWrapper media : dt.mStreamMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
             if (media.getTitle().contains(query)) results.add(media);
         }
-        return results.toArray(new AMediaWrapper[0]);
+        return results.toArray(new AbstractMediaWrapper[0]);
     }
 
-    public AMediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AMediaWrapper> results = new ArrayList<>(Arrays.asList(searchMedia(query)));
+    public AbstractMediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>(Arrays.asList(searchMedia(query)));
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
     public int getMediaCount(String query) {
         int count = 0;
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getTitle().contains(query)) count++;
         }
-        for (AMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getTitle().contains(query)) count++;
         }
-        for (AMediaWrapper media : dt.mStreamMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
             if (media.getTitle().contains(query)) count++;
         }
         return count;
     }
 
-    private AMediaWrapper[] searchAudio(String query) {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        for (AMediaWrapper media : dt.mAudioMediaWrappers) {
+    private AbstractMediaWrapper[] searchAudio(String query) {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getTitle().contains(query)) results.add(media);
         }
         return dt.sortMedia(results, SORT_DEFAULT, false);
     }
 
-    public AMediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        for (AMediaWrapper media : dt.mAudioMediaWrappers) {
+    public AbstractMediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getTitle().contains(query)) results.add(media);
         }
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
@@ -468,23 +468,23 @@ public class StubMedialibrary extends AMedialibrary {
 
     public int getAudioCount(String query) {
         int count = 0;
-        for (AMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getTitle().contains(query)) count++;
         }
         return count;
     }
 
-    private AMediaWrapper[] searchVideo(String query) {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
+    private AbstractMediaWrapper[] searchVideo(String query) {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getTitle().contains(query)) results.add(media);
         }
         return dt.sortMedia(results, SORT_DEFAULT, false);
     }
 
-    public AMediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
+    public AbstractMediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getTitle().contains(query)) results.add(media);
         }
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
@@ -492,60 +492,60 @@ public class StubMedialibrary extends AMedialibrary {
 
     public int getVideoCount(String query) {
         int count = 0;
-        for (AMediaWrapper media : dt.mVideoMediaWrappers) {
+        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getTitle().contains(query)) count++;
         }
         return count;
     }
 
-    public AArtist[] searchArtist(String query) {
-        ArrayList<AArtist> results = new ArrayList<>();
-        for (AArtist artist: dt.mArtists) {
+    public AbstractArtist[] searchArtist(String query) {
+        ArrayList<AbstractArtist> results = new ArrayList<>();
+        for (AbstractArtist artist: dt.mArtists) {
             if (artist.getTitle().contains(query)) results.add(artist);
         }
-        return results.toArray(new AArtist[0]);
+        return results.toArray(new AbstractArtist[0]);
     }
 
-    public AArtist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AArtist> results = new ArrayList<>(Arrays.asList(searchArtist(query)));
+    public AbstractArtist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractArtist> results = new ArrayList<>(Arrays.asList(searchArtist(query)));
         return dt.sortArtist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
-    public AAlbum[] searchAlbum(String query) {
-        ArrayList<AAlbum> results = new ArrayList<>();
-        for (AAlbum album: dt.mAlbums) {
+    public AbstractAlbum[] searchAlbum(String query) {
+        ArrayList<AbstractAlbum> results = new ArrayList<>();
+        for (AbstractAlbum album: dt.mAlbums) {
             if (album.getTitle().contains(query)) results.add(album);
         }
-        return results.toArray(new AAlbum[0]);
+        return results.toArray(new AbstractAlbum[0]);
     }
-    public AAlbum[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AAlbum> results = new ArrayList<>(Arrays.asList(searchAlbum(query)));
+    public AbstractAlbum[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractAlbum> results = new ArrayList<>(Arrays.asList(searchAlbum(query)));
         return dt.sortAlbum(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
-    public AGenre[] searchGenre(String query) {
-        ArrayList<AGenre> results = new ArrayList<>();
-        for (AGenre genre: dt.mGenres) {
+    public AbstractGenre[] searchGenre(String query) {
+        ArrayList<AbstractGenre> results = new ArrayList<>();
+        for (AbstractGenre genre: dt.mGenres) {
             if (genre.getTitle().contains(query)) results.add(genre);
         }
-        return results.toArray(new AGenre[0]);
+        return results.toArray(new AbstractGenre[0]);
     }
 
-    public AGenre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AGenre> results = new ArrayList<>(Arrays.asList(searchGenre(query)));
+    public AbstractGenre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractGenre> results = new ArrayList<>(Arrays.asList(searchGenre(query)));
         return dt.sortGenre(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
-    public APlaylist[] searchPlaylist(String query) {
-        ArrayList<APlaylist> results = new ArrayList<>();
-        for (APlaylist playlist: dt.mPlaylists) {
+    public AbstractPlaylist[] searchPlaylist(String query) {
+        ArrayList<AbstractPlaylist> results = new ArrayList<>();
+        for (AbstractPlaylist playlist: dt.mPlaylists) {
             if (playlist.getTitle().contains(query)) results.add(playlist);
         }
-        return results.toArray(new APlaylist[0]);
+        return results.toArray(new AbstractPlaylist[0]);
     }
 
-    public APlaylist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<APlaylist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query)));
+    public AbstractPlaylist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractPlaylist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query)));
         return dt.sortPlaylist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 }

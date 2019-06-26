@@ -31,7 +31,7 @@ import java.io.File
 object TestUtil {
     private const val fakeUri: String = "https://www.videolan.org/fake_"
     private const val fakeSubUri: String = "/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/subs/"
-    private const val fakeMediaUri: String = "/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/medias/"
+    private const val fakeMediaUri: String = "/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/media/"
 
     fun createLocalFav(uri: Uri, title: String, iconUrl: String?): BrowserFav {
         return BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl)

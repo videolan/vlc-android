@@ -25,7 +25,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.TvSimpleListItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
@@ -35,7 +35,7 @@ import org.videolan.vlc.util.Util
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PlaylistAdapter
-internal constructor(private val audioPlayerActivity: AudioPlayerActivity) : DiffUtilAdapter<AMediaWrapper, PlaylistAdapter.ViewHolder>() {
+internal constructor(private val audioPlayerActivity: AudioPlayerActivity) : DiffUtilAdapter<AbstractMediaWrapper, PlaylistAdapter.ViewHolder>() {
     internal var selectedItem = -1
         private set
 

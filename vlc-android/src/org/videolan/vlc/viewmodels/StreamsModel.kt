@@ -27,10 +27,10 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 
 
-class StreamsModel(context: Context) : MedialibraryModel<AMediaWrapper>(context) {
+class StreamsModel(context: Context) : MedialibraryModel<AbstractMediaWrapper>(context) {
      val observableSearchText = ObservableField<String>()
 
     init {

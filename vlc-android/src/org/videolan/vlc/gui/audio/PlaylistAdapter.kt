@@ -38,7 +38,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlaylistItemBinding
@@ -53,7 +53,7 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 @UseExperimental(ObsoleteCoroutinesApi::class)
-class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AMediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
+class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
 
     private var mModel: PlaylistModel? = null
 
@@ -72,9 +72,9 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AMediaWrapp
     private val mHandler = PlaylistHandler(this)
 
     interface IPlayer {
-        fun onPopupMenu(view: View, position: Int, item: AMediaWrapper?)
+        fun onPopupMenu(view: View, position: Int, item: AbstractMediaWrapper?)
         fun onSelectionSet(position: Int)
-        fun playItem(position: Int, item: AMediaWrapper)
+        fun playItem(position: Int, item: AbstractMediaWrapper)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -100,7 +100,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AMediaWrapp
     }
 
     @MainThread
-    override fun getItem(position: Int): AMediaWrapper {
+    override fun getItem(position: Int): AbstractMediaWrapper {
         return dataset[position]
     }
 
@@ -159,7 +159,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AMediaWrapp
                 }
         }
 
-        fun onClick(v: View, media: AMediaWrapper) {
+        fun onClick(v: View, media: AbstractMediaWrapper) {
             val position = layoutPosition //getMediaPosition(media);
             player.playItem(position, media)
         }
@@ -201,7 +201,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AMediaWrapp
         }
     }
 
-    override fun createCB(): DiffUtilAdapter.DiffCallback<AMediaWrapper> {
+    override fun createCB(): DiffUtilAdapter.DiffCallback<AbstractMediaWrapper> {
         return MediaItemDiffCallback()
     }
 

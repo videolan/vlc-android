@@ -3,12 +3,12 @@ package org.videolan.medialibrary.stubs;
 import android.text.TextUtils;
 
 import org.videolan.medialibrary.MLServiceLocator;
-import org.videolan.medialibrary.interfaces.media.AAlbum;
-import org.videolan.medialibrary.interfaces.media.AArtist;
-import org.videolan.medialibrary.interfaces.media.AFolder;
-import org.videolan.medialibrary.interfaces.media.AGenre;
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
-import org.videolan.medialibrary.interfaces.media.APlaylist;
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.util.ArrayList;
@@ -17,28 +17,28 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.videolan.medialibrary.interfaces.AMedialibrary.SORT_ALBUM;
-import static org.videolan.medialibrary.interfaces.AMedialibrary.SORT_ALPHA;
-import static org.videolan.medialibrary.interfaces.AMedialibrary.SORT_ARTIST;
-import static org.videolan.medialibrary.interfaces.AMedialibrary.SORT_DEFAULT;
-import static org.videolan.medialibrary.interfaces.AMedialibrary.SORT_DURATION;
-import static org.videolan.medialibrary.interfaces.AMedialibrary.SORT_FILENAME;
-import static org.videolan.medialibrary.interfaces.AMedialibrary.SORT_INSERTIONDATE;
-import static org.videolan.medialibrary.interfaces.AMedialibrary.SORT_LASTMODIFICATIONDATE;
-import static org.videolan.medialibrary.interfaces.AMedialibrary.SORT_RELEASEDATE;
+import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_ALBUM;
+import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_ALPHA;
+import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_ARTIST;
+import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_DEFAULT;
+import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_DURATION;
+import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_FILENAME;
+import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_INSERTIONDATE;
+import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_LASTMODIFICATIONDATE;
+import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_RELEASEDATE;
 
 public class StubDataSource {
 
-    ArrayList<AMediaWrapper> mVideoMediaWrappers = new ArrayList<>();
-    ArrayList<AMediaWrapper> mAudioMediaWrappers = new ArrayList<>();
-    ArrayList<AMediaWrapper> mStreamMediaWrappers = new ArrayList<>();
-    ArrayList<AMediaWrapper> mHistory = new ArrayList<>();
-    ArrayList<AAlbum> mAlbums = new ArrayList<>();
-    ArrayList<AArtist> mArtists = new ArrayList<>();
-    ArrayList<AGenre> mGenres = new ArrayList<>();
-    ArrayList<APlaylist> mPlaylists = new ArrayList<>();
+    ArrayList<AbstractMediaWrapper> mVideoMediaWrappers = new ArrayList<>();
+    ArrayList<AbstractMediaWrapper> mAudioMediaWrappers = new ArrayList<>();
+    ArrayList<AbstractMediaWrapper> mStreamMediaWrappers = new ArrayList<>();
+    ArrayList<AbstractMediaWrapper> mHistory = new ArrayList<>();
+    ArrayList<AbstractAlbum> mAlbums = new ArrayList<>();
+    ArrayList<AbstractArtist> mArtists = new ArrayList<>();
+    ArrayList<AbstractGenre> mGenres = new ArrayList<>();
+    ArrayList<AbstractPlaylist> mPlaylists = new ArrayList<>();
     ArrayList<String> mBannedFolders = new ArrayList<>();
-    ArrayList<AFolder> mFolders = new ArrayList<>();
+    ArrayList<AbstractFolder> mFolders = new ArrayList<>();
     ArrayList<String> mDevices = new ArrayList<>();
 
     private static long uuid = 2;
@@ -56,25 +56,25 @@ public class StubDataSource {
 
     public void init() {
         String baseMrl = "/storage/emulated/0/Movies/";
-        AMediaWrapper media;
+        AbstractMediaWrapper media;
 
         // Video
         String fileName = "058_foar_everywun_frum_boxxy.flv";
-        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 18820L, 0,
+        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 18820L, 0,
                 fileName, fileName, "", "",
                 "", "", 416, 304, "", 0, -2,
                 0, 0, 1509466228L, 0L, true);
         addVideo(media);
 
         fileName = "FMA - MultiChapter.mkv";
-        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 1467383L, 0,
+        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 1467383L, 0,
                 "Encoded with MiniCoder", fileName, "", "",
                 "", "", 1280, 720, "", 0,
                 -2, 0, 0, 1512396147L, 0L, true);
         addVideo(media);
 
         fileName = "114_My_Heart_Will_Go_On.avi";
-        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 20000L, 0,
+        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 20000L, 0,
                 "My Heart Will Go On - Celine Dion", fileName, "", "",
                 "", "", 352, 220, "", 0,
                 -2, 0, 0, 1509465852L, 0L, true);
@@ -84,7 +84,7 @@ public class StubDataSource {
 
         fileName = "01-Show Me The Way.mp3";
         baseMrl = "/storage/emulated/0/Music/Peter Frampton/Shine On - CD2/";
-        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 280244L, 1,
+        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 280244L, 1,
                 "01-Show Me The Way", fileName, "Peter Frampton", "Rock",
                 "Shine On CD2", "Peter Frampton",
                 0, 0, "/storage/emulated/0/Music/Peter Frampton/Shine On - CD2/Folder.jpg",
@@ -94,7 +94,7 @@ public class StubDataSource {
 
         fileName = "01-Wind Of Change.mp3";
         baseMrl = "/storage/emulated/0/Music/Peter Frampton/Shine On - CD1/";
-        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 184271L, 1,
+        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 184271L, 1,
                 "01-Wind Of Change", fileName, "Peter Frampton", "Rock",
                 "Shine On CD1", "Peter Frampton",
                 0, 0, "/storage/emulated/0/Music/Peter Frampton/Shine On - CD1/Folder.jpg",
@@ -104,7 +104,7 @@ public class StubDataSource {
 
         fileName = "03 Bloody Well Right.wma";
         baseMrl = "/storage/emulated/0/Music/Supertramp/Best of/";
-        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 257199L, 1,
+        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 257199L, 1,
                 "Bloody Well Right", fileName, "Supertramp", "Rock",
                 "The Autobiography of Supertramp", "Supertramp",
                 0, 0, "/storage/emulated/0/Music/Supertramp/Best of/Folder.jpg", 0,
@@ -121,12 +121,12 @@ public class StubDataSource {
         return list.subList(secureOffset, secureEnd);
     }
 
-    class MediaComparator implements Comparator<AMediaWrapper> {
+    class MediaComparator implements Comparator<AbstractMediaWrapper> {
         private int sort;
         MediaComparator(int sort) { this.sort = sort; }
 
         @Override //TODO checkout if types of sort are verified before being used in native
-        public int compare(AMediaWrapper o1, AMediaWrapper o2) {
+        public int compare(AbstractMediaWrapper o1, AbstractMediaWrapper o2) {
             switch(sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
@@ -140,12 +140,12 @@ public class StubDataSource {
         }
     }
 
-    class ArtistComparator implements Comparator<AArtist> {
+    class ArtistComparator implements Comparator<AbstractArtist> {
         private int sort;
         ArtistComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(AArtist o1, AArtist o2) {
+        public int compare(AbstractArtist o1, AbstractArtist o2) {
             switch(sort) {
                 case SORT_DEFAULT:
                 case SORT_ARTIST: return o1.getTitle().compareTo(o2.getTitle());
@@ -154,12 +154,12 @@ public class StubDataSource {
         }
     }
 
-    class AlbumComparator implements Comparator<AAlbum> {
+    class AlbumComparator implements Comparator<AbstractAlbum> {
         private int sort;
         AlbumComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(AAlbum o1, AAlbum o2) {
+        public int compare(AbstractAlbum o1, AbstractAlbum o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ALBUM: return o1.getTitle().compareTo(o2.getTitle());
@@ -170,12 +170,12 @@ public class StubDataSource {
         }
     }
 
-    class GenreComparator implements Comparator<AGenre> {
+    class GenreComparator implements Comparator<AbstractGenre> {
         private int sort;
         GenreComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(AGenre o1, AGenre o2) {
+        public int compare(AbstractGenre o1, AbstractGenre o2) {
             switch(sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
@@ -184,12 +184,12 @@ public class StubDataSource {
         }
     }
 
-    class PlaylistComparator implements Comparator<APlaylist> {
+    class PlaylistComparator implements Comparator<AbstractPlaylist> {
         private int sort;
         PlaylistComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(APlaylist o1, APlaylist o2) {
+        public int compare(AbstractPlaylist o1, AbstractPlaylist o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
@@ -199,12 +199,12 @@ public class StubDataSource {
         }
     }
 
-    class FolderComparator implements Comparator<AFolder> {
+    class FolderComparator implements Comparator<AbstractFolder> {
         private int sort;
         FolderComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(AFolder o1, AFolder o2) {
+        public int compare(AbstractFolder o1, AbstractFolder o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
@@ -213,52 +213,52 @@ public class StubDataSource {
         }
     }
 
-    AMediaWrapper[] sortMedia(List<AMediaWrapper> arrayList, int sort, boolean desc) {
-        List<AMediaWrapper> array = new ArrayList<>(arrayList);
+    AbstractMediaWrapper[] sortMedia(List<AbstractMediaWrapper> arrayList, int sort, boolean desc) {
+        List<AbstractMediaWrapper> array = new ArrayList<>(arrayList);
         Collections.sort(array, new MediaComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AMediaWrapper[0]);
+        return array.toArray(new AbstractMediaWrapper[0]);
     }
 
-    AAlbum[] sortAlbum(List<AAlbum> arrayList, int sort, boolean desc) {
-        List<AAlbum> array = new ArrayList<>(arrayList);
+    AbstractAlbum[] sortAlbum(List<AbstractAlbum> arrayList, int sort, boolean desc) {
+        List<AbstractAlbum> array = new ArrayList<>(arrayList);
         Collections.sort(array, new AlbumComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AAlbum[0]);
+        return array.toArray(new AbstractAlbum[0]);
     }
 
-    AArtist[] sortArtist(List<AArtist> arrayList, int sort, boolean desc) {
-        List<AArtist> array = new ArrayList<>(arrayList);
+    AbstractArtist[] sortArtist(List<AbstractArtist> arrayList, int sort, boolean desc) {
+        List<AbstractArtist> array = new ArrayList<>(arrayList);
         Collections.sort(array, new ArtistComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AArtist[0]);
+        return array.toArray(new AbstractArtist[0]);
     }
 
-    AGenre[] sortGenre(List<AGenre> arrayList, int sort, boolean desc) {
-        List<AGenre> array = new ArrayList<>(arrayList);
+    AbstractGenre[] sortGenre(List<AbstractGenre> arrayList, int sort, boolean desc) {
+        List<AbstractGenre> array = new ArrayList<>(arrayList);
         Collections.sort(array, new GenreComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AGenre[0]);
+        return array.toArray(new AbstractGenre[0]);
     }
 
-    APlaylist[] sortPlaylist(List<APlaylist> arrayList, int sort, boolean desc) {
-        List<APlaylist> array = new ArrayList<>(arrayList);
+    AbstractPlaylist[] sortPlaylist(List<AbstractPlaylist> arrayList, int sort, boolean desc) {
+        List<AbstractPlaylist> array = new ArrayList<>(arrayList);
         Collections.sort(array, new PlaylistComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new APlaylist[0]);
+        return array.toArray(new AbstractPlaylist[0]);
     }
 
-    AFolder[] sortFolder(List<AFolder> arrayList, int sort, boolean desc) {
-        List<AFolder> array = new ArrayList<>(arrayList);
+    AbstractFolder[] sortFolder(List<AbstractFolder> arrayList, int sort, boolean desc) {
+        List<AbstractFolder> array = new ArrayList<>(arrayList);
         Collections.sort(array, new FolderComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AFolder[0]);
+        return array.toArray(new AbstractFolder[0]);
     }
 
     private boolean checkUuidForMatches(long id) {
@@ -296,49 +296,49 @@ public class StubDataSource {
         return uuid;
     }
 
-    private void addAudio(AMediaWrapper media, String shortBio, int releaseYear, int albumDuration) {
+    private void addAudio(AbstractMediaWrapper media, String shortBio, int releaseYear, int albumDuration) {
         addFolders(media);
         mAudioMediaWrappers.add(media);
-        AArtist artist = MLServiceLocator.getAArtist(getUUID(), media.getArtist(), shortBio, media.getArtworkMrl(), "");
+        AbstractArtist artist = MLServiceLocator.getAbstractArtist(getUUID(), media.getArtist(), shortBio, media.getArtworkMrl(), "");
         mArtists.add(artist);
-        AArtist albumArtist = null;
+        AbstractArtist albumArtist = null;
         if (!media.getArtist().equals(media.getAlbumArtist())) {
-            albumArtist = MLServiceLocator.getAArtist(getUUID(), media.getAlbumArtist(), "", media.getArtworkMrl(), "");
+            albumArtist = MLServiceLocator.getAbstractArtist(getUUID(), media.getAlbumArtist(), "", media.getArtworkMrl(), "");
             mArtists.add(albumArtist);
         }
-        AAlbum album;
+        AbstractAlbum album;
         if (albumArtist == null)
-            album = MLServiceLocator.getAAlbum(getUUID(), media.getAlbum(), releaseYear,
+            album = MLServiceLocator.getAbstractAlbum(getUUID(), media.getAlbum(), releaseYear,
                     media.getArtworkMrl(), artist.getTitle(),
                     artist.getId(), media.getTracks().length, albumDuration);
         else
-            album = MLServiceLocator.getAAlbum(getUUID(), media.getAlbum(), releaseYear,
+            album = MLServiceLocator.getAbstractAlbum(getUUID(), media.getAlbum(), releaseYear,
                     media.getArtworkMrl(), albumArtist.getTitle(),
                     albumArtist.getId(), media.getTracks().length, albumDuration);
         mAlbums.add(album);
         ArrayList genreStrings = new ArrayList<>();
 //        if (!getGenresString())
-        mGenres.add(MLServiceLocator.getAGenre(getUUID(), media.getGenre()));
+        mGenres.add(MLServiceLocator.getAbstractGenre(getUUID(), media.getGenre()));
     }
 
-    private void addVideo(AMediaWrapper media) {
+    private void addVideo(AbstractMediaWrapper media) {
         addFolders(media);
         mVideoMediaWrappers.add(media);
     }
 
     private String[] getGenresString() {
         ArrayList<String> results = new ArrayList<>();
-        for (AGenre genre : mGenres) { results.add(genre.getTitle()); }
+        for (AbstractGenre genre : mGenres) { results.add(genre.getTitle()); }
         return results.toArray(new String[0]);
     }
 
     private String[] getFoldersString() {
         ArrayList<String> results = new ArrayList<>();
-        for (AFolder folder : mFolders) { results.add(folder.getTitle()); }
+        for (AbstractFolder folder : mFolders) { results.add(folder.getTitle()); }
         return results.toArray(new String[0]);
     }
 
-    private void addFolders(AMediaWrapper media) {
+    private void addFolders(AbstractMediaWrapper media) {
         String path = media.getUri().getPath();
         if (path == null)
             return;
@@ -349,7 +349,7 @@ public class StubDataSource {
             ArrayList<String> mlFolders = new ArrayList<>(Arrays.asList(getFoldersString()));
             if (!mlFolders.contains(mrl)) {
                 final String name = folderArray[folderArray.length - 1];
-                mFolders.add(MLServiceLocator.getAFolder(getUUID(), name, mrl));
+                mFolders.add(MLServiceLocator.getAbstractFolder(getUUID(), name, mrl));
             }
         }
     }

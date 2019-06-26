@@ -29,7 +29,7 @@ import androidx.paging.toLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.interfaces.AMedialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.HeaderProvider
 import org.videolan.vlc.providers.HeadersIndex
@@ -37,13 +37,13 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
 
 abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) : HeaderProvider() {
-    protected val medialibrary = AMedialibrary.getInstance()
+    protected val medialibrary = AbstractMedialibrary.getInstance()
     private lateinit var dataSource : DataSource<Int, T>
     val loading = MutableLiveData<Boolean>().apply { value = false }
     @Volatile private var isRefreshing = false
 
     protected open val sortKey : String = this.javaClass.simpleName
-    var sort = AMedialibrary.SORT_DEFAULT
+    var sort = AbstractMedialibrary.SORT_DEFAULT
     var desc = false
 
     private val pagingConfig = Config(
@@ -74,7 +74,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     open fun sort(sort: Int) {
         if (canSortBy(sort)) {
             desc = when (this.sort) {
-                AMedialibrary.SORT_DEFAULT -> sort == AMedialibrary.SORT_ALPHA
+                AbstractMedialibrary.SORT_DEFAULT -> sort == AbstractMedialibrary.SORT_ALPHA
                 sort -> !desc
                 else -> false
             }

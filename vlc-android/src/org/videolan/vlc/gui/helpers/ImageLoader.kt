@@ -18,7 +18,7 @@ import androidx.databinding.OnRebindCallback
 import androidx.databinding.ViewDataBinding
 import androidx.leanback.widget.ImageCardView
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
@@ -50,11 +50,11 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
         return
     }
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
-    if (isMedia && (item as AMediaWrapper).type == AMediaWrapper.TYPE_VIDEO && !Settings.showVideoThumbs) {
+    if (isMedia && (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_VIDEO && !Settings.showVideoThumbs) {
         updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding)
         return
     }
-    val isGroup = isMedia && (item as AMediaWrapper).type == AMediaWrapper.TYPE_GROUP
+    val isGroup = isMedia && (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_GROUP
     val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER;
     val cacheKey = when {
         isGroup -> "group:${item.title}"
@@ -85,7 +85,7 @@ fun getAudioIconDrawable(context: Context?, type: Int): BitmapDrawable? = contex
 }
 
 fun getMediaIconDrawable(context: Context, type: Int): BitmapDrawable? = when (type) {
-    AMediaWrapper.TYPE_VIDEO -> UiTools.getDefaultVideoDrawable(context)
+    AbstractMediaWrapper.TYPE_VIDEO -> UiTools.getDefaultVideoDrawable(context)
     else -> UiTools.getDefaultAudioDrawable(context)
 }
 
@@ -223,11 +223,11 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {
 
 private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean, isGroup: Boolean): MediaLibraryItem {
     if (isMedia && !isGroup && item.id == 0L) {
-        val mw = item as AMediaWrapper
+        val mw = item as AbstractMediaWrapper
         val type = mw.type
-        val isMediaFile = type == AMediaWrapper.TYPE_AUDIO || type == AMediaWrapper.TYPE_VIDEO
+        val isMediaFile = type == AbstractMediaWrapper.TYPE_AUDIO || type == AbstractMediaWrapper.TYPE_VIDEO
         val uri = mw.uri
-        if (!isMediaFile && !(type == AMediaWrapper.TYPE_DIR && "upnp" == uri.scheme)) return item
+        if (!isMediaFile && !(type == AbstractMediaWrapper.TYPE_DIR && "upnp" == uri.scheme)) return item
         if (isMediaFile && "file" == uri.scheme) return withContext(Dispatchers.IO) { sMedialibrary.getMedia(uri) }
                 ?: item
     }

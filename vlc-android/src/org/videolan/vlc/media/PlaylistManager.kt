@@ -16,9 +16,9 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AMedialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -34,16 +34,16 @@ private const val AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventListener, Media.EventListener, CoroutineScope {
+class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, Media.EventListener, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 
     companion object {
         val showAudioPlayer = MutableLiveData<Boolean>().apply { value = false }
-        private val mediaList = AMediaWrapperList()
+        private val mediaList = MediaWrapperList()
         fun hasMedia() = mediaList.size() != 0
     }
 
-    private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { AMedialibrary.getInstance() }
+    private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { AbstractMedialibrary.getInstance() }
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(service.applicationContext) }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(service) }
     private val ctx by lazy(LazyThreadSafetyMode.NONE) { service.applicationContext }
@@ -89,7 +89,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
     @MainThread
     fun loadLocations(mediaPathList: List<String>, position: Int) {
         launch {
-            val mediaList = ArrayList<AMediaWrapper>()
+            val mediaList = ArrayList<AbstractMediaWrapper>()
             withContext(Dispatchers.IO) {
                 for (location in mediaPathList) {
                     var mediaWrapper = medialibrary.getMedia(location)
@@ -100,7 +100,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
                             continue
                         }
                         Log.v(TAG, "Creating on-the-fly Media object for $location")
-                        mediaWrapper = MLServiceLocator.getAMediaWrapper(Uri.parse(location))
+                        mediaWrapper = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(location))
                         mediaList.add(mediaWrapper)
                     } else
                         mediaList.add(mediaWrapper)
@@ -111,7 +111,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
     }
 
     @MainThread
-    fun load(list: List<AMediaWrapper>, position: Int, mlUpdate: Boolean = false) {
+    fun load(list: List<AbstractMediaWrapper>, position: Int, mlUpdate: Boolean = false) {
         launch {
             saveMediaList()
             savePosition()
@@ -158,7 +158,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
         launch {
             val playList = withContext(Dispatchers.Default) {
                 locations.asSequence().map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) {
-                    MLServiceLocator.getAMediaWrapper(Uri.parse(it))
+                    MLServiceLocator.getAbstractMediaWrapper(Uri.parse(it))
                 }
             }
             // load playlist
@@ -167,7 +167,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
             val position = max(0, settings.getInt(if (audio) "position_in_audio_list" else "position_in_media_list", 0))
             savedTime = settings.getLong(if (audio) "position_in_song" else "position_in_media", -1)
             if (!audio && position < playList.size && settings.getBoolean(VIDEO_PAUSED, false)) {
-                playList[position].addFlags(AMediaWrapper.MEDIA_PAUSED)
+                playList[position].addFlags(AbstractMediaWrapper.MEDIA_PAUSED)
             }
             load(playList, position, true)
             loadingLastPlaylist = false
@@ -283,16 +283,16 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
         }
 
         val mw = mediaList.getMedia(index) ?: return
-        val isVideoPlaying = mw.type == AMediaWrapper.TYPE_VIDEO && player.isVideoPlaying()
-        if (!videoBackground && isVideoPlaying) mw.addFlags(AMediaWrapper.MEDIA_VIDEO)
-        if (videoBackground) mw.addFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
-        if (isBenchmark) mw.addFlags(AMediaWrapper.MEDIA_BENCHMARK)
+        val isVideoPlaying = mw.type == AbstractMediaWrapper.TYPE_VIDEO && player.isVideoPlaying()
+        if (!videoBackground && isVideoPlaying) mw.addFlags(AbstractMediaWrapper.MEDIA_VIDEO)
+        if (videoBackground) mw.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+        if (isBenchmark) mw.addFlags(AbstractMediaWrapper.MEDIA_BENCHMARK)
         parsed = false
         player.switchToVideo = false
         if (TextUtils.equals(mw.uri.scheme, "content")) withContext(Dispatchers.IO) { MediaUtils.retrieveMediaTitle(mw) }
 
-        if (mw.type != AMediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
-                || mw.hasFlag(AMediaWrapper.MEDIA_FORCE_AUDIO)) {
+        if (mw.type != AbstractMediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
+                || mw.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)) {
             val uri = withContext(Dispatchers.IO) { FileUtils.getUri(mw.uri) }
             if (uri == null) {
                 skipMedia()
@@ -335,7 +335,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
     @MainThread
     fun switchToVideo(): Boolean {
         val media = getCurrentMedia()
-        if (media === null || media.hasFlag(AMediaWrapper.MEDIA_FORCE_AUDIO) || !player.canSwitchToVideo())
+        if (media === null || media.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO) || !player.canSwitchToVideo())
             return false
         val hasRenderer = player.hasRenderer
         videoBackground = false
@@ -353,8 +353,8 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
 
     fun setVideoTrackEnabled(enabled: Boolean) {
         if (!hasMedia() || !player.isPlaying()) return
-        if (enabled) getCurrentMedia()?.addFlags(AMediaWrapper.MEDIA_VIDEO)
-        else getCurrentMedia()?.removeFlags(AMediaWrapper.MEDIA_VIDEO)
+        if (enabled) getCurrentMedia()?.addFlags(AbstractMediaWrapper.MEDIA_VIDEO)
+        else getCurrentMedia()?.removeFlags(AbstractMediaWrapper.MEDIA_VIDEO)
         player.setVideoTrackEnabled(enabled)
     }
 
@@ -410,48 +410,48 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
         val rate = player.getRate()
         val media = withContext(Dispatchers.IO) { medialibrary.findMedia(currentMedia) }
         if (media === null || media.id == 0L) return@launch
-        if (media.type == AMediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
+        if (media.type == AbstractMediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
             var progress = time / length.toFloat()
             if (progress > 0.95f || length - time < 10000) {
                 //increase seen counter if more than 95% of the media have been seen
                 //and reset progress to 0
-                launch(Dispatchers.IO) { media.setLongMeta(AMediaWrapper.META_SEEN, media.seen+1) }
+                launch(Dispatchers.IO) { media.setLongMeta(AbstractMediaWrapper.META_SEEN, media.seen+1) }
                 progress = 0f
             }
             media.time = if (progress == 0f) 0L else time
-            launch(Dispatchers.IO) { media.setLongMeta(AMediaWrapper.META_PROGRESS, media.time) }
+            launch(Dispatchers.IO) { media.setLongMeta(AbstractMediaWrapper.META_PROGRESS, media.time) }
         }
-        launch(Dispatchers.IO) { media.setStringMeta(AMediaWrapper.META_SPEED, rate.toString()) }
+        launch(Dispatchers.IO) { media.setStringMeta(AbstractMediaWrapper.META_SPEED, rate.toString()) }
     }
 
     fun setSpuTrack(index: Int) {
         if (!player.setSpuTrack(index)) return
         val media = getCurrentMedia() ?: return
-        if (media.id != 0L) launch(Dispatchers.IO) { media.setLongMeta(AMediaWrapper.META_SUBTITLE_TRACK, player.getSpuTrack().toLong()) }
+        if (media.id != 0L) launch(Dispatchers.IO) { media.setLongMeta(AbstractMediaWrapper.META_SUBTITLE_TRACK, player.getSpuTrack().toLong()) }
     }
 
     fun setAudioDelay(delay: Long) {
         if (!player.setAudioDelay(delay)) return
         val media = getCurrentMedia() ?: return
         if (media.id != 0L && settings.getBoolean("save_individual_audio_delay", false)) {
-            launch(Dispatchers.IO) { media.setLongMeta(AMediaWrapper.META_AUDIODELAY, player.getAudioDelay()) }
+            launch(Dispatchers.IO) { media.setLongMeta(AbstractMediaWrapper.META_AUDIODELAY, player.getAudioDelay()) }
         }
     }
 
     fun setSpuDelay(delay: Long) {
         if (!player.setSpuDelay(delay)) return
         val media = getCurrentMedia() ?: return
-        if (media.id != 0L) launch(Dispatchers.IO) { media.setLongMeta(AMediaWrapper.META_SUBTITLE_DELAY, player.getSpuDelay()) }
+        if (media.id != 0L) launch(Dispatchers.IO) { media.setLongMeta(AbstractMediaWrapper.META_SUBTITLE_DELAY, player.getSpuDelay()) }
     }
 
-    private fun loadMediaMeta(media: AMediaWrapper) {
+    private fun loadMediaMeta(media: AbstractMediaWrapper) {
         if (media.id == 0L) return
         if (player.canSwitchToVideo()) {
             if (settings.getBoolean("save_individual_audio_delay", false))
-                player.setAudioDelay(media.getMetaLong(AMediaWrapper.META_AUDIODELAY))
-            player.setSpuTrack(media.getMetaLong(AMediaWrapper.META_SUBTITLE_TRACK).toInt())
-            player.setSpuDelay(media.getMetaLong(AMediaWrapper.META_SUBTITLE_DELAY))
-            val rateString = media.getMetaString(AMediaWrapper.META_SPEED)
+                player.setAudioDelay(media.getMetaLong(AbstractMediaWrapper.META_AUDIODELAY))
+            player.setSpuTrack(media.getMetaLong(AbstractMediaWrapper.META_SUBTITLE_TRACK).toInt())
+            player.setSpuDelay(media.getMetaLong(AbstractMediaWrapper.META_SUBTITLE_DELAY))
+            val rateString = media.getMetaString(AbstractMediaWrapper.META_SPEED)
             if (!rateString.isNullOrEmpty()) {
                 player.setRate(rateString.toFloat(), false)
             }
@@ -505,7 +505,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
         val media = getCurrentMedia()
         if (expand && media !== null) {
             expanding = true
-            nextIndex = expand(media.type == AMediaWrapper.TYPE_STREAM)
+            nextIndex = expand(media.type == AbstractMediaWrapper.TYPE_STREAM)
             expanding = false
         } else {
             nextIndex = -1
@@ -572,7 +572,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
     private suspend fun expand(updateHistory: Boolean): Int {
         val index = currentIndex
         val expandedMedia = getCurrentMedia()
-        val stream = expandedMedia?.type == AMediaWrapper.TYPE_STREAM
+        val stream = expandedMedia?.type == AbstractMediaWrapper.TYPE_STREAM
         val ml = player.expand()
         var ret = -1
 
@@ -583,7 +583,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
             for (i in 0 until ml.count) {
                 val child = ml.getMediaAt(i)
                 withContext(Dispatchers.IO) { child.parse() }
-                mediaList.insert(index+i, MLServiceLocator.getAMediaWrapper(child))
+                mediaList.insert(index+i, MLServiceLocator.getAbstractMediaWrapper(child))
                 child.release()
             }
             mediaList.addEventListener(this)
@@ -593,7 +593,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
                 getCurrentMedia()?.apply {
                     AppScope.launch(Dispatchers.IO) {
                         if (stream) {
-                            type = AMediaWrapper.TYPE_STREAM
+                            type = AbstractMediaWrapper.TYPE_STREAM
                             entryUrl = mrl
                             medialibrary.getMedia(mrl)?.run { if (id > 0) medialibrary.removeExternalMedia(id) }
                         } else if (uri.scheme != "fd") {
@@ -616,15 +616,15 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
 
     fun getMedia(position: Int) = mediaList.getMedia(position)
 
-    private suspend fun getStartTime(mw: AMediaWrapper) : Long {
+    private suspend fun getStartTime(mw: AbstractMediaWrapper) : Long {
         val start = when {
-            mw.hasFlag(AMediaWrapper.MEDIA_FROM_START) -> {
-                mw.removeFlags(AMediaWrapper.MEDIA_FROM_START)
+            mw.hasFlag(AbstractMediaWrapper.MEDIA_FROM_START) -> {
+                mw.removeFlags(AbstractMediaWrapper.MEDIA_FROM_START)
                 0L
             }
             savedTime <= 0L -> when {
                 mw.time > 0L -> mw.time
-                mw.type == AMediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(Dispatchers.IO) { medialibrary.findMedia(mw).getMetaLong(AMediaWrapper.META_PROGRESS) }
+                mw.type == AbstractMediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(Dispatchers.IO) { medialibrary.findMedia(mw).getMetaLong(AbstractMediaWrapper.META_PROGRESS) }
                 else -> 0L
             }
             else -> savedTime
@@ -652,7 +652,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
      * Append to the current existing playlist
      */
     @MainThread
-    suspend fun append(list: List<AMediaWrapper>) {
+    suspend fun append(list: List<AbstractMediaWrapper>) {
         if (!hasCurrentMedia()) {
             load(list, 0)
             return
@@ -669,7 +669,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
      */
 
     @MainThread
-    fun insertNext(list: List<AMediaWrapper>) {
+    fun insertNext(list: List<AbstractMediaWrapper>) {
         if (!hasCurrentMedia()) {
             load(list, 0)
             return
@@ -685,7 +685,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
     fun moveItem(positionStart: Int, positionEnd: Int) = mediaList.move(positionStart, positionEnd)
 
     @MainThread
-    fun insertItem(position: Int, mw: AMediaWrapper) = mediaList.insert(position, mw)
+    fun insertItem(position: Int, mw: AbstractMediaWrapper) = mediaList.insert(position, mw)
 
 
     @MainThread
@@ -696,7 +696,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
 
     fun getMediaListSize()= mediaList.size()
 
-    fun getMediaList(): List<AMediaWrapper> = mediaList.copy
+    fun getMediaList(): List<AbstractMediaWrapper> = mediaList.copy
 
     fun toggleABRepeat() {
         val time = player.getCurrentTime()
@@ -798,7 +798,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
         }
     }
 
-    private suspend fun savePlaycount(mw: AMediaWrapper) {
+    private suspend fun savePlaycount(mw: AbstractMediaWrapper) {
         if (settings.getBoolean(PLAYBACK_HISTORY, true)) withContext(Dispatchers.IO) {
             var id = mw.id
             if (id == 0L) {
@@ -806,7 +806,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
                 if (internalMedia != null && internalMedia.id != 0L)
                     id = internalMedia.id
                 else {
-                    internalMedia = if (mw.type == AMediaWrapper.TYPE_STREAM) {
+                    internalMedia = if (mw.type == AbstractMediaWrapper.TYPE_STREAM) {
                             val media = medialibrary.addStream(Uri.decode(entryUrl ?: mw.uri.toString()), mw.title)
                             entryUrl = null
                             media

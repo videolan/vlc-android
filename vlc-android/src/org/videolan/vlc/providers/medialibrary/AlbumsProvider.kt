@@ -22,53 +22,53 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AAlbum
-import org.videolan.medialibrary.interfaces.media.AArtist
-import org.videolan.medialibrary.interfaces.media.AGenre
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum
+import org.videolan.medialibrary.interfaces.media.AbstractArtist
+import org.videolan.medialibrary.interfaces.media.AbstractGenre
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<AAlbum>(context, scope) {
+class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<AbstractAlbum>(context, scope) {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
     override fun canSortByReleaseDate() = true
 
     init {
-        sort = Settings.getInstance(context).getInt(sortKey, if (parent is AArtist) AMedialibrary.SORT_RELEASEDATE else AMedialibrary.SORT_DEFAULT)
+        sort = Settings.getInstance(context).getInt(sortKey, if (parent is AbstractArtist) AbstractMedialibrary.SORT_RELEASEDATE else AbstractMedialibrary.SORT_DEFAULT)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
     }
 
-    override fun getAll() : Array<AAlbum> = when (parent) {
-        is AArtist -> parent.getAlbums(sort, scope.desc)
-        is AGenre -> parent.getAlbums(sort, scope.desc)
+    override fun getAll() : Array<AbstractAlbum> = when (parent) {
+        is AbstractArtist -> parent.getAlbums(sort, scope.desc)
+        is AbstractGenre -> parent.getAlbums(sort, scope.desc)
         else -> medialibrary.getAlbums(sort, scope.desc)
     }
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<AAlbum> {
+    override fun getPage(loadSize: Int, startposition: Int) : Array<AbstractAlbum> {
         val list = if (scope.filterQuery == null) when(parent) {
-            is AArtist -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
-            is AGenre -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
+            is AbstractArtist -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
+            is AbstractGenre -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
             else -> medialibrary.getPagedAlbums(sort, scope.desc, loadSize, startposition)
         } else when(parent) {
-            is AArtist -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is AGenre -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is AbstractArtist -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is AbstractGenre -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
             else -> medialibrary.searchAlbum(scope.filterQuery, sort, scope.desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
     }
 
     override fun getTotalCount() = if (scope.filterQuery == null) when(parent) {
-        is AArtist -> parent.albumsCount
-        is AGenre -> parent.albumsCount
+        is AbstractArtist -> parent.albumsCount
+        is AbstractGenre -> parent.albumsCount
         else -> medialibrary.albumsCount
     } else when (parent) {
-        is AArtist -> parent.searchAlbumsCount(scope.filterQuery)
-        is AGenre -> parent.searchAlbumsCount(scope.filterQuery)
+        is AbstractArtist -> parent.searchAlbumsCount(scope.filterQuery)
+        is AbstractGenre -> parent.searchAlbumsCount(scope.filterQuery)
         else -> medialibrary.getAlbumsCount(scope.filterQuery)
     }
 }

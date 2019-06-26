@@ -6,9 +6,9 @@ import android.os.Parcel;
 import android.util.SparseArray;
 
 import org.videolan.libvlc.Media;
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 
-public class StubMediaWrapper extends AMediaWrapper {
+public class StubMediaWrapper extends AbstractMediaWrapper {
     public StubMediaWrapper(long id, String mrl, long time, long length, int type, String title,
                         String filename, String artist, String genre, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,

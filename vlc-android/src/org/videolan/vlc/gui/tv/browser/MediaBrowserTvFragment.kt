@@ -9,8 +9,8 @@ import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.MediaTvItemAdapter
@@ -67,7 +67,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
             submitList(items)
 
             //headers
-            val nbColumns = if ((viewModel as MediaBrowserViewModel).sort == AMedialibrary.SORT_ALPHA || (viewModel as MediaBrowserViewModel).sort == AMedialibrary.SORT_DEFAULT) 9 else 1
+            val nbColumns = if ((viewModel as MediaBrowserViewModel).sort == AbstractMedialibrary.SORT_ALPHA || (viewModel as MediaBrowserViewModel).sort == AbstractMedialibrary.SORT_DEFAULT) 9 else 1
 
             headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as MediaBrowserViewModel).sort
@@ -89,7 +89,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         launch {
             if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL, true)) {
-                TvUtil.playMedia(requireActivity(), item as AMediaWrapper)
+                TvUtil.playMedia(requireActivity(), item as AbstractMediaWrapper)
             } else {
                 TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>)
             }

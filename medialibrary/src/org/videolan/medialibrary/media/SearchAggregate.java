@@ -1,21 +1,21 @@
 package org.videolan.medialibrary.media;
 
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.media.AAlbum;
-import org.videolan.medialibrary.interfaces.media.AArtist;
-import org.videolan.medialibrary.interfaces.media.AGenre;
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
-import org.videolan.medialibrary.interfaces.media.APlaylist;
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 
 public class SearchAggregate {
     private static final String TAG = "VLC/SearchAggregate";
 
-    private final AAlbum[] albums;
-    private final AArtist[] artists;
-    private final AGenre[] genres;
-    private final AMediaWrapper[] videos;
-    private final AMediaWrapper[] tracks;
-    private final APlaylist[] playlists;
+    private final AbstractAlbum[] albums;
+    private final AbstractArtist[] artists;
+    private final AbstractGenre[] genres;
+    private final AbstractMediaWrapper[] videos;
+    private final AbstractMediaWrapper[] tracks;
+    private final AbstractPlaylist[] playlists;
 
     public SearchAggregate() {
         this.albums = null;
@@ -26,7 +26,7 @@ public class SearchAggregate {
         this.playlists = null;
     }
 
-    public SearchAggregate(AAlbum[] albums, AArtist[] artists, AGenre[] genres, AMediaWrapper[] videos, AMediaWrapper[] tracks, APlaylist[] playlists) {
+    public SearchAggregate(AbstractAlbum[] albums, AbstractArtist[] artists, AbstractGenre[] genres, AbstractMediaWrapper[] videos, AbstractMediaWrapper[] tracks, AbstractPlaylist[] playlists) {
         this.albums = albums;
         this.artists = artists;
         this.genres = genres;
@@ -35,27 +35,27 @@ public class SearchAggregate {
         this.playlists = playlists;
     }
 
-    public AAlbum[] getAlbums() {
+    public AbstractAlbum[] getAlbums() {
         return albums;
     }
 
-    public AArtist[] getArtists() {
+    public AbstractArtist[] getArtists() {
         return artists;
     }
 
-    public AGenre[] getGenres() {
+    public AbstractGenre[] getGenres() {
         return genres;
     }
 
-    public AMediaWrapper[] getVideos() {
+    public AbstractMediaWrapper[] getVideos() {
         return videos;
     }
 
-    public AMediaWrapper[] getTracks() {
+    public AbstractMediaWrapper[] getTracks() {
         return tracks;
     }
 
-    public APlaylist[] getPlaylists() {
+    public AbstractPlaylist[] getPlaylists() {
         return playlists;
     }
 
@@ -68,32 +68,32 @@ public class SearchAggregate {
         StringBuilder sb = new StringBuilder();
         if (albums.length > 0) {
             sb.append("Albums:\n");
-            for (AAlbum album : albums)
+            for (AbstractAlbum album : albums)
                 sb.append(album.getTitle()).append("\n");
         }
         if (artists.length > 0) {
             sb.append("Artists:\n");
-            for (AArtist artist : artists)
+            for (AbstractArtist artist : artists)
                 sb.append(artist.getTitle()).append("\n");
         }
         if (genres.length > 0) {
             sb.append("Genres:\n");
-            for (AGenre genre : genres)
+            for (AbstractGenre genre : genres)
                 sb.append(genre.getTitle()).append("\n");
         }
         if (tracks.length > 0) {
             sb.append("Tracks:\n");
-            for (AMediaWrapper m : tracks)
+            for (AbstractMediaWrapper m : tracks)
                 sb.append(m.getTitle()).append("\n");
         }
         if (videos.length > 0) {
             sb.append("Videos:\n");
-            for (AMediaWrapper m : videos)
+            for (AbstractMediaWrapper m : videos)
                 sb.append(m.getTitle()).append("\n");
         }
         if (playlists.length > 0) {
             sb.append("Playlists:\n");
-            for (APlaylist playlist : playlists)
+            for (AbstractPlaylist playlist : playlists)
                 sb.append(playlist.getTitle()).append("\n");
         }
         return sb.toString();

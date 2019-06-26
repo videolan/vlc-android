@@ -30,7 +30,7 @@ import android.view.View
 import android.widget.ProgressBar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.AMedialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity
@@ -106,12 +106,12 @@ class MainTvActivity : BaseTvActivity() {
     }
 
     override fun onParsingServiceProgress(scanProgress: ScanProgress?) {
-        if (progressBar.visibility == View.GONE && AMedialibrary.getInstance().isWorking)
+        if (progressBar.visibility == View.GONE && AbstractMedialibrary.getInstance().isWorking)
             handler.sendEmptyMessage(SHOW_LOADING)
     }
 
     override fun onParsingServiceFinished() {
-        if (!AMedialibrary.getInstance().isWorking)
+        if (!AbstractMedialibrary.getInstance().isWorking)
             handler.sendEmptyMessageDelayed(HIDE_LOADING, 500)
     }
 

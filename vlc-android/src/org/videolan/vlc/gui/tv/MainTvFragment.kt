@@ -33,8 +33,8 @@ import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -200,7 +200,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onStart() {
         super.onStart()
-        if (selectedItem is AMediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
+        if (selectedItem is AbstractMediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
         model.refresh()
     }
 
@@ -212,8 +212,9 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     override fun onClick(v: View?) = requireActivity().startActivity(Intent(requireContext(), SearchActivity::class.java))
 
     fun showDetails(): Boolean {
-        val media = selectedItem as? AMediaWrapper ?: return false
-        if (media.type != AMediaWrapper.TYPE_DIR) return false
+        val media = selectedItem as? AbstractMediaWrapper
+                ?: return false
+        if (media.type != AbstractMediaWrapper.TYPE_DIR) return false
         val intent = Intent(requireActivity(), DetailsActivity::class.java)
         // pass the item information
         intent.putExtra("media", media)
@@ -239,7 +240,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 when ((item as GenericCardItem).id) {
                     ID_SETTINGS -> activity.startActivityForResult(Intent(activity, org.videolan.vlc.gui.tv.preferences.PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
                     ID_REFRESH -> {
-                        if (!AMedialibrary.getInstance().isWorking) {
+                        if (!AbstractMedialibrary.getInstance().isWorking) {
                             requireActivity().reloadLibrary()
                         }
                     }

@@ -241,7 +241,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 tag = "equalizer"
             }
             ID_SAVE_PLAYLIST -> {
-                UiTools.addToPlaylist(activity, service.medias)
+                UiTools.addToPlaylist(activity, service.media)
                 hide()
                 return
             }

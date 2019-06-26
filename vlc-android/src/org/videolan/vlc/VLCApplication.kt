@@ -37,7 +37,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AMedialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -206,8 +206,8 @@ class VLCApplication : Application() {
             dataMap.clear()
         }
 
-        val mlInstance: AMedialibrary
-            get() = AMedialibrary.getInstance()
+        val mlInstance: AbstractMedialibrary
+            get() = AbstractMedialibrary.getInstance()
 
         /**
          * Check if application is currently displayed

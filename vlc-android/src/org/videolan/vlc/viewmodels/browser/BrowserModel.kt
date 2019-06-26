@@ -27,7 +27,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.*
 import org.videolan.vlc.repository.DirectoryRepository
@@ -67,9 +67,9 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
         }
     }
 
-    fun saveList(media: AMediaWrapper) = provider.saveList(media)
+    fun saveList(media: AbstractMediaWrapper) = provider.saveList(media)
 
-    fun isFolderEmpty(mw: AMediaWrapper) = provider.isFolderEmpty(mw)
+    fun isFolderEmpty(mw: AbstractMediaWrapper) = provider.isFolderEmpty(mw)
 
     fun getDescriptionUpdate() = provider.descriptionUpdate
 
@@ -99,10 +99,10 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
 private val ascComp by lazy {
     Comparator<MediaLibraryItem> { item1, item2 ->
         if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            val type1 = (item1 as AMediaWrapper).type
-            val type2 = (item2 as AMediaWrapper).type
-            if (type1 == AMediaWrapper.TYPE_DIR && type2 != AMediaWrapper.TYPE_DIR) return@Comparator -1
-            else if (type1 != AMediaWrapper.TYPE_DIR && type2 == AMediaWrapper.TYPE_DIR) return@Comparator 1
+            val type1 = (item1 as AbstractMediaWrapper).type
+            val type2 = (item2 as AbstractMediaWrapper).type
+            if (type1 == AbstractMediaWrapper.TYPE_DIR && type2 != AbstractMediaWrapper.TYPE_DIR) return@Comparator -1
+            else if (type1 != AbstractMediaWrapper.TYPE_DIR && type2 == AbstractMediaWrapper.TYPE_DIR) return@Comparator 1
         }
         item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
     }
@@ -110,10 +110,10 @@ private val ascComp by lazy {
 private val descComp by lazy {
     Comparator<MediaLibraryItem> { item1, item2 ->
         if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            val type1 = (item1 as AMediaWrapper).type
-            val type2 = (item2 as AMediaWrapper).type
-            if (type1 == AMediaWrapper.TYPE_DIR && type2 != AMediaWrapper.TYPE_DIR) return@Comparator -1
-            else if (type1 != AMediaWrapper.TYPE_DIR && type2 == AMediaWrapper.TYPE_DIR) return@Comparator 1
+            val type1 = (item1 as AbstractMediaWrapper).type
+            val type2 = (item2 as AbstractMediaWrapper).type
+            if (type1 == AbstractMediaWrapper.TYPE_DIR && type2 != AbstractMediaWrapper.TYPE_DIR) return@Comparator -1
+            else if (type1 != AbstractMediaWrapper.TYPE_DIR && type2 == AbstractMediaWrapper.TYPE_DIR) return@Comparator 1
         }
         item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
     }

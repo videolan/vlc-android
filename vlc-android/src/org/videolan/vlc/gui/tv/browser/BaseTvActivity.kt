@@ -34,7 +34,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.AMedialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.tools.KeyHelper
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.helpers.UiTools
@@ -49,7 +49,7 @@ private const val TAG = "VLC/BaseTvActivity"
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope() {
 
-    private lateinit var mediaLibrary: AMedialibrary
+    private lateinit var mediaLibrary: AbstractMedialibrary
     private lateinit var settings: SharedPreferences
     @Volatile
     private var currentlyVisible = false
@@ -106,7 +106,7 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
 
     private fun registerLiveData() {
         MediaParsingService.progress.observe(this, Observer { scanProgress -> if (scanProgress != null) onParsingServiceProgress(scanProgress) })
-        AMedialibrary.getState().observe(this, Observer { started ->
+        AbstractMedialibrary.getState().observe(this, Observer { started ->
             if (started == null) return@Observer
             if (started)
                 onParsingServiceStarted()

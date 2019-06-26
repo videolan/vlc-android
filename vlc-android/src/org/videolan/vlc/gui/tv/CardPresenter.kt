@@ -40,8 +40,8 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -74,10 +74,10 @@ class CardPresenter(private val context: Activity) : Presenter() {
 
         fun updateCardViewImage(item: MediaLibraryItem) {
             val noArt = TextUtils.isEmpty(item.artworkMrl)
-            if (item is AMediaWrapper) {
-                val group = item.type == AMediaWrapper.TYPE_GROUP
-                val folder = item.type == AMediaWrapper.TYPE_DIR
-                val video = item.type == AMediaWrapper.TYPE_VIDEO
+            if (item is AbstractMediaWrapper) {
+                val group = item.type == AbstractMediaWrapper.TYPE_GROUP
+                val folder = item.type == AbstractMediaWrapper.TYPE_DIR
+                val video = item.type == AbstractMediaWrapper.TYPE_VIDEO
                 if (!folder && (group || video && !item.isThumbnailGenerated)) {
                     if (noArt) {
                         cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
@@ -103,7 +103,7 @@ class CardPresenter(private val context: Activity) : Presenter() {
         private fun getDefaultImage(mediaLibraryItem: MediaLibraryItem): Bitmap? {
             var picture: Bitmap?
             val res = cardView.resources
-            picture = if (mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (mediaLibraryItem as AMediaWrapper).type == AMediaWrapper.TYPE_DIR) {
+            picture = if (mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (mediaLibraryItem as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_DIR) {
                 if (TextUtils.equals(mediaLibraryItem.uri.scheme, "file"))
                     BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big)
                 else
@@ -132,12 +132,12 @@ class CardPresenter(private val context: Activity) : Presenter() {
     override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
         val holder = viewHolder as ViewHolder
         when (item) {
-            is AMediaWrapper -> {
+            is AbstractMediaWrapper -> {
                 holder.cardView.titleText = item.title
                 holder.cardView.contentText = item.description
                 holder.updateCardViewImage(item)
                 if (mIsSeenMediaMarkerVisible
-                        && item.type == AMediaWrapper.TYPE_VIDEO
+                        && item.type == AbstractMediaWrapper.TYPE_VIDEO
                         && item.seen > 0L)
                     holder.cardView.badgeImage = ContextCompat.getDrawable(context, R.drawable.ic_seen_tv_normal)
                 holder.view.setOnLongClickListener { v ->
@@ -180,18 +180,18 @@ class CardPresenter(private val context: Activity) : Presenter() {
                     UPDATE_DESCRIPTION -> holder.cardView.contentText = media.description
                     UPDATE_THUMB -> loadImage(holder.cardView, media)
                     UPDATE_TIME -> {
-                        val mediaWrapper = item as AMediaWrapper
+                        val mediaWrapper = item as AbstractMediaWrapper
                         Tools.setMediaDescription(mediaWrapper)
                         holder.cardView.contentText = mediaWrapper.description
                         if (mediaWrapper.time <= 0) {
-                            if (mIsSeenMediaMarkerVisible && item.type == AMediaWrapper.TYPE_VIDEO
+                            if (mIsSeenMediaMarkerVisible && item.type == AbstractMediaWrapper.TYPE_VIDEO
                                     && item.seen > 0L)
                                 holder.cardView.badgeImage = ContextCompat.getDrawable(context, R.drawable.ic_seen_tv_normal)
                         }
                     }
                     UPDATE_SEEN -> {
-                        val mw = item as AMediaWrapper
-                        if (mIsSeenMediaMarkerVisible && mw.type == AMediaWrapper.TYPE_VIDEO && mw.seen > 0L)
+                        val mw = item as AbstractMediaWrapper
+                        if (mIsSeenMediaMarkerVisible && mw.type == AbstractMediaWrapper.TYPE_VIDEO && mw.seen > 0L)
                             holder.cardView.badgeImage = ContextCompat.getDrawable(context, R.drawable.ic_seen_tv_normal)
                     }
                 }

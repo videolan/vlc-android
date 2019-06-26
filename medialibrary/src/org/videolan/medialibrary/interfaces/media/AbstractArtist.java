@@ -6,21 +6,21 @@ import android.os.Parcelable;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.MLServiceLocator;
-import org.videolan.medialibrary.interfaces.AMedialibrary;
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
-abstract public class AArtist extends MediaLibraryItem {
+abstract public class AbstractArtist extends MediaLibraryItem {
 
     private String shortBio;
     private String artworkMrl;
     private String musicBrainzId;
 
     public static class SpecialRes {
-        public static String UNKNOWN_ARTIST = AMedialibrary.getContext().getString(R.string.unknown_artist);
-        public static String VARIOUS_ARTISTS = AMedialibrary.getContext().getString(R.string.various_artists);
+        public static String UNKNOWN_ARTIST = AbstractMedialibrary.getContext().getString(R.string.unknown_artist);
+        public static String VARIOUS_ARTISTS = AbstractMedialibrary.getContext().getString(R.string.various_artists);
     }
 
-    public AArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
+    public AbstractArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
         super(id, name);
         this.shortBio = shortBio;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
@@ -32,15 +32,15 @@ abstract public class AArtist extends MediaLibraryItem {
         }
     }
 
-    abstract public AAlbum[] getAlbums(int sort, boolean desc);
-    abstract public AAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
-    abstract public AAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractAlbum[] getAlbums(int sort, boolean desc);
+    abstract public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchAlbumsCount(String query);
-    abstract public AMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
     abstract public int getAlbumsCount();
-    abstract public AMediaWrapper[] getTracks(int sort, boolean desc);
-    abstract public AMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractMediaWrapper[] getTracks(int sort, boolean desc);
+    abstract public AbstractMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
     abstract public int getTracksCount();
 
     public String getShortBio() {
@@ -64,13 +64,13 @@ abstract public class AArtist extends MediaLibraryItem {
         this.artworkMrl = artworkMrl;
     }
 
-    public AAlbum[] getAlbums() {
-        return getAlbums(AMedialibrary.SORT_DEFAULT, false);
+    public AbstractAlbum[] getAlbums() {
+        return getAlbums(AbstractMedialibrary.SORT_DEFAULT, false);
     }
 
     @Override
-    public AMediaWrapper[] getTracks() {
-        return getTracks(AMedialibrary.SORT_ALBUM, true);
+    public AbstractMediaWrapper[] getTracks() {
+        return getTracks(AbstractMedialibrary.SORT_ALBUM, true);
     }
 
     @Override
@@ -86,20 +86,20 @@ abstract public class AArtist extends MediaLibraryItem {
         parcel.writeString(musicBrainzId);
     }
 
-    public static Parcelable.Creator<AArtist> CREATOR
-            = new Parcelable.Creator<AArtist>() {
+    public static Parcelable.Creator<AbstractArtist> CREATOR
+            = new Parcelable.Creator<AbstractArtist>() {
         @Override
-        public AArtist createFromParcel(Parcel in) {
-            return MLServiceLocator.getAArtist(in);
+        public AbstractArtist createFromParcel(Parcel in) {
+            return MLServiceLocator.getAbstractArtist(in);
         }
 
         @Override
-        public AArtist[] newArray(int size) {
-            return new AArtist[size];
+        public AbstractArtist[] newArray(int size) {
+            return new AbstractArtist[size];
         }
     };
 
-    public AArtist(Parcel in) {
+    public AbstractArtist(Parcel in) {
         super(in);
         this.shortBio = in.readString();
         this.artworkMrl = in.readString();

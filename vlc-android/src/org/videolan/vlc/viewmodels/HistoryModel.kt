@@ -25,9 +25,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 
-class HistoryModel(context: Context) : MedialibraryModel<AMediaWrapper>(context) {
+class HistoryModel(context: Context) : MedialibraryModel<AbstractMediaWrapper>(context) {
 
     override fun canSortByName() = false
 
@@ -35,7 +35,7 @@ class HistoryModel(context: Context) : MedialibraryModel<AMediaWrapper>(context)
         dataset.value = withContext(Dispatchers.Default) { medialibrary.lastMediaPlayed().toMutableList() }
     }
 
-    fun moveUp(media: AMediaWrapper) {
+    fun moveUp(media: AbstractMediaWrapper) {
         dataset.value = dataset.value.apply {
             remove(media)
             add(0, media)

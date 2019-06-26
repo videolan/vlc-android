@@ -5,13 +5,13 @@ import android.net.Uri;
 import android.os.Parcel;
 
 import org.videolan.libvlc.Media;
-import org.videolan.medialibrary.interfaces.AMedialibrary;
-import org.videolan.medialibrary.interfaces.media.AAlbum;
-import org.videolan.medialibrary.interfaces.media.AArtist;
-import org.videolan.medialibrary.interfaces.media.AFolder;
-import org.videolan.medialibrary.interfaces.media.AGenre;
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
-import org.videolan.medialibrary.interfaces.media.APlaylist;
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Folder;
@@ -28,10 +28,10 @@ import org.videolan.medialibrary.stubs.StubPlaylist;
 
 public class MLServiceLocator {
 
-    private static LocatorMode mMode = LocatorMode.VLC_ANDROID;
+    private static LocatorMode sMode = LocatorMode.VLC_ANDROID;
 
     public static void setLocatorMode(LocatorMode mode) {
-        MLServiceLocator.mMode = mode;
+        MLServiceLocator.sMode = mode;
     }
 
     public static String EXTRA_TEST_STUBS = "extra_test_stubs";
@@ -40,23 +40,23 @@ public class MLServiceLocator {
         TESTS,
     }
 
-    public static AMedialibrary getAMedialibrary() {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractMedialibrary getAbstractMedialibrary() {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Medialibrary();
         } else {
             return new StubMedialibrary();
         }
     }
 
-    // AMediaWrapper
-    public static AMediaWrapper getAMediaWrapper(long id, String mrl, long time, long length,
-                                                 int type, String title, String filename,
-                                                 String artist, String genre, String album,
-                                                 String albumArtist, int width, int height,
-                                                 String artworkURL, int audio, int spu,
-                                                 int trackNumber, int discNumber, long lastModified,
-                                                 long seen, boolean isThumbnailGenerated) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    // AbstractMediaWrapper
+    public static AbstractMediaWrapper getAbstractMediaWrapper(long id, String mrl, long time, long length,
+                                                               int type, String title, String filename,
+                                                               String artist, String genre, String album,
+                                                               String albumArtist, int width, int height,
+                                                               String artworkURL, int audio, int spu,
+                                                               int trackNumber, int discNumber, long lastModified,
+                                                               long seen, boolean isThumbnailGenerated) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapper(id, mrl, time, length, type, title,
                     filename, artist, genre, album, albumArtist, width, height, artworkURL,
                     audio, spu, trackNumber, discNumber, lastModified, seen, isThumbnailGenerated);
@@ -67,13 +67,13 @@ public class MLServiceLocator {
         }
     }
 
-    public static AMediaWrapper getAMediaWrapper(Uri uri, long time, long length, int type,
-                                                 Bitmap picture, String title, String artist,
-                                                 String genre, String album, String albumArtist,
-                                                 int width, int height, String artworkURL,
-                                                 int audio, int spu, int trackNumber,
-                                                 int discNumber, long lastModified, long seen) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractMediaWrapper getAbstractMediaWrapper(Uri uri, long time, long length, int type,
+                                                               Bitmap picture, String title, String artist,
+                                                               String genre, String album, String albumArtist,
+                                                               int width, int height, String artworkURL,
+                                                               int audio, int spu, int trackNumber,
+                                                               int discNumber, long lastModified, long seen) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapper(uri, time, length, type, picture, title, artist, genre,
                     album, albumArtist, width, height, artworkURL, audio, spu, trackNumber,
                     discNumber, lastModified, seen);
@@ -84,24 +84,24 @@ public class MLServiceLocator {
         }
     }
 
-    public static AMediaWrapper getAMediaWrapper(Uri uri) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractMediaWrapper getAbstractMediaWrapper(Uri uri) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapper(uri);
         } else {
             return new StubMediaWrapper(uri);
         }
     }
 
-    public static AMediaWrapper getAMediaWrapper(Media media) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractMediaWrapper getAbstractMediaWrapper(Media media) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapper(media);
         } else {
             return new StubMediaWrapper(media);
         }
     }
 
-    public static AMediaWrapper getAMediaWrapper(Parcel in) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractMediaWrapper getAbstractMediaWrapper(Parcel in) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapper(in);
         } else {
             return new StubMediaWrapper(in);
@@ -109,16 +109,16 @@ public class MLServiceLocator {
     }
 
     //Artist
-    public static AArtist getAArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractArtist getAbstractArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Artist(id, name, shortBio, artworkMrl, musicBrainzId);
         } else {
             return new StubArtist(id, name, shortBio, artworkMrl, musicBrainzId);
         }
     }
 
-    public static AArtist getAArtist(Parcel in) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractArtist getAbstractArtist(Parcel in) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Artist(in);
         } else {
             return new StubArtist(in);
@@ -126,16 +126,16 @@ public class MLServiceLocator {
     }
 
     //Genre
-    public static AGenre getAGenre(long id, String title) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractGenre getAbstractGenre(long id, String title) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Genre(id, title);
         } else {
             return new StubGenre(id, title);
         }
     }
 
-    public static AGenre getAGenre(Parcel in) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractGenre getAbstractGenre(Parcel in) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Genre(in);
         } else {
             return new StubGenre(in);
@@ -143,10 +143,10 @@ public class MLServiceLocator {
     }
 
     //Album
-    public static AAlbum getAAlbum(long id, String title, int releaseYear, String artworkMrl,
-                                   String albumArtist, long albumArtistId, int nbTracks,
-                                   int duration) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractAlbum getAbstractAlbum(long id, String title, int releaseYear, String artworkMrl,
+                                                 String albumArtist, long albumArtistId, int nbTracks,
+                                                 int duration) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Album(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId,
                     nbTracks, duration);
         } else {
@@ -155,8 +155,8 @@ public class MLServiceLocator {
         }
     }
 
-    public static AAlbum getAAlbum(Parcel in) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractAlbum getAbstractAlbum(Parcel in) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Album(in);
         } else {
             return new StubAlbum(in);
@@ -164,16 +164,16 @@ public class MLServiceLocator {
     }
 
     //Folder
-    public static AFolder getAFolder(long id, String name, String mrl) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractFolder getAbstractFolder(long id, String name, String mrl) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Folder(id, name, mrl);
         } else {
             return new StubFolder(id, name, mrl);
         }
     }
 
-    public static AFolder getAFolder(Parcel in) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractFolder getAbstractFolder(Parcel in) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Folder(in);
         } else {
             return new StubFolder(in);
@@ -181,16 +181,16 @@ public class MLServiceLocator {
     }
 
     //Playlist
-    public static APlaylist getAPlaylist(long id, String name, int trackCount) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractPlaylist getAbstractPlaylist(long id, String name, int trackCount) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Playlist(id, name, trackCount);
         } else {
             return new StubPlaylist(id, name, trackCount);
         }
     }
 
-    public static APlaylist getAPlaylist(Parcel in) {
-        if (mMode == LocatorMode.VLC_ANDROID) {
+    public static AbstractPlaylist getAbstractPlaylist(Parcel in) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
             return new Playlist(in);
         } else {
             return new StubPlaylist(in);

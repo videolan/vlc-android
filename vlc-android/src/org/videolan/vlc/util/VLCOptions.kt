@@ -32,7 +32,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.libvlc.util.VLCUtil
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -200,10 +200,10 @@ object VLCOptions {
     }
 
     fun setMediaOptions(media: Media, context: Context, flags: Int) {
-        val noHardwareAcceleration = flags and AMediaWrapper.MEDIA_NO_HWACCEL != 0
-        val noVideo = flags and AMediaWrapper.MEDIA_VIDEO == 0
-        val benchmark = flags and AMediaWrapper.MEDIA_BENCHMARK != 0
-        val paused = flags and AMediaWrapper.MEDIA_PAUSED != 0
+        val noHardwareAcceleration = flags and AbstractMediaWrapper.MEDIA_NO_HWACCEL != 0
+        val noVideo = flags and AbstractMediaWrapper.MEDIA_VIDEO == 0
+        val benchmark = flags and AbstractMediaWrapper.MEDIA_BENCHMARK != 0
+        val paused = flags and AbstractMediaWrapper.MEDIA_PAUSED != 0
         var hardwareAcceleration = HW_ACCELERATION_DISABLED
         val prefs = Settings.getInstance(context)
 

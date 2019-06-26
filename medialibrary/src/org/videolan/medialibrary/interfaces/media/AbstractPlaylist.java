@@ -8,17 +8,17 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.util.List;
 
-public abstract class APlaylist extends MediaLibraryItem {
+public abstract class AbstractPlaylist extends MediaLibraryItem {
 
     protected int mTracksCount;
 
-    protected APlaylist(long id, String name, int trackCount) {
+    protected AbstractPlaylist(long id, String name, int trackCount) {
         super(id, name);
         mTracksCount = trackCount;
     }
 
-    abstract public AMediaWrapper[] getTracks();
-    abstract public AMediaWrapper[] getPagedTracks(int nbItems, int offset);
+    abstract public AbstractMediaWrapper[] getTracks();
+    abstract public AbstractMediaWrapper[] getPagedTracks(int nbItems, int offset);
     abstract public int getRealTracksCount();
     abstract public boolean append(long mediaId);
     abstract public boolean append(long[] mediaIds);
@@ -27,7 +27,7 @@ public abstract class APlaylist extends MediaLibraryItem {
     abstract public boolean move(int oldPosition, int newPosition);
     abstract public boolean remove(int position);
     abstract public boolean delete();
-    abstract public AMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
 
     @Override
@@ -41,16 +41,16 @@ public abstract class APlaylist extends MediaLibraryItem {
     }
 
 
-    public static Parcelable.Creator<APlaylist> CREATOR
-            = new Parcelable.Creator<APlaylist>() {
+    public static Parcelable.Creator<AbstractPlaylist> CREATOR
+            = new Parcelable.Creator<AbstractPlaylist>() {
         @Override
-        public APlaylist createFromParcel(Parcel in) {
-            return MLServiceLocator.getAPlaylist(in);
+        public AbstractPlaylist createFromParcel(Parcel in) {
+            return MLServiceLocator.getAbstractPlaylist(in);
         }
 
         @Override
-        public APlaylist[] newArray(int size) {
-            return new APlaylist[size];
+        public AbstractPlaylist[] newArray(int size) {
+            return new AbstractPlaylist[size];
         }
     };
 
@@ -60,7 +60,7 @@ public abstract class APlaylist extends MediaLibraryItem {
         parcel.writeInt(mTracksCount);
     }
 
-    public APlaylist(Parcel in) {
+    public AbstractPlaylist(Parcel in) {
         super(in);
         this.mTracksCount = in.readInt();
     }

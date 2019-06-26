@@ -2,14 +2,14 @@ package org.videolan.medialibrary.stubs;
 
 import android.os.Parcel;
 
-import org.videolan.medialibrary.interfaces.media.AFolder;
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StubFolder extends AFolder {
+public class StubFolder extends AbstractFolder {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
@@ -29,71 +29,71 @@ public class StubFolder extends AFolder {
     }
 
     //TODO WTF would media be null ??
-    public AMediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        ArrayList<AMediaWrapper> source;
+    public AbstractMediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        ArrayList<AbstractMediaWrapper> source;
         if (type == TYPE_FOLDER_VIDEO) source = dt.mVideoMediaWrappers;
         else if (type == TYPE_FOLDER_AUDIO) source = dt.mAudioMediaWrappers;
         else return null;
-        for (AMediaWrapper media : source) {
+        for (AbstractMediaWrapper media : source) {
             if (isParentFolder(this.mMrl, media.getUri().getPath())) results.add(media);
         }
         results = new ArrayList<>(Arrays.asList(dt.sortMedia(results, sort, desc)));
-        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AMediaWrapper[0]);
+        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AbstractMediaWrapper[0]);
     }
 
     public int mediaCount(int type) {
         int count = 0;
-        ArrayList<AMediaWrapper> source;
+        ArrayList<AbstractMediaWrapper> source;
         if (type == TYPE_FOLDER_VIDEO) source = dt.mVideoMediaWrappers;
         else if (type == TYPE_FOLDER_AUDIO) source = dt.mAudioMediaWrappers;
         else return 0;
-        for (AMediaWrapper media : source) {
+        for (AbstractMediaWrapper media : source) {
             if (isParentFolder(this.mMrl, media.getUri().getPath())) count++;
         }
         return count;
     }
 
-    public AFolder[] subfolders(int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AFolder> results = new ArrayList<>();
-        for (AFolder folder : dt.mFolders) {
+    public AbstractFolder[] subfolders(int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractFolder> results = new ArrayList<>();
+        for (AbstractFolder folder : dt.mFolders) {
             if (isParentFolder(this.mMrl, folder.mMrl)) results.add(folder);
         }
         results = new ArrayList<>(Arrays.asList(dt.sortFolder(results, sort, desc)));
-        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AFolder[0]);
+        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AbstractFolder[0]);
     }
 
     public int subfoldersCount(int type) {
         int count = 0;
-        for (AFolder folder : dt.mFolders) {
+        for (AbstractFolder folder : dt.mFolders) {
             if (isParentFolder(this.mMrl, folder.mMrl)) count++;
         }
         return count;
     }
 
-    public AMediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AMediaWrapper> results = new ArrayList<>();
-        ArrayList<AMediaWrapper> source;
+    public AbstractMediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
+        ArrayList<AbstractMediaWrapper> source;
         if (mediaType == TYPE_FOLDER_VIDEO) source = dt.mVideoMediaWrappers;
         else if (mediaType == TYPE_FOLDER_AUDIO) source = dt.mAudioMediaWrappers;
         else return null;
-        for (AMediaWrapper media : source) {
+        for (AbstractMediaWrapper media : source) {
             if (media.getTitle().contains(query) &&
                     isParentFolder(this.mMrl, media.getUri().getPath())) {
                 results.add(media);
             }
         }
         results = new ArrayList<>(Arrays.asList(dt.sortMedia(results, sort, desc)));
-        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AMediaWrapper[0]);
+        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AbstractMediaWrapper[0]);
     }
 
     public int searchTracksCount(String query, int mediaType) {
         int count = 0;
-        ArrayList<AMediaWrapper> source;
+        ArrayList<AbstractMediaWrapper> source;
         if (mediaType == TYPE_FOLDER_VIDEO) source = dt.mVideoMediaWrappers;
         else if (mediaType == TYPE_FOLDER_AUDIO) source = dt.mAudioMediaWrappers;
         else return 0;
-        for (AMediaWrapper media : source) {
+        for (AbstractMediaWrapper media : source) {
             if (media.getTitle().contains(query) &&
                     isParentFolder(this.mMrl, media.getUri().getPath())) count++;
         }

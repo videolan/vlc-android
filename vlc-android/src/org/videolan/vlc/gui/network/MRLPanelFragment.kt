@@ -44,7 +44,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
@@ -117,7 +117,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.dataset.observe(this, Observer { adapter.setList(it as List<AMediaWrapper>) })
+        viewModel.dataset.observe(this, Observer { adapter.setList(it as List<AbstractMediaWrapper>) })
     }
 
     override fun onStart() {
@@ -138,7 +138,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     private fun processUri(): Boolean {
         if (!TextUtils.isEmpty(viewModel.observableSearchText.get())) {
-            val mw = MLServiceLocator.getAMediaWrapper(Uri.parse(viewModel.observableSearchText.get()))
+            val mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(viewModel.observableSearchText.get()))
             playMedia(mw)
             viewModel.observableSearchText.set("")
             return true
@@ -146,8 +146,8 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         return false
     }
 
-    private fun playMedia(mw: AMediaWrapper) {
-        mw.type = AMediaWrapper.TYPE_STREAM
+    private fun playMedia(mw: AbstractMediaWrapper) {
+        mw.type = AbstractMediaWrapper.TYPE_STREAM
         MediaUtils.openMedia(activity, mw)
         viewModel.refresh()
         activity?.invalidateOptionsMenu()

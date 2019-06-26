@@ -18,7 +18,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.util.Locale;
 
-public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelable {
+public abstract class AbstractMediaWrapper extends MediaLibraryItem implements Parcelable {
     public final static int TYPE_ALL = -1;
     public final static int TYPE_VIDEO = 0;
     public final static int TYPE_AUDIO = 1;
@@ -110,14 +110,14 @@ public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelab
     public abstract void setThumbnail(String mrl);
 
     /**
-     * Create a new AMediaWrapper
+     * Create a new AbstractMediaWrapper
      *
      * @param mrl Should not be null.
      */
-    public AMediaWrapper(long id, String mrl, long time, long length, int type, String title,
-                        String filename, String artist, String genre, String album, String albumArtist,
-                        int width, int height, String artworkURL, int audio, int spu, int trackNumber,
-                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated) {
+    public AbstractMediaWrapper(long id, String mrl, long time, long length, int type, String title,
+                                String filename, String artist, String genre, String album, String albumArtist,
+                                int width, int height, String artworkURL, int audio, int spu, int trackNumber,
+                                int discNumber, long lastModified, long seen, boolean isThumbnailGenerated) {
         super();
         if (TextUtils.isEmpty(mrl)) throw new IllegalArgumentException("uri was empty");
 
@@ -161,11 +161,11 @@ public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelab
     }
 
     /**
-     * Create a new AMediaWrapper
+     * Create a new AbstractMediaWrapper
      *
      * @param uri Should not be null.
      */
-    public AMediaWrapper(Uri uri) {
+    public AbstractMediaWrapper(Uri uri) {
         super();
         if (uri == null) throw new NullPointerException("uri was null");
 
@@ -175,11 +175,11 @@ public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelab
     }
 
     /**
-     * Create a new AMediaWrapper
+     * Create a new AbstractMediaWrapper
      *
      * @param media should be parsed and not NULL
      */
-    public AMediaWrapper(Media media) {
+    public AbstractMediaWrapper(Media media) {
         super();
         if (media == null)
             throw new NullPointerException("media was null");
@@ -193,10 +193,10 @@ public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelab
         if (this == obj) return true;
         if (!(obj instanceof MediaLibraryItem) || ((MediaLibraryItem) obj).getItemType() != TYPE_MEDIA)
             return false;
-        return equals((AMediaWrapper) obj);
+        return equals((AbstractMediaWrapper) obj);
     }
 
-    public boolean equals(AMediaWrapper obj) {
+    public boolean equals(AbstractMediaWrapper obj) {
         long otherId = obj.getId();
         if (otherId != 0L && getId() != 0L && otherId == getId()) return true;
         final Uri otherUri = obj.getUri();
@@ -298,17 +298,17 @@ public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelab
         mSlaves = slaves;
     }
 
-    public AMediaWrapper(Uri uri, long time, long length, int type,
-                        Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-                        int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
+    public AbstractMediaWrapper(Uri uri, long time, long length, int type,
+                                Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
+                                int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
         mUri = uri;
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
                 width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, null);
     }
 
     @Override
-    public AMediaWrapper[] getTracks() {
-        return new AMediaWrapper[]{this};
+    public AbstractMediaWrapper[] getTracks() {
+        return new AbstractMediaWrapper[]{this};
     }
 
     @Override
@@ -636,7 +636,7 @@ public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelab
         return 0;
     }
 
-    public AMediaWrapper(Parcel in) {
+    public AbstractMediaWrapper(Parcel in) {
         super(in);
         mUri = in.readParcelable(Uri.class.getClassLoader());
         init(in.readLong(),
@@ -693,15 +693,15 @@ public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelab
             dest.writeTypedArray(null, flags);
     }
 
-    public static final Parcelable.Creator<AMediaWrapper> CREATOR = new Parcelable.Creator<AMediaWrapper>() {
+    public static final Parcelable.Creator<AbstractMediaWrapper> CREATOR = new Parcelable.Creator<AbstractMediaWrapper>() {
         @Override
-        public AMediaWrapper createFromParcel(Parcel in) {
-            return MLServiceLocator.getAMediaWrapper(in);
+        public AbstractMediaWrapper createFromParcel(Parcel in) {
+            return MLServiceLocator.getAbstractMediaWrapper(in);
         }
 
         @Override
-        public AMediaWrapper[] newArray(int size) {
-            return new AMediaWrapper[size];
+        public AbstractMediaWrapper[] newArray(int size) {
+            return new AbstractMediaWrapper[size];
         }
     };
 

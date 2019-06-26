@@ -46,8 +46,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -112,7 +112,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         calculateNbColumns()
 
         title.text = viewModel.currentItem?.let {
-            if (it is AMediaWrapper && it.uri.path == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) getString(R.string.internal_memory)
+            if (it is AbstractMediaWrapper && it.uri.path == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) getString(R.string.internal_memory)
             else it.title
         } ?: getTitle()
 
@@ -213,7 +213,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
     override fun refresh() = (viewModel as RefreshModel).refresh()
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (item is AMediaWrapper) {
+        if (item is AbstractMediaWrapper) {
             TvUtil.showMediaDetail(requireActivity(), item)
         }
         return true
@@ -255,35 +255,35 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         animationDelegate.collapseExtendedFAB()
         when (item.itemId) {
             R.id.ml_menu_sortby_name -> {
-                sortBy(AMedialibrary.SORT_ALPHA)
+                sortBy(AbstractMedialibrary.SORT_ALPHA)
                 return true
             }
             R.id.ml_menu_sortby_filename -> {
-                sortBy(AMedialibrary.SORT_FILENAME)
+                sortBy(AbstractMedialibrary.SORT_FILENAME)
                 return true
             }
             R.id.ml_menu_sortby_length -> {
-                sortBy(AMedialibrary.SORT_DURATION)
+                sortBy(AbstractMedialibrary.SORT_DURATION)
                 return true
             }
             R.id.ml_menu_sortby_date -> {
-                sortBy(AMedialibrary.SORT_RELEASEDATE)
+                sortBy(AbstractMedialibrary.SORT_RELEASEDATE)
                 return true
             }
             R.id.ml_menu_sortby_last_modified -> {
-                sortBy(AMedialibrary.SORT_LASTMODIFICATIONDATE)
+                sortBy(AbstractMedialibrary.SORT_LASTMODIFICATIONDATE)
                 return true
             }
             R.id.ml_menu_sortby_artist_name -> {
-                sortBy(AMedialibrary.SORT_ARTIST)
+                sortBy(AbstractMedialibrary.SORT_ARTIST)
                 return true
             }
             R.id.ml_menu_sortby_album_name -> {
-                sortBy(AMedialibrary.SORT_ALBUM)
+                sortBy(AbstractMedialibrary.SORT_ALBUM)
                 return true
             }
             R.id.ml_menu_sortby_number -> {
-                sortBy(AMedialibrary.SORT_FILESIZE)
+                sortBy(AbstractMedialibrary.SORT_FILESIZE)
                 return super.onOptionsItemSelected(item)
             }
             else -> return super.onOptionsItemSelected(item)

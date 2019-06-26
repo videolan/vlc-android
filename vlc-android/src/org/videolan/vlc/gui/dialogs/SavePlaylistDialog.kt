@@ -36,10 +36,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputLayout
-import org.videolan.medialibrary.interfaces.AMedialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
-import org.videolan.medialibrary.interfaces.media.APlaylist
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -57,9 +57,9 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var mEmptyView: TextView
     private lateinit var mSaveButton: Button
     private lateinit var adapter: SimpleAdapter
-    private lateinit var mTracks: Array<AMediaWrapper>
-    private lateinit var mNewTrack: Array<AMediaWrapper>
-    private lateinit var mMedialibrary: AMedialibrary
+    private lateinit var mTracks: Array<AbstractMediaWrapper>
+    private lateinit var mNewTrack: Array<AbstractMediaWrapper>
+    private lateinit var mMedialibrary: AbstractMedialibrary
     private var mPlaylistId: Long = 0
 
     override fun initialFocusedView(): View = mListView
@@ -70,13 +70,13 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         adapter = SimpleAdapter(this)
         mTracks = try {
             @Suppress("UNCHECKED_CAST")
-            arguments!!.getParcelableArray(KEY_TRACKS) as Array<AMediaWrapper>
+            arguments!!.getParcelableArray(KEY_TRACKS) as Array<AbstractMediaWrapper>
         } catch (e: Exception) {
             emptyArray()
         }
         mNewTrack = try {
             @Suppress("UNCHECKED_CAST")
-            arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<AMediaWrapper>
+            arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<AbstractMediaWrapper>
         } catch (e: Exception) {
             emptyArray()
         }
@@ -123,9 +123,9 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         runIO(Runnable {
             val name = mEditText!!.text.toString().trim { it <= ' ' }
             val addTracks = !Tools.isArrayEmpty(mNewTrack)
-            var playlist: APlaylist? = mMedialibrary.getPlaylist(mPlaylistId)
+            var playlist: AbstractPlaylist? = mMedialibrary.getPlaylist(mPlaylistId)
             val exists = playlist != null
-            val tracks: Array<AMediaWrapper>?
+            val tracks: Array<AbstractMediaWrapper>?
             if (!exists) playlist = mMedialibrary.createPlaylist(name)
             if (playlist == null) return@Runnable
             tracks = if (addTracks) {

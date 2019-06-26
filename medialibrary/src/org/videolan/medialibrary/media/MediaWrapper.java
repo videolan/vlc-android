@@ -27,17 +27,15 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.text.TextUtils;
 
-import androidx.annotation.Nullable;
-
 import org.videolan.libvlc.Media;
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.AMedialibrary;
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 
 import java.util.Locale;
 
 @SuppressWarnings("JniMissingFunction")
-public class MediaWrapper extends AMediaWrapper {
+public class MediaWrapper extends AbstractMediaWrapper {
     public final static String TAG = "VLC/MediaWrapper";
 
     public MediaWrapper(long id, String mrl, long time, long length, int type, String title,
@@ -63,13 +61,13 @@ public class MediaWrapper extends AMediaWrapper {
     public MediaWrapper(Parcel in) { super(in); }
 
     public void rename(String name) {
-        final AMedialibrary ml = AMedialibrary.getInstance();
+        final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         if (mId != 0 && ml.isInitiated()) nativeSetMediaTitle(ml, mId, name);
     }
 
     public void removeFromHistory() {
         if (mId != 0L) {
-            final AMedialibrary ml = AMedialibrary.getInstance();
+            final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
             if (ml.isInitiated()) nativeRemoveFromHistory(ml, mId);
         }
     }
@@ -220,24 +218,24 @@ public class MediaWrapper extends AMediaWrapper {
     }
 
     public long getMetaLong(int metaDataType) {
-        AMedialibrary ml = AMedialibrary.getInstance();
+        AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         return mId == 0 || !ml.isInitiated() ? 0L : nativeGetMediaLongMetadata(ml, mId, metaDataType);
     }
 
     public String getMetaString(int metaDataType) {
-        AMedialibrary ml = AMedialibrary.getInstance();
+        AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         return mId == 0 || !ml.isInitiated() ? null : nativeGetMediaStringMetadata(ml, mId, metaDataType);
     }
 
     public boolean setLongMeta(int metaDataType, long metadataValue) {
-        AMedialibrary ml = AMedialibrary.getInstance();
+        AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         if (mId != 0 && ml.isInitiated())
             nativeSetMediaLongMetadata(ml, mId, metaDataType, metadataValue);
         return mId != 0;
     }
 
     public boolean setStringMeta(int metaDataType, String metadataValue) {
-        AMedialibrary ml = AMedialibrary.getInstance();
+        AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         if (mId != 0 && ml.isInitiated())
             nativeSetMediaStringMetadata(ml, mId, metaDataType, metadataValue);
         return mId != 0;
@@ -245,15 +243,15 @@ public class MediaWrapper extends AMediaWrapper {
 
     public void setThumbnail(String mrl) {
         mArtworkURL = mrl;
-        final AMedialibrary ml = AMedialibrary.getInstance();
+        final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         if (mId != 0 && ml.isInitiated()) nativeSetMediaThumbnail(ml, mId, Tools.encodeVLCMrl(mrl));
     }
 
-    private native long nativeGetMediaLongMetadata(AMedialibrary ml, long id, int metaDataType);
-    private native String nativeGetMediaStringMetadata(AMedialibrary ml, long id, int metaDataType);
-    private native void nativeSetMediaStringMetadata(AMedialibrary ml, long id, int metaDataType, String metadataValue);
-    private native void nativeSetMediaLongMetadata(AMedialibrary ml, long id, int metaDataType, long metadataValue);
-    private native void nativeSetMediaThumbnail(AMedialibrary ml, long id, String mrl);
-    private native void nativeSetMediaTitle(AMedialibrary ml, long id, String name);
-    private native void nativeRemoveFromHistory(AMedialibrary ml, long id);
+    private native long nativeGetMediaLongMetadata(AbstractMedialibrary ml, long id, int metaDataType);
+    private native String nativeGetMediaStringMetadata(AbstractMedialibrary ml, long id, int metaDataType);
+    private native void nativeSetMediaStringMetadata(AbstractMedialibrary ml, long id, int metaDataType, String metadataValue);
+    private native void nativeSetMediaLongMetadata(AbstractMedialibrary ml, long id, int metaDataType, long metadataValue);
+    private native void nativeSetMediaThumbnail(AbstractMedialibrary ml, long id, String mrl);
+    private native void nativeSetMediaTitle(AbstractMedialibrary ml, long id, String name);
+    private native void nativeRemoveFromHistory(AbstractMedialibrary ml, long id);
 }

@@ -13,10 +13,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.AMedialibrary.THUMBS_FOLDER_NAME
-import org.videolan.medialibrary.interfaces.media.AFolder
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary.THUMBS_FOLDER_NAME
+import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
@@ -41,22 +41,21 @@ object ThumbnailsProvider {
     private val lock = Any()
 
     @WorkerThread
-    fun getFolderThumbnail(folder: AFolder, width: Int): Bitmap? {
-        val media = listOf(*folder.media(AFolder.TYPE_FOLDER_VIDEO, AMedialibrary.SORT_DEFAULT, true, 4, 0))
+    fun getFolderThumbnail(folder: AbstractFolder, width: Int): Bitmap? {
+        val media = listOf(*folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, AbstractMedialibrary.SORT_DEFAULT, true, 4, 0))
         return getComposedImage("folder:" + folder.title, media, width)
     }
 
     @WorkerThread
-    fun getMediaThumbnail(item: AMediaWrapper, width: Int): Bitmap? {
-        if (item.type == AMediaWrapper.TYPE_GROUP) return getComposedImage("group:" + item.title, (item as MediaGroup).all, width)
-        return if (item.type == AMediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.artworkMrl))
+    fun getMediaThumbnail(item: AbstractMediaWrapper, width: Int): Bitmap? {
+        return if (item.type == AbstractMediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.artworkMrl))
             getVideoThumbnail(item, width)
         else
             readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
 
     fun getMediaCacheKey(isMedia: Boolean, item: MediaLibraryItem): String? {
-        if (isMedia && (item as AMediaWrapper).type == AMediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) {
+        if (isMedia && (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) {
             if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + THUMBS_FOLDER_NAME
@@ -66,7 +65,7 @@ object ThumbnailsProvider {
     }
 
     @WorkerThread
-    fun getVideoThumbnail(media: AMediaWrapper, width: Int): Bitmap? {
+    fun getVideoThumbnail(media: AbstractMediaWrapper, width: Int): Bitmap? {
         val filePath = media.uri.path ?: return null
         if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
         val hasCache = appDir?.exists() == true
@@ -86,12 +85,12 @@ object ThumbnailsProvider {
                 media.artworkURL = thumbPath
             }
         } else if (media.id != 0L) {
-            AMedialibrary.getInstance().requestThumbnail(media.id)
+            AbstractMedialibrary.getInstance().requestThumbnail(media.id)
         }
         return bitmap
     }
 
-    suspend fun getPlaylistImage(key: String, mediaList: List<AMediaWrapper>, width: Int): Bitmap? {
+    suspend fun getPlaylistImage(key: String, mediaList: List<AbstractMediaWrapper>, width: Int): Bitmap? {
         var composedImage = BitmapCache.getBitmapFromMemCache(key)
         if (composedImage == null) {
             composedImage = composePlaylistImage(mediaList, width)
@@ -105,7 +104,7 @@ object ThumbnailsProvider {
      * @param mediaList The track list of the playlist
      * @return a Bitmap object
      */
-    private suspend fun composePlaylistImage(mediaList: List<AMediaWrapper>, width: Int): Bitmap? {
+    private suspend fun composePlaylistImage(mediaList: List<AbstractMediaWrapper>, width: Int): Bitmap? {
         if (mediaList.isEmpty()) {
             return null
         }
@@ -117,7 +116,7 @@ object ThumbnailsProvider {
             return obtainBitmap(mediaList[0], width)
         }
 
-        val artworks = ArrayList<AMediaWrapper>()
+        val artworks = ArrayList<AbstractMediaWrapper>()
         for (mediaWrapper in mediaList) {
 
             val artworkAlreadyHere = artworks.any { it.artworkURL == mediaWrapper.artworkURL }
@@ -169,15 +168,15 @@ object ThumbnailsProvider {
 
     suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(Dispatchers.IO) {
         when (item) {
-            is AMediaWrapper -> getMediaThumbnail(item, width)
-            is AFolder -> getFolderThumbnail(item, width)
+            is AbstractMediaWrapper -> getMediaThumbnail(item, width)
+            is AbstractFolder -> getFolderThumbnail(item, width)
             else -> readCoverBitmap(Uri.decode(item.artworkMrl), width)
         }
     }
 
 
     @WorkerThread
-    fun getComposedImage(key: String, mediaList: List<AMediaWrapper>, width: Int): Bitmap? {
+    fun getComposedImage(key: String, mediaList: List<AbstractMediaWrapper>, width: Int): Bitmap? {
         var composedImage = BitmapCache.getBitmapFromMemCache(key)
         if (composedImage == null) {
             composedImage = composeImage(mediaList, width)
@@ -191,7 +190,7 @@ object ThumbnailsProvider {
      * @param mediaList The media list from which will extract thumbnails
      * @return a Bitmap object
      */
-    private fun composeImage(mediaList: List<AMediaWrapper>, imageWidth: Int): Bitmap? {
+    private fun composeImage(mediaList: List<AbstractMediaWrapper>, imageWidth: Int): Bitmap? {
         val sourcesImages = arrayOfNulls<Bitmap>(min(MAX_IMAGES, mediaList.size))
         var count = 0
         var minWidth = Integer.MAX_VALUE

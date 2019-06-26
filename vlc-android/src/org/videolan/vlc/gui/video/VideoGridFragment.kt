@@ -38,9 +38,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.interfaces.media.AFolder
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
@@ -70,10 +70,10 @@ private const val UNSET_REFRESHING = 16
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<AMediaWrapper>>, CtxActionReceiver {
+class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<AbstractMediaWrapper>>, CtxActionReceiver {
 
     private lateinit var videoListAdapter: VideoListAdapter
-    private lateinit var multiSelectHelper: MultiSelectHelper<AMediaWrapper>
+    private lateinit var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper>
     private lateinit var binding: VideoGridBinding
     private var gridItemDecoration: RecyclerView.ItemDecoration? = null
 
@@ -105,7 +105,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(this, seenMarkVisible)
             multiSelectHelper = videoListAdapter.multiSelectHelper
-            val folder = if (savedInstanceState != null ) savedInstanceState.getParcelable<AFolder>(KEY_FOLDER)
+            val folder = if (savedInstanceState != null ) savedInstanceState.getParcelable<AbstractFolder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
             viewModel = getViewModel(folder)
             viewModel.provider.pagedList.observe(this, this)
@@ -178,8 +178,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         videoListAdapter.release()
     }
 
-    override fun onChanged(list: PagedList<AMediaWrapper>?) {
-        videoListAdapter.showFilename(viewModel.sort == AMedialibrary.SORT_FILENAME)
+    override fun onChanged(list: PagedList<AbstractMediaWrapper>?) {
+        videoListAdapter.showFilename(viewModel.sort == AbstractMedialibrary.SORT_FILENAME)
         if (list != null) videoListAdapter.submitList(list)
     }
 
@@ -210,14 +210,14 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
 
-    private fun playVideo(media: AMediaWrapper, fromStart: Boolean) {
-        media.removeFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
-        if (fromStart) media.addFlags(AMediaWrapper.MEDIA_FROM_START)
+    private fun playVideo(media: AbstractMediaWrapper, fromStart: Boolean) {
+        media.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+        if (fromStart) media.addFlags(AbstractMediaWrapper.MEDIA_FROM_START)
         MediaUtils.openMedia(requireContext(), media)
     }
 
-    private fun playAudio(media: AMediaWrapper) {
-        media.addFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
+    private fun playAudio(media: AbstractMediaWrapper) {
+        media.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
         MediaUtils.openMedia(activity, media)
     }
 
@@ -270,7 +270,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-        val list = ArrayList<AMediaWrapper>()
+        val list = ArrayList<AbstractMediaWrapper>()
         for (mw in multiSelectHelper.getSelection()) {
             list.add(mw)
         }
@@ -285,7 +285,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 //                break;
                 R.id.action_video_download_subtitles -> MediaUtils.getSubs(requireActivity(), list)
                 R.id.action_video_play_audio -> {
-                    for (media in list) media.addFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
+                    for (media in list) media.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
                     MediaUtils.openList(activity, list, 0)
                 }
                 R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
@@ -307,13 +307,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        val media = item as AMediaWrapper
+        val media = item as AbstractMediaWrapper
         if (actionMode != null) {
             multiSelectHelper.toggleSelection(position)
             invalidateActionMode()
             return
         }
-        media.removeFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
+        media.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
         val settings = Settings.getInstance(v.context)
         if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
             MediaUtils.playAll(requireContext(), viewModel.provider, position, false)
@@ -332,8 +332,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        val mw = item as AMediaWrapper
-        val group = mw.type == AMediaWrapper.TYPE_GROUP
+        val mw = item as AbstractMediaWrapper
+        val group = mw.type == AbstractMediaWrapper.TYPE_GROUP
         var flags = if (group) CTX_VIDEO_GOUP_FLAGS else CTX_VIDEO_FLAGS
         if (mw.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
         if (actionMode == null)

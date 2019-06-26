@@ -22,16 +22,16 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AGenre
+import org.videolan.medialibrary.interfaces.media.AbstractGenre
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class GenresProvider(context: Context, scope: SortableModel) : MedialibraryProvider<AGenre>(context, scope)  {
+class GenresProvider(context: Context, scope: SortableModel) : MedialibraryProvider<AbstractGenre>(context, scope)  {
 
-    override fun getAll() : Array<AGenre> = medialibrary.getGenres(sort, scope.desc)
+    override fun getAll() : Array<AbstractGenre> = medialibrary.getGenres(sort, scope.desc)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<AGenre> {
+    override fun getPage(loadSize: Int, startposition: Int) : Array<AbstractGenre> {
         val list = if (scope.filterQuery == null) medialibrary.getPagedGenres(sort, scope.desc, loadSize, startposition)
         else medialibrary.searchGenre(scope.filterQuery, sort, scope.desc, loadSize, startposition)
         return list.also { completeHeaders(it, startposition) }
