@@ -112,7 +112,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        savedInstanceState?.let { playerState = it.getInt("player_state") }
+        savedInstanceState?.let {
+            playerState = it.getInt("player_state")
+            wasPlaying = it.getBoolean("was_playing")
+        }
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
@@ -171,6 +174,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("player_state", playerState)
+        outState.putBoolean("was_playing", wasPlaying)
     }
 
     private val ctxReceiver: CtxActionReceiver = object : CtxActionReceiver {
@@ -212,10 +216,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         updateBackground()
     }
 
-    private var wasPlaying = false
+    private var wasPlaying = true
     private fun updatePlayPause() {
         val playing = playlistModel.playing
-        if (playing == wasPlaying) return
         val text = getString(if (playing) R.string.pause else R.string.play)
 
         val drawable = if (playing) playToPause else pauseToPlay
