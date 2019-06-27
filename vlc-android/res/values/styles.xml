@@ -201,6 +201,7 @@
         <item name="progress_indeterminate_tint">@color/orange500</item>
         <item name="progress_background">@color/grey700</item>
         <item name="ariane_text_color">@color/grey50</item>
+        <item name="player_icon_color">@color/white</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">
