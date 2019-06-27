@@ -235,23 +235,38 @@ public class MediaWrapper extends AbstractMediaWrapper {
     }
 
     public boolean setStringMeta(int metaDataType, String metadataValue) {
+        if (mId == 0L) return false;
         AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         if (mId != 0 && ml.isInitiated())
             nativeSetMediaStringMetadata(ml, mId, metaDataType, metadataValue);
-        return mId != 0;
+        return true;
     }
 
     public void setThumbnail(String mrl) {
+        if (mId == 0L) return;
         mArtworkURL = mrl;
         final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         if (mId != 0 && ml.isInitiated()) nativeSetMediaThumbnail(ml, mId, Tools.encodeVLCMrl(mrl));
+    }
+
+    public void requestThumbnail(int width, float position) {
+        if (mId == 0L) return;
+        final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+        if (ml.isInitiated()) nativeRequestThumbnail(ml, mId, AbstractMedialibrary.ThumbnailSizeType.Thumbnail.ordinal(), width, 0, position);
+    }
+
+    public void requestBanner(int width, float position) {
+        if (mId == 0L) return;
+        final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+        if (ml.isInitiated()) nativeRequestThumbnail(ml, mId, AbstractMedialibrary.ThumbnailSizeType.Banner.ordinal(), width, 0, position);
     }
 
     private native long nativeGetMediaLongMetadata(AbstractMedialibrary ml, long id, int metaDataType);
     private native String nativeGetMediaStringMetadata(AbstractMedialibrary ml, long id, int metaDataType);
     private native void nativeSetMediaStringMetadata(AbstractMedialibrary ml, long id, int metaDataType, String metadataValue);
     private native void nativeSetMediaLongMetadata(AbstractMedialibrary ml, long id, int metaDataType, long metadataValue);
-    private native void nativeSetMediaThumbnail(AbstractMedialibrary ml, long id, String mrl);
     private native void nativeSetMediaTitle(AbstractMedialibrary ml, long id, String name);
     private native void nativeRemoveFromHistory(AbstractMedialibrary ml, long id);
+    private native void nativeSetMediaThumbnail(AbstractMedialibrary ml, long id, String mrl);
+    private native void nativeRequestThumbnail(AbstractMedialibrary ml, long mediaId, int type, int width, int height, float position);
 }

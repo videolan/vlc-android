@@ -95,6 +95,13 @@ abstract public class AbstractMedialibrary {
         return sRunning;
     }
 
+    public enum ThumbnailSizeType {
+        /// A small sized thumbnail. Considered to be the default value before model 17
+        Thumbnail,
+        /// A banner type thumbnail. The exact size is application dependent.
+        Banner
+    }
+
     public boolean isStarted() {
         return isMedialibraryStarted;
     }
@@ -639,7 +646,6 @@ abstract public class AbstractMedialibrary {
     abstract public AbstractMediaWrapper addStream(String mrl, String title);
     abstract public AbstractFolder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset);
     abstract public int getFoldersCount(int type);
-    abstract public void requestThumbnail(long id);
     abstract public boolean increasePlayCount(long mediaId);
     abstract public SearchAggregate search(String query);
     abstract public AbstractMediaWrapper[] searchMedia(String query);

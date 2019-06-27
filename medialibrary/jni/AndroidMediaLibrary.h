@@ -105,7 +105,8 @@ public:
     bool playlistRemove(int64_t playlistId, unsigned int position);
     bool PlaylistDelete( int64_t playlistId );
 
-    void requestThumbnail( int64_t media_id );
+    void requestThumbnail( int64_t media_id, medialibrary::ThumbnailSizeType sizeType, uint32_t desiredWidth,
+                           uint32_t desiredHeight, float position );
 
     void onMediaAdded( std::vector<medialibrary::MediaPtr> media );
     void onMediaModified( std::vector<medialibrary::MediaPtr> media ) ;
@@ -138,7 +139,8 @@ public:
     void onEntryPointRemoved( const std::string& entryPoint, bool success );
     void onParsingStatsUpdated( uint32_t percent);
     void onBackgroundTasksIdleChanged( bool isIdle );
-    void onMediaThumbnailReady( medialibrary::MediaPtr media, bool success );
+    void onMediaThumbnailReady(medialibrary::MediaPtr media, medialibrary::ThumbnailSizeType sizeType,
+                               bool success );
 
 private:
     void jni_detach_thread(void *data);

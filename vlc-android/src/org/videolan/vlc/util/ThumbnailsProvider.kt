@@ -85,19 +85,15 @@ object ThumbnailsProvider {
                 media.artworkURL = thumbPath
             }
         } else if (media.id != 0L) {
-            AbstractMedialibrary.getInstance().requestThumbnail(media.id)
+            media.requestThumbnail(width, 0.4f)
         }
         return bitmap
     }
 
-    suspend fun getPlaylistImage(key: String, mediaList: List<AbstractMediaWrapper>, width: Int): Bitmap? {
-        var composedImage = BitmapCache.getBitmapFromMemCache(key)
-        if (composedImage == null) {
-            composedImage = composePlaylistImage(mediaList, width)
-            if (composedImage != null) BitmapCache.addBitmapToMemCache(key, composedImage)
-        }
-        return composedImage
-    }
+    suspend fun getPlaylistImage(key: String, mediaList: List<AbstractMediaWrapper>, width: Int) =
+            (BitmapCache.getBitmapFromMemCache(key) ?: composePlaylistImage(mediaList, width))?.also {
+                BitmapCache.addBitmapToMemCache(key, it)
+            }
 
     /**
      * Compose 1 image from tracks of a Playlist
@@ -105,9 +101,7 @@ object ThumbnailsProvider {
      * @return a Bitmap object
      */
     private suspend fun composePlaylistImage(mediaList: List<AbstractMediaWrapper>, width: Int): Bitmap? {
-        if (mediaList.isEmpty()) {
-            return null
-        }
+        if (mediaList.isEmpty()) return null
         val url = mediaList[0].artworkURL
         val isAllSameImage = !mediaList.any { it.artworkURL != url }
 

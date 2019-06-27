@@ -56,8 +56,14 @@ public class StubMediaWrapper extends AbstractMediaWrapper {
         return true;
     }
 
-    public void setThumbnail(String mrl) {
-        //TODO
+    public void setThumbnail(String mrl) {}
+
+    @Override
+    public void requestThumbnail(int width, float position) {}
+
+    @Override
+    public void requestBanner(int width, float position) {
+
     }
 
 }

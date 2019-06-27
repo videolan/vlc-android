@@ -26,6 +26,13 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.MutableLiveData;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.videolan.libvlc.LibVLC;
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
@@ -38,13 +45,9 @@ import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.io.File;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
-
-@SuppressWarnings("JniMissingFunction")
 public class Medialibrary extends AbstractMedialibrary {
     private static final String TAG = "VLC/JMedialibrary";
+
 
     public int init(Context context) {
         if (context == null) return ML_INIT_FAILED;
@@ -384,14 +387,9 @@ public class Medialibrary extends AbstractMedialibrary {
         return mIsInitiated ? nativeGetFolders(type, sort, desc, nbItems, offset) : new AbstractFolder[0];
     }
 
-    @NonNull
     @WorkerThread
     public int getFoldersCount(int type) {
         return mIsInitiated ? nativeGetFoldersCount(type) : 0;
-    }
-
-    public void requestThumbnail(long id) {
-        if (mIsInitiated) nativeRequestThumbnail(id);
     }
 
     public boolean increasePlayCount(long mediaId) {

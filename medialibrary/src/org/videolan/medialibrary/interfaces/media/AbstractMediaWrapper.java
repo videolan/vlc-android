@@ -14,6 +14,7 @@ import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.Tools;
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.util.Locale;
@@ -108,6 +109,8 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     public abstract boolean setLongMeta(int metaDataType, long metaDataValue);
     public abstract boolean setStringMeta(int metaDataType, String metaDataValue);
     public abstract void setThumbnail(String mrl);
+    public abstract void requestThumbnail(int width, float position);
+    public abstract void requestBanner(int width, float position);
 
     /**
      * Create a new AbstractMediaWrapper

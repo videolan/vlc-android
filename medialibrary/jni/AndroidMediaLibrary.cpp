@@ -505,10 +505,11 @@ medialibrary::Query<medialibrary::IFolder> AndroidMediaLibrary::subFolders(int64
 }
 
 void
-AndroidMediaLibrary::requestThumbnail( int64_t media_id )
+AndroidMediaLibrary::requestThumbnail( int64_t media_id, medialibrary::ThumbnailSizeType sizeType, uint32_t desiredWidth,
+                                       uint32_t desiredHeight, float position )
 {
     medialibrary::MediaPtr media = p_ml->media(media_id);
-    if (media != nullptr) p_ml->requestThumbnail(media);
+    if (media != nullptr) media->requestThumbnail(sizeType, desiredWidth, desiredHeight, position);
 }
 
 void
@@ -900,7 +901,7 @@ void AndroidMediaLibrary::onBackgroundTasksIdleChanged( bool isIdle )
     }
 }
 
-void AndroidMediaLibrary::onMediaThumbnailReady( medialibrary::MediaPtr media, bool success )
+void AndroidMediaLibrary::onMediaThumbnailReady( medialibrary::MediaPtr media, medialibrary::ThumbnailSizeType sizeType, bool success )
 {
     JNIEnv *env = getEnv();
     if (env != NULL && weak_thiz)

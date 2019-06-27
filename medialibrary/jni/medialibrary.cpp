@@ -949,10 +949,11 @@ playlistCreate(JNIEnv* env, jobject thiz, jstring name)
 }
 
 void
-requestThumbnail(JNIEnv* env, jobject thiz, jlong mediaId)
+requestThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong mediaId, medialibrary::ThumbnailSizeType sizeType, uint32_t desiredWidth,
+                 uint32_t desiredHeight, float position)
 {
-    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    aml->requestThumbnail(mediaId);
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    aml->requestThumbnail(mediaId, sizeType, desiredWidth, desiredHeight, position);
 }
 
 /*
@@ -1469,7 +1470,7 @@ setMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jst
     medialibrary::MediaPtr media = aml->media(id);
     if (media == nullptr) return;
     const char *char_mrl = env->GetStringUTFChars(mrl, JNI_FALSE);
-    media->setThumbnail(char_mrl);
+    media->setThumbnail(char_mrl, medialibrary::ThumbnailSizeType::Thumbnail);
     env->ReleaseStringUTFChars(mrl, char_mrl);
 }
 
@@ -1803,7 +1804,6 @@ static JNINativeMethod methods[] = {
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
     {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)playlistCreate },
-    {"nativeRequestThumbnail", "(J)V", (void*)requestThumbnail },
 };
 
 static JNINativeMethod media_methods[] = {
@@ -1814,6 +1814,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
     {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
     {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)V", (void*)removeMediaFromHistory },
+    {"nativeRequestThumbnail", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIIIF)V", (void*)requestThumbnail },
 };
 
 static JNINativeMethod album_methods[] = {

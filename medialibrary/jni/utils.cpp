@@ -68,7 +68,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     } catch(const medialibrary::fs::DeviceRemovedException&) {
         return nullptr;
     }
-    thumbnail = mediaPtr->thumbnailMrl().empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnailMrl().c_str());
+    thumbnail = mediaPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
     std::vector<medialibrary::VideoTrackPtr> videoTracks = mediaPtr->videoTracks()->all();
     bool hasVideoTracks = !videoTracks.empty();
     unsigned int width = hasVideoTracks ? videoTracks.at(0)->width() : 0;
@@ -85,7 +85,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
                           (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
                           title, filename, artist, genre, album,
                           albumArtist, width, height, thumbnail,
-                          audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(), seen, mediaPtr->isThumbnailGenerated());
+                          audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(), seen, mediaPtr->isThumbnailGenerated(medialibrary::ThumbnailSizeType::Thumbnail));
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)
@@ -109,7 +109,7 @@ jobject
 convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& albumPtr)
 {
     jstring title = env->NewStringUTF(albumPtr->title().c_str());
-    jstring thumbnailMrl = env->NewStringUTF(albumPtr->thumbnailMrl().c_str());
+    jstring thumbnailMrl = env->NewStringUTF(albumPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
     medialibrary::ArtistPtr artist = albumPtr->albumArtist();
     jlong albumArtistId = artist != nullptr ? albumPtr->albumArtist()->id() : 0;
     jstring artistName = artist != nullptr ? env->NewStringUTF(artist->name().c_str()) : NULL;
@@ -125,7 +125,7 @@ jobject
 convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& artistPtr)
 {
     jstring name = env->NewStringUTF(artistPtr->name().c_str());
-    jstring thumbnailMrl = env->NewStringUTF(artistPtr->thumbnailMrl().c_str());
+    jstring thumbnailMrl = env->NewStringUTF(artistPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
     jstring shortBio = env->NewStringUTF(artistPtr->shortBio().c_str());
     jstring musicBrainzId = env->NewStringUTF(artistPtr->musicBrainzId().c_str());
     jobject item = env->NewObject(fields->Artist.clazz, fields->Artist.initID,

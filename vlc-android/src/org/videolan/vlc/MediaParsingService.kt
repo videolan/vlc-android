@@ -132,10 +132,10 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             ACTION_CHECK_STORAGES -> if (settings.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_OFF) actions.offer(UpdateStorages) else exitCommand()
             else -> {
                 exitCommand()
-                return Service.START_NOT_STICKY
+                return START_NOT_STICKY
             }
         }
-        return Service.START_NOT_STICKY
+        return START_NOT_STICKY
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -330,6 +330,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     override fun onReloadCompleted(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onReloadCompleted $entryPoint")
         if (TextUtils.isEmpty(entryPoint)) --reload
+        if (reload <= 0) exitCommand()
     }
 
     private fun exitCommand() = launch {
