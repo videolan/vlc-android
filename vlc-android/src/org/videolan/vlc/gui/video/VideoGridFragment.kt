@@ -335,9 +335,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (actionMode != null) return false
         multiSelectHelper.toggleSelection(position, true)
-        startActionMode()
+        if (actionMode == null) startActionMode()
         return true
     }
 
