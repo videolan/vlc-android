@@ -10,6 +10,8 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Medialibrary.THUMBS_FOLDER_NAME
@@ -25,12 +27,14 @@ import org.videolan.vlc.media.MediaGroup
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
-import kotlin.collections.ArrayList
+import kotlin.math.min
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 object ThumbnailsProvider {
 
-    private val TAG = "VLC/ThumbnailsProvider"
+    @Suppress("unused")
+    private const val TAG = "VLC/ThumbnailsProvider"
 
     private var appDir: File? = null
     private var cacheDir: String? = null
@@ -39,13 +43,13 @@ object ThumbnailsProvider {
 
     @WorkerThread
     fun getFolderThumbnail(folder: Folder, width: Int): Bitmap? {
-        val media = Arrays.asList(*folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0))
+        val media = listOf(*folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0))
         return getComposedImage("folder:" + folder.title, media, width)
     }
 
     @WorkerThread
     fun getMediaThumbnail(item: MediaWrapper, width: Int): Bitmap? {
-        if (item.type == MediaWrapper.TYPE_GROUP) return ThumbnailsProvider.getComposedImage("group:" + item.title, (item as MediaGroup).all, width)
+        if (item.type == MediaWrapper.TYPE_GROUP) return getComposedImage("group:" + item.title, (item as MediaGroup).all, width)
         return if (item.type == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.artworkMrl))
             getVideoThumbnail(item, width)
         else
@@ -57,7 +61,7 @@ object ThumbnailsProvider {
             if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + THUMBS_FOLDER_NAME
-            return if (hasCache) StringBuilder(cacheDir!!).append('/').append(item.getTitle()).append(".jpg").toString() else null
+            return if (hasCache) StringBuilder(cacheDir!!).append('/').append(item.fileName).append(".jpg").toString() else null
         }
         return item.artworkMrl
     }
@@ -189,7 +193,7 @@ object ThumbnailsProvider {
      * @return a Bitmap object
      */
     private fun composeImage(mediaList: List<MediaWrapper>, imageWidth: Int): Bitmap? {
-        val sourcesImages = arrayOfNulls<Bitmap>(Math.min(MAX_IMAGES, mediaList.size))
+        val sourcesImages = arrayOfNulls<Bitmap>(min(MAX_IMAGES, mediaList.size))
         var count = 0
         var minWidth = Integer.MAX_VALUE
         var minHeight = Integer.MAX_VALUE
@@ -199,8 +203,8 @@ object ThumbnailsProvider {
                 val width = bm.width
                 val height = bm.height
                 sourcesImages[count++] = bm
-                minWidth = Math.min(minWidth, width)
-                minHeight = Math.min(minHeight, height)
+                minWidth = min(minWidth, width)
+                minHeight = min(minHeight, height)
                 if (count == MAX_IMAGES) break
             }
         }
@@ -252,7 +256,7 @@ object ThumbnailsProvider {
         return bmOverlay
     }
 
-    private fun saveOnDisk(bitmap: Bitmap, destPath: String?) {
+    private fun saveOnDisk(bitmap: Bitmap, destPath: String) {
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
         val byteArray = stream.toByteArray()
