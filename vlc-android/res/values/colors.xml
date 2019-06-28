@@ -56,10 +56,13 @@
 
     <color name="white_selection_transparent">#44ffffff</color>
 
-    <color name="tv_bg">#235f69</color>
-    <color name="tv_card_content">#0a6e96</color>
-    <color name="tv_card_content_dark">#085878</color>
-    <color name="tv_card_content_darker">#064159</color>
+    <color name="tv_bg">#376071</color>
+    <color name="tv_card_content">#376071</color>
+    <color name="tv_card_content_dark">#25424e</color>
+    <color name="tv_card_content_darker">#1c313a</color>
+
+    <color name="vlc_material_blue_grey_900">#ff263238</color>
+
     <!--test with onboarding colors-->
     <!--<color name="tv_bg">#1c313a</color>-->
     <!--<color name="tv_card_content">#396375</color>-->

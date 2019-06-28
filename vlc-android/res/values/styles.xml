@@ -248,7 +248,7 @@
     </style>
 
     <style name="VLCardViewInfoStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
-        <item name="android:background">@color/tv_card_content</item>
+        <item name="android:background">@color/tv_card_content_dark</item>
     </style>
 
     <style name="VLCGenericCardView" parent="Theme.Leanback">
