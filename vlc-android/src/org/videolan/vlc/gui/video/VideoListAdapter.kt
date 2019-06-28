@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
@@ -126,9 +127,7 @@ class VideoListAdapter internal constructor(
 
     override fun getItem(position: Int) = if (isPositionValid(position)) super.getItem(position) else null
 
-    private fun isPositionValid(position: Int): Boolean {
-        return position in 0..(itemCount - 1)
-    }
+    private fun isPositionValid(position: Int) =  position in 0 until itemCount
 
 //    operator fun contains(mw: AbstractMediaWrapper): Boolean {
 //        return getDataset().indexOf(mw) !== -1
@@ -223,6 +222,7 @@ class VideoListAdapter internal constructor(
             return oldItem === newItem || oldItem.type == newItem.type && oldItem.equals(newItem)
         }
 
+        @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: AbstractMediaWrapper, newItem: AbstractMediaWrapper): Boolean {
             return oldItem === newItem || (oldItem.displayTime == newItem.displayTime
                     && TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl)

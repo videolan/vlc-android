@@ -96,8 +96,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         }
     }
 
-    private val handler = VideoGridFragmentHandler(WeakReference(this))
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!::videoListAdapter.isInitialized) {
@@ -109,6 +107,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             else arguments?.getParcelable(KEY_FOLDER)
             viewModel = getViewModel(folder)
             viewModel.provider.pagedList.observe(this, this)
+            AbstractMedialibrary.lastThumb.observe(this, thumbObs)
         }
     }
 
@@ -175,7 +174,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     override fun onDestroy() {
         super.onDestroy()
         gridItemDecoration = null
-        videoListAdapter.release()
     }
 
     override fun onChanged(list: PagedList<AbstractMediaWrapper>?) {
@@ -375,6 +373,17 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             CTX_APPEND -> MediaUtils.appendMedia(activity, media)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+        }
+    }
+
+    private val handler = VideoGridFragmentHandler(WeakReference(this))
+
+    private val thumbObs = Observer<AbstractMediaWrapper> { media ->
+        if (!::videoListAdapter.isInitialized) return@Observer
+        val position = viewModel.provider.pagedList.value?.indexOf(media) ?: return@Observer
+        videoListAdapter.getItem(position)?.run {
+            artworkURL = media.artworkURL
+            videoListAdapter.notifyItemChanged(position)
         }
     }
 }
