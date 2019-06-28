@@ -22,6 +22,7 @@ package org.videolan.vlc.util
 
 import android.net.Uri
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.vlc.api.OpenSubtitle
 import org.videolan.vlc.api.QueryParameters
 import org.videolan.vlc.database.models.BrowserFav
@@ -86,7 +87,7 @@ object TestUtil {
     }
 
     fun createSubtitleSlave(mediaPath: String, uri: String): Slave {
-        return Slave(mediaPath, Media.Slave.Type.Subtitle, 2, uri)
+        return Slave(mediaPath, IMedia.Slave.Type.Subtitle, 2, uri)
     }
 
     fun createSubtitleSlavesForMedia(mediaName: String, count: Int): List<Slave> {

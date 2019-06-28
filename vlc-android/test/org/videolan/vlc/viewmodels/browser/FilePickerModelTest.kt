@@ -12,7 +12,8 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.Media
-import org.videolan.libvlc.test.TestMedia
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.stubs.StubMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.providers.BrowserProvider
@@ -64,7 +65,7 @@ class FilePickerModelTest : BaseTest() {
     }
 
     private fun addFileToProvider(i: Int, file: File) {
-        val t = TestMedia(mockedLibVlc, "file://${file.path}").apply { if (!file.name.endsWith(".mp4")) type = Media.Type.Directory }
+        val t = StubMedia(mockedLibVlc, "file://${file.path}").apply { if (!file.name.endsWith(".mp4")) type = IMedia.Type.Directory }
         browserProvider.onMediaAdded(i, t)
     }
 

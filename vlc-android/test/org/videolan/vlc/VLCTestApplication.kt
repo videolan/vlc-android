@@ -4,10 +4,10 @@ import android.app.Application
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.FactoryManager
-import org.videolan.libvlc.ILibVLCFactory
-import org.videolan.libvlc.IMediaFactory
-import org.videolan.libvlc.test.TestLibVLCFactory
-import org.videolan.libvlc.test.TestMediaFactory
+import org.videolan.libvlc.interfaces.ILibVLCFactory
+import org.videolan.libvlc.interfaces.IMediaFactory
+import org.videolan.libvlc.stubs.StubLibVLCFactory
+import org.videolan.libvlc.stubs.StubMediaFactory
 import org.videolan.medialibrary.MLServiceLocator
 
 @ExperimentalCoroutinesApi
@@ -15,7 +15,7 @@ import org.videolan.medialibrary.MLServiceLocator
 class VLCTestApplication : Application() {
     init {
         MLServiceLocator.setLocatorMode(MLServiceLocator.LocatorMode.TESTS)
-        FactoryManager.registerFactory(IMediaFactory.factoryId, TestMediaFactory())
-        FactoryManager.registerFactory(ILibVLCFactory.factoryId, TestLibVLCFactory())
+        FactoryManager.registerFactory(IMediaFactory.factoryId, StubMediaFactory())
+        FactoryManager.registerFactory(ILibVLCFactory.factoryId, StubLibVLCFactory())
     }
 }

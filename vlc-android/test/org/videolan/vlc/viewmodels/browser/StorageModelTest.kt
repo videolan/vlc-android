@@ -14,8 +14,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.videolan.libvlc.LibVLC
-import org.videolan.libvlc.Media
-import org.videolan.libvlc.test.TestMedia
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.stubs.StubMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.BaseTest
@@ -92,7 +92,7 @@ class StorageModelTest : BaseTest() {
     private fun addFileToProvider(i: Int, file: File) {
         if (file.name.startsWith(".") && !showHiddenFiles)
             return
-        val t = TestMedia(mockedLibVlc, "file://${file.path}").apply { if (!file.name.endsWith(".mp4")) type = Media.Type.Directory }
+        val t = StubMedia(mockedLibVlc, "file://${file.path}").apply { if (!file.name.endsWith(".mp4")) type = IMedia.Type.Directory }
         browserProvider.onMediaAdded(i, t)
     }
 
