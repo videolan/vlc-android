@@ -38,7 +38,7 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -56,8 +56,10 @@ private const val NOTIFICATION_DELAY = 1000L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
+class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, LifecycleOwner {
+
     override val coroutineContext = Dispatchers.Main.immediate
+    private val dispatcher = ServiceLifecycleDispatcher(this)
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var localBroadcastManager: LocalBroadcastManager
 
@@ -89,6 +91,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
     @SuppressLint("WakelockTimeout")
     override fun onCreate() {
+        dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
         localBroadcastManager = LocalBroadcastManager.getInstance(this)
         medialibrary = AbstractMedialibrary.getInstance()
@@ -97,15 +100,20 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         filter.addAction(ACTION_PAUSE_SCAN)
         filter.addAction(ACTION_RESUME_SCAN)
         registerReceiver(receiver, filter)
-        localBroadcastManager.registerReceiver(receiver, IntentFilter(AbstractMedialibrary.ACTION_IDLE))
         val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsigService")
         wakeLock.acquire()
 
         if (lastNotificationTime == 5L) stopSelf()
+        AbstractMedialibrary.getState().observe(this, Observer<Boolean> { running ->
+            if (!running && !scanPaused) {
+                exitCommand()
+            }
+        })
     }
 
     override fun onBind(intent: Intent): IBinder? {
+        dispatcher.onServicePreSuperOnBind()
         return binder
     }
 
@@ -119,6 +127,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
         if (AndroidUtil.isOOrLater) forceForeground()
         else if (lastNotificationTime <= 0L) lastNotificationTime = System.currentTimeMillis()
+        dispatcher.onServicePreSuperOnStart()
         when (intent.action) {
             ACTION_INIT -> {
                 val upgrade = intent.getBooleanExtra(EXTRA_UPGRADE, false)
@@ -341,6 +350,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     }
 
     override fun onDestroy() {
+        dispatcher.onServicePreSuperOnDestroy()
         notificationActor.offer(Hide)
         medialibrary.removeDeviceDiscoveryCb(this)
         unregisterReceiver(receiver)
@@ -403,12 +413,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                     medialibrary.resumeBackgroundOperations()
                     scanPaused = false
                 }
-                AbstractMedialibrary.ACTION_IDLE -> if (intent.getBooleanExtra(AbstractMedialibrary.STATE_IDLE, true)) {
-                    if (!scanPaused) {
-                        exitCommand()
-                        return
-                    }
-                }
             }
         }
     }
@@ -420,6 +424,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         }
         return false
     }
+
+    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
 
     companion object {
         val progress = MutableLiveData<ScanProgress>()

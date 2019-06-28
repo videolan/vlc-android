@@ -29,9 +29,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.MutableLiveData;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;

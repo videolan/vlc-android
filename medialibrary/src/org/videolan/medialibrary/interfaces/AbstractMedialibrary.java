@@ -61,9 +61,6 @@ abstract public class AbstractMedialibrary {
     public static final int ML_INIT_FAILED = 2;
     public static final int ML_INIT_DB_RESET = 3;
 
-    public static final String ACTION_IDLE = "action_idle";
-    public static final String STATE_IDLE = "state_idle";
-
     public static final AbstractMediaWrapper[] EMPTY_COLLECTION = {};
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
     public static final String THUMBS_FOLDER_NAME = "/thumbs";
@@ -384,7 +381,6 @@ abstract public class AbstractMedialibrary {
     public void onBackgroundTasksIdleChanged(boolean isIdle) {
         mIsWorking = !isIdle;
         sRunning.postValue(mIsWorking);
-        LocalBroadcastManager.getInstance(sContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
         if (isIdle) {
             synchronized (onMedialibraryReadyListeners) {
                 for (OnMedialibraryReadyListener listener : onMedialibraryReadyListeners) listener.onMedialibraryIdle();

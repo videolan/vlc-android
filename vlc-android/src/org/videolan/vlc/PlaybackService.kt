@@ -41,11 +41,8 @@ import androidx.annotation.MainThread
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import kotlinx.coroutines.*
@@ -1241,7 +1238,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     @MainThread
     fun setVideoAspectRatio(aspect: String?) = playlistManager.player.setVideoAspectRatio(aspect)
 
-    override fun getLifecycle() = dispatcher.lifecycle!!
+    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
 
     /*
      * Browsing
