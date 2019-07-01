@@ -410,7 +410,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
 
             init {
                 itemView.setOnClickListener { onClick(dataset[layoutPosition]) }
-                itemView.setOnFocusChangeListener { _, hasFocus ->
+                itemView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                     binding.optionTitle.setTextColor(if (hasFocus) ContextCompat.getColor(itemView.context, R.color.orange500transparent) else textColor)
                 }
             }

@@ -100,7 +100,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         editText!!.setOnEditorActionListener(this)
         listView.layoutManager = LinearLayoutManager(view.context)
         listView.adapter = adapter
-        adapter.submitList(Arrays.asList<MediaLibraryItem>(*medialibrary.playlists))
+        adapter.submitList(listOf<MediaLibraryItem>(*medialibrary.playlists))
+        if (!Tools.isArrayEmpty(newTrack)) saveButton.setText(R.string.save)
         updateEmptyView()
 
     }
@@ -151,6 +152,13 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 } else
                     ids.add(id)
             }
+
+            if (!addTracks) {
+                for (i in 0 until playlist.tracks.size) {
+                    playlist.remove(0)
+                }
+            }
+
             playlist.append(ids)
         })
         dismiss()
