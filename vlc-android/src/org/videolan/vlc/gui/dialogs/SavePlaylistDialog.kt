@@ -36,8 +36,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputLayout
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -52,29 +52,29 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     override fun needToManageOrientation(): Boolean = false
 
-    private var mEditText: EditText? = null
-    private lateinit var mListView: RecyclerView
-    private lateinit var mEmptyView: TextView
-    private lateinit var mSaveButton: Button
+    private var editText: EditText? = null
+    private lateinit var listView: RecyclerView
+    private lateinit var emptyView: TextView
+    private lateinit var saveButton: Button
     private lateinit var adapter: SimpleAdapter
-    private lateinit var mTracks: Array<AbstractMediaWrapper>
-    private lateinit var mNewTrack: Array<AbstractMediaWrapper>
-    private lateinit var mMedialibrary: AbstractMedialibrary
-    private var mPlaylistId: Long = 0
+    private lateinit var tracks: Array<AbstractMediaWrapper>
+    private lateinit var newTrack: Array<AbstractMediaWrapper>
+    private lateinit var medialibrary: AbstractMedialibrary
+    private var playlistId: Long = 0
 
-    override fun initialFocusedView(): View = mListView
+    override fun initialFocusedView(): View = listView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mMedialibrary = VLCApplication.mlInstance
+        medialibrary = VLCApplication.mlInstance
         adapter = SimpleAdapter(this)
-        mTracks = try {
+        tracks = try {
             @Suppress("UNCHECKED_CAST")
             arguments!!.getParcelableArray(KEY_TRACKS) as Array<AbstractMediaWrapper>
         } catch (e: Exception) {
             emptyArray()
         }
-        mNewTrack = try {
+        newTrack = try {
             @Suppress("UNCHECKED_CAST")
             arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<AbstractMediaWrapper>
         } catch (e: Exception) {
@@ -90,23 +90,23 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mListView = view.findViewById(android.R.id.list)
-        mSaveButton = view.findViewById(R.id.dialog_playlist_save)
-        mEmptyView = view.findViewById(android.R.id.empty)
+        listView = view.findViewById(android.R.id.list)
+        saveButton = view.findViewById(R.id.dialog_playlist_save)
+        emptyView = view.findViewById(android.R.id.empty)
         val mLayout = view.findViewById<TextInputLayout>(R.id.dialog_playlist_name)
-        mEditText = mLayout.editText
-        mSaveButton.setOnClickListener(this)
+        editText = mLayout.editText
+        saveButton.setOnClickListener(this)
 
-        mEditText!!.setOnEditorActionListener(this)
-        mListView.layoutManager = LinearLayoutManager(view.context)
-        mListView.adapter = adapter
-        adapter.submitList(Arrays.asList<MediaLibraryItem>(*mMedialibrary.playlists))
+        editText!!.setOnEditorActionListener(this)
+        listView.layoutManager = LinearLayoutManager(view.context)
+        listView.adapter = adapter
+        adapter.submitList(Arrays.asList<MediaLibraryItem>(*medialibrary.playlists))
         updateEmptyView()
 
     }
 
     private fun updateEmptyView() {
-        mEmptyView.visibility = if (adapter.isEmpty()) View.VISIBLE else View.GONE
+        emptyView.visibility = if (adapter.isEmpty()) View.VISIBLE else View.GONE
     }
 
     override fun onClick(v: View) {
@@ -121,31 +121,31 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     private fun savePlaylist() {
         runIO(Runnable {
-            val name = mEditText!!.text.toString().trim { it <= ' ' }
-            val addTracks = !Tools.isArrayEmpty(mNewTrack)
-            var playlist: AbstractPlaylist? = mMedialibrary.getPlaylist(mPlaylistId)
+            val name = editText!!.text.toString().trim { it <= ' ' }
+            val addTracks = !Tools.isArrayEmpty(newTrack)
+            var playlist: AbstractPlaylist? = medialibrary.getPlaylist(playlistId)
             val exists = playlist != null
-            val tracks: Array<AbstractMediaWrapper>?
-            if (!exists) playlist = mMedialibrary.createPlaylist(name)
+            val playlistTracks: Array<AbstractMediaWrapper>?
+            if (!exists) playlist = medialibrary.createPlaylist(name)
             if (playlist == null) return@Runnable
-            tracks = if (addTracks) {
-                mNewTrack
+            playlistTracks = if (addTracks) {
+                newTrack
             } else {//Save a playlist
                 for (index in 0 until playlist.tracks.size) {
                     playlist.remove(index)
                 }
-                mTracks
+                tracks
             }
-            if (tracks.isEmpty()) return@Runnable
+            if (playlistTracks.isEmpty()) return@Runnable
             val ids = LinkedList<Long>()
-            for (mw in tracks) {
+            for (mw in playlistTracks) {
                 val id = mw.id
                 if (id == 0L) {
-                    var media = mMedialibrary.getMedia(mw.uri)
+                    var media = medialibrary.getMedia(mw.uri)
                     if (media != null)
                         ids.add(media.id)
                     else {
-                        media = mMedialibrary.addMedia(mw.location)
+                        media = medialibrary.addMedia(mw.location)
                         if (media != null) ids.add(media.id)
                     }
                 } else
@@ -158,8 +158,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
 
     override fun onClick(item: MediaLibraryItem) {
-        mPlaylistId = item.id
-        mEditText!!.setText(item.title)
+        playlistId = item.id
+        editText!!.setText(item.title)
     }
 
     companion object {
