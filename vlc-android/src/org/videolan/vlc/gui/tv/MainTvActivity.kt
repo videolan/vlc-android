@@ -71,7 +71,7 @@ class MainTvActivity : BaseTvActivity() {
 
         // Delay access permission dialog prompt to avoid background corruption
         if (!Permissions.canReadStorage(this))
-            handler.postDelayed({ Permissions.checkReadStoragePermission(this@MainTvActivity, false) }, 1000)
+            handler.postDelayed({ Permissions.checkReadStoragePermission(this@MainTvActivity) }, 1000)
 
         setContentView(R.layout.tv_main)
 

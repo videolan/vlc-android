@@ -91,6 +91,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     val menu: Menu
         get() = toolbar.menu
 
+    @Suppress("LeakingThis")
     protected val activityHandler: Handler = ProgressHandler(this)
     private val audioPlayerBottomSheetCallback = AudioPlayerBottomSheetCallback()
 

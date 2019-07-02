@@ -82,18 +82,18 @@ public class ExtensionsManager {
         SharedPreferences settings = Settings.INSTANCE.getInstance(context);
         deleteUnusedExtensionPreferences(extensions, settings);
 
-        if (context instanceof MainActivity && ((MainActivity)context).getNavigator().currentIdIsExtension()) {
+        if (context instanceof MainActivity && ((MainActivity)context).currentIdIsExtension()) {
             if (previousExtensionIsEnabled(context)) {
                 String lastExtensionTitle = settings.getString("current_extension_name", null);
                 for (int i = 0; i < extensions.size(); ++i) {
                     if (TextUtils.equals(extensions.get(i).title(), lastExtensionTitle)) {
-                        ((MainActivity)context).getNavigator().setCurrentFragmentId(i);
+                        ((MainActivity)context).setCurrentFragmentId(i);
                         settings.edit().putInt("fragment_id", i).apply();
                         break;
                     }
                 }
             } else {
-                ((MainActivity)context).getNavigator().setCurrentFragmentId(-1);
+                ((MainActivity)context).setCurrentFragmentId(-1);
                 settings.edit().putInt("fragment_id", -1).apply();
             }
         }

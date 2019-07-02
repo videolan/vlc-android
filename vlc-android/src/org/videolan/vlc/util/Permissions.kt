@@ -81,7 +81,7 @@ object Permissions {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun checkReadStoragePermission(activity: FragmentActivity, exit: Boolean): Boolean {
+    fun checkReadStoragePermission(activity: FragmentActivity, exit: Boolean = false): Boolean {
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity)) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                             Manifest.permission.READ_EXTERNAL_STORAGE)) {
