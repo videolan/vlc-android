@@ -11,32 +11,32 @@
             <path
                     android:name="11"
                     android:pathData="M 1.455 3.969 L 2.514 3.969 L 2.514 6.35 L 1.455 6.35 Z"
-                    android:fillColor="#ffffff"
+                    android:fillColor="?attr/player_icon_color"
                     android:strokeWidth="1"/>
             <path
                     android:name="21"
                     android:pathData="M 2.778 2.117 L 3.836 2.117 L 3.836 6.35 L 2.778 6.35 Z"
-                    android:fillColor="#ffffff"
+                    android:fillColor="?attr/player_icon_color"
                     android:strokeWidth="1"/>
             <path
                     android:name="31"
                     android:pathData="M 4.101 4.233 L 5.159 4.233 L 5.159 6.35 L 4.101 6.35 Z"
-                    android:fillColor="#ffffff"
+                    android:fillColor="?attr/player_icon_color"
                     android:strokeWidth="1"/>
             <path
                     android:name="path"
                     android:pathData="M 1.455 3.969 L 2.514 3.969 L 2.514 6.35 L 1.455 6.35 Z"
-                    android:fillColor="#ffffff"
+                    android:fillColor="?attr/player_icon_color"
                     android:strokeWidth="1"/>
             <path
                     android:name="path_1"
                     android:pathData="M 2.778 2.117 L 3.836 2.117 L 3.836 6.35 L 2.778 6.35 Z"
-                    android:fillColor="#ffffff"
+                    android:fillColor="?attr/player_icon_color"
                     android:strokeWidth="1"/>
             <path
                     android:name="path_2"
                     android:pathData="M 4.101 4.233 L 5.159 4.233 L 5.159 6.35 L 4.101 6.35 Z"
-                    android:fillColor="#ffffff"
+                    android:fillColor="?attr/player_icon_color"
                     android:strokeWidth="1"/>
         </vector>
     </aapt:attr>
