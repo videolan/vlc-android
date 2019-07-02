@@ -31,6 +31,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -88,10 +89,10 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
     fun updateMediaDirs(context: Context) {
         mediaDirsLocation.clear()
 
-        val folders = if (!VLCApplication.mlInstance.isInitiated) {
+        val folders = if (!AbstractMedialibrary.getInstance().isInitiated) {
             MediaParsingService.preselectedStorages.toTypedArray()
         } else {
-            VLCApplication.mlInstance.foldersList
+            AbstractMedialibrary.getInstance().foldersList
         }
 
 

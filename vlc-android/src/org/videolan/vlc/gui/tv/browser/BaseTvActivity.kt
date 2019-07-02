@@ -34,6 +34,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.tools.KeyHelper
 import org.videolan.vlc.*
@@ -59,7 +60,7 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
         //Init Medialibrary if KO
         if (savedInstanceState != null) startMedialibrary(firstRun = false, upgrade = false, parse = true)
         super.onCreate(savedInstanceState)
-        mediaLibrary = VLCApplication.mlInstance
+        mediaLibrary = AbstractMedialibrary.getInstance()
         settings = Settings.getInstance(this)
         registerLiveData()
         launch { findViewById<View>(R.id.tv_time)?.let { registerTimeView(it as TextView) } }

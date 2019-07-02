@@ -33,6 +33,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
@@ -105,7 +106,7 @@ class SecondaryActivity : ContentActivity() {
         // Handle item selection
         when (item.itemId) {
             R.id.ml_menu_refresh -> {
-                val ml = VLCApplication.mlInstance
+                val ml = AbstractMedialibrary.getInstance()
                 if (!ml.isWorking) this.rescan()
                 return true
             }

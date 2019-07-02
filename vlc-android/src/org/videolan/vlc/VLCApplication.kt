@@ -88,7 +88,6 @@ class VLCApplication : Application() {
     init {
         instance = this
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -205,9 +204,6 @@ class VLCApplication : Application() {
         fun clearData() {
             dataMap.clear()
         }
-
-        val mlInstance: AbstractMedialibrary
-            get() = AbstractMedialibrary.getInstance()
 
         /**
          * Check if application is currently displayed

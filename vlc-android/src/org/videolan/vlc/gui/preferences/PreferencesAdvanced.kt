@@ -85,7 +85,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes) { dialog, _ -> VLCApplication.mlInstance.clearHistory() }
+                        .setPositiveButton(android.R.string.yes) { dialog, _ -> AbstractMedialibrary.getInstance().clearHistory() }
 
                         .setNegativeButton(android.R.string.cancel, null).show()
                 return true
@@ -102,7 +102,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "dump_media_db" -> {
-                if (VLCApplication.mlInstance.isWorking)
+                if (AbstractMedialibrary.getInstance().isWorking)
                     UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
                 else
                     runIO(Runnable {

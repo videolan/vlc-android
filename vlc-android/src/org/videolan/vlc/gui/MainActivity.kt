@@ -117,7 +117,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
         /* Reload the latest preferences */
         scanNeeded = savedInstanceState == null && settings.getBoolean("auto_rescan", true)
         if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
-        mediaLibrary = VLCApplication.mlInstance
+        mediaLibrary = AbstractMedialibrary.getInstance()
 
 
         val typedValue = TypedValue()

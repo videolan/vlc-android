@@ -35,6 +35,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -84,7 +85,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes) { _, _ -> VLCApplication.mlInstance.clearHistory() }
+                        .setPositiveButton(android.R.string.yes) { _, _ -> AbstractMedialibrary.getInstance().clearHistory() }
                         .setNegativeButton(android.R.string.cancel, null).show()
                 return true
             }

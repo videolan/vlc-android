@@ -450,7 +450,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         playlistManager = PlaylistManager(this)
         Util.checkCpuCompatibility(this)
 
-        medialibrary = VLCApplication.mlInstance
+        medialibrary = AbstractMedialibrary.getInstance()
         if (!medialibrary.isInitiated) registerMedialibrary(null)
 
         detectHeadset = settings.getBoolean("enable_headset_detection", true)

@@ -18,6 +18,7 @@ import androidx.databinding.OnRebindCallback
 import androidx.databinding.ViewDataBinding
 import androidx.leanback.widget.ImageCardView
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BR
@@ -31,7 +32,7 @@ import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
 
-private val sMedialibrary = VLCApplication.mlInstance
+private val sMedialibrary = AbstractMedialibrary.getInstance()
 @Volatile
 private var defaultImageWidth = 0
 private var defaultImageWidthTV = 0

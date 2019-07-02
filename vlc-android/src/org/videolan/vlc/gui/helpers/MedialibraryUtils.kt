@@ -4,6 +4,7 @@ package org.videolan.vlc.gui.helpers
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.ACTION_DISCOVER
@@ -14,7 +15,7 @@ import org.videolan.vlc.util.runIO
 object MedialibraryUtils {
 
     fun removeDir(path: String) {
-        runIO(Runnable { VLCApplication.mlInstance.removeFolder(path) })
+        runIO(Runnable { AbstractMedialibrary.getInstance().removeFolder(path) })
     }
 
     @JvmOverloads

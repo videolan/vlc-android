@@ -22,6 +22,7 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.Extensions
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractArtist
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -69,7 +70,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         }
         this.item = item
         if (item.id == 0L) {
-            val libraryItem = VLCApplication.mlInstance.getMedia((item as AbstractMediaWrapper).uri)
+            val libraryItem = AbstractMedialibrary.getInstance().getMedia((item as AbstractMediaWrapper).uri)
             if (libraryItem != null)
                 this.item = libraryItem
         }
