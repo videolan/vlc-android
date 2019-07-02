@@ -138,7 +138,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         spacing = resources.getDimensionPixelSize(R.dimen.kl_half)
 
         //size of an item
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), viewModel.nbColumns, spacing)
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight, viewModel.nbColumns, spacing)
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -192,7 +192,6 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         viewModel.nbColumns = getColumnNumber()
     }
 
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 
@@ -219,13 +218,11 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         return true
     }
 
-
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {}
 
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
-
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {
         (item as? MediaLibraryItem)?.run {
@@ -350,7 +347,6 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         animationDelegate.setVisibility(imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
-
     }
 }
 

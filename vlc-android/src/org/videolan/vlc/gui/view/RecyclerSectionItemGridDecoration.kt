@@ -26,18 +26,15 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
 
         val pos = parent.getChildAdapterPosition(view)
         val positionForSection = provider.getPositionForSection(pos)
-        val isFirstInLine = positionForSection == pos || (pos - positionForSection) % nbColumns == 0
-        val isLastInLine = (pos - positionForSection) % nbColumns == nbColumns - 1
-        if (BuildConfig.DEBUG) Log.d(TAG, "Item $pos first: $isFirstInLine last: $isLastInLine")
 
-        outRect.left = if (isFirstInLine) space * 2 else space
-        outRect.right = if (isLastInLine) space * 2 else space
+        outRect.left = space
+        outRect.right = space
         outRect.top = space
         outRect.bottom = space
 
         for (i in 0 until nbColumns) {
             if ((pos - i) >= 0 && provider.isFirstInSection(pos - i)) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "Adding offset for $pos");
+                if (BuildConfig.DEBUG) Log.d(TAG, "Adding offset for $pos")
                 outRect.top = headerOffset + space
             }
         }
@@ -128,6 +125,6 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     }
 
     companion object {
-        fun getItemSize(screenWidth: Int, nbColumns: Int, spacing: Int) = ((screenWidth - spacing * 2) / nbColumns) - (spacing * nbColumns)
+        fun getItemSize(screenWidth: Int, nbColumns: Int, spacing: Int) = (screenWidth - (spacing * nbColumns)) / nbColumns
     }
 }
