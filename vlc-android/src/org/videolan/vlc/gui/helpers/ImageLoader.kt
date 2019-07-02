@@ -41,8 +41,8 @@ private const val TAG = "ImageLoader"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @MainThread
-@BindingAdapter("media")
-fun loadImage(v: View, item: MediaLibraryItem?) {
+@BindingAdapter(value = ["media", "imageWidth"], requireAll = false)
+fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
     if (item === null
             || item.itemType == MediaLibraryItem.TYPE_PLAYLIST)
         return
@@ -56,7 +56,7 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
         return
     }
     val isGroup = isMedia && (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_GROUP
-    val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER;
+    val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER
     val cacheKey = when {
         isGroup -> "group:${item.title}"
         isFolder -> "folder:${item.title}"
@@ -64,7 +64,7 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     }
     val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding)
-    else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
+    else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding, imageWidth) }
 }
 
 @MainThread
@@ -73,7 +73,7 @@ fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth
     if (imageWidth == 0) return
     if (item == null) return
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
-    AppScope.launch { if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) getPlaylistImage(v, item, binding, imageWidth) else loadImage(v, item) }
+    AppScope.launch { getPlaylistImage(v, item, binding, imageWidth) }
 }
 
 fun getAudioIconDrawable(context: Context?, type: Int): BitmapDrawable? = context?.let {
@@ -138,7 +138,7 @@ fun downloadIcon(v: View, imageUri: Uri?) {
     }
 }
 
-private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?) {
+private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, imageWidth: Int = 0) {
     var bindChanged = false
     val rebindCallbacks = if (binding !== null) object : OnRebindCallback<ViewDataBinding>() {
         override fun onPreBind(binding: ViewDataBinding): Boolean {
@@ -157,6 +157,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
             }
             defaultImageWidthTV
         }
+        imageWidth > 0 -> imageWidth
         v.width > 0 -> v.width
         defaultImageWidth > 0 -> defaultImageWidth
         else -> {
