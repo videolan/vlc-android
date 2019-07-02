@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.audio
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Message
 import android.view.LayoutInflater
@@ -35,6 +36,8 @@ import androidx.annotation.MainThread
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
@@ -87,11 +90,24 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
         val ctx = holder.itemView.context
         val media = getItem(position)
         holder.binding!!.media = media
-        holder.binding!!.subTitle = MediaUtils.getMediaSubtitle(media!!)
-        holder.binding!!.titleColor = if (currentIndex == position)
-            UiTools.getColorFromAttribute(ctx, R.attr.list_title_last)
-        else
-            UiTools.getColorFromAttribute(ctx, R.attr.list_title)
+        holder.binding!!.subTitle = MediaUtils.getMediaSubtitle(media)
+        val drawableNowPlaying = AnimatedVectorDrawableCompat.create(ctx, R.drawable.anim_now_playing)!!
+        if (currentIndex == position) {
+
+            holder.binding!!.playing.setImageDrawable(drawableNowPlaying)
+            drawableNowPlaying.start()
+            drawableNowPlaying.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
+                override fun onAnimationEnd(drawable: Drawable?) {
+                    super.onAnimationEnd(drawable)
+                    drawableNowPlaying.start()
+                }
+            })
+            holder.binding!!.playing.visibility = View.VISIBLE
+        } else {
+            holder.binding!!.playing.setImageDrawable(drawableNowPlaying)
+            holder.binding!!.playing.visibility = View.INVISIBLE
+        }
+
         holder.binding!!.executePendingBindings()
     }
 
@@ -125,12 +141,11 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
     }
 
     override fun onItemMoved(dragFrom: Int, dragTo: Int) {
-
     }
 
     override fun onItemDismiss(position: Int) {
         val media = getItem(position)
-        val message = String.format(VLCApplication.appResources.getString(R.string.remove_playlist_item), media!!.title)
+        val message = String.format(VLCApplication.appResources.getString(R.string.remove_playlist_item), media.title)
         if (player is Fragment) {
             val v = (player as Fragment).view
             val cancelAction = Runnable { mModel!!.insertMedia(position, media) }
@@ -196,17 +211,12 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
 
         companion object {
 
-            internal val ACTION_MOVE = 0
-            internal val ACTION_MOVED = 1
+            const val ACTION_MOVE = 0
+            const val ACTION_MOVED = 1
         }
     }
 
-    override fun createCB(): DiffUtilAdapter.DiffCallback<AbstractMediaWrapper> {
+    override fun createCB(): DiffCallback<AbstractMediaWrapper> {
         return MediaItemDiffCallback()
-    }
-
-    companion object {
-
-        private val TAG = "VLC/PlaylistAdapter"
     }
 }

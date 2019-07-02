@@ -37,7 +37,9 @@ import android.graphics.Color
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Rational
@@ -52,7 +54,6 @@ import androidx.annotation.StringRes
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.ViewStubCompat
@@ -72,6 +73,7 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.circularreveal.CircularRevealCompat
 import com.google.android.material.circularreveal.CircularRevealWidget
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.player_overlay_seek.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -109,7 +111,7 @@ import java.util.*
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsController, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, Observer<PlaybackService> {
+open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsController, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, Observer<PlaybackService>, TextWatcher {
 
 
     private var wasPlaying = true
@@ -123,7 +125,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var videoUri: Uri? = null
     private var askResume = true
 
+    private lateinit var playlistContainer: View
     private lateinit var playlist: RecyclerView
+    private lateinit var playlistSearchText: TextInputLayout
     private lateinit var playlistAdapter: PlaylistAdapter
     private var playlistModel: PlaylistModel? = null
 
@@ -365,7 +369,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var optionsDelegate: PlayerOptionsDelegate? = null
 
     val isPlaylistVisible: Boolean
-        get() = playlist.visibility == View.VISIBLE
+        get() = playlistContainer.visibility == View.VISIBLE
 
     private val btReceiver = object : BroadcastReceiver() {
         @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -426,6 +430,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
 
         playlist = findViewById(R.id.video_playlist)
+        playlistSearchText = findViewById(R.id.playlist_search_text)
+        playlistContainer = findViewById(R.id.video_playlist_container)
+        playlistSearchText.editText?.addTextChangedListener(this)
 
 
 
@@ -514,6 +521,35 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     }
 
+    override fun afterTextChanged(s: Editable?) {
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+        if (s == null) return
+        val length = s.length
+        if (length > 0) {
+            playlistModel?.filter(s)
+        } else {
+            playlistModel?.filter(null)
+        }
+    }
+
+    private fun hideSearchField(): Boolean {
+        if (playlistSearchText.visibility != View.VISIBLE) return false
+        playlistSearchText.editText?.apply {
+            removeTextChangedListener(this@VideoPlayerActivity)
+            setText("")
+            addTextChangedListener(this@VideoPlayerActivity)
+        }
+        UiTools.setKeyboardVisibility(playlistSearchText, false)
+
+        return true
+    }
+
     override fun onResume() {
         overridePendingTransition(0, 0)
         super.onResume()
@@ -556,7 +592,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             videoUri = uri
             if (isPlaylistVisible) {
                 playlistAdapter.currentIndex = currentMediaPosition
-                playlist.setGone()
+                playlistContainer.setGone()
             }
             if (settings.getBoolean("video_transition_show", true)) showTitle()
             initUI()
@@ -963,16 +999,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
             return false
         }
-        //Handle playlist d-pad navigation
-        if (playlist.hasFocus()) {
-            when (keyCode) {
-                KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_LEFT -> playlistAdapter.currentIndex = playlistAdapter.currentIndex - 1
-                KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT -> playlistAdapter.currentIndex = playlistAdapter.currentIndex + 1
-                KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_BUTTON_A -> service?.playIndex(playlistAdapter.currentIndex)
-            }
-            return true
-        }
-        if (isShowing || fov == 0f && keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
+        if (isShowing || fov == 0f && keyCode == KeyEvent.KEYCODE_DPAD_DOWN && !playlistContainer.isVisible())
             showOverlayTimeout(OVERLAY_TIMEOUT)
         when (keyCode) {
             KeyEvent.KEYCODE_F, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
@@ -1034,7 +1061,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             KeyEvent.KEYCODE_DPAD_LEFT -> {
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
-                else if (!isShowing) {
+                else if (!isShowing && !playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         seekDelta(-300000)
                     } else if (event.isCtrlPressed) {
@@ -1049,7 +1076,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             KeyEvent.KEYCODE_DPAD_RIGHT -> {
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
-                else if (!isShowing) {
+                else if (!isShowing && !playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         seekDelta(300000)
                     } else if (event.isCtrlPressed) {
@@ -1067,7 +1094,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 else if (event.isCtrlPressed) {
                     volumeUp()
                     return true
-                } else if (!isShowing) {
+                } else if (!isShowing && !playlistContainer.isVisible()) {
                     if (fov == 0f)
                         showAdvancedOptions()
                     else
@@ -1486,7 +1513,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                                 val spuTrack = media.getMetaLong(AbstractMediaWrapper.META_SUBTITLE_TRACK).toInt()
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
-                                    if (!Util.isArrayEmpty(tracks as Array<MediaPlayer.TrackDescription>)) service!!.setSpuTrack(tracks[tracks.size - 1].id)
+                                    if (!Util.isArrayEmpty(tracks as Array<MediaPlayer.TrackDescription>)) service.setSpuTrack(tracks[tracks.size - 1].id)
                                     addNextTrack = false
                                 } else if (spuTrack != 0 || currentSpuTrack != -2) {
                                     service.setSpuTrack(if (media.id == 0L) currentSpuTrack else spuTrack)
@@ -2243,6 +2270,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             showControls(false)
             isShowing = false
             dimStatusBar(true)
+            playlistSearchText.editText!!.setText("")
         } else if (!fromUser) {
             /*
              * Try to hide the Nav Bar again.
@@ -2258,7 +2286,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
      * Hide it on Android 4.0 and later
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public fun dimStatusBar(dim: Boolean) {
+    fun dimStatusBar(dim: Boolean) {
         if (isNavMenu) return
 
         var visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -2684,12 +2712,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     internal fun togglePlaylist() {
         if (isPlaylistVisible) {
-            playlist.setGone()
+            playlistContainer.setGone()
             playlist.setOnClickListener(null)
             return
         }
         hideOverlay(true)
-        playlist.setVisible()
+        playlistContainer.setVisible()
         playlist.adapter = playlistAdapter
         update()
     }
