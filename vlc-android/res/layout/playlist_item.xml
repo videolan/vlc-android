@@ -24,7 +24,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="40dp">
@@ -102,7 +101,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/playing"/>
 
-        <ImageView
+        <ImageButton
                 android:id="@+id/item_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,7 +113,6 @@
                 android:layout_marginRight="4dp"
                 app:srcCompat="@drawable/ic_more_player"
                 android:onClick="@{holder::onMoreClick}"
-                android:clickable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>

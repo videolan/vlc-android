@@ -101,8 +101,6 @@
                 android:id="@+id/playlist_search_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:nextFocusDown="@+id/video_playlist"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -115,6 +113,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/search_hint"
+                    android:focusable="true"
+                    android:nextFocusDown="@+id/video_playlist"
+                    android:id="@+id/playlist_search_edittext"
                     android:imeOptions="actionSearch"
                     android:inputType="textFilter"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -125,6 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:focusable="true"
+                android:nextFocusUp="@+id/playlist_search_edittext"
                 android:descendantFocusability="afterDescendants"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

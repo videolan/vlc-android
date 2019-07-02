@@ -89,12 +89,12 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ctx = holder.itemView.context
         val media = getItem(position)
-        holder.binding!!.media = media
-        holder.binding!!.subTitle = MediaUtils.getMediaSubtitle(media)
+        holder.binding.media = media
+        holder.binding.subTitle = MediaUtils.getMediaSubtitle(media)
         val drawableNowPlaying = AnimatedVectorDrawableCompat.create(ctx, R.drawable.anim_now_playing)!!
         if (currentIndex == position) {
 
-            holder.binding!!.playing.setImageDrawable(drawableNowPlaying)
+            holder.binding.playing.setImageDrawable(drawableNowPlaying)
             drawableNowPlaying.start()
             drawableNowPlaying.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
                 override fun onAnimationEnd(drawable: Drawable?) {
@@ -102,13 +102,13 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
                     drawableNowPlaying.start()
                 }
             })
-            holder.binding!!.playing.visibility = View.VISIBLE
+            holder.binding.playing.visibility = View.VISIBLE
         } else {
-            holder.binding!!.playing.setImageDrawable(drawableNowPlaying)
-            holder.binding!!.playing.visibility = View.INVISIBLE
+            holder.binding.playing.setImageDrawable(drawableNowPlaying)
+            holder.binding.playing.visibility = View.INVISIBLE
         }
 
-        holder.binding!!.executePendingBindings()
+        holder.binding.executePendingBindings()
     }
 
     override fun getItemCount(): Int {
@@ -162,11 +162,10 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
 
     inner class ViewHolder @TargetApi(Build.VERSION_CODES.M)
     constructor(v: View) : RecyclerView.ViewHolder(v) {
-        internal var binding: PlaylistItemBinding? = null
+        var binding: PlaylistItemBinding = DataBindingUtil.bind(v)!!
 
         init {
-            binding = DataBindingUtil.bind(v)
-            binding!!.holder = this
+            binding.holder = this
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
                     onMoreClick(v)
