@@ -198,6 +198,7 @@
             android:visibility="@{showCover ? View.GONE : View.VISIBLE}"
             android:layout_gravity="center_horizontal"
             android:background="?attr/background_default"
+            android:layout_marginBottom="8dp"
             android:paddingBottom="@dimen/listview_bottom_padding" />
 
         <org.videolan.vlc.gui.view.CoverMediaSwitcher
@@ -245,19 +246,6 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/timeline"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <!--<View-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:background="@color/transparent"-->
-        <!--android:outlineProvider="bounds"-->
-        <!--android:clipToPadding="false"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintRight_toRightOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/songs_list"-->
-        <!--android:id="@+id/view"-->
-        <!--android:elevation="8dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"/>-->
 
         <SeekBar
             android:id="@+id/timeline"
