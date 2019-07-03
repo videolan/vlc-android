@@ -32,7 +32,6 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public int init(Context context) {
         if (context == null) return ML_INIT_FAILED;
         sContext = context;
-        dt.init();
         return ML_INIT_SUCCESS;
     }
 
@@ -70,18 +69,21 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return false;
     }
 
+    public void loadJsonData(String jsonContent) {
+        dt.loadJsonData(jsonContent);
+        reload();
+    }
+
     public void discover(@NonNull String path) {
         onDiscoveryStarted(path);
         onDiscoveryCompleted(path);
+        onBackgroundTasksIdleChanged(true);
     }
-
-    public void removeFolder(@NonNull String mrl) {
-    }
+    public void removeFolder(@NonNull String mrl) {}
 
     public boolean removeDevice(String uuid, String path) {
         return true;
     }
-
 
     public String[] getFoldersList() {
         ArrayList<String> results = new ArrayList<>();
@@ -302,23 +304,18 @@ public class StubMedialibrary extends AbstractMedialibrary {
     }
 
     public void pauseBackgroundOperations() {}
-
     public void resumeBackgroundOperations() {}
 
     public void reload() {
-        Log.e(TAG, "reload: no entrypoint");
         reload("");
     }
 
     public void reload(String entrypoint) {
-        Log.e(TAG, "reload(string entrypoint): ");
         onReloadStarted(entrypoint);
         onReloadCompleted(entrypoint);
         onBackgroundTasksIdleChanged(true);
     }
-
     public void forceParserRetry() {}
-
     public void forceRescan() {}
 
     public AbstractMediaWrapper[] lastMediaPlayed() {

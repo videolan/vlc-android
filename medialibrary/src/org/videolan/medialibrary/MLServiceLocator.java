@@ -40,6 +40,7 @@ public class MLServiceLocator {
         }
         MLServiceLocator.sMode = mode;
     }
+    public static LocatorMode getLocatorMode() { return MLServiceLocator.sMode; }
 
     public static String EXTRA_TEST_STUBS = "extra_test_stubs";
     public enum LocatorMode {

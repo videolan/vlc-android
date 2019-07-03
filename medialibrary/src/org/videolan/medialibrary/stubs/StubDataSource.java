@@ -2,8 +2,11 @@ package org.videolan.medialibrary.stubs;
 
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
-import androidx.annotation.Nullable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
@@ -12,7 +15,6 @@ import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
-import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,13 +34,8 @@ import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_LAS
 import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_RELEASEDATE;
 
 public class StubDataSource {
-    public static final String STUBBED_VIDEO_TITLE = "Invincible";
-    public static final String STUBBED_AUDIO_TITLE = "Show Me The Way";
 
-    public static final String STUBBED_VIDEO_EXTENSION = ".mp4";
-    public static final String STUBBED_AUDIO_EXTENSION = ".mp3";
-
-
+    private String TAG = this.getClass().getName();
     ArrayList<AbstractMediaWrapper> mVideoMediaWrappers = new ArrayList<>();
     ArrayList<AbstractMediaWrapper> mAudioMediaWrappers = new ArrayList<>();
     ArrayList<AbstractMediaWrapper> mStreamMediaWrappers = new ArrayList<>();
@@ -67,8 +64,6 @@ public class StubDataSource {
     private StubDataSource() {
     }
 
-    public void init() {
-    }
 
     public void resetData() {
         mFolders.clear();
@@ -82,113 +77,6 @@ public class StubDataSource {
         mGenres.clear();
         mBannedFolders.clear();
         mDevices.clear();
-    }
-
-    public void setVideoByCount(int count, @Nullable String folder) {
-        AbstractMediaWrapper media;
-        String fileName;
-
-        for (int i = 0; i < count; i++) {
-            fileName = i + " - " + STUBBED_VIDEO_TITLE + STUBBED_AUDIO_EXTENSION;
-            String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
-            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 18820L, AbstractMediaWrapper.TYPE_VIDEO,
-                    fileName, fileName, "", "",
-                    "", "", 416, 304, "", 0, -2,
-                    0, 0, 1509466228L, 0L, true, 0);
-            addVideo(media);
-        }
-
-        // Video
-        fileName = "058_foar_everywun_frum_boxxy.flv";
-        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 18820L, 0,
-                fileName, fileName, "", "",
-                "", "", 416, 304, "", 0, -2,
-                0, 0, 1509466228L, 0L, true, 0);
-        addVideo(media);
-
-        fileName = "FMA - MultiChapter.mkv";
-        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 1467383L, 0,
-                "Encoded with MiniCoder", fileName, "", "",
-                "", "", 1280, 720, "", 0,
-                -2, 0, 0, 1512396147L, 0L, true, 0);
-        addVideo(media);
-
-        fileName = "114_My_Heart_Will_Go_On.avi";
-        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 20000L, 0,
-                "My Heart Will Go On - Celine Dion", fileName, "", "",
-                "", "", 352, 220, "", 0,
-                -2, 0, 0, 1509465852L, 0L, true, 0);
-        addVideo(media);
-
-        // Audio
-
-        fileName = "01-Show Me The Way.mp3";
-        baseMrl = "/storage/emulated/0/Music/Peter Frampton/Shine On - CD2/";
-        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 280244L, 1,
-                "01-Show Me The Way", fileName, "Peter Frampton", "Rock",
-                "Shine On CD2", "Peter Frampton",
-                0, 0, "/storage/emulated/0/Music/Peter Frampton/Shine On - CD2/Folder.jpg",
-                0, -2, 1, 0,
-                1547452796L, 0L, true, 0);
-        addAudio(media, "", 1965, 400);
-
-        fileName = "01-Wind Of Change.mp3";
-        baseMrl = "/storage/emulated/0/Music/Peter Frampton/Shine On - CD1/";
-        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 184271L, 1,
-                "01-Wind Of Change", fileName, "Peter Frampton", "Rock",
-                "Shine On CD1", "Peter Frampton",
-                0, 0, "/storage/emulated/0/Music/Peter Frampton/Shine On - CD1/Folder.jpg",
-                0, -2, 1, 0,
-                1547452786L, 0L, true, 0);
-        addAudio(media, "", 1960, 250);
-
-        fileName = "03 Bloody Well Right.wma";
-        baseMrl = "/storage/emulated/0/Music/Supertramp/Best of/";
-        media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 257199L, 1,
-                "Bloody Well Right", fileName, "Supertramp", "Rock",
-                "The Autobiography of Supertramp", "Supertramp",
-                0, 0, "/storage/emulated/0/Music/Supertramp/Best of/Folder.jpg", 0,
-                -2, 3, 0,
-                1547452814L, 0L, true, 0);
-        addAudio(media, "", 1970, 360);
-    }
-
-    public void setAudioByCount(int count, @Nullable String folder) {
-        mAudioMediaWrappers.clear();
-        String fileName;
-        AbstractMediaWrapper media;
-
-        for (int i = 0; i < count; i++) {
-            fileName = i + " - " + STUBBED_AUDIO_TITLE + STUBBED_AUDIO_EXTENSION;
-            String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
-            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 280244L, AbstractMediaWrapper.TYPE_AUDIO,
-                    i + "-Show Me The Way", fileName, "Peter Frampton", "Rock",
-                    "Shine On CD2", "Peter Frampton",
-                    0, 0, baseMrl + folder + ".jpg",
-                    0, -2, 1, 0,
-                    1547452796L, 0L, true, 0);
-            addAudio(media, "", 1965, 400);
-        }
-    }
-
-    public AbstractMediaWrapper addMediaWrapper(String mrl, String title, int type) {
-        AbstractMediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 280224L, type,
-                title, title, "Artisto", "Jazz", "XYZ CD1", "", 0, 0, baseMrl + title, -2,
-                1, 1, 0, 1547452796L, 0L, true, 0);
-        if (type == AbstractMediaWrapper.TYPE_ALL) type = media.getType();
-        if (type == AbstractMediaWrapper.TYPE_VIDEO) addVideo(media);
-        else if (type == AbstractMediaWrapper.TYPE_AUDIO) addAudio(media, "", 2018, 12313);
-        return media;
-    }
-
-    public AbstractMediaWrapper addMediaWrapper(String title, int type) {
-        return addMediaWrapper(baseMrl + title, title, type);
-    }
-
-    public AbstractFolder createFolder(String name) {
-        AbstractFolder folder = MLServiceLocator.getAbstractFolder(getUUID(), name, baseMrl + name);
-        mFolders.add(folder);
-        return folder;
     }
 
     <T> List<T> secureSublist(List<T> list, int offset, int nbItems) {
@@ -239,8 +127,7 @@ public class StubDataSource {
         public int compare(AbstractArtist o1, AbstractArtist o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ARTIST:
-                    return o1.getTitle().compareTo(o2.getTitle());
+                case SORT_ARTIST: return o1.getTitle().compareTo(o2.getTitle());
                 default:
                     return 0;
             }
@@ -249,10 +136,7 @@ public class StubDataSource {
 
     class AlbumComparator implements Comparator<AbstractAlbum> {
         private int sort;
-
-        AlbumComparator(int sort) {
-            this.sort = sort;
-        }
+        AlbumComparator(int sort) { this.sort = sort; }
 
         @Override
         public int compare(AbstractAlbum o1, AbstractAlbum o2) {
@@ -268,59 +152,43 @@ public class StubDataSource {
 
     class GenreComparator implements Comparator<AbstractGenre> {
         private int sort;
-
-        GenreComparator(int sort) {
-            this.sort = sort;
-        }
+        GenreComparator(int sort) { this.sort = sort; }
 
         @Override
         public int compare(AbstractGenre o1, AbstractGenre o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA:
-                    return o1.getTitle().compareTo(o2.getTitle());
-                default:
-                    return 0;
+                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
+                default: return 0;
             }
         }
     }
 
     class PlaylistComparator implements Comparator<AbstractPlaylist> {
         private int sort;
-
-        PlaylistComparator(int sort) {
-            this.sort = sort;
-        }
+        PlaylistComparator(int sort) { this.sort = sort; }
 
         @Override
         public int compare(AbstractPlaylist o1, AbstractPlaylist o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA:
-                    return o1.getTitle().compareTo(o2.getTitle());
-                case SORT_DURATION:
-                    return 0; //TODO WTF is there a duration attribute
-                default:
-                    return 0;
+                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
+                case SORT_DURATION: return 0; //TODO WTF is there a duration attribute
+                default: return 0;
             }
         }
     }
 
     class FolderComparator implements Comparator<AbstractFolder> {
         private int sort;
-
-        FolderComparator(int sort) {
-            this.sort = sort;
-        }
+        FolderComparator(int sort) { this.sort = sort; }
 
         @Override
         public int compare(AbstractFolder o1, AbstractFolder o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA:
-                    return o1.getTitle().compareTo(o2.getTitle());
-                default:
-                    return 0;
+                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
+                default: return 0;
             }
         }
     }
@@ -373,63 +241,110 @@ public class StubDataSource {
         return array.toArray(new AbstractFolder[0]);
     }
 
-    private boolean checkUuidForMatches(long id) {
-        if (id == 1L || id == 2L)
-            return true;
-        for (MediaLibraryItem item : mVideoMediaWrappers) {
-            if (item.getId() == id)
-                return true;
-        }
-        for (MediaLibraryItem item : mAudioMediaWrappers) {
-            if (item.getId() == id)
-                return true;
-        }
-        for (MediaLibraryItem item : mAlbums) {
-            if (item.getId() == id)
-                return true;
-        }
-        for (MediaLibraryItem item : mArtists) {
-            if (item.getId() == id)
-                return true;
-        }
-        for (MediaLibraryItem item : mGenres) {
-            if (item.getId() == id)
-                return true;
-        }
-        for (MediaLibraryItem item : mFolders) {
-            if (item.getId() == id)
-                return true;
-        }
-        return false;
+    AtomicLong getUUID() {
+        uuid.incrementAndGet();
+        return uuid;
     }
 
-    public long getUUID() {
-        return uuid.addAndGet(1);
+    void loadJsonData(String jsonContent) {
+        try {
+            JSONArray jsonArray = new JSONArray(jsonContent);
+            for (int i = 0 ; i < jsonArray.length() ; i++) {
+                Log.w(TAG, "discover: " + jsonArray.getJSONObject(i).getString("title"));
+                addMediaFromJson(jsonArray.getJSONObject(i));
+            }
+
+        } catch (JSONException exception) {
+            Log.e(TAG, "discover: " + exception.toString());
+        }
     }
 
-    private void addAudio(AbstractMediaWrapper media, String shortBio, int releaseYear, int albumDuration) {
+    private void addMediaFromJson(JSONObject jsonObject) {
+        try {
+            AbstractMediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(
+                    getUUID(),
+                    jsonObject.getString("mrl"),
+                    0L,
+                    jsonObject.getLong("length"),
+                    0,
+                    jsonObject.getString("title"),
+                    jsonObject.getString("filename"),
+                    jsonObject.getString("artist"),
+                    jsonObject.getString("genre"),
+                    jsonObject.getString("album"),
+                    jsonObject.getString("album_artist"),
+                    jsonObject.getInt("width"),
+                    jsonObject.getInt("height"),
+                    jsonObject.getString("artwork_url"),
+                    jsonObject.getInt("audio"),
+                    jsonObject.getInt("spu"),
+                    jsonObject.getInt("track_number"),
+                    0,
+                    jsonObject.getLong("last_modified"),
+                    0L,
+                    true
+            );
+            if (jsonObject.getString("genre").equals("")) {
+                addVideo(media);
+            } else {
+                addAudio(media,
+                        "",
+                        jsonObject.getInt("year"),
+                        jsonObject.getInt("album_duration"),
+                        jsonObject.getInt("track_total")
+                );
+            }
+        } catch (JSONException exception) {
+            Log.e(TAG, "addMediaFromJson: failed to load json: " + exception.toString());
+        }
+    }
+
+    private void addArtistSecure(AbstractArtist newArtist) {
+        for (AbstractArtist artist : mArtists) {
+            if (artist.getTitle().equals(newArtist.getTitle())) {
+                return;
+            }
+        }
+        mArtists.add(newArtist);
+    }
+
+    private void addGenreSecure(AbstractGenre newGenre) {
+        for (AbstractGenre genre : mGenres) {
+            if (genre.getTitle().equals(newGenre.getTitle()))
+                return;
+        }
+        mGenres.add(newGenre);
+    }
+
+    private void addAlbumSecure(AbstractAlbum newAlbum) {
+        for (AbstractAlbum album : mAlbums) {
+            if (album.getTitle().equals(newAlbum.getTitle()))
+                return;
+        }
+        mAlbums.add(newAlbum);
+    }
+
+    private void addAudio(AbstractMediaWrapper media, String shortBio, int releaseYear, int albumDuration, int trackTotal) {
         addFolders(media);
         mAudioMediaWrappers.add(media);
-        AbstractArtist artist = MLServiceLocator.getAbstractArtist(getUUID(), media.getArtist(), shortBio, media.getArtworkMrl(), "");
-        mArtists.add(artist);
+        AbstractArtist artist = MLServiceLocator.getAbstractArtist(getUUID().longValue(), media.getArtist(), shortBio, media.getArtworkMrl(), "");
+        addArtistSecure(artist);
         AbstractArtist albumArtist = null;
-        if (!media.getArtist().equals(media.getAlbumArtist())) {
-            albumArtist = MLServiceLocator.getAbstractArtist(getUUID(), media.getAlbumArtist(), "", media.getArtworkMrl(), "");
-            mArtists.add(albumArtist);
+        if (!media.getArtist().equals(media.getAlbumArtist()) && !media.getArtist().isEmpty()) {
+            albumArtist = MLServiceLocator.getAbstractArtist(getUUID().longValue(), media.getAlbumArtist(), "", media.getArtworkMrl(), "");
+            addArtistSecure(albumArtist);
         }
         AbstractAlbum album;
-        if (albumArtist == null)
-            album = MLServiceLocator.getAbstractAlbum(getUUID(), media.getAlbum(), releaseYear,
-                    media.getArtworkMrl(), artist.getTitle(),
-                    artist.getId(), media.getTracks().length, albumDuration);
-        else
-            album = MLServiceLocator.getAbstractAlbum(getUUID(), media.getAlbum(), releaseYear,
+        if (albumArtist != null && !albumArtist.getTitle().isEmpty())
+            album = MLServiceLocator.getAbstractAlbum(getUUID().longValue(), media.getAlbum(), releaseYear,
                     media.getArtworkMrl(), albumArtist.getTitle(),
-                    albumArtist.getId(), media.getTracks().length, albumDuration);
-        mAlbums.add(album);
-        ArrayList genreStrings = new ArrayList<>();
-//        if (!getGenresString())
-        mGenres.add(MLServiceLocator.getAbstractGenre(getUUID(), media.getGenre()));
+                    albumArtist.getId(), trackTotal, albumDuration);
+        else
+            album = MLServiceLocator.getAbstractAlbum(getUUID().longValue(), media.getAlbum(), releaseYear,
+                    media.getArtworkMrl(), artist.getTitle(),
+                    artist.getId(), trackTotal, albumDuration);
+        addAlbumSecure(album);
+        addGenreSecure(MLServiceLocator.getAbstractGenre(getUUID().longValue(), media.getGenre()));
     }
 
     private void addVideo(AbstractMediaWrapper media) {
@@ -437,19 +352,9 @@ public class StubDataSource {
         mVideoMediaWrappers.add(media);
     }
 
-    private String[] getGenresString() {
-        ArrayList<String> results = new ArrayList<>();
-        for (AbstractGenre genre : mGenres) {
-            results.add(genre.getTitle());
-        }
-        return results.toArray(new String[0]);
-    }
-
     private String[] getFoldersString() {
         ArrayList<String> results = new ArrayList<>();
-        for (AbstractFolder folder : mFolders) {
-            results.add(folder.getTitle());
-        }
+        for (AbstractFolder folder : mFolders) { results.add(folder.getTitle()); }
         return results.toArray(new String[0]);
     }
 
@@ -464,7 +369,7 @@ public class StubDataSource {
             ArrayList<String> mlFolders = new ArrayList<>(Arrays.asList(getFoldersString()));
             if (!mlFolders.contains(mrl)) {
                 final String name = folderArray[folderArray.length - 1];
-                mFolders.add(MLServiceLocator.getAbstractFolder(getUUID(), name, mrl));
+                mFolders.add(MLServiceLocator.getAbstractFolder(getUUID().longValue(), name, mrl));
             }
         }
     }

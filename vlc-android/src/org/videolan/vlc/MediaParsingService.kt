@@ -43,13 +43,16 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
+import org.videolan.medialibrary.stubs.StubMedialibrary
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.moviepedia.MoviepediaIndexer
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
+import org.videolan.vlc.util.Util.readAsset
 import java.io.File
 
 private const val TAG = "VLC/MediaParsingService"
@@ -259,6 +262,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
 
     private fun startScan(shouldInit: Boolean, upgrade: Boolean) {
         scanActivated = true
+        if (MLServiceLocator.getLocatorMode() == MLServiceLocator.LocatorMode.TESTS) {
+            (medialibrary as StubMedialibrary).loadJsonData(readAsset("basic_stub.json", ""))
+        }
         when {
             shouldInit -> {
                 for (folder in AbstractMedialibrary.getBlackList())

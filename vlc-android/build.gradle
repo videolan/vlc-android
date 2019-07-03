@@ -197,15 +197,19 @@ android {
     }
     sourceSets.debug {
         res.srcDirs = ['flavors/debug/res']
+        assets.srcDirs = ['flavors/debug/assets']
     }
     sourceSets.dev {
         res.srcDirs = ['flavors/debug/res']
+        assets.srcDirs = ['flavors/debug/assets']
     }
     sourceSets.test {
         java.srcDirs = ['test', 'test-common']
+        assets.srcDirs = ['flavors/debug/assets']
     }
     sourceSets.androidTest {
         java.srcDirs = ['androidTest', 'test-common']
+        assets.srcDirs = ['flavors/debug/assets']
         assets.srcDirs += files("$projectDir/assets/schemas".toString())
     }
 }
