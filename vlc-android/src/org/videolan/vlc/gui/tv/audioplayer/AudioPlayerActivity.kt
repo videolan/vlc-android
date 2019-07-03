@@ -74,12 +74,12 @@ class AudioPlayerActivity : BaseTvActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player)
         settings = Settings.getInstance(this)
 
+        model = ViewModelProviders.of(this).get(PlaylistModel::class.java)
         binding.playlist.layoutManager = LinearLayoutManager(this)
         binding.playlist.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        adapter = PlaylistAdapter(this)
+        adapter = PlaylistAdapter(this, model)
         binding.playlist.adapter = adapter
         binding.lifecycleOwner = this
-        model = ViewModelProviders.of(this).get(PlaylistModel::class.java)
         binding.progress = model.progress
         model.dataset.observe(this, Observer<List<AbstractMediaWrapper>> { mediaWrappers ->
             if (mediaWrappers != null) {

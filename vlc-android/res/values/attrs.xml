@@ -86,6 +86,10 @@
         <attr name="overhangSize" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="MiniVisualizer">
+        <attr name="bar_color" format="reference"/>
+    </declare-styleable>
+
     <attr name="marginTopContent" format="dimension" />
 
 </resources>

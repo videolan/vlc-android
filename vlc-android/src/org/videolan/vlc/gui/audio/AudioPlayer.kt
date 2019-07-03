@@ -230,6 +230,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
             drawableSmall.start()
         }
 
+        playlistAdapter.setCurrentlyPlaying(playing)
         binding.playPause.contentDescription = text
         binding.headerPlayPause.contentDescription = text
         wasPlaying = playing

@@ -23,23 +23,26 @@ package org.videolan.vlc.gui.tv.audioplayer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
-import org.videolan.vlc.R
-import org.videolan.vlc.databinding.TvSimpleListItemBinding
+import org.videolan.vlc.databinding.TvPlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
+import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.util.Util
+import org.videolan.vlc.viewmodels.PlaylistModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PlaylistAdapter
-internal constructor(private val audioPlayerActivity: AudioPlayerActivity) : DiffUtilAdapter<AbstractMediaWrapper, PlaylistAdapter.ViewHolder>() {
-    internal var selectedItem = -1
+internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val model: PlaylistModel) : DiffUtilAdapter<AbstractMediaWrapper, PlaylistAdapter.ViewHolder>() {
+    var selectedItem = -1
         private set
+    private var currentPlayingVisu: MiniVisualizer? = null
 
-    inner class ViewHolder(vdb: TvSimpleListItemBinding) : SelectorViewHolder<TvSimpleListItemBinding>(vdb), View.OnClickListener {
+    inner class ViewHolder(vdb: TvPlaylistItemBinding) : SelectorViewHolder<TvPlaylistItemBinding>(vdb), View.OnClickListener {
         init {
             itemView.setOnClickListener(this)
         }
@@ -51,26 +54,36 @@ internal constructor(private val audioPlayerActivity: AudioPlayerActivity) : Dif
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(TvSimpleListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(TvPlaylistItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.media = dataset[position]
-        val textAppearance = if (position == selectedItem) R.style.TextAppearance_AppCompat_Title else R.style.TextAppearance_AppCompat_Medium
-        val ctx = holder.itemView.context
-        holder.binding.artist.setTextAppearance(ctx, textAppearance)
-        holder.binding.title.setTextAppearance(ctx, textAppearance)
+        if (selectedItem == position) {
+            if (model.playing) holder.binding.playing.start() else holder.binding.playing.stop()
+            holder.binding.playing.visibility = View.VISIBLE
+            currentPlayingVisu = holder.binding.playing
+        } else {
+            holder.binding.playing.stop()
+            holder.binding.playing.visibility = View.INVISIBLE
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
         if (Util.isListEmpty(payloads))
             super.onBindViewHolder(holder, position, payloads)
         else {
-            val textAppearance = if (payloads[0] as Boolean) R.style.TextAppearance_AppCompat_Title else R.style.TextAppearance_AppCompat_Medium
-            val ctx = holder.itemView.context
-            holder.binding.artist.setTextAppearance(ctx, textAppearance)
-            holder.binding.title.setTextAppearance(ctx, textAppearance)
+            val isCurrent = payloads[0] as Boolean
+            val shouldStart = isCurrent && model.playing
+            if (shouldStart) holder.binding.playing.start() else holder.binding.playing.stop()
+            if (isCurrent) holder.binding.playing.visibility = View.VISIBLE else holder.binding.playing.visibility = View.INVISIBLE
+
         }
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        currentPlayingVisu = null
     }
 
     fun setSelection(pos: Int) {
@@ -83,7 +96,6 @@ internal constructor(private val audioPlayerActivity: AudioPlayerActivity) : Dif
 
     override fun onUpdateFinished() {
         audioPlayerActivity.onUpdateFinished()
-
     }
 
     companion object {

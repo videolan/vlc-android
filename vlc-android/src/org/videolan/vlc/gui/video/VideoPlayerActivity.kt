@@ -236,7 +236,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             return if (AndroidUtil.isLolliPopOrLater) pm.isInteractive else pm.isScreenOn
         }
 
-    private val playlistObserver = Observer<List<AbstractMediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) playlistAdapter!!.update(mediaWrappers) }
+    private val playlistObserver = Observer<List<AbstractMediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) playlistAdapter.update(mediaWrappers) }
 
     private var addNextTrack = false
 
@@ -2338,6 +2338,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 wasPlaying = service.isPlaying
             }
             hudBinding.playerOverlayPlay.requestFocus()
+            if (::playlistAdapter.isInitialized) {
+                playlistAdapter.setCurrentlyPlaying(service.isPlaying)
+            }
         }
     }
 

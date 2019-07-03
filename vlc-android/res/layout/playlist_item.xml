@@ -48,10 +48,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
-        <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+        <org.videolan.vlc.gui.view.MiniVisualizer
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:id="@+id/playing"
+                app:bar_color="?attr/player_icon_color"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/item_more"

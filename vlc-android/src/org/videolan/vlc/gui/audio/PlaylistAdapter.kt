@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.audio
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Message
 import android.view.LayoutInflater
@@ -36,8 +35,6 @@ import androidx.annotation.MainThread
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import androidx.vectordrawable.graphics.drawable.Animatable2Compat
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
@@ -47,6 +44,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.MediaItemDiffCallback
@@ -59,6 +57,7 @@ import java.util.*
 class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
 
     private var mModel: PlaylistModel? = null
+    private var currentPlayingVisu: MiniVisualizer? = null
 
     var currentIndex = 0
         set(position) {
@@ -87,28 +86,24 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val ctx = holder.itemView.context
         val media = getItem(position)
         holder.binding.media = media
         holder.binding.subTitle = MediaUtils.getMediaSubtitle(media)
-        val drawableNowPlaying = AnimatedVectorDrawableCompat.create(ctx, R.drawable.anim_now_playing)!!
         if (currentIndex == position) {
-
-            holder.binding.playing.setImageDrawable(drawableNowPlaying)
-            drawableNowPlaying.start()
-            drawableNowPlaying.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
-                override fun onAnimationEnd(drawable: Drawable?) {
-                    super.onAnimationEnd(drawable)
-                    drawableNowPlaying.start()
-                }
-            })
+            if (mModel?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE
+            currentPlayingVisu = holder.binding.playing
         } else {
-            holder.binding.playing.setImageDrawable(drawableNowPlaying)
+            holder.binding.playing.stop()
             holder.binding.playing.visibility = View.INVISIBLE
         }
 
         holder.binding.executePendingBindings()
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        currentPlayingVisu = null
     }
 
     override fun getItemCount(): Int {
@@ -217,5 +212,9 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
 
     override fun createCB(): DiffCallback<AbstractMediaWrapper> {
         return MediaItemDiffCallback()
+    }
+
+    fun setCurrentlyPlaying(playing: Boolean) {
+        if (playing) currentPlayingVisu?.start() else currentPlayingVisu?.stop()
     }
 }
