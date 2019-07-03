@@ -207,8 +207,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     private fun doUpdate() {
         if (activity === null || (isVisible && playlistModel.switchToVideo())) return
         binding.playlistPlayasaudioOff.visibility = if (playlistModel.videoTrackCount > 0) View.VISIBLE else View.GONE
-        binding.audioMediaSwitcher.updateMedia(playlistModel.service)
-        binding.coverMediaSwitcher.updateMedia(playlistModel.service)
+        binding.audioMediaSwitcher.updateMedia(this, playlistModel.service)
+        binding.coverMediaSwitcher.updateMedia(this, playlistModel.service)
 
         updatePlayPause()
         updateShuffleMode()

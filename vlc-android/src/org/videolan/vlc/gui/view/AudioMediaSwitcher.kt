@@ -25,12 +25,9 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
-import org.videolan.vlc.util.runIO
-import org.videolan.vlc.util.runOnMainThread
 
 
 @ObsoleteCoroutinesApi
@@ -87,47 +84,45 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
         setOnViewSwitchedListener(mViewSwitchListener)
     }
 
-    fun updateMedia(service: PlaybackService?) {
+    fun updateMedia(scope: CoroutineScope, service: PlaybackService?) {
         if (service == null) return
         val artMrl = service.coverArt
         val prevArtMrl = service.prevCoverArt
         val nextArtMrl = service.nextCoverArt
-        runIO(Runnable {
-            val coverCurrent = if (artMrl != null) AudioUtil.readCoverBitmap(Uri.decode(artMrl), 512) else null
-            val coverPrev = if (prevArtMrl != null) AudioUtil.readCoverBitmap(Uri.decode(prevArtMrl), 512) else null
-            val coverNext = if (nextArtMrl != null) AudioUtil.readCoverBitmap(Uri.decode(nextArtMrl), 512) else null
-            runOnMainThread(Runnable {
-                removeAllViews()
+        scope.launch {
+            val coverCurrent = if (artMrl != null) withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(artMrl), 512) } else null
+            val coverPrev = if (prevArtMrl != null) withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(prevArtMrl), 512) } else null
+            val coverNext = if (nextArtMrl != null) withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(nextArtMrl), 512) } else null
+            removeAllViews()
 
-                hasPrevious = false
-                previousPosition = 0
+            hasPrevious = false
+            previousPosition = 0
 
-                val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                if (service.hasPrevious()) {
-                    addMediaView(inflater,
-                            service.titlePrev,
-                            service.artistPrev,
-                            coverPrev)
-                    hasPrevious = true
-                }
-                if (service.hasMedia())
-                    addMediaView(inflater,
-                            service.title,
-                            service.artist,
-                            coverCurrent)
-                if (service.hasNext())
-                    addMediaView(inflater,
-                            service.titleNext,
-                            service.artistNext,
-                            coverNext)
+            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            if (service.hasPrevious()) {
+                addMediaView(inflater,
+                        service.titlePrev,
+                        service.artistPrev,
+                        coverPrev)
+                hasPrevious = true
+            }
+            if (service.hasMedia())
+                addMediaView(inflater,
+                        service.title,
+                        service.artist,
+                        coverCurrent)
+            if (service.hasNext())
+                addMediaView(inflater,
+                        service.titleNext,
+                        service.artistNext,
+                        coverNext)
 
-                if (service.hasPrevious() && service.hasMedia()) {
-                    previousPosition = 1
-                    scrollTo(1)
-                } else
-                    scrollTo(0)
-            })
-        })
+            if (service.hasPrevious() && service.hasMedia()) {
+                previousPosition = 1
+                scrollTo(1)
+            } else
+                scrollTo(0)
+        }
     }
 
     protected abstract fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?)
