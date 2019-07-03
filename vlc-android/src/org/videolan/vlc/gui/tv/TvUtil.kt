@@ -315,50 +315,6 @@ object TvUtil {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    fun updateBackground(bm: BackgroundManager?, item: Any?) {
-        if (bm === null || item === null) return
-        if (item is MediaLibraryItem) AppScope.launch {
-            val crop = item.itemType != MediaLibraryItem.TYPE_MEDIA || (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_AUDIO
-            val artworkMrl = item.artworkMrl
-            if (!TextUtils.isEmpty(artworkMrl)) {
-                val blurred = withContext(Dispatchers.IO) {
-                    var cover: Bitmap? = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
-                            ?: return@withContext null
-                    if (cover != null && crop)
-                        cover = BitmapUtil.centerCrop(cover, cover.width, cover.width * 10 / 16)
-                    UiTools.blurBitmap(cover, 10f)
-                }
-                @Suppress("SENSELESS_COMPARISON")
-                if (bm !== null) {
-                    bm.color = 0
-                    bm.drawable = BitmapDrawable(VLCApplication.appResources, blurred)
-                }
-            } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
-                val blurred = withContext(Dispatchers.IO) {
-                    var cover: Bitmap? = ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), 512)
-                            ?: return@withContext null
-                    if (cover != null && crop)
-                        cover = BitmapUtil.centerCrop(cover!!, cover!!.width, cover!!.width * 10 / 16)
-                    UiTools.blurBitmap(cover, 10f)
-                }
-
-                @Suppress("SENSELESS_COMPARISON")
-                if (bm !== null) {
-                    bm.color = 0
-                    bm.drawable = BitmapDrawable(VLCApplication.appResources, blurred)
-                }
-            }
-        }
-        clearBackground(bm)
-    }
-
-    private fun clearBackground(bm: BackgroundManager?) {
-        if (bm === null) return
-        bm.color = ContextCompat.getColor(VLCApplication.appContext, R.color.tv_bg)
-        bm.drawable = null
-    }
-
     fun getIconRes(mediaLibraryItem: MediaLibraryItem): Int {
         when (mediaLibraryItem.itemType) {
             MediaLibraryItem.TYPE_ALBUM -> return R.drawable.ic_album_big
@@ -394,4 +350,43 @@ object TvUtil {
             else -> return R.drawable.ic_browser_unknown_big_normal
         }
     }
+}
+
+@Suppress("UNNECESSARY_SAFE_CALL")
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+fun CoroutineScope.updateBackground(context: Context, bm: BackgroundManager?, item: Any?) {
+    if (bm === null || item === null) return
+    clearBackground(context, bm)
+    if (item is MediaLibraryItem) launch {
+        val crop = item.itemType != MediaLibraryItem.TYPE_MEDIA || (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_AUDIO
+        val artworkMrl = item.artworkMrl
+        if (!TextUtils.isEmpty(artworkMrl)) {
+            val blurred = withContext(Dispatchers.IO) {
+                var cover: Bitmap? = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
+                        ?: return@withContext null
+                if (cover != null && crop)
+                    cover = BitmapUtil.centerCrop(cover, cover.width, cover.width * 10 / 16)
+                UiTools.blurBitmap(cover, 10f)
+            }
+            if (!isActive) return@launch
+            bm?.color = 0
+            bm?.drawable = BitmapDrawable(context.resources, blurred)
+        } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
+            val blurred = withContext(Dispatchers.IO) {
+                var cover: Bitmap? = ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), 512)
+                        ?: return@withContext null
+                if (crop) cover = cover?.let { BitmapUtil.centerCrop(it, it.width, it.width * 10 / 16) }
+                UiTools.blurBitmap(cover, 10f)
+            }
+            if (!isActive) return@launch
+            bm?.color = 0
+            bm?.drawable = BitmapDrawable(context.resources, blurred)
+        }
+    }
+}
+
+private fun clearBackground(context: Context, bm: BackgroundManager?) {
+    if (bm === null) return
+    bm.color = ContextCompat.getColor(context, R.color.tv_bg)
+    bm.drawable = null
 }

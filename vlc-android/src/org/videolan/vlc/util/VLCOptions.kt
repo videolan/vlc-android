@@ -46,7 +46,7 @@ object VLCOptions {
     private const val AOUT_AUDIOTRACK = 0
     private const val AOUT_OPENSLES = 1
 
-    const val HW_ACCELERATION_AUTOMATIC = -1
+    private const val HW_ACCELERATION_AUTOMATIC = -1
     private const val HW_ACCELERATION_DISABLED = 0
     private const val HW_ACCELERATION_DECODING = 1
     private const val HW_ACCELERATION_FULL = 2
@@ -209,9 +209,8 @@ object VLCOptions {
 
         if (!noHardwareAcceleration) {
             try {
-                hardwareAcceleration = Integer.parseInt(prefs.getString("hardware_acceleration", "-1")!!)
-            } catch (ignored: NumberFormatException) {
-            }
+                hardwareAcceleration = Integer.parseInt(prefs.getString("hardware_acceleration", "$HW_ACCELERATION_AUTOMATIC")!!)
+            } catch (ignored: NumberFormatException) {}
 
         }
         if (hardwareAcceleration == HW_ACCELERATION_DISABLED)

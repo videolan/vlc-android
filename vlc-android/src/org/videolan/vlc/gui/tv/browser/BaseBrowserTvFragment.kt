@@ -188,6 +188,11 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         setFocus = true
     }
 
+    override fun onDestroy() {
+        cancel()
+        super.onDestroy()
+    }
+
     private fun calculateNbColumns() {
         viewModel.nbColumns = getColumnNumber()
     }
@@ -228,7 +233,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         (item as? MediaLibraryItem)?.run {
             if (currentArt == artworkMrl) return@run
             currentArt = artworkMrl
-            TvUtil.updateBackground(backgroundManager, this)
+            updateBackground(v.context, backgroundManager, this)
         }
     }
 

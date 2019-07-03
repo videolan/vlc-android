@@ -30,8 +30,7 @@ import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -51,7 +50,8 @@ private const val TAG = "VLC/MainTvFragment"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, View.OnClickListener {
+class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener,
+        View.OnClickListener, CoroutineScope by MainScope() {
 
     private var backgroundManager: BackgroundManager? = null
     private lateinit var rowsAdapter: ArrayObjectAdapter
@@ -200,7 +200,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onStart() {
         super.onStart()
-        if (selectedItem is AbstractMediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
+        if (selectedItem is AbstractMediaWrapper) updateBackground(requireContext(), backgroundManager, selectedItem)
         model.refresh()
     }
 
@@ -209,11 +209,15 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         if (AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater) requireActivity().startService(Intent(requireActivity(), RecommendationsService::class.java))
     }
 
+    override fun onDestroy() {
+        cancel()
+        super.onDestroy()
+    }
+
     override fun onClick(v: View?) = requireActivity().startActivity(Intent(requireContext(), SearchActivity::class.java))
 
     fun showDetails(): Boolean {
-        val media = selectedItem as? AbstractMediaWrapper
-                ?: return false
+        val media = selectedItem as? AbstractMediaWrapper ?: return false
         if (media.type != AbstractMediaWrapper.TYPE_DIR) return false
         val intent = Intent(requireActivity(), DetailsActivity::class.java)
         // pass the item information
@@ -256,6 +260,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onItemSelected(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         selectedItem = item
-        TvUtil.updateBackground(backgroundManager, item)
+        updateBackground(requireContext(), backgroundManager, item)
     }
 }
