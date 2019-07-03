@@ -26,7 +26,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.video.VideoGridFragment
@@ -35,23 +34,14 @@ import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
-class VideosViewModel(context: Context, val folder: AbstractFolder?) : MedialibraryViewModel(context),
-        AbstractMedialibrary.MediaCb {
+class VideosViewModel(context: Context, val folder: AbstractFolder?) : MedialibraryViewModel(context) {
+
     val provider = VideosProvider(folder, context, this)
     override val providers: Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
     init {
-        medialibrary.addMediaCb(this)
+        watchMedia()
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        medialibrary.removeMediaCb(this)
-    }
-
-    override fun onMediaAdded() { refresh() }
-    override fun onMediaModified() { refresh() }
-    override fun onMediaDeleted() { refresh() }
 
     class Factory(val context: Context, val folder: AbstractFolder?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

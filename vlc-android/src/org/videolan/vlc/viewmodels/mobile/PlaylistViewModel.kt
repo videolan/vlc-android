@@ -26,52 +26,27 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
-import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 
 @ExperimentalCoroutinesApi
-class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : MedialibraryViewModel(context),
-        AbstractMedialibrary.MediaCb by EmptyMLCallbacks,
-        AbstractMedialibrary.AlbumsCb by EmptyMLCallbacks,
-        AbstractMedialibrary.PlaylistsCb by EmptyMLCallbacks {
+class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : MedialibraryViewModel(context) {
+
     val tracksProvider = TracksProvider(playlist, context, this)
     override val providers : Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(tracksProvider)
 
     init {
         when (playlist) {
-            is AbstractPlaylist -> medialibrary.addPlaylistCb(this@PlaylistViewModel)
-            is AbstractAlbum -> medialibrary.addAlbumsCb(this@PlaylistViewModel)
-            else -> medialibrary.addMediaCb(this@PlaylistViewModel)
+            is AbstractPlaylist -> watchPlaylists()
+            is AbstractAlbum -> watchAlbums()
+            else -> watchMedia()
         }
-    }
-
-    override fun onMediaAdded() { refresh() }
-
-    override fun onMediaDeleted() { refresh() }
-
-    override fun onPlaylistsDeleted() { refresh() }
-
-    override fun onPlaylistsModified() { refresh() }
-
-    override fun onAlbumsDeleted() { refresh() }
-
-    override fun onAlbumsModified() { refresh() }
-
-    override fun onCleared() {
-        when (playlist) {
-            is AbstractPlaylist -> medialibrary.removePlaylistCb(this)
-            is AbstractAlbum -> medialibrary.removeAlbumsCb(this)
-            else -> medialibrary.removeMediaCb(this)
-        }
-        super.onCleared()
     }
 
     class Factory(val context: Context, val playlist: MediaLibraryItem): ViewModelProvider.NewInstanceFactory() {

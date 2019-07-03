@@ -233,24 +233,6 @@ object ModelsHelper {
     }
 }
 
-object EmptyMLCallbacks : AbstractMedialibrary.MediaCb, AbstractMedialibrary.ArtistsCb, AbstractMedialibrary.AlbumsCb, AbstractMedialibrary.GenresCb, AbstractMedialibrary.PlaylistsCb {
-    override fun onMediaAdded() {}
-    override fun onMediaModified() {}
-    override fun onMediaDeleted() {}
-    override fun onArtistsDeleted() {}
-    override fun onAlbumsDeleted() {}
-    override fun onArtistsAdded() {}
-    override fun onArtistsModified() {}
-    override fun onAlbumsAdded() {}
-    override fun onAlbumsModified() {}
-    override fun onGenresAdded() {}
-    override fun onGenresModified() {}
-    override fun onGenresDeleted() {}
-    override fun onPlaylistsAdded() {}
-    override fun onPlaylistsModified() {}
-    override fun onPlaylistsDeleted() {}
-}
-
 object EmptyPBSCallback : PlaybackService.Callback {
     override fun update() {}
     override fun onMediaEvent(event: Media.Event) {}
