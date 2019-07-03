@@ -43,9 +43,15 @@ private const val TAG = "ImageLoader"
 @MainThread
 @BindingAdapter(value = ["media", "imageWidth"], requireAll = false)
 fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
-    if (item === null
-            || item.itemType == MediaLibraryItem.TYPE_PLAYLIST)
+    if (item === null) return
+
+    if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
+        if (imageWidth != 0) {
+            loadPlaylistImageWithWidth(v as ImageView, item, imageWidth)
+        }
         return
+    }
+
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
     if (item.itemType == MediaLibraryItem.TYPE_GENRE && !isForTV(binding)) {
         return
@@ -67,8 +73,6 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
     else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding, imageWidth) }
 }
 
-@MainThread
-@BindingAdapter(value = ["bind:mediaWithWidth", "bind:imageWidth"], requireAll = true)
 fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth: Int) {
     if (imageWidth == 0) return
     if (item == null) return
@@ -100,7 +104,6 @@ fun placeHolderView(v: View, item: MediaLibraryItem?) {
     } else {
         v.background = null
     }
-
 }
 
 fun isForTV(binding: ViewDataBinding?) = (binding is MediaBrowserTvItemBinding) || binding is MediaBrowserTvItemBinding
@@ -113,7 +116,6 @@ fun placeHolderImageView(v: View, item: MediaLibraryItem?) {
     } else {
         v.background = UiTools.getDefaultAudioDrawable(v.context)
     }
-
 }
 
 @BindingAdapter("icvTitle")
@@ -190,14 +192,12 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
         binding.addOnRebindCallback(rebindCallbacks!!)
     }
 
-
     var playlistImage = if (!bindChanged) ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), width) else null
     if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(VLCApplication.appContext).bitmap
     if (!bindChanged) updateImageView(playlistImage, v, binding)
 
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
-
 
 @MainThread
 fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {

@@ -58,18 +58,17 @@
         </FrameLayout>
 
         <ImageView
-            android:id="@+id/cover"
-            android:layout_width="0dp"
-            android:layout_height="90dp"
-            android:layout_marginStart="@dimen/tv_overscan_horizontal"
-            android:layout_marginBottom="8dp"
-            android:background="@{cover}"
-            app:imageWidth="@{imageWidth}"
-            app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:mediaWithWidth="@{item}"
-            tools:srcCompat="@tools:sample/avatars" />
+                android:id="@+id/cover"
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="@dimen/tv_overscan_horizontal"
+                android:layout_marginBottom="8dp"
+                app:imageWidth="@{imageWidth}"
+                app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:media="@{item}"
+                tools:srcCompat="@tools:sample/avatars"/>
 
         <TextView
             android:id="@+id/albumTitle"
