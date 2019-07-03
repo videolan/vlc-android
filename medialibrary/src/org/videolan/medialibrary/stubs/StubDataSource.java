@@ -32,6 +32,12 @@ import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_LAS
 import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_RELEASEDATE;
 
 public class StubDataSource {
+    public static final String STUBBED_VIDEO_TITLE = "Invincible";
+    public static final String STUBBED_AUDIO_TITLE = "Show Me The Way";
+
+    public static final String STUBBED_VIDEO_EXTENSION = ".mp4";
+    public static final String STUBBED_AUDIO_EXTENSION = ".mp3";
+
 
     ArrayList<AbstractMediaWrapper> mVideoMediaWrappers = new ArrayList<>();
     ArrayList<AbstractMediaWrapper> mAudioMediaWrappers = new ArrayList<>();
@@ -76,7 +82,7 @@ public class StubDataSource {
         String fileName;
 
         for (int i = 0; i < count; i++) {
-            fileName = i + "58_foar_everywun_frum_boxxy.flv";
+            fileName = i + " - " + STUBBED_VIDEO_TITLE + STUBBED_AUDIO_EXTENSION;
             String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
             media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 18820L, AbstractMediaWrapper.TYPE_VIDEO,
                     fileName, fileName, "", "",
@@ -146,7 +152,7 @@ public class StubDataSource {
         AbstractMediaWrapper media;
 
         for (int i = 0; i < count; i++) {
-            fileName = i + "-Show Me The Way.mp3";
+            fileName = i + " - " + STUBBED_AUDIO_TITLE + STUBBED_AUDIO_EXTENSION;
             String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
             media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 280244L, AbstractMediaWrapper.TYPE_AUDIO,
                     i + "-Show Me The Way", fileName, "Peter Frampton", "Rock",

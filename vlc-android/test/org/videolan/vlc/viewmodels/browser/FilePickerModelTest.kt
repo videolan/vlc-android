@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.interfaces.ILibVLC
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.stubs.StubMedia
 import org.videolan.libvlc.util.MediaBrowser
@@ -27,7 +28,7 @@ class FilePickerModelTest : BaseTest() {
     @get:Rule
     val temporaryFolder = TemporaryFolder()
 
-    private val mockedLibVlc: LibVLC = mockk(relaxed = true)
+    private val mockedLibVlc: ILibVLC = mockk(relaxed = true)
     private lateinit var dummyUrl: String
     private lateinit var mediaBrowser: MediaBrowser
 
