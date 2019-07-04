@@ -244,13 +244,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private lateinit var playToPause: AnimatedVectorDrawableCompat
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
 
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            if (SLEEP_INTENT.equals(action!!, ignoreCase = true)) exitOK()
-        }
-    }
-
     internal val isPlaybackSettingActive: Boolean
         get() = playbackSetting != IPlaybackSettingsController.DelayState.OFF
 
@@ -456,10 +449,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         editor.putLong(VIDEO_RESUME_TIME, -1)
         // Paused flag - per session too, like the subs list.
         editor.apply()
-
-        val filter = IntentFilter()
-        filter.addAction(SLEEP_INTENT)
-        registerReceiver(receiver, filter)
 
         this.volumeControlStream = AudioManager.STREAM_MUSIC
 
@@ -783,7 +772,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(receiver)
         playlistModel?.run {
             dataset.removeObserver(playlistObserver)
             onCleared()
