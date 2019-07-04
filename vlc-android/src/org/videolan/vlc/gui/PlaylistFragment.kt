@@ -23,7 +23,6 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -32,7 +31,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
@@ -42,7 +40,6 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistsFragmentBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
@@ -81,37 +78,18 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.swipeLayout.setOnRefreshListener(this)
-        val nbColumns = 2
-        val gridLayoutManager = GridLayoutManager(view.context, nbColumns)
-        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
 
-                if (position == playlistAdapter.itemCount - 1) {
-                    return 1
-                }
-                if (viewModel.provider.isFirstInSection(position + 1)) {
-
-                    //calculate how many cell it must take
-                    val firstSection = viewModel.provider.getPositionForSection(position)
-                    val nbItems = position - firstSection
-                    if (BuildConfig.DEBUG)
-                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % nbColumns)
-
-                    return nbColumns - nbItems % nbColumns
-                }
-
-                return 1
-            }
-        }
 
         //size of an item
         val spacing = resources.getDimension(R.dimen.kl_half).toInt()
+
         val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - spacing * 2, nbColumns, spacing)
 
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, itemSize)
         adapter = playlistAdapter
 
-        playlists.layoutManager = gridLayoutManager
+        displayListInGrid(playlists, adapter!!, viewModel.provider as MedialibraryProvider<MediaLibraryItem>, spacing)
+
         playlists.adapter = playlistAdapter
         playlists.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, viewModel.provider))
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller

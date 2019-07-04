@@ -45,9 +45,12 @@ import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
+import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.CTX_PLAY_ALL
 import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -98,12 +101,15 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val spacing = resources.getDimension(R.dimen.kl_half).toInt()
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - spacing * 2, nbColumns, spacing)
+
         val albumsList = viewPager!!.getChildAt(MODE_ALBUM).findViewById(R.id.audio_list) as RecyclerView
         val songsList = viewPager!!.getChildAt(MODE_SONG).findViewById(R.id.audio_list) as RecyclerView
 
         lists = arrayOf(albumsList, songsList)
         val titles = arrayOf(getString(R.string.albums), getString(R.string.songs))
-        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this)
+        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, itemSize)
         songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
         adapters = arrayOf(albumsAdapter, songsAdapter)
 
@@ -143,6 +149,11 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                     songsAdapter.submitList(tracks as PagedList<MediaLibraryItem>)
             }
         })
+
+        displayListInGrid(albumsList, albumsAdapter, viewModel.albumsProvider as MedialibraryProvider<MediaLibraryItem>, spacing)
+
+
+
     }
 
     override fun getCurrentAdapter() = adapters[currentTab]

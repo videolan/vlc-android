@@ -23,11 +23,14 @@
 
 package org.videolan.vlc.gui.audio
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ActionMode
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -36,6 +39,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
@@ -44,9 +48,11 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel
@@ -60,6 +66,8 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
 
     private var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
+
+    var nbColumns = 2
 
     private val tcl = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
 
@@ -89,6 +97,41 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {}
     }
 
+    fun displayListInGrid(list: RecyclerView, adapter: AudioBrowserAdapter, provider: MedialibraryProvider<MediaLibraryItem>, spacing: Int) {
+        val gridLayoutManager = GridLayoutManager(requireActivity(), nbColumns)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+
+                if (position == adapter.itemCount - 1) {
+                    return 1
+                }
+                if (provider.isFirstInSection(position + 1)) {
+
+                    //calculate how many cell it must take
+                    val firstSection = provider.getPositionForSection(position)
+                    val nbItems = position - firstSection
+                    if (BuildConfig.DEBUG)
+                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % nbColumns)
+
+                    return nbColumns - nbItems % nbColumns
+                }
+
+                return 1
+            }
+        }
+        list.layoutManager = gridLayoutManager
+        list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, provider))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        nbColumns = resources.getInteger(R.integer.mobile_card_columns)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        nbColumns = resources.getInteger(R.integer.mobile_card_columns)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -222,7 +265,6 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
         return true
     }
 
-
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode != null) {
             onClick(v, position, item)
@@ -239,7 +281,6 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
         }
         if (actionMode == null) showContext(requireActivity(), this, position, item.title, flags)
     }
-
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {
         MediaUtils.openList(activity, Arrays.asList(*item.tracks), 0)
@@ -270,5 +311,4 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
             CTX_SET_RINGTONE -> AudioUtil.setRingtone(media as AbstractMediaWrapper, requireActivity())
         }
     }
-
 }
