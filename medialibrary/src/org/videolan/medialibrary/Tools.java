@@ -13,6 +13,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class Tools {
 
@@ -139,5 +140,15 @@ public class Tools {
     public static String encodeVLCMrl(String mrl) {
         if (mrl.startsWith("/")) mrl = "file://"+mrl;
         return encodeVLCString(mrl);
+    }
+
+    /**
+     * Search in a case insensitive manner for a substring in a source string
+     * @param source Source string in which to look for the substring
+     * @param substring substring to search in the source string
+     * @return presence of the substring as a boolean
+     */
+    public static Boolean hasSubString(String source, String substring) {
+        return Pattern.compile(Pattern.quote(substring), Pattern.CASE_INSENSITIVE).matcher(source).find();
     }
 }

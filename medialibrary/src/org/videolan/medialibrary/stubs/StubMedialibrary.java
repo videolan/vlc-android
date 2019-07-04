@@ -27,7 +27,6 @@ import java.util.List;
 public class StubMedialibrary extends AbstractMedialibrary {
 
     private StubDataSource dt = StubDataSource.getInstance();
-    private String TAG = this.getClass().getName();
 
     public int init(Context context) {
         if (context == null) return ML_INIT_FAILED;
@@ -53,10 +52,6 @@ public class StubMedialibrary extends AbstractMedialibrary {
             dt.mBannedFolders.add(path);
     }
 
-
-    // TODO checkout error handling for ban / unban folder
-    // TODO checkout probably useless as there is no folder parsing
-    // TODO also unban folder might trigger an action
     public void unbanFolder(@NonNull String path) {
         dt.mBannedFolders.remove(path);
     }
@@ -97,7 +92,6 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return getVideos(SORT_DEFAULT, false);
     }
 
-    //TODO sublist of sorted result ...
     public AbstractMediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset) {
         return dt.sortMedia(dt.secureSublist(dt.mVideoMediaWrappers, offset, offset + nbItems), sort, desc);
     }
@@ -174,7 +168,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public int getAlbumsCount(String query) {
         int count = 0;
         for (AbstractAlbum album : dt.mAlbums) {
-            if (album.getTitle().contains(query)) count++;
+            if (Tools.hasSubString(album.getTitle(), query)) count++;
         }
         return count;
     }
@@ -190,10 +184,22 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return getArtists(all, SORT_DEFAULT, false);
     }
 
+    private boolean checkForArtist(ArrayList<AbstractArtist> list, AbstractArtist newArtist) {
+        for (AbstractArtist artist : list ) {
+            if (artist.getTitle().equals(newArtist.getTitle())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private AbstractArtist[] getAlbumArtists() {
         ArrayList<AbstractArtist> results = new ArrayList<>();
         for (AbstractAlbum album : dt.mAlbums) {
-            results.add(album.getAlbumArtist());
+            AbstractArtist artist = album.getAlbumArtist();
+            if (!checkForArtist(results, artist)) {
+                results.add(artist);
+            }
         }
         return results.toArray(new AbstractArtist[0]);
     }
@@ -222,7 +228,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public int getArtistsCount(String query) {
         int count = 0;
         for (AbstractArtist artist : dt.mArtists) {
-            if (artist.getTitle().contains(query)) count++;
+            if (Tools.hasSubString(artist.getTitle(), query)) count++;
         }
         return count;
     }
@@ -253,7 +259,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public int getGenresCount(String query) {
         int count = 0;
         for (AbstractGenre genre : dt.mGenres) {
-            if (genre.getTitle().contains(query)) count++;
+            if (Tools.hasSubString(genre.getTitle(), query)) count++;
         }
         return count;
     }
@@ -284,7 +290,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public int getPlaylistsCount(String query) {
         int count = 0;
         for (AbstractPlaylist playlist : dt.mPlaylists) {
-            if (playlist.getTitle().contains(query)) count++;
+            if (Tools.hasSubString(playlist.getTitle(), query)) count++;
         }
         return count;
     }
@@ -297,7 +303,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     }
 
     public AbstractPlaylist createPlaylist(String name) {
-        AbstractPlaylist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID(), name, 0);
+        AbstractPlaylist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID().longValue(), name, 0);
         dt.mPlaylists.add(playlist);
         onPlaylistsAdded();
         return playlist;
@@ -339,7 +345,6 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return results.toArray(new AbstractMediaWrapper[0]);
     }
 
-    //TODO see when it would return false
     public boolean clearHistory() {
         dt.mHistory.clear();
         return true;
@@ -473,13 +478,13 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public AbstractMediaWrapper[] searchMedia(String query) {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getTitle().contains(query)) results.add(media);
+            if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getTitle().contains(query)) results.add(media);
+            if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
-            if (media.getTitle().contains(query)) results.add(media);
+            if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         return results.toArray(new AbstractMediaWrapper[0]);
     }
@@ -492,13 +497,13 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public int getMediaCount(String query) {
         int count = 0;
         for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getTitle().contains(query)) count++;
+            if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getTitle().contains(query)) count++;
+            if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
         for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
-            if (media.getTitle().contains(query)) count++;
+            if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
         return count;
     }
@@ -506,7 +511,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     private AbstractMediaWrapper[] searchAudio(String query) {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getTitle().contains(query)) results.add(media);
+            if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         return dt.sortMedia(results, SORT_DEFAULT, false);
     }
@@ -514,7 +519,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public AbstractMediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset) {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getTitle().contains(query)) results.add(media);
+            if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
@@ -522,7 +527,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public int getAudioCount(String query) {
         int count = 0;
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getTitle().contains(query)) count++;
+            if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
         return count;
     }
@@ -530,7 +535,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     private AbstractMediaWrapper[] searchVideo(String query) {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getTitle().contains(query)) results.add(media);
+            if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         return dt.sortMedia(results, SORT_DEFAULT, false);
     }
@@ -538,7 +543,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public AbstractMediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset) {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getTitle().contains(query)) results.add(media);
+            if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
@@ -546,7 +551,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public int getVideoCount(String query) {
         int count = 0;
         for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getTitle().contains(query)) count++;
+            if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
         return count;
     }
@@ -554,7 +559,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public AbstractArtist[] searchArtist(String query) {
         ArrayList<AbstractArtist> results = new ArrayList<>();
         for (AbstractArtist artist : dt.mArtists) {
-            if (artist.getTitle().contains(query)) results.add(artist);
+            if (Tools.hasSubString(artist.getTitle(), query)) results.add(artist);
         }
         return results.toArray(new AbstractArtist[0]);
     }
@@ -567,7 +572,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public AbstractAlbum[] searchAlbum(String query) {
         ArrayList<AbstractAlbum> results = new ArrayList<>();
         for (AbstractAlbum album : dt.mAlbums) {
-            if (album.getTitle().contains(query)) results.add(album);
+            if (Tools.hasSubString(album.getTitle(), query)) results.add(album);
         }
         return results.toArray(new AbstractAlbum[0]);
     }
@@ -580,7 +585,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public AbstractGenre[] searchGenre(String query) {
         ArrayList<AbstractGenre> results = new ArrayList<>();
         for (AbstractGenre genre : dt.mGenres) {
-            if (genre.getTitle().contains(query)) results.add(genre);
+            if (Tools.hasSubString(genre.getTitle(), query)) results.add(genre);
         }
         return results.toArray(new AbstractGenre[0]);
     }
@@ -593,7 +598,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public AbstractPlaylist[] searchPlaylist(String query) {
         ArrayList<AbstractPlaylist> results = new ArrayList<>();
         for (AbstractPlaylist playlist : dt.mPlaylists) {
-            if (playlist.getTitle().contains(query)) results.add(playlist);
+            if (Tools.hasSubString(playlist.getTitle(), query)) results.add(playlist);
         }
         return results.toArray(new AbstractPlaylist[0]);
     }

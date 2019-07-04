@@ -2115,7 +2115,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Album.initID,
            ml_fields.Album.clazz,
-           "<init>", "(JLjava/lang/String;ILjava/lang/String;Ljava/lang/String;JII)V");
+           "<init>", "(JLjava/lang/String;ILjava/lang/String;Ljava/lang/String;JIJ)V");
 
     GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/Folder", true);
     if (env->RegisterNatives(ml_fields.Folder.clazz, folder_methods, sizeof(folder_methods) / sizeof(folder_methods[0])) < 0) {

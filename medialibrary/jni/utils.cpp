@@ -104,7 +104,7 @@ convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& al
     jlong albumArtistId = artist != nullptr ? albumPtr->albumArtist()->id() : 0;
     jstring artistName = artist != nullptr ? env->NewStringUTF(artist->name().c_str()) : NULL;
     jobject item = env->NewObject(fields->Album.clazz, fields->Album.initID,
-                          (jlong) albumPtr->id(), title, albumPtr->releaseYear(), thumbnailMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->duration());
+                          (jlong) albumPtr->id(), title, albumPtr->releaseYear(), thumbnailMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), albumPtr->duration());
     env->DeleteLocalRef(title);
     env->DeleteLocalRef(thumbnailMrl);
     env->DeleteLocalRef(artistName);

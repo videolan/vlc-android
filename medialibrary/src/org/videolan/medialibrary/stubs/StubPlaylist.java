@@ -2,6 +2,7 @@ package org.videolan.medialibrary.stubs;
 
 import android.os.Parcel;
 
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 
@@ -95,7 +96,7 @@ public class StubPlaylist extends AbstractPlaylist {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId()) &&
-                    media.getTitle().contains(query)) results.add(media);
+                    Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         results = new ArrayList<>(Arrays.asList(dt.sortMedia(results, sort, desc)));
         return dt.secureSublist(results, offset, offset + nbItems).toArray(new AbstractMediaWrapper[0]);
@@ -106,7 +107,7 @@ public class StubPlaylist extends AbstractPlaylist {
         int count = 0;
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId()) &&
-                    media.getTitle().contains(query)) count++;
+                    Tools.hasSubString(media.getTitle(), query)) count++;
         }
         return count;
     }

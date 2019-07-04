@@ -63,34 +63,42 @@ def getMediaInfo(filepath):
     data["width"] = 0
     data["height"] = 0
     data["spu"] = -2
-    data["album_duration"] = 0
+    data["type"] = -1
     media_info = MediaInfo.parse(filepath)
     for track in media_info.tracks:
         if track.track_type == 'General':
             data["title"] = getattr(track, "title")
             mrl = "/".join(getattr(track, "complete_name").split("/")[3:])
+            print(mrl)
             data["mrl"] = "/storage/emulated/0/" + mrl
             data["filename"] = data["mrl"].split("/")[-1]
+            if data["title"] == None or data["title"] == "":
+                data["title"] = data["filename"]
             last_mod_str = getattr(track, "file_last_modification_date__local")
-            timestamp = time.mktime(datetime.datetime.strptime(last_mod_str, "%Y-%m-%d %H:%M:%S").timetuple())
+            timestamp = time.mktime(datetime.datetime.strptime(
+                last_mod_str, "%Y-%m-%d %H:%M:%S").timetuple())
             data["last_modified"] = int(timestamp)
             data["length"] = int(get(track, "duration", "0"))
             data["artist"] = get(track, "performer", "")
             data["album"] = get(track, "album", "")
             data["album_artist"] = get(track, "album_performer", "")
             data["artwork_url"] = ""
-            data["year"] = int(get(track, "year", "0"))
-            data["genre"] = get(track, "genre", "Unknown")
+            data["year"] = int(get(track, "recorded_date", "0"))
+            data["genre"] = get(track, "genre", "")
             data["track_number"] = int(get(track, "track_name_position", "0"))
             data["track_total"] = int(get(track, "track_name_total", "0"))
             data["audio"] = int(get(track, "count_of_audio_streams", "1"))
         if track.track_type == 'Video':
+            data["type"] = 0
             data["width"] = int(get(track, "width", "0"))
             data["height"] = int(get(track, "height", "0"))
             data["genre"] = ""
         if track.track_type == 'Audio':
-            data["album_duration"] = int(get(track, "stream_size", "0"))
+            if data["type"] != 0:
+                data["type"] = 1
             data["spu"] = -2
+    if data["type"] == -1:
+        return None
     print(data)
     return data
 
@@ -126,7 +134,9 @@ if input_path != None:
     if os.path.isdir( input_path ) == True:
         print( "Input directory: " + str( input_path ) )
         for filename in os.listdir( input_path ):
-            json_data.append( getMediaInfo( input_path + filename ) )
+            media_data = getMediaInfo( input_path + filename )
+            if (media_data != None):
+                json_data.append( media_data )
     else:
         json_data.append( getMediaInfo( input_path ) )
     jsonManager.dump(json_data)

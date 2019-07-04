@@ -93,6 +93,9 @@ while [ $# -gt 0 ]; do
         test)
             TEST=1
             ;;
+        stub)
+            STUB=1
+            ;;
         --no-ml)
             NO_ML=1
             ;;
@@ -413,8 +416,8 @@ fi
 #######
 if [ "$RUN" = 1 ]; then
     export PATH="${ANDROID_SDK}/platform-tools/:$PATH"
-    EXTRA=""
-    if [ "$TEST" = 1 ]; then
+        EXTRA=""
+        if [ "$STUB" = 1 ]; then
         EXTRA="--ez 'extra_test_stubs' true"
     fi
     adb wait-for-device

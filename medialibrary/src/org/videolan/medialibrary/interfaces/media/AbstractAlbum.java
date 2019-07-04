@@ -22,7 +22,7 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
     protected int mTracksCount;
     protected long duration;
 
-    public AbstractAlbum(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int duration) {
+    public AbstractAlbum(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, long duration) {
         super(id, title);
         this.releaseYear = releaseYear;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
@@ -60,6 +60,9 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
         return mId;
     }
 
+    // This is called getDescription and not getAlbumArtist because the description in
+    // MediaLibraryItem is used for UI cards' subtitles
+    // ie for the artist for the album
     @Override
     public String getDescription() {
         return albumArtist;

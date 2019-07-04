@@ -2,6 +2,7 @@ package org.videolan.medialibrary.stubs;
 
 import android.os.Parcel;
 
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 
@@ -78,7 +79,7 @@ public class StubFolder extends AbstractFolder {
         else if (mediaType == TYPE_FOLDER_AUDIO) source = dt.mAudioMediaWrappers;
         else return null;
         for (AbstractMediaWrapper media : source) {
-            if (media.getTitle().contains(query) &&
+            if (Tools.hasSubString(media.getTitle(), query) &&
                     isParentFolder(this.mMrl, media.getUri().getPath())) {
                 results.add(media);
             }
@@ -94,7 +95,7 @@ public class StubFolder extends AbstractFolder {
         else if (mediaType == TYPE_FOLDER_AUDIO) source = dt.mAudioMediaWrappers;
         else return 0;
         for (AbstractMediaWrapper media : source) {
-            if (media.getTitle().contains(query) &&
+            if (Tools.hasSubString(media.getTitle(), query) &&
                     isParentFolder(this.mMrl, media.getUri().getPath())) count++;
         }
         return count;

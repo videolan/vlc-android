@@ -152,7 +152,7 @@ public class MLServiceLocator {
     //Album
     public static AbstractAlbum getAbstractAlbum(long id, String title, int releaseYear, String artworkMrl,
                                                  String albumArtist, long albumArtistId, int nbTracks,
-                                                 int duration) {
+                                                 long duration) {
         if (sMode == LocatorMode.VLC_ANDROID) {
             return new Album(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId,
                     nbTracks, duration);

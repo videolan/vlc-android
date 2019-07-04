@@ -6,6 +6,9 @@ import android.os.Parcel;
 import android.util.SparseArray;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.Tools;
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 
@@ -18,6 +21,27 @@ public class StubMediaWrapper extends AbstractMediaWrapper {
                 genre, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified,
                 seen, isThumbnailGenerated, releaseDate);
+        final StringBuilder sb = new StringBuilder();
+        if (type == TYPE_AUDIO) {
+            boolean hasArtistMeta = !artist.equals(AbstractArtist.SpecialRes.VARIOUS_ARTISTS) &&
+                    !artist.equals(AbstractArtist.SpecialRes.UNKNOWN_ARTIST) && !artist.isEmpty();
+            boolean hasAlbumMeta = !album.equals(AbstractAlbum.SpecialRes.UNKNOWN_ALBUM) &&
+                    !artist.isEmpty();
+            if (hasArtistMeta) {
+                sb.append(artist);
+                if (hasAlbumMeta)
+                    sb.append(" - ");
+            }
+            if (hasAlbumMeta)
+                sb.append(album);
+        } else if (type == TYPE_VIDEO) {
+            Tools.setMediaDescription(this);
+        }
+
+        if (sb.length() > 0)
+            mDescription = sb.toString();
+        else
+            mDescription = "";
     }
 
     public StubMediaWrapper(Uri uri, long time, long length, int type,

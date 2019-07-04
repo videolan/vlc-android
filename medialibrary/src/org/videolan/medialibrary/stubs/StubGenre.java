@@ -2,6 +2,7 @@ package org.videolan.medialibrary.stubs;
 
 import android.os.Parcel;
 
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
@@ -46,7 +47,7 @@ public class StubGenre extends AbstractGenre {
         ArrayList<AbstractAlbum> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle()) &&
-                    media.getTitle().contains(query)) {
+                    Tools.hasSubString(media.getTitle(), query)) {
                 for (AbstractAlbum album : dt.mAlbums) {
                     if (album.getTitle().equals(media.getAlbum()) &&
                             !results.contains(album)) {
@@ -63,7 +64,7 @@ public class StubGenre extends AbstractGenre {
         ArrayList<AbstractAlbum> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle()) &&
-                    media.getTitle().contains(query)) {
+                    Tools.hasSubString(media.getTitle(), query)) {
                 for (AbstractAlbum album : dt.mAlbums) {
                     if (album.getTitle().equals(media.getAlbum()) &&
                             !results.contains(album)) {
@@ -121,7 +122,7 @@ public class StubGenre extends AbstractGenre {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle()) &&
-                    media.getTitle().contains(query)) {
+                    Tools.hasSubString(media.getTitle(), query)) {
                 results.add(media);
             }
         }
@@ -132,7 +133,7 @@ public class StubGenre extends AbstractGenre {
         int count = 0;
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle()) &&
-                    media.getTitle().contains(query)) {
+                    Tools.hasSubString(media.getTitle(), query)) {
                 count++;
             }
         }
