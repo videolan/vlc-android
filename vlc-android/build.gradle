@@ -123,7 +123,7 @@ android {
             minifyEnabled true
             shrinkResources false
             proguardFile 'proguard.cfg'
-            kotlinOptions.freeCompilerArgs = [ 'Xno-param-assertions']
+            kotlinOptions.freeCompilerArgs = [ '-Xno-param-assertions']
         }
         signedRelease {
             initWith release
