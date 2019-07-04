@@ -135,7 +135,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         (recyclerview.adapter as OptionsAdapter).update(options)
     }
 
-
     fun show(type: PlayerOptionType) {
         this.playerOptionType = type
         activity.findViewById<ViewStubCompat>(R.id.player_options_stub)?.let {
@@ -172,12 +171,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             PlayerOptionType.ADVANCED -> {
                 when (option.id) {
                     ID_SLEEP -> {
-                        if (VLCApplication.playerSleepTime == null)
-                            showFragment(ID_SLEEP)
-                        else {
-                            activity.setSleep(null)
-                            initSleep()
-                        }
+                        showFragment(ID_SLEEP)
                     }
                     ID_PLAY_AS_AUDIO -> (activity as VideoPlayerActivity).switchToAudioMode(true)
                     ID_POPUP_VIDEO -> {
@@ -288,12 +282,12 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     }
 
     private fun initSleep() {
-        sleepBinding.optionTitle.text = if (VLCApplication.playerSleepTime == null) {
+        sleepBinding.optionTitle.text = if (playerSleepTime == null) {
             sleepBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_sleep_normal_style))
             null
         } else {
             sleepBinding.optionIcon.setImageResource(R.drawable.ic_sleep_on)
-            DateFormat.getTimeFormat(activity).format(VLCApplication.playerSleepTime!!.time)
+            DateFormat.getTimeFormat(activity).format(playerSleepTime!!.time)
         }
     }
 
@@ -416,6 +410,10 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             }
         }
     }
+
+    companion object {
+        var playerSleepTime: Calendar? = null
+    }
 }
 
 fun Context.setSleep(time: Calendar?) {
@@ -425,7 +423,7 @@ fun Context.setSleep(time: Calendar?) {
 
     if (time != null) alarmMgr.set(AlarmManager.RTC_WAKEUP, time.timeInMillis, sleepPendingIntent)
     else alarmMgr.cancel(sleepPendingIntent)
-    VLCApplication.playerSleepTime = time
+    PlayerOptionsDelegate.playerSleepTime = time
 }
 
 class PlayerOption(val type: PlayerOptionType, val id: Int, val icon: Int, val title: String)

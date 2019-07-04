@@ -715,4 +715,5 @@
     <string name="reset">Reset</string>
     <string name="appended">Track(s) appended</string>
     <string name="inserted">Track(s) inserted</string>
+    <string name="remove_current">Remove current</string>
 </resources>

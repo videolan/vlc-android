@@ -12,17 +12,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tim_pic_title"
-            style="@style/Theme.VLC.BottomSheetTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="PickTimeText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/tim_pic_title"
+                style="@style/Theme.VLC.BottomSheetTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                tools:text="PickTimeText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tim_pic_timetojump"
@@ -259,19 +259,33 @@
 
 
         <Button
-            android:id="@+id/tim_pic_ok"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="@string/ok"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+                android:id="@+id/tim_pic_delete_current"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/remove_current"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/tim_pic_ok"
+                app:layout_constraintTop_toTopOf="@+id/tim_pic_ok"/>
+
+        <Button
+                android:id="@+id/tim_pic_ok"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/ok"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -100,16 +100,16 @@ class VLCApplication : Application() {
             locale = Settings.getInstance(instance!!).getString("set_locale", "")
             runOnMainThread(Runnable {
                 // Set the locale for API < 24 and set application resources and direction for API >=24
-                UiTools.setLocale(appContext!!)
+                UiTools.setLocale(appContext)
             })
 
             runIO(Runnable {
                 if (AndroidUtil.isOOrLater)
                     NotificationHelper.createNotificationChannels(this@VLCApplication)
                 // Prepare cache folder constants
-                AudioUtil.prepareCacheFolder(appContext!!)
+                AudioUtil.prepareCacheFolder(appContext)
 
-                if (!VLCInstance.testCompatibleCPU(appContext!!)) return@Runnable
+                if (!VLCInstance.testCompatibleCPU(appContext)) return@Runnable
                 Dialog.setCallbacks(VLCInstance[instance!!], mDialogCallbacks)
             })
         }).start()
@@ -117,7 +117,7 @@ class VLCApplication : Application() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        UiTools.setLocale(appContext!!)
+        UiTools.setLocale(appContext)
     }
 
     /**
@@ -150,7 +150,6 @@ class VLCApplication : Application() {
         @Volatile
         private var instance: Application? = null
 
-        var playerSleepTime: Calendar? = null
 
         private val dataMap = SimpleArrayMap<String, WeakReference<Any>>()
 

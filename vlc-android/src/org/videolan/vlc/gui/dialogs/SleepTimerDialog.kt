@@ -29,6 +29,7 @@ import android.view.ViewGroup
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.setSleep
 import java.util.*
 
@@ -42,7 +43,6 @@ class SleepTimerDialog : PickTimeFragment() {
         maxTimeSize = 4
         return view
     }
-
 
     override fun executeAction() {
         val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
@@ -59,6 +59,16 @@ class SleepTimerDialog : PickTimeFragment() {
         dismiss()
     }
 
+    override fun showDeleteCurrent(): Boolean {
+        return PlayerOptionsDelegate.playerSleepTime != null
+    }
+
+    override fun onClick(v: View) {
+        if (v.id == R.id.tim_pic_delete_current) {
+            requireActivity().setSleep(null)
+            dismiss()
+        } else super.onClick(v)
+    }
 
     override fun getTitle(): Int {
         return R.string.sleep_in
@@ -72,6 +82,4 @@ class SleepTimerDialog : PickTimeFragment() {
             return SleepTimerDialog()
         }
     }
-
-
 }
