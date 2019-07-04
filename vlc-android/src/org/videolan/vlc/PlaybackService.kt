@@ -131,7 +131,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
                 SLEEP_INTENT -> {
                     if (isPlaying) {
-                        stop(true)
+                        stop()
                     }
                 }
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED , VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
