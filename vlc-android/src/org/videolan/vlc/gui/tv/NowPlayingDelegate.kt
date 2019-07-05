@@ -28,6 +28,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.viewmodels.tv.MainTvModel
 
@@ -39,32 +40,34 @@ class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callba
     private val playbackServiceObserver = Observer<PlaybackService> { service ->
         if (service !== null) {
             this.service = service
-            updateCurrent()
             service.addCallback(this)
-        } else {
-            this.service?.removeCallback(this)
+        } else this.service?.let {
+            it.removeCallback(this)
             this.service = null
         }
+        updateCurrent()
     }
+
+    private val nowPlayingObserver = Observer<Boolean> { updateCurrent() }
 
     init {
         PlaybackService.service.observeForever(playbackServiceObserver)
+        PlaylistManager.showAudioPlayer.observeForever(nowPlayingObserver)
     }
 
     fun onClear() {
         PlaybackService.service.removeObserver(playbackServiceObserver)
+        PlaylistManager.showAudioPlayer.removeObserver(nowPlayingObserver)
     }
 
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
         when (event.type) {
-            MediaPlayer.Event.MediaChanged -> updateCurrent()
+            MediaPlayer.Event.Playing -> updateCurrent()
         }
     }
 
-    private fun updateCurrent() {
-        model.run {
-            updateAudioCategories()
-            if (showHistory) launch { updateHistory() }
-        }
+    private fun updateCurrent() = model.run {
+        updateNowPlaying()
+        if (showHistory) launch { updateHistory() }
     }
 }

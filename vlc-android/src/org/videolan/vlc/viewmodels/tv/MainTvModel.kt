@@ -138,7 +138,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         }
     }
 
-    private fun updateNowPlaying() = launch {
+    fun updateNowPlaying() = launch {
         val list = mutableListOf<MediaLibraryItem>()
         PlaybackService.service.value?.run {
             currentMediaWrapper?.let {
@@ -159,7 +159,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         }
     }
 
-    fun updateAudioCategories() {
+    private fun updateAudioCategories() {
         val list = mutableListOf<MediaLibraryItem>(
                 DummyItem(CATEGORY_ARTISTS, context.getString(R.string.artists), ""),
                 DummyItem(CATEGORY_ALBUMS, context.getString(R.string.albums), ""),
