@@ -491,7 +491,7 @@
     <string name="network_browsing">Локальна мережа</string>
     <string name="browsing">Огляд</string>
 
-    <string name="file_size">Розмір файлу:</string>
+    <string name="file_size">Розмір файлу</string>
 
     <string name="audio_delay">Затримка звуку</string>
     <string name="spu_delay">Затримка субтитрів</string>
@@ -704,4 +704,7 @@
     <string name="preamp">Попередній підсилювач</string>
     <string name="presets">Переднабори</string>
     <string name="reset">Очистити</string>
+    <string name="appended">Доріжку(и) додано</string>
+    <string name="inserted">Доріжку(и) вставлено</string>
+    <string name="remove_current">Вилучити поточне</string>
 </resources>
