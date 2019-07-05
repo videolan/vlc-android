@@ -491,7 +491,7 @@
     <string name="network_browsing">רשת מקומית</string>
     <string name="browsing">עיון</string>
 
-    <string name="file_size">גודל קובץ:</string>
+    <string name="file_size">גודל קובץ</string>
 
     <string name="audio_delay">השהיית שמע</string>
     <string name="spu_delay">השהיית כתוביות</string>
@@ -704,4 +704,7 @@
     <string name="preamp">הגברת קדם</string>
     <string name="presets">ערכות מוגדרות</string>
     <string name="reset">איפוס</string>
+    <string name="appended">נוספו רצועות לסוף</string>
+    <string name="inserted">נוספו רצועות</string>
+    <string name="remove_current">הסרת הנוכחית</string>
 </resources>
