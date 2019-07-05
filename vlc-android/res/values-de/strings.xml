@@ -477,7 +477,7 @@
     <string name="network_browsing">Lokales Netzwerk</string>
     <string name="browsing">Surfen</string>
 
-    <string name="file_size">Dateigröße:</string>
+    <string name="file_size">Dateigröße</string>
 
     <string name="audio_delay">Audioverzögerung</string>
     <string name="spu_delay">Untertitelverzögerung</string>
@@ -690,4 +690,7 @@
     <string name="preamp">Vorverstärker</string>
     <string name="presets">Voreinstellung</string>
     <string name="reset">Zurücksetzen</string>
+    <string name="appended">Titel angefügt</string>
+    <string name="inserted">Titel eingefügt</string>
+    <string name="remove_current">Aktuelles entfernen</string>
 </resources>
