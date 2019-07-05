@@ -477,7 +477,7 @@
     <string name="network_browsing">Rede</string>
     <string name="browsing">Procurando</string>
 
-    <string name="file_size">Tamanho do arquivo:</string>
+    <string name="file_size">Tamanho do arquivo</string>
 
     <string name="audio_delay">Atraso de áudio</string>
     <string name="spu_delay">Atraso da legenda</string>
@@ -690,4 +690,7 @@
     <string name="preamp">Pré amplificador</string>
     <string name="presets">Padrões</string>
     <string name="reset">Restaurar</string>
+    <string name="appended">Trilha(s) adicionada(s)</string>
+    <string name="inserted">Trilha(s) incluída(s)</string>
+    <string name="remove_current">Excluir atual</string>
 </resources>
