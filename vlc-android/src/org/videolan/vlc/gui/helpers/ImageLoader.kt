@@ -1,15 +1,21 @@
 package org.videolan.vlc.gui.helpers
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.VectorDrawable
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
@@ -17,6 +23,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.OnRebindCallback
 import androidx.databinding.ViewDataBinding
 import androidx.leanback.widget.ImageCardView
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -24,6 +31,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.util.AppScope
@@ -80,12 +88,30 @@ fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth
     AppScope.launch { getPlaylistImage(v, item, binding, imageWidth) }
 }
 
-fun getAudioIconDrawable(context: Context?, type: Int): BitmapDrawable? = context?.let {
+fun getAudioIconDrawable(context: Context?, type: Int, big: Boolean = false): BitmapDrawable? = context?.let {
     when (type) {
-        MediaLibraryItem.TYPE_ALBUM -> UiTools.getDefaultAlbumDrawable(it)
-        MediaLibraryItem.TYPE_ARTIST -> UiTools.getDefaultArtistDrawable(it)
-        MediaLibraryItem.TYPE_MEDIA -> UiTools.getDefaultAudioDrawable(it)
+        MediaLibraryItem.TYPE_ALBUM -> if (big) UiTools.getDefaultAlbumDrawableBig(it) else UiTools.getDefaultAlbumDrawable(it)
+        MediaLibraryItem.TYPE_ARTIST -> if (big) UiTools.getDefaultArtistDrawableBig(it) else UiTools.getDefaultArtistDrawable(it)
+        MediaLibraryItem.TYPE_MEDIA -> if (big) UiTools.getDefaultAudioDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
         else -> null
+    }
+}
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun getBitmapFromDrawable(context: Context, @DrawableRes drawableId: Int): Bitmap {
+    val drawable = AppCompatResources.getDrawable(context, drawableId)
+
+    return if (drawable is BitmapDrawable) {
+        drawable.bitmap
+    } else if (drawable is VectorDrawableCompat || drawable is VectorDrawable) {
+        val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+
+        bitmap
+    } else {
+        throw IllegalArgumentException("unsupported drawable type")
     }
 }
 
@@ -175,9 +201,19 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
         binding?.removeOnRebindCallback(rebindCallbacks!!)
         return
     }
+
+    if (image == null) {
+        //keep the default image
+        binding?.setVariable(BR.scaleType, ImageView.ScaleType.CENTER_INSIDE)
+        binding?.removeOnRebindCallback(rebindCallbacks!!)
+        return
+    }
+
     if (!bindChanged) updateImageView(image, v, binding)
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
+
+private fun isCard(binding: ViewDataBinding?) = binding is AudioBrowserCardItemBinding
 
 private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, width: Int) {
     var bindChanged = false
@@ -203,7 +239,7 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
 fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {
     if (bitmap === null || bitmap.width <= 1 || bitmap.height <= 1) return
     if (vdb !== null && !isForTV(vdb)) {
-        vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER)
+        vdb.setVariable(BR.scaleType, if (isCard(vdb)) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER)
         vdb.setVariable(BR.cover, BitmapDrawable(target.resources, bitmap))
         vdb.setVariable(BR.protocol, null)
     } else when (target) {

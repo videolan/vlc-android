@@ -41,11 +41,13 @@
             name="cover"
             type="android.graphics.drawable.BitmapDrawable" />
 
-
         <variable
             name="isSquare"
             type="Boolean" />
 
+        <variable
+                name="scaleType"
+                type="android.widget.ImageView.ScaleType"/>
 
         <variable
             name="holder"
@@ -81,6 +83,7 @@
                 tools:srcCompat="@drawable/ic_album_big"
                 vlc:constraintRatio="@{isSquare}"
                 android:src="@{cover}"
+                android:scaleType="@{scaleType}"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"

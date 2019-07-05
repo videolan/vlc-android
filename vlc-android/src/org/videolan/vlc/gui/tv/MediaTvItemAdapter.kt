@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
@@ -40,7 +41,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
             is Fragment -> (eventsHandler as Fragment).context
             else -> null
         }
-        defaultCover = ctx?.let { getAudioIconDrawable(it, type) }
+        defaultCover = ctx?.let { getAudioIconDrawable(it, type, true) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
@@ -153,6 +154,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
 
         init {
             binding.holder = this
+            binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
             if (defaultCover != null) binding.cover = defaultCover
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->

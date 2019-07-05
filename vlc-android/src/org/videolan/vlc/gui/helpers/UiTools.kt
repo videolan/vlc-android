@@ -94,6 +94,11 @@ object UiTools {
     private var DEFAULT_COVER_ALBUM_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ARTIST_DRAWABLE: BitmapDrawable? = null
 
+    private var DEFAULT_COVER_VIDEO_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_AUDIO_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_ALBUM_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_ARTIST_DRAWABLE_BIG: BitmapDrawable? = null
+
     private val sHandler = Handler(Looper.getMainLooper())
     const val DELETE_DURATION = 3000
 
@@ -125,6 +130,36 @@ object UiTools {
             DEFAULT_COVER_ARTIST_DRAWABLE = BitmapDrawable(context.resources, BitmapCache.getFromResource(context.resources, R.drawable.ic_no_artist))
         }
         return DEFAULT_COVER_ARTIST_DRAWABLE!!
+    }
+
+    fun getDefaultVideoDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_VIDEO_DRAWABLE_BIG == null) {
+            val DEFAULT_COVER_VIDEO = BitmapCache.getFromResource(context.resources, R.drawable.ic_no_thumbnail_1610)
+            DEFAULT_COVER_VIDEO_DRAWABLE_BIG = BitmapDrawable(context.resources, DEFAULT_COVER_VIDEO)
+        }
+        return DEFAULT_COVER_VIDEO_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultAudioDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_AUDIO_DRAWABLE_BIG == null) {
+            val DEFAULT_COVER_AUDIO = BitmapCache.getFromResource(context.resources, R.drawable.ic_no_song)
+            DEFAULT_COVER_AUDIO_DRAWABLE_BIG = BitmapDrawable(context.resources, DEFAULT_COVER_AUDIO)
+        }
+        return DEFAULT_COVER_AUDIO_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultAlbumDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_ALBUM_DRAWABLE_BIG == null) {
+            DEFAULT_COVER_ALBUM_DRAWABLE_BIG = BitmapDrawable(context.resources, BitmapCache.getFromResource(context.resources, R.drawable.ic_album_big))
+        }
+        return DEFAULT_COVER_ALBUM_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultArtistDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_ARTIST_DRAWABLE_BIG == null) {
+            DEFAULT_COVER_ARTIST_DRAWABLE_BIG = BitmapDrawable(context.resources, BitmapCache.getFromResource(context.resources, R.drawable.ic_artist_big))
+        }
+        return DEFAULT_COVER_ARTIST_DRAWABLE_BIG!!
     }
 
     /**
@@ -219,8 +254,8 @@ object UiTools {
         link.text = Html.fromHtml(v.context.getString(R.string.about_link))
 
         val feedback : TextView= v.findViewById(R.id.feedback)
-        feedback.text = Html.fromHtml(v.getContext().getString(R.string.feedback_link, v.getContext().getString(R.string.feedback_forum)));
-        feedback.movementMethod = LinkMovementMethod.getInstance();
+        feedback.text = Html.fromHtml(v.context.getString(R.string.feedback_link, v.context.getString(R.string.feedback_forum)))
+        feedback.movementMethod = LinkMovementMethod.getInstance()
 
         val revision = v.context.getString(R.string.build_revision) + " VLC: " + v.context.getString(R.string.build_vlc_revision)
         val builddate = v.context.getString(R.string.build_time)

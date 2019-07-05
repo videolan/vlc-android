@@ -46,6 +46,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.loadImage
 import org.videolan.vlc.gui.helpers.loadPlaylistImageWithWidth
 import org.videolan.vlc.util.*
@@ -110,7 +111,7 @@ class CardPresenter(private val context: Activity) : Presenter() {
                     BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big)
             } else
                 AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.artworkMrl), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width))
-            if (picture == null) picture = BitmapFactory.decodeResource(res, TvUtil.getIconRes(mediaLibraryItem))
+            if (picture == null) picture = getBitmapFromDrawable(context, TvUtil.getIconRes(mediaLibraryItem))
             return picture
         }
 
