@@ -182,20 +182,16 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private fun resetLines() {
-
         val adapters = listOf(nowPlayingRow, videoRow, audioRow, playlistRow, historyRow, browsersRow, miscRow).filter {
-
             when {
                 !displayHistory && it == historyRow -> false
                 !displayPlaylist && it == playlistRow -> false
                 !displayNowPlaying && it == nowPlayingRow -> false
-
                 else -> true
-
             }
 
         }
-        rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
+        if (adapters.size != rowsAdapter.size()) rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
     }
 
     override fun onStart() {
