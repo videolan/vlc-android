@@ -477,7 +477,7 @@
     <string name="network_browsing">Helyi hálózat</string>
     <string name="browsing">Tallózás</string>
 
-    <string name="file_size">Fájlméret:</string>
+    <string name="file_size">Fájlméret</string>
 
     <string name="audio_delay">Hang késleltetése</string>
     <string name="spu_delay">Felirat késleltetése</string>
@@ -690,4 +690,7 @@
     <string name="preamp">Előerősítés</string>
     <string name="presets">Előbeállítások</string>
     <string name="reset">Visszaállítás</string>
+    <string name="appended">Szám(ok) hozzáadva</string>
+    <string name="inserted">Szám(ok) beszúrva</string>
+    <string name="remove_current">Jelenlegi eltávolítása</string>
 </resources>
