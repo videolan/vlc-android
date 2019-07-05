@@ -605,7 +605,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         removePopup()
         if (wakeLock.isHeld) wakeLock.release()
         audioFocusHelper.changeAudioFocus(false)
-        medialibrary.resumeBackgroundOperations()
         // We must publish state before resetting mCurrentIndex
         publishState()
         executeUpdate()

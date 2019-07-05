@@ -16,8 +16,8 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -123,7 +123,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 Log.w(TAG, "Warning: empty media list, nothing to play !")
                 return@launch
             }
-            medialibrary.pauseBackgroundOperations()
             currentIndex = if (isValidPosition(position)) position else 0
 
             // Add handler after loading the list
@@ -226,7 +225,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         mediaList.clear()
         showAudioPlayer.value = false
         service.onPlaybackStopped(systemExit)
-        medialibrary.resumeBackgroundOperations()
         //Close video player if started
         LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(EXIT_PLAYER))
     }
@@ -272,7 +270,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     suspend fun playIndex(index: Int, flags: Int = 0) {
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
-            medialibrary.resumeBackgroundOperations()
             return
         }
         currentIndex = if (isValidPosition(index)) {
@@ -743,7 +740,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         override suspend fun onEvent(event: MediaPlayer.Event) {
             when (event.type) {
                 MediaPlayer.Event.Playing -> {
-                    medialibrary.pauseBackgroundOperations()
                     val mw = withContext(Dispatchers.IO) {
                         getCurrentMedia()?.let {
                             medialibrary.findMedia(it).apply {
@@ -761,7 +757,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         savePlaycount(mw)
                     }
                 }
-                MediaPlayer.Event.Paused -> medialibrary.resumeBackgroundOperations()
                 MediaPlayer.Event.EndReached -> {
                     clearABRepeat()
                     if (currentIndex != nextIndex) {

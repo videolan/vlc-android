@@ -83,9 +83,9 @@ import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.DisplayManager
 import org.videolan.libvlc.util.VLCVideoLayout
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.*
 import org.videolan.vlc.*
@@ -704,6 +704,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onStart() {
+        medialibrary.pauseBackgroundOperations()
         super.onStart()
         PlaybackService.start(this)
         PlaybackService.service.observe(this, this)
@@ -749,6 +750,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         removeDownloadedSubtitlesObserver()
         previousMediaPath = null
         addedExternalSubs.clear()
+        medialibrary.resumeBackgroundOperations()
     }
 
     private fun saveBrightness() {
