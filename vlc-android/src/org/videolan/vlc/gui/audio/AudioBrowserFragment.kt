@@ -88,7 +88,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        spacing = requireActivity().resources.getDimension(R.dimen.kl_half).toInt()
+        spacing = requireActivity().resources.getDimension(R.dimen.kl_small).toInt()
 
 
         if (!::settings.isInitialized) settings = Settings.getInstance(requireContext())

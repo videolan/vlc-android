@@ -12,6 +12,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.providers.HeaderProvider
 import org.videolan.vlc.util.Settings
+import kotlin.math.floor
 
 private const val TAG = "RecyclerSectionItemDecoration"
 
@@ -26,11 +27,14 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
 
         val pos = parent.getChildAdapterPosition(view)
         val positionForSection = provider.getPositionForSection(pos)
+        val isFirstInLine = positionForSection == pos || (pos - positionForSection) % nbColumns == 0
+        val isLastInLine = (pos - positionForSection) % nbColumns == nbColumns - 1
 
-        outRect.left = space
-        outRect.right = space
-        outRect.top = space
-        outRect.bottom = space
+
+        outRect.left = if (isFirstInLine) space else space / 2
+        outRect.right = if (isLastInLine) space else space / 2
+        outRect.top = space / 2
+        outRect.bottom = space / 2
 
         for (i in 0 until nbColumns) {
             if ((pos - i) >= 0 && provider.isFirstInSection(pos - i)) {
@@ -125,6 +129,6 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     }
 
     companion object {
-        fun getItemSize(screenWidth: Int, nbColumns: Int, spacing: Int) = (screenWidth - (spacing * nbColumns)) / nbColumns
+        fun getItemSize(screenWidth: Int, nbColumns: Int, spacing: Int) = ((screenWidth - (spacing * (nbColumns + 1))).toFloat() / nbColumns).toInt()
     }
 }
