@@ -272,33 +272,33 @@
             android:textSize="12sp" />
 
         <ImageView
-            android:id="@+id/shuffle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/previous"
-            app:layout_constraintBottom_toBottomOf="@+id/play_pause"
-            app:layout_constraintTop_toTopOf="@+id/play_pause"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            android:contentDescription="@string/shuffle_title"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_shuffle"
-            android:onClick="@{fragment::onShuffleClick}" />
+                android:id="@+id/shuffle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/previous"
+                app:layout_constraintBottom_toBottomOf="@+id/play_pause"
+                app:layout_constraintTop_toTopOf="@+id/play_pause"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                android:contentDescription="@string/shuffle_title"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_shuffle"
+                android:onClick="@{fragment::onShuffleClick}"/>
 
         <ImageView
-            android:id="@+id/repeat"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:layout_constraintEnd_toStartOf="@+id/songs_list"
-            app:layout_constraintStart_toEndOf="@+id/next"
-            app:layout_constraintBottom_toBottomOf="@+id/play_pause"
-            app:layout_constraintTop_toTopOf="@+id/play_pause"
-            android:contentDescription="@string/repeat_title"
-            android:focusable="true"
-            android:onClick="@{fragment::onRepeatClick}"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_repeat" />
+                android:id="@+id/repeat"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toStartOf="@+id/songs_list"
+                app:layout_constraintStart_toEndOf="@+id/next"
+                app:layout_constraintBottom_toBottomOf="@+id/play_pause"
+                app:layout_constraintTop_toTopOf="@+id/play_pause"
+                android:contentDescription="@string/repeat_title"
+                android:focusable="true"
+                android:onClick="@{fragment::onRepeatClick}"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_repeat"/>
 
         <ImageView
                 android:id="@+id/play_pause"

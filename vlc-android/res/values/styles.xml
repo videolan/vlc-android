@@ -57,11 +57,6 @@
         <item name="ic_playlist">@drawable/ic_playlist</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
         <item name="ic_menu_search">@drawable/ic_menu_search</item>
-        <item name="ic_repeat">@drawable/ic_repeat</item>
-        <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
-        <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
-        <item name="ic_shuffle">@drawable/ic_shuffle</item>
-        <item name="ic_shuffle_on">@drawable/ic_shuffle_on</item>
         <item name="ic_audio_player_more">@drawable/ic_more</item>
         <item name="ic_previous">@drawable/ic_previous</item>
         <item name="ic_next">@drawable/ic_next</item>
@@ -163,11 +158,6 @@
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
         <item name="ic_menu_search">@drawable/ic_menu_search_w</item>
-        <item name="ic_repeat">@drawable/ic_repeat_w</item>
-        <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
-        <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
-        <item name="ic_shuffle">@drawable/ic_shuffle_w</item>
-        <item name="ic_shuffle_on">@drawable/ic_shuffle_on</item>
         <item name="ic_audio_player_more">@drawable/ic_more_w</item>
         <item name="ic_previous">@drawable/ic_previous_w</item>
         <item name="ic_next">@drawable/ic_next_w</item>
@@ -331,10 +321,6 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
-        <item name="ic_repeat">@drawable/ic_repeat_w</item>
-        <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
-        <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
-        <item name="ic_shuffle">@drawable/ic_shuffle_w</item>
         <item name="ic_trash">@drawable/ic_trash_w</item>
         <item name="ic_reset">@drawable/ic_reset_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>

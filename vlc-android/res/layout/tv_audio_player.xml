@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -9,9 +10,9 @@
                 type="androidx.lifecycle.LiveData&lt;org.videolan.vlc.viewmodels.PlaybackProgress>"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                       android:layout_width="match_parent"
-                                                       android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <ImageView
                 android:id="@+id/background"
@@ -109,79 +110,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/playlist"
                 android:layout_marginEnd="16dp"/>
 
-        <ImageView
-                android:id="@+id/button_repeat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:nextFocusDown="@+id/playlist"
-                android:background="@drawable/ic_circle_audio_player"
-                android:onClick="onClick"
-                android:padding="8dp"
-                android:src="@drawable/ic_repeat_normal_w"
-                app:layout_constraintBottom_toBottomOf="@+id/button_previous"
-                app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintLeft_toLeftOf="@+id/album_cover"
-                app:layout_constraintRight_toLeftOf="@+id/button_previous"
-                app:layout_constraintTop_toTopOf="@+id/button_previous"
-                tools:src="@drawable/ic_repeat"/>
-
-        <ImageView
-                android:id="@+id/button_previous"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="8dp"
-                android:nextFocusDown="@+id/playlist"
-                android:background="@drawable/ic_circle_audio_player"
-                android:onClick="onClick"
-                android:src="@drawable/ic_previous_normal_w"
-                app:layout_constraintBottom_toBottomOf="@+id/button_play"
-                app:layout_constraintLeft_toRightOf="@+id/button_repeat"
-                app:layout_constraintRight_toLeftOf="@+id/button_play"
-                app:layout_constraintTop_toTopOf="@+id/button_play"
-                tools:src="@drawable/ic_previous"/>
-
-        <ImageView
-                android:id="@+id/button_play"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:padding="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:nextFocusDown="@+id/playlist"
-                android:background="@drawable/ic_circle_audio_player"
-                android:onClick="onClick"
-                app:layout_constraintBottom_toBottomOf="@+id/button_next"
-                app:layout_constraintLeft_toRightOf="@+id/button_previous"
-                app:layout_constraintRight_toLeftOf="@+id/button_next"
-                app:layout_constraintTop_toTopOf="@+id/button_next"
-                tools:src="@drawable/ic_play"
-                >
-
-            <requestFocus/>
-        </ImageView>
-
-        <ImageView
-                android:id="@+id/button_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="8dp"
-                android:nextFocusDown="@+id/playlist"
-                android:background="@drawable/ic_circle_audio_player"
-                android:onClick="onClick"
-                android:src="@drawable/ic_next_normal_w"
-                app:layout_constraintBottom_toBottomOf="@+id/button_shuffle"
-                app:layout_constraintLeft_toRightOf="@+id/button_play"
-                app:layout_constraintRight_toLeftOf="@+id/button_shuffle"
-                app:layout_constraintTop_toTopOf="@+id/button_shuffle"
-                tools:src="@drawable/ic_next"/>
-
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/button_shuffle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -192,16 +121,89 @@
                 android:nextFocusDown="@+id/button_shuffle"
                 android:background="@drawable/ic_circle_audio_player"
                 android:onClick="onClick"
-                app:srcCompat="@drawable/ic_shuffle_normal_w"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/button_next"
-                app:layout_constraintRight_toRightOf="@+id/album_cover"
-                app:layout_constraintTop_toBottomOf="@+id/media_progress"
+                app:srcCompat="@drawable/ic_shuffle"
                 tools:src="@drawable/ic_shuffle"
+                app:layout_constraintStart_toStartOf="@+id/album_cover"
+                app:layout_constraintEnd_toStartOf="@+id/button_previous"
+                app:layout_constraintBottom_toBottomOf="@+id/button_previous"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintTop_toTopOf="@+id/button_previous"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/button_previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                android:nextFocusDown="@+id/playlist"
+                android:background="@drawable/ic_circle_audio_player"
+                android:onClick="onClick"
+                app:srcCompat="@drawable/ic_previous_player"
+                tools:src="@drawable/ic_previous"
+                app:layout_constraintStart_toEndOf="@+id/button_shuffle"
+                app:layout_constraintEnd_toStartOf="@+id/button_play"
+                app:layout_constraintTop_toTopOf="@+id/button_play"
+                app:layout_constraintBottom_toBottomOf="@+id/button_play"
+                />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/button_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:nextFocusDown="@+id/playlist"
+                app:layout_constraintTop_toBottomOf="@+id/media_progress"
+                android:background="@drawable/ic_circle_audio_player"
+                android:onClick="onClick"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:src="@drawable/ic_play"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
+                app:layout_constraintStart_toEndOf="@+id/button_previous"
+                app:layout_constraintEnd_toStartOf="@+id/button_next"
+                android:layout_marginBottom="8dp">
+
+            <requestFocus/>
+        </androidx.appcompat.widget.AppCompatImageView>
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/button_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                android:nextFocusDown="@+id/playlist"
+                android:background="@drawable/ic_circle_audio_player"
+                android:onClick="onClick"
+                app:srcCompat="@drawable/ic_next_player"
+                tools:src="@drawable/ic_next"
+                app:layout_constraintStart_toEndOf="@+id/button_play"
+                app:layout_constraintEnd_toStartOf="@+id/button_repeat"
+                app:layout_constraintTop_toTopOf="@+id/button_play"
+                app:layout_constraintBottom_toBottomOf="@+id/button_play"/>
 
         <!-- Playlist -->
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/button_repeat"
+                app:srcCompat="@drawable/ic_repeat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:nextFocusDown="@+id/playlist"
+                android:background="@drawable/ic_circle_audio_player"
+                android:onClick="onClick"
+                android:padding="8dp"
+                tools:src="@drawable/ic_repeat"
+                app:layout_constraintEnd_toEndOf="@+id/album_cover"
+                app:layout_constraintStart_toEndOf="@+id/button_next"
+                app:layout_constraintTop_toTopOf="@+id/button_next"
+                app:layout_constraintBottom_toBottomOf="@+id/button_next"
+                />
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/playlist"
                 android:layout_width="0dp"

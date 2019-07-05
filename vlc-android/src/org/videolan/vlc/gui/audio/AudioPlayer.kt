@@ -241,7 +241,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         binding.shuffle.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE
         val shuffling = playlistModel.shuffling
         if (wasShuffling == shuffling) return
-        binding.shuffle.setImageResource(UiTools.getResourceFromAttribute(requireActivity(), if (shuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
+        binding.shuffle.setImageResource(if (shuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
         binding.shuffle.contentDescription = resources.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
         wasShuffling = shuffling
     }
@@ -252,15 +252,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         if (previousRepeatType == repeatType) return
         when (repeatType) {
             REPEAT_ONE -> {
-                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(requireActivity(), R.attr.ic_repeat_one))
+                binding.repeat.setImageResource(R.drawable.ic_repeat_one)
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_single)
             }
             REPEAT_ALL -> {
-                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(requireActivity(), R.attr.ic_repeat_all))
+                binding.repeat.setImageResource(R.drawable.ic_repeat_all)
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_all)
             }
             else -> {
-                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(requireActivity(), R.attr.ic_repeat))
+                binding.repeat.setImageResource(R.drawable.ic_repeat)
                 binding.repeat.contentDescription = resources.getString(R.string.repeat)
             }
         }

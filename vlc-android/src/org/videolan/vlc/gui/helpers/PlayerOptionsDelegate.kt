@@ -107,8 +107,8 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                         options.add(PlayerOption(playerOptionType, ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
                     if (primary)
                         options.add(PlayerOption(playerOptionType, ID_OVERLAY_SIZE, R.attr.ic_crop_player, res.getString(R.string.resize)))
-                    options.add(PlayerOption(playerOptionType, ID_REPEAT, R.attr.ic_repeat, res.getString(R.string.repeat_title)))
-                    if (service.canShuffle()) options.add(PlayerOption(playerOptionType, ID_SHUFFLE, R.attr.ic_shuffle, res.getString(R.string.shuffle_title)))
+                    options.add(PlayerOption(playerOptionType, ID_REPEAT, R.drawable.ic_repeat, res.getString(R.string.repeat_title)))
+                    if (service.canShuffle()) options.add(PlayerOption(playerOptionType, ID_SHUFFLE, R.drawable.ic_shuffle, res.getString(R.string.shuffle_title)))
                     val chaptersCount = service.getChapters(-1)?.size ?: 0
                     if (chaptersCount > 1) options.add(PlayerOption(playerOptionType, ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
                 }
@@ -184,7 +184,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                     ID_REPEAT -> setRepeatMode()
                     ID_SHUFFLE -> {
                         service.shuffle()
-                        initShuffle()
+                        setShuffle()
                     }
                     ID_PASSTHROUGH -> togglePassthrough()
                     ID_ABREPEAT -> service.playlistManager.toggleABRepeat()
@@ -260,25 +260,32 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     private fun setRepeatMode() {
         when (service.repeatType) {
             REPEAT_NONE -> {
-                repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_one)
                 service.repeatType = REPEAT_ONE
             }
             REPEAT_ONE -> if (service.hasPlaylist()) {
-                repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_all))
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_all)
                 service.repeatType = REPEAT_ALL
             } else {
-                repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat))
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = REPEAT_NONE
             }
             REPEAT_ALL -> {
-                repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat))
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = REPEAT_NONE
             }
         }
     }
 
-    private fun initShuffle() {
-        shuffleBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, if (service.isShuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
+    private fun setShuffle() {
+        shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
+    }
+
+    private fun initShuffle(binding: PlayerOptionItemBinding) {
+        shuffleBinding = binding
+        AppScope.launch(Dispatchers.Main) {
+            shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
+        }
     }
 
     private fun initSleep() {
@@ -347,11 +354,11 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     private fun initRepeat(binding: PlayerOptionItemBinding) {
         repeatBinding = binding
         AppScope.launch(Dispatchers.Main) {
-            repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, when (service.repeatType) {
-                REPEAT_ONE -> R.attr.ic_repeat_one
-                REPEAT_ALL -> R.attr.ic_repeat_all
-                else -> R.attr.ic_repeat
-            }))
+            repeatBinding.optionIcon.setImageResource(when (service.repeatType) {
+                REPEAT_ONE -> R.drawable.ic_repeat_one
+                REPEAT_ALL -> R.drawable.ic_repeat_all
+                else -> R.drawable.ic_repeat
+            })
         }
     }
 
@@ -385,7 +392,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 option.id == ID_ABREPEAT -> abrBinding = holder.binding
                 option.id == ID_PASSTHROUGH -> ptBinding = holder.binding
                 option.id == ID_REPEAT -> initRepeat(holder.binding)
-                option.id == ID_SHUFFLE -> shuffleBinding = holder.binding
+                option.id == ID_SHUFFLE -> initShuffle(holder.binding)
                 option.id == ID_SLEEP -> sleepBinding = holder.binding
                 option.id == ID_CHAPTER_TITLE -> initChapters(holder.binding)
                 option.id == ID_PLAYBACK_SPEED -> initPlaybackSpeed(holder.binding)

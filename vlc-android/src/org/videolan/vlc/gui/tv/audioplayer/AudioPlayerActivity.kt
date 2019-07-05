@@ -120,7 +120,7 @@ class AudioPlayerActivity : BaseTvActivity() {
         binding.buttonShuffle.setImageResource(if (shuffling)
             R.drawable.ic_shuffle_on
         else
-            R.drawable.ic_shuffle_normal_w)
+            R.drawable.ic_shuffle)
         if (mw == null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return
         currentCoverArt = mw.artworkMrl
         updateBackground()
@@ -243,15 +243,15 @@ class AudioPlayerActivity : BaseTvActivity() {
         when (model.repeatType) {
             REPEAT_NONE -> {
                 model.repeatType = REPEAT_ALL
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_normal_o)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all)
             }
             REPEAT_ALL -> {
                 model.repeatType = REPEAT_ONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one_pressed)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one)
             }
             REPEAT_ONE -> {
                 model.repeatType = REPEAT_NONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_normal_w)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat)
             }
         }
     }
