@@ -35,8 +35,8 @@ import kotlinx.coroutines.channels.mapNotNullTo
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -105,7 +105,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     private suspend fun browseImpl(url: String? = null) {
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
-        for (media in browserChannel) findMedia(media)?.let { addMedia(it) }
+        for (media in browserChannel) findMedia(media)?.let {
+            if (url === null) loading.postValue(false)
+            addMedia(it)
+        }
         if (dataset.value.isNotEmpty()) parseSubDirectories()
         else dataset.clear() // send observable event when folder is empty
         loading.postValue(false)
