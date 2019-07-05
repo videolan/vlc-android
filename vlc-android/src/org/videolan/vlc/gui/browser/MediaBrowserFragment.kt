@@ -44,7 +44,6 @@ import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.InfoActivity

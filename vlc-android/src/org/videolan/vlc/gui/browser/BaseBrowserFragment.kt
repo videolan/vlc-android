@@ -233,23 +233,22 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
      * Update views visibility and emptiness info
      */
     protected open fun updateEmptyView() {
-        if (swipeRefreshLayout == null) return
-        if (Util.isListEmpty(viewModel.dataset.value)) {
-            if (swipeRefreshLayout != null) {
-                if (swipeRefreshLayout!!.isRefreshing) {
-                    binding.empty.setText(R.string.loading)
-                    binding.empty.visibility = View.VISIBLE
-                    binding.networkList.visibility = View.GONE
-                } else {
-                    binding.empty.setText(R.string.directory_empty)
-                    binding.empty.visibility = View.VISIBLE
-                    binding.networkList.visibility = View.GONE
+            swipeRefreshLayout?.let {
+                if (Util.isListEmpty(viewModel.dataset.value)) {
+                    if (it.isRefreshing) {
+                        binding.empty.setText(R.string.loading)
+                        binding.empty.visibility = View.VISIBLE
+                        binding.networkList.visibility = View.GONE
+                    } else {
+                        binding.empty.setText(R.string.directory_empty)
+                        binding.empty.visibility = View.VISIBLE
+                        binding.networkList.visibility = View.GONE
+                    }
+                } else if (binding.empty.visibility == View.VISIBLE) {
+                    binding.empty.visibility = View.GONE
+                    binding.networkList.visibility = View.VISIBLE
                 }
             }
-        } else if (binding.empty.visibility == View.VISIBLE) {
-            binding.empty.visibility = View.GONE
-            binding.networkList.visibility = View.VISIBLE
-        }
     }
 
     override fun refresh() = viewModel.refresh()
@@ -477,7 +476,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        if (swipeRefreshLayout != null) swipeRefreshLayout!!.isRefreshing = false
+        swipeRefreshLayout?.isRefreshing = false
         handler.sendEmptyMessage(MSG_HIDE_LOADING)
         updateEmptyView()
         if (!Util.isListEmpty(viewModel.dataset.value)) {
