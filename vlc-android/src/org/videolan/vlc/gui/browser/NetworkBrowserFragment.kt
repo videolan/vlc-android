@@ -71,6 +71,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), mrl, showHiddenFiles)).get(NetworkModel::class.java)
+        if (isRootDirectory) swipeRefreshLayout?.isEnabled = false
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
