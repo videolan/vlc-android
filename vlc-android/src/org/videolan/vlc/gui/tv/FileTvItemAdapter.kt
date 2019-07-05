@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -103,6 +104,7 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
 
         init {
             binding.holder = this
+            binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
             if (defaultCover != null) binding.cover = defaultCover
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
