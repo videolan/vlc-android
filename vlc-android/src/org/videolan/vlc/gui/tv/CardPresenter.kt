@@ -40,8 +40,8 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -81,7 +81,7 @@ class CardPresenter(private val context: Activity) : Presenter() {
                 val video = item.type == AbstractMediaWrapper.TYPE_VIDEO
                 if (!folder && (group || video && !item.isThumbnailGenerated)) {
                     if (noArt) {
-                        cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                        cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
                         cardView.mainImage = BitmapDrawable(cardView.resources, getDefaultImage(item))
                     }
                     loadImage(cardView, item)
@@ -94,7 +94,7 @@ class CardPresenter(private val context: Activity) : Presenter() {
                     loadPlaylistImageWithWidth(cardView.mainImageView, item, imageDefaultWidth.toInt())
                 }
                 noArt -> {
-                    cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                    cardView.mainImageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
                     cardView.mainImage = BitmapDrawable(cardView.resources, getDefaultImage(item))
                 }
                 else -> loadImage(cardView, item)

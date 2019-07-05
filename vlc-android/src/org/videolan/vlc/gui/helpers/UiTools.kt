@@ -104,7 +104,7 @@ object UiTools {
 
     fun getDefaultVideoDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE == null) {
-            val DEFAULT_COVER_VIDEO = BitmapCache.getFromResource(context.resources, R.drawable.ic_no_thumbnail_1610)
+            val DEFAULT_COVER_VIDEO = getBitmapFromDrawable(context, R.drawable.ic_no_thumbnail_1610)
             DEFAULT_COVER_VIDEO_DRAWABLE = BitmapDrawable(context.resources, DEFAULT_COVER_VIDEO)
         }
         return DEFAULT_COVER_VIDEO_DRAWABLE!!
@@ -112,7 +112,7 @@ object UiTools {
 
     fun getDefaultAudioDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_AUDIO_DRAWABLE == null) {
-            val DEFAULT_COVER_AUDIO = BitmapCache.getFromResource(context.resources, R.drawable.ic_no_song)
+            val DEFAULT_COVER_AUDIO = getBitmapFromDrawable(context, R.drawable.ic_no_song)
             DEFAULT_COVER_AUDIO_DRAWABLE = BitmapDrawable(context.resources, DEFAULT_COVER_AUDIO)
         }
         return DEFAULT_COVER_AUDIO_DRAWABLE!!
@@ -120,21 +120,21 @@ object UiTools {
 
     fun getDefaultAlbumDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_ALBUM_DRAWABLE == null) {
-            DEFAULT_COVER_ALBUM_DRAWABLE = BitmapDrawable(context.resources, BitmapCache.getFromResource(context.resources, R.drawable.ic_no_album))
+            DEFAULT_COVER_ALBUM_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_no_album))
         }
         return DEFAULT_COVER_ALBUM_DRAWABLE!!
     }
 
     fun getDefaultArtistDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_ARTIST_DRAWABLE == null) {
-            DEFAULT_COVER_ARTIST_DRAWABLE = BitmapDrawable(context.resources, BitmapCache.getFromResource(context.resources, R.drawable.ic_no_artist))
+            DEFAULT_COVER_ARTIST_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_no_artist))
         }
         return DEFAULT_COVER_ARTIST_DRAWABLE!!
     }
 
     fun getDefaultVideoDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE_BIG == null) {
-            val DEFAULT_COVER_VIDEO = BitmapCache.getFromResource(context.resources, R.drawable.ic_no_thumbnail_1610)
+            val DEFAULT_COVER_VIDEO = getBitmapFromDrawable(context, R.drawable.ic_no_thumbnail_1610)
             DEFAULT_COVER_VIDEO_DRAWABLE_BIG = BitmapDrawable(context.resources, DEFAULT_COVER_VIDEO)
         }
         return DEFAULT_COVER_VIDEO_DRAWABLE_BIG!!
@@ -142,7 +142,7 @@ object UiTools {
 
     fun getDefaultAudioDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_AUDIO_DRAWABLE_BIG == null) {
-            val DEFAULT_COVER_AUDIO = BitmapCache.getFromResource(context.resources, R.drawable.ic_no_song)
+            val DEFAULT_COVER_AUDIO = getBitmapFromDrawable(context, R.drawable.ic_song_big)
             DEFAULT_COVER_AUDIO_DRAWABLE_BIG = BitmapDrawable(context.resources, DEFAULT_COVER_AUDIO)
         }
         return DEFAULT_COVER_AUDIO_DRAWABLE_BIG!!
@@ -150,14 +150,14 @@ object UiTools {
 
     fun getDefaultAlbumDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_ALBUM_DRAWABLE_BIG == null) {
-            DEFAULT_COVER_ALBUM_DRAWABLE_BIG = BitmapDrawable(context.resources, BitmapCache.getFromResource(context.resources, R.drawable.ic_album_big))
+            DEFAULT_COVER_ALBUM_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_album_big))
         }
         return DEFAULT_COVER_ALBUM_DRAWABLE_BIG!!
     }
 
     fun getDefaultArtistDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_ARTIST_DRAWABLE_BIG == null) {
-            DEFAULT_COVER_ARTIST_DRAWABLE_BIG = BitmapDrawable(context.resources, BitmapCache.getFromResource(context.resources, R.drawable.ic_artist_big))
+            DEFAULT_COVER_ARTIST_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_artist_big))
         }
         return DEFAULT_COVER_ARTIST_DRAWABLE_BIG!!
     }
