@@ -57,8 +57,8 @@
     <string name="confirm_delete_several_media">Bu %1$d ortam silinsin mi?</string>
     <string name="confirm_delete_folder">\'%1$s\' klasörü ve tüm içeriği silinsin mi?</string>
     <string name="confirm_delete_playlist">\'%1$s\' oynatma listesi silinsin mi?</string>
-    <string name="confirm_remove_from_playlist">\'%1$s\' oynatma listesinden kaldırılsın mı?</string>
-    <string name="confirm_remove_from_playlist_anonymous">Oynatma listesinden kaldırılsın mı?</string>
+    <string name="confirm_remove_from_playlist">\'%1$s\' oynatma listesinden çıkarılsın mı?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Oynatma listesinden çıkarılsın mı?</string>
     <string name="ringtone_set">\'%1$s\' dosyası zil sesi olarak ayarlandı.</string>
     <string name="ringtone_error">Zil sesi ayarlanırken bir sorun çıktı.</string>
     <string name="pause">Duraklat</string>
@@ -193,10 +193,10 @@
     <string name="search_results">Arama sonuçları</string>
     <string name="search_no_result">Herhangi bir ortam bulunamadı</string>
     <string name="favorites_add">Sık kullanılanlara ekle</string>
-    <string name="favorites_remove">Sık kullanılanlardan kaldır</string>
+    <string name="favorites_remove">Sık kullanılanlardan çıkar</string>
     <string name="favorites_edit">Düzenle</string>
     <string name="favorite_added">Sık kullanılanlara eklendi</string>
-    <string name="favorite_removed">Sık kullanılanlardan kaldırıldı</string>
+    <string name="favorite_removed">Sık kullanılanlardan çıkarıldı</string>
 
     <string name="open">Aç</string>
     <string name="open_mrl">Akış</string>
@@ -231,7 +231,7 @@
     <string name="ok_got_it">Anladım, boşver</string>
 
     <string name="playlist_tips">Oynatma listesi ipuçları</string>
-    <string name="remove_song">Şarkıyı kaldır</string>
+    <string name="remove_song">Şarkıyı çıkar</string>
     <string name="remove_playlist_item">%1$s oynatma listesinden kaldırıldı</string>
     <string name="rearrange_order">Sıralamayı değiştir</string>
     <string name="hold_to_seek">Basılı tutarak tarayın</string>
@@ -477,7 +477,7 @@
     <string name="network_browsing">Yerel Ağ</string>
     <string name="browsing">Göz atılıyor</string>
 
-    <string name="file_size">Dosya boyutu:</string>
+    <string name="file_size">Dosya boyutu</string>
 
     <string name="audio_delay">Ses gecikmesi</string>
     <string name="spu_delay">Alt yazı gecikmesi</string>
@@ -659,7 +659,7 @@
     <string name="video_save_clone_mode">Kopya kipi otomatik olarak etkinleştirilsin mi?</string>
     <string name="video_remote_enable">Uzaktan kumanda kipine geç</string>
     <string name="video_remote_disable">Ekranı yansıt</string>
-    <string name="removed_from_playlist_anonymous">öge oynatma listesinden kaldırıldı</string>
+    <string name="removed_from_playlist_anonymous">öge oynatma listesinden çıkarıldı</string>
     <string name="welcome_title">VLC uygulamasına hoş geldiniz!</string>
     <string name="welcome_subtitle">Özgür ve açık kaynaklı çoklu ortam oynatıcısı</string>
     <string name="permission_media">VLC, aygıtınızdaki ortamlara erişmek için izninizi istiyor</string>
@@ -690,4 +690,7 @@
     <string name="preamp">Ön güçlendirme</string>
     <string name="presets">Hazır Ayarlar</string>
     <string name="reset">Sıfırla</string>
+    <string name="appended">Kayıt sona eklendi</string>
+    <string name="inserted">Kayıt araya eklendi</string>
+    <string name="remove_current">Geçerli ögeyi çıkar</string>
 </resources>
