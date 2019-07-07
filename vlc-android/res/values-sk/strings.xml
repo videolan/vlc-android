@@ -491,7 +491,7 @@
     <string name="network_browsing">Lokálna sieť</string>
     <string name="browsing">Prehliadanie</string>
 
-    <string name="file_size">Veľkosť súboru:</string>
+    <string name="file_size">Veľkosť súboru</string>
 
     <string name="audio_delay">Oneskorenie zvuku</string>
     <string name="spu_delay">Oneskorenie titulkov</string>
@@ -704,4 +704,7 @@
     <string name="preamp">Predbežné zosilnenie</string>
     <string name="presets">Prednastavenia</string>
     <string name="reset">Reset</string>
+    <string name="appended">Pripojená stopa/stopy</string>
+    <string name="inserted">Vložená stopa/stopy</string>
+    <string name="remove_current">Odstrániť aktuálne</string>
 </resources>
