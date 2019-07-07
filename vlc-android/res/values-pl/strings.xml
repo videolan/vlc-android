@@ -491,7 +491,7 @@
     <string name="network_browsing">Sieć lokalna</string>
     <string name="browsing">Przeglądanie</string>
 
-    <string name="file_size">Rozmiar pliku:</string>
+    <string name="file_size">Rozmiar pliku</string>
 
     <string name="audio_delay">Opóźnienie dźwięku</string>
     <string name="spu_delay">Opóźnienie napisów</string>
@@ -704,4 +704,7 @@
     <string name="preamp">Przedwzmacniacz</string>
     <string name="presets">Domyślne</string>
     <string name="reset">Resetuj</string>
+    <string name="appended">Utwory dołączone</string>
+    <string name="inserted">Utwory wstawione</string>
+    <string name="remove_current">Usuń obecne</string>
 </resources>
