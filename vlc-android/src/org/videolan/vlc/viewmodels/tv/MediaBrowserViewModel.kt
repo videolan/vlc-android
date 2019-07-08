@@ -33,21 +33,11 @@ class MediaBrowserViewModel(context: Context, val category: Long) : Medialibrary
 
     init {
         when(category){
-            CATEGORY_ALBUMS -> medialibrary.addAlbumsCb(this)
-            CATEGORY_ARTISTS -> medialibrary.addArtistsCb(this)
-            CATEGORY_GENRES -> medialibrary.addGenreCb(this)
-            else -> medialibrary.addMediaCb(this)
+            CATEGORY_ALBUMS -> watchAlbums()
+            CATEGORY_ARTISTS -> watchArtists()
+            CATEGORY_GENRES -> watchGenres()
+            else -> watchMedia()
         }
-    }
-
-    override fun onCleared() {
-        when(category){
-            CATEGORY_ALBUMS -> medialibrary.removeAlbumsCb(this)
-            CATEGORY_ARTISTS -> medialibrary.removeArtistsCb(this)
-            CATEGORY_GENRES -> medialibrary.removeGenreCb(this)
-            else -> medialibrary.removeMediaCb(this)
-        }
-        super.onCleared()
     }
 
     class Factory(private val context: Context, private val category: Long) : ViewModelProvider.NewInstanceFactory() {

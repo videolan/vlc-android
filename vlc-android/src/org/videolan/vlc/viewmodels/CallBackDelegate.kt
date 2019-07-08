@@ -26,14 +26,7 @@ import kotlinx.coroutines.channels.SendChannel
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.tools.conflatedActor
 
-interface ICallBackHandler : AbstractMedialibrary.OnMedialibraryReadyListener,
-        AbstractMedialibrary.OnDeviceChangeListener,
-        AbstractMedialibrary.MediaCb,
-        AbstractMedialibrary.ArtistsCb,
-        AbstractMedialibrary.AlbumsCb,
-        AbstractMedialibrary.GenresCb,
-        AbstractMedialibrary.PlaylistsCb
-{
+interface ICallBackHandler {
     val medialibrary : AbstractMedialibrary
 
     fun CoroutineScope.registerCallBacks(refresh: () -> Unit)
@@ -43,28 +36,16 @@ interface ICallBackHandler : AbstractMedialibrary.OnMedialibraryReadyListener,
     fun watchAlbums()
     fun watchGenres()
     fun watchPlaylists()
-
-    override fun onMedialibraryReady()
-    override fun onMedialibraryIdle()
-    override fun onDeviceChange()
-    override fun onMediaAdded()
-    override fun onMediaModified()
-    override fun onMediaDeleted()
-    override fun onArtistsAdded()
-    override fun onArtistsModified()
-    override fun onArtistsDeleted()
-    override fun onAlbumsAdded()
-    override fun onAlbumsModified()
-    override fun onAlbumsDeleted()
-    override fun onGenresAdded()
-    override fun onGenresModified()
-    override fun onGenresDeleted()
-    override fun onPlaylistsAdded()
-    override fun onPlaylistsModified()
-    override fun onPlaylistsDeleted()
 }
 
-class CallBackDelegate : ICallBackHandler {
+class CallBackDelegate : ICallBackHandler,
+        AbstractMedialibrary.OnMedialibraryReadyListener,
+        AbstractMedialibrary.OnDeviceChangeListener,
+        AbstractMedialibrary.MediaCb,
+        AbstractMedialibrary.ArtistsCb,
+        AbstractMedialibrary.AlbumsCb,
+        AbstractMedialibrary.GenresCb,
+        AbstractMedialibrary.PlaylistsCb{
 
     override val medialibrary = AbstractMedialibrary.getInstance()
     private lateinit var refreshActor: SendChannel<Unit>
