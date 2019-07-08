@@ -164,7 +164,7 @@ public class StubDataSource {
                 case SORT_DEFAULT:
                 case SORT_ALBUM: return o1.getTitle().compareTo(o2.getTitle());
                 case SORT_RELEASEDATE: return o1.getReleaseYear() - o2.getReleaseYear();
-                case SORT_DURATION: return o1.getDuration() - o2.getDuration();
+                case SORT_DURATION: return (int)(o1.getDuration() - o2.getDuration());
                 default: return 0;
             }
         }

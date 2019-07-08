@@ -191,17 +191,17 @@ object ModelsHelper {
             && (item.id == 1L || item.id == 2L) || item.itemType == MediaLibraryItem.TYPE_ALBUM
             && item.title == AbstractAlbum.SpecialRes.UNKNOWN_ALBUM
 
-    private fun getLength(media: MediaLibraryItem): Int {
+    private fun getLength(media: MediaLibraryItem): Long {
         return when {
             media.itemType == MediaLibraryItem.TYPE_ALBUM -> (media as AbstractAlbum).duration
-            media.itemType == MediaLibraryItem.TYPE_MEDIA -> (media as AbstractMediaWrapper).length.toInt()
-            else -> 0
+            media.itemType == MediaLibraryItem.TYPE_MEDIA -> (media as AbstractMediaWrapper).length
+            else -> 0L
         }
     }
 
-    private fun lengthToCategory(length: Int): String {
+    private fun lengthToCategory(length: Long): String {
         val value: Int
-        if (length == 0) return "-"
+        if (length == 0L) return "-"
         if (length < 60000) return "< 1 min"
         if (length < 600000) {
             value = Math.floor((length / 60000).toDouble()).toInt()

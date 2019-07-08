@@ -20,7 +20,7 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
     protected String albumArtist;
     protected long albumArtistId;
     protected int mTracksCount;
-    protected int duration;
+    protected long duration;
 
     public AbstractAlbum(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int duration) {
         super(id, title);
@@ -45,7 +45,7 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
         this.albumArtist = in.readString();
         this.albumArtistId = in.readLong();
         this.mTracksCount = in.readInt();
-        this.duration = in.readInt();
+        this.duration = in.readLong();
     }
 
     abstract public int getRealTracksCount();
@@ -79,7 +79,7 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
         return mTracksCount;
     }
 
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 
@@ -114,6 +114,6 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
         parcel.writeString(albumArtist);
         parcel.writeLong(albumArtistId);
         parcel.writeInt(mTracksCount);
-        parcel.writeInt(duration);
+        parcel.writeLong(duration);
     }
 }
