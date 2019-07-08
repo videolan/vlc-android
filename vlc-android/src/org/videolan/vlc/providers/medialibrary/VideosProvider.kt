@@ -45,17 +45,17 @@ class VideosProvider(val folder : AbstractFolder?, context: Context, scope: Sort
 
     override fun getPage(loadSize: Int, startposition: Int): Array<AbstractMediaWrapper> {
         val list = if (scope.filterQuery == null) when {
-            folder !== null -> folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, sort, scope.desc, loadSize, startposition)
-            else -> medialibrary.getPagedVideos(sort, scope.desc, loadSize, startposition)
+            folder !== null -> folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
+            else -> medialibrary.getPagedVideos(sort, desc, loadSize, startposition)
         } else when {
-            folder !== null -> folder.searchTracks(scope.filterQuery, AbstractFolder.TYPE_FOLDER_VIDEO, sort, scope.desc, loadSize, startposition)
-            else -> medialibrary.searchVideo(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            folder !== null -> folder.searchTracks(scope.filterQuery, AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
+            else -> medialibrary.searchVideo(scope.filterQuery, sort, desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
     }
 
     override fun getAll(): Array<AbstractMediaWrapper> = when {
-        folder !== null -> folder.getAll(AbstractFolder.TYPE_FOLDER_VIDEO, sort, scope.desc).toTypedArray()
+        folder !== null -> folder.getAll(AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc).toTypedArray()
         else -> medialibrary.videos
     }
 }

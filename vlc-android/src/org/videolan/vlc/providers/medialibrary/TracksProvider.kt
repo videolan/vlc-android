@@ -24,7 +24,7 @@ import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.*
-import org.videolan.medialibrary.media.*
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
@@ -47,21 +47,21 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
         }
     }
 
-    override fun getAll(): Array<AbstractMediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, scope.desc)
+    override fun getAll(): Array<AbstractMediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, desc)
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<AbstractMediaWrapper> {
         val list = if (scope.filterQuery == null) when(parent) {
-            is AbstractArtist -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
-            is AbstractAlbum -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
-            is AbstractGenre -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
+            is AbstractArtist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is AbstractAlbum -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is AbstractGenre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is AbstractPlaylist -> parent.getPagedTracks(loadSize, startposition)
-            else -> medialibrary.getPagedAudio(sort, scope.desc, loadSize, startposition)
+            else -> medialibrary.getPagedAudio(sort, desc, loadSize, startposition)
         } else when(parent) {
-            is AbstractArtist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is AbstractAlbum -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is AbstractGenre -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is AbstractPlaylist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            else -> medialibrary.searchAudio(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is AbstractArtist -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractAlbum -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractGenre -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractPlaylist -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
+            else -> medialibrary.searchAudio(scope.filterQuery, sort, desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
     }

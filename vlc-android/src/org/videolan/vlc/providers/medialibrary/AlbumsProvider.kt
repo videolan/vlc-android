@@ -44,20 +44,20 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: So
     }
 
     override fun getAll() : Array<AbstractAlbum> = when (parent) {
-        is AbstractArtist -> parent.getAlbums(sort, scope.desc)
-        is AbstractGenre -> parent.getAlbums(sort, scope.desc)
-        else -> medialibrary.getAlbums(sort, scope.desc)
+        is AbstractArtist -> parent.getAlbums(sort, desc)
+        is AbstractGenre -> parent.getAlbums(sort, desc)
+        else -> medialibrary.getAlbums(sort, desc)
     }
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<AbstractAlbum> {
         val list = if (scope.filterQuery == null) when(parent) {
-            is AbstractArtist -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
-            is AbstractGenre -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
-            else -> medialibrary.getPagedAlbums(sort, scope.desc, loadSize, startposition)
+            is AbstractArtist -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
+            is AbstractGenre -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
+            else -> medialibrary.getPagedAlbums(sort, desc, loadSize, startposition)
         } else when(parent) {
-            is AbstractArtist -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is AbstractGenre -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            else -> medialibrary.searchAlbum(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is AbstractArtist -> parent.searchAlbums(scope.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractGenre -> parent.searchAlbums(scope.filterQuery, sort, desc, loadSize, startposition)
+            else -> medialibrary.searchAlbum(scope.filterQuery, sort, desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
     }
