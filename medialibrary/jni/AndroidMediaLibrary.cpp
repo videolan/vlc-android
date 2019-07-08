@@ -428,10 +428,10 @@ AndroidMediaLibrary::albumsFromArtist( int64_t artistId, const medialibrary::Que
 }
 
 medialibrary::Query<medialibrary::IMedia>
-AndroidMediaLibrary::mediaFromGenre( int64_t genreId, const medialibrary::QueryParameters* params )
+AndroidMediaLibrary::mediaFromGenre( int64_t genreId, bool withThumbnail, const medialibrary::QueryParameters* params )
 {
     auto genre = p_ml->genre(genreId);
-    return genre == nullptr ? nullptr : genre->tracks(params);
+    return genre == nullptr ? nullptr : genre->tracks(withThumbnail, params);
 }
 
 medialibrary::Query<medialibrary::IAlbum>

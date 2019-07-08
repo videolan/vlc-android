@@ -1211,14 +1211,14 @@ getSearchAlbumFromArtistCount(JNIEnv* env, jobject thiz, jobject medialibrary, j
  */
 
 jobjectArray
-getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
+getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
         static_cast<bool>( desc )
     };
-    const auto query = aml->mediaFromGenre(id, &params);
+    const auto query = aml->mediaFromGenre(id, withThumbnail, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
@@ -1234,14 +1234,14 @@ getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jin
 }
 
 jobjectArray
-getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
         static_cast<bool>( desc )
     };
-    const auto query = aml->mediaFromGenre(id, &params);
+    const auto query = aml->mediaFromGenre(id, withThumbnail, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
@@ -1256,7 +1256,7 @@ getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
 
 jint
 getGenreTracksCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromGenre(id, nullptr);
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromGenre(id, false, nullptr);
     return (jint) (query != nullptr ? query->count() : 0);
 }
 
@@ -1839,10 +1839,10 @@ static JNINativeMethod artist_methods[] = {
 };
 
 static JNINativeMethod genre_methods[] = {
-    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getMediaFromGenre },
+    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JZIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getMediaFromGenre },
     {"nativeGetAlbums", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)getAlbumsFromGenre },
     {"nativeGetArtists", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;", (void*)getArtistsFromGenre },
-    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getPagedMediaFromGenre },
+    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JZIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getPagedMediaFromGenre },
     {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)getPagedAlbumsFromGenre },
     {"nativeGetPagedArtists", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;", (void*)getPagedArtistsFromGenre },
     {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchMediaFromGenre },

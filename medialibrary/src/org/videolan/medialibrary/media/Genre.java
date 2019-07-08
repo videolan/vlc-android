@@ -2,13 +2,13 @@ package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
 
+import androidx.annotation.NonNull;
+
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
-
-import androidx.annotation.NonNull;
 
 @SuppressWarnings("JniMissingFunction")
 public class Genre extends AbstractGenre {
@@ -34,14 +34,14 @@ public class Genre extends AbstractGenre {
         return ml.isInitiated() ? nativeGetArtists(ml, mId, sort, desc) : new AbstractArtist[0];
     }
 
-    public AbstractMediaWrapper[] getTracks(int sort, boolean desc) {
+    public AbstractMediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc) {
         final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetTracks(ml, mId, sort, desc) : AbstractMedialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeGetTracks(ml, mId, withThumbnail, sort, desc) : AbstractMedialibrary.EMPTY_COLLECTION;
     }
 
-    public AbstractMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
+    public AbstractMediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, int nbItems, int offset) {
         final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, sort, desc, nbItems, offset) : AbstractMedialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, withThumbnail, sort, desc, nbItems, offset) : AbstractMedialibrary.EMPTY_COLLECTION;
     }
 
     @Override
@@ -77,11 +77,11 @@ public class Genre extends AbstractGenre {
 
     private native AbstractAlbum[] nativeGetAlbums(AbstractMedialibrary ml, long mId, int sort, boolean desc);
     private native AbstractArtist[] nativeGetArtists(AbstractMedialibrary ml, long mId, int sort, boolean desc);
-    private native AbstractMediaWrapper[] nativeGetTracks(AbstractMedialibrary ml, long mId, int sort, boolean desc);
+    private native AbstractMediaWrapper[] nativeGetTracks(AbstractMedialibrary ml, long mId, boolean withThumbnail, int sort, boolean desc);
 
     private native AbstractAlbum[] nativeGetPagedAlbums(AbstractMedialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
     private native AbstractArtist[] nativeGetPagedArtists(AbstractMedialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
-    private native AbstractMediaWrapper[] nativeGetPagedTracks(AbstractMedialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
+    private native AbstractMediaWrapper[] nativeGetPagedTracks(AbstractMedialibrary ml, long mId, boolean withThumbnail, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetTracksCount(AbstractMedialibrary ml, long id);
     private native int nativeGetAlbumsCount(AbstractMedialibrary ml, long mId);
     private native int nativeGetArtistsCount(AbstractMedialibrary ml, long mId);

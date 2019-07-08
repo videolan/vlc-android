@@ -92,7 +92,7 @@ public class StubGenre extends AbstractGenre {
         return dt.sortArtist(results, sort, desc);
     }
 
-    public AbstractMediaWrapper[] getTracks(int sort, boolean desc) {
+    public AbstractMediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc) {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) results.add(media);
@@ -100,7 +100,7 @@ public class StubGenre extends AbstractGenre {
         return dt.sortMedia(results, sort, desc);
     }
 
-    public AbstractMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
+    public AbstractMediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, int nbItems, int offset) {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) results.add(media);
