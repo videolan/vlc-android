@@ -243,32 +243,30 @@ interface RefreshModel {
     fun refresh()
 }
 
-fun SortableModel.canSortBy(sort: Int) = when (sort) {
-    AbstractMedialibrary.SORT_DEFAULT -> true
-    AbstractMedialibrary.SORT_ALPHA -> canSortByName()
-    AbstractMedialibrary.SORT_FILENAME -> canSortByFileNameName()
-    AbstractMedialibrary.SORT_DURATION -> canSortByDuration()
-    AbstractMedialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
-    AbstractMedialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
-    AbstractMedialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
-    AbstractMedialibrary.SORT_FILESIZE -> canSortByFileSize()
-    AbstractMedialibrary.SORT_ARTIST -> canSortByArtist()
-    AbstractMedialibrary.SORT_ALBUM -> canSortByAlbum()
-    AbstractMedialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
-    else -> false
-}
-
-fun MedialibraryProvider<*>.canSortBy(sort: Int) = when (sort) {
-    AbstractMedialibrary.SORT_DEFAULT -> true
-    AbstractMedialibrary.SORT_ALPHA -> canSortByName()
-    AbstractMedialibrary.SORT_FILENAME -> canSortByFileNameName()
-    AbstractMedialibrary.SORT_DURATION -> canSortByDuration()
-    AbstractMedialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
-    AbstractMedialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
-    AbstractMedialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
-    AbstractMedialibrary.SORT_FILESIZE -> canSortByFileSize()
-    AbstractMedialibrary.SORT_ARTIST -> canSortByArtist()
-    AbstractMedialibrary.SORT_ALBUM -> canSortByAlbum()
-    AbstractMedialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
-    else -> false
+interface ISortModel {
+    fun sort(sort: Int)
+    fun canSortByName() = true
+    fun canSortByFileNameName() = false
+    fun canSortByDuration() = false
+    fun canSortByInsertionDate() = false
+    fun canSortByLastModified() = false
+    fun canSortByReleaseDate() = false
+    fun canSortByFileSize() = false
+    fun canSortByArtist() = false
+    fun canSortByAlbum ()= false
+    fun canSortByPlayCount() = false
+    fun canSortBy(sort: Int) = when (sort) {
+        AbstractMedialibrary.SORT_DEFAULT -> true
+        AbstractMedialibrary.SORT_ALPHA -> canSortByName()
+        AbstractMedialibrary.SORT_FILENAME -> canSortByFileNameName()
+        AbstractMedialibrary.SORT_DURATION -> canSortByDuration()
+        AbstractMedialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
+        AbstractMedialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
+        AbstractMedialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
+        AbstractMedialibrary.SORT_FILESIZE -> canSortByFileSize()
+        AbstractMedialibrary.SORT_ARTIST -> canSortByArtist()
+        AbstractMedialibrary.SORT_ALBUM -> canSortByAlbum()
+        AbstractMedialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
+        else -> false
+    }
 }
