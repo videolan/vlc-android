@@ -71,7 +71,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), mrl, showHiddenFiles)).get(NetworkModel::class.java)
-        if (isRootDirectory) swipeRefreshLayout?.isEnabled = false
+        if (isRootDirectory) swipeRefreshLayout.isEnabled = false
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -152,7 +152,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     override fun updateEmptyView() {
         if (ExternalMonitor.isConnected) {
             if (Util.isListEmpty(viewModel.dataset.value)) {
-                if (swipeRefreshLayout == null || swipeRefreshLayout!!.isRefreshing) {
+                if (swipeRefreshLayout.isRefreshing) {
                     binding.empty.setText(R.string.loading)
                     binding.empty.visibility = View.VISIBLE
                     binding.networkList.visibility = View.GONE

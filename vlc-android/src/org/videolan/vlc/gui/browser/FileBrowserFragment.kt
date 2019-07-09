@@ -77,7 +77,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         if (!isRootDirectory)
             super.registerSwiperRefreshlayout()
         else
-            swipeRefreshLayout?.isEnabled = false
+            swipeRefreshLayout.isEnabled = false
     }
 
     protected open fun setupBrowser() {

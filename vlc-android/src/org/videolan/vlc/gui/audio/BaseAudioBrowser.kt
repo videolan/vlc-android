@@ -65,7 +65,7 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     internal lateinit var adapters: Array<AudioBrowserAdapter>
 
     private var tabLayout: TabLayout? = null
-    var viewPager: ViewPager? = null
+    lateinit var viewPager: ViewPager
 
     var nbColumns = 2
 
@@ -77,9 +77,9 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     open fun getCurrentAdapter() = adapter
 
     protected var currentTab
-        get() = viewPager?.currentItem ?: 0
+        get() = if (::viewPager.isInitialized) viewPager.currentItem else 0
         set(value) {
-            viewPager?.currentItem = value
+            viewPager.currentItem = value
         }
 
     private lateinit var layoutOnPageChangeListener: TabLayout.TabLayoutOnPageChangeListener
@@ -87,11 +87,11 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     internal val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             if (newState != RecyclerView.SCROLL_STATE_IDLE) {
-                swipeRefreshLayout?.isEnabled = false
+                swipeRefreshLayout.isEnabled = false
                 return
             }
             val llm = getCurrentRV().layoutManager as LinearLayoutManager? ?: return
-            swipeRefreshLayout?.isEnabled = llm.findFirstVisibleItemPosition() <= 0
+            swipeRefreshLayout.isEnabled = llm.findFirstVisibleItemPosition() <= 0
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {}
@@ -135,24 +135,24 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewPager = view.findViewById(R.id.pager)
+        view.findViewById<ViewPager>(R.id.pager)?.let { viewPager = it }
         tabLayout = requireActivity().findViewById(R.id.sliding_tabs)
     }
 
     private fun setupTabLayout() {
-        if (tabLayout == null || viewPager == null) return
+        if (tabLayout == null || !::viewPager.isInitialized) return
         tabLayout?.setupWithViewPager(viewPager)
         if (!::layoutOnPageChangeListener.isInitialized) layoutOnPageChangeListener = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
-        viewPager?.addOnPageChangeListener(layoutOnPageChangeListener)
+        viewPager.addOnPageChangeListener(layoutOnPageChangeListener)
         tabLayout?.addOnTabSelectedListener(this)
-        viewPager?.addOnPageChangeListener(this)
+        viewPager.addOnPageChangeListener(this)
     }
 
     private fun unSetTabLayout() {
-        if (tabLayout != null || viewPager == null) return
-        viewPager?.removeOnPageChangeListener(layoutOnPageChangeListener)
+        if (tabLayout != null || !::viewPager.isInitialized) return
+        viewPager.removeOnPageChangeListener(layoutOnPageChangeListener)
         tabLayout?.removeOnTabSelectedListener(this)
-        viewPager?.removeOnPageChangeListener(this)
+        viewPager.removeOnPageChangeListener(this)
     }
 
     override fun onStart() {

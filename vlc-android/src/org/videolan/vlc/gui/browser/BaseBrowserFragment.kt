@@ -134,7 +134,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         })
     }
 
-    open fun registerSwiperRefreshlayout() = swipeRefreshLayout?.setOnRefreshListener(this)
+    open fun registerSwiperRefreshlayout() = swipeRefreshLayout.setOnRefreshListener(this)
 
     override fun setBreadcrumb() {
         val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane) ?: return
@@ -233,7 +233,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
      * Update views visibility and emptiness info
      */
     protected open fun updateEmptyView() {
-            swipeRefreshLayout?.let {
+            swipeRefreshLayout.let {
                 if (Util.isListEmpty(viewModel.dataset.value)) {
                     if (it.isRefreshing) {
                         binding.empty.setText(R.string.loading)
@@ -264,10 +264,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         override fun handleMessage(msg: Message) {
             val fragment = owner ?: return
             when (msg.what) {
-                MSG_SHOW_LOADING -> fragment.swipeRefreshLayout?.isRefreshing = true
+                MSG_SHOW_LOADING -> fragment.swipeRefreshLayout.isRefreshing = true
                 MSG_HIDE_LOADING -> {
                     removeMessages(MSG_SHOW_LOADING)
-                    fragment.swipeRefreshLayout?.isRefreshing = false
+                    fragment.swipeRefreshLayout.isRefreshing = false
                 }
                 MSG_REFRESH -> {
                     removeMessages(MSG_REFRESH)
@@ -476,7 +476,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        swipeRefreshLayout?.isRefreshing = false
+        swipeRefreshLayout.isRefreshing = false
         handler.sendEmptyMessage(MSG_HIDE_LOADING)
         updateEmptyView()
         if (!Util.isListEmpty(viewModel.dataset.value)) {

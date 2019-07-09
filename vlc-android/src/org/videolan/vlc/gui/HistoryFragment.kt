@@ -88,7 +88,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         multiSelectHelper = historyAdapter.multiSelectHelper
         list.requestFocus()
         registerForContextMenu(list)
-        swipeRefreshLayout!!.setOnRefreshListener(this)
+        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -129,11 +129,11 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     private fun updateEmptyView() {
         if (viewModel.isEmpty()) {
-            swipeRefreshLayout?.visibility = View.GONE
+            swipeRefreshLayout.visibility = View.GONE
             empty.visibility = View.VISIBLE
         } else {
             empty.visibility = View.GONE
-            swipeRefreshLayout?.visibility = View.VISIBLE
+            swipeRefreshLayout.visibility = View.VISIBLE
         }
     }
 
@@ -221,7 +221,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         UiTools.updateSortTitles(this)
-        swipeRefreshLayout!!.isRefreshing = false
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}

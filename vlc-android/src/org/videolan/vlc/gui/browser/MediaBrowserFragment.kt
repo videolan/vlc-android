@@ -69,7 +69,7 @@ private const val TAG = "VLC/MediaBrowserFragment"
 abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.Callback, Filterable, CoroutineScope by MainScope() {
 
     private lateinit var searchButtonView: View
-    var swipeRefreshLayout: SwipeRefreshLayout? = null
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
     lateinit var mediaLibrary: AbstractMedialibrary
     var actionMode: ActionMode? = null
     var fabPlay: FloatingActionButton? = null
@@ -83,9 +83,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         get() = null
 
     val menu: Menu?
-        get() {
-            return (activity as? AudioPlayerContainerActivity)?.menu
-        }
+        get() = (activity as? AudioPlayerContainerActivity)?.menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,12 +94,14 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         searchButtonView = view.findViewById(R.id.searchButton)
-        swipeRefreshLayout = view.findViewById(R.id.swipeLayout)
-        swipeRefreshLayout?.setColorSchemeResources(R.color.orange700)
+        view.findViewById<SwipeRefreshLayout>(R.id.swipeLayout)?.let {
+            swipeRefreshLayout = it
+            it.setColorSchemeResources(R.color.orange700)
+        }
         if (hasFAB()) fabPlay = requireActivity().findViewById(R.id.fab)
     }
 
-    protected open fun hasFAB() = swipeRefreshLayout != null
+    protected open fun hasFAB() = ::swipeRefreshLayout.isInitialized
 
     protected open fun setBreadcrumb() {
         activity?.findViewById<RecyclerView>(R.id.ariane)?.visibility = View.GONE

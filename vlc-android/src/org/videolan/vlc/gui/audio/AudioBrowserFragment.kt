@@ -82,7 +82,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
      * Disable Swipe Refresh while scrolling horizontally
      */
     private val swipeFilter = View.OnTouchListener { _, event ->
-        swipeRefreshLayout?.isEnabled = event.action == MotionEvent.ACTION_UP
+        swipeRefreshLayout.isEnabled = event.action == MotionEvent.ACTION_UP
         false
     }
 
@@ -121,7 +121,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewPager?.let { viewPager ->
+        viewPager.let { viewPager ->
             val views = ArrayList<View>(MODE_TOTAL)
             for (i in 0 until MODE_TOTAL) {
                 views.add(viewPager.getChildAt(i))
@@ -150,7 +150,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
                 }
             }
             viewPager.setOnTouchListener(swipeFilter)
-            swipeRefreshLayout?.setOnRefreshListener(this)
+            swipeRefreshLayout.setOnRefreshListener(this)
             viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {}
 
@@ -343,7 +343,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
         if (adapter === getCurrentAdapter()) {
-            swipeRefreshLayout?.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
+            swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
             updateEmptyView()
             fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
         } else
@@ -358,10 +358,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
         override fun handleMessage(msg: Message) {
             val fragment = owner ?: return
             when (msg.what) {
-                SET_REFRESHING -> fragment.swipeRefreshLayout?.isRefreshing = true
+                SET_REFRESHING -> fragment.swipeRefreshLayout.isRefreshing = true
                 UNSET_REFRESHING -> {
                     removeMessages(SET_REFRESHING)
-                    fragment.swipeRefreshLayout?.isRefreshing = false
+                    fragment.swipeRefreshLayout.isRefreshing = false
                 }
                 UPDATE_EMPTY_VIEW -> fragment.updateEmptyView()
             }

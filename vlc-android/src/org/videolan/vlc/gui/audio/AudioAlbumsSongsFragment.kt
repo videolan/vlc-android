@@ -78,7 +78,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
      * Disable Swipe Refresh while scrolling horizontally
      */
     private val swipeFilter = View.OnTouchListener { _, event ->
-        swipeRefreshLayout?.isEnabled = event.action == MotionEvent.ACTION_UP
+        swipeRefreshLayout.isEnabled = event.action == MotionEvent.ACTION_UP
         false
     }
 
@@ -101,11 +101,11 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spacing = resources.getDimension(R.dimen.kl_half).toInt()
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - spacing * 2, nbColumns, spacing)
+        val spacing = resources.getDimension(R.dimen.kl_small).toInt()
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
 
-        val albumsList = viewPager!!.getChildAt(MODE_ALBUM).findViewById(R.id.audio_list) as RecyclerView
-        val songsList = viewPager!!.getChildAt(MODE_SONG).findViewById(R.id.audio_list) as RecyclerView
+        val albumsList = viewPager.getChildAt(MODE_ALBUM).findViewById(R.id.audio_list) as RecyclerView
+        val songsList = viewPager.getChildAt(MODE_SONG).findViewById(R.id.audio_list) as RecyclerView
 
         lists = arrayOf(albumsList, songsList)
         val titles = arrayOf(getString(R.string.albums), getString(R.string.songs))
@@ -118,17 +118,16 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
         songsList.adapter = songsAdapter
         albumsList.adapter = albumsAdapter
-        viewPager!!.offscreenPageLimit = MODE_TOTAL - 1
+        viewPager.offscreenPageLimit = MODE_TOTAL - 1
         @Suppress("UNCHECKED_CAST")
-        viewPager!!.adapter = AudioPagerAdapter(arrayOf(viewPager!!.getChildAt(MODE_ALBUM), viewPager!!.getChildAt(MODE_SONG)), titles)
+        viewPager.adapter = AudioPagerAdapter(arrayOf(viewPager.getChildAt(MODE_ALBUM), viewPager.getChildAt(MODE_SONG)), titles)
 
         fastScroller = view.rootView.findViewById<View>(R.id.songs_fast_scroller) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, view.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
 
-        viewPager!!.setOnTouchListener(swipeFilter)
+        viewPager.setOnTouchListener(swipeFilter)
 
-        swipeRefreshLayout = view.findViewById(R.id.swipeLayout)
-        swipeRefreshLayout!!.setOnRefreshListener(this)
+        swipeRefreshLayout.setOnRefreshListener(this)
         for (rv in lists) {
             rv.layoutManager = LinearLayoutManager(view.context)
             val llm = LinearLayoutManager(activity)
@@ -149,11 +148,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                     songsAdapter.submitList(tracks as PagedList<MediaLibraryItem>)
             }
         })
-
         displayListInGrid(albumsList, albumsAdapter, viewModel.albumsProvider as MedialibraryProvider<MediaLibraryItem>, spacing)
-
-
-
     }
 
     override fun getCurrentAdapter() = adapters[currentTab]
@@ -185,7 +180,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
         handler.post {
-            swipeRefreshLayout?.isRefreshing = false
+            swipeRefreshLayout.isRefreshing = false
             val albums = viewModel.albumsProvider.pagedList.value
             if (Util.isListEmpty(albums) && !viewModel.isFiltering()) currentTab = 1
             fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])

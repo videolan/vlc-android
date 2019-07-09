@@ -61,10 +61,6 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         if (!this::adapter.isInitialized) {
             adapter = FoldersAdapter(actor)
             viewModel = getViewModel()
-            viewModel.provider.pagedList.observe(requireActivity(), Observer {
-                swipeRefreshLayout?.isRefreshing = false
-                adapter.submitList(it)
-            })
         }
     }
 
@@ -76,7 +72,11 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         super.onViewCreated(view, savedInstanceState)
         folders_list.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         folders_list.adapter = adapter
-        swipeRefreshLayout?.setOnRefreshListener { activity?.reloadLibrary() }
+        swipeRefreshLayout.setOnRefreshListener { activity?.reloadLibrary() }
+        viewModel.provider.pagedList.observe(requireActivity(), Observer {
+            swipeRefreshLayout.isRefreshing = false
+            adapter.submitList(it)
+        })
     }
 
     override fun onStart() {

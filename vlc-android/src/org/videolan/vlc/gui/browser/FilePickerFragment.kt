@@ -76,7 +76,7 @@ class FilePickerFragment : FileBrowserFragment() {
     override fun onStart() {
         super.onStart()
         activity?.title = getTitle()
-        swipeRefreshLayout?.isEnabled = false
+        swipeRefreshLayout.isEnabled = false
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {

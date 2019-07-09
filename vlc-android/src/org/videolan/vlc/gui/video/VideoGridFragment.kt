@@ -86,10 +86,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     removeMessages(UPDATE_LIST)
                     videoGridFragment.get()?.updateList()
                 }
-                SET_REFRESHING -> videoGridFragment.get()?.swipeRefreshLayout!!.isRefreshing = true
+                SET_REFRESHING -> videoGridFragment.get()?.swipeRefreshLayout?.isRefreshing = true
                 UNSET_REFRESHING -> {
                     removeMessages(SET_REFRESHING)
-                    videoGridFragment.get()?.swipeRefreshLayout!!.isRefreshing = false
+                    videoGridFragment.get()?.swipeRefreshLayout?.isRefreshing = false
                 }
                 else -> super.handleMessage(msg)
             }
@@ -148,7 +148,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        swipeRefreshLayout!!.setOnRefreshListener(this)
+        swipeRefreshLayout.setOnRefreshListener(this)
         binding.videoGrid.adapter = videoListAdapter
     }
 
@@ -360,9 +360,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onCtxAction(position: Int, option: Int) {
         if (position >= videoListAdapter.itemCount) return
-        val media = videoListAdapter.getItem(position)
-        if (media == null)
-            return
+        val media = videoListAdapter.getItem(position) ?: return
         val activity = activity ?: return
         when (option) {
             CTX_PLAY_FROM_START -> playVideo(media, true)
