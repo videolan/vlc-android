@@ -2197,7 +2197,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (!AndroidDevices.isChromeBook && !isTv
                         && Settings.getInstance(this).getBoolean("enable_casting", true)) {
                     rendererBtn = findViewById(R.id.video_renderer)
-                    PlaybackService.renderer.observe(this, Observer { rendererItem -> rendererBtn?.setImageDrawable(AppCompatResources.getDrawable(this, if (rendererItem == null) R.drawable.ic_renderer_circle_player else R.drawable.ic_renderer_circle_player)) })
+                    PlaybackService.renderer.observe(this, Observer { rendererItem -> rendererBtn?.setImageDrawable(AppCompatResources.getDrawable(this, if (rendererItem == null) R.drawable.ic_renderer_circle_player else R.drawable.ic_renderer_on_circle_player)) })
                     RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> rendererBtn.setVisibility(if (Util.isListEmpty(rendererItems)) View.GONE else View.VISIBLE) })
                 }
 
