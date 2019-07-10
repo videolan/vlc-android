@@ -1955,7 +1955,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             showOverlayTimeout(OVERLAY_INFINITE)
             pause()
         } else {
-            hideOverlay(true)
+            handler.sendEmptyMessageDelayed(FADE_OUT, 300L)
             play()
         }
     }
