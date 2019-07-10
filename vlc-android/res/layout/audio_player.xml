@@ -198,7 +198,7 @@
             android:visibility="@{showCover ? View.GONE : View.VISIBLE}"
             android:layout_gravity="center_horizontal"
             android:background="?attr/background_default"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/audio_player_cover_margin"
             android:paddingBottom="@dimen/listview_bottom_padding" />
 
         <org.videolan.vlc.gui.view.CoverMediaSwitcher
@@ -210,10 +210,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header"
             app:layout_constraintBottom_toTopOf="@+id/play_pause"
-            android:layout_marginLeft="@dimen/audio_player_cover_margin"
-            android:layout_marginRight="@dimen/audio_player_cover_margin"
-            android:layout_marginTop="@dimen/audio_player_cover_margin"
-            android:layout_marginBottom="@dimen/audio_player_cover_margin"
+            android:layout_margin="@dimen/audio_player_cover_margin"
             android:visibility="@{showCover ? View.VISIBLE : View.GONE}"
             tools:layout_constraintLeft_creator="1" />
 

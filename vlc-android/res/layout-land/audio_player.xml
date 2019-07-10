@@ -211,9 +211,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/songs_list"
             app:layout_constraintBottom_toTopOf="@+id/play_pause"
-            android:layout_marginLeft="@dimen/audio_player_cover_margin"
-            android:layout_marginRight="@dimen/audio_player_cover_margin"
-            android:layout_marginTop="@dimen/audio_player_cover_margin"
+            android:layout_margin="@dimen/audio_player_cover_margin"
             android:visibility="visible"
             tools:layout_constraintLeft_creator="1" />
 
