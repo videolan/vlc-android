@@ -191,7 +191,15 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             }
 
         }
-        if (adapters.size != rowsAdapter.size()) rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
+        var needToRefresh = false
+        if (adapters.size != rowsAdapter.size()) needToRefresh = true else
+            adapters.withIndex().forEach {
+                if ((rowsAdapter.get(it.index) as ListRow).headerItem != it.value.headerItem) {
+                    needToRefresh = true
+                    return@forEach
+                }
+            }
+        if (needToRefresh) rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
     }
 
     override fun onStart() {
