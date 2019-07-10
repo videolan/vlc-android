@@ -84,7 +84,7 @@ public class Tools {
                 final String artist = mw.getReferenceArtist(), album = mw.getAlbum();
                 final StringBuilder sb = new StringBuilder();
                 boolean hasArtist = !TextUtils.isEmpty(artist), hasAlbum = !TextUtils.isEmpty(album);
-                if (hasArtist && hasAlbum) sb.append(album).append(" - ").append(artist);
+                if (hasArtist && hasAlbum) sb.append(artist).append(" - ").append(album);
                 else if (hasArtist) sb.append(artist);
                 else sb.append(album);
                 item.setDescription(sb.toString());
