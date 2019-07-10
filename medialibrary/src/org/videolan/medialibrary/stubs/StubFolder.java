@@ -99,4 +99,14 @@ public class StubFolder extends AbstractFolder {
         }
         return count;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean result = super.equals(obj);
+        if (!result && obj instanceof AbstractFolder) {
+            AbstractFolder other = ((AbstractFolder) obj);
+            return other.mMrl.equals(this.mMrl);
+        }
+        return result;
+    }
 }

@@ -77,7 +77,6 @@ public class StubDataSource {
     }
 
     public void setVideoByCount(int count, @Nullable String folder) {
-        mVideoMediaWrappers.clear();
         AbstractMediaWrapper media;
         String fileName;
 
