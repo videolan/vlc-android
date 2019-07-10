@@ -115,7 +115,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_audiotrack_player" />
+                app:srcCompat="@drawable/ic_audiotrack_player" />
 
             <ImageView
                 android:layout_width="0dp"
