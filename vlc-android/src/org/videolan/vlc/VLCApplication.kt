@@ -33,11 +33,11 @@ import androidx.collection.SimpleArrayMap
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.multidex.MultiDexApplication
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -47,11 +47,10 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.*
 import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationTargetException
-import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VLCApplication : Application() {
+class VLCApplication : MultiDexApplication() {
 
     private var mDialogCallbacks: Dialog.Callbacks = object : Dialog.Callbacks {
         override fun onDisplay(dialog: Dialog.ErrorMessage) {
