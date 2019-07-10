@@ -52,7 +52,7 @@ import java.lang.reflect.InvocationTargetException
 @ExperimentalCoroutinesApi
 class VLCApplication : MultiDexApplication() {
 
-    private var mDialogCallbacks: Dialog.Callbacks = object : Dialog.Callbacks {
+    private var dialogCallbacks: Dialog.Callbacks = object : Dialog.Callbacks {
         override fun onDisplay(dialog: Dialog.ErrorMessage) {
             Log.w(TAG, "ErrorMessage " + dialog.text)
         }
@@ -75,7 +75,7 @@ class VLCApplication : MultiDexApplication() {
         }
 
         override fun onCanceled(dialog: Dialog?) {
-            if (dialog != null && dialog.context != null) (dialog.context as DialogFragment).dismiss()
+            (dialog?.context as? DialogFragment)?.dismiss()
         }
 
         override fun onProgressUpdate(dialog: Dialog.ProgressDialog) {
@@ -93,10 +93,9 @@ class VLCApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         Thread(Runnable {
-            locale = Settings.getInstance(instance!!).getString("set_locale", "")
+            locale = Settings.getInstance(instance).getString("set_locale", "")
             runOnMainThread(Runnable {
                 // Set the locale for API < 24 and set application resources and direction for API >=24
                 UiTools.setLocale(appContext)
@@ -109,7 +108,7 @@ class VLCApplication : MultiDexApplication() {
                 AudioUtil.prepareCacheFolder(appContext)
 
                 if (!VLCInstance.testCompatibleCPU(appContext)) return@Runnable
-                Dialog.setCallbacks(VLCInstance[instance!!], mDialogCallbacks)
+                Dialog.setCallbacks(VLCInstance[instance], dialogCallbacks)
             })
         }).start()
     }
@@ -125,14 +124,12 @@ class VLCApplication : MultiDexApplication() {
     override fun onLowMemory() {
         super.onLowMemory()
         Log.w(TAG, "System is running low on memory")
-
         BitmapCache.clear()
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         Log.w(TAG, "onTrimMemory, level: $level")
-
         BitmapCache.clear()
     }
 
@@ -143,12 +140,11 @@ class VLCApplication : MultiDexApplication() {
     }
 
     companion object {
-        const val TAG = "VLC/VLCApplication"
+        private const val TAG = "VLC/VLCApplication"
 
         const val ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication"
         @Volatile
-        private var instance: Application? = null
-
+        private lateinit var instance: Application
 
         private val dataMap = SimpleArrayMap<String, WeakReference<Any>>()
 
@@ -164,8 +160,8 @@ class VLCApplication : MultiDexApplication() {
         val appContext: Context
             @SuppressLint("PrivateApi")
             get() {
-                return if (instance != null)
-                    instance!!
+                return if (::instance.isInitialized)
+                    instance
                 else {
                     try {
                         instance = Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication").invoke(null) as Application
@@ -175,8 +171,7 @@ class VLCApplication : MultiDexApplication() {
                     } catch (ignored: ClassNotFoundException) {
                     } catch (ignored: ClassCastException) {
                     }
-
-                    instance!!
+                    instance
                 }
             }
 
@@ -190,14 +185,9 @@ class VLCApplication : MultiDexApplication() {
             dataMap.put(key, WeakReference(data))
         }
 
-        fun getData(key: String): Any? {
-            val wr = dataMap.remove(key)
-            return wr?.get()
-        }
+        fun getData(key: String) = dataMap.remove(key)?.get()
 
-        fun hasData(key: String): Boolean {
-            return dataMap.containsKey(key)
-        }
+        fun hasData(key: String) = dataMap.containsKey(key)
 
         fun clearData() {
             dataMap.clear()
