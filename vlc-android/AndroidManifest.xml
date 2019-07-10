@@ -566,10 +566,14 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV" />
         <activity
-            android:name=".gui.tv.DetailsActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.Leanback.Details" />
+                android:name=".gui.tv.dialogs.ConfirmationTvActivity"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV"/>
+        <activity
+                android:name=".gui.tv.DetailsActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.Leanback.Details"/>
         <activity
             android:name=".gui.tv.browser.VerticalGridActivity"
             android:exported="true"
