@@ -421,7 +421,7 @@
     <string name="dump_media_db_summary">Kopiera databasen till den interna lagringens hemkatalog</string>
     <string name="clear_media_db">Rensa mediadatabas</string>
     <string name="clear_media_db_summary">Gå till VLCs programinformation för att rensa data</string>
-    <string name="clear_history">Rensa sökhistorik</string>
+    <string name="clear_history">Rensa historik</string>
     <string name="media_db_cleared">Mediadatabas rensad!</string>
     <string name="set_locale">Ändra språk</string>
     <string name="set_locale_detail">Lämna tomt för att återställa</string>
@@ -477,7 +477,7 @@
     <string name="network_browsing">Lokalt nätverk</string>
     <string name="browsing">Bläddring</string>
 
-    <string name="file_size">Filstorlek:</string>
+    <string name="file_size">Filstorlek</string>
 
     <string name="audio_delay">Ljudfördröjning</string>
     <string name="spu_delay">Undertextfördröjning</string>
@@ -690,4 +690,9 @@
     <string name="preamp">Försteg</string>
     <string name="presets">Förinställningar</string>
     <string name="reset">Nollställ</string>
+    <string name="appended">Lade spår i kö</string>
+    <string name="inserted">Lade till spår</string>
+    <string name="remove_current">Ta bort nuvarande</string>
+    <string name="validation_delete_playlist">Är du säker på att du vill radera denna spellista?</string>
+    <string name="validation_delete_playlist_text">Denna handling kan inte ångras.</string>
 </resources>
