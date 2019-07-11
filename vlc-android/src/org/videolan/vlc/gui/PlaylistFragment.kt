@@ -84,7 +84,10 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         //size of an item
         val spacing = resources.getDimension(R.dimen.kl_half).toInt()
 
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(min(requireActivity().getScreenWidth(), resources.getDimension(R.dimen.default_content_width).toInt()) - spacing * 2, nbColumns, spacing)
+        val dimension = resources.getDimension(R.dimen.default_content_width)
+        val totalWidth = if (dimension > 0) min(requireActivity().getScreenWidth(), dimension.toInt()) else requireActivity().getScreenWidth()
+
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(totalWidth - spacing * 2, nbColumns, spacing)
 
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, itemSize)
         adapter = playlistAdapter
