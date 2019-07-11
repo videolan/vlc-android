@@ -40,7 +40,8 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 @ExperimentalCoroutinesApi
 class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
 
-    val artistsProvider = ArtistsProvider(context, this, true)
+    val artistsProvider = ArtistsProvider(context, this,
+            Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false))
     val albumsProvider = AlbumsProvider(null, context, this)
     val tracksProvider = TracksProvider(null, context, this)
     val genresProvider = GenresProvider(context, this)
