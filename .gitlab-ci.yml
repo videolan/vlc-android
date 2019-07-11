@@ -70,15 +70,12 @@ continuous-app-build:
         refs:
             - schedules
         changes:
-            - libvlc/**/*
-            - build-common
-            - compile.sh
-            - compile-libvlc.sh
-            - medialibrary/**/*
-            - compile.sh
             - build-common
             - compile-libvlc.sh
             - compile-medialibrary.sh
+            - compile.sh
+            - libvlc/**/*
+            - medialibrary/**/*
 
 #################################
 # Template config instantiation #
