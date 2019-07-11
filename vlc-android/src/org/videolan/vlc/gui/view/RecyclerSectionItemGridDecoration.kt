@@ -39,7 +39,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
         for (i in 0 until nbColumns) {
             if ((pos - i) >= 0 && provider.isFirstInSection(pos - i)) {
                 if (BuildConfig.DEBUG) Log.d(TAG, "Adding offset for $pos")
-                outRect.top = headerOffset + space
+                outRect.top = headerOffset + space * 2
             }
         }
     }
