@@ -300,6 +300,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 seek(progress.toLong())
                 showInfo(Tools.millisToString(progress.toLong()), 1000)
             }
+            if (fromUser) {
+                showOverlay(true)
+            }
         }
     }
 
