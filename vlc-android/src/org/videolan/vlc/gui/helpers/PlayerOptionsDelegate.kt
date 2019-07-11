@@ -97,7 +97,9 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         when (playerOptionType) {
             PlayerOptionType.ADVANCED -> {
                 options.add(PlayerOption(playerOptionType, ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
-                options.add(PlayerOption(playerOptionType, ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
+                if (service.isSeekable) {
+                    options.add(PlayerOption(playerOptionType, ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
+                }
                 options.add(PlayerOption(playerOptionType, ID_JUMP_TO, R.attr.ic_jumpto_normal_style, res.getString(R.string.jump_to_time)))
                 options.add(PlayerOption(playerOptionType, ID_EQUALIZER, R.attr.ic_equalizer_normal_style, res.getString(R.string.equalizer)))
                 if (video) {
