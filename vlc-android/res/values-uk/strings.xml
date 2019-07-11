@@ -435,7 +435,7 @@
     <string name="dump_media_db_summary">Копіювати базу даних у внутрішній каталог root</string>
     <string name="clear_media_db">Очистити медіабазу</string>
     <string name="clear_media_db_summary">Доступ до відомостей VLC Android для очищення даних</string>
-    <string name="clear_history">Очистити історію пошуку</string>
+    <string name="clear_history">Очистити історію</string>
     <string name="media_db_cleared">Медіабазу очищено!</string>
     <string name="set_locale">Установка локалі</string>
     <string name="set_locale_detail">Залишіть порожній рядок для типового значення</string>
@@ -707,4 +707,6 @@
     <string name="appended">Доріжку(и) додано</string>
     <string name="inserted">Доріжку(и) вставлено</string>
     <string name="remove_current">Вилучити поточне</string>
+    <string name="validation_delete_playlist">Ви справді хочете вилучити цей список відтворення?</string>
+    <string name="validation_delete_playlist_text">Цю дію не можна скасувати.</string>
 </resources>
