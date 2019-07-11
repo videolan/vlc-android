@@ -414,7 +414,7 @@
     <string name="dump_media_db_summary">将数据库复制到内部存储根目录</string>
     <string name="clear_media_db">清除媒体数据库</string>
     <string name="clear_media_db_summary">前往 Android 系统的 VLC 属性页面，清空数据</string>
-    <string name="clear_history">清除搜索历史记录</string>
+    <string name="clear_history">清除历史</string>
     <string name="media_db_cleared">媒体数据库已清除!</string>
     <string name="set_locale">设置区域变量</string>
     <string name="set_locale_detail">留空可重置</string>
@@ -470,7 +470,7 @@
     <string name="network_browsing">本地网络</string>
     <string name="browsing">浏览</string>
 
-    <string name="file_size">文件尺寸:</string>
+    <string name="file_size">文件大小</string>
 
     <string name="audio_delay">音频延迟</string>
     <string name="spu_delay">字幕延迟</string>
@@ -683,4 +683,9 @@
     <string name="preamp">前置放大器</string>
     <string name="presets">预设</string>
     <string name="reset">重置</string>
+    <string name="appended">已追加轨道</string>
+    <string name="inserted">已插入轨道</string>
+    <string name="remove_current">移除当前项</string>
+    <string name="validation_delete_playlist">是否确定要删除该播放列表?</string>
+    <string name="validation_delete_playlist_text">此操作不可撤销。</string>
 </resources>
