@@ -29,9 +29,11 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.Keep
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import org.videolan.tools.setInvisible
 import org.videolan.vlc.R
 
 @Keep
@@ -39,12 +41,12 @@ class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet?) : Flo
 
     // Listener to workaroud AppCompat 25.x bug
     // FAB doesn't receive any callback when set to GONE.
-    private val mOnVisibilityChangedListener: FloatingActionButton.OnVisibilityChangedListener
+    private val onVisibilityChangedListener: FloatingActionButton.OnVisibilityChangedListener
 
     init {
-        mOnVisibilityChangedListener = object : FloatingActionButton.OnVisibilityChangedListener() {
+        onVisibilityChangedListener = object : FloatingActionButton.OnVisibilityChangedListener() {
             override fun onHidden(fab: FloatingActionButton?) {
-                fab!!.hide()
+                fab.setInvisible()
             }
 
         }
@@ -53,7 +55,8 @@ class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet?) : Flo
     override fun layoutDependsOn(parent: CoordinatorLayout, child: FloatingActionButton, dependency: View): Boolean {
         return (dependency.id == R.id.audio_player_container
                 || dependency is Snackbar.SnackbarLayout
-                || dependency is RecyclerView)
+                || dependency is RecyclerView
+                || dependency is NestedScrollView)
     }
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
@@ -71,9 +74,11 @@ class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet?) : Flo
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
-        if (dyConsumed > 0 && child.visibility == View.VISIBLE)
-            child.hide(mOnVisibilityChangedListener)
-        else if (dyConsumed < 0 && child.visibility == View.INVISIBLE)
+        // When target is a NestedScrollView, use dyUnconsumed as dyConsumed is always 0
+        val dy = if (target is NestedScrollView) dyUnconsumed else dyConsumed
+        if (dy > 0 && child.visibility == View.VISIBLE)
+            child.hide(onVisibilityChangedListener)
+        else if (dy < 0 && child.visibility == View.INVISIBLE)
             child.show()
     }
 
