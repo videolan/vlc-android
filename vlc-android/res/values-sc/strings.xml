@@ -421,7 +421,7 @@
     <string name="dump_media_db_summary">Còpia sa base de datos multimediales in sa raighina de sa memòria interna</string>
     <string name="clear_media_db">Iscantzella sa base de datos multimediales</string>
     <string name="clear_media_db_summary">Atzedi a sas informatziones de Android VLC pro iscantzellare sos datos</string>
-    <string name="clear_history">Iscantzella sa cronologia de sas chircas</string>
+    <string name="clear_history">Isbòida sa cronologia</string>
     <string name="media_db_cleared">Base de datos multimediales iscantzellada!</string>
     <string name="set_locale">Imposta sa limba</string>
     <string name="set_locale_detail">Lassa bòidu pro ripristinare</string>
@@ -693,4 +693,6 @@
     <string name="appended">Rasta/s annanta/s</string>
     <string name="inserted">Rasta/s insertada/s</string>
     <string name="remove_current">Boga s\'atuale</string>
+    <string name="validation_delete_playlist">Ses seguru de chèrrere iscantzellare custa iscalita?</string>
+    <string name="validation_delete_playlist_text">Custa atzione non podet èssere annullada.</string>
 </resources>
