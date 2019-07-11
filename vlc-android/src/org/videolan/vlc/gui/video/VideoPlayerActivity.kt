@@ -672,14 +672,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         currentScreenOrientation = newConfig.orientation
-        if (screenOrientation == 98) {
-            @StringRes val message: Int
-            if (currentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE)
-                message = R.string.locked_in_landscape_mode
-            else
-                message = R.string.locked_in_portrait_mode
-            rootView?.let { UiTools.snacker(it, message) }
-        }
 
         if (touchDelegate != null) {
             val dm = DisplayMetrics()
@@ -2691,8 +2683,20 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     private fun toggleOrientation() {
-        screenOrientation = 98 //Rotate button
+        //screen is not yet locked. We invert the rotation to force locking in the current orientation
+        if (screenOrientation != 98) {
+            currentScreenOrientation = if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) Configuration.ORIENTATION_LANDSCAPE else Configuration.ORIENTATION_PORTRAIT
+        }
+        screenOrientation = 98//Rotate button
         requestedOrientation = getScreenOrientation(screenOrientation)
+
+        //As the current orientation may have been artificially changed above, we reset it to the real current orientation
+        currentScreenOrientation = resources.configuration.orientation
+        @StringRes val message = if (currentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE)
+            R.string.locked_in_landscape_mode
+        else
+            R.string.locked_in_portrait_mode
+        rootView?.let { UiTools.snacker(it, message) }
     }
 
     private fun resetOrientation(): Boolean {
