@@ -54,6 +54,7 @@ import org.videolan.vlc.util.CTX_PLAY_ALL
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
+import kotlin.math.min
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -83,7 +84,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         //size of an item
         val spacing = resources.getDimension(R.dimen.kl_half).toInt()
 
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - spacing * 2, nbColumns, spacing)
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(min(requireActivity().getScreenWidth(), resources.getDimension(R.dimen.default_content_width).toInt()) - spacing * 2, nbColumns, spacing)
 
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, itemSize)
         adapter = playlistAdapter
