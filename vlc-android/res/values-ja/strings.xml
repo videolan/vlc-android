@@ -53,6 +53,7 @@
     <string name="set_song_question">\'%1$s\' を着信音として設定?</string>
     <string name="info">情報</string>
     <string name="confirm_delete">ファイル \'%1$s\' を削除しますか？</string>
+    <string name="confirm_delete_several_media">これらの %1$d のメディアを削除しますか?</string>
     <string name="confirm_delete_folder">\'%1$s\' フォルダーと含まれるすべてのファイルを削除しますか?</string>
     <string name="confirm_delete_playlist">プレイリスト \'%1$s\' を削除しますか?</string>
     <string name="confirm_remove_from_playlist">プレイリストから \'%1$s\' を削除しますか?</string>
@@ -413,7 +414,7 @@
     <string name="dump_media_db_summary">データベースを内部ストレージのrootへコピー</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
     <string name="clear_media_db_summary">データをクリアするために、Android VLCのInfoにアクセス</string>
-    <string name="clear_history">検索履歴をクリア</string>
+    <string name="clear_history">履歴をクリア</string>
     <string name="media_db_cleared">メディアデータベースはクリアされました!</string>
     <string name="set_locale">ロケールの設定</string>
     <string name="set_locale_detail">ブランクでリセット</string>
@@ -469,7 +470,7 @@
     <string name="network_browsing">ローカルネットワーク</string>
     <string name="browsing">ブラウジング</string>
 
-    <string name="file_size">ファイルサイズ:</string>
+    <string name="file_size">ファイルサイズ</string>
 
     <string name="audio_delay">オーディオの遅延</string>
     <string name="spu_delay">字幕の遅延</string>
@@ -677,4 +678,14 @@
     <string name="jump_to">ジャンプ先</string>
     <string name="show_video_thumbnails_summary">リストにビデオのサムネイルを表示</string>
     <string name="show_video_thumbnails">ビデオサムネイル</string>
+    <string name="eq_snap_bands">スナップバンド</string>
+    <string name="enable_equalizer">有効化</string>
+    <string name="preamp">プリアンプ</string>
+    <string name="presets">プリセット</string>
+    <string name="reset">リセット</string>
+    <string name="appended">トラックが追加されました</string>
+    <string name="inserted">トラックが挿入されました</string>
+    <string name="remove_current">現在のものを削除</string>
+    <string name="validation_delete_playlist">本当にこのプレイリストを削除しますか？</string>
+    <string name="validation_delete_playlist_text">このアクションは取消できません。</string>
 </resources>
