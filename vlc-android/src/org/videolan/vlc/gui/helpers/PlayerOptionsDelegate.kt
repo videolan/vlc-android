@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlayerOptionItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
@@ -133,7 +132,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 if (flags and CTX_DOWNLOAD_SUBTITLES_PLAYER != 0) options.add(PlayerOption(playerOptionType, CTX_DOWNLOAD_SUBTITLES_PLAYER, R.drawable.ic_downsub_w, res.getString(R.string.download_subtitles)))
             }
         }
-
         (recyclerview.adapter as OptionsAdapter).update(options)
     }
 
@@ -435,7 +433,7 @@ fun Context.setSleep(time: Calendar?) {
     PlayerOptionsDelegate.playerSleepTime = time
 }
 
-class PlayerOption(val type: PlayerOptionType, val id: Int, val icon: Int, val title: String)
+data class PlayerOption(val type: PlayerOptionType, val id: Int, val icon: Int, val title: String)
 
 enum class PlayerOptionType {
     ADVANCED, MEDIA_TRACKS
