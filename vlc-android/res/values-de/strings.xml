@@ -421,7 +421,7 @@
     <string name="dump_media_db_summary">Datenbank in den internen Speicherstammordner kopieren</string>
     <string name="clear_media_db">Mediendatenbank leeren</string>
     <string name="clear_media_db_summary">Android-VLC-Informationen zum Löschen der Daten öffnen</string>
-    <string name="clear_history">Suchverlauf löschen</string>
+    <string name="clear_history">Verlauf löschen</string>
     <string name="media_db_cleared">Mediendatenbank geleert!</string>
     <string name="set_locale">Sprache ändern</string>
     <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
@@ -693,4 +693,6 @@
     <string name="appended">Titel angefügt</string>
     <string name="inserted">Titel eingefügt</string>
     <string name="remove_current">Aktuelles entfernen</string>
+    <string name="validation_delete_playlist">Diese Wiedergabeliste wirklich löschen?</string>
+    <string name="validation_delete_playlist_text">Diese Aktion kann nicht rückgängig gemacht werden.</string>
 </resources>
