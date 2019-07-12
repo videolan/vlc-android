@@ -48,7 +48,7 @@
             android:id="@+id/orientation_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/time_margin_sides"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:focusable="true"
             android:visibility="gone"
