@@ -41,6 +41,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.tools.isStarted
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -80,7 +81,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater!!.inflate(R.menu.fragment_option_network, menu)
+        inflater.inflate(R.menu.fragment_option_network, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -105,7 +106,6 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         if (!isRootDirectory) LocalBroadcastManager.getInstance(VLCApplication.appContext).registerReceiver(mLocalReceiver, IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED))
         fabPlay?.setImageResource(if (isRootDirectory) R.drawable.ic_fab_add else R.drawable.ic_fab_play)
         fabPlay?.setOnClickListener(this)
-        setFabPlayVisibility(true)
     }
 
     override fun refresh() {
@@ -192,6 +192,6 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
-        if (isRootDirectory) fabPlay?.show()
+        if (isRootDirectory && isStarted()) fabPlay?.show()
     }
 }
