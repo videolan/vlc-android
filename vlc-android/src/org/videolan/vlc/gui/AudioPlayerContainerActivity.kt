@@ -201,7 +201,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
      */
     @SuppressLint("RestrictedApi")
     fun showTipViewIfNeeded(stubId: Int, settingKey: String) {
-        if (BuildConfig.DEBUG) return
+        if (BuildConfig.DEBUG || PlaybackService.hasRenderer()) return
         val vsc = findViewById<View>(stubId)
         if (vsc != null && !settings.getBoolean(settingKey, false) && !Settings.showTvUi) {
             val v = (vsc as ViewStubCompat).inflate()
