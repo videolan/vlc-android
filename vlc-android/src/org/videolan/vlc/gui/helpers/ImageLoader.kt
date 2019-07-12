@@ -97,6 +97,16 @@ fun getAudioIconDrawable(context: Context?, type: Int, big: Boolean = false): Bi
     }
 }
 
+fun getMediaIconDrawable(context: Context?, type: Int, big: Boolean = false): BitmapDrawable? = context?.let {
+    when (type) {
+        AbstractMediaWrapper.TYPE_ALBUM -> if (big) UiTools.getDefaultAlbumDrawableBig(it) else UiTools.getDefaultAlbumDrawable(it)
+        AbstractMediaWrapper.TYPE_ARTIST -> if (big) UiTools.getDefaultArtistDrawableBig(it) else UiTools.getDefaultArtistDrawable(it)
+        AbstractMediaWrapper.TYPE_AUDIO -> if (big) UiTools.getDefaultAudioDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
+        AbstractMediaWrapper.TYPE_VIDEO -> if (big) UiTools.getDefaultVideoDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
+        else -> null
+    }
+}
+
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 fun getBitmapFromDrawable(context: Context, @DrawableRes drawableId: Int): Bitmap {
     val drawable = AppCompatResources.getDrawable(context, drawableId)
@@ -197,7 +207,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     if (image == null && isForTV(binding)) {
         val imageTV = BitmapFactory.decodeResource(v.resources, TvUtil.getIconRes(item))
         // binding is set to null to be sure to set the src and not the cover (background)
-        if (!bindChanged) updateImageView(imageTV, v, null)
+        if (!bindChanged) updateImageView(imageTV, v, null, false)
         binding?.removeOnRebindCallback(rebindCallbacks!!)
         return
     }
@@ -236,7 +246,7 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
 }
 
 @MainThread
-fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {
+fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, updateScaleType: Boolean = true) {
     if (bitmap === null || bitmap.width <= 1 || bitmap.height <= 1) return
     if (vdb !== null && !isForTV(vdb)) {
         vdb.setVariable(BR.scaleType, if (isCard(vdb)) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER)
@@ -244,7 +254,7 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {
         vdb.setVariable(BR.protocol, null)
     } else when (target) {
         is ImageView -> {
-            target.scaleType = if (isForTV(vdb)) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
+            if (updateScaleType) target.scaleType = if (isForTV(vdb)) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
             target.setImageBitmap(bitmap)
             target.visibility = View.VISIBLE
         }

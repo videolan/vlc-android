@@ -134,7 +134,7 @@ object UiTools {
 
     fun getDefaultVideoDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE_BIG == null) {
-            val DEFAULT_COVER_VIDEO = getBitmapFromDrawable(context, R.drawable.ic_no_thumbnail_1610)
+            val DEFAULT_COVER_VIDEO = getBitmapFromDrawable(context, R.drawable.ic_browser_video_big_normal)
             DEFAULT_COVER_VIDEO_DRAWABLE_BIG = BitmapDrawable(context.resources, DEFAULT_COVER_VIDEO)
         }
         return DEFAULT_COVER_VIDEO_DRAWABLE_BIG!!

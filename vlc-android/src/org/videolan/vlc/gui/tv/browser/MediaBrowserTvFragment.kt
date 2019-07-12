@@ -27,7 +27,13 @@ import java.util.*
 @ExperimentalCoroutinesApi
 class MediaBrowserTvFragment : BaseBrowserTvFragment() {
     override fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter {
-        return MediaTvItemAdapter(MediaLibraryItem.TYPE_MEDIA, this, itemSize)
+        return MediaTvItemAdapter(when ((viewModel as MediaBrowserViewModel).category) {
+            CATEGORY_SONGS -> AbstractMediaWrapper.TYPE_AUDIO
+            CATEGORY_ALBUMS -> AbstractMediaWrapper.TYPE_ALBUM
+            CATEGORY_ARTISTS -> AbstractMediaWrapper.TYPE_ARTIST
+            CATEGORY_GENRES -> AbstractMediaWrapper.TYPE_GENRE
+            else -> AbstractMediaWrapper.TYPE_VIDEO
+        }, this, itemSize)
     }
 
     override lateinit var adapter: TvItemAdapter

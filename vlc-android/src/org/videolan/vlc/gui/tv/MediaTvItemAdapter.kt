@@ -21,7 +21,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.vlc.gui.helpers.getAudioIconDrawable
+import org.videolan.vlc.gui.helpers.getMediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.UPDATE_PAYLOAD
@@ -41,7 +41,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
             is Fragment -> (eventsHandler as Fragment).context
             else -> null
         }
-        defaultCover = ctx?.let { getAudioIconDrawable(it, type, true) }
+        defaultCover = ctx?.let { getMediaIconDrawable(it, type, true) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
@@ -154,7 +154,6 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
 
         init {
             binding.holder = this
-            binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
             if (defaultCover != null) binding.cover = defaultCover
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
@@ -220,6 +219,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
             binding.isSquare = isSquare
             binding.seen = seen
             binding.description = description
+            binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
             if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
             if (progress <= 0L) binding.progressBar.visibility = View.GONE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE

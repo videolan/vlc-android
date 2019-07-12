@@ -15,9 +15,10 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
-import org.videolan.vlc.gui.helpers.getAudioIconDrawable
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.UPDATE_PAYLOAD
@@ -44,7 +45,7 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
             is Fragment -> eventsHandler.context
             else -> null
         }
-        defaultCover = ctx?.let { getAudioIconDrawable(it, type) }
+        defaultCover = ctx?.let { BitmapDrawable(it.resources, getBitmapFromDrawable(it, R.drawable.ic_browser_unknown_big_normal)) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding> {
@@ -84,9 +85,9 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
         return object : DiffCallback<AbstractMediaWrapper>() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = try {
                 oldList[oldItemPosition] == newList[newItemPosition]
-                } catch (e: IndexOutOfBoundsException) {
-                    false
-                }
+            } catch (e: IndexOutOfBoundsException) {
+                false
+            }
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return oldList[oldItemPosition].description == newList[newItemPosition].description
@@ -100,7 +101,7 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
     inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
     internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
 
-        override fun getItem(layoutPosition: Int) =  this@FileTvItemAdapter.getItem(layoutPosition)
+        override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
 
         init {
             binding.holder = this
@@ -123,13 +124,11 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
 
                     eventsHandler.onItemFocused(binding.root, getItem(layoutPosition))
                     focusListener?.onFocusChanged(layoutPosition)
-
                 } else {
                     binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
                 }
             }
             binding.container.clipToOutline = true
-
         }
 
         override fun recycle() {
@@ -169,12 +168,14 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
             binding.isSquare = isSquare
             binding.seen = seen
             binding.description = description
+            if (defaultCover != null) binding.cover = defaultCover
             if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
             if (progress <= 0L) binding.progressBar.visibility = View.GONE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
         @ObsoleteCoroutinesApi
-        override fun setCoverlay(selected: Boolean) {}
+        override fun setCoverlay(selected: Boolean) {
+        }
     }
 }
