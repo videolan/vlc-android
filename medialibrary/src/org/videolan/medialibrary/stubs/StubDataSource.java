@@ -74,6 +74,14 @@ public class StubDataSource {
         mFolders.clear();
         mVideoMediaWrappers.clear();
         mAudioMediaWrappers.clear();
+        mStreamMediaWrappers.clear();
+        mHistory.clear();
+        mPlaylists.clear();
+        mAlbums.clear();
+        mArtists.clear();
+        mGenres.clear();
+        mBannedFolders.clear();
+        mDevices.clear();
     }
 
     public void setVideoByCount(int count, @Nullable String folder) {
