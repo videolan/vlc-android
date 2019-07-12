@@ -30,7 +30,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -40,6 +39,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
@@ -224,8 +224,8 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
 
             if (currentFragmentId == id) { /* Already selected */
                 // Go back at root level of current mProvider
-                if (current is BaseBrowserFragment && !current.isRootDirectory) {
-                    activity.supportFragmentManager.popBackStackImmediate(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                if ((current as? BaseBrowserFragment)?.isStarted() == false) {
+                    activity.supportFragmentManager.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 } else {
                     activity.closeDrawer()
                     return false
