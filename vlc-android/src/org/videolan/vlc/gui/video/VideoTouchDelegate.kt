@@ -83,10 +83,12 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 return true
             }
             else -> {
-                scaleGestureDetector.onTouchEvent(event)
-                if (scaleGestureDetector.isInProgress) {
-                    touchAction = TOUCH_IGNORE
-                    return true
+                if (!player.isLocked) {
+                    scaleGestureDetector.onTouchEvent(event)
+                    if (scaleGestureDetector.isInProgress) {
+                        touchAction = TOUCH_IGNORE
+                        return true
+                    }
                 }
                 if (touchControls == 0 || player.isLocked) {
                     // locked or swipe disabled, only handle show/hide & ignore all actions
