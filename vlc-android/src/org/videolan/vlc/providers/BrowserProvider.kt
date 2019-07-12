@@ -62,17 +62,21 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = AbstractMedialibrary.getInstance()
 
-    private val browserActor = actor<BrowserAction>(capacity = Channel.UNLIMITED) {
+    private val completionHandler = object : CompletionHandler {
+        override fun invoke(cause: Throwable?) {
+                mediabrowser?.release()
+                mediabrowser = null
+                if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
+        }
+
+    }
+
+    private val browserActor = actor<BrowserAction>(capacity = Channel.UNLIMITED, onCompletion = completionHandler) {
         for (action in channel) if (isActive) when (action) {
             is Browse -> browseImpl(action.url)
             BrowseRoot -> browseRootImpl()
             Refresh -> refreshImpl()
             ParseSubDirectories -> parseSubDirectoriesImpl()
-            Release -> {
-                mediabrowser?.release()
-                mediabrowser = null
-                if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
-            }
             ClearListener -> mediabrowser?.changeEventListener(null)
         } else channel.close()
     }
@@ -270,7 +274,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     protected fun clearListener() = browserActor.post(ClearListener)
 
     open fun release() {
-        browserActor.post(Release)
         cancel()
         loading.postValue(false)
     }
@@ -301,4 +304,3 @@ private object BrowseRoot : BrowserAction()
 private object Refresh : BrowserAction()
 private object ParseSubDirectories : BrowserAction()
 private object ClearListener : BrowserAction()
-private object Release : BrowserAction()
