@@ -435,7 +435,7 @@
     <string name="dump_media_db_summary">Kopiuj bazę danych do katalogu głównego pamięci wewnętrznej</string>
     <string name="clear_media_db">Wyczyść bazę danych mediów</string>
     <string name="clear_media_db_summary">Otwórz systemowe informacje VLC w celu usunięcia danych</string>
-    <string name="clear_history">Wyczyść historię wyszukiwania</string>
+    <string name="clear_history">Wyczyść historię</string>
     <string name="media_db_cleared">Baza danych mediów została wyczyszczona!</string>
     <string name="set_locale">Ustaw język</string>
     <string name="set_locale_detail">Pozostaw puste, aby zresetować</string>
@@ -707,4 +707,6 @@
     <string name="appended">Utwory dołączone</string>
     <string name="inserted">Utwory wstawione</string>
     <string name="remove_current">Usuń obecne</string>
+    <string name="validation_delete_playlist">Czy na pewno chcesz usunąć tą listę odtwarzania?</string>
+    <string name="validation_delete_playlist_text">Ta akcja nie może zostać cofnięta.</string>
 </resources>
