@@ -181,6 +181,10 @@ public class StubDataSource {
         return media;
     }
 
+    public AbstractMediaWrapper addMediaWrapper(String title, int type) {
+        return addMediaWrapper(baseMrl + title, title, type);
+    }
+
     public AbstractFolder createFolder(String name) {
         AbstractFolder folder = MLServiceLocator.getAbstractFolder(getUUID(), name, baseMrl + name);
         mFolders.add(folder);

@@ -59,7 +59,7 @@ class PlaylistsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun whenThereAre2Playlists_checkTotalCountIsZero() {
+    fun whenThereAre2Playlists_checkTotalCountIsTwo() {
         createDummyPlaylists(2)
 
         playlistsViewModel.provider.pagedList.test()
@@ -88,6 +88,14 @@ class PlaylistsViewModelTest : BaseTest() {
         val testResult = playlistsViewModel.provider.getAll()
 
         assertNotNull(testResult[count - 1])
+    }
+
+    @Test
+    fun whenPlayListsAreMoreThanMaxSize_checkTotalCountReturnsTotal() {
+        val count = MEDIALIBRARY_PAGE_SIZE * 3 + 1
+        createDummyPlaylists(count)
+
+        assertEquals(count, playlistsViewModel.provider.getTotalCount())
     }
 
     @Test
@@ -146,7 +154,7 @@ class PlaylistsViewModelTest : BaseTest() {
 
         assertFalse(playlistsViewModel.isFiltering())
 
-        playlistsViewModel.filter(StubDataSource.STUBBED_VIDEO_TITLE.substring(2, 6))
+        playlistsViewModel.filter("abc")
 
         assertTrue(playlistsViewModel.isFiltering())
 
