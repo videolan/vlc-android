@@ -16,7 +16,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.MainActivity
@@ -246,7 +246,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         }
     }
 
-    fun setServer(mw: MediaWrapper) {
+    fun setServer(mw: AbstractMediaWrapper) {
         networkUri = mw.uri
         networkName = mw.title
     }

@@ -101,23 +101,23 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
             }
         }
 
-        suspend fun FragmentActivity.getExtWritePermission(uri: Uri) : Boolean {
-            if (!needsWritePermission(uri)) return true
-            val storage = FileUtils.getMediaStorage(uri) ?: return false
-            val fragment = WriteExternalDelegate()
-            fragment.arguments = Bundle(1).apply { putString(KEY_STORAGE_PATH, storage) }
-            supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
-            return fragment.awaitGrant()
-        }
-
-        suspend fun Fragment.getExtWritePermission(uri: Uri) = activity?.getExtWritePermission(uri) ?: false
-
         fun needsWritePermission(uri: Uri) : Boolean {
             val path = uri.path ?: return false
             return AndroidUtil.isLolliPopOrLater && "file" == uri.scheme
-                    && !path.isEmpty() && path.startsWith('/')
+                    && path.isNotEmpty() && path.startsWith('/')
                     && !path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
                     && !(FileUtils.findFile(uri)?.canWrite() ?: false)
         }
     }
 }
+
+suspend fun FragmentActivity.getExtWritePermission(uri: Uri) : Boolean {
+    if (!WriteExternalDelegate.needsWritePermission(uri)) return true
+    val storage = FileUtils.getMediaStorage(uri) ?: return false
+    val fragment = WriteExternalDelegate()
+    fragment.arguments = Bundle(1).apply { putString(WriteExternalDelegate.KEY_STORAGE_PATH, storage) }
+    supportFragmentManager.beginTransaction().add(fragment, WriteExternalDelegate.TAG).commitAllowingStateLoss()
+    return fragment.awaitGrant()
+}
+
+suspend fun Fragment.getExtWritePermission(uri: Uri) = activity?.getExtWritePermission(uri) ?: false

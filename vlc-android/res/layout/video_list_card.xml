@@ -8,7 +8,7 @@
 
         <variable
             name="media"
-            type="org.videolan.medialibrary.media.MediaWrapper" />
+            type="org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper" />
 
         <variable
             name="seen"

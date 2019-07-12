@@ -32,12 +32,16 @@ import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.Observer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.CardPresenter
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
+import org.videolan.vlc.gui.tv.updateBackground
 import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.util.HEADER_DIRECTORIES
 import org.videolan.vlc.util.HEADER_NETWORK
@@ -46,7 +50,9 @@ import org.videolan.vlc.viewmodels.BaseModel
 
 private const val TAG = "VLC/CategoriesFragment"
 
-open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSupportFragment(), Sortable, OnItemViewSelectedListener, OnItemViewClickedListener, BrowserFragmentInterface {
+open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSupportFragment(),
+        Sortable, OnItemViewSelectedListener, OnItemViewClickedListener,
+        BrowserFragmentInterface, CoroutineScope by MainScope() {
 
     private lateinit var selecteditem: MediaLibraryItem
     private lateinit var backgroundManager: BackgroundManager
@@ -78,23 +84,28 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
 
     override fun onStart() {
         super.onStart()
-        if (this::selecteditem.isInitialized) TvUtil.updateBackground(backgroundManager, selecteditem)
+        if (this::selecteditem.isInitialized) updateBackground(requireContext(), backgroundManager, selecteditem)
         if (restart) refresh()
         restart = true
+    }
+
+    override fun onDestroy() {
+        cancel()
+        super.onDestroy()
     }
 
     private var currentArt : String? = null
     override fun onItemSelected(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         if (item === null) return
-        selecteditem = item as MediaWrapper
+        selecteditem = item as AbstractMediaWrapper
         if (currentArt == item.artworkMrl) return
         currentArt = item.artworkMrl
-        TvUtil.updateBackground(backgroundManager, item)
+        updateBackground(requireContext(), backgroundManager, item)
     }
 
     override fun onItemClicked(viewHolder: Presenter.ViewHolder, item: Any, viewHolder1: RowPresenter.ViewHolder, row: Row) {
-        val media = item as MediaWrapper
-        if (media.type == MediaWrapper.TYPE_DIR) TvUtil.browseFolder(requireActivity(), getCategoryId(), item.uri)
+        val media = item as AbstractMediaWrapper
+        if (media.type == AbstractMediaWrapper.TYPE_DIR) TvUtil.browseFolder(requireActivity(), getCategoryId(), item.uri)
         else TvUtil.openMedia(requireActivity(), item, viewModel)
     }
 

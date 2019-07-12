@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlayerOptionItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
@@ -54,6 +53,7 @@ private const val ID_REPEAT = 10
 private const val ID_SHUFFLE = 11
 private const val ID_PASSTHROUGH = 12
 private const val ID_ABREPEAT = 13
+private const val ID_OVERLAY_SIZE = 14
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -96,7 +96,9 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         when (playerOptionType) {
             PlayerOptionType.ADVANCED -> {
                 options.add(PlayerOption(playerOptionType, ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
-                options.add(PlayerOption(playerOptionType, ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
+                if (service.isSeekable) {
+                    options.add(PlayerOption(playerOptionType, ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
+                }
                 options.add(PlayerOption(playerOptionType, ID_JUMP_TO, R.attr.ic_jumpto_normal_style, res.getString(R.string.jump_to_time)))
                 options.add(PlayerOption(playerOptionType, ID_EQUALIZER, R.attr.ic_equalizer_normal_style, res.getString(R.string.equalizer)))
                 if (video) {
@@ -104,8 +106,10 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                         options.add(PlayerOption(playerOptionType, ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, res.getString(R.string.play_as_audio)))
                     if (primary && AndroidDevices.pipAllowed && !AndroidDevices.isDex(activity))
                         options.add(PlayerOption(playerOptionType, ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
-                    options.add(PlayerOption(playerOptionType, ID_REPEAT, R.attr.ic_repeat, res.getString(R.string.repeat_title)))
-                    if (service.canShuffle()) options.add(PlayerOption(playerOptionType, ID_SHUFFLE, R.attr.ic_shuffle, res.getString(R.string.shuffle_title)))
+                    if (primary)
+                        options.add(PlayerOption(playerOptionType, ID_OVERLAY_SIZE, R.attr.ic_crop_player, res.getString(R.string.resize)))
+                    options.add(PlayerOption(playerOptionType, ID_REPEAT, R.drawable.ic_repeat, res.getString(R.string.repeat_title)))
+                    if (service.canShuffle()) options.add(PlayerOption(playerOptionType, ID_SHUFFLE, R.drawable.ic_shuffle, res.getString(R.string.shuffle_title)))
                     val chaptersCount = service.getChapters(-1)?.size ?: 0
                     if (chaptersCount > 1) options.add(PlayerOption(playerOptionType, ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
                 }
@@ -128,10 +132,8 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 if (flags and CTX_DOWNLOAD_SUBTITLES_PLAYER != 0) options.add(PlayerOption(playerOptionType, CTX_DOWNLOAD_SUBTITLES_PLAYER, R.drawable.ic_downsub_w, res.getString(R.string.download_subtitles)))
             }
         }
-
         (recyclerview.adapter as OptionsAdapter).update(options)
     }
-
 
     fun show(type: PlayerOptionType) {
         this.playerOptionType = type
@@ -169,22 +171,20 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             PlayerOptionType.ADVANCED -> {
                 when (option.id) {
                     ID_SLEEP -> {
-                        if (VLCApplication.playerSleepTime == null)
-                            showFragment(ID_SLEEP)
-                        else {
-                            activity.setSleep(null)
-                            initSleep()
-                        }
+                        showFragment(ID_SLEEP)
                     }
                     ID_PLAY_AS_AUDIO -> (activity as VideoPlayerActivity).switchToAudioMode(true)
                     ID_POPUP_VIDEO -> {
                         (activity as VideoPlayerActivity).switchToPopup()
                         hide()
                     }
+                    ID_OVERLAY_SIZE -> {
+                        (activity as VideoPlayerActivity).resizeVideo()
+                    }
                     ID_REPEAT -> setRepeatMode()
                     ID_SHUFFLE -> {
                         service.shuffle()
-                        initShuffle()
+                        setShuffle()
                     }
                     ID_PASSTHROUGH -> togglePassthrough()
                     ID_ABREPEAT -> service.playlistManager.toggleABRepeat()
@@ -235,7 +235,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 tag = "equalizer"
             }
             ID_SAVE_PLAYLIST -> {
-                UiTools.addToPlaylist(activity, service.medias)
+                UiTools.addToPlaylist(activity, service.media)
                 hide()
                 return
             }
@@ -260,34 +260,41 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     private fun setRepeatMode() {
         when (service.repeatType) {
             REPEAT_NONE -> {
-                repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_one)
                 service.repeatType = REPEAT_ONE
             }
             REPEAT_ONE -> if (service.hasPlaylist()) {
-                repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_all))
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_all)
                 service.repeatType = REPEAT_ALL
             } else {
-                repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat))
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = REPEAT_NONE
             }
             REPEAT_ALL -> {
-                repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat))
+                repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
                 service.repeatType = REPEAT_NONE
             }
         }
     }
 
-    private fun initShuffle() {
-        shuffleBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, if (service.isShuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
+    private fun setShuffle() {
+        shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
+    }
+
+    private fun initShuffle(binding: PlayerOptionItemBinding) {
+        shuffleBinding = binding
+        AppScope.launch(Dispatchers.Main) {
+            shuffleBinding.optionIcon.setImageResource(if (service.isShuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
+        }
     }
 
     private fun initSleep() {
-        sleepBinding.optionTitle.text = if (VLCApplication.playerSleepTime == null) {
+        sleepBinding.optionTitle.text = if (playerSleepTime == null) {
             sleepBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_sleep_normal_style))
             null
         } else {
             sleepBinding.optionIcon.setImageResource(R.drawable.ic_sleep_on)
-            DateFormat.getTimeFormat(activity).format(VLCApplication.playerSleepTime!!.time)
+            DateFormat.getTimeFormat(activity).format(playerSleepTime!!.time)
         }
     }
 
@@ -347,11 +354,11 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     private fun initRepeat(binding: PlayerOptionItemBinding) {
         repeatBinding = binding
         AppScope.launch(Dispatchers.Main) {
-            repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, when (service.repeatType) {
-                REPEAT_ONE -> R.attr.ic_repeat_one
-                REPEAT_ALL -> R.attr.ic_repeat_all
-                else -> R.attr.ic_repeat
-            }))
+            repeatBinding.optionIcon.setImageResource(when (service.repeatType) {
+                REPEAT_ONE -> R.drawable.ic_repeat_one
+                REPEAT_ALL -> R.drawable.ic_repeat_all
+                else -> R.drawable.ic_repeat
+            })
         }
     }
 
@@ -385,7 +392,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 option.id == ID_ABREPEAT -> abrBinding = holder.binding
                 option.id == ID_PASSTHROUGH -> ptBinding = holder.binding
                 option.id == ID_REPEAT -> initRepeat(holder.binding)
-                option.id == ID_SHUFFLE -> shuffleBinding = holder.binding
+                option.id == ID_SHUFFLE -> initShuffle(holder.binding)
                 option.id == ID_SLEEP -> sleepBinding = holder.binding
                 option.id == ID_CHAPTER_TITLE -> initChapters(holder.binding)
                 option.id == ID_PLAYBACK_SPEED -> initPlaybackSpeed(holder.binding)
@@ -404,11 +411,15 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
 
             init {
                 itemView.setOnClickListener { onClick(dataset[layoutPosition]) }
-                itemView.setOnFocusChangeListener { _, hasFocus ->
+                itemView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                     binding.optionTitle.setTextColor(if (hasFocus) ContextCompat.getColor(itemView.context, R.color.orange500transparent) else textColor)
                 }
             }
         }
+    }
+
+    companion object {
+        var playerSleepTime: Calendar? = null
     }
 }
 
@@ -419,10 +430,10 @@ fun Context.setSleep(time: Calendar?) {
 
     if (time != null) alarmMgr.set(AlarmManager.RTC_WAKEUP, time.timeInMillis, sleepPendingIntent)
     else alarmMgr.cancel(sleepPendingIntent)
-    VLCApplication.playerSleepTime = time
+    PlayerOptionsDelegate.playerSleepTime = time
 }
 
-class PlayerOption(val type: PlayerOptionType, val id: Int, val icon: Int, val title: String)
+data class PlayerOption(val type: PlayerOptionType, val id: Int, val icon: Int, val title: String)
 
 enum class PlayerOptionType {
     ADVANCED, MEDIA_TRACKS

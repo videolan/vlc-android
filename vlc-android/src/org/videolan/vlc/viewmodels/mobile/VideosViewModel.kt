@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.media.Folder
+import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -34,15 +34,16 @@ import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
-class VideosViewModel(context: Context, val folder: Folder?) : MedialibraryViewModel(context) {
+class VideosViewModel(context: Context, val folder: AbstractFolder?) : MedialibraryViewModel(context) {
+
     val provider = VideosProvider(folder, context, this)
     override val providers: Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
     init {
-        if (medialibrary.isStarted) refresh()
+        watchMedia()
     }
 
-    class Factory(val context: Context, val folder: Folder?): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val folder: AbstractFolder?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return VideosViewModel(context.applicationContext, folder) as T
@@ -52,4 +53,4 @@ class VideosViewModel(context: Context, val folder: Folder?) : MedialibraryViewM
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-internal fun VideoGridFragment.getViewModel(folder: Folder?) = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), folder)).get(VideosViewModel::class.java)
+internal fun VideoGridFragment.getViewModel(folder: AbstractFolder?) = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), folder)).get(VideosViewModel::class.java)

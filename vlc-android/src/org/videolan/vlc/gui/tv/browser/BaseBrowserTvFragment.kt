@@ -24,7 +24,6 @@
 package org.videolan.vlc.gui.tv.browser
 
 import android.annotation.TargetApi
-import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Build
@@ -47,9 +46,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SongBrowserBinding
@@ -113,7 +112,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         calculateNbColumns()
 
         title.text = viewModel.currentItem?.let {
-            if (it is MediaWrapper && it.uri.path == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) getString(R.string.internal_memory)
+            if (it is AbstractMediaWrapper && it.uri.path == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) getString(R.string.internal_memory)
             else it.title
         } ?: getTitle()
 
@@ -136,10 +135,10 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
             override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
         }
 
-        spacing = resources.getDimensionPixelSize(R.dimen.kl_half)
+        spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
 
         //size of an item
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), viewModel.nbColumns, spacing)
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight, viewModel.nbColumns, spacing)
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -189,10 +188,14 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         setFocus = true
     }
 
+    override fun onDestroy() {
+        cancel()
+        super.onDestroy()
+    }
+
     private fun calculateNbColumns() {
         viewModel.nbColumns = getColumnNumber()
     }
-
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -214,18 +217,10 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
     override fun refresh() = (viewModel as RefreshModel).refresh()
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (item is MediaWrapper) {
-            val intent = Intent(requireActivity(), DetailsActivity::class.java)
-            // pass the item information
-            intent.putExtra("media", item)
-            intent.putExtra("item", MediaItemDetails(item.title, item.artist, item.album, item.location, item.artworkURL))
-            startActivity(intent)
+        if (item is AbstractMediaWrapper) {
+            TvUtil.showMediaDetail(requireActivity(), item)
         }
         return true
-    }
-
-    override fun onShiftClick(v: View, layoutPosition: Int, item: MediaLibraryItem) {
-        onLongClick(v, layoutPosition, item)
     }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
@@ -234,12 +229,11 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
 
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
 
-
     override fun onItemFocused(v: View, item: MediaLibraryItem) {
         (item as? MediaLibraryItem)?.run {
             if (currentArt == artworkMrl) return@run
             currentArt = artworkMrl
-            TvUtil.updateBackground(backgroundManager, this)
+            updateBackground(v.context, backgroundManager, this)
         }
     }
 
@@ -263,35 +257,35 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         animationDelegate.collapseExtendedFAB()
         when (item.itemId) {
             R.id.ml_menu_sortby_name -> {
-                sortBy(Medialibrary.SORT_ALPHA)
+                sortBy(AbstractMedialibrary.SORT_ALPHA)
                 return true
             }
             R.id.ml_menu_sortby_filename -> {
-                sortBy(Medialibrary.SORT_FILENAME)
+                sortBy(AbstractMedialibrary.SORT_FILENAME)
                 return true
             }
             R.id.ml_menu_sortby_length -> {
-                sortBy(Medialibrary.SORT_DURATION)
+                sortBy(AbstractMedialibrary.SORT_DURATION)
                 return true
             }
             R.id.ml_menu_sortby_date -> {
-                sortBy(Medialibrary.SORT_RELEASEDATE)
+                sortBy(AbstractMedialibrary.SORT_RELEASEDATE)
                 return true
             }
             R.id.ml_menu_sortby_last_modified -> {
-                sortBy(Medialibrary.SORT_LASTMODIFICATIONDATE)
+                sortBy(AbstractMedialibrary.SORT_LASTMODIFICATIONDATE)
                 return true
             }
             R.id.ml_menu_sortby_artist_name -> {
-                sortBy(Medialibrary.SORT_ARTIST)
+                sortBy(AbstractMedialibrary.SORT_ARTIST)
                 return true
             }
             R.id.ml_menu_sortby_album_name -> {
-                sortBy(Medialibrary.SORT_ALBUM)
+                sortBy(AbstractMedialibrary.SORT_ALBUM)
                 return true
             }
             R.id.ml_menu_sortby_number -> {
-                sortBy(Medialibrary.SORT_FILESIZE)
+                sortBy(AbstractMedialibrary.SORT_FILESIZE)
                 return super.onOptionsItemSelected(item)
             }
             else -> return super.onOptionsItemSelected(item)
@@ -358,7 +352,6 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         animationDelegate.setVisibility(imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
-
     }
 }
 

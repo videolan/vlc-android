@@ -32,8 +32,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.history_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.KeyHelper
+import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
@@ -50,6 +52,7 @@ private const val TAG = "VLC/HistoryFragment"
 @ExperimentalCoroutinesApi
 class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
+    private lateinit var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(this)
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -60,10 +63,12 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(this, Observer<List<MediaWrapper>> { list ->  list?.let {
-            historyAdapter.update(it)
-            updateEmptyView()
-        } })
+        viewModel.dataset.observe(this, Observer<List<AbstractMediaWrapper>> { list ->
+            list?.let {
+                historyAdapter.update(it)
+                updateEmptyView()
+            }
+        })
     }
 
     override fun onStart() {
@@ -79,9 +84,11 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         list.nextFocusLeftId = android.R.id.list
         list.nextFocusRightId = android.R.id.list
         list.nextFocusForwardId = android.R.id.list
+
+        multiSelectHelper = historyAdapter.multiSelectHelper
         list.requestFocus()
         registerForContextMenu(list)
-        swipeRefreshLayout!!.setOnRefreshListener(this)
+        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -122,11 +129,11 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     private fun updateEmptyView() {
         if (viewModel.isEmpty()) {
-            swipeRefreshLayout?.visibility = View.GONE
+            swipeRefreshLayout.visibility = View.GONE
             empty.visibility = View.VISIBLE
         } else {
             empty.visibility = View.GONE
-            swipeRefreshLayout?.visibility = View.VISIBLE
+            swipeRefreshLayout.visibility = View.VISIBLE
         }
     }
 
@@ -145,7 +152,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-        val selectionCount = historyAdapter.selection.size
+        val selectionCount = multiSelectHelper.getSelectionCount()
         if (selectionCount == 0) {
             stopActionMode()
             return false
@@ -156,7 +163,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-        val selection = historyAdapter.selection
+        val selection = multiSelectHelper.getSelection()
         if (selection.isNotEmpty()) {
             when (item.itemId) {
                 R.id.action_history_play -> MediaUtils.openList(activity, selection, 0)
@@ -174,37 +181,30 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     override fun onDestroyActionMode(mode: ActionMode) {
         actionMode = null
-        var index = -1
-        for (media in viewModel.dataset.value) {
-            ++index
-            if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
-                media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED)
-                historyAdapter.notifyItemChanged(index, media)
-            }
-        }
+        multiSelectHelper.clearSelection()
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
+        if (KeyHelper.isShiftPressed && actionMode == null) {
+            onLongClick(v, position, item)
+            return
+        }
         if (actionMode != null) {
-            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED)
+            multiSelectHelper.toggleSelection(position)
             historyAdapter.notifyItemChanged(position, item)
             invalidateActionMode()
             return
         }
-        if (position != 0) viewModel.moveUp(item as MediaWrapper)
-        MediaUtils.openMedia(v.context, item as MediaWrapper)
+        if (position != 0) viewModel.moveUp(item as AbstractMediaWrapper)
+        MediaUtils.openMedia(v.context, item as AbstractMediaWrapper)
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (actionMode != null) return false
-        item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED)
+        multiSelectHelper.toggleSelection(position, true)
         historyAdapter.notifyItemChanged(position, item)
-        startActionMode()
+        if (actionMode == null) startActionMode()
+        invalidateActionMode()
         return true
-    }
-
-    override fun onShiftClick(v: View, layoutPosition: Int, item: MediaLibraryItem) {
-        if (actionMode != null) onClick(v, layoutPosition, item) else onLongClick(v, layoutPosition, item)
     }
 
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {
@@ -221,7 +221,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         UiTools.updateSortTitles(this)
-        swipeRefreshLayout!!.isRefreshing = false
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}

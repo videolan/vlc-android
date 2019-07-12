@@ -23,19 +23,23 @@
 
 package org.videolan.vlc.gui.audio
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.ActionMode
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.isStarted
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
@@ -44,9 +48,11 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel
@@ -59,7 +65,9 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     internal lateinit var adapters: Array<AudioBrowserAdapter>
 
     private var tabLayout: TabLayout? = null
-    var viewPager: ViewPager? = null
+    lateinit var viewPager: ViewPager
+
+    var nbColumns = 2
 
     private val tcl = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
 
@@ -69,9 +77,9 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     open fun getCurrentAdapter() = adapter
 
     protected var currentTab
-        get() = viewPager?.currentItem ?: 0
+        get() = if (::viewPager.isInitialized) viewPager.currentItem else 0
         set(value) {
-            viewPager?.currentItem = value
+            viewPager.currentItem = value
         }
 
     private lateinit var layoutOnPageChangeListener: TabLayout.TabLayoutOnPageChangeListener
@@ -79,37 +87,72 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     internal val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             if (newState != RecyclerView.SCROLL_STATE_IDLE) {
-                swipeRefreshLayout?.isEnabled = false
+                swipeRefreshLayout.isEnabled = false
                 return
             }
             val llm = getCurrentRV().layoutManager as LinearLayoutManager? ?: return
-            swipeRefreshLayout?.isEnabled = llm.findFirstVisibleItemPosition() <= 0
+            swipeRefreshLayout.isEnabled = llm.findFirstVisibleItemPosition() <= 0
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {}
     }
 
+    fun displayListInGrid(list: RecyclerView, adapter: AudioBrowserAdapter, provider: MedialibraryProvider<MediaLibraryItem>, spacing: Int) {
+        val gridLayoutManager = GridLayoutManager(requireActivity(), nbColumns)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+
+                if (position == adapter.itemCount - 1) {
+                    return 1
+                }
+                if (provider.isFirstInSection(position + 1)) {
+
+                    //calculate how many cell it must take
+                    val firstSection = provider.getPositionForSection(position)
+                    val nbItems = position - firstSection
+                    if (BuildConfig.DEBUG)
+                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % nbColumns)
+
+                    return nbColumns - nbItems % nbColumns
+                }
+
+                return 1
+            }
+        }
+        list.layoutManager = gridLayoutManager
+        list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, provider))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        nbColumns = resources.getInteger(R.integer.mobile_card_columns)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        nbColumns = resources.getInteger(R.integer.mobile_card_columns)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewPager = view.findViewById(R.id.pager)
+        view.findViewById<ViewPager>(R.id.pager)?.let { viewPager = it }
         tabLayout = requireActivity().findViewById(R.id.sliding_tabs)
     }
 
     private fun setupTabLayout() {
-        if (tabLayout == null || viewPager == null) return
+        if (tabLayout == null || !::viewPager.isInitialized) return
         tabLayout?.setupWithViewPager(viewPager)
         if (!::layoutOnPageChangeListener.isInitialized) layoutOnPageChangeListener = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
-        viewPager?.addOnPageChangeListener(layoutOnPageChangeListener)
+        viewPager.addOnPageChangeListener(layoutOnPageChangeListener)
         tabLayout?.addOnTabSelectedListener(this)
-        viewPager?.addOnPageChangeListener(this)
+        viewPager.addOnPageChangeListener(this)
     }
 
     private fun unSetTabLayout() {
-        if (tabLayout != null || viewPager == null) return
-        viewPager?.removeOnPageChangeListener(layoutOnPageChangeListener)
+        if (tabLayout != null || !::viewPager.isInitialized) return
+        viewPager.removeOnPageChangeListener(layoutOnPageChangeListener)
         tabLayout?.removeOnTabSelectedListener(this)
-        viewPager?.removeOnPageChangeListener(this)
+        viewPager.removeOnPageChangeListener(this)
     }
 
     override fun onStart() {
@@ -184,7 +227,7 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
                 R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, list.getTracks())
                 R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list.getTracks())
                 R.id.action_mode_audio_info -> showInfoDialog(list[0])
-                R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
+                R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as AbstractMediaWrapper, requireActivity())
                 R.id.action_mode_audio_delete -> removeItems(list)
             }
         }
@@ -192,7 +235,7 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     }
 
     private suspend fun List<MediaLibraryItem>.getTracks() = withContext(Dispatchers.Default) {
-        ArrayList<MediaWrapper>().apply {
+        ArrayList<AbstractMediaWrapper>().apply {
             for (mediaItem in this@getTracks) addAll(Arrays.asList(*mediaItem.tracks))
         }
     }
@@ -217,14 +260,9 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (actionMode != null) return false
-        getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position)
-        startActionMode()
+        getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position, true)
+        if (actionMode == null) startActionMode()
         return true
-    }
-
-    override fun onShiftClick(v: View, layoutPosition: Int, item: MediaLibraryItem) {
-        if (actionMode != null) onClick(v, layoutPosition, item) else onLongClick(v, layoutPosition, item)
     }
 
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {
@@ -243,7 +281,6 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
         }
         if (actionMode == null) showContext(requireActivity(), this, position, item.title, flags)
     }
-
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {
         MediaUtils.openList(activity, Arrays.asList(*item.tracks), 0)
@@ -271,8 +308,7 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-            CTX_SET_RINGTONE -> AudioUtil.setRingtone(media as MediaWrapper, requireActivity())
+            CTX_SET_RINGTONE -> AudioUtil.setRingtone(media as AbstractMediaWrapper, requireActivity())
         }
     }
-
 }

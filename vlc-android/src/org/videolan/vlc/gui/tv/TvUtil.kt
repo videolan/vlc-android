@@ -33,15 +33,14 @@ import android.text.TextUtils
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.widget.DiffCallback
 import androidx.leanback.widget.ListRow
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.getposition
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -52,13 +51,12 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.TVActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
+import org.videolan.vlc.gui.tv.details.MediaListActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
-
-import kotlin.collections.ArrayList
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -74,8 +72,8 @@ object TvUtil {
         override fun areContentsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
             if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return TextUtils.equals(oldItem.description, newItem.description)
             if (oldItem.itemType != MediaLibraryItem.TYPE_MEDIA) return true
-            val oldMedia = oldItem as MediaWrapper
-            val newMedia = newItem as MediaWrapper
+            val oldMedia = oldItem as AbstractMediaWrapper
+            val newMedia = newItem as AbstractMediaWrapper
             return oldMedia === newMedia || (oldMedia.time == newMedia.time
                     && TextUtils.equals(oldMedia.artworkMrl, newMedia.artworkMrl)
                     && oldMedia.seen == newMedia.seen)
@@ -83,8 +81,8 @@ object TvUtil {
 
         override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any {
             if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return UPDATE_DESCRIPTION
-            val oldMedia = oldItem as MediaWrapper
-            val newMedia = newItem as MediaWrapper
+            val oldMedia = oldItem as AbstractMediaWrapper
+            val newMedia = newItem as AbstractMediaWrapper
             if (oldMedia.time != newMedia.time) return UPDATE_TIME
             return if (!TextUtils.equals(oldMedia.artworkMrl, newMedia.artworkMrl)) UPDATE_THUMB
             else UPDATE_SEEN
@@ -111,33 +109,37 @@ object TvUtil {
     fun getOverscanHorizontal(context: Context) = context.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal)
     fun getOverscanVertical(context: Context) = context.resources.getDimensionPixelSize(R.dimen.tv_overscan_vertical)
 
-    fun playMedia(activity: Activity, media: MediaWrapper) {
-        if (media.type == MediaWrapper.TYPE_AUDIO) {
-            val tracks = ArrayList<MediaWrapper>()
+    fun playMedia(activity: Activity, media: AbstractMediaWrapper) {
+        if (media.type == AbstractMediaWrapper.TYPE_AUDIO) {
+            val tracks = ArrayList<AbstractMediaWrapper>()
             tracks.add(media)
-            val intent = Intent(activity, AudioPlayerActivity::class.java)
-            intent.putExtra(AudioPlayerActivity.MEDIA_LIST, tracks)
-            activity.startActivity(intent)
+            playMedia(activity, tracks)
         } else
             MediaUtils.openMedia(activity, media)
+    }
+
+    fun playMedia(activity: Activity, media: List<AbstractMediaWrapper>) {
+        val intent = Intent(activity, AudioPlayerActivity::class.java)
+        intent.putExtra(AudioPlayerActivity.MEDIA_LIST, ArrayList(media))
+        activity.startActivity(intent)
     }
 
     @Suppress("UNCHECKED_CAST")
     fun openMedia(activity: FragmentActivity, item: Any?, model: BaseModel<out MediaLibraryItem>?) {
         when (item) {
-            is MediaWrapper -> when {
-                item.type == MediaWrapper.TYPE_AUDIO -> {
-                    val list = (model!!.dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+            is AbstractMediaWrapper -> when {
+                item.type == AbstractMediaWrapper.TYPE_AUDIO -> {
+                    val list = (model!!.dataset.value as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
-                item.type == MediaWrapper.TYPE_DIR -> {
+                item.type == AbstractMediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
-                item.type == MediaWrapper.TYPE_GROUP -> {
+                item.type == AbstractMediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
                     val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
@@ -146,7 +148,7 @@ object TvUtil {
                 }
                 else -> {
                     model?.run {
-                        val list = (dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                        val list = (dataset.value as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
                         val position = list.getposition(item)
                         MediaUtils.openList(activity, list, position)
                     } ?: MediaUtils.openMedia(activity, item)
@@ -173,19 +175,19 @@ object TvUtil {
     @Suppress("UNCHECKED_CAST")
     fun openMedia(activity: FragmentActivity, item: Any?, model: BrowserModel) {
         when (item) {
-            is MediaWrapper -> when {
-                item.type == MediaWrapper.TYPE_AUDIO -> {
-                    val list = (model.dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+            is AbstractMediaWrapper -> when {
+                item.type == AbstractMediaWrapper.TYPE_AUDIO -> {
+                    val list = (model.dataset.value as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
-                item.type == MediaWrapper.TYPE_DIR -> {
+                item.type == AbstractMediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
-                item.type == MediaWrapper.TYPE_GROUP -> {
+                item.type == AbstractMediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
                     val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
@@ -194,7 +196,7 @@ object TvUtil {
                 }
                 else -> {
                     model.run {
-                        val list = (dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                        val list = (dataset.value as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
                         val position = list.getposition(item)
                         MediaUtils.openList(activity, list, position)
                     }
@@ -221,21 +223,21 @@ object TvUtil {
     @Suppress("UNCHECKED_CAST")
     suspend fun openMediaFromPaged(activity: FragmentActivity, item: Any?, provider: MedialibraryProvider<out MediaLibraryItem>) {
         when (item) {
-            is MediaWrapper -> when {
-                item.type == MediaWrapper.TYPE_AUDIO -> {
+            is AbstractMediaWrapper -> when {
+                item.type == AbstractMediaWrapper.TYPE_AUDIO -> {
                     val list = withContext(Dispatchers.IO) {
-                        (provider.getAll().toList()).filter { it.itemType != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
+                        (provider.getAll().toList()).filter { it.itemType != AbstractMediaWrapper.TYPE_DIR } as ArrayList<AbstractMediaWrapper>
                     }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
-                item.type == MediaWrapper.TYPE_DIR -> {
+                item.type == AbstractMediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
-                item.type == MediaWrapper.TYPE_GROUP -> {
+                item.type == AbstractMediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
                     val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
@@ -244,7 +246,7 @@ object TvUtil {
                 }
                 else -> {
                     val list = withContext(Dispatchers.IO) {
-                        (provider.getAll().toList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                        (provider.getAll().toList() as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
                     }
                     val position = list.getposition(item)
                     MediaUtils.openList(activity, list, position)
@@ -268,7 +270,7 @@ object TvUtil {
         }
     }
 
-    fun showMediaDetail(activity: Context, mediaWrapper: MediaWrapper) {
+    fun showMediaDetail(activity: Context, mediaWrapper: AbstractMediaWrapper) {
         val intent = Intent(activity, DetailsActivity::class.java)
         intent.putExtra("media", mediaWrapper)
         intent.putExtra("item", MediaItemDetails(mediaWrapper.title, mediaWrapper.artist, mediaWrapper.album, mediaWrapper.location, mediaWrapper.artworkURL))
@@ -282,11 +284,11 @@ object TvUtil {
         activity.startActivity(intent)
     }
 
-    private fun playAudioList(activity: Activity, array: Array<MediaWrapper>, position: Int) {
+    private fun playAudioList(activity: Activity, array: Array<AbstractMediaWrapper>, position: Int) {
         playAudioList(activity, array.toList(), position)
     }
 
-    private fun playAudioList(activity: Activity, list: List<MediaWrapper>, position: Int) {
+    private fun playAudioList(activity: Activity, list: List<AbstractMediaWrapper>, position: Int) {
         MediaUtils.openList(activity, list, position)
         val intent = Intent(activity, AudioPlayerActivity::class.java)
         activity.startActivity(intent)
@@ -294,10 +296,13 @@ object TvUtil {
 
     fun openAudioCategory(context: Activity, mediaLibraryItem: MediaLibraryItem) {
         when {
-            mediaLibraryItem.itemType == MediaLibraryItem.TYPE_ALBUM -> playAudioList(context, mediaLibraryItem.tracks, 0)
-            mediaLibraryItem.itemType == MediaLibraryItem.TYPE_PLAYLIST -> playAudioList(context, mediaLibraryItem.tracks, 0)
+            mediaLibraryItem.itemType == MediaLibraryItem.TYPE_ALBUM || mediaLibraryItem.itemType == MediaLibraryItem.TYPE_PLAYLIST -> {
+                val intent = Intent(context, MediaListActivity::class.java)
+                intent.putExtra(ITEM, mediaLibraryItem)
+                context.startActivity(intent)
+            }
             mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA -> {
-                val list = ArrayList<MediaWrapper>().apply { add(mediaLibraryItem as MediaWrapper) }
+                val list = ArrayList<AbstractMediaWrapper>().apply { add(mediaLibraryItem as AbstractMediaWrapper) }
                 playAudioList(context, list, 0)
             }
             else -> {
@@ -310,46 +315,16 @@ object TvUtil {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    fun updateBackground(bm: BackgroundManager?, item: Any?) {
-        if (bm === null || item === null) return
-        if (item is MediaLibraryItem) AppScope.launch {
-            val crop = item.itemType != MediaLibraryItem.TYPE_MEDIA || (item as MediaWrapper).type == MediaWrapper.TYPE_AUDIO
-            val artworkMrl = item.artworkMrl
-            if (!TextUtils.isEmpty(artworkMrl)) {
-                val blurred = withContext(Dispatchers.IO) {
-                    var cover: Bitmap? = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
-                            ?: return@withContext null
-                    if (cover != null && crop)
-                        cover = BitmapUtil.centerCrop(cover, cover.width, cover.width * 10 / 16)
-                    UiTools.blurBitmap(cover, 10f)
-                }
-                @Suppress("SENSELESS_COMPARISON")
-                if (bm !== null) {
-                    bm.color = 0
-                    bm.drawable = BitmapDrawable(VLCApplication.appResources, blurred)
-                }
-            }
-        }
-        clearBackground(bm)
-    }
-
-    private fun clearBackground(bm: BackgroundManager?) {
-        if (bm === null) return
-        bm.color = ContextCompat.getColor(VLCApplication.appContext, R.color.tv_bg)
-        bm.drawable = null
-    }
-
     fun getIconRes(mediaLibraryItem: MediaLibraryItem): Int {
         when (mediaLibraryItem.itemType) {
             MediaLibraryItem.TYPE_ALBUM -> return R.drawable.ic_album_big
             MediaLibraryItem.TYPE_ARTIST -> return R.drawable.ic_artist_big
             MediaLibraryItem.TYPE_GENRE -> return R.drawable.ic_genre_big
             MediaLibraryItem.TYPE_MEDIA -> {
-                val mw = mediaLibraryItem as MediaWrapper
+                val mw = mediaLibraryItem as AbstractMediaWrapper
                 return when {
-                    mw.type == MediaWrapper.TYPE_VIDEO -> R.drawable.ic_browser_video_big_normal
-                    else -> if (mw.type == MediaWrapper.TYPE_DIR)
+                    mw.type == AbstractMediaWrapper.TYPE_VIDEO -> R.drawable.ic_browser_video_big_normal
+                    else -> if (mw.type == AbstractMediaWrapper.TYPE_DIR)
                         R.drawable.ic_menu_folder_big
                     else
                         R.drawable.ic_song_big
@@ -375,4 +350,43 @@ object TvUtil {
             else -> return R.drawable.ic_browser_unknown_big_normal
         }
     }
+}
+
+@Suppress("UNNECESSARY_SAFE_CALL")
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+fun CoroutineScope.updateBackground(context: Context, bm: BackgroundManager?, item: Any?) {
+    if (bm === null || item === null) return
+    clearBackground(context, bm)
+    if (item is MediaLibraryItem) launch {
+        val crop = item.itemType != MediaLibraryItem.TYPE_MEDIA || (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_AUDIO
+        val artworkMrl = item.artworkMrl
+        if (!TextUtils.isEmpty(artworkMrl)) {
+            val blurred = withContext(Dispatchers.IO) {
+                var cover: Bitmap? = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
+                        ?: return@withContext null
+                if (cover != null && crop)
+                    cover = BitmapUtil.centerCrop(cover, cover.width, cover.width * 10 / 16)
+                UiTools.blurBitmap(cover, 10f)
+            }
+            if (!isActive) return@launch
+            bm?.color = 0
+            bm?.drawable = BitmapDrawable(context.resources, blurred)
+        } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
+            val blurred = withContext(Dispatchers.IO) {
+                var cover: Bitmap? = ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), 512)
+                        ?: return@withContext null
+                if (crop) cover = cover?.let { BitmapUtil.centerCrop(it, it.width, it.width * 10 / 16) }
+                UiTools.blurBitmap(cover, 10f)
+            }
+            if (!isActive) return@launch
+            bm?.color = 0
+            bm?.drawable = BitmapDrawable(context.resources, blurred)
+        }
+    }
+}
+
+private fun clearBackground(context: Context, bm: BackgroundManager?) {
+    if (bm === null) return
+    bm.color = ContextCompat.getColor(context, R.color.tv_bg)
+    bm.drawable = null
 }

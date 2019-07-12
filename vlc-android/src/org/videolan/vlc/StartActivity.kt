@@ -28,11 +28,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SearchActivity
 import org.videolan.vlc.gui.helpers.UiTools
@@ -92,6 +94,13 @@ class StartActivity : FragmentActivity() {
                     return
                 }
             }
+        }
+
+        // Setting test mode with stubbed media library if required
+        if (intent.hasExtra(MLServiceLocator.EXTRA_TEST_STUBS)
+                && intent.getBooleanExtra(MLServiceLocator.EXTRA_TEST_STUBS, false)) {
+            MLServiceLocator.setLocatorMode(MLServiceLocator.LocatorMode.TESTS)
+            Log.i(TAG, "onCreate: Setting test mode`")
         }
 
         // Start application
@@ -169,7 +178,6 @@ class StartActivity : FragmentActivity() {
     }
 
     companion object {
-
         const val TAG = "VLC/StartActivity"
     }
 }

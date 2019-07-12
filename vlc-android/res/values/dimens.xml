@@ -27,11 +27,12 @@
     <dimen name="overlay_padding_bottom">8dip</dimen>
     <dimen name="overlay_padding_top">10dip</dimen>
     <dimen name="overlay_padding_sides">5dp</dimen>
-    <dimen name="overlay_margin">2dp</dimen>
+    <dimen name="overlay_margin">4dp</dimen>
 
     <dimen name="seekbar_height">1dip</dimen>
     <dimen name="images_margin_sides">10dp</dimen>
-    <dimen name="time_margin_sides">12dp</dimen>
+    <dimen name="seek_margin_sides">8dp</dimen>
+    <dimen name="time_margin_sides">16dp</dimen>
 
 
     <dimen name="media_ctrl_margin_top">20dp</dimen>
@@ -78,7 +79,7 @@
     <dimen name="fastscroller_track_height">30dp</dimen>
     <dimen name="fastscroller_track_width">6dp</dimen>
     <dimen name="fastscroller_track_padding">5dp</dimen>
-    <dimen name="audio_player_cover_margin">4dp</dimen>
+    <dimen name="audio_player_cover_margin">8dp</dimen>
     <dimen name="audio_player_elevation">16dp</dimen>
     <dimen name="progress_layout_height">24dp</dimen>
     <dimen name="dialog_sd_wisard_width">320dp</dimen>

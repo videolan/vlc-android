@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="jelly_bean">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
+
+
+        <variable
+            name="item"
+            type="MediaLibraryItem" />
+
+        <variable
+            name="cover"
+            type="android.graphics.drawable.BitmapDrawable" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="subtitle"
+            type="String" />
+
+        <variable
+            name="totalTime"
+            type="String" />
+
+        <variable
+            name="imageWidth"
+            type="int" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="org.videolan.vlc.gui.tv.details.MediaListActivity"
+        tools:theme="@style/Theme.VLC.TV">
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/tv_card_content_darker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
+
+        <ImageView
+                android:id="@+id/cover"
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="@dimen/tv_overscan_horizontal"
+                android:layout_marginBottom="8dp"
+                app:imageWidth="@{imageWidth}"
+                app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:media="@{item}"
+                tools:srcCompat="@tools:sample/avatars"/>
+
+        <TextView
+            android:id="@+id/albumTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{title}"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/cover"
+            app:layout_constraintTop_toTopOf="@+id/cover"
+            tools:text="Symphony No. 1" />
+
+        <TextView
+            android:id="@+id/albumSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{subtitle}"
+            app:layout_constraintStart_toEndOf="@+id/cover"
+            app:layout_constraintTop_toBottomOf="@+id/albumTitle"
+            tools:text="Ludwig van Beethoven" />
+
+        <TextView
+            android:id="@+id/albumTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{totalTime}"
+            app:layout_constraintStart_toEndOf="@+id/cover"
+            app:layout_constraintTop_toBottomOf="@+id/albumSubtitle"
+            tools:text="01:38:27" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="albumSubtitle,albumTitle"
+            tools:layout_editor_absoluteX="960dp" />
+
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+            app:layout_constraintEnd_toEndOf="@+id/media_list"
+            app:layout_constraintStart_toEndOf="@+id/barrier2">
+
+            <LinearLayout
+                style="?android:attr/buttonBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/play"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_circle_white_selector"
+                    android:padding="8dp"
+                    android:text="@string/play"
+                    app:srcCompat="@drawable/ic_tv_list_play" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/button_circle_white_selector"
+                    android:padding="8dp"
+                    android:text="@string/delete"
+                    app:srcCompat="@drawable/ic_tv_list_delete" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/insert_next"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/button_circle_white_selector"
+                    android:padding="8dp"
+                    android:text="@string/insert_next"
+                    app:srcCompat="@drawable/ic_tv_list_playnext" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/append"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/button_circle_white_selector"
+                    android:padding="8dp"
+                    android:text="@string/append"
+                    app:srcCompat="@drawable/ic_tv_list_append" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/add_playlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_circle_white_selector"
+                    android:padding="8dp"
+                    android:text="@string/add_to_playlist"
+                    app:srcCompat="@drawable/ic_tv_list_addtoplaylist" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <org.videolan.vlc.gui.tv.FocusableRecyclerView
+            android:id="@+id/media_list"
+            android:layout_width="800dp"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingTop="40dp"
+            android:paddingBottom="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+        <include layout="@layout/tv_time" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

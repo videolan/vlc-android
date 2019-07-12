@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.database
 
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.Matchers.*
 import org.junit.Assert.assertThat
 import org.junit.Test

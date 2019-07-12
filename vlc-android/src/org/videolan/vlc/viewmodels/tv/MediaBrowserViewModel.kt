@@ -22,7 +22,6 @@ class MediaBrowserViewModel(context: Context, val category: Long) : Medialibrary
     override var nbColumns = 0
     override var currentItem: MediaLibraryItem? = null
 
-
     override val provider = when (category) {
         CATEGORY_ALBUMS -> AlbumsProvider(null, context, this)
         CATEGORY_ARTISTS -> ArtistsProvider(context, this, true)
@@ -31,6 +30,15 @@ class MediaBrowserViewModel(context: Context, val category: Long) : Medialibrary
         else -> TracksProvider(null, context, this)
     }
     override val providers = arrayOf(provider)
+
+    init {
+        when(category){
+            CATEGORY_ALBUMS -> watchAlbums()
+            CATEGORY_ARTISTS -> watchArtists()
+            CATEGORY_GENRES -> watchGenres()
+            else -> watchMedia()
+        }
+    }
 
     class Factory(private val context: Context, private val category: Long) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

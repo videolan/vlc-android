@@ -27,9 +27,10 @@ import android.text.TextUtils
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.BrowserFav
@@ -55,7 +56,8 @@ open class FileBrowserProvider(
 
     private var storagePosition = -1
     private var otgPosition = -1
-    private val showFavorites : Boolean
+    @Suppress("LeakingThis")
+    private val showFavorites = url == null && !filePicker && this !is StorageProvider
     private val favorites = if (url == null && !filePicker) BrowserFavRepository.getInstance(context).localFavorites else null
 
     private val favoritesObserver by lazy { Observer<List<BrowserFav>> {
@@ -88,7 +90,7 @@ open class FileBrowserProvider(
     } }
 
     init {
-        showFavorites = url == null && !filePicker && this !is StorageProvider
+        fetch()
     }
 
     private lateinit var storageObserver : Observer<Boolean>
@@ -105,8 +107,8 @@ open class FileBrowserProvider(
             val file = File(mediaDirLocation)
             if (!file.exists() || !file.canRead()) continue
             storageAccess = true
-            val directory = MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
-            directory.type = MediaWrapper.TYPE_DIR
+            val directory = MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
+            directory.type = AbstractMediaWrapper.TYPE_DIR
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation)) {
                 directory.setDisplayTitle(internalmemoryTitle)
                 storagePosition = devices.size
@@ -123,9 +125,9 @@ open class FileBrowserProvider(
         }
         if (!storageAccess) return // For first launch, storage access may not already be granted
         if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.value.isEmpty()) {
-            val otg = MediaWrapper(Uri.parse("otg://")).apply {
+            val otg = MLServiceLocator.getAbstractMediaWrapper(Uri.parse("otg://")).apply {
                 title = context.getString(R.string.otg_device_title)
-                type = MediaWrapper.TYPE_DIR
+                type = AbstractMediaWrapper.TYPE_DIR
             }
             otgPosition = devices.size
             devices.add(otg)
@@ -169,9 +171,9 @@ open class FileBrowserProvider(
                 otgPosition = -1
             }
         } else if (otgPosition == -1) {
-            val otg = MediaWrapper(Uri.parse("otg://")).apply {
+            val otg = MLServiceLocator.getAbstractMediaWrapper(Uri.parse("otg://")).apply {
                 title = context.getString(R.string.otg_device_title)
-                type = MediaWrapper.TYPE_DIR
+                type = AbstractMediaWrapper.TYPE_DIR
             }
             otgPosition = storagePosition+1
             dataset.add(otgPosition, otg)

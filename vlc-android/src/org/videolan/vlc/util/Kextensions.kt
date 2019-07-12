@@ -21,9 +21,9 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.startMedialibrary
 import java.io.File
@@ -72,21 +72,21 @@ suspend fun retry (
 }
 
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
-fun MediaWrapper?.isMedia() = this != null && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO)
-fun MediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == MediaWrapper.TYPE_DIR || type == MediaWrapper.TYPE_PLAYLIST)
+fun AbstractMediaWrapper?.isMedia() = this != null && (type == AbstractMediaWrapper.TYPE_AUDIO || type == AbstractMediaWrapper.TYPE_VIDEO)
+fun AbstractMediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == AbstractMediaWrapper.TYPE_DIR || type == AbstractMediaWrapper.TYPE_PLAYLIST)
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
 fun Long.random() = (Random().nextFloat() * this).toLong()
 
 @ExperimentalCoroutinesApi
-suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(Dispatchers.IO) {
-    val ml = Medialibrary.getInstance()
+suspend inline fun <reified T> Context.getFromMl(crossinline block: AbstractMedialibrary.() -> T) = withContext(Dispatchers.IO) {
+    val ml = AbstractMedialibrary.getInstance()
     if (ml.isStarted) block.invoke(ml)
     else {
         val scan = Settings.getInstance(this@getFromMl).getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON) == ML_SCAN_ON
         suspendCancellableCoroutine { continuation ->
-            val listener = object : Medialibrary.OnMedialibraryReadyListener {
+            val listener = object : AbstractMedialibrary.OnMedialibraryReadyListener {
                 override fun onMedialibraryReady() {
                     val cb = this
                     if (!continuation.isCompleted) launch(start = CoroutineStart.UNDISPATCHED) {
@@ -105,14 +105,14 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary
 }
 
 
-fun List<MediaWrapper>.getWithMLMeta() : List<MediaWrapper> {
-    if (this is MutableList<MediaWrapper>) return updateWithMLMeta()
-    val list = mutableListOf<MediaWrapper>()
-    val ml = VLCApplication.mlInstance
+fun List<AbstractMediaWrapper>.getWithMLMeta() : List<AbstractMediaWrapper> {
+    if (this is MutableList<AbstractMediaWrapper>) return updateWithMLMeta()
+    val list = mutableListOf<AbstractMediaWrapper>()
+    val ml = AbstractMedialibrary.getInstance()
     for (media in this) {
         if (media.id == 0L) {
             val mw = ml.findMedia(media)
-            if (mw.id != 0L) if (mw.type == MediaWrapper.TYPE_ALL) mw.type = media.type
+            if (mw.id != 0L) if (mw.type == AbstractMediaWrapper.TYPE_ALL) mw.type = media.type
             list.add(mw)
         }
     }
@@ -120,16 +120,16 @@ fun List<MediaWrapper>.getWithMLMeta() : List<MediaWrapper> {
 }
 
 
-fun MutableList<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
+fun MutableList<AbstractMediaWrapper>.updateWithMLMeta() : MutableList<AbstractMediaWrapper> {
     val iter = listIterator()
-    val ml = VLCApplication.mlInstance
+    val ml = AbstractMedialibrary.getInstance()
     try {
         while (iter.hasNext()) {
             val media = iter.next()
             if (media.id == 0L) {
                 val mw = ml.findMedia(media)
                 if (mw!!.id != 0L) {
-                    if (mw.type == MediaWrapper.TYPE_ALL) mw.type = media.getType()
+                    if (mw.type == AbstractMediaWrapper.TYPE_ALL) mw.type = media.getType()
                     iter.set(mw)
                 }
             }

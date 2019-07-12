@@ -23,7 +23,6 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -32,7 +31,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
@@ -40,9 +38,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistsFragmentBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
@@ -57,6 +54,7 @@ import org.videolan.vlc.util.CTX_PLAY_ALL
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
+import kotlin.math.min
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -74,46 +72,29 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = PlaylistsFragmentBinding.inflate(inflater, container, false)
-        playlists = binding.swipeLayout.findViewById(R.id.playlist_list)
+        playlists = binding.swipeLayout.findViewById(R.id.audio_list)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.swipeLayout.setOnRefreshListener(this)
-        val nbColumns = 2
-        val gridLayoutManager = GridLayoutManager(view.context, nbColumns)
-        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
 
-                if (position == playlistAdapter.getItemCount() - 1) {
-                    return 1
-                }
-                if (viewModel.provider.isFirstInSection(position + 1)) {
-
-                    //calculate how many cell it must take
-                    val firstSection = viewModel.provider.getPositionForSection(position)
-                    val nbItems = position - firstSection
-                    if (BuildConfig.DEBUG)
-                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % nbColumns)
-
-                    return nbColumns - nbItems % nbColumns
-                }
-
-                return 1
-            }
-        }
 
         //size of an item
         val spacing = resources.getDimension(R.dimen.kl_half).toInt()
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+
+        val dimension = resources.getDimension(R.dimen.default_content_width)
+        val totalWidth = if (dimension > 0) min(requireActivity().getScreenWidth(), dimension.toInt()) else requireActivity().getScreenWidth()
+
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(totalWidth - spacing * 2, nbColumns, spacing)
 
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, itemSize)
         adapter = playlistAdapter
 
-        playlists.layoutManager = gridLayoutManager
+        displayListInGrid(playlists, adapter!!, viewModel.provider as MedialibraryProvider<MediaLibraryItem>, spacing)
+
         playlists.adapter = playlistAdapter
-        playlists.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, viewModel.provider))
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById(R.id.fab) as FloatingActionButton)
     }
@@ -150,7 +131,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        if (option == CTX_PLAY_ALL) MediaUtils.playAll(requireContext(), viewModel.provider as MedialibraryProvider<MediaWrapper>, position, false)
+        if (option == CTX_PLAY_ALL) MediaUtils.playAll(requireContext(), viewModel.provider as MedialibraryProvider<AbstractMediaWrapper>, position, false)
         else super.onCtxAction(position, option)
     }
 

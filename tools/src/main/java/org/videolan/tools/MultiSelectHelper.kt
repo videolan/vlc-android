@@ -2,9 +2,11 @@ package org.videolan.tools
 
 import android.util.SparseBooleanArray
 import androidx.annotation.MainThread
+import kotlin.math.max
+import kotlin.math.min
 
 
-class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val payloadvalue : Any = 0) {
+class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val payloadvalue: Any = 0) {
 
     val selectionMap = SparseBooleanArray()
 
@@ -17,7 +19,25 @@ class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val paylo
     @MainThread
     fun getSelectionCount() = selectionMap.size()
 
-    fun toggleSelection(position: Int) {
+    fun toggleSelection(position: Int, forceShift: Boolean = false) {
+        if ((KeyHelper.isShiftPressed || forceShift) && selectionMap.size() != 0) {
+            val positions = HashSet<Int>()
+            for (i in 0 until selectionMap.size()) {
+                positions.add(selectionMap.keyAt(i))
+            }
+            val firstPosition = selectionMap.keyAt(0)
+            selectionMap.clear()
+
+            for (i in min(firstPosition, position)..max(firstPosition, position)) {
+                selectionMap.append(i, true)
+                positions.add(i)
+            }
+
+            positions.forEach {
+                adapter.notifyItemChanged(it, payloadvalue)
+            }
+            return
+        }
         if (isSelected(position)) selectionMap.delete(position)
         else selectionMap.append(position, true)
         adapter.notifyItemChanged(position, payloadvalue)
@@ -35,7 +55,7 @@ class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val paylo
 }
 
 interface MultiSelectAdapter<T> {
-    fun getItem(position: Int) : T?
+    fun getItem(position: Int): T?
     fun notifyItemChanged(start: Int, payload: Any?)
     fun notifyItemRangeChanged(start: Int, count: Int, payload: Any?)
 }

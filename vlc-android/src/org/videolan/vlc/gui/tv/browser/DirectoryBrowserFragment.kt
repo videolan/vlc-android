@@ -31,8 +31,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.util.UPDATE_DESCRIPTION
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -74,7 +74,7 @@ class DirectoryBrowserFragment : MediaSortedFragment<BrowserModel>() {
     }
 
     override fun onItemClicked(viewHolder: Presenter.ViewHolder, item: Any, viewHolder1: RowPresenter.ViewHolder, row: Row) {
-        if (item is MediaWrapper && item.type == MediaWrapper.TYPE_DIR) viewModel.saveList(item)
+        if (item is AbstractMediaWrapper && item.type == AbstractMediaWrapper.TYPE_DIR) viewModel.saveList(item)
         super.onItemClicked(viewHolder, item, viewHolder1, row)
     }
 

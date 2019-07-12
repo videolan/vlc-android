@@ -28,15 +28,16 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.SimpleArrayMap
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.multidex.MultiDexApplication
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -46,13 +47,12 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.*
 import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationTargetException
-import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VLCApplication : Application() {
+class VLCApplication : MultiDexApplication() {
 
-    private var mDialogCallbacks: Dialog.Callbacks = object : Dialog.Callbacks {
+    private var dialogCallbacks: Dialog.Callbacks = object : Dialog.Callbacks {
         override fun onDisplay(dialog: Dialog.ErrorMessage) {
             Log.w(TAG, "ErrorMessage " + dialog.text)
         }
@@ -75,7 +75,7 @@ class VLCApplication : Application() {
         }
 
         override fun onCanceled(dialog: Dialog?) {
-            if (dialog != null && dialog.context != null) (dialog.context as DialogFragment).dismiss()
+            (dialog?.context as? DialogFragment)?.dismiss()
         }
 
         override fun onProgressUpdate(dialog: Dialog.ProgressDialog) {
@@ -86,36 +86,36 @@ class VLCApplication : Application() {
 
     init {
         instance = this
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
     @TargetApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
 
-
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         Thread(Runnable {
-            locale = Settings.getInstance(instance!!).getString("set_locale", "")
+            locale = Settings.getInstance(instance).getString("set_locale", "")
             runOnMainThread(Runnable {
                 // Set the locale for API < 24 and set application resources and direction for API >=24
-                UiTools.setLocale(appContext!!)
+                UiTools.setLocale(appContext)
             })
 
             runIO(Runnable {
                 if (AndroidUtil.isOOrLater)
                     NotificationHelper.createNotificationChannels(this@VLCApplication)
                 // Prepare cache folder constants
-                AudioUtil.prepareCacheFolder(appContext!!)
+                AudioUtil.prepareCacheFolder(appContext)
 
-                if (!VLCInstance.testCompatibleCPU(appContext!!)) return@Runnable
-                Dialog.setCallbacks(VLCInstance[instance!!], mDialogCallbacks)
+                if (!VLCInstance.testCompatibleCPU(appContext)) return@Runnable
+                Dialog.setCallbacks(VLCInstance[instance], dialogCallbacks)
             })
         }).start()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        UiTools.setLocale(appContext!!)
+        UiTools.setLocale(appContext)
     }
 
     /**
@@ -124,14 +124,12 @@ class VLCApplication : Application() {
     override fun onLowMemory() {
         super.onLowMemory()
         Log.w(TAG, "System is running low on memory")
-
         BitmapCache.clear()
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         Log.w(TAG, "onTrimMemory, level: $level")
-
         BitmapCache.clear()
     }
 
@@ -142,13 +140,11 @@ class VLCApplication : Application() {
     }
 
     companion object {
-        const val TAG = "VLC/VLCApplication"
+        private const val TAG = "VLC/VLCApplication"
 
         const val ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication"
         @Volatile
-        private var instance: Application? = null
-
-        var playerSleepTime: Calendar? = null
+        private lateinit var instance: Application
 
         private val dataMap = SimpleArrayMap<String, WeakReference<Any>>()
 
@@ -164,8 +160,8 @@ class VLCApplication : Application() {
         val appContext: Context
             @SuppressLint("PrivateApi")
             get() {
-                return if (instance != null)
-                    instance!!
+                return if (::instance.isInitialized)
+                    instance
                 else {
                     try {
                         instance = Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication").invoke(null) as Application
@@ -175,8 +171,7 @@ class VLCApplication : Application() {
                     } catch (ignored: ClassNotFoundException) {
                     } catch (ignored: ClassCastException) {
                     }
-
-                    instance!!
+                    instance
                 }
             }
 
@@ -190,21 +185,13 @@ class VLCApplication : Application() {
             dataMap.put(key, WeakReference(data))
         }
 
-        fun getData(key: String): Any? {
-            val wr = dataMap.remove(key)
-            return wr?.get()
-        }
+        fun getData(key: String) = dataMap.remove(key)?.get()
 
-        fun hasData(key: String): Boolean {
-            return dataMap.containsKey(key)
-        }
+        fun hasData(key: String) = dataMap.containsKey(key)
 
         fun clearData() {
             dataMap.clear()
         }
-
-        val mlInstance: Medialibrary
-            get() = Medialibrary.getInstance()
 
         /**
          * Check if application is currently displayed

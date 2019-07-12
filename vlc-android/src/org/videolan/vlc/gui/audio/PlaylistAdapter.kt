@@ -38,12 +38,13 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.MediaItemDiffCallback
@@ -53,9 +54,10 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 @UseExperimental(ObsoleteCoroutinesApi::class)
-class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
+class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
 
     private var mModel: PlaylistModel? = null
+    private var currentPlayingVisu: MiniVisualizer? = null
 
     var currentIndex = 0
         set(position) {
@@ -72,9 +74,9 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     private val mHandler = PlaylistHandler(this)
 
     interface IPlayer {
-        fun onPopupMenu(view: View, position: Int, item: MediaWrapper?)
+        fun onPopupMenu(view: View, position: Int, item: AbstractMediaWrapper?)
         fun onSelectionSet(position: Int)
-        fun playItem(position: Int, item: MediaWrapper)
+        fun playItem(position: Int, item: AbstractMediaWrapper)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -84,15 +86,24 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val ctx = holder.itemView.context
         val media = getItem(position)
-        holder.binding!!.media = media
-        holder.binding!!.subTitle = MediaUtils.getMediaSubtitle(media!!)
-        holder.binding!!.titleColor = if (currentIndex == position)
-            UiTools.getColorFromAttribute(ctx, R.attr.list_title_last)
-        else
-            UiTools.getColorFromAttribute(ctx, R.attr.list_title)
-        holder.binding!!.executePendingBindings()
+        holder.binding.media = media
+        holder.binding.subTitle = MediaUtils.getMediaSubtitle(media)
+        if (currentIndex == position) {
+            if (mModel?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
+            holder.binding.playing.visibility = View.VISIBLE
+            currentPlayingVisu = holder.binding.playing
+        } else {
+            holder.binding.playing.stop()
+            holder.binding.playing.visibility = View.INVISIBLE
+        }
+
+        holder.binding.executePendingBindings()
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        currentPlayingVisu = null
     }
 
     override fun getItemCount(): Int {
@@ -100,7 +111,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     }
 
     @MainThread
-    override fun getItem(position: Int): MediaWrapper {
+    override fun getItem(position: Int): AbstractMediaWrapper {
         return dataset[position]
     }
 
@@ -125,12 +136,11 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     }
 
     override fun onItemMoved(dragFrom: Int, dragTo: Int) {
-
     }
 
     override fun onItemDismiss(position: Int) {
         val media = getItem(position)
-        val message = String.format(VLCApplication.appResources.getString(R.string.remove_playlist_item), media!!.title)
+        val message = String.format(VLCApplication.appResources.getString(R.string.remove_playlist_item), media.title)
         if (player is Fragment) {
             val v = (player as Fragment).view
             val cancelAction = Runnable { mModel!!.insertMedia(position, media) }
@@ -147,11 +157,10 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
     inner class ViewHolder @TargetApi(Build.VERSION_CODES.M)
     constructor(v: View) : RecyclerView.ViewHolder(v) {
-        internal var binding: PlaylistItemBinding? = null
+        var binding: PlaylistItemBinding = DataBindingUtil.bind(v)!!
 
         init {
-            binding = DataBindingUtil.bind(v)
-            binding!!.holder = this
+            binding.holder = this
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
                     onMoreClick(v)
@@ -159,7 +168,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
                 }
         }
 
-        fun onClick(v: View, media: MediaWrapper) {
+        fun onClick(v: View, media: AbstractMediaWrapper) {
             val position = layoutPosition //getMediaPosition(media);
             player.playItem(position, media)
         }
@@ -196,17 +205,16 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
         companion object {
 
-            internal val ACTION_MOVE = 0
-            internal val ACTION_MOVED = 1
+            const val ACTION_MOVE = 0
+            const val ACTION_MOVED = 1
         }
     }
 
-    override fun createCB(): DiffUtilAdapter.DiffCallback<MediaWrapper> {
+    override fun createCB(): DiffCallback<AbstractMediaWrapper> {
         return MediaItemDiffCallback()
     }
 
-    companion object {
-
-        private val TAG = "VLC/PlaylistAdapter"
+    fun setCurrentlyPlaying(playing: Boolean) {
+        if (playing) currentPlayingVisu?.start() else currentPlayingVisu?.stop()
     }
 }

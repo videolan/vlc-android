@@ -1,14 +1,14 @@
 package org.videolan.tools
 
+import android.content.res.Resources
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
 
 fun LifecycleOwner.createJob(cancelEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY): Job = Job().also { job ->
     lifecycle.addObserver(object : LifecycleObserver {
@@ -19,6 +19,7 @@ fun LifecycleOwner.createJob(cancelEvent: Lifecycle.Event = Lifecycle.Event.ON_D
         }
     })
 }
+
 private val lifecycleCoroutineScopes = mutableMapOf<Lifecycle, CoroutineScope>()
 
 @ExperimentalCoroutinesApi
@@ -30,7 +31,7 @@ val LifecycleOwner.coroutineScope: CoroutineScope
         newScope
     }
 
-fun <T> List<T>.getposition(target: T) : Int {
+fun <T> List<T>.getposition(target: T): Int {
     for ((index, item) in withIndex()) if (item == target) return index
     return -1
 }
@@ -48,3 +49,13 @@ fun View?.setVisibility(visibility: Int) {
 fun View?.setVisible() = setVisibility(View.VISIBLE)
 fun View?.setInvisible() = setVisibility(View.INVISIBLE)
 fun View?.setGone() = setVisibility(View.GONE)
+
+val Int.dp: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+val Int.px: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+fun CoroutineScope.conflatedActor(time: Long = 2000L, action: () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
+    for (evt in channel) {
+        action()
+        delay(time)
+    }
+}

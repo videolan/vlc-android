@@ -38,13 +38,13 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
@@ -56,13 +56,15 @@ private const val NOTIFICATION_DELAY = 1000L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
+class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, LifecycleOwner {
+
     override val coroutineContext = Dispatchers.Main.immediate
+    private val dispatcher = ServiceLifecycleDispatcher(this)
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var localBroadcastManager: LocalBroadcastManager
 
     private val binder = LocalBinder()
-    private lateinit var medialibrary: Medialibrary
+    private lateinit var medialibrary: AbstractMedialibrary
     private var parsing = 0
     private var reload = 0
     private var currentDiscovery: String? = null
@@ -89,23 +91,29 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
     @SuppressLint("WakelockTimeout")
     override fun onCreate() {
+        dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
         localBroadcastManager = LocalBroadcastManager.getInstance(this)
-        medialibrary = Medialibrary.getInstance()
+        medialibrary = AbstractMedialibrary.getInstance()
         medialibrary.addDeviceDiscoveryCb(this@MediaParsingService)
         val filter = IntentFilter()
         filter.addAction(ACTION_PAUSE_SCAN)
         filter.addAction(ACTION_RESUME_SCAN)
         registerReceiver(receiver, filter)
-        localBroadcastManager.registerReceiver(receiver, IntentFilter(Medialibrary.ACTION_IDLE))
         val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsigService")
         wakeLock.acquire()
 
         if (lastNotificationTime == 5L) stopSelf()
+        AbstractMedialibrary.getState().observe(this, Observer<Boolean> { running ->
+            if (!running && !scanPaused) {
+                exitCommand()
+            }
+        })
     }
 
     override fun onBind(intent: Intent): IBinder? {
+        dispatcher.onServicePreSuperOnBind()
         return binder
     }
 
@@ -119,6 +127,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
         if (AndroidUtil.isOOrLater) forceForeground()
         else if (lastNotificationTime <= 0L) lastNotificationTime = System.currentTimeMillis()
+        dispatcher.onServicePreSuperOnStart()
         when (intent.action) {
             ACTION_INIT -> {
                 val upgrade = intent.getBooleanExtra(EXTRA_UPGRADE, false)
@@ -132,10 +141,10 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             ACTION_CHECK_STORAGES -> if (settings.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_OFF) actions.offer(UpdateStorages) else exitCommand()
             else -> {
                 exitCommand()
-                return Service.START_NOT_STICKY
+                return START_NOT_STICKY
             }
         }
-        return Service.START_NOT_STICKY
+        return START_NOT_STICKY
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -176,7 +185,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                     return
                 }
                 medialibrary.addDevice(uuid, path, true)
-                for (folder in Medialibrary.getBlackList())
+                for (folder in AbstractMedialibrary.getBlackList())
                     medialibrary.banFolder(path + folder)
             }
         }
@@ -222,7 +231,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         scanActivated = true
         when {
             shouldInit -> {
-                for (folder in Medialibrary.getBlackList())
+                for (folder in AbstractMedialibrary.getBlackList())
                     medialibrary.banFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + folder)
                 if (preselectedStorages.isEmpty()) medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
                 else {
@@ -330,6 +339,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     override fun onReloadCompleted(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onReloadCompleted $entryPoint")
         if (TextUtils.isEmpty(entryPoint)) --reload
+        if (reload <= 0) exitCommand()
     }
 
     private fun exitCommand() = launch {
@@ -340,6 +350,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     }
 
     override fun onDestroy() {
+        dispatcher.onServicePreSuperOnDestroy()
         notificationActor.offer(Hide)
         medialibrary.removeDeviceDiscoveryCb(this)
         unregisterReceiver(receiver)
@@ -362,7 +373,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     private val actions = actor<MLAction>(context = Dispatchers.IO, capacity = Channel.UNLIMITED) {
         for (action in channel) when (action) {
             is DiscoverStorage -> {
-                for (folder in Medialibrary.getBlackList()) medialibrary.banFolder(action.path + folder)
+                for (folder in AbstractMedialibrary.getBlackList()) medialibrary.banFolder(action.path + folder)
                 medialibrary.discover(action.path)
             }
             is DiscoverFolder -> {
@@ -373,8 +384,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                 val context = this@MediaParsingService
                 var shouldInit = !dbExists()
                 val initCode = medialibrary.init(context)
-                shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET)
-                if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
+                shouldInit = shouldInit or (initCode == AbstractMedialibrary.ML_INIT_DB_RESET)
+                if (initCode != AbstractMedialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
                 else exitCommand()
             }
             is StartScan -> {
@@ -402,12 +413,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                     medialibrary.resumeBackgroundOperations()
                     scanPaused = false
                 }
-                Medialibrary.ACTION_IDLE -> if (intent.getBooleanExtra(Medialibrary.STATE_IDLE, true)) {
-                    if (!scanPaused) {
-                        exitCommand()
-                        return
-                    }
-                }
             }
         }
     }
@@ -419,6 +424,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         }
         return false
     }
+
+    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
 
     companion object {
         val progress = MutableLiveData<ScanProgress>()
@@ -438,7 +445,7 @@ fun Context.rescan() {
 }
 
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = AppScope.launch {
-    if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
+    if (AbstractMedialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
     val prefs = withContext(Dispatchers.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (Settings.showTvUi) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
@@ -452,7 +459,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
 }
 
 private suspend fun Context.dbExists() = withContext(Dispatchers.IO) {
-    File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
+    File(getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 
 private sealed class MLAction

@@ -3,7 +3,6 @@ package org.videolan.vlc.gui.dialogs
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,14 +19,21 @@ import org.videolan.vlc.util.Settings
 
 abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (Settings.showTvUi) {
+            requireActivity().setTheme(R.style.Theme_VLC_Black)
+        }
+        super.onCreate(savedInstanceState)
+    }
+
     var onDismissListener: DialogInterface.OnDismissListener? = null
 
     fun inflate(inflater: LayoutInflater, container: ViewGroup?, @LayoutRes layout: Int): View? {
-        if (Settings.showTvUi) {
-
-            val contextThemeWrapper = ContextThemeWrapper(activity, R.style.Theme_VLC) // your app theme here
-            return inflater.cloneInContext(contextThemeWrapper).inflate(layout, container, true)
-        }
+//        if (Settings.showTvUi) {
+//
+//            val contextThemeWrapper = ContextThemeWrapper(activity, R.style.Theme_VLC_Black) // your app theme here
+//            return inflater.cloneInContext(contextThemeWrapper).inflate(layout, container, true)
+//        }
         return inflater.inflate(layout, container, false)
 
     }

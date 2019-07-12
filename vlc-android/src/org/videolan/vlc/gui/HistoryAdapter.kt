@@ -24,29 +24,22 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.MultiSelectAdapter
+import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.databinding.HistoryItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMediaIconDrawable
 import org.videolan.vlc.interfaces.IEventsHandler
+import org.videolan.vlc.util.UPDATE_SELECTION
 import org.videolan.vlc.util.Util
-import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class HistoryAdapter(private val mEventsHandler: IEventsHandler) : DiffUtilAdapter<MediaWrapper, HistoryAdapter.ViewHolder>() {
+class HistoryAdapter(private val mEventsHandler: IEventsHandler) : DiffUtilAdapter<AbstractMediaWrapper, HistoryAdapter.ViewHolder>(), MultiSelectAdapter<AbstractMediaWrapper> {
     private var mLayoutInflater: LayoutInflater? = null
-
-    val selection: List<MediaWrapper>
-        get() {
-            val selection = LinkedList<MediaWrapper>()
-            for (media in dataset) {
-                if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
-                    selection.add(media)
-            }
-            return selection
-        }
+    var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper> = MultiSelectHelper(this, UPDATE_SELECTION)
 
     inner class ViewHolder(binding: HistoryItemBinding) : SelectorViewHolder<HistoryItemBinding>(binding) {
 
@@ -83,17 +76,16 @@ class HistoryAdapter(private val mEventsHandler: IEventsHandler) : DiffUtilAdapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val media = getItem(position)
-        val isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
         holder.binding.media = media
         holder.binding.cover = getMediaIconDrawable(holder.itemView.context, media.type)
-        holder.selectView(isSelected)
+        holder.selectView(multiSelectHelper.isSelected(position))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
         if (Util.isListEmpty(payloads))
             super.onBindViewHolder(holder, position, payloads)
         else
-            holder.selectView((payloads[0] as MediaLibraryItem).hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
+            holder.selectView(multiSelectHelper.isSelected(position))
     }
 
     override fun getItemId(arg0: Int): Long {

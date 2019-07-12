@@ -44,22 +44,4 @@ class PreferencesVideo : BasePreferenceFragment() {
         findPreference(POPUP_KEEPSCREEN).isVisible = !AndroidUtil.isOOrLater
         findPreference(POPUP_FORCE_LEGACY).isVisible = AndroidUtil.isOOrLater
     }
-
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        if (preference.key == null)
-            return false
-        when (preference.key) {
-            FORCE_LIST_PORTRAIT -> {
-                (activity as PreferencesActivity).setRestart()
-                return true
-            }
-            SHOW_VIDEO_THUMBNAILS -> {
-                Settings.showVideoThumbs = (preference as TwoStatePreference).isChecked
-                (activity as PreferencesActivity).setRestart()
-                return true
-            }
-            "media_seen" -> activity!!.setResult(RESULT_UPDATE_SEEN_MEDIA)
-        }
-        return super.onPreferenceTreeClick(preference)
-    }
 }

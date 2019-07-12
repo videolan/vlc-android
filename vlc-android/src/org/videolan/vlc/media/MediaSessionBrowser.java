@@ -41,9 +41,9 @@ import android.support.v4.media.MediaDescriptionCompat;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
-import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
@@ -207,30 +207,30 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                     return results;
                 case ID_LAST_ADDED:
                     limitSize = true;
-                    list = Medialibrary.getInstance().getRecentAudio();
+                    list = AbstractMedialibrary.getInstance().getRecentAudio();
                     break;
                 case ID_HISTORY:
                     limitSize = true;
-                    list = Medialibrary.getInstance().lastMediaPlayed();
+                    list = AbstractMedialibrary.getInstance().lastMediaPlayed();
                     break;
                 case ID_ARTISTS:
-                    list = Medialibrary.getInstance().getArtists(Settings.INSTANCE.getInstance(context).getBoolean(SettingsKt.KEY_ARTISTS_SHOW_ALL, false));
+                    list = AbstractMedialibrary.getInstance().getArtists(Settings.INSTANCE.getInstance(context).getBoolean(SettingsKt.KEY_ARTISTS_SHOW_ALL, false));
                     break;
                 case ID_ALBUMS:
-                    list = Medialibrary.getInstance().getAlbums();
+                    list = AbstractMedialibrary.getInstance().getAlbums();
                     break;
                 case ID_GENRES:
-                    list = Medialibrary.getInstance().getGenres();
+                    list = AbstractMedialibrary.getInstance().getGenres();
                     break;
                 case ID_PLAYLISTS:
-                    list = Medialibrary.getInstance().getPlaylists();
+                    list = AbstractMedialibrary.getInstance().getPlaylists();
                     break;
                 case ID_SONGS:
-                    list = Medialibrary.getInstance().getAudio();
+                    list = AbstractMedialibrary.getInstance().getAudio();
                     break;
                 default:
                     String[] idSections = parentId.split("_");
-                    Medialibrary ml = Medialibrary.getInstance();
+                    AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
                     long id = Long.parseLong(idSections[1]);
                     switch (idSections[0]) {
                         case ARTIST_PREFIX:
@@ -244,7 +244,7 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
             if (list != null) {
                 MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
                 for (MediaLibraryItem libraryItem : list) {
-                    if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) libraryItem).getType() != MediaWrapper.TYPE_AUDIO)
+                    if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((AbstractMediaWrapper) libraryItem).getType() != AbstractMediaWrapper.TYPE_AUDIO)
                         continue;
                     Bitmap cover = AudioUtil.INSTANCE.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
                     if (cover == null)
@@ -253,8 +253,8 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                             .setMediaId(generateMediaId(libraryItem));
                     item.setIconBitmap(cover);
                     if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-                        item.setMediaUri(((MediaWrapper) libraryItem).getUri())
-                                .setSubtitle(MediaUtils.INSTANCE.getMediaSubtitle((MediaWrapper) libraryItem));
+                        item.setMediaUri(((AbstractMediaWrapper) libraryItem).getUri())
+                                .setSubtitle(MediaUtils.INSTANCE.getMediaSubtitle((AbstractMediaWrapper) libraryItem));
                     } else item.setSubtitle(libraryItem.getDescription());
                     boolean playable = libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA ||
                             libraryItem.getItemType() == MediaLibraryItem.TYPE_ALBUM ||

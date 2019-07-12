@@ -3,31 +3,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="video_category"
     android:title="@string/video_prefs_category">
-
-    <ListPreference
-        android:defaultValue="6"
-        android:entries="@array/video_min_group_length_list"
-        android:entryValues="@array/video_min_group_length_values"
-        android:key="video_min_group_length"
-        android:persistent="true"
-        android:summary="@string/video_min_group_length_summary"
-        android:title="@string/video_min_group_length_title" />
-
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="media_seen"
-        android:summary="@string/media_seen_summary"
-        android:title="@string/media_seen" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="force_play_all"
-        android:summary="@string/force_play_all_summary"
-        android:title="@string/force_play_all_title" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="force_list_portrait"
-        android:summary="@string/force_list_portrait_summary"
-        android:title="@string/force_list_portrait" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="save_brightness"
@@ -38,6 +13,11 @@
         android:key="save_individual_audio_delay"
         android:summary="@string/save_audiodelay_summary"
         android:title="@string/save_audiodelay_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="playback_speed"
+        android:summary="@string/playback_speed_summary"
+        android:title="@string/playback_speed_title" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="media_fast_seek"
@@ -54,6 +34,11 @@
         android:key="popup_force_legacy"
         android:summary="@string/popup_force_legacy_summary"
         android:title="@string/popup_force_legacy_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="dialog_confirm_resume"
+        android:summary="@string/confirm_resume_summary"
+        android:title="@string/confirm_resume_title" />
 
     <PreferenceCategory android:title="@string/controls_prefs_category">
         <CheckBoxPreference
@@ -72,11 +57,6 @@
             android:summary="@string/enable_brightness_gesture_summary"
             android:title="@string/enable_brightness_gesture_title" />
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="dialog_confirm_resume"
-            android:summary="@string/confirm_resume_summary"
-            android:title="@string/confirm_resume_title" />
-        <CheckBoxPreference
             android:defaultValue="true"
             android:key="enable_double_tap_seek"
             android:summary="@string/enable_double_tap_seek_summary"
@@ -91,6 +71,20 @@
             android:key="popup_keepscreen"
             android:summary="@string/popup_keepscreen_summary"
             android:title="@string/popup_keepscreen_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/interface_secondary_display_category_title"
+        android:key="secondary_display_category">
+        <Preference
+            android:summary="@string/interface_secondary_display_category_summary"
+            android:key="secondary_display_category_summary" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_clone_mode"
+            android:summary="@string/enable_clone_mode_summary"
+            android:title="@string/enable_clone_mode" />
     </PreferenceCategory>
 
 </PreferenceScreen>

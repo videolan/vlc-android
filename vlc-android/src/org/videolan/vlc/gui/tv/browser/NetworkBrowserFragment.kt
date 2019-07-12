@@ -36,8 +36,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog
@@ -98,7 +98,7 @@ class NetworkBrowserFragment : MediaSortedFragment<NetworkModel>() {
     }
 
     override fun onItemClicked(viewHolder: Presenter.ViewHolder, item: Any, viewHolder1: RowPresenter.ViewHolder, row: Row) {
-        if (item is MediaWrapper && item.type == MediaWrapper.TYPE_DIR) viewModel.saveList(item)
+        if (item is AbstractMediaWrapper && item.type == AbstractMediaWrapper.TYPE_DIR) viewModel.saveList(item)
         super.onItemClicked(viewHolder, item, viewHolder1, row)
     }
 

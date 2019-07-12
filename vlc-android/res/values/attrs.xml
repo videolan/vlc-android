@@ -31,6 +31,7 @@
     <attr name="audio_player_background_tint" format="reference|color" />
     <attr name="progress_background" format="reference|color" />
     <attr name="progress_indeterminate_tint" format="reference|color" />
+    <attr name="ariane_text_color" format="reference|color"/>
 
     <!--Main Icons-->
     <attr name="ic_down_style" format="reference" />
@@ -38,14 +39,7 @@
     <attr name="ic_playlist" format="reference" />
     <attr name="ic_playlist_on" format="reference" />
     <attr name="ic_menu_search" format="reference" />
-    <attr name="ic_repeat" format="reference" />
-    <attr name="ic_repeat_all" format="reference" />
-    <attr name="ic_repeat_one" format="reference" />
-    <attr name="ic_shuffle" format="reference" />
-    <attr name="ic_shuffle_on" format="reference" />
     <attr name="ic_audio_player_more" format="reference" />
-    <attr name="ic_play" format="reference" />
-    <attr name="ic_pause" format="reference" />
     <attr name="ic_previous" format="reference" />
     <attr name="ic_next" format="reference" />
     <attr name="ic_close" format="reference" />
@@ -73,7 +67,9 @@
     <attr name="ic_abrepeat_reset" format="reference" />
     <attr name="ic_abrepeat_seta" format="reference" />
     <attr name="ic_abrepeat_setb" format="reference" />
+    <attr name="ic_crop_player" format="reference" />
     <attr name="ic_dial" format="reference" />
+    <attr name="player_icon_color" format="reference" />
 
     <attr name="shadow_top_9patch" format="reference"/>
     <attr name="shadow_bottom_9patch" format="reference"/>
@@ -83,6 +79,10 @@
 
     <declare-styleable name="SlidingPaneLayout">
         <attr name="overhangSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="MiniVisualizer">
+        <attr name="bar_color" format="reference"/>
     </declare-styleable>
 
     <attr name="marginTopContent" format="dimension" />

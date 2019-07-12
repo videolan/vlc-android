@@ -9,30 +9,34 @@ import android.os.Parcelable
 import android.view.Gravity
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.Extensions
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.media.Artist
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractArtist
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.InfoActivityBinding
+import org.videolan.vlc.gui.browser.PathAdapter
+import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.video.MediaInfoAdapter
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
 import java.io.File
-import java.lang.Runnable
 import java.util.*
 
 private const val TAG = "VLC/InfoActivity"
@@ -40,11 +44,11 @@ private const val TAG_FAB_VISIBILITY = "FAB"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener {
+class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathAdapterListener {
 
     private lateinit var item: MediaLibraryItem
     private lateinit var adapter: MediaInfoAdapter
-    private lateinit var model : InfoModel
+    private lateinit var model: InfoModel
 
     internal lateinit var binding: InfoActivityBinding
 
@@ -66,7 +70,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener {
         }
         this.item = item
         if (item.id == 0L) {
-            val libraryItem = VLCApplication.mlInstance.getMedia((item as MediaWrapper).uri)
+            val libraryItem = AbstractMedialibrary.getInstance().getMedia((item as AbstractMediaWrapper).uri)
             if (libraryItem != null)
                 this.item = libraryItem
         }
@@ -76,7 +80,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener {
         model = getModel()
 
         binding.fab.setOnClickListener(this)
-        if (item is MediaWrapper) {
+        if (item is AbstractMediaWrapper) {
             adapter = MediaInfoAdapter()
             binding.list.layoutManager = LinearLayoutManager(binding.root.context)
             binding.list.adapter = adapter
@@ -108,27 +112,56 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener {
         if (length > 0)
             binding.length = Tools.millisToText(length)
 
+        if (item is AbstractMediaWrapper) {
+            val media = item as AbstractMediaWrapper
+            val resolution = generateResolutionClass(media.width, media.height)
+            binding.resolution = resolution
+        }
+
         when {
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
-                val media = item as MediaWrapper?
-                binding.path = Uri.decode(media!!.uri.path)
+                val media = item as AbstractMediaWrapper
+//                binding.path = Uri.decode(media!!.uri.path).replace("/", " > ")
                 binding.progress = if (media.length == 0L) 0 else (100.toLong() * media.time / length).toInt()
                 binding.sizeTitleText = getString(R.string.file_size)
+
+
+
+                if (isSchemeSupported(media.uri?.scheme)) {
+                    binding.ariane.visibility = View.VISIBLE
+                    binding.ariane.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+                    binding.ariane.adapter = PathAdapter(this, media)
+                    if (binding.ariane.itemDecorationCount == 0) {
+                        val did = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
+                        did.setDrawable(ContextCompat.getDrawable(this, R.drawable.ic_divider)!!)
+                        binding.ariane.addItemDecoration(did)
+                    }
+                } else binding.ariane.visibility = View.GONE
             }
             item.itemType == MediaLibraryItem.TYPE_ARTIST -> {
-                val albums = (item as Artist).albums
+                val albums = (item as AbstractArtist).albums
                 val nbAlbums = albums?.size ?: 0
                 binding.sizeTitleText = getString(R.string.albums)
                 binding.sizeValueText = nbAlbums.toString()
+                binding.sizeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_album))
                 binding.extraTitleText = getString(R.string.tracks)
                 binding.extraValueText = nbTracks.toString()
+                binding.extraIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_song))
             }
             else -> {
                 binding.sizeTitleText = getString(R.string.tracks)
                 binding.sizeValueText = nbTracks.toString()
+                binding.sizeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_song))
             }
         }
     }
+
+    override fun backTo(tag: String) {
+    }
+
+    override fun currentContext() = this
+
+    override fun showRoot() = false
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         fragmentContainer = binding.container
@@ -180,7 +213,7 @@ class InfoModel : ViewModel(), CoroutineScope by MainScope() {
         cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(it), width) } }
     }
 
-    internal fun parseTracks(context: Context, mw: MediaWrapper) = launch {
+    internal fun parseTracks(context: Context, mw: AbstractMediaWrapper) = launch {
         val media = withContext(Dispatchers.IO) {
             val libVlc = VLCInstance[context]
             Media(libVlc, mw.uri).apply { parse() }
@@ -199,11 +232,11 @@ class InfoModel : ViewModel(), CoroutineScope by MainScope() {
         mediaTracks.value = tracks.toList()
     }
 
-    internal fun checkFile(mw: MediaWrapper) = launch {
+    internal fun checkFile(mw: AbstractMediaWrapper) = launch {
         val itemFile = withContext(Dispatchers.IO) { File(Uri.decode(mw.location.substring(5))) }
 
         if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) return@launch
-        if (mw.type == MediaWrapper.TYPE_VIDEO) checkSubtitles(itemFile)
+        if (mw.type == AbstractMediaWrapper.TYPE_VIDEO) checkSubtitles(itemFile)
         sizeText.value = itemFile.length().readableFileSize()
     }
 

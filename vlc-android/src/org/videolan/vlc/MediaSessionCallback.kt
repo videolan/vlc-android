@@ -7,8 +7,8 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.*
@@ -94,7 +94,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             playbackService.getFromMl { isStarted }
             val vsp = VoiceSearchParams(query ?: "", extras)
             var items: Array<out MediaLibraryItem>? = null
-            var tracks: Array<MediaWrapper>? = null
+            var tracks: Array<AbstractMediaWrapper>? = null
             when {
                 vsp.isAny -> {
                     items = playbackService.medialibrary.audio.also { if (!playbackService.isShuffling) playbackService.shuffle() }

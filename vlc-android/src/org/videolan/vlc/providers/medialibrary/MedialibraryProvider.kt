@@ -29,20 +29,23 @@ import androidx.paging.toLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.HeaderProvider
 import org.videolan.vlc.providers.HeadersIndex
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
 
-abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) : HeaderProvider() {
-    protected val medialibrary = Medialibrary.getInstance()
+abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) : HeaderProvider(),
+    ISortModel
+{
+    protected val medialibrary = AbstractMedialibrary.getInstance()
+    private lateinit var dataSource : DataSource<Int, T>
     val loading = MutableLiveData<Boolean>().apply { value = false }
-
+    @Volatile private var isRefreshing = false
 
     protected open val sortKey : String = this.javaClass.simpleName
-    var sort = Medialibrary.SORT_DEFAULT
+    var sort = AbstractMedialibrary.SORT_DEFAULT
     var desc = false
 
     private val pagingConfig = Config(
@@ -59,21 +62,10 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     abstract fun getPage(loadSize: Int, startposition: Int): Array<T>
     abstract fun getAll(): Array<T>
 
-    open fun canSortByName() = true
-    open fun canSortByFileNameName() = false
-    open fun canSortByDuration() = false
-    open fun canSortByInsertionDate() = false
-    open fun canSortByLastModified() = false
-    open fun canSortByReleaseDate() = false
-    open fun canSortByFileSize() = false
-    open fun canSortByArtist() = false
-    open fun canSortByAlbum ()= false
-    open fun canSortByPlayCount() = false
-
-    open fun sort(sort: Int) {
+    override fun sort(sort: Int) {
         if (canSortBy(sort)) {
             desc = when (this.sort) {
-                Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
+                AbstractMedialibrary.SORT_DEFAULT -> sort == AbstractMedialibrary.SORT_ALPHA
                 sort -> !desc
                 else -> false
             }
@@ -87,10 +79,12 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     }
 
     fun refresh(): Boolean {
+        if (isRefreshing || !medialibrary.isStarted || !this::dataSource.isInitialized) return false
         headers.clear()
-        if (pagedList.value?.dataSource?.isInvalid == false) {
+        if (!dataSource.isInvalid) {
             loading.postValue(true)
-            pagedList.value?.dataSource?.invalidate()
+            isRefreshing = true
+            dataSource.invalidate()
         }
         return true
     }
@@ -113,8 +107,6 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         }
     }
 
-
-
     inner class MLDataSource : PositionalDataSource<T>() {
 
         @ExperimentalCoroutinesApi
@@ -130,6 +122,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                         false
                     }
                 }
+                isRefreshing = false
                 loading.postValue(false)
             }
         }
@@ -140,6 +133,6 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     }
 
     inner class MLDatasourceFactory : DataSource.Factory<Int, T>() {
-        override fun create() = MLDataSource()
+        override fun create() = MLDataSource().also { dataSource = it }
     }
 }

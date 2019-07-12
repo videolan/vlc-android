@@ -35,7 +35,8 @@ import androidx.leanback.widget.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -55,7 +56,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
     private lateinit var backgroundManager: BackgroundManager
     private lateinit var rowsAdapter: ArrayObjectAdapter
     private lateinit var mediaItemDetails: MediaItemDetails
-    private lateinit var mediaWrapper: MediaWrapper
+    private lateinit var mediaWrapper: AbstractMediaWrapper
     private lateinit var browserFavRepository: BrowserFavRepository
     private var mediaStarted: Boolean = false
 
@@ -87,7 +88,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
         mediaItemDetails = extras.getParcelable("item") as MediaItemDetails
         val hasMedia = extras.containsKey("media")
         val selector = ClassPresenterSelector()
-        val media = (if (hasMedia) extras.getParcelable<Parcelable>("media") else MediaWrapper(AndroidUtil.LocationToUri(mediaItemDetails.location))) as MediaWrapper
+        val media = (if (hasMedia) extras.getParcelable<Parcelable>("media") else MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.LocationToUri(mediaItemDetails.location))) as AbstractMediaWrapper
         if (!hasMedia) {
             media.setDisplayTitle(mediaItemDetails.title)
         }
@@ -152,13 +153,13 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                 ListRowPresenter())
         rowsAdapter = ArrayObjectAdapter(selector)
         runIO(Runnable {
-            val cover = if (media.type == MediaWrapper.TYPE_AUDIO || media.type == MediaWrapper.TYPE_VIDEO)
+            val cover = if (media.type == AbstractMediaWrapper.TYPE_AUDIO || media.type == AbstractMediaWrapper.TYPE_VIDEO)
                 AudioUtil.readCoverBitmap(mediaItemDetails.artworkUrl, 512)
             else
                 null
             val blurred = if (cover != null) UiTools.blurBitmap(cover) else null
             val browserFavExists = browserFavRepository.browserFavExists(Uri.parse(mediaItemDetails.location))
-            val isDir = media.type == MediaWrapper.TYPE_DIR
+            val isDir = media.type == AbstractMediaWrapper.TYPE_DIR
             val canSave = isDir && FileUtils.canSave(media)
             runOnMainThread(Runnable {
                 if (isDetached) return@Runnable
@@ -174,7 +175,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                     detailsOverview.addAction(Action(ID_BROWSE.toLong(), res.getString(R.string.browse_folder)))
                     if (canSave) detailsOverview.addAction(if (browserFavExists) actionDelete else actionAdd)
 
-                } else if (media.type == MediaWrapper.TYPE_AUDIO) {
+                } else if (media.type == AbstractMediaWrapper.TYPE_AUDIO) {
                     // Add images and action buttons to the details view
                     if (cover == null)
                         detailsOverview.imageDrawable = ContextCompat.getDrawable(context, R.drawable.ic_default_cone)
@@ -184,7 +185,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                     detailsOverview.addAction(Action(ID_PLAY.toLong(), res.getString(R.string.play)))
                     detailsOverview.addAction(Action(ID_LISTEN.toLong(), res.getString(R.string.listen)))
                     detailsOverview.addAction(Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
-                } else if (media.type == MediaWrapper.TYPE_VIDEO) {
+                } else if (media.type == AbstractMediaWrapper.TYPE_VIDEO) {
                     // Add images and action buttons to the details view
                     if (cover == null)
                         detailsOverview.imageDrawable = ContextCompat.getDrawable(context, R.drawable.ic_default_cone)

@@ -1,12 +1,13 @@
 package org.videolan.vlc.gui.dialogs
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.videolan.vlc.databinding.SubtitleHistoryFragmentBinding
@@ -15,12 +16,12 @@ import org.videolan.vlc.viewmodels.SubtitlesModel
 class SubtitleHistoryFragment : Fragment() {
     private lateinit var viewModel: SubtitlesModel
     private lateinit var adapter: SubtitlesAdapter
-    lateinit var mediaPath: String
+    lateinit var mediaUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mediaPath = arguments?.getString(MEDIA_PATH, "") ?: ""
-        viewModel = ViewModelProviders.of(requireActivity(), SubtitlesModel.Factory(requireContext(), mediaPath)).get(mediaPath, SubtitlesModel::class.java)
+        mediaUri = arguments?.getParcelable(MEDIA_PATH) ?: Uri.EMPTY
+        viewModel = ViewModelProviders.of(requireActivity(), SubtitlesModel.Factory(requireContext(), mediaUri)).get(mediaUri.path, SubtitlesModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,9 +41,9 @@ class SubtitleHistoryFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(mediaPath: String): SubtitleHistoryFragment {
+        fun newInstance(mediaUri: Uri): SubtitleHistoryFragment {
             val subtitleHistoryFragment = SubtitleHistoryFragment()
-            subtitleHistoryFragment.arguments = Bundle(1).apply { putString(MEDIA_PATH, mediaPath) }
+            subtitleHistoryFragment.arguments = Bundle(1).apply { putParcelable(MEDIA_PATH, mediaUri) }
             return subtitleHistoryFragment
         }
     }

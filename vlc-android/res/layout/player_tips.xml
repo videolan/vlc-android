@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/overlay_tips_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -107,35 +108,35 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_lock_circle" />
+                app:srcCompat="@drawable/ic_lock_player" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_audiosub_circle" />
+                app:srcCompat="@drawable/ic_audiotrack_player" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_pause_circle" />
+                app:srcCompat="@drawable/ic_pause_player" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_more_circle" />
+                app:srcCompat="@drawable/ic_advanced_player" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_crop_circle_o" />
+                app:srcCompat="@drawable/ic_crop_player" />
         </LinearLayout>
 
         <LinearLayout

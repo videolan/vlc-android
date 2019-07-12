@@ -35,10 +35,12 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.documentfile.provider.DocumentFile
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.media.MediaUtils
@@ -285,7 +287,7 @@ object FileUtils {
         })
     }
 
-    fun canSave(mw: MediaWrapper?): Boolean {
+    fun canSave(mw: AbstractMediaWrapper?): Boolean {
         if (mw == null || mw.uri == null) return false
         val scheme = mw.uri.scheme
         return (TextUtils.equals(scheme, "file") || TextUtils.equals(scheme, "smb")
@@ -471,13 +473,14 @@ object FileUtils {
         return volumeDescription
     }
 
-    fun unpackZip(path: String, unzipDirectory: String): ArrayList<String> {
-        val `is`: InputStream
+    suspend fun unpackZip(path: String, unzipDirectory: String): ArrayList<String> = withContext(Dispatchers.IO) {
+        val fis: InputStream
         val zis: ZipInputStream
         val unzippedFiles = ArrayList<String>()
+        File(unzipDirectory).mkdirs()
         try {
-            `is` = FileInputStream(path)
-            zis = ZipInputStream(BufferedInputStream(`is`))
+            fis = FileInputStream(path)
+            zis = ZipInputStream(BufferedInputStream(fis))
             var ze = zis.nextEntry
 
             while (ze != null) {
@@ -486,6 +489,11 @@ object FileUtils {
                 var count = zis.read(buffer)
 
                 val filename = ze.name.replace('/', ' ')
+                if (filename.endsWith(".nfo")) {
+                    zis.closeEntry()
+                    ze = zis.nextEntry
+                    continue
+                }
                 val fileToUnzip = File(unzipDirectory, filename)
                 val fout = FileOutputStream(fileToUnzip)
 
@@ -503,12 +511,24 @@ object FileUtils {
                 zis.closeEntry()
                 ze = zis.nextEntry
             }
-
             zis.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
-        return unzippedFiles
+        unzippedFiles
     }
 }
+
+fun String?.getParentFolder(): String? {
+    if (this == null || TextUtils.equals("/", this)) return this
+    var parentPath: String = this
+    if (parentPath.endsWith("/"))
+        parentPath = parentPath.substring(0, parentPath.length - 1)
+    val index = parentPath.lastIndexOf('/')
+    if (index > 0) {
+        parentPath = parentPath.substring(0, index)
+    } else if (index == 0)
+        parentPath = "/"
+    return parentPath
+}
+

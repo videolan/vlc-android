@@ -32,6 +32,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.SecondaryActivity
@@ -59,7 +60,7 @@ class PreferencesFragment : BasePreferenceFragment() {
         return when (preference.key) {
             "directories" -> {
                 when {
-                    VLCApplication.mlInstance.isWorking -> Toast.makeText(context, getString(R.string.settings_ml_block_scan), Toast.LENGTH_SHORT).show()
+                    AbstractMedialibrary.getInstance().isWorking -> Toast.makeText(context, getString(R.string.settings_ml_block_scan), Toast.LENGTH_SHORT).show()
                     Permissions.canReadStorage(context) -> {
                         val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
                         intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)

@@ -26,21 +26,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.media.Album
-import org.videolan.medialibrary.media.Artist
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum
+import org.videolan.medialibrary.interfaces.media.AbstractArtist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
-import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
-class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : MedialibraryViewModel(context),
-        Medialibrary.MediaCb,
-        Medialibrary.ArtistsCb by EmptyMLCallbacks,
-        Medialibrary.AlbumsCb by EmptyMLCallbacks {
+class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : MedialibraryViewModel(context) {
 
     val albumsProvider = AlbumsProvider(parent, context, this)
     val tracksProvider = TracksProvider(parent, context, this)
@@ -48,30 +43,10 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
 
     init {
         when (parent) {
-            is Artist -> medialibrary.addArtistsCb(this@AlbumSongsViewModel)
-            is Album -> medialibrary.addAlbumsCb(this@AlbumSongsViewModel)
-            else -> medialibrary.addMediaCb(this@AlbumSongsViewModel)
+            is AbstractArtist -> watchArtists()
+            is AbstractAlbum -> watchAlbums()
+            else -> watchMedia()
         }
-        if (medialibrary.isStarted) refresh()
-    }
-
-    override fun onMediaAdded() { refresh() }
-
-    override fun onMediaModified() { refresh() }
-
-    override fun onMediaDeleted() { refresh() }
-
-    override fun onArtistsModified() { refresh() }
-
-    override fun onAlbumsModified() { refresh() }
-
-    override fun onCleared() {
-        when (parent) {
-            is Artist -> medialibrary.removeArtistsCb(this)
-            is Album -> medialibrary.removeAlbumsCb(this)
-            else -> medialibrary.removeMediaCb(this)
-        }
-        super.onCleared()
     }
 
     class Factory(val context: Context, val parent: MediaLibraryItem): ViewModelProvider.NewInstanceFactory() {

@@ -31,6 +31,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.MotionEventCompat
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -48,7 +49,6 @@ import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
-import org.videolan.vlc.gui.helpers.KeyHelper
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getAudioIconDrawable
 import org.videolan.vlc.gui.tv.FocusableRecyclerView
@@ -65,7 +65,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
     var itemSize = -1
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
     private val mDefaultCover: BitmapDrawable?
-    var focusNext = -1
+    private var focusNext = -1
     private var focusListener: FocusableRecyclerView.FocusListener? = null
 
     val isEmpty: Boolean
@@ -79,7 +79,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
         if (mIEventsHandler is Context)
             ctx = mIEventsHandler
         else if (mIEventsHandler is Fragment) ctx = (mIEventsHandler as Fragment).context
-        mDefaultCover = if (ctx != null) getAudioIconDrawable(ctx, type) else null
+        mDefaultCover = if (ctx != null) getAudioIconDrawable(ctx, type, displayInCard()) else null
     }
 
     constructor(typeMedia: Int, eventsHandler: IEventsHandler, itemSize: Int) : this(typeMedia, eventsHandler) {
@@ -88,7 +88,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
         val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        return if (type == MediaLibraryItem.TYPE_PLAYLIST || type == MediaLibraryItem.TYPE_ARTIST || type == MediaLibraryItem.TYPE_ALBUM) {
+        return if (displayInCard()) {
             val binding = AudioBrowserCardItemBinding.inflate(inflater, parent, false)
             MediaItemCardViewHolder(binding) as AbstractMediaItemViewHolder<ViewDataBinding>
         } else {
@@ -96,6 +96,9 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
             MediaItemViewHolder(binding) as AbstractMediaItemViewHolder<ViewDataBinding>
         }
     }
+
+    private fun displayInCard() =
+            type == MediaLibraryItem.TYPE_PLAYLIST || type == MediaLibraryItem.TYPE_ARTIST || type == MediaLibraryItem.TYPE_ALBUM
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
         if (position >= itemCount) return
@@ -248,6 +251,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
 
         init {
             binding.holder = this
+            binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
             if (mDefaultCover != null) binding.cover = mDefaultCover
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
@@ -292,10 +296,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
         fun onClick(v: View) {
             val item = getItem(layoutPosition)
             if (item != null)
-                if (KeyHelper.isShiftPressed)
-                    mIEventsHandler.onShiftClick(v, layoutPosition, item)
-                else
-                    mIEventsHandler.onClick(v, layoutPosition, item)
+                mIEventsHandler.onClick(v, layoutPosition, item)
         }
 
         fun onMoreClick(v: View) {

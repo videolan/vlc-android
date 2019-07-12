@@ -1,17 +1,16 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
-import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 
 
 abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
-        Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener  {
+        ICallBackHandler by CallBackDelegate()  {
 
-    val medialibrary = Medialibrary.getInstance().apply {
-        addOnMedialibraryReadyListener(this@MedialibraryViewModel)
-        addOnDeviceChangeListener(this@MedialibraryViewModel)
+    init {
+        @Suppress("LeakingThis")
+        registerCallBacks { refresh() }
     }
 
     abstract val providers : Array<MedialibraryProvider<out MediaLibraryItem>>
@@ -33,15 +32,8 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
 
     fun isFiltering() = filterQuery != null
 
-    override fun onMedialibraryReady() = refresh()
-
-    override fun onMedialibraryIdle() = refresh()
-
-    override fun onDeviceChange() = refresh()
-
     override fun onCleared() {
-        medialibrary.removeOnMedialibraryReadyListener(this)
-        medialibrary.removeOnDeviceChangeListener(this)
+        releaseCallbacks()
         super.onCleared()
     }
 

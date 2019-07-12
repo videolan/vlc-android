@@ -22,14 +22,15 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.media.*
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<MediaWrapper>(context, scope) {
+class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<AbstractMediaWrapper>(context, scope) {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
@@ -37,45 +38,45 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
     override fun canSortByLastModified() = true
 
     init {
-        sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_DEFAULT)
-        desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", parent is Artist)
-        if (sort == Medialibrary.SORT_DEFAULT) sort = when (parent) {
-            is Artist -> Medialibrary.SORT_ALBUM
-            is Album -> Medialibrary.SORT_DEFAULT
-            else -> Medialibrary.SORT_ALPHA
+        sort = Settings.getInstance(context).getInt(sortKey, AbstractMedialibrary.SORT_DEFAULT)
+        desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", parent is AbstractArtist)
+        if (sort == AbstractMedialibrary.SORT_DEFAULT) sort = when (parent) {
+            is AbstractArtist -> AbstractMedialibrary.SORT_ALBUM
+            is AbstractAlbum -> AbstractMedialibrary.SORT_DEFAULT
+            else -> AbstractMedialibrary.SORT_ALPHA
         }
     }
 
-    override fun getAll(): Array<MediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, scope.desc)
+    override fun getAll(): Array<AbstractMediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, desc)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> {
+    override fun getPage(loadSize: Int, startposition: Int) : Array<AbstractMediaWrapper> {
         val list = if (scope.filterQuery == null) when(parent) {
-            is Artist -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
-            is Album -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
-            is Playlist -> parent.getPagedTracks(loadSize, startposition)
-            else -> medialibrary.getPagedAudio(sort, scope.desc, loadSize, startposition)
+            is AbstractArtist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is AbstractAlbum -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is AbstractGenre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is AbstractPlaylist -> parent.getPagedTracks(loadSize, startposition)
+            else -> medialibrary.getPagedAudio(sort, desc, loadSize, startposition)
         } else when(parent) {
-            is Artist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is Album -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is Playlist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            else -> medialibrary.searchAudio(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is AbstractArtist -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractAlbum -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractGenre -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractPlaylist -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
+            else -> medialibrary.searchAudio(scope.filterQuery, sort, desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
     }
 
     override fun getTotalCount() = if (scope.filterQuery == null) when (parent) {
-        is Album -> parent.realTracksCount
-        is Playlist -> parent.realTracksCount
-        is Artist,
-        is Genre -> parent.tracksCount
+        is AbstractAlbum -> parent.realTracksCount
+        is AbstractPlaylist -> parent.realTracksCount
+        is AbstractArtist,
+        is AbstractGenre -> parent.tracksCount
         else -> medialibrary.audioCount
     } else when(parent) {
-        is Artist -> parent.searchTracksCount(scope.filterQuery)
-        is Album -> parent.searchTracksCount(scope.filterQuery)
-        is Genre -> parent.searchTracksCount(scope.filterQuery)
-        is Playlist -> parent.searchTracksCount(scope.filterQuery)
+        is AbstractArtist -> parent.searchTracksCount(scope.filterQuery)
+        is AbstractAlbum -> parent.searchTracksCount(scope.filterQuery)
+        is AbstractGenre -> parent.searchTracksCount(scope.filterQuery)
+        is AbstractPlaylist -> parent.searchTracksCount(scope.filterQuery)
         else ->medialibrary.getAudioCount(scope.filterQuery)
     }
 }

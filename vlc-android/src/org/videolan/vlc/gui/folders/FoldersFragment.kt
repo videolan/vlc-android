@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.folders_fragment.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
-import org.videolan.medialibrary.media.Folder
+import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
@@ -45,8 +45,8 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
                 }
             }
             is FolderLongClick -> {
+                adapter.multiSelectHelper.toggleSelection(action.position, true)
                 if (actionMode == null) {
-                    adapter.multiSelectHelper.toggleSelection(action.position)
                     startActionMode()
                 }
             }
@@ -61,10 +61,6 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         if (!this::adapter.isInitialized) {
             adapter = FoldersAdapter(actor)
             viewModel = getViewModel()
-            viewModel.provider.pagedList.observe(requireActivity(), Observer {
-                swipeRefreshLayout?.isRefreshing = false
-                adapter.submitList(it)
-            })
         }
     }
 
@@ -76,7 +72,11 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         super.onViewCreated(view, savedInstanceState)
         folders_list.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         folders_list.adapter = adapter
-        swipeRefreshLayout?.setOnRefreshListener { activity?.reloadLibrary() }
+        swipeRefreshLayout.setOnRefreshListener { activity?.reloadLibrary() }
+        viewModel.provider.pagedList.observe(requireActivity(), Observer {
+            swipeRefreshLayout.isRefreshing = false
+            adapter.submitList(it)
+        })
     }
 
     override fun onStart() {
@@ -149,6 +149,6 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
 }
 
 sealed class FolderAction
-class FolderClick(val position: Int, val folder: Folder) : FolderAction()
-class FolderLongClick(val position: Int, val folder: Folder) : FolderAction()
-class FolderCtxClick(val position: Int, val folder: Folder) : FolderAction()
+class FolderClick(val position: Int, val folder: AbstractFolder) : FolderAction()
+class FolderLongClick(val position: Int, val folder: AbstractFolder) : FolderAction()
+class FolderCtxClick(val position: Int, val folder: AbstractFolder) : FolderAction()

@@ -85,18 +85,24 @@
                 android:background="#00000000" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/playlist_search_text"
-                android:layout_marginEnd="2dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
                 android:focusable="true"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/header_play_pause"
+                app:layout_constraintStart_toEndOf="@+id/playlist_playasaudio_off"
+                app:layout_constraintTop_toTopOf="parent">
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/search_hint"
-                    android:inputType="textFilter"
-                    android:imeOptions="actionSearch"/>
+                    android:imeOptions="actionSearch"
+                    android:inputType="textFilter" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
@@ -165,8 +171,7 @@
                 android:focusable="true"
                 android:scaleType="fitXY"
                 android:onClick="@{fragment::onPlayPauseClick}"
-                android:onLongClick="@{fragment::onStopClick}"
-                android:src="?attr/ic_pause" />
+                android:onLongClick="@{fragment::onStopClick}" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
@@ -193,6 +198,7 @@
             android:visibility="@{showCover ? View.GONE : View.VISIBLE}"
             android:layout_gravity="center_horizontal"
             android:background="?attr/background_default"
+            android:layout_marginBottom="@dimen/audio_player_cover_margin"
             android:paddingBottom="@dimen/listview_bottom_padding" />
 
         <org.videolan.vlc.gui.view.CoverMediaSwitcher
@@ -204,10 +210,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header"
             app:layout_constraintBottom_toTopOf="@+id/play_pause"
-            android:layout_marginLeft="@dimen/audio_player_cover_margin"
-            android:layout_marginRight="@dimen/audio_player_cover_margin"
-            android:layout_marginTop="@dimen/audio_player_cover_margin"
-            android:layout_marginBottom="@dimen/audio_player_cover_margin"
+            android:layout_margin="@dimen/audio_player_cover_margin"
             android:visibility="@{showCover ? View.VISIBLE : View.GONE}"
             tools:layout_constraintLeft_creator="1" />
 
@@ -217,6 +220,16 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header" />
+
+        <include
+            layout="@layout/shadow_bottom"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/play_pause"
+            android:layout_marginBottom="@dimen/audio_player_cover_margin"
+            android:id="@+id/include"/>
 
         <TextView
             android:id="@+id/time"
@@ -274,8 +287,8 @@
             android:contentDescription="@string/shuffle_title"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="?attr/ic_shuffle"
-            android:onClick="@{fragment::onShuffleClick}" />
+            app:srcCompat="@drawable/ic_shuffle"
+            android:onClick="@{fragment::onShuffleClick}"/>
 
         <ImageView
             android:id="@+id/repeat"
@@ -290,22 +303,21 @@
             android:focusable="true"
             android:onClick="@{fragment::onRepeatClick}"
             android:scaleType="fitXY"
-            android:src="?attr/ic_repeat" />
+            app:srcCompat="@drawable/ic_repeat"/>
 
         <ImageView
             android:id="@+id/play_pause"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            app:layout_constraintBottom_toTopOf="@+id/time"
-            app:layout_constraintLeft_toRightOf="@+id/previous"
-            app:layout_constraintRight_toLeftOf="@+id/next"
-            android:contentDescription="@string/play"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginBottom="@dimen/audioplayer_controls_margin"
+            android:contentDescription="@string/play"
             android:focusable="true"
-            android:scaleType="fitXY"
             android:onClick="@{fragment::onPlayPauseClick}"
             android:onLongClick="@{fragment::onStopClick}"
-            android:src="?attr/ic_pause" />
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/time"
+            app:layout_constraintLeft_toRightOf="@+id/previous"
+            app:layout_constraintRight_toLeftOf="@+id/next" />
 
         <ImageView
             android:id="@+id/next"

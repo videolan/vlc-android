@@ -43,7 +43,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
@@ -116,7 +117,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.dataset.observe(this, Observer { adapter.setList(it) })
+        viewModel.dataset.observe(this, Observer { adapter.setList(it as List<AbstractMediaWrapper>) })
     }
 
     override fun onStart() {
@@ -137,7 +138,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     private fun processUri(): Boolean {
         if (!TextUtils.isEmpty(viewModel.observableSearchText.get())) {
-            val mw = MediaWrapper(Uri.parse(viewModel.observableSearchText.get()))
+            val mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(viewModel.observableSearchText.get()))
             playMedia(mw)
             viewModel.observableSearchText.set("")
             return true
@@ -145,8 +146,8 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         return false
     }
 
-    private fun playMedia(mw: MediaWrapper) {
-        mw.type = MediaWrapper.TYPE_STREAM
+    private fun playMedia(mw: AbstractMediaWrapper) {
+        mw.type = AbstractMediaWrapper.TYPE_STREAM
         MediaUtils.openMedia(activity, mw)
         viewModel.refresh()
         activity?.invalidateOptionsMenu()
@@ -161,8 +162,11 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     private fun showContext(position: Int) {
         val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST
-        val media = viewModel.dataset.value.get(position) ?: return
-        showContext(requireActivity(), this, position, media.title, flags)
+        val media = viewModel.dataset.value.get(position)
+        if (media == null)
+            return
+        else
+            showContext(requireActivity(), this, position, media.title, flags)
     }
 
     override fun onCtxAction(position: Int, option: Int) {

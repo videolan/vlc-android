@@ -39,7 +39,6 @@ import org.videolan.vlc.R
 @ExperimentalCoroutinesApi
 abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickListener, View.OnFocusChangeListener, Observer<PlaybackService> {
 
-
     private var mTextColor: Int = 0
 
     var hours = ""
@@ -54,6 +53,8 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
 
     abstract fun getTitle(): Int
 
+    open fun showDeleteCurrent() = false
+
     override fun getDefaultState(): Int {
         return STATE_EXPANDED
     }
@@ -61,7 +62,6 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
     override fun needToManageOrientation(): Boolean {
         return true
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -97,6 +97,10 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
         view.findViewById<View>(R.id.tim_pic_delete).onFocusChangeListener = this
         view.findViewById<View>(R.id.tim_pic_ok).setOnClickListener(this)
         view.findViewById<View>(R.id.tim_pic_ok).onFocusChangeListener = this
+        val deleteCurrent = view.findViewById<View>(R.id.tim_pic_delete_current)
+        deleteCurrent.setOnClickListener(this)
+        deleteCurrent.visibility = if (showDeleteCurrent()) View.VISIBLE else View.GONE
+        deleteCurrent.onFocusChangeListener = this
 
         mTextColor = tvTimeToJump.currentTextColor
 

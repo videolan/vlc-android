@@ -17,8 +17,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:padding="8dp"
+        android:focusable="true"
         android:onClick="@{(v) -> handler.onClick(item)}">
 
         <ImageView
@@ -32,7 +32,8 @@
             android:layout_height="match_parent"
             android:minHeight="36dp"
             android:fontFamily="sans-serif"
-            android:textColor="?attr/list_title"
+            android:textColor="@color/simple_list_title"
+            android:duplicateParentState="true"
             android:textSize="16sp"
             android:text="@{item.title}"
             android:gravity="center_vertical"

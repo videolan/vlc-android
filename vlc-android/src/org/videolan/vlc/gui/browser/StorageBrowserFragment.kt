@@ -43,9 +43,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -103,14 +105,14 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
     override fun onStart() {
         super.onStart()
-        VLCApplication.mlInstance.addEntryPointsEventsCb(this)
+        AbstractMedialibrary.getInstance().addEntryPointsEventsCb(this)
         snack?.show()
         launch { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
     }
 
     override fun onStop() {
         super.onStop()
-        VLCApplication.mlInstance.removeEntryPointsEventsCb(this)
+        AbstractMedialibrary.getInstance().removeEntryPointsEventsCb(this)
         snack?.dismiss()
         alertDialog?.let { if (it.isShowing) it.dismiss() }
     }
@@ -134,7 +136,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         return super.onOptionsItemSelected(item)
     }
 
-    fun browse(media: MediaWrapper, position: Int, scanned: Boolean) {
+    fun browse(media: AbstractMediaWrapper, position: Int, scanned: Boolean) {
         val ft = activity?.supportFragmentManager?.beginTransaction()
         val next = createFragment()
         val args = Bundle()
@@ -165,8 +167,8 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        val mw = (item as? Storage)?.let { MediaWrapper(it.uri) } ?: return
-        mw.type = MediaWrapper.TYPE_DIR
+        val mw = (item as? Storage)?.let { MLServiceLocator.getAbstractMediaWrapper(it.uri) } ?: return
+        mw.type = AbstractMediaWrapper.TYPE_DIR
         browse(mw, position, (DataBindingUtil.findBinding<BrowserItemBinding>(v))?.browserCheckbox?.state == ThreeStatesCheckbox.STATE_CHECKED)
     }
 

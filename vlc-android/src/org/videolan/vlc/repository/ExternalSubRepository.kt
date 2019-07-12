@@ -20,15 +20,18 @@
 
 package org.videolan.vlc.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import android.content.Context
 import android.net.Uri
-import kotlinx.coroutines.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.videolan.tools.SingletonHolder
-import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.ExternalSubDao
 import org.videolan.vlc.database.MediaDatabase
+import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.util.LiveDataMap
@@ -45,11 +48,11 @@ class ExternalSubRepository(private val externalSubDao: ExternalSubDao ) {
         return GlobalScope.launch(Dispatchers.IO) { externalSubDao.insert(ExternalSub(idSubtitle, subtitlePath, mediaPath, language, movieReleaseName)) }
     }
 
-    fun getDownloadedSubtitles(mediaPath: String): LiveData<List<ExternalSub>> {
-        val externalSubs = externalSubDao.get(mediaPath)
-        return Transformations.map(externalSubs) {
+    fun getDownloadedSubtitles(mediaUri: Uri): LiveData<List<ExternalSub>> {
+        val externalSubs = externalSubDao.get(mediaUri.path)
+        return Transformations.map(externalSubs) { list ->
             val existExternalSubs: MutableList<ExternalSub> = mutableListOf()
-            it.forEach {
+            list.forEach {
                 if (File(Uri.decode(it.subtitlePath)).exists())
                     existExternalSubs.add(it)
                 else

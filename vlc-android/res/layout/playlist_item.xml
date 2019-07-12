@@ -1,84 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View"/>
+
         <import type="android.text.TextUtils"/>
+
         <import type="org.videolan.vlc.util.Strings"/>
+
         <variable
-            name="holder"
-            type="org.videolan.vlc.gui.audio.PlaylistAdapter.ViewHolder"/>
+                name="holder"
+                type="org.videolan.vlc.gui.audio.PlaylistAdapter.ViewHolder"/>
+
         <variable
-            name="media"
-            type="org.videolan.medialibrary.media.MediaWrapper"/>
+                name="media"
+            type="org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper"/>
         <variable
-            name="subTitle"
-            type="String"/>
-        <variable
-            name="titleColor"
-            type="int"/>
+                name="subTitle"
+                type="String"/>
+
     </data>
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="40dp"
-        android:layout_margin="5dip"
-        android:clickable="true"
-        android:onClick="@{(view) -> holder.onClick(view, media)}" >
-        <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/item_more"
-            android:layout_toStartOf="@+id/item_more"
-            android:orientation="vertical">
-            <!-- TextView must be set to singleLine
-                    see https://code.google.com/p/android/issues/detail?id=33868 -->
-            <TextView
+            android:minHeight="40dp">
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/rectangle_circle_right_orange_selector"
+                android:focusable="true"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:onClick="@{(view) -> holder.onClick(view, media)}"
+                android:layout_toStartOf="@+id/item_more"
+                android:orientation="vertical"
+                android:id="@+id/selector"
+                app:layout_constraintEnd_toStartOf="@+id/playing"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+        <org.videolan.vlc.gui.view.MiniVisualizer
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/playing"
+                app:bar_color="?attr/player_icon_color"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/item_more"
+                android:layout_marginEnd="8dp"/>
+
+        <TextView
                 android:id="@+id/audio_item_title"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:singleLine="true"
                 android:ellipsize="middle"
                 android:maxLines="1"
                 android:text="@{media.title}"
-                android:textColor="@{titleColor}"
-                android:textSize="16sp" />
-            <TextView
+                android:textSize="16sp"
+                android:textColor="?attr/font_default"
+                app:layout_constraintEnd_toStartOf="@+id/playing"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintBottom_toTopOf="@+id/audio_item_subtitle"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@+id/selector"/>
+
+        <TextView
                 android:id="@+id/audio_item_subtitle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{subTitle}"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:singleLine="true"
                 android:ellipsize="middle"
                 android:maxLines="1"
-                android:textColor="?attr/font_light"
+                android:textColor="?attr/font_default"
                 android:fontFamily="sans-serif"
                 android:textSize="12sp"
-                android:visibility="@{TextUtils.isEmpty(subTitle) ? View.GONE : View.VISIBLE}"/>
-        </LinearLayout>
+                android:visibility="@{TextUtils.isEmpty(subTitle) ? View.GONE : View.VISIBLE}"
+                app:layout_constraintTop_toBottomOf="@+id/audio_item_title"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/playing"/>
 
-        <ImageView
-            android:id="@+id/item_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:scaleType="center"
-            android:background="@drawable/ic_more"
-            android:onClick="@{holder::onMoreClick}"
-            android:clickable="true" />
-    </RelativeLayout>
+        <ImageButton
+                android:id="@+id/item_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/button_circle_orange_selector"
+                android:scaleType="center"
+                android:layout_marginRight="4dp"
+                app:srcCompat="@drawable/ic_more_player"
+                android:onClick="@{holder::onMoreClick}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

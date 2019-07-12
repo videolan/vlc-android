@@ -28,6 +28,8 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
@@ -49,15 +51,15 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Settings.getInstance(activity).run {
+            if (!contains(FORCE_PLAY_ALL)) edit().putBoolean(FORCE_PLAY_ALL, true).apply()
+        }
         super.onCreate(savedInstanceState)
 
-        findPreference("enable_clone_mode").isVisible = false
+        findPreference("ui_audio_category").isVisible = false
+        findPreference(FORCE_LIST_PORTRAIT).isVisible = false
         findPreference(PREF_TV_UI).isVisible = AndroidDevices.hasTsp
         findPreference(KEY_APP_THEME).isVisible = false
-        findPreference("secondary_display_category").isVisible = false
-        findPreference("secondary_display_category_summary").isVisible = false
-        findPreference("blurred_cover_background").isVisible = false
-        findPreference(RESUME_PLAYBACK).isVisible = false
         prepareLocaleList()
     }
 
@@ -81,6 +83,18 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             }
             "browser_show_all_files" -> (activity as PreferencesActivity).setRestart()
         }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        if (preference.key == null) return false
+        when (preference.key) {
+            SHOW_VIDEO_THUMBNAILS -> {
+                Settings.showVideoThumbs = (preference as TwoStatePreference).isChecked
+                (activity as PreferencesActivity).setRestart()
+                return true
+            }
+        }
+        return super.onPreferenceTreeClick(preference)
     }
 
     private fun prepareLocaleList() {

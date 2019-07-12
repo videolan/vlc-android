@@ -48,7 +48,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.tools.setVisibility
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
@@ -91,6 +91,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     val menu: Menu
         get() = toolbar.menu
 
+    @Suppress("LeakingThis")
     protected val activityHandler: Handler = ProgressHandler(this)
     private val audioPlayerBottomSheetCallback = AudioPlayerBottomSheetCallback()
 
@@ -200,7 +201,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
      */
     @SuppressLint("RestrictedApi")
     fun showTipViewIfNeeded(stubId: Int, settingKey: String) {
-        if (BuildConfig.DEBUG) return
+        if (BuildConfig.DEBUG || PlaybackService.hasRenderer()) return
         val vsc = findViewById<View>(stubId)
         if (vsc != null && !settings.getBoolean(settingKey, false) && !Settings.showTvUi) {
             val v = (vsc as ViewStubCompat).inflate()
@@ -293,7 +294,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     }
 
     private fun showProgressBar() {
-        if (!Medialibrary.getInstance().isWorking) return
+        if (!AbstractMedialibrary.getInstance().isWorking) return
         MediaParsingService.progress.value?.run {
             val vsc = findViewById<View>(R.id.scan_viewstub)
             if (vsc != null) {
@@ -345,7 +346,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             }
         })
         MediaParsingService.progress.observe(this, Observer { scanProgress ->
-            if (scanProgress == null || !Medialibrary.getInstance().isWorking) {
+            if (scanProgress == null || !AbstractMedialibrary.getInstance().isWorking) {
                 updateProgressVisibility(false)
                 return@Observer
             }
@@ -353,7 +354,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             if (scanProgressText != null) scanProgressText!!.text = scanProgress.discovery
             if (scanProgressBar != null) scanProgressBar!!.progress = scanProgress.parsing
         })
-        Medialibrary.getState().observe(this, Observer { started -> if (started != null) updateProgressVisibility(started) })
+        AbstractMedialibrary.getState().observe(this, Observer { started -> if (started != null) updateProgressVisibility(started) })
         MediaParsingService.newStorages.observe(this, Observer<List<String>> { devices ->
             if (devices == null) return@Observer
             for (device in devices) UiTools.newStorageDetected(this@AudioPlayerContainerActivity, device)

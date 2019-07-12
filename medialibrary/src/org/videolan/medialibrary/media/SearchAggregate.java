@@ -1,16 +1,21 @@
 package org.videolan.medialibrary.media;
 
 import org.videolan.medialibrary.Tools;
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 
 public class SearchAggregate {
     private static final String TAG = "VLC/SearchAggregate";
 
-    private final Album[] albums;
-    private final Artist[] artists;
-    private final Genre[] genres;
-    private final MediaWrapper[] videos;
-    private final MediaWrapper[] tracks;
-    private final Playlist[] playlists;
+    private final AbstractAlbum[] albums;
+    private final AbstractArtist[] artists;
+    private final AbstractGenre[] genres;
+    private final AbstractMediaWrapper[] videos;
+    private final AbstractMediaWrapper[] tracks;
+    private final AbstractPlaylist[] playlists;
 
     public SearchAggregate() {
         this.albums = null;
@@ -18,9 +23,10 @@ public class SearchAggregate {
         this.genres = null;
         this.videos = null;
         this.tracks = null;
-        this.playlists = null;}
+        this.playlists = null;
+    }
 
-    public SearchAggregate(Album[] albums, Artist[] artists, Genre[] genres, MediaWrapper[] videos, MediaWrapper[] tracks, Playlist[] playlists) {
+    public SearchAggregate(AbstractAlbum[] albums, AbstractArtist[] artists, AbstractGenre[] genres, AbstractMediaWrapper[] videos, AbstractMediaWrapper[] tracks, AbstractPlaylist[] playlists) {
         this.albums = albums;
         this.artists = artists;
         this.genres = genres;
@@ -29,27 +35,27 @@ public class SearchAggregate {
         this.playlists = playlists;
     }
 
-    public Album[] getAlbums() {
+    public AbstractAlbum[] getAlbums() {
         return albums;
     }
 
-    public Artist[] getArtists() {
+    public AbstractArtist[] getArtists() {
         return artists;
     }
 
-    public Genre[] getGenres() {
+    public AbstractGenre[] getGenres() {
         return genres;
     }
 
-    public MediaWrapper[] getVideos() {
+    public AbstractMediaWrapper[] getVideos() {
         return videos;
     }
 
-    public MediaWrapper[] getTracks() {
+    public AbstractMediaWrapper[] getTracks() {
         return tracks;
     }
 
-    public Playlist[] getPlaylists() {
+    public AbstractPlaylist[] getPlaylists() {
         return playlists;
     }
 
@@ -62,32 +68,32 @@ public class SearchAggregate {
         StringBuilder sb = new StringBuilder();
         if (albums.length > 0) {
             sb.append("Albums:\n");
-            for (Album album : albums)
+            for (AbstractAlbum album : albums)
                 sb.append(album.getTitle()).append("\n");
         }
         if (artists.length > 0) {
             sb.append("Artists:\n");
-            for (Artist artist : artists)
+            for (AbstractArtist artist : artists)
                 sb.append(artist.getTitle()).append("\n");
         }
         if (genres.length > 0) {
             sb.append("Genres:\n");
-            for (Genre genre : genres)
+            for (AbstractGenre genre : genres)
                 sb.append(genre.getTitle()).append("\n");
         }
         if (tracks.length > 0) {
             sb.append("Tracks:\n");
-            for (MediaWrapper m : tracks)
+            for (AbstractMediaWrapper m : tracks)
                 sb.append(m.getTitle()).append("\n");
         }
         if (videos.length > 0) {
             sb.append("Videos:\n");
-            for (MediaWrapper m : videos)
+            for (AbstractMediaWrapper m : videos)
                 sb.append(m.getTitle()).append("\n");
         }
         if (playlists.length > 0) {
             sb.append("Playlists:\n");
-            for (Playlist playlist : playlists)
+            for (AbstractPlaylist playlist : playlists)
                 sb.append(playlist.getTitle()).append("\n");
         }
         return sb.toString();

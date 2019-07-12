@@ -32,7 +32,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
@@ -55,7 +56,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
         doRecommendations()
     }
 
-    private fun buildRecommendation(mw: MediaWrapper?, id: Int, priority: Int) {
+    private fun buildRecommendation(mw: AbstractMediaWrapper?, id: Int, priority: Int) {
         if (mw == null) return
         // build the recommendation as a Notification object
         val notification = NotificationCompat.BigPictureStyle(
@@ -76,7 +77,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
         mNotificationManager.notify(id, notification)
     }
 
-    private fun buildPendingIntent(mw: MediaWrapper, id: Int): PendingIntent {
+    private fun buildPendingIntent(mw: AbstractMediaWrapper, id: Int): PendingIntent {
         val intent = Intent(this@RecommendationsService, VideoPlayerActivity::class.java)
         intent.action = PLAY_FROM_VIDEOGRID
         intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, mw.uri)
@@ -87,7 +88,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
 
     private fun doRecommendations() = launch {
         mNotificationManager.cancelAll()
-        val videoList = withContext(Dispatchers.IO) { VLCApplication.mlInstance.recentVideos }
+        val videoList = withContext(Dispatchers.IO) { AbstractMedialibrary.getInstance().recentVideos }
         if (Util.isArrayEmpty(videoList)) return@launch
         for ((id, mediaWrapper) in videoList.withIndex()) {
             buildRecommendation(mediaWrapper, id, NotificationManagerCompat.IMPORTANCE_DEFAULT)

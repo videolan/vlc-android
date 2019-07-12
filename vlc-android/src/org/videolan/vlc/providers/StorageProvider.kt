@@ -27,8 +27,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.filter
 import kotlinx.coroutines.channels.mapTo
 import org.videolan.libvlc.Media
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.repository.DirectoryRepository
@@ -65,7 +65,7 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
 
     override fun addMedia(media: MediaLibraryItem) {
         if (media.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            if ((media as MediaWrapper).type == MediaWrapper.TYPE_DIR) super.addMedia(Storage(media.uri))
+            if ((media as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_DIR) super.addMedia(Storage(media.uri))
             return
         } else if (media.itemType != MediaLibraryItem.TYPE_STORAGE) return
         super.addMedia(media)
@@ -77,7 +77,7 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         val value: MutableList<MediaLibraryItem> = browserChannel.filter { it.isStorage() }.mapTo(mutableListOf()) { Storage(it.uri)}
         dataset.value = value
         parseSubDirectories()
-        loading.value = false
+        loading.postValue(false)
     }
 }
 

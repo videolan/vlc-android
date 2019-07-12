@@ -29,8 +29,8 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.tv_vertical_grid.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.MainTvActivity
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface
@@ -68,11 +68,11 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 var uri = intent.data
                 if (uri == null) uri = intent.getParcelableExtra(KEY_URI)
 
-                val item = if (uri == null) null else MediaWrapper(uri)
+                val item = if (uri == null) null else MLServiceLocator.getAbstractMediaWrapper(uri)
 
                 fragment = FileBrowserTvFragment.newInstance(TYPE_NETWORK, item)
             } else if (type == HEADER_DIRECTORIES) {
-                fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, intent.data?.let { MediaWrapper(it) })
+                fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, intent.data?.let { MLServiceLocator.getAbstractMediaWrapper(it) })
             } else {
                 finish()
                 return

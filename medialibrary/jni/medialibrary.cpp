@@ -949,10 +949,11 @@ playlistCreate(JNIEnv* env, jobject thiz, jstring name)
 }
 
 void
-requestThumbnail(JNIEnv* env, jobject thiz, jlong mediaId)
+requestThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong mediaId, medialibrary::ThumbnailSizeType sizeType, uint32_t desiredWidth,
+                 uint32_t desiredHeight, float position)
 {
-    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    aml->requestThumbnail(mediaId);
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    aml->requestThumbnail(mediaId, sizeType, desiredWidth, desiredHeight, position);
 }
 
 /*
@@ -1210,14 +1211,14 @@ getSearchAlbumFromArtistCount(JNIEnv* env, jobject thiz, jobject medialibrary, j
  */
 
 jobjectArray
-getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
+getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
         static_cast<bool>( desc )
     };
-    const auto query = aml->mediaFromGenre(id, &params);
+    const auto query = aml->mediaFromGenre(id, withThumbnail, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
@@ -1233,14 +1234,14 @@ getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jin
 }
 
 jobjectArray
-getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
         static_cast<bool>( desc )
     };
-    const auto query = aml->mediaFromGenre(id, &params);
+    const auto query = aml->mediaFromGenre(id, withThumbnail, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
@@ -1255,7 +1256,7 @@ getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
 
 jint
 getGenreTracksCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromGenre(id, nullptr);
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromGenre(id, false, nullptr);
     return (jint) (query != nullptr ? query->count() : 0);
 }
 
@@ -1469,7 +1470,7 @@ setMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jst
     medialibrary::MediaPtr media = aml->media(id);
     if (media == nullptr) return;
     const char *char_mrl = env->GetStringUTFChars(mrl, JNI_FALSE);
-    media->setThumbnail(char_mrl);
+    media->setThumbnail(char_mrl, medialibrary::ThumbnailSizeType::Thumbnail);
     env->ReleaseStringUTFChars(mrl, char_mrl);
 }
 
@@ -1736,62 +1737,62 @@ static JNINativeMethod methods[] = {
     {"nativeRemoveDevice", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)removeDevice },
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
     {"nativeUnbanFolder", "(Ljava/lang/String;)V", (void*)unbanFolder },
-    {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastMediaPLayed },
-    {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastStreamsPlayed },
+    {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)lastMediaPLayed },
+    {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)lastStreamsPlayed },
     {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },
     {"nativeClearHistory", "()Z", (void*)clearHistory },
-    {"nativeGetVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getVideos },
-    {"nativeGetSortedVideos", "(IZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getSortedVideos },
-    {"nativeGetSortedPagedVideos", "(IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getPagedVideos },
-    {"nativeGetRecentVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getRecentVideos },
-    {"nativeGetAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getAudio },
-    {"nativeGetSortedAudio", "(IZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getSortedAudio },
-    {"nativeGetSortedPagedAudio", "(IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getPagedAudio },
-    {"nativeGetRecentAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getRecentAudio },
+    {"nativeGetVideos", "()[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getVideos },
+    {"nativeGetSortedVideos", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getSortedVideos },
+    {"nativeGetSortedPagedVideos", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getPagedVideos },
+    {"nativeGetRecentVideos", "()[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getRecentVideos },
+    {"nativeGetAudio", "()[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getAudio },
+    {"nativeGetSortedAudio", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getSortedAudio },
+    {"nativeGetSortedPagedAudio", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getPagedAudio },
+    {"nativeGetRecentAudio", "()[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getRecentAudio },
     {"nativeSearch", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/SearchAggregate;", (void*)search},
-    {"nativeSearchMedia", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchMedia},
-    {"nativeSearchPagedMedia", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchPagedMedia},
-    {"nativeSearchPagedAudio", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchPagedAudio},
-    {"nativeSearchPagedVideo", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchPagedVideo},
+    {"nativeSearchMedia", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchMedia},
+    {"nativeSearchPagedMedia", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchPagedMedia},
+    {"nativeSearchPagedAudio", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchPagedAudio},
+    {"nativeSearchPagedVideo", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchPagedVideo},
     {"nativeGetSearchVideoCount", "(Ljava/lang/String;)I", (void*)getSearchVideoCount },
     {"nativeGetSearchAudioCount", "(Ljava/lang/String;)I", (void*)getSearchAudioCount },
     {"nativeGetSearchMediaCount", "(Ljava/lang/String;)I", (void*)getSearchMediaCount },
-    {"nativeSearchAlbum", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/media/Album;", (void*)searchAlbum },
-    {"nativeSearchPagedAlbum", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/media/Album;", (void*)searchPagedAlbum },
+    {"nativeSearchAlbum", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)searchAlbum },
+    {"nativeSearchPagedAlbum", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)searchPagedAlbum },
     {"nativeGetAlbumSearchCount", "(Ljava/lang/String;)I", (void*)getAlbumSearchCount },
-    {"nativeSearchArtist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/media/Artist;", (void*)searchArtist },
-    {"nativeSearchPagedArtist", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/media/Artist;", (void*)searchPagedArtist },
+    {"nativeSearchArtist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;", (void*)searchArtist },
+    {"nativeSearchPagedArtist", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;", (void*)searchPagedArtist },
     {"nativeGetArtistsSearchCount", "(Ljava/lang/String;)I", (void*)getArtistsSearchCount },
-    {"nativeSearchGenre", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/media/Genre;", (void*)searchGenre },
-    {"nativeSearchPagedGenre", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/media/Genre;", (void*)searchPagedGenre },
+    {"nativeSearchGenre", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)searchGenre },
+    {"nativeSearchPagedGenre", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)searchPagedGenre },
     {"nativeGetGenreSearchCount", "(Ljava/lang/String;)I", (void*)getGenreSearchCount },
-    {"nativeSearchPlaylist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/media/Playlist;", (void*)searchPlaylist },
-    {"nativeSearchPagedPlaylist", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/media/Playlist;", (void*)searchPagedPlaylist },
+    {"nativeSearchPlaylist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)searchPlaylist },
+    {"nativeSearchPagedPlaylist", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)searchPagedPlaylist },
     {"nativeGetPlaylistSearchCount", "(Ljava/lang/String;)I", (void*)getPlaylistSearchCount },
-    {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMedia },
-    {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromMrl },
-    {"nativeAddMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)addMedia },
+    {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getMedia },
+    {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getMediaFromMrl },
+    {"nativeAddMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)addMedia },
     {"nativeRemoveExternalMedia", "(J)Z", (void*)removeExternalMedia },
-    {"nativeAddStream", "(Ljava/lang/String;Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)addStream },
+    {"nativeAddStream", "(Ljava/lang/String;Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)addStream },
     {"nativeGetVideoCount", "()I", (void*)getVideoCount },
     {"nativeGetAudioCount", "()I", (void*)getAudioCount },
-    {"nativeGetAlbums", "(IZ)[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbums },
-    {"nativeGetPagedAlbums", "(IZII)[Lorg/videolan/medialibrary/media/Album;", (void*)getPagedAlbums },
+    {"nativeGetAlbums", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)getAlbums },
+    {"nativeGetPagedAlbums", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)getPagedAlbums },
     {"nativeGetAlbumsCount", "()I", (void*)getAlbumsCount },
-    {"nativeGetAlbum", "(J)Lorg/videolan/medialibrary/media/Album;", (void*)getAlbum },
-    {"nativeGetArtists", "(ZIZ)[Lorg/videolan/medialibrary/media/Artist;", (void*)getArtists },
-    {"nativeGetPagedArtists", "(ZIZII)[Lorg/videolan/medialibrary/media/Artist;", (void*)getPagedArtists },
+    {"nativeGetAlbum", "(J)Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)getAlbum },
+    {"nativeGetArtists", "(ZIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;", (void*)getArtists },
+    {"nativeGetPagedArtists", "(ZIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;", (void*)getPagedArtists },
     {"nativeGetArtistsCount", "(Z)I", (void*)getArtistsCount },
-    {"nativeGetArtist", "(J)Lorg/videolan/medialibrary/media/Artist;", (void*)getArtist },
-    {"nativeGetGenres", "(IZ)[Lorg/videolan/medialibrary/media/Genre;", (void*)getGenres },
-    {"nativeGetPagedGenres", "(IZII)[Lorg/videolan/medialibrary/media/Genre;", (void*)getPagedGenres },
+    {"nativeGetArtist", "(J)Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;", (void*)getArtist },
+    {"nativeGetGenres", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)getGenres },
+    {"nativeGetPagedGenres", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)getPagedGenres },
     {"nativeGetGenresCount", "()I", (void*)getGenresCount },
-    {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/media/Genre;", (void*)getGenre },
-    {"nativeGetPlaylists", "(IZ)[Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylists },
-    {"nativeGetPagedPlaylists", "(IZII)[Lorg/videolan/medialibrary/media/Playlist;", (void*)getPagedPlaylists },
+    {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)getGenre },
+    {"nativeGetPlaylists", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)getPlaylists },
+    {"nativeGetPagedPlaylists", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)getPagedPlaylists },
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
-    {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylist },
-    {"nativeGetFolders", "(IIZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)folders },
+    {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)getPlaylist },
+    {"nativeGetFolders", "(IIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractFolder;", (void*)folders },
     {"nativeGetFoldersCount", "(I)I", (void*)foldersCount },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
@@ -1802,78 +1803,78 @@ static JNINativeMethod methods[] = {
     {"nativeIncreasePlayCount", "(J)Z", (void*)increasePlayCount },
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
-    {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/Playlist;", (void*)playlistCreate },
-    {"nativeRequestThumbnail", "(J)V", (void*)requestThumbnail },
+    {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)playlistCreate },
 };
 
 static JNINativeMethod media_methods[] = {
-    {"nativeGetMediaLongMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JI)J", (void*)getMediaLongMetadata },
-    {"nativeGetMediaStringMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JI)Ljava/lang/String;", (void*)getMediaStringMetadata },
-    {"nativeSetMediaStringMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JILjava/lang/String;)V", (void*)setMediaStringMetadata },
-    {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
-    {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
-    {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
-    {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/Medialibrary;J)V", (void*)removeMediaFromHistory },
+    {"nativeGetMediaLongMetadata", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JI)J", (void*)getMediaLongMetadata },
+    {"nativeGetMediaStringMetadata", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JI)Ljava/lang/String;", (void*)getMediaStringMetadata },
+    {"nativeSetMediaStringMetadata", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JILjava/lang/String;)V", (void*)setMediaStringMetadata },
+    {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIJ)V", (void*)setMediaLongMetadata },
+    {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
+    {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
+    {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)V", (void*)removeMediaFromHistory },
+    {"nativeRequestThumbnail", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIIIF)V", (void*)requestThumbnail },
 };
 
 static JNINativeMethod album_methods[] = {
-    {"nativeGetTracks", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getTracksFromAlbum },
-    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getPagedTracksFromAlbum },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchFromAlbum },
-    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromAlbumCount },
-    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)getTracksFromAlbumCount },
+    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getTracksFromAlbum },
+    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getPagedTracksFromAlbum },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchFromAlbum },
+    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)I", (void*)getSearchFromAlbumCount },
+    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)I", (void*)getTracksFromAlbumCount },
 };
 
 static JNINativeMethod artist_methods[] = {
-    {"nativeGetMedia", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromArtist },
-    {"nativeGetAlbums", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbumsFromArtist },
-    {"nativeGetPagedMedia", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getPagedMediaFromArtist },
-    {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/Album;", (void*)getPagedAlbumsFromArtist },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchFromArtist },
-    {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/media/Album;", (void*)searchAlbumsFromArtist },
-    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)getArtistTracksCount },
-    {"nativeGetAlbumsCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)getArtistAlbumsCount },
-    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromArtistCount },
-    {"nativeGetSearchAlbumCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)I", (void*)getSearchAlbumFromArtistCount },
+    {"nativeGetMedia", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getMediaFromArtist },
+    {"nativeGetAlbums", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)getAlbumsFromArtist },
+    {"nativeGetPagedMedia", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getPagedMediaFromArtist },
+    {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)getPagedAlbumsFromArtist },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchFromArtist },
+    {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)searchAlbumsFromArtist },
+    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)I", (void*)getArtistTracksCount },
+    {"nativeGetAlbumsCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)I", (void*)getArtistAlbumsCount },
+    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)I", (void*)getSearchFromArtistCount },
+    {"nativeGetSearchAlbumCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)I", (void*)getSearchAlbumFromArtistCount },
 };
 
 static JNINativeMethod genre_methods[] = {
-    {"nativeGetTracks", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromGenre },
-    {"nativeGetAlbums", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbumsFromGenre },
-    {"nativeGetArtists", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/Artist;", (void*)getArtistsFromGenre },
-    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getPagedMediaFromGenre },
-    {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/Album;", (void*)getPagedAlbumsFromGenre },
-    {"nativeGetPagedArtists", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/Artist;", (void*)getPagedArtistsFromGenre },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchMediaFromGenre },
-    {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/media/Album;", (void*)searchAlbumsFromGenre },
-    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)getGenreTracksCount },
-    {"nativeGetAlbumsCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)getGenreAlbumsCount },
-    {"nativeGetArtistsCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)getGenreArtistsCount },
-    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)I", (void*)getSearchMediaFromGenreCount },
-    {"nativeGetSearchAlbumCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)I", (void*)getSearchAlbumsFromGenreCount },
+    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JZIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getMediaFromGenre },
+    {"nativeGetAlbums", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)getAlbumsFromGenre },
+    {"nativeGetArtists", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;", (void*)getArtistsFromGenre },
+    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JZIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getPagedMediaFromGenre },
+    {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)getPagedAlbumsFromGenre },
+    {"nativeGetPagedArtists", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;", (void*)getPagedArtistsFromGenre },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchMediaFromGenre },
+    {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;", (void*)searchAlbumsFromGenre },
+    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)I", (void*)getGenreTracksCount },
+    {"nativeGetAlbumsCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)I", (void*)getGenreAlbumsCount },
+    {"nativeGetArtistsCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)I", (void*)getGenreArtistsCount },
+    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)I", (void*)getSearchMediaFromGenreCount },
+    {"nativeGetSearchAlbumCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)I", (void*)getSearchAlbumsFromGenreCount },
 };
 
 static JNINativeMethod folder_methods[] = {
-    {"nativeMedia", "(Lorg/videolan/medialibrary/Medialibrary;JIIZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)mediaFromFolder },
-    {"nativeSubfolders", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)subFolders },
-    {"nativeMediaCount", "(Lorg/videolan/medialibrary/Medialibrary;JI)I", (void*)mediaFromFolderCount },
-    {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/Medialibrary;JI)I", (void*)subFoldersCount },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;IIZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchMediaFromFolder },
-    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;I)I", (void*)getSearchMediaFromFolderCount },
+    {"nativeMedia", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)mediaFromFolder },
+    {"nativeSubfolders", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractFolder;", (void*)subFolders },
+    {"nativeMediaCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JI)I", (void*)mediaFromFolderCount },
+    {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JI)I", (void*)subFoldersCount },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;IIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchMediaFromFolder },
+    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;I)I", (void*)getSearchMediaFromFolderCount },
 };
 
 static JNINativeMethod playlist_methods[] = {
-    {"nativeGetTracks", "(Lorg/videolan/medialibrary/Medialibrary;J)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromPlaylist },
-    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/Medialibrary;JII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getPagedMediaFromPlaylist },
-    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)getPlaylistTracksCount },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchFromPlaylist },
-    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromPlaylistCount },
-    {"nativePlaylistAppend", "(Lorg/videolan/medialibrary/Medialibrary;JJ)Z", (void*)playlistAppend },
-    {"nativePlaylistAppendGroup", "(Lorg/videolan/medialibrary/Medialibrary;J[J)Z", (void*)playlistAppendGroup },
-    {"nativePlaylistAdd", "(Lorg/videolan/medialibrary/Medialibrary;JJI)Z", (void*)playlistAdd },
-    {"nativePlaylistMove", "(Lorg/videolan/medialibrary/Medialibrary;JII)Z", (void*)playlistMove },
-    {"nativePlaylistRemove", "(Lorg/videolan/medialibrary/Medialibrary;JI)Z", (void*)playlistRemove },
-    {"nativePlaylistDelete", "(Lorg/videolan/medialibrary/Medialibrary;J)Z", (void*)playlistDelete },
+    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getMediaFromPlaylist },
+    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getPagedMediaFromPlaylist },
+    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)I", (void*)getPlaylistTracksCount },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)searchFromPlaylist },
+    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JLjava/lang/String;)I", (void*)getSearchFromPlaylistCount },
+    {"nativePlaylistAppend", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JJ)Z", (void*)playlistAppend },
+    {"nativePlaylistAppendGroup", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J[J)Z", (void*)playlistAppendGroup },
+    {"nativePlaylistAdd", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JJI)Z", (void*)playlistAdd },
+    {"nativePlaylistMove", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JII)Z", (void*)playlistMove },
+    {"nativePlaylistRemove", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;JI)Z", (void*)playlistRemove },
+    {"nativePlaylistDelete", "(Lorg/videolan/medialibrary/interfaces/AbstractMedialibrary;J)Z", (void*)playlistDelete },
 };
 
 /* This function is called when a thread attached to the Java VM is canceled or
@@ -2008,7 +2009,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.SearchAggregate.initID,
            ml_fields.SearchAggregate.clazz,
-           "<init>", "([Lorg/videolan/medialibrary/media/Album;[Lorg/videolan/medialibrary/media/Artist;[Lorg/videolan/medialibrary/media/Genre;[Lorg/videolan/medialibrary/media/MediaWrapper;[Lorg/videolan/medialibrary/media/MediaWrapper;[Lorg/videolan/medialibrary/media/Playlist;)V");
+           "<init>", "([Lorg/videolan/medialibrary/interfaces/media/AbstractAlbum;[Lorg/videolan/medialibrary/interfaces/media/AbstractArtist;[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;)V");
 
     GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/Folder", true);
 
@@ -2025,11 +2026,11 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onMediaAddedId,
            ml_fields.MediaLibrary.clazz,
-           "onMediaAdded", "([Lorg/videolan/medialibrary/media/MediaWrapper;)V");
+           "onMediaAdded", "([Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;)V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onMediaUpdatedId,
            ml_fields.MediaLibrary.clazz,
-           "onMediaUpdated", "([Lorg/videolan/medialibrary/media/MediaWrapper;)V");
+           "onMediaUpdated", "([Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;)V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onMediaDeletedId,
            ml_fields.MediaLibrary.clazz,
@@ -2129,7 +2130,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onMediaThumbnailReadyId,
            ml_fields.MediaLibrary.clazz,
-           "onMediaThumbnailReady", "(Lorg/videolan/medialibrary/media/MediaWrapper;Z)V");
+           "onMediaThumbnailReady", "(Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;Z)V");
 
 #undef GET_CLASS
 #undef GET_ID

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="org.videolan.vlc.media.MediaUtils" />
+        <variable
+            name="bgColor"
+            type="int" />
+        <variable
+            name="media"
+            type="org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@{bgColor}">
+
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{MediaUtils.INSTANCE.getMediaTitle(media)}"
+                android:textColor="@color/grey50"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Symphony n°1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintBottom_toTopOf="@+id/artist"
+                app:layout_constraintEnd_toStartOf="@+id/playing"
+                android:layout_marginEnd="8dp"
+                android:textStyle="bold"
+                android:layout_marginStart="8dp"
+                app:layout_constraintVertical_chainStyle="packed"/>
+
+        <TextView
+                android:id="@+id/artist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{MediaUtils.INSTANCE.getMediaArtist(context, media)}"
+                android:textColor="@color/grey50"
+                tools:text="Beethoven"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toStartOf="@+id/playing"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"/>
+
+        <org.videolan.vlc.gui.view.MiniVisualizer
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/playing"
+                app:bar_color="?attr/player_icon_color"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

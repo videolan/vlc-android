@@ -36,8 +36,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.TvAudioPlayerBinding
@@ -65,39 +66,51 @@ class AudioPlayerActivity : BaseTvActivity() {
     private var currentCoverArt: String? = null
     private lateinit var model: PlaylistModel
     private var settings: SharedPreferences? = null
+    private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
+    private lateinit var playToPause: AnimatedVectorDrawableCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player)
         settings = Settings.getInstance(this)
 
+        model = ViewModelProviders.of(this).get(PlaylistModel::class.java)
         binding.playlist.layoutManager = LinearLayoutManager(this)
         binding.playlist.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        adapter = PlaylistAdapter(this)
+        adapter = PlaylistAdapter(this, model)
         binding.playlist.adapter = adapter
         binding.lifecycleOwner = this
-        model = ViewModelProviders.of(this).get(PlaylistModel::class.java)
         binding.progress = model.progress
-        model.dataset.observe(this, Observer<List<MediaWrapper>> { mediaWrappers ->
+        model.dataset.observe(this, Observer<List<AbstractMediaWrapper>> { mediaWrappers ->
             if (mediaWrappers != null) {
                 adapter.setSelection(-1)
                 adapter.update(mediaWrappers)
             }
         })
         model.playerState.observe(this, Observer { playerState -> update(playerState) })
-        val medialist = intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)
+        val medialist = intent.getParcelableArrayListExtra<AbstractMediaWrapper>(MEDIA_LIST)
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
         if (medialist != null) MediaUtils.openList(this, medialist, position)
+        playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
+        pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play)!!
     }
 
     override fun refresh() {}
 
-
+    private var wasPlaying = false
     fun update(state: PlayerState?) {
         if (state == null) return
-        binding.buttonPlay.setImageResource(if (state.playing) R.drawable.ic_pause_w else R.drawable.ic_play_w)
+
+        val drawable = if (state.playing) playToPause else pauseToPlay
+        binding.buttonPlay.setImageDrawable(drawable)
+        if (state.playing != wasPlaying) {
+            drawable.start()
+        }
+
+        wasPlaying = state.playing
+
         val mw = model.currentMediaWrapper
-        if (mw != null && !mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
+        if (mw != null && !mw.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
             model.switchToVideo()
             finish()
             return
@@ -107,7 +120,7 @@ class AudioPlayerActivity : BaseTvActivity() {
         binding.buttonShuffle.setImageResource(if (shuffling)
             R.drawable.ic_shuffle_on
         else
-            R.drawable.ic_shuffle_w)
+            R.drawable.ic_shuffle)
         if (mw == null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return
         currentCoverArt = mw.artworkMrl
         updateBackground()
@@ -222,7 +235,7 @@ class AudioPlayerActivity : BaseTvActivity() {
         if (shuffle)
             Collections.shuffle(medias)
         else
-            Collections.sort(medias, MediaComparators.byTrackNumber)
+            Collections.sort(medias, MediaComparators.BY_TRACK_NUMBER)
         model.load(medias, 0)
     }
 
@@ -238,7 +251,7 @@ class AudioPlayerActivity : BaseTvActivity() {
             }
             REPEAT_ONE -> {
                 model.repeatType = REPEAT_NONE
-                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_w)
+                binding.buttonRepeat.setImageResource(R.drawable.ic_repeat)
             }
         }
     }

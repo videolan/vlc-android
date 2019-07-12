@@ -63,9 +63,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
@@ -93,12 +94,17 @@ object UiTools {
     private var DEFAULT_COVER_ALBUM_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ARTIST_DRAWABLE: BitmapDrawable? = null
 
+    private var DEFAULT_COVER_VIDEO_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_AUDIO_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_ALBUM_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_ARTIST_DRAWABLE_BIG: BitmapDrawable? = null
+
     private val sHandler = Handler(Looper.getMainLooper())
     const val DELETE_DURATION = 3000
 
     fun getDefaultVideoDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE == null) {
-            val DEFAULT_COVER_VIDEO = BitmapCache.getFromResource(context.resources, R.drawable.ic_no_thumbnail_1610)
+            val DEFAULT_COVER_VIDEO = getBitmapFromDrawable(context, R.drawable.ic_no_thumbnail_1610)
             DEFAULT_COVER_VIDEO_DRAWABLE = BitmapDrawable(context.resources, DEFAULT_COVER_VIDEO)
         }
         return DEFAULT_COVER_VIDEO_DRAWABLE!!
@@ -106,7 +112,7 @@ object UiTools {
 
     fun getDefaultAudioDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_AUDIO_DRAWABLE == null) {
-            val DEFAULT_COVER_AUDIO = BitmapCache.getFromResource(context.resources, R.drawable.ic_no_song)
+            val DEFAULT_COVER_AUDIO = getBitmapFromDrawable(context, R.drawable.ic_no_song)
             DEFAULT_COVER_AUDIO_DRAWABLE = BitmapDrawable(context.resources, DEFAULT_COVER_AUDIO)
         }
         return DEFAULT_COVER_AUDIO_DRAWABLE!!
@@ -114,16 +120,46 @@ object UiTools {
 
     fun getDefaultAlbumDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_ALBUM_DRAWABLE == null) {
-            DEFAULT_COVER_ALBUM_DRAWABLE = BitmapDrawable(context.resources, BitmapCache.getFromResource(context.resources, R.drawable.ic_no_album))
+            DEFAULT_COVER_ALBUM_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_no_album))
         }
         return DEFAULT_COVER_ALBUM_DRAWABLE!!
     }
 
     fun getDefaultArtistDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_ARTIST_DRAWABLE == null) {
-            DEFAULT_COVER_ARTIST_DRAWABLE = BitmapDrawable(context.resources, BitmapCache.getFromResource(context.resources, R.drawable.ic_no_artist))
+            DEFAULT_COVER_ARTIST_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_no_artist))
         }
         return DEFAULT_COVER_ARTIST_DRAWABLE!!
+    }
+
+    fun getDefaultVideoDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_VIDEO_DRAWABLE_BIG == null) {
+            val DEFAULT_COVER_VIDEO = getBitmapFromDrawable(context, R.drawable.ic_browser_video_big_normal)
+            DEFAULT_COVER_VIDEO_DRAWABLE_BIG = BitmapDrawable(context.resources, DEFAULT_COVER_VIDEO)
+        }
+        return DEFAULT_COVER_VIDEO_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultAudioDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_AUDIO_DRAWABLE_BIG == null) {
+            val DEFAULT_COVER_AUDIO = getBitmapFromDrawable(context, R.drawable.ic_song_big)
+            DEFAULT_COVER_AUDIO_DRAWABLE_BIG = BitmapDrawable(context.resources, DEFAULT_COVER_AUDIO)
+        }
+        return DEFAULT_COVER_AUDIO_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultAlbumDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_ALBUM_DRAWABLE_BIG == null) {
+            DEFAULT_COVER_ALBUM_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_album_big))
+        }
+        return DEFAULT_COVER_ALBUM_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultArtistDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_ARTIST_DRAWABLE_BIG == null) {
+            DEFAULT_COVER_ARTIST_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_artist_big))
+        }
+        return DEFAULT_COVER_ARTIST_DRAWABLE_BIG!!
     }
 
     /**
@@ -218,8 +254,8 @@ object UiTools {
         link.text = Html.fromHtml(v.context.getString(R.string.about_link))
 
         val feedback : TextView= v.findViewById(R.id.feedback)
-        feedback.text = Html.fromHtml(v.getContext().getString(R.string.feedback_link, v.getContext().getString(R.string.feedback_forum)));
-        feedback.movementMethod = LinkMovementMethod.getInstance();
+        feedback.text = Html.fromHtml(v.context.getString(R.string.feedback_link, v.context.getString(R.string.feedback_forum)))
+        feedback.movementMethod = LinkMovementMethod.getInstance()
 
         val revision = v.context.getString(R.string.build_revision) + " VLC: " + v.context.getString(R.string.build_vlc_revision)
         val builddate = v.context.getString(R.string.build_time)
@@ -252,15 +288,15 @@ object UiTools {
         }
     }
 
-    fun savePlaylist(activity: FragmentActivity, list: List<MediaWrapper>) {
+    fun savePlaylist(activity: FragmentActivity, list: List<AbstractMediaWrapper>) {
         addToPlaylist(activity, list.toTypedArray(), SavePlaylistDialog.KEY_TRACKS)
     }
 
-    fun addToPlaylist(activity: FragmentActivity, list: List<MediaWrapper>) {
+    fun addToPlaylist(activity: FragmentActivity, list: List<AbstractMediaWrapper>) {
         addToPlaylist(activity, list.toTypedArray(), SavePlaylistDialog.KEY_NEW_TRACKS)
     }
 
-    fun addToPlaylist(activity: FragmentActivity, tracks: Array<MediaWrapper>, key: String) {
+    fun addToPlaylist(activity: FragmentActivity, tracks: Array<AbstractMediaWrapper>, key: String) {
         if (!activity.isStarted()) return
         val savePlaylistDialog = SavePlaylistDialog()
         val args = Bundle()
@@ -275,7 +311,7 @@ object UiTools {
             MediaLibraryItem.TYPE_ARTIST -> getDefaultArtistDrawable(context)
             MediaLibraryItem.TYPE_ALBUM -> getDefaultAlbumDrawable(context)
             MediaLibraryItem.TYPE_MEDIA -> {
-                if ((item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO) getDefaultVideoDrawable(context) else getDefaultAudioDrawable(context)
+                if ((item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_VIDEO) getDefaultVideoDrawable(context) else getDefaultAudioDrawable(context)
             }
             else -> getDefaultAudioDrawable(context)
         }
@@ -324,21 +360,21 @@ object UiTools {
         val sort = provider.sort
         val desc = provider.desc
         var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.setTitle(if (sort == Medialibrary.SORT_ALPHA && !desc) R.string.sortby_name_desc else R.string.sortby_name)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ALPHA && !desc) R.string.sortby_name_desc else R.string.sortby_name)
         item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.setTitle(if (sort == Medialibrary.SORT_FILENAME && !desc) R.string.sortby_filename_desc else R.string.sortby_filename)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_FILENAME && !desc) R.string.sortby_filename_desc else R.string.sortby_filename)
         item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.setTitle(if (sort == Medialibrary.SORT_ARTIST && !desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ARTIST && !desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name)
         item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.setTitle(if (sort == Medialibrary.SORT_ALBUM && !desc) R.string.sortby_album_name_desc else R.string.sortby_album_name)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ALBUM && !desc) R.string.sortby_album_name_desc else R.string.sortby_album_name)
         item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.setTitle(if (sort == Medialibrary.SORT_DURATION && !desc) R.string.sortby_length_desc else R.string.sortby_length)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_DURATION && !desc) R.string.sortby_length_desc else R.string.sortby_length)
         item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.setTitle(if (sort == Medialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
         item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.setTitle(if (sort == Medialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
-        //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
+        //        if (item != null) item.setTitle(sort == AbstractMedialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
     }
 
@@ -348,21 +384,21 @@ object UiTools {
         val sort = model.sort
         val desc = model.desc
         var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.setTitle(if (sort == Medialibrary.SORT_ALPHA && !desc) R.string.sortby_name_desc else R.string.sortby_name)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ALPHA && !desc) R.string.sortby_name_desc else R.string.sortby_name)
         item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.setTitle(if (sort == Medialibrary.SORT_FILENAME && !desc) R.string.sortby_filename_desc else R.string.sortby_filename)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_FILENAME && !desc) R.string.sortby_filename_desc else R.string.sortby_filename)
         item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.setTitle(if (sort == Medialibrary.SORT_ARTIST && !desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ARTIST && !desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name)
         item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.setTitle(if (sort == Medialibrary.SORT_ALBUM && !desc) R.string.sortby_album_name_desc else R.string.sortby_album_name)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ALBUM && !desc) R.string.sortby_album_name_desc else R.string.sortby_album_name)
         item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.setTitle(if (sort == Medialibrary.SORT_DURATION && !desc) R.string.sortby_length_desc else R.string.sortby_length)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_DURATION && !desc) R.string.sortby_length_desc else R.string.sortby_length)
         item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.setTitle(if (sort == Medialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
         item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.setTitle(if (sort == Medialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
-        //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
+        //        if (item != null) item.setTitle(sort == AbstractMedialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
     }
 
@@ -421,9 +457,9 @@ object UiTools {
                                 MediaUtils.openUri(activity, item.uri)
                             else if (item.text != null) {
                                 val uri = Uri.parse(item.text.toString())
-                                val media = MediaWrapper(uri)
+                                val media = MLServiceLocator.getAbstractMediaWrapper(uri)
                                 if ("file" != uri.scheme)
-                                    media.type = MediaWrapper.TYPE_STREAM
+                                    media.type = AbstractMediaWrapper.TYPE_STREAM
                                 MediaUtils.openMedia(activity, media)
                             }
                             return@OnDragListener true

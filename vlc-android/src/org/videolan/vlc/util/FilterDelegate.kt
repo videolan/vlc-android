@@ -3,8 +3,8 @@ package org.videolan.vlc.util
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.media.MediaUtils
 
@@ -45,12 +45,12 @@ open class FilterDelegate<T : MediaLibraryItem>(protected val dataset: MutableLi
     }
 }
 
-class PlaylistFilterDelegate(dataset: MutableLiveData<out List<MediaWrapper>>) : FilterDelegate<MediaWrapper>(dataset) {
+class PlaylistFilterDelegate(dataset: MutableLiveData<out List<AbstractMediaWrapper>>) : FilterDelegate<AbstractMediaWrapper>(dataset) {
 
-    override suspend fun filteringJob(charSequence: CharSequence?): MutableList<MediaWrapper>? {
+    override suspend fun filteringJob(charSequence: CharSequence?): MutableList<AbstractMediaWrapper>? {
         if (charSequence !== null) initSource()?.let { list ->
-            return withContext(Dispatchers.Default) { mutableListOf<MediaWrapper>().apply {
-                val queryStrings = charSequence.trim().toString().split(" ").asSequence().filter { it.length > 2 }.map { it.toLowerCase() }.toList()
+            return withContext(Dispatchers.Default) { mutableListOf<AbstractMediaWrapper>().apply {
+                val queryStrings = charSequence.trim().toString().split(" ").asSequence().filter { it.isNotEmpty() }.map { it.toLowerCase() }.toList()
                 for (media in list) {
                     val title = MediaUtils.getMediaTitle(media).toLowerCase()
                     val location = media.location.toLowerCase()

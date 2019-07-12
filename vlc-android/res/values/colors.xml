@@ -14,7 +14,7 @@
     <color name="orange200">#ffca7d</color>
     <color name="orange300">#ffb54c</color>
     <color name="orange400">#ffa11a</color>
-    <color name="orange500">#ff8800</color>
+    <color name="orange500">#FF8800</color>
     <color name="orange600">#ff7d00</color>
     <color name="orange700">#ff7200</color>
     <color name="orange800">#ff610a</color>
@@ -22,6 +22,7 @@
 
     <color name="red500transparent">#b4ff0000</color>
     <color name="orange500transparent">#b4ff8800</color>
+    <color name="orange500focus">#86ff8800</color>
     <color name="orange200transparent">#64ffca7d</color>
 
     <color name="grey50">#fafafa</color>
@@ -37,6 +38,8 @@
     <color name="grey875">#2a2a2a</color>
     <color name="grey900">#212121</color>
 
+    <color name="playerbackground">#c0141414</color>
+
     <color name="grey50transparent">#b9fafafa</color>
     <color name="grey50transparent_ea">#eafafafa</color>
     <color name="grey400transparent">#80bdbdbd</color>
@@ -48,14 +51,18 @@
     <color name="blacktransparent">#b4000000</color>
     <color name="whitetransparent">#b4ffffff</color>
     <color name="ripple_white">#88ffffff</color>
+    <color name="white_more_transparent">#33ffffff</color>
     <color name="transparent">#00000000</color>
 
     <color name="white_selection_transparent">#44ffffff</color>
 
-    <color name="tv_bg">#235f69</color>
-    <color name="tv_card_content">#0a6e96</color>
-    <color name="tv_card_content_dark">#085878</color>
-    <color name="tv_card_content_darker">#064159</color>
+    <color name="tv_bg">#3e6c80</color>
+    <color name="tv_card_content">#3e6c80</color>
+    <color name="tv_card_content_dark">#386173</color>
+    <color name="tv_card_content_darker">#325766</color>
+
+    <color name="vlc_material_blue_grey_900">#ff263238</color>
+
     <!--test with onboarding colors-->
     <!--<color name="tv_bg">#1c313a</color>-->
     <!--<color name="tv_card_content">#396375</color>-->

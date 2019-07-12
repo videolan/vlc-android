@@ -32,7 +32,8 @@ import androidx.annotation.WorkerThread
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import videolan.org.commontools.LiveEvent
 
 const val SAF_REQUEST = 85
@@ -69,7 +70,7 @@ class OtgAccess : BaseHeadlessFragment() {
 }
 
 @WorkerThread
-fun getDocumentFiles(context: Context, path: String) : List<MediaWrapper>? {
+fun getDocumentFiles(context: Context, path: String) : List<AbstractMediaWrapper>? {
     val rootUri = OtgAccess.otgRoot.value ?: return null
 //    else Uri.Builder().scheme("content")
 //            .authority(OTG_CONTENT_AUTHORITY)
@@ -89,15 +90,15 @@ fun getDocumentFiles(context: Context, path: String) : List<MediaWrapper>? {
     }
 
     // we have the end point DocumentFile, list the files inside it and return
-    val list = mutableListOf<MediaWrapper>()
+    val list = mutableListOf<AbstractMediaWrapper>()
     for (file in documentFile.listFiles()) {
         if (file.exists() && file.canRead()) {
             if (file.name?.startsWith(".") == true) continue
-            val mw = MediaWrapper(file.uri).apply {
+            val mw = MLServiceLocator.getAbstractMediaWrapper(file.uri).apply {
                 type = when {
-                    file.isDirectory -> MediaWrapper.TYPE_DIR
-                    file.type?.startsWith("video") == true -> MediaWrapper.TYPE_VIDEO
-                    file.type?.startsWith("audio") == true -> MediaWrapper.TYPE_AUDIO
+                    file.isDirectory -> AbstractMediaWrapper.TYPE_DIR
+                    file.type?.startsWith("video") == true -> AbstractMediaWrapper.TYPE_VIDEO
+                    file.type?.startsWith("audio") == true -> AbstractMediaWrapper.TYPE_AUDIO
                     else -> type
                 }
                 title = file.name

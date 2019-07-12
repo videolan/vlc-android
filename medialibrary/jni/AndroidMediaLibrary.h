@@ -90,7 +90,7 @@ public:
     medialibrary::Query<medialibrary::IMedia> tracksFromAlbum( int64_t albumId, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IMedia> mediaFromArtist( int64_t artistId, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IAlbum> albumsFromArtist( int64_t artistId, const medialibrary::QueryParameters* params = nullptr );
-    medialibrary::Query<medialibrary::IMedia> mediaFromGenre( int64_t genreId, const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IMedia> mediaFromGenre( int64_t genreId, bool withThumbnail, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IAlbum> albumsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IArtist> artistsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IMedia> mediaFromPlaylist( int64_t playlistId );
@@ -105,7 +105,8 @@ public:
     bool playlistRemove(int64_t playlistId, unsigned int position);
     bool PlaylistDelete( int64_t playlistId );
 
-    void requestThumbnail( int64_t media_id );
+    void requestThumbnail( int64_t media_id, medialibrary::ThumbnailSizeType sizeType, uint32_t desiredWidth,
+                           uint32_t desiredHeight, float position );
 
     void onMediaAdded( std::vector<medialibrary::MediaPtr> media );
     void onMediaModified( std::vector<medialibrary::MediaPtr> media ) ;
@@ -138,7 +139,8 @@ public:
     void onEntryPointRemoved( const std::string& entryPoint, bool success );
     void onParsingStatsUpdated( uint32_t percent);
     void onBackgroundTasksIdleChanged( bool isIdle );
-    void onMediaThumbnailReady( medialibrary::MediaPtr media, bool success );
+    void onMediaThumbnailReady(medialibrary::MediaPtr media, medialibrary::ThumbnailSizeType sizeType,
+                               bool success );
 
 private:
     void jni_detach_thread(void *data);

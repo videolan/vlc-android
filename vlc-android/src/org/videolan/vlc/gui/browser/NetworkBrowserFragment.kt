@@ -40,7 +40,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.tools.isStarted
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -71,6 +72,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), mrl, showHiddenFiles)).get(NetworkModel::class.java)
+        if (isRootDirectory) swipeRefreshLayout.isEnabled = false
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -79,7 +81,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater!!.inflate(R.menu.fragment_option_network, menu)
+        inflater.inflate(R.menu.fragment_option_network, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -104,7 +106,6 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         if (!isRootDirectory) LocalBroadcastManager.getInstance(VLCApplication.appContext).registerReceiver(mLocalReceiver, IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED))
         fabPlay?.setImageResource(if (isRootDirectory) R.drawable.ic_fab_add else R.drawable.ic_fab_play)
         fabPlay?.setOnClickListener(this)
-        setFabPlayVisibility(true)
     }
 
     override fun refresh() {
@@ -131,7 +132,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        val mw = this.adapter.getItem(position) as MediaWrapper
+        val mw = this.adapter.getItem(position) as AbstractMediaWrapper
         when (option) {
             CTX_FAV_ADD -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
             CTX_FAV_EDIT -> showAddServerDialog(mw)
@@ -151,7 +152,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     override fun updateEmptyView() {
         if (ExternalMonitor.isConnected) {
             if (Util.isListEmpty(viewModel.dataset.value)) {
-                if (swipeRefreshLayout == null || swipeRefreshLayout!!.isRefreshing) {
+                if (swipeRefreshLayout.isRefreshing) {
                     binding.empty.setText(R.string.loading)
                     binding.empty.visibility = View.VISIBLE
                     binding.networkList.visibility = View.GONE
@@ -182,7 +183,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         else if (v.id == R.id.fab) showAddServerDialog(null)
     }
 
-    private fun showAddServerDialog(mw: MediaWrapper?) {
+    private fun showAddServerDialog(mw: AbstractMediaWrapper?) {
         val fm = fragmentManager ?: return
         val dialog = NetworkServerDialog()
         if (mw != null) dialog.setServer(mw)
@@ -191,6 +192,6 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
-        if (isRootDirectory) fabPlay?.show()
+        if (isRootDirectory && isStarted()) fabPlay?.show()
     }
 }

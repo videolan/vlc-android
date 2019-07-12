@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
@@ -39,9 +40,9 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.BR
@@ -57,7 +58,7 @@ private const val TAG = "VLC/VideoListAdapter"
 class VideoListAdapter internal constructor(
         private val mEventsHandler: IEventsHandler,
         private var mIsSeenMediaMarkerVisible: Boolean
-) : PagedListAdapter<MediaWrapper, VideoListAdapter.ViewHolder>(VideoItemDiffCallback), MultiSelectAdapter<MediaWrapper> {
+) : PagedListAdapter<AbstractMediaWrapper, VideoListAdapter.ViewHolder>(VideoItemDiffCallback), MultiSelectAdapter<AbstractMediaWrapper> {
 
     var isListMode = false
     private var gridCardWidth = 0
@@ -65,7 +66,7 @@ class VideoListAdapter internal constructor(
 
     val multiSelectHelper = MultiSelectHelper(this, UPDATE_SELECTION)
 
-    private val thumbObs = Observer<MediaWrapper> { media ->
+    private val thumbObs = Observer<AbstractMediaWrapper> { media ->
         val position = currentList?.snapshot()?.indexOf(media) ?: return@Observer
         getItem(position)?.run {
             artworkURL = media.artworkURL
@@ -74,14 +75,14 @@ class VideoListAdapter internal constructor(
     }
 
     init {
-        Medialibrary.lastThumb.observeForever(thumbObs)
+        AbstractMedialibrary.lastThumb.observeForever(thumbObs)
     }
 
     fun release() {
-        Medialibrary.lastThumb.removeObserver(thumbObs)
+        AbstractMedialibrary.lastThumb.removeObserver(thumbObs)
     }
 
-    val all: List<MediaWrapper>
+    val all: List<AbstractMediaWrapper>
         get() = currentList?.snapshot() ?: emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -126,25 +127,23 @@ class VideoListAdapter internal constructor(
 
     override fun getItem(position: Int) = if (isPositionValid(position)) super.getItem(position) else null
 
-    private fun isPositionValid(position: Int): Boolean {
-        return position in 0..(itemCount - 1)
-    }
+    private fun isPositionValid(position: Int) =  position in 0 until itemCount
 
-//    operator fun contains(mw: MediaWrapper): Boolean {
+//    operator fun contains(mw: AbstractMediaWrapper): Boolean {
 //        return getDataset().indexOf(mw) !== -1
 //    }
 
     @MainThread
     fun clear() {}
 
-    private fun fillView(holder: ViewHolder, media: MediaWrapper) {
+    private fun fillView(holder: ViewHolder, media: AbstractMediaWrapper) {
         val text: String?
         val resolution = generateResolutionClass(media.width, media.height)
         var max = 0
         var progress = 0
         var seen = 0L
 
-        text = if (media.type == MediaWrapper.TYPE_GROUP) {
+        text = if (media.type == AbstractMediaWrapper.TYPE_GROUP) {
             media.description
         } else {
             seen = if (mIsSeenMediaMarkerVisible) media.seen else 0L
@@ -214,22 +213,23 @@ class VideoListAdapter internal constructor(
         override fun isSelected() = multiSelectHelper.isSelected(layoutPosition)
     }
 
-    override fun onCurrentListChanged(previousList: PagedList<MediaWrapper>?, currentList: PagedList<MediaWrapper>?) {
+    override fun onCurrentListChanged(previousList: PagedList<AbstractMediaWrapper>?, currentList: PagedList<AbstractMediaWrapper>?) {
         mEventsHandler.onUpdateFinished(this)
     }
 
-    private object VideoItemDiffCallback : DiffUtil.ItemCallback<MediaWrapper>() {
-        override fun areItemsTheSame(oldItem: MediaWrapper, newItem: MediaWrapper): Boolean {
+    private object VideoItemDiffCallback : DiffUtil.ItemCallback<AbstractMediaWrapper>() {
+        override fun areItemsTheSame(oldItem: AbstractMediaWrapper, newItem: AbstractMediaWrapper): Boolean {
             return oldItem === newItem || oldItem.type == newItem.type && oldItem.equals(newItem)
         }
 
-        override fun areContentsTheSame(oldItem: MediaWrapper, newItem: MediaWrapper): Boolean {
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: AbstractMediaWrapper, newItem: AbstractMediaWrapper): Boolean {
             return oldItem === newItem || (oldItem.displayTime == newItem.displayTime
                     && TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl)
                     && oldItem.seen == newItem.seen)
         }
 
-        override fun getChangePayload(oldItem: MediaWrapper, newItem: MediaWrapper) = when {
+        override fun getChangePayload(oldItem: AbstractMediaWrapper, newItem: AbstractMediaWrapper) = when {
             oldItem.displayTime != newItem.displayTime -> UPDATE_TIME
             !TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl) -> UPDATE_THUMB
             else -> UPDATE_SEEN

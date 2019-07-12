@@ -42,30 +42,16 @@ class PreferencesVideo : BasePreferenceFragment() {
     override fun getTitleId() = R.string.video_prefs_category
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Settings.getInstance(activity).run {
-            if (!contains(FORCE_PLAY_ALL)) edit().putBoolean(FORCE_PLAY_ALL, true).apply()
-        }
         super.onCreate(savedInstanceState)
 
-        findPreference(FORCE_LIST_PORTRAIT).isVisible = false
+        findPreference("secondary_display_category").isVisible = false
+        findPreference("secondary_display_category_summary").isVisible = false
+        findPreference("enable_clone_mode").isVisible = false
         findPreference(SAVE_BRIGHTNESS).isVisible = false
         findPreference(ENABLE_DOUBLE_TAP_SEEK).isVisible = false
         findPreference(ENABLE_VOLUME_GESTURE).isVisible = AndroidDevices.hasTsp
         findPreference(ENABLE_BRIGHTNESS_GESTURE).isVisible = AndroidDevices.hasTsp
         findPreference(POPUP_KEEPSCREEN).isVisible = false
         findPreference(POPUP_FORCE_LEGACY).isVisible = false
-    }
-
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        if (preference.key == null)
-            return false
-        when (preference.key) {
-            SHOW_VIDEO_THUMBNAILS -> {
-                Settings.showVideoThumbs = (preference as TwoStatePreference).isChecked
-                (activity as PreferencesActivity).setRestart()
-                return true
-            }
-        }
-        return super.onPreferenceTreeClick(preference)
     }
 }

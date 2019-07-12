@@ -28,7 +28,6 @@ import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.net.Uri
 import android.os.*
-import android.provider.SyncStateContract
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -42,11 +41,8 @@ import androidx.annotation.MainThread
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import kotlinx.coroutines.*
@@ -57,8 +53,8 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
@@ -89,7 +85,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     private lateinit var keyguardManager: KeyguardManager
     internal lateinit var settings: SharedPreferences
     private val mBinder = LocalBinder()
-    internal lateinit var medialibrary: Medialibrary
+    internal lateinit var medialibrary: AbstractMedialibrary
 
     private val callbacks = mutableListOf<Callback>()
     private var detectHeadset = true
@@ -135,7 +131,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
                 SLEEP_INTENT -> {
                     if (isPlaying) {
-                        stop(true)
+                        stop()
                     }
                 }
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED , VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
@@ -201,7 +197,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                     val notificationIntent = Intent(this, VideoPlayerActivity::class.java)
                     PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
                 }
-                playlistManager.videoBackground || canSwitchToVideo() && !currentMediaHasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) -> {//resume video playback
+                playlistManager.videoBackground || canSwitchToVideo() && !currentMediaHasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO) -> {//resume video playback
                     /* Resume VideoPlayerActivity from ACTION_REMOTE_SWITCH_VIDEO intent */
                     val notificationIntent = Intent(ACTION_REMOTE_SWITCH_VIDEO)
                     PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -342,7 +338,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     val mediaListSize: Int
         get() = playlistManager.getMediaListSize()
 
-    val medias: List<MediaWrapper>
+    val media: List<AbstractMediaWrapper>
         @MainThread
         get() = playlistManager.getMediaList()
 
@@ -360,7 +356,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         @MainThread
         get() = playlistManager.currentIndex
 
-    val currentMediaWrapper: MediaWrapper?
+    val currentMediaWrapper: AbstractMediaWrapper?
         @MainThread
         get() = this@PlaybackService.playlistManager.getCurrentMedia()
 
@@ -454,7 +450,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         playlistManager = PlaylistManager(this)
         Util.checkCpuCompatibility(this)
 
-        medialibrary = VLCApplication.mlInstance
+        medialibrary = AbstractMedialibrary.getInstance()
         if (!medialibrary.isInitiated) registerMedialibrary(null)
 
         detectHeadset = settings.getBoolean("enable_headset_detection", true)
@@ -523,7 +519,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             ACTION_REMOTE_SWITCH_VIDEO -> {
                 removePopup()
                 if (hasMedia()) {
-                    currentMediaWrapper!!.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                    currentMediaWrapper!!.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
                     playlistManager.switchToVideo()
                 }
             }
@@ -609,7 +605,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         removePopup()
         if (wakeLock.isHeld) wakeLock.release()
         audioFocusHelper.changeAudioFocus(false)
-        medialibrary.resumeBackgroundOperations()
         // We must publish state before resetting mCurrentIndex
         publishState()
         executeUpdate()
@@ -677,7 +672,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                         cover = BitmapFactory.decodeResource(ctx.resources, R.drawable.ic_no_media)
 
                     notification = NotificationHelper.createPlaybackNotification(ctx,
-                            mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO), title, artist, album,
+                            mw.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO), title, artist, album,
                             cover, playing, pausable, sessionToken, sessionPendingIntent)
                     if (isPlayingPopup) return@launch
                     if (!AndroidUtil.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
@@ -1007,12 +1002,12 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     fun loadLocation(mediaPath: String) = loadLocations(listOf(mediaPath), 0)
 
     @MainThread
-    fun load(mediaList: Array<MediaWrapper>?, position: Int) {
+    fun load(mediaList: Array<AbstractMediaWrapper>?, position: Int) {
         mediaList?.let { load(it.toList(), position) }
     }
 
     @MainThread
-    fun load(mediaList: List<MediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
+    fun load(mediaList: List<AbstractMediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
 
     private fun updateMediaQueue() = launch {
         val ctx = this@PlaybackService
@@ -1035,7 +1030,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     @MainThread
-    fun load(media: MediaWrapper) = load(listOf(media), 0)
+    fun load(media: AbstractMediaWrapper) = load(listOf(media), 0)
 
     /**
      * Play a media from the media list (playlist)
@@ -1106,32 +1101,32 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
      */
 
     @MainThread
-    fun append(mediaList: Array<MediaWrapper>) = append(mediaList.toList())
+    fun append(mediaList: Array<AbstractMediaWrapper>) = append(mediaList.toList())
 
     @MainThread
-    fun append(mediaList: List<MediaWrapper>) = launch {
+    fun append(mediaList: List<AbstractMediaWrapper>) = launch {
         playlistManager.append(mediaList)
         onMediaListChanged()
     }
 
     @MainThread
-    fun append(media: MediaWrapper) = append(listOf(media))
+    fun append(media: AbstractMediaWrapper) = append(listOf(media))
 
     /**
      * Insert into the current existing playlist
      */
 
     @MainThread
-    fun insertNext(mediaList: Array<MediaWrapper>) = insertNext(mediaList.toList())
+    fun insertNext(mediaList: Array<AbstractMediaWrapper>) = insertNext(mediaList.toList())
 
     @MainThread
-    private fun insertNext(mediaList: List<MediaWrapper>) {
+    private fun insertNext(mediaList: List<AbstractMediaWrapper>) {
         playlistManager.insertNext(mediaList)
         onMediaListChanged()
     }
 
     @MainThread
-    fun insertNext(media: MediaWrapper) = insertNext(listOf(media))
+    fun insertNext(media: AbstractMediaWrapper) = insertNext(listOf(media))
 
     /**
      * Move an item inside the playlist.
@@ -1140,7 +1135,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     fun moveItem(positionStart: Int, positionEnd: Int) = playlistManager.moveItem(positionStart, positionEnd)
 
     @MainThread
-    fun insertItem(position: Int, mw: MediaWrapper) = playlistManager.insertItem(position, mw)
+    fun insertItem(position: Int, mw: AbstractMediaWrapper) = playlistManager.insertItem(position, mw)
 
 
     @MainThread
@@ -1242,7 +1237,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     @MainThread
     fun setVideoAspectRatio(aspect: String?) = playlistManager.player.setVideoAspectRatio(aspect)
 
-    override fun getLifecycle() = dispatcher.lifecycle!!
+    override fun getLifecycle(): Lifecycle = dispatcher.lifecycle
 
     /*
      * Browsing

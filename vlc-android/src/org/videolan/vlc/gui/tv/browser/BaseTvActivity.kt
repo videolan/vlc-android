@@ -35,8 +35,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.tools.KeyHelper
 import org.videolan.vlc.*
-import org.videolan.vlc.gui.helpers.KeyHelper
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.SearchActivity
 import org.videolan.vlc.gui.tv.registerTimeView
@@ -49,16 +50,17 @@ private const val TAG = "VLC/BaseTvActivity"
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope() {
 
-    private lateinit var mediaLibrary: Medialibrary
+    private lateinit var mediaLibrary: AbstractMedialibrary
     private lateinit var settings: SharedPreferences
     @Volatile
     private var currentlyVisible = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
         if (savedInstanceState != null) startMedialibrary(firstRun = false, upgrade = false, parse = true)
         super.onCreate(savedInstanceState)
-        mediaLibrary = VLCApplication.mlInstance
+        mediaLibrary = AbstractMedialibrary.getInstance()
         settings = Settings.getInstance(this)
         registerLiveData()
         launch { findViewById<View>(R.id.tv_time)?.let { registerTimeView(it as TextView) } }
@@ -105,7 +107,7 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
 
     private fun registerLiveData() {
         MediaParsingService.progress.observe(this, Observer { scanProgress -> if (scanProgress != null) onParsingServiceProgress(scanProgress) })
-        Medialibrary.getState().observe(this, Observer { started ->
+        AbstractMedialibrary.getState().observe(this, Observer { started ->
             if (started == null) return@Observer
             if (started)
                 onParsingServiceStarted()

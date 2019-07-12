@@ -1,6 +1,6 @@
 package org.videolan.vlc.database
 
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.CoreMatchers.hasItem
 import org.hamcrest.core.Is.`is`
 import org.junit.Assert.assertThat

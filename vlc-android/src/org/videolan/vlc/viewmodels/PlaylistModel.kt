@@ -29,7 +29,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
@@ -42,8 +42,8 @@ import org.videolan.vlc.util.REPEAT_NONE
 class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallback, Observer<PlaybackService> {
 
     var service: PlaybackService? = null
-    val dataset = LiveDataset<MediaWrapper>()
-    private var originalDataset : MutableList<MediaWrapper>? = null
+    val dataset = LiveDataset<AbstractMediaWrapper>()
+    private var originalDataset : MutableList<AbstractMediaWrapper>? = null
     val selection : Int
         get() = if (filtering) -1 else service?.playlistManager?.currentIndex ?: -1
     private var filtering = false
@@ -65,7 +65,7 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
 
     override fun update() {
         service?.run {
-            dataset.value = medias.toMutableList()
+            dataset.value = media.toMutableList()
             playerState.value = PlayerState(isPlaying, title, artist)
         }
     }
@@ -73,7 +73,7 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
     val hasMedia
         get() = service?.hasMedia() ?: false
 
-    fun insertMedia(position: Int, media: MediaWrapper) = service?.insertItem(position, media)
+    fun insertMedia(position: Int, media: AbstractMediaWrapper) = service?.insertItem(position, media)
 
     fun remove(position: Int) = service?.remove(position)
 
@@ -103,7 +103,7 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
         super.onCleared()
     }
 
-    fun getPlaylistPosition(position: Int, media: MediaWrapper): Int {
+    fun getPlaylistPosition(position: Int, media: AbstractMediaWrapper): Int {
         val list = originalDataset ?: dataset.value
         if (position in 0 until list.size && list[position] == media) return position
         else {
@@ -164,24 +164,24 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
             service?.repeatType = value
         }
 
-    val currentMediaWrapper : MediaWrapper?
+    val currentMediaWrapper : AbstractMediaWrapper?
         get() = service?.currentMediaWrapper
 
     val currentMediaPosition : Int
         get() = service?.currentMediaPosition ?: -1
 
     val medias
-        get() = service?.medias
+        get() = service?.media
 
     fun shuffle() = service?.shuffle()
 
-    fun load(medialist: List<MediaWrapper>, position: Int) = service?.load(medialist, position)
+    fun load(medialist: List<AbstractMediaWrapper>, position: Int) = service?.load(medialist, position)
 
     fun switchToVideo() : Boolean {
         service?.apply {
             if (PlaylistManager.hasMedia() && !isVideoPlaying && !hasRenderer()) {
                 currentMediaWrapper?.run {
-                    if (!hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && canSwitchToVideo()) {
+                    if (!hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO) && canSwitchToVideo()) {
                         switchToVideo()
                         return true
                     }

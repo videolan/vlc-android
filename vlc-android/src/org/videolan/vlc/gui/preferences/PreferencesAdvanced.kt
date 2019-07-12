@@ -34,7 +34,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -85,7 +85,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes) { dialog, _ -> VLCApplication.mlInstance.clearHistory() }
+                        .setPositiveButton(android.R.string.yes) { dialog, _ -> AbstractMedialibrary.getInstance().clearHistory() }
 
                         .setNegativeButton(android.R.string.cancel, null).show()
                 return true
@@ -102,14 +102,14 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "dump_media_db" -> {
-                if (VLCApplication.mlInstance.isWorking)
+                if (AbstractMedialibrary.getInstance().isWorking)
                     UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
                 else
                     runIO(Runnable {
                         val dump = Runnable {
-                            val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
+                            val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
 
-                            if (FileUtils.copyFile(db, File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)))
+                            if (FileUtils.copyFile(db, File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)))
                                 runOnMainThread(Runnable {
                                     val ctx = context
                                     if (ctx != null) Toast.makeText(ctx, "Database dumped on internal storage root", Toast.LENGTH_LONG).show()

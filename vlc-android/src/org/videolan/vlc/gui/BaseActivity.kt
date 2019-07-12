@@ -6,7 +6,8 @@ import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import org.videolan.vlc.gui.helpers.KeyHelper
+import kotlinx.coroutines.cancel
+import org.videolan.tools.KeyHelper
 import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.util.Settings
 
@@ -31,4 +32,8 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         return super.onKeyUp(keyCode, event)
     }
 
+    override fun onDestroy() {
+        cancel()
+        super.onDestroy()
+    }
 }

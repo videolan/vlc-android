@@ -120,8 +120,7 @@
             android:focusable="true"
             android:scaleType="fitXY"
             android:onClick="@{fragment::onPlayPauseClick}"
-            android:onLongClick="@{fragment::onStopClick}"
-            android:src="?attr/ic_pause" />
+            android:onLongClick="@{fragment::onStopClick}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

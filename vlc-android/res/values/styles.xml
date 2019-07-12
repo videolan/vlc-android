@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.VLC" parent="Theme.VLC.7" />
+    <style name="Theme.VLC" parent="Theme.VLC.7"/>
+
     <style name="Theme.VLC.7" parent="Theme.VLC.Apearance">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
@@ -50,20 +51,13 @@
         <item name="list_menu">@color/grey600</item>
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title_last">@color/list_title_last</item>
-        <item name="list_title">@color/list_title</item>
+        <item name="list_title">@color/grey900</item>
         <item name="android:windowBackground">@color/grey200</item>
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
         <item name="ic_menu_search">@drawable/ic_menu_search</item>
-        <item name="ic_repeat">@drawable/ic_repeat</item>
-        <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
-        <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
-        <item name="ic_shuffle">@drawable/ic_shuffle</item>
-        <item name="ic_shuffle_on">@drawable/ic_shuffle_on</item>
         <item name="ic_audio_player_more">@drawable/ic_more</item>
-        <item name="ic_play">@drawable/ic_play</item>
-        <item name="ic_pause">@drawable/ic_pause</item>
         <item name="ic_previous">@drawable/ic_previous</item>
         <item name="ic_next">@drawable/ic_next</item>
         <item name="ic_close">@drawable/ic_close</item>
@@ -94,6 +88,8 @@
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial</item>
         <item name="progress_background">@color/grey300</item>
+        <item name="ariane_text_color">@color/grey50</item>
+        <item name="player_icon_color">@color/black</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.MaterialComponents.Dialog">
@@ -103,12 +99,13 @@
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
         <item name="list_subtitle">@color/grey400</item>
-        <item name="list_title">@color/bt_list_title</item>
+        <item name="list_title">@color/white</item>
         <item name="android:windowBackground">@color/grey900</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
     </style>
 
-    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7" />
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
+
     <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="windowActionBarOverlay">true</item>
@@ -155,20 +152,13 @@
         <item name="list_menu">@color/grey50</item>
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
-        <item name="list_title">@color/bt_list_title</item>
+        <item name="list_title">@color/white</item>
         <item name="android:windowBackground">@color/grey900</item>
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
         <item name="ic_menu_search">@drawable/ic_menu_search_w</item>
-        <item name="ic_repeat">@drawable/ic_repeat_w</item>
-        <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
-        <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
-        <item name="ic_shuffle">@drawable/ic_shuffle_w</item>
-        <item name="ic_shuffle_on">@drawable/ic_shuffle_on</item>
         <item name="ic_audio_player_more">@drawable/ic_more_w</item>
-        <item name="ic_play">@drawable/ic_play_w</item>
-        <item name="ic_pause">@drawable/ic_pause_w</item>
         <item name="ic_previous">@drawable/ic_previous_w</item>
         <item name="ic_next">@drawable/ic_next_w</item>
         <item name="ic_close">@drawable/ic_close_w</item>
@@ -200,6 +190,8 @@
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="progress_indeterminate_tint">@color/orange500</item>
         <item name="progress_background">@color/grey700</item>
+        <item name="ariane_text_color">@color/grey50</item>
+        <item name="player_icon_color">@color/white</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">
@@ -218,6 +210,18 @@
         <item name="audio_player_background_tint">@color/grey900transparent</item>
         <item name="background_default_gradient">@drawable/gradient_background_tv</item>
         <item name="audio_browser_separator">@color/orange500</item>
+        <item name="player_icon_color">@color/white</item>
+
+    </style>
+
+    <style name="Theme.VLC.Info" parent="Theme.VLC">
+        <item name="ariane_text_color">@color/grey900</item>
+
+    </style>
+
+    <style name="Theme.VLC.Info.Black" parent="Theme.VLC.Black">
+        <item name="ariane_text_color">@color/grey50</item>
+
 
     </style>
 
@@ -226,13 +230,15 @@
         <item name="infoVisibility">always</item>
 
     </style>
+
     <style name="VLCardViewTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
     </style>
+
     <style name="VLCardViewInfoStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
-        <item name="android:background">@color/tv_card_content</item>
+        <item name="android:background">@color/tv_card_content_dark</item>
     </style>
 
     <style name="VLCGenericCardView" parent="Theme.Leanback">
@@ -286,8 +292,9 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7" />
-    <style name="Theme.VLC.Player.7" parent="Theme.MaterialComponents">
+    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7"/>
+
+    <style name="Theme.VLC.Player.7" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/black</item>
@@ -314,10 +321,6 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
-        <item name="ic_repeat">@drawable/ic_repeat_w</item>
-        <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
-        <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
-        <item name="ic_shuffle">@drawable/ic_shuffle_w</item>
         <item name="ic_trash">@drawable/ic_trash_w</item>
         <item name="ic_reset">@drawable/ic_reset_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>
@@ -327,13 +330,17 @@
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
-        <item name="list_title">@color/bt_list_title</item>
-        <item name="progress_background">@color/grey300</item>
+        <item name="list_title">@color/white</item>
+        <item name="progress_background">@color/grey200</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
         <item name="ic_abrepeat_seta">@drawable/ic_abrepeat_seta_w</item>
         <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb_w</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset_w</item>
         <item name="ic_dial">@drawable/ic_dial_w</item>
+        <item name="ic_crop_player">@drawable/ic_crop_player</item>
+        <item name="android:colorControlHighlight">@color/orange500</item>
+        <item name="colorControlHighlight">@color/orange500</item>
+        <item name="player_icon_color">@color/grey50</item>
     </style>
 
     <style name="VLCTransparentTheme" parent="Theme.AppCompat.Light.Dialog.MinWidth">

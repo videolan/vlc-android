@@ -39,7 +39,7 @@ class PlaylistsViewModel(context: Context) : MedialibraryViewModel(context) {
     override val providers : Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
     init {
-        if (medialibrary.isStarted) refresh()
+        watchPlaylists()
     }
 
     class Factory(val context: Context): ViewModelProvider.NewInstanceFactory() {

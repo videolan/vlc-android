@@ -16,12 +16,6 @@
         android:summary="@string/tv_ui_summary"
         android:title="@string/tv_ui_title" />
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="playback_speed"
-        android:summary="@string/playback_speed_summary"
-        android:title="@string/playback_speed_title" />
-
     <ListPreference
         android:defaultValue=""
         android:key="set_locale"
@@ -29,33 +23,75 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="resume_playback"
-        android:summary="@string/resume_playback_summary"
-        android:title="@string/resume_playback_title" />
-
-    <CheckBoxPreference
-        android:defaultValue="true"
         android:key="browser_show_all_files"
         android:summary="@string/browser_show_all_summary"
         android:title="@string/browser_show_all_title" />
 
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="blurred_cover_background"
-        android:summary="@string/blurred_cover_background_summary"
-        android:title="@string/blurred_cover_background_title" />
-
     <PreferenceCategory
-        android:title="@string/interface_secondary_display_category_title"
-        android:key="secondary_display_category">
-        <Preference
-            android:summary="@string/interface_secondary_display_category_summary"
-            android:key="secondary_display_category_summary" />
+        android:title="@string/video"
+        android:key="ui_video_category">
+
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/video_min_group_length_list"
+            android:entryValues="@array/video_min_group_length_values"
+            android:key="video_min_group_length"
+            android:persistent="true"
+            android:summary="@string/video_min_group_length_summary"
+            android:title="@string/video_min_group_length_title" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="media_seen"
+            android:summary="@string/media_seen_summary"
+            android:title="@string/media_seen" />
+        <CheckBoxPreference
             android:defaultValue="false"
-            android:key="enable_clone_mode"
-            android:summary="@string/enable_clone_mode_summary"
-            android:title="@string/enable_clone_mode" />
+            android:key="force_play_all"
+            android:summary="@string/force_play_all_summary"
+            android:title="@string/force_play_all_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="force_list_portrait"
+            android:summary="@string/force_list_portrait_summary"
+            android:title="@string/force_list_portrait" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="show_video_thumbnails"
+            android:summary="@string/show_video_thumbnails_summary"
+            android:title="@string/show_video_thumbnails" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/audio"
+        android:key="ui_audio_category">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="blurred_cover_background"
+            android:summary="@string/blurred_cover_background_summary"
+            android:title="@string/blurred_cover_background_title" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="audio_resume_card"
+            android:title="@string/audio_resume_card_title"
+            android:summary="@string/audio_resume_card_summary"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="lockscreen_cover"
+            android:summary="@string/lockscreen_cover_summary"
+            android:title="@string/lockscreen_cover_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="artists_show_all"
+            android:summary="@string/artists_show_all_summary"
+            android:title="@string/artists_show_all_title" />
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/audio_title_alignment_list"
+            android:entryValues="@array/audio_title_alignment_values"
+            android:key="audio_title_alignment"
+            android:persistent="true"
+            android:title="@string/audio_title_alignment" />
     </PreferenceCategory>
 </PreferenceScreen>

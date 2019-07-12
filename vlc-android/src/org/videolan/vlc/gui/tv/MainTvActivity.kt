@@ -30,7 +30,7 @@ import android.view.View
 import android.widget.ProgressBar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity
@@ -71,7 +71,7 @@ class MainTvActivity : BaseTvActivity() {
 
         // Delay access permission dialog prompt to avoid background corruption
         if (!Permissions.canReadStorage(this))
-            handler.postDelayed({ Permissions.checkReadStoragePermission(this@MainTvActivity, false) }, 1000)
+            handler.postDelayed({ Permissions.checkReadStoragePermission(this@MainTvActivity) }, 1000)
 
         setContentView(R.layout.tv_main)
 
@@ -106,12 +106,12 @@ class MainTvActivity : BaseTvActivity() {
     }
 
     override fun onParsingServiceProgress(scanProgress: ScanProgress?) {
-        if (progressBar.visibility == View.GONE && Medialibrary.getInstance().isWorking)
+        if (progressBar.visibility == View.GONE && AbstractMedialibrary.getInstance().isWorking)
             handler.sendEmptyMessage(SHOW_LOADING)
     }
 
     override fun onParsingServiceFinished() {
-        if (!Medialibrary.getInstance().isWorking)
+        if (!AbstractMedialibrary.getInstance().isWorking)
             handler.sendEmptyMessageDelayed(HIDE_LOADING, 500)
     }
 

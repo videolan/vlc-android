@@ -32,7 +32,7 @@ private const val JOYSTICK_INPUT_DELAY = 300
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class VideoTouchDelegate(private val player: VideoPlayerActivity,
-                         private val mTouchControls: Int,
+                         private val touchControls: Int,
                          var screenConfig: ScreenConfig,
                          private val tv: Boolean) {
 
@@ -83,12 +83,14 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 return true
             }
             else -> {
-                scaleGestureDetector.onTouchEvent(event)
-                if (scaleGestureDetector.isInProgress) {
-                    touchAction = TOUCH_IGNORE
-                    return true
+                if (!player.isLocked) {
+                    scaleGestureDetector.onTouchEvent(event)
+                    if (scaleGestureDetector.isInProgress) {
+                        touchAction = TOUCH_IGNORE
+                        return true
+                    }
                 }
-                if (mTouchControls == 0 || player.isLocked) {
+                if (touchControls == 0 || player.isLocked) {
                     // locked or swipe disabled, only handle show/hide & ignore all actions
                     if (event.action == MotionEvent.ACTION_UP && touchAction != TOUCH_IGNORE) player.toggleOverlay()
                     return false
@@ -181,7 +183,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
                         //handle multi taps
                         if (numberOfTaps > 1 && !player.isLocked) {
-                            if (mTouchControls and TOUCH_FLAG_SEEK == 0) {
+                            if (touchControls and TOUCH_FLAG_SEEK == 0) {
                                 player.doPlayPause()
                             } else {
                                 val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
@@ -237,7 +239,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                     player.changeBrightness(-y / 10f)
                 }
             } else if (Math.abs(rz) > 0.3) {
-                player.volume = player.audiomanager!!.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
+                player.volume = player.audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
                 val delta = -(rz / 7 * player.audioMax).toInt()
                 val vol = Math.min(Math.max(player.volume + delta, 0f), player.audioMax.toFloat()).toInt()
                 player.setAudioVolume(vol)
@@ -257,8 +259,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         val rightAction = touchX.toInt() > 4 * screenConfig.metrics.widthPixels / 7f
         val leftAction = !rightAction && touchX.toInt() < 3 * screenConfig.metrics.widthPixels / 7f
         if (!leftAction && !rightAction) return
-        val audio = mTouchControls and TOUCH_FLAG_AUDIO_VOLUME != 0
-        val brightness = mTouchControls and TOUCH_FLAG_BRIGHTNESS != 0
+        val audio = touchControls and TOUCH_FLAG_AUDIO_VOLUME != 0
+        val brightness = touchControls and TOUCH_FLAG_BRIGHTNESS != 0
         if (!audio && !brightness)
             return
         if (rightAction) {
