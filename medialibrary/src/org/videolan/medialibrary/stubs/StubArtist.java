@@ -45,7 +45,7 @@ public class StubArtist extends AbstractArtist {
     public AbstractAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
         ArrayList<AbstractAlbum> results = new ArrayList<>();
         for (AbstractAlbum album : dt.mAlbums) {
-            if (album.getDescription().equals(this.getTitle()) ||
+            if (album.getDescription().equals(this.getTitle()) &&
                     album.getTitle().equals(query)) {
                 results.add(album);
             }
@@ -81,8 +81,8 @@ public class StubArtist extends AbstractArtist {
     public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getArtist().equals(this.getTitle()) ||
-                    media.getAlbumArtist().equals(this.getTitle()) ||
+            if ((media.getArtist().equals(this.getTitle()) ||
+                    media.getAlbumArtist().equals(this.getTitle())) &&
                     media.getTitle().contains(query)) {
                 results.add(media);
             }

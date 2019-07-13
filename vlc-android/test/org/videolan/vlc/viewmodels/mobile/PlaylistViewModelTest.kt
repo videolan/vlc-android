@@ -16,7 +16,6 @@ import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
 @ExperimentalCoroutinesApi
 class PlaylistViewModelTest : BaseTest() {
     private lateinit var playlistViewModel: PlaylistViewModel
-    private val medialibrary = MLServiceLocator.getAbstractMedialibrary()
     private lateinit var parent: AbstractPlaylist
 
     override fun beforeTest() {

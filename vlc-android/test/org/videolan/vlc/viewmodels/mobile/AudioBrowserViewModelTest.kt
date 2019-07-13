@@ -16,7 +16,6 @@ import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
 @ObsoleteCoroutinesApi
 class AudioBrowserViewModelTest : BaseTest() {
     private lateinit var audioBrowserViewModel: AudioBrowserViewModel
-    private val medialibrary: AbstractMedialibrary = MLServiceLocator.getAbstractMedialibrary().apply { init(context) }
 
     override fun beforeTest() {
         super.beforeTest()
@@ -65,6 +64,10 @@ class AudioBrowserViewModelTest : BaseTest() {
         waitForProvidersData()
 
         assertEquals(5, audioBrowserViewModel.tracksProvider.getTotalCount())
+
+        /* TODO: I haven't yet checked the Medialibrary source code, but I doubt it would add duplicate album for each audio file
+         * So gotta fix the logic in stubs to simulate that behaviour. Once that's fixed, I'll update my tests with proper logic.
+         */
         assertEquals(5, audioBrowserViewModel.genresProvider.getTotalCount())
         assertEquals(5, audioBrowserViewModel.albumsProvider.getTotalCount())
         assertEquals(8, audioBrowserViewModel.artistsProvider.getTotalCount())
@@ -237,7 +240,7 @@ class AudioBrowserViewModelTest : BaseTest() {
     }
 
     @Test
-    fun whenPlaylistHasSomeTracksButFilteredResultContainsNone_restoringViewModelResetsFilterAndShowsItemAgain() {
+    fun whenThereAreSomeTracksButFilteredResultContainsNone_restoringViewModelResetsFilterAndShowsItemAgain() {
         createDummyAudios(2, "test")
 
         audioBrowserViewModel.filter("unknown")
@@ -282,33 +285,60 @@ class AudioBrowserViewModelTest : BaseTest() {
     }
 
     @Test
-    fun whenPlaylistHasFourTracksWithAlternatelyDifferentTitles_checkHeadersContains2Letters() {
+    fun whenThereAreFourTracksWithAlternatelyDifferentTitles_checkTrackHeadersContainsTwoLetters() {
         createDummyAudios(2, "test")
         createDummyAudios(2, "fake")
 
-        audioBrowserViewModel.refresh()
         waitForProvidersData()
 
         val trackHeaders = audioBrowserViewModel.tracksProvider.liveHeaders.test().value()
-        val genreHeaders = audioBrowserViewModel.genresProvider.liveHeaders.test().value()
-        val albumHeaders = audioBrowserViewModel.albumsProvider.liveHeaders.test().value()
-        val artistHeaders = audioBrowserViewModel.artistsProvider.liveHeaders.test().value()
 
         // Assertion for track headers
         assertEquals(2, trackHeaders.size())
         assertEquals("F", trackHeaders[0])
         assertEquals("T", trackHeaders[2])
+    }
+
+    @Test
+    fun whenThereAreFourTracksWithAlternatelyDifferentTitles_checkGenreHeadersContainsOneLetter() {
+        createDummyAudios(2, "test")
+        createDummyAudios(2, "fake")
+
+        waitForProvidersData()
+
+        val genreHeaders = audioBrowserViewModel.genresProvider.liveHeaders.test().value()
 
         // Assertion for genre headers
         assertEquals(1, genreHeaders.size())
         assertEquals("J", genreHeaders[0])
+    }
+
+    @Test
+    fun whenThereAreFourTracksWithAlternatelyDifferentTitles_checkAlbumHeadersContainsOneLetter() {
+        createDummyAudios(2, "test")
+        createDummyAudios(2, "fake")
+
+        waitForProvidersData()
+
+        val albumHeaders = audioBrowserViewModel.albumsProvider.liveHeaders.test().value()
 
         // Assertion for album headers
         assertEquals(1, albumHeaders.size())
         assertEquals("X", albumHeaders[0])
+    }
+
+    @Test
+    fun whenThereAreFourTracksWithAlternatelyDifferentTitles_checkArtistHeadersContainsOneLetter() {
+        createDummyAudios(2, "test")
+        createDummyAudios(2, "fake")
+
+        waitForProvidersData()
+
+        val artistHeaders = audioBrowserViewModel.artistsProvider.liveHeaders.test().value()
 
         // Assertion for artist headers
-        assertEquals(1, artistHeaders.size())
+        assertEquals(4, artistHeaders.size())
         assertEquals("#", artistHeaders[0])
+        assertEquals("A", artistHeaders[1])
     }
 }
