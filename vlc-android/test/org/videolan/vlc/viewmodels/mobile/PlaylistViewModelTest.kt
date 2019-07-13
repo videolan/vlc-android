@@ -114,6 +114,7 @@ class PlaylistViewModelTest : BaseTest() {
     @Test
     fun whenParentHasNoTrackAndFiltered_checkResultIsEmpty() {
         setupViewModel(PLAYLIST_PREFIX)
+        playlistViewModel.filter("xyz")
 
         waitForProvidersData()
 
