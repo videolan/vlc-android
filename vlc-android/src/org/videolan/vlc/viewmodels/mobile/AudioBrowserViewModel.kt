@@ -21,6 +21,7 @@
 package org.videolan.vlc.viewmodels.mobile
 
 import android.content.Context
+import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -58,6 +59,11 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     override fun refresh() {
         artistsProvider.showAll = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
         super.refresh()
+    }
+
+    @MainThread
+    internal fun setLoading() {
+        providers.forEach { it.loading.value = true }
     }
 
     class Factory(val context: Context): ViewModelProvider.NewInstanceFactory() {

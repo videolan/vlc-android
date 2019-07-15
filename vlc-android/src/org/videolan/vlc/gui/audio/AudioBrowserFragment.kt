@@ -268,6 +268,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     override fun onRefresh() {
         (requireActivity() as ContentActivity).closeSearchView()
         requireContext().reloadLibrary()
+        viewModel.setLoading()
     }
 
     override fun getTitle(): String = getString(R.string.audio)
@@ -291,11 +292,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
         super.onTabSelected(tab)
         fastScroller.setRecyclerView(lists[tab.position]!!, viewModel.providers[currentTab])
         settings.edit().putInt(KEY_AUDIO_CURRENT_TAB, tab.position).apply()
-        val loading = viewModel.providers[currentTab].loading.value
-        if (loading == null || !loading)
-            handler.sendEmptyMessage(UNSET_REFRESHING)
-        else
+        if (viewModel.providers[currentTab].isRefreshing)
             handler.sendEmptyMessage(SET_REFRESHING)
+        else
+            handler.sendEmptyMessage(UNSET_REFRESHING)
         activity?.invalidateOptionsMenu()
     }
 

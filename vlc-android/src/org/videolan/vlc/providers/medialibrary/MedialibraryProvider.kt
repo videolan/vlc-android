@@ -35,6 +35,7 @@ import org.videolan.vlc.providers.HeaderProvider
 import org.videolan.vlc.providers.HeadersIndex
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
+import kotlin.properties.Delegates
 
 abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) : HeaderProvider(),
     ISortModel
@@ -42,7 +43,8 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     protected val medialibrary = AbstractMedialibrary.getInstance()
     private lateinit var dataSource : DataSource<Int, T>
     val loading = MutableLiveData<Boolean>().apply { value = false }
-    @Volatile private var isRefreshing = false
+    var isRefreshing by Delegates.observable(false) { _,_, value -> loading.postValue(value) }
+        private set
 
     protected open val sortKey : String = this.javaClass.simpleName
     var sort = AbstractMedialibrary.SORT_DEFAULT
@@ -82,7 +84,6 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         if (isRefreshing || !medialibrary.isStarted || !this::dataSource.isInitialized) return false
         headers.clear()
         if (!dataSource.isInvalid) {
-            loading.postValue(true)
             isRefreshing = true
             dataSource.invalidate()
         }
@@ -121,7 +122,6 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                     }
                 }
                 isRefreshing = false
-                loading.postValue(false)
             }
         }
 
