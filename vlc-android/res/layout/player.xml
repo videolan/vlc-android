@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/player_root"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -95,7 +96,30 @@
             android:background="@color/playerbackground"
             android:id="@+id/video_playlist_container"
             android:visibility="gone"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:visibility="visible">
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/view"
+                android:background="@color/playerbackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/video_playlist"/>
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_close_small"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:id="@+id/close_button"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/view"/>
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/playlist_search_text"
@@ -103,13 +127,12 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:background="@color/playerbackground"
-                android:paddingTop="4dp"
-                android:paddingBottom="2dp">
+                android:paddingTop="0dp"
+                app:layout_constraintStart_toEndOf="@+id/close_button"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                >
 
             <EditText
                     android:layout_width="match_parent"

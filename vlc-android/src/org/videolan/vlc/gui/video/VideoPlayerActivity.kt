@@ -125,6 +125,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var videoUri: Uri? = null
     private var askResume = true
 
+    private lateinit var closeButton: View
     private lateinit var playlistContainer: View
     private lateinit var playlist: RecyclerView
     private lateinit var playlistSearchText: TextInputLayout
@@ -428,6 +429,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         playlist = findViewById(R.id.video_playlist)
         playlistSearchText = findViewById(R.id.playlist_search_text)
         playlistContainer = findViewById(R.id.video_playlist_container)
+        closeButton = findViewById(R.id.close_button)
         playlistSearchText.editText?.addTextChangedListener(this)
 
 
@@ -826,6 +828,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 hudBinding.playlistNext.setVisible()
             }
             hudRightBinding.playlistToggle.setOnClickListener(this@VideoPlayerActivity)
+            closeButton.setOnClickListener { togglePlaylist() }
 
             val callback = SwipeDragItemTouchHelperCallback(playlistAdapter)
             val touchHelper = ItemTouchHelper(callback)
