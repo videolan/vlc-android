@@ -78,11 +78,19 @@ class SubtitleDownloaderDialogFragment : DialogFragment() {
         binding.pager.adapter = adapter
         binding.tabLayout.setupWithViewPager(binding.pager)
 
-        if (uris.size < 2) binding.nextButton.visibility = View.GONE
+        if (uris.size < 2) {
+            binding.nextButton.visibility = View.GONE
+            binding.doneButton.visibility = View.VISIBLE
+        } else {
+            binding.doneButton.visibility = View.GONE
+        }
 
         binding.nextButton.setOnClickListener {
             if (uris.size > 1)
                 MediaUtils.showSubtitleDownloaderDialogFragment(requireActivity(), uris.takeLast(uris.size - 1))
+            dismiss()
+        }
+        binding.doneButton.setOnClickListener {
             dismiss()
         }
 

@@ -8,18 +8,18 @@ import android.util.AttributeSet
 import android.widget.ArrayAdapter
 import android.widget.SpinnerAdapter
 import androidx.appcompat.widget.AppCompatSpinner
+import org.videolan.vlc.R
 
-
-class MultiSelectionSpinner : AppCompatSpinner, OnMultiChoiceClickListener, DialogInterface.OnDismissListener{
+class MultiSelectionSpinner : AppCompatSpinner, OnMultiChoiceClickListener, DialogInterface.OnDismissListener {
 
     private var items = mutableListOf<String>()
     private var selection = mutableListOf<Boolean>()
     private var adapter: ArrayAdapter<String>
-    private var listener: org.videolan.vlc.gui.OnItemSelectListener? = null
+    private var listener: OnItemSelectListener? = null
 
-    val selectedIndices: List<Int>
+    private val selectedIndices: List<Int>
         get() {
-            return selection.mapIndexed { index, b -> Pair(index, b)}.filter { it.second }.map { it.first }
+            return selection.mapIndexed { index, b -> Pair(index, b) }.filter { it.second }.map { it.first }
         }
 
     constructor(context: Context) : super(context) {
@@ -47,7 +47,11 @@ class MultiSelectionSpinner : AppCompatSpinner, OnMultiChoiceClickListener, Dial
     override fun performClick(): Boolean {
         val builder = AlertDialog.Builder(context)
         builder.setOnDismissListener(this)
-        builder.setMultiChoiceItems(items.toTypedArray(), selection.toBooleanArray(), this).show()
+        builder.setMultiChoiceItems(items.toTypedArray(), selection.toBooleanArray(), this)
+                .setPositiveButton(R.string.done) { dialogInterface: DialogInterface, i: Int ->
+                    dialogInterface.dismiss()
+                }
+                .show()
         return true
     }
 
@@ -64,7 +68,7 @@ class MultiSelectionSpinner : AppCompatSpinner, OnMultiChoiceClickListener, Dial
         this.items = items.toMutableList()
         adapter.clear()
         adapter.add(items[0])
-        selection.addAll(items.map{false})
+        selection.addAll(items.map { false })
     }
 
     override fun setSelection(index: Int) {
@@ -100,7 +104,7 @@ class MultiSelectionSpinner : AppCompatSpinner, OnMultiChoiceClickListener, Dial
         return sb.toString()
     }
 
-    fun setOnItemsSelectListener(l: org.videolan.vlc.gui.OnItemSelectListener) {
+    fun setOnItemsSelectListener(l: OnItemSelectListener) {
         listener = l
     }
 }
