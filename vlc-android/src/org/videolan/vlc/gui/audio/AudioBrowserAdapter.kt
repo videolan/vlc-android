@@ -57,37 +57,40 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 import org.videolan.vlc.util.UPDATE_SELECTION
-import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, private val mIEventsHandler: IEventsHandler, private val mListEventsHandler: IListEventsHandler? = null, private val mReorder: Boolean = false) : PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter {
-    var itemSize = -1
+class AudioBrowserAdapter @JvmOverloads constructor(
+        private val type: Int,
+        private val eventsHandler: IEventsHandler,
+        private val listEventsHandler: IListEventsHandler? = null,
+        private val reorder: Boolean = false,
+        internal var itemSize: Int = -1
+) : PagedListAdapter<MediaLibraryItem,
+        AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
+        FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter
+{
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
-    private val mDefaultCover: BitmapDrawable?
+    private val defaultCover: BitmapDrawable?
     private var focusNext = -1
     private var focusListener: FocusableRecyclerView.FocusListener? = null
+    private lateinit var inflater: LayoutInflater
 
     val isEmpty: Boolean
-        get() {
-            val currentList = currentList
-            return currentList == null || currentList.isEmpty()
-        }
+        get() = currentList.isNullOrEmpty()
 
     init {
         var ctx: Context? = null
-        if (mIEventsHandler is Context)
-            ctx = mIEventsHandler
-        else if (mIEventsHandler is Fragment) ctx = (mIEventsHandler as Fragment).context
-        mDefaultCover = if (ctx != null) getAudioIconDrawable(ctx, type, displayInCard()) else null
-    }
-
-    constructor(typeMedia: Int, eventsHandler: IEventsHandler, itemSize: Int) : this(typeMedia, eventsHandler) {
-        this.itemSize = itemSize
+        if (eventsHandler is Context)
+            ctx = eventsHandler
+        else if (eventsHandler is Fragment) ctx = (eventsHandler as Fragment).context
+        defaultCover = if (ctx != null) getAudioIconDrawable(ctx, type, displayInCard()) else null
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
-        val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        if (!::inflater.isInitialized) {
+            inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        }
         return if (displayInCard()) {
             val binding = AudioBrowserCardItemBinding.inflate(inflater, parent, false)
             MediaItemCardViewHolder(binding) as AbstractMediaItemViewHolder<ViewDataBinding>
@@ -97,16 +100,14 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
         }
     }
 
-    private fun displayInCard() =
-            type == MediaLibraryItem.TYPE_PLAYLIST || type == MediaLibraryItem.TYPE_ARTIST || type == MediaLibraryItem.TYPE_ALBUM
+    private fun displayInCard() = type == MediaLibraryItem.TYPE_PLAYLIST
+            || type == MediaLibraryItem.TYPE_ARTIST || type == MediaLibraryItem.TYPE_ALBUM
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
         if (position >= itemCount) return
         val item = getItem(position)
         holder.setItem(item)
-        if (item is Artist) {
-            item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
-        }
+        if (item is Artist) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
         val isSelected = multiSelectHelper.isSelected(position)
         holder.setCoverlay(isSelected)
         holder.selectView(isSelected)
@@ -118,7 +119,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
     }
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
-        if (Util.isListEmpty(payloads))
+        if (payloads.isNullOrEmpty())
             onBindViewHolder(holder, position)
         else {
             val payload = payloads[0]
@@ -166,7 +167,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
 
 
     override fun onCurrentListChanged(previousList: PagedList<MediaLibraryItem>?, currentList: PagedList<MediaLibraryItem>?) {
-        mIEventsHandler.onUpdateFinished(this@AudioBrowserAdapter)
+        eventsHandler.onUpdateFinished(this@AudioBrowserAdapter)
     }
 
     override fun hasSections(): Boolean {
@@ -178,13 +179,13 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
     }
 
     override fun onItemMoved(dragFrom: Int, dragTo: Int) {
-        mListEventsHandler!!.onMove(dragFrom, dragTo)
+        listEventsHandler!!.onMove(dragFrom, dragTo)
         preventNextAnim = true
     }
 
     override fun onItemDismiss(position: Int) {
         val item = getItem(position)
-        mListEventsHandler!!.onRemove(position, item!!)
+        listEventsHandler!!.onRemove(position, item!!)
     }
 
 
@@ -199,7 +200,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
 
         init {
             binding.holder = this
-            if (mDefaultCover != null) binding.cover = mDefaultCover
+            if (defaultCover != null) binding.cover = defaultCover
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
                     onMoreClick(v)
@@ -208,14 +209,14 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
 
             onTouchListener = object : View.OnTouchListener {
                 override fun onTouch(v: View, event: MotionEvent): Boolean {
-                    if (mListEventsHandler == null) {
+                    if (listEventsHandler == null) {
                         return false
                     }
                     if (multiSelectHelper.getSelectionCount() != 0) {
                         return false
                     }
                     if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                        mListEventsHandler.onStartDrag(this@MediaItemViewHolder)
+                        listEventsHandler.onStartDrag(this@MediaItemViewHolder)
                         return true
                     }
                     return false
@@ -228,7 +229,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
         }
 
         override fun recycle() {
-            if (mDefaultCover != null) binding.cover = mDefaultCover
+            if (defaultCover != null) binding.cover = defaultCover
             binding.title.text = ""
             binding.subtitle.text = ""
         }
@@ -241,8 +242,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
                 coverlayResource = resId
             }
         }
-
-
     }
 
     inner class MediaItemCardViewHolder @TargetApi(Build.VERSION_CODES.M)
@@ -252,7 +251,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
         init {
             binding.holder = this
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
-            if (mDefaultCover != null) binding.cover = mDefaultCover
+            if (defaultCover != null) binding.cover = defaultCover
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
                     onMoreClick(v)
@@ -268,7 +267,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
         }
 
         override fun recycle() {
-            if (mDefaultCover != null) binding.cover = mDefaultCover
+            if (defaultCover != null) binding.cover = defaultCover
             binding.title.text = ""
             binding.subtitle.text = ""
         }
@@ -290,33 +289,33 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
     internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener {
 
         val canBeReordered: Boolean
-            get() = mReorder
+            get() = reorder
 
 
         fun onClick(v: View) {
             val item = getItem(layoutPosition)
             if (item != null)
-                mIEventsHandler.onClick(v, layoutPosition, item)
+                eventsHandler.onClick(v, layoutPosition, item)
         }
 
         fun onMoreClick(v: View) {
             val item = getItem(layoutPosition)
-            if (item != null) mIEventsHandler.onCtxClick(v, layoutPosition, item)
+            if (item != null) eventsHandler.onCtxClick(v, layoutPosition, item)
         }
 
         fun onLongClick(view: View): Boolean {
             val item = getItem(layoutPosition)
-            return item != null && mIEventsHandler.onLongClick(view, layoutPosition, item)
+            return item != null && eventsHandler.onLongClick(view, layoutPosition, item)
         }
 
         fun onImageClick(v: View) {
             val item = getItem(layoutPosition)
-            if (item != null) mIEventsHandler.onImageClick(v, layoutPosition, item)
+            if (item != null) eventsHandler.onImageClick(v, layoutPosition, item)
         }
 
         fun onMainActionClick(v: View) {
             val item = getItem(layoutPosition)
-            if (item != null) mIEventsHandler.onMainActionClick(v, layoutPosition, item)
+            if (item != null) eventsHandler.onMainActionClick(v, layoutPosition, item)
         }
 
 
