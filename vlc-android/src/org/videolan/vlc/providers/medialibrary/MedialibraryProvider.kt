@@ -99,10 +99,8 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                 else -> null
             }
             ModelsHelper.getHeader(context, sort, item, previous)?.let {
-                scope.launch {
-                    headers.put(startposition + position, it)
-                    (liveHeaders as MutableLiveData<HeadersIndex>).value = headers
-                }
+                headers.put(startposition + position, it)
+                (liveHeaders as MutableLiveData<HeadersIndex>).postValue(headers)
             }
         }
     }

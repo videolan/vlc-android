@@ -9,7 +9,7 @@ typealias HeadersIndex = SparseArrayCompat<String>
 
 open class HeaderProvider {
     val headers = HeadersIndex()
-    val liveHeaders: LiveData<HeadersIndex> = MutableLiveData<HeadersIndex>()
+    val liveHeaders: LiveData<HeadersIndex> = MutableLiveData()
 
 
     @MainThread

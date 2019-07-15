@@ -74,7 +74,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
             headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as BrowserModel).sort
             val headerItems = ArrayList<String>()
-            viewModel.provider.liveHeaders.value?.run {
+            viewModel.provider.headers.run {
                 for (i in 0 until size()) {
                     headerItems.add(valueAt(i))
                 }
