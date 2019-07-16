@@ -42,24 +42,20 @@ import org.videolan.vlc.util.*
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    override fun getXml(): Int {
-        return R.xml.preferences_ui
-    }
+    override fun getXml() = R.xml.preferences_ui
 
-    override fun getTitleId(): Int {
-        return R.string.interface_prefs_screen
-    }
+    override fun getTitleId() = R.string.interface_prefs_screen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Settings.getInstance(activity).run {
             if (!contains(FORCE_PLAY_ALL)) edit().putBoolean(FORCE_PLAY_ALL, true).apply()
         }
         super.onCreate(savedInstanceState)
-
         findPreference("ui_audio_category").isVisible = false
         findPreference(FORCE_LIST_PORTRAIT).isVisible = false
         findPreference(PREF_TV_UI).isVisible = AndroidDevices.hasTsp
         findPreference(KEY_APP_THEME).isVisible = false
+        findPreference(KEY_AUDIO_SHOW_CARDS).isVisible = false
         prepareLocaleList()
     }
 

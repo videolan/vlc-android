@@ -32,6 +32,8 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
+import org.videolan.vlc.util.KEY_AUDIO_SHOW_CARDS
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
@@ -40,6 +42,7 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
     val albumsProvider = AlbumsProvider(parent, context, this)
     val tracksProvider = TracksProvider(parent, context, this)
     override val providers = arrayOf(albumsProvider, tracksProvider)
+    val showCards = Settings.getInstance(context).getBoolean(KEY_AUDIO_SHOW_CARDS, true)
 
     init {
         when (parent) {

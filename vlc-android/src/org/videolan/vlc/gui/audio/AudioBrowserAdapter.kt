@@ -47,6 +47,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
+import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
@@ -58,14 +59,16 @@ import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 import org.videolan.vlc.util.UPDATE_SELECTION
 
+private const val SHOW_IN_LIST = -1
+
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class AudioBrowserAdapter @JvmOverloads constructor(
-        private val type: Int,
+        type: Int,
         private val eventsHandler: IEventsHandler,
         private val listEventsHandler: IListEventsHandler? = null,
         private val reorder: Boolean = false,
-        internal var itemSize: Int = -1
+        internal var cardSize: Int = SHOW_IN_LIST
 ) : PagedListAdapter<MediaLibraryItem,
         AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
         FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter
@@ -80,11 +83,12 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         get() = currentList.isNullOrEmpty()
 
     init {
-        var ctx: Context? = null
-        if (eventsHandler is Context)
-            ctx = eventsHandler
-        else if (eventsHandler is Fragment) ctx = (eventsHandler as Fragment).context
-        defaultCover = if (ctx != null) getAudioIconDrawable(ctx, type, displayInCard()) else null
+        val ctx = when (eventsHandler) {
+            is Context -> eventsHandler
+            is Fragment -> eventsHandler.requireContext()
+            else -> VLCApplication.appContext
+        }
+        defaultCover = getAudioIconDrawable(ctx, type, displayInCard())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
@@ -100,8 +104,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         }
     }
 
-    private fun displayInCard() = type == MediaLibraryItem.TYPE_PLAYLIST
-            || type == MediaLibraryItem.TYPE_ARTIST || type == MediaLibraryItem.TYPE_ALBUM
+    private fun displayInCard() = cardSize != SHOW_IN_LIST
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
         if (position >= itemCount) return
@@ -234,7 +237,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             binding.subtitle.text = ""
         }
 
-
         override fun setCoverlay(selected: Boolean) {
             val resId = if (selected) R.drawable.ic_action_mode_select else 0
             if (resId != coverlayResource) {
@@ -257,8 +259,8 @@ class AudioBrowserAdapter @JvmOverloads constructor(
                     onMoreClick(v)
                     true
                 }
-            binding.imageWidth = itemSize
-            binding.container.layoutParams.width = itemSize
+            binding.imageWidth = cardSize
+            binding.container.layoutParams.width = cardSize
 
         }
 
@@ -272,7 +274,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             binding.subtitle.text = ""
         }
 
-
         override fun setCoverlay(selected: Boolean) {
             val resId = if (selected) R.drawable.ic_action_mode_select else 0
             if (resId != coverlayResource) {
@@ -280,17 +281,13 @@ class AudioBrowserAdapter @JvmOverloads constructor(
                 coverlayResource = resId
             }
         }
-
-
     }
-
 
     abstract inner class AbstractMediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
     internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener {
 
         val canBeReordered: Boolean
             get() = reorder
-
 
         fun onClick(v: View) {
             val item = getItem(layoutPosition)

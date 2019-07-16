@@ -32,6 +32,7 @@ import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.GenresProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
+import org.videolan.vlc.util.KEY_AUDIO_SHOW_CARDS
 import org.videolan.vlc.util.KEY_ARTISTS_SHOW_ALL
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
@@ -46,9 +47,11 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     val tracksProvider = TracksProvider(null, context, this)
     val genresProvider = GenresProvider(context, this)
     override val providers = arrayOf(artistsProvider, albumsProvider, tracksProvider, genresProvider)
-    val providersInCard = arrayOf(true, true, false, false)
+    private val settings = Settings.getInstance(context)
+    val showCards = settings.getBoolean(KEY_AUDIO_SHOW_CARDS, true)
+    val providersInCard = arrayOf(showCards, showCards, false, false)
 
-    var showResumeCard = Settings.getInstance(context).getBoolean("audio_resume_card", true)
+    var showResumeCard = settings.getBoolean("audio_resume_card", true)
 
     init {
         watchAlbums()
@@ -58,7 +61,7 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     }
 
     override fun refresh() {
-        artistsProvider.showAll = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
+        artistsProvider.showAll = settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false)
         super.refresh()
     }
 

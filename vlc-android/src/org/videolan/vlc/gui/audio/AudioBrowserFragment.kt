@@ -66,7 +66,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
     private lateinit var emptyView: TextView
     private lateinit var medialibrarySettingsBtn: Button
-    private val lists = arrayOfNulls<RecyclerView>(MODE_TOTAL)
+    private val lists = mutableListOf<RecyclerView>()
     private lateinit var settings: SharedPreferences
     private lateinit var fastScroller: FastScroller
     override val hasTabs = true
@@ -125,9 +125,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             val views = ArrayList<View>(MODE_TOTAL)
             for (i in 0 until MODE_TOTAL) {
                 views.add(viewPager.getChildAt(i))
-                lists[i] = viewPager.getChildAt(i).findViewById(R.id.audio_list) as RecyclerView
+                lists.add(viewPager.getChildAt(i).findViewById(R.id.audio_list))
             }
-
             val titles = arrayOf(getString(R.string.artists), getString(R.string.albums), getString(R.string.tracks), getString(R.string.genres))
             viewPager.offscreenPageLimit = MODE_TOTAL - 1
             val audioPagerAdapter = AudioPagerAdapter(views.toTypedArray(), titles)
@@ -138,12 +137,12 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             val positions = savedInstanceState?.getIntegerArrayList(KEY_LISTS_POSITIONS)
             for (i in 0 until MODE_TOTAL) {
                 setupLayoutManager(i)
-                (lists[i]!!.layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
-                val list = lists[i] as RecyclerView
+                (lists[i].layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
+                val list = lists[i]
                 list.adapter = adapters[i]
                 if (positions != null) list.scrollToPosition(positions[i])
                 list.addOnScrollListener(scrollListener)
-                if (i < 2) {
+                if (viewModel.providersInCard[i]) {
                     val lp = list.layoutParams
                     lp.width = ViewGroup.LayoutParams.MATCH_PARENT
                     list.layoutParams = lp
@@ -170,11 +169,11 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
         val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
         for (i in 0 until MODE_TOTAL) {
-            if (lists[i]?.layoutManager is GridLayoutManager) {
+            if (lists[i].layoutManager is GridLayoutManager) {
                 val gridLayoutManager = lists[i]?.layoutManager as GridLayoutManager
                 gridLayoutManager.spanCount = nbColumns
-                lists[i]?.layoutManager = gridLayoutManager
-                adapters[i].itemSize = itemSize
+                lists[i].layoutManager = gridLayoutManager
+                adapters[i].cardSize = itemSize
                 adapters[i].notifyItemRangeChanged(gridLayoutManager.findFirstVisibleItemPosition(), gridLayoutManager.findLastVisibleItemPosition() - gridLayoutManager.findFirstVisibleItemPosition())
             }
         }
@@ -184,14 +183,11 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
         when (viewModel.providersInCard[index]) {
             true -> {
-
-                displayListInGrid(lists[index]!!, adapters[index], viewModel.providers[index] as MedialibraryProvider<MediaLibraryItem>, spacing)
-
+                displayListInGrid(lists[index], adapters[index], viewModel.providers[index] as MedialibraryProvider<MediaLibraryItem>, spacing)
             }
             else -> {
-                lists[index]!!.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.providers[index]))
-
-                lists[index]!!.layoutManager = LinearLayoutManager(activity)
+                lists[index].addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.providers[index]))
+                lists[index].layoutManager = LinearLayoutManager(activity)
             }
         }
     }
@@ -199,7 +195,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     override fun onSaveInstanceState(outState: Bundle) {
         val positions = ArrayList<Int>(MODE_TOTAL)
         for (i in 0 until MODE_TOTAL) {
-            positions.add((lists[i]!!.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition())
+            positions.add((lists[i].layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition())
         }
         outState.putIntegerArrayList(KEY_LISTS_POSITIONS, positions)
         super.onSaveInstanceState(outState)
@@ -208,10 +204,11 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     private fun setupModels() {
         viewModel = getViewModel()
 
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+        val itemSize = if (viewModel.showCards) RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+        else -1
 
-        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, itemSize = itemSize)
-        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, itemSize = itemSize)
+        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, cardSize = itemSize)
+        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = itemSize)
         songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
         genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this)
         adapters = arrayOf(artistsAdapter, albumsAdapter, songsAdapter, genresAdapter)
@@ -350,7 +347,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             setFabPlayShuffleAllVisibility()
     }
 
-    override fun getCurrentRV() = lists[currentTab]!!
+    override fun getCurrentRV() = lists[currentTab]
 
     override fun getCurrentAdapter() = adapters[currentTab]
 

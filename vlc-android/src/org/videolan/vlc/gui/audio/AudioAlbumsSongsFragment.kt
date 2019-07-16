@@ -102,18 +102,18 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         super.onViewCreated(view, savedInstanceState)
 
         val spacing = resources.getDimension(R.dimen.kl_small).toInt()
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+        val itemSize = if (viewModel.showCards) RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+        else -1
 
         val albumsList = viewPager.getChildAt(MODE_ALBUM).findViewById(R.id.audio_list) as RecyclerView
         val songsList = viewPager.getChildAt(MODE_SONG).findViewById(R.id.audio_list) as RecyclerView
 
         lists = arrayOf(albumsList, songsList)
         val titles = arrayOf(getString(R.string.albums), getString(R.string.songs))
-        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, itemSize = itemSize)
+        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = itemSize)
         songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
         adapters = arrayOf(albumsAdapter, songsAdapter)
 
-        songsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
 
         songsList.adapter = songsAdapter
         albumsList.adapter = albumsAdapter
@@ -147,7 +147,12 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                     songsAdapter.submitList(tracks as PagedList<MediaLibraryItem>)
             }
         })
-        displayListInGrid(albumsList, albumsAdapter, viewModel.albumsProvider as MedialibraryProvider<MediaLibraryItem>, spacing)
+        if (viewModel.showCards) {
+            displayListInGrid(albumsList, albumsAdapter, viewModel.albumsProvider as MedialibraryProvider<MediaLibraryItem>, spacing)
+        } else {
+            albumsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
+        }
+        songsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
     }
 
     override fun getCurrentAdapter() = adapters[currentTab]

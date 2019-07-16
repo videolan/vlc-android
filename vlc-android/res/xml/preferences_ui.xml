@@ -68,6 +68,11 @@
         android:key="ui_audio_category">
         <CheckBoxPreference
             android:defaultValue="true"
+            android:key="key_audio_show_cards"
+            android:summary="@string/resume_playback_summary"
+            android:title="@string/audio_show_cards_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
             android:key="blurred_cover_background"
             android:summary="@string/blurred_cover_background_summary"
             android:title="@string/blurred_cover_background_title" />

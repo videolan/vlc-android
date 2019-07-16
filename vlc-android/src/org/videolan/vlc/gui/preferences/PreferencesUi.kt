@@ -85,7 +85,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestartApp()
                 return true
             }
-            FORCE_LIST_PORTRAIT -> {
+            FORCE_LIST_PORTRAIT,KEY_AUDIO_SHOW_CARDS -> {
                 (activity as PreferencesActivity).setRestart()
                 return true
             }

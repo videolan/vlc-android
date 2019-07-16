@@ -34,6 +34,7 @@ const val KEY_BLACK_THEME = "enable_black_theme"
 const val KEY_DAYNIGHT = "daynight"
 const val SHOW_VIDEO_THUMBNAILS = "show_video_thumbnails"
 const val FORCE_LIST_PORTRAIT = "force_list_portrait"
+const val KEY_AUDIO_SHOW_CARDS = "key_audio_show_cards"
 
 // AudioPlayer
 const val PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown"

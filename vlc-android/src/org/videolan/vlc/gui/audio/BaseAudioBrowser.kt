@@ -101,10 +101,7 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
         val gridLayoutManager = GridLayoutManager(requireActivity(), nbColumns)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-
-                if (position == adapter.itemCount - 1) {
-                    return 1
-                }
+                if (position == adapter.itemCount - 1) return 1
                 if (provider.isFirstInSection(position + 1)) {
 
                     //calculate how many cell it must take
