@@ -223,51 +223,47 @@
             app:layout_constraintTop_toBottomOf="@+id/header" />
 
         <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|start"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/timeline"
-            app:layout_constraintBottom_toBottomOf="@+id/timeline"
-            app:layout_constraintTop_toTopOf="@+id/timeline"
-            android:layout_marginStart="@dimen/default_margin"
-            android:clickable="true"
-            android:onClick="@{fragment::onTimeLabelClick}"
-            android:text="@string/time_0"
-            android:textSize="12sp"
-            android:focusable="true" />
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|start"
+                android:clickable="true"
+                android:onClick="@{fragment::onTimeLabelClick}"
+                android:text="@string/time_0"
+                android:textSize="12sp"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="@+id/timeline"
+                app:layout_constraintBottom_toTopOf="@+id/timeline"
+                android:layout_marginStart="8dp"/>
 
         <SeekBar
-            android:id="@+id/timeline"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/time"
-            app:layout_constraintEnd_toStartOf="@+id/length"
-            android:layout_marginBottom="8dp"
-            android:focusable="true"
-            android:maxHeight="1dip"
-            android:minHeight="1dip"
-            android:paddingLeft="@dimen/half_default_margin"
-            android:paddingRight="@dimen/half_default_margin"
-            android:progressDrawable="@drawable/po_seekbar"
-            android:splitTrack="false"
-            android:thumb="@drawable/seekbar_thumb" />
+                android:id="@+id/timeline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/player_options_stub"
+                android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:maxHeight="1dip"
+                android:minHeight="1dip"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:progressDrawable="@drawable/po_seekbar"
+                android:splitTrack="false"
+                android:thumb="@drawable/seekbar_thumb"
+                app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
-            android:id="@+id/length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|end"
-            app:layout_constraintEnd_toStartOf="@+id/songs_list"
-            app:layout_constraintStart_toEndOf="@+id/timeline"
-            app:layout_constraintBottom_toBottomOf="@+id/timeline"
-            app:layout_constraintTop_toTopOf="@+id/timeline"
-            android:layout_marginEnd="@dimen/default_margin"
-            android:text="@string/time_0"
-            android:contentDescription="@string/length"
-            android:textSize="12sp" />
+                android:id="@+id/length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:text="@string/time_0"
+                android:contentDescription="@string/length"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/timeline"
+                app:layout_constraintEnd_toEndOf="@+id/timeline"
+                android:layout_marginEnd="8dp"/>
 
         <ImageView
                 android:id="@+id/shuffle"
@@ -302,15 +298,14 @@
                 android:id="@+id/play_pause"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/timeline"
+                app:layout_constraintBottom_toTopOf="@+id/length"
                 app:layout_constraintStart_toEndOf="@+id/previous"
                 app:layout_constraintEnd_toStartOf="@+id/next"
                 android:contentDescription="@string/play"
-                android:layout_marginBottom="@dimen/audioplayer_controls_margin"
                 android:focusable="true"
                 android:scaleType="fitXY"
                 android:onClick="@{fragment::onPlayPauseClick}"
-                android:onLongClick="@{fragment::onStopClick}" />
+                android:onLongClick="@{fragment::onStopClick}"/>
 
         <ImageView
             android:id="@+id/next"
