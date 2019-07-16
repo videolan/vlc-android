@@ -42,7 +42,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
 {
     protected val medialibrary = AbstractMedialibrary.getInstance()
     private lateinit var dataSource : DataSource<Int, T>
-    val loading = MutableLiveData<Boolean>().apply { value = false }
+    val loading = MutableLiveData<Boolean>().apply { value = true }
     var isRefreshing by Delegates.observable(false) { _,_, value -> loading.postValue(value) }
         private set
 
