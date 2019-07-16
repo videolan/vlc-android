@@ -246,7 +246,9 @@ if [ ! -d "vlc" ]; then
     diagnostic "VLC source not found, cloning"
     git clone https://git.videolan.org/git/vlc/vlc-3.0.git vlc
     checkfail "vlc source: git clone failed"
-    cd vlc && git am ../libvlc/patches/vlc3/*.patch && cd ..
+    if [ "$RELEASE" != 1 ]; then
+        cd vlc && git am ../libvlc/patches/vlc3/*.patch && cd ..
+    fi
 fi
 diagnostic "VLC source found"
 cd vlc
@@ -260,6 +262,7 @@ EOF
 fi
 if [ "$RELEASE" = 1 ]; then
     git reset --hard ${TESTED_HASH}
+    git am ../libvlc/patches/vlc3/*.patch
 fi
 cd ..
 
