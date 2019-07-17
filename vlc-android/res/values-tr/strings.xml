@@ -421,7 +421,7 @@
     <string name="dump_media_db_summary">Bu seçenek etkinleştirildiğinde, veritabanı iç depolama kök klasörüne kopyalanır</string>
     <string name="clear_media_db">Ortam veritabanı temizlensin</string>
     <string name="clear_media_db_summary">Bu seçenek etkinleştirildiğinde, verileri temizlemek için Android VLC bilgilerine erişilir</string>
-    <string name="clear_history">Arama geçmişini temizle</string>
+    <string name="clear_history">Geçmişi temizle</string>
     <string name="media_db_cleared">Ortam veritabanı temizlendi!</string>
     <string name="set_locale">Yerelleştirme ayarı</string>
     <string name="set_locale_detail">Sıfırlamak için boş bırakın</string>
@@ -430,6 +430,8 @@
     <string name="network_caching_summary">Milisaniye cinsinden, ağ ortamının ön belleğe alınacağı süre. Donanımsal kod çözme ile birlikte çalışmaz. Sıfırlamak için boş bırakın.</string>
     <string name="resume_playback_title">Çağrı sonrası oynatım sürdürülsün</string>
     <string name="resume_playback_summary">Bunun dışında duraklatılmış olarak kalsın</string>
+    <string name="audio_show_cards_title">Ses kartlarını görüntüle</string>
+    <string name="audio_show_cards_summary">Sanatçı, albüm ve oynatma listesini daha büyük kartlarda görüntüle</string>
     <string name="blurred_cover_background_title">Bulanık kapak arka planı</string>
     <string name="blurred_cover_background_summary">Bu seçenek etkinleştirildiğinde, oynatıcı arka planına albüm kapağının bulanık biçimi yerleştirilir</string>
     <string name="network_caching_popup">Bu değer 0 ile 6000 ms arasında olmalıdır</string>
@@ -693,4 +695,6 @@
     <string name="appended">Kayıt sona eklendi</string>
     <string name="inserted">Kayıt araya eklendi</string>
     <string name="remove_current">Geçerli ögeyi çıkar</string>
+    <string name="validation_delete_playlist">Bu oynatma listesini silmek istediğinize emin misiniz?</string>
+    <string name="validation_delete_playlist_text">Bu işlem geri alınamaz.</string>
 </resources>
