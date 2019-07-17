@@ -421,7 +421,7 @@
     <string name="dump_media_db_summary">Database naar interne opslagboom kopiëren</string>
     <string name="clear_media_db">Media-database wissen</string>
     <string name="clear_media_db_summary">Ga naar Android VLC-info om data te wissen</string>
-    <string name="clear_history">Zoekgeschiedenis wissen</string>
+    <string name="clear_history">Geschiedenis wissen</string>
     <string name="media_db_cleared">Media-database gewist!</string>
     <string name="set_locale">Taal instellen</string>
     <string name="set_locale_detail">Leeglaten om te herstellen</string>
@@ -430,6 +430,8 @@
     <string name="network_caching_summary">De hoeveelheid tijd om netwerkmedia te  bufferen (in ms). Werkt niet met hardware-decoderen. Leeg laten om te herstellen.</string>
     <string name="resume_playback_title">Afspelen hervatten na een oproep</string>
     <string name="resume_playback_summary">Anders blijven pauzeren</string>
+    <string name="audio_show_cards_title">Audiokaarten weergeven</string>
+    <string name="audio_show_cards_summary">Artiesten, albums en afspeellijsten op grotere kaarten weergeven</string>
     <string name="blurred_cover_background_title">Wazige albumhoes-achtergrond</string>
     <string name="blurred_cover_background_summary">Wazige albumhoes in audiospeler-achtergrond</string>
     <string name="network_caching_popup">Deze waarde moet tussen 0 en 6000 ms zijn</string>
@@ -477,7 +479,7 @@
     <string name="network_browsing">Lokaal netwerk</string>
     <string name="browsing">Bladeren</string>
 
-    <string name="file_size">Bestandsgrootte:</string>
+    <string name="file_size">Bestandsgrootte</string>
 
     <string name="audio_delay">Audiovertraging</string>
     <string name="spu_delay">Ondertitelvertraging</string>
@@ -690,4 +692,9 @@
     <string name="preamp">Voorversterking</string>
     <string name="presets">Presets</string>
     <string name="reset">Herstellen</string>
+    <string name="appended">Track(s) toegevoegd</string>
+    <string name="inserted">Track(s) ingevoegd</string>
+    <string name="remove_current">Huidige verwijderen</string>
+    <string name="validation_delete_playlist">Weer u zeker dat u deze afspeellijst wilt verwijderen?</string>
+    <string name="validation_delete_playlist_text">Deze handeling kan niet ongedaan worden gemaakt.</string>
 </resources>
