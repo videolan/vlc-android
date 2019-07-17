@@ -12,7 +12,8 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
 import org.videolan.vlc.util.AndroidDevices
-
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 const val TOUCH_FLAG_AUDIO_VOLUME = 1
 const val TOUCH_FLAG_BRIGHTNESS = 1 shl 1
@@ -157,11 +158,12 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         }
                     }
                     MotionEvent.ACTION_UP -> {
+                        val touchSlop = ViewConfiguration.get(player).scaledTouchSlop
                         if (touchAction == TOUCH_IGNORE) touchAction = TOUCH_NONE
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch)
                         // Seek
-                        if (touchAction == TOUCH_SEEK) doSeekTouch(Math.round(deltaY), xgesturesize, true)
+                        if (touchAction == TOUCH_SEEK) doSeekTouch(deltaY.roundToInt(), xgesturesize, true)
                         touchX = -1f
                         touchY = -1f
 
@@ -173,10 +175,13 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                             lastTapTimeMs = 0
                         }
 
-                        if (numberOfTaps > 0 && now - lastTapTimeMs < 500) {
-                            numberOfTaps += 1
-                        } else {
-                            numberOfTaps = 1
+                        //verify that the touch coordinate distance did not exceed the touchslop to increment the count tap
+                        if (abs(event.rawX - initTouchX) < touchSlop && abs(event.rawY - initTouchY) < touchSlop) {
+                            if (numberOfTaps > 0 && now - lastTapTimeMs < ViewConfiguration.getDoubleTapTimeout()) {
+                                numberOfTaps += 1
+                            } else {
+                                numberOfTaps = 1
+                            }
                         }
 
                         lastTapTimeMs = now
@@ -393,7 +398,6 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             }
         }
     }
-
 }
 
 data class ScreenConfig(val metrics: DisplayMetrics, val xRange: Int, val yRange: Int, val orientation: Int)
