@@ -42,6 +42,7 @@
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="playlist_item_drag_shadow">@color/orange500</item>
         <item name="audio_player_header_time">@color/orange500</item>
+        <item name="dialog_circle_background">@color/dialog_circle_background</item>
         <item name="font_default">@color/grey900</item>
         <item name="font_light">@color/grey700</item>
         <item name="font_audio_light">@color/grey700</item>
@@ -143,6 +144,7 @@
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="playlist_item_drag_shadow">@color/orange500</item>
         <item name="audio_player_header_time">@color/orange500</item>
+        <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
         <item name="font_audio_light">@color/grey400</item>
