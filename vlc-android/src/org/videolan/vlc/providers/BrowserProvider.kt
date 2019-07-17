@@ -62,11 +62,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = AbstractMedialibrary.getInstance()
 
-    private val completionHandler = object : CompletionHandler {
+    private val completionHandler : CompletionHandler = object : CompletionHandler {
         override fun invoke(cause: Throwable?) {
-                mediabrowser?.release()
-                mediabrowser = null
-                if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
+            mediabrowser?.release()
+            mediabrowser = null
+            if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
         }
 
     }
@@ -78,7 +78,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             Refresh -> refreshImpl()
             ParseSubDirectories -> parseSubDirectoriesImpl()
             ClearListener -> mediabrowser?.changeEventListener(null)
-        } else channel.close()
+        }
     }
 
     protected open fun initBrowser() {
