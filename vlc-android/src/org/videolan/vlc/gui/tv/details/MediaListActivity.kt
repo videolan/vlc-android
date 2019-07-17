@@ -133,7 +133,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler, CoroutineScope by 
     }
 
     override fun onClickPlay(v: View, position: Int) {
-        TvUtil.playMedia(this, item.tracks[position])
+        TvUtil.playMedia(this, item.tracks.toList(), position)
     }
 
     override fun onClickPlayNext(v: View, position: Int) {

@@ -118,9 +118,10 @@ object TvUtil {
             MediaUtils.openMedia(activity, media)
     }
 
-    fun playMedia(activity: Activity, media: List<AbstractMediaWrapper>) {
+    fun playMedia(activity: Activity, media: List<AbstractMediaWrapper>, position: Int = 0) {
         val intent = Intent(activity, AudioPlayerActivity::class.java)
         intent.putExtra(AudioPlayerActivity.MEDIA_LIST, ArrayList(media))
+        intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position)
         activity.startActivity(intent)
     }
 
