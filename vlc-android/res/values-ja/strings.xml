@@ -423,6 +423,8 @@
     <string name="network_caching_summary">ネットワークメディアのバッファーサイズをミリ秒単位で指定します。ハードウェアデコーディングとは同時に動作できません。空白入力でリセットします。</string>
     <string name="resume_playback_title">通話終了後に再生を再開</string>
     <string name="resume_playback_summary">それ以外は一時停止</string>
+    <string name="audio_show_cards_title">オーディオカード表示</string>
+    <string name="audio_show_cards_summary">アーティスト、アルバム、プレイリストを大きなカードで表示</string>
     <string name="blurred_cover_background_title">カバーの背景をぼやけさせる</string>
     <string name="blurred_cover_background_summary">オーディオプレイヤーのカバーの背景をぼやけさせる</string>
     <string name="network_caching_popup">値は0〜6000msの間で指定してください</string>
