@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 
-class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdapter) : ItemTouchHelper.Callback() {
+class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdapter, private val longPressDragEnable: Boolean = false) : ItemTouchHelper.Callback() {
     private var dragFrom = -1
     private var dragTo = -1
 
@@ -52,7 +52,7 @@ class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdap
     }
 
     override fun isLongPressDragEnabled(): Boolean {
-        return false
+        return longPressDragEnable
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {

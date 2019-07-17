@@ -139,7 +139,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         binding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener)
         binding.playlistSearchText.editText?.addTextChangedListener(this)
 
-        val callback = SwipeDragItemTouchHelperCallback(playlistAdapter)
+        val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.songsList)
 

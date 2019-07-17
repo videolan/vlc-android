@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.audio
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Message
 import android.view.LayoutInflater
@@ -32,6 +33,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.MainThread
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +46,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 import org.videolan.vlc.media.MediaUtils
@@ -56,8 +59,21 @@ import java.util.*
 @UseExperimental(ObsoleteCoroutinesApi::class)
 class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
 
+    private var defaultCoverVideo: BitmapDrawable
+    private var defaultCoverAudio: BitmapDrawable
     private var mModel: PlaylistModel? = null
     private var currentPlayingVisu: MiniVisualizer? = null
+
+    init {
+        val ctx = when (player) {
+            is Context -> player
+            is Fragment -> player.requireContext()
+            else -> VLCApplication.appContext
+        }
+
+        defaultCoverAudio = BitmapDrawable(ctx.resources, getBitmapFromDrawable(ctx, R.drawable.ic_no_song_background))
+        defaultCoverVideo = UiTools.getDefaultVideoDrawable(ctx)
+    }
 
     var currentIndex = 0
         set(position) {
@@ -92,11 +108,19 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
         if (currentIndex == position) {
             if (mModel?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE
+            holder.binding.coverImage.visibility = View.INVISIBLE
             currentPlayingVisu = holder.binding.playing
         } else {
             holder.binding.playing.stop()
             holder.binding.playing.visibility = View.INVISIBLE
+            holder.binding.coverImage.visibility = View.VISIBLE
         }
+
+        if (media.type == AbstractMediaWrapper.TYPE_VIDEO) {
+            (holder.binding.coverImage.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "16:9"
+            holder.binding.cover = defaultCoverVideo
+        } else
+            holder.binding.cover = defaultCoverAudio
 
         holder.binding.executePendingBindings()
     }
