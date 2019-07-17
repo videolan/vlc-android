@@ -34,7 +34,7 @@
     <string name="playback">Lecture</string>
     <string name="playback_controls">Contrôles de la lecture</string>
     <string name="medialibrary_scan">Analyse de la médiathèque</string>
-    <string name="Medialibrary_progress">Mises à jour de l\'analyse de la médiathèque</string>
+    <string name="Medialibrary_progress">Mises à jour de progression d\'analyse de la médiathèque</string>
     <string name="play_from_start">Lire du début</string>
     <string name="play_as_audio">Lire comme audio</string>
     <string name="play_as_video">Lire comme vidéo</string>
@@ -54,6 +54,7 @@
     <string name="set_song_question">Définir « %1$s » comme sonnerie ?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Supprimer le fichier  « %1$s » ?</string>
+    <string name="confirm_delete_several_media">Supprimer ces %1$dmédias ?</string>
     <string name="confirm_delete_folder">Supprimer le dossier « %1$s » ainsi que son contenu ?</string>
     <string name="confirm_delete_playlist">Supprimer la liste de lecture « %1$s » ?</string>
     <string name="confirm_remove_from_playlist">Retirer « %1$s » de la liste de lecture ?</string>
@@ -95,7 +96,7 @@
     </plurals>
 
     <string name="internal_memory">Mémoire interne</string>
-    <string name="parent_folder">Dossier parent</string>
+    <string name="parent_folder">Vers le dossier parent</string>
     <string name="audio">Audio</string>
     <string name="video">Vidéo</string>
     <string name="bookmarks">Signets</string>
@@ -217,7 +218,7 @@
     <string name="playback_speed_title">Enregistrer la vitesse de lecture</string>
     <string name="playback_speed_summary">Conserver la vitesse de lecture d\'une vidéo à l\'autre</string>
 
-    <string name="play_button">Bouton Jouer</string>
+    <string name="play_button">Bouton Lecture</string>
 
     <!-- Tips -->
     <string name="video_player_tips">Astuces du lecteur vidéo :</string>
@@ -248,6 +249,7 @@
     <string name="about_text">VLC pour Android™ est un portage du lecteur multimédia VLC, le célèbre lecteur multimédia libre. La version Android™ peut lire la plupart des fichiers et flux réseaux.</string>
     <string name="vlc_authors">et les auteurs de VLC</string>
     <string name="compiled_by">Cette version de VLC est compilée par :</string>
+    <string name="feedback_forum">Forum des retours</string>
 
     <!-- Preferences -->
     <string name="preferences">Préférences</string>
@@ -419,7 +421,7 @@
     <string name="dump_media_db_summary">Copie la base de données à la racine du stockage interne</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
     <string name="clear_media_db_summary">Accédez aux informations d\'Android VLC pour effacer les données</string>
-    <string name="clear_history">Supprimer l\'historique de vos recherches</string>
+    <string name="clear_history">Vider l\'historique de lecture</string>
     <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
     <string name="set_locale">Définir la langue</string>
     <string name="set_locale_detail">Laisser vide pour réinitialiser</string>
@@ -428,6 +430,8 @@
     <string name="network_caching_summary">Durée pour le tampon réseau (en ms). Ne fonctionne pas avec le décodage matériel. Laissez vide pour réinitialiser.</string>
     <string name="resume_playback_title">Reprendre la lecture après un appel</string>
     <string name="resume_playback_summary">Rester en pause dans le cas contraire</string>
+    <string name="audio_show_cards_title">Afficher les cartes son</string>
+    <string name="audio_show_cards_summary">Afficher les artistes, les albums et les listes de lecture dans de plus grandes cartes</string>
     <string name="blurred_cover_background_title">Couverture floutée en arrière-plan</string>
     <string name="blurred_cover_background_summary">Couverture floutée en arrière-plan du lecteur musical</string>
     <string name="network_caching_popup">Cette valeur doit être comprise entre 0 et 6000 ms</string>
@@ -451,7 +455,7 @@
     <string name="copied_to_clipboard">Journal copié vers le presse papier.</string>
     <string name="dump_logcat">Cliché du journal logcat</string>
     <string name="dump_logcat_success">Cliché logcat enregistré avec succès dans : %1$s !</string>
-    <string name="dump_logcat_failure">Erreur lors du cliché logcat.</string>
+    <string name="dump_logcat_failure">Échec du cliché logcat.</string>
     <string name="custom_libvlc_options">Options personnalisées de libVLC</string>
 
     <string name="serious_crash">Malheureusement, une importante erreur est intervenue et VLC a dû se fermer.</string>
@@ -475,7 +479,7 @@
     <string name="network_browsing">Réseau local</string>
     <string name="browsing">Navigation</string>
 
-    <string name="file_size">Taille du fichier :</string>
+    <string name="file_size">Taille du fichier</string>
 
     <string name="audio_delay">Décalage audio</string>
     <string name="spu_delay">Décalage du sous-titrage</string>
@@ -610,19 +614,19 @@
     <string name="sdcard_permission_dialog_message">VLC ne peut pas supprimer ce fichier sans les droits d\'écriture. Veuillez vous rendre dans votre carte SD et cliquez sur \"Sélectionner\".\nVous pourriez avoir besoin de d\'abord cliquer sur \"Montrer la carte SD\" dans le menu en haut à droite.</string>
     <string name="dialog_sd_wizard">Montrer moi</string>
     <string name="renderers_disconnect">Déconnecter</string>
-    <string name="audio_digital_failed">Échec de modification de l\'état de la sortie audio</string>
+    <string name="audio_digital_failed">Échec de modification de l\'état de la sortie audio numérique</string>
     <string name="audio_digital_output_enabled">Sortie audio activée</string>
     <string name="audio_digital_output_disabled">Sortie audio désactivée</string>
     <string name="audio_digital_title">Sortie audio (passthrough)</string>
     <string name="audio_task_cleared_title">Arrêter lors d\'un balayage de l\'application</string>
     <string name="audio_task_cleared_summary">Arrêter la lecture lorsque l\'application est fermée</string>
     <string name="audio_resume_card_title">Charger la dernière carte de lecture</string>
-    <string name="audio_resume_card_summary">Affiche une carte aidant à la reprise de lecture audio au démarrage de l\'appli</string>
+    <string name="audio_resume_card_summary">Affiche une carte aidant à la reprise de lecture audio au démarrage de l\'application</string>
     <string name="playback_rewind">Retour</string>
     <string name="playback_forward">Avance rapide</string>
-    <string name="ml_wizard_title">Sélection Médialibrary de VLC</string>
-    <string name="ml_wizard_scan_checkbox">Recherche de contenu médias sur l\'appareil</string>
-    <string name="ml_wizard_description">Choisissez si VLC analysera le stockage de votre appareil pour organiser votre médiathèque ou simplement l\'utiliser comme un simple lecteur avec un navigateur intégré.</string>
+    <string name="ml_wizard_title">Sélection de la médiathèque de VLC</string>
+    <string name="ml_wizard_scan_checkbox">Rechercher le contenu multimédia sur l\'appareil</string>
+    <string name="ml_wizard_description">Choisir si VLC doit analyser votre appareil de stockage pour organiser votre médiathèque ou simplement l\'utiliser comme simple lecteur avec navigateur intégré.</string>
     <string name="tv_my_new_videos">Mes nouvelles vidéos</string>
     <string name="cast_option_title">Diffuser le média sur un autre écran</string>
     <string name="otg_device_title">Périphérique OTG</string>
@@ -669,7 +673,7 @@
     <string name="onboarding_scanning_enable">Laisser VLC analyser les médias sur mon appareil</string>
     <string name="onboarding_scan_whole">VLC analysera l’intégralité ma carte SD</string>
     <string name="onboarding_scan_customize">Me laisser choisir quels dossiers doit analyser VLC</string>
-    <string name="button_medialibrary_preferences">Aller aux préférences de Medialibrary</string>
+    <string name="button_medialibrary_preferences">Aller aux préférences de médiathèque</string>
     <string name="light_theme">Thème clair</string>
     <string name="add">Ajouter</string>
     <string name="add_to_new_playlist">Ajouter à une nouvelle liste de lecture</string>
@@ -681,4 +685,16 @@
     <string name="device_default">Périphérique prédéfini</string>
     <string name="track_number">%s pistes</string>
     <string name="jump_to">Aller à</string>
+    <string name="show_video_thumbnails_summary">Afficher des miniatures des vidéos dans les listes</string>
+    <string name="show_video_thumbnails">Miniatures des vidéos</string>
+    <string name="eq_snap_bands">Bandes élastiques</string>
+    <string name="enable_equalizer">Activer</string>
+    <string name="preamp">Préampli</string>
+    <string name="presets">Présélections</string>
+    <string name="reset">Réinitialiser</string>
+    <string name="appended">Piste(s) ajoutée(s)</string>
+    <string name="inserted">Piste(s) insérée(s)</string>
+    <string name="remove_current">Supprimer l\'élément actuel</string>
+    <string name="validation_delete_playlist">Êtes-vous certain(e) de vouloir supprimer cette liste de lecture ?</string>
+    <string name="validation_delete_playlist_text">Cette action ne peut pas être annulée.</string>
 </resources>
