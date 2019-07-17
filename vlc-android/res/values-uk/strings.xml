@@ -444,6 +444,8 @@
     <string name="network_caching_summary">Кількість часу для буферизації мережного медіа (у мс). Не працює з апаратним декодуванням. Залиште порожнім, аби очистити.</string>
     <string name="resume_playback_title">Відновити відтворення після дзвінка</string>
     <string name="resume_playback_summary">Інакше поставити на паузу</string>
+    <string name="audio_show_cards_title">Показати аудіо картки</string>
+    <string name="audio_show_cards_summary">Показувати виконавців, альбоми та списки відтворення у більших картках</string>
     <string name="blurred_cover_background_title">Тло з розмитою обкладинкою</string>
     <string name="blurred_cover_background_summary">Розмита обкладинка на тлі аудіопрогравача</string>
     <string name="network_caching_popup">Це значення повинно бути між 0 та 6000 мс</string>
