@@ -213,7 +213,7 @@
     <string name="favorite_removed">Usunięto z ulubionych</string>
 
     <string name="open">Otwórz</string>
-    <string name="open_mrl">Otwórz adres MRL</string>
+    <string name="open_mrl">Strumieniowanie</string>
     <string name="open_mrl_dialog_title">Otwórz strumień sieciowy</string>
     <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
     <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™.</string>
@@ -444,6 +444,8 @@
     <string name="network_caching_summary">Ilość czasu, dla buforowania pliku sieciowego (w milisekundach). Nie działa ze sprzętowym dekodowaniem. Pozostaw puste, aby zresetować.</string>
     <string name="resume_playback_title">Wznów odtwarzanie po połączeniu</string>
     <string name="resume_playback_summary">Lub pozostań w pauzie po zakończeniu połączenia</string>
+    <string name="audio_show_cards_title">Pliki audio w kartach</string>
+    <string name="audio_show_cards_summary">Wyświetlaj wykonawców, albumy i listy odtwarzania w większych kartach</string>
     <string name="blurred_cover_background_title">Niewyraźna okładka w tle</string>
     <string name="blurred_cover_background_summary">Niewyraźna okładka w tle odtwarzacza audio </string>
     <string name="network_caching_popup">Ta wartość musi być w zakresie od 0 a 6000 ms</string>
@@ -499,8 +501,8 @@
     <string name="network_shares_discovery">Szukanie udziałów sieciowych…</string>
     <string name="network_empty">Ten katalog jest pusty.</string>
     <string name="network_connection_needed">Brak połączenia z siecią lokalną.</string>
-    <string name="search_hint">Wyszukiwanie plików multimedialnych</string>
-    <string name="search_list_hint">Wyszukiwanie plików multimedialnych w bieżącej liście</string>
+    <string name="search_hint">Wyszukiwanie mediów</string>
+    <string name="search_list_hint">Wyszukiwanie mediów w bieżącej liście</string>
     <string name="search_global">Wyszukiwanie we wszystkich bibliotekach mediów</string>
     <string name="directory_show_medialib">Pokaż w MediaLib</string>
     <string name="directory_hide_medialib">Ukryj w MediaLib</string>
@@ -644,7 +646,7 @@
     <string name="otg_device_title">Urządzenie OTG</string>
     <string name="browser">Przeglądarka</string>
     <string name="ab_repeat">Powtórzenie A-B</string>
-    <string name="stop_after_this">Zakończ odtwarzanie po tym utworze</string>
+    <string name="stop_after_this">Zatrzymaj po tym utworze</string>
     <string name="time_category_new">Nowe pliki multimedialne</string>
     <string name="time_category_current_month">W tym miesiącu</string>
     <string name="time_category_current_year">W tym roku</string>
@@ -692,7 +694,7 @@
     <string name="theme_follow_system_mode">Tak jak w trybie systemowym</string>
     <string name="resume_card_message">Wznowić odtwarzanie %1$s?</string>
     <string name="misc">Różne</string>
-    <string name="popup_force_legacy_title">Użyj własnego wyskakującego okna \"Obraz w obrazie\"</string>
+    <string name="popup_force_legacy_title">Wyskakujące okno \"Obraz w obrazie\"</string>
     <string name="popup_force_legacy_summary">Użyj własnego, z możliwością zmiany rozmiaru, wyskakującego okna \"Obraz w obrazie\"</string>
     <string name="device_default">Systemowy</string>
     <string name="track_number">%s utwory</string>
