@@ -20,14 +20,14 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
-import org.videolan.medialibrary.media.*
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -286,13 +286,13 @@ object MediaUtils : CoroutineScope {
         var subtitle = media.nowPlaying ?: media.artist
         if (media.length > 0L) {
             subtitle = if (TextUtils.isEmpty(subtitle)) Tools.millisToString(media.length)
-            else "$subtitle  -  ${Tools.millisToString(media.length)}"
+            else "$subtitle  •  ${Tools.millisToString(media.length)}"
         }
         return subtitle
     }
 
     fun getMediaTitle(mediaWrapper: AbstractMediaWrapper) = mediaWrapper.title
-            ?: FileUtils.getFileNameFromPath(mediaWrapper.location)!!
+            ?: FileUtils.getFileNameFromPath(mediaWrapper.location)
 
     fun getContentMediaUri(data: Uri) = try {
         VLCApplication.appContext.contentResolver.query(data,

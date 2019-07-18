@@ -301,7 +301,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                         binding.backgroundView.setImageBitmap(blurredCover)
                         binding.backgroundView.visibility = View.VISIBLE
                         binding.songsList.setBackgroundResource(0)
-                        if (playerState == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED) binding.header.setBackgroundResource(0)
+                        binding.header.setBackgroundColor(UiTools.getColorFromAttribute(requireContext(), R.attr.audio_player_transparent))
                     } else setDefaultBackground()
                 }
             }
@@ -566,7 +566,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                 setHeaderVisibilities(advFuncVisible = false, playlistSwitchVisible = false, headerPlayPauseVisible = true, progressBarVisible = true, headerTimeVisible = true, searchVisible = false)
             }
             BottomSheetBehavior.STATE_EXPANDED -> {
-                binding.header.setBackgroundResource(0)
+                binding.header.setBackgroundColor(UiTools.getColorFromAttribute(requireContext(), R.attr.audio_player_transparent))
                 setHeaderVisibilities(advFuncVisible = true, playlistSwitchVisible = true, headerPlayPauseVisible = false, progressBarVisible = false, headerTimeVisible = false, searchVisible = true)
                 showPlaylistTips()
                 playlistAdapter.currentIndex = playlistModel.currentMediaPosition

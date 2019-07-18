@@ -23,6 +23,7 @@
     <attr name="audio_browser_separator" format="reference|color" />
     <attr name="playlist_item_drag_shadow" format="reference|color" />
     <attr name="audio_player_header_time" format="reference|color" />
+    <attr name="audio_player_transparent" format="reference|color"/>
     <attr name="list_menu" format="reference|color" />
     <attr name="list_subtitle" format="reference|color" />
     <attr name="list_title_last" format="reference|color" />

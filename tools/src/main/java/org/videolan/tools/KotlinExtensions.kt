@@ -1,7 +1,10 @@
 package org.videolan.tools
 
+import android.content.Context
 import android.content.res.Resources
+import android.util.TypedValue
 import android.view.View
+import androidx.annotation.AttrRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -58,4 +61,13 @@ fun CoroutineScope.conflatedActor(time: Long = 2000L, action: () -> Unit) = acto
         action()
         delay(time)
     }
+}
+
+fun Context.getColorFromAttr(
+        @AttrRes attrColor: Int,
+        typedValue: TypedValue = TypedValue(),
+        resolveRefs: Boolean = true
+): Int {
+    theme.resolveAttribute(attrColor, typedValue, resolveRefs)
+    return typedValue.data
 }

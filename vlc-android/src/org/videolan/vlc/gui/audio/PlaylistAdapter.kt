@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.audio
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Message
@@ -109,10 +110,12 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
             if (mModel?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE
             holder.binding.coverImage.visibility = View.INVISIBLE
+            holder.binding.audioItemTitle.setTypeface(null, Typeface.BOLD)
             currentPlayingVisu = holder.binding.playing
         } else {
             holder.binding.playing.stop()
             holder.binding.playing.visibility = View.INVISIBLE
+            holder.binding.audioItemTitle.typeface = null
             holder.binding.coverImage.visibility = View.VISIBLE
         }
 

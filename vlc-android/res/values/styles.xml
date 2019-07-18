@@ -39,6 +39,7 @@
         <item name="background_header">@color/grey300</item>
         <item name="background_audio_tips">@color/grey50transparent</item>
         <item name="audio_player_background_tint">@color/whitetransparent</item>
+        <item name="audio_player_transparent">@color/white_audio_player_transparent</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="playlist_item_drag_shadow">@color/orange500</item>
         <item name="audio_player_header_time">@color/orange500</item>
@@ -88,7 +89,7 @@
         <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial</item>
-        <item name="progress_background">@color/grey300</item>
+        <item name="progress_background">@color/grey400</item>
         <item name="ariane_text_color">@color/grey50</item>
         <item name="player_icon_color">@color/black</item>
     </style>
@@ -141,6 +142,7 @@
         <item name="background_header">@color/grey900</item>
         <item name="background_audio_tips">@color/grey900transparent</item>
         <item name="audio_player_background_tint">@color/grey900transparent</item>
+        <item name="audio_player_transparent">@color/black_audio_player_transparent</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="playlist_item_drag_shadow">@color/orange500</item>
         <item name="audio_player_header_time">@color/orange500</item>

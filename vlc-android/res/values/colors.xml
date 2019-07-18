@@ -52,6 +52,8 @@
     <color name="whitetransparent">#b4ffffff</color>
     <color name="ripple_white">#88ffffff</color>
     <color name="white_more_transparent">#33ffffff</color>
+    <color name="white_audio_player_transparent">#aaffffff</color>
+    <color name="black_audio_player_transparent">#ee2a2a2a</color>
     <color name="transparent">#00000000</color>
 
     <color name="white_selection_transparent">#44ffffff</color>
