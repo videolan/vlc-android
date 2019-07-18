@@ -107,6 +107,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             else arguments?.getParcelable(KEY_FOLDER)
             viewModel = getViewModel(folder)
             viewModel.provider.pagedList.observe(this, this)
+            viewModel.provider.loading.observe(this, Observer { loading ->
+                if (loading) handler.sendEmptyMessageDelayed(SET_REFRESHING, 300L)
+                else handler.sendEmptyMessage(UNSET_REFRESHING)
+            })
             AbstractMedialibrary.lastThumb.observe(this, thumbObs)
         }
     }
