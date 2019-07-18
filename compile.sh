@@ -243,29 +243,23 @@ fi
 
 TESTED_HASH=ee139ff
 if [ ! -d "vlc" ]; then
-    diagnostic "VLC source not found, cloning"
+    diagnostic "VLC sources: not found, cloning"
     git clone https://git.videolan.org/git/vlc/vlc-3.0.git vlc
-    checkfail "vlc source: git clone failed"
-    if [ "$RELEASE" != 1 ]; then
-        cd vlc && git am ../libvlc/patches/vlc3/*.patch && cd ..
-    fi
-fi
-diagnostic "VLC source found"
-cd vlc
-if ! git cat-file -e ${TESTED_HASH}; then
-    cat 1>&2 << EOF
-***
-*** Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}
-***
-EOF
-    exit 1
-fi
-if [ "$RELEASE" = 1 ]; then
+    checkfail "VLC sources: git clone failed"
+    diagnostic "VLC sources: resetting to the TESTED_HASH commit (${TESTED_HASH})"
     git reset --hard ${TESTED_HASH}
+    checkfail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
+    diagnostic "VLC sources: applying custom patches"
+    cd vlc
     git am ../libvlc/patches/vlc3/*.patch
+    checkfail "VLC sources: cannot apply custom patches"
+    cd ..
+else
+    diagnostic "VLC source: found sources, leaving untouched"
 fi
-cd ..
-
+cd vlc
+git cat-file -e ${TESTED_HASH} 2> /dev/null
+checkfail "Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}"
 
 ############
 # Make VLC #
