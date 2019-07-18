@@ -78,6 +78,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
 
     @Volatile
     private var serviceLock = false
+    @Volatile
+    private var discoverTriggered = false
     internal val sb = StringBuilder()
 
     private val notificationActor by lazy {
@@ -159,6 +161,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
             exitCommand()
             return
         }
+        discoverTriggered = true
         actions.offer(DiscoverStorage(path))
     }
 
@@ -313,6 +316,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
 
     override fun onDiscoveryStarted(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onDiscoveryStarted: $entryPoint")
+        discoverTriggered = false
     }
 
     override fun onDiscoveryProgress(entryPoint: String) {
@@ -343,7 +347,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     }
 
     private fun exitCommand() = launch {
-        if (!medialibrary.isWorking && !serviceLock) {
+        if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
             stopSelf()
         }
