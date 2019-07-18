@@ -127,7 +127,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     fun computeHeaders(value: MutableList<MediaLibraryItem>) {
-        headers.clear()
+        privateHeaders.clear()
         for ((position, item) in value.withIndex()) {
             val previous = when {
                 position > 0 -> value[position - 1]
@@ -135,11 +135,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             }
             ModelsHelper.getHeader(context, AbstractMedialibrary.SORT_ALPHA, item, previous)?.let {
                 launch {
-                    headers.put(position, it)
-                    (liveHeaders as MutableLiveData<HeadersIndex>).value = headers
+                    privateHeaders.put(position, it)
                 }
             }
         }
+        (liveHeaders as MutableLiveData).postValue(privateHeaders.clone())
     }
 
     internal open fun parseSubDirectories() {

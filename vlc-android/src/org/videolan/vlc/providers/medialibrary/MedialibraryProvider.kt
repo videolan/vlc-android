@@ -32,7 +32,6 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.HeaderProvider
-import org.videolan.vlc.providers.HeadersIndex
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
 import kotlin.properties.Delegates
@@ -82,7 +81,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
 
     fun refresh(): Boolean {
         if (isRefreshing || !medialibrary.isStarted || !this::dataSource.isInitialized) return false
-        headers.clear()
+        privateHeaders.clear()
         if (!dataSource.isInvalid) {
             isRefreshing = true
             dataSource.invalidate()
@@ -100,10 +99,10 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                 else -> null
             }
             ModelsHelper.getHeader(context, sort, item, previous)?.let {
-                headers.put(startposition + position, it)
-                (liveHeaders as MutableLiveData<HeadersIndex>).postValue(headers)
+                privateHeaders.put(startposition + position, it)
             }
         }
+        (liveHeaders as MutableLiveData).postValue(privateHeaders.clone())
     }
 
     inner class MLDataSource : PositionalDataSource<T>() {

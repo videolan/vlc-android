@@ -8,9 +8,13 @@ import androidx.lifecycle.MutableLiveData
 typealias HeadersIndex = SparseArrayCompat<String>
 
 open class HeaderProvider {
-    val headers = HeadersIndex()
     val liveHeaders: LiveData<HeadersIndex> = MutableLiveData()
+    protected val privateHeaders = HeadersIndex()
+    var headers = HeadersIndex()
 
+    init {
+        liveHeaders.observeForever { headers = it }
+    }
 
     @MainThread
     fun getSectionforPosition(position: Int): String {
