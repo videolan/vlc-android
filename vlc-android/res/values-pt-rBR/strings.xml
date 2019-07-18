@@ -430,6 +430,8 @@
     <string name="network_caching_summary">A quantidade de tempo para armazenar em memória (em ms). Não funciona com decodificação por hardware. Deixe vazio para restaurar a configuração.</string>
     <string name="resume_playback_title">Retomar a reprodução após uma chamada</string>
     <string name="resume_playback_summary">Caso contrário permanecer em pausa</string>
+    <string name="audio_show_cards_title">Exibir placas de áudio</string>
+    <string name="audio_show_cards_summary">Exibe artistas, álbuns e listas de reprodução em placas maiores</string>
     <string name="blurred_cover_background_title">Capa borrada no segundo plano</string>
     <string name="blurred_cover_background_summary">Capa borrada no segundo plano do reprodutor de áudio</string>
     <string name="network_caching_popup">Este valor deve estar entr 0 e 6000 ms</string>
