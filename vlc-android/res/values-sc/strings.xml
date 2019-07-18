@@ -430,6 +430,8 @@
     <string name="network_caching_summary">Sa cantidade de tempus dedicada a su carrigamentu de sos documentos multimediales de retza (in ms). Non funtzionat cun sa decodìfica hardware. Lassala bòida pro ripristinare.</string>
     <string name="resume_playback_title">Sighi cun sa riprodutzione a pustis de una mutida</string>
     <string name="resume_playback_summary">Asinuncas abarra in pàusa</string>
+    <string name="audio_show_cards_title">Ammustra sas ischedas àudio</string>
+    <string name="audio_show_cards_summary">Ammustra sos artistas, sos albums e sas iscalitas in ischedas prus mannas</string>
     <string name="blurred_cover_background_title">Isfundu cun sa cobertedda isfocada</string>
     <string name="blurred_cover_background_summary">Sa cobertedda isfocada in s\'isfundu de su riproduidore àudio</string>
     <string name="network_caching_popup">Custu valore depet èssere incluidu intre 0 e 6000 ms</string>
