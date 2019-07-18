@@ -423,6 +423,8 @@
     <string name="network_caching_summary">缓冲网络媒体的时间量 (单位为毫秒)。硬件解码时无效。留空可重置。</string>
     <string name="resume_playback_title">通话结束后继续播放</string>
     <string name="resume_playback_summary">否则保持暂停</string>
+    <string name="audio_show_cards_title">显示音频卡片</string>
+    <string name="audio_show_cards_summary">在较大的卡片中显示艺术家、专辑以及播放列表信息</string>
     <string name="blurred_cover_background_title">背景封面模糊</string>
     <string name="blurred_cover_background_summary">音频播放器背景中的封面模糊显示</string>
     <string name="network_caching_popup">该值应介于 0 与 6000 ms 之间</string>
