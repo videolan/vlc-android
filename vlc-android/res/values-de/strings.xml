@@ -5,7 +5,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <string name="other">Andere</string>
-    <string name="sortby">Sortieren nach …</string>
+    <string name="sortby">Sortieren nach…</string>
     <string name="sortby_name">Name</string>
     <string name="sortby_name_desc">Name (absteigend)</string>
     <string name="sortby_filename">Dateiname</string>
@@ -22,7 +22,7 @@
     <string name="sortby_last_modified_date_desc">Zuletzt hinzugefügt (absteigend)</string>
     <string name="sortby_number">Titelnummern</string>
     <string name="sortby_number_desc">Titelnummern (absteigend)</string>
-    <string name="searchable_hint">Suchen …</string>
+    <string name="searchable_hint">Suchen…</string>
     <string name="history">Verlauf</string>
 
     <plurals name="search_found_results_quantity">
@@ -110,7 +110,7 @@
     <string name="directory">Verzeichnis</string>
     <string name="directories">Verzeichnisse</string>
     <string name="loading">Ladevorgang</string>
-    <string name="please_wait">Bitte warten …</string>
+    <string name="please_wait">Bitte warten…</string>
     <string name="nomedia">Keine Mediendateien gefunden, bitte Dateien auf das Gerät übertragen oder die Einstellungen anpassen.</string>
     <string name="noplaylist">Keine Wiedergabeliste gefunden</string>
     <string name="mediafiles">Mediendateien</string>
@@ -181,13 +181,13 @@
     <string name="no_file_picker_found">Es wurde kein Dateimanager auf dem System gefunden.</string>
 
     <string name="server_add_title">Einen neuen Server zu den Favoriten hinzufügen</string>
-    <string name="server_domain_hint">Server-Adresse (Domainname oder IP)</string>
-    <string name="server_share_hint">Name der Netzwerkfreigabe (oder IP-Adresse)</string>
+    <string name="server_domain_hint">Serveradresse (Domainname oder IP)</string>
+    <string name="server_share_hint">Netzwerkfreigabename (oder IP-Adresse)</string>
     <string name="server_folder_hint">Ordnerpfad (optional)</string>
     <string name="server_username_hint">Benutzername</string>
-    <string name="server_servername_hint">Zur Einfachheit, der Server-Name</string>
+    <string name="server_servername_hint">Servername zur Einfachheit</string>
     <string name="server_port">Port: </string>
-    <string name="login">Anmelden</string>
+    <string name="login">Benutzername</string>
     <string name="password">Passwort</string>
 
     <string name="search_results">Suchergebnisse</string>
@@ -201,7 +201,7 @@
     <string name="open">Öffnen</string>
     <string name="open_mrl">Stream</string>
     <string name="open_mrl_dialog_title">Netzwerkstream öffnen</string>
-    <string name="open_mrl_dialog_msg">Netzwerkmedienadresse eingeben: z.B. http://, mms:// oder rtsp://</string>
+    <string name="open_mrl_dialog_msg">Adresse eingeben: z.B. http://, mms:// oder rtsp://</string>
     <string name="error_not_compatible">Es tut uns leid, Ihr Gerät wird derzeit von dieser Version von VLC für Android™ nicht unterstützt.</string>
     <string name="error_problem">Es tut uns leid, VLC für Android hatte ein Problem beim Laden und musste geschlossen werden.</string>
     <string name="error_message_is">Die Fehlermeldung lautet (bitte bei der Fehlersuche angeben):\n</string>
@@ -430,6 +430,8 @@
     <string name="network_caching_summary">Der Zeitwert, um das Netzwerkmedium zu puffern (in ms). Funktioniert nicht in Verbindung mit Hardware-Dekodierung. Zum Zurückzusetzen leer lassen.</string>
     <string name="resume_playback_title">Wiedergabe nach Anruf fortsetzen</string>
     <string name="resume_playback_summary">Andernfalls im Pausieren verbleiben</string>
+    <string name="audio_show_cards_title">Audio-Karten anzeigen</string>
+    <string name="audio_show_cards_summary">Zeigt Künstler, Alben und Wiedergabelisten auf größeren Karten an</string>
     <string name="blurred_cover_background_title">Unscharfes Hintergrundbild</string>
     <string name="blurred_cover_background_summary">Unscharfes Hintergrundbild für den Audio-Player</string>
     <string name="network_caching_popup">Der Wert muss zwischen 0 und 6000 ms liegen</string>
@@ -460,7 +462,7 @@
     <string name="help_us_send_log">Helfen Sie uns bei der Verbesserung des VLC, durch das Übersenden des folgenden Fehlerberichtes:</string>
     <string name="restart_vlc">VLC neu starten</string>
     <string name="send_log">Fehlerbericht senden</string>
-    <string name="sending_log">Fehlerbericht wird gesendet …</string>
+    <string name="sending_log">Fehlerbericht wird gesendet…</string>
 
     <string name="delete_sub_title">Untertitel löschen</string>
     <string name="delete_sub_message">Möchten Sie diese Untertitel löschen?</string>
@@ -482,11 +484,11 @@
     <string name="audio_delay">Audioverzögerung</string>
     <string name="spu_delay">Untertitelverzögerung</string>
     <string name="sleep_time_not_set">nichts eingestellt</string>
-    <string name="network_shares_discovery">Nach Netzwerkfreigaben wird gesucht …</string>
+    <string name="network_shares_discovery">Nach Netzwerkfreigaben wird gesucht…</string>
     <string name="network_empty">Das Verzeichnis ist leer.</string>
     <string name="network_connection_needed">Keine Verbindung zum lokalen Netzwerk.</string>
     <string name="search_hint">Medien suchen</string>
-    <string name="search_list_hint">Medien in aktueller Liste suchen</string>
+    <string name="search_list_hint">In aktueller Liste suchen</string>
     <string name="search_global">In allen Medienbibliotheken suchen</string>
     <string name="directory_show_medialib">In Medienbibliothek anzeigen</string>
     <string name="directory_hide_medialib">In Medienbibliothek ausblenden</string>
@@ -565,7 +567,7 @@
     <string name="browse_folder">Ordner durchsuchen</string>
     <string name="listen">Hören</string>
     <string name="subtitles_download_title">Untertitel herunterladen</string>
-    <string name="connecting">Verbindung wird aufgebaut …</string>
+    <string name="connecting">Verbindung wird aufgebaut…</string>
     <string name="save_bluetooth_delay">Verzögerung des Bluetooth-Gerätes speichern</string>
     <string name="episodes">Episoden</string>
     <string name="movies">Filme</string>
@@ -585,13 +587,13 @@
     <string name="ml_external_storage_decline">Nein</string>
     <string name="last_added_media">Zuletzt hinzugefügt</string>
     <string name="no">Nein</string>
-    <string name="loading_medialibrary">Medienbibliothek wird geladen …</string>
+    <string name="loading_medialibrary">Medienbibliothek wird geladen…</string>
     <string name="yes">Ja</string>
 
     <string name="custom_set_save_title">Nicht gespeicherte Änderungen</string>
     <string name="custom_set_save_warning">Warnung: Nicht gespeicherte Änderungen</string>
-    <string name="existing_custom_set_save_message">Equalizer-Einstellung speichern als …</string>
-    <string name="new_custom_set_save_message">Neue Equalizer-Einstellung speichern als …</string>
+    <string name="existing_custom_set_save_message">Equalizer-Einstellung speichern als…</string>
+    <string name="new_custom_set_save_message">Neue Equalizer-Einstellung speichern als…</string>
     <string name="save">Speichern</string>
     <string name="do_not_save">Nicht speichern</string>
     <string name="custom_set_deleted_message">Eigene Equalizer-Einstellung \"%1$s\" gelöscht.</string>
@@ -630,7 +632,7 @@
     <string name="otg_device_title">OTG-Gerät</string>
     <string name="browser">Browser</string>
     <string name="ab_repeat">A-B-Wiederholung</string>
-    <string name="stop_after_this">Wiedergabe nach diesem Titel stoppen</string>
+    <string name="stop_after_this">Nach diesem Titel stoppen</string>
     <string name="time_category_new">Neue Medien</string>
     <string name="time_category_current_month">Diesen Monat</string>
     <string name="time_category_current_year">Dieses Jahr</string>
@@ -678,7 +680,7 @@
     <string name="theme_follow_system_mode">Wie im Systemmodus</string>
     <string name="resume_card_message">Wiedergabe fortsetzen von %1$s?</string>
     <string name="misc">Verschiedenes</string>
-    <string name="popup_force_legacy_title">Ein benutzerdefiniertes Bild-in-Bild verwenden</string>
+    <string name="popup_force_legacy_title">Benutzerdefiniertes Bild-in-Bild</string>
     <string name="popup_force_legacy_summary">Ein benutzerdefiniertes Bild-in-Bild im größenveränderbaren Fenster verwenden</string>
     <string name="device_default">Systemsprache</string>
     <string name="track_number">%s Titel</string>
