@@ -288,7 +288,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         input.setText(oldName)
         input.setSelectAllOnFocus(true)
 
-        val container = FrameLayout(context)
+        val container = FrameLayout(requireContext())
         val klNormal = resources.getDimension(R.dimen.kl_normal).toInt()
         container.setPadding(klNormal, 0, klNormal, 0)
 
@@ -321,16 +321,17 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         saveEqualizer.setOnShowListener { dialog ->
             val positiveButton = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
             positiveButton.setOnClickListener {
+                val ctx = activity ?: return@setOnClickListener
                 val newName = input.text.toString()
                 if (newName.contains("_") || TextUtils.equals(newName, newPresetName)) {
-                    Toast.makeText(context, VLCApplication.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ctx, VLCApplication.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
                 } else if (allSets.contains(newName) && !TextUtils.equals(newName, oldName)) {
-                    Toast.makeText(context, VLCApplication.appContext.resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ctx, VLCApplication.appContext.resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
                 } else {
-                    VLCOptions.saveCustomSet(requireActivity(), temporarySet, newName)
+                    VLCOptions.saveCustomSet(ctx, temporarySet, newName)
                     if (onPause) {
                         if (binding.equalizerButton.isChecked)
-                            VLCOptions.saveEqualizerInSettings(requireActivity(), temporarySet, newName, true, true)
+                            VLCOptions.saveEqualizerInSettings(ctx, temporarySet, newName, true, true)
                     } else {
                         if (TextUtils.equals(newName, oldName)) {
                             if (displayedByUser) {
