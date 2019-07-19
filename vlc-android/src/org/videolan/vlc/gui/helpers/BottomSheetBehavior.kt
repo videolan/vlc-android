@@ -7,7 +7,6 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.vlc.gui.AudioPlayerContainerActivity
 
 
 @ObsoleteCoroutinesApi
@@ -19,7 +18,7 @@ class BottomSheetBehavior<V : View> : com.google.android.material.bottomsheet.Bo
         isHideable = true
     }
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     fun lock(lock: Boolean) {
         this.lock = lock
@@ -36,16 +35,6 @@ class BottomSheetBehavior<V : View> : com.google.android.material.bottomsheet.Bo
 
     }
 
-    override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
-        if (lock || state == STATE_EXPANDED) return
-        if (dyConsumed > 0 && child.visibility == View.VISIBLE) {
-            val activity = child.context as AudioPlayerContainerActivity
-            activity.hideAudioPlayer()
-        } else if (dyConsumed < 0 && state == STATE_HIDDEN) {
-            val activity = child.context as AudioPlayerContainerActivity
-            activity.showAudioPlayer()
-        }
-    }
 
     override fun onStopNestedScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View, type: Int) {
         if (lock) return
