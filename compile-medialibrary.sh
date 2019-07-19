@@ -56,7 +56,7 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
         echo "Wrong sha1 for ${SQLITE_RELEASE}.tar.gz"
         exit 1
     fi
-    tar -xzf ${SQLITE_RELEASE}.tar.gz
+    tar -xozf ${SQLITE_RELEASE}.tar.gz
     rm -f ${SQLITE_RELEASE}.tar.gz
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
