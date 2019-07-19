@@ -2,42 +2,42 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="24"
-   height="24"
-   id="svg4682"
-   version="1.1"
-   inkscape:version="0.48.5 r10040"
-   sodipodi:docname="ic_menu_refresh.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        width="24"
+        height="24"
+        id="svg4682"
+        version="1.1"
+        inkscape:version="0.92.4 (33fec40, 2019-01-16)"
+        sodipodi:docname="ic_menu_refresh.svg"
+        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+        inkscape:export-xdpi="90"
+        inkscape:export-ydpi="90">
   <defs
      id="defs4684" />
   <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="22.4"
-     inkscape:cx="-1.6436524"
-     inkscape:cy="15.548271"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1056"
-     inkscape:window-x="1920"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+          id="base"
+          pagecolor="#ffffff"
+          bordercolor="#666666"
+          borderopacity="1.0"
+          inkscape:pageopacity="0.0"
+          inkscape:pageshadow="2"
+          inkscape:zoom="22.4"
+          inkscape:cx="-9.5231167"
+          inkscape:cy="15.548271"
+          inkscape:document-units="px"
+          inkscape:current-layer="layer1"
+          showgrid="false"
+          inkscape:window-width="1920"
+          inkscape:window-height="1053"
+          inkscape:window-x="0"
+          inkscape:window-y="27"
+          inkscape:window-maximized="1" />
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -56,9 +56,9 @@
      id="layer1"
      transform="translate(0,-1028.3622)">
     <path
-       style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 12,1032.3622 c -4.4182799,0 -7.9999999,3.5817 -7.9999999,8 0,4.4183 3.58172,8 7.9999999,8 4.41828,0 8,-3.5817 8,-8 l -2,0 c 0,3.3137 -2.68629,6 -6,6 -3.3137099,0 -5.9999999,-2.6863 -5.9999999,-6 0,-3.3137 2.68629,-6 5.9999999,-6 1.65686,0 3.16421,0.6642 4.25,1.75 l -2.25,2.25 6,0 0,-6 -2.34375,2.3438 c -1.44771,-1.4478 -3.44711,-2.3438 -5.65625,-2.3438 z"
-       id="path5023"
-       inkscape:connector-curvature="0" />
+            style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5625;marker:none;enable-background:accumulate"
+            d="m 12,1031.3622 c -4.970565,0 -9,4.0294 -9,9 0,4.9706 4.029435,9 9,9 4.970565,0 9,-4.0294 9,-9 h -2.25 c 0,3.7279 -3.022076,6.75 -6.75,6.75 -3.7279236,0 -6.75,-3.0221 -6.75,-6.75 0,-3.7279 3.0220764,-6.75 6.75,-6.75 1.863967,0 3.559736,0.7472 4.78125,1.9687 L 14.25,1038.1122 H 21 v -6.75 l -2.636719,2.6368 C 16.734607,1032.3702 14.485283,1031.3622 12,1031.3622 Z"
+            id="path5023"
+            inkscape:connector-curvature="0" />
   </g>
 </svg>

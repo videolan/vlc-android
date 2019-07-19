@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        width="24"
+        height="24"
+        id="svg4682"
+        version="1.1"
+        inkscape:version="0.92.4 (33fec40, 2019-01-16)"
+        sodipodi:docname="ic_menu_search.svg"
+        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+        inkscape:export-xdpi="90"
+        inkscape:export-ydpi="90">
+    <defs
+            id="defs4684"/>
+    <sodipodi:namedview
+            id="base"
+            pagecolor="#ffffff"
+            bordercolor="#666666"
+            borderopacity="1.0"
+            inkscape:pageopacity="0.0"
+            inkscape:pageshadow="2"
+            inkscape:zoom="32"
+            inkscape:cx="5.45755"
+            inkscape:cy="12.939953"
+            inkscape:document-units="px"
+            inkscape:current-layer="layer1"
+            showgrid="true"
+            inkscape:window-width="1920"
+            inkscape:window-height="1053"
+            inkscape:window-x="0"
+            inkscape:window-y="27"
+            inkscape:window-maximized="1">
+        <inkscape:grid
+                type="xygrid"
+                id="grid2983"/>
+    </sodipodi:namedview>
+    <metadata
+            id="metadata4687">
+        <rdf:RDF>
+            <cc:Work
+                    rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type
+                        rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+                <dc:title/>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g
+            inkscape:label="Layer 1"
+            inkscape:groupmode="layer"
+            id="layer1"
+            transform="translate(0,-1028.3622)">
+        <path
+                style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.53125161;marker:none;enable-background:accumulate"
+                d="m 9.8750198,1031.8622 c -3.5208278,0 -6.3750198,2.8542 -6.3750198,6.3751 0,3.5208 2.854192,6.375 6.3750198,6.375 1.5403642,0 2.9488192,-0.5517 4.0507942,-1.4611 0.0075,0.01 0.02783,-0.01 0.03315,0 0.05408,0.054 0.218196,0.2183 0.166016,0.1661 l 0.365236,0.3652 v 0.5976 l 4.515639,4.5822 1.494145,-1.5606 -4.515639,-4.5156 h -0.498048 l -0.630862,-0.5977 c 0.864654,-1.088 1.394589,-2.4535 1.394589,-3.9511 0,-3.521 -2.854193,-6.3751 -6.3750202,-6.3751 z m 0,2.1251 c 2.3472182,0 4.2500132,1.9028 4.2500132,4.25 0,2.347 -1.902795,4.25 -4.2500132,4.25 -2.3472185,0 -4.2500132,-1.903 -4.2500132,-4.25 0,-2.3472 1.9027947,-4.25 4.2500132,-4.25 z"
+                id="path4951"
+                inkscape:connector-curvature="0"/>
+    </g>
+</svg>

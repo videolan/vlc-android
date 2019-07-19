@@ -1,7 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_menu_search_normal" android:state_focused="true" android:state_pressed="true"/>
-    <item android:drawable="@drawable/ic_menu_search_pressed" android:state_focused="true"/>
-    <item android:drawable="@drawable/ic_menu_search_pressed" android:state_pressed="true"/>
-    <item android:drawable="@drawable/ic_menu_search_normal"/>
-</selector>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:pathData="m9.875,3.5c-3.5208,0 -6.375,2.8542 -6.375,6.3751 0,3.5208 2.8542,6.375 6.375,6.375 1.5404,0 2.9488,-0.5517 4.0508,-1.4611 0.0075,0.01 0.0278,-0.01 0.0331,0 0.0541,0.054 0.2182,0.2183 0.166,0.1661l0.3652,0.3652v0.5976l4.5156,4.5822 1.4941,-1.5606 -4.5156,-4.5156h-0.498l-0.6309,-0.5977c0.8647,-1.088 1.3946,-2.4535 1.3946,-3.9511 0,-3.521 -2.8542,-6.3751 -6.375,-6.3751zM9.875,5.6251c2.3472,0 4.25,1.9028 4.25,4.25 0,2.347 -1.9028,4.25 -4.25,4.25 -2.3472,0 -4.25,-1.903 -4.25,-4.25 0,-2.3472 1.9028,-4.25 4.25,-4.25z"
+            android:strokeWidth="0.53125161"
+            android:fillColor="#fafafa"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:fillAlpha="1"/>
+</vector>

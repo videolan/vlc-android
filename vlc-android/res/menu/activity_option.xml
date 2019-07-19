@@ -11,12 +11,12 @@
         android:visible="false"/>
 
     <item
-        android:orderInCategory="1"
-        android:id="@+id/ml_menu_filter"
-        android:icon="@drawable/ic_menu_search_normal_w"
-        vlc:actionViewClass="androidx.appcompat.widget.SearchView"
-        android:title="@string/searchable_hint"
-        vlc:showAsAction="always|collapseActionView"/>
+            android:orderInCategory="1"
+            android:id="@+id/ml_menu_filter"
+            android:icon="@drawable/ic_menu_search"
+            vlc:actionViewClass="androidx.appcompat.widget.SearchView"
+            android:title="@string/searchable_hint"
+            vlc:showAsAction="always|collapseActionView"/>
     <item
         android:orderInCategory="2"
         android:id="@+id/ml_menu_last_playlist"
@@ -73,10 +73,11 @@
         </menu>
     </item>
     <item
-        android:orderInCategory="3"
-        android:id="@+id/ml_menu_refresh"
-        android:icon="@drawable/ic_menu_refresh"
-        android:title="@string/refresh"/>
+            android:orderInCategory="3"
+            android:id="@+id/ml_menu_refresh"
+            android:icon="@drawable/ic_menu_refresh"
+            vlc:showAsAction="ifRoom|collapseActionView"
+            android:title="@string/refresh"/>
     <item
         android:orderInCategory="3"
         android:id="@+id/ml_menu_custom_dir"
