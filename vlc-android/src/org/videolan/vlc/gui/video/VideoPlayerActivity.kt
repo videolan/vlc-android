@@ -1733,7 +1733,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
             if (item.itemId == R.id.audio_player_mini_remove) service?.run {
-                playlistAdapter.remove(position)
                 remove(position)
                 return@OnMenuItemClickListener true
             }
