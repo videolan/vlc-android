@@ -2,67 +2,67 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-        xmlns:dc="http://purl.org/dc/elements/1.1/"
-        xmlns:cc="http://creativecommons.org/ns#"
-        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        xmlns:svg="http://www.w3.org/2000/svg"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-        width="24"
-        height="24"
-        id="svg4682"
-        version="1.1"
-        inkscape:version="0.92.4 (33fec40, 2019-01-16)"
-        sodipodi:docname="ic_menu_search.svg"
-        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-        inkscape:export-xdpi="90"
-        inkscape:export-ydpi="90">
-    <defs
-            id="defs4684"/>
-    <sodipodi:namedview
-            id="base"
-            pagecolor="#ffffff"
-            bordercolor="#666666"
-            borderopacity="1.0"
-            inkscape:pageopacity="0.0"
-            inkscape:pageshadow="2"
-            inkscape:zoom="32"
-            inkscape:cx="5.45755"
-            inkscape:cy="12.939953"
-            inkscape:document-units="px"
-            inkscape:current-layer="layer1"
-            showgrid="true"
-            inkscape:window-width="1920"
-            inkscape:window-height="1053"
-            inkscape:window-x="0"
-            inkscape:window-y="27"
-            inkscape:window-maximized="1">
-        <inkscape:grid
-                type="xygrid"
-                id="grid2983"/>
-    </sodipodi:namedview>
-    <metadata
-            id="metadata4687">
-        <rdf:RDF>
-            <cc:Work
-                    rdf:about="">
-                <dc:format>image/svg+xml</dc:format>
-                <dc:type
-                        rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-                <dc:title/>
-            </cc:Work>
-        </rdf:RDF>
-    </metadata>
-    <g
-            inkscape:label="Layer 1"
-            inkscape:groupmode="layer"
-            id="layer1"
-            transform="translate(0,-1028.3622)">
-        <path
-                style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.53125161;marker:none;enable-background:accumulate"
-                d="m 9.8750198,1031.8622 c -3.5208278,0 -6.3750198,2.8542 -6.3750198,6.3751 0,3.5208 2.854192,6.375 6.3750198,6.375 1.5403642,0 2.9488192,-0.5517 4.0507942,-1.4611 0.0075,0.01 0.02783,-0.01 0.03315,0 0.05408,0.054 0.218196,0.2183 0.166016,0.1661 l 0.365236,0.3652 v 0.5976 l 4.515639,4.5822 1.494145,-1.5606 -4.515639,-4.5156 h -0.498048 l -0.630862,-0.5977 c 0.864654,-1.088 1.394589,-2.4535 1.394589,-3.9511 0,-3.521 -2.854193,-6.3751 -6.3750202,-6.3751 z m 0,2.1251 c 2.3472182,0 4.2500132,1.9028 4.2500132,4.25 0,2.347 -1.902795,4.25 -4.2500132,4.25 -2.3472185,0 -4.2500132,-1.903 -4.2500132,-4.25 0,-2.3472 1.9027947,-4.25 4.2500132,-4.25 z"
-                id="path4951"
-                inkscape:connector-curvature="0"/>
-    </g>
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   id="svg4682"
+   version="1.1"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="ic_menu_search.svg"
+   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4684" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="45.254834"
+     inkscape:cx="16.312703"
+     inkscape:cy="8.5063266"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2983" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata4687">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1028.3622)">
+    <path
+       inkscape:connector-curvature="0"
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.99960649;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       d="m 9.9999,1031.3621 c -3.8542,0 -7,3.1459 -7,7 0,3.8542 3.1458,7 7,7 1.748,0 3.345,-0.652 4.5742,-1.7188 l 0.4258,0.4258 v 0.7071 l 4.2832,4.2832 a 1,1 0 0 0 0.01,0.01 1,1 0 0 0 0.707,0.293 1,1 0 0 0 1,-1 1,1 0 0 0 -0.293,-0.707 l -4.2929,-4.293 h -0.7071 l -0.4258,-0.4258 c 1.0666,-1.2295 1.7186,-2.8265 1.7186,-4.5745 0,-3.8541 -3.1458,-7 -7,-7 z m 0,2 c 2.7735,0 5,2.2265 5,5 0,2.7735 -2.2265,5.002 -5,5.002 -2.7735,0 -5,-2.2285 -5,-5.002 0,-2.7735 2.2265,-5 5,-5 z"
+       id="ellipse11151" />
+  </g>
 </svg>
