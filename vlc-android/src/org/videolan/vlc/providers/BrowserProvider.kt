@@ -64,8 +64,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     private val completionHandler : CompletionHandler = object : CompletionHandler {
         override fun invoke(cause: Throwable?) {
-            mediabrowser?.release()
-            mediabrowser = null
+            launch(Dispatchers.IO) {
+                mediabrowser?.release()
+                mediabrowser = null
+            }
             if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
         }
 
@@ -77,7 +79,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             BrowseRoot -> browseRootImpl()
             Refresh -> refreshImpl()
             ParseSubDirectories -> parseSubDirectoriesImpl()
-            ClearListener -> mediabrowser?.changeEventListener(null)
+            ClearListener -> withContext(Dispatchers.IO) { mediabrowser?.changeEventListener(null) }
         }
     }
 
