@@ -4,6 +4,19 @@ This is the official **Android** port of [VLC](https://videolan.org/vlc/).
 VLC on Android plays all the same files as the classical version of VLC, and features a media database
 for Audio and Video files and stream.
 
+## Installation
+
+### Gradle
+
+To integrate with your dependencies add the following to your `app/build.gradle`:
+
+```groovy
+dependencies {
+  //...
+  implementation 'org.videolan:vlc-lib-android:3.1.7'
+}
+```
+
 ## License
 VLC for Android is licensed under GPLv2 (or later). Android libraries makes this, de facto, a GPLv3 application.
 
