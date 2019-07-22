@@ -203,7 +203,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
                         handler.postDelayed({
                             when (numberOfTaps) {
-                                1 -> player.handler.sendEmptyMessageDelayed(if (player.isShowing) VideoPlayerActivity.HIDE_INFO else VideoPlayerActivity.SHOW_INFO, 200)
+                                1 -> player.handler.sendEmptyMessage(if (player.isShowing) VideoPlayerActivity.HIDE_INFO else VideoPlayerActivity.SHOW_INFO)
                             }
                         }, ViewConfiguration.getDoubleTapTimeout().toLong())
                     }
