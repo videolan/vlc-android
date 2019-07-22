@@ -416,7 +416,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         /* Services and miscellaneous */
         audiomanager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         audioMax = audiomanager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-        isAudioBoostEnabled = settings.getBoolean("audio_boost", false)
+        isAudioBoostEnabled = settings.getBoolean("audio_boost", true)
 
         enableCloneMode = if (clone != null) clone!! else settings.getBoolean("enable_clone_mode", false)
         displayManager = DisplayManager(this, PlaybackService.renderer, false, enableCloneMode, isBenchmark)

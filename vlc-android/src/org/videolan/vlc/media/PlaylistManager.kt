@@ -430,7 +430,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun setAudioDelay(delay: Long) {
         if (!player.setAudioDelay(delay)) return
         val media = getCurrentMedia() ?: return
-        if (media.id != 0L && settings.getBoolean("save_individual_audio_delay", false)) {
+        if (media.id != 0L && settings.getBoolean("save_individual_audio_delay", true)) {
             launch(Dispatchers.IO) { media.setLongMeta(AbstractMediaWrapper.META_AUDIODELAY, player.getAudioDelay()) }
         }
     }
@@ -444,7 +444,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private fun loadMediaMeta(media: AbstractMediaWrapper) {
         if (media.id == 0L) return
         if (player.canSwitchToVideo()) {
-            if (settings.getBoolean("save_individual_audio_delay", false))
+            if (settings.getBoolean("save_individual_audio_delay", true))
                 player.setAudioDelay(media.getMetaLong(AbstractMediaWrapper.META_AUDIODELAY))
             player.setSpuTrack(media.getMetaLong(AbstractMediaWrapper.META_SUBTITLE_TRACK).toInt())
             player.setSpuDelay(media.getMetaLong(AbstractMediaWrapper.META_SUBTITLE_DELAY))
