@@ -269,7 +269,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         val list = audioBrowserAdapter.multiSelectHelper.getSelection()
         val tracks = ArrayList<AbstractMediaWrapper>()
         for (mediaItem in list)
-            tracks.addAll(Arrays.asList(*mediaItem.tracks))
+            tracks.addAll(listOf(*mediaItem.tracks))
 
         if (item.itemId == R.id.action_mode_audio_playlist_up) {
             Toast.makeText(this, "UP !", Toast.LENGTH_SHORT).show()
