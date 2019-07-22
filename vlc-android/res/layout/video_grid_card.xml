@@ -86,15 +86,6 @@
             vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
             vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail" />
 
-        <ImageView
-            android:id="@+id/ml_item_seen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_seen_normal"
-            android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE, default=gone}"
-            vlc:layout_constraintRight_toRightOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
-
         <TextView
                 android:id="@+id/ml_item_title"
                 android:layout_width="0dp"
@@ -104,7 +95,7 @@
                 android:layout_marginBottom="8dp"
                 style="@style/VLC.TextViewTitle"
                 android:textColor="@color/grey50"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:text="@{showFilename ? media.fileName : media.title}"
                 tools:targetApi="jelly_bean"
                 vlc:layout_constraintBottom_toBottomOf="parent"
@@ -124,11 +115,11 @@
                 android:background="@drawable/rounded_corners_black_more_transparent"
                 android:text="@{resolution}"
                 android:visibility="@{resolution == null ? View.GONE : View.VISIBLE, default=gone}"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 vlc:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible"
                 tools:text="HD"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="4dp"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 android:textSize="10sp"/>
 
@@ -148,10 +139,20 @@
                 android:textColor="@color/grey50"
                 android:text="@{time}"
                 vlc:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 tools:text="32:55"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:textSize="10sp"/>
+
+        <ImageView
+                android:id="@+id/ml_item_seen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_seen_normal"
+                android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE, default=gone}"
+                vlc:layout_constraintRight_toRightOf="@+id/ml_item_thumbnail"
+                vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail"
+                tools:visibility="visible"/>
 
         <ImageView
                 android:id="@+id/item_more"
