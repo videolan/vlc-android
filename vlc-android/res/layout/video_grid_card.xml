@@ -104,11 +104,12 @@
                 android:layout_marginBottom="8dp"
                 style="@style/VLC.TextViewTitle"
                 android:textColor="@color/grey50"
-                android:layout_marginStart="@dimen/half_default_margin"
+                android:layout_marginStart="8dp"
                 android:text="@{showFilename ? media.fileName : media.title}"
                 tools:targetApi="jelly_bean"
                 vlc:layout_constraintBottom_toBottomOf="parent"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                tools:text="Star wars Episode 1"/>
 
         <TextView
                 android:id="@+id/ml_item_resolution"
@@ -120,7 +121,7 @@
                 android:paddingBottom="2dp"
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/rounded_corners_black_more_transparent"
                 android:text="@{resolution}"
                 android:visibility="@{resolution == null ? View.GONE : View.VISIBLE, default=gone}"
                 android:layout_marginTop="8dp"
@@ -135,7 +136,7 @@
                 android:id="@+id/ml_item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/rounded_corners_black_more_transparent"
                 vlc:layout_constraintStart_toStartOf="parent"
                 android:ellipsize="end"
                 android:gravity="start"
