@@ -22,6 +22,7 @@ package org.videolan.vlc.gui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -78,6 +79,7 @@ class HistoryAdapter(private val mEventsHandler: IEventsHandler) : DiffUtilAdapt
         val media = getItem(position)
         holder.binding.media = media
         holder.binding.cover = getMediaIconDrawable(holder.itemView.context, media.type)
+        (holder.binding.icon.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = if (media.type == AbstractMediaWrapper.TYPE_VIDEO) "16:10" else "1"
         holder.selectView(multiSelectHelper.isSelected(position))
     }
 

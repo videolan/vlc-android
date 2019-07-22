@@ -120,10 +120,12 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
         }
 
         if (media.type == AbstractMediaWrapper.TYPE_VIDEO) {
-            (holder.binding.coverImage.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "16:9"
+            (holder.binding.coverImage.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "16:10"
             holder.binding.cover = defaultCoverVideo
-        } else
+        } else {
+            (holder.binding.coverImage.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "1"
             holder.binding.cover = defaultCoverAudio
+        }
 
         holder.binding.executePendingBindings()
     }
