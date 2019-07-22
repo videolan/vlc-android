@@ -162,7 +162,7 @@
                 android:contentDescription="@string/more_actions"
                 android:onClick="@{holder::onMoreClick}"
                 android:scaleType="fitEnd"
-                android:src="@drawable/ic_more_w"
+                vlc:srcCompat="@drawable/ic_more_card"
                 vlc:layout_constraintBottom_toBottomOf="parent"/>
 
         <ProgressBar
