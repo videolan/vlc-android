@@ -169,6 +169,26 @@ class FileBrowserFragmentUITest : BaseUITest() {
                 .check(matches(sizeOfAtLeast(2)))
     }
 
+    @Test
+    fun whenAtRoot_addInternalStorageToFavoriteAndCheckListUpdated() {
+        val rvMatcher = withRecyclerView(R.id.network_list)
+
+        onView(rvMatcher.atPosition(1))
+                .check(matches(isDisplayed()))
+
+        val oldCount = rvMatcher.recyclerView?.adapter?.itemCount ?: 0
+
+        onView(rvMatcher.atPositionOnView(1, R.id.item_more))
+                .perform(click())
+
+        onView(withRecyclerView(R.id.ctx_list).atPosition(1))
+                .check(matches(hasDescendant(withText(R.string.favorites_add))))
+                .perform(click())
+
+        onView(withId(R.id.network_list))
+                .check(matches(sizeOfAtLeast(oldCount + 1)))
+    }
+
     private fun sizeOfAtLeast(minSize: Int): Matcher<in View> {
         return object : TypeSafeMatcher<View>() {
             override fun describeTo(description: Description) {
