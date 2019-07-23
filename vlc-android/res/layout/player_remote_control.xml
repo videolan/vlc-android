@@ -76,16 +76,16 @@
             android:layout="@layout/player_hud" />
 
         <androidx.appcompat.widget.ViewStubCompat
-            android:id="@+id/player_hud_right_stub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="@dimen/overlay_margin"
-            android:layout_marginTop="@dimen/overlay_margin"
-            android:layout_marginRight="@dimen/overlay_margin"
-            android:layout_marginBottom="@dimen/overlay_margin"
-            android:layout="@layout/player_hud_right" />
+                android:id="@+id/player_hud_right_stub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="@dimen/overlay_margin"
+                android:layout_marginTop="@dimen/overlay_margin"
+                android:layout_marginRight="@dimen/overlay_margin"
+                android:layout_marginBottom="@dimen/overlay_margin"
+                android:layout="@layout/player_hud_right"/>
 
     </RelativeLayout>
 
