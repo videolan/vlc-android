@@ -2152,12 +2152,22 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 hudBinding.playerOverlayRewind.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playerOverlayForward.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
+            hudBinding.orientationToggle.visibility = if (isTv || AndroidDevices.isChromeBook) View.GONE else if (show) View.VISIBLE else View.INVISIBLE
             hudBinding.playerOverlayTracks.visibility = if (show) View.VISIBLE else View.INVISIBLE
             hudBinding.playerOverlayAdvFunction.visibility = if (show) View.VISIBLE else View.INVISIBLE
             if (hasPlaylist) {
                 hudBinding.playlistPrevious.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playlistNext.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
+        }
+        if (::hudRightBinding.isInitialized) {
+
+            val secondary = displayManager.isSecondary
+            if (secondary) hudRightBinding.videoSecondaryDisplay.setImageResource(R.drawable.ic_screenshare_stop_circle_player)
+            hudRightBinding.videoSecondaryDisplay.visibility = if (!show) View.GONE else if (UiTools.hasSecondaryDisplay(applicationContext)) View.VISIBLE else View.GONE
+            hudRightBinding.videoSecondaryDisplay.contentDescription = resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
+
+            hudRightBinding.playlistToggle.visibility = if (show && service?.hasPlaylist() == true) View.VISIBLE else View.GONE
         }
     }
 
@@ -2169,10 +2179,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 it.inflate()
                 hudRightBinding = DataBindingUtil.bind(findViewById(R.id.hud_right_overlay))
                         ?: return
-                val secondary = displayManager.isSecondary
-                if (secondary) hudRightBinding.videoSecondaryDisplay.setImageResource(R.drawable.ic_screenshare_stop_circle_player)
-                hudRightBinding.videoSecondaryDisplay.visibility = if (UiTools.hasSecondaryDisplay(applicationContext)) View.VISIBLE else View.GONE
-                hudRightBinding.videoSecondaryDisplay.contentDescription = resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
                 if (!isBenchmark && enableCloneMode && !settings.contains("enable_clone_mode")) {
                     UiTools.snackerConfirm(hudRightBinding.videoSecondaryDisplay, getString(R.string.video_save_clone_mode), Runnable { settings.edit().putBoolean("enable_clone_mode", true).apply() })
                 }
