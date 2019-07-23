@@ -2010,6 +2010,18 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             val imageSecond = if (seekForward) seekForwardSecond else seekRewindSecond
 
             container.post {
+
+                //On TV, seek text and animation should be centered in parent
+                if (Settings.showTvUi) {
+                    val seekTVConstraintSet = ConstraintSet()
+                    seekTVConstraintSet.clone(seekContainer)
+                    seekTVConstraintSet.connect(R.id.seekLeftText, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+                    seekTVConstraintSet.setMargin(R.id.seekLeftText, ConstraintSet.START, 0)
+                    seekTVConstraintSet.connect(R.id.seekRightText, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
+                    seekTVConstraintSet.setMargin(R.id.seekRightText, ConstraintSet.END, 0)
+                    seekTVConstraintSet.applyTo(seekContainer)
+                }
+
                 val backgroundAnim = ObjectAnimator.ofFloat(seek_background, "alpha", 1f)
                 backgroundAnim.duration = 200
 
@@ -2019,17 +2031,22 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 val secondImageAnim = ObjectAnimator.ofFloat(imageSecond, "alpha", 0F, 1f, 0f)
                 secondImageAnim.duration = 750
 
-                val cx = if (seekForward) container.width else 0
+                //the center is offset + the radius is 2 * the width to reveal an arc instead of half a circle
+                val cx = if (seekForward) container.width * 2 else -container.width
                 val cy = container.height / 2
                 val animatorSet = AnimatorSet()
-                val circularReveal = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.width.toFloat())
-
+                val circularReveal = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.width.toFloat() * 2)
                 val backgroundColorAnimator = ObjectAnimator.ofObject(container,
                         CircularRevealWidget.CircularRevealScrimColorProperty.CIRCULAR_REVEAL_SCRIM_COLOR.name,
                         ArgbEvaluator(),
                         Color.TRANSPARENT, ContextCompat.getColor(this, R.color.ripple_white), Color.TRANSPARENT)
 
-                animatorSet.playTogether(
+                if (Settings.showTvUi) animatorSet.playTogether(
+                        backgroundAnim,
+                        firstImageAnim,
+                        secondImageAnim
+                )
+                else animatorSet.playTogether(
                         circularReveal,
                         backgroundColorAnimator,
                         backgroundAnim,
