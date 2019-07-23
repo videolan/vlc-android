@@ -2282,7 +2282,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             visibility = visibility or View.SYSTEM_UI_FLAG_FULLSCREEN
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            visibility = visibility or View.SYSTEM_UI_FLAG_VISIBLE
+            visibility = visibility or View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         }
 
         if (AndroidDevices.hasNavBar)
