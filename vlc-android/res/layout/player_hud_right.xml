@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,81 +9,98 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/hud_right_overlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        tools:visibility="visible">
+            android:id="@+id/hud_right_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            tools:visibility="visible">
+
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/player_overlay_title"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+                android:textSize="16sp"
+                android:background="@color/status_bar_transparency"
+                tools:text="Game of Thrones S01-E01"
+                android:paddingBottom="4dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textAlignment="center"/>
 
         <ImageView
-            android:id="@+id/playlist_toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:focusable="true"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/video_secondary_display"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:srcCompat="@drawable/ic_playlist_circle_player"
-            tools:visibility="visible" />
+                android:id="@+id/playlist_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/video_secondary_display"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:srcCompat="@drawable/ic_playlist_circle_player"
+                tools:visibility="visible"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/player_overlay_title"/>
 
         <ImageView
-            android:id="@+id/video_secondary_display"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/video_remote_enable"
-            android:focusable="true"
-            android:onClick="onClick"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/video_renderer"
-            app:layout_constraintEnd_toEndOf="@+id/playlist_toggle"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/playlist_toggle"
-            app:layout_constraintTop_toBottomOf="@+id/playlist_toggle"
-            app:srcCompat="@drawable/ic_screenshare_circle_player"
-            tools:visibility="visible" />
+                android:id="@+id/video_secondary_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/video_remote_enable"
+                android:focusable="true"
+                android:onClick="onClick"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/video_renderer"
+                app:layout_constraintEnd_toEndOf="@+id/playlist_toggle"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/playlist_toggle"
+                app:layout_constraintTop_toBottomOf="@+id/playlist_toggle"
+                app:srcCompat="@drawable/ic_screenshare_circle_player"
+                tools:visibility="visible"/>
 
         <ImageView
-            android:id="@+id/video_renderer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:focusable="true"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/player_overlay_navmenu"
-            app:layout_constraintEnd_toEndOf="@+id/video_secondary_display"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/video_secondary_display"
-            app:layout_constraintTop_toBottomOf="@+id/video_secondary_display"
-            app:srcCompat="@drawable/ic_renderer_circle_player"
-            tools:visibility="visible" />
+                android:id="@+id/video_renderer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/player_overlay_navmenu"
+                app:layout_constraintEnd_toEndOf="@+id/video_secondary_display"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/video_secondary_display"
+                app:layout_constraintTop_toBottomOf="@+id/video_secondary_display"
+                app:srcCompat="@drawable/ic_renderer_circle_player"
+                tools:visibility="visible"/>
 
         <ImageView
-            android:id="@+id/player_overlay_navmenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:focusable="true"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/video_renderer"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/video_renderer"
-            app:layout_constraintTop_toBottomOf="@+id/video_renderer"
-            app:srcCompat="@drawable/ic_navmenu_circle_player"
-            tools:visibility="visible" />
+                android:id="@+id/player_overlay_navmenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/video_renderer"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/video_renderer"
+                app:layout_constraintTop_toBottomOf="@+id/video_renderer"
+                app:srcCompat="@drawable/ic_navmenu_circle_player"
+                tools:visibility="visible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

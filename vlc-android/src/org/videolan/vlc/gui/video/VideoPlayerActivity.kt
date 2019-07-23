@@ -115,8 +115,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
 
     private var wasPlaying = true
-    private val controlsConstraintSetPortrait = ConstraintSet()
-    private val controlsConstraintSetLandscape = ConstraintSet()
     var service: PlaybackService? = null
     private lateinit var medialibrary: AbstractMedialibrary
     private var videoLayout: VLCVideoLayout? = null
@@ -475,17 +473,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 overlayTips = findViewById(R.id.overlay_tips_layout)
             }
 
-            //Set margins for TV overscan
-            if (isTv) {
-                val hm = resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal)
-                val vm = resources.getDimensionPixelSize(R.dimen.tv_overscan_vertical)
 
-                val uiContainer = findViewById<RelativeLayout>(R.id.player_ui_container)
-                val lp = uiContainer.layoutParams as RelativeLayout.LayoutParams
-                lp.setMargins(hm, 0, hm, vm)
-                uiContainer.layoutParams = lp
-
-            }
         }
 
 
@@ -570,7 +558,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         setIntent(intent)
         if (playbackStarted) service?.run {
             if (::hudBinding.isInitialized) {
-                hudBinding.playerOverlayTitle.text = currentMediaWrapper?.title ?: return@run
+                hudRightBinding.playerOverlayTitle.text = currentMediaWrapper?.title ?: return@run
             }
             var uri: Uri? = if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
                 intent.extras!!.getParcelable<Parcelable>(PLAY_EXTRA_ITEM_LOCATION) as Uri?
@@ -691,12 +679,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun resetHudLayout() {
         if (!::hudBinding.isInitialized) return
-        val orientation = getScreenOrientation(100)
-        val portrait = orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT || orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-        if (portrait) controlsConstraintSetPortrait.applyTo(hudBinding.progressOverlay) else controlsConstraintSetLandscape.applyTo(hudBinding.progressOverlay)
-
-        if (!isTv && !AndroidDevices.isChromeBook)
+        if (!isTv && !AndroidDevices.isChromeBook) {
             hudBinding.orientationToggle.setVisible()
+            hudBinding.lockOverlayButton.setVisible()
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1556,8 +1542,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             wasPaused = false
         }
         setESTracks()
-        if (::hudBinding.isInitialized && hudBinding.playerOverlayTitle.length() == 0)
-            hudBinding.playerOverlayTitle.text = mw.title
+        if (::hudBinding.isInitialized && hudRightBinding.playerOverlayTitle.length() == 0)
+            hudRightBinding.playerOverlayTitle.text = mw.title
         // Get possible subtitles
         observeDownloadedSubtitles()
         optionsDelegate?.setup()
@@ -2012,7 +1998,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             container.post {
 
                 //On TV, seek text and animation should be centered in parent
-                if (Settings.showTvUi) {
+                if (isTv) {
                     val seekTVConstraintSet = ConstraintSet()
                     seekTVConstraintSet.clone(seekContainer)
                     seekTVConstraintSet.connect(R.id.seekLeftText, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
@@ -2041,7 +2027,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         ArgbEvaluator(),
                         Color.TRANSPARENT, ContextCompat.getColor(this, R.color.ripple_white), Color.TRANSPARENT)
 
-                if (Settings.showTvUi) animatorSet.playTogether(
+                if (isTv) animatorSet.playTogether(
                         backgroundAnim,
                         firstImageAnim,
                         secondImageAnim
@@ -2215,32 +2201,20 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> rendererBtn.setVisibility(if (Util.isListEmpty(rendererItems)) View.GONE else View.VISIBLE) })
                 }
 
-                hudBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title
+                hudRightBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title
 
                 if (seekButtons) initSeekButton()
-                controlsConstraintSetPortrait.clone(hudBinding.progressOverlay)
-                controlsConstraintSetLandscape.clone(hudBinding.progressOverlay)
-                controlsConstraintSetPortrait.clear(R.id.player_overlay_time_container, ConstraintSet.BOTTOM)
-                controlsConstraintSetPortrait.clear(R.id.player_overlay_length_container, ConstraintSet.BOTTOM)
 
-                controlsConstraintSetPortrait.removeFromHorizontalChain(R.id.player_overlay_time_container)
-                controlsConstraintSetPortrait.removeFromHorizontalChain(R.id.player_overlay_length_container)
-                controlsConstraintSetPortrait.connect(R.id.player_overlay_time_container, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-                controlsConstraintSetPortrait.connect(R.id.player_overlay_length_container, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-                controlsConstraintSetPortrait.setMargin(R.id.player_overlay_time_container, ConstraintSet.START, resources.getDimensionPixelSize(R.dimen.time_margin_sides))
-                controlsConstraintSetPortrait.setMargin(R.id.player_overlay_length_container, ConstraintSet.END, resources.getDimensionPixelSize(R.dimen.time_margin_sides))
+                //Set margins for TV overscan
+                if (isTv) {
+                    val hm = resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal)
+                    val vm = resources.getDimensionPixelSize(R.dimen.tv_overscan_vertical)
 
-                val chainIds = intArrayOf(R.id.lock_overlay_button, R.id.playlist_previous, R.id.player_overlay_rewind, R.id.player_overlay_play, R.id.player_overlay_forward, R.id.playlist_next, R.id.player_overlay_tracks)
+                    val lp = vsc.layoutParams as RelativeLayout.LayoutParams
+                    lp.setMargins(hm, 0, hm, vm)
+                    vsc.layoutParams = lp
 
-                chainIds.forEach {
-                    controlsConstraintSetPortrait.clear(it, ConstraintSet.START)
-                    controlsConstraintSetPortrait.clear(it, ConstraintSet.END)
-                    controlsConstraintSetPortrait.removeFromHorizontalChain(it)
-                    controlsConstraintSetPortrait.connect(it, ConstraintSet.TOP, R.id.player_overlay_time_container, ConstraintSet.BOTTOM)
-                    controlsConstraintSetPortrait.connect(it, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
                 }
-
-                controlsConstraintSetPortrait.createHorizontalChain(ConstraintSet.PARENT_ID, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, chainIds, null, ConstraintSet.CHAIN_SPREAD)
 
                 resetHudLayout()
                 updateOverlayPausePlay(true)
@@ -2249,7 +2223,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 updateNavStatus()
                 setListeners(true)
                 initPlaylistUi()
-                if (!displayManager.isPrimary) hudBinding.lockOverlayButton.setGone()
+                if (!displayManager.isPrimary || isTv) hudBinding.lockOverlayButton.setGone()
             } else if (::hudBinding.isInitialized) {
                 hudBinding.progress = service.playlistManager.player.progress
                 hudBinding.lifecycleOwner = this
@@ -2569,7 +2543,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
             if (itemTitle != null) title = itemTitle
             if (::hudBinding.isInitialized) {
-                hudBinding.playerOverlayTitle.text = title
+                hudRightBinding.playerOverlayTitle.text = title
             }
 
             if (wasPaused) {
