@@ -69,7 +69,7 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="key_audio_show_cards"
-            android:summary="@string/resume_playback_summary"
+            android:summary="@string/audio_show_cards_summary"
             android:title="@string/audio_show_cards_title" />
         <CheckBoxPreference
             android:defaultValue="true"
