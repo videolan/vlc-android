@@ -643,8 +643,8 @@
     <string name="audio_digital_title">Digital audio output (passthrough)</string>
     <string name="audio_task_cleared_title">Stop on application swipe</string>
     <string name="audio_task_cleared_summary">Stop playback when application is dismissed</string>
-    <string name="audio_resume_card_title">Load last playlist card</string>
-    <string name="audio_resume_card_summary">Shows a card helping you to resume audio playback on app start</string>
+    <string name="audio_resume_card_title">Show last playlist alert</string>
+    <string name="audio_resume_card_summary">Shows an alert helping you to resume audio playback on app start</string>
     <string name="playback_rewind">Rewind</string>
     <string name="playback_forward">Fast forward</string>
     <string name="ml_wizard_title">VLC Medialibrary selection</string>
