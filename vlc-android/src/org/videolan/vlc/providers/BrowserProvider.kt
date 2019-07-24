@@ -64,7 +64,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     private val completionHandler : CompletionHandler = object : CompletionHandler {
         override fun invoke(cause: Throwable?) {
-            launch(Dispatchers.IO) {
+            AppScope.launch(Dispatchers.IO) { // use global scope because current is cancelled
                 mediabrowser?.release()
                 mediabrowser = null
             }
@@ -290,7 +290,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     companion object {
         private val browserHandler by lazy {
-            val handlerThread = HandlerThread("vlc-mProvider", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
+            val handlerThread = HandlerThread("vlc-provider", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
             handlerThread.start()
             Handler(handlerThread.looper)
         }
