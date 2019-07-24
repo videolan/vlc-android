@@ -11,12 +11,14 @@
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:progressDrawable="?attr/progress_mini_player"
         android:background="?attr/background_default"/>
+
     <TextView
-        android:id="@+id/scan_progress_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="?attr/font_light"
-        android:text="@string/loading_medialibrary"/>
+            android:id="@+id/scan_progress_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="?attr/font_default"
+            android:text="@string/loading_medialibrary"
+            android:textSize="12sp"/>
 </RelativeLayout>
