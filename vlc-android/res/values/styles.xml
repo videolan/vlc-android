@@ -346,10 +346,34 @@
         <item name="player_icon_color">@color/grey50</item>
     </style>
 
-    <style name="VLCTransparentTheme" parent="Theme.AppCompat.Light.Dialog.MinWidth">
+    <style name="VLCTransparentTheme" parent="VLCTransparentThemeLight"/>
+
+    <style name="VLCTransparentThemeLight" parent="Theme.MaterialComponents.Light.Dialog.MinWidth">
 
         <item name="android:background">@android:color/transparent</item>
         <item name="background">@android:color/transparent</item>
+
+        <item name="colorPrimary">@color/orange500</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="colorAccent">@color/orange500</item>
+
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="VLCTransparentThemeDark" parent="Theme.MaterialComponents.Dialog.MinWidth">
+
+        <item name="android:background">@android:color/transparent</item>
+        <item name="background">@android:color/transparent</item>
+
+        <item name="colorPrimary">@color/orange500</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="colorAccent">@color/orange500</item>
 
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@android:color/transparent</item>
