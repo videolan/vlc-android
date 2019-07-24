@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -148,6 +149,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
     }
 
     private fun selectPage(index: Int) {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Selecting page $index pager nb of item: ${onboardingPagerAdapter.count}")
         //Navigation button states
         if (index == 0) {
             previousButton.animate().scaleY(0f).scaleX(0f).alpha(0f)
@@ -157,6 +159,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
 
         if (index == onboardingPagerAdapter.count - 1) {
             nextButton.animate().scaleY(0f).scaleX(0f).alpha(0f)
+            doneButton.animate().cancel()
             doneButton.visibility = View.VISIBLE
             doneButton.animate().scaleY(1f).scaleX(1f).alpha(1f).setListener(null)
         } else {
@@ -224,6 +227,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         }
         onboardingPagerAdapter.onCustomizedChanged(customizeEnabled)
         viewModel.adapterCount = if (customizeEnabled) 4 else 3
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "New adapter count: ${viewModel.adapterCount}")
     }
 }
 
