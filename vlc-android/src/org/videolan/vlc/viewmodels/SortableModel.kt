@@ -2,15 +2,17 @@ package org.videolan.vlc.viewmodels
 
 import android.content.Context
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.ISortModel
+import org.videolan.vlc.util.RefreshModel
+import org.videolan.vlc.util.Settings
 
 abstract class SortableModel(protected val context: Context): ScopedModel(), RefreshModel,
     ISortModel
 {
-
+    private val settings = Settings.getInstance(context)
     protected open val sortKey : String = this.javaClass.simpleName
-    var sort = AbstractMedialibrary.SORT_DEFAULT
-    var desc = false
+    var sort = settings.getInt(sortKey, AbstractMedialibrary.SORT_DEFAULT)
+    var desc = settings.getBoolean("${sortKey}_desc", false)
 
     var filterQuery : String? = null
 
@@ -25,7 +27,7 @@ abstract class SortableModel(protected val context: Context): ScopedModel(), Ref
             }
             this.sort = sort
             refresh()
-            Settings.getInstance(context).edit()
+            settings.edit()
                     .putInt(sortKey, sort)
                     .putBoolean("${sortKey}_desc", desc)
                     .apply()

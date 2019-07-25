@@ -37,8 +37,9 @@ import org.videolan.vlc.viewmodels.SortableModel
 import kotlin.properties.Delegates
 
 abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) : HeaderProvider(),
-    ISortModel
+        ISortModel
 {
+    private val settings = Settings.getInstance(context)
     protected val medialibrary = AbstractMedialibrary.getInstance()
     private lateinit var dataSource : DataSource<Int, T>
     val loading = MutableLiveData<Boolean>().apply { value = true }
@@ -46,8 +47,8 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         private set
 
     protected open val sortKey : String = this.javaClass.simpleName
-    var sort = AbstractMedialibrary.SORT_DEFAULT
-    var desc = false
+    var sort = settings.getInt(sortKey, AbstractMedialibrary.SORT_DEFAULT)
+    var desc = settings.getBoolean("${sortKey}_desc", false)
 
     private val pagingConfig = Config(
             pageSize = MEDIALIBRARY_PAGE_SIZE,
@@ -72,7 +73,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
             }
             this.sort = sort
             refresh()
-            Settings.getInstance(context).edit()
+            settings.edit()
                     .putInt(sortKey, sort)
                     .putBoolean("${sortKey}_desc", desc)
                     .apply()

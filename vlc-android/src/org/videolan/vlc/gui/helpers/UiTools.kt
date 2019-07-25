@@ -371,7 +371,7 @@ object UiTools {
         item = menu.findItem(R.id.ml_menu_sortby_date)
         item?.setTitle(if (sort == AbstractMedialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
         item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
+        item?.setTitle(if (sort == AbstractMedialibrary.SORT_LASTMODIFICATIONDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
         //        if (item != null) item.setTitle(sort == AbstractMedialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
