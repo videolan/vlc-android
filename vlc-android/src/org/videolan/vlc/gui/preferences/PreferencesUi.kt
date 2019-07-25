@@ -110,8 +110,8 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     private fun prepareLocaleList() {
         val localePair = UiTools.getLocalesUsedInProject(requireActivity())
-        val lp = findPreference("set_locale") as ListPreference
-        lp.entries = localePair.localeEntries
-        lp.entryValues = localePair.localeEntryValues
+        val lp = findPreference<ListPreference>("set_locale")
+        lp?.entries = localePair.localeEntries
+        lp?.entryValues = localePair.localeEntryValues
     }
 }

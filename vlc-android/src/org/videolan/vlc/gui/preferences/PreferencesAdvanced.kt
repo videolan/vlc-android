@@ -37,7 +37,6 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.*
@@ -57,7 +56,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (BuildConfig.DEBUG) findPreference("debug_logs").isVisible = false
+        if (BuildConfig.DEBUG) findPreference<Preference>("debug_logs")?.isVisible = false
     }
 
     override fun onStart() {
@@ -139,8 +138,8 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                     editor.putInt("network_caching_value", Integer.parseInt(sharedPreferences.getString(key, "0")!!))
                 } catch (e: NumberFormatException) {
                     editor.putInt("network_caching_value", 0)
-                    val networkCachingPref = findPreference(key) as EditTextPreference
-                    networkCachingPref.text = ""
+                    val networkCachingPref = findPreference<EditTextPreference>(key)
+                    networkCachingPref?.text = ""
                     UiTools.snacker(view!!, R.string.network_caching_popup)
                 }
 

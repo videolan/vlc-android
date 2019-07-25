@@ -24,12 +24,12 @@ package org.videolan.vlc.gui.preferences
 
 import android.os.Bundle
 import androidx.preference.Preference
-import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.POPUP_FORCE_LEGACY
+import org.videolan.vlc.util.POPUP_KEEPSCREEN
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -41,7 +41,7 @@ class PreferencesVideo : BasePreferenceFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference(POPUP_KEEPSCREEN).isVisible = !AndroidUtil.isOOrLater
-        findPreference(POPUP_FORCE_LEGACY).isVisible = AndroidUtil.isOOrLater
+        findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidUtil.isOOrLater
+        findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = AndroidUtil.isOOrLater
     }
 }

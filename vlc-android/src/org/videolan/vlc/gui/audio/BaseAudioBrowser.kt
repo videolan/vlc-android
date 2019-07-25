@@ -125,7 +125,7 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
         nbColumns = resources.getInteger(R.integer.mobile_card_columns)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         nbColumns = resources.getInteger(R.integer.mobile_card_columns)
     }

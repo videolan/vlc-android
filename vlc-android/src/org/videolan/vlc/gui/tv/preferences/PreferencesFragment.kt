@@ -34,7 +34,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.util.*
 
@@ -49,10 +48,10 @@ class PreferencesFragment : BasePreferenceFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference(SCREEN_ORIENTATION).isVisible = false
-        findPreference("extensions_category").isVisible = false
-        findPreference("casting_category").isVisible = false
-        findPreference(KEY_VIDEO_APP_SWITCH).isVisible = AndroidDevices.hasPiP
+        findPreference<Preference>(SCREEN_ORIENTATION)?.isVisible = false
+        findPreference<Preference>("extensions_category")?.isVisible = false
+        findPreference<Preference>("casting_category")?.isVisible = false
+        findPreference<Preference>(KEY_VIDEO_APP_SWITCH)?.isVisible = AndroidDevices.hasPiP
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {

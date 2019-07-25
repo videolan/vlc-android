@@ -26,7 +26,6 @@ import android.annotation.TargetApi
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
-import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
@@ -44,14 +43,14 @@ class PreferencesVideo : BasePreferenceFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        findPreference("secondary_display_category").isVisible = false
-        findPreference("secondary_display_category_summary").isVisible = false
-        findPreference("enable_clone_mode").isVisible = false
-        findPreference(SAVE_BRIGHTNESS).isVisible = false
-        findPreference(ENABLE_DOUBLE_TAP_SEEK).isVisible = false
-        findPreference(ENABLE_VOLUME_GESTURE).isVisible = AndroidDevices.hasTsp
-        findPreference(ENABLE_BRIGHTNESS_GESTURE).isVisible = AndroidDevices.hasTsp
-        findPreference(POPUP_KEEPSCREEN).isVisible = false
-        findPreference(POPUP_FORCE_LEGACY).isVisible = false
+        findPreference<Preference>("secondary_display_category")?.isVisible = false
+        findPreference<Preference>("secondary_display_category_summary")?.isVisible = false
+        findPreference<Preference>("enable_clone_mode")?.isVisible = false
+        findPreference<Preference>(SAVE_BRIGHTNESS)?.isVisible = false
+        findPreference<Preference>(ENABLE_DOUBLE_TAP_SEEK)?.isVisible = false
+        findPreference<Preference>(ENABLE_VOLUME_GESTURE)?.isVisible = AndroidDevices.hasTsp
+        findPreference<Preference>(ENABLE_BRIGHTNESS_GESTURE)?.isVisible = AndroidDevices.hasTsp
+        findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = false
+        findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = false
     }
 }

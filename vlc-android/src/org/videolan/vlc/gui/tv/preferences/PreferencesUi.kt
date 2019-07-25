@@ -51,11 +51,11 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             if (!contains(FORCE_PLAY_ALL)) edit().putBoolean(FORCE_PLAY_ALL, true).apply()
         }
         super.onCreate(savedInstanceState)
-        findPreference("ui_audio_category").isVisible = false
-        findPreference(FORCE_LIST_PORTRAIT).isVisible = false
-        findPreference(PREF_TV_UI).isVisible = AndroidDevices.hasTsp
-        findPreference(KEY_APP_THEME).isVisible = false
-        findPreference(KEY_AUDIO_SHOW_CARDS).isVisible = false
+        findPreference<Preference>("ui_audio_category")?.isVisible = false
+        findPreference<Preference>(FORCE_LIST_PORTRAIT)?.isVisible = false
+        findPreference<Preference>(PREF_TV_UI)?.isVisible = AndroidDevices.hasTsp
+        findPreference<Preference>(KEY_APP_THEME)?.isVisible = false
+        findPreference<Preference>(KEY_AUDIO_SHOW_CARDS)?.isVisible = false
         prepareLocaleList()
     }
 
@@ -95,8 +95,8 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     private fun prepareLocaleList() {
         val localePair = UiTools.getLocalesUsedInProject(activity)
-        val lp = findPreference("set_locale") as ListPreference
-        lp.entries = localePair.localeEntries
-        lp.entryValues = localePair.localeEntryValues
+        val lp = findPreference<ListPreference>("set_locale")
+        lp?.entries = localePair.localeEntries
+        lp?.entryValues = localePair.localeEntryValues
     }
 }

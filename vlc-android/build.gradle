@@ -243,27 +243,29 @@ dependencies {
     implementation project(':tools')
 
     // AppCompat
-    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxVersion"
-    implementation "com.google.android.material:material:$rootProject.ext.androidxVersion"
+    implementation "androidx.activity:activity:$rootProject.ext.androidxActivityVersion"
+    implementation "androidx.fragment:fragment:$rootProject.ext.androidxFragmentVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxRecyclerviewVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
     implementation "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
     implementation "androidx.preference:preference:$androidxPreferencesVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
     implementation 'androidx.multidex:multidex:2.0.1'
-
-    //TV
-    implementation "androidx.leanback:leanback:$rootProject.ext.androidxVersion"
-    implementation "androidx.leanback:leanback-preference:$rootProject.ext.androidxVersion"
-    implementation "androidx.tvprovider:tvprovider:$rootProject.ext.androidxVersion"
-
-    // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archVersion"
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
     implementation "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
+
+    //TV
+    implementation "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
+    implementation "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
+    implementation "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"

@@ -63,8 +63,8 @@ class MultiSelectListPreferenceDialogFragmentCompat : PreferenceDialogFragmentCo
         this.preferenceChanged = false
     }
 
-    override fun findPreference(charSequence: CharSequence): Preference {
-        return preference
+    override fun <T : Preference?> findPreference(key: CharSequence): T? {
+        return preference as? T
     }
 
     companion object {

@@ -343,7 +343,7 @@
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset_w</item>
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="ic_crop_player">@drawable/ic_crop_player</item>
-        <item name="android:colorControlHighlight">@color/orange500</item>
+        <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500</item>
         <item name="colorControlHighlight">@color/orange500</item>
         <item name="player_icon_color">@color/grey50</item>
     </style>
@@ -436,7 +436,7 @@
 
     <style name="Result.List" parent="Base.Widget.AppCompat.ListView">
         <item name="android:background">@color/white</item>
-        <item name="android:elevation">2sp</item>
+        <item name="android:elevation" tools:targetApi="lollipop">2sp</item>
         <item name="android:layout_margin">10dp</item>
     </style>
 

@@ -163,14 +163,14 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
         }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 
 
         val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
         for (i in 0 until MODE_TOTAL) {
             if (lists[i].layoutManager is GridLayoutManager) {
-                val gridLayoutManager = lists[i]?.layoutManager as GridLayoutManager
+                val gridLayoutManager = lists[i].layoutManager as GridLayoutManager
                 gridLayoutManager.spanCount = nbColumns
                 lists[i].layoutManager = gridLayoutManager
                 adapters[i].cardSize = itemSize

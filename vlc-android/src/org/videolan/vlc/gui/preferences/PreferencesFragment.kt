@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.preferences
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -36,7 +35,6 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.PLAYBACK_HISTORY
@@ -64,7 +62,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        findPreference("extensions_category").isVisible = BuildConfig.DEBUG
+        findPreference<Preference>("extensions_category")?.isVisible = BuildConfig.DEBUG
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -103,7 +101,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         val activity = activity ?: return
         when (key) {
-            "video_action_switch" -> if (!AndroidUtil.isOOrLater && TextUtils.equals((findPreference(key) as ListPreference).value, "2")
+            "video_action_switch" -> if (!AndroidUtil.isOOrLater && findPreference<ListPreference>(key)?.value == "2"
                     && !Permissions.canDrawOverlays(activity))
                 Permissions.checkDrawOverlaysPermission(activity)
         }

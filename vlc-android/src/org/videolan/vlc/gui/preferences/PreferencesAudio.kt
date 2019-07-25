@@ -32,7 +32,10 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.vlc.R
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AUDIO_DUCKING
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.RESUME_PLAYBACK
+import org.videolan.vlc.util.VLCInstance
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -44,21 +47,21 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference(AUDIO_DUCKING).isVisible = !AndroidUtil.isOOrLater
-        findPreference(RESUME_PLAYBACK).isVisible = AndroidDevices.isPhone
+        findPreference<Preference>(AUDIO_DUCKING)?.isVisible = !AndroidUtil.isOOrLater
+        findPreference<Preference>(RESUME_PLAYBACK)?.isVisible = AndroidDevices.isPhone
         val aout = HWDecoderUtil.getAudioOutputFromDevice()
         if (aout != HWDecoderUtil.AudioOutput.ALL) {
             /* no AudioOutput choice */
-            findPreference("aout").isVisible = false
+            findPreference<Preference>("aout")?.isVisible = false
         }
         updatePassThroughSummary()
         val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
-        if (opensles) findPreference("audio_digital_output").isVisible = false
+        if (opensles) findPreference<Preference>("audio_digital_output")?.isVisible = false
     }
 
     private fun updatePassThroughSummary() {
         val pt = preferenceManager.sharedPreferences.getBoolean("audio_digital_output", false)
-        findPreference("audio_digital_output").setSummary(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
+        findPreference<Preference>("audio_digital_output")?.setSummary(if (pt) R.string.audio_digital_output_enabled else R.string.audio_digital_output_disabled)
     }
 
     override fun onStart() {
@@ -89,8 +92,8 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 VLCInstance.restart()
                 (activity as PreferencesActivity).restartMediaPlayer()
                 val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
-                if (opensles) (findPreference("audio_digital_output") as CheckBoxPreference).isChecked = false
-                findPreference("audio_digital_output").isVisible = !opensles
+                if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
+                findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
             "audio_digital_output" -> updatePassThroughSummary()
         }
