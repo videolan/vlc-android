@@ -45,6 +45,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
+import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -110,6 +111,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             viewModel.provider.loading.observe(this, Observer { loading ->
                 if (loading) handler.sendEmptyMessageDelayed(SET_REFRESHING, 300L)
                 else handler.sendEmptyMessage(UNSET_REFRESHING)
+                (activity as? MainActivity)?.refreshing = loading
+
             })
             AbstractMedialibrary.lastThumb.observe(this, thumbObs)
         }
