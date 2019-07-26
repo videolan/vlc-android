@@ -10,12 +10,10 @@ diagnostic()
     echo "$@" 1>&2;
 }
 
-checkfail()
+fail()
 {
-    if [ ! $? -eq 0 ];then
-        diagnostic "$1"
-        exit 1
-    fi
+    diagnostic "$1"
+    exit 1
 }
 
 # Try to check whether a patch file has already been applied to the current directory tree
@@ -248,17 +246,13 @@ if [ ! -d "gradle/wrapper" ]; then
     diagnostic "Downloading gradle"
     GRADLE_VERSION=5.1.1
     GRADLE_URL=https://download.videolan.org/pub/contrib/gradle/gradle-${GRADLE_VERSION}-bin.zip
-    wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
-    checkfail "gradle: download failed"
+    wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL} || fail "gradle: download failed"
 
-    unzip -o gradle-${GRADLE_VERSION}-bin.zip
-    checkfail "gradle: unzip failed"
+    unzip -o gradle-${GRADLE_VERSION}-bin.zip || fail "gradle: unzip failed"
 
-    ./gradle-${GRADLE_VERSION}/bin/gradle wrapper
-    checkfail "gradle: wrapper failed"
+    ./gradle-${GRADLE_VERSION}/bin/gradle wrapper || fail "gradle: wrapper failed"
 
-    ./gradlew -version
-    checkfail "gradle: wrapper failed"
+    ./gradlew -version || fail "gradle: wrapper failed"
     chmod a+x gradlew
     rm -rf gradle-${GRADLE_VERSION}-bin.zip
 fi
@@ -274,16 +268,13 @@ TESTED_HASH=f3047d4
 VLC_REPOSITORY=https://git.videolan.org/git/vlc/vlc-3.0.git
 if [ ! -d "vlc" ]; then
     diagnostic "VLC sources: not found, cloning"
-    git clone "${VLC_REPOSITORY}" vlc
-    checkfail "VLC sources: git clone failed"
+    git clone "${VLC_REPOSITORY}" vlc || fail "VLC sources: git clone failed"
     cd vlc
     diagnostic "VLC sources: resetting to the TESTED_HASH commit (${TESTED_HASH})"
-    git reset --hard ${TESTED_HASH}
-    checkfail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
+    git reset --hard ${TESTED_HASH} || fail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
     diagnostic "VLC sources: applying custom patches"
     # Keep Message-Id inside commits description to track them afterwards
-    git am --message-id ../libvlc/patches/vlc3/*.patch
-    checkfail "VLC sources: cannot apply custom patches"
+    git am --message-id ../libvlc/patches/vlc3/*.patch || fail "VLC sources: cannot apply custom patches"
     cd ..
 else
     diagnostic "VLC source: found sources, leaving untouched"
@@ -294,8 +285,8 @@ else
     diagnostic "VLC sources: Checking TESTED_HASH and patches presence"
     diagnostic "NOTE: checks can be bypass by adding '-b' option to this script."
     cd vlc
-    git cat-file -e ${TESTED_HASH} 2> /dev/null
-    checkfail "Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}"
+    git cat-file -e ${TESTED_HASH} 2> /dev/null || \
+        fail "Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}"
     for patch_file in ../libvlc/patches/vlc3/*.patch; do
         check_patch_is_applied "$patch_file"
     done
