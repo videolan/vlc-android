@@ -620,8 +620,8 @@
     <string name="audio_digital_title">Sayısal Ses Çıkışı (geçiş)</string>
     <string name="audio_task_cleared_title">Uygulama ekran dışına kaydırıldığında durdurulsun</string>
     <string name="audio_task_cleared_summary">Uygulama yok sayıldığında oynatma durdurulsun</string>
-    <string name="audio_resume_card_title">Son oynatma listesi kartı yüklensin</string>
-    <string name="audio_resume_card_summary">Uygulama başlatıldığında ses oynatmanın sürdürülmesine yardımcı olacak bir kart görüntülenir</string>
+    <string name="audio_resume_card_title">Son oynatma listesi ipucu görüntülensin</string>
+    <string name="audio_resume_card_summary">Uygulama başlatıldığında oynatma listesini sürdürmek için bir ipucu görüntüler</string>
     <string name="playback_rewind">Geri Sar</string>
     <string name="playback_forward">İleri Sar</string>
     <string name="ml_wizard_title">VLC ortam kitaplığı seçimi</string>
