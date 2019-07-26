@@ -52,6 +52,7 @@ private const val TAG = "VLC/HistoryFragment"
 @ExperimentalCoroutinesApi
 class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
+    private lateinit var cleanMenuItem: MenuItem
     private lateinit var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(this)
 
@@ -67,6 +68,9 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
             list?.let {
                 historyAdapter.update(it)
                 updateEmptyView()
+                if (::cleanMenuItem.isInitialized) {
+                    cleanMenuItem.isVisible = !isEmpty()
+                }
             }
         })
         viewModel.loading.observe(this, Observer {
@@ -100,7 +104,8 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.ml_menu_clean).isVisible = !isEmpty()
+        cleanMenuItem = menu.findItem(R.id.ml_menu_clean)
+        cleanMenuItem.isVisible = !isEmpty()
         super.onPrepareOptionsMenu(menu)
     }
 
