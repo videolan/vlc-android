@@ -76,7 +76,7 @@
             android:orderInCategory="3"
             android:id="@+id/ml_menu_refresh"
             android:icon="@drawable/ic_menu_refresh"
-            vlc:showAsAction="ifRoom|collapseActionView"
+            vlc:showAsAction="never"
             android:title="@string/refresh"/>
     <item
         android:orderInCategory="3"
