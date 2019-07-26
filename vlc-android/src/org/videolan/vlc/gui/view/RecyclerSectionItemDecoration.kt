@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.R
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
+import kotlin.math.max
 
 private const val TAG = "RecyclerSectionItemDecoration"
 
@@ -74,7 +75,7 @@ class RecyclerSectionItemDecoration(private val headerOffset: Int, private val s
     private fun drawHeader(c: Canvas, child: View, headerView: View) {
         c.save()
         if (sticky) {
-            c.translate(0f, Math.max(0, child.top - headerView.height).toFloat())
+            c.translate(0f, max(0, child.top - headerView.height).toFloat())
         } else {
             c.translate(0f, (child.top - headerView.height).toFloat())
         }
