@@ -30,7 +30,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.*
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaRouter
 import android.net.Uri
@@ -481,10 +481,8 @@ object UiTools {
     }
 
     fun setLocale(context: Context) {
-        // Are we using advanced debugging - locale?
-        val p = VLCApplication.locale
-        if (p != "") {
-            val locale = getLocaleFromString(p!!)
+        if (!VLCApplication.locale.isNullOrEmpty()) {
+            val locale = getLocaleFromString(VLCApplication.locale!!)
             Locale.setDefault(locale)
             val config = Configuration()
             config.locale = locale

@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import org.videolan.tools.KeyHelper
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.util.Settings
 
@@ -16,6 +17,7 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     lateinit var settings: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        UiTools.setLocale(this)
         settings = Settings.getInstance(this)
         /* Theme must be applied before super.onCreate */
         applyTheme()
