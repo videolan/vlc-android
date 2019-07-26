@@ -620,8 +620,8 @@
     <string name="audio_digital_title">Digitaler Audio-Ausgang (Passthrough)</string>
     <string name="audio_task_cleared_title">Wiedergabe stoppen beim Beenden</string>
     <string name="audio_task_cleared_summary">Wiedergabe wird gestoppt, wenn VLC aus der Liste der letzten Anwendungen entfernt wurde</string>
-    <string name="audio_resume_card_title">Letzte Wiedergabelistenkarte laden</string>
-    <string name="audio_resume_card_summary">Zeigt eine Karte, mit der Sie die Audiowiedergabe beim Start der App fortsetzen können</string>
+    <string name="audio_resume_card_title">Letzte Wiedergabe-Hinweis anzeigen</string>
+    <string name="audio_resume_card_summary">Zeigt einen Hinweis, mit dem Sie die Audiowiedergabe beim Start der App fortsetzen können</string>
     <string name="playback_rewind">Zurückspulen </string>
     <string name="playback_forward">Schnell vorspulen</string>
     <string name="ml_wizard_title">Auswahl der VLC-Medienbibliothek</string>
