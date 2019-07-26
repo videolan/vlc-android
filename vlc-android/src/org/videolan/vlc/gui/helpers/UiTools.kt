@@ -481,8 +481,8 @@ object UiTools {
     }
 
     fun setLocale(context: Context) {
-        if (!VLCApplication.locale.isNullOrEmpty()) {
-            val locale = getLocaleFromString(VLCApplication.locale!!)
+        VLCApplication.locale.takeIf { !it.isNullOrEmpty() }?.let {
+            val locale = getLocaleFromString(it)
             Locale.setDefault(locale)
             val config = Configuration()
             config.locale = locale

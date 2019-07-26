@@ -32,6 +32,7 @@ import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.*
 
@@ -94,7 +95,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
-            "media_seen" -> activity!!.setResult(RESULT_UPDATE_SEEN_MEDIA)
+            "media_seen" -> requireActivity().setResult(RESULT_UPDATE_SEEN_MEDIA)
             KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
         }
         return super.onPreferenceTreeClick(preference)
@@ -102,7 +103,11 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            "set_locale" -> UiTools.restartDialog(requireActivity())
+            "set_locale" -> {
+                BaseActivity.localeSet = false
+                (activity as PreferencesActivity).setRestart()
+                UiTools.restartDialog(requireActivity())
+            }
             "browser_show_all_files" -> (activity as PreferencesActivity).setRestart()
             KEY_APP_THEME -> (activity as PreferencesActivity).exitAndRescan()
         }
