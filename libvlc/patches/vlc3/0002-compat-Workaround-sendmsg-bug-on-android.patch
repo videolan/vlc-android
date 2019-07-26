@@ -1,4 +1,7 @@
-From 62e61c44f3c7a35a39e718c85f06531c5a1f928f Mon Sep 17 00:00:00 2001
+From 169d059c034fbda81ed5bca4a838fa1157824c51 Mon Sep 17 00:00:00 2001
+Message-Id: <169d059c034fbda81ed5bca4a838fa1157824c51.1564134421.git.nobody@example.com>
+In-Reply-To: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
+References: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 28 Mar 2019 15:23:48 +0100
 Subject: [PATCH 2/6] compat: Workaround sendmsg bug on android
@@ -46,7 +49,7 @@ index 0f42e782f8..8d69048746 100644
  #else
  #error sendmsg not implemented on your platform!
 diff --git a/configure.ac b/configure.ac
-index 7bcdb44c9b..1ad82e2d75 100644
+index afe1ce93ae..c0c0b6109a 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -365,6 +365,9 @@ AS_IF([test "$SYS" = linux],[

@@ -18,6 +18,31 @@ checkfail()
     fi
 }
 
+# Try to check whether a patch file has already been applied to the current directory tree
+# Warning: this function assumes:
+# - The patch file contains a Message-Id header. This can be generated with `git format-patch --thread ...` option
+# - The patch has been applied with `git am --message-id ...` option to keep the Message-Id in the commit description
+check_patch_is_applied()
+{
+    patch_file=$1
+    diagnostic "Checking presence of patch $1"
+    message_id=$(grep -E '^Message-Id: [^ ]+' "$patch_file" | sed 's/^Message-Id: \([^\ ]+\)/\1/')
+    if [ -z "$message_id" ]; then
+        diagnostic "Error: patch $patch_file does not contain a Message-Id."
+        diagnostic "Please consider generating your patch files with the 'git format-patch --thread ...' option."
+        diagnostic ""
+        exit 1
+    fi
+    if [ -z "$(git log --grep="$message_id")" ]; then
+        diagnostic "Cannot find patch $patch_file in tree, aborting."
+        diagnostic "There can be two reasons for that:"
+        diagnostic "- you forgot to apply the patch on this tree, or"
+        diagnostic "- you applied the patch without the 'git am --message-id ...' option."
+        diagnostic ""
+        exit 1
+    fi
+}
+
 # Read the Android Wiki http://wiki.videolan.org/AndroidCompile
 # Setup all that stuff correctly.
 # Get the latest Android SDK Platform or modify numbers in configure.sh and libvlc/default.properties.
@@ -246,20 +271,26 @@ if [ ! -d "vlc" ]; then
     diagnostic "VLC sources: not found, cloning"
     git clone https://git.videolan.org/git/vlc/vlc-3.0.git vlc
     checkfail "VLC sources: git clone failed"
+    cd vlc
     diagnostic "VLC sources: resetting to the TESTED_HASH commit (${TESTED_HASH})"
     git reset --hard ${TESTED_HASH}
     checkfail "VLC sources: TESTED_HASH ${TESTED_HASH} not found"
     diagnostic "VLC sources: applying custom patches"
-    cd vlc
-    git am ../libvlc/patches/vlc3/*.patch
+    # Keep Message-Id inside commits description to track them afterwards
+    git am --message-id ../libvlc/patches/vlc3/*.patch
     checkfail "VLC sources: cannot apply custom patches"
     cd ..
 else
     diagnostic "VLC source: found sources, leaving untouched"
 fi
+diagnostic "VLC sources: Checking TESTED_HASH and patches presence"
 cd vlc
 git cat-file -e ${TESTED_HASH} 2> /dev/null
 checkfail "Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}"
+for patch_file in ../libvlc/patches/vlc3/*.patch; do
+    check_patch_is_applied "$patch_file"
+done
+cd ..
 
 ############
 # Make VLC #

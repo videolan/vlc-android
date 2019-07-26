@@ -1,4 +1,7 @@
-From 21ad8184f794553b923a15c7ebc7215f5b9ea502 Mon Sep 17 00:00:00 2001
+From ba053f9821e050bc56e04d9a94851f4a7db4fa89 Mon Sep 17 00:00:00 2001
+Message-Id: <ba053f9821e050bc56e04d9a94851f4a7db4fa89.1564134421.git.nobody@example.com>
+In-Reply-To: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
+References: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 29 Mar 2019 10:56:26 +0100
 Subject: [PATCH 4/6] network: tls: Handle errors from older kernels

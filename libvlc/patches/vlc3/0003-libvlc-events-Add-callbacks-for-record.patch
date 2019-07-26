@@ -1,4 +1,7 @@
-From e8992a5bbc20101445819ad92d39bd97f1290da8 Mon Sep 17 00:00:00 2001
+From 75f1a7b60b8927a35788e7a8a8fd3d804e273e7f Mon Sep 17 00:00:00 2001
+Message-Id: <75f1a7b60b8927a35788e7a8a8fd3d804e273e7f.1564134421.git.nobody@example.com>
+In-Reply-To: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
+References: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
 From: Soomin Lee <bubu@mikan.io>
 Date: Thu, 27 Sep 2018 18:40:39 +0200
 Subject: [PATCH 3/6] libvlc: events: Add callbacks for record
