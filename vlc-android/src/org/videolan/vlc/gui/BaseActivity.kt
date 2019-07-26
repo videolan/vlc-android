@@ -17,7 +17,10 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     lateinit var settings: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        UiTools.setLocale(this)
+        if (!localeSet) {
+            UiTools.setLocale(this)
+            localeSet = true
+        }
         settings = Settings.getInstance(this)
         /* Theme must be applied before super.onCreate */
         applyTheme()
@@ -37,5 +40,9 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     override fun onDestroy() {
         cancel()
         super.onDestroy()
+    }
+
+    companion object {
+        var localeSet = false
     }
 }

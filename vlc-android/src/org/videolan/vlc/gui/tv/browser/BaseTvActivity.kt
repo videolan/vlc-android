@@ -57,7 +57,10 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
-        UiTools.setLocale(this)
+        if (!localeSet) {
+            UiTools.setLocale(this)
+            localeSet = true
+        }
         if (savedInstanceState != null) startMedialibrary(firstRun = false, upgrade = false, parse = true)
         super.onCreate(savedInstanceState)
         mediaLibrary = AbstractMedialibrary.getInstance()
@@ -119,5 +122,9 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
             for (device in devices) UiTools.newStorageDetected(this@BaseTvActivity, device)
             MediaParsingService.newStorages.value = null
         })
+    }
+
+    companion object {
+        var localeSet = false
     }
 }
