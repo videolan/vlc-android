@@ -430,6 +430,8 @@
     <string name="network_caching_summary">Tid att buffra media (i ms). Fungerar ej vid hårdvarukodning. Lämna blankt för att nollställa.</string>
     <string name="resume_playback_title">Återuppta uppspelning efter ett samtal</string>
     <string name="resume_playback_summary">Förbli pausad annars</string>
+    <string name="audio_show_cards_title">Visa ljudkort</string>
+    <string name="audio_show_cards_summary">Visa artister, album och spellistor i större kort</string>
     <string name="blurred_cover_background_title">Suddigt omslag som bakgrund</string>
     <string name="blurred_cover_background_summary">Suddigt omslag i ljudspelarens bakgrund</string>
     <string name="network_caching_popup">Detta värde måste vara mellan 0 och 6000 ms</string>
@@ -618,8 +620,8 @@
     <string name="audio_digital_title">Digital ljudutmatning (passthrough)</string>
     <string name="audio_task_cleared_title">Stoppa när appen avvisas</string>
     <string name="audio_task_cleared_summary">Stoppa uppspelningen när applikationen avvisas</string>
-    <string name="audio_resume_card_title">Kort för senaste spellista</string>
-    <string name="audio_resume_card_summary">Visar ett kort som hjälper dig att återuppta ljuduppspelning när appen startar</string>
+    <string name="audio_resume_card_title">Visa tips för senaste spellista</string>
+    <string name="audio_resume_card_summary">Visar ett tips som hjälper dig att återuppta ljuduppspelning när appen startar</string>
     <string name="playback_rewind">Spola tillbaka</string>
     <string name="playback_forward">Spola framåt</string>
     <string name="ml_wizard_title">Val av mediabibliotek för VLC</string>
