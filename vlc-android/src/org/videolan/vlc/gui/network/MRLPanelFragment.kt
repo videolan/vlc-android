@@ -48,6 +48,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
+import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
@@ -118,6 +119,9 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.dataset.observe(this, Observer { adapter.setList(it as List<AbstractMediaWrapper>) })
+        viewModel.loading.observe(this, Observer {
+            (activity as? MainActivity)?.refreshing = it
+        })
     }
 
     override fun onStart() {
