@@ -2,6 +2,8 @@ package org.videolan.vlc.gui.browser
 
 import android.content.Intent
 import android.view.View
+import android.widget.AutoCompleteTextView
+import android.widget.SearchView
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
@@ -9,6 +11,7 @@ import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.contrib.RecyclerViewActions.*
+import androidx.test.espresso.matcher.RootMatchers.isFocusable
 import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
@@ -29,6 +32,7 @@ import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.util.EXTRA_TARGET
 import org.videolan.vlc.util.Settings
+import java.lang.Thread.sleep
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -256,7 +260,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
 
         onView(withId(R.id.ctx_list))
                 .check(matches(isDisplayed()))
-                .check(matches(sizeOfAtLeast(3)))
+                .check(matches(withCount(equalTo(3))))
                 .check(matches(hasDescendant(withText(R.string.play))))
                 .check(matches(hasDescendant(withText(R.string.favorites_add))))
                 .check(matches(hasDescendant(withText(R.string.delete))))
@@ -269,8 +273,8 @@ class FileBrowserFragmentUITest : BaseUITest() {
         )).perform(click())
 
         onView(allOf(
-                withId(R.id.item_more), isDescendantOfA(MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(AbstractMediaWrapper.TYPE_DIR)), firstView()
-        )).perform(click())
+            MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(AbstractMediaWrapper.TYPE_VIDEO), firstView()
+        )).perform(longClick())
 
         onView(withId(R.id.action_mode_file_info))
                 .check(matches(isDisplayed()))
@@ -296,7 +300,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
 
         onView(withId(R.id.ctx_list))
                 .check(matches(isDisplayed()))
-                .check(matches(sizeOfAtLeast(7)))
+                .check(matches(withCount(equalTo(7))))
                 .check(matches(hasDescendant(withText(R.string.play_all))))
                 .check(matches(hasDescendant(withText(R.string.play_as_audio))))
                 .check(matches(hasDescendant(withText(R.string.append))))
@@ -307,10 +311,12 @@ class FileBrowserFragmentUITest : BaseUITest() {
     }
 
     @Test
-    fun whenAtInternalStorageAndContainsUnknownFile_checkShownOnlyIfSettingIsTrue() {
-        onView(withRecyclerView(R.id.network_list).atPosition(1)).perform(click())
+    fun whenAtInternalStorageAndContainsUnknownFile_checkShownIfSettingIsTrue() {
+        Settings.getInstance(context).edit()
+                .putBoolean("browser_show_all_files", true)
+                .commit()
 
-        val showAllFiles = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
+        onView(withRecyclerView(R.id.network_list).atPosition(1)).perform(click())
 
         val rvMatcher = withRecyclerView(R.id.network_list)
         onView(rvMatcher.atPosition(0))
@@ -319,15 +325,32 @@ class FileBrowserFragmentUITest : BaseUITest() {
         val adapter = rvMatcher.recyclerView?.adapter as? DiffUtilAdapter<MediaLibraryItem, RecyclerView.ViewHolder>
         val pos = findFirstPosition(adapter, withMediaType(AbstractMediaWrapper.TYPE_ALL))
 
-        if (showAllFiles) {
-            assertThat(pos, not(equalTo(-1)))
-            onView(withId(R.id.network_list))
-                    .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(pos, longClick()))
+        assertThat(pos, not(equalTo(-1)))
 
-            assertThat(activity.supportFragmentManager.findFragmentByTag("context"), notNullValue())
-        } else {
-            assertThat(pos, equalTo(-1))
-        }
+        // TODO: Fails because it doesn't scroll completely as required
+        onView(withId(R.id.network_list))
+                .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(pos, longClick())) // FAILED
+
+        assertThat(activity.supportFragmentManager.findFragmentByTag("context"), notNullValue())
+    }
+
+    @Test
+    fun whenAtInternalStorageAndContainsUnknownFile_checkNotShownIfSettingIsFalse() {
+        // TODO: Fails, because this preference value doesn't get reflected in the provider
+        Settings.getInstance(context).edit()
+                .putBoolean("browser_show_all_files", false)
+                .commit()
+
+        onView(withRecyclerView(R.id.network_list).atPosition(1)).perform(click())
+
+        val rvMatcher = withRecyclerView(R.id.network_list)
+        onView(rvMatcher.atPosition(0))
+                .check(matches(isDisplayed()))
+
+        val adapter = rvMatcher.recyclerView?.adapter as? DiffUtilAdapter<MediaLibraryItem, RecyclerView.ViewHolder>
+        val pos = findFirstPosition(adapter, withMediaType(AbstractMediaWrapper.TYPE_ALL))
+
+        assertThat(pos, equalTo(-1)) // FAILED
     }
 
     @Test
@@ -369,5 +392,71 @@ class FileBrowserFragmentUITest : BaseUITest() {
 
         onView(rvMatcher.atPosition(1)).check(matches(not(withBgColor(context.getColor(R.color.orange200transparent)))))
         onView(rvMatcher.atPosition(3)).check(matches(not(withBgColor(context.getColor(R.color.orange200transparent)))))
+    }
+
+    @Test
+    fun whenAtSomeFolderAndFavorited_checkQuickAccessIsUpdatedAtRoot() {
+        val rvMatcher = withRecyclerView(R.id.network_list)
+
+        onView(rvMatcher.atPosition(1))
+                .check(matches(isDisplayed()))
+
+        val oldCount = rvMatcher.recyclerView?.adapter?.itemCount ?: 0
+
+        onView(withRecyclerView(R.id.network_list).atPosition(1)).perform(click())
+        onView(withRecyclerView(R.id.network_list).atPosition(0)).perform(click())
+
+        onView(withId(R.id.ml_menu_save))
+                .check(matches(withActionIconDrawable(R.drawable.ic_menu_bookmark_outline_w)))
+                .perform(click())
+                .check(matches(withActionIconDrawable(R.drawable.ic_menu_bookmark_w)))
+
+        onView(isRoot()).perform(pressBack())
+        onView(isRoot()).perform(pressBack())
+
+        onView(withId(R.id.network_list))
+                .check(matches(withCount(equalTo(oldCount + 1))))
+    }
+
+    @Test
+    fun whenAtSomeQuickAccessFolderAndDefavorited_checkQuickAccessIsUpdatedAtRoot() {
+        val rvMatcher = withRecyclerView(R.id.network_list)
+
+        onView(rvMatcher.atPosition(1))
+                .check(matches(isDisplayed()))
+
+        val oldCount = rvMatcher.recyclerView?.adapter?.itemCount ?: 0
+
+        onView(withRecyclerView(R.id.network_list).atPosition(3)).perform(click())
+
+        onView(withId(R.id.ml_menu_save))
+                .check(matches(withActionIconDrawable(R.drawable.ic_menu_bookmark_w)))
+                .perform(click())
+                .check(matches(withActionIconDrawable(R.drawable.ic_menu_bookmark_outline_w)))
+
+        onView(isRoot()).perform(pressBack())
+
+        onView(withId(R.id.network_list))
+                .check(matches(withCount(equalTo(oldCount - 1))))
+    }
+
+    @Test
+    fun whenAtSomeFolderAndFiltered_checkItemsAreFiltered() {
+        onView(withRecyclerView(R.id.network_list).atPosition(1)).perform(click())
+        onView(withId(R.id.ml_menu_filter))
+                .perform(click())
+
+        onView(isAssignableFrom(AutoCompleteTextView::class.java))
+                .perform(typeTextIntoFocusedView("anasjfd"))
+
+        onView(withId(R.id.network_list))
+                .check(matches(withCount(equalTo(0))))
+
+        onView(isAssignableFrom(AutoCompleteTextView::class.java))
+                .perform(clearText())
+                .perform(typeTextIntoFocusedView("Music"))
+
+        onView(withId(R.id.network_list))
+                .check(matches(sizeOfAtLeast(1)))
     }
 }

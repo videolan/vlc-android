@@ -1,5 +1,6 @@
 package org.videolan.vlc
 
+import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,24 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.gui.browser.BaseBrowserAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.hamcrest.BaseMatcher
+import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.Bitmap
+import android.graphics.drawable.StateListDrawable
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.appcompat.view.menu.ActionMenuItemView
+
+
 
 
 
@@ -155,11 +167,96 @@ fun sizeOfAtLeast(minSize: Int): Matcher<in View> {
 fun withCount(matcher: Matcher<Int>): Matcher<in View> {
     return object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description) {
-            description.appendText("Recycler view has count with ${matcher.describeTo(description)}")
+            description.appendText("Recycler view has count with $matcher")
         }
 
         override fun matchesSafely(view: View): Boolean {
             return view is RecyclerView && matcher.matches(view.adapter?.itemCount ?: 0)
+        }
+    }
+}
+
+fun withCheckBoxState(state: Matcher<Int>): Matcher<in View> {
+    return object : TypeSafeMatcher<ThreeStatesCheckbox>() {
+        override fun describeTo(description: Description) {
+            description.appendText("checkbox with state $state")
+        }
+
+        override fun matchesSafely(item: ThreeStatesCheckbox?): Boolean = state.matches(item?.state)
+    } as Matcher<in View>
+}
+
+/*
+    Taken from https://gist.github.com/frankiesardo/7490059
+ */
+fun withBackground(resourceId: Int): Matcher<View> {
+    return object : TypeSafeMatcher<View>() {
+
+        public override fun matchesSafely(view: View): Boolean {
+            return sameBitmap(view.context, view.background, resourceId)
+        }
+
+        override fun describeTo(description: Description) {
+            description.appendText("has background resource $resourceId")
+        }
+    }
+}
+
+fun withCompoundDrawable(resourceId: Int): Matcher<View> {
+    return object : BoundedMatcher<View, TextView>(TextView::class.java) {
+        override fun describeTo(description: Description) {
+            description.appendText("has compound drawable resource $resourceId")
+        }
+
+        public override fun matchesSafely(textView: TextView): Boolean {
+            for (drawable in textView.compoundDrawables) {
+                if (sameBitmap(textView.context, drawable, resourceId)) {
+                    return true
+                }
+            }
+            return false
+        }
+    }
+}
+
+fun withImageDrawable(resourceId: Int): Matcher<View> {
+    return object : BoundedMatcher<View, ImageView>(ImageView::class.java) {
+        override fun describeTo(description: Description) {
+            description.appendText("has image drawable resource $resourceId")
+        }
+
+        public override fun matchesSafely(imageView: ImageView): Boolean {
+            return sameBitmap(imageView.context, imageView.drawable, resourceId)
+        }
+    }
+}
+
+private fun sameBitmap(context: Context, drawable: Drawable?, resourceId: Int): Boolean {
+    var drawable = drawable
+    var otherDrawable = context.resources.getDrawable(resourceId)
+    if (drawable == null || otherDrawable == null) {
+        return false
+    }
+    if (drawable is StateListDrawable && otherDrawable is StateListDrawable) {
+        drawable = drawable.current
+        otherDrawable = otherDrawable.current
+    }
+    if (drawable is BitmapDrawable) {
+        val bitmap = drawable.bitmap
+        val otherBitmap = (otherDrawable as BitmapDrawable).bitmap
+        return bitmap.sameAs(otherBitmap)
+    }
+    return false
+}
+
+fun withActionIconDrawable(@DrawableRes resourceId: Int): Matcher<View> {
+    return object : BoundedMatcher<View, ActionMenuItemView>(ActionMenuItemView::class.java) {
+        override fun describeTo(description: Description) {
+            description.appendText("has image drawable resource $resourceId")
+        }
+
+        public override fun matchesSafely(actionMenuItemView: ActionMenuItemView): Boolean {
+            return sameBitmap(actionMenuItemView.context, actionMenuItemView.itemData.icon, resourceId)
         }
     }
 }
