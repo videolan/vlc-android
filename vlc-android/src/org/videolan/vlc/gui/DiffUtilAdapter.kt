@@ -12,7 +12,7 @@ import kotlinx.coroutines.channels.actor
 abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>(), CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 
-    protected var dataset: List<D> = listOf()
+    var dataset: List<D> = listOf()
     private set
     private val diffCallback by lazy(LazyThreadSafetyMode.NONE) { createCB() }
     private val updateActor = actor<List<D>>(capacity = Channel.CONFLATED) {

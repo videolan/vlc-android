@@ -49,6 +49,7 @@
             android:orderInCategory="2"
             android:title="@string/sortby"
             android:icon="@drawable/ic_menu_sort"
+            android:contentDescription="@string/sortby"
             android:id="@+id/ml_menu_sortby"
             vlc:showAsAction="ifRoom|collapseActionView"
             android:visible="false">
