@@ -444,6 +444,8 @@
     <string name="network_caching_summary">משך הזמן שלוקח לאגור את המדיה מהרשת (במילישניות). לא עובד עם קידוד חומרה. יש להשאיר ריק כדי לאפס.</string>
     <string name="resume_playback_title">להמשיך בנגינה לאחר השיחה</string>
     <string name="resume_playback_summary">להישאר במצב השהיה בכל מצב אחר</string>
+    <string name="audio_show_cards_title">הצגת כרטיסי שמע</string>
+    <string name="audio_show_cards_summary">הצגת אמנים, אלבומים ורשימות נגינה בכרטיסים גדולים יותר</string>
     <string name="blurred_cover_background_title">רקע עטיפה מטושטשת</string>
     <string name="blurred_cover_background_summary">עטיפה מטושטשת ברקע של נגן השמע</string>
     <string name="network_caching_popup">הערך חייב להיות בין 0 ל־6000 מ״ש</string>
@@ -632,8 +634,8 @@
     <string name="audio_digital_title">פלט שמע דיגיטלי (מעקף)</string>
     <string name="audio_task_cleared_title">לעצור עם החלקה על היישומון</string>
     <string name="audio_task_cleared_summary">לעצור את הנגינה כאשר היישומון מוסתר</string>
-    <string name="audio_resume_card_title">לטעון את כרטיס רשימת הנגינה האחרונה</string>
-    <string name="audio_resume_card_summary">מציג כרטיס שמסייע לך להמשיך את נגינת השמע עם התחלת היישומון</string>
+    <string name="audio_resume_card_title">הצגת העצה האחרונה ברשימת הנגינה</string>
+    <string name="audio_resume_card_summary">מציג עצה שתסייע לך להמשיך נגינה עם הפעלת היישומון</string>
     <string name="playback_rewind">חזרה אחורה</string>
     <string name="playback_forward">האצה קדימה</string>
     <string name="ml_wizard_title">בחירה מתיקיית המדיה של VLC</string>
