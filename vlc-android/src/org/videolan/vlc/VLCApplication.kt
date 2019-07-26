@@ -44,7 +44,10 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapCache
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.util.runIO
 import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationTargetException
 
@@ -96,10 +99,6 @@ class VLCApplication : MultiDexApplication() {
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         Thread(Runnable {
             locale = Settings.getInstance(instance).getString("set_locale", "")
-            runOnMainThread(Runnable {
-                // Set the locale for API < 24 and set application resources and direction for API >=24
-                UiTools.setLocale(appContext)
-            })
 
             runIO(Runnable {
                 if (AndroidUtil.isOOrLater)

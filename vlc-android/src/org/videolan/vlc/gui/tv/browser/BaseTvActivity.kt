@@ -34,7 +34,6 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.tools.KeyHelper
 import org.videolan.vlc.*
@@ -58,6 +57,7 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
+        UiTools.setLocale(this)
         if (savedInstanceState != null) startMedialibrary(firstRun = false, upgrade = false, parse = true)
         super.onCreate(savedInstanceState)
         mediaLibrary = AbstractMedialibrary.getInstance()
