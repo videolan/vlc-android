@@ -634,8 +634,8 @@
     <string name="audio_digital_title">Цифровий вивід аудіо (роз\'єм)</string>
     <string name="audio_task_cleared_title">Зупиняти при натисканні на програму</string>
     <string name="audio_task_cleared_summary">Призупиняти відтворення, якщо програму відхилено</string>
-    <string name="audio_resume_card_title">Завантажити карту останнього списку відтворення</string>
-    <string name="audio_resume_card_summary">Показує карту, що допомагає вам відновити відтворення звуку при запуску програми</string>
+    <string name="audio_resume_card_title">Показувати пораду з останнім списком відтворення</string>
+    <string name="audio_resume_card_summary">Показує підказку, що допомагає вам відновити відтворення аудіо при запуску програми</string>
     <string name="playback_rewind">Перемотати</string>
     <string name="playback_forward">Перемотування вперед</string>
     <string name="ml_wizard_title">Вибір медіабібліотеки VLC</string>
