@@ -60,6 +60,7 @@ while [ $# -gt 0 ]; do
             echo "Use -s to set your keystore file and -p for the password"
             echo "Use -c to get a ChromeOS build"
             echo "Use -l to build only LibVLC"
+            echo "Use -b to bypass libvlc source checks (vlc custom sources)"
             exit 0
             ;;
         a|-a)
@@ -103,6 +104,9 @@ while [ $# -gt 0 ]; do
             ;;
         --init)
             GRADLE_SETUP=1
+            ;;
+        -b)
+            BYPASS_VLC_SRC_CHECKS=1
             ;;
         *)
             diagnostic "$0: Invalid option '$1'."
@@ -283,14 +287,19 @@ if [ ! -d "vlc" ]; then
 else
     diagnostic "VLC source: found sources, leaving untouched"
 fi
-diagnostic "VLC sources: Checking TESTED_HASH and patches presence"
-cd vlc
-git cat-file -e ${TESTED_HASH} 2> /dev/null
-checkfail "Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}"
-for patch_file in ../libvlc/patches/vlc3/*.patch; do
-    check_patch_is_applied "$patch_file"
-done
-cd ..
+if [ "$BYPASS_VLC_SRC_CHECKS" = 1 ]; then
+    diagnostic "VLC sources: Bypassing checks (required by option)"
+else
+    diagnostic "VLC sources: Checking TESTED_HASH and patches presence"
+    diagnostic "NOTE: checks can be bypass by adding '-b' option to this script."
+    cd vlc
+    git cat-file -e ${TESTED_HASH} 2> /dev/null
+    checkfail "Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}"
+    for patch_file in ../libvlc/patches/vlc3/*.patch; do
+        check_patch_is_applied "$patch_file"
+    done
+    cd ..
+fi
 
 ############
 # Make VLC #
