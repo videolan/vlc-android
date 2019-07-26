@@ -620,8 +620,8 @@
     <string name="audio_digital_title">Saída de áudio digital (passagem direta)</string>
     <string name="audio_task_cleared_title">Parar ao deslisar o aplicativo</string>
     <string name="audio_task_cleared_summary">Para a reprodução quando o aplicativo for dispensada</string>
-    <string name="audio_resume_card_title">Carregar último cartão de lista de reprodução</string>
-    <string name="audio_resume_card_summary">Exibe um cartão para lhe ajudar a retomar a lista de reprodução de áudio na inicialização do aplicativo</string>
+    <string name="audio_resume_card_title">Exibir última dica da lista de reprodução</string>
+    <string name="audio_resume_card_summary">Exibe uma dica para lhe ajudar a retomar a reprodução de áudio ao executar o aplicativo</string>
     <string name="playback_rewind">Retroceder</string>
     <string name="playback_forward">Avanço rápido</string>
     <string name="ml_wizard_title">Seleção da Biblioteca de mídias do VLC</string>
