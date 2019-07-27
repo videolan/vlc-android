@@ -435,7 +435,7 @@
     <string name="dump_media_db_summary">Kopírovať databázu do interného hlavného úložiska (root)</string>
     <string name="clear_media_db">Vyprázdniť databázu médií</string>
     <string name="clear_media_db_summary">Prístup k informáciám Android VLC kvôli čisteniu</string>
-    <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
+    <string name="clear_history">Vyčistiť históriu</string>
     <string name="media_db_cleared">Databáza médií bola vyprázdnená!</string>
     <string name="set_locale">Nastaviť jazyk krajiny</string>
     <string name="set_locale_detail">Pre obnovenie pôvodného nastavenia ponechajte prázdne.</string>
@@ -444,6 +444,8 @@
     <string name="network_caching_summary">Čas ukladania do vyrovnávacej pamäte, pri sieťovom médiu (v ms). Nespolupracuje s hardvérovým dekódovaním. Pre obnovenie predvolenej hodnoty ponechajte políčko prázdne.</string>
     <string name="resume_playback_title">Pokračovať v prehrávaní po hovore</string>
     <string name="resume_playback_summary">Inak nechať pozastavené</string>
+    <string name="audio_show_cards_title">Zobraziť zvukové karty</string>
+    <string name="audio_show_cards_summary">Zobrazovať umelcov, albumy a playlisty na veľkých kartách</string>
     <string name="blurred_cover_background_title">Pozadie s rozmazaným obalom</string>
     <string name="blurred_cover_background_summary">Pozadie hudobného prehrávača s rozmazaným obalom</string>
     <string name="network_caching_popup">Táto hodnota musí byť v rozmedzí 0 a 6000 ms</string>
@@ -632,8 +634,8 @@
     <string name="audio_digital_title">Zvukový digitálny výstup (prechod)</string>
     <string name="audio_task_cleared_title">Zastaviť pri presune apl. prstom</string>
     <string name="audio_task_cleared_summary">Zastaviť prehrávanie ak aplikácia zmizla</string>
-    <string name="audio_resume_card_title">Načítať poslednú kartu playlistov</string>
-    <string name="audio_resume_card_summary">Zobrazí sa karta pre pokračovanie prehrávania zvuku pri spustení aplikácie</string>
+    <string name="audio_resume_card_title">Zobraziť posledný tip playlistu</string>
+    <string name="audio_resume_card_summary">Zobrazí tip, ktorý vám pomôže pokračovať v prehrávaní zvuku pri spustení aplikácie</string>
     <string name="playback_rewind">Previnúť</string>
     <string name="playback_forward">Rýchlo dopredu</string>
     <string name="ml_wizard_title">Výber knižnice médií VLC</string>
@@ -707,4 +709,6 @@
     <string name="appended">Pripojená stopa/stopy</string>
     <string name="inserted">Vložená stopa/stopy</string>
     <string name="remove_current">Odstrániť aktuálne</string>
+    <string name="validation_delete_playlist">Naozaj chcete vymazať tento playlist?</string>
+    <string name="validation_delete_playlist_text">Túto akciu nemožno vrátiť späť.</string>
 </resources>
