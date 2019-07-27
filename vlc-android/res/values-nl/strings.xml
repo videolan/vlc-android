@@ -620,8 +620,8 @@
     <string name="audio_digital_title">Digitale audio-uitvoer (doorvoer)</string>
     <string name="audio_task_cleared_title">Stoppen bij wegvegen van toepassing</string>
     <string name="audio_task_cleared_summary">Afspelen stoppen wanneer toepassing weggeveegd wordt</string>
-    <string name="audio_resume_card_title">Laatste afspeellijst-kaart laden</string>
-    <string name="audio_resume_card_summary">Geeft een kaart weer die u help om het afspelen van audio te hervatten bij starten van de app.</string>
+    <string name="audio_resume_card_title">Laatste-afspeellijst-tip weergeven</string>
+    <string name="audio_resume_card_summary">Geeft een tip weer die u helpt om het afspelen van audio te hervatten bij starten van de app.</string>
     <string name="playback_rewind">Terugspoelen</string>
     <string name="playback_forward">Vooruitspoelen</string>
     <string name="ml_wizard_title">VLC mediabibliotheek selectie</string>
