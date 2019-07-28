@@ -613,8 +613,8 @@
     <string name="audio_digital_title">デジタルオーディオ出力 (パススルー)</string>
     <string name="audio_task_cleared_title">スワイプで再生を停止</string>
     <string name="audio_task_cleared_summary">アプリケーションが閉じられた時に再生を停止</string>
-    <string name="audio_resume_card_title">最後のプレイリストカードをロード</string>
-    <string name="audio_resume_card_summary">アプリケーション起動時にオーディオ再生を再開するためのカードを表示</string>
+    <string name="audio_resume_card_title">直近のプレイリストのティップスを表示</string>
+    <string name="audio_resume_card_summary">アプリ起動時にオーディオ再生を再開するためのティップスを表示</string>
     <string name="playback_rewind">戻す</string>
     <string name="playback_forward">高速に進める</string>
     <string name="ml_wizard_title">VLCメディアライブラリー選択</string>
