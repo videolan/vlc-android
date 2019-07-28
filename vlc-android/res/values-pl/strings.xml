@@ -634,8 +634,8 @@
     <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe</string>
     <string name="audio_task_cleared_title">Zatrzymaj po zamknięciu aplikacji</string>
     <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po usunięciu VLC z listy ostatnich aplikacji</string>
-    <string name="audio_resume_card_title">Załaduj ostatnią kartę listy odtwarzania</string>
-    <string name="audio_resume_card_summary">Wyświetla kartę, która pozwala wznowić odtwarzanie dźwięku po uruchomieniu aplikacji</string>
+    <string name="audio_resume_card_title">Wskazówka ostatnio odtwarzane</string>
+    <string name="audio_resume_card_summary">Pokazuje wskazówkę pomagającą wznowić ostatnio odtwarzanego utworu na początku aplikacji</string>
     <string name="playback_rewind">Przewijanie do tyłu</string>
     <string name="playback_forward">Przewijanie do przodu</string>
     <string name="ml_wizard_title">Wybór biblioteki multimediów VLC</string>
