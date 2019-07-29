@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="subtitles_category"
-    android:title="@string/subtitles_prefs_category">
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                                android:key="subtitles_category"
+                                                android:title="@string/subtitles_prefs_category">
 
-    <CheckBoxPreference
+    <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="subtitles_autoload"
         android:title="@string/subtitles_autoload_title" />
@@ -22,11 +22,11 @@
         android:key="subtitles_color"
         android:persistent="true"
         android:title="@string/subtitles_color_title" />
-    <CheckBoxPreference
+    <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="subtitles_background"
         android:title="@string/subtitles_background_title" />
-    <CheckBoxPreference
+    <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="subtitles_bold"
         android:title="@string/subtitles_bold_title" />
@@ -38,4 +38,4 @@
         android:persistent="true"
         android:title="@string/subtitle_text_encoding" />
 
-</PreferenceScreen>
+</android.support.v7.preference.PreferenceScreen>
