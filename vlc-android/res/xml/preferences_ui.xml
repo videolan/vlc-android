@@ -5,11 +5,12 @@
     android:title="@string/interface_prefs_screen">
 
     <ListPreference
-        android:defaultValue="-1"
-        android:key="app_theme"
-        android:title="@string/daynight_title"
-        android:entries="@array/daynight_mode_entries"
-        android:entryValues="@array/daynight_mode_values" />
+            android:defaultValue="-1"
+            android:key="app_theme"
+            android:title="@string/daynight_title"
+            android:summary="%s"
+            android:entries="@array/daynight_mode_entries"
+            android:entryValues="@array/daynight_mode_values" />
 
     <CheckBoxPreference
         android:key="tv_ui"
@@ -76,7 +77,8 @@
             android:key="blurred_cover_background"
             android:summary="@string/blurred_cover_background_summary"
             android:title="@string/blurred_cover_background_title" />
-        <SwitchPreference
+
+        <androidx.preference.SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="audio_resume_card"
             android:title="@string/audio_resume_card_title"
