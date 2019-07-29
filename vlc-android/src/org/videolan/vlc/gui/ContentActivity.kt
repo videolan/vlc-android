@@ -31,7 +31,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -39,13 +38,9 @@ import org.videolan.libvlc.RendererItem
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.RendererDelegate
-import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.ExtensionBrowser
-import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.RenderersDialog
-import org.videolan.vlc.gui.folders.FoldersFragment
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Settings
@@ -58,6 +53,8 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
 
     private lateinit var searchView: SearchView
     private var showRenderers = !AndroidDevices.isChromeBook && !Util.isListEmpty(RendererDelegate.renderers.value)
+    private val searchHiddenMenuItem = ArrayList<MenuItem>()
+
 
     override fun initAudioPlayerContainerActivity() {
         super.initAudioPlayerContainerActivity()
@@ -172,22 +169,25 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         val current = currentFragment
         if (current is Filterable) {
             (current as Filterable).setSearchVisibility(visible)
-            makeRoomForSearch(current, visible)
+            makeRoomForSearch(visible)
         }
     }
 
     // Hide options menu items to make room for filter EditText
-    private fun makeRoomForSearch(current: Fragment, hide: Boolean) {
+    private fun makeRoomForSearch(hide: Boolean) {
         val menu = toolbar.menu
-        val renderersItem = menu.findItem(R.id.ml_menu_renderers)
-        if (renderersItem != null) renderersItem.isVisible = !hide && showRenderers
-        if (current is MediaBrowserFragment<*>) {
-            menu.findItem(R.id.ml_menu_sortby)?.isVisible = !hide && current.viewModel.canSortByName()
-        }
-        if (current is VideoGridFragment || current is AudioBrowserFragment
-                || current is FoldersFragment) {
-            val lastItem = menu.findItem(R.id.ml_menu_last_playlist)
-            if (lastItem != null) lastItem.isVisible = !hide
+        if (!hide) {
+            searchHiddenMenuItem.forEach {
+                it.isVisible = true
+            }
+        } else {
+            for (i in 0 until menu.size()) {
+                val menuItem = menu.getItem(i)
+                if (menuItem.isVisible) {
+                    menuItem.isVisible = false
+                    searchHiddenMenuItem.add(menuItem)
+                }
+            }
         }
     }
 
