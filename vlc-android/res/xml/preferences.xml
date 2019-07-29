@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/preferences">
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                                android:title="@string/preferences">
 
     <PreferenceCategory android:title="@string/medialibrary" >
         <PreferenceScreen
@@ -8,7 +8,7 @@
             android:summary="@string/directories_summary"
             android:title="@string/medialibrary_directories" />
 
-        <CheckBoxPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="auto_rescan"
             android:summary="@string/auto_rescan_summary"
@@ -39,7 +39,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/history" >
-        <CheckBoxPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="playback_history"
             android:summary="@string/playback_history_summary"
@@ -76,4 +76,4 @@
 
     </PreferenceCategory>
 
-</PreferenceScreen>
+</android.support.v7.preference.PreferenceScreen>

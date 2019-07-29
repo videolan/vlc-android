@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/advanced_prefs_category">
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                                android:title="@string/advanced_prefs_category">
 
-    <CheckBoxPreference
+    <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="browser_show_hidden_files"
         android:summary="@string/browser_show_hidden_files_summary"
@@ -38,7 +38,7 @@
         android:title="@string/quit" />
 
     <PreferenceCategory android:title="@string/performance_prefs_category">
-        <CheckBoxPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:defaultValue="@bool/time_stretching_default"
             android:key="enable_time_stretching_audio"
             android:summary="@string/enable_time_stretching_audio_summary"
@@ -64,7 +64,7 @@
             android:key="deblocking"
             android:summary="@string/deblocking_summary"
             android:title="@string/deblocking" />
-        <CheckBoxPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="enable_frame_skip"
             android:summary="@string/enable_frame_skip_summary"
@@ -72,7 +72,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/developer_prefs_category">
-        <CheckBoxPreference
+        <androidx.preference.SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="enable_verbose_mode"
             android:summary="@string/enable_verbose_mode_summary"
@@ -90,4 +90,4 @@
             android:title="@string/custom_libvlc_options" />
     </PreferenceCategory>
 
-</PreferenceScreen>
+</android.support.v7.preference.PreferenceScreen>
