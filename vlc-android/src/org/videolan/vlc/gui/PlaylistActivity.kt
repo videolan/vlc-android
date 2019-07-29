@@ -128,10 +128,15 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         binding.songs.adapter = audioBrowserAdapter
         val fabVisibility = savedInstanceState != null && savedInstanceState.getBoolean(TAG_FAB_VISIBILITY)
 
-        if (!TextUtils.isEmpty(playlist.artworkMrl)) launch {
+        launch {
             val cover = withContext(Dispatchers.IO) {
-                AudioUtil.readCoverBitmap(Uri.decode(playlist.artworkMrl), resources.getDimensionPixelSize(R.dimen.audio_browser_item_size))
+                if (!TextUtils.isEmpty(playlist.artworkMrl)) {
+                    AudioUtil.readCoverBitmap(Uri.decode(playlist.artworkMrl), resources.getDimensionPixelSize(R.dimen.audio_browser_item_size))
+                } else {
+                    ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}", playlist.tracks.toList(), getScreenWidth())
+                }
             }
+
             if (cover != null) {
                 binding.cover = BitmapDrawable(this@PlaylistActivity.resources, cover)
                 launch {
@@ -144,7 +149,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
                     }
                 }
             } else fabFallback()
-        } else fabFallback()
+        }
+
         binding.fab.setOnClickListener(this)
     }
 
