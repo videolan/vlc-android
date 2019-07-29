@@ -32,7 +32,7 @@ AndroidMediaLibrary::AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject
     myVm = vm;
     p_lister = std::make_shared<AndroidDeviceLister>();
     p_ml->setLogger( new AndroidMediaLibraryLogger );
-    p_ml->setVerbosity(medialibrary::LogLevel::Info);
+    p_ml->setVerbosity(medialibrary::LogLevel::Debug);
     pthread_once(&key_once, key_init);
     JNIEnv *env = getEnv();
     if (env == NULL) return;
