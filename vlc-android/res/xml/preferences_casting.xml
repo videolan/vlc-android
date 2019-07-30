@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                                                android:key="audio_category"
-                                                android:title="@string/casting_category">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      android:key="audio_category"
+                                      android:title="@string/casting_category">
     <PreferenceCategory android:title="@string/casting_category">
         <androidx.preference.SwitchPreferenceCompat
             android:key="enable_casting"
@@ -25,4 +25,4 @@
             android:title="@string/casting_conversion_quality_title"
             android:dependency="enable_casting" />
     </PreferenceCategory>
-</android.support.v7.preference.PreferenceScreen>
+</androidx.preference.PreferenceScreen>

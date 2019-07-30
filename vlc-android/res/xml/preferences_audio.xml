@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                                                android:key="audio_category"
-                                                android:title="@string/audio_prefs_category">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      android:key="audio_category"
+                                      android:title="@string/audio_prefs_category">
 
     <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="true"
@@ -62,4 +62,4 @@
             android:title="@string/aout" />
     </PreferenceCategory>
 
-</android.support.v7.preference.PreferenceScreen>
+</androidx.preference.PreferenceScreen>

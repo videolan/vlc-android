@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                                                android:key="video_category"
-                                                android:title="@string/video_prefs_category">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      android:key="video_category"
+                                      android:title="@string/video_prefs_category">
     <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="save_brightness"
@@ -87,4 +87,4 @@
             android:title="@string/enable_clone_mode" />
     </PreferenceCategory>
 
-</android.support.v7.preference.PreferenceScreen>
+</androidx.preference.PreferenceScreen>
