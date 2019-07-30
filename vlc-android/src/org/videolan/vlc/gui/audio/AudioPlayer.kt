@@ -404,7 +404,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     }
 
     private fun restoreHeaderButtonVisibilities() {
-        binding.progressBar.visibility = if (progressBarVisible) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (progressBarVisible) View.VISIBLE else View.INVISIBLE
         val cl = binding.header
         TransitionManager.beginDelayedTransition(cl, AutoTransition().setDuration(200))
         ConstraintSet().apply {
