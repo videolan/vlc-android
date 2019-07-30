@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                                                android:title="@string/advanced_prefs_category">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      android:title="@string/advanced_prefs_category">
 
     <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="false"
@@ -90,4 +90,4 @@
             android:title="@string/custom_libvlc_options" />
     </PreferenceCategory>
 
-</android.support.v7.preference.PreferenceScreen>
+</androidx.preference.PreferenceScreen>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                                                android:title="@string/performance_prefs_category" >
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      android:title="@string/performance_prefs_category" >
     <ListPreference
         android:defaultValue="@string/chroma_format_default"
         android:entries="@array/chroma_formats"
@@ -27,4 +27,4 @@
         android:key="enable_time_stretching_audio"
         android:summary="@string/enable_time_stretching_audio_summary"
         android:title="@string/enable_time_stretching_audio" />
-</android.support.v7.preference.PreferenceScreen>
+</androidx.preference.PreferenceScreen>
