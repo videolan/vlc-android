@@ -119,7 +119,7 @@
                     android:scaleType="fitXY"
                     android:onClick="@{fragment::onSearchClick}"
                     android:contentDescription="@string/search"
-                    android:src="?attr/ic_menu_search"/>
+                    app:srcCompat="?attr/ic_menu_search"/>
 
             <ImageView
                     android:id="@+id/playlist_switch"
