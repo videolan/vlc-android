@@ -51,7 +51,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.dialogs.showContext
@@ -260,7 +259,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
             launch(CoroutineExceptionHandler { _, _ -> }) {
                 viewModel.addCustomDirectory(f.canonicalPath).join()
-                viewModel.browserRoot()
+                viewModel.browseRoot()
             }
         })
         alertDialog = builder.show()

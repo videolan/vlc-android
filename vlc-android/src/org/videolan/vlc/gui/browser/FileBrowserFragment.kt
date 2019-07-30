@@ -65,7 +65,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
     override fun onStart() {
         super.onStart()
-        if (needsRefresh) viewModel.browserRoot()
+        if (needsRefresh) viewModel.browseRoot()
     }
 
     override fun onStop() {
@@ -103,7 +103,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
 
     public override fun browseRoot() {
-        viewModel.browserRoot()
+        viewModel.browseRoot()
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {

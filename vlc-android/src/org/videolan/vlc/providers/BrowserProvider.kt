@@ -54,6 +54,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     val loading = MutableLiveData<Boolean>().apply { value = false }
 
     protected var mediabrowser: MediaBrowser? = null
+    private var parsingJob : CompletableJob? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
     protected lateinit var browserChannel : Channel<Media>
@@ -64,7 +65,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     private val completionHandler : CompletionHandler = object : CompletionHandler {
         override fun invoke(cause: Throwable?) {
-            AppScope.launch(Dispatchers.IO) { // use global scope because current is cancelled
+            if (mediabrowser != null) AppScope.launch(Dispatchers.IO) { // use global scope because current is cancelled
                 mediabrowser?.release()
                 mediabrowser = null
             }
@@ -74,17 +75,23 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     private val browserActor = actor<BrowserAction>(capacity = Channel.UNLIMITED, onCompletion = completionHandler) {
-        for (action in channel) if (isActive) when (action) {
-            is Browse -> browseImpl(action.url)
-            BrowseRoot -> browseRootImpl()
-            Refresh -> refreshImpl()
-            ParseSubDirectories -> parseSubDirectoriesImpl()
-            ClearListener -> withContext(Dispatchers.IO) { mediabrowser?.changeEventListener(null) }
+        for (action in channel) if (isActive) {
+            when (action) {
+                is Browse -> browseImpl(action.url)
+                BrowseRoot -> browseRootImpl()
+                Refresh -> refreshImpl()
+                ParseSubDirectories -> parseSubDirectoriesImpl()
+                ClearListener -> withContext(Dispatchers.IO) { mediabrowser?.changeEventListener(null) }
+                Release -> withContext(Dispatchers.IO) {
+                    mediabrowser?.release()
+                    mediabrowser = null
+                }
+            }
         }
     }
 
     protected open fun initBrowser() {
-        if (mediabrowser == null) mediabrowser = MediaBrowser(VLCInstance.get(context), this, browserHandler)
+        if (mediabrowser == null) mediabrowser = MediaBrowser(VLCInstance[context], this, browserHandler)
     }
 
     open fun fetch() {
@@ -124,6 +131,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     open fun refresh() {
         if (url === null) return
+        parsingJob?.cancel()
+        parsingJob = null
         loading.postValue(true)
         browserActor.post(Refresh)
     }
@@ -164,51 +173,55 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         val directories: MutableList<AbstractMediaWrapper> = ArrayList()
         val files: MutableList<AbstractMediaWrapper> = ArrayList()
         foldersContentMap.clear()
-        withContext(Dispatchers.IO) {
-            initBrowser()
-            var currentParsedPosition = -1
-            loop@ while (++currentParsedPosition < currentMediaList.size) {
-                if (!isActive) {
-                    browserChannel.close()
-                    return@withContext
-                }
-                //skip media that are not browsable
-                val item = currentMediaList[currentParsedPosition]
-                val current = when {
-                    item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
-                        val mw = item as AbstractMediaWrapper
-                        if (mw.type != AbstractMediaWrapper.TYPE_DIR && mw.type != AbstractMediaWrapper.TYPE_PLAYLIST) continue@loop
-                        if (mw.uri.scheme == "otg" || mw.uri.scheme == "content") continue@loop
-                        mw
+        val job = SupervisorJob(coroutineContext[Job]).also { parsingJob = it }
+        try {
+            withContext(Dispatchers.IO+job) {
+                initBrowser()
+                var currentParsedPosition = -1
+                loop@ while (++currentParsedPosition < currentMediaList.size) {
+                    if (!isActive) {
+                        browserChannel.close()
+                        break@loop
                     }
-                    item.itemType == MediaLibraryItem.TYPE_STORAGE ->
-                        MLServiceLocator.getAbstractMediaWrapper((item as Storage).uri).apply { type = AbstractMediaWrapper.TYPE_DIR }
-                    else -> continue@loop
-                }
-                // request parsing
-                browserChannel = Channel(Channel.UNLIMITED)
-                mediabrowser?.browse(current.uri, 0)
-                // retrieve subitems
-                for (media in browserChannel) {
-                    val mw = findMedia(media) ?: continue
-                    val type = mw.type
-                    if (type == AbstractMediaWrapper.TYPE_DIR) directories.add(mw)
-                    else files.add(mw)
-                }
-                // all subitems are in
-                getDescription(directories.size, files.size).takeIf { it.isNotEmpty() }?.let {
-                    val position = currentParsedPosition
-                    withContext(Dispatchers.Main) {
-                        item.description = it
-                        descriptionUpdate.value = Pair(position, it)
+                    //skip media that are not browsable
+                    val item = currentMediaList[currentParsedPosition]
+                    val current = when {
+                        item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
+                            val mw = item as AbstractMediaWrapper
+                            if (mw.type != AbstractMediaWrapper.TYPE_DIR && mw.type != AbstractMediaWrapper.TYPE_PLAYLIST) continue@loop
+                            if (mw.uri.scheme == "otg" || mw.uri.scheme == "content") continue@loop
+                            mw
+                        }
+                        item.itemType == MediaLibraryItem.TYPE_STORAGE ->
+                            MLServiceLocator.getAbstractMediaWrapper((item as Storage).uri).apply { type = AbstractMediaWrapper.TYPE_DIR }
+                        else -> continue@loop
                     }
-                    directories.addAll(files)
-                    withContext(Dispatchers.Main) { foldersContentMap.put(item, directories.toMutableList()) }
+                    // request parsing
+                    browserChannel = Channel(Channel.UNLIMITED)
+                    mediabrowser?.browse(current.uri, 0)
+                    // retrieve subitems
+                    for (media in browserChannel) {
+                        val mw = findMedia(media) ?: continue
+                        val type = mw.type
+                        if (type == AbstractMediaWrapper.TYPE_DIR) directories.add(mw)
+                        else files.add(mw)
+                    }
+                    // all subitems are in
+                    getDescription(directories.size, files.size).takeIf { it.isNotEmpty() }?.let {
+                        val position = currentParsedPosition
+                        withContext(Dispatchers.Main) {
+                            item.description = it
+                            descriptionUpdate.value = Pair(position, it)
+                        }
+                        directories.addAll(files)
+                        withContext(Dispatchers.Main) { foldersContentMap.put(item, directories.toMutableList()) }
+                    }
+                    directories.clear()
+                    files.clear()
                 }
-                directories.clear()
-                files.clear()
             }
-        }
+        } catch (ignored: CancellationException) {}
+        parsingJob = null
     }
 
     override fun onMediaAdded(index: Int, media: Media) {
@@ -271,6 +284,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     open fun stop() {
         if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
+        browserActor.offer(Release)
+        parsingJob?.cancel()
+        parsingJob = null
     }
 
     protected fun clearListener() = browserActor.post(ClearListener)
@@ -306,3 +322,4 @@ private object BrowseRoot : BrowserAction()
 private object Refresh : BrowserAction()
 private object ParseSubDirectories : BrowserAction()
 private object ClearListener : BrowserAction()
+private object Release : BrowserAction()
