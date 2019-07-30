@@ -65,16 +65,6 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
         }
     }
 
-    override fun onBindViewHolder(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>, position: Int, payloads: MutableList<Any>) {
-        if (payloads.isNullOrEmpty()) onBindViewHolder(holder, position)
-        else if ((payloads[0] as? Int) == UPDATE_PAYLOAD) {
-            getItem(position).let {
-                holder.binding.title.text = it.title
-                holder.binding.description = it.title
-            }
-        }
-    }
-
     override fun hasSections() = true
 
     override fun setOnFocusChangeListener(focusListener: FocusableRecyclerView.FocusListener?) {
