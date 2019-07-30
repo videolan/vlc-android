@@ -21,7 +21,6 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
-import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
@@ -79,7 +78,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             when (action) {
                 is Browse -> browseImpl(action.url)
                 BrowseRoot -> browseRootImpl()
-                Refresh -> refreshImpl()
+                Refresh -> browseImpl(url)
                 ParseSubDirectories -> parseSubDirectoriesImpl()
                 ClearListener -> withContext(Dispatchers.IO) { mediabrowser?.changeEventListener(null) }
                 Release -> withContext(Dispatchers.IO) {
@@ -93,6 +92,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     protected open fun initBrowser() {
         if (mediabrowser == null) mediabrowser = MediaBrowser(VLCInstance[context], this, browserHandler)
     }
+
+    protected abstract suspend fun requestBrowsing(url: String?) : Unit?
 
     open fun fetch() {
         val list by lazy(LazyThreadSafetyMode.NONE) { prefetchLists[url] }
@@ -115,15 +116,22 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         browserActor.post(Browse(url))
     }
 
-    private suspend fun browseImpl(url: String? = null) {
+    protected open suspend fun browseImpl(url: String? = null) {
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
-        for (media in browserChannel) findMedia(media)?.let {
-            if (url === null) loading.postValue(false)
-            addMedia(it)
+        if (url == null) {
+            for (media in browserChannel) findMedia(media)?.let {
+                loading.postValue(false)
+                addMedia(it)
+            }
+            if (dataset.value.isNotEmpty()) parseSubDirectories()
+            else dataset.clear() // send observable event when folder is empty
+        } else {
+            val value: MutableList<MediaLibraryItem> = browserChannel.mapNotNullTo(mutableListOf()) { findMedia(it) }
+            computeHeaders(value)
+            dataset.value = value
+            parseSubDirectories()
         }
-        if (dataset.value.isNotEmpty()) parseSubDirectories()
-        else dataset.clear() // send observable event when folder is empty
         loading.postValue(false)
     }
 
@@ -155,16 +163,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     internal open fun parseSubDirectories() {
         browserActor.post(ParseSubDirectories)
-    }
-
-    open suspend fun refreshImpl() {
-        browserChannel = Channel(Channel.UNLIMITED)
-        requestBrowsing(url)
-        val value: MutableList<MediaLibraryItem> = browserChannel.mapNotNullTo(mutableListOf()) { findMedia(it) }
-        computeHeaders(value)
-        dataset.value = value
-        parseSubDirectories()
-        loading.postValue(false)
     }
 
     private suspend fun parseSubDirectoriesImpl() {
@@ -269,17 +267,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         var flags = MediaBrowser.Flag.Interact
         if (showHiddenFiles) flags = flags or MediaBrowser.Flag.ShowHiddenFiles
         return flags
-    }
-
-    protected suspend fun requestBrowsing(url: String?) = withContext(Dispatchers.IO) {
-        initBrowser()
-        mediabrowser?.let {
-            if (url != null) it.browse(Uri.parse(url), getFlags())
-            else {
-                it.changeEventListener(this@BrowserProvider)
-                it.discoverNetworkShares()
-            }
-        }
     }
 
     open fun stop() {

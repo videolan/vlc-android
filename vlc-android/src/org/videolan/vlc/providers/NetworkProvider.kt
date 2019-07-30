@@ -21,9 +21,12 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.Observer
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -52,6 +55,17 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
     }
 
     override fun fetch() {}
+
+    override suspend fun requestBrowsing(url: String?) = withContext(Dispatchers.IO) {
+        initBrowser()
+        mediabrowser?.let {
+            if (url != null) it.browse(Uri.parse(url), getFlags())
+            else {
+                it.changeEventListener(this@NetworkProvider)
+                it.discoverNetworkShares()
+            }
+        }
+    }
 
     override fun refresh() {
         val list by lazy(LazyThreadSafetyMode.NONE) { getList(url!!) }

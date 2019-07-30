@@ -141,6 +141,10 @@ open class FileBrowserProvider(
         headers.clear()
     }
 
+    override suspend fun requestBrowsing(url: String?) = withContext(Dispatchers.IO) {
+        initBrowser()
+        mediabrowser?.let { if (url != null) it.browse(Uri.parse(url), getFlags()) }
+    }
 
     override fun browse(url: String?) {
         when {

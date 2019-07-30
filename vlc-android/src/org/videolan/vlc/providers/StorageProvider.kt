@@ -71,13 +71,16 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         super.addMedia(media)
     }
 
-    override suspend fun refreshImpl() {
-        browserChannel = Channel(Channel.UNLIMITED)
-        requestBrowsing(url)
-        val value: MutableList<MediaLibraryItem> = browserChannel.filter { it.isStorage() }.mapTo(mutableListOf()) { Storage(it.uri)}
-        dataset.value = value
-        parseSubDirectories()
-        loading.postValue(false)
+    override suspend fun browseImpl(url: String?) {
+        if (url == null) super.browseImpl(url)
+        else {
+            browserChannel = Channel(Channel.UNLIMITED)
+            requestBrowsing(url)
+            val value: MutableList<MediaLibraryItem> = browserChannel.filter { it.isStorage() }.mapTo(mutableListOf()) { Storage(it.uri)}
+            dataset.value = value
+            parseSubDirectories()
+            loading.postValue(false)
+        }
     }
 }
 
