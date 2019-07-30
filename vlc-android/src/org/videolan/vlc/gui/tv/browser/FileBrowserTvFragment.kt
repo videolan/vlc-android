@@ -67,6 +67,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         (viewModel.provider as BrowserProvider).dataset.observe(this, Observer { items ->
             submitList(items)
             if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "Submit lis of ${items.size} items")
+            if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "header size: ${viewModel.provider.headers.size()}")
 
             //headers
             val nbColumns = if ((viewModel as BrowserModel).sort == AbstractMedialibrary.SORT_ALPHA || (viewModel as BrowserModel).sort == AbstractMedialibrary.SORT_DEFAULT) 9 else 1
@@ -83,9 +84,15 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
             headerAdapter.notifyDataSetChanged()
         })
 
+        (viewModel as BrowserModel).provider.liveHeaders.observe(this, Observer {
+            headerAdapter.notifyDataSetChanged()
+            if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "header size (observe): ${viewModel.provider.headers.size()}")
+        })
+
         (viewModel as BrowserModel).getDescriptionUpdate().observe(this, Observer { pair ->
             if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "Description update: ${pair.first} ${pair.second}")
-            if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first, pair.second)
+            if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "header size (desc): ${viewModel.provider.headers.size()}")
+            if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first)
         })
 
         (viewModel as BrowserModel).loading.observe(this, Observer {
