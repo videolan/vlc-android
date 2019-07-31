@@ -183,7 +183,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(KEY_MRL, mrl)
         outState.putParcelable(KEY_MEDIA, currentMedia)
-        outState.putInt(KEY_POSITION, layoutManager.findFirstCompletelyVisibleItemPosition())
+        outState.putInt(KEY_POSITION, if (::layoutManager.isInitialized) layoutManager.findFirstCompletelyVisibleItemPosition() else 0)
         super.onSaveInstanceState(outState)
     }
 
@@ -236,22 +236,22 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
      * Update views visibility and emptiness info
      */
     protected open fun updateEmptyView() {
-            swipeRefreshLayout.let {
-                if (Util.isListEmpty(viewModel.dataset.value)) {
-                    if (it.isRefreshing) {
-                        binding.empty.setText(R.string.loading)
-                        binding.empty.visibility = View.VISIBLE
-                        binding.networkList.visibility = View.GONE
-                    } else {
-                        binding.empty.setText(R.string.directory_empty)
-                        binding.empty.visibility = View.VISIBLE
-                        binding.networkList.visibility = View.GONE
-                    }
-                } else if (binding.empty.visibility == View.VISIBLE) {
-                    binding.empty.visibility = View.GONE
-                    binding.networkList.visibility = View.VISIBLE
+        swipeRefreshLayout.let {
+            if (Util.isListEmpty(viewModel.dataset.value)) {
+                if (it.isRefreshing) {
+                    binding.empty.setText(R.string.loading)
+                    binding.empty.visibility = View.VISIBLE
+                    binding.networkList.visibility = View.GONE
+                } else {
+                    binding.empty.setText(R.string.directory_empty)
+                    binding.empty.visibility = View.VISIBLE
+                    binding.networkList.visibility = View.GONE
                 }
+            } else if (binding.empty.visibility == View.VISIBLE) {
+                binding.empty.visibility = View.GONE
+                binding.networkList.visibility = View.VISIBLE
             }
+        }
     }
 
     override fun refresh() = viewModel.refresh()
