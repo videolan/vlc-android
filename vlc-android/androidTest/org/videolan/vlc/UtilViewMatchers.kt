@@ -1,6 +1,7 @@
 package org.videolan.vlc
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.ViewGroup
@@ -28,11 +29,6 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.view.menu.ActionMenuItemView
 
-
-
-
-
-
 class RecyclerViewMatcher(@IdRes private val recyclerViewId: Int) {
     var recyclerView: RecyclerView? = null
 
@@ -46,6 +42,14 @@ class RecyclerViewMatcher(@IdRes private val recyclerViewId: Int) {
 
             override fun describeTo(description: Description) {
                 description.appendText("Recycler view doesn't have item at position $position")
+                if (targetViewId != -1) {
+                    val idDescription = try {
+                        childView?.resources?.getResourceName(targetViewId) ?: targetViewId.toString()
+                    } catch (e: Resources.NotFoundException) {
+                        targetViewId.toString()
+                    }
+                    description.appendText(" and with view $idDescription")
+                }
             }
 
             override fun matchesSafely(view: View): Boolean {

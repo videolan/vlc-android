@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.runner.AndroidJUnit4
+import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
+import org.videolan.medialibrary.MLServiceLocator
 
 
 @RunWith(AndroidJUnit4::class)
-open class BaseUITest {
+abstract class BaseUITest {
     @Rule
     @JvmField
     val storagePermissionGrant = GrantPermissionRule.grant(
@@ -17,4 +19,12 @@ open class BaseUITest {
 
 
     val context: Context = ApplicationProvider.getApplicationContext()
+
+    @Before
+    fun init() {
+        context.startMedialibrary()
+        beforeTest()
+    }
+
+    abstract fun beforeTest()
 }

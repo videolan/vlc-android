@@ -24,8 +24,7 @@ class FilePickerFragmentUITest : BaseUITest() {
 
     lateinit var activity: FilePickerActivity
 
-    @Before
-    fun init() {
+    override fun beforeTest() {
         activity = activityTestRule.activity
     }
 

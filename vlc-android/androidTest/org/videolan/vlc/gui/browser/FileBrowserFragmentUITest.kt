@@ -43,8 +43,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
 
     lateinit var activity: MainActivity
 
-    @Before
-    fun init() {
+    override fun beforeTest() {
         val intent = Intent().apply {
             putExtra(EXTRA_TARGET, R.id.nav_directories)
         }

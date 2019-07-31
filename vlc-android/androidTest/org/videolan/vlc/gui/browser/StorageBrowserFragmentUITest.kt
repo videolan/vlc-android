@@ -34,8 +34,7 @@ class StorageBrowserFragmentUITest : BaseUITest() {
 
     lateinit var activity: SecondaryActivity
 
-    @Before
-    fun init() {
+    override fun beforeTest() {
         val intent = Intent().apply {
             putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.STORAGE_BROWSER)
         }
