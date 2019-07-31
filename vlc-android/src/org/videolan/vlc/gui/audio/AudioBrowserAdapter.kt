@@ -232,7 +232,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         }
 
         override fun recycle() {
-            if (defaultCover != null) binding.cover = defaultCover
+            binding.cover = if (cardSize == SHOW_IN_LIST && defaultCover != null) defaultCover else null
             binding.title.text = ""
             binding.subtitle.text = ""
         }
