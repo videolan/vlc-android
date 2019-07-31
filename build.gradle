@@ -52,7 +52,7 @@ ext {
     junitVersion = '4.12'
     mockito = '2.8.9'
     powerMock = '1.7.4'
-    retrofit = '2.6.0'
+    retrofit = '2.6.1'
     espressoVersion = '3.1.1'
     supportTest = '1.1.0'
 //    versionCode scheme is T M NN RR AA
