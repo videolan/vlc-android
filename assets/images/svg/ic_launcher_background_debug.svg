@@ -2,20 +2,20 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="108"
-   height="108"
-   viewBox="0 0 108 108"
-   id="svg4826"
-   version="1.1"
-   inkscape:version="0.92.3 (unknown)"
-   sodipodi:docname="ic_launcher_backgroud.svg">
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        width="108"
+        height="108"
+        viewBox="0 0 108 108"
+        id="svg4826"
+        version="1.1"
+        inkscape:version="0.92.4 (33fec40, 2019-01-16)"
+        sodipodi:docname="ic_launcher_background_debug.svg">
   <defs
      id="defs4828">
     <clipPath
@@ -39,24 +39,24 @@
     </clipPath>
   </defs>
   <sodipodi:namedview
-     id="base"
-     pagecolor="#50c8a3"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="1"
-     inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="-58.638464"
-     inkscape:cy="82.961982"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="true"
-     units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1025"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1">
+          id="base"
+          pagecolor="#ffffff"
+          bordercolor="#666666"
+          borderopacity="1.0"
+          inkscape:pageopacity="1"
+          inkscape:pageshadow="2"
+          inkscape:zoom="1.4"
+          inkscape:cx="-113.46628"
+          inkscape:cy="55.092476"
+          inkscape:document-units="px"
+          inkscape:current-layer="layer1"
+          showgrid="true"
+          units="px"
+          inkscape:window-width="1920"
+          inkscape:window-height="1053"
+          inkscape:window-x="0"
+          inkscape:window-y="27"
+          inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
        id="grid821" />
@@ -74,8 +74,16 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-978.49552)" />
+          inkscape:label="Layer 1"
+          inkscape:groupmode="layer"
+          id="layer1"
+          transform="translate(0,-978.49552)">
+      <rect
+              style="fill:#074335;fill-opacity:1;stroke-width:0.9818182"
+              id="rect817"
+              width="108"
+              height="108"
+              x="0"
+              y="978.49554"/>
+  </g>
 </svg>
