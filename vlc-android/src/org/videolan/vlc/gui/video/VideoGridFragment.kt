@@ -190,6 +190,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun getTitle() = viewModel.folder?.title ?: getString(R.string.video)
 
+    override fun getMultiHelper(): MultiSelectHelper<VideosViewModel>? = videoListAdapter.multiSelectHelper as? MultiSelectHelper<VideosViewModel>
+
     private fun updateViewMode() {
         if (view == null || activity == null) {
             Log.w(TAG, "Unable to setup the view")
@@ -356,6 +358,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             setFabPlayVisibility(true)
             UiTools.updateSortTitles(this@VideoGridFragment)
         }
+        restoreMultiSelectHelper()
     }
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}

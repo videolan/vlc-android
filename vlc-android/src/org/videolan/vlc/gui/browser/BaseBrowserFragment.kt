@@ -40,6 +40,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -191,6 +192,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         currentMedia != null -> currentMedia!!.title
         else -> mrl ?: ""
     }
+
+    override fun getMultiHelper(): MultiSelectHelper<BrowserModel>? = adapter.multiSelectHelper as? MultiSelectHelper<BrowserModel>
 
     override val subTitle: String? =
             if (isRootDirectory) null else {
@@ -484,6 +487,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 layoutManager.scrollToPositionWithOffset(savedPosition, 0)
                 savedPosition = 0
             }
+            restoreMultiSelectHelper()
         }
         if (!isRootDirectory) {
             updateFab()

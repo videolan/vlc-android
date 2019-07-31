@@ -38,6 +38,7 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -291,6 +292,9 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         sortMenuTitles()
+        if (adapter == getCurrentAdapter()) {
+            restoreMultiSelectHelper()
+        }
     }
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}
@@ -308,4 +312,6 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
             CTX_SET_RINGTONE -> AudioUtil.setRingtone(media as AbstractMediaWrapper, requireActivity())
         }
     }
+
+    override fun getMultiHelper(): MultiSelectHelper<T>? = getCurrentAdapter()?.multiSelectHelper as? MultiSelectHelper<T>
 }

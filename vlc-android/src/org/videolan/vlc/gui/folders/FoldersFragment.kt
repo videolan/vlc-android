@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.folders_fragment.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
@@ -76,6 +77,7 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         viewModel.provider.pagedList.observe(requireActivity(), Observer {
             swipeRefreshLayout.isRefreshing = false
             adapter.submitList(it)
+            restoreMultiSelectHelper()
         })
     }
 
@@ -87,6 +89,8 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
 
 
     override fun getTitle(): String = getString(R.string.video)
+
+    override fun getMultiHelper(): MultiSelectHelper<FoldersViewModel>? = adapter.multiSelectHelper as? MultiSelectHelper<FoldersViewModel>
 
     override fun onRefresh() = viewModel.refresh()
 
