@@ -133,6 +133,8 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         return getString(R.string.history)
     }
 
+    override fun getMultiHelper(): MultiSelectHelper<HistoryModel>? = historyAdapter.multiSelectHelper as? MultiSelectHelper<HistoryModel>
+
     override fun clear() {}
 
     private fun updateEmptyView() {
@@ -230,6 +232,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         UiTools.updateSortTitles(this)
         swipeRefreshLayout.isRefreshing = false
+        restoreMultiSelectHelper()
     }
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}

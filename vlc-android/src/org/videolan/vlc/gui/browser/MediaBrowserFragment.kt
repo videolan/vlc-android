@@ -26,6 +26,7 @@ import android.annotation.TargetApi
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.SparseBooleanArray
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -42,11 +43,13 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.InfoActivity
+import org.videolan.vlc.gui.helpers.SparseBooleanArrayParcelable
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
@@ -63,6 +66,7 @@ import java.lang.Runnable
 import java.util.*
 
 private const val TAG = "VLC/MediaBrowserFragment"
+private const val KEY_SELECTION = "key_selection"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -73,11 +77,14 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     lateinit var mediaLibrary: AbstractMedialibrary
     var actionMode: ActionMode? = null
     var fabPlay: FloatingActionButton? = null
+    private var savedSelection = SparseBooleanArray()
+
     open lateinit var viewModel: T
         protected set
     open val hasTabs = false
 
     abstract fun getTitle(): String
+    abstract fun getMultiHelper(): MultiSelectHelper<T>?
 
     open val subTitle: String?
         get() = null
@@ -89,6 +96,9 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         super.onCreate(savedInstanceState)
         mediaLibrary = AbstractMedialibrary.getInstance()
         setHasOptionsMenu(!AndroidDevices.isAndroidTv)
+        if (savedInstanceState?.keySet()?.contains(KEY_SELECTION) == true) {
+            savedSelection = savedInstanceState.getParcelable(KEY_SELECTION) as SparseBooleanArrayParcelable
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -125,6 +135,13 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         setFabPlayVisibility(false)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        getMultiHelper()?.let {
+            outState.putParcelable(KEY_SELECTION, SparseBooleanArrayParcelable(it.selectionMap))
+        }
+        super.onSaveInstanceState(outState)
+    }
+
     private fun updateActionBar() {
         val activity = activity as? AppCompatActivity ?: return
         activity.supportActionBar?.let {
@@ -135,10 +152,6 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         if (activity is ContentActivity) activity.setTabLayoutVisibility(hasTabs)
     }
 
-    override fun onPause() {
-        super.onPause()
-        stopActionMode()
-    }
 
     open fun setFabPlayVisibility(enable: Boolean) {
         fabPlay?.run {
@@ -298,6 +311,22 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     fun invalidateActionMode() {
         actionMode?.invalidate()
+    }
+
+    fun restoreMultiSelectHelper() {
+        getMultiHelper()?.let {
+
+            if (savedSelection.size() > 0) {
+                var hasOneSelected = false
+                for (i in 0 until savedSelection.size()) {
+
+                    it.selectionMap.append(savedSelection.keyAt(i), savedSelection.valueAt(i))
+                    if (savedSelection.valueAt(i)) hasOneSelected = true
+                }
+                if (hasOneSelected) startActionMode()
+                savedSelection.clear()
+            }
+        }
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu) = false
