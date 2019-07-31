@@ -1,3 +1,20 @@
+Changes between 3.2.0-beta-01 and 3.2.0-beta-02:
+------------------
+
+Application:
+ * UI improvements
+ * Fix adaptative icon
+ * Improve loading feedback
+ * Fix crash with Chromecast
+ * Video player controls reorganization
+ * Fix sort not remembered
+ * Fix language change
+ * translations update
+ * Minor bug fixes
+
+Medialibrary:
+ * New migration to repair the last one if it failed
+
 Changes between 3.1.7 and 3.2.0-beta-01:
 ------------------
 
