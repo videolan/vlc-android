@@ -37,8 +37,8 @@ class VlcProgressDialog : VlcDialog<Dialog.ProgressDialog, VlcProgressDialogBind
         get() = R.layout.vlc_progress_dialog
 
     fun updateProgress() {
-        binding.progress.progress = (vlcDialog.position * 100) as Int
+        binding.progress.progress = (vlcDialog.position * 100f).toInt()
         binding.cancel.text = vlcDialog.cancelText
-        binding.cancel.visibility = if (TextUtils.isEmpty(vlcDialog?.cancelText)) View.GONE else View.VISIBLE
+        binding.cancel.visibility = if (TextUtils.isEmpty(vlcDialog.cancelText)) View.GONE else View.VISIBLE
     }
 }
