@@ -82,7 +82,7 @@
 
             <!-- TextView must be set to singleLine
                 see https://code.google.com/p/android/issues/detail?id=33868 -->
-            <ImageButton
+            <org.videolan.vlc.gui.view.FadableImageView
                 android:id="@+id/imageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
