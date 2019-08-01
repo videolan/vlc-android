@@ -66,6 +66,13 @@
             android:layout="@layout/player_overlay_settings" />
 
         <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_seek_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="false"
+                android:layout="@layout/player_overlay_seek"/>
+
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_hud_stub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
