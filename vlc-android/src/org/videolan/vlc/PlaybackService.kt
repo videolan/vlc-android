@@ -484,7 +484,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     private fun updateHasWidget() {
-        val manager = AppWidgetManager.getInstance(this)
+        val manager = AppWidgetManager.getInstance(this) ?: return
         widget = when {
             manager.getAppWidgetIds(ComponentName(this, VLCAppWidgetProviderWhite::class.java)).isNotEmpty() -> 1
             manager.getAppWidgetIds(ComponentName(this, VLCAppWidgetProviderBlack::class.java)).isNotEmpty() -> 2
