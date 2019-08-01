@@ -125,18 +125,18 @@
                 app:srcCompat="@drawable/ic_pause_player" />
 
             <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="center"
-                app:srcCompat="@drawable/ic_advanced_player" />
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="center"
+                    app:srcCompat="@drawable/ic_rotate_player"/>
 
             <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="center"
-                app:srcCompat="@drawable/ic_crop_player" />
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="center"
+                    app:srcCompat="@drawable/ic_advanced_player"/>
         </LinearLayout>
 
         <LinearLayout
@@ -172,20 +172,20 @@
                 android:text="@string/play" />
 
             <TextView
-                style="@style/TipsFontStyle.Small"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="bottom|center_horizontal"
-                android:text="@string/options" />
+                    style="@style/TipsFontStyle.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="bottom|center_horizontal"
+                    android:text="@string/screen_orientation"/>
 
             <TextView
-                style="@style/TipsFontStyle.Small"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="bottom|center_horizontal"
-                android:text="@string/resize" />
+                    style="@style/TipsFontStyle.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="bottom|center_horizontal"
+                    android:text="@string/options"/>
 
         </LinearLayout>
 
