@@ -28,42 +28,38 @@ class FadableImageView : AppCompatImageView {
         }
     }
 
-    private fun launchAnim(hasToFade: Boolean) {
-        if (!hasToFade) resetFade() else fade()
-    }
-
     override fun setBackground(background: Drawable?) {
         super.setBackground(background)
-        launchAnim(background != null)
+        if (background != null) fade() else resetFade()
     }
 
     override fun setBackgroundResource(resid: Int) {
         super.setBackgroundResource(resid)
-        launchAnim(resid != 0)
+        if (resid != 0) fade() else resetFade()
     }
 
     override fun setImageBitmap(bm: Bitmap?) {
-        launchAnim(bm != null)
+        if (bm != null) fade() else resetFade()
         super.setImageBitmap(bm)
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
-        launchAnim(drawable != null)
+        if (drawable != null) fade() else resetFade()
         super.setImageDrawable(drawable)
     }
 
     override fun setImageIcon(icon: Icon?) {
-        launchAnim(icon != null)
+        if (icon != null) fade() else resetFade()
         super.setImageIcon(icon)
     }
 
     override fun setImageResource(resId: Int) {
-        launchAnim(resId != 0)
+        if (resId != 0) fade() else resetFade()
         super.setImageResource(resId)
     }
 
     override fun setImageURI(uri: Uri?) {
-        launchAnim(uri != null)
+        if (uri != null) fade() else resetFade()
         super.setImageURI(uri)
     }
 }
