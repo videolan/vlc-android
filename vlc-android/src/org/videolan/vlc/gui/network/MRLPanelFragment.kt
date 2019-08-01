@@ -80,7 +80,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity(), StreamsModel.Factory(requireContext())).get<StreamsModel>(StreamsModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity(), StreamsModel.Factory(requireContext())).get(StreamsModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
