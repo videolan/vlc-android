@@ -1,7 +1,7 @@
 /*****************************************************************************
  * HistoryModel.kt
  *****************************************************************************
- * Copyright © 2018 VLC authors and VideoLAN
+ * Copyright © 2018-2019 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,11 +42,11 @@ class HistoryModel(context: Context) : MedialibraryModel<AbstractMediaWrapper>(c
         }
     }
 
-    fun clear() {
+    fun clearHistory() {
         dataset.value = mutableListOf()
     }
 
-    class Factory(private val context: Context): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return HistoryModel(context.applicationContext) as T
