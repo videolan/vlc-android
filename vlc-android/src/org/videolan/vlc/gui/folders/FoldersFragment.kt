@@ -90,7 +90,7 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
 
     override fun getTitle(): String = getString(R.string.video)
 
-    override fun getMultiHelper(): MultiSelectHelper<FoldersViewModel>? = adapter.multiSelectHelper as? MultiSelectHelper<FoldersViewModel>
+    override fun getMultiHelper(): MultiSelectHelper<FoldersViewModel>? = if (::adapter.isInitialized) adapter.multiSelectHelper as? MultiSelectHelper<FoldersViewModel> else null
 
     override fun onRefresh() = viewModel.refresh()
 

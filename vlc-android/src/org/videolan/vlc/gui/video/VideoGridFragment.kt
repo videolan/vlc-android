@@ -190,7 +190,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun getTitle() = viewModel.folder?.title ?: getString(R.string.video)
 
-    override fun getMultiHelper(): MultiSelectHelper<VideosViewModel>? = videoListAdapter.multiSelectHelper as? MultiSelectHelper<VideosViewModel>
+    override fun getMultiHelper(): MultiSelectHelper<VideosViewModel>? = if (::videoListAdapter.isInitialized) videoListAdapter.multiSelectHelper as? MultiSelectHelper<VideosViewModel> else null
 
     private fun updateViewMode() {
         if (view == null || activity == null) {

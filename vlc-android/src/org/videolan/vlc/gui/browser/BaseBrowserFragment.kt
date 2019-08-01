@@ -193,7 +193,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         else -> mrl ?: ""
     }
 
-    override fun getMultiHelper(): MultiSelectHelper<BrowserModel>? = adapter.multiSelectHelper as? MultiSelectHelper<BrowserModel>
+    override fun getMultiHelper(): MultiSelectHelper<BrowserModel>? = if (::adapter.isInitialized) adapter.multiSelectHelper as? MultiSelectHelper<BrowserModel> else null
 
     override val subTitle: String? =
             if (isRootDirectory) null else {
