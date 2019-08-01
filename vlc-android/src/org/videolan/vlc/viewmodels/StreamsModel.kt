@@ -48,7 +48,7 @@ class StreamsModel(context: Context) : MedialibraryModel<AbstractMediaWrapper>(c
         refresh()
     }
 
-    class Factory(private val context: Context) : ViewModelProvider.Factory() {
+    class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return StreamsModel(context.applicationContext) as T
