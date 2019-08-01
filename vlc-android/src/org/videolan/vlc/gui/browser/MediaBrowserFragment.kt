@@ -97,7 +97,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         mediaLibrary = AbstractMedialibrary.getInstance()
         setHasOptionsMenu(!AndroidDevices.isAndroidTv)
         if (savedInstanceState?.keySet()?.contains(KEY_SELECTION) == true) {
-            savedSelection = savedInstanceState.getParcelable(KEY_SELECTION) as SparseBooleanArrayParcelable
+            savedSelection = (savedInstanceState.getParcelable(KEY_SELECTION) as SparseBooleanArrayParcelable).data
         }
     }
 
