@@ -74,7 +74,7 @@
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
 
 
-        <ImageView
+        <org.videolan.vlc.gui.view.FadableImageView
                 android:id="@+id/media_cover"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

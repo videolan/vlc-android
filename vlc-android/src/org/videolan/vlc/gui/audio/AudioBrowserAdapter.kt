@@ -235,6 +235,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             binding.cover = if (cardSize == SHOW_IN_LIST && defaultCover != null) defaultCover else null
             binding.title.text = ""
             binding.subtitle.text = ""
+            binding.mediaCover.resetFade()
         }
 
         override fun setCoverlay(selected: Boolean) {
@@ -272,6 +273,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             if (defaultCover != null) binding.cover = defaultCover
             binding.title.text = ""
             binding.subtitle.text = ""
+            binding.mediaCover.resetFade()
         }
 
         override fun setCoverlay(selected: Boolean) {
