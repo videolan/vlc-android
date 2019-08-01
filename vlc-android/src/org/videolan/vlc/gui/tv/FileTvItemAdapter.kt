@@ -125,6 +125,7 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
             defaultCover?.let { binding.cover = it }
             binding.title.text = ""
             binding.subtitle.text = ""
+            binding.mediaCover.resetFade()
         }
 
         override fun setItem(item: MediaLibraryItem?) {

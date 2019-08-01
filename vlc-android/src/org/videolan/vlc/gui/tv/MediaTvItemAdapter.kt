@@ -186,6 +186,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
             if (defaultCover != null) binding.cover = defaultCover
             binding.title.text = ""
             binding.subtitle.text = ""
+            binding.mediaCover.resetFade()
         }
 
         override fun setItem(item: MediaLibraryItem?) {
