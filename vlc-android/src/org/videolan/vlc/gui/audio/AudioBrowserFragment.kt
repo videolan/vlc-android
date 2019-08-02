@@ -70,7 +70,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     private lateinit var settings: SharedPreferences
     private lateinit var fastScroller: FastScroller
     override val hasTabs = true
-
     private var spacing = 0
 
     /**
@@ -158,14 +157,12 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
                 override fun onPageSelected(position: Int) {
                     activity?.invalidateOptionsMenu()
                 }
-
             })
         }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
 
         val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
         for (i in 0 until MODE_TOTAL) {
@@ -180,12 +177,16 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     }
 
     private fun setupLayoutManager(index: Int) {
-
+        if (lists[index].itemDecorationCount > 0) {
+            lists[index].removeItemDecorationAt(0)
+        }
         when (viewModel.providersInCard[index]) {
             true -> {
+                adapters[index].cardSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
                 displayListInGrid(lists[index], adapters[index], viewModel.providers[index] as MedialibraryProvider<MediaLibraryItem>, spacing)
             }
             else -> {
+                adapters[index].cardSize = -1
                 lists[index].addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.providers[index]))
                 lists[index].layoutManager = LinearLayoutManager(activity)
             }
@@ -204,12 +205,11 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     private fun setupModels() {
         viewModel = getViewModel()
 
-        val itemSize = if (viewModel.showCards) RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
-        else -1
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
 
-        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, cardSize = itemSize)
-        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = itemSize)
-        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
+        artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, cardSize = if (viewModel.providersInCard[0]) itemSize else -1)
+        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = if (viewModel.providersInCard[1]) itemSize else -1)
+        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, cardSize = if (viewModel.providersInCard[2]) itemSize else -1)
         genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this)
         adapters = arrayOf(artistsAdapter, albumsAdapter, songsAdapter, genresAdapter)
         for ((index, provider) in viewModel.providers.withIndex()) {
@@ -246,8 +246,24 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
             menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
             menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
+            menu.findItem(R.id.ml_menu_display_grid).isVisible = currentTab in 0..2 && !viewModel.providersInCard[currentTab]
+            menu.findItem(R.id.ml_menu_display_list).isVisible = currentTab in 0..2 && viewModel.providersInCard[currentTab]
         }
         sortMenuTitles()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
+                viewModel.providersInCard[currentTab] = item.itemId == R.id.ml_menu_display_grid
+                setupLayoutManager(currentTab)
+                lists[currentTab].adapter = adapters[currentTab]
+                activity?.invalidateOptionsMenu()
+                Settings.getInstance(requireActivity()).edit().putBoolean(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid).apply()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun sortBy(sort: Int) {

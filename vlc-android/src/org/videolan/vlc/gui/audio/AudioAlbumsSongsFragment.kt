@@ -49,6 +49,7 @@ import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.CTX_PLAY_ALL
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
@@ -65,6 +66,7 @@ private const val MODE_TOTAL = 2 // Number of audio mProvider modes
 @ExperimentalCoroutinesApi
 class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeRefreshLayout.OnRefreshListener {
 
+    private var spacing: Int = 0
     private var handler = Handler(Looper.getMainLooper())
 
     private lateinit var lists: Array<RecyclerView>
@@ -101,8 +103,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spacing = resources.getDimension(R.dimen.kl_small).toInt()
-        val itemSize = if (viewModel.showCards) RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+        spacing = resources.getDimension(R.dimen.kl_small).toInt()
+        val itemSize = if (viewModel.providersInCard[0]) RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
         else -1
 
         val albumsList = viewPager.getChildAt(MODE_ALBUM).findViewById(R.id.audio_list) as RecyclerView
@@ -110,8 +112,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
         lists = arrayOf(albumsList, songsList)
         val titles = arrayOf(getString(R.string.albums), getString(R.string.songs))
-        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = itemSize)
-        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
+        albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = if (viewModel.providersInCard[0]) itemSize else -1)
+        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, cardSize = if (viewModel.providersInCard[0]) itemSize else -1)
         adapters = arrayOf(albumsAdapter, songsAdapter)
 
 
@@ -147,12 +149,24 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                     songsAdapter.submitList(tracks as PagedList<MediaLibraryItem>)
             }
         })
-        if (viewModel.showCards) {
-            displayListInGrid(albumsList, albumsAdapter, viewModel.albumsProvider as MedialibraryProvider<MediaLibraryItem>, spacing)
-        } else {
-            albumsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
+        for (i in 0..1) setupLayoutManager(i)
+    }
+
+    private fun setupLayoutManager(index: Int) {
+        if (lists[index].itemDecorationCount > 0) {
+            lists[index].removeItemDecorationAt(0)
         }
-        songsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
+        when (viewModel.providersInCard[index]) {
+            true -> {
+                adapters[index].cardSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+                displayListInGrid(lists[index], adapters[index], viewModel.providers[index] as MedialibraryProvider<MediaLibraryItem>, spacing)
+            }
+            else -> {
+                adapters[index].cardSize = -1
+                lists[index].addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.providers[index]))
+                lists[index].layoutManager = LinearLayoutManager(activity)
+            }
+        }
     }
 
     override fun getCurrentAdapter() = adapters[currentTab]
@@ -177,8 +191,24 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
             menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
             menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
+            menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providersInCard[currentTab]
+            menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providersInCard[currentTab]
         }
         sortMenuTitles()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
+                viewModel.providersInCard[currentTab] = item.itemId == R.id.ml_menu_display_grid
+                setupLayoutManager(currentTab)
+                lists[currentTab].adapter = adapters[currentTab]
+                activity?.invalidateOptionsMenu()
+                Settings.getInstance(requireActivity()).edit().putBoolean(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid).apply()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {

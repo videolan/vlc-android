@@ -32,7 +32,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
-import org.videolan.vlc.util.KEY_AUDIO_SHOW_CARDS
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
@@ -42,13 +41,19 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
     val albumsProvider = AlbumsProvider(parent, context, this)
     val tracksProvider = TracksProvider(parent, context, this)
     override val providers = arrayOf(albumsProvider, tracksProvider)
-    val showCards = Settings.getInstance(context).getBoolean(KEY_AUDIO_SHOW_CARDS, true)
+    val providersInCard = arrayOf(true, false)
+    val displayModeKeys = arrayOf("display_mode_albums_song_albums", "display_mode_albums_song_tracks")
+    private val settings = Settings.getInstance(context)
 
     init {
         when (parent) {
             is AbstractArtist -> watchArtists()
             is AbstractAlbum -> watchAlbums()
             else -> watchMedia()
+        }
+        //Initial state coming from preferences and falling back to [providersInCard] hardcoded values
+        for (i in 0 until displayModeKeys.size) {
+            providersInCard[i] = settings.getBoolean(displayModeKeys[i], providersInCard[i])
         }
     }
 

@@ -68,11 +68,6 @@
         android:title="@string/audio"
         android:key="ui_audio_category">
         <androidx.preference.SwitchPreferenceCompat
-                android:defaultValue="true"
-                android:key="key_audio_show_cards"
-                android:summary="@string/audio_show_cards_summary"
-                android:title="@string/audio_show_cards_title" />
-        <androidx.preference.SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="blurred_cover_background"
             android:summary="@string/blurred_cover_background_summary"
