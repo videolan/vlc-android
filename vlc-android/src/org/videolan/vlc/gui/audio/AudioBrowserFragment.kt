@@ -287,7 +287,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
     override fun onTabSelected(tab: TabLayout.Tab) {
         super.onTabSelected(tab)
-        fastScroller.setRecyclerView(lists[tab.position]!!, viewModel.providers[currentTab])
+        fastScroller.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
         settings.edit().putInt(KEY_AUDIO_CURRENT_TAB, tab.position).apply()
         if (viewModel.providers[currentTab].isRefreshing)
             handler.sendEmptyMessage(SET_REFRESHING)
@@ -298,12 +298,12 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
     override fun onTabUnselected(tab: TabLayout.Tab) {
         super.onTabUnselected(tab)
-        onDestroyActionMode(lists[tab.position]!!.adapter as AudioBrowserAdapter?)
+        onDestroyActionMode(lists[tab.position].adapter as AudioBrowserAdapter?)
         viewModel.restore()
     }
 
     override fun onTabReselected(tab: TabLayout.Tab) {
-        lists[tab.position]?.smoothScrollToPosition(0)
+        lists[tab.position].smoothScrollToPosition(0)
     }
 
     override fun onCtxAction(position: Int, option: Int) {

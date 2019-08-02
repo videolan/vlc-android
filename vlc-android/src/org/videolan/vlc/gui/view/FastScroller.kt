@@ -55,6 +55,8 @@ import org.videolan.vlc.providers.HeadersIndex
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.WeakHandler
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.math.max
+import kotlin.math.min
 
 private const val TAG = "FastScroller"
 private const val HANDLE_ANIMATION_DURATION = 100
@@ -313,7 +315,7 @@ class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
     }
 
     private fun getValueInRange(min: Int, max: Int, value: Int): Int {
-        return Math.min(Math.max(min, value), max)
+        return min(max(min, value), max)
     }
 
 
