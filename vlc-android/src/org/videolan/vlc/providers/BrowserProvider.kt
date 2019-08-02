@@ -53,7 +53,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     val loading = MutableLiveData<Boolean>().apply { value = false }
 
     protected var mediabrowser: MediaBrowser? = null
-    private var parsingJob : CompletableJob? = null
+    private var parsingJob : Job? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
     protected lateinit var browserChannel : Channel<Media>
@@ -171,9 +171,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         val directories: MutableList<AbstractMediaWrapper> = ArrayList()
         val files: MutableList<AbstractMediaWrapper> = ArrayList()
         foldersContentMap.clear()
-        val job = SupervisorJob(coroutineContext[Job]).also { parsingJob = it }
-        try {
-            withContext(Dispatchers.IO+job) {
+        coroutineScope { // allow child coroutine to be cancelled without closing the actor.
+            parsingJob = launch (Dispatchers.IO) {
                 initBrowser()
                 var currentParsedPosition = -1
                 loop@ while (++currentParsedPosition < currentMediaList.size) {
@@ -218,7 +217,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                     files.clear()
                 }
             }
-        } catch (ignored: CancellationException) {}
+        }
         parsingJob = null
     }
 
