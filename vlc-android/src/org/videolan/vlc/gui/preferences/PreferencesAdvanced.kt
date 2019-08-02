@@ -111,12 +111,12 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                             if (FileUtils.copyFile(db, File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)))
                                 runOnMainThread(Runnable {
                                     val ctx = context
-                                    if (ctx != null) Toast.makeText(ctx, "Database dumped on internal storage root", Toast.LENGTH_LONG).show()
+                                    if (ctx != null) Toast.makeText(ctx, getString(R.string.dump_db_succes), Toast.LENGTH_LONG).show()
                                 })
                             else
                                 runOnMainThread(Runnable {
                                     val ctx = context
-                                    if (ctx != null) Toast.makeText(ctx, "Failed to dumped database", Toast.LENGTH_LONG).show()
+                                    if (ctx != null) Toast.makeText(ctx, getString(R.string.dump_db_failure), Toast.LENGTH_LONG).show()
                                 })
                         }
                         if (Permissions.canWriteStorage())

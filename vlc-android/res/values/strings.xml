@@ -720,4 +720,6 @@
     <string name="validation_delete_playlist_text">This action cannot be undone.</string>
     <string name="display_in_list">Display in list</string>
     <string name="display_in_grid">Display in grid</string>
+    <string name="dump_db_succes">Database dumped on internal storage root</string>
+    <string name="dump_db_failure">Failed to dump database</string>
 </resources>
