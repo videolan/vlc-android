@@ -86,10 +86,6 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestartApp()
                 return true
             }
-            FORCE_LIST_PORTRAIT,KEY_AUDIO_SHOW_CARDS -> {
-                (activity as PreferencesActivity).setRestart()
-                return true
-            }
             SHOW_VIDEO_THUMBNAILS -> {
                 Settings.showVideoThumbs = (preference as TwoStatePreference).isChecked
                 (activity as PreferencesActivity).setRestart()
