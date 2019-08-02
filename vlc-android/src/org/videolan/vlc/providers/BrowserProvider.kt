@@ -178,7 +178,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 var currentParsedPosition = -1
                 loop@ while (++currentParsedPosition < currentMediaList.size) {
                     if (!isActive) {
-                        browserChannel.close()
+                        if (::browserChannel.isInitialized) browserChannel.close()
                         break@loop
                     }
                     //skip media that are not browsable
