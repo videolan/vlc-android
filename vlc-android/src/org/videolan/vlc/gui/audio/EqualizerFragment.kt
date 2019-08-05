@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.audio
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.TextUtils
@@ -118,6 +119,15 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.equalizer, container, false)
         binding.state = state
         return binding.root
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.equalizerBands.setOnTouchListener { v, event ->
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            true
+        }
     }
 
     private fun fillViews() {
