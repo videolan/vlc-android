@@ -185,7 +185,7 @@ object UiTools {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun snackerConfirm(view: View, message: String, action: Runnable) {
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-                .setAction(android.R.string.ok) { action.run() }
+                .setAction(R.string.ok) { action.run() }
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
@@ -193,7 +193,7 @@ object UiTools {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun CoroutineScope.snackerConfirm(view: View, message: String, action: suspend() -> Unit) {
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-                .setAction(android.R.string.ok) { launch { action.invoke() } }
+                .setAction(R.string.ok) { launch { action.invoke() } }
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
@@ -206,7 +206,7 @@ object UiTools {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun snackerWithCancel(view: View, message: String, action: Runnable?, cancelAction: Runnable?) {
         @SuppressLint("WrongConstant") val snack = Snackbar.make(view, message, DELETE_DURATION)
-                .setAction(android.R.string.cancel) {
+                .setAction(R.string.cancel) {
                     if (action != null)
                         sHandler.removeCallbacks(action)
                     cancelAction?.run()

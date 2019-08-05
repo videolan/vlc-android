@@ -193,10 +193,10 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.rename_media, media.title))
                 .setView(edit)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
+                .setPositiveButton(R.string.ok) { _, _ ->
                     viewModel.rename(position, edit.text.toString())
                 }
-                .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .show()
     }
 
