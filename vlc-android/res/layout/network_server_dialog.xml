@@ -121,7 +121,7 @@
                 android:id="@+id/server_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@android:string/cancel"
+                android:text="@string/cancel"
                 android:layout_below="@id/server_name"
                 android:layout_toStartOf="@+id/server_save"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="8dp"
-                android:text="@android:string/ok"
+                android:text="@string/ok"
                 android:layout_below="@id/server_name"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"/>
     </RelativeLayout>

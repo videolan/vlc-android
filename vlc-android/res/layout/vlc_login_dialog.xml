@@ -72,29 +72,29 @@
                 android:text="@string/encryption_warning"
                 android:visibility="@{dialog.asksStore() &amp;&amp; !AndroidUtil.isMarshMallowOrLater ? View.VISIBLE : View.GONE}" />
             <Button
-                android:id="@+id/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/warning"
-                android:layout_toStartOf="@+id/action"
-                android:focusable="true"
-                android:text="@android:string/cancel"
-                android:textSize="14sp"
-                android:onClick="@{handler::onCancel}"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/warning"
+                    android:layout_toStartOf="@+id/action"
+                    android:focusable="true"
+                    android:text="@string/cancel"
+                    android:textSize="14sp"
+                    android:onClick="@{handler::onCancel}"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
             <Button
-                android:id="@+id/action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginEnd="8dp"
-                android:focusable="true"
-                android:layout_below="@+id/warning"
-                android:text="@android:string/ok"
-                android:textSize="14sp"
-                android:onClick="@{handler::onLogin}"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+                    android:id="@+id/action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginEnd="8dp"
+                    android:focusable="true"
+                    android:layout_below="@+id/warning"
+                    android:text="@string/ok"
+                    android:textSize="14sp"
+                    android:onClick="@{handler::onLogin}"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
         </RelativeLayout>
     </ScrollView>
 </layout>

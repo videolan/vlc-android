@@ -30,17 +30,17 @@
                 android:max="100"
                 android:indeterminate="@{dialog.isIndeterminate()}"/>
             <Button
-                android:id="@+id/cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/progress"
-                android:text="@android:string/cancel"
-                android:textSize="14sp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="8dp"
-                android:onClick="@{handler::onCancel}"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-                android:visibility="@{TextUtils.isEmpty(dialog.cancelText) ? View.GONE : View.VISIBLE}"/>
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/progress"
+                    android:text="@string/cancel"
+                    android:textSize="14sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{handler::onCancel}"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                    android:visibility="@{TextUtils.isEmpty(dialog.cancelText) ? View.GONE : View.VISIBLE}"/>
                 tools:visibility="visible"/>
         </RelativeLayout>
     </ScrollView>
