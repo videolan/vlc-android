@@ -79,7 +79,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 is Browse -> browseImpl(action.url)
                 BrowseRoot -> browseRootImpl()
                 Refresh -> browseImpl(url)
-                ParseSubDirectories -> parseSubDirectoriesImpl()
+                is ParseSubDirectories -> parseSubDirectoriesImpl(action.list)
                 ClearListener -> withContext(Dispatchers.IO) { mediabrowser?.changeEventListener(null) }
                 Release -> withContext(Dispatchers.IO) {
                     mediabrowser?.release()
@@ -130,7 +130,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             val value: MutableList<MediaLibraryItem> = browserChannel.mapNotNullTo(mutableListOf()) { findMedia(it) }
             computeHeaders(value)
             dataset.value = value
-            parseSubDirectories()
+            parseSubDirectories(value)
         }
         loading.postValue(false)
     }
@@ -145,7 +145,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         browserActor.post(Refresh)
     }
 
-    fun computeHeaders(value: MutableList<MediaLibraryItem>) {
+    open fun computeHeaders(value: MutableList<MediaLibraryItem>) {
         privateHeaders.clear()
         for ((position, item) in value.withIndex()) {
             val previous = when {
@@ -161,13 +161,13 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         (liveHeaders as MutableLiveData).postValue(privateHeaders.clone())
     }
 
-    internal open fun parseSubDirectories() {
-        browserActor.post(ParseSubDirectories)
+    internal open fun parseSubDirectories(list : List<MediaLibraryItem>? = null) {
+        browserActor.post(ParseSubDirectories(list))
     }
 
-    private suspend fun parseSubDirectoriesImpl() {
-        if (dataset.value.isEmpty()) return
-        val currentMediaList = withContext(Dispatchers.Main) { dataset.value.toList().also { if (url != null) computeHeaders(dataset.value) } }
+    private suspend fun parseSubDirectoriesImpl(list : List<MediaLibraryItem>? = null) {
+        if (list === null && dataset.value.isEmpty()) return
+        val currentMediaList = list ?: withContext(Dispatchers.Main) { dataset.value.toList() }
         val directories: MutableList<AbstractMediaWrapper> = ArrayList()
         val files: MutableList<AbstractMediaWrapper> = ArrayList()
         foldersContentMap.clear()
@@ -199,9 +199,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                     // retrieve subitems
                     for (media in browserChannel) {
                         val mw = findMedia(media) ?: continue
-                        val type = mw.type
-                        if (type == AbstractMediaWrapper.TYPE_DIR) directories.add(mw)
-                        else files.add(mw)
+                        if (mw is AbstractMediaWrapper) {
+                            val type = mw.type
+                            if (type == AbstractMediaWrapper.TYPE_DIR) directories.add(mw)
+                            else files.add(mw)
+                        } else if (mw is Storage) directories.add(MLServiceLocator.getAbstractMediaWrapper(media))
                     }
                     // all subitems are in
                     getDescription(directories.size, files.size).takeIf { it.isNotEmpty() }?.let {
@@ -243,7 +245,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         return sb.toString()
     }
 
-    private suspend fun findMedia(media: Media): AbstractMediaWrapper? {
+    protected open suspend fun findMedia(media: Media): MediaLibraryItem? {
         val mw = MLServiceLocator.getAbstractMediaWrapper(media)
         media.release()
         if (!mw.isMedia()) {
@@ -306,6 +308,6 @@ private sealed class BrowserAction
 private class Browse(val url: String?) : BrowserAction()
 private object BrowseRoot : BrowserAction()
 private object Refresh : BrowserAction()
-private object ParseSubDirectories : BrowserAction()
+private class ParseSubDirectories(val list : List<MediaLibraryItem>? = null) : BrowserAction()
 private object ClearListener : BrowserAction()
 private object Release : BrowserAction()

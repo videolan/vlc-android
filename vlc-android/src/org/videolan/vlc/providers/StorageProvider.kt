@@ -23,11 +23,7 @@ package org.videolan.vlc.providers
 import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.filter
-import kotlinx.coroutines.channels.mapTo
 import org.videolan.libvlc.Media
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
@@ -63,25 +59,9 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         dataset.value = storagesList
     }
 
-    override fun addMedia(media: MediaLibraryItem) {
-        if (media.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            if ((media as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_DIR) super.addMedia(Storage(media.uri))
-            return
-        } else if (media.itemType != MediaLibraryItem.TYPE_STORAGE) return
-        super.addMedia(media)
-    }
+    override suspend fun findMedia(media: Media) = media.takeIf { it.isStorage() }?.let { Storage(it.uri) }
 
-    override suspend fun browseImpl(url: String?) {
-        if (url == null) super.browseImpl(url)
-        else {
-            browserChannel = Channel(Channel.UNLIMITED)
-            requestBrowsing(url)
-            val value: MutableList<MediaLibraryItem> = browserChannel.filter { it.isStorage() }.mapTo(mutableListOf()) { Storage(it.uri)}
-            dataset.value = value
-            parseSubDirectories()
-            loading.postValue(false)
-        }
-    }
+    override fun computeHeaders(value: MutableList<MediaLibraryItem>) {}
 }
 
 private fun Media.isStorage() = type == Media.Type.Directory
