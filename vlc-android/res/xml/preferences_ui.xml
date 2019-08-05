@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto"
                                       android:key="ui_category"
                                       android:title="@string/interface_prefs_screen">
 
@@ -10,90 +11,100 @@
             android:title="@string/daynight_title"
             android:summary="%s"
             android:entries="@array/daynight_mode_entries"
-            android:entryValues="@array/daynight_mode_values" />
+            android:entryValues="@array/daynight_mode_values"/>
 
     <androidx.preference.SwitchPreferenceCompat
-        android:key="tv_ui"
-        android:summary="@string/tv_ui_summary"
-        android:title="@string/tv_ui_title" />
+            app:singleLineTitle="false"
+            android:key="tv_ui"
+            android:summary="@string/tv_ui_summary"
+            android:title="@string/tv_ui_title"/>
 
     <ListPreference
-        android:defaultValue=""
-        android:key="set_locale"
-        android:title="@string/set_locale" />
+            android:defaultValue=""
+            android:key="set_locale"
+            android:title="@string/set_locale"/>
 
     <androidx.preference.SwitchPreferenceCompat
-        android:defaultValue="true"
-        android:key="browser_show_all_files"
-        android:summary="@string/browser_show_all_summary"
-        android:title="@string/browser_show_all_title" />
+            app:singleLineTitle="false"
+            android:defaultValue="true"
+            android:key="browser_show_all_files"
+            android:summary="@string/browser_show_all_summary"
+            android:title="@string/browser_show_all_title"/>
 
     <PreferenceCategory
-        android:title="@string/video"
-        android:key="ui_video_category">
+            android:title="@string/video"
+            android:key="ui_video_category">
 
         <ListPreference
-            android:defaultValue="-1"
-            android:entries="@array/video_min_group_length_list"
-            android:entryValues="@array/video_min_group_length_values"
-            android:key="video_min_group_length"
-            android:persistent="true"
-            android:summary="@string/video_min_group_length_summary"
-            android:title="@string/video_min_group_length_title" />
+                android:defaultValue="-1"
+                android:entries="@array/video_min_group_length_list"
+                android:entryValues="@array/video_min_group_length_values"
+                android:key="video_min_group_length"
+                android:persistent="true"
+                android:summary="@string/video_min_group_length_summary"
+                android:title="@string/video_min_group_length_title"/>
 
         <androidx.preference.SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="media_seen"
-            android:summary="@string/media_seen_summary"
-            android:title="@string/media_seen" />
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="media_seen"
+                android:summary="@string/media_seen_summary"
+                android:title="@string/media_seen"/>
         <androidx.preference.SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="force_play_all"
-            android:summary="@string/force_play_all_summary"
-            android:title="@string/force_play_all_title" />
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="force_play_all"
+                android:summary="@string/force_play_all_summary"
+                android:title="@string/force_play_all_title"/>
         <androidx.preference.SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="force_list_portrait"
-            android:summary="@string/force_list_portrait_summary"
-            android:title="@string/force_list_portrait" />
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="force_list_portrait"
+                android:summary="@string/force_list_portrait_summary"
+                android:title="@string/force_list_portrait"/>
         <androidx.preference.SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="show_video_thumbnails"
-            android:summary="@string/show_video_thumbnails_summary"
-            android:title="@string/show_video_thumbnails" />
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="show_video_thumbnails"
+                android:summary="@string/show_video_thumbnails_summary"
+                android:title="@string/show_video_thumbnails"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/audio"
-        android:key="ui_audio_category">
+            android:title="@string/audio"
+            android:key="ui_audio_category">
         <androidx.preference.SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="blurred_cover_background"
-            android:summary="@string/blurred_cover_background_summary"
-            android:title="@string/blurred_cover_background_title" />
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="blurred_cover_background"
+                android:summary="@string/blurred_cover_background_summary"
+                android:title="@string/blurred_cover_background_title"/>
 
         <androidx.preference.SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="audio_resume_card"
-            android:title="@string/audio_resume_card_title"
-            android:summary="@string/audio_resume_card_summary"/>
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="audio_resume_card"
+                android:title="@string/audio_resume_card_title"
+                android:summary="@string/audio_resume_card_summary"/>
         <androidx.preference.SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="lockscreen_cover"
-            android:summary="@string/lockscreen_cover_summary"
-            android:title="@string/lockscreen_cover_title" />
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="lockscreen_cover"
+                android:summary="@string/lockscreen_cover_summary"
+                android:title="@string/lockscreen_cover_title"/>
         <androidx.preference.SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="artists_show_all"
-            android:summary="@string/artists_show_all_summary"
-            android:title="@string/artists_show_all_title" />
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="artists_show_all"
+                android:summary="@string/artists_show_all_summary"
+                android:title="@string/artists_show_all_title"/>
         <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/audio_title_alignment_list"
-            android:entryValues="@array/audio_title_alignment_values"
-            android:key="audio_title_alignment"
-            android:persistent="true"
-            android:title="@string/audio_title_alignment" />
+                android:defaultValue="0"
+                android:entries="@array/audio_title_alignment_list"
+                android:entryValues="@array/audio_title_alignment_values"
+                android:key="audio_title_alignment"
+                android:persistent="true"
+                android:title="@string/audio_title_alignment"/>
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
