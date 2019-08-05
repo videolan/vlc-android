@@ -83,8 +83,8 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
 
     }
 
-    override fun parseSubDirectories() {
-        if (url != null) super.parseSubDirectories()
+    override fun parseSubDirectories(list : List<MediaLibraryItem>?) {
+        if (url != null) super.parseSubDirectories(list)
     }
 
     override fun stop() {

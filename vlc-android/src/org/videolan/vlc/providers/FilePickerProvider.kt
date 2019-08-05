@@ -21,7 +21,9 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
+import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.LiveDataset
@@ -37,9 +39,11 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
         mediabrowser?.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv")
     }
 
-    override fun addMedia(media: MediaLibraryItem) {
-        if (media is AbstractMediaWrapper && (media.type == AbstractMediaWrapper.TYPE_SUBTITLE || media.type == AbstractMediaWrapper.TYPE_DIR)) super.addMedia(media)
+    override suspend fun findMedia(media: Media) = MLServiceLocator.getAbstractMediaWrapper(media)?.takeIf { mw ->
+        mw.type == AbstractMediaWrapper.TYPE_DIR || mw.type == AbstractMediaWrapper.TYPE_SUBTITLE
     }
 
-    override fun parseSubDirectories() {}
+    override fun computeHeaders(value: MutableList<MediaLibraryItem>) {}
+
+    override fun parseSubDirectories(list : List<MediaLibraryItem>?) {}
 }
