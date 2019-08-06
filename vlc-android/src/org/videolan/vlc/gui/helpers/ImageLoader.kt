@@ -78,7 +78,10 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
     }
     val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding)
-    else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding, imageWidth) }
+    else {
+        val scope = (v.context as? CoroutineScope) ?: AppScope
+        scope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding, imageWidth) }
+    }
 }
 
 fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth: Int) {
