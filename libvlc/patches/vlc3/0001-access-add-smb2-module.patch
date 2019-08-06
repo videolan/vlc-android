@@ -1,5 +1,5 @@
-From 9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b Mon Sep 17 00:00:00 2001
-Message-Id: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
+From f52a7bb426dfd0742df5efef0ff3f7673fd66145 Mon Sep 17 00:00:00 2001
+Message-Id: <f52a7bb426dfd0742df5efef0ff3f7673fd66145.1565083097.git.thomas@gllm.fr>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Fri, 13 Apr 2018 16:15:16 +0200
 Subject: [PATCH 1/6] access: add smb2 module
@@ -13,16 +13,16 @@ mechanism, therefore every network requests are cancellable almost immediately.
 The 2.0.0 version is required since this version drop OpenSSL dependency and
 allow to use Builtin NTLMSSP authentication instead of libkrb5.
 ---
- configure.ac                                |  14 +-
- contrib/src/smb2/0001-master-backport.patch | 330 +++++++++
- contrib/src/smb2/SHA512SUMS                 |   1 +
- contrib/src/smb2/rules.mak                  |  28 +
- modules/MODULES_LIST                        |   1 +
- modules/access/Makefile.am                  |  11 +
- modules/access/smb2.c                       | 717 ++++++++++++++++++++
- po/POTFILES.in                              |   1 +
- 8 files changed, 1102 insertions(+), 1 deletion(-)
- create mode 100644 contrib/src/smb2/0001-master-backport.patch
+ configure.ac                                  |  14 +-
+ ...ssp-add-support-for-Anonymous-logins.patch | 219 ++++++
+ contrib/src/smb2/SHA512SUMS                   |   1 +
+ contrib/src/smb2/rules.mak                    |  28 +
+ modules/MODULES_LIST                          |   1 +
+ modules/access/Makefile.am                    |  11 +
+ modules/access/smb2.c                         | 718 ++++++++++++++++++
+ po/POTFILES.in                                |   1 +
+ 8 files changed, 992 insertions(+), 1 deletion(-)
+ create mode 100644 contrib/src/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch
  create mode 100644 contrib/src/smb2/SHA512SUMS
  create mode 100644 contrib/src/smb2/rules.mak
  create mode 100644 modules/access/smb2.c
@@ -59,357 +59,246 @@ index 4909c43539..afe1ce93ae 100644
  dnl
  dnl  Video4Linux 2
  dnl
-diff --git a/contrib/src/smb2/0001-master-backport.patch b/contrib/src/smb2/0001-master-backport.patch
+diff --git a/contrib/src/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch b/contrib/src/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch
 new file mode 100644
-index 0000000000..0f9cf7cf62
+index 0000000000..433472086f
 --- /dev/null
-+++ b/contrib/src/smb2/0001-master-backport.patch
-@@ -0,0 +1,330 @@
-+From 49525025f8c91ae14e5fe3cfea0dc7948b7f5480 Mon Sep 17 00:00:00 2001
-+From: Thomas Guillem <thomas@gllm.fr>
-+Date: Tue, 12 Feb 2019 12:42:37 +0100
-+Subject: [PATCH] master-backport
++++ b/contrib/src/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch
+@@ -0,0 +1,219 @@
++From 91e4b27ec265d2c08890fcee9043a15382d8a54f Mon Sep 17 00:00:00 2001
++From: Ronnie Sahlberg <ronniesahlberg@gmail.com>
++Date: Tue, 6 Aug 2019 13:30:51 +1000
++Subject: [PATCH] ntlmssp: add support for Anonymous logins
 +
-+Waiting for a new release, including the following patches:
-+
-+libsmb_error patch
-+Delete libsmb2_error.latest.patch
-+Allow passing NULL to smb2_set_password
-+Add more error status
-+Map more EACCESS error status
++Signed-off-by: Ronnie Sahlberg <ronniesahlberg@gmail.com>
 +---
-+ include/smb2/smb2-errors.h |  50 +++++++++++
-+ lib/errors.c               | 178 +++++++++++++++++++++++++++++++++++--
-+ lib/init.c                 |   4 +
-+ 3 files changed, 223 insertions(+), 9 deletions(-)
++ lib/ntlmssp.c | 131 +++++++++++++++++++++++++++++---------------------
++ 1 file changed, 77 insertions(+), 54 deletions(-)
 +
-+diff --git a/include/smb2/smb2-errors.h b/include/smb2/smb2-errors.h
-+index 49c5d5c..3b741e7 100644
-+--- a/include/smb2/smb2-errors.h
-++++ b/include/smb2/smb2-errors.h
-+@@ -35,13 +35,63 @@
-+ /* Error codes */
-+ #define SMB2_STATUS_SUCCESS                  0x00000000
-+ #define SMB2_STATUS_PENDING                  0x00000103
-++#define SMB2_STATUS_SMB_BAD_FID              0x00060001
-+ #define SMB2_STATUS_NO_MORE_FILES            0x80000006
-++#define SMB2_STATUS_NOT_IMPLEMENTED          0xC0000002
-++#define SMB2_STATUS_INVALID_HANDLE           0xC0000008
-+ #define SMB2_STATUS_INVALID_PARAMETER        0xC000000d
-++#define SMB2_STATUS_NO_SUCH_DEVICE           0xC000000E
-++#define SMB2_STATUS_NO_SUCH_FILE             0xC000000F
-++#define SMB2_STATUS_INVALID_DEVICE_REQUEST   0xC0000010
-+ #define SMB2_STATUS_END_OF_FILE              0xC0000011
-++#define SMB2_STATUS_NO_MEDIA_IN_DEVICE       0xC0000013
-+ #define SMB2_STATUS_MORE_PROCESSING_REQUIRED 0xC0000016
-++#define SMB2_STATUS_INVALID_LOCK_SEQUENCE    0xC000001E
-++#define SMB2_STATUS_INVALID_VIEW_SIZE        0xC000001F
-++#define SMB2_STATUS_ALREADY_COMMITTED        0xC0000021
-+ #define SMB2_STATUS_ACCESS_DENIED            0xC0000022
-++#define SMB2_STATUS_OBJECT_TYPE_MISMATCH     0xC0000024
-+ #define SMB2_STATUS_OBJECT_NAME_NOT_FOUND    0xC0000034
-++#define SMB2_STATUS_OBJECT_NAME_COLLISION    0xC0000035
-++#define SMB2_STATUS_PORT_DISCONNECTED        0xC0000037
-++#define SMB2_STATUS_OBJECT_PATH_INVALID      0xC0000039
-++#define SMB2_STATUS_OBJECT_PATH_NOT_FOUND    0xC000003A
-++#define SMB2_STATUS_OBJECT_PATH_SYNTAX_BAD   0xC000003B
-++#define SMB2_STATUS_DATA_ERROR               0xC000003E
-++#define SMB2_STATUS_CRC_ERROR                0xC000003F
-++#define SMB2_STATUS_SECTION_TOO_BIG          0xC0000040
-++#define SMB2_STATUS_PORT_CONNECTION_REFUSED  0xC0000041
-++#define SMB2_STATUS_INVALID_PORT_HANDLE      0xC0000042
-++#define SMB2_STATUS_SHARING_VIOLATION        0xC0000043
-++#define SMB2_STATUS_THREAD_IS_TERMINATING    0xC000004B
-++#define SMB2_STATUS_FILE_LOCK_CONFLICT       0xC0000054
-++#define SMB2_STATUS_LOCK_NOT_GRANTED         0xC0000055
-++#define SMB2_STATUS_DELETE_PENDING           0xC0000056
-++#define SMB2_STATUS_PRIVILEGE_NOT_HELD       0xC0000061
-+ #define SMB2_STATUS_LOGON_FAILURE            0xC000006d
-++#define SMB2_STATUS_ACCOUNT_RESTRICTION      0xC000006E
-++#define SMB2_STATUS_INVALID_LOGON_HOURS      0xC000006F
-++#define SMB2_STATUS_PASSWORD_EXPIRED         0xC0000071
-++#define SMB2_STATUS_ACCOUNT_DISABLED         0xC0000072
-++#define SMB2_STATUS_DISK_FULL                0xC000007F
-++#define SMB2_STATUS_TOO_MANY_PAGING_FILES    0xC0000097
-++#define SMB2_STATUS_DFS_EXIT_PATH_FOUND      0xC000009B
-++#define SMB2_STATUS_DEVICE_DATA_ERROR        0xC000009C
-++#define SMB2_STATUS_MEDIA_WRITE_PROTECTED    0xC00000A2
-++#define SMB2_STATUS_ILLEGAL_FUNCTION         0xC00000AF
-++#define SMB2_STATUS_PIPE_DISCONNECTED        0xC00000B0
-++#define SMB2_STATUS_FILE_IS_A_DIRECTORY      0xC00000BA
-++#define SMB2_STATUS_NETWORK_ACCESS_DENIED    0xC00000CA
-+ #define SMB2_STATUS_BAD_NETWORK_NAME         0xC00000CC
-++#define SMB2_STATUS_NOT_SAME_DEVICE          0xC00000D4
-++#define SMB2_STATUS_FILE_RENAMED             0xC00000D5
-++#define SMB2_STATUS_REDIRECTOR_NOT_STARTED   0xC00000FB
-++#define SMB2_STATUS_DIRECTORY_NOT_EMPTY      0xC0000101
-+ #define SMB2_STATUS_NOT_A_DIRECTORY          0xC0000103
-++#define SMB2_STATUS_PROCESS_IS_TERMINATING   0xC000010A
-++#define SMB2_STATUS_TOO_MANY_OPENED_FILES    0xC000011F
-++#define SMB2_STATUS_CANNOT_DELETE            0xC0000121
-++#define SMB2_STATUS_FILE_DELETED             0xC0000123
-+ #define SMB2_STATUS_FILE_CLOSED              0xC0000128
-++#define SMB2_STATUS_INSUFF_SERVER_RESOURCES  0xC0000205
-++#define SMB2_STATUS_HANDLE_NOT_CLOSABLE      0xC0000235
-+diff --git a/lib/errors.c b/lib/errors.c
-+index 68150a0..2e1648d 100644
-+--- a/lib/errors.c
-++++ b/lib/errors.c
-+@@ -30,26 +30,124 @@ const char *nterror_to_str(uint32_t status) {
-+                 return "STATUS_PENDING";
-+         case SMB2_STATUS_NO_MORE_FILES:
-+                 return "STATUS_NO_MORE_FILES";
-++        case SMB2_STATUS_NOT_IMPLEMENTED:
-++                return "STATUS_NOT_IMPLEMENTED";
-++        case SMB2_STATUS_INVALID_HANDLE:
-++                return "STATUS_INVALID_HANDLE";
-++        case SMB2_STATUS_INVALID_PARAMETER:
-++                return "STATUS_INVALID_PARAMETER";
-++        case SMB2_STATUS_NO_SUCH_DEVICE:
-++                return "STATUS_NO_SUCH_DEVICE";
-++        case SMB2_STATUS_NO_SUCH_FILE:
-++                return "STATUS_NO_SUCH_FILE";
-++        case SMB2_STATUS_INVALID_DEVICE_REQUEST:
-++                return "STATUS_INVALID_DEVICE_REQUEST";
-++        case SMB2_STATUS_END_OF_FILE:
-++                return "STATUS_END_OF_FILE";
-++        case SMB2_STATUS_NO_MEDIA_IN_DEVICE:
-++                return "STATUS_NO_MEDIA_IN_DEVICE";
-+         case SMB2_STATUS_MORE_PROCESSING_REQUIRED:
-+                 return "STATUS_MORE_PROCESSING_REQUIRED";
-++        case SMB2_STATUS_INVALID_LOCK_SEQUENCE:
-++                return "STATUS_INVALID_LOCK_SEQUENCE";
-++        case SMB2_STATUS_INVALID_VIEW_SIZE:
-++                return "STATUS_INVALID_VIEW_SIZE";
-++        case SMB2_STATUS_ALREADY_COMMITTED:
-++                return "STATUS_ALREADY_COMMITTED";
-+         case SMB2_STATUS_ACCESS_DENIED:
-+                 return "STATUS_ACCESS_DENIED";
-++        case SMB2_STATUS_OBJECT_TYPE_MISMATCH:
-++                return "STATUS_OBJECT_TYPE_MISMATCH";
-++        case SMB2_STATUS_OBJECT_NAME_NOT_FOUND:
-++                return "STATUS_OBJECT_NAME_NOT_FOUND";
-++        case SMB2_STATUS_OBJECT_NAME_COLLISION:
-++                return "STATUS_OBJECT_NAME_COLLISION";
-++        case SMB2_STATUS_PORT_DISCONNECTED:
-++                return "STATUS_PORT_DISCONNECTED";
-++        case SMB2_STATUS_OBJECT_PATH_INVALID:
-++                return "STATUS_OBJECT_PATH_INVALID";
-++        case SMB2_STATUS_OBJECT_PATH_NOT_FOUND:
-++                return "STATUS_OBJECT_PATH_NOT_FOUND";
-++        case SMB2_STATUS_OBJECT_PATH_SYNTAX_BAD:
-++                return "STATUS_OBJECT_PATH_SYNTAX_BAD";
-++        case SMB2_STATUS_DATA_ERROR:
-++                return "STATUS_DATA_ERROR";
-++        case SMB2_STATUS_CRC_ERROR:
-++                return "STATUS_CRC_ERROR";
-++        case SMB2_STATUS_SECTION_TOO_BIG:
-++                return "STATUS_SECTION_TOO_BIG";
-++        case SMB2_STATUS_PORT_CONNECTION_REFUSED:
-++                return "STATUS_PORT_CONNECTION_REFUSED";
-++        case SMB2_STATUS_INVALID_PORT_HANDLE:
-++                return "STATUS_INVALID_PORT_HANDLE";
-++        case SMB2_STATUS_SHARING_VIOLATION:
-++                return "STATUS_SHARING_VIOLATION";
-++        case SMB2_STATUS_THREAD_IS_TERMINATING:
-++                return "STATUS_THREAD_IS_TERMINATING";
-++        case SMB2_STATUS_FILE_LOCK_CONFLICT:
-++                return "STATUS_FILE_LOCK_CONFLICT";
-++        case SMB2_STATUS_LOCK_NOT_GRANTED:
-++                return "STATUS_LOCK_NOT_GRANTED";
-++        case SMB2_STATUS_DELETE_PENDING:
-++                return "STATUS_DELETE_PENDING";
-++        case SMB2_STATUS_PRIVILEGE_NOT_HELD:
-++                return "STATUS_PRIVILEGE_NOT_HELD";
-+         case SMB2_STATUS_LOGON_FAILURE:
-+                 return "STATUS_LOGON_FAILURE";
-++        case SMB2_STATUS_ACCOUNT_RESTRICTION:
-++                return "STATUS_ACCOUNT_RESTRICTION";
-++        case SMB2_STATUS_INVALID_LOGON_HOURS:
-++                return "STATUS_INVALID_LOGON_HOURS";
-++        case SMB2_STATUS_PASSWORD_EXPIRED:
-++                return "STATUS_PASSWORD_EXPIRED";
-++        case SMB2_STATUS_ACCOUNT_DISABLED:
-++                return "STATUS_ACCOUNT_DISABLED";
-++        case SMB2_STATUS_DISK_FULL:
-++                return "STATUS_DISK_FULL";
-++        case SMB2_STATUS_TOO_MANY_PAGING_FILES:
-++                return "STATUS_TOO_MANY_PAGING_FILES";
-++        case SMB2_STATUS_DFS_EXIT_PATH_FOUND:
-++                return "STATUS_DFS_EXIT_PATH_FOUND";
-++        case SMB2_STATUS_DEVICE_DATA_ERROR:
-++                return "STATUS_DEVICE_DATA_ERROR";
-++        case SMB2_STATUS_MEDIA_WRITE_PROTECTED:
-++                return "STATUS_MEDIA_WRITE_PROTECTED";
-++        case SMB2_STATUS_ILLEGAL_FUNCTION:
-++                return "STATUS_ILLEGAL_FUNCTION";
-++        case SMB2_STATUS_PIPE_DISCONNECTED:
-++                return "STATUS_PIPE_DISCONNECTED";
-++        case SMB2_STATUS_FILE_IS_A_DIRECTORY:
-++                return "STATUS_FILE_IS_A_DIRECTORY";
-++        case SMB2_STATUS_NETWORK_ACCESS_DENIED:
-++                return "STATUS_NETWORK_ACCESS_DENIED";
-+         case SMB2_STATUS_BAD_NETWORK_NAME:
-+                 return "STATUS_BAD_NETWORK_NAME";
-++        case SMB2_STATUS_NOT_SAME_DEVICE:
-++                return "STATUS_NOT_SAME_DEVICE";
-++        case SMB2_STATUS_FILE_RENAMED:
-++                return "STATUS_FILE_RENAMED";
-++        case SMB2_STATUS_REDIRECTOR_NOT_STARTED:
-++                return "STATUS_REDIRECTOR_NOT_STARTED";
-++        case SMB2_STATUS_DIRECTORY_NOT_EMPTY:
-++                return "STATUS_DIRECTORY_NOT_EMPTY";
-+         case SMB2_STATUS_NOT_A_DIRECTORY:
-+                 return "STATUS_NOT_A_DIRECTORY";
-+-        case SMB2_STATUS_INVALID_PARAMETER:
-+-                return "STATUS_INVALID_PARAMETER";
-+-        case SMB2_STATUS_END_OF_FILE:
-+-                return "STATUS_END_OF_FILE";
-++        case SMB2_STATUS_PROCESS_IS_TERMINATING:
-++                return "STATUS_PROCESS_IS_TERMINATING";
-++        case SMB2_STATUS_TOO_MANY_OPENED_FILES:
-++                return "STATUS_TOO_MANY_OPENED_FILES";
-++        case SMB2_STATUS_CANNOT_DELETE:
-++                return "STATUS_CANNOT_DELETE";
-++        case SMB2_STATUS_FILE_DELETED:
-++                return "STATUS_FILE_DELETED";
-+         case SMB2_STATUS_FILE_CLOSED:
-+                 return "STATUS_FILE_CLOSED";
-+-        case SMB2_STATUS_OBJECT_NAME_NOT_FOUND:
-+-                return "STATUS_OBJECT_NAME_NOT_FOUND";
-++        case SMB2_STATUS_INSUFF_SERVER_RESOURCES:
-++                return "STATUS_INSUFF_SERVER_RESOURCES";
-++        case SMB2_STATUS_HANDLE_NOT_CLOSABLE:
-++                return "STATUS_HANDLE_NOT_CLOSABLE";
-+         default:
-+-                return "Unknown";
-++                 return "Unknown";
-+         }
-+ }
++diff --git a/lib/ntlmssp.c b/lib/ntlmssp.c
++index 646a511..a34d119 100644
++--- a/lib/ntlmssp.c
+++++ b/lib/ntlmssp.c
++@@ -96,6 +96,7 @@ struct auth_data {
++ #define NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY         0x00080000
++ #define NTLMSSP_TARGET_TYPE_SERVER                         0x00020000
++ #define NTLMSSP_NEGOTIATE_ALWAYS_SIGN                      0x00008000
+++#define NTLMSSP_NEGOTIATE_ANONYMOUS                        0x00000800
++ #define NTLMSSP_NEGOTIATE_NTLM                             0x00000200
++ #define NTLMSSP_NEGOTIATE_SIGN                             0x00000010
++ #define NTLMSSP_REQUEST_TARGET                             0x00000004
++@@ -320,7 +321,7 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
++         struct ucs2 *ucs2_domain = NULL;
++         struct ucs2 *ucs2_user = NULL;
++         struct ucs2 *ucs2_workstation = NULL;
++-        int NTChallengeResponse_len;
+++        int NTChallengeResponse_len = 0;
++         unsigned char NTProofStr[16];
++         unsigned char LMStr[16];
++         uint64_t t;
++@@ -330,14 +331,15 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
++         uint32_t u32;
++         uint32_t server_neg_flags;
++         unsigned char key_exch[SMB2_KEY_SIZE];
+++        uint8_t anonymous = 0;
 + 
-+@@ -58,25 +156,87 @@ int nterror_to_errno(uint32_t status) {
-+         case SMB2_STATUS_SUCCESS:
-+         case SMB2_STATUS_END_OF_FILE:
-+                 return 0;
-++        case SMB2_STATUS_PENDING:
-++                return EAGAIN;
-++        case SMB2_STATUS_NO_SUCH_FILE:
-++        case SMB2_STATUS_NO_SUCH_DEVICE:
-+         case SMB2_STATUS_BAD_NETWORK_NAME:
-+         case SMB2_STATUS_OBJECT_NAME_NOT_FOUND:
-++        case SMB2_STATUS_OBJECT_PATH_INVALID:
-++        case SMB2_STATUS_OBJECT_PATH_NOT_FOUND:
-++        case SMB2_STATUS_OBJECT_PATH_SYNTAX_BAD:
-++        case SMB2_STATUS_DFS_EXIT_PATH_FOUND:
-++        case SMB2_STATUS_REDIRECTOR_NOT_STARTED:
-+                 return ENOENT;
-+         case SMB2_STATUS_FILE_CLOSED:
-++        case SMB2_STATUS_SMB_BAD_FID:
-++        case SMB2_STATUS_INVALID_HANDLE:
-++        case SMB2_STATUS_OBJECT_TYPE_MISMATCH:
-++        case SMB2_STATUS_PORT_DISCONNECTED:
-++        case SMB2_STATUS_INVALID_PORT_HANDLE:
-++        case SMB2_STATUS_HANDLE_NOT_CLOSABLE:
-+                 return EBADF;
-+         case SMB2_STATUS_MORE_PROCESSING_REQUIRED:
-+                 return EAGAIN;
-+         case SMB2_STATUS_ACCESS_DENIED:
-++        case SMB2_STATUS_NETWORK_ACCESS_DENIED:
-++        case SMB2_STATUS_ACCOUNT_RESTRICTION:
-++        case SMB2_STATUS_INVALID_LOGON_HOURS:
-++        case SMB2_STATUS_PASSWORD_EXPIRED:
-++        case SMB2_STATUS_ACCOUNT_DISABLED:
-+                 return EACCES;
-+-        case SMB2_STATUS_PENDING:
-+-                return EAGAIN;
-++        case SMB2_STATUS_INVALID_LOCK_SEQUENCE:
-++        case SMB2_STATUS_INVALID_VIEW_SIZE:
-++        case SMB2_STATUS_ALREADY_COMMITTED:
-++        case SMB2_STATUS_PORT_CONNECTION_REFUSED:
-++        case SMB2_STATUS_THREAD_IS_TERMINATING:
-++        case SMB2_STATUS_DELETE_PENDING:
-++        case SMB2_STATUS_PRIVILEGE_NOT_HELD:
-++        case SMB2_STATUS_FILE_IS_A_DIRECTORY:
-++        case SMB2_STATUS_FILE_RENAMED:
-++        case SMB2_STATUS_PROCESS_IS_TERMINATING:
-++        case SMB2_STATUS_DIRECTORY_NOT_EMPTY:
-++        case SMB2_STATUS_CANNOT_DELETE:
-++        case SMB2_STATUS_FILE_DELETED:
-++                return EPERM;
-+         case SMB2_STATUS_NO_MORE_FILES:
-+                 return ENODATA;
-+         case SMB2_STATUS_LOGON_FAILURE:
-+                 return ECONNREFUSED;
-+         case SMB2_STATUS_NOT_A_DIRECTORY:
-+                 return ENOTDIR;
-++        case SMB2_STATUS_NOT_IMPLEMENTED:
-++        case SMB2_STATUS_INVALID_DEVICE_REQUEST:
-++        case SMB2_STATUS_ILLEGAL_FUNCTION:
-+         case SMB2_STATUS_INVALID_PARAMETER:
-+                 return EINVAL;
-++        case SMB2_STATUS_TOO_MANY_OPENED_FILES:
-++                return EMFILE;
-++        case SMB2_STATUS_SECTION_TOO_BIG:
-++        case SMB2_STATUS_TOO_MANY_PAGING_FILES:
-++        case SMB2_STATUS_INSUFF_SERVER_RESOURCES:
-++                return ENOMEM;
-++        case SMB2_STATUS_NOT_SAME_DEVICE:
-++                return EXDEV;
-++        case SMB2_STATUS_SHARING_VIOLATION:
-++                return ETXTBSY;
-++        case SMB2_STATUS_FILE_LOCK_CONFLICT:
-++        case SMB2_STATUS_LOCK_NOT_GRANTED:
-++                return EDEADLK;
-++        case SMB2_STATUS_OBJECT_NAME_COLLISION:
-++                return EEXIST;
-++        case SMB2_STATUS_PIPE_DISCONNECTED:
-++                return EPIPE;
-++        case SMB2_STATUS_MEDIA_WRITE_PROTECTED:
-++                return EROFS;
-++        case SMB2_STATUS_NO_MEDIA_IN_DEVICE:
-++                return ENOMEDIUM;
-++        case SMB2_STATUS_DATA_ERROR:
-++        case SMB2_STATUS_CRC_ERROR:
-++        case SMB2_STATUS_DEVICE_DATA_ERROR:
-++                return EIO;
-++        case SMB2_STATUS_DISK_FULL:
-++                return ENOSPC;
-+         default:
-+                 return EIO;
++         tv.tv_sec = ti;
++         tv.tv_usec = 0;
++         t = timeval_to_win(&tv);
++ 
++         if (auth_data->password == NULL) {
++-                smb2_set_error(smb2, "No password set, can not use NTLM\n");
++-                goto finished;
+++                anonymous = 1;
+++                goto encode;
 +         }
-+diff --git a/lib/init.c b/lib/init.c
-+index 3720a1c..6c95cd2 100644
-+--- a/lib/init.c
-++++ b/lib/init.c
-+@@ -412,6 +412,10 @@ void smb2_set_password(struct smb2_context *smb2, const char *password)
-+ {
-+         if (smb2->password) {
-+                 free(discard_const(smb2->password));
-++                smb2->password = NULL;
++ 
++         /*
++@@ -383,6 +385,7 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
++         smb2_hmac_md5(NTProofStr, 16, ResponseKeyNT, 16, key_exch);
++         memcpy(auth_data->exported_session_key, key_exch, 16);
++ 
+++ encode:
++         /*
++          * Generate AUTHENTICATE_MESSAGE
++          */
++@@ -393,14 +396,20 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
++         encoder(&u32, 4, auth_data);
++ 
++         /* lm challenge response fields */
++-        memcpy(&lm_buf[0], server_challenge, 8);
++-        memcpy(&lm_buf[8], auth_data->client_challenge, 8);
++-        smb2_hmac_md5(&lm_buf[0], 16,
++-                 ResponseKeyNT, 16, LMStr);
++-        u32 = htole32(0x00180018);
++-        encoder(&u32, 4, auth_data);
++-        u32 = 0;
++-        encoder(&u32, 4, auth_data);
+++        if (!anonymous) {
+++                memcpy(&lm_buf[0], server_challenge, 8);
+++                memcpy(&lm_buf[8], auth_data->client_challenge, 8);
+++                smb2_hmac_md5(&lm_buf[0], 16,
+++                              ResponseKeyNT, 16, LMStr);
+++                u32 = htole32(0x00180018);
+++                encoder(&u32, 4, auth_data);
+++                u32 = 0;
+++                encoder(&u32, 4, auth_data);
+++        } else {
+++                u32 = 0;
+++                encoder(&u32, 4, auth_data);
+++                encoder(&u32, 4, auth_data);
 ++        }
-++        if (password == NULL) {
-++                return;
++ 
++         /* nt challenge response fields */
++         u32 = htole32((NTChallengeResponse_len<<16)|
++@@ -410,7 +419,7 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
++         encoder(&u32, 4, auth_data);
++ 
++         /* domain name fields */
++-        if (auth_data->domain) {
+++        if (!anonymous && auth_data->domain) {
++                 ucs2_domain = utf8_to_ucs2(auth_data->domain);
++                 if (ucs2_domain == NULL) {
++                         goto finished;
++@@ -427,18 +436,24 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
 +         }
-+         smb2->password = strdup(password);
-+ }
++ 
++         /* user name fields */
++-        ucs2_user = utf8_to_ucs2(auth_data->user);
++-        if (ucs2_user == NULL) {
++-                goto finished;
+++        if (!anonymous) {
+++                ucs2_user = utf8_to_ucs2(auth_data->user);
+++                if (ucs2_user == NULL) {
+++                        goto finished;
+++                }
+++                u32 = ucs2_user->len * 2;
+++                u32 = htole32((u32 << 16) | u32);
+++                encoder(&u32, 4, auth_data);
+++                u32 = 0;
+++                encoder(&u32, 4, auth_data);
+++        } else {
+++                u32 = 0;
+++                encoder(&u32, 4, auth_data);
+++                encoder(&u32, 4, auth_data);
++         }
++-        u32 = ucs2_user->len * 2;
++-        u32 = htole32((u32 << 16) | u32);
++-        encoder(&u32, 4, auth_data);
++-        u32 = 0;
++-        encoder(&u32, 4, auth_data);
++ 
++         /* workstation name fields */
++-        if (auth_data->workstation) {
+++        if (!anonymous && auth_data->workstation) {
++                 ucs2_workstation = utf8_to_ucs2(auth_data->workstation);
++                 if (ucs2_workstation == NULL) {
++                         goto finished;
++@@ -460,45 +475,53 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
++         encoder(&u32, 4, auth_data);
++ 
++         /* negotiate flags */
++-        u32 = htole32(NTLMSSP_NEGOTIATE_56|NTLMSSP_NEGOTIATE_128|
++-                      NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY|
++-                      //NTLMSSP_NEGOTIATE_ALWAYS_SIGN|
++-                      NTLMSSP_NEGOTIATE_NTLM|
++-                      //NTLMSSP_NEGOTIATE_SIGN|
++-                      NTLMSSP_REQUEST_TARGET|NTLMSSP_NEGOTIATE_OEM|
++-                      NTLMSSP_NEGOTIATE_UNICODE);
+++        u32 = NTLMSSP_NEGOTIATE_56|NTLMSSP_NEGOTIATE_128|
+++                NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY|
+++                //NTLMSSP_NEGOTIATE_ALWAYS_SIGN|
+++                NTLMSSP_NEGOTIATE_NTLM|
+++                //NTLMSSP_NEGOTIATE_SIGN|
+++                NTLMSSP_REQUEST_TARGET|NTLMSSP_NEGOTIATE_OEM|
+++                NTLMSSP_NEGOTIATE_UNICODE;
+++        if (anonymous)
+++                u32 |= NTLMSSP_NEGOTIATE_ANONYMOUS;
+++        u32 = htole32(u32);
++         encoder(&u32, 4, auth_data);
++ 
++-        /* append domain */
++-        u32 = htole32(auth_data->len);
++-        memcpy(&auth_data->buf[32], &u32, 4);
++-        if (ucs2_domain) {
++-                encoder(ucs2_domain->val, ucs2_domain->len * 2, auth_data);
++-        }
+++        if (!anonymous) {
+++                /* append domain */
+++                u32 = htole32(auth_data->len);
+++                memcpy(&auth_data->buf[32], &u32, 4);
+++                if (ucs2_domain) {
+++                        encoder(ucs2_domain->val, ucs2_domain->len * 2,
+++                                auth_data);
+++                }
++ 
++-        /* append user */
++-        u32 = htole32(auth_data->len);
++-        memcpy(&auth_data->buf[40], &u32, 4);
++-        encoder(ucs2_user->val, ucs2_user->len * 2, auth_data);
+++                /* append user */
+++                u32 = htole32(auth_data->len);
+++                memcpy(&auth_data->buf[40], &u32, 4);
+++                encoder(ucs2_user->val, ucs2_user->len * 2, auth_data);
+++
+++                /* append workstation */
+++                u32 = htole32(auth_data->len);
+++                memcpy(&auth_data->buf[48], &u32, 4);
+++                if (ucs2_workstation) {
+++                        encoder(ucs2_workstation->val,
+++                                ucs2_workstation->len * 2, auth_data);
+++                }
++ 
++-        /* append workstation */
++-        u32 = htole32(auth_data->len);
++-        memcpy(&auth_data->buf[48], &u32, 4);
++-        if (ucs2_workstation) {
++-                encoder(ucs2_workstation->val, ucs2_workstation->len * 2, auth_data);
+++                /* append LMChallengeResponse */
+++                u32 = htole32(auth_data->len);
+++                memcpy(&auth_data->buf[16], &u32, 4);
+++                encoder(LMStr, 16, auth_data);
+++                encoder(auth_data->client_challenge, 8, auth_data);
+++
+++                /* append NTChallengeResponse */
+++                u32 = htole32(auth_data->len);
+++                memcpy(&auth_data->buf[24], &u32, 4);
+++                encoder(NTChallengeResponse_buf, NTChallengeResponse_len,
+++                        auth_data);
++         }
++ 
++-        /* append LMChallengeResponse */
++-        u32 = htole32(auth_data->len);
++-        memcpy(&auth_data->buf[16], &u32, 4);
++-        encoder(LMStr, 16, auth_data);
++-        encoder(auth_data->client_challenge, 8, auth_data);
++-
++-        /* append NTChallengeResponse */
++-        u32 = htole32(auth_data->len);
++-        memcpy(&auth_data->buf[24], &u32, 4);
++-        encoder(NTChallengeResponse_buf, NTChallengeResponse_len, auth_data);
++-
++         ret = 0;
++ finished:
++         free(ucs2_domain);
 +-- 
 +2.20.1
 +
 diff --git a/contrib/src/smb2/SHA512SUMS b/contrib/src/smb2/SHA512SUMS
 new file mode 100644
-index 0000000000..eae3dd89c5
+index 0000000000..668b39e377
 --- /dev/null
 +++ b/contrib/src/smb2/SHA512SUMS
 @@ -0,0 +1 @@
-+5e7101e54a4a95eae2ed5b05dfb51a33e9d4ce19275a405fbb1e86f9e9fe197de53b41c301ca992f19a03e5117ccc90d0acb174eb9c000c71674a0dbacf57614  libsmb2-2.0.0.tar.gz
++08f421182a08f54d7a50afbfd83609093c1a62b24f7abe2a56ec833a36570916b20c8f046fcdb5ba8c8ed0311a19e8338b75839cd7cf752fc5b33a1367cf839f  libsmb2-3.0.0.tar.gz
 diff --git a/contrib/src/smb2/rules.mak b/contrib/src/smb2/rules.mak
 new file mode 100644
-index 0000000000..62c000a1d7
+index 0000000000..52dfdcb15a
 --- /dev/null
 +++ b/contrib/src/smb2/rules.mak
 @@ -0,0 +1,28 @@
 +# SMB2
-+SMB2_VERSION := 2.0.0
++SMB2_VERSION := 3.0.0
 +SMB2_URL := https://github.com/sahlberg/libsmb2/archive/v$(SMB2_VERSION).tar.gz
 +
 +ifdef BUILD_NETWORK
@@ -428,7 +317,7 @@ index 0000000000..62c000a1d7
 +
 +smb2: libsmb2-$(SMB2_VERSION).tar.gz .sum-smb2
 +	$(UNPACK)
-+	$(APPLY) $(SRC)/smb2/0001-master-backport.patch
++	$(APPLY) $(SRC)/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch
 +	$(MOVE)
 +
 +.smb2: smb2
@@ -472,10 +361,10 @@ index 765ceec45f..2a773029e3 100644
  access_LTLIBRARIES += libtcp_plugin.la
 diff --git a/modules/access/smb2.c b/modules/access/smb2.c
 new file mode 100644
-index 0000000000..9c9529385b
+index 0000000000..a132c3876f
 --- /dev/null
 +++ b/modules/access/smb2.c
-@@ -0,0 +1,717 @@
+@@ -0,0 +1,718 @@
 +/*****************************************************************************
 + * smb2.c: SMB2 access plug-in
 + *****************************************************************************
@@ -942,7 +831,8 @@ index 0000000000..9c9529385b
 +    if (!username)
 +    {
 +        username = "Guest";
-+        password = "";
++        /* A NULL password enable ntlmssp anonymous login */
++        password = NULL;
 +    }
 +
 +    smb2_set_password(sys->smb2, password);

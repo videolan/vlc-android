@@ -1,7 +1,7 @@
-From 169d059c034fbda81ed5bca4a838fa1157824c51 Mon Sep 17 00:00:00 2001
-Message-Id: <169d059c034fbda81ed5bca4a838fa1157824c51.1564134421.git.nobody@example.com>
-In-Reply-To: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
-References: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
+From 9b03a1727b20532b7db494f3dd9eb48dac52f173 Mon Sep 17 00:00:00 2001
+Message-Id: <9b03a1727b20532b7db494f3dd9eb48dac52f173.1565083097.git.thomas@gllm.fr>
+In-Reply-To: <f52a7bb426dfd0742df5efef0ff3f7673fd66145.1565083097.git.thomas@gllm.fr>
+References: <f52a7bb426dfd0742df5efef0ff3f7673fd66145.1565083097.git.thomas@gllm.fr>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 28 Mar 2019 15:23:48 +0100
 Subject: [PATCH 2/6] compat: Workaround sendmsg bug on android

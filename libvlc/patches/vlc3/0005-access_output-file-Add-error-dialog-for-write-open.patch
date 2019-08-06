@@ -1,7 +1,7 @@
-From 8f5d6b8889b38a6b3e1bc1ee6ce8776270542335 Mon Sep 17 00:00:00 2001
-Message-Id: <8f5d6b8889b38a6b3e1bc1ee6ce8776270542335.1564134421.git.nobody@example.com>
-In-Reply-To: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
-References: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
+From 888741befdcf51ee78bd16897e05df5ece74c9a6 Mon Sep 17 00:00:00 2001
+Message-Id: <888741befdcf51ee78bd16897e05df5ece74c9a6.1565083097.git.thomas@gllm.fr>
+In-Reply-To: <f52a7bb426dfd0742df5efef0ff3f7673fd66145.1565083097.git.thomas@gllm.fr>
+References: <f52a7bb426dfd0742df5efef0ff3f7673fd66145.1565083097.git.thomas@gllm.fr>
 From: Soomin Lee <bubu@mikan.io>
 Date: Mon, 1 Oct 2018 15:37:57 +0200
 Subject: [PATCH 5/6] access_output: file: Add error dialog for write/open
