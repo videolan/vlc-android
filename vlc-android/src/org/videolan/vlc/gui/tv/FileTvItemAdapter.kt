@@ -19,6 +19,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.helpers.getMediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.UPDATE_PAYLOAD
@@ -96,7 +97,7 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
         init {
             binding.holder = this
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
-            if (defaultCover != null) binding.cover = defaultCover
+            defaultCover?.let { binding.cover = it }
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
                     onMoreClick(v)
@@ -159,7 +160,8 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
             binding.isSquare = isSquare
             binding.seen = seen
             binding.description = description
-            if (defaultCover != null) binding.cover = defaultCover
+            val cover = if (item is AbstractMediaWrapper) getMediaIconDrawable(binding.root.context, item.type, true) else defaultCover
+            cover?.let { binding.cover = it }
             if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
             if (progress <= 0L) binding.progressBar.visibility = View.GONE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
