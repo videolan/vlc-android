@@ -37,6 +37,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SearchActivity
+import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.gui.onboarding.startOnboarding
@@ -48,7 +49,9 @@ import videolan.org.commontools.TV_CHANNEL_PATH_APP
 import videolan.org.commontools.TV_CHANNEL_PATH_VIDEO
 import videolan.org.commontools.TV_CHANNEL_QUERY_VIDEO_ID
 import videolan.org.commontools.TV_CHANNEL_SCHEME
+import java.io.File
 
+const val SEND_CRASH_RESULT = 0
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class StartActivity : FragmentActivity() {
@@ -75,6 +78,21 @@ class StartActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (AndroidUtil.isNougatOrLater) UiTools.setLocale(this)
+
+        try {
+            if (AppUtils.isBeta(this) && !Settings.getInstance(this).getBoolean(CRASH_DONT_ASK_AGAIN, false) && File(VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath + "/last.crash").exists()) {
+                val intent = Intent(this, SendCrashActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                startActivityForResult(intent, SEND_CRASH_RESULT)
+                return
+            }
+        } catch (e: Exception) {
+        }
+
+        resume()
+    }
+
+    private fun resume() {
         val intent = intent
         val action = intent?.action
 
@@ -141,6 +159,13 @@ class StartActivity : FragmentActivity() {
         FileUtils.copyLua(applicationContext, upgrade)
         if (AndroidDevices.watchDevices) this.enableStorageMonitoring()
         finish()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == SEND_CRASH_RESULT) {
+            resume()
+        }
     }
 
     private fun startApplication(tv: Boolean, firstRun: Boolean, upgrade: Boolean, target: Int) {

@@ -107,6 +107,13 @@
         <item name="android:textViewStyle">@style/VLC.TextView</item>
     </style>
 
+    <style name="Theme.VLC.SendCrashDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/orange800</item>
+        <item name="colorPrimaryDark">@color/orange700</item>
+        <item name="colorAccent">@color/orange500</item>
+    </style>
+
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
 
     <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
@@ -296,6 +303,15 @@
         <item name="colorAccent">@color/orange600</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="Theme.VLC.Transparent.NoUI" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7"/>

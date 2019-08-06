@@ -49,7 +49,9 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.channels.FileChannel
 import java.util.*
+import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -516,6 +518,60 @@ object FileUtils {
             e.printStackTrace()
         }
         unzippedFiles
+    }
+
+    val BUFFER = 2048
+    fun zip(_files: Array<String>, zipFileName: String) {
+        try {
+            var origin: BufferedInputStream? = null
+            val dest = FileOutputStream(zipFileName)
+            val out = ZipOutputStream(BufferedOutputStream(
+                    dest))
+            val data = ByteArray(BUFFER)
+
+            for (i in _files.indices) {
+                Log.v("Compress", "Adding: " + _files[i])
+                val fi = FileInputStream(_files[i])
+                origin = BufferedInputStream(fi, BUFFER)
+
+                val entry = ZipEntry(_files[i].substring(_files[i].lastIndexOf("/") + 1))
+                out.putNextEntry(entry)
+                var count = origin.read(data, 0, BUFFER)
+
+                while (count != -1) {
+                    out.write(data, 0, count)
+                    count = origin.read(data, 0, BUFFER)
+                }
+                origin.close()
+            }
+
+            out.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    @Throws(Exception::class)
+    fun convertStreamToString(`is`: InputStream): String {
+        val reader = BufferedReader(InputStreamReader(`is`))
+        val sb = StringBuilder()
+        var line = reader.readLine()
+        while (line != null) {
+            sb.append(line).append("\n")
+            line = reader.readLine()
+        }
+        reader.close()
+        return sb.toString()
+    }
+
+    @Throws(Exception::class)
+    fun getStringFromFile(filePath: String): String {
+        val fl = File(filePath)
+        val fin = FileInputStream(fl)
+        val ret = convertStreamToString(fin)
+        //Make sure you close all streams.
+        fin.close()
+        return ret
     }
 }
 

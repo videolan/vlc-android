@@ -52,6 +52,7 @@ android {
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
+        resValue "bool", "is_beta", isBeta()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // The following argument makes the Android Test Orchestrator run its
@@ -217,7 +218,7 @@ task buildTranslationArray {
             println 'details: '+details
             if(details.file.path.endsWith("strings.xml")){
                 def languageCode = details.file.parentFile.name.replaceAll('values-','').replaceAll('-r','-')
-                languageCode = (languageCode == "values") ? "en" : languageCode;
+                languageCode = (languageCode == "values") ? "en" : languageCode
                 foundLocales.append("\"").append(languageCode).append("\"").append(",")
             }
         }
@@ -302,6 +303,11 @@ def revision() {
         standardOutput = code
     }
     return code.toString()
+}
+
+def isBeta() {
+    def versionNameLower = versionName.toLowerCase()
+    return (versionNameLower.contains("beta") || versionNameLower.contains("rc") || versionNameLower.contains("alpha") || versionNameLower.contains("dev")).toString()
 }
 
 
