@@ -162,7 +162,6 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         })
     }
 
-
     private fun browseOtgDevice(uri: Uri, title: String) {
         val mw = MLServiceLocator.getAbstractMediaWrapper(uri)
         mw.type = AbstractMediaWrapper.TYPE_DIR

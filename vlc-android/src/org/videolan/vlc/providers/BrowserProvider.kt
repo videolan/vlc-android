@@ -196,7 +196,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                     }
                     // request parsing
                     browserChannel = Channel(Channel.UNLIMITED)
-                    mediabrowser?.browse(current.uri, 0)
+                    mediabrowser?.browse(current.uri, getFlags())
                     // retrieve subitems
                     for (media in browserChannel) {
                         val mw = findMedia(media) ?: continue

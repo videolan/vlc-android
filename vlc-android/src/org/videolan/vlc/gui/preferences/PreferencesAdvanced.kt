@@ -151,8 +151,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             // No break because need VLCInstance.restart();
             "opengl", "chroma_format", "custom_libvlc_options", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
                 VLCInstance.restart()
-                if (activity != null)
-                    (activity as PreferencesActivity).restartMediaPlayer()
+                (activity as? PreferencesActivity)?.restartMediaPlayer()
             }
         }
     }
