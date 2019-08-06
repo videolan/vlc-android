@@ -74,7 +74,8 @@
             android:value="3" />
 
         <activity
-                android:name=".StartActivity">
+                android:name=".StartActivity"
+                android:theme="@style/Theme.VLC.Transparent.NoUI">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -480,6 +481,9 @@
             android:name=".gui.SearchActivity"
             android:theme="@style/Theme.VLC" />
         <activity
+                android:name=".gui.SendCrashActivity"
+                android:theme="@style/Theme.VLC.SendCrashDialog"/>
+        <activity
             android:name=".gui.browser.FilePickerActivity"
             android:theme="@style/Theme.VLC.PickerDialog" />
         <activity android:name=".gui.CompatErrorActivity" />
@@ -650,6 +654,16 @@
             android:name=".FileProvider"
             android:authorities="${applicationId}.thumbprovider"
             android:exported="true" />
+
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths"/>
+        </provider>
 
         <service
             android:name=".PreviewVideoInputService"

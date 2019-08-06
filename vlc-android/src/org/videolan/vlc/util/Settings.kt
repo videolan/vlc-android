@@ -69,6 +69,8 @@ const val RESULT_RESTART_APP = Activity.RESULT_FIRST_USER + 3
 const val RESULT_UPDATE_SEEN_MEDIA = Activity.RESULT_FIRST_USER + 4
 const val RESULT_UPDATE_ARTISTS = Activity.RESULT_FIRST_USER + 5
 
+const val CRASH_DONT_ASK_AGAIN = "crash_dont_ask_again"
+
 const val PLAYBACK_HISTORY = "playback_history"
 const val RESUME_PLAYBACK = "resume_playback"
 const val AUDIO_DUCKING = "audio_ducking"
