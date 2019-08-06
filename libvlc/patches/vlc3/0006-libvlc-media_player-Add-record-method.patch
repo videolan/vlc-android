@@ -1,7 +1,7 @@
-From ddc4593d365193d19834eef88e717aded08f2f54 Mon Sep 17 00:00:00 2001
-Message-Id: <ddc4593d365193d19834eef88e717aded08f2f54.1564134421.git.nobody@example.com>
-In-Reply-To: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
-References: <9aa0e90dbc4468ddb3364cd9a7eb0bb54627ef3b.1564134421.git.nobody@example.com>
+From d1c0362dc7df9ae5f2c87ac860ad4fb426ac97c7 Mon Sep 17 00:00:00 2001
+Message-Id: <d1c0362dc7df9ae5f2c87ac860ad4fb426ac97c7.1565083097.git.thomas@gllm.fr>
+In-Reply-To: <f52a7bb426dfd0742df5efef0ff3f7673fd66145.1565083097.git.thomas@gllm.fr>
+References: <f52a7bb426dfd0742df5efef0ff3f7673fd66145.1565083097.git.thomas@gllm.fr>
 From: Soomin Lee <bubu@mikan.io>
 Date: Wed, 31 Oct 2018 10:08:55 +0100
 Subject: [PATCH 6/6] libvlc: media_player: Add record method
