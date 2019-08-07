@@ -201,7 +201,6 @@
 
     <string name="advanced_prefs_category">Uzlabots</string>
     <string name="clear_media_db">Iztīrīt mediju datubāzi</string>
-    <string name="clear_history">Tīrīt meklēšanas vēsturi</string>
     <string name="media_db_cleared">Mediju datubāze izvadītīta!</string>
     <string name="set_locale">noteikt darbības vietu</string>
     <string name="set_locale_detail">Atstājiet tukšu, lai atjaunotu</string>
