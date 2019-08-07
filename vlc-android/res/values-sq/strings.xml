@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Kujto shpejtësinë e vendosur të ridëgjimit</string>
 
     <string name="play_button">Buton Fillimi</string>
+
     <string name="seek">Kërko</string>
     <string name="subtitles">Titra</string>
     <string name="audio_sub">Këngë Audio\ndhe titra</string>
