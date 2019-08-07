@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
-    <string name="ok">حله</string>
+    <string name="ok">تایید</string>
     <string name="cancel">بی‌خیال</string>
     <string name="other">دیگر</string>
     <string name="sortby">مرتب سازی بر پایه…</string>
@@ -54,6 +54,7 @@
     <string name="set_song_question">به کارگیری%1$s برای زنگ تماس</string>
     <string name="info">اطلاعات</string>
     <string name="confirm_delete">فایل \'%1$s\' پاک شود؟</string>
+    <string name="confirm_delete_several_media">آیا میخواهید فایل \'%1$d\' را حذف کنید؟</string>
     <string name="confirm_delete_folder">پوشه \'%1$s\' و تمامی محتویاتش حذف شوند؟</string>
     <string name="confirm_delete_playlist">حذف لیست پخش \'%1$s\'؟</string>
     <string name="confirm_remove_from_playlist">\'%1$s\' از لیست پخش حذف شود؟</string>
@@ -120,6 +121,7 @@
     <string name="validation">آیا اطمینان داری؟</string>
 
     <string name="cover_art">جلد هنری</string>
+    <string name="shuffle_all_title">پخش تصادفی همه</string>
     <string name="shuffle_title">حالت تصادفی</string>
     <string name="shuffle">پخش تصادفی خاموش</string>
     <string name="shuffle_on">پخش تصادفی روشن</string>
@@ -301,6 +303,7 @@
     <string name="force_list_portrait">عدم نمایش شبکه‌بندی در حالت عمودی</string>
     <string name="force_list_portrait_summary">نمایش ویدیو ها در لیست به‌جای شبکه‌بندی در حالت عمودی</string>
     <string name="save_brightness_title">ذخیره سطح روشنایی برای ویدئو</string>
+    <string name="save_audiodelay_title">ذخیره تاخیر صدا</string>
     <string name="enable_brightness_gesture_title">حرکت روشنایی</string>
     <string name="enable_brightness_gesture_summary">کنترل درخشانی توسط حرکت روی صفحه ویدیو در حال پخش</string>
     <string name="enable_volume_gesture_title">حرکت حجم صدا</string>
@@ -355,7 +358,6 @@
     <string name="auto_rescan">جستوجوی خودکار</string>
     <string name="auto_rescan_summary">جستوجوی خودکار دستگاه برای رسانه‌‌های جدید و حذف شده در ابتدای اجرای برنامه</string>
     <string name="clear_media_db">پاک کردن بانک اطلاعاتی رسانه</string>
-    <string name="clear_history">پاک کردن سابقه جستجو</string>
     <string name="media_db_cleared">بانک رسانه حذف شد!</string>
     <string name="set_locale">تغییر‌ زبان</string>
     <string name="set_locale_detail">برای باز نشانی خالی بگذارید</string>
@@ -384,8 +386,6 @@
     <string name="drawer_open">گشودن کشو ناوبری</string>
     <string name="drawer_close">بستن کشو ناوبری</string>
     <string name="network_browsing">شبکه محلی</string>
-    <string name="file_size">اندازه فایل:</string>
-
     <string name="search_hint">جستجوی رسانه</string>
     <string name="search_list_hint">جستجوی محتوا در لیست فعلی</string>
     <string name="search_global">جستجو در تمام کتابخانه</string>
