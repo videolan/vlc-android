@@ -210,7 +210,6 @@
 
     <string name="advanced_prefs_category">Advanced</string>
     <string name="clear_media_db">Clear media database</string>
-    <string name="clear_history">Clear search history</string>
     <string name="media_db_cleared">Media database cleared!</string>
     <string name="set_locale">Set locale</string>
     <string name="set_locale_detail">Leave blank to reset</string>
