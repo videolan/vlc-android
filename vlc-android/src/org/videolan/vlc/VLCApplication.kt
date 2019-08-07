@@ -22,8 +22,10 @@ package org.videolan.vlc
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Application
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
@@ -39,6 +41,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.gui.DialogActivity
+import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapCache
@@ -109,6 +112,8 @@ class VLCApplication : MultiDexApplication() {
                 if (!VLCInstance.testCompatibleCPU(appContext)) return@Runnable
                 Dialog.setCallbacks(VLCInstance[instance], dialogCallbacks)
             })
+            packageManager.setComponentEnabledSetting(ComponentName(this, SendCrashActivity::class.java),
+                    if (resources.getBoolean(R.bool.is_beta)) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
         }).start()
     }
 
