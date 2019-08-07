@@ -54,6 +54,7 @@
     <string name="set_song_question">Setja \'%1$s\' sem hringitón?</string>
     <string name="info">Upplýsingar</string>
     <string name="confirm_delete">Eyða skránni \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Eyða þessum %1$d margmiðlunarskrám?</string>
     <string name="confirm_delete_folder">Eyða möppunni \'%1$s\' og öllu innihaldi hennar?</string>
     <string name="confirm_delete_playlist">Eyða spilunarlistanum \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Fjarlægja \'%1$s\' af spilunarlista?</string>
@@ -245,7 +246,7 @@
     <string name="licence">Notkunarleyfi</string>
     <string name="revision">Útgáfuauðkenni</string>
     <string name="about">Um</string>
-    <string name="about_text">VLC fyrir Android™ er yfirfærð útgáfa af VLC margmiðlunarspilaranum, eins vinsælasta oppna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstreymi.</string>
+    <string name="about_text">VLC fyrir Android™ er yfirfærð útgáfa af VLC margmiðlunarspilaranum, eins vinsælasta opna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstreymi.</string>
     <string name="vlc_authors">og höfundar VLC.</string>
     <string name="compiled_by">Þessi útgáfa af VLC var vistþýdd af:</string>
     <string name="feedback_forum">Umfjöllun á spjallvef</string>
@@ -420,7 +421,6 @@
     <string name="dump_media_db_summary">Afrita gagnagrunn á rót innri gagnageymslu</string>
     <string name="clear_media_db">Hreinsa gagnagrunn yfir margmiðlunarefni</string>
     <string name="clear_media_db_summary">Fá aðgang að upplýsingum Android VLC til að hreinsa út gögn</string>
-    <string name="clear_history">Hreinsa leitarferil</string>
     <string name="media_db_cleared">Hreinsaði gagnagrunn yfir margmiðlunarefni!</string>
     <string name="set_locale">Setja staðfærslu</string>
     <string name="set_locale_detail">Skilja eftir autt til að frumstilla</string>
@@ -476,7 +476,7 @@
     <string name="network_browsing">Staðarnet</string>
     <string name="browsing">Vafur</string>
 
-    <string name="file_size">Skráarstærð:</string>
+    <string name="file_size">Skráarstærð</string>
 
     <string name="audio_delay">Hljóðtöf</string>
     <string name="spu_delay">Töf skjátexta</string>
@@ -617,8 +617,6 @@
     <string name="audio_digital_title">Stafrænt hljóðúttak (gegnumstreymi)</string>
     <string name="audio_task_cleared_title">Stöðva þegar strokið er yfir forrit</string>
     <string name="audio_task_cleared_summary">Stöðva afspilun þegar hætt er í forriti</string>
-    <string name="audio_resume_card_title">Hlaða inn síðasta spilunarlistaspjaldi</string>
-    <string name="audio_resume_card_summary">Birtir spjald sem hjálpar þér að halda áfram með hljóðspilun þegar forritið ræsist</string>
     <string name="playback_rewind">Spóla til baka</string>
     <string name="playback_forward">Spóla hratt áfram</string>
     <string name="ml_wizard_title">Úrval úr VLC-margmiðlunarsafni</string>
@@ -684,4 +682,11 @@
     <string name="jump_to">Hoppa á</string>
     <string name="show_video_thumbnails_summary">Sýna smámyndir myndskeiða í listum</string>
     <string name="show_video_thumbnails">Smámyndir myndskeiða</string>
+    <string name="eq_snap_bands">Hengja við næstu tíðnisvið</string>
+    <string name="enable_equalizer">Virkja</string>
+    <string name="preamp">Formögnun</string>
+    <string name="presets">Forstillingar</string>
+    <string name="reset">Endurstilla</string>
+    <string name="appended">Lagi/lögum bætt við</string>
+    <string name="inserted">Lag/lög sett inn</string>
 </resources>
