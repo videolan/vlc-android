@@ -19,6 +19,7 @@
     <string name="sortby_date">날짜</string>
     <string name="sortby_date_desc">날짜 (내림차순)</string>
     <string name="sortby_last_modified_date">최근에 추가됨</string>
+    <string name="sortby_last_modified_date_desc">최근에 추가됨 (내림차순)</string>
     <string name="sortby_number">Nb 트랙</string>
     <string name="sortby_number_desc">Nb 트랙 (내림차순)</string>
     <string name="searchable_hint">검색…</string>
@@ -45,9 +46,11 @@
     <string name="play_all">모두 재생</string>
     <string name="append_all">모두 추가</string>
     <string name="last_playlist">마지막 재생목록</string>
+    <string name="last_playlist_shortcut">재생하기</string>
     <string name="delete">삭제</string>
     <string name="remove">제거하기</string>
     <string name="set_song">벨소리로 설정하기</string>
+    <string name="set_song_question">%1$s 벨소리로 설정할까?</string>
     <string name="info">정보</string>
     <string name="confirm_delete">\'%1$s\' 파일을 삭제할까요?</string>
     <string name="confirm_delete_folder">\'%1$s\' 폴더와 모든 파일을 삭제할까요?</string>
@@ -111,6 +114,7 @@
     <string name="validation">확실한가요?</string>
 
     <string name="cover_art">커버 아트</string>
+    <string name="shuffle_all_title">모두 셔플</string>
     <string name="shuffle_title">셔플 모드</string>
     <string name="shuffle">셔플 끄기</string>
     <string name="shuffle_on">셔플 켜기</string>
@@ -129,7 +133,7 @@
     <string name="surface_fit_screen">화면에 맞추기</string>
     <string name="surface_fill">채움</string>
     <string name="surface_original">중앙</string>
-    <string name="thumbnail">썸네일</string>
+    <string name="thumbnail">섬네일</string>
     <string name="unseekable_stream">탐색이 불가능한 스트림</string>
     <string name="refresh">새로 고침</string>
     <string name="track_audio">오디오 트랙</string>
@@ -146,6 +150,10 @@
     <string name="navmenu">네이게이션 메뉴</string>
     <string name="advanced">고급 옵션</string>
     <string name="audio_boost_warning">100% 넘어서 다시 밀어 올리기</string>
+    <string name="locked_in_portrait_mode">세로 모드로 고정시키기\n(버튼을 길게 누르시면 취소)</string>
+    <string name="locked_in_landscape_mode">가로 모드로 고정시키기\n(버튼을 길게 누르시면 취소)</string>
+    <string name="reset_orientation">방향을 원본으로 전환하기</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d 채널\n</item>
     </plurals>
@@ -233,6 +241,7 @@
     <string name="about_text">안드로이드용 VLC는 인기 있는 오픈 소스 미디어 재생기인 VLC 미디어 재생기로 만든 것입니다. 안드로이드 버전은 대부분의 파일 및 네트워크 스트림을 읽을 수 있습니다.</string>
     <string name="vlc_authors">및 VLC 제작자들.</string>
     <string name="compiled_by">이 버전의 VLC 컴파일러:</string>
+    <string name="feedback_forum">의견 포럼</string>
 
     <!-- Preferences -->
     <string name="preferences">설정</string>
@@ -261,6 +270,8 @@
     <string name="enable_black_theme_summary">저광량 환경에서 더 편한 색상의 인터페이스로 전환합니다</string>
     <string name="subtitle_text_encoding">자막 텍스트 인코딩</string>
     <string name="daynight_title">낮밤 모드</string>
+    <string name="daynight_follow_system_title">안드로이드 시스템 모드를 따르기</string>
+    <string name="daynight_battery_title">배터리 절약 규칙에 따르기</string>
     <string name="daynight_summary">적당한 시간에 밤 모드로 자동 전환합니다</string>
 
     <string name="extra_prefs_category">추가 설정</string>
@@ -277,11 +288,14 @@
     <string name="video_min_group_length_title">비디오 분류</string>
     <string name="video_min_group_length_summary">첫 글자가 같은 비디오를 그룹으로 묶어 분류합니다</string>
     <string name="video_min_group_length_disable">비활성화</string>
+    <string name="video_min_group_length_folder">폴더로 분류하기</string>
     <string name="video_min_group_length_first">첫 글자만</string>
     <string name="video_min_group_length_short">짧은 글자수 (6)</string>
     <string name="video_min_group_length_long">긴 글자수 (9)</string>
     <string name="media_fast_seek">빠른 탐색</string>
     <string name="media_fast_seek_summary">미디어 탐색은 더 빠르나 정확도가 떨어집니</string>
+    <string name="video_transition_title">비디오 이행</string>
+    <string name="video_transition_summary">이행 시 새로운 비디오를 표시하기</string>
     <string name="media_seen">시청한 비디오에 마커 표시하기</string>
     <string name="media_seen_summary">끝까지 재생한 비디오를 본 것으로 표시합니다</string>
     <string name="force_list_portrait">세로 화면에서 격자선 표시하지 않기</string>
@@ -351,6 +365,7 @@
     <string name="audio_ducking_title">알림시 VLC 볼륨 낮추기</string>
     <string name="audio_ducking_summary">오디오 알림, 네비게이션 안내 또는 어시스턴트 음성출력시 듣는데 도움이 됩니다</string>
     <string name="casting_category">캐스팅</string>
+    <string name="casting_switch_title">무선 카스트</string>
     <string name="casting_passthrough_title">오디오 패스쓰루</string>
     <string name="casting_passthrough_summary">TV가 오디오 렌더링을 관리하도록 합니다</string>
     <string name="casting_conversion_quality_title">변환 품질</string>
@@ -398,7 +413,6 @@
     <string name="dump_media_db_summary">내부 저장소 루트에 데이터베이스 복사하기</string>
     <string name="clear_media_db">미디어 데이터베이스 지우기</string>
     <string name="clear_media_db_summary">데이터를 비우기 위해 안드로이드 VLC 정보에 접근합니다</string>
-    <string name="clear_history">검색 기록 지우기</string>
     <string name="media_db_cleared">미디어 데이터베이스 지워짐!</string>
     <string name="set_locale">언어 설정</string>
     <string name="set_locale_detail">재설정하려면 비워 두세요</string>
@@ -454,8 +468,6 @@
     <string name="network_browsing">로컬 네트워크</string>
     <string name="browsing">찾는 중</string>
 
-    <string name="file_size">파일 크기:</string>
-
     <string name="audio_delay">음성 지연</string>
     <string name="spu_delay">자막 지연</string>
     <string name="sleep_time_not_set">아무 설정 않음</string>
@@ -468,6 +480,7 @@
     <string name="directory_show_medialib">MediaLib에서 보기</string>
     <string name="directory_hide_medialib">MediaLib에서 감추기</string>
     <string name="playlist_save">재생목록에 저장하기</string>
+    <string name="playlist_name_hint">재생목록 이름</string>
     <string name="go_to_chapter">챕터 이동하기…</string>
     <string name="chapter">챕터</string>
     <string name="resume_from_position">마지막 위치에서 재생 시작하기</string>
@@ -592,12 +605,15 @@
     <string name="audio_digital_output_enabled">오디오 디지털 출력 활성화됨</string>
     <string name="audio_digital_output_disabled">오디오 디지털 출력 비활성화됨</string>
     <string name="audio_digital_title">디지털 오디오 출력 (패스쓰루)</string>
+    <string name="audio_task_cleared_title">앱 스와이프 시 끄기</string>
+    <string name="audio_task_cleared_summary">앱이 닫힐 때 재생 중지</string>
     <string name="playback_rewind">되감기</string>
     <string name="playback_forward">빨리 감기</string>
     <string name="ml_wizard_title">VLC의 미디어 라이브러리 선택</string>
     <string name="ml_wizard_scan_checkbox">기기에서 미디어 콘텐츠를 검색합니다</string>
     <string name="ml_wizard_description">미디어 라이브러리를 정리할 때는 VLC가 기기에 저장된 미디어를 검색하거나 기기를 단순한 재생 장치 및 브라우서로 이용하는지 지시하십시오.</string>
     <string name="tv_my_new_videos">새 비디오</string>
+    <string name="cast_option_title">다른 화면으로 미디어를 표시하기</string>
     <string name="otg_device_title">OTG 기기</string>
     <string name="browser">브라우저</string>
     <string name="ab_repeat">A-B 반복</string>
@@ -610,6 +626,7 @@
     <string name="rename">이름 변경</string>
     <string name="rename_media">%1$s 이름 변경</string>
     <string name="manual_search">수동 검색</string>
+    <string name="subtitle_search_name_hint">이름</string>
     <string name="subtitle_search_episode_hint">에피소드</string>
     <string name="subtitle_search_season_hint">시즌</string>
     <string name="language_to_download">언어</string>
@@ -617,4 +634,42 @@
     <string name="download_the_selected">다운로드 선택</string>
     <string name="next">다음</string>
     <string name="download">다운로드</string>
+    <string name="ctx_player_video_track">비디오 트랙을 선택하기</string>
+    <string name="ctx_player_audio_track">오디오 트랙</string>
+    <string name="ctx_player_subs_track">자막 트랙</string>
+    <string name="ctx_player_tracks_title">미디어 트랙</string>
+    <string name="ctx_pip_title">팝업 재생기</string>
+    <string name="device_dialog_title">외부의 기기가 삽입되었다</string>
+    <string name="device_dialog_message">TV에 새로운 기기를 넣으셨습니다. VLC로 그 기기를 열까?</string>
+    <string name="videos_folders_title">폴더로 비디오 표시</string>
+    <string name="video_save_remote_setting">리모콘 모드를 자동적으로 작동시킬까?</string>
+    <string name="video_save_clone_mode">클론 모드를 자동적으로 작동시킬까?</string>
+    <string name="video_remote_enable">리모콘 모드로 전환하기</string>
+    <string name="video_remote_disable">화면을 복사하기</string>
+    <string name="removed_from_playlist_anonymous">재생목록에서 삭제된 것(들)</string>
+    <string name="welcome_title">VLC에 환영합니다!</string>
+    <string name="welcome_subtitle">자유롭고 무료이고 오픈 소스인 멀티미디어 재생기</string>
+    <string name="permission_media">기기 안에 미디어 콘텐츠를 접속하기를 위하여 VLC는 허가가 필요합니다</string>
+    <string name="medialibrary_scan_explanation">미디어 라이브러리를 정리하기를 위하여 VLC가 자동적으로 기기에서 검색할 수 있습니다</string>
+    <string name="onboarding_theme_title">편하게 계십시오</string>
+    <string name="done">완료</string>
+    <string name="onboarding_scan_title">미디어를 자동적으로 발견하기</string>
+    <string name="daynight_explanation">옳은 시간에 VLC가 자동적으로 야간 모드로 전환하기</string>
+    <string name="onboarding_scanning_enable">나의 기기에서 미디어 콘텐츠를 검색하기</string>
+    <string name="onboarding_scan_whole">SC 카드를 전반적에서 검색하기</string>
+    <string name="onboarding_scan_customize">VLC가 스캔할 폴더를 내가 선택하기</string>
+    <string name="button_medialibrary_preferences">미디어 라이브러리로 가기</string>
+    <string name="light_theme">라이트 테마</string>
+    <string name="add">추가하기</string>
+    <string name="add_to_new_playlist">새로운 재생목록에 추가하기</string>
+    <string name="theme_follow_system_mode">안드로이드 시스템 모드를 따르기</string>
+    <string name="resume_card_message">%1$s를/을 재생할까요?</string>
+    <string name="misc">기타</string>
+    <string name="popup_force_legacy_title">맞춤식 PIP 팝업을 사용하기</string>
+    <string name="popup_force_legacy_summary">맞출 수 있는 맞춤식 PIP 팝업을 사용하기</string>
+    <string name="device_default">기기의 디폴트</string>
+    <string name="track_number">%s트랙 </string>
+    <string name="jump_to">...에 건너뛰기</string>
+    <string name="show_video_thumbnails_summary">목록으로 비디오 섬네일을 표시하기</string>
+    <string name="show_video_thumbnails">비디오 섬네일</string>
 </resources>
