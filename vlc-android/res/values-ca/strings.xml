@@ -364,7 +364,6 @@
 
     <string name="advanced_prefs_category">Avançat</string>
     <string name="clear_media_db">Neteja la base de dades multimèdia</string>
-    <string name="clear_history">Neteja l\'historial de cerca</string>
     <string name="media_db_cleared">S\'ha netejat la base de dades multimèdia</string>
     <string name="set_locale">Estableix la configuració local</string>
     <string name="set_locale_detail">Deixeu-ho en blanc per reiniciar-ho</string>
@@ -391,8 +390,6 @@
 
     <string name="network_browsing">Xarxa local</string>
     <string name="browsing">Navegació</string>
-
-    <string name="file_size">Mida del fitxer:</string>
 
     <string name="audio_delay">Retard de l\'àudio</string>
     <string name="spu_delay">Retard del subtítol</string>
