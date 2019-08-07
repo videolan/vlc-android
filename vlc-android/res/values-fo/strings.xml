@@ -210,7 +210,6 @@
 
     <string name="advanced_prefs_category">Víðkað</string>
     <string name="clear_media_db">Rudda miðladátabasu</string>
-    <string name="clear_history">Rudda undanfarnu leitingar</string>
     <string name="media_db_cleared">Miðladátabasa ruddað!</string>
     <string name="set_locale">Set heimastað</string>
     <string name="set_locale_detail">Lat standa tómt fyri at nullstilla</string>
