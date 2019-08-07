@@ -401,7 +401,6 @@
     <string name="dump_media_db_summary">Αντιγραφή βάσης δεδομένων στην ρίζα του εσωτερικού χώρου αποθήκευσης</string>
     <string name="clear_media_db">Καθαρισμός βάσης δεδομένων μέσων</string>
     <string name="clear_media_db_summary">Πηγαίνετε στις πληροφορίες του Android VLC για να καθαρίσετε τα δεδομένα</string>
-    <string name="clear_history">Καθαρισμός ιστορικού εύρεσης</string>
     <string name="media_db_cleared">Η βάση δεδομένων των μέσων εκκαθαρίστηκε!</string>
     <string name="set_locale">Ορισμός τοπικής ρύθμισης</string>
     <string name="set_locale_detail">Αφήστε το κενό για να το επαναφέρετε</string>
@@ -452,8 +451,6 @@
     <string name="drawer_close">Κλείστε το συρτάρι πλοήγησης</string>
     <string name="network_browsing">Τοπικό Δίκτυο</string>
     <string name="browsing">Περιήγηση</string>
-
-    <string name="file_size">Μέγεθος αρχείου:</string>
 
     <string name="audio_delay">Καθυστέρηση ήχου</string>
     <string name="spu_delay">Καθυστέρηση υπότιτλου</string>
