@@ -7,14 +7,14 @@
     <string name="other">Outros</string>
     <string name="sortby">Ordenar por…</string>
     <string name="sortby_name">Nome</string>
-    <string name="sortby_name_desc">Nome (desc.)</string>
+    <string name="sortby_name_desc">Nome (descend.)</string>
     <string name="sortby_filename">Nome de ficheiro</string>
-    <string name="sortby_filename_desc">Nome do ficheiro (desc.)</string>
+    <string name="sortby_filename_desc">Nome do ficheiro (descend.)</string>
     <string name="sortby_artist_name">Nome do artista</string>
-    <string name="sortby_artist_name_desc">Nome do artista (desc.)</string>
+    <string name="sortby_artist_name_desc">Nome do artista (descend.)</string>
     <string name="sortby_album_name">Nome do álbum</string>
-    <string name="sortby_album_name_desc">Nome do álbum (desc.)</string>
-    <string name="sortby_length">Lonxitude</string>
+    <string name="sortby_album_name_desc">Nome do álbum (descend.)</string>
+    <string name="sortby_length">Duración</string>
     <string name="sortby_length_desc">Duración (desc.)</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_date_desc">Data (desc.)</string>
@@ -54,6 +54,7 @@
     <string name="set_song_question">Desexa estabelecer «%1$s» como ton de chamada?</string>
     <string name="info">Información</string>
     <string name="confirm_delete">Quere eliminar o ficheiro \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Desexa eliminar %1$d multimedia?</string>
     <string name="confirm_delete_folder">Quere eliminar o cartafol «%1$s» e todo o seu contido?</string>
     <string name="confirm_delete_playlist">Quere eliminar a lista de reprodución «%1$s»?</string>
     <string name="confirm_remove_from_playlist">Desexa retirar «%1$s» da lista de reprodución?</string>
@@ -174,7 +175,7 @@
     <string name="sleep_title">Temporizador para durmir</string>
     <string name="sleep_in">Temporizador</string>
     <string name="sleep_cancel">Cancelar o temporizador para durmir</string>
-    <string name="jump_to_time">Saltar ao tempo</string>
+    <string name="jump_to_time">Avanzar no tempo</string>
     <string name="subtitle_label">Engadir un ficheiro de subtítulos</string>
     <string name="subtitle_select">Seleccione o ficheiro de subtítulos</string>
     <string name="no_file_picker_found">Non se encontrou un selector de ficheiros no sistema.</string>
@@ -227,7 +228,7 @@
     <string name="resize">Redimensionar</string>
     <string name="options">Opcións</string>
     <string name="lock">Bloquear</string>
-    <string name="ok_got_it">Entendín, descartar isto</string>
+    <string name="ok_got_it">Entendín, non mostrar isto máis</string>
 
     <string name="playlist_tips">Suxestións para listas de reprodución</string>
     <string name="remove_song">Eliminar canción</string>
@@ -248,6 +249,7 @@
     <string name="about_text">VLC for Android™ é un aplicativo portado do VLC media player, o popular reprodutor multimedia de código aberto. A versión para Android™ pode ler a maioría dos ficheiros e fluxos de rede.</string>
     <string name="vlc_authors">e os autores do VLC.</string>
     <string name="compiled_by">Esta versión do VLC foi compilada por:</string>
+    <string name="feedback_forum">Foro de comentarios</string>
 
     <!-- Preferences -->
     <string name="preferences">Preferencias</string>
@@ -319,7 +321,7 @@
     <string name="enable_seek_buttons">Botóns de busca</string>
     <string name="enable_seek_buttons_summary">Mostrar os botóns de avanzar e retroceder na interface de vídeo</string>
     <string name="enable_double_tap_seek_title">Dobre toque para buscar</string>
-    <string name="enable_double_tap_seek_summary">Dobre toque nos bordos da pantalla para saltar 10 segundos na busca</string>
+    <string name="enable_double_tap_seek_summary">Dobre toque nos bordos da pantalla para avanzar 10 segundos</string>
     <string name="popup_keepscreen_title">Manter a pantalla activa no modo de xanela emerxente</string>
     <string name="popup_keepscreen_summary">Manter sempre a pantalla activa mentres estea a xanela emerxente, incluso se o vídeo esta detido.</string>
     <string name="browser_show_hidden_files_title">Mostrar os ficheiros ocultos</string>
@@ -419,7 +421,6 @@
     <string name="dump_media_db_summary">Copiar a base de datos á raíz de almacenaxe interna</string>
     <string name="clear_media_db">Limpar a base de datos de medios</string>
     <string name="clear_media_db_summary">Acceder á información do VLC Android para limpar os datos</string>
-    <string name="clear_history">Limpar o historial de busca</string>
     <string name="media_db_cleared">Limpouse a base de datos de medios!</string>
     <string name="set_locale">Definir a configuración rexional</string>
     <string name="set_locale_detail">Deixar en branco para restablecelo</string>
@@ -475,7 +476,7 @@
     <string name="network_browsing">Rede local</string>
     <string name="browsing">Examinando</string>
 
-    <string name="file_size">Tamaño do ficheiro:</string>
+    <string name="file_size">Tamaño do ficheiro</string>
 
     <string name="audio_delay">Atraso do son</string>
     <string name="spu_delay">Atraso dos subtítulos</string>
@@ -615,9 +616,7 @@
     <string name="audio_digital_output_disabled">Saída dixital de son desactivada</string>
     <string name="audio_digital_title">Saída de son dixital (passthrough)</string>
     <string name="audio_task_cleared_title">Parar ao esvarar o dedo pola aplicación</string>
-    <string name="audio_task_cleared_summary">Parar a reprodución cando se desbote a aplicación</string>
-    <string name="audio_resume_card_title">Cargar a última tarxeta con listas de reprodución</string>
-    <string name="audio_resume_card_summary">Mostra unha tarxeta para axudalo a continuar a reprodución de son no inicio da aplicación</string>
+    <string name="audio_task_cleared_summary">Parar a reprodución cando se saia da aplicación</string>
     <string name="playback_rewind">Rebobinar</string>
     <string name="playback_forward">Avance rápido</string>
     <string name="ml_wizard_title">Selección da biblioteca multimedia do VLC</string>
@@ -681,4 +680,14 @@
     <string name="device_default">Dispositivo predeterminado</string>
     <string name="track_number">%s pistas</string>
     <string name="jump_to">Ir a</string>
+    <string name="show_video_thumbnails_summary">Mostrar miniaturas dos vídeos nas listas</string>
+    <string name="show_video_thumbnails">Miniaturas dos vídeos</string>
+    <string name="eq_snap_bands">Modificar frecuencias próximas</string>
+    <string name="enable_equalizer">Activar</string>
+    <string name="preamp">Preamplificación</string>
+    <string name="presets">Predeterminados</string>
+    <string name="reset">Restabelecer</string>
+    <string name="appended">Pista(s) anexadas</string>
+    <string name="inserted">Pista(s) inseridas</string>
+    <string name="remove_current">Retirar a actual</string>
 </resources>
