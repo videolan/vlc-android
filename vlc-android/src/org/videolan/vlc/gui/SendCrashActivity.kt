@@ -159,7 +159,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
     }
 
     override fun onDestroy() {
-        client.release()
+        if (::client.isInitialized) client.release()
         super.onDestroy()
     }
 
