@@ -206,7 +206,6 @@
 
     <string name="advanced_prefs_category">Напредно</string>
     <string name="clear_media_db">Очисти медијску базу</string>
-    <string name="clear_history">Очисти историју претраге</string>
     <string name="media_db_cleared">Медијска база је очишћена.</string>
     <string name="set_locale">Локализација</string>
     <string name="set_locale_detail">Оставите празно ради поништавања</string>
