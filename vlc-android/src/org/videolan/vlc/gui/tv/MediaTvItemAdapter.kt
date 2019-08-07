@@ -75,6 +75,11 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
         }
     }
 
+    override fun onViewRecycled(holder: AbstractMediaItemViewHolder<ViewDataBinding>) {
+        super.onViewRecycled(holder)
+        holder.recycle()
+    }
+
     override fun hasSections() = true
 
     override fun submitList(pagedList: Any?) {

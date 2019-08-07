@@ -66,6 +66,11 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
         }
     }
 
+    override fun onViewRecycled(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>) {
+        super.onViewRecycled(holder)
+        holder.recycle()
+    }
+
     override fun hasSections() = true
 
     override fun setOnFocusChangeListener(focusListener: FocusableRecyclerView.FocusListener?) {
