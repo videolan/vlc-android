@@ -433,7 +433,6 @@
     <string name="dump_media_db_summary">Kopírovat databázi do kořene interního úložiště</string>
     <string name="clear_media_db">Vyčistit databázi médií</string>
     <string name="clear_media_db_summary">Chcete-li vymazat data, přejděte na informace o VLC systému Android</string>
-    <string name="clear_history">Vymazat historii hledání</string>
     <string name="media_db_cleared">Databáze médií vyčištěna</string>
     <string name="set_locale">Nastavit jazyk</string>
     <string name="set_locale_detail">Ponechte prázdné pro výchozí</string>
@@ -489,7 +488,7 @@
     <string name="network_browsing">Místní síť</string>
     <string name="browsing">Procházení</string>
 
-    <string name="file_size">Velikost souboru:</string>
+    <string name="file_size">Velikost souboru</string>
 
     <string name="audio_delay">Zpoždění zvuku</string>
     <string name="spu_delay">Zpoždění titulků</string>
@@ -681,7 +680,13 @@
     <string name="light_theme">Světlý vzhled</string>
     <string name="add">Přidat</string>
     <string name="add_to_new_playlist">Přidat do nového seznamu skladeb</string>
+    <string name="theme_follow_system_mode">Dle nastavení systému</string>
     <string name="resume_card_message">Obnovit přehrávání %1$s</string>
     <string name="misc">Různé</string>
     <string name="track_number">%s stop</string>
+    <string name="jump_to">Přejít na</string>
+    <string name="enable_equalizer">Povolit</string>
+    <string name="preamp">Předzesílení</string>
+    <string name="presets">Přednastavení</string>
+    <string name="reset">Obnovit</string>
 </resources>
