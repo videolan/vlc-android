@@ -434,7 +434,6 @@
     <string name="dump_media_db_summary">Копировать базу данных в корень внутреннего хранилища</string>
     <string name="clear_media_db">Очистить базу метаданных</string>
     <string name="clear_media_db_summary">Стирать информацию в базе данных Android VLC</string>
-    <string name="clear_history">Очистить историю поиска</string>
     <string name="media_db_cleared">База метаданных очищена.</string>
     <string name="set_locale">Языковая среда</string>
     <string name="set_locale_detail">Пустая строка подразумевает значение по умолчанию</string>
@@ -489,8 +488,6 @@
     <string name="drawer_close">Закрыть панель навигации</string>
     <string name="network_browsing">Локальная сеть</string>
     <string name="browsing">Обзор</string>
-
-    <string name="file_size">Размер файла:</string>
 
     <string name="audio_delay">Задержка звука</string>
     <string name="spu_delay">Задержка субтитров</string>
@@ -631,8 +628,6 @@
     <string name="audio_digital_title">Цифровой вывод звука (сквозной)</string>
     <string name="audio_task_cleared_title">Останавливаться при смахивании приложения</string>
     <string name="audio_task_cleared_summary">Прекращать воспроизведение, когда приложение смахивается</string>
-    <string name="audio_resume_card_title">Загружать последнюю карточку плейлиста</string>
-    <string name="audio_resume_card_summary">Показывать карточку, позволяющую возобновить воспроизведение аудио при запуске приложения</string>
     <string name="playback_rewind">Перемотка</string>
     <string name="playback_forward">Быстро вперёд</string>
     <string name="ml_wizard_title">Выбор медиатеки VLC</string>
