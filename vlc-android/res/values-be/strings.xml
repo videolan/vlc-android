@@ -224,7 +224,6 @@
 
     <string name="advanced_prefs_category">Дадаткова</string>
     <string name="clear_media_db">Ачысціць медыятэку</string>
-    <string name="clear_history">Ачысціць гісторыю пошуку</string>
     <string name="media_db_cleared">Медыятэка ачышчана!</string>
     <string name="set_locale">Задаць лакаль</string>
     <string name="set_locale_detail">Пакінуць пустой, каб скінуць</string>
