@@ -54,6 +54,7 @@
     <string name="set_song_question">Vuoi impostare \'%1$s\' come suoneria?</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Vuoi eliminare questi %1$d media?</string>
     <string name="confirm_delete_folder">Vuoi eliminare la cartella \'%1$s\' e il suo contenuto?</string>
     <string name="confirm_delete_playlist">Vuoi eliminare la scaletta \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Vuoi rimuovere \'%1$s\' dalla scaletta?</string>
@@ -420,7 +421,7 @@
     <string name="dump_media_db_summary">Copia il database nella radice dell\'archiviazione interna.</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
     <string name="clear_media_db_summary">Accedi alle informazioni di Android VLC per cancellare i dati</string>
-    <string name="clear_history">Cancella cronologia ricerche</string>
+    <string name="clear_history">Cancella cronologia</string>
     <string name="media_db_cleared">Database multimediale cancellato!</string>
     <string name="set_locale">Imposta locale</string>
     <string name="set_locale_detail">Lascia vuoto per ripristinare</string>
@@ -476,7 +477,7 @@
     <string name="network_browsing">Rete locale</string>
     <string name="browsing">Navigazione</string>
 
-    <string name="file_size">Dimensione file:</string>
+    <string name="file_size">Dimensione file</string>
 
     <string name="audio_delay">Ritardo audio</string>
     <string name="spu_delay">Ritardo dei sottotitoli</string>
@@ -617,8 +618,8 @@
     <string name="audio_digital_title">Uscita audio digitale (passthrough)</string>
     <string name="audio_task_cleared_title">Ferma in caso di trascinamento</string>
     <string name="audio_task_cleared_summary">Ferma la riproduzione quando l\'applicazione viene chiusa</string>
-    <string name="audio_resume_card_title">Carica scheda dell\'ultima scaletta</string>
-    <string name="audio_resume_card_summary">Mostra una scheda che ti aiuta a riprendere la riproduzione audio all\'avvio dell\'applicazione</string>
+    <string name="audio_resume_card_title">Mostra suggerimento dell\'ultima scaletta</string>
+    <string name="audio_resume_card_summary">Mostra un suggerimento che ti aiuta a riprendere la riproduzione audio all\'avvio dell\'applicazione</string>
     <string name="playback_rewind">Riavvolgi</string>
     <string name="playback_forward">Avanti veloce</string>
     <string name="ml_wizard_title">Selezione raccolta multimediale VLC</string>
@@ -684,4 +685,15 @@
     <string name="jump_to">Salta a</string>
     <string name="show_video_thumbnails_summary">Mostra le miniature dei video nell\'elenco</string>
     <string name="show_video_thumbnails">Miniature dei video</string>
+    <string name="enable_equalizer">Abilita</string>
+    <string name="preamp">Preamplificazione</string>
+    <string name="presets">Preimpostazioni</string>
+    <string name="reset">Ripristina</string>
+    <string name="appended">Tracce accodate</string>
+    <string name="inserted">Tracce inserite</string>
+    <string name="remove_current">Rimuovi attuale</string>
+    <string name="validation_delete_playlist">Sei sicuro di voler eliminare questa scaletta?</string>
+    <string name="validation_delete_playlist_text">Questa azione non può essere annullata.</string>
+    <string name="display_in_list">Visualizza in elenco</string>
+    <string name="display_in_grid">Visualizza in griglia</string>
 </resources>
