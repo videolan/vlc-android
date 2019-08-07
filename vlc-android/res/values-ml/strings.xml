@@ -252,7 +252,6 @@
     <string name="enable_time_stretching_audio">സമയം-നീട്ടിയ ഓഡിയോ</string>
     <string name="advanced_prefs_category">കൂടുതല്‍</string>
     <string name="clear_media_db">മീഡിയ വിവരശേഖരം തുടച്ചുമാറ്റുക</string>
-    <string name="clear_history">അന്വേഷണ ചരിത്രം നീക്കുക</string>
     <string name="media_db_cleared">മീഡിയ വിവരശേഖരം തുടച്ചുമാറ്റിയിരിക്കുന്നു!</string>
     <string name="set_locale">സങ്കേതസ്ഥാനം നിയമിക്കുക</string>
     <string name="set_locale_detail">പുനഃക്രമീകരിക്കുന്നതിന് ഒഴിച്ച് ഇടുക</string>
