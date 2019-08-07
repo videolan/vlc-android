@@ -20,11 +20,9 @@
 
 package org.videolan.vlc
 
-import android.content.pm.PackageManager
 import android.os.Environment
 import android.text.format.DateFormat
 import android.util.Log
-import org.videolan.vlc.util.AppUtils
 import org.videolan.vlc.util.Logcat
 import org.videolan.vlc.util.Util
 import java.io.*
@@ -57,46 +55,11 @@ class VLCCrashHandler : UncaughtExceptionHandler {
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             writeLog(stacktrace, VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath + "/vlc_crash")
             writeLogcat(VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath + "/vlc_logcat")
-
-            val appData = try {
-                "App version: ${AppUtils.getVersionName(VLCApplication.appContext)}\nApp version code: ${AppUtils.getVersionCode(VLCApplication.appContext)}"
-            } catch (e: PackageManager.NameNotFoundException) {
-                ""
-            }
-
-            val timestamp = "Time: " + DateFormat.format("MM/dd/yyyy kk:mm:ss", System.currentTimeMillis())
-            val crashTrace = appData + "\n" + timestamp + "\n\n" + stacktrace
-
-            putCrashFile(crashTrace, VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath)
         }
 
         defaultUEH.uncaughtException(thread, ex)
     }
 
-    private fun putCrashFile(log: String, path: String) {
-        val filename = "$path/last.crash"
-
-        val stream: FileOutputStream
-        try {
-            stream = FileOutputStream(filename)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            return
-        }
-
-        val output = OutputStreamWriter(stream)
-        val bw = BufferedWriter(output)
-
-        try {
-            bw.write(log)
-            bw.newLine()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } finally {
-            Util.close(bw)
-            Util.close(output)
-        }
-    }
 
     private fun writeLog(log: String, name: String) {
         val timestamp = DateFormat.format("yyyyMMdd_kkmmss", System.currentTimeMillis())

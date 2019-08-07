@@ -520,8 +520,8 @@ object FileUtils {
         unzippedFiles
     }
 
-    val BUFFER = 2048
-    fun zip(_files: Array<String>, zipFileName: String) {
+    const val BUFFER = 2048
+    fun zip(files: Array<String>, zipFileName: String) {
         try {
             var origin: BufferedInputStream? = null
             val dest = FileOutputStream(zipFileName)
@@ -529,12 +529,11 @@ object FileUtils {
                     dest))
             val data = ByteArray(BUFFER)
 
-            for (i in _files.indices) {
-                Log.v("Compress", "Adding: " + _files[i])
-                val fi = FileInputStream(_files[i])
+            for (i in files.indices) {
+                val fi = FileInputStream(files[i])
                 origin = BufferedInputStream(fi, BUFFER)
 
-                val entry = ZipEntry(_files[i].substring(_files[i].lastIndexOf("/") + 1))
+                val entry = ZipEntry(files[i].substring(files[i].lastIndexOf("/") + 1))
                 out.putNextEntry(entry)
                 var count = origin.read(data, 0, BUFFER)
 
