@@ -238,7 +238,6 @@
 
     <string name="advanced_prefs_category">Lanjutan</string>
     <string name="clear_media_db">Hapus database media</string>
-    <string name="clear_history">Hapus histori pencarian</string>
     <string name="media_db_cleared">Database media terhapus!</string>
     <string name="set_locale">Pilih bahasa</string>
     <string name="set_locale_detail">Kosongkan untuk menghapus</string>
