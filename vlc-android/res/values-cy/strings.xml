@@ -426,7 +426,6 @@
     <string name="dump_media_db_summary">Copïo cronfa ddata i graidd y storfa mewnol</string>
     <string name="clear_media_db">Clirio\'r gronfa ddata cyfryngau</string>
     <string name="clear_media_db_summary">Mynd at wybodaeth Android VLC i glirio\'r data</string>
-    <string name="clear_history">Clirio\'r hanes chwilio</string>
     <string name="media_db_cleared">Cliriwyd y gronfa ddata cyfryngau!</string>
     <string name="set_locale">Gosod rhanbarth</string>
     <string name="set_locale_detail">Gadael yn wag i\'w ailosod</string>
@@ -479,8 +478,6 @@
     <string name="drawer_close">Cau blwch llywio</string>
     <string name="network_browsing">Rhwydwaith Lleol</string>
     <string name="browsing">Pori</string>
-
-    <string name="file_size">Maint ffeil:</string>
 
     <string name="audio_delay">Oediad sain</string>
     <string name="spu_delay">Oediad isdeitlau</string>
