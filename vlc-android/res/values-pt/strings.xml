@@ -421,7 +421,7 @@
     <string name="dump_media_db_summary">Copiar base de dados para raiz do armazenamento interno</string>
     <string name="clear_media_db">Limpar base de dados de multimédia</string>
     <string name="clear_media_db_summary">Aceda à info do VLC para limpar os dados</string>
-    <string name="clear_history">Limpe o histórico da procura</string>
+    <string name="clear_history">Limpar histórico</string>
     <string name="media_db_cleared">A base de dados multimédia foi limpa!</string>
     <string name="set_locale">Definir idioma</string>
     <string name="set_locale_detail">Deixe em branco para repor</string>
@@ -618,8 +618,8 @@
     <string name="audio_digital_title">Saída de áudio digital (passagem)</string>
     <string name="audio_task_cleared_title">Parar ao deslizar na aplicação </string>
     <string name="audio_task_cleared_summary">Parar reprodução quando a aplicação é interrompida</string>
-    <string name="audio_resume_card_title">Carregar o cartão da última lista de reprodução</string>
-    <string name="audio_resume_card_summary">Mostra um cartão que ajuda a continuar a reprodução do áudio ao iniciar a aplicação</string>
+    <string name="audio_resume_card_title">Mostrar última dica da lista de reprodução</string>
+    <string name="audio_resume_card_summary">Mostra uma dica que ajuda a continuar a reproduzir o último áudio ao iniciar a aplicação</string>
     <string name="playback_rewind">Recuar</string>
     <string name="playback_forward">Avançar rápido</string>
     <string name="ml_wizard_title">Seleção da Mediateca do VLC</string>
@@ -693,4 +693,6 @@
     <string name="appended">Faixa(s) anexada(s)</string>
     <string name="inserted">Faixa(s) inserida(s)</string>
     <string name="remove_current">Remover atual</string>
+    <string name="validation_delete_playlist">Tem a certeza que quer eliminar esta lista de reprodução?</string>
+    <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>
 </resources>
