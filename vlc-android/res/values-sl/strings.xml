@@ -19,6 +19,7 @@
     <string name="sortby_date">datumu</string>
     <string name="sortby_date_desc">datumu (opis)</string>
     <string name="sortby_last_modified_date">Nedavno dodano</string>
+    <string name="sortby_last_modified_date_desc">Nedavno dodano (padajoče)</string>
     <string name="sortby_number">številu posnetkov</string>
     <string name="sortby_number_desc">številu posnetkov (opis)</string>
     <string name="searchable_hint">Poišči …</string>
@@ -48,6 +49,7 @@
     <string name="play_all">Predvajaj vse</string>
     <string name="append_all">Dodaj vse</string>
     <string name="last_playlist">Zadnji seznam predvajanja</string>
+    <string name="last_playlist_shortcut">Nadaljuj predvajanje</string>
     <string name="delete">Izbriši</string>
     <string name="remove">Odstrani</string>
     <string name="set_song">Nastavi kot zvok zvonjenja</string>
@@ -129,6 +131,7 @@
     <string name="validation">Ali ste prepričani?</string>
 
     <string name="cover_art">Ovitek</string>
+    <string name="shuffle_all_title">Premešaj vse</string>
     <string name="shuffle_title">Premešani način</string>
     <string name="shuffle">Premešani način je izključen</string>
     <string name="shuffle_on">Premešani način je vključen</string>
@@ -407,7 +410,6 @@
     <string name="auto_rescan_summary">Ob zagonu programa samodejno preišči mape za novo oziroma odstranjeno predstavno vsebino</string>
     <string name="clear_media_db">Počisti podatkovno zbirko predstavnih vsebin</string>
     <string name="clear_media_db_summary">Možnost brisanja zgodovine je med podrobnostmi VLC</string>
-    <string name="clear_history">Počisti zgodovino iskanja</string>
     <string name="media_db_cleared">Podatkovna zbirka predstavnih vsebin je počiščena!</string>
     <string name="set_locale">Nastavitev jezikovnega področja</string>
     <string name="set_locale_detail">Prazno polje ponastavi na privzete vrednosti</string>
@@ -456,7 +458,7 @@
     <string name="network_browsing">Krajevno omrežje</string>
     <string name="browsing">Brskanje</string>
 
-    <string name="file_size">Velikost datoteke:</string>
+    <string name="file_size">Velikost datoteke</string>
 
     <string name="audio_delay">Zamik zvoka</string>
     <string name="spu_delay">Zamik podnapisov</string>
@@ -470,6 +472,7 @@
     <string name="directory_show_medialib">Prikaži v knjižnici MediaLib</string>
     <string name="directory_hide_medialib">Skrij pred knjižnico MediaLib</string>
     <string name="playlist_save">Shrani seznam predvajanja</string>
+    <string name="playlist_name_hint">ime seznama predvajanja</string>
     <string name="go_to_chapter">Skoči na poglavje …</string>
     <string name="chapter">Poglavje</string>
     <string name="resume_from_position">Nadaljuj pri nazadnje ustavljenem mestu</string>
@@ -606,4 +609,17 @@
     <string name="download_the_selected">Prenesi izbrano</string>
     <string name="next">Naslednji</string>
     <string name="download">Prenesi</string>
+    <string name="ctx_player_audio_track">Zvočni posnetek</string>
+    <string name="video_remote_disable">Podvoji zaslon</string>
+    <string name="welcome_title">Dobrodošli v VLC!</string>
+    <string name="onboarding_theme_title">Počutite se kot doma</string>
+    <string name="done">Končano</string>
+    <string name="light_theme">Svetla tema</string>
+    <string name="add">Dodaj</string>
+    <string name="add_to_new_playlist">Dodaj na nov seznam predvajanja</string>
+    <string name="jump_to">Skoči na</string>
+    <string name="enable_equalizer">Omogoči</string>
+    <string name="preamp">Predokrepitev</string>
+    <string name="presets">Prednastavljeno</string>
+    <string name="reset">Ponastavi</string>
 </resources>
