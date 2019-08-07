@@ -362,7 +362,6 @@
     <string name="auto_rescan_summary">Кушымтаны кабызганда җайланманы яңа яисә бетерелгән медиафайлларга автоматик рәвештә тикшерү</string>
     <string name="clear_media_db">Мета мәгълүмат нигезен чистарту</string>
     <string name="clear_media_db_summary">Android VLC базасыннан мәгълүматларны бетерү</string>
-    <string name="clear_history">Эзләү тарихын чистарту</string>
     <string name="media_db_cleared">Мета мәгълүмат нигезе чистартылды.</string>
     <string name="set_locale">Тел мохите</string>
     <string name="set_locale_detail">Буш юл килешү буенча мәгънәне аңлата</string>
@@ -397,8 +396,6 @@
     <string name="drawer_close">Навигация тартмасын ябу</string>
     <string name="network_browsing">Локаль челтәр</string>
     <string name="browsing">Карау</string>
-
-    <string name="file_size">Файл зурлыгы:</string>
 
     <string name="audio_delay">Аудио соңаруы</string>
     <string name="spu_delay">Субтитрлар соңаруы</string>
