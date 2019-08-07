@@ -399,7 +399,6 @@
     <string name="dump_media_db_summary">Kopiraj bazu podataka na unutrašnju korijensku pohranu</string>
     <string name="clear_media_db">Obriši medijsku bazu podataka</string>
     <string name="clear_media_db_summary">Pristupi Android VLC informacijama za brisanje podataka</string>
-    <string name="clear_history">Obriši povijest pretraživanja</string>
     <string name="media_db_cleared">Baza medijskih podataka je obrisana!</string>
     <string name="set_locale">Postavi lokalizaciju</string>
     <string name="set_locale_detail">Ostavite prazno za zadano sustavom</string>
@@ -434,8 +433,6 @@
     <string name="drawer_close">Zatvori pretinac navigacije</string>
     <string name="network_browsing">Lokalna mreža</string>
     <string name="browsing">Pregledaj</string>
-
-    <string name="file_size">Veličina datoteke:</string>
 
     <string name="audio_delay">Kašnjenje zvuka</string>
     <string name="spu_delay">Kašnjenje podnaslova</string>
