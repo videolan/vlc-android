@@ -407,7 +407,6 @@
     <string name="dump_media_db_summary">Kopiatu datu-basea barne-biltegiko errora</string>
     <string name="clear_media_db">Garbitu multimedia datu-basea</string>
     <string name="clear_media_db_summary">Datuak garbitzeko, atzitu Android VLCren informazioa</string>
-    <string name="clear_history">Garbitu bilaketa-historia</string>
     <string name="media_db_cleared">Multimedia datu-basea garbituta!</string>
     <string name="set_locale">Ezarri hizkuntza</string>
     <string name="set_locale_detail">Utzi zuriz berrezartzeko</string>
@@ -458,8 +457,6 @@
     <string name="drawer_close">Itxi nabigatzeko menu lerrakorra</string>
     <string name="network_browsing">Sare lokala</string>
     <string name="browsing">Arakatzea</string>
-
-    <string name="file_size">Fitxategi-tamaina:</string>
 
     <string name="audio_delay">Audio-atzerapena</string>
     <string name="spu_delay">Azpititulu-atzerapena</string>
