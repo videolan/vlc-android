@@ -421,7 +421,6 @@
     <string name="dump_media_db_summary">Cupià a banca di dati ver di a radica di u magazinu internu</string>
     <string name="clear_media_db">Viutà a banca di dati media</string>
     <string name="clear_media_db_summary">Accede à l’infurmazione d’Android VLC per viutà i dati</string>
-    <string name="clear_history">Viutà a crunulogia di ricerca</string>
     <string name="media_db_cleared">A banca di dati media hè stata viutata !</string>
     <string name="set_locale">Definisce a lingua</string>
     <string name="set_locale_detail">Lascià viotu per rimette à zeru</string>
@@ -618,8 +617,6 @@
     <string name="audio_digital_title">Esciuta audio digitale (traversata)</string>
     <string name="audio_task_cleared_title">Piantà quandu l’appiecazione si sguilla</string>
     <string name="audio_task_cleared_summary">Piantà a ripruduzzione quandu l’appiecazione hè interrotta</string>
-    <string name="audio_resume_card_title">Caricà l’ultima carta di lista di lettura</string>
-    <string name="audio_resume_card_summary">Affissà una carta per aiutavvi a ripiglià a ripruduzzione audio à l’apertura di l’appiecazione</string>
     <string name="playback_rewind">Ritrusà</string>
     <string name="playback_forward">Avanzà in furia</string>
     <string name="ml_wizard_title">Selezzione Mediabibliuteca di VLC</string>
