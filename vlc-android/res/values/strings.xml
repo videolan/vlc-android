@@ -736,4 +736,5 @@
     <string name="send_crash_action_title">What do you want to do?</string>
     <string name="report_a_bug">Report a bug</string>
     <string name="report_a_crash">Report a crash</string>
+    <string name="describe_crash">Please describe how this crash happened</string>
 </resources>
