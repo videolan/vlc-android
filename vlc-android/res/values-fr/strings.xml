@@ -430,8 +430,6 @@
     <string name="network_caching_summary">Durée pour le tampon réseau (en ms). Ne fonctionne pas avec le décodage matériel. Laissez vide pour réinitialiser.</string>
     <string name="resume_playback_title">Reprendre la lecture après un appel</string>
     <string name="resume_playback_summary">Rester en pause dans le cas contraire</string>
-    <string name="audio_show_cards_title">Afficher les cartes son</string>
-    <string name="audio_show_cards_summary">Afficher les artistes, les albums et les listes de lecture dans de plus grandes cartes</string>
     <string name="blurred_cover_background_title">Couverture floutée en arrière-plan</string>
     <string name="blurred_cover_background_summary">Couverture floutée en arrière-plan du lecteur musical</string>
     <string name="network_caching_popup">Cette valeur doit être comprise entre 0 et 6000 ms</string>
@@ -620,8 +618,6 @@
     <string name="audio_digital_title">Sortie audio (passthrough)</string>
     <string name="audio_task_cleared_title">Arrêter lors d\'un balayage de l\'application</string>
     <string name="audio_task_cleared_summary">Arrêter la lecture lorsque l\'application est fermée</string>
-    <string name="audio_resume_card_title">Charger la dernière carte de lecture</string>
-    <string name="audio_resume_card_summary">Affiche une carte aidant à la reprise de lecture audio au démarrage de l\'application</string>
     <string name="playback_rewind">Retour</string>
     <string name="playback_forward">Avance rapide</string>
     <string name="ml_wizard_title">Sélection de la médiathèque de VLC</string>
