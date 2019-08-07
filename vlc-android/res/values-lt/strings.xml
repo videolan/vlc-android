@@ -284,7 +284,6 @@
 
     <string name="advanced_prefs_category">Sudėtingesnės</string>
     <string name="clear_media_db">Išvalyti kūrinių duomenų bazę</string>
-    <string name="clear_history">Išvalyti paieškos istoriją</string>
     <string name="media_db_cleared">Kūrinių duomenų bazė išvalyta!</string>
     <string name="set_locale">Nustatyti kalbą</string>
     <string name="set_locale_detail">Ištrinkite, jei norite naudoti numatytą</string>
@@ -311,8 +310,6 @@
     <string name="sending_log">Siunčiamas žurnalas…</string>
 
     <string name="network_browsing">Vietinis tinklas</string>
-    <string name="file_size">Rinkmenos dydis:</string>
-
     <string name="playlist_save">Įrašyti grojaraštį</string>
     <string name="chapter">Skyrius</string>
     <string name="move">Perkelti</string>
