@@ -252,7 +252,6 @@
     <string name="advanced_prefs_category">កម្រិត​ខ្ពស់</string>
     <string name="auto_rescan">ស្កេនដោយស្វ័យប្រវត្ត</string>
     <string name="clear_media_db">សម្អាត​មូលដ្ឋាន​ទិន្នន័យ​មេឌៀ</string>
-    <string name="clear_history">សម្អាត​ប្រវត្តិ​ស្វែងរក</string>
     <string name="media_db_cleared">បាន​សម្អាត​មូលដ្ឋាន​ទិន្នន័យ!</string>
     <string name="set_locale">កំណត់​មូលដ្ឋាន (locale)</string>
     <string name="set_locale_detail">ទុក​ទំនេរ ដើម្បី​កំណត់​ឡើងវិញ</string>
@@ -277,8 +276,6 @@
     <string name="sending_log">កំពុង​ផ្ញើចូល…</string>
 
     <string name="browsing">រុករក</string>
-
-    <string name="file_size">ខ្នាតឯកសារ</string>
 
     <string name="next">បន្ទាប់</string>
 </resources>
