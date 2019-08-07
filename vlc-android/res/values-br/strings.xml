@@ -367,8 +367,6 @@
 
     <string name="no_result">Disoc\'h ebet kavet</string>
     <string name="no_internet_connection">Gwiriekait ho kennask internet</string>
-    <string name="file_size">Ment ar restr:</string>
-
     <string name="playlist_save">Enrollañ ar roll-lenn</string>
     <string name="go_to_chapter">Mont d\'ar chabistr...</string>
     <string name="chapter">Chabistr</string>
