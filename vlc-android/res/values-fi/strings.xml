@@ -323,7 +323,6 @@
 
     <string name="advanced_prefs_category">Edistykselliset</string>
     <string name="clear_media_db">Tyhjennä mediatietokanta</string>
-    <string name="clear_history">Tyhjennä hakuhistoria</string>
     <string name="media_db_cleared">Mediatietokanta tyhjennetty!</string>
     <string name="set_locale">Aseta kieli</string>
     <string name="set_locale_detail">Jätä tyhjäksi nollataksesi</string>
