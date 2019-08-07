@@ -419,7 +419,6 @@
     <string name="dump_media_db_summary">Kopier databasen til den internet lagringens rotmappe</string>
     <string name="clear_media_db">Tøm mediedatabase</string>
     <string name="clear_media_db_summary">Gå inn i Androids VLC-info for å slette data</string>
-    <string name="clear_history">Tøm søkehistorie</string>
     <string name="media_db_cleared">Mediedatabase tømt!</string>
     <string name="set_locale">Velg lokalitet</string>
     <string name="set_locale_detail">La være tom for å tilbakestille</string>
@@ -474,8 +473,6 @@
     <string name="drawer_close">Lukk navigasjonsskuff</string>
     <string name="network_browsing">Lokalnettverk</string>
     <string name="browsing">Utforsker</string>
-
-    <string name="file_size">Filstørrelse:</string>
 
     <string name="audio_delay">Lydforsinkelse</string>
     <string name="spu_delay">Undertekstsforsinkelse</string>
@@ -616,8 +613,6 @@
     <string name="audio_digital_title">Digital lydutdata (gjennompassering)</string>
     <string name="audio_task_cleared_title">Stopp ved programbytte</string>
     <string name="audio_task_cleared_summary">Stopp avspillingen når programmet avvises</string>
-    <string name="audio_resume_card_title">Last inn siste spillelistekort</string>
-    <string name="audio_resume_card_summary">Vis et kort som hjelper deg gjenoppta lydavspilling når programmet starter</string>
     <string name="playback_rewind">Spol tilbake</string>
     <string name="playback_forward">Spol fram</string>
     <string name="ml_wizard_title">VLC-mediebiblioteksvalg</string>
