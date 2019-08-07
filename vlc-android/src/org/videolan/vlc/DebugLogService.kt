@@ -26,28 +26,17 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Handler
-import android.os.IBinder
-import android.os.Looper
-import android.os.RemoteCallbackList
-import android.os.RemoteException
+import android.os.*
 import android.text.format.DateFormat
-
+import androidx.core.app.NotificationCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Logcat
 import org.videolan.vlc.util.Util
-
-import java.io.BufferedWriter
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStreamWriter
-import java.util.LinkedList
-
-import androidx.core.app.NotificationCompat
+import java.io.*
+import java.util.*
 
 class DebugLogService : Service(), Logcat.Callback, Runnable {
 

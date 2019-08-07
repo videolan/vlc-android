@@ -89,7 +89,7 @@ android {
         unitTests.all {
             testLogging {
                 events "passed", "skipped", "failed", "standardOut", "standardError"
-                outputs.upToDateWhen {false}
+                outputs.upToDateWhen { false }
                 showStandardStreams = true
             }
         }
@@ -107,7 +107,7 @@ android {
             if (project.hasProperty('keyStoreFile')) {
                 storeFile file(project.findProperty('keyStoreFile'))
                 keyAlias project.findProperty('storealias')
-                if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()){
+                if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()) {
                     storePassword = System.getenv('PASSWORD_KEYSTORE')
                     keyPassword = System.getenv('PASSWORD_KEYSTORE')
                 } else {
@@ -124,7 +124,7 @@ android {
             minifyEnabled true
             shrinkResources false
             proguardFile 'proguard.cfg'
-            kotlinOptions.freeCompilerArgs = [ '-Xno-param-assertions']
+            kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
         }
         signedRelease {
             initWith release
@@ -161,7 +161,7 @@ android {
         }
     }
 
-    def abiCodes = ['x86':5, 'x86_64':8, 'armeabi-v7a':4, 'arm64-v8a':7]
+    def abiCodes = ['x86': 5, 'x86_64': 8, 'armeabi-v7a': 4, 'arm64-v8a': 7]
     // make per-variant version code
     applicationVariants.all { variant ->
         //Custom APK name and versionCode
@@ -204,7 +204,7 @@ android {
     }
 }
 
-task generateSources (type: Jar) {
+task generateSources(type: Jar) {
     classifier = 'sources'
     from android.sourceSets.main.java.srcDirs
 }
@@ -215,9 +215,9 @@ task buildTranslationArray {
         foundLocales.append("new String[]{")
 
         fileTree("res").visit { FileVisitDetails details ->
-            println 'details: '+details
-            if(details.file.path.endsWith("strings.xml")){
-                def languageCode = details.file.parentFile.name.replaceAll('values-','').replaceAll('-r','-')
+            println 'details: ' + details
+            if (details.file.path.endsWith("strings.xml")) {
+                def languageCode = details.file.parentFile.name.replaceAll('values-', '').replaceAll('-r', '-')
                 languageCode = (languageCode == "values") ? "en" : languageCode
                 foundLocales.append("\"").append(languageCode).append("\"").append(",")
             }
@@ -225,7 +225,7 @@ task buildTranslationArray {
 
         foundLocales.append("}")
         //Don't forget to remove the trailing comma
-        def foundLocalesString = foundLocales.toString().replaceAll(',}','}')
+        def foundLocalesString = foundLocales.toString().replaceAll(',}', '}')
         android.defaultConfig.buildConfigField "String[]", "TRANSLATION_ARRAY", foundLocalesString
     }
 }
@@ -318,4 +318,3 @@ kapt {
         option("-Xmaxerrs", 500)
     }
 }
-
