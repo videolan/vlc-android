@@ -34,7 +34,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.tv.browser.BaseTvActivity
 import org.videolan.vlc.util.*
 
 
@@ -73,7 +72,6 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             "set_locale" -> {
-                BaseTvActivity.localeSet = false
                 (activity as PreferencesActivity).setRestartApp()
                 UiTools.restartDialog(activity)
             }
