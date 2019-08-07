@@ -421,7 +421,6 @@
     <string name="dump_media_db_summary">Copie baza de date în rădăcina dispozitivului de stocare</string>
     <string name="clear_media_db">Curăță baza de date media</string>
     <string name="clear_media_db_summary">Accesați informațiile VLC Android pentru a șterge datele</string>
-    <string name="clear_history">Curățați istoricul căutărilor</string>
     <string name="media_db_cleared">Baza de date media curățată!</string>
     <string name="set_locale">Stabiliţi localizarea</string>
     <string name="set_locale_detail">Pentru restabilire, lăsaţi necompletat</string>
@@ -475,8 +474,6 @@
     <string name="drawer_close">Inchide sertarul de navigare</string>
     <string name="network_browsing">Rețea locală</string>
     <string name="browsing">Răsfoire</string>
-
-    <string name="file_size">Marime fisier</string>
 
     <string name="audio_delay">Întârziere audio</string>
     <string name="spu_delay">Întârzierea subtitrării</string>
