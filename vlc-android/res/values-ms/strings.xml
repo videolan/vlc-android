@@ -53,6 +53,7 @@
     <string name="set_song_question">Tetapkan \'%1$s\' sebagai nada dering?</string>
     <string name="info">Maklumat</string>
     <string name="confirm_delete">Padam fail \'%1$s\' ?</string>
+    <string name="confirm_delete_several_media">Padam media %1$d ini?</string>
     <string name="confirm_delete_folder">Padam folder \'%1$s\' dan semua kandungannya?</string>
     <string name="confirm_delete_playlist">Padam senarai main \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Buang \'%1$s\' dari senarai main?</string>
@@ -413,7 +414,7 @@
     <string name="dump_media_db_summary">Salin pangkalan data ke dalam root storan dalaman</string>
     <string name="clear_media_db">Kosongkan pangkalan data media</string>
     <string name="clear_media_db_summary">Capai maklumat VLC Android untuk kosongkan data</string>
-    <string name="clear_history">Kosongkan sejarah gelintar</string>
+    <string name="clear_history">Kosongkan sejarah</string>
     <string name="media_db_cleared">Pangkalan data media dikosongkan!</string>
     <string name="set_locale">Tetapkan lokaliti</string>
     <string name="set_locale_detail">Tinggalkan kosong untuk tetap semula</string>
@@ -469,7 +470,7 @@
     <string name="network_browsing">Rangkaian Setempat</string>
     <string name="browsing">Pelayaran</string>
 
-    <string name="file_size">Saiz fail:</string>
+    <string name="file_size">Saiz fail</string>
 
     <string name="audio_delay">Lengah audio</string>
     <string name="spu_delay">Lengah sarikata</string>
@@ -610,8 +611,6 @@
     <string name="audio_digital_title">Output audio digital (passthrough)</string>
     <string name="audio_task_cleared_title">Henti ketika leret aplikasi</string>
     <string name="audio_task_cleared_summary">Henti main balik ketika aplikasi disinggirkan</string>
-    <string name="audio_resume_card_title">Muat kad senarai main terakhir</string>
-    <string name="audio_resume_card_summary">Menunjukkan satu kad yang membantu anda untuk sambung semula main balik audio ketika apl bermula</string>
     <string name="playback_rewind">Mandir</string>
     <string name="playback_forward">Maju pantas</string>
     <string name="ml_wizard_title">Pemilihan Pustaka Media VLC</string>
@@ -677,4 +676,14 @@
     <string name="jump_to">Lompat ke</string>
     <string name="show_video_thumbnails_summary">Tunjuk lakaran kenit video dalam senarai</string>
     <string name="show_video_thumbnails">Lakaran kenit video</string>
+    <string name="eq_snap_bands">Lekap jalur</string>
+    <string name="enable_equalizer">Benarkan</string>
+    <string name="preamp">Praamp</string>
+    <string name="presets">Praset</string>
+    <string name="reset">Tetap Semula</string>
+    <string name="appended">Trek ditambah</string>
+    <string name="inserted">Trek ditambah</string>
+    <string name="remove_current">Buang semasa</string>
+    <string name="validation_delete_playlist">Anda pasti mahu memadam senarai main ini?</string>
+    <string name="validation_delete_playlist_text">Tindakan ini tidak boleh dikembalikan.</string>
 </resources>
