@@ -224,7 +224,6 @@
 
     <string name="advanced_prefs_category">Avanzado</string>
     <string name="clear_media_db">Limpiar base de datos multimedia</string>
-    <string name="clear_history">Limpiar historial de búsqueda</string>
     <string name="media_db_cleared">¡Base de datos multimedia limpiada!</string>
     <string name="set_locale">Establecer idioma</string>
     <string name="set_locale_detail">Dejar en blanco para restablecer</string>
