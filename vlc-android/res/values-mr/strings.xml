@@ -222,7 +222,6 @@
     <string name="advanced_prefs_category">प्रगत</string>
     <string name="auto_rescan_summary">application सुरु झाल्यावर नविन किंवा नष्ट कॆलॆल्या मीडियाचा स्वयंचलीत शॊध घ्या</string>
     <string name="clear_media_db">मीडिया डेटाबेस स्वच्छ करा</string>
-    <string name="clear_history">शोध इतिहास नष्ट करा</string>
     <string name="media_db_cleared">मीडिया डेटाबेस स्वच्छ केला!</string>
     <string name="set_locale">स्थानिकता सेट करा</string>
     <string name="set_locale_detail">रिसेट करण्यासाठी रिकामे सोडा</string>
