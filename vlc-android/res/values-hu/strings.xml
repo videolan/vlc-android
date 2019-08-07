@@ -421,7 +421,7 @@
     <string name="dump_media_db_summary">Adatbázis kiírása a belső memória gyökerébe</string>
     <string name="clear_media_db">Média adatbázis törlése</string>
     <string name="clear_media_db_summary">Android VLC információk elérése az adattörléshez</string>
-    <string name="clear_history">Keresési napló törlése</string>
+    <string name="clear_history">Előzmények törlése</string>
     <string name="media_db_cleared">Média adatbázis törölve!</string>
     <string name="set_locale">Hely beállítása</string>
     <string name="set_locale_detail">Hagyja üresen a visszaállításhoz</string>
@@ -618,8 +618,8 @@
     <string name="audio_digital_title">Digitális hangkimenet (áteresztés)</string>
     <string name="audio_task_cleared_title">Szüneteltetés alkalmazásváltáskor</string>
     <string name="audio_task_cleared_summary">Lejátszás szüneteltetése az alkalmazás eltüntetésekor</string>
-    <string name="audio_resume_card_title">Lejátszólista kártya betöltése</string>
-    <string name="audio_resume_card_summary">Megjelenít egy kártyát, hogy segítsen folytatni a hanglejátszást az alkalmazás indításakor</string>
+    <string name="audio_resume_card_title">Legutóbbi lejátszólista tipp megjelenítése</string>
+    <string name="audio_resume_card_summary">Megjelenít egy tippet, hogy segítsen folytatni a hanglejátszást az alkalmazás indításakor</string>
     <string name="playback_rewind">Visszatekerés</string>
     <string name="playback_forward">Előretekerés</string>
     <string name="ml_wizard_title">VLC médiatár kiválasztása</string>
@@ -693,4 +693,10 @@
     <string name="appended">Szám(ok) hozzáadva</string>
     <string name="inserted">Szám(ok) beszúrva</string>
     <string name="remove_current">Jelenlegi eltávolítása</string>
+    <string name="validation_delete_playlist">Biztos, hogy törli ezt a lejátszólistát?</string>
+    <string name="validation_delete_playlist_text">Ez a művelet nem vonható vissza.</string>
+    <string name="display_in_list">Megjelenítés listában</string>
+    <string name="display_in_grid">Megjelenítés rácsban</string>
+    <string name="dump_db_succes">Adatbázis kiírva a belső tárhely gyökerében</string>
+    <string name="dump_db_failure">Az adatbázis kiírása sikertelen</string>
 </resources>
