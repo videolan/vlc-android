@@ -142,7 +142,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
         binding = DataBindingUtil.setContentView(this, R.layout.send_crash_activity)
 
         binding.reportBugButton.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://forum.videolan.org/viewforum.php?f=35&sid=3601faccf00dd653f9be3f8f9ea897cc")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://forum.videolan.org/viewforum.php?f=35")))
             finish()
         }
         binding.reportCrashButton.setOnClickListener {
@@ -159,7 +159,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
     }
 
     override fun onDestroy() {
-        if (::client.isInitialized) client.release()
+        client.release()
         super.onDestroy()
     }
 
