@@ -115,7 +115,8 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
             emailIntent.putExtra(Intent.EXTRA_STREAM, logcatUri)
             emailIntent.type = "application/zip"
 
-            val body = "<p>Here are my crash logs for VLC</strong></p><p style=3D\"color:#16171A;\"> [Please enter any useful information here]</p><p>$appData</p>"
+            val describeCrash = getString(R.string.describe_crash)
+            val body = "<p>Here are my crash logs for VLC</strong></p><p style=3D\"color:#16171A;\"> [$describeCrash]</p><p>$appData</p>"
             val htmlBody = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(body, HtmlCompat.FROM_HTML_MODE_LEGACY) else Html.fromHtml(body)
 
             emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("vlc.crashreport+androidcrash@gmail.com"))
