@@ -203,7 +203,6 @@
 
     <string name="advanced_prefs_category">Qo‘shimcha</string>
     <string name="clear_media_db">Media ma’lumotlar bazasini tozalash</string>
-    <string name="clear_history">Qidiruv tarixini tozalash</string>
     <string name="media_db_cleared">Media ma’lumotlar bazasi tozalandi!</string>
     <string name="set_locale">Tilni moslash</string>
     <string name="set_locale_detail">Bo‘sh qator birlamchi qiymatni nazarda tutadi</string>
