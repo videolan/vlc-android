@@ -421,7 +421,7 @@
     <string name="dump_media_db_summary">Copiar base de datos a almacenamiento interno root</string>
     <string name="clear_media_db">Limpiar base de datos de medios</string>
     <string name="clear_media_db_summary">Acceder a información de Android VLC para limpiar datos</string>
-    <string name="clear_history">Limpiar historial de búsqueda</string>
+    <string name="clear_history">Limpiar historial</string>
     <string name="media_db_cleared">¡Base de datos de medios limpiada!</string>
     <string name="set_locale">Establecer idioma</string>
     <string name="set_locale_detail">Dejar en blanco para reinicializar</string>
@@ -477,7 +477,7 @@
     <string name="network_browsing">Red local</string>
     <string name="browsing">Explorando</string>
 
-    <string name="file_size">Tamaño de archivo:</string>
+    <string name="file_size">Tamaño de archivo</string>
 
     <string name="audio_delay">Retraso de audio</string>
     <string name="spu_delay">Retraso de subtítulo</string>
@@ -618,8 +618,8 @@
     <string name="audio_digital_title">Salida de audio digital (passthrough)</string>
     <string name="audio_task_cleared_title">Parar al deslizar aplicación</string>
     <string name="audio_task_cleared_summary">Parar reproducción cuando la aplicación es cerrada</string>
-    <string name="audio_resume_card_title">Cargar última tarjeta lista de reproducción</string>
-    <string name="audio_resume_card_summary">Muestra una tarjeta para ayudarle a continuar la reproducción de audio a inicio de la app</string>
+    <string name="audio_resume_card_title">Mostrar mensaje de la última lista de reproducción</string>
+    <string name="audio_resume_card_summary">Muestra un mensaje para ayudarle a continuar la reproducción de audio al inicio de la aplicación</string>
     <string name="playback_rewind">Rebobinar</string>
     <string name="playback_forward">Avance rápido</string>
     <string name="ml_wizard_title">Selección biblioteca de medios VLC</string>
@@ -690,4 +690,13 @@
     <string name="preamp">Preamp</string>
     <string name="presets">Predefiniciones</string>
     <string name="reset">Restaurar</string>
+    <string name="appended">Pista(s) añadidas</string>
+    <string name="inserted">Pista(s) insertadas</string>
+    <string name="remove_current">Eliminar actual</string>
+    <string name="validation_delete_playlist">¿Desea eliminar esta lista de reproducción?</string>
+    <string name="validation_delete_playlist_text">Esta acción no puede ser deshecha.</string>
+    <string name="display_in_list">Mostrar en lista</string>
+    <string name="display_in_grid">Mostrar en rejilla</string>
+    <string name="dump_db_succes">Base de datos volcada en la raíz del almacenamiento interno</string>
+    <string name="dump_db_failure">Fall al volcar base de datos</string>
 </resources>
