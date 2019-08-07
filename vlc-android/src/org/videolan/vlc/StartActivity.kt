@@ -79,16 +79,14 @@ class StartActivity : FragmentActivity() {
         if (AndroidUtil.isNougatOrLater) UiTools.setLocale(this)
 
         try {
-            if (!Settings.showTvUi && AppUtils.isBeta(this) && !Settings.getInstance(this).getBoolean(BETA_WELCOME, false)) {
+            if (!Settings.showTvUi && BuildConfig.BETA && !Settings.getInstance(this).getBoolean(BETA_WELCOME, false)) {
                 val intent = Intent(this, BetaWelcomeActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivityForResult(intent, SEND_CRASH_RESULT)
                 Settings.getInstance(this).edit().putBoolean(BETA_WELCOME, true).apply()
                 return
             }
-        } catch (e: Exception) {
-        }
-
+        } catch (ignored: Exception) {}
         resume()
     }
 
