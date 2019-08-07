@@ -2,13 +2,17 @@ package org.videolan.vlc.gui.view
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import java.util.concurrent.atomic.AtomicBoolean
 
 class FadableImageView : AppCompatImageView {
+    private var animationRunning = AtomicBoolean(false)
+
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -16,9 +20,10 @@ class FadableImageView : AppCompatImageView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     private fun fade() {
+        if (animationRunning.get()) return
         alpha = 0f
-        animate().cancel()
-        animate().alpha(1f)
+        animationRunning.set(true)
+        animate().withEndAction { animationRunning.set(false) }.alpha(1f)
     }
 
     fun resetFade() {
@@ -30,7 +35,7 @@ class FadableImageView : AppCompatImageView {
 
     override fun setBackground(background: Drawable?) {
         super.setBackground(background)
-        if (background != null) fade() else resetFade()
+        if (background == null || background is ColorDrawable) resetFade() else fade()
     }
 
     override fun setBackgroundResource(resid: Int) {
