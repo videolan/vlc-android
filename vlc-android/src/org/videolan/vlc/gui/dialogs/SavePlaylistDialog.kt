@@ -60,7 +60,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var tracks: Array<AbstractMediaWrapper>
     private lateinit var newTrack: Array<AbstractMediaWrapper>
     private lateinit var medialibrary: AbstractMedialibrary
-    private var playlistId: Long = 0
+    private var playlist: AbstractPlaylist? = null
 
     override fun initialFocusedView(): View = listView
 
@@ -124,10 +124,11 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         runIO(Runnable {
             val name = editText!!.text.toString().trim { it <= ' ' }
             val addTracks = !Tools.isArrayEmpty(newTrack)
-            var playlist: AbstractPlaylist? = medialibrary.getPlaylist(playlistId)
+            var playlist: AbstractPlaylist? = if (playlist != null && playlist!!.title == name) medialibrary.getPlaylist(playlist!!.id) else null
             val exists = playlist != null
             val playlistTracks: Array<AbstractMediaWrapper>?
-            if (!exists) playlist = medialibrary.createPlaylist(name)
+            if (!exists) playlist = medialibrary.getPlaylistByName(name)
+            if (playlist == null) playlist = medialibrary.createPlaylist(name)
             if (playlist == null) return@Runnable
             playlistTracks = if (addTracks) {
                 newTrack
@@ -166,7 +167,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
 
     override fun onClick(item: MediaLibraryItem) {
-        playlistId = item.id
+        playlist = item as AbstractPlaylist
         editText!!.setText(item.title)
     }
 
@@ -178,3 +179,5 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         const val KEY_NEW_TRACKS = "PLAYLIST_NEW_TRACKS"
     }
 }
+
+fun AbstractMedialibrary.getPlaylistByName(name: String): AbstractPlaylist? = playlists.filter { it.title == name }.getOrNull(0)
