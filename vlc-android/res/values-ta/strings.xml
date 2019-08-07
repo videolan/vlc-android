@@ -48,6 +48,7 @@
     <string name="delete">அழி</string>
     <string name="remove">நீக்கு</string>
     <string name="set_song">அழைப்போசையாக அமை</string>
+    <string name="set_song_question">\'%1$s\' ஐ ரிங்க்டோனாக உபயோகிக்கலாமா?</string>
     <string name="info">தகவல்</string>
     <string name="confirm_delete">\'%1$s\' கோப்பை அழி?</string>
     <string name="confirm_delete_folder">அடைவு  \'%1$s\' மற்றும் அதன் அனைத்து உள்ளடக்கங்களை நீக்கு?</string>
@@ -322,7 +323,6 @@
     <string name="save_video_none">இயக்க வேகத்தை நினைவிற்கொள்ள வேண்டாம்</string>
     <string name="auto_rescan">தானாக மறுசோதனை</string>
     <string name="clear_media_db">ஊடக தரவுத்தளம் துடை</string>
-    <string name="clear_history">தேடல் வரலாற்றை துடை</string>
     <string name="media_db_cleared">ஊடக தரவுத்தளம் துடைக்கப்பட்டது!</string>
     <string name="set_locale">மொழியை அமை</string>
     <string name="set_locale_detail">மீட்டமைக்க வெற்றாக விடு</string>
@@ -354,8 +354,6 @@
     <string name="drawer_close">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
     <string name="network_browsing">உள் வலையமைப்பு</string>
     <string name="browsing">கண்டெடுக்க</string>
-
-    <string name="file_size">கோப்பின் அளவு</string>
 
     <string name="audio_delay">ஒலி தாமதம்</string>
     <string name="spu_delay">துணை உரை தாமதம்</string>
