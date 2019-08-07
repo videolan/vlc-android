@@ -381,7 +381,6 @@
     <string name="auto_rescan_summary">สแกนอุปกรณ์ว่ามีสื่อใดเพิ่มหรือถูกลบออกไปโดยอัตโนมัติเมื่อเปิดแอปพลิเคชัน</string>
     <string name="clear_media_db">ล้างฐานข้อมูลสื่อ</string>
     <string name="clear_media_db_summary">เข้าถึงข้อมูลของ Android VLC เพื่อล้างข้อมูล</string>
-    <string name="clear_history">ล้างประวัติการค้นหา</string>
     <string name="media_db_cleared">ล้างฐานข้อมูลสื่อเรียบร้อยแล้ว</string>
     <string name="set_locale">ตั้งภาษา</string>
     <string name="set_locale_detail">ปล่อยว่างไว้เพื่อรีเซ็ต</string>
@@ -416,8 +415,6 @@
     <string name="drawer_close">ปิดลิ้นชักการนำทาง</string>
     <string name="network_browsing">เครือข่ายเฉพาะที่</string>
     <string name="browsing">เรียกดู</string>
-
-    <string name="file_size">ขนาดไฟล์:</string>
 
     <string name="audio_delay">หน่วงเวลาเสียง</string>
     <string name="spu_delay">หน่วงเวลาคำบรรยาย</string>
