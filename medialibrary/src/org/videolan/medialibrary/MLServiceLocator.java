@@ -29,8 +29,10 @@ import org.videolan.medialibrary.stubs.StubPlaylist;
 public class MLServiceLocator {
 
     private static LocatorMode sMode = LocatorMode.VLC_ANDROID;
+    private static volatile AbstractMedialibrary instance;
 
     public static void setLocatorMode(LocatorMode mode) {
+        if (instance != null) throw new IllegalStateException("LocatorMode must be set before AbstractMedialibrary initialization");
         MLServiceLocator.sMode = mode;
     }
 
@@ -40,12 +42,11 @@ public class MLServiceLocator {
         TESTS,
     }
 
-    public static AbstractMedialibrary getAbstractMedialibrary() {
-        if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Medialibrary();
-        } else {
-            return new StubMedialibrary();
+    public static synchronized AbstractMedialibrary getAbstractMedialibrary() {
+        if (instance == null) {
+            instance = sMode == LocatorMode.VLC_ANDROID ? new Medialibrary() : new StubMedialibrary();
         }
+        return instance;
     }
 
     // AbstractMediaWrapper
