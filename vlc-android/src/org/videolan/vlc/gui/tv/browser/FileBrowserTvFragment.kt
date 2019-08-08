@@ -53,7 +53,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
     }
 
     override fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter {
-        return FileTvItemAdapter(MediaLibraryItem.TYPE_MEDIA, this, itemSize)
+        return FileTvItemAdapter(getCategory(), this, itemSize)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
