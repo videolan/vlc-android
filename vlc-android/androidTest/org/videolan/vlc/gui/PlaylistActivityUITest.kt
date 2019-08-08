@@ -54,9 +54,12 @@ class PlaylistActivityUITest: BaseUITest() {
     }
 
     @Test
-    fun whenAtTestPlaylist_checkMediaList() {
+    fun whenAtTestPlaylist_checkMediaListAndPlayButton() {
         onView(withId(R.id.songs))
                 .check(matches(sizeOfAtLeast(1)))
+
+        onView(withId(R.id.fab))
+                .check(matches(isDisplayed()))
     }
 
     @Test

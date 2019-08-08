@@ -2,6 +2,7 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.widget.EditText
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.*
@@ -13,7 +14,7 @@ import com.google.android.material.internal.NavigationMenuItemView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.*
-import org.junit.Assert.*
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -40,25 +41,16 @@ class PlaylistFragmentUITest: BaseUITest() {
         activity = activityTestRule.activity
     }
 
-    private fun createDummyPlaylist() {
-        val ml = AbstractMedialibrary.getInstance()
-        val pl = ml.createPlaylist("test")
-        pl.append(ml.getPagedVideos(AbstractMedialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
-        pl.append(ml.getPagedAudio(AbstractMedialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
+    @After
+    fun resetData() {
+        AbstractMedialibrary.getInstance().playlists.map { it.delete() }
     }
 
-    @Test
-    fun whenAtRoot_checkAppbar() {
-        onView(withId(R.id.ml_menu_filter))
-                .check(matches(isDisplayed()))
-        onView(withId(R.id.ml_menu_sortby))
-                .check(matches(isDisplayed()))
-
-        openActionBarOverflowOrOptionsMenu(context)
-
-        onView(withText(R.string.refresh))
-                .inRoot(isPlatformPopup())
-                .check(matches(isDisplayed()))
+    private fun createDummyPlaylist() {
+        val ml = AbstractMedialibrary.getInstance()
+        val pl = ml.createPlaylist(DUMMY_PLAYLIST)
+        pl.append(ml.getPagedVideos(AbstractMedialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
+        pl.append(ml.getPagedAudio(AbstractMedialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
     }
 
     @Test
@@ -109,13 +101,105 @@ class PlaylistFragmentUITest: BaseUITest() {
     @Test
     fun whenOnePlaylist_checkCardDetails() {
         createDummyPlaylist()
-        Thread.sleep(1500)
+        Thread.sleep(2000)
 
         onView(withId(R.id.audio_list))
-                .check(matches(withCount(equalTo(1))))
+                .check(matches(sizeOfAtLeast(1)))
+
+        // Section Header should be T
+//        onView(withId(R.id.section_header))
+//                .check(matches(withText(DUMMY_PLAYLIST[0].toString().toUpperCase())))
 
         val rvMatcher = withRecyclerView(R.id.audio_list)
         onView(rvMatcher.atPositionOnView(0, R.id.title))
-                .check(matches(withText("test")))
+                .check(matches(withText(DUMMY_PLAYLIST)))
+
+        onView(rvMatcher.atPositionOnView(0, R.id.subtitle))
+                .check(matches(withText("1 tracks")))
+    }
+
+    @Test
+    fun whenOnePlaylist_checkContextMenuWorks() {
+        createDummyPlaylist()
+        Thread.sleep(1500)
+
+        onView(withId(R.id.audio_list))
+                .check(matches(sizeOfAtLeast(1)))
+
+        val rvMatcher = withRecyclerView(R.id.audio_list)
+        onView(rvMatcher.atPositionOnView(0, R.id.item_more))
+                .perform(click())
+
+        assertThat(activity.supportFragmentManager.findFragmentByTag("context"), notNullValue())
+
+        onView(withId(R.id.ctx_list))
+                .check(matches(isDisplayed()))
+                .check(matches(sizeOfAtLeast(5)))
+                .check(matches(hasDescendant(withText(R.string.play))))
+                .check(matches(hasDescendant(withText(R.string.append))))
+                .check(matches(hasDescendant(withText(R.string.insert_next))))
+                .check(matches(hasDescendant(withText(R.string.add_to_playlist))))
+                .check(matches(hasDescendant(withText(R.string.delete))))
+    }
+
+    @Test
+    fun whenOnePlaylist_checkLongPressWorks() {
+        createDummyPlaylist()
+        Thread.sleep(1500)
+
+        onView(withId(R.id.audio_list))
+                .check(matches(sizeOfAtLeast(1)))
+
+        val rvMatcher = withRecyclerView(R.id.audio_list)
+        onView(rvMatcher.atPosition(0))
+                .perform(longClick())
+
+        onView(withId(R.id.action_mode_audio_play))
+                .check(matches(isDisplayed()))
+        onView(withId(R.id.action_mode_audio_info))
+                .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenAtRoot_checkAppbarWorks() {
+        onView(withId(R.id.ml_menu_filter))
+                .check(matches(isDisplayed()))
+
+        // Check sort works
+        onView(withId(R.id.ml_menu_sortby))
+                .check(matches(isDisplayed()))
+                .perform(click())
+
+        onView(anyOf(withText(R.string.sortby_name), withId(R.id.ml_menu_sortby_name)))
+                .inRoot(isPlatformPopup())
+                .check(matches(isDisplayed()))
+
+        Espresso.pressBack()
+
+        // Check overflow menu works
+        openActionBarOverflowOrOptionsMenu(context)
+
+        onView(withText(R.string.refresh))
+                .inRoot(isPlatformPopup())
+                .check(matches(isDisplayed()))
+
+        Espresso.pressBack()
+
+        // Check search shows
+        onView(withId(R.id.ml_menu_filter))
+                .perform(click())
+
+        Espresso.pressBack()
+        Espresso.pressBack()
+
+        // Check everything is reset
+        onView(withId(R.id.ml_menu_filter))
+                .check(matches(isDisplayed()))
+        onView(withId(R.id.ml_menu_sortby))
+                .check(matches(isDisplayed()))
+    }
+
+    companion object {
+        val DUMMY_PLAYLIST = "test"
     }
 }
