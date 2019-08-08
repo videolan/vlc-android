@@ -430,8 +430,6 @@
     <string name="network_caching_summary">Milisaniye cinsinden, ağ ortamının ön belleğe alınacağı süre. Donanımsal kod çözme ile birlikte çalışmaz. Sıfırlamak için boş bırakın.</string>
     <string name="resume_playback_title">Çağrı sonrası oynatım sürdürülsün</string>
     <string name="resume_playback_summary">Bunun dışında duraklatılmış olarak kalsın</string>
-    <string name="audio_show_cards_title">Ses kartlarını görüntüle</string>
-    <string name="audio_show_cards_summary">Sanatçı, albüm ve oynatma listesini daha büyük kartlarda görüntüle</string>
     <string name="blurred_cover_background_title">Bulanık kapak arka planı</string>
     <string name="blurred_cover_background_summary">Bu seçenek etkinleştirildiğinde, oynatıcı arka planına albüm kapağının bulanık biçimi yerleştirilir</string>
     <string name="network_caching_popup">Bu değer 0 ile 6000 ms arasında olmalıdır</string>
@@ -697,4 +695,23 @@
     <string name="remove_current">Geçerli ögeyi çıkar</string>
     <string name="validation_delete_playlist">Bu oynatma listesini silmek istediğinize emin misiniz?</string>
     <string name="validation_delete_playlist_text">Bu işlem geri alınamaz.</string>
+    <string name="display_in_list">Liste olarak görüntülensin</string>
+    <string name="display_in_grid">Tablo olarak görüntülensin</string>
+    <string name="dump_db_succes">Veritabanı iç depolama kök klasörüne kopyalandı</string>
+    <string name="dump_db_failure">Veritabanı kopyalanamadı</string>
+    <string name="send_crash_title">VLC çökme bildirici</string>
+    <string name="send_crash_description">Çökme ile ilgili bilgileri göndermeniz VLC uygulamasını geliştirmemize yardımcı olur.</string>
+    <string name="send_crash_warning">Göndermek istemediğiniz önemli bilgileri kaldırdığınızdan emin olun.</string>
+    <string name="dont_ask_again">Bir daha sorma</string>
+    <string name="include_medialib">Veritabanınız katılsın</string>
+    <string name="vlc_reporter">VLC bildirici</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">VLC beta programına hoş geldiniz.\nLütfen bu sürümde bazı sorunlar olabileceğini unutmayın.</string>
+    <string name="welcome_beta_description_bugs">Bir sorun fark ederseniz lütfen forum ya da hata izleyici üzerinden bize bildirin.</string>
+    <string name="welcome_beta_description_crashes">Bir çökme yaşarsanız, lütfen bildirmek için başlatıcınızdaki VLC Bildirici simgesini kullanın.</string>
+    <string name="send">Gönder</string>
+    <string name="send_crash_action_title">Ne yapmak isterseniz?</string>
+    <string name="report_a_bug">Hata bildirmek</string>
+    <string name="report_a_crash">Çökme bildirmek</string>
+    <string name="describe_crash">Lütfen çökmenin nasıl gerçekleştiğini açıklayın</string>
 </resources>
