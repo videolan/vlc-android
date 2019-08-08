@@ -430,8 +430,6 @@
     <string name="network_caching_summary">Tid att buffra media (i ms). Fungerar ej vid hårdvarukodning. Lämna blankt för att nollställa.</string>
     <string name="resume_playback_title">Återuppta uppspelning efter ett samtal</string>
     <string name="resume_playback_summary">Förbli pausad annars</string>
-    <string name="audio_show_cards_title">Visa ljudkort</string>
-    <string name="audio_show_cards_summary">Visa artister, album och spellistor i större kort</string>
     <string name="blurred_cover_background_title">Suddigt omslag som bakgrund</string>
     <string name="blurred_cover_background_summary">Suddigt omslag i ljudspelarens bakgrund</string>
     <string name="network_caching_popup">Detta värde måste vara mellan 0 och 6000 ms</string>
@@ -697,4 +695,23 @@
     <string name="remove_current">Ta bort nuvarande</string>
     <string name="validation_delete_playlist">Är du säker på att du vill radera denna spellista?</string>
     <string name="validation_delete_playlist_text">Denna handling kan inte ångras.</string>
+    <string name="display_in_list">Visa i lista</string>
+    <string name="display_in_grid">Visa i rutnät</string>
+    <string name="dump_db_succes">Databasen sparades på den interna lagringens rotmapp</string>
+    <string name="dump_db_failure">Misslyckades att spara databas</string>
+    <string name="send_crash_title">VLC-kraschrapportör</string>
+    <string name="send_crash_description">Genom att skicka din krasch kommer du att hjälpa oss att förbättra VLC:s stabilitet</string>
+    <string name="send_crash_warning">Säkerställ att du tar bort känslig data som du inte vill skicka</string>
+    <string name="dont_ask_again">Fråga inte igen</string>
+    <string name="include_medialib">Inkludera din databas</string>
+    <string name="vlc_reporter">VLC-rapportör</string>
+    <string name="welcome_beta_title">VLC-beta</string>
+    <string name="welcome_beta_description">Välkommen till VLC:s betaprogarm.\nNotera att denna version kan ha vissa fel.</string>
+    <string name="welcome_beta_description_bugs">Om du upptäcker ett fel, rapportera det i vårt forum eller felhanteringssystem.</string>
+    <string name="welcome_beta_description_crashes">Om du råkar ut för en krasch, använd ikonen VLC-Rapportör i din startare för att skicka den till oss.</string>
+    <string name="send">Skicka</string>
+    <string name="send_crash_action_title">Vad vill du göra?</string>
+    <string name="report_a_bug">Rapportera ett fel</string>
+    <string name="report_a_crash">Rapportera en krasch</string>
+    <string name="describe_crash">Beskriv hur denna krasch inträffade</string>
 </resources>
