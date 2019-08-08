@@ -444,8 +444,6 @@
     <string name="network_caching_summary">Кількість часу для буферизації мережного медіа (у мс). Не працює з апаратним декодуванням. Залиште порожнім, аби очистити.</string>
     <string name="resume_playback_title">Відновити відтворення після дзвінка</string>
     <string name="resume_playback_summary">Інакше поставити на паузу</string>
-    <string name="audio_show_cards_title">Показати аудіо картки</string>
-    <string name="audio_show_cards_summary">Показувати виконавців, альбоми та списки відтворення у більших картках</string>
     <string name="blurred_cover_background_title">Тло з розмитою обкладинкою</string>
     <string name="blurred_cover_background_summary">Розмита обкладинка на тлі аудіопрогравача</string>
     <string name="network_caching_popup">Це значення повинно бути між 0 та 6000 мс</string>
@@ -711,4 +709,23 @@
     <string name="remove_current">Вилучити поточне</string>
     <string name="validation_delete_playlist">Ви справді хочете вилучити цей список відтворення?</string>
     <string name="validation_delete_playlist_text">Цю дію не можна скасувати.</string>
+    <string name="display_in_list">Показувати списком</string>
+    <string name="display_in_grid">Показувати сіткою</string>
+    <string name="dump_db_succes">База даних викинута на корінь внутрішнього носія</string>
+    <string name="dump_db_failure">Не вдалося викинути базу даних</string>
+    <string name="send_crash_title">Складач звітів про збій VLC</string>
+    <string name="send_crash_description">Надсиланням свого звіту ви допоможете нам покращити стабільність VLC.</string>
+    <string name="send_crash_warning">Не забудьте видалити будь-які конфіденційні дані, які ви не хочете надсилати.</string>
+    <string name="dont_ask_again">Не запитувати знову</string>
+    <string name="include_medialib">Долучити вашу базу даних</string>
+    <string name="vlc_reporter">Складач звітів VLC</string>
+    <string name="welcome_beta_title">VLC бета</string>
+    <string name="welcome_beta_description">Вітаємо у програмі VLC бета.\nБудь ласка, зауважте, що ця версія може містити хиби.</string>
+    <string name="welcome_beta_description_bugs">Якщо ви зауважили якусь хибу, будь ласка, повідомте про неї на нашому форумі чи відстежувачі хиб.</string>
+    <string name="welcome_beta_description_crashes">Якщо у вас стався збій, будь ласка, використовуйте піктограму VLC Reporter у своєму пускачі, щоб надіслати звіт нам.</string>
+    <string name="send">Надіслати</string>
+    <string name="send_crash_action_title">Що ви хочете робити?</string>
+    <string name="report_a_bug">Повідомити про хибу</string>
+    <string name="report_a_crash">Повідомити про збій</string>
+    <string name="describe_crash">Будь ласка, опишіть як трапився цей збій</string>
 </resources>
