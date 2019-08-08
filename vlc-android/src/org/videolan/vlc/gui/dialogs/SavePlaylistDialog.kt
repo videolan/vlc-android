@@ -36,18 +36,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.SimpleAdapter
-import org.videolan.vlc.util.runIO
 import java.util.*
 
-class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener, TextView.OnEditorActionListener, SimpleAdapter.ClickHandler {
+class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
+        TextView.OnEditorActionListener, SimpleAdapter.ClickHandler,
+        CoroutineScope by MainScope() {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
     override fun needToManageOrientation(): Boolean = false
@@ -60,7 +62,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var tracks: Array<AbstractMediaWrapper>
     private lateinit var newTrack: Array<AbstractMediaWrapper>
     private lateinit var medialibrary: AbstractMedialibrary
-    private var playlist: AbstractPlaylist? = null
+    private var currentPLaylist: AbstractPlaylist? = null
 
     override fun initialFocusedView(): View = listView
 
@@ -115,21 +117,20 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 
     override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
-        if (actionId == EditorInfo.IME_ACTION_SEND)
-            savePlaylist()
+        if (actionId == EditorInfo.IME_ACTION_SEND) savePlaylist()
         return false
     }
 
-    private fun savePlaylist() {
-        runIO(Runnable {
-            val name = editText!!.text.toString().trim { it <= ' ' }
+    private fun savePlaylist() = launch{
+        withContext(Dispatchers.IO) {
+            val name = editText?.text?.toString()?.trim { it <= ' ' } ?: return@withContext
             val addTracks = !Tools.isArrayEmpty(newTrack)
-            var playlist: AbstractPlaylist? = if (playlist != null && playlist!!.title == name) medialibrary.getPlaylist(playlist!!.id) else null
-            val exists = playlist != null
+            var playlist = if (currentPLaylist?.title == name) {
+                medialibrary.getPlaylist(currentPLaylist!!.id)
+            } else {
+                medialibrary.getPlaylistByName(name) ?: medialibrary.createPlaylist(name) ?: return@withContext
+            }
             val playlistTracks: Array<AbstractMediaWrapper>?
-            if (!exists) playlist = medialibrary.getPlaylistByName(name)
-            if (playlist == null) playlist = medialibrary.createPlaylist(name)
-            if (playlist == null) return@Runnable
             playlistTracks = if (addTracks) {
                 newTrack
             } else {//Save a playlist
@@ -138,7 +139,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 }
                 tracks
             }
-            if (playlistTracks.isEmpty()) return@Runnable
+            if (playlistTracks.isEmpty()) return@withContext
             val ids = LinkedList<Long>()
             for (mw in playlistTracks) {
                 val id = mw.id
@@ -161,14 +162,14 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
             }
 
             playlist.append(ids)
-        })
-        dismiss()
+        }
+        if (activity?.isStarted() == true)dismiss()
     }
 
 
     override fun onClick(item: MediaLibraryItem) {
-        playlist = item as AbstractPlaylist
-        editText!!.setText(item.title)
+        currentPLaylist = item as AbstractPlaylist
+        editText?.setText(item.title)
     }
 
     companion object {

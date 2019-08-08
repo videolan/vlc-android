@@ -50,7 +50,8 @@ import videolan.org.commontools.TV_CHANNEL_PATH_VIDEO
 import videolan.org.commontools.TV_CHANNEL_QUERY_VIDEO_ID
 import videolan.org.commontools.TV_CHANNEL_SCHEME
 
-const val SEND_CRASH_RESULT = 0
+private const val SEND_CRASH_RESULT = 0
+private const val TAG = "VLC/StartActivity"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class StartActivity : FragmentActivity() {
@@ -94,8 +95,8 @@ class StartActivity : FragmentActivity() {
         val intent = intent
         val action = intent?.action
 
-        if ((Intent.ACTION_VIEW == action || "org.chromium.arc.intent.action.VIEW" == action) && intent.data != null
-                && TV_CHANNEL_SCHEME != intent.data!!.scheme) {
+        if ((Intent.ACTION_VIEW == action || "org.chromium.arc.intent.action.VIEW" == action)
+                && TV_CHANNEL_SCHEME != intent.data?.scheme) {
             startPlaybackFromApp(intent)
             return
         } else if (Intent.ACTION_SEND == action) {
@@ -183,7 +184,7 @@ class StartActivity : FragmentActivity() {
             if (target != 0) intent.putExtra(EXTRA_TARGET, target)
             startActivity(intent)
         } else {
-            this@StartActivity.startOnboarding()
+            startOnboarding()
         }
     }
 
@@ -198,9 +199,5 @@ class StartActivity : FragmentActivity() {
     private fun showTvUi(): Boolean {
         return AndroidDevices.isAndroidTv || !AndroidDevices.isChromeBook && !AndroidDevices.hasTsp ||
                 Settings.getInstance(this).getBoolean("tv_ui", false)
-    }
-
-    companion object {
-        const val TAG = "VLC/StartActivity"
     }
 }
