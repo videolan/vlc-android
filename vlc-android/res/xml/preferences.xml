@@ -9,7 +9,7 @@
                 android:summary="@string/directories_summary"
                 android:title="@string/medialibrary_directories"/>
 
-        <androidx.preference.SwitchPreferenceCompat
+        <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="true"
                 android:key="auto_rescan"
@@ -41,7 +41,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/history">
-        <androidx.preference.SwitchPreferenceCompat
+        <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="true"
                 android:key="playback_history"

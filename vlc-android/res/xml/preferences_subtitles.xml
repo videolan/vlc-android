@@ -5,7 +5,7 @@
                                       android:key="subtitles_category"
                                       android:title="@string/subtitles_prefs_category">
 
-    <androidx.preference.SwitchPreferenceCompat
+    <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="true"
             android:key="subtitles_autoload"
@@ -24,12 +24,12 @@
             android:key="subtitles_color"
             android:persistent="true"
             android:title="@string/subtitles_color_title"/>
-    <androidx.preference.SwitchPreferenceCompat
+    <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="false"
             android:key="subtitles_background"
             android:title="@string/subtitles_background_title"/>
-    <androidx.preference.SwitchPreferenceCompat
+    <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="false"
             android:key="subtitles_bold"
