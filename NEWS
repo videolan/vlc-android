@@ -1,3 +1,26 @@
+Changes between 3.2.0-beta-02 and 3.2.0-beta-03:
+------------------
+
+Application:
+ * Add a crash send dialog for betas
+ * Improve display during lists scrolling
+ * Fix crash on seek in video player during Chromecasting
+ * Menu option to switch between list and grid for artists and albums
+ * Fix subtitles picker
+ * Fix languages change not effective
+ * Tons of UI improvements
+ * Browsers performance improvements
+ * Misc. crash fixes
+
+TV:
+ * Fix headers display in browsing
+ * Load relevant item icons in browsers
+ * Display network protocol and network icon
+
+VLC:
+ * Fix UPnP discovery crash
+ * Improve SMBv2 anonymous login support
+
 Changes between 3.2.0-beta-01 and 3.2.0-beta-02:
 ------------------
 
