@@ -35,7 +35,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
@@ -43,7 +42,6 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.rescan
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.KEY_FOLDER
 import org.videolan.vlc.util.RESULT_RESCAN
@@ -107,7 +105,7 @@ class SecondaryActivity : ContentActivity() {
         when (item.itemId) {
             R.id.ml_menu_refresh -> {
                 val ml = AbstractMedialibrary.getInstance()
-                if (!ml.isWorking) this.rescan()
+                if (!ml.isWorking) reloadLibrary()
                 return true
             }
         }

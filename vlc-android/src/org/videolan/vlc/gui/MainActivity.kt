@@ -36,7 +36,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.vlc.*
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
+import org.videolan.vlc.StartActivity
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
@@ -49,6 +51,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
 
 private const val TAG = "VLC/MainActivity"
@@ -201,7 +204,7 @@ class MainActivity : ContentActivity(),
             if (current != null && current is IRefreshable)
                 (current as IRefreshable).refresh()
             else
-                this.rescan()
+                reloadLibrary()
         }
     }
 
