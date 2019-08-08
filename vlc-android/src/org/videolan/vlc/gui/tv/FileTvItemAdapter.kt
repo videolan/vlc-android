@@ -24,10 +24,11 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.UPDATE_PAYLOAD
 import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var itemSize: Int) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(private val type: Int, private val eventsHandler: IEventsHandler, var itemSize: Int) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
         if (pagedList is List<*>) {
@@ -92,6 +93,10 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
 
             override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int) = arrayListOf(UPDATE_PAYLOAD)
         }
+    }
+
+    private fun getProtocol(media: AbstractMediaWrapper): String? {
+        return if (media.type != AbstractMediaWrapper.TYPE_DIR) null else media.uri.scheme
     }
 
     inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
@@ -165,6 +170,7 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
             binding.isSquare = isSquare
             binding.seen = seen
             binding.description = description
+            if (type == TYPE_NETWORK && item is AbstractMediaWrapper) binding.protocol = getProtocol(item)
             val cover = if (item is AbstractMediaWrapper) getMediaIconDrawable(binding.root.context, item.type, true) else defaultCover
             cover?.let { binding.cover = it }
             if (seen == 0L) binding.mlItemSeen.visibility = View.GONE

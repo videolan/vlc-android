@@ -46,6 +46,10 @@
             type="Boolean" />
 
         <variable
+                name="protocol"
+                type="String"/>
+
+        <variable
                 name="scaleType"
                 type="android.widget.ImageView.ScaleType"/>
 
@@ -98,6 +102,24 @@
                 vlc:layout_constraintRight_toRightOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"/>
 
+
+        <TextView
+                android:id="@+id/dvi_icon_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@{protocol}"
+                android:textColor="@color/whitetransparent"
+                android:background="@drawable/rounded_corners"
+                android:padding="4dp"
+                android:visibility="@{ TextUtils.isEmpty(protocol) ? View.GONE : View.VISIBLE, default=gone}"
+                vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
+                android:layout_marginBottom="8dp"
+                tools:visibility="visible"
+                tools:text="smb"
+                vlc:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"/>
 
         <TextView
                 android:id="@+id/badgeTV"
