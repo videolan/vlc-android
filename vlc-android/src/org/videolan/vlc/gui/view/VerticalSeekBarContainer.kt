@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import kotlin.math.max
 
 class VerticalSeekBarContainer @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
 
@@ -22,8 +23,8 @@ class VerticalSeekBarContainer @JvmOverloads constructor(context: Context, attrs
             val hPadding = paddingLeft + paddingRight
             val vPadding = paddingTop + paddingBottom
             seekBar.measure(
-                    MeasureSpec.makeMeasureSpec(Math.max(0, h - vPadding), MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(Math.max(0, w - hPadding), MeasureSpec.AT_MOST))
+                    MeasureSpec.makeMeasureSpec(max(0, h - vPadding), MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(max(0, w - hPadding), MeasureSpec.AT_MOST))
         }
 
         applyViewRotation(w, h)
@@ -66,10 +67,10 @@ class VerticalSeekBarContainer @JvmOverloads constructor(context: Context, attrs
             val seekBarMeasuredHeight = seekBar.measuredHeight
             val hPadding = paddingLeft + paddingRight
             val vPadding = paddingTop + paddingBottom
-            val hOffset = (Math.max(0, w - hPadding) - seekBarMeasuredHeight) / 2f
+            val hOffset = (max(0, w - hPadding) - seekBarMeasuredHeight) / 2f
             val lp = seekBar.layoutParams
 
-            lp.width = Math.max(0, h - vPadding)
+            lp.width = max(0, h - vPadding)
             lp.height = ViewGroup.LayoutParams.WRAP_CONTENT
 
             seekBar.layoutParams = lp

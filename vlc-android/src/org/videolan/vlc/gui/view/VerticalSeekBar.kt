@@ -6,18 +6,32 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatSeekBar
+import androidx.core.content.ContextCompat
+import org.videolan.vlc.R
 
 class VerticalSeekBar : AppCompatSeekBar {
     private var listener: OnSeekBarChangeListener? = null
     var fromUser = false
 
+    constructor(context: Context) : super(context) {
+        initialize()
+    }
 
-    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        initialize()
+    }
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
+        initialize()
+    }
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
+    private fun initialize() {
 
+        //The custom drawable looks not great for kitkat. So we use the default one to mitigate the issue
+        if (Build.VERSION.SDK_INT >= 21) {
+            progressDrawable = ContextCompat.getDrawable(context, R.drawable.po_seekbar)
+        }
+    }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
