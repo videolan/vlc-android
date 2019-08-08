@@ -417,7 +417,7 @@
     <string name="save_video_always">Snelheid opslaan over sessies heen</string>
     <string name="auto_rescan">Automatisch opnieuw scannen</string>
     <string name="auto_rescan_summary">Apparaat automatisch scannen op nieuwe of verwijderde media bij het starten van de toepassing</string>
-    <string name="dump_media_db">Media-database dumpen</string>
+    <string name="dump_media_db">Media-database wegschrijven</string>
     <string name="dump_media_db_summary">Database naar interne opslagboom kopiëren</string>
     <string name="clear_media_db">Media-database wissen</string>
     <string name="clear_media_db_summary">Ga naar Android VLC-info om data te wissen</string>
@@ -430,8 +430,6 @@
     <string name="network_caching_summary">De hoeveelheid tijd om netwerkmedia te  bufferen (in ms). Werkt niet met hardware-decoderen. Leeg laten om te herstellen.</string>
     <string name="resume_playback_title">Afspelen hervatten na een oproep</string>
     <string name="resume_playback_summary">Anders blijven pauzeren</string>
-    <string name="audio_show_cards_title">Audiokaarten weergeven</string>
-    <string name="audio_show_cards_summary">Artiesten, albums en afspeellijsten op grotere kaarten weergeven</string>
     <string name="blurred_cover_background_title">Wazige albumhoes-achtergrond</string>
     <string name="blurred_cover_background_summary">Wazige albumhoes in audiospeler-achtergrond</string>
     <string name="network_caching_popup">Deze waarde moet tussen 0 en 6000 ms zijn</string>
@@ -453,9 +451,9 @@
     <string name="log_service_text">Log-console openen</string>
     <string name="copy_to_clipboard">Naar klembord kopiëren</string>
     <string name="copied_to_clipboard">Log naar klembord gekopieerd.</string>
-    <string name="dump_logcat">Logcat-log dumpen</string>
-    <string name="dump_logcat_success">Logcat succesvol gedumpt naar %1$s!</string>
-    <string name="dump_logcat_failure">Logcat dumpen mislukt.</string>
+    <string name="dump_logcat">Logcat-log wegschrijven</string>
+    <string name="dump_logcat_success">Logcat succesvol weggeschreven naar %1$s!</string>
+    <string name="dump_logcat_failure">Logcat wegschrijven mislukt.</string>
     <string name="custom_libvlc_options">Aangepaste libVLC-opties</string>
 
     <string name="serious_crash">Er trad spijtig genoeg een ernstige fout op en VLC moest afsluiten.</string>
@@ -697,4 +695,23 @@
     <string name="remove_current">Huidige verwijderen</string>
     <string name="validation_delete_playlist">Weer u zeker dat u deze afspeellijst wilt verwijderen?</string>
     <string name="validation_delete_playlist_text">Deze handeling kan niet ongedaan worden gemaakt.</string>
+    <string name="display_in_list">Weergeven in lijst</string>
+    <string name="display_in_grid">Weergeven in raster</string>
+    <string name="dump_db_succes">Database naar hoofdmap van interne opslag weggeschreven</string>
+    <string name="dump_db_failure">Wegschrijven van database mislukt</string>
+    <string name="send_crash_title">VLC crash-reporter</string>
+    <string name="send_crash_description">Door uw crash te versturen, helpt u ons de stabiliteit van VLC te verbeteren.</string>
+    <string name="send_crash_warning">Verzeker u ervan dat u gevoelige data verwijdert die u niet wilt versturen.</string>
+    <string name="dont_ask_again">Niet meer vragen</string>
+    <string name="include_medialib">Uw database insluiten</string>
+    <string name="vlc_reporter">VLC-reporter</string>
+    <string name="welcome_beta_title">VLC bèta</string>
+    <string name="welcome_beta_description">Welkom bij het VLC bèta-programma.\nMerk op dat deze versie bugs kan bevatten.</string>
+    <string name="welcome_beta_description_bugs">Als u een bug opmerkt, rapporteer hem op ons forum of onze bug-tracker.</string>
+    <string name="welcome_beta_description_crashes">Als u een crash ervaart, gebruik dan het VLC-reporter-pictogram in uw launcher om hem naar ons te versturen.</string>
+    <string name="send">Versturen</string>
+    <string name="send_crash_action_title">Wat wilt u doen?</string>
+    <string name="report_a_bug">Een bug rapporteren</string>
+    <string name="report_a_crash">Een crash rapporteren</string>
+    <string name="describe_crash">Beschrijf hoe deze crash gebeurde</string>
 </resources>
