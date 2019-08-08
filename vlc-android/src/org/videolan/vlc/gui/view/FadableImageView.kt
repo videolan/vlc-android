@@ -11,7 +11,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import java.util.concurrent.atomic.AtomicBoolean
 
 class FadableImageView : AppCompatImageView {
-    private var animationRunning = AtomicBoolean(false)
+    //FIXME This field is sometimes null, despite a correct initialization order
+    // and non-nullable declaration
+    private var animationRunning : AtomicBoolean? = AtomicBoolean(false)
 
     constructor(context: Context) : super(context)
 
@@ -20,10 +22,10 @@ class FadableImageView : AppCompatImageView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     private fun fade() {
-        if (animationRunning.get()) return
+        if (animationRunning?.get() == true) return
         alpha = 0f
-        animationRunning.set(true)
-        animate().withEndAction { animationRunning.set(false) }.alpha(1f)
+        animationRunning?.set(true)
+        animate().withEndAction { animationRunning?.set(false) }.alpha(1f)
     }
 
     fun resetFade() {
