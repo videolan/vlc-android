@@ -430,8 +430,6 @@
     <string name="network_caching_summary">Der Zeitwert, um das Netzwerkmedium zu puffern (in ms). Funktioniert nicht in Verbindung mit Hardware-Dekodierung. Zum Zurückzusetzen leer lassen.</string>
     <string name="resume_playback_title">Wiedergabe nach Anruf fortsetzen</string>
     <string name="resume_playback_summary">Andernfalls im Pausieren verbleiben</string>
-    <string name="audio_show_cards_title">Audio-Karten anzeigen</string>
-    <string name="audio_show_cards_summary">Zeigt Künstler, Alben und Wiedergabelisten auf größeren Karten an</string>
     <string name="blurred_cover_background_title">Unscharfes Hintergrundbild</string>
     <string name="blurred_cover_background_summary">Unscharfes Hintergrundbild für den Audio-Player</string>
     <string name="network_caching_popup">Der Wert muss zwischen 0 und 6000 ms liegen</string>
@@ -546,7 +544,7 @@
     <string name="opengl_off">Aus erzwingen</string>
     <string name="network_favorites">Netzwerkfavoriten</string>
     <string name="network_shared_folders">Geteilte Ordner</string>
-    <string name="encryption_warning">Warnung, Verschlüsselung ist in dieser Android-Version nicht verfügbar. Passwörter werden im privaten Bereich gespeichert, aber unverschlüsselt</string>
+    <string name="encryption_warning">Achtung, für diese Android-Version ist keine Verschlüsselung verfügbar. Das Passwort wird an einem privaten Ort gespeichert, aber nicht verschlüsselt</string>
     <string name="store_password">Passwort merken</string>
     <string name="add_to_playlist">Zur Wiedergabeliste hinzufügen</string>
     <string name="popup_playback_title">Video im Pop-Up-Fenster abspielen</string>
@@ -596,11 +594,11 @@
     <string name="new_custom_set_save_message">Neue Equalizer-Einstellung speichern als…</string>
     <string name="save">Speichern</string>
     <string name="do_not_save">Nicht speichern</string>
-    <string name="custom_set_deleted_message">Eigene Equalizer-Einstellung \"%1$s\" gelöscht.</string>
-    <string name="custom_set_wrong_input">Ungültiger Name.</string>
-    <string name="custom_set_already_exist">Equalizer-Einstellung mit diesem Namen existiert bereits.</string>
-    <string name="custom_set_restored">Eigene Equalizer-Einstellung wiederhergestellt.</string>
-    <string name="unsaved_set_deleted_message">Nicht gespeicherte Equalizer-Einstellung gelöscht.</string>
+    <string name="custom_set_deleted_message">Eigene Equalizer-Einstellung \"%1$s\" gelöscht</string>
+    <string name="custom_set_wrong_input">Ungültiger Name</string>
+    <string name="custom_set_already_exist">Equalizer-Einstellung mit diesem Namen existiert bereits</string>
+    <string name="custom_set_restored">Eigene Equalizer-Einstellung wiederhergestellt</string>
+    <string name="unsaved_set_deleted_message">Ungespeicherte Equalizer-Einstellung gelöscht</string>
     <string name="equalizer_new_preset_name">Neu</string>
     <string name="settings_ml_block_scan">Die Medienbibliothek durchsucht gerade Ihre Geräte</string>
     <string name="recommendations">Empfehlungen</string>
@@ -621,7 +619,7 @@
     <string name="audio_task_cleared_title">Wiedergabe stoppen beim Beenden</string>
     <string name="audio_task_cleared_summary">Wiedergabe wird gestoppt, wenn VLC aus der Liste der letzten Anwendungen entfernt wurde</string>
     <string name="audio_resume_card_title">Letzte Wiedergabe-Hinweis anzeigen</string>
-    <string name="audio_resume_card_summary">Zeigt einen Hinweis, mit dem Sie die Audiowiedergabe beim Start der App fortsetzen können</string>
+    <string name="audio_resume_card_summary">Zeigt einen Hinweis, mit dem Sie die zuletzt gespielte Audio-Wiedergabeliste oder den zuletzt gespielten Titel beim Start der App fortsetzen können</string>
     <string name="playback_rewind">Zurückspulen </string>
     <string name="playback_forward">Schnell vorspulen</string>
     <string name="ml_wizard_title">Auswahl der VLC-Medienbibliothek</string>
@@ -697,4 +695,23 @@
     <string name="remove_current">Aktuelles entfernen</string>
     <string name="validation_delete_playlist">Diese Wiedergabeliste wirklich löschen?</string>
     <string name="validation_delete_playlist_text">Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="display_in_list">Als Liste anzeigen</string>
+    <string name="display_in_grid">Als Gitter anzeigen</string>
+    <string name="dump_db_succes">Die Datenbank wurde im internen Speicherstammordner abgelegt</string>
+    <string name="dump_db_failure">Datenbank konnte nicht gesichert werden</string>
+    <string name="send_crash_title">VLC-Absturzbericht senden</string>
+    <string name="send_crash_description">Indem Sie Ihren Absturz senden, helfen Sie uns, die VLC-Stabilität zu verbessern.</string>
+    <string name="send_crash_warning">Stellen Sie sicher, dass Sie alle sensiblen Daten entfernen, die Sie nicht senden möchten.</string>
+    <string name="dont_ask_again">Nicht noch einmal fragen</string>
+    <string name="include_medialib">Ihre Datenbank mit einbinden</string>
+    <string name="vlc_reporter">VLC-Reporter</string>
+    <string name="welcome_beta_title">VLC-Beta</string>
+    <string name="welcome_beta_description">Willkommen im VLC-Beta PRogramm.\nBitte beachten, dass diese Version einige Fehler haben kann.</string>
+    <string name="welcome_beta_description_bugs">Wenn Sie einen Fehler bemerken, melden Sie ihn bitte in unserem Forum oder im Bug-Tracker.</string>
+    <string name="welcome_beta_description_crashes">Wenn ein Absturz auftritt, senden Sie ihn über das VLC Reporter-Symbol in Ihrem Launcher an uns.</string>
+    <string name="send">Senden</string>
+    <string name="send_crash_action_title">Was möchten Sie tun?</string>
+    <string name="report_a_bug">Einen Fehler melden</string>
+    <string name="report_a_crash">Einen Absturz melden</string>
+    <string name="describe_crash">Bitte beschreiben Sie, wie dieser Absturz passiert ist</string>
 </resources>
