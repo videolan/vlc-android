@@ -430,8 +430,6 @@
     <string name="network_caching_summary">A quantidade de tempo para armazenar em memória (em ms). Não funciona com decodificação por hardware. Deixe vazio para restaurar a configuração.</string>
     <string name="resume_playback_title">Retomar a reprodução após uma chamada</string>
     <string name="resume_playback_summary">Caso contrário permanecer em pausa</string>
-    <string name="audio_show_cards_title">Exibir placas de áudio</string>
-    <string name="audio_show_cards_summary">Exibe artistas, álbuns e listas de reprodução em placas maiores</string>
     <string name="blurred_cover_background_title">Capa borrada no segundo plano</string>
     <string name="blurred_cover_background_summary">Capa borrada no segundo plano do reprodutor de áudio</string>
     <string name="network_caching_popup">Este valor deve estar entr 0 e 6000 ms</string>
@@ -697,4 +695,23 @@
     <string name="remove_current">Excluir atual</string>
     <string name="validation_delete_playlist">Tem certeza que deseja excluir esta lista de reprodução?</string>
     <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>
+    <string name="display_in_list">Exibir em lista</string>
+    <string name="display_in_grid">Exibir em grade</string>
+    <string name="dump_db_succes">Banco de dados descarregado na raiz do armazenamento interno</string>
+    <string name="dump_db_failure">Falha ao descarregar o banco de dados</string>
+    <string name="send_crash_title">Relato de falhas do VLC</string>
+    <string name="send_crash_description">Enviar as informações de falha ajuda a melhorar a estabilidade do VLC.</string>
+    <string name="send_crash_warning">Assegure-se de remover dados sigilosos que nao quer enviar.</string>
+    <string name="dont_ask_again">Não me perguntar novamente</string>
+    <string name="include_medialib">Inclua seu banco de dados</string>
+    <string name="vlc_reporter">Relato de falhas do VLC</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Bem vindo ao programa de testes do VLC.\nPor favor considere que essa versão pode conter problemas.</string>
+    <string name="welcome_beta_description_bugs">Se perceber um defeito, por favor relate-o em nosso fórum ou no cadastro de defeitos.</string>
+    <string name="welcome_beta_description_crashes">Se encontrou um problema, por favor use o ícone de Relato do VLC no seu menu de execução para nos enviar.</string>
+    <string name="send">Enviar</string>
+    <string name="send_crash_action_title">Que deseja fazer?</string>
+    <string name="report_a_bug">Relatar um problema</string>
+    <string name="report_a_crash">Relatar um problema</string>
+    <string name="describe_crash">Por favor descreva como o problema ocorreu</string>
 </resources>
