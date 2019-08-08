@@ -105,7 +105,7 @@ class PreferencesExtensionFragment : BasePreferenceFragment() {
             return false
 
         if (key == extensionKey) {
-            val switchPreference = preference as SwitchPreferenceCompat
+            val switchPreference = preference as CheckBoxPreference
             settings!!.edit().putBoolean(key, switchPreference.isChecked).apply()
             if (switchPreference.isChecked) {
                 for (checkbox in preferences)

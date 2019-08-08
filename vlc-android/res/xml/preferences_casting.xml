@@ -5,7 +5,7 @@
                                       android:key="audio_category"
                                       android:title="@string/casting_category">
     <PreferenceCategory android:title="@string/casting_category">
-        <androidx.preference.SwitchPreferenceCompat
+        <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:key="enable_casting"
                 android:defaultValue="true"

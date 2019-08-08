@@ -4,7 +4,7 @@
                                       xmlns:app="http://schemas.android.com/apk/res-auto"
                                       android:title="@string/advanced_prefs_category">
 
-    <androidx.preference.SwitchPreferenceCompat
+    <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="false"
             android:key="browser_show_hidden_files"
@@ -40,7 +40,7 @@
             android:title="@string/quit"/>
 
     <PreferenceCategory android:title="@string/performance_prefs_category">
-        <androidx.preference.SwitchPreferenceCompat
+        <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="@bool/time_stretching_default"
                 android:key="enable_time_stretching_audio"
@@ -67,7 +67,7 @@
                 android:key="deblocking"
                 android:summary="@string/deblocking_summary"
                 android:title="@string/deblocking"/>
-        <androidx.preference.SwitchPreferenceCompat
+        <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="false"
                 android:key="enable_frame_skip"
@@ -76,7 +76,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/developer_prefs_category">
-        <androidx.preference.SwitchPreferenceCompat
+        <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="true"
                 android:key="enable_verbose_mode"

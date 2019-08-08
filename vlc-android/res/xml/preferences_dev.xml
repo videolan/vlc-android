@@ -3,7 +3,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                                       xmlns:app="http://schemas.android.com/apk/res-auto"
                                       android:title="@string/developer_prefs_category">
-    <androidx.preference.SwitchPreferenceCompat
+    <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="true"
             android:key="enable_verbose_mode"
