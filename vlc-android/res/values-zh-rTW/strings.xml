@@ -35,8 +35,8 @@
     <string name="medialibrary_scan">掃描媒體櫃</string>
     <string name="Medialibrary_progress">媒體櫃掃描進度的更新</string>
     <string name="play_from_start">從開頭播放</string>
-    <string name="play_as_audio">以音訊播放</string>
-    <string name="play_as_video">以視訊播放</string>
+    <string name="play_as_audio">作為音訊播放</string>
+    <string name="play_as_video">作為視訊播放</string>
     <string name="video_app_switch_title">背景/子母畫面模式</string>
     <string name="video_app_switch_summary">選擇當您在播放影片時切換到其他應用程式時，VLC 的行為</string>
     <string name="play_pip_title">以子母畫面模式播放影片</string>
@@ -53,6 +53,7 @@
     <string name="set_song_question">要將「%1$s」設為鈴聲嗎？</string>
     <string name="info">資訊</string>
     <string name="confirm_delete">是否刪除檔案「%1$s」？</string>
+    <string name="confirm_delete_several_media">刪除這 %1$d 個媒體嗎？</string>
     <string name="confirm_delete_folder">是否刪除資料夾「%1$s」和其全部內容？</string>
     <string name="confirm_delete_playlist">是否刪除播放清單「%1$s」？</string>
     <string name="confirm_remove_from_playlist">從播放清單中移除「%1$s」嗎？</string>
@@ -413,7 +414,7 @@
     <string name="dump_media_db_summary">複製資料庫到內部儲存空間根目錄</string>
     <string name="clear_media_db">清除媒體資料庫</string>
     <string name="clear_media_db_summary">存取 Android VLC 資訊以清除資料</string>
-    <string name="clear_history">清除搜尋記錄</string>
+    <string name="clear_history">清除記錄</string>
     <string name="media_db_cleared">媒體資料庫已清除!</string>
     <string name="set_locale">設定地區</string>
     <string name="set_locale_detail">保持空白以重置</string>
@@ -469,7 +470,7 @@
     <string name="network_browsing">區域網路</string>
     <string name="browsing">瀏覽中</string>
 
-    <string name="file_size">檔案大小：</string>
+    <string name="file_size">檔案大小</string>
 
     <string name="audio_delay">音訊延遲</string>
     <string name="spu_delay">字幕延遲</string>
@@ -610,8 +611,8 @@
     <string name="audio_digital_title">數位音訊輸出(passthrough)</string>
     <string name="audio_task_cleared_title">停用應用程式滑動</string>
     <string name="audio_task_cleared_summary">在應用程式離開時停止播放</string>
-    <string name="audio_resume_card_title">載入前次播放清單卡片</string>
-    <string name="audio_resume_card_summary">在應用程式啟動時顯示幫助您時繼續音訊播放的卡片</string>
+    <string name="audio_resume_card_title">顯示前次播放清單提示</string>
+    <string name="audio_resume_card_summary">應用程式啟動時，顯示幫助您繼續音訊播放的提示</string>
     <string name="playback_rewind">倒帶</string>
     <string name="playback_forward">快速前進</string>
     <string name="ml_wizard_title">VLC 媒體櫃選擇</string>
@@ -677,4 +678,31 @@
     <string name="jump_to">跳至</string>
     <string name="show_video_thumbnails_summary">在清單中顯示影片縮圖</string>
     <string name="show_video_thumbnails">影片縮圖</string>
+    <string name="enable_equalizer">啟用</string>
+    <string name="preamp">前置放大</string>
+    <string name="presets">預置</string>
+    <string name="reset">重設</string>
+    <string name="appended">軌道已附加</string>
+    <string name="inserted">軌道已插入</string>
+    <string name="remove_current">移除目前的</string>
+    <string name="validation_delete_playlist">您確定要刪除這個播放清單嗎？</string>
+    <string name="validation_delete_playlist_text">這個動作無法復原。</string>
+    <string name="display_in_list">以清單顯示</string>
+    <string name="display_in_grid">以方格顯示</string>
+    <string name="dump_db_succes">資料庫已傾印到內部儲存空間根目錄</string>
+    <string name="dump_db_failure">無法傾印資料庫</string>
+    <string name="send_crash_title">VLC 當機回報</string>
+    <string name="send_crash_description">您可以藉由傳送當機報告，幫助我們改善 VLC 的穩定性。</string>
+    <string name="send_crash_warning">確保您移除了任何不想傳送的敏感資料。</string>
+    <string name="dont_ask_again">不要再次詢問</string>
+    <string name="include_medialib">包含您的資料庫</string>
+    <string name="vlc_reporter">VLC 回報</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">歡迎使用 VLC beta 程式。\n請注意，這個版本可能會有一些錯誤。</string>
+    <string name="welcome_beta_description_bugs">如果您發現錯誤，請回報到我們的討論區或錯誤追蹤器。</string>
+    <string name="send">傳送</string>
+    <string name="send_crash_action_title">您想要做什麼？</string>
+    <string name="report_a_bug">回報錯誤</string>
+    <string name="report_a_crash">回報當機</string>
+    <string name="describe_crash">請描述當機如何發生</string>
 </resources>
