@@ -91,6 +91,14 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         }
     }
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.getContextWithLocale())
+    }
+
+    override fun getApplicationContext(): Context {
+        return getContextWithLocale()
+    }
+
     @SuppressLint("WakelockTimeout")
     override fun onCreate() {
         dispatcher.onServicePreSuperOnCreate()

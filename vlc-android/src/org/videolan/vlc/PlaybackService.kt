@@ -443,6 +443,14 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             get() = this@PlaybackService
     }
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.getContextWithLocale())
+    }
+
+    override fun getApplicationContext(): Context {
+        return getContextWithLocale()
+    }
+
     override fun onCreate() {
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()

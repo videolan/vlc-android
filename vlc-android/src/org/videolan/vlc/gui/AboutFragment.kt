@@ -31,7 +31,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -56,7 +55,6 @@ class AboutFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.title = "VLC ${BuildConfig.VERSION_NAME}"
         //Fix android 7 Locale problem with webView
         //https://stackoverflow.com/questions/40398528/android-webview-locale-changes-abruptly-on-android-n
-        if (AndroidUtil.isNougatOrLater) UiTools.setLocale(requireActivity())
 
         val aboutMain = view.findViewById<ScrollView>(R.id.about_main)
         val webView = view.findViewById<WebView>(R.id.webview)

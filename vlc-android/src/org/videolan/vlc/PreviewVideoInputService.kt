@@ -16,6 +16,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.vlc.media.MediaPlayerEventListener
 import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.util.getContextWithLocale
 import org.videolan.vlc.util.getFromMl
 import org.videolan.vlc.util.random
 import java.io.IOException
@@ -30,6 +31,14 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
 
     override fun onCreateSession(inputId: String): TvInputService.Session? {
         return PreviewSession(this)
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.getContextWithLocale())
+    }
+
+    override fun getApplicationContext(): Context {
+        return getContextWithLocale()
     }
 
     private inner class PreviewSession(context: Context

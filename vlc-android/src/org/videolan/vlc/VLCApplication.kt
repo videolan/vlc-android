@@ -24,6 +24,7 @@ import android.annotation.TargetApi
 import android.app.Application
 import android.content.ComponentName
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -46,11 +47,7 @@ import org.videolan.vlc.gui.dialogs.VlcProgressDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapCache
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.Util
-import org.videolan.vlc.util.VLCInstance
-import org.videolan.vlc.util.runIO
+import org.videolan.vlc.util.*
 import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationTargetException
 
@@ -102,6 +99,9 @@ class VLCApplication : MultiDexApplication() {
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         Thread(Runnable {
             locale = Settings.getInstance(instance).getString("set_locale", "")
+            locale.takeIf { !it.isNullOrEmpty() }?.let {
+                instance = ContextWrapper(this).wrap(locale!!)
+            }
 
             runIO(Runnable {
                 if (AndroidUtil.isOOrLater)
@@ -119,7 +119,9 @@ class VLCApplication : MultiDexApplication() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        UiTools.setLocale(appContext)
+        locale.takeIf { !it.isNullOrEmpty() }?.let {
+            instance = ContextWrapper(this).wrap(locale!!)
+        }
     }
 
     /**
@@ -147,8 +149,10 @@ class VLCApplication : MultiDexApplication() {
         private const val TAG = "VLC/VLCApplication"
 
         const val ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication"
+
+        @SuppressLint("StaticFieldLeak")
         @Volatile
-        private lateinit var instance: Application
+        private lateinit var instance: Context
 
         private val dataMap = SimpleArrayMap<String, WeakReference<Any>>()
 
