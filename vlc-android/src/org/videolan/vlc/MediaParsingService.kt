@@ -120,15 +120,14 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // Set 1s delay before displaying scan icon
+        // Except for Android 8+ which expects startForeground immediately
+        if (AndroidUtil.isOOrLater) forceForeground()
+        else if (lastNotificationTime <= 0L) lastNotificationTime = System.currentTimeMillis()
         if (intent == null) {
             exitCommand()
             return Service.START_NOT_STICKY
         }
-        // Set 1s delay before displaying scan icon
-        // Except for Android 8+ which expects startForeground immediately
-
-        if (AndroidUtil.isOOrLater) forceForeground()
-        else if (lastNotificationTime <= 0L) lastNotificationTime = System.currentTimeMillis()
         dispatcher.onServicePreSuperOnStart()
         when (intent.action) {
             ACTION_INIT -> {
