@@ -227,9 +227,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     override fun onMediaAdded(index: Int, media: Media) {
         if (!browserChannel.isClosedForSend) {
             media.retain()
-            browserChannel.offer(media)
+            if (!browserChannel.isClosedForSend) browserChannel.offer(media)
+            else media.release()
         }
     }
+
     override fun onBrowseEnd() { if (!browserChannel.isClosedForSend) browserChannel.close() }
     override fun onMediaRemoved(index: Int, media: Media){}
 
