@@ -526,7 +526,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                     return true
                 }
 
-                MotionEvent.ACTION_UP -> {
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     (if (forward) binding.next else binding.previous).setImageResource(this.normal)
                     handler.removeCallbacks(seekRunnable)
                     previewingSeek = false
