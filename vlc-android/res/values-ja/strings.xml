@@ -423,8 +423,6 @@
     <string name="network_caching_summary">ネットワークメディアのバッファーサイズをミリ秒単位で指定します。ハードウェアデコーディングとは同時に動作できません。空白入力でリセットします。</string>
     <string name="resume_playback_title">通話終了後に再生を再開</string>
     <string name="resume_playback_summary">それ以外は一時停止</string>
-    <string name="audio_show_cards_title">オーディオカード表示</string>
-    <string name="audio_show_cards_summary">アーティスト、アルバム、プレイリストを大きなカードで表示</string>
     <string name="blurred_cover_background_title">カバーの背景をぼやけさせる</string>
     <string name="blurred_cover_background_summary">オーディオプレイヤーのカバーの背景をぼやけさせる</string>
     <string name="network_caching_popup">値は0〜6000msの間で指定してください</string>
@@ -690,4 +688,23 @@
     <string name="remove_current">現在のものを削除</string>
     <string name="validation_delete_playlist">本当にこのプレイリストを削除しますか？</string>
     <string name="validation_delete_playlist_text">このアクションは取消できません。</string>
+    <string name="display_in_list">リスト表示</string>
+    <string name="display_in_grid">グリッド表示</string>
+    <string name="dump_db_succes">内部ストレージのルートにデータベースのダンプが生成されました</string>
+    <string name="dump_db_failure">データベースのダンプに失敗しました</string>
+    <string name="send_crash_title">VLCクラッシュレポーター</string>
+    <string name="send_crash_description">あなたのクラッシュの事象を送信することでVLCの品質を向上することにご協力頂けます。</string>
+    <string name="send_crash_warning">あなたが送信を望まない個人情報は削除することが可能です。</string>
+    <string name="dont_ask_again">二度と聞かない</string>
+    <string name="include_medialib">あなたのデータベースを含む</string>
+    <string name="vlc_reporter">VLCレポーター</string>
+    <string name="welcome_beta_title">VLCベータ</string>
+    <string name="welcome_beta_description">VLCのベータプログラムへようこそ。\nこのバージョンはバグが残存しているかもしれません。</string>
+    <string name="welcome_beta_description_bugs">バグに気づいたら、私達のフォームまたは、バグトラッカーからレポートをお願いいたします。</string>
+    <string name="welcome_beta_description_crashes">もしクラッシュ事象が発生したら、あなたのラウンチャーの中にあるVLCレポーターアイコンを使用して送信してください。</string>
+    <string name="send">送信</string>
+    <string name="send_crash_action_title">どのようにしますか?</string>
+    <string name="report_a_bug">バグをレポート</string>
+    <string name="report_a_crash">クラッシュをレポート</string>
+    <string name="describe_crash">このクラッシュがどのようにして発生したか記述をお願いします</string>
 </resources>
