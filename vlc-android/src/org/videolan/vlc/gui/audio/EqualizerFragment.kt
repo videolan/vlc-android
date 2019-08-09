@@ -128,6 +128,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
             v.parent.requestDisallowInterceptTouchEvent(true)
             true
         }
+        binding.equalizerButton.clearFocus()
     }
 
     private fun fillViews() {
