@@ -6,22 +6,22 @@
     <string name="cancel">Anuluj</string>
     <string name="other">Inne</string>
     <string name="sortby">Sortuj według…</string>
-    <string name="sortby_name">Nazwa</string>
-    <string name="sortby_name_desc">Nazwa (malejąco)</string>
-    <string name="sortby_filename">Nazwa pliku</string>
-    <string name="sortby_filename_desc">Nazwa pliku (malejąco)</string>
-    <string name="sortby_artist_name">Nazwa wykonawcy</string>
-    <string name="sortby_artist_name_desc">Nazwa wykonawcy (malejąco)</string>
-    <string name="sortby_album_name">Nazwa albumu</string>
-    <string name="sortby_album_name_desc">Nazwa albumu (malejąco)</string>
-    <string name="sortby_length">Długość</string>
-    <string name="sortby_length_desc">Długość (malejąco)</string>
-    <string name="sortby_date">Data</string>
-    <string name="sortby_date_desc">Data (malejąco)</string>
-    <string name="sortby_last_modified_date">Ostatnio dodane</string>
-    <string name="sortby_last_modified_date_desc">Ostatnio dodane (malejąco)</string>
-    <string name="sortby_number">Liczba utworów</string>
-    <string name="sortby_number_desc">Liczba utworów (malejąco)</string>
+    <string name="sortby_name">Nazwy</string>
+    <string name="sortby_name_desc">Nazwy (malejąco)</string>
+    <string name="sortby_filename">Nazwy pliku</string>
+    <string name="sortby_filename_desc">Nazwy pliku (malejąco)</string>
+    <string name="sortby_artist_name">Nazwy wykonawcy</string>
+    <string name="sortby_artist_name_desc">Nazwy wykonawcy (malejąco)</string>
+    <string name="sortby_album_name">Nazwy albumu</string>
+    <string name="sortby_album_name_desc">Nazwy albumu (malejąco)</string>
+    <string name="sortby_length">Długości</string>
+    <string name="sortby_length_desc">Długości (malejąco)</string>
+    <string name="sortby_date">Daty</string>
+    <string name="sortby_date_desc">Daty (malejąco)</string>
+    <string name="sortby_last_modified_date">Ostatnio dodanego</string>
+    <string name="sortby_last_modified_date_desc">Ostatnio dodanego (malejąco)</string>
+    <string name="sortby_number">Liczby utworów</string>
+    <string name="sortby_number_desc">Liczby utworów (malejąco)</string>
     <string name="searchable_hint">Szukaj…</string>
     <string name="history">Historia</string>
 
@@ -80,7 +80,7 @@
 
     <string name="artists">Wykonawcy</string>
     <string name="albums">Albumy</string>
-    <string name="tracks">Ścieżki</string>
+    <string name="tracks">Utwory</string>
 
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
@@ -444,8 +444,6 @@
     <string name="network_caching_summary">Ilość czasu, dla buforowania pliku sieciowego (w milisekundach). Nie działa ze sprzętowym dekodowaniem. Pozostaw puste, aby zresetować.</string>
     <string name="resume_playback_title">Wznów odtwarzanie po połączeniu</string>
     <string name="resume_playback_summary">Lub pozostań w pauzie po zakończeniu połączenia</string>
-    <string name="audio_show_cards_title">Pliki audio w kartach</string>
-    <string name="audio_show_cards_summary">Wyświetlaj wykonawców, albumy i listy odtwarzania w większych kartach</string>
     <string name="blurred_cover_background_title">Niewyraźna okładka w tle</string>
     <string name="blurred_cover_background_summary">Niewyraźna okładka w tle odtwarzacza audio </string>
     <string name="network_caching_popup">Ta wartość musi być w zakresie od 0 a 6000 ms</string>
@@ -501,9 +499,9 @@
     <string name="network_shares_discovery">Szukanie udziałów sieciowych…</string>
     <string name="network_empty">Ten katalog jest pusty.</string>
     <string name="network_connection_needed">Brak połączenia z siecią lokalną.</string>
-    <string name="search_hint">Wyszukiwanie mediów</string>
-    <string name="search_list_hint">Wyszukiwanie mediów w bieżącej liście</string>
-    <string name="search_global">Wyszukiwanie we wszystkich bibliotekach mediów</string>
+    <string name="search_hint">Szukaj mediów</string>
+    <string name="search_list_hint">Szukaj w bieżącej liście</string>
+    <string name="search_global">Szukaj we wszystkich bibliotekach multimediów</string>
     <string name="directory_show_medialib">Pokaż w MediaLib</string>
     <string name="directory_hide_medialib">Ukryj w MediaLib</string>
     <string name="playlist_save">Zapisz listę odtwarzania</string>
@@ -560,7 +558,7 @@
     <string name="opengl_off">Wymuś wyłączenie</string>
     <string name="network_favorites">Ulubione w sieci</string>
     <string name="network_shared_folders">Foldery udostępnione</string>
-    <string name="encryption_warning">Uwaga, szyfrowanie jest niedostępne dla tej wersji Androida, hasło zostanie zapisane w miejscu prywatnym, ale nie zaszyfrowane</string>
+    <string name="encryption_warning">Ostrzeżenie, szyfrowanie nie jest dostępne dla tej wersji Androida, hasło będzie przechowywane w prywatnym miejscu, ale nie będzie zaszyfrowane</string>
     <string name="store_password">Zapamiętaj hasło</string>
     <string name="add_to_playlist">Dodaj do listy odtwarzania</string>
     <string name="popup_playback_title">Odtwórz wideo w oknie pop-up</string>
@@ -610,11 +608,11 @@
     <string name="new_custom_set_save_message">Zapisz nowe ustawienie korektora jako…</string>
     <string name="save">Zapisz</string>
     <string name="do_not_save">Nie zapisuj</string>
-    <string name="custom_set_deleted_message">Własne ustawienie korektora \"%1$s\" usunięte.</string>
-    <string name="custom_set_wrong_input">Nieprawidłowa nazwa.</string>
+    <string name="custom_set_deleted_message">Własne ustawienie korektora \"%1$s\" usunięte</string>
+    <string name="custom_set_wrong_input">Nieprawidłowa nazwa</string>
     <string name="custom_set_already_exist">Ustawienie korektora o tej nazwie już istnieje</string>
-    <string name="custom_set_restored">Odtworzono własne ustawienie korektora.</string>
-    <string name="unsaved_set_deleted_message">Usunięto niezapisane ustawienie korektora.</string>
+    <string name="custom_set_restored">Odtworzono własne ustawienie korektora</string>
+    <string name="unsaved_set_deleted_message">Usunięto niezapisane ustawienie korektora</string>
     <string name="equalizer_new_preset_name">Nowe</string>
     <string name="settings_ml_block_scan">Biblioteka multimediów skanuje teraz twoje urządzenia</string>
     <string name="recommendations">Zalecenia</string>
@@ -635,7 +633,7 @@
     <string name="audio_task_cleared_title">Zatrzymaj po zamknięciu aplikacji</string>
     <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po usunięciu VLC z listy ostatnich aplikacji</string>
     <string name="audio_resume_card_title">Wskazówka ostatnio odtwarzane</string>
-    <string name="audio_resume_card_summary">Wyświetla wskazówkę pomagającą wznowić ostatnio odtwarzanego utworu na początku aplikacji</string>
+    <string name="audio_resume_card_summary">Wyświetla wskazówkę pomagającą wznowić ostatnio odtwarzaną listę odtwarzania lub utwór po uruchomieniu aplikacji</string>
     <string name="playback_rewind">Przewijanie do tyłu</string>
     <string name="playback_forward">Przewijanie do przodu</string>
     <string name="ml_wizard_title">Wybór biblioteki multimediów VLC</string>
@@ -711,4 +709,23 @@
     <string name="remove_current">Usuń obecne</string>
     <string name="validation_delete_playlist">Czy na pewno chcesz usunąć tą listę odtwarzania?</string>
     <string name="validation_delete_playlist_text">Ta akcja nie może zostać cofnięta.</string>
+    <string name="display_in_list">Wyświetlacz w liście</string>
+    <string name="display_in_grid">Wyświetl w siatce</string>
+    <string name="dump_db_succes">Baza danych zrzucona do głównego katalogu pamięci wewnętrznej</string>
+    <string name="dump_db_failure">Nie udało się zrzucić bazy danych</string>
+    <string name="send_crash_title">Reporter awarii VLC</string>
+    <string name="send_crash_description">Wysyłając awarię, pomożesz nam poprawić stabilność VLC.</string>
+    <string name="send_crash_warning">Upewnij się, że usunąłeś poufne dane, których nie chcesz wysyłać.</string>
+    <string name="dont_ask_again">Nie pytaj ponownie</string>
+    <string name="include_medialib">Dołącz swoją bazę danych</string>
+    <string name="vlc_reporter">VLC reporter</string>
+    <string name="welcome_beta_title">VLC beta</string>
+    <string name="welcome_beta_description">Witamy w programie VLC beta.\nPamiętaj, że ta wersja może zawierać kilka błędów.</string>
+    <string name="welcome_beta_description_bugs">Jeśli zauważysz błąd, zgłoś go na naszym forum lub w narzędziu do śledzenia błędów.</string>
+    <string name="welcome_beta_description_crashes">W przypadku wystąpienia awarii, użyj ikony VLC reporter w twoim launcherze, aby wysłać ją do nas.</string>
+    <string name="send">Wyślij</string>
+    <string name="send_crash_action_title">Co chcesz robić?</string>
+    <string name="report_a_bug">Zgłosić błąd</string>
+    <string name="report_a_crash">Zgłosić awarię</string>
+    <string name="describe_crash">Opisz, jak doszło do tej awarii</string>
 </resources>
