@@ -42,7 +42,7 @@ object ThumbnailsProvider {
 
     @WorkerThread
     fun getFolderThumbnail(folder: AbstractFolder, width: Int): Bitmap? {
-        val media = listOf(*folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, AbstractMedialibrary.SORT_DEFAULT, true, 4, 0))
+        val media = folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, AbstractMedialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
         return getComposedImage("folder:" + folder.title, media, width)
     }
 
