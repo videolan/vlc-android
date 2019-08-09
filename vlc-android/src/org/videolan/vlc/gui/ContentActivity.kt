@@ -180,6 +180,8 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
             searchHiddenMenuItem.forEach {
                 it.isVisible = true
             }
+            searchHiddenMenuItem.clear()
+            invalidateOptionsMenu()
         } else {
             for (i in 0 until menu.size()) {
                 val menuItem = menu.getItem(i)
