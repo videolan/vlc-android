@@ -480,16 +480,6 @@ object UiTools {
         win.attributes = winParams
     }
 
-    fun setLocale(context: Context) {
-        VLCApplication.locale.takeIf { !it.isNullOrEmpty() }?.let {
-            val locale = getLocaleFromString(it)
-            Locale.setDefault(locale)
-            val config = Configuration()
-            config.locale = locale
-            context.resources.updateConfiguration(config,
-                    context.resources.displayMetrics)
-        }
-    }
 
     fun restartDialog(context: Context) {
         AlertDialog.Builder(context)

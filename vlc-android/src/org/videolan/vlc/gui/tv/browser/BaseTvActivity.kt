@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.tv.browser
 
 import android.annotation.TargetApi
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
@@ -41,6 +42,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.SearchActivity
 import org.videolan.vlc.gui.tv.registerTimeView
 import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.getContextWithLocale
 
 private const val TAG = "VLC/BaseTvActivity"
 
@@ -54,9 +56,16 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
     @Volatile
     private var currentlyVisible = false
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.getContextWithLocale())
+    }
+
+    override fun getApplicationContext(): Context {
+        return getContextWithLocale()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
-        UiTools.setLocale(this)
         if (savedInstanceState != null) startMedialibrary(firstRun = false, upgrade = false, parse = true)
         super.onCreate(savedInstanceState)
         mediaLibrary = AbstractMedialibrary.getInstance()

@@ -22,19 +22,14 @@ package org.videolan.vlc
 
 import android.app.PendingIntent
 import android.app.Service
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import android.os.*
 import android.text.format.DateFormat
 import androidx.core.app.NotificationCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Logcat
-import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.*
 import java.io.*
 import java.util.*
 
@@ -45,6 +40,14 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
     private var saveThread: Thread? = null
     private val callbacks = RemoteCallbackList<IDebugLogServiceCallback>()
     private val binder = DebugLogServiceStub(this)
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.getContextWithLocale())
+    }
+
+    override fun getApplicationContext(): Context {
+        return getContextWithLocale()
+    }
 
     override fun onBind(intent: Intent): IBinder? {
         return binder

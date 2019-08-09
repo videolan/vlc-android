@@ -31,7 +31,10 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.gui.helpers.BitmapUtil
@@ -46,6 +49,14 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
     override val coroutineContext = Dispatchers.Main.immediate
 
     private lateinit var mNotificationManager: NotificationManager
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.getContextWithLocale())
+    }
+
+    override fun getApplicationContext(): Context {
+        return getContextWithLocale()
+    }
 
     override fun onCreate() {
         super.onCreate()

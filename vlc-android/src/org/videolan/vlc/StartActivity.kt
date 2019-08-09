@@ -23,6 +23,7 @@
 
 package org.videolan.vlc
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -38,7 +39,6 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.vlc.gui.BetaWelcomeActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SearchActivity
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.gui.onboarding.startOnboarding
 import org.videolan.vlc.gui.tv.MainTvActivity
@@ -75,9 +75,16 @@ class StartActivity : FragmentActivity() {
             return 0
         }
 
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.getContextWithLocale())
+    }
+
+    override fun getApplicationContext(): Context {
+        return getContextWithLocale()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (AndroidUtil.isNougatOrLater) UiTools.setLocale(this)
 
         try {
             if (!Settings.showTvUi && BuildConfig.BETA && !Settings.getInstance(this).getBoolean(BETA_WELCOME, false)) {

@@ -47,7 +47,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.tools.setVisibility
 import org.videolan.vlc.*
@@ -104,8 +103,6 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
-            if (AndroidUtil.isNougatOrLater)
-                UiTools.setLocale(this)
 
             this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
         }
