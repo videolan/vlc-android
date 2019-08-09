@@ -138,7 +138,7 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
 
     override fun onLog(msg: String) {
         logList.add(msg)
-        logAdapter.notifyDataSetChanged()
+        if (::logAdapter.isInitialized) logAdapter.notifyDataSetChanged()
         setOptionsButtonsEnabled(true)
     }
 
