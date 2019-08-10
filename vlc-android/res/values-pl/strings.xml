@@ -182,7 +182,7 @@
 
     <string name="track_samplerate_info">Częstotliwość próbkowania: %1$d Hz\n</string>
     <string name="track_resolution_info">Rozdzielczość: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Liczba klatek: %1$.3f\n\n</string>
+    <string name="track_framerate_info">Liczba klatek: %1$.3f\n</string>
 
     <string name="tools">Narzędzia</string>
     <string name="playback_speed">Prędkość odtwarzania</string>
@@ -420,7 +420,7 @@
     <string name="deblocking_nonref">Średni filtr usuwania bloków</string>
     <string name="deblocking_nonkey">Niski filtr usuwania bloków</string>
     <string name="deblocking_all">Usuwanie bloków wyłączone (najszybciej)</string>
-    <string name="enable_frame_skip">Pominięcie ramek</string>
+    <string name="enable_frame_skip">Pominięcie klatek</string>
     <string name="enable_frame_skip_summary">Przyspiesza dekodowanie, ale może pogorszyć jakość obrazu.</string>
     <string name="enable_time_stretching_audio">Rozciąganie czasu dźwięku</string>
     <string name="enable_time_stretching_audio_summary">Przyspieszenie i spowolnienie dźwięku bez zmiany tonacji (wymaga szybkiego urządzenia).</string>
@@ -587,9 +587,9 @@
     <string name="videos_all">Wszystkie klipy wideo</string>
     <string name="clear_playback_history">Wyczyść historię odtwarzania</string>
     <string name="various_artists">Różni wykonawcy</string>
-    <string name="ml_scanning">Skanowanie w poszukiwaniu plików multimedialnych</string>
+    <string name="ml_scanning">Wyszukiwanie plików multimedialnych</string>
     <string name="ml_parse_media">Parsowanie mediów</string>
-    <string name="ml_discovering">Odkrywanie</string>
+    <string name="ml_discovering">Odnalezienie</string>
     <string name="resume">Wznów</string>
     <string name="length">Długość</string>
     <string name="tv_settings_hint">Długo naciśnij przycisk OK, aby zaznaczyć/odznaczyć katalogi</string>
@@ -709,7 +709,7 @@
     <string name="remove_current">Usuń obecne</string>
     <string name="validation_delete_playlist">Czy na pewno chcesz usunąć tą listę odtwarzania?</string>
     <string name="validation_delete_playlist_text">Ta akcja nie może zostać cofnięta.</string>
-    <string name="display_in_list">Wyświetlacz w liście</string>
+    <string name="display_in_list">Wyświetl w liście</string>
     <string name="display_in_grid">Wyświetl w siatce</string>
     <string name="dump_db_succes">Baza danych zrzucona do głównego katalogu pamięci wewnętrznej</string>
     <string name="dump_db_failure">Nie udało się zrzucić bazy danych</string>
