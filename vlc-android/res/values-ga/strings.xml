@@ -317,6 +317,8 @@
     <string name="network_browsing">Líonra áitiúil</string>
     <string name="browsing">Ag siortú</string>
 
+    <string name="file_size">Méid an chomhaid</string>
+
     <string name="audio_delay">Moill fhuaime</string>
     <string name="spu_delay">Moill ar na fotheidil</string>
     <string name="sleep_time_not_set">dada socraithe</string>
@@ -434,6 +436,17 @@
     <string name="video_remote_disable">Dúblaigh an scáileán</string>
     <string name="welcome_title">Fáilte go VLC!</string>
     <string name="done">Déanta</string>
+    <string name="add">Cuir leis</string>
     <string name="misc">Ilchineálach</string>
     <string name="device_default">An gaireas réamhshocraithe</string>
+    <string name="jump_to">Léim chuig</string>
+    <string name="enable_equalizer">Cumasaigh</string>
+    <string name="reset">Athshocraigh é</string>
+    <string name="dont_ask_again">Ná fiafraigh arís</string>
+    <string name="include_medialib">Cuir do bhunachar sonraí san áireamh</string>
+    <string name="send">Seol</string>
+    <string name="send_crash_action_title">Cad is mian leat a dhéanamh?</string>
+    <string name="report_a_bug">Tuairiscigh fabht</string>
+    <string name="report_a_crash">Tuairiscigh cliseadh</string>
+    <string name="describe_crash">Inis dúinn conas mar a tharla an cliseadh sin</string>
 </resources>
