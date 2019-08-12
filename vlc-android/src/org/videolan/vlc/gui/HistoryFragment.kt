@@ -101,6 +101,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.fragment_option_history, menu)
         super.onCreateOptionsMenu(menu, inflater)
+        activity?.invalidateOptionsMenu()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
