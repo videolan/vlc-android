@@ -633,7 +633,7 @@
     <string name="audio_task_cleared_title">Zatrzymaj po zamknięciu aplikacji</string>
     <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po usunięciu VLC z listy ostatnich aplikacji</string>
     <string name="audio_resume_card_title">Wskazówka ostatnio odtwarzane</string>
-    <string name="audio_resume_card_summary">Wyświetla wskazówkę pomagającą wznowić ostatnio odtwarzaną listę odtwarzania lub utwór po uruchomieniu aplikacji</string>
+    <string name="audio_resume_card_summary">Wyświetla wskazówkę pomagającą wznowić odtwarzanie dźwięku po uruchomieniu aplikacji</string>
     <string name="playback_rewind">Przewijanie do tyłu</string>
     <string name="playback_forward">Przewijanie do przodu</string>
     <string name="ml_wizard_title">Wybór biblioteki multimediów VLC</string>
