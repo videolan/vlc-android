@@ -711,7 +711,7 @@
     <string name="welcome_beta_description_crashes">Om du råkar ut för en krasch, använd ikonen VLC-Rapportör i din startare för att skicka den till oss.</string>
     <string name="send">Skicka</string>
     <string name="send_crash_action_title">Vad vill du göra?</string>
-    <string name="report_a_bug">Rapportera ett fel</string>
+    <string name="report_a_bug">Rapportera en bugg</string>
     <string name="report_a_crash">Rapportera en krasch</string>
     <string name="describe_crash">Beskriv hur denna krasch inträffade</string>
 </resources>
