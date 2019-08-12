@@ -22,39 +22,10 @@ package org.videolan.vlc.gui.tv
 
 import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class MediaItemDetails(var title: String? = null, var subTitle: String? = null,
                             var body: String? = null,
                             var location: String? = null,
-                            var artworkUrl: String? = null) : Parcelable {
-    constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString())
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(title)
-        parcel.writeString(subTitle)
-        parcel.writeString(body)
-        parcel.writeString(location)
-        parcel.writeString(artworkUrl)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<MediaItemDetails> {
-        override fun createFromParcel(parcel: Parcel): MediaItemDetails {
-            return MediaItemDetails(parcel)
-        }
-
-        override fun newArray(size: Int): Array<MediaItemDetails?> {
-            return arrayOfNulls(size)
-        }
-    }
-
-
-}
+                            var artworkUrl: String? = null) : Parcelable
