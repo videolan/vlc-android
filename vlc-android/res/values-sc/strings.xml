@@ -430,8 +430,6 @@
     <string name="network_caching_summary">Sa cantidade de tempus dedicada a su carrigamentu de sos documentos multimediales de retza (in ms). Non funtzionat cun sa decodìfica hardware. Lassala bòida pro ripristinare.</string>
     <string name="resume_playback_title">Sighi cun sa riprodutzione a pustis de una mutida</string>
     <string name="resume_playback_summary">Asinuncas abarra in pàusa</string>
-    <string name="audio_show_cards_title">Ammustra sas ischedas àudio</string>
-    <string name="audio_show_cards_summary">Ammustra sos artistas, sos albums e sas iscalitas in ischedas prus mannas</string>
     <string name="blurred_cover_background_title">Isfundu cun sa cobertedda isfocada</string>
     <string name="blurred_cover_background_summary">Sa cobertedda isfocada in s\'isfundu de su riproduidore àudio</string>
     <string name="network_caching_popup">Custu valore depet èssere incluidu intre 0 e 6000 ms</string>
@@ -620,8 +618,8 @@
     <string name="audio_digital_title">Essida àudio digitale (coladòrgiu àudio)</string>
     <string name="audio_task_cleared_title">Firma in casu de trisinadura</string>
     <string name="audio_task_cleared_summary">Firma sa riprodutzione cando s\'aplicatzione benit serrada</string>
-    <string name="audio_resume_card_title">Càrriga s\'ischeda de s\'ùrtima iscalita</string>
-    <string name="audio_resume_card_summary">Ammustrat un\'ischeda chi t\'agiudat a torrare a fàghere sighire sa riprodutzione àudio a s\'allughìngiu de s\'aplicatzione</string>
+    <string name="audio_resume_card_title">Ammustra s\'ùrtimu impòsitu de s\'iscalita</string>
+    <string name="audio_resume_card_summary">Ammustrat un\'impòsitu pro t\'agiudare a torrare a fàghere partire sa riprodutzione de s\'àudio cando benit alluta s\'aplicatzione</string>
     <string name="playback_rewind">Torra in segus</string>
     <string name="playback_forward">In antis lestru</string>
     <string name="ml_wizard_title">Ischertadura Libreria Multimediale VLC</string>
@@ -697,4 +695,23 @@
     <string name="remove_current">Boga s\'atuale</string>
     <string name="validation_delete_playlist">Ses seguru de chèrrere iscantzellare custa iscalita?</string>
     <string name="validation_delete_playlist_text">Custa atzione non podet èssere annullada.</string>
+    <string name="display_in_list">Ammustra in lista</string>
+    <string name="display_in_grid">Ammustra in grìllia</string>
+    <string name="dump_db_succes">Base de datos iscarrigada in sa raighina (root) de sa memòria interna</string>
+    <string name="dump_db_failure">Iscarrigamentu de sa base de datos fallida</string>
+    <string name="send_crash_title">Sinnaladore de istudaduras de VLC</string>
+    <string name="send_crash_description">Imbiende·nos una sinnalatzione a pitzu de sa serradura anòmala tua as a agiudare a megiorare s\'istabilidade de VLC.</string>
+    <string name="send_crash_warning">Dae cara e faghe in modu de bogare cale si siat datu sensìbile chi non cheres imbiare.</string>
+    <string name="dont_ask_again">Non torres a pedire</string>
+    <string name="include_medialib">Inclui sa base de datos tua</string>
+    <string name="vlc_reporter">Sinnaladore VLC</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Bene bènnidu in su programma beta de VLC.\nPro praghere ammenta·ti chi custa versione diat pòdere tènnere carchi problema.</string>
+    <string name="welcome_beta_description_bugs">Si otas una faddina pro praghere sinnala·la in su forum o in s\'arrastadore de faddinas nostru.</string>
+    <string name="welcome_beta_description_crashes">Si si verìficat una serradura anòmala, pro praghere imprea s\'icona de su sinnaldore de VLC in s\'allughidore (launcher) pro nos imbiare una sinnalatzione.</string>
+    <string name="send">Imbia</string>
+    <string name="send_crash_action_title">Ite cheres fàghere?</string>
+    <string name="report_a_bug">Sinnala una faddina</string>
+    <string name="report_a_crash">Sinnala un\'istudada improvisa (crash)</string>
+    <string name="describe_crash">Pro praghere descrie·nos comente est acontèssida cust\'istudadura</string>
 </resources>
