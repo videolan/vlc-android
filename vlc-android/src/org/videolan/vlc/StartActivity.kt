@@ -80,7 +80,7 @@ class StartActivity : FragmentActivity() {
     }
 
     override fun getApplicationContext(): Context {
-        return getContextWithLocale()
+        return VLCApplication.appContext
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

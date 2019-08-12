@@ -61,7 +61,7 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
     }
 
     override fun getApplicationContext(): Context {
-        return getContextWithLocale()
+        return VLCApplication.appContext
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
