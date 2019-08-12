@@ -46,7 +46,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
     }
 
     override fun getApplicationContext(): Context {
-        return getContextWithLocale()
+        return VLCApplication.appContext
     }
 
     override fun onBind(intent: Intent): IBinder? {

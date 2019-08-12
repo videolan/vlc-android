@@ -38,7 +38,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
     }
 
     override fun getApplicationContext(): Context {
-        return getContextWithLocale()
+        return VLCApplication.appContext
     }
 
     private inner class PreviewSession(context: Context

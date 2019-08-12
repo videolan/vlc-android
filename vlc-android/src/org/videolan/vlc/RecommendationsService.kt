@@ -55,7 +55,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
     }
 
     override fun getApplicationContext(): Context {
-        return getContextWithLocale()
+        return VLCApplication.appContext
     }
 
     override fun onCreate() {
