@@ -26,8 +26,8 @@ import android.annotation.TargetApi
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
-import androidx.preference.SwitchPreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
@@ -86,7 +86,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 VLCInstance.restart()
                 if (activity != null) (activity as PreferencesActivity).restartMediaPlayer()
                 val opensles = "1" == preferenceManager.sharedPreferences.getString("aout", "0")
-                if (opensles) findPreference<SwitchPreference>("audio_digital_output")?.isChecked = false
+                if (opensles) findPreference<CheckBoxPreference>("audio_digital_output")?.isChecked = false
                 findPreference<Preference>("audio_digital_output")?.isVisible = !opensles
             }
         }
