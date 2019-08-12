@@ -423,8 +423,6 @@
     <string name="network_caching_summary">缓冲网络媒体的时间量 (单位为毫秒)。硬件解码时无效。留空可重置。</string>
     <string name="resume_playback_title">通话结束后继续播放</string>
     <string name="resume_playback_summary">否则保持暂停</string>
-    <string name="audio_show_cards_title">显示音频卡片</string>
-    <string name="audio_show_cards_summary">在较大的卡片中显示艺术家、专辑以及播放列表信息</string>
     <string name="blurred_cover_background_title">背景封面模糊</string>
     <string name="blurred_cover_background_summary">音频播放器背景中的封面模糊显示</string>
     <string name="network_caching_popup">该值应介于 0 与 6000 ms 之间</string>
@@ -613,8 +611,8 @@
     <string name="audio_digital_title">数字音频输出 (直通)</string>
     <string name="audio_task_cleared_title">滑开应用时停止</string>
     <string name="audio_task_cleared_summary">应用程序被滑开时停止播放</string>
-    <string name="audio_resume_card_title">加载上次播放列表卡片</string>
-    <string name="audio_resume_card_summary">应用启动时显示卡片，帮助您继续音频播放</string>
+    <string name="audio_resume_card_title">提示可使用上次的播放列表</string>
+    <string name="audio_resume_card_summary">应用启动时，显示可继续播放上次内容的提示</string>
     <string name="playback_rewind">倒退</string>
     <string name="playback_forward">快进</string>
     <string name="ml_wizard_title">VLC 媒体库选择</string>
@@ -690,4 +688,23 @@
     <string name="remove_current">移除当前项</string>
     <string name="validation_delete_playlist">是否确定要删除该播放列表?</string>
     <string name="validation_delete_playlist_text">此操作不可撤销。</string>
+    <string name="display_in_list">以列表形式显示</string>
+    <string name="display_in_grid">以网格形式显示</string>
+    <string name="dump_db_succes">数据库已转储到内部存储的根目录中</string>
+    <string name="dump_db_failure">转储数据库失败</string>
+    <string name="send_crash_title">VLC 崩溃辅助报告程序</string>
+    <string name="send_crash_description">您可通过发送与此次崩溃相关的数据，来帮助我们提升 VLC 的稳定性。</string>
+    <string name="send_crash_warning">若存在您不希望发送的敏感数据，请确保取消选中它们。</string>
+    <string name="dont_ask_again">不要再次询问</string>
+    <string name="include_medialib">同时发送您的数据库（含媒体库信息！）</string>
+    <string name="vlc_reporter">VLC 辅助报告程序</string>
+    <string name="welcome_beta_title">VLC beta</string>
+    <string name="welcome_beta_description">欢迎使用 VLC beta 版。\n请注意此版本可能一定量的 bug。</string>
+    <string name="welcome_beta_description_bugs">如果您发现了 bug，请在我们的论坛或 bug 跟踪平台报告它们。</string>
+    <string name="welcome_beta_description_crashes">如果您遭遇了崩溃的情况，请使用启动器中的「VLC 辅助报告程序」图标，将崩溃相关的情况发送给我们。</string>
+    <string name="send">发送</string>
+    <string name="send_crash_action_title">您打算做什么?</string>
+    <string name="report_a_bug">报告 bug</string>
+    <string name="report_a_crash">报告崩溃事件</string>
+    <string name="describe_crash">请描述崩溃发生时的情况</string>
 </resources>
