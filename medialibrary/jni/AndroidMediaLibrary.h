@@ -141,7 +141,6 @@ public:
     void onBackgroundTasksIdleChanged( bool isIdle );
     void onMediaThumbnailReady(medialibrary::MediaPtr media, medialibrary::ThumbnailSizeType sizeType,
                                bool success );
-    void onHistoryChanged( medialibrary::HistoryType historyType );
 
 private:
     void jni_detach_thread(void *data);
