@@ -20,11 +20,15 @@
 
 package org.videolan.vlc.gui
 
+import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -33,7 +37,6 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioPagerAdapter
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.Util
@@ -46,27 +49,25 @@ private const val MODE_TOTAL = 2 // Number of audio browser modes
 class AboutFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.about, container, false)
+        return inflater.inflate(org.videolan.vlc.R.layout.about, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         (activity as? AppCompatActivity)?.supportActionBar?.title = "VLC ${BuildConfig.VERSION_NAME}"
-        //Fix android 7 Locale problem with webView
-        //https://stackoverflow.com/questions/40398528/android-webview-locale-changes-abruptly-on-android-n
 
-        val aboutMain = view.findViewById<ScrollView>(R.id.about_main)
-        val webView = view.findViewById<WebView>(R.id.webview)
-        val revision = getString(R.string.build_revision)
+        val aboutMain = view.findViewById<ScrollView>(org.videolan.vlc.R.id.about_main)
+        val webView = view.findViewById<WebView>(org.videolan.vlc.R.id.webview)
+        val revision = getString(org.videolan.vlc.R.string.build_revision)
 
         val lists = arrayOf(aboutMain, webView)
-        val titles = arrayOf(getString(R.string.about), getString(R.string.licence))
-        val viewPager = view.findViewById<ViewPager>(R.id.pager).apply {
+        val titles = arrayOf(getString(org.videolan.vlc.R.string.about), getString(org.videolan.vlc.R.string.licence))
+        val viewPager = view.findViewById<ViewPager>(org.videolan.vlc.R.id.pager).apply {
             offscreenPageLimit = MODE_TOTAL - 1
             adapter = AudioPagerAdapter(lists as Array<View>, titles)
         }
-        requireActivity().findViewById<TabLayout>(R.id.sliding_tabs).apply {
+        requireActivity().findViewById<TabLayout>(org.videolan.vlc.R.id.sliding_tabs).apply {
             visibility = View.VISIBLE
             setupWithViewPager(viewPager)
         }
@@ -76,7 +77,51 @@ class AboutFragment : Fragment() {
             }
             UiTools.fillAboutView(view)
             webView.loadData(asset, "text/html", "UTF8")
+
+            webView.webViewClient = object : WebViewClient() {
+
+                override fun onPageFinished(view: WebView, url: String) {
+
+                    // Inject CSS when page is done loading
+                    injectCSS(webView, when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                        Configuration.UI_MODE_NIGHT_YES -> {
+                            "licence_dark.css"
+                        }
+                        Configuration.UI_MODE_NIGHT_NO -> {
+                            "licence_light.css"
+                        }
+                        else -> {
+                            "licence_light.css"
+                        }
+                    })
+                    super.onPageFinished(view, url)
+                }
+            }
+
+
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun injectCSS(webView: WebView, cssAsset: String) {
+        try {
+            webView.settings.javaScriptEnabled = true
+            val inputStream = requireActivity().assets.open(cssAsset)
+            val buffer = ByteArray(inputStream.available())
+            inputStream.read(buffer)
+            inputStream.close()
+            val encoded = Base64.encodeToString(buffer, Base64.NO_WRAP)
+            webView.loadUrl("javascript:(function() {" +
+                    "var parent = document.getElementsByTagName('head').item(0);" +
+                    "var style = document.createElement('style');" +
+                    "style.type = 'text/css';" +
+                    // Tell the browser to BASE64-decode the string into your script !!!
+                    "style.innerHTML = window.atob('" + encoded + "');" +
+                    "parent.appendChild(style)" +
+                    "})()")
+            webView.settings.javaScriptEnabled = false
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }
