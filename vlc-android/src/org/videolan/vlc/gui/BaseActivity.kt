@@ -9,7 +9,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import org.videolan.tools.KeyHelper
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.getContextWithLocale
@@ -30,7 +29,7 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     override fun getApplicationContext(): Context {
-        return VLCApplication.appContext
+        return super.getApplicationContext().getContextWithLocale()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
