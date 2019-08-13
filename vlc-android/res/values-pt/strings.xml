@@ -695,4 +695,13 @@
     <string name="remove_current">Remover atual</string>
     <string name="validation_delete_playlist">Tem a certeza que quer eliminar esta lista de reprodução?</string>
     <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>
+    <string name="display_in_list">Mostrar em lista</string>
+    <string name="display_in_grid">Mostrar em grelha</string>
+    <string name="dont_ask_again">Não perguntar novamente</string>
+    <string name="include_medialib">Incluir a sua base de dados</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="send">Enviar</string>
+    <string name="send_crash_action_title">O que quer fazer?</string>
+    <string name="report_a_bug">Reportar um bug</string>
+    <string name="report_a_crash">Reportar um crash</string>
 </resources>
