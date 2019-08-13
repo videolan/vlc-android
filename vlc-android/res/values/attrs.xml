@@ -88,6 +88,10 @@
         <attr name="bar_color" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="HalfCircleView">
+        <attr name="is_left" format="boolean"/>
+    </declare-styleable>
+
     <attr name="marginTopContent" format="dimension" />
 
 </resources>
