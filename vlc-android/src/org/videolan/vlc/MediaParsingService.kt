@@ -96,7 +96,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     }
 
     override fun getApplicationContext(): Context {
-        return VLCApplication.appContext
+        return super.getApplicationContext().getContextWithLocale()
     }
 
     @SuppressLint("WakelockTimeout")

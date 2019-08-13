@@ -448,7 +448,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     override fun getApplicationContext(): Context {
-        return VLCApplication.appContext
+        return super.getApplicationContext().getContextWithLocale()
     }
 
     override fun onCreate() {

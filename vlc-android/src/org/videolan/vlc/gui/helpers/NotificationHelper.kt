@@ -35,10 +35,7 @@ import androidx.core.app.NotificationCompat
 import androidx.media.session.MediaButtonReceiver
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
-import org.videolan.vlc.util.ACTION_PAUSE_SCAN
-import org.videolan.vlc.util.ACTION_RESUME_SCAN
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.*
 
 object NotificationHelper {
     const val TAG = "VLC/NotificationHelper"
@@ -115,7 +112,7 @@ object NotificationHelper {
         scanCompatBuilder.setContentText(progressText)
 
         notificationIntent.action = if (paused) ACTION_RESUME_SCAN else ACTION_PAUSE_SCAN
-        val pi = PendingIntent.getBroadcast(ctx.applicationContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val playpause = if (paused)
             NotificationCompat.Action(R.drawable.ic_play, ctx.getString(R.string.resume), pi)
         else
@@ -162,7 +159,6 @@ object NotificationHelper {
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun createDebugServcieChannel(appCtx: Context) {
         val notificationManager = appCtx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                ?: return
 // Playback channel
         val name = appCtx.getString(R.string.debug_logs)
         val channel = NotificationChannel(VLC_DEBUG_CHANNEL, name, NotificationManager.IMPORTANCE_LOW)
