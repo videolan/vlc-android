@@ -2,11 +2,18 @@ package org.videolan.vlc
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.StateListDrawable
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
+import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
@@ -20,14 +27,6 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.gui.browser.BaseBrowserAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.Bitmap
-import android.graphics.drawable.StateListDrawable
-import android.graphics.drawable.Drawable
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.annotation.DrawableRes
-import androidx.appcompat.view.menu.ActionMenuItemView
 
 class RecyclerViewMatcher(@IdRes private val recyclerViewId: Int) {
     var recyclerView: RecyclerView? = null
@@ -39,6 +38,7 @@ class RecyclerViewMatcher(@IdRes private val recyclerViewId: Int) {
     fun atPositionOnView(position: Int, targetViewId: Int): Matcher<View> {
         return object : TypeSafeMatcher<View>() {
             var childView: View? = null
+            var triedMatch = false
 
             override fun describeTo(description: Description) {
                 description.appendText("Recycler view doesn't have item at position $position")
@@ -53,13 +53,16 @@ class RecyclerViewMatcher(@IdRes private val recyclerViewId: Int) {
             }
 
             override fun matchesSafely(view: View): Boolean {
-                if (childView == null) {
-                    recyclerView = view.rootView.findViewById(recyclerViewId) as RecyclerView
-                    if (recyclerView!!.id == recyclerViewId) {
-                        childView = recyclerView!!.findViewHolderForAdapterPosition(position)?.itemView
-                    } else {
-                        return false
-                    }
+                if (!triedMatch && childView == null) {
+                    if (recyclerView == null) recyclerView = view.rootView.findViewById(recyclerViewId) as RecyclerView
+                    triedMatch = true
+                    recyclerView?.run {
+                        if (id == recyclerViewId) {
+                            scrollToPosition(position + 1)
+                            childView = findViewHolderForAdapterPosition(position)?.itemView
+                            true
+                        } else null
+                    } ?: return false
                 }
 
                 return if (targetViewId == -1) {
@@ -67,7 +70,6 @@ class RecyclerViewMatcher(@IdRes private val recyclerViewId: Int) {
                 } else {
                     view === childView?.findViewById<View>(targetViewId)
                 }
-
             }
         }
     }
@@ -261,6 +263,19 @@ fun withActionIconDrawable(@DrawableRes resourceId: Int): Matcher<View> {
 
         public override fun matchesSafely(actionMenuItemView: ActionMenuItemView): Boolean {
             return sameBitmap(actionMenuItemView.context, actionMenuItemView.itemData.icon, resourceId)
+        }
+    }
+}
+
+fun withResName(resName: String): Matcher<View> {
+    return object: TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("with res-name: $resName")
+        }
+
+        override fun matchesSafely(view: View): Boolean {
+            val identifier = view.resources.getIdentifier(resName, "id", "android")
+            return resName.isNotEmpty() && (view.id == identifier)
         }
     }
 }

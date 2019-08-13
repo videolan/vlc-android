@@ -287,6 +287,7 @@ dependencies {
     // Tests
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.ext.roomVersion"
     testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
