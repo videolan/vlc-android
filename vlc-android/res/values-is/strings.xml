@@ -421,6 +421,7 @@
     <string name="dump_media_db_summary">Afrita gagnagrunn á rót innri gagnageymslu</string>
     <string name="clear_media_db">Hreinsa gagnagrunn yfir margmiðlunarefni</string>
     <string name="clear_media_db_summary">Fá aðgang að upplýsingum Android VLC til að hreinsa út gögn</string>
+    <string name="clear_history">Hreinsa feril</string>
     <string name="media_db_cleared">Hreinsaði gagnagrunn yfir margmiðlunarefni!</string>
     <string name="set_locale">Setja staðfærslu</string>
     <string name="set_locale_detail">Skilja eftir autt til að frumstilla</string>
@@ -617,6 +618,8 @@
     <string name="audio_digital_title">Stafrænt hljóðúttak (gegnumstreymi)</string>
     <string name="audio_task_cleared_title">Stöðva þegar strokið er yfir forrit</string>
     <string name="audio_task_cleared_summary">Stöðva afspilun þegar hætt er í forriti</string>
+    <string name="audio_resume_card_title">Birta síðustu ábendingu vegna spilunarlista</string>
+    <string name="audio_resume_card_summary">Birtir ábendingu sem hjálpar þér að halda áfram með hljóðspilun þegar forritið ræsist</string>
     <string name="playback_rewind">Spóla til baka</string>
     <string name="playback_forward">Spóla hratt áfram</string>
     <string name="ml_wizard_title">Úrval úr VLC-margmiðlunarsafni</string>
@@ -689,4 +692,20 @@
     <string name="reset">Endurstilla</string>
     <string name="appended">Lagi/lögum bætt við</string>
     <string name="inserted">Lag/lög sett inn</string>
+    <string name="remove_current">Fjarlægja fyrirliggjandi</string>
+    <string name="validation_delete_playlist">Ertu viss um að þú viljir eyða þessum spilunarlista?</string>
+    <string name="validation_delete_playlist_text">Þessa aðgerð er ekki hægt að afturkalla.</string>
+    <string name="display_in_list">Birta í lista</string>
+    <string name="display_in_grid">Birta í reitum</string>
+    <string name="dump_db_succes">Dembdi gagnagrunni á rót innri gagnageymslu</string>
+    <string name="dump_db_failure">Mistókst að demba gagnagrunni</string>
+    <string name="send_crash_title">Hrunskýrslugerð VLC</string>
+    <string name="dont_ask_again">Ekki spyrja aftur</string>
+    <string name="include_medialib">Hafðu með gagnagrunninn þinn</string>
+    <string name="vlc_reporter">VLC-skýrslugerð</string>
+    <string name="welcome_beta_title">VLC-prófunarútgáfa</string>
+    <string name="send">Senda</string>
+    <string name="send_crash_action_title">Hvað viltu gera?</string>
+    <string name="report_a_bug">Tilkynna um villu</string>
+    <string name="report_a_crash">Tilkynna um hrun</string>
 </resources>
