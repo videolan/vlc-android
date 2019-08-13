@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
@@ -43,6 +44,7 @@ import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Rational
+import android.util.TypedValue
 import android.view.*
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
@@ -106,7 +108,6 @@ import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.PlaylistModel
-import java.util.*
 
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
@@ -1971,6 +1972,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private var nbTimesTaped = 0
     private var lastSeekWasForward = true
+    private var seekAnimRunning = false
     internal fun seekDelta(delta: Int) {
         service?.let { service ->
             // unseekable stream
@@ -1999,6 +2001,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             initSeekOverlay()
 
             val container = if (seekForward) rightContainer else leftContainer
+            val containerBackground = if (seekForward) rightContainerBackground else leftContainerBackground
             val textView = if (seekForward) seekRightText else seekLeftText
             val imageFirst = if (seekForward) seekForwardFirst else seekRewindFirst
             val imageSecond = if (seekForward) seekForwardSecond else seekRewindSecond
@@ -2009,10 +2012,18 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (isTv) {
                     val seekTVConstraintSet = ConstraintSet()
                     seekTVConstraintSet.clone(seekContainer)
-                    seekTVConstraintSet.connect(R.id.seekLeftText, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-                    seekTVConstraintSet.setMargin(R.id.seekLeftText, ConstraintSet.START, 0)
-                    seekTVConstraintSet.connect(R.id.seekRightText, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-                    seekTVConstraintSet.setMargin(R.id.seekRightText, ConstraintSet.END, 0)
+                    seekTVConstraintSet.clear(R.id.rightContainerBackground, ConstraintSet.START)
+                    seekTVConstraintSet.constrainDefaultHeight(R.id.rightContainerBackground, ConstraintSet.MATCH_CONSTRAINT_WRAP)
+                    seekTVConstraintSet.constrainHeight(R.id.rightContainerBackground, 175.dp)
+                    seekTVConstraintSet.constrainWidth(R.id.rightContainerBackground, 300.dp)
+                    seekTVConstraintSet.setMargin(R.id.seekRightText, ConstraintSet.END, 16.dp)
+                    seekTVConstraintSet.clear(R.id.leftContainerBackground, ConstraintSet.END)
+                    seekTVConstraintSet.constrainDefaultHeight(R.id.leftContainerBackground, ConstraintSet.MATCH_CONSTRAINT_WRAP)
+                    seekTVConstraintSet.constrainHeight(R.id.leftContainerBackground, 175.dp)
+                    seekTVConstraintSet.constrainWidth(R.id.leftContainerBackground, 300.dp)
+                    seekTVConstraintSet.setMargin(R.id.seekLeftText, ConstraintSet.START, 16.dp)
+                    seekRightText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
+                    seekLeftText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
                     seekTVConstraintSet.applyTo(seekContainer)
                 }
 
@@ -2035,18 +2046,32 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         ArgbEvaluator(),
                         Color.TRANSPARENT, ContextCompat.getColor(this, R.color.ripple_white), Color.TRANSPARENT)
 
-                if (isTv) animatorSet.playTogether(
-                        backgroundAnim,
-                        firstImageAnim,
-                        secondImageAnim
-                )
-                else animatorSet.playTogether(
-                        circularReveal,
-                        backgroundColorAnimator,
-                        backgroundAnim,
-                        firstImageAnim,
-                        secondImageAnim
-                )
+                val containerBackgroundAnim = ObjectAnimator.ofFloat(containerBackground, "alpha", 0f, 1f)
+                containerBackgroundAnim.duration = SEEK_TIMEOUT
+
+                val textAnim = ObjectAnimator.ofFloat(textView, "alpha", 0f, 1f)
+                textAnim.duration = SEEK_TIMEOUT
+
+                val anims: ArrayList<Animator> = arrayListOf(firstImageAnim, secondImageAnim)
+                if (!isTv) {
+                    anims.add(backgroundColorAnimator)
+                    anims.add(circularReveal)
+                }
+                if (!seekAnimRunning) {
+                    anims.add(containerBackgroundAnim)
+                }
+                if (!seekAnimRunning) {
+                    anims.add(textAnim)
+                }
+
+                seekAnimRunning = true
+
+                seekRightText.animate().cancel()
+                seekLeftText.animate().cancel()
+                rightContainerBackground.animate().cancel()
+                leftContainerBackground.animate().cancel()
+
+                animatorSet.playTogether(anims)
                 animatorSet.duration = 1000
 
                 val mainAnimOut = ObjectAnimator.ofFloat(seek_background, "alpha", 0f)
@@ -2057,7 +2082,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
 
                 handler.removeMessages(HIDE_SEEK)
-                handler.sendEmptyMessageDelayed(HIDE_SEEK, SEEK_TIMEOUT.toLong())
+                handler.sendEmptyMessageDelayed(HIDE_SEEK, SEEK_TIMEOUT)
 
                 container.visibility = View.VISIBLE
                 seekAnimatorSet.start()
@@ -2067,10 +2092,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     private fun hideSeekOverlay() {
+        seekAnimRunning = false
         rightContainer.visibility = View.INVISIBLE
         leftContainer.visibility = View.INVISIBLE
-        seekRightText.text = ""
-        seekLeftText.text = ""
+        seekRightText.animate().alpha(0f).withEndAction { seekRightText.text = "" }
+        seekLeftText.animate().alpha(0f).withEndAction { seekLeftText.text = "" }
+        rightContainerBackground.animate().alpha(0f)
+        leftContainerBackground.animate().alpha(0f)
         nbTimesTaped = 0
         seekForwardFirst.alpha = 0f
         seekForwardSecond.alpha = 0f
@@ -2840,7 +2868,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         private const val KEY_TIME = "saved_time"
         private const val KEY_URI = "saved_uri"
         private const val OVERLAY_TIMEOUT = 4000
-        private const val SEEK_TIMEOUT = 1500
+        private const val SEEK_TIMEOUT = 750L
         private const val OVERLAY_INFINITE = -1
         private const val FADE_OUT = 1
         private const val FADE_OUT_INFO = 2
