@@ -55,6 +55,7 @@
     <string name="set_song_question">Setare \'%1$s\' ca ton de apel?</string>
     <string name="info">Informații</string>
     <string name="confirm_delete">Ștergeți fișierul \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Ștergeți  %1$d fișiere media?</string>
     <string name="confirm_delete_folder">Ștergeți dosarul %1$s și conținutul său?</string>
     <string name="confirm_delete_playlist">Stergeti playlist-ul \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Eliminați \'%1$s\' din lista de redare?</string>
@@ -255,6 +256,7 @@
     <string name="about_text">VLC pentru Android™ este o portare a media player-ului VLC, popularul media player de tip open source. Versiunea pentru Android™ poate citi majoritatea fișierelor și fluxurilor de rețea.</string>
     <string name="vlc_authors">și autorii VLC.</string>
     <string name="compiled_by">Această versiune de VLC este compilată de:</string>
+    <string name="feedback_forum">Forum feedback</string>
 
     <!-- Preferences -->
     <string name="preferences">Setari</string>
@@ -620,6 +622,7 @@
     <string name="browser">Browser</string>
     <string name="ab_repeat">Repetare A-B</string>
     <string name="stop_after_this">Opriți după această pistă</string>
+    <string name="time_category_new">Fișier media nou</string>
     <string name="time_category_current_month">Această lună</string>
     <string name="time_category_current_year">Acest an</string>
     <string name="time_category_last_year">Anul trecut</string>
@@ -636,9 +639,46 @@
     <string name="download">Descărcați</string>
     <string name="ctx_player_video_track">Selectați piesa video</string>
     <string name="ctx_player_audio_track">Pista audio</string>
+    <string name="ctx_player_subs_track">Urmărirea subtitrărilor</string>
     <string name="device_dialog_title">A fost  introdus un dispozitiv extern</string>
     <string name="device_dialog_message">Tocmai ați conectat un nou dispozitiv de stocare la TV box, doriți să-l deschideți cu VLC?</string>
     <string name="videos_folders_title">Afișare videoclipuri după dosare</string>
     <string name="video_save_remote_setting">Activați automat modul de control la distanță?</string>
     <string name="video_remote_enable">Comutați la modul de control la distanță</string>
+    <string name="removed_from_playlist_anonymous">Element (e) eliminate din lista de redare</string>
+    <string name="welcome_title">Bine ați venit la VLC!</string>
+    <string name="welcome_subtitle">Playerul multimedia gratuit și open source</string>
+    <string name="permission_media">VLC are nevoie de permisiunea dvs. pentru a accesa fișierele media de pe dispozitivul dvs.</string>
+    <string name="medialibrary_scan_explanation">VLC vă poate scana automat dispozitivul pentru a vă organiza colecția de fișiere media.</string>
+    <string name="onboarding_theme_title">Simțiți-vă ca acasă</string>
+    <string name="done">Terminat</string>
+    <string name="onboarding_scan_title">Descoperiți automat fișierele dvs. media</string>
+    <string name="daynight_explanation">VLC va comuta automat la modul de noapte la ora corespunzătoare</string>
+    <string name="onboarding_scanning_enable">Permit ca VLC să caute în dispozitivul meu fișierele media</string>
+    <string name="onboarding_scan_whole">VLC va scana toate fișierele de pe SDCard</string>
+    <string name="onboarding_scan_customize">Permiteți-mi să aleg ce foldere va scana VLC</string>
+    <string name="button_medialibrary_preferences">Accesați preferințele Medialibrary</string>
+    <string name="add">Adăugați</string>
+    <string name="add_to_new_playlist">Adăugați la noua listă de redare</string>
+    <string name="resume_card_message">Reluați redarea %1$s?</string>
+    <string name="misc">Redare aleatorie</string>
+    <string name="popup_force_legacy_title">Utilizați fereastra pop-up personalizată Picture-in-Picture</string>
+    <string name="popup_force_legacy_summary">Utilizați ferestre pop-up redimensionabile personalizate Picture-in-Picture</string>
+    <string name="device_default">Setarea implicită a dispozitivului</string>
+    <string name="track_number">%s piese</string>
+    <string name="jump_to">Sari la</string>
+    <string name="show_video_thumbnails_summary">Afișați miniaturi video în liste</string>
+    <string name="show_video_thumbnails">Miniaturi video</string>
+    <string name="validation_delete_playlist">Sigur doriți să ștergeți această listă de redare?</string>
+    <string name="validation_delete_playlist_text">Această acțiune nu poate fi anulată.</string>
+    <string name="display_in_list">Afișare sub formă de listă</string>
+    <string name="display_in_grid">Afișare sub formă de grilă</string>
+    <string name="send_crash_description">Prin trimiterea erorii care a survenit, ne veți ajuta să îmbunătățim stabilitatea VLC.</string>
+    <string name="send_crash_warning">Asigurați-vă că eliminați datele sensibile pe care nu doriți să le trimiteți.</string>
+    <string name="dont_ask_again">Nu mai întreba</string>
+    <string name="welcome_beta_description">Bine ați venit la programul VLC beta.\nVă rugăm să rețineți că această versiune poate avea unele erori.</string>
+    <string name="welcome_beta_description_bugs">Dacă observați o eroare, vă rugăm să o raportați în forumul nostru sau în urmăritorul de erori.</string>
+    <string name="welcome_beta_description_crashes">Dacă apare o eroare, utilizați pictograma VLC Reporter din programul dvs. pentru a ne-o trimite.</string>
+    <string name="send">Trimite</string>
+    <string name="send_crash_action_title">Ce doriți să faceți?</string>
 </resources>
