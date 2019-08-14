@@ -54,7 +54,7 @@
     <string name="set_song_question">Définir « %1$s » comme sonnerie ?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Supprimer le fichier  « %1$s » ?</string>
-    <string name="confirm_delete_several_media">Supprimer ces %1$dmédias ?</string>
+    <string name="confirm_delete_several_media">Supprimer ces %1$d médias ?</string>
     <string name="confirm_delete_folder">Supprimer le dossier « %1$s » ainsi que son contenu ?</string>
     <string name="confirm_delete_playlist">Supprimer la liste de lecture « %1$s » ?</string>
     <string name="confirm_remove_from_playlist">Retirer « %1$s » de la liste de lecture ?</string>
@@ -618,6 +618,8 @@
     <string name="audio_digital_title">Sortie audio (passthrough)</string>
     <string name="audio_task_cleared_title">Arrêter lors d\'un balayage de l\'application</string>
     <string name="audio_task_cleared_summary">Arrêter la lecture lorsque l\'application est fermée</string>
+    <string name="audio_resume_card_title">Afficher une alerte dernière liste de lecture</string>
+    <string name="audio_resume_card_summary">Affiche une alerte vous permettant de reprendre la lecture audio au lancement de l’application</string>
     <string name="playback_rewind">Retour</string>
     <string name="playback_forward">Avance rapide</string>
     <string name="ml_wizard_title">Sélection de la médiathèque de VLC</string>
@@ -693,4 +695,23 @@
     <string name="remove_current">Supprimer l\'élément actuel</string>
     <string name="validation_delete_playlist">Êtes-vous certain(e) de vouloir supprimer cette liste de lecture ?</string>
     <string name="validation_delete_playlist_text">Cette action ne peut pas être annulée.</string>
+    <string name="display_in_list">Afficher en liste</string>
+    <string name="display_in_grid">Afficher en grille</string>
+    <string name="dump_db_succes">Base de données exportée à la racine du stockage interne</string>
+    <string name="dump_db_failure">Échec lors de l’export de la base de données</string>
+    <string name="send_crash_title">Rapporteur de plantage VLC</string>
+    <string name="send_crash_description">En envoyant votre rapport de crash, vous allez nous aider à améliorer la stabilité de VLC.</string>
+    <string name="send_crash_warning">Assurez-vous d\'avoir bien supprimé toutes les données sensibles que vous ne voulez pas envoyer.</string>
+    <string name="dont_ask_again">Ne pas redemander</string>
+    <string name="include_medialib">Inclure votre base de données</string>
+    <string name="vlc_reporter">Rapporteur VLC</string>
+    <string name="welcome_beta_title">Beta VLC</string>
+    <string name="welcome_beta_description">Bienvenu dans le programme bêta de VLC.\nS\'il vous plait, notez bien que cette version peut contenir quelques bogues.</string>
+    <string name="welcome_beta_description_bugs">Si vous constatez un bogue, veuillez nous le signaler via notre forum ou via notre gestionnaire de bogues.</string>
+    <string name="welcome_beta_description_crashes">Si vous rencontrez un problème, veuillez utiliser l’icône Rapporteur VLC dans votre lanceur d’applications pour nous l’envoyer.</string>
+    <string name="send">Envoyer</string>
+    <string name="send_crash_action_title">Que voulez vous faire ?</string>
+    <string name="report_a_bug">Signaler un bogue</string>
+    <string name="report_a_crash">Signaler un plantage</string>
+    <string name="describe_crash">Veuillez décrire comment le problème s’est produit</string>
 </resources>
