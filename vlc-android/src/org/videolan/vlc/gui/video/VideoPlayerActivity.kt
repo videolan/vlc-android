@@ -1973,6 +1973,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var nbTimesTaped = 0
     private var lastSeekWasForward = true
     private var seekAnimRunning = false
+    private var animatorSet: AnimatorSet = AnimatorSet()
     internal fun seekDelta(delta: Int) {
         service?.let { service ->
             // unseekable stream
@@ -1985,8 +1986,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             val sb = StringBuilder()
             val seekForward = delta >= 0
 
+            initSeekOverlay()
+            if (lastSeekWasForward != seekForward) {
+                animatorSet.cancel()
+                hideSeekOverlay(true)
+            }
+
             if (nbTimesTaped != 0 && lastSeekWasForward != seekForward) {
-                hideSeekOverlay()
                 nbTimesTaped = 0
             }
 
@@ -1998,7 +2004,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     .append(Tools.millisToString(service.time))
                     .append(')')
 
-            initSeekOverlay()
 
             val container = if (seekForward) rightContainer else leftContainer
             val containerBackground = if (seekForward) rightContainerBackground else leftContainerBackground
@@ -2012,18 +2017,23 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (isTv) {
                     val seekTVConstraintSet = ConstraintSet()
                     seekTVConstraintSet.clone(seekContainer)
-                    seekTVConstraintSet.clear(R.id.rightContainerBackground, ConstraintSet.START)
-                    seekTVConstraintSet.constrainDefaultHeight(R.id.rightContainerBackground, ConstraintSet.MATCH_CONSTRAINT_WRAP)
-                    seekTVConstraintSet.constrainHeight(R.id.rightContainerBackground, 175.dp)
-                    seekTVConstraintSet.constrainWidth(R.id.rightContainerBackground, 300.dp)
-                    seekTVConstraintSet.setMargin(R.id.seekRightText, ConstraintSet.END, 16.dp)
-                    seekTVConstraintSet.clear(R.id.leftContainerBackground, ConstraintSet.END)
-                    seekTVConstraintSet.constrainDefaultHeight(R.id.leftContainerBackground, ConstraintSet.MATCH_CONSTRAINT_WRAP)
-                    seekTVConstraintSet.constrainHeight(R.id.leftContainerBackground, 175.dp)
-                    seekTVConstraintSet.constrainWidth(R.id.leftContainerBackground, 300.dp)
-                    seekTVConstraintSet.setMargin(R.id.seekLeftText, ConstraintSet.START, 16.dp)
-                    seekRightText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
-                    seekLeftText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f)
+
+                    seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.START, R.id.seekRightContainer, ConstraintSet.START)
+                    seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.TOP, R.id.seekRightContainer, ConstraintSet.TOP)
+                    seekTVConstraintSet.connect(R.id.rightContainerBackground, ConstraintSet.BOTTOM, R.id.seekRightContainer, ConstraintSet.BOTTOM)
+                    seekTVConstraintSet.setMargin(R.id.seekRightText, ConstraintSet.END, resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal))
+
+                    seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.END, R.id.seekLeftContainer, ConstraintSet.END)
+                    seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.TOP, R.id.seekLeftContainer, ConstraintSet.TOP)
+                    seekTVConstraintSet.connect(R.id.leftContainerBackground, ConstraintSet.BOTTOM, R.id.seekLeftContainer, ConstraintSet.BOTTOM)
+                    seekTVConstraintSet.setMargin(R.id.seekLeftText, ConstraintSet.START, resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal))
+                    seekForwardFirst.setImageResource(R.drawable.ic_half_seek_forward_tv)
+                    seekForwardSecond.setImageResource(R.drawable.ic_half_seek_forward_tv)
+                    seekRewindFirst.setImageResource(R.drawable.ic_half_seek_rewind_tv)
+                    seekRewindSecond.setImageResource(R.drawable.ic_half_seek_rewind_tv)
+
+                    seekRightText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+                    seekLeftText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
                     seekTVConstraintSet.applyTo(seekContainer)
                 }
 
@@ -2039,7 +2049,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 //the center is offset + the radius is 2 * the width to reveal an arc instead of half a circle
                 val cx = if (seekForward) container.width * 2 else -container.width
                 val cy = container.height / 2
-                val animatorSet = AnimatorSet()
+                animatorSet = AnimatorSet()
                 val circularReveal = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.width.toFloat() * 2)
                 val backgroundColorAnimator = ObjectAnimator.ofObject(container,
                         CircularRevealWidget.CircularRevealScrimColorProperty.CIRCULAR_REVEAL_SCRIM_COLOR.name,
@@ -2047,10 +2057,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         Color.TRANSPARENT, ContextCompat.getColor(this, R.color.ripple_white), Color.TRANSPARENT)
 
                 val containerBackgroundAnim = ObjectAnimator.ofFloat(containerBackground, "alpha", 0f, 1f)
-                containerBackgroundAnim.duration = SEEK_TIMEOUT
+                containerBackgroundAnim.duration = 300
 
                 val textAnim = ObjectAnimator.ofFloat(textView, "alpha", 0f, 1f)
-                textAnim.duration = SEEK_TIMEOUT
+                textAnim.duration = 300
 
                 val anims: ArrayList<Animator> = arrayListOf(firstImageAnim, secondImageAnim)
                 if (!isTv) {
@@ -2072,7 +2082,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 leftContainerBackground.animate().cancel()
 
                 animatorSet.playTogether(anims)
-                animatorSet.duration = 1000
 
                 val mainAnimOut = ObjectAnimator.ofFloat(seek_background, "alpha", 0f)
                 backgroundAnim.duration = 200
@@ -2091,14 +2100,26 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    private fun hideSeekOverlay() {
+    private fun hideSeekOverlay(immediate: Boolean = false) {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "hideSeekOverlay $immediate")
         seekAnimRunning = false
         rightContainer.visibility = View.INVISIBLE
         leftContainer.visibility = View.INVISIBLE
-        seekRightText.animate().alpha(0f).withEndAction { seekRightText.text = "" }
-        seekLeftText.animate().alpha(0f).withEndAction { seekLeftText.text = "" }
-        rightContainerBackground.animate().alpha(0f)
-        leftContainerBackground.animate().alpha(0f)
+        if (immediate) {
+            seekRightText.animate().cancel()
+            seekLeftText.animate().cancel()
+            rightContainerBackground.animate().cancel()
+            leftContainerBackground.animate().cancel()
+            seekRightText.alpha = 0f
+            seekLeftText.alpha = 0f
+            rightContainerBackground.alpha = 0f
+            leftContainerBackground.alpha = 0f
+        } else {
+            seekRightText.animate().alpha(0f).withEndAction { seekRightText.text = "" }
+            seekLeftText.animate().alpha(0f).withEndAction { seekLeftText.text = "" }
+            rightContainerBackground.animate().alpha(0f)
+            leftContainerBackground.animate().alpha(0f)
+        }
         nbTimesTaped = 0
         seekForwardFirst.alpha = 0f
         seekForwardSecond.alpha = 0f
