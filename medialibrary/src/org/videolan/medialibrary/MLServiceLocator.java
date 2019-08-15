@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcel;
 
-import org.videolan.libvlc.Media;
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
@@ -36,7 +35,9 @@ public class MLServiceLocator {
     private static volatile AbstractMedialibrary instance;
 
     public static void setLocatorMode(LocatorMode mode) {
-        if (instance != null) throw new IllegalStateException("LocatorMode must be set before AbstractMedialibrary initialization");
+        if (instance != null && mode != sMode) {
+            throw new IllegalStateException("LocatorMode must be set before AbstractMedialibrary initialization");
+        }
         MLServiceLocator.sMode = mode;
     }
 

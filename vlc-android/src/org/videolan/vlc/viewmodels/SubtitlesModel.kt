@@ -6,7 +6,10 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.vlc.R
 import org.videolan.vlc.api.NoConnectivityException
 import org.videolan.vlc.api.OpenSubtitle
@@ -14,6 +17,7 @@ import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.OpenSubtitleRepository
+import org.videolan.vlc.util.CoroutineContextProvider
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Settings
 import java.io.File
@@ -21,7 +25,7 @@ import java.util.*
 
 private const val LAST_USED_LANGUAGES = "last_used_subtitles"
 
-class SubtitlesModel(private val context: Context, private val mediaUri: Uri): ViewModel() {
+class SubtitlesModel(private val context: Context, private val mediaUri: Uri, val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()): ViewModel() {
     val observableSearchName = ObservableField<String>()
     val observableSearchEpisode = ObservableField<String>()
     val observableSearchSeason = ObservableField<String>()
@@ -84,11 +88,11 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri): V
         }
     }
 
-    private suspend fun merge(downloadedResult: List<SubtitleItem>?, downloadingResult: List<SubtitleItem>?): List<SubtitleItem> = withContext(Dispatchers.Default) {
+    private suspend fun merge(downloadedResult: List<SubtitleItem>?, downloadingResult: List<SubtitleItem>?): List<SubtitleItem> = withContext(coroutineContextProvider.Default) {
         downloadedResult.orEmpty() + downloadingResult?.toList().orEmpty()
     }
 
-    private suspend fun updateListState(apiResultLiveData: List<OpenSubtitle>?, history: List<SubtitleItem>?): MutableList<SubtitleItem>  = withContext(Dispatchers.Default) {
+    private suspend fun updateListState(apiResultLiveData: List<OpenSubtitle>?, history: List<SubtitleItem>?): MutableList<SubtitleItem>  = withContext(coroutineContextProvider.Default) {
         val list = mutableListOf<SubtitleItem>()
         apiResultLiveData?.forEach { openSubtitle ->
             val exist = history?.find { it.idSubtitle == openSubtitle.idSubtitle }
@@ -138,7 +142,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri): V
         searchJob = viewModelScope.launch {
             try {
                 val subs = if (byHash) {
-                    withContext(Dispatchers.IO) {
+                    withContext(coroutineContextProvider.IO) {
                         val videoFile = File(mediaUri.path)
                         val hash = FileUtils.computeHash(videoFile)
                         val fileLength = videoFile.length()

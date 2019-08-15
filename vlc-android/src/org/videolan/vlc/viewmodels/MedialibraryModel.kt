@@ -25,10 +25,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.util.CoroutineContextProvider
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseModel<T>(context), ICallBackHandler by CallBackDelegate() {
+abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context, coroutineContextProvider: CoroutineContextProvider) : BaseModel<T>(context, coroutineContextProvider), ICallBackHandler by CallBackDelegate() {
 
     init {
         @Suppress("LeakingThis")

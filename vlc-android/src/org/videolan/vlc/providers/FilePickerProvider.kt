@@ -21,7 +21,6 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
-import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator

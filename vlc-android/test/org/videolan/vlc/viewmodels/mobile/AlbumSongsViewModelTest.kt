@@ -30,7 +30,7 @@ class AlbumSongsViewModelTest : BaseTest() {
             parent = MLServiceLocator.getAbstractArtist(ds.uuid, name, "", "", "")
         else
             parent = MLServiceLocator.getAbstractGenre(ds.uuid, name)
-        albumSongsViewModel = AlbumSongsViewModel(context, application, parent)
+        albumSongsViewModel = AlbumSongsViewModel(context, parent)
     }
 
     private fun createDummyAudios(count: Int, title: String): List<Long> = (1..count).map {

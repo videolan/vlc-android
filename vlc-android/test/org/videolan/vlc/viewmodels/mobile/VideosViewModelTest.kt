@@ -21,7 +21,7 @@ class VideosViewModelTest : BaseTest() {
     }
 
     private fun setupViewModel(folder: AbstractFolder?) {
-        videosViewModel = VideosViewModel(context, application, folder)
+        videosViewModel = VideosViewModel(context, folder)
     }
 
     @Test

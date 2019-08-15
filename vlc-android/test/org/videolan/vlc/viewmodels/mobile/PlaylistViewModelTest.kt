@@ -5,7 +5,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.stubs.StubDataSource
@@ -33,7 +32,7 @@ class PlaylistViewModelTest : BaseTest() {
 
     private fun setupViewModel(playlist: String, mediaIds: List<Long>? = null) {
         parent = medialibrary.createPlaylist(playlist).apply { if (mediaIds != null) append(mediaIds) }
-        playlistViewModel = PlaylistViewModel(context, application, parent)
+        playlistViewModel = PlaylistViewModel(context, parent)
     }
 
     @Test

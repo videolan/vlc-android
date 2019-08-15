@@ -23,7 +23,7 @@ class HistoryModelTest : BaseTest() {
     override fun beforeTest() {
         super.beforeTest()
         mediaLibrary.clearHistory()
-        historyModel = HistoryModel(application, TestCoroutineContextProvider())
+        historyModel = HistoryModel(context, TestCoroutineContextProvider())
     }
 
     @Test

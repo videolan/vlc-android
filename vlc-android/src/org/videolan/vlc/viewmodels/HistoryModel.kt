@@ -23,16 +23,16 @@ package org.videolan.vlc.viewmodels
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.vlc.util.CoroutineContextProvider
 
-class HistoryModel(context: Context) : MedialibraryModel<AbstractMediaWrapper>(context) {
+class HistoryModel(context: Context, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<AbstractMediaWrapper>(context, coroutineContextProvider) {
 
     override fun canSortByName() = false
 
     override suspend fun updateList() {
-        dataset.value = withContext(Dispatchers.Default) { medialibrary.lastMediaPlayed().toMutableList() }
+        dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastMediaPlayed().toMutableList() }
     }
 
     fun moveUp(media: AbstractMediaWrapper) {

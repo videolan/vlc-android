@@ -32,6 +32,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.*
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.CoroutineContextProvider
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
@@ -42,7 +43,7 @@ const val TYPE_STORAGE = 3L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class BrowserModel(context: Context, val url: String?, type: Long, showHiddenFiles: Boolean, private val showDummyCategory: Boolean) : BaseModel<MediaLibraryItem>(context), TvBrowserModel<MediaLibraryItem>, IPathOperationDelegate by PathOperationDelegate() {
+open class BrowserModel(context: Context, val url: String?, type: Long, showHiddenFiles: Boolean, private val showDummyCategory: Boolean, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BaseModel<MediaLibraryItem>(context, coroutineContextProvider), TvBrowserModel<MediaLibraryItem>, IPathOperationDelegate by PathOperationDelegate() {
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
 

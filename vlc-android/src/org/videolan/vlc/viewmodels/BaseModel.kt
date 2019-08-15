@@ -23,19 +23,19 @@ package org.videolan.vlc.viewmodels
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.FilterDelegate
-import org.videolan.vlc.util.LiveDataset
-import org.videolan.vlc.util.ModelsHelper
-import org.videolan.vlc.util.map
+import org.videolan.vlc.util.*
 
 private const val TAG = "VLC/BaseModel"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel(context) {
+abstract class BaseModel<T : MediaLibraryItem>(context: Context, val coroutineContextProvider: CoroutineContextProvider) : SortableModel(context) {
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }
 
@@ -92,7 +92,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     open suspend fun addMedia(mediaList: List<T>) = dataset.add(mediaList)
 
     protected open suspend fun updateItems(mediaList: List<T>) {
-        dataset.value = withContext(Dispatchers.Default) {
+        dataset.value = withContext(coroutineContextProvider.Default) {
             val list = dataset.value
             val iterator = list.listIterator()
             while (iterator.hasNext()) {

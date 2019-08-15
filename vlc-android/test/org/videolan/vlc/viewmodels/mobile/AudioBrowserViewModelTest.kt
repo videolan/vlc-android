@@ -5,8 +5,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
@@ -20,7 +18,7 @@ class AudioBrowserViewModelTest : BaseTest() {
     override fun beforeTest() {
         super.beforeTest()
         StubDataSource.getInstance().resetData()
-        audioBrowserViewModel = AudioBrowserViewModel(context, application)
+        audioBrowserViewModel = AudioBrowserViewModel(context)
     }
 
     private fun createDummyAudios(count: Int, title: String): List<Long> = (1..count).map {

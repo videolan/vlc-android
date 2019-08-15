@@ -23,9 +23,7 @@ package org.videolan.vlc.providers
 import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
-import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R

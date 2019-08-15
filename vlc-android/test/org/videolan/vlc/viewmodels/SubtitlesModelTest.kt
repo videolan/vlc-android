@@ -12,7 +12,6 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import org.robolectric.RuntimeEnvironment
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.R
 import org.videolan.vlc.api.NoConnectivityException
@@ -25,7 +24,6 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.TestUtil
 import org.videolan.vlc.util.applyMock
-import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -63,7 +61,7 @@ class SubtitlesModelTest : BaseTest() {
     override fun beforeTest() {
         super.beforeTest()
         mediaPath = temporaryFolder.newFile("fake_media").path
-        subtitlesModel = SubtitlesModel(application, Uri.parse(mediaPath), TestCoroutineContextProvider())
+        subtitlesModel = SubtitlesModel(context, Uri.parse(mediaPath), coroutineContextProvider = TestCoroutineContextProvider())
     }
 
     @Test

@@ -29,9 +29,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.vlc.util.CoroutineContextProvider
 
 
-class StreamsModel(context: Context) : MedialibraryModel<AbstractMediaWrapper>(context) {
+class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<AbstractMediaWrapper>(context, coroutineContextProvider) {
      val observableSearchText = ObservableField<String>()
 
     init {
@@ -40,7 +41,7 @@ class StreamsModel(context: Context) : MedialibraryModel<AbstractMediaWrapper>(c
 
 
     override suspend fun updateList() {
-        dataset.value = withContext(Dispatchers.Default) { medialibrary.lastStreamsPlayed().toMutableList() }
+        dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastStreamsPlayed().toMutableList() }
     }
 
     fun rename(position: Int, name: String) {

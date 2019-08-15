@@ -32,7 +32,6 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
-import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -42,7 +41,6 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.*
 import java.util.*
 
@@ -131,7 +129,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected open suspend fun browseImpl(url: String? = null) {
         if (url == null) coroutineScope {
-            discoveryJob = launch { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
+            discoveryJob = launch { filesFlow(url).collect {  findMedia(it)?.let { item -> addMedia(item) } } }
         } else {
             val files = filesFlow(url).mapNotNull { findMedia(it) }.toList()
             computeHeaders(files)

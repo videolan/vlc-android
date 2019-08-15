@@ -8,7 +8,7 @@ import org.junit.Test
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
-import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.vlc.util.TestCoroutineContextProvider
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -22,7 +22,7 @@ class FoldersViewModelTest: BaseTest() {
     }
 
     internal fun setupViewModel() {
-        foldersViewModel = FoldersViewModel(context, application, AbstractFolder.TYPE_FOLDER_VIDEO)
+        foldersViewModel = FoldersViewModel(context, AbstractFolder.TYPE_FOLDER_VIDEO, TestCoroutineContextProvider())
     }
 
     @Test
