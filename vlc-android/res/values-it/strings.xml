@@ -696,4 +696,21 @@
     <string name="validation_delete_playlist_text">Questa azione non può essere annullata.</string>
     <string name="display_in_list">Visualizza in elenco</string>
     <string name="display_in_grid">Visualizza in griglia</string>
+    <string name="dump_db_succes">Database salvato nella radice dell\'archiviazione interna</string>
+    <string name="dump_db_failure">Salvataggio del database non riuscito</string>
+    <string name="send_crash_title">Strumento di segnalazione errori di VLC</string>
+    <string name="send_crash_description">Inviando la tua chiusura inattesa, ci aiuterai a migliorare la stabilità di VLC.</string>
+    <string name="send_crash_warning">Assicurati di rimuovere i dati sensibili che non vuoi inviare.</string>
+    <string name="dont_ask_again">Non chiedere ancora</string>
+    <string name="include_medialib">Includi il tuo database</string>
+    <string name="vlc_reporter">Strumento di segnalazione di VLC</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Benvenuto nel programma VLC beta.\nNota che questa versione potrebbe presentare dei bug.</string>
+    <string name="welcome_beta_description_bugs">Se noti un bug, segnalalo nel nostro forum o utilizzando il sistema di tracciamento dei bug.</string>
+    <string name="welcome_beta_description_crashes">Se riscontri una chiusura inattesa, utilizza l\'icona dello strumento di segnalazione di VLC per inviarcelo.</string>
+    <string name="send">Invia</string>
+    <string name="send_crash_action_title">Cosa vuoi fare?</string>
+    <string name="report_a_bug">Segnala un bug</string>
+    <string name="report_a_crash">Segnala una chiusura inattesa</string>
+    <string name="describe_crash">Descrivi come questa chiusura inattesa si è verificata</string>
 </resources>
