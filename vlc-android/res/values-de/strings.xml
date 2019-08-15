@@ -409,7 +409,7 @@
     <string name="enable_frame_skip">Bildsprung</string>
     <string name="enable_frame_skip_summary">Beschleunigt das Dekodieren, führt aber zu niedriger Videoqualität.</string>
     <string name="enable_time_stretching_audio">Audio-Zeitdehnung</string>
-    <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt den Ton, ohne dabei die Tonhöhe zu verändern  (erfordert ein schnelles Gerät).</string>
+    <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt den Ton, ohne dabei die Tonhöhe zu verändern (erfordert ein schnelles Gerät).</string>
 
     <string name="advanced_prefs_category">Erweitert</string>
     <string name="save_video_none">Geschwindigkeit nicht speichern</string>
@@ -535,7 +535,7 @@
     <!-- Plugins -->
     <string name="plugins">Module</string>
     <string name="download_on_device">Herunterladen</string>
-    <string name="extension_empty">Kein Element zum Anzeigen,  gehen Sie in die Erweiterungseinstellungen um einige zu erhalten.</string>
+    <string name="extension_empty">Kein Element zum Anzeigen, gehen Sie in die Erweiterungseinstellungen um einige zu erhalten.</string>
 
     <string name="opengl_title">OpenGL ES2-Nutzung</string>
     <string name="opengl_summary">Standardmäßig wird OpenGL ES2, wenn benötigt (z.B. 360°Videos), bei der Software-Dekodierung und Hardware-Dekodierung verwendet.</string>
