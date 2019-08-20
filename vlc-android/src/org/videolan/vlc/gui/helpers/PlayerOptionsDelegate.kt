@@ -407,13 +407,9 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         }
 
         inner class ViewHolder(val binding: PlayerOptionItemBinding) : RecyclerView.ViewHolder(binding.root) {
-            val textColor = binding.optionTitle.currentTextColor
 
             init {
                 itemView.setOnClickListener { onClick(dataset[layoutPosition]) }
-                itemView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                    binding.optionTitle.setTextColor(if (hasFocus) ContextCompat.getColor(itemView.context, R.color.orange500transparent) else textColor)
-                }
             }
         }
     }

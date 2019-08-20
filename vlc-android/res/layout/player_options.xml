@@ -7,12 +7,12 @@
     android:focusable="false">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/options_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|end"
-        android:background="?attr/rounded_bg"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/default_margin"
-        android:paddingBottom="@dimen/default_margin" />
+            android:id="@+id/options_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:background="?attr/advanced_options_bg"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/default_margin"
+            android:paddingBottom="@dimen/default_margin" />
 </FrameLayout>

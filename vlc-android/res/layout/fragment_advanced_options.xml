@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<org.videolan.vlc.gui.view.AutoFitRecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/adv_options_margin"
-    android:background="?attr/rounded_bg"/>
