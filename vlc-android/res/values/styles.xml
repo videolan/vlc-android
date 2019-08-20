@@ -71,7 +71,7 @@
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
         <item name="advanced_options_style">@style/Theme.MaterialComponents.Light.Dialog</item>
-        <item name="advanced_options_bg">@drawable/rounded_corners_light</item>
+        <item name="advanced_options_bg">@drawable/advanced_options_background_light</item>
         <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
         <item name="ic_popup_expand">@drawable/ic_popup_expand</item>
@@ -182,7 +182,7 @@
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_dark</item>
         <item name="advanced_options_style">@style/Theme.MaterialComponents.Dialog</item>
-        <item name="advanced_options_bg">@drawable/rounded_corners</item>
+        <item name="advanced_options_bg">@drawable/advanced_options_background</item>
         <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off_w</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
         <item name="ic_popup_expand">@drawable/ic_popup_expand_w</item>
@@ -330,7 +330,7 @@
         <item name="colorAccent">@color/orange500</item>
 
         <item name="background_default">@color/grey850</item>
-        <item name="advanced_options_bg">@drawable/rounded_corners</item>
+        <item name="advanced_options_bg">@drawable/advanced_options_background</item>
         <item name="advanced_options_style">@style/Theme.MaterialComponents.Dialog</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
         <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
