@@ -104,6 +104,10 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             }
             "browser_show_all_files" -> (activity as PreferencesActivity).setRestart()
             KEY_APP_THEME -> (activity as PreferencesActivity).exitAndRescan()
+            LIST_TITLE_ELLIPSIZE -> {
+                Settings.listTitleEllipsize = sharedPreferences.getString(LIST_TITLE_ELLIPSIZE, "0").toInt()
+                (activity as PreferencesActivity).setRestart()
+            }
         }
     }
 

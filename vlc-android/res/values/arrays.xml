@@ -246,17 +246,19 @@
         <item>102</item>
     </string-array>
 
-    <string-array name="audio_title_alignment_list">
-        <item>@string/audio_title_alignment_default</item>
-        <item>@string/audio_title_alignment_left</item>
-        <item>@string/audio_title_alignment_right</item>
-        <item>@string/audio_title_alignment_marquee</item>
+    <string-array name="list_title_ellipsize_list">
+        <item>@string/list_title_ellipsize_default</item>
+        <item>@string/list_title_ellipsize_left</item>
+        <item>@string/list_title_ellipsize_right</item>
+        <item>@string/list_title_ellipsize_middle</item>
+        <item>@string/list_title_ellipsize_marquee</item>
     </string-array>
-    <string-array name="audio_title_alignment_values" translatable="false">
+    <string-array name="list_title_ellipsize_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
 
     <string-array name="video_min_group_length_list" translatable="false">

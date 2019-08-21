@@ -16,10 +16,12 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManage
 
     var showVideoThumbs = true
     var tvUI = false
+    var listTitleEllipsize = 0
 
     fun init(prefs: SharedPreferences) {
         showVideoThumbs = prefs.getBoolean(SHOW_VIDEO_THUMBNAILS, true)
         tvUI = prefs.getBoolean(PREF_TV_UI, false)
+        listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0").toInt()
     }
 
     val showTvUi : Boolean
@@ -34,6 +36,10 @@ const val KEY_BLACK_THEME = "enable_black_theme"
 const val KEY_DAYNIGHT = "daynight"
 const val SHOW_VIDEO_THUMBNAILS = "show_video_thumbnails"
 const val FORCE_LIST_PORTRAIT = "force_list_portrait"
+
+//UI
+const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
+
 
 // AudioPlayer
 const val PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown"
