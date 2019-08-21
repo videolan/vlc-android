@@ -10,9 +10,6 @@
 
         <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
-        <variable
-            name="alignMode"
-            type="int" />
 
 
         <variable
@@ -80,22 +77,24 @@
         <!-- TextView must be set to singleLine
             see https://code.google.com/p/android/issues/detail?id=33868 -->
         <TextView
-            android:id="@+id/title"
-            style="@style/VLC.TextViewTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
-            android:gravity="center_vertical"
-            vlc:alignMode="@{alignMode}"
-            vlc:asyncText="@{item.title}"
-            vlc:layout_constraintBottom_toTopOf="@+id/subtitle"
-            vlc:layout_constraintEnd_toStartOf="@+id/item_more"
-            vlc:layout_constraintStart_toEndOf="@+id/media_cover"
-            vlc:layout_constraintTop_toTopOf="parent"
-            vlc:layout_constraintVertical_chainStyle="packed"
-            vlc:layout_goneMarginEnd="@dimen/default_margin_plus_audio_margin"
-            vlc:layout_goneMarginStart="@dimen/default_margin_plus_audio_margin"
-            vlc:placeholder="@{item}" />
+                android:id="@+id/title"
+                style="@style/VLC.TextViewTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:gravity="center_vertical"
+                vlc:asyncText="@{item.title}"
+                android:maxLines="2"
+                android:singleLine="false"
+                android:ellipsize="end"
+                vlc:layout_constraintBottom_toTopOf="@+id/subtitle"
+                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+                vlc:layout_constraintStart_toEndOf="@+id/media_cover"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_constraintVertical_chainStyle="packed"
+                vlc:layout_goneMarginEnd="@dimen/default_margin_plus_audio_margin"
+                vlc:layout_goneMarginStart="@dimen/default_margin_plus_audio_margin"
+                vlc:placeholder="@{item}"/>
 
         <TextView
             android:id="@+id/subtitle"

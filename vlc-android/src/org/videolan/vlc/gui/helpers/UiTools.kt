@@ -29,7 +29,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaRouter
@@ -597,19 +596,22 @@ object UiTools {
  * mode from preferences.
  *
  *
- * See @array/audio_title_alignment_values
+ * See @array/list_title_alignment_values
  *
  * @param alignMode Align mode as read from preferences
  * @param t         Reference to the textview
  */
-@BindingAdapter("alignMode")
-fun setAlignModeByPref(t: TextView, alignMode: Int) {
-    when (alignMode) {
+@BindingAdapter("ellipsizeMode")
+fun setEllipsizeModeByPref(t: TextView, activated: Boolean) {
+    if (!activated) return
+
+    when (Settings.listTitleEllipsize) {
         0 -> {
         }
-        1 -> t.ellipsize = TextUtils.TruncateAt.END
-        2 -> t.ellipsize = TextUtils.TruncateAt.START
-        3 -> {
+        1 -> t.ellipsize = TextUtils.TruncateAt.START
+        2 -> t.ellipsize = TextUtils.TruncateAt.END
+        3 -> t.ellipsize = TextUtils.TruncateAt.MIDDLE
+        4 -> {
             t.ellipsize = TextUtils.TruncateAt.MARQUEE
             t.marqueeRepeatLimit = -1
             t.isSelected = true

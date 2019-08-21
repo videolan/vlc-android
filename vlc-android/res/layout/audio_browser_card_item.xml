@@ -11,10 +11,6 @@
 
         <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
-        <variable
-            name="alignMode"
-            type="int" />
-
 
         <variable
             name="item"
@@ -93,23 +89,23 @@
                 vlc:layout_constraintRight_toRightOf="@+id/media_cover" />
 
             <TextView
-                android:id="@+id/title"
-                style="@style/VLC.TextViewTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                tools:text="Title"
-                vlc:alignMode="@{alignMode}"
-                vlc:asyncText="@{item.title}"
-                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
-                vlc:layout_constraintStart_toStartOf="parent"
-                vlc:layout_constraintTop_toBottomOf="@id/media_cover"
-                vlc:placeholder="@{item}" />
+                    android:id="@+id/title"
+                    style="@style/VLC.TextViewTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    tools:text="Title"
+                    vlc:ellipsizeMode="@{true}"
+                    vlc:asyncText="@{item.title}"
+                    vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+                    vlc:layout_constraintStart_toStartOf="parent"
+                    vlc:layout_constraintTop_toBottomOf="@id/media_cover"
+                    vlc:placeholder="@{item}"/>
 
             <TextView
                 android:id="@+id/subtitle"

@@ -31,6 +31,15 @@
             android:summary="@string/browser_show_all_summary"
             android:title="@string/browser_show_all_title"/>
 
+    <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/list_title_ellipsize_list"
+            android:entryValues="@array/list_title_ellipsize_values"
+            android:key="list_title_ellipsize"
+            android:persistent="true"
+            android:title="@string/list_title_ellipsize"
+            android:summary="%s"/>
+
     <PreferenceCategory
             android:title="@string/video"
             android:key="ui_video_category">
@@ -99,12 +108,5 @@
                 android:key="artists_show_all"
                 android:summary="@string/artists_show_all_summary"
                 android:title="@string/artists_show_all_title"/>
-        <ListPreference
-                android:defaultValue="0"
-                android:entries="@array/audio_title_alignment_list"
-                android:entryValues="@array/audio_title_alignment_values"
-                android:key="audio_title_alignment"
-                android:persistent="true"
-                android:title="@string/audio_title_alignment"/>
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
