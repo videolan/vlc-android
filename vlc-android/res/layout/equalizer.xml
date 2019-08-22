@@ -15,7 +15,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/equalizer_container"
+                android:nextFocusDown="@+id/equalizer_button"
+                android:nextFocusForward="@+id/equalizer_button"
+                android:nextFocusLeft="@+id/equalizer_button"
+                android:nextFocusRight="@+id/equalizer_button">
 
             <TextView
                     android:id="@+id/eq_title"
@@ -39,6 +44,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
                     app:switchPadding="8dp"
+                    android:focusableInTouchMode="false"
                     android:text="@string/enable_equalizer"
                     app:layout_constraintBottom_toTopOf="@+id/equalizer_presets"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +62,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/eq_title"
                     >
 
-                <requestFocus/>
+
             </androidx.appcompat.widget.AppCompatSpinner>
 
 
