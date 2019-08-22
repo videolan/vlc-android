@@ -14,6 +14,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
@@ -237,9 +238,9 @@ fun withImageDrawable(resourceId: Int): Matcher<View> {
     }
 }
 
-private fun sameBitmap(context: Context, drawable: Drawable?, resourceId: Int): Boolean {
+private fun sameBitmap(context: Context, drawable: Drawable?, @DrawableRes resourceId: Int): Boolean {
     var drawable = drawable
-    var otherDrawable = context.resources.getDrawable(resourceId)
+    var otherDrawable = ContextCompat.getDrawable(context, resourceId)
     if (drawable == null || otherDrawable == null) {
         return false
     }

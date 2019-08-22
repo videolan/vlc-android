@@ -74,7 +74,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     private val completionHandler : CompletionHandler = object : CompletionHandler {
         override fun invoke(cause: Throwable?) {
-            if (mediabrowser != null) AppScope.launch(Dispatchers.IO) { // use global scope because current is cancelled
+            if (mediabrowser != null) AppScope.launch(coroutineContextProvider.IO) { // use global scope because current is cancelled
                 mediabrowser?.release()
                 mediabrowser = null
             }
@@ -88,8 +88,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 BrowseRoot -> browseRootImpl()
                 Refresh -> browseImpl(url)
                 is ParseSubDirectories -> parseSubDirectoriesImpl(action.list)
-                ClearListener -> withContext(Dispatchers.IO) { mediabrowser?.changeEventListener(null) }
-                Release -> withContext(Dispatchers.IO) {
+                ClearListener -> withContext(coroutineContextProvider.IO) { mediabrowser?.changeEventListener(null) }
+                Release -> withContext(coroutineContextProvider.IO) {
                     mediabrowser?.release()
                     mediabrowser = null
                 }

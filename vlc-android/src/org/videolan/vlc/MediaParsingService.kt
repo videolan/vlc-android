@@ -487,12 +487,12 @@ fun Context.rescan() {
     ContextCompat.startForegroundService(this, Intent(ACTION_FORCE_RELOAD, null, this, MediaParsingService::class.java))
 }
 
-fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = AppScope.launch {
+fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = AppScope.launch {
     if (AbstractMedialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
-    val prefs = withContext(Dispatchers.IO) { Settings.getInstance(this@startMedialibrary) }
+    val prefs = withContext(coroutineContextProvider.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (Settings.showTvUi) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
-        if (dbExists()) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
+        if (dbExists(coroutineContextProvider)) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
     }
     val intent = Intent(ACTION_INIT, null, this@startMedialibrary, MediaParsingService::class.java)
     ContextCompat.startForegroundService(this@startMedialibrary, intent
@@ -501,7 +501,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
             .putExtra(EXTRA_PARSE, parse && scanOpt != ML_SCAN_OFF))
 }
 
-private suspend fun Context.dbExists() = withContext(Dispatchers.IO) {
+private suspend fun Context.dbExists(coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = withContext(coroutineContextProvider.IO) {
     File(getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 

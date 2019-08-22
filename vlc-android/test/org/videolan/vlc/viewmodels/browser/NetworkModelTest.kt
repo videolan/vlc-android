@@ -41,9 +41,6 @@ class NetworkModelTest : BaseTest() {
     private lateinit var browserModel: BrowserModel
     private lateinit var browserProvider: BrowserProvider
 
-    private val countVideos = 2
-    private val countDirs = 4
-
     init {
         BrowserFavRepository.applyMock(mockedFavoritesRepo)
 

@@ -1,9 +1,7 @@
 package org.videolan.vlc.gui.browser
 
 import android.content.Intent
-import android.view.View
 import android.widget.AutoCompleteTextView
-import android.widget.SearchView
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
@@ -17,11 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.hamcrest.Description
-import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
-import org.hamcrest.TypeSafeMatcher
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -32,7 +26,6 @@ import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.util.EXTRA_TARGET
 import org.videolan.vlc.util.Settings
-import java.lang.Thread.sleep
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -322,7 +315,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
                 .check(matches(isDisplayed()))
 
         val adapter = rvMatcher.recyclerView?.adapter as? DiffUtilAdapter<MediaLibraryItem, RecyclerView.ViewHolder>
-        val pos = findFirstPosition(adapter, withMediaType(AbstractMediaWrapper.TYPE_ALL))
+        val pos = adapter?.let { findFirstPosition(it, withMediaType(AbstractMediaWrapper.TYPE_ALL)) } ?: -1
 
         assertThat(pos, not(equalTo(-1)))
 
@@ -347,7 +340,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
                 .check(matches(isDisplayed()))
 
         val adapter = rvMatcher.recyclerView?.adapter as? DiffUtilAdapter<MediaLibraryItem, RecyclerView.ViewHolder>
-        val pos = findFirstPosition(adapter, withMediaType(AbstractMediaWrapper.TYPE_ALL))
+        val pos = adapter?.let { findFirstPosition(adapter, withMediaType(AbstractMediaWrapper.TYPE_ALL)) } ?: -1
 
         assertThat(pos, equalTo(-1)) // FAILED
     }

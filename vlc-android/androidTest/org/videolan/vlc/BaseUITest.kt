@@ -7,7 +7,7 @@ import androidx.test.runner.AndroidJUnit4
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
-import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.vlc.util.TestCoroutineContextProvider
 
 
 @RunWith(AndroidJUnit4::class)
@@ -22,7 +22,7 @@ abstract class BaseUITest {
 
     @Before
     fun init() {
-        context.startMedialibrary()
+        context.startMedialibrary(coroutineContextProvider = TestCoroutineContextProvider())
         beforeTest()
     }
 

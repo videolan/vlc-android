@@ -121,11 +121,10 @@ class BenchActivity : ShallowVideoPlayer() {
             val sharedPref = Settings.getInstance(this)
             mOldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")
             mOldHistoryBoolean = sharedPref.getBoolean(PREFERENCE_PLAYBACK_HISTORY, true)
-            sharedPref.edit().run {
-                putString(PREFERENCE_OPENGL, "0")
-                putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
-                commit()
-            }
+            sharedPref.edit()
+                    .putString(PREFERENCE_OPENGL, "0")
+                    .putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
+                    .commit()
             VLCInstance.restart()
             this.service?.restartMediaPlayer()
         }

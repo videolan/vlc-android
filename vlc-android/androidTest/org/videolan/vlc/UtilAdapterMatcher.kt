@@ -51,27 +51,27 @@ fun withMediaItem(mediaItem: MediaLibraryItem?): DiffAdapterMatcher<MediaLibrary
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-fun <D, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: DiffUtilAdapter<D, VH>?, vararg matchers: DiffAdapterMatcher<D>): Int = adapter?.let { it ->
-    val iter = it.dataset.iterator().withIndex()
+fun <D, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: DiffUtilAdapter<D, VH>, vararg matchers: DiffAdapterMatcher<D>): Int {
+    val iter = adapter.dataset.iterator().withIndex()
     while (iter.hasNext()) {
         val index = iter.next()
         if (matchers.all { it.matches(index.value) })
             return index.index
     }
     return -1
-} ?: -1
+}
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-fun <D, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: PagedListAdapter<D, VH>?, vararg matchers: DiffAdapterMatcher<D>): Int = adapter?.let {
-    val iter = it.currentList!!.iterator().withIndex()
+fun <D, VH : RecyclerView.ViewHolder> findFirstPosition(adapter: PagedListAdapter<D, VH>, vararg matchers: DiffAdapterMatcher<D>): Int  {
+    val iter = adapter.currentList!!.iterator().withIndex()
     while (iter.hasNext()) {
         val index = iter.next()
         if (matchers.all { it.matches(index.value) })
             return index.index
     }
     return -1
-} ?: -1
+}
 
 fun findFirstPreferencePosition(@IdRes recyclerViewId: Int, vararg matchers: Matcher<Preference>): Pair<Int, Int> {
     val rvMatcher = withRecyclerView(recyclerViewId)

@@ -18,7 +18,7 @@ class AlbumSongsViewModelTest : BaseTest() {
     private lateinit var albumSongsViewModel: AlbumSongsViewModel
     private lateinit var parent: MediaLibraryItem
 
-    private val ds = StubDataSource.getInstance()
+    private val dataSource = StubDataSource.getInstance()
 
     override fun beforeTest() {
         super.beforeTest()
@@ -27,14 +27,14 @@ class AlbumSongsViewModelTest : BaseTest() {
 
     private fun setupViewModel(name: String, isArtist: Boolean) {
         if (isArtist)
-            parent = MLServiceLocator.getAbstractArtist(ds.uuid, name, "", "", "")
+            parent = MLServiceLocator.getAbstractArtist(dataSource.uuid, name, "", "", "")
         else
-            parent = MLServiceLocator.getAbstractGenre(ds.uuid, name)
+            parent = MLServiceLocator.getAbstractGenre(dataSource.uuid, name)
         albumSongsViewModel = AlbumSongsViewModel(context, parent)
     }
 
     private fun createDummyAudios(count: Int, title: String): List<Long> = (1..count).map {
-        ds.addMediaWrapper("$title $it", AbstractMediaWrapper.TYPE_AUDIO).id
+        dataSource.addMediaWrapper("$title $it", AbstractMediaWrapper.TYPE_AUDIO).id
     }
 
     private fun waitForProvidersData() = albumSongsViewModel.providers.map {
@@ -51,7 +51,7 @@ class AlbumSongsViewModelTest : BaseTest() {
 
     @Test
     fun whenNoTrackExistForGivenGenre_checkResultIsEmpty() {
-        ds.setAudioByCount(2, null)
+        dataSource.setAudioByCount(2, null)
         setupViewModel("xyz", false)
         waitForProvidersData()
         assertTrue(albumSongsViewModel.isEmpty())
@@ -59,7 +59,7 @@ class AlbumSongsViewModelTest : BaseTest() {
 
     @Test
     fun whenSomeTrackExistForGivenGenre_checkResultIsNotEmpty() {
-        ds.setAudioByCount(2, null)
+        dataSource.setAudioByCount(2, null)
         setupViewModel("Rock", false)
         waitForProvidersData()
         assertFalse(albumSongsViewModel.isEmpty())
@@ -71,7 +71,7 @@ class AlbumSongsViewModelTest : BaseTest() {
 
     @Test
     fun whenNoTrackExistForGivenArtist_checkResultIsEmpty() {
-        ds.setAudioByCount(2, null)
+        dataSource.setAudioByCount(2, null)
         setupViewModel("xyz", true)
         waitForProvidersData()
         assertTrue(albumSongsViewModel.isEmpty())
@@ -79,7 +79,7 @@ class AlbumSongsViewModelTest : BaseTest() {
 
     @Test
     fun whenSomeTrackExistForGivenArtist_checkResultIsNotEmpty() {
-        ds.setAudioByCount(2, null)
+        dataSource.setAudioByCount(2, null)
         setupViewModel("Peter Frampton", true)
         waitForProvidersData()
         assertFalse(albumSongsViewModel.isEmpty())
@@ -92,7 +92,7 @@ class AlbumSongsViewModelTest : BaseTest() {
     @Test
     fun whenMoreThanMaxSizeTracks_checkTotalCountIsTotal() {
         val count = MEDIALIBRARY_PAGE_SIZE * 3 + 1
-        ds.setAudioByCount(count, null)
+        dataSource.setAudioByCount(count, null)
         setupViewModel("Rock", false)
 
         assertEquals(count, albumSongsViewModel.tracksProvider.getTotalCount())
@@ -101,7 +101,7 @@ class AlbumSongsViewModelTest : BaseTest() {
     @Test
     fun whenMoreThanMaxSizeTracks_checkLastResultIsNotLoadedYet() {
         val count = MEDIALIBRARY_PAGE_SIZE * 3 + 1
-        ds.setAudioByCount(count, null)
+        dataSource.setAudioByCount(count, null)
         setupViewModel("Rock", false)
 
         waitForProvidersData()
@@ -112,7 +112,7 @@ class AlbumSongsViewModelTest : BaseTest() {
     @Test
     fun whenMoreThanMaxSizeTracks_checkGetAllReturnsAll() {
         val count = MEDIALIBRARY_PAGE_SIZE * 3 + 1
-        ds.setAudioByCount(count, null)
+        dataSource.setAudioByCount(count, null)
         setupViewModel("Rock", false)
 
         waitForProvidersData()
@@ -145,7 +145,7 @@ class AlbumSongsViewModelTest : BaseTest() {
     @Test
     fun whenThereAreAlbumsWithArtistButFilteredWithNonExistingAlbum_checkAlbumResultIsEmpty() {
         createDummyAudios(3, "XYZ")
-        setupViewModel("Artisto", true)
+        setupViewModel("CrazyArtists", true)
 
         albumSongsViewModel.filter("unknown")
 
@@ -169,7 +169,7 @@ class AlbumSongsViewModelTest : BaseTest() {
     @Test
     fun whenThereAreAlbumsWithArtistAndFilteredWithExistingAlbum_checkAlbumResultIsNotEmpty() {
         createDummyAudios(3, "XYZ")
-        setupViewModel("Artisto", true)
+        setupViewModel("CrazyArtists", true) // That's the name of Album Artist
 
         albumSongsViewModel.filter("CD1")
 
@@ -262,7 +262,7 @@ class AlbumSongsViewModelTest : BaseTest() {
     fun whenThereAreFourArtistTracksWithAlternatelyDifferentTitles_checkAlbumHeadersIsSortedByDate() {
         createDummyAudios(2, "test")
         createDummyAudios(2, "fake")
-        setupViewModel("", true)
+        setupViewModel("CrazyArtists", true)
 
         waitForProvidersData()
 

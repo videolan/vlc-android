@@ -8,7 +8,9 @@ import org.junit.Test
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
+import org.videolan.vlc.util.KEY_ARTISTS_SHOW_ALL
 import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.vlc.util.Settings
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -18,10 +20,9 @@ class AudioBrowserViewModelTest : BaseTest() {
     override fun beforeTest() {
         super.beforeTest()
         StubDataSource.getInstance().resetData()
-        audioBrowserViewModel = AudioBrowserViewModel(context)
     }
 
-    private fun createDummyAudios(count: Int, title: String): List<Long> = (1..count).map {
+    private fun createDummyAudios(count: Int, title: String): List<Long> = (0 until count).map {
         StubDataSource.getInstance().addMediaWrapper("$title $it", AbstractMediaWrapper.TYPE_AUDIO).id
     }
 
@@ -29,8 +30,17 @@ class AudioBrowserViewModelTest : BaseTest() {
         it.pagedList.test().awaitValue()
     }
 
+    private fun setupViewModel(showAll: Boolean = false) {
+        Settings.getInstance(context).edit().run {
+            putBoolean(KEY_ARTISTS_SHOW_ALL, showAll)
+            commit()
+        }
+        audioBrowserViewModel = AudioBrowserViewModel(context)
+    }
+
     @Test
     fun whenNoArtistAlbumTrackGenre_checkResultIsEmpty() {
+        setupViewModel()
         waitForProvidersData()
 
         assertTrue(audioBrowserViewModel.isEmpty())
@@ -38,6 +48,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenNoArtistAlbumTrackGenre_checkTotalCountIsZero() {
+        setupViewModel()
         waitForProvidersData()
 
         assertEquals(0, audioBrowserViewModel.tracksProvider.getTotalCount())
@@ -48,6 +59,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAre5Tracks_checkResultIsNotEmpty() {
+        setupViewModel()
         StubDataSource.getInstance().setAudioByCount(2, null)
         createDummyAudios(3, "XYZ")
 
@@ -55,17 +67,31 @@ class AudioBrowserViewModelTest : BaseTest() {
     }
 
     @Test
-    fun whenThereAre5Tracks_checkTracksAre5GenresAre2AlbumsAre2ArtistsAre2ForTotalCount() {
+    fun whenThereAre5Tracks_checkTracksAre5GenresAre5AlbumsAre5ArtistsAre5ForTotalCount() {
+        setupViewModel()
         StubDataSource.getInstance().setAudioByCount(2, null) // AlbumArtist & Artist are same, so only one is added.
         createDummyAudios(3, "XYZ") // AlbumArtist & Artist are different, so both are added.
 
         waitForProvidersData()
 
         assertEquals(5, audioBrowserViewModel.tracksProvider.getTotalCount())
-
+        assertEquals(5, audioBrowserViewModel.genresProvider.getTotalCount())
         /* TODO: I haven't yet checked the Medialibrary source code, but I doubt it would add duplicate album for each audio file
          * So gotta fix the logic in stubs to simulate that behaviour. Once that's fixed, I'll update my tests with proper logic.
          */
+        assertEquals(5, audioBrowserViewModel.albumsProvider.getTotalCount())
+        assertEquals(5, audioBrowserViewModel.artistsProvider.getTotalCount()) // Be default, showAll is false
+    }
+
+    @Test
+    fun whenThereAre5TracksWithShowAllTrue_checkTracksAre5GenresAre5AlbumsAre5ArtistsAre5ForTotalCount() {
+        setupViewModel(showAll = true)
+        StubDataSource.getInstance().setAudioByCount(2, null) // AlbumArtist & Artist are same, so only one is added.
+        createDummyAudios(3, "XYZ") // AlbumArtist & Artist are different, so both are added.
+
+        waitForProvidersData()
+
+        assertEquals(5, audioBrowserViewModel.tracksProvider.getTotalCount())
         assertEquals(5, audioBrowserViewModel.genresProvider.getTotalCount())
         assertEquals(5, audioBrowserViewModel.albumsProvider.getTotalCount())
         assertEquals(8, audioBrowserViewModel.artistsProvider.getTotalCount())
@@ -73,6 +99,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAre5TracksWithShowAllTrue_checkTracksAre5GenresAre5AlbumsAre5ArtistsAre5ForPagedData() {
+        setupViewModel(showAll = true)
         StubDataSource.getInstance().setAudioByCount(2, null) // AlbumArtist & Artist are same, so only one is added.
         createDummyAudios(3, "XYZ") // AlbumArtist & Artist are different, so both are added.
 
@@ -81,11 +108,12 @@ class AudioBrowserViewModelTest : BaseTest() {
         assertEquals(5, audioBrowserViewModel.tracksProvider.pagedList.test().value().size)
         assertEquals(5, audioBrowserViewModel.genresProvider.pagedList.test().value().size)
         assertEquals(5, audioBrowserViewModel.albumsProvider.pagedList.test().value().size)
-        assertEquals(8, audioBrowserViewModel.artistsProvider.pagedList.test().value().size) // By default, showAll is true
+        assertEquals(8, audioBrowserViewModel.artistsProvider.pagedList.test().value().size)
     }
 
     @Test
     fun whenMoreThanMaxSizeTracks_checkTotalCountIsTotal() {
+        setupViewModel()
         val count = MEDIALIBRARY_PAGE_SIZE * 3 + 1
         StubDataSource.getInstance().setAudioByCount(count, null)
 
@@ -97,6 +125,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenMoreThanMaxSizeTracks_checkLastTrackIsNotLoadedYet() {
+        setupViewModel()
         val count = MEDIALIBRARY_PAGE_SIZE * 3 + 1
         StubDataSource.getInstance().setAudioByCount(count, null)
 
@@ -110,6 +139,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenMoreThanMaxSizeTracks_checkGetAllReturnsAll() {
+        setupViewModel()
         val count = MEDIALIBRARY_PAGE_SIZE * 3 + 1
         StubDataSource.getInstance().setAudioByCount(count, null)
 
@@ -121,6 +151,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAre5TracksWith3TracksHavingDifferentAlbumArtistAndArtistAndShowAllIsTrue_checkResultContainsEightArtists() {
+        setupViewModel()
         StubDataSource.getInstance().setAudioByCount(2, null) // AlbumArtist & Artist are same, so only one is added.
         createDummyAudios(3, "XYZ") // AlbumArtist & Artist are different, so both are added.
 
@@ -130,6 +161,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAre5TracksWith3TracksHavingDifferentAlbumArtistAndArtistAndShowAllIsFalse_checkResultContainsFiveArtists() {
+        setupViewModel()
         StubDataSource.getInstance().setAudioByCount(2, null) // AlbumArtist & Artist are same, so only one is added.
         createDummyAudios(3, "XYZ") // AlbumArtist & Artist are different, so both are added.
 
@@ -139,6 +171,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenNoTrackAndFiltered_checkResultIsEmpty() {
+        setupViewModel()
         audioBrowserViewModel.filter("xyz")
 
         waitForProvidersData()
@@ -148,6 +181,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreTracksButFilteredWithNonExistingTrack_checkTrackResultIsEmpty() {
+        setupViewModel()
         createDummyAudios(3, "XYZ")
 
         audioBrowserViewModel.filter("unknown")
@@ -159,6 +193,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreAlbumsButFilteredWithNonExistingAlbum_checkAlbumResultIsEmpty() {
+        setupViewModel()
         createDummyAudios(3, "XYZ")
 
         audioBrowserViewModel.filter("unknown")
@@ -170,6 +205,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreArtistsButFilteredWithNonExistingArtists_checkArtistResultIsEmpty() {
+        setupViewModel()
         createDummyAudios(3, "XYZ")
 
         audioBrowserViewModel.filter("unknown")
@@ -181,6 +217,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreGenresButFilteredWithNonExistingGenre_checkGenreResultIsEmpty() {
+        setupViewModel()
         createDummyAudios(3, "XYZ")
 
         audioBrowserViewModel.filter("unknown")
@@ -192,6 +229,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreTracksAndFilteredWithExistingTrack_checkTrackResultIsNotEmpty() {
+        setupViewModel()
         createDummyAudios(3, "XYZ")
 
         audioBrowserViewModel.filter("XYZ")
@@ -203,6 +241,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreArtistsAndFilteredWithExistingArtist_checkArtistResultIsNotEmpty() {
+        setupViewModel()
         createDummyAudios(3, "XYZ")
 
         // The default artist for the stubs
@@ -215,6 +254,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreAlbumsAndFilteredWithExistingAlbum_checkAlbumResultIsNotEmpty() {
+        setupViewModel()
         createDummyAudios(3, "XYZ")
 
         // The default album for the stubs
@@ -227,6 +267,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreGenresAndFilteredWithExistingGenre_checkGenreResultIsNotEmpty() {
+        setupViewModel()
         createDummyAudios(3, "XYZ")
 
         // The default genre for the stubs
@@ -239,6 +280,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreSomeTracksButFilteredResultContainsNone_restoringViewModelResetsFilterAndShowsItemAgain() {
+        setupViewModel()
         createDummyAudios(2, "test")
 
         audioBrowserViewModel.filter("unknown")
@@ -253,6 +295,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenFilteredAndLaterRestored_isFilteringIsTrueLaterFalse() {
+        setupViewModel()
         assertFalse(audioBrowserViewModel.isFiltering())
 
         audioBrowserViewModel.filter("def")
@@ -266,6 +309,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun when2TracksAndLaterAdded3Tracks_checkResultIsUpdatedWithThemOnRefresh() {
+        setupViewModel()
         createDummyAudios(2, "test")
 
         waitForProvidersData()
@@ -284,6 +328,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreFourTracksWithAlternatelyDifferentTitles_checkTrackHeadersContainsTwoLetters() {
+        setupViewModel()
         createDummyAudios(2, "test")
         createDummyAudios(2, "fake")
 
@@ -299,6 +344,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreFourTracksWithAlternatelyDifferentTitles_checkGenreHeadersContainsOneLetter() {
+        setupViewModel()
         createDummyAudios(2, "test")
         createDummyAudios(2, "fake")
 
@@ -313,6 +359,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreFourTracksWithAlternatelyDifferentTitles_checkAlbumHeadersContainsOneLetter() {
+        setupViewModel()
         createDummyAudios(2, "test")
         createDummyAudios(2, "fake")
 
@@ -327,6 +374,7 @@ class AudioBrowserViewModelTest : BaseTest() {
 
     @Test
     fun whenThereAreFourTracksWithAlternatelyDifferentTitles_checkArtistHeadersContainsOneLetter() {
+        setupViewModel()
         createDummyAudios(2, "test")
         createDummyAudios(2, "fake")
 
@@ -335,8 +383,7 @@ class AudioBrowserViewModelTest : BaseTest() {
         val artistHeaders = audioBrowserViewModel.artistsProvider.liveHeaders.test().value()
 
         // Assertion for artist headers
-        assertEquals(4, artistHeaders.size())
-        assertEquals("#", artistHeaders[0])
-        assertEquals("A", artistHeaders[1])
+        assertEquals(1, artistHeaders.size())
+        assertEquals("C", artistHeaders[0])
     }
 }

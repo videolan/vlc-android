@@ -22,7 +22,7 @@ class PlaylistViewModelTest : BaseTest() {
         StubDataSource.getInstance().resetData()
     }
 
-    private fun createDummyAudios(count: Int, title: String): List<Long> = (1..count).map {
+    private fun createDummyAudios(count: Int, title: String): List<Long> = (0 until count).map {
         StubDataSource.getInstance().addMediaWrapper("$title $it", AbstractMediaWrapper.TYPE_AUDIO).id
     }
 
@@ -54,8 +54,8 @@ class PlaylistViewModelTest : BaseTest() {
                 .value()
 
         assertEquals(2, testResult.size)
-        assertEquals("test 1", testResult[0]!!.title)
-        assertEquals("test 2", testResult[1]!!.title)
+        assertEquals("test 0", testResult[0]!!.title)
+        assertEquals("test 1", testResult[1]!!.title)
     }
 
     @Test
@@ -106,7 +106,7 @@ class PlaylistViewModelTest : BaseTest() {
         val testResult = playlistViewModel.tracksProvider.pagedList.test().value()
 
         assertEquals(realCount, testResult.size)
-        assertEquals("real 1", testResult[0]!!.title)
+        assertEquals("real 0", testResult[0]!!.title)
     }
 
     @Test

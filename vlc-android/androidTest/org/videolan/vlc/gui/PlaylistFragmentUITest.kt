@@ -3,11 +3,12 @@ package org.videolan.vlc.gui
 import android.content.Intent
 import android.widget.EditText
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.*
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.*
-import androidx.test.espresso.contrib.DrawerActions.*
-import androidx.test.espresso.matcher.RootMatchers.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.DrawerActions.open
+import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.google.android.material.internal.NavigationMenuItemView
@@ -15,14 +16,14 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.*
 import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.vlc.BaseUITest
-import org.videolan.vlc.R
 import org.videolan.vlc.*
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.util.CoroutineContextProvider
 import org.videolan.vlc.util.EXTRA_TARGET
+import org.videolan.vlc.util.TestCoroutineContextProvider
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -34,6 +35,9 @@ class PlaylistFragmentUITest: BaseUITest() {
     lateinit var activity: MainActivity
 
     override fun beforeTest() {
+        SavePlaylistDialog.overrideCreator = false
+        SavePlaylistDialog.registerCreator(clazz = CoroutineContextProvider::class.java) { TestCoroutineContextProvider() }
+
         val intent = Intent().apply {
             putExtra(EXTRA_TARGET, R.id.nav_playlists)
         }
@@ -79,10 +83,6 @@ class PlaylistFragmentUITest: BaseUITest() {
                 .perform(click(), typeTextIntoFocusedView("storage"))
         onView(withId(R.id.dialog_playlist_save))
                 .perform(click())
-
-        // Because playlist is saved with IO dispatcher.
-        // TODO: Once tests_vm is merged, I'll update the WorkersKt to use CoroutineContextProvider and remove this hack.
-        Thread.sleep(2000)
 
         // Navigate back to playlists view
         onView(withId(R.id.root_container))

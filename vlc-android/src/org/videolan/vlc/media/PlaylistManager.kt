@@ -12,7 +12,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import org.videolan.libvlc.*
+import org.videolan.libvlc.FactoryManager
+import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.AndroidUtil
@@ -67,7 +69,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var entryUrl : String? = null
     val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
 
-    internal val mMediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+    private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
     fun hasCurrentMedia() = isValidPosition(currentIndex)
 
@@ -300,7 +302,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 return
             }
             val start = getStartTime(mw)
-            val media = mMediaFactory.getFromUri(VLCInstance.get(service), uri)
+            val media = mediaFactory.getFromUri(VLCInstance.get(service), uri)
             media.addOption(":start-time=${start/1000L}")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
             /* keeping only video during benchmark */

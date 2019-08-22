@@ -41,7 +41,7 @@ object VLCInstance {
     @SuppressLint("StaticFieldLeak")
     private var sLibVLC: ILibVLC? = null
 
-    internal val mLibVLCFactory = FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory
+    private val libVLCFactory = FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory
 
     /** A set of utility functions for the VLC application  */
     @Synchronized
@@ -57,7 +57,7 @@ object VLCInstance {
             }
 
             // TODO change LibVLC signature to accept a List instead of an ArrayList
-            sLibVLC = mLibVLCFactory.getFromOptions(context, VLCOptions.libOptions)
+            sLibVLC = libVLCFactory.getFromOptions(context, VLCOptions.libOptions)
         }
         return sLibVLC!!
     }
@@ -67,7 +67,7 @@ object VLCInstance {
     fun restart() {
         if (sLibVLC != null) {
             sLibVLC!!.release()
-            sLibVLC = mLibVLCFactory.getFromOptions(VLCApplication.appContext, VLCOptions.libOptions)
+            sLibVLC = libVLCFactory.getFromOptions(VLCApplication.appContext, VLCOptions.libOptions)
         }
     }
 

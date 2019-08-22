@@ -37,7 +37,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
@@ -46,6 +45,8 @@ import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SimpleAdapter
+import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.vlc.util.DependencyProvider
 import java.util.*
 
 class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
@@ -64,7 +65,14 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var medialibrary: AbstractMedialibrary
     private var currentPLaylist: AbstractPlaylist? = null
 
+    private val coroutineContextProvider: CoroutineContextProvider
+
     override fun initialFocusedView(): View = listView
+
+    init {
+        SavePlaylistDialog.registerCreator { CoroutineContextProvider() }
+        coroutineContextProvider = SavePlaylistDialog.get(0)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +91,6 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
             emptyArray()
         }
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflate(inflater, container, R.layout.dialog_playlist)
@@ -122,7 +129,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 
     private fun savePlaylist() = lifecycleScope.launchWhenStarted {
-        withContext(Dispatchers.IO) {
+        withContext(coroutineContextProvider.IO) {
             val name = editText?.text?.toString()?.trim { it <= ' ' } ?: return@withContext
             val addTracks = !Tools.isArrayEmpty(newTrack)
             var playlist = if (currentPLaylist?.title == name) {
@@ -166,13 +173,12 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         dismiss()
     }
 
-
     override fun onClick(item: MediaLibraryItem) {
         currentPLaylist = item as AbstractPlaylist
         editText?.setText(item.title)
     }
 
-    companion object {
+    companion object: DependencyProvider<Any>() {
 
         val TAG = "VLC/SavePlaylistDialog"
 

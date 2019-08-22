@@ -23,9 +23,7 @@ class PlaylistsViewModelTest : BaseTest() {
     }
 
     private fun createDummyPlaylists(count: Int) {
-        (1..count).map {
-            mediaLibrary.createPlaylist("test$it")
-        }
+        (0 until count).map { mediaLibrary.createPlaylist("test$it") }
     }
 
     @Test
@@ -45,8 +43,8 @@ class PlaylistsViewModelTest : BaseTest() {
                 .value()
 
         assertEquals(2, testResult.size)
-        assertEquals("test1", testResult[0]!!.title)
-        assertEquals("test2", testResult[1]!!.title)
+        assertEquals("test0", testResult[0]!!.title)
+        assertEquals("test1", testResult[1]!!.title)
     }
 
     @Test

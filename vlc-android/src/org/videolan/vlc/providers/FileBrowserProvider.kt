@@ -25,7 +25,10 @@ import android.hardware.usb.UsbDevice
 import android.net.Uri
 import android.text.TextUtils
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator
@@ -142,7 +145,7 @@ open class FileBrowserProvider(
         headers.clear()
     }
 
-    override suspend fun requestBrowsing(url: String?, eventListener: MediaBrowser.EventListener, interact : Boolean) = withContext(Dispatchers.IO) {
+    override suspend fun requestBrowsing(url: String?, eventListener: MediaBrowser.EventListener, interact : Boolean) = withContext(coroutineContextProvider.IO) {
         initBrowser()
         mediabrowser?.let {
             it.changeEventListener(eventListener)
@@ -154,7 +157,7 @@ open class FileBrowserProvider(
         when {
             url == "otg://" || url?.startsWith("content:") == true -> launch {
                 loading.postValue(true)
-                dataset.value = withContext(Dispatchers.IO) {
+                dataset.value = withContext(coroutineContextProvider.IO) {
                     @Suppress("UNCHECKED_CAST")
                     getDocumentFiles(context, Uri.parse(url).path?.substringAfterLast(':') ?: "") as? MutableList<MediaLibraryItem> ?: mutableListOf()
                 }

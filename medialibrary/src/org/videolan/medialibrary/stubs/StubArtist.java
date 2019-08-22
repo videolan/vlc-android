@@ -46,7 +46,7 @@ public class StubArtist extends AbstractArtist {
         ArrayList<AbstractAlbum> results = new ArrayList<>();
         for (AbstractAlbum album : dt.mAlbums) {
             if (album.getDescription().equals(this.getTitle()) &&
-                    album.getTitle().equals(query)) {
+                    album.getTitle().contains(query)) {
                 results.add(album);
             }
         }

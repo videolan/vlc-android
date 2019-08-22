@@ -88,7 +88,6 @@ class FoldersViewModelTest: BaseTest() {
 
     @Test
     fun whenThereAre2FoldersWithVideos_checkIsEmptyReturnsFalse() {
-        // FIXME: java.lang.NoClassDefFoundError: org/videolan/vlc/util/KextensionsKt (wrong name: org/videolan/vlc/util/KExtensionsKt)
         StubDataSource.getInstance().run {
             createFolder("test1")
             setVideoByCount(2, "test1")

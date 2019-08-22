@@ -16,7 +16,7 @@ import org.videolan.vlc.util.RESUME_PLAYBACK
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PreferencesAudioUiTest: BasePreferenceUITest() {
+class PreferencesAudioUITest: BasePreferenceUITest() {
     @get:Rule
     val intentsTestRule = IntentsTestRule(PreferencesActivity::class.java)
 

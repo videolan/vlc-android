@@ -301,11 +301,9 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return playlist;
     }
 
-    public void pauseBackgroundOperations() {
-    }
+    public void pauseBackgroundOperations() {}
 
-    public void resumeBackgroundOperations() {
-    }
+    public void resumeBackgroundOperations() {}
 
     public void reload() {
         Log.e(TAG, "reload: no entrypoint");
@@ -319,11 +317,9 @@ public class StubMedialibrary extends AbstractMedialibrary {
         onBackgroundTasksIdleChanged(true);
     }
 
-    public void forceParserRetry() {
-    }
+    public void forceParserRetry() {}
 
-    public void forceRescan() {
-    }
+    public void forceRescan() {}
 
     public AbstractMediaWrapper[] lastMediaPlayed() {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
@@ -454,8 +450,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return getFolders(type, 0, false, 0, 0).length;
     }
 
-    public void requestThumbnail(long id) {
-    }
+    public void requestThumbnail(long id) {}
 
     public boolean increasePlayCount(long mediaId) {
         for (int i = 0; i < dt.mVideoMediaWrappers.size(); i++) {

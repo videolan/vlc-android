@@ -16,7 +16,7 @@ import org.videolan.vlc.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PreferencesUiUITest: BasePreferenceUITest() {
+class PreferencesUIUITest: BasePreferenceUITest() {
     @get:Rule
     val intentsTestRule = IntentsTestRule(PreferencesActivity::class.java)
 

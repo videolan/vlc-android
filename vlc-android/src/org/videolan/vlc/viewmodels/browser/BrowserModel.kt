@@ -27,7 +27,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.*
@@ -65,7 +68,7 @@ open class BrowserModel(context: Context, val url: String?, type: Long, showHidd
         viewModelScope.launch {
             this@BrowserModel.sort = sort
             desc = !desc
-            dataset.value = withContext(Dispatchers.Default) { dataset.value.apply { sortWith(if (desc) descComp else ascComp) }.also { provider.computeHeaders(dataset.value) } }
+            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(if (desc) descComp else ascComp) }.also { provider.computeHeaders(dataset.value) } }
         }
     }
 

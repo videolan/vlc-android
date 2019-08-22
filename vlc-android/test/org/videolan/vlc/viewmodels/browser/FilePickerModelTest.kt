@@ -10,8 +10,6 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import org.videolan.libvlc.LibVLC
-import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.ILibVLC
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.stubs.StubMedia
@@ -61,8 +59,8 @@ class FilePickerModelTest : BaseTest() {
     }
 
     private fun setupTestFiles() {
-        (1..countDirs).map { temporaryFolder.newFile("dir$it") }
-        (1..countVideos).map { temporaryFolder.newFile("video$it.mp4") }
+        (0 until countDirs).map { temporaryFolder.newFile("dir$it") }
+        (0 until countVideos).map { temporaryFolder.newFile("video$it.mp4") }
     }
 
     private fun addFileToProvider(i: Int, file: File) {
@@ -121,7 +119,6 @@ class FilePickerModelTest : BaseTest() {
         result = browserModel.dataset.test()
                 .value()
 
-        // TODO: This will fail because the refresh behavior is buggy of BrowserProvider subclasses.
         assertEquals(countDirs + 1, result.size)
     }
 }

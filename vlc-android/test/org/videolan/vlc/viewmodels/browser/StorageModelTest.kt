@@ -84,9 +84,9 @@ class StorageModelTest : BaseTest() {
     }
 
     private fun setupTestFiles() {
-        (1..countDirs).map { temporaryFolder.newFile("dir$it") }
-        (1..countHiddenDirs).map { temporaryFolder.newFile(".hiddenDir$it") }
-        (1..countVideos).map { temporaryFolder.newFile("video$it.mp4") }
+        (0 until countDirs).map { temporaryFolder.newFile("dir$it") }
+        (0 until countHiddenDirs).map { temporaryFolder.newFile(".hiddenDir$it") }
+        (0 until countVideos).map { temporaryFolder.newFile("video$it.mp4") }
     }
 
     private fun addFileToProvider(i: Int, file: File) {

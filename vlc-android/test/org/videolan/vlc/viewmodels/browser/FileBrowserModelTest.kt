@@ -74,8 +74,8 @@ class FileBrowserModelTest : BaseTest() {
     }
 
     private fun setupTestFiles() {
-        (1..countDirs).map { temporaryFolder.newFile("dir$it") }
-        (1..countVideos).map { temporaryFolder.newFile("video$it.mp4") }
+        (0 until countDirs).map { temporaryFolder.newFile("dir$it") }
+        (0 until countVideos).map { temporaryFolder.newFile("video$it.mp4") }
     }
 
     private fun addFileToProvider(i: Int, file: File) {
@@ -119,7 +119,6 @@ class FileBrowserModelTest : BaseTest() {
 
         Thread.sleep(1000)
         // TODO Hack because parseSubDirectories is called twice for some reason.
-//        browserProvider.onBrowseEnd()
         fillFilesInDataset(temporaryFolder.root)
         Thread.sleep(1000)
 
@@ -135,7 +134,6 @@ class FileBrowserModelTest : BaseTest() {
                 .value()[0]
 
         Thread.sleep(1000)
-//        browserProvider.onBrowseEnd()
         fillFilesInDataset(temporaryFolder.root)
         Thread.sleep(1000)
 
