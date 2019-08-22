@@ -57,7 +57,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
 
     override fun needToManageOrientation() = false
 
-    override fun initialFocusedView() = binding.equalizerButton
+    override fun initialFocusedView(): View = binding.equalizerContainer
 
     private lateinit var equalizer: MediaPlayer.Equalizer
     private var customCount = 0
@@ -128,7 +128,6 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
             v.parent.requestDisallowInterceptTouchEvent(true)
             true
         }
-        binding.equalizerButton.clearFocus()
     }
 
     private fun fillViews() {
