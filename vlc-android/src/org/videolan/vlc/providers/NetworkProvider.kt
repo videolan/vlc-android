@@ -77,6 +77,7 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
                 dataset.value = list as MutableList<MediaLibraryItem>
                 removeList(url)
                 parseSubDirectories()
+                computeHeaders(list as MutableList<MediaLibraryItem>)
             }
             else -> super.refresh()
         }
