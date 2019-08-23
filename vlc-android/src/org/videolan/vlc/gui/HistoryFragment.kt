@@ -69,7 +69,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
                 historyAdapter.update(it)
                 updateEmptyView()
                 if (::cleanMenuItem.isInitialized) {
-                    cleanMenuItem.isVisible = !isEmpty()
+                    cleanMenuItem.isVisible = list.isNotEmpty()
                 }
             }
         })
@@ -101,13 +101,8 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.fragment_option_history, menu)
         super.onCreateOptionsMenu(menu, inflater)
-        activity?.invalidateOptionsMenu()
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
         cleanMenuItem = menu.findItem(R.id.ml_menu_clean)
         cleanMenuItem.isVisible = !isEmpty()
-        super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
