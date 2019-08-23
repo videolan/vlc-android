@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,7 +27,6 @@ import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
-import java.util.*
 
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
@@ -65,7 +65,17 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         viewModel.currentItem = item
 
         (viewModel.provider as BrowserProvider).dataset.observe(this, Observer { items ->
+            val lm = binding.list.layoutManager as LinearLayoutManager
+            val selectedItem = lm.focusedChild
             submitList(items)
+            binding.list.post {
+                for (i in 0 until lm.childCount) {
+                    if (lm.getChildAt(i) == selectedItem) {
+                        lm.getChildAt(i)?.requestFocus()
+                        lm.scrollToPosition(lm.getPosition(lm.getChildAt(i)!!))
+                    }
+                }
+            }
             if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "Submit lis of ${items.size} items")
             if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "header size: ${viewModel.provider.headers.size()}")
 
@@ -113,7 +123,6 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         outState.putInt(CATEGORY, getCategory())
         super.onSaveInstanceState(outState)
     }
-
 
     override fun onStop() {
         super.onStop()
