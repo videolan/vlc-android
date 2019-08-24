@@ -219,6 +219,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
                 item.type == AbstractMediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
+                    intent.putExtra(FAVORITE_TITLE, item.title)
                     intent.data = item.uri
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     activity.startActivity(intent)
