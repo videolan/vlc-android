@@ -69,6 +69,7 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 if (uri == null) uri = intent.getParcelableExtra(KEY_URI)
 
                 val item = if (uri == null) null else MLServiceLocator.getAbstractMediaWrapper(uri)
+                if (item != null && intent.hasExtra(FAVORITE_TITLE)) item.title = intent.getStringExtra(FAVORITE_TITLE)
 
                 fragment = FileBrowserTvFragment.newInstance(TYPE_NETWORK, item)
             } else if (type == HEADER_DIRECTORIES) {

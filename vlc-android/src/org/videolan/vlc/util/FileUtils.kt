@@ -294,7 +294,8 @@ object FileUtils {
         val scheme = mw.uri.scheme
         return (TextUtils.equals(scheme, "file") || TextUtils.equals(scheme, "smb")
                 || TextUtils.equals(scheme, "nfs") || TextUtils.equals(scheme, "ftp")
-                || TextUtils.equals(scheme, "ftps") || TextUtils.equals(scheme, "sftp"))
+                || TextUtils.equals(scheme, "ftps") || TextUtils.equals(scheme, "sftp")
+                || TextUtils.equals(scheme, "upnp"))
     }
 
     @WorkerThread
