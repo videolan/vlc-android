@@ -376,6 +376,7 @@
     <string name="list_title_ellipsize_marquee">Marquee</string>
     <string name="audio_save_repeat_title">Save repeat mode</string>
     <string name="audio_save_repeat_summary">Remember repeat mode when loading audio playlists</string>
+    <string name="video_save_repeat_summary">Remember repeat mode when loading video playlists</string>
     <string name="audio_boost_title">Audio-boost</string>
     <string name="audio_boost_summary">Allow volume up to 200%</string>
     <string name="headset_prefs_category">Headset</string>

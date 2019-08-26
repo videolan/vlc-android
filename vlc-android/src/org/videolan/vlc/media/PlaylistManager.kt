@@ -31,6 +31,7 @@ import kotlin.math.max
 private const val TAG = "VLC/PlaylistManager"
 private const val PREVIOUS_LIMIT_DELAY = 5000L
 private const val AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
+private const val VIDEO_REPEAT_MODE_KEY = "video_repeat_mode"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -75,8 +76,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun isValidPosition(position: Int) = position in 0 until mediaList.size()
 
-    init {
-        if (settings.getBoolean("audio_save_repeat", false)) repeating = settings.getInt(AUDIO_REPEAT_MODE_KEY, REPEAT_NONE)
+    private fun computeRepeating() {
+        if (isAudioList())
+            if (settings.getBoolean("audio_save_repeat", false)) repeating = settings.getInt(AUDIO_REPEAT_MODE_KEY, REPEAT_NONE)
+            else
+                if (settings.getBoolean("video_save_repeat", false)) repeating = settings.getInt(VIDEO_REPEAT_MODE_KEY, REPEAT_NONE)
     }
 
     /**
@@ -258,6 +262,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         repeating = repeatType
         if (isAudioList() && settings.getBoolean("audio_save_repeat", false))
             settings.edit().putInt(AUDIO_REPEAT_MODE_KEY, repeating).apply()
+        else if (!isAudioList() && settings.getBoolean("video_save_repeat", false))
+            settings.edit().putInt(VIDEO_REPEAT_MODE_KEY, repeating).apply()
         savePosition()
         launch { determinePrevAndNextIndices() }
     }
@@ -332,6 +338,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     fun switchToVideo(): Boolean {
         val media = getCurrentMedia()
+        computeRepeating()
         if (media === null || media.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO) || !player.canSwitchToVideo())
             return false
         val hasRenderer = player.hasRenderer

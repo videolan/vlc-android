@@ -48,6 +48,13 @@
             android:summary="@string/confirm_resume_summary"
             android:title="@string/confirm_resume_title"/>
 
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="video_save_repeat"
+            android:summary="@string/video_save_repeat_summary"
+            android:title="@string/audio_save_repeat_title" />
+
     <PreferenceCategory android:title="@string/controls_prefs_category">
         <CheckBoxPreference
                 app:singleLineTitle="false"
