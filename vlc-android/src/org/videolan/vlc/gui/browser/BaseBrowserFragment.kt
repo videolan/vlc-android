@@ -208,7 +208,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     fun goBack(): Boolean {
         val activity = activity ?: return false
-        if (!isRootDirectory) activity.supportFragmentManager.popBackStack()
+        if (!isRootDirectory && !activity.isFinishing && !activity.isDestroyed) activity.supportFragmentManager.popBackStack()
         return !isRootDirectory
     }
 
