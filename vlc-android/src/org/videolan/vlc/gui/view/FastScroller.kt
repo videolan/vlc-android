@@ -261,6 +261,9 @@ class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
             fastScrolling = false
             handler.sendEmptyMessageDelayed(HIDE_HANDLE, HANDLE_HIDE_DELAY.toLong())
             handler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
+            if (event.y / currentHeight.toFloat() > 0.99f) {
+                recyclerView.smoothScrollToPosition(itemCount)
+            }
             return true
         }
         return super.onTouchEvent(event)
