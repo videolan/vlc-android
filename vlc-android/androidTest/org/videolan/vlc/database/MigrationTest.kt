@@ -35,6 +35,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.database.helpers.*
 import org.videolan.vlc.database.models.BrowserFav
@@ -76,7 +77,7 @@ class MigrationTest {
         createNetworkFavsTable(sqliteTestDbOpenHelper)
 
         // Insert Data before migration
-        saveSlave(slaveMedia1Path, Media.Slave.Type.Subtitle, 2, slaveMedia1UriFa, sqliteTestDbOpenHelper)
+        saveSlave(slaveMedia1Path, IMedia.Slave.Type.Subtitle, 2, slaveMedia1UriFa, sqliteTestDbOpenHelper)
         saveExSubtitle(exSubfile1Sub1, exSubMedia1Name, sqliteTestDbOpenHelper)
         saveNetworkFavItem(favUri, favTitle, null, sqliteTestDbOpenHelper)
 
@@ -89,7 +90,7 @@ class MigrationTest {
         val fav: BrowserFav = migratedDb.browserFavDao().get(favUri)[0]
 
         assertEquals(slave.mediaPath, slaveMedia1Path)
-        assertEquals(slave.type, Media.Slave.Type.Subtitle)
+        assertEquals(slave.type, IMedia.Slave.Type.Subtitle)
         assertEquals(slave.priority, 2)
         assertEquals(slave.uri, slaveMedia1UriFa)
 

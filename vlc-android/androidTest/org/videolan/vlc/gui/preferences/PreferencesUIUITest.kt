@@ -132,16 +132,6 @@ class PreferencesUIUITest: BasePreferenceUITest() {
     }
 
     @Test
-    fun checkAudioCardSetting_dueRestart() {
-        val key = KEY_AUDIO_SHOW_CARDS
-
-        checkToggleWorks(key, settings)
-
-        intentsTestRule.finishActivity()
-        assertThat(intentsTestRule.activityResult.resultCode, equalTo(RESULT_RESTART))
-    }
-
-    @Test
     fun checkAudioCoverBlurredBackgroundSetting() {
         val key = "blurred_cover_background"
 
@@ -169,19 +159,8 @@ class PreferencesUIUITest: BasePreferenceUITest() {
         checkToggleWorks(key, settings)
     }
 
-    @Test
-    fun checkAudioTitleAlignmentMode() {
-        val key = "audio_title_alignment"
-
-        checkModeChanged(key, "0", "0", MAP_AUDIO_TITLE_ALIGN)
-        checkModeChanged(key, "1", "0", MAP_AUDIO_TITLE_ALIGN)
-        checkModeChanged(key, "2", "0", MAP_AUDIO_TITLE_ALIGN)
-        checkModeChanged(key, "3", "0", MAP_AUDIO_TITLE_ALIGN)
-    }
-
     companion object {
         val MAP_DAYNIGHT_MODE = mapOf("-1" to R.string.daynight_follow_system_title, "0" to R.string.daynight_title, "1" to R.string.light_theme, "2" to R.string.enable_black_theme)
         val MAP_GROUP_VIDEOS = mapOf("-1" to R.string.video_min_group_length_disable, "0" to R.string.video_min_group_length_folder)
-        val MAP_AUDIO_TITLE_ALIGN = mapOf("0" to R.string.audio_title_alignment_default, "1" to R.string.audio_title_alignment_left, "2" to R.string.audio_title_alignment_right, "3" to R.string.audio_title_alignment_marquee)
     }
 }
