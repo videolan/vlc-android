@@ -370,7 +370,9 @@ fi
 # Compile the UI #
 ##################
 BUILDTYPE="Dev"
-if [ "$SIGNED_RELEASE" = 1 ]; then
+if [ "$TEST" = 1 ]; then
+    BUILDTYPE="Debug"
+elif [ "$SIGNED_RELEASE" = 1 ]; then
     BUILDTYPE="signedRelease"
 elif [ "$RELEASE" = 1 ]; then
     BUILDTYPE="Release"
@@ -389,13 +391,21 @@ elif [ "$BUILD_MEDIALIB" = 1 ]; then
         GRADLE_ABI=$GRADLE_ABI ./gradlew -p medialibrary install bintrayUpload
     fi
 else
-    if [ "$RUN" = 1 ]; then
+    if [ "$TEST" = 1 -o "$RUN" = 1 ]; then
         ACTION="install"
     else
         ACTION="assemble"
     fi
     TARGET="${ACTION}${BUILDTYPE}"
     GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew $TARGET
+
+    if [ "$TEST" = 1 ]; then
+        TARGET="vlc-android:install${BUILDTYPE}AndroidTest"
+        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew $TARGET
+
+        echo -e "\n===================================\nRun following for UI tests:"
+        echo "adb shell am instrument -w -e package org.videolan.vlc.gui org.videolan.vlc.debug.test/org.videolan.vlc.MultidexTestRunner 1> result_UI_test.txt"
+    fi
 fi
 
 #######

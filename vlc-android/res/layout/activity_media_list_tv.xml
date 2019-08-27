@@ -18,10 +18,6 @@
             type="MediaLibraryItem" />
 
         <variable
-            name="cover"
-            type="android.graphics.drawable.BitmapDrawable" />
-
-        <variable
             name="title"
             type="String" />
 

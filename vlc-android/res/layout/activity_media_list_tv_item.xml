@@ -40,7 +40,7 @@
 
 
         <ImageView
-            android:id="@+id/cover"
+            android:id="@+id/im_cover"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:background="@{cover}"

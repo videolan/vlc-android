@@ -169,9 +169,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_CLASS(fields.Media.clazz,
               "org/videolan/libvlc/Media", true);
     GET_CLASS(fields.Media.Track.clazz,
-              "org/videolan/libvlc/Media$Track", true);
+              "org/videolan/libvlc/interfaces/IMedia$Track", true);
     GET_CLASS(fields.Media.Slave.clazz,
-              "org/videolan/libvlc/Media$Slave", true);
+              "org/videolan/libvlc/interfaces/IMedia$Slave", true);
     GET_CLASS(fields.MediaPlayer.clazz,
               "org/videolan/libvlc/MediaPlayer", true);
     GET_CLASS(fields.MediaPlayer.Title.clazz,
@@ -213,42 +213,42 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.Media.clazz,
            "createAudioTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;II)"
-           "Lorg/videolan/libvlc/Media$Track;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createVideoTrackFromNativeID,
            fields.Media.clazz,
            "createVideoTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;IIIIIIII)"
-           "Lorg/videolan/libvlc/Media$Track;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createSubtitleTrackFromNativeID,
            fields.Media.clazz,
            "createSubtitleTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)"
-           "Lorg/videolan/libvlc/Media$Track;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createUnknownTrackFromNativeID,
            fields.Media.clazz,
            "createUnknownTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;)"
-           "Lorg/videolan/libvlc/Media$Track;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createSlaveFromNativeID,
            fields.Media.clazz,
            "createSlaveFromNative",
            "(IILjava/lang/String;)"
-           "Lorg/videolan/libvlc/Media$Slave;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Slave;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createStatsFromNativeID,
            fields.Media.clazz,
            "createStatsFromNative",
            "(IFIFIIIIIIIIIIF)"
-           "Lorg/videolan/libvlc/Media$Stats;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Stats;");
 
     GET_ID(GetStaticMethodID,
            fields.MediaPlayer.createTitleFromNativeID,

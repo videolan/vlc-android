@@ -57,7 +57,7 @@ android {
         resValue 'string', 'tv_provider_authority', "${applicationId}.tv"
         resValue 'string', 'moviepedia_api_url', getNextApiUrl(project)
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "org.videolan.vlc.MultidexTestRunner"
         // The following argument makes the Android Test Orchestrator run its
         // "pm clear" command after each test invocation. This command ensures
         // that the app's state is completely cleared between tests.
