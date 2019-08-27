@@ -1466,6 +1466,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             when (event.type) {
                 MediaPlayer.Event.Playing -> onPlaying()
                 MediaPlayer.Event.Paused -> updateOverlayPausePlay()
+                MediaPlayer.Event.Opening -> forcedTime = -1
                 MediaPlayer.Event.Vout -> {
                     updateNavStatus()
                     if (event.voutCount > 0)
