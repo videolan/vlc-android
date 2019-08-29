@@ -1430,7 +1430,7 @@ getMediaLongMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, 
     medialibrary::MediaPtr media = aml->media(id);
     if (media == nullptr) return 0L;
     const medialibrary::IMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
-    return metadata.isSet() ? metadata.integer() : 0L;
+    return metadata.isSet() ? metadata.asInt() : 0L;
 }
 
 jobject
@@ -1440,7 +1440,7 @@ getMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
     medialibrary::MediaPtr media = aml->media(id);
     if (media == nullptr) return 0L;
     const medialibrary::IMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
-    return metadata.isSet() ? env->NewStringUTF(metadata.str().c_str()) : nullptr;
+    return metadata.isSet() ? env->NewStringUTF(metadata.asStr().c_str()) : nullptr;
 }
 
 void
