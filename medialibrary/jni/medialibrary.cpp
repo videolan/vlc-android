@@ -5,6 +5,7 @@
 
 #include <jni.h>
 #include <medialibrary/IDeviceLister.h>
+#include <medialibrary/filesystem/IDevice.h>
 #define LOG_TAG "VLC/JNI/MediaLibrary"
 #include "log.h"
 #include "utils.h"
@@ -1714,9 +1715,16 @@ folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean des
     jobjectArray foldersRefs = (jobjectArray) env->NewObjectArray(foldersList.size(), ml_fields.Folder.clazz, NULL);
     int index = -1;
     for(medialibrary::FolderPtr const& folder : foldersList) {
-        jobject item = convertFolderObject(env, &ml_fields, folder);
-        env->SetObjectArrayElement(foldersRefs, ++index, item);
-        env->DeleteLocalRef(item);
+        try
+        {
+            jobject item = convertFolderObject(env, &ml_fields, folder);
+            env->SetObjectArrayElement(foldersRefs, ++index, item);
+            env->DeleteLocalRef(item);
+        }
+        catch( const medialibrary::fs::DeviceRemovedException& )
+        {
+            // Ignore this folder since it's on a removed device.
+        }
     }
     return foldersRefs;
 }
