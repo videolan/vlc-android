@@ -890,6 +890,9 @@ void AndroidMediaLibrary::onParsingStatsUpdated( uint32_t percent)
     }
 }
 
+void AndroidMediaLibrary::onHistoryChanged( medialibrary::HistoryType )
+{
+}
 
 void AndroidMediaLibrary::onBackgroundTasksIdleChanged( bool isIdle )
 {
