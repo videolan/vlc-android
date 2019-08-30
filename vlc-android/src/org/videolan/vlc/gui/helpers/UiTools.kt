@@ -41,6 +41,7 @@ import android.renderscript.*
 import android.text.Html
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
@@ -56,6 +57,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -613,10 +616,50 @@ fun setEllipsizeModeByPref(t: TextView, activated: Boolean) {
         3 -> t.ellipsize = TextUtils.TruncateAt.MIDDLE
         4 -> {
             t.ellipsize = TextUtils.TruncateAt.MARQUEE
-            t.marqueeRepeatLimit = -1
-            t.isSelected = true
+            t.marqueeRepeatLimit = 1
         }
     }
+}
+
+interface MarqueeViewHolder {
+    fun titleView(): TextView?
+}
+
+fun enableMarqueeEffect(recyclerView: RecyclerView) {
+    val layoutManager = recyclerView.layoutManager
+    if (layoutManager is LinearLayoutManager) {
+        //Initial animation for already visible items
+        Handler().post {
+            launchMarquee(recyclerView, layoutManager)
+        }
+        //Animation when done scrolling
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                val doScroll = newState == RecyclerView.SCROLL_STATE_IDLE
+                if (doScroll) {
+                    launchMarquee(recyclerView, layoutManager)
+                }
+            }
+        })
+    }
+}
+
+private fun launchMarquee(recyclerView: RecyclerView, layoutManager: LinearLayoutManager) {
+    Handler().postDelayed({
+        val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+        val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+        for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
+            val holder = recyclerView.findViewHolderForLayoutPosition(i)
+            if (holder is MarqueeViewHolder) {
+//                holder.titleView().isSelected = false
+                if (BuildConfig.DEBUG) Log.d("UiTools", "Launching marquee for ${holder.titleView()?.text}")
+
+                holder.titleView()?.isSelected = true
+            }
+        }
+    }, 1500)
 }
 
 /**
