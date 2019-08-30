@@ -2,7 +2,6 @@ package org.videolan.medialibrary.interfaces;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -13,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.SingleEvent;
@@ -60,10 +58,12 @@ abstract public class AbstractMedialibrary {
     public static final int ML_INIT_ALREADY_INITIALIZED = 1;
     public static final int ML_INIT_FAILED = 2;
     public static final int ML_INIT_DB_RESET = 3;
+    public static final int ML_INIT_DB_CORRUPTED = 4;
 
     public static final AbstractMediaWrapper[] EMPTY_COLLECTION = {};
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
     public static final String THUMBS_FOLDER_NAME = "/thumbs";
+    public static final String MEDIALIB_FOLDER_NAME = "/medialib";
 
     protected volatile boolean mIsInitiated = false;
     protected volatile boolean mIsWorking = false;
