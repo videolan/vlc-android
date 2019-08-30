@@ -32,12 +32,14 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.MotionEventCompat
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
@@ -50,7 +52,9 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
+import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
+import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.gui.helpers.getAudioIconDrawable
 import org.videolan.vlc.gui.tv.FocusableRecyclerView
 import org.videolan.vlc.gui.view.FastScroller
@@ -105,6 +109,11 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
     private fun displayInCard() = cardSize != SHOW_IN_LIST
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        enableMarqueeEffect(recyclerView)
+    }
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
         if (position >= itemCount) return
@@ -201,6 +210,8 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         private var coverlayResource = 0
         var onTouchListener: View.OnTouchListener
 
+        override fun titleView(): TextView = binding.title
+
         init {
             binding.holder = this
             if (defaultCover != null) binding.cover = defaultCover
@@ -234,6 +245,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         override fun recycle() {
             binding.cover = if (cardSize == SHOW_IN_LIST && defaultCover != null) defaultCover else null
             binding.mediaCover.resetFade()
+            binding.title.isSelected = false
         }
 
         override fun setCoverlay(selected: Boolean) {
@@ -248,6 +260,8 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     inner class MediaItemCardViewHolder @TargetApi(Build.VERSION_CODES.M)
     internal constructor(binding: AudioBrowserCardItemBinding) : AbstractMediaItemViewHolder<AudioBrowserCardItemBinding>(binding), View.OnFocusChangeListener {
         private var coverlayResource = 0
+
+        override fun titleView(): TextView = binding.title
 
         init {
             binding.holder = this
@@ -270,6 +284,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         override fun recycle() {
             if (defaultCover != null) binding.cover = defaultCover
             binding.mediaCover.resetFade()
+            binding.title.isSelected = false
         }
 
         override fun setCoverlay(selected: Boolean) {
@@ -282,7 +297,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
     abstract inner class AbstractMediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener {
+    internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener, MarqueeViewHolder {
 
         val canBeReordered: Boolean
             get() = reorder

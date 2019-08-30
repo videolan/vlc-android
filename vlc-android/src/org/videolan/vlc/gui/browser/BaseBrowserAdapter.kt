@@ -29,8 +29,8 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -46,7 +46,9 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
+import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
+import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.UPDATE_SELECTION
@@ -109,28 +111,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-
-        val layoutManager = recyclerView.layoutManager
-        if (layoutManager is LinearLayoutManager) {
-            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-
-                    val doScroll = newState == RecyclerView.SCROLL_STATE_IDLE
-
-                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-                    for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
-                        val holder = recyclerView.findViewHolderForLayoutPosition(i)
-                        if (holder is MediaViewHolder) {
-                            // Show marquee effect only for those view holders which are visible.
-                            // If not visible or dragging scroll state, then stop the marquee effect.
-                            holder.binding.title.isSelected = doScroll
-                        }
-                    }
-                }
-            })
-        }
+        enableMarqueeEffect(recyclerView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
@@ -169,12 +150,16 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
         vh.selectView(multiSelectHelper.isSelected(position))
     }
 
+    override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
+        super.onViewRecycled(holder)
+        holder.titleView()?.isSelected = false
+    }
+
     override fun getItemCount(): Int {
         return dataset.size
     }
 
-
-    abstract inner class ViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding) {
+    abstract inner class ViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding), MarqueeViewHolder {
 
         abstract fun getType(): Int
 
@@ -193,7 +178,8 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    internal inner class MediaViewHolder(binding: BrowserItemBinding) : ViewHolder<BrowserItemBinding>(binding), View.OnFocusChangeListener {
+    internal inner class MediaViewHolder(binding: BrowserItemBinding) : ViewHolder<BrowserItemBinding>(binding), View.OnFocusChangeListener, MarqueeViewHolder {
+        override fun titleView(): TextView = binding.title
 
         init {
             binding.holder = this
@@ -249,6 +235,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
     }
 
     private inner class SeparatorViewHolder(binding: BrowserItemSeparatorBinding) : ViewHolder<BrowserItemSeparatorBinding>(binding) {
+        override fun titleView(): TextView? = null
 
         override fun getType(): Int {
             return MediaLibraryItem.TYPE_DUMMY
