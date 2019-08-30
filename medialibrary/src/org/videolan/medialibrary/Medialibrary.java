@@ -49,7 +49,7 @@ public class Medialibrary extends AbstractMedialibrary {
     public int init(Context context) {
         if (context == null) return ML_INIT_FAILED;
         sContext = context;
-        File extFilesDir = context.getExternalFilesDir(null);
+        final File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
         if (extFilesDir == null || !extFilesDir.exists()
                 || dbDirectory == null || !dbDirectory.canWrite())
@@ -63,8 +63,27 @@ public class Medialibrary extends AbstractMedialibrary {
             Log.e(TAG, "Can't load mla: " + ule);
             return ML_INIT_FAILED;
         }
-        int initCode = nativeInit(dbDirectory+ VLC_MEDIA_DB_NAME, extFilesDir+ THUMBS_FOLDER_NAME);
+        //remove old thumbnails directory
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final File oldDir = new File(extFilesDir + THUMBS_FOLDER_NAME);
+                if (oldDir.isDirectory()) {
+                    String[] children = oldDir.list();
+                    for (String child : children) {
+                        new File(oldDir, child).delete();
+                    }
+                    oldDir.delete();
+                }
+            }
+        }).start();
+
+        int initCode = nativeInit(dbDirectory + VLC_MEDIA_DB_NAME, extFilesDir + MEDIALIB_FOLDER_NAME);
         mIsInitiated = initCode != ML_INIT_FAILED;
+        if (initCode == ML_INIT_DB_CORRUPTED) {
+            Log.e(TAG, "Medialib database is corrupted. Clearing it and try to restore playlists");
+            nativeClearDatabase(true);
+        }
         return initCode;
     }
 
@@ -482,6 +501,8 @@ public class Medialibrary extends AbstractMedialibrary {
     private native int nativeInit(String dbPath, String thumbsPath);
     private native void nativeStart();
     private native void nativeRelease();
+
+    private native void nativeClearDatabase(boolean keepPlaylist);
     private native void nativeBanFolder(String path);
     private native void nativeUnbanFolder(String path);
     private native boolean nativeAddDevice(String uuid, String path, boolean removable);

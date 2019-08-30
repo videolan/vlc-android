@@ -55,6 +55,11 @@ release(JNIEnv* env, jobject thiz)
 }
 
 void
+clearDatabase(JNIEnv* env, jobject thiz, jboolean restorePlaylists) {
+    MediaLibrary_getInstance(env, thiz)->clearDatabase(restorePlaylists);
+}
+
+void
 banFolder(JNIEnv* env, jobject thiz, jstring folderPath)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
@@ -1729,6 +1734,7 @@ static JNINativeMethod methods[] = {
     {"nativeInit", "(Ljava/lang/String;Ljava/lang/String;)I", (void*)init },
     {"nativeStart", "()V", (void*)start },
     {"nativeRelease", "()V", (void*)release },
+    {"nativeClearDatabase", "(Z)V", (void*)clearDatabase },
     {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)Z", (void*)addDevice },
     {"nativeDevices", "()[Ljava/lang/String;", (void*)devices },
     {"nativeDiscover", "(Ljava/lang/String;)V", (void*)discover },

@@ -60,6 +60,12 @@ AndroidMediaLibrary::start()
     m_started = true;
 }
 
+
+void
+AndroidMediaLibrary::clearDatabase(bool restorePlaylists) {
+    p_ml->clearDatabase(restorePlaylists);
+}
+
 bool
 AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
 {

@@ -4,7 +4,7 @@
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=862ceb5
+MEDIALIBRARY_HASH=f748def6
 
 while [ $# -gt 0 ]; do
     case $1 in
@@ -89,7 +89,7 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
     git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
     avlc_checkfail "medialibrary source: git clone failed"
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
-    git checkout 0.5.x
+#    git checkout 0.5.x
     git submodule update --init libvlcpp
 else
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary

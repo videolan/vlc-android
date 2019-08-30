@@ -243,9 +243,14 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
             shouldInit -> {
                 for (folder in AbstractMedialibrary.getBlackList())
                     medialibrary.banFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + folder)
-                if (preselectedStorages.isEmpty()) medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                if (preselectedStorages.isEmpty()) {
+                    medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                }
                 else {
-                    for (folder in preselectedStorages) medialibrary.discover(folder)
+
+                    for (folder in preselectedStorages) {
+                        medialibrary.discover(folder)
+                    }
                     preselectedStorages.clear()
                 }
             }
@@ -395,7 +400,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
                 val context = this@MediaParsingService
                 var shouldInit = !dbExists()
                 val initCode = medialibrary.init(context)
-                shouldInit = shouldInit or (initCode == AbstractMedialibrary.ML_INIT_DB_RESET)
+                shouldInit = shouldInit or (initCode == AbstractMedialibrary.ML_INIT_DB_RESET) or (initCode == AbstractMedialibrary.ML_INIT_DB_CORRUPTED)
                 if (initCode != AbstractMedialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
                 else exitCommand()
             }
