@@ -110,11 +110,11 @@ object ModelsHelper {
         return if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
     }
 
-    fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) = if (context !== null) when (sort) {
+    fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?) = if (context !== null || item == null) when (sort) {
         SORT_DEFAULT,
         SORT_FILENAME,
         SORT_ALPHA -> {
-            val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || ModelsHelper.isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
+            val letter = if (item!!.title.isEmpty() || !Character.isLetter(item.title[0]) || ModelsHelper.isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
             if (aboveItem == null) letter
             else {
                 val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0]) || ModelsHelper.isSpecialItem(aboveItem)) "#" else aboveItem.title.substring(0, 1).toUpperCase()
@@ -122,7 +122,7 @@ object ModelsHelper {
             }
         }
         SORT_DURATION -> {
-            val length = getLength(item)
+            val length = getLength(item!!)
             val lengthCategory = lengthToCategory(length)
             if (aboveItem == null) lengthCategory
             else {
@@ -131,7 +131,7 @@ object ModelsHelper {
             }
         }
         SORT_RELEASEDATE -> {
-            val year = getYear(item)
+            val year = getYear(item!!)
             if (aboveItem == null) year
             else {
                 val previous = getYear(aboveItem)
@@ -141,10 +141,10 @@ object ModelsHelper {
         SORT_LASTMODIFICATIONDATE -> {
             val timestamp = (item as AbstractMediaWrapper).lastModified
             val category = getTimeCategory(timestamp)
-            if (aboveItem == null) getTimeCategoryString(context, category)
+            if (aboveItem == null) getTimeCategoryString(context!!, category)
             else {
                 val prevCat = getTimeCategory((aboveItem as AbstractMediaWrapper).lastModified)
-                if (prevCat != category) getTimeCategoryString(context, category) else null
+                if (prevCat != category) getTimeCategoryString(context!!, category) else null
             }
         }
         SORT_ARTIST -> {
