@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.FileTvItemAdapter
@@ -21,6 +21,7 @@ import org.videolan.vlc.gui.tv.TvItemAdapter
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.BrowserProvider
+import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.CATEGORY
 import org.videolan.vlc.util.ITEM
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -31,6 +32,8 @@ import org.videolan.vlc.viewmodels.browser.getBrowserModel
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
 class FileBrowserTvFragment : BaseBrowserTvFragment() {
+    private var favExists: Boolean = false
+    private lateinit var browserFavRepository: BrowserFavRepository
     private var item: MediaLibraryItem? = null
     override lateinit var adapter: TvItemAdapter
 
@@ -63,6 +66,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         viewModel = getBrowserModel(getCategory(), (item as? AbstractMediaWrapper)?.location, true, false)
 
         viewModel.currentItem = item
+        browserFavRepository = BrowserFavRepository.getInstance(requireContext())
 
         (viewModel.provider as BrowserProvider).dataset.observe(this, Observer { items ->
             val lm = binding.list.layoutManager as LinearLayoutManager
@@ -109,6 +113,35 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
             binding.loading = it
             animationDelegate.setVisibility(binding.loadingBar, if (it) View.VISIBLE else View.GONE)
         })
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        launch {
+            animationDelegate.setVisibility(binding.favoriteButton, View.VISIBLE)
+            animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
+            animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
+            favExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists((item as MediaWrapper).uri) }
+            binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
+            binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
+        }
+        val favoriteClickListener: (View) -> Unit = {
+            launch {
+                withContext(Dispatchers.IO) {
+                    val mw = (item as MediaWrapper)
+                    when {
+                        browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
+                        mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
+                        else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
+                    }
+                    favExists = !favExists
+                    binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
+                    binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
+                }
+            }
+        }
+        binding.favoriteButton.setOnClickListener(favoriteClickListener)
+        binding.imageButtonFavorite.setOnClickListener(favoriteClickListener)
     }
 
     override fun onResume() {
