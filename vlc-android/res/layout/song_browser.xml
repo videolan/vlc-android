@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,9 +12,8 @@
             type="boolean" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:theme="@style/Theme.VLC.TV">
@@ -32,44 +33,57 @@
         </FrameLayout>
 
 
-        <ImageButton
-            android:id="@+id/sortButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tv_overscan_vertical"
-            android:layout_marginEnd="8dp"
-            android:background="@color/transparent"
-            android:elevation="6dp"
-            android:src="@drawable/ic_menu_sort_tv"
-            app:layout_constraintEnd_toStartOf="@+id/headerButton"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
         <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/tv_overscan_horizontal"
-            android:layout_marginTop="@dimen/tv_overscan_vertical"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="viewStart"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintEnd_toStartOf="@+id/sortButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Tracks" />
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_overscan_horizontal"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginEnd="8dp"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Tracks" />
 
         <ImageButton
-            android:id="@+id/headerButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tv_overscan_vertical"
-            android:layout_marginEnd="@dimen/tv_overscan_horizontal"
-            android:background="@color/transparent"
-            android:elevation="6dp"
-            android:src="@drawable/ic_menu_header_tv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/favoriteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginEnd="8dp"
+                android:background="@color/transparent"
+                android:elevation="6dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:src="@drawable/ic_menu_fav_tv"
+                app:layout_constraintEnd_toStartOf="@+id/sortButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+                android:id="@+id/sortButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginEnd="8dp"
+                android:background="@color/transparent"
+                android:elevation="6dp"
+                android:src="@drawable/ic_menu_sort_tv"
+                app:layout_constraintEnd_toStartOf="@+id/headerButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+                android:id="@+id/headerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginEnd="@dimen/tv_overscan_horizontal"
+                android:background="@color/transparent"
+                android:elevation="6dp"
+                android:src="@drawable/ic_menu_header_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.constraintlayout.widget.Group
@@ -115,21 +129,36 @@
             app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
 
         <ImageButton
-            android:id="@+id/imageButtonHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/orange_circle"
-            android:elevation="6dp"
-            android:nextFocusUp="@id/imageButtonSort"
-            android:nextFocusDown="@id/imageButtonSettings"
-            android:nextFocusForward="@id/imageButtonSort"
-            android:src="@drawable/ic_menu_header_tv_normal"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
-            app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
-            app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
-            app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
+                android:id="@+id/imageButtonFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/orange_circle"
+                android:elevation="6dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_menu_fav_tv_normal"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonHeader"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonHeader"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonHeader"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonHeader" />
+
+        <ImageButton
+                android:id="@+id/imageButtonHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/orange_circle"
+                android:elevation="6dp"
+                android:nextFocusUp="@id/imageButtonSort"
+                android:nextFocusDown="@id/imageButtonSettings"
+                android:nextFocusForward="@id/imageButtonSort"
+                android:src="@drawable/ic_menu_header_tv_normal"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
 
         <ImageButton
             android:id="@+id/imageButtonSettings"
@@ -146,21 +175,39 @@
             app:layout_constraintTop_toBottomOf="@+id/headerListContainer" />
 
         <TextView
-            android:id="@+id/sortDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:alpha="0"
-            android:background="@drawable/rounded_corners"
-            android:paddingStart="8dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="4dp"
-            android:text="@string/sortby"
-            app:layout_constraintEnd_toEndOf="@+id/sortButton"
-            app:layout_constraintStart_toStartOf="@+id/sortButton"
-            app:layout_constraintTop_toBottomOf="@+id/sortButton" />
+                android:id="@+id/favoriteDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0"
+                android:visibility="gone"
+                android:background="@drawable/rounded_corners"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="@string/favorite"
+                app:layout_constraintEnd_toEndOf="@+id/favoriteButton"
+                app:layout_constraintStart_toStartOf="@+id/favoriteButton"
+                app:layout_constraintTop_toBottomOf="@+id/favoriteButton" />
+
+        <TextView
+                android:id="@+id/sortDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0"
+                android:background="@drawable/rounded_corners"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="@string/sortby"
+                app:layout_constraintEnd_toEndOf="@+id/sortButton"
+                app:layout_constraintStart_toStartOf="@+id/sortButton"
+                app:layout_constraintTop_toBottomOf="@+id/sortButton" />
 
         <TextView
             android:id="@+id/headerDescription"
