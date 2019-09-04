@@ -63,27 +63,28 @@ public class Medialibrary extends AbstractMedialibrary {
             Log.e(TAG, "Can't load mla: " + ule);
             return ML_INIT_FAILED;
         }
-        //remove old thumbnails directory
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final File oldDir = new File(extFilesDir + THUMBS_FOLDER_NAME);
-                if (oldDir.isDirectory()) {
+        final File oldDir = new File(extFilesDir + THUMBS_FOLDER_NAME);
+        if (oldDir.isDirectory()) {
+            //remove old thumbnails directory
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
                     String[] children = oldDir.list();
                     for (String child : children) {
                         new File(oldDir, child).delete();
                     }
                     oldDir.delete();
                 }
-            }
-        }).start();
+            }).start();
+        }
 
         int initCode = nativeInit(dbDirectory + VLC_MEDIA_DB_NAME, extFilesDir + MEDIALIB_FOLDER_NAME);
-        mIsInitiated = initCode != ML_INIT_FAILED;
         if (initCode == ML_INIT_DB_CORRUPTED) {
             Log.e(TAG, "Medialib database is corrupted. Clearing it and try to restore playlists");
             nativeClearDatabase(true);
         }
+        mIsInitiated = initCode != ML_INIT_FAILED;
         return initCode;
     }
 
