@@ -84,6 +84,7 @@ import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.browser.FilePickerActivity
@@ -103,7 +104,6 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 @ExperimentalCoroutinesApi
 open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsController, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, Observer<PlaybackService>, TextWatcher {
 
-
     private var wasPlaying = true
     var service: PlaybackService? = null
     private lateinit var medialibrary: AbstractMedialibrary
@@ -119,7 +119,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private lateinit var playlistSearchText: TextInputLayout
     private lateinit var playlistAdapter: PlaylistAdapter
     private var playlistModel: PlaylistModel? = null
-
 
     private lateinit var settings: SharedPreferences
 
@@ -163,7 +162,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var lockBackButton = false
     private var wasPaused = false
     private var savedTime: Long = -1
-
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -228,7 +226,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private val playlistObserver = Observer<List<AbstractMediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) playlistAdapter.update(mediaWrappers) }
 
     private var addNextTrack = false
-
 
     private lateinit var playToPause: AnimatedVectorDrawableCompat
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
@@ -473,8 +470,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 (findViewById<View>(R.id.player_overlay_tips) as ViewStubCompat).inflate()
                 overlayTips = findViewById(R.id.overlay_tips_layout)
             }
-
-
         }
 
 
@@ -501,7 +496,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
         pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play)!!
-
     }
 
     override fun afterTextChanged(s: Editable?) {
@@ -825,7 +819,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private fun initUI() {
 
-
         /* Listen for changes to media routes. */
         if (!isBenchmark) displayManager.setMediaRouterCallback()
 
@@ -898,7 +891,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (!isBenchmark) displayManager.removeMediaRouterCallback()
 
         if (!displayManager.isSecondary) service?.mediaplayer?.detachViews()
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -977,11 +969,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (isShowing || fov == 0f && keyCode == KeyEvent.KEYCODE_DPAD_DOWN && !playlistContainer.isVisible())
             showOverlayTimeout(OVERLAY_TIMEOUT)
         when (keyCode) {
-            KeyEvent.KEYCODE_F, KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
+            KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
                 touchDelegate?.seekDelta(10000)
                 return true
             }
-            KeyEvent.KEYCODE_R, KeyEvent.KEYCODE_MEDIA_REWIND -> {
+            KeyEvent.KEYCODE_MEDIA_REWIND -> {
                 touchDelegate?.seekDelta(-10000)
                 return true
             }
@@ -1031,6 +1023,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
             KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_MEDIA_STOP -> {
                 exitOK()
+                return true
+            }
+            KeyEvent.KEYCODE_E -> {
+                if (event.isCtrlPressed) {
+                    val newFragment = EqualizerFragment()
+                    newFragment.onDismissListener = DialogInterface.OnDismissListener { dimStatusBar(true) }
+                    newFragment.show(supportFragmentManager, "equalizer")
+                }
                 return true
             }
             KeyEvent.KEYCODE_DPAD_LEFT -> {
@@ -1112,8 +1112,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 delaySubs(-50000L)
                 return true
             }
+            KeyEvent.KEYCODE_T -> {
+                showOverlay()
+            }
             KeyEvent.KEYCODE_H -> {
-                delaySubs(50000L)
+                if (event.isCtrlPressed) {
+                    showOverlay()
+                } else delaySubs(50000L)
                 return true
             }
             KeyEvent.KEYCODE_Z -> {
@@ -1233,7 +1238,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             vsc.inflate()
             playbackSettingPlus = findViewById(R.id.player_delay_plus)
             playbackSettingMinus = findViewById(R.id.player_delay_minus)
-
         }
         playbackSettingMinus!!.setOnClickListener(this)
         playbackSettingPlus!!.setOnClickListener(this)
@@ -1244,7 +1248,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         playbackSettingPlus!!.requestFocus()
         initPlaybackSettingInfo()
     }
-
 
     private fun initPlaybackSettingInfo() {
         initInfoOverlay()
@@ -1711,7 +1714,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-
     override fun onPopupMenu(view: View, position: Int, item: AbstractMediaWrapper?) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.audio_player, popupMenu.menu)
@@ -1796,7 +1798,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     fun hideOptions() {
         if (optionsDelegate != null) optionsDelegate!!.hide()
     }
-
 
     private interface TrackSelectedListener {
         fun onTrackSelected(trackID: Int)
@@ -1896,11 +1897,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         startActivityForResult(filePickerIntent, 0)
     }
 
-
     fun downloadSubtitles() = service?.currentMediaWrapper?.let {
         MediaUtils.getSubs(this@VideoPlayerActivity, it)
     }
-
 
     @WorkerThread
     private fun setSpuTrack(trackID: Int) {
@@ -1959,8 +1958,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             service.playlistManager.player.updateProgress(position)
         }
     }
-
-
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initSeekButton() {
@@ -2111,7 +2108,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     val lp = vsc.layoutParams as RelativeLayout.LayoutParams
                     lp.setMargins(hm, 0, hm, vm)
                     vsc.layoutParams = lp
-
                 }
 
                 resetHudLayout()
@@ -2192,7 +2188,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         if (AndroidDevices.hasNavBar) visibility = visibility or navbar
         window.decorView.systemUiVisibility = visibility
-
     }
 
     private fun updateOverlayPausePlay(skipAnim: Boolean = false) {
@@ -2248,7 +2243,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 videoTracksList = service.videoTracks as Array<MediaPlayer.TrackDescription>?
         }
     }
-
 
     /**
      *
@@ -2788,8 +2782,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
             return intent
         }
-
-
     }
 }
 
