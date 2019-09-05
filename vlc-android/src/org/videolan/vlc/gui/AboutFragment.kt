@@ -34,7 +34,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.audio.AudioPagerAdapter
@@ -72,11 +74,8 @@ class AboutFragment : Fragment() {
             setupWithViewPager(viewPager)
         }
         coroutineScope.launch {
-            val asset = withContext(Dispatchers.IO) {
-                Util.readAsset("licence.htm", "").replace("!COMMITID!", revision)
-            }
             UiTools.fillAboutView(view)
-            webView.loadData(asset, "text/html", "UTF8")
+            webView.loadUrl("file:///android_asset/licence.htm")
 
             webView.webViewClient = object : WebViewClient() {
 
@@ -97,8 +96,6 @@ class AboutFragment : Fragment() {
                     super.onPageFinished(view, url)
                 }
             }
-
-
         }
     }
 
