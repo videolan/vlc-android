@@ -371,7 +371,6 @@
     <string name="list_title_ellipsize">Single line list title ellipsize</string>
     <string name="list_title_ellipsize_default">Default</string>
     <string name="list_title_ellipsize_left">Left</string>
-    <string name="list_title_alignment_centre">Centre</string>
     <string name="list_title_ellipsize_right">Right</string>
     <string name="list_title_ellipsize_middle">Middle</string>
     <string name="list_title_ellipsize_marquee">Marquee</string>
