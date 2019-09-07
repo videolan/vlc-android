@@ -48,8 +48,8 @@
     <string name="insert_next">Wstaw jako następny</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
-    <string name="last_playlist">Ostatnia lista odtwarzania</string>
-    <string name="last_playlist_shortcut">Wznowienie odtwarzania</string>
+    <string name="last_playlist">Wznów odtwarzanie</string>
+    <string name="last_playlist_shortcut">Wznów</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
@@ -363,12 +363,12 @@
     <string name="lockscreen_cover_summary">Jeśli jest dostępna, ustaw aktualną okładkę albumu jako tapetę ekranu blokady</string>
     <string name="playlist_animate_scroll_title">Animuj automatyczne przewijanie bieżącej listy odtwarzania</string>
     <string name="playlist_animate_scroll_summary">Animuj przewijanie podczas zmiany mediów</string>
-    <string name="audio_title_alignment">Wyrównanie tytułu ścieżki</string>
-    <string name="audio_title_alignment_default">Domyślnie</string>
-    <string name="audio_title_alignment_left">Wyrównaj do lewej</string>
-    <string name="audio_title_alignment_centre">Wyrównaj do środka</string>
-    <string name="audio_title_alignment_right">Wyrównaj do prawej</string>
-    <string name="audio_title_alignment_marquee">Przewijający się tekst</string>
+    <string name="list_title_ellipsize">Skracanie jednowierszowych tytułów na listach</string>
+    <string name="list_title_ellipsize_default">Domyślnie</string>
+    <string name="list_title_ellipsize_left">Do lewej</string>
+    <string name="list_title_ellipsize_right">Do prawej</string>
+    <string name="list_title_ellipsize_middle">W środku</string>
+    <string name="list_title_ellipsize_marquee">Przewijający się tekst</string>
     <string name="audio_save_repeat_title">Zapisz tryb powtórz</string>
     <string name="audio_save_repeat_summary">Zapamiętaj tryb powtórz podczas ładowania list odtwarzania dźwięku</string>
     <string name="audio_boost_title">Wzmacniacz dźwięku</string>
@@ -728,4 +728,5 @@
     <string name="report_a_bug">Zgłosić błąd</string>
     <string name="report_a_crash">Zgłosić awarię</string>
     <string name="describe_crash">Opisz, jak doszło do tej awarii</string>
+    <string name="favorite">Ulubiony</string>
 </resources>
