@@ -46,8 +46,8 @@
     <string name="insert_next">Kölägg nästa</string>
     <string name="play_all">Spela upp alla</string>
     <string name="append_all">Kölägg alla</string>
-    <string name="last_playlist">Senaste spellista</string>
-    <string name="last_playlist_shortcut">Återuppta uppspelning</string>
+    <string name="last_playlist">Återuppta uppspelning</string>
+    <string name="last_playlist_shortcut">Återuppta uppspelning av senaste spellista</string>
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
     <string name="set_song">Ange som ringsignal</string>
@@ -349,12 +349,12 @@
     <string name="lockscreen_cover_summary">Ändra låsskärmens bakgrundsbild till aktuell mediaomslagbild om ett finns.</string>
     <string name="playlist_animate_scroll_title">Animera autorullning för aktuell spellista</string>
     <string name="playlist_animate_scroll_summary">Animera rullning när media byts</string>
-    <string name="audio_title_alignment">Ljudrubriksjustering</string>
-    <string name="audio_title_alignment_default">Standard</string>
-    <string name="audio_title_alignment_left">Vänster</string>
-    <string name="audio_title_alignment_centre">Center</string>
-    <string name="audio_title_alignment_right">Höger</string>
-    <string name="audio_title_alignment_marquee">Skärmtext</string>
+    <string name="list_title_ellipsize">Avsluta enradiga titlar med punkter</string>
+    <string name="list_title_ellipsize_default">Standard</string>
+    <string name="list_title_ellipsize_left">Vänster</string>
+    <string name="list_title_ellipsize_right">Höger</string>
+    <string name="list_title_ellipsize_middle">Mitten</string>
+    <string name="list_title_ellipsize_marquee">Skärmtext</string>
     <string name="audio_save_repeat_title">Spara slingaläge</string>
     <string name="audio_save_repeat_summary">Kom ihåg slingaläge när ljudspellistor läses in</string>
     <string name="audio_boost_title">Utökat volymreglage</string>
@@ -714,4 +714,5 @@
     <string name="report_a_bug">Rapportera en bugg</string>
     <string name="report_a_crash">Rapportera en krasch</string>
     <string name="describe_crash">Beskriv hur denna krasch inträffade</string>
+    <string name="favorite">Favoritmarkera</string>
 </resources>
