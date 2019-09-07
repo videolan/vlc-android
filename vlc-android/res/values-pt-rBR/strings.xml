@@ -46,8 +46,8 @@
     <string name="insert_next">Inserir como próximo</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="append_all">Adicionar todos</string>
-    <string name="last_playlist">Última lista de reprodução</string>
-    <string name="last_playlist_shortcut">Retomar a reprodução</string>
+    <string name="last_playlist">Retomar reprodução</string>
+    <string name="last_playlist_shortcut">Retomar a reprodução da última lista de reprodução</string>
     <string name="delete">Excluir</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque</string>
@@ -349,12 +349,12 @@
     <string name="lockscreen_cover_summary">Quando disponível, define a capa da mídia atual como papel de parede</string>
     <string name="playlist_animate_scroll_title">Animar a rolagem automática da lista de reprodução</string>
     <string name="playlist_animate_scroll_summary">Animar a rolagem na transmissão de mídia</string>
-    <string name="audio_title_alignment">Alinhamento do título do áudio</string>
-    <string name="audio_title_alignment_default">Padrão</string>
-    <string name="audio_title_alignment_left">Esquerda</string>
-    <string name="audio_title_alignment_centre">Central</string>
-    <string name="audio_title_alignment_right">Direita</string>
-    <string name="audio_title_alignment_marquee">Mostruário</string>
+    <string name="list_title_ellipsize">Título em linha única encurtado com reticências</string>
+    <string name="list_title_ellipsize_default">Padrão</string>
+    <string name="list_title_ellipsize_left">Esquerda</string>
+    <string name="list_title_ellipsize_right">Direita</string>
+    <string name="list_title_ellipsize_middle">Meio</string>
+    <string name="list_title_ellipsize_marquee">Logotipo</string>
     <string name="audio_save_repeat_title">Salvar o modo contínuo</string>
     <string name="audio_save_repeat_summary">Lembrar do modo contínuo quando carregar listas de reprodução de áudio</string>
     <string name="audio_boost_title">Amplificação do áudio</string>
@@ -714,4 +714,5 @@
     <string name="report_a_bug">Relatar um problema</string>
     <string name="report_a_crash">Relatar um problema</string>
     <string name="describe_crash">Por favor descreva como o problema ocorreu</string>
+    <string name="favorite">Favorito</string>
 </resources>
