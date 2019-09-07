@@ -48,8 +48,8 @@
     <string name="insert_next">להכניס כבא בתור</string>
     <string name="play_all">נגינת הכול</string>
     <string name="append_all">הוספת הכול</string>
-    <string name="last_playlist">רשימת הנגינה האחרונה</string>
-    <string name="last_playlist_shortcut">להמשיך נגינה</string>
+    <string name="last_playlist">להמשיך בנגינה</string>
+    <string name="last_playlist_shortcut">להמשיך את נגינת רשימת הנגינה האחרונה</string>
     <string name="delete">מחיקה</string>
     <string name="remove">הסרה</string>
     <string name="set_song">הגדרה כצלצול</string>
@@ -363,12 +363,12 @@
     <string name="lockscreen_cover_summary">כאשר ניתן, יש להגדיר את עטיפת האלבום של פריט המדיה המתנגן בתור רקע מסך הנעילה</string>
     <string name="playlist_animate_scroll_title">הנפשת הגלישה האוטומטית של רשימת הנגינה הנוכחית</string>
     <string name="playlist_animate_scroll_summary">הנפשת גלילה בעת מעבר בין פריטי מדיה</string>
-    <string name="audio_title_alignment">יישור כותרת אוטומטי</string>
-    <string name="audio_title_alignment_default">בררת מחדל</string>
-    <string name="audio_title_alignment_left">שמאל</string>
-    <string name="audio_title_alignment_centre">מרכז</string>
-    <string name="audio_title_alignment_right">ימין</string>
-    <string name="audio_title_alignment_marquee">נגללת</string>
+    <string name="list_title_ellipsize">קטיעת כותרת ברשימה של שורות בודדות</string>
+    <string name="list_title_ellipsize_default">בררת מחדל</string>
+    <string name="list_title_ellipsize_left">שמאל</string>
+    <string name="list_title_ellipsize_right">ימים</string>
+    <string name="list_title_ellipsize_middle">אמצע</string>
+    <string name="list_title_ellipsize_marquee">גלילה</string>
     <string name="audio_save_repeat_title">שמירת מצב החזרה</string>
     <string name="audio_save_repeat_summary">לזכור את מצב החזרה בעת טעינת רשימות נגינת שמע</string>
     <string name="audio_boost_title">הגברת שמע</string>
@@ -728,4 +728,5 @@
     <string name="report_a_bug">לדווח על תקלה</string>
     <string name="report_a_crash">לדווח על קריסה</string>
     <string name="describe_crash">נא לתאר איך אירעה הקריסה הזאת</string>
+    <string name="favorite">סימון כמועדף</string>
 </resources>
