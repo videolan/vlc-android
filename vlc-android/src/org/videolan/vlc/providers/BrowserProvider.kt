@@ -30,7 +30,11 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.channels.mapNotNullTo
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.toList
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -47,7 +51,7 @@ const val TAG = "VLC/BrowserProvider"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private val showHiddenFiles: Boolean) : EventListener, CoroutineScope, HeaderProvider() {
+abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private val showHiddenFiles: Boolean) : CoroutineScope, HeaderProvider() {
 
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     val loading = MutableLiveData<Boolean>().apply { value = false }
@@ -56,7 +60,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     private var parsingJob : Job? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
-    protected lateinit var browserChannel : Channel<Media>
     private val showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
@@ -68,7 +71,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 mediabrowser?.release()
                 mediabrowser = null
             }
-            if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
         }
 
     }
@@ -90,10 +92,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open fun initBrowser() {
-        if (mediabrowser == null) mediabrowser = MediaBrowser(VLCInstance[context], this, browserHandler)
+        if (mediabrowser == null) mediabrowser = MediaBrowser(VLCInstance[context], null, browserHandler)
     }
 
-    protected abstract suspend fun requestBrowsing(url: String?) : Unit?
+    protected abstract suspend fun requestBrowsing(url: String?, eventListener: EventListener, interact : Boolean) : Unit?
 
     open fun fetch() {
         val list by lazy(LazyThreadSafetyMode.NONE) { prefetchLists[url] }
@@ -118,22 +120,29 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open suspend fun browseImpl(url: String? = null) {
-        browserChannel = Channel(Channel.UNLIMITED)
-        requestBrowsing(url)
         if (url == null) {
-            for (media in browserChannel) findMedia(media)?.let {
-                loading.postValue(false)
-                addMedia(it)
-            }
+            filesFlow(url).collect { findMedia(it)?.let { addMedia(it) } }
             if (dataset.value.isNotEmpty()) parseSubDirectories()
             else dataset.clear() // send observable event when folder is empty
         } else {
-            val value: MutableList<MediaLibraryItem> = browserChannel.mapNotNullTo(mutableListOf()) { findMedia(it) }
+            val value = filesFlow(url).mapNotNull { findMedia(it) }.toList()
             computeHeaders(value)
-            dataset.value = value
+            dataset.value = value as MutableList<MediaLibraryItem>
             parseSubDirectories(value)
         }
         loading.postValue(false)
+    }
+
+    private fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow<Media> {
+        val listener = object : EventListener {
+            override fun onMediaAdded(index: Int, media: Media) { if (!isClosedForSend) offer(media.apply { retain() }) }
+
+            override fun onBrowseEnd() { if (!isClosedForSend) close() }
+
+            override fun onMediaRemoved(index: Int, media: Media) {}
+        }
+        requestBrowsing(url, listener, interact)
+        awaitClose { mediabrowser?.changeEventListener(null) }
     }
 
     protected open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
@@ -146,7 +155,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         browserActor.post(Refresh)
     }
 
-    open fun computeHeaders(value: MutableList<MediaLibraryItem>) {
+    open fun computeHeaders(value: List<MediaLibraryItem>) {
         privateHeaders.clear()
         for ((position, item) in value.withIndex()) {
             val previous = when {
@@ -154,9 +163,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 else -> null
             }
             ModelsHelper.getHeader(context, AbstractMedialibrary.SORT_ALPHA, item, previous)?.let {
-                launch {
-                    privateHeaders.put(position, it)
-                }
+                privateHeaders.put(position, it)
             }
         }
         (liveHeaders as MutableLiveData).postValue(privateHeaders.clone())
@@ -177,10 +184,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 initBrowser()
                 var currentParsedPosition = -1
                 loop@ while (++currentParsedPosition < currentMediaList.size) {
-                    if (!isActive) {
-                        if (::browserChannel.isInitialized) browserChannel.close()
-                        break@loop
-                    }
+                    if (!isActive) break@loop
                     //skip media that are not browsable
                     val item = currentMediaList[currentParsedPosition]
                     val current = when {
@@ -194,11 +198,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                             MLServiceLocator.getAbstractMediaWrapper((item as Storage).uri).apply { type = AbstractMediaWrapper.TYPE_DIR }
                         else -> continue@loop
                     }
-                    // request parsing
-                    browserChannel = Channel(Channel.UNLIMITED)
-                    mediabrowser?.browse(current.uri, if (showHiddenFiles) MediaBrowser.Flag.ShowHiddenFiles else 0)
                     // retrieve subitems
-                    for (media in browserChannel) {
+                    val mediaList = filesFlow(current.uri.toString(), false).toList()
+                    for (media in mediaList) {
                         val mw = findMedia(media) ?: continue
                         if (mw is AbstractMediaWrapper) {
                             val type = mw.type
@@ -223,17 +225,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         }
         parsingJob = null
     }
-
-    override fun onMediaAdded(index: Int, media: Media) {
-        if (!browserChannel.isClosedForSend) {
-            media.retain()
-            if (!browserChannel.isClosedForSend) browserChannel.offer(media)
-            else media.release()
-        }
-    }
-
-    override fun onBrowseEnd() { if (!browserChannel.isClosedForSend) browserChannel.close() }
-    override fun onMediaRemoved(index: Int, media: Media){}
 
     private val sb = StringBuilder()
     private fun getDescription(folderCount: Int, mediaFileCount: Int): String {
@@ -267,14 +258,13 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     abstract suspend fun browseRootImpl()
 
-    open fun getFlags() : Int {
-        var flags = MediaBrowser.Flag.Interact
+    open fun getFlags(interact : Boolean) : Int {
+        var flags = if (interact) MediaBrowser.Flag.Interact else 0
         if (showHiddenFiles) flags = flags or MediaBrowser.Flag.ShowHiddenFiles
         return flags
     }
 
     open fun stop() {
-        if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
         browserActor.offer(Release)
         parsingJob?.cancel()
         parsingJob = null
