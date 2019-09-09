@@ -34,14 +34,14 @@ import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
-const val TYPE_FILE = 0
-const val TYPE_NETWORK = 1
-const val TYPE_PICKER = 2
-const val TYPE_STORAGE = 3
+const val TYPE_FILE = 0L
+const val TYPE_NETWORK = 1L
+const val TYPE_PICKER = 2L
+const val TYPE_STORAGE = 3L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class BrowserModel(context: Context, val url: String?, type: Int, showHiddenFiles: Boolean, private val showDummyCategory: Boolean) : BaseModel<MediaLibraryItem>(context), TvBrowserModel {
+open class BrowserModel(context: Context, val url: String?, type: Long, showHiddenFiles: Boolean, private val showDummyCategory: Boolean) : BaseModel<MediaLibraryItem>(context), TvBrowserModel {
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
 
@@ -86,7 +86,7 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
 
     suspend fun customDirectoryExists(path: String) = DirectoryRepository.getInstance(context).customDirectoryExists(path)
 
-    class Factory(val context: Context, val url: String?, private val type: Int, private val showHiddenFiles: Boolean, private val showDummyCategory: Boolean = true) : ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val url: String?, private val type: Long, private val showHiddenFiles: Boolean, private val showDummyCategory: Boolean = true) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return BrowserModel(context.applicationContext, url, type, showHiddenFiles, showDummyCategory = showDummyCategory) as T
@@ -120,4 +120,4 @@ private val descComp by lazy {
 }
 
 @ExperimentalCoroutinesApi
-fun Fragment.getBrowserModel(category: Int, url: String?, showHiddenFiles: Boolean, showDummyCategory: Boolean) = ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), url, category, showHiddenFiles, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)
+fun Fragment.getBrowserModel(category: Long, url: String?, showHiddenFiles: Boolean, showDummyCategory: Boolean) = ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), url, category, showHiddenFiles, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)

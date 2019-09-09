@@ -1,10 +1,15 @@
 package org.videolan.vlc.gui.tv.browser
 
+import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +21,8 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.browser.PathAdapter
+import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.tv.FileTvItemAdapter
 import org.videolan.vlc.gui.tv.TvItemAdapter
 import org.videolan.vlc.gui.tv.TvUtil
@@ -23,7 +30,9 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.CATEGORY
+import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.ITEM
+import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
@@ -31,11 +40,26 @@ import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
-class FileBrowserTvFragment : BaseBrowserTvFragment() {
+class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
+
+    override fun backTo(tag: String) {
+        if (tag == "root") {
+            requireActivity().finish()
+            return
+        }
+        requireActivity().supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    override fun currentContext(): Context = requireActivity()
+
+    override fun showRoot(): Boolean = true
+
     private var favExists: Boolean = false
     private lateinit var browserFavRepository: BrowserFavRepository
     private var item: MediaLibraryItem? = null
     override lateinit var adapter: TvItemAdapter
+
+    var mrl: String? = null
 
     override fun getTitle() = when (getCategory()) {
         TYPE_FILE -> getString(R.string.directories)
@@ -46,10 +70,10 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
     override fun getColumnNumber() = resources.getInteger(R.integer.tv_songs_col_count)
 
     companion object {
-        fun newInstance(type: Int, item: MediaLibraryItem?) =
+        fun newInstance(type: Long, item: MediaLibraryItem?) =
                 FileBrowserTvFragment().apply {
                     arguments = Bundle().apply {
-                        this.putInt(CATEGORY, type)
+                        this.putLong(CATEGORY, type)
                         this.putParcelable(ITEM, item)
                     }
                 }
@@ -64,6 +88,10 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         item = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(ITEM) as? MediaLibraryItem
         else arguments?.getParcelable(ITEM) as? MediaLibraryItem
         viewModel = getBrowserModel(getCategory(), (item as? AbstractMediaWrapper)?.location, true, false)
+
+        item?.let {
+            mrl = (it as MediaWrapper).location
+        }
 
         viewModel.currentItem = item
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
@@ -115,6 +143,39 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        setBreadcrumb(viewModel.currentItem as MediaWrapper)
+    }
+
+    private fun setBreadcrumb(media: MediaWrapper) {
+        val ariane = requireActivity().findViewById<RecyclerView>(org.videolan.vlc.R.id.ariane)
+                ?: return
+
+        if (isSchemeSupported(media.uri?.scheme)) {
+            ariane.visibility = View.VISIBLE
+            ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            ariane.adapter = PathAdapter(this, media)
+            if (ariane.itemDecorationCount == 0) {
+                val did = object : DividerItemDecoration(requireContext(), HORIZONTAL) {
+                    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                        val position = parent.getChildAdapterPosition(view)
+                        // hide the divider for the last child
+                        if (position == parent.adapter?.itemCount ?: 0 - 1) {
+                            outRect.setEmpty()
+                        } else {
+                            super.getItemOffsets(outRect, view, parent, state)
+                        }
+                    }
+                }
+                did.setDrawable(ContextCompat.getDrawable(requireContext(), org.videolan.vlc.R.drawable.ic_divider)!!)
+                ariane.addItemDecoration(did)
+            }
+            ariane.scrollToPosition(ariane.adapter!!.itemCount - 1)
+        } else ariane.visibility = View.GONE
+        animationDelegate.setVisibility(binding.title, if (ariane.visibility == View.GONE) View.VISIBLE else View.GONE)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         launch {
@@ -153,7 +214,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(ITEM, item)
-        outState.putInt(CATEGORY, getCategory())
+        outState.putLong(CATEGORY, getCategory())
         super.onSaveInstanceState(outState)
     }
 
@@ -162,7 +223,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         (viewModel as BrowserModel).stop()
     }
 
-    private fun getCategory() = arguments?.getInt(CATEGORY, TYPE_FILE) ?: TYPE_FILE
+    override fun getCategory() = arguments?.getLong(CATEGORY, TYPE_FILE) ?: TYPE_FILE
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         val mediaWrapper = item as AbstractMediaWrapper
@@ -178,7 +239,8 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         val ft = ctx.supportFragmentManager.beginTransaction()
         val next = newInstance(getCategory(), media)
         (viewModel as BrowserModel).saveList(media)
-        if (save) ft.addToBackStack(media.title)
+        if (save) ft.addToBackStack(if (mrl == null) "root" else viewModel.currentItem?.title
+                ?: FileUtils.getFileNameFromPath(mrl))
         ft.replace(R.id.tv_fragment_placeholder, next, media.title)
         ft.commit()
     }

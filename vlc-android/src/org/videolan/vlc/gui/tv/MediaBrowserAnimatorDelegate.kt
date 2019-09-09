@@ -214,9 +214,10 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment, 
 
         // Title escapes by the top of the screen
         scrolledDownFABCollapsedConstraintSet.constrainMaxHeight(R.id.title, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.constrainMaxHeight(R.id.ariane, ConstraintSet.TOP)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.title, ConstraintSet.BOTTOM, 0, ConstraintSet.TOP)
-//        scrolledDownFABCollapsedConstraintSet.clear(R.id.favoriteButton, ConstraintSet.TOP)
-//        scrolledDownFABCollapsedConstraintSet.connect(R.id.favoriteButton, ConstraintSet.BOTTOM, 0, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.ariane, ConstraintSet.BOTTOM, 0, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.clear(R.id.ariane, ConstraintSet.TOP)
 
         //FAB showing
         scrolledDownFABCollapsedConstraintSet.connect(R.id.imageButtonSettings, ConstraintSet.BOTTOM, 0, ConstraintSet.BOTTOM)

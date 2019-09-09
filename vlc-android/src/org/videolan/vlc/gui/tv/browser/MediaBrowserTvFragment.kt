@@ -46,6 +46,8 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
         else -> getString(R.string.video)
     }
 
+    override fun getCategory(): Long = (viewModel as MediaBrowserViewModel).category
+
     override fun getColumnNumber() = when ((viewModel as MediaBrowserViewModel).category) {
         CATEGORY_VIDEOS -> resources.getInteger(R.integer.tv_videos_col_count)
         else -> resources.getInteger(R.integer.tv_songs_col_count)

@@ -33,6 +33,7 @@
     <attr name="progress_background" format="reference|color" />
     <attr name="progress_indeterminate_tint" format="reference|color" />
     <attr name="ariane_text_color" format="reference|color"/>
+    <attr name="ariane_text_size" format="dimension" />
     <attr name="card_background" format="color"/>
 
     <!--Main Icons-->
