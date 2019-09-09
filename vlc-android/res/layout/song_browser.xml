@@ -47,6 +47,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Tracks" />
 
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ariane"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_overscan_horizontal"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginEnd="8dp"
+                android:clipToPadding="false"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_height="48dp" />
+
         <ImageButton
                 android:id="@+id/favoriteButton"
                 android:layout_width="wrap_content"

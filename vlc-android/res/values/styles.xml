@@ -91,6 +91,7 @@
         <item name="ic_dial">@drawable/ic_dial</item>
         <item name="progress_background">@color/grey400</item>
         <item name="ariane_text_color">@color/grey50</item>
+        <item name="ariane_text_size">14sp</item>
         <item name="player_icon_color">@color/black</item>
         <item name="card_background">@color/grey300</item>
     </style>
@@ -203,6 +204,7 @@
         <item name="progress_indeterminate_tint">@color/orange500</item>
         <item name="progress_background">@color/grey700</item>
         <item name="ariane_text_color">@color/grey50</item>
+        <item name="ariane_text_size">14sp</item>
         <item name="player_icon_color">@color/white</item>
         <item name="card_background">@color/grey900</item>
     </style>
@@ -224,16 +226,19 @@
         <item name="background_default_gradient">@drawable/gradient_background_tv</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="player_icon_color">@color/white</item>
-
+        <item name="ariane_text_color">@color/simple_list_title</item>
+        <item name="list_title">@color/grey50</item>
+        <item name="ariane_text_size">18sp</item>
     </style>
 
     <style name="Theme.VLC.Info" parent="Theme.VLC">
         <item name="ariane_text_color">@color/grey900</item>
-
+        <item name="ariane_text_size">14sp</item>
     </style>
 
     <style name="Theme.VLC.Info.Black" parent="Theme.VLC.Black">
         <item name="ariane_text_color">@color/grey50</item>
+        <item name="ariane_text_size">14sp</item>
 
 
     </style>

@@ -6,5 +6,6 @@
         android:layout_height="wrap_content"
         android:paddingBottom="4dp"
         android:paddingTop="3dp"
+        android:textSize="?attr/ariane_text_size"
         android:textColor="?attr/ariane_text_color"
         tools:text="folder"/>

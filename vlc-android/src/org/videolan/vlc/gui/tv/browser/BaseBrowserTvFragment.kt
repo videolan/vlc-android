@@ -56,10 +56,11 @@ import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
-import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.RefreshModel
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.SortableModel
+import org.videolan.vlc.viewmodels.browser.TYPE_FILE
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
 private const val TAG = "MediaBrowserTvFragment"
@@ -72,6 +73,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         VerticalGridActivity.OnKeyPressedListener, CoroutineScope by MainScope() {
 
     abstract fun getTitle(): String
+    abstract fun getCategory(): Long
     abstract fun getColumnNumber(): Int
     abstract fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter
 
@@ -112,8 +114,9 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         calculateNbColumns()
 
         title.text = viewModel.currentItem?.let {
-            if (it is AbstractMediaWrapper && it.uri.path == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) getString(R.string.internal_memory)
-            else it.title
+            if (getCategory() == TYPE_NETWORK || getCategory() == TYPE_FILE) {
+                ""
+            } else it.title
         } ?: getTitle()
 
         val searchHeaderClick: (View) -> Unit = { animationDelegate.hideFAB() }
