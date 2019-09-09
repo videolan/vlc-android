@@ -14,7 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary.THUMBS_FOLDER_NAME
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary.MEDIALIB_FOLDER_NAME
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -58,7 +58,7 @@ object ThumbnailsProvider {
         if (isMedia && (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) {
             if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
-            if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + THUMBS_FOLDER_NAME
+            if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + MEDIALIB_FOLDER_NAME
             return if (hasCache) StringBuilder(cacheDir!!).append('/').append(item.fileName).append(".jpg").toString() else null
         }
         return item.artworkMrl
