@@ -27,6 +27,7 @@ import android.text.TextUtils
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
@@ -141,16 +142,22 @@ open class FileBrowserProvider(
         headers.clear()
     }
 
-    override suspend fun requestBrowsing(url: String?) = withContext(Dispatchers.IO) {
+    override suspend fun requestBrowsing(url: String?, eventListener: MediaBrowser.EventListener, interact : Boolean) = withContext(Dispatchers.IO) {
         initBrowser()
-        mediabrowser?.let { if (url != null) it.browse(Uri.parse(url), getFlags()) }
+        mediabrowser?.let {
+            it.changeEventListener(eventListener)
+            if (url != null) it.browse(Uri.parse(url), getFlags(interact))
+        }
     }
 
     override fun browse(url: String?) {
         when {
             url == "otg://" || url?.startsWith("content:") == true -> launch {
                 loading.postValue(true)
-                dataset.value = withContext(Dispatchers.IO) { getDocumentFiles(context, Uri.parse(url).path?.substringAfterLast(':') ?: "") as? MutableList<MediaLibraryItem> ?: mutableListOf() }
+                dataset.value = withContext(Dispatchers.IO) {
+                    @Suppress("UNCHECKED_CAST")
+                    getDocumentFiles(context, Uri.parse(url).path?.substringAfterLast(':') ?: "") as? MutableList<MediaLibraryItem> ?: mutableListOf()
+                }
                 loading.postValue(false)
             }
             else -> super.browse(url)

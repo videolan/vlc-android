@@ -61,7 +61,7 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
 
     override suspend fun findMedia(media: Media) = media.takeIf { it.isStorage() }?.let { Storage(it.uri) }
 
-    override fun computeHeaders(value: MutableList<MediaLibraryItem>) {}
+    override fun computeHeaders(value: List<MediaLibraryItem>) {}
 }
 
 private fun Media.isStorage() = type == Media.Type.Directory

@@ -30,9 +30,8 @@ import org.videolan.vlc.util.LiveDataset
 
 class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showDummyCategory: Boolean = false) : FileBrowserProvider(context, dataset, url, true, false, showDummyCategory) {
 
-    override fun getFlags(): Int {
-        return MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect
-    }
+    override fun getFlags(interact : Boolean) = if (interact) MediaBrowser.Flag.NoSlavesAutodetect
+    else MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect
 
     override fun initBrowser() {
         super.initBrowser()
@@ -43,7 +42,7 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
         mw.type == AbstractMediaWrapper.TYPE_DIR || mw.type == AbstractMediaWrapper.TYPE_SUBTITLE
     }
 
-    override fun computeHeaders(value: MutableList<MediaLibraryItem>) {}
+    override fun computeHeaders(value: List<MediaLibraryItem>) {}
 
     override fun parseSubDirectories(list : List<MediaLibraryItem>?) {}
 }

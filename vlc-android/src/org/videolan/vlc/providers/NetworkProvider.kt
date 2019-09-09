@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
+import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -56,14 +57,12 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
 
     override fun fetch() {}
 
-    override suspend fun requestBrowsing(url: String?) = withContext(Dispatchers.IO) {
+    override suspend fun requestBrowsing(url: String?, eventListener: MediaBrowser.EventListener, interact : Boolean) = withContext(Dispatchers.IO) {
         initBrowser()
         mediabrowser?.let {
-            if (url != null) it.browse(Uri.parse(url), getFlags())
-            else {
-                it.changeEventListener(this@NetworkProvider)
-                it.discoverNetworkShares()
-            }
+            it.changeEventListener(eventListener)
+            if (url != null) it.browse(Uri.parse(url), getFlags(interact))
+            else it.discoverNetworkShares()
         }
     }
 
