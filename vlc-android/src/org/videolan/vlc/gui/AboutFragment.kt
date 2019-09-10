@@ -41,7 +41,6 @@ import org.videolan.tools.coroutineScope
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.audio.AudioPagerAdapter
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.Util
 
 private const val TAG = "VLC/AboutFragment"
 private const val MODE_TOTAL = 2 // Number of audio browser modes
@@ -80,19 +79,21 @@ class AboutFragment : Fragment() {
             webView.webViewClient = object : WebViewClient() {
 
                 override fun onPageFinished(view: WebView, url: String) {
-
-                    // Inject CSS when page is done loading
-                    injectCSS(webView, when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
-                        Configuration.UI_MODE_NIGHT_YES -> {
-                            "licence_dark.css"
-                        }
-                        Configuration.UI_MODE_NIGHT_NO -> {
-                            "licence_light.css"
-                        }
-                        else -> {
-                            "licence_light.css"
-                        }
-                    })
+                    if (url.startsWith("file:///android_asset")) {
+                        // Inject CSS when page is done loading
+                        injectCSS(webView, when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                            Configuration.UI_MODE_NIGHT_YES -> {
+                                "licence_dark.css"
+                            }
+                            Configuration.UI_MODE_NIGHT_NO -> {
+                                "licence_light.css"
+                            }
+                            else -> {
+                                "licence_light.css"
+                            }
+                        })
+                        injectCommitRevision(webView, revision)
+                    }
                     super.onPageFinished(view, url)
                 }
             }
@@ -114,7 +115,24 @@ class AboutFragment : Fragment() {
                     "style.type = 'text/css';" +
                     // Tell the browser to BASE64-decode the string into your script !!!
                     "style.innerHTML = window.atob('" + encoded + "');" +
-                    "parent.appendChild(style)" +
+                    "parent.appendChild(style);" +
+                    "})()")
+            webView.settings.javaScriptEnabled = false
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun injectCommitRevision(webView: WebView, revision: String) {
+        try {
+            webView.settings.javaScriptEnabled = true
+
+            webView.loadUrl("javascript:(function() {" +
+                    "var link = document.getElementById('revision_link');" +
+                    "var newLink = link.href.replace('!COMMITID!', '$revision');" +
+                    "link.setAttribute('href', newLink);" +
+                    "link.innerText = newLink;" +
                     "})()")
             webView.settings.javaScriptEnabled = false
         } catch (e: Exception) {
