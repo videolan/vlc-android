@@ -30,8 +30,7 @@ import kotlin.math.max
 
 private const val TAG = "VLC/PlaylistManager"
 private const val PREVIOUS_LIMIT_DELAY = 5000L
-private const val AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
-private const val VIDEO_REPEAT_MODE_KEY = "video_repeat_mode"
+private const val PLAYLIST_REPEAT_MODE_KEY = "audio_repeat_mode" //we keep the old string for migration reasons
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -76,18 +75,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun isValidPosition(position: Int) = position in 0 until mediaList.size()
 
-    var wasAudio: Boolean? = null
-
-    private fun computeRepeating() {
-        //Audio mode changed => resetting
-        if (isAudioList() != wasAudio) repeating = REPEAT_NONE
-        wasAudio = isAudioList()
-        //Load saved mode if repeat save options are used
-        if (isAudioList())
-            if (settings.getBoolean("audio_save_repeat", false)) repeating = settings.getInt(AUDIO_REPEAT_MODE_KEY, REPEAT_NONE)
-            else
-                if (settings.getBoolean("video_save_repeat", false)) repeating = settings.getInt(VIDEO_REPEAT_MODE_KEY, REPEAT_NONE)
-        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "computeRepeating. isAudio: ${isAudioList()} repeating: $repeating")
+    init {
+        repeating = settings.getInt(PLAYLIST_REPEAT_MODE_KEY, REPEAT_NONE)
     }
 
     /**
@@ -173,7 +162,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             // load playlist
             shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
-            repeating = settings.getInt(if (audio) "audio_repeating" else "media_repeating", REPEAT_NONE)
             val position = max(0, settings.getInt(if (audio) "position_in_audio_list" else "position_in_media_list", 0))
             savedTime = settings.getLong(if (audio) "position_in_song" else "position_in_media", -1)
             if (!audio && position < playList.size && settings.getBoolean(VIDEO_PAUSED, false)) {
@@ -267,10 +255,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     fun setRepeatType(repeatType: Int) {
         repeating = repeatType
-        if (isAudioList() && settings.getBoolean("audio_save_repeat", false))
-            settings.edit().putInt(AUDIO_REPEAT_MODE_KEY, repeating).apply()
-        else if (!isAudioList() && settings.getBoolean("video_save_repeat", false))
-            settings.edit().putInt(VIDEO_REPEAT_MODE_KEY, repeating).apply()
+        settings.edit().putInt(PLAYLIST_REPEAT_MODE_KEY, repeating).apply()
         savePosition()
         launch { determinePrevAndNextIndices() }
     }
@@ -345,7 +330,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     fun switchToVideo(): Boolean {
         val media = getCurrentMedia()
-        computeRepeating()
         if (media === null || media.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO) || !player.canSwitchToVideo())
             return false
         val hasRenderer = player.hasRenderer
@@ -650,7 +634,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val editor = settings.edit()
         val audio = isAudioList()
         editor.putBoolean(if (audio) "audio_shuffling" else "media_shuffling", shuffling)
-        editor.putInt(if (audio) "audio_repeating" else "media_repeating", repeating)
         editor.putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
         editor.putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getCurrentTime())
         if (!audio) {
