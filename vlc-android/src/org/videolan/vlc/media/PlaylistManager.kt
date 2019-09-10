@@ -76,11 +76,18 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun isValidPosition(position: Int) = position in 0 until mediaList.size()
 
+    var wasAudio: Boolean? = null
+
     private fun computeRepeating() {
+        //Audio mode changed => resetting
+        if (isAudioList() != wasAudio) repeating = REPEAT_NONE
+        wasAudio = isAudioList()
+        //Load saved mode if repeat save options are used
         if (isAudioList())
             if (settings.getBoolean("audio_save_repeat", false)) repeating = settings.getInt(AUDIO_REPEAT_MODE_KEY, REPEAT_NONE)
             else
                 if (settings.getBoolean("video_save_repeat", false)) repeating = settings.getInt(VIDEO_REPEAT_MODE_KEY, REPEAT_NONE)
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "computeRepeating. isAudio: ${isAudioList()} repeating: $repeating")
     }
 
     /**
