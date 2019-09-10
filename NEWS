@@ -1,3 +1,25 @@
+Changes between 3.2.0-beta-03 and 3.2.0-beta-04:
+------------------
+
+Application:
+ * Improve locale change
+ * new UI for video seek
+ * Fix seeking after repeat
+ * Persist repeat mode by default
+ * translations update
+ * various crash fixes
+
+TV:
+ * Add a favorite option in browser
+
+VLC:
+ * Improve SMB support
+ * security fixes
+
+Medialibrary:
+ * Fallback for failed migrations
+
+
 Changes between 3.2.0-beta-02 and 3.2.0-beta-03:
 ------------------
 
