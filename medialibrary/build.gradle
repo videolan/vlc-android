@@ -99,7 +99,7 @@ dependencies {
     api "androidx.core:core:$rootProject.ext.androidxCoreVersion"
     api "androidx.fragment:fragment:$rootProject.ext.androidxVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    testImplementation "org.robolectric:robolectric:4.2"
+    testImplementation "org.robolectric:robolectric:4.2.1"
 
 }
 
