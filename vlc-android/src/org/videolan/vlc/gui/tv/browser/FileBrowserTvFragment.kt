@@ -182,7 +182,10 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
             animationDelegate.setVisibility(binding.favoriteButton, View.VISIBLE)
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
-            favExists = withContext(Dispatchers.IO) { if (item == null) false else if (item is MediaWrapper) browserFavRepository.browserFavExists((item as MediaWrapper).uri) else false }
+            favExists = withContext(Dispatchers.IO) {
+                (item as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) }
+                        ?: false
+            }
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
         }
@@ -196,7 +199,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
                         else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
                     }
                     favExists = !favExists
-                    withContext(Dispatchers.Main) {
+                    launch {
                         binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
                         binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
                     }
