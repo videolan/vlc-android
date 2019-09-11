@@ -71,8 +71,10 @@ public class Medialibrary extends AbstractMedialibrary {
                 public void run() {
 
                     String[] children = oldDir.list();
-                    for (String child : children) {
-                        new File(oldDir, child).delete();
+                    if (children != null) {
+                        for (String child : children) {
+                            new File(oldDir, child).delete();
+                        }
                     }
                     oldDir.delete();
                 }
