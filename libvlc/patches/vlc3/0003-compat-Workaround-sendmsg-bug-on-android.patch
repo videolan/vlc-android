@@ -1,10 +1,10 @@
-From 7bf6561a375ce8c8a362c1004e8e239c8be01d41 Mon Sep 17 00:00:00 2001
-Message-Id: <7bf6561a375ce8c8a362c1004e8e239c8be01d41.1565597364.git.thomas@gllm.fr>
-In-Reply-To: <d5029395e74cc8be048da4ae9d808a82431c99aa.1565597364.git.thomas@gllm.fr>
-References: <d5029395e74cc8be048da4ae9d808a82431c99aa.1565597364.git.thomas@gllm.fr>
+From 4fc55183fffba843bb616b7f8fda92e341fbd9bd Mon Sep 17 00:00:00 2001
+Message-Id: <4fc55183fffba843bb616b7f8fda92e341fbd9bd.1568976855.git.thomas@gllm.fr>
+In-Reply-To: <9f981e2650b2a6707d707a974ce63d570bb87e3c.1568976855.git.thomas@gllm.fr>
+References: <9f981e2650b2a6707d707a974ce63d570bb87e3c.1568976855.git.thomas@gllm.fr>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 28 Mar 2019 15:23:48 +0100
-Subject: [PATCH 2/6] compat: Workaround sendmsg bug on android
+Subject: [PATCH 3/7] compat: Workaround sendmsg bug on android
 
 This only happens on 64bits builds, see compat/sendmsg.c comments
 ---
@@ -49,7 +49,7 @@ index 0f42e782f8..8d69048746 100644
  #else
  #error sendmsg not implemented on your platform!
 diff --git a/configure.ac b/configure.ac
-index 1d745affba..21f6c8fa9d 100644
+index 41aa6917ea..73da8cda68 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -365,6 +365,9 @@ AS_IF([test "$SYS" = linux],[
@@ -63,7 +63,7 @@ index 1d745affba..21f6c8fa9d 100644
        AC_MSG_RESULT([no])
      ])
 diff --git a/include/vlc_network.h b/include/vlc_network.h
-index 184c23acae..6a43fd7d8b 100644
+index 010454a01c..1b36e3d574 100644
 --- a/include/vlc_network.h
 +++ b/include/vlc_network.h
 @@ -290,6 +290,12 @@ static inline void net_SetPort (struct sockaddr *addr, uint16_t port)
