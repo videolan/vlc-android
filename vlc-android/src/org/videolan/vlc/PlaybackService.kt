@@ -1303,13 +1303,8 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             ContextCompat.startForegroundService(context, serviceIntent)
         }
 
-        fun getService(iBinder: IBinder): PlaybackService? {
-            val binder = iBinder as LocalBinder
-            return binder.service
-        }
-
         fun loadLastAudio(context: Context) {
-            val i = Intent(context, PlaybackService::class.java).apply { action = ACTION_REMOTE_LAST_PLAYLIST }
+            val i = Intent(ACTION_REMOTE_LAST_PLAYLIST, null, context, PlaybackService::class.java)
             ContextCompat.startForegroundService(context, i)
         }
 
