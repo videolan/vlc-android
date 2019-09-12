@@ -241,7 +241,10 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
         binding.addOnRebindCallback(rebindCallbacks!!)
     }
 
-    var playlistImage = if (!bindChanged) ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), width) else null
+    var playlistImage = if (!bindChanged) {
+        val tracks = withContext(Dispatchers.IO) { item.tracks.toList() }
+        ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", tracks, width)
+    } else null
     if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(VLCApplication.appContext).bitmap
     if (!bindChanged) updateImageView(playlistImage, v, binding)
 
