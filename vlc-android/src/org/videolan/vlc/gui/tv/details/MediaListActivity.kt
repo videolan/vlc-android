@@ -47,10 +47,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler, CoroutineScope by 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_media_list_tv)
-        item = if (savedInstanceState != null)
-            savedInstanceState.getParcelable<Parcelable>(ITEM) as MediaLibraryItem
-        else
-            intent.getParcelableExtra<Parcelable>(ITEM) as MediaLibraryItem
+        item = (savedInstanceState?.getParcelable(ITEM) ?: intent.getParcelableExtra<Parcelable>(ITEM)) as MediaLibraryItem
         binding.item = item
 
         backgroundManager = BackgroundManager.getInstance(this)
@@ -66,7 +63,6 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler, CoroutineScope by 
         binding.mediaList.layoutManager = linearLayoutManager
         binding.mediaList.adapter = adapter
         adapter.update(item.tracks.toList())
-        item.tracks[0].length
 
         binding.mediaList.addItemDecoration(dividerItemDecoration)
 
