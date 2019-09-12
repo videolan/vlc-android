@@ -196,10 +196,10 @@ class StartActivity : FragmentActivity() {
     }
 
     private fun startPlaybackFromApp(intent: Intent) {
-        if (intent.type != null && intent.type!!.startsWith("video"))
+        if (intent.type?.startsWith("video") == true)
             startActivity(intent.setClass(this, VideoPlayerActivity::class.java))
         else
-            MediaUtils.openMediaNoUi(intent.data!!)
+            intent.data.let { MediaUtils.openMediaNoUi(it) }
         finish()
     }
 
