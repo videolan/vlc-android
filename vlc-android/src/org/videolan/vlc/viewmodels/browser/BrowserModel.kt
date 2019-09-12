@@ -41,7 +41,7 @@ const val TYPE_STORAGE = 3L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class BrowserModel(context: Context, val url: String?, type: Long, showHiddenFiles: Boolean, private val showDummyCategory: Boolean) : BaseModel<MediaLibraryItem>(context), TvBrowserModel {
+open class BrowserModel(context: Context, val url: String?, type: Long, showHiddenFiles: Boolean, private val showDummyCategory: Boolean) : BaseModel<MediaLibraryItem>(context), TvBrowserModel, IPathOperationDelegate by PathOperationDelegate() {
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
 

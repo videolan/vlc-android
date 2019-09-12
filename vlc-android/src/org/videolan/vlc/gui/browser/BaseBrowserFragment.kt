@@ -64,6 +64,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
+import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import java.util.*
 
 private const val TAG = "VLC/BaseBrowserFragment"
@@ -173,6 +174,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun currentContext() = requireContext()
 
     override fun showRoot() = true
+
+    override fun getPathOperationDelegate() = viewModel
 
     override fun onStart() {
         super.onStart()

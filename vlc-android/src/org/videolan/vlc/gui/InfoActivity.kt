@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -27,7 +26,6 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractArtist
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.InfoActivityBinding
 import org.videolan.vlc.gui.browser.PathAdapter
@@ -39,6 +37,8 @@ import org.videolan.vlc.gui.video.MediaInfoAdapter
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
+import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
+import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import java.io.File
 import java.util.*
 
@@ -47,7 +47,7 @@ private const val TAG_FAB_VISIBILITY = "FAB"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathAdapterListener {
+class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathAdapterListener, IPathOperationDelegate by PathOperationDelegate() {
 
     private lateinit var item: MediaLibraryItem
     private lateinit var adapter: MediaInfoAdapter
@@ -178,6 +178,8 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
     override fun currentContext() = this
 
     override fun showRoot() = false
+
+    override fun getPathOperationDelegate() = this
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         fragmentContainer = binding.container

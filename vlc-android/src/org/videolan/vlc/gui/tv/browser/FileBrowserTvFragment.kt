@@ -34,10 +34,7 @@ import org.videolan.vlc.util.CATEGORY
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.ITEM
 import org.videolan.vlc.util.isSchemeSupported
-import org.videolan.vlc.viewmodels.browser.BrowserModel
-import org.videolan.vlc.viewmodels.browser.NetworkModel
-import org.videolan.vlc.viewmodels.browser.TYPE_FILE
-import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
+import org.videolan.vlc.viewmodels.browser.*
 
 private const val TAG = "FileBrowserTvFragment"
 @UseExperimental(ObsoleteCoroutinesApi::class)
@@ -179,6 +176,8 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
     override fun currentContext(): Context = requireActivity()
 
     override fun showRoot(): Boolean = true
+
+    override fun getPathOperationDelegate() = viewModel as IPathOperationDelegate
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
