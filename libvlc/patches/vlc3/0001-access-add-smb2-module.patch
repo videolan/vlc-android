@@ -1,8 +1,8 @@
-From d5029395e74cc8be048da4ae9d808a82431c99aa Mon Sep 17 00:00:00 2001
-Message-Id: <d5029395e74cc8be048da4ae9d808a82431c99aa.1565597364.git.thomas@gllm.fr>
+From 9f981e2650b2a6707d707a974ce63d570bb87e3c Mon Sep 17 00:00:00 2001
+Message-Id: <9f981e2650b2a6707d707a974ce63d570bb87e3c.1568976855.git.thomas@gllm.fr>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Fri, 13 Apr 2018 16:15:16 +0200
-Subject: [PATCH 1/6] access: add smb2 module
+Subject: [PATCH 1/7] access: add smb2 module
 
 Using libsmb2 from Ronnie Sahlberg https://github.com/sahlberg/libsmb2
 This is LGPL 2.1 fully async lib for accessing SMB2 and SMB3 shares.
@@ -22,9 +22,9 @@ allow to use Builtin NTLMSSP authentication instead of libkrb5.
  contrib/src/smb2/rules.mak                    |  31 +
  modules/MODULES_LIST                          |   1 +
  modules/access/Makefile.am                    |  11 +
- modules/access/smb2.c                         | 731 ++++++++++++++++++
+ modules/access/smb2.c                         | 734 ++++++++++++++++++
  po/POTFILES.in                                |   1 +
- 11 files changed, 1223 insertions(+), 1 deletion(-)
+ 11 files changed, 1226 insertions(+), 1 deletion(-)
  create mode 100644 contrib/src/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch
  create mode 100644 contrib/src/smb2/0002-Fix-indent-and-white-spaces.patch
  create mode 100644 contrib/src/smb2/0003-Fix-getlogin-usage.patch
@@ -34,7 +34,7 @@ allow to use Builtin NTLMSSP authentication instead of libkrb5.
  create mode 100644 modules/access/smb2.c
 
 diff --git a/configure.ac b/configure.ac
-index 500fb17232..1d745affba 100644
+index 304db5fabf..41aa6917ea 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1854,7 +1854,14 @@ AS_IF([test "${SYS}" = "mingw32" -a "${enable_winstore_app}" != "yes"], [ VLC_AD
@@ -603,10 +603,10 @@ index 765ceec45f..2a773029e3 100644
  access_LTLIBRARIES += libtcp_plugin.la
 diff --git a/modules/access/smb2.c b/modules/access/smb2.c
 new file mode 100644
-index 0000000000..2c8a4a1b43
+index 0000000000..6b56bf8706
 --- /dev/null
 +++ b/modules/access/smb2.c
-@@ -0,0 +1,731 @@
+@@ -0,0 +1,734 @@
 +/*****************************************************************************
 + * smb2.c: SMB2 access plug-in
 + *****************************************************************************
@@ -674,7 +674,7 @@ index 0000000000..2c8a4a1b43
 +    set_shortname("smb2")
 +    set_description(N_("SMB2 / SMB3 input"))
 +    set_help(N_("Samba (Windows network shares) input via libsmb2"))
-+    set_capability("access", 19)
++    set_capability("access", 21)
 +    set_category(CAT_INPUT)
 +    set_subcategory(SUBCAT_INPUT_ACCESS)
 +    add_string("smb-user", NULL, SMB_USER_TEXT, SMB_USER_LONGTEXT, false)
@@ -1215,6 +1215,8 @@ index 0000000000..2c8a4a1b43
 +        goto error;
 +    }
 +
++    smb2_set_security_mode(sys->smb2, SMB2_NEGOTIATE_SIGNING_ENABLED);
++
 +    if (sys->encoded_url.psz_path == NULL)
 +        sys->encoded_url.psz_path = (char *) "/";
 +
@@ -1267,16 +1269,17 @@ index 0000000000..2c8a4a1b43
 +    {
 +        sys->error_status = 0;
 +        ret = vlc_smb2_open_share(access, smb2_url, &credential);
-+        if (ret == 0)
-+            vlc_credential_store(&credential, access);
 +    }
++    if (ret == 0)
++        vlc_credential_store(&credential, access);
 +    vlc_credential_clean(&credential);
 +
 +    if (ret != 0)
 +    {
-+        vlc_dialog_display_error(access,
-+                                 _("SMB2 operation failed"), "%s",
-+                                 smb2_get_error(sys->smb2));
++        const char *error = smb2_get_error(sys->smb2);
++        if (error && *error)
++            vlc_dialog_display_error(access,
++                                     _("SMB2 operation failed"), "%s", error);
 +        goto error;
 +    }
 +
