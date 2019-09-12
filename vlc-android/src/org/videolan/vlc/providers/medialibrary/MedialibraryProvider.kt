@@ -94,7 +94,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
 
     fun isEmpty() = pagedList.value.isNullOrEmpty()
 
-    fun completeHeaders(list: Array<T>, startposition: Int) {
+    fun completeHeaders(list: Array<T?>, startposition: Int) {
         for ((position, item) in list.withIndex()) {
             val previous = when {
                 position > 0 -> list[position - 1]
