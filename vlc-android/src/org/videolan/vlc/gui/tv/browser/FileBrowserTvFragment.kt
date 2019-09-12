@@ -44,18 +44,6 @@ private const val TAG = "FileBrowserTvFragment"
 @ExperimentalCoroutinesApi
 class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
 
-    override fun backTo(tag: String) {
-        if (tag == "root") {
-            requireActivity().finish()
-            return
-        }
-        requireActivity().supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
-
-    override fun currentContext(): Context = requireActivity()
-
-    override fun showRoot(): Boolean = true
-
     private var favExists: Boolean = false
     private var isRootLevel = false
     private lateinit var browserFavRepository: BrowserFavRepository
@@ -172,12 +160,25 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
                         }
                     }
                 }
+                did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_divider)!!)
                 ariane.addItemDecoration(did)
             }
             ariane.scrollToPosition(ariane.adapter!!.itemCount - 1)
         } else ariane.visibility = View.GONE
         animationDelegate.setVisibility(binding.title, if (ariane.visibility == View.GONE) View.VISIBLE else View.GONE)
     }
+
+    override fun backTo(tag: String) {
+        if (tag == "root") {
+            requireActivity().finish()
+            return
+        }
+        requireActivity().supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    override fun currentContext(): Context = requireActivity()
+
+    override fun showRoot(): Boolean = true
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

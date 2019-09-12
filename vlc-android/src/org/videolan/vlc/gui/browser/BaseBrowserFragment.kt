@@ -27,6 +27,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Message
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
@@ -43,6 +44,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -232,8 +234,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.saveList(media)
         args.putParcelable(KEY_MEDIA, media)
         next.arguments = args
-        if (save) ft.addToBackStack(if (isRootDirectory) "root" else currentMedia?.title
-                ?: FileUtils.getFileNameFromPath(mrl))
+        if (save) ft.addToBackStack(if (isRootDirectory) "root" else if (currentMedia != null) currentMedia?.uri.toString() else mrl!!)
+        if (BuildConfig.DEBUG) for (i in 0 until ctx.supportFragmentManager.backStackEntryCount)
+            Log.d(this::class.java.simpleName, "Adding to back stack from PathAdapter: ${ctx.supportFragmentManager.getBackStackEntryAt(i).name}")
+
         ft.replace(R.id.fragment_placeholder, next, media.title)
         ft.commit()
     }

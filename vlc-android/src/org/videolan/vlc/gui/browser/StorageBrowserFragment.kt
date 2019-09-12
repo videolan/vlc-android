@@ -143,8 +143,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         args.putBoolean(KEY_IN_MEDIALIB, scannedDirectory || scanned)
         next.arguments = args
         ft?.replace(R.id.fragment_placeholder, next, media.location)
-        ft?.addToBackStack(if (isRootDirectory) "root" else currentMedia?.title
-                ?: FileUtils.getFileNameFromPath(mrl))
+        ft?.addToBackStack(if (isRootDirectory) "root" else if (currentMedia != null) currentMedia?.uri.toString() else mrl!!)
         ft?.commit()
     }
 
