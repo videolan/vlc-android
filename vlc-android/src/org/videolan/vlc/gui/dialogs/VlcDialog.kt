@@ -65,17 +65,15 @@ abstract class VlcDialog<T : Dialog, B : ViewDataBinding> : DialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (::vlcDialog.isInitialized)
-            vlcDialog.dismiss()
-        activity!!.finish()
+        if (::vlcDialog.isInitialized) vlcDialog.dismiss()
+        activity?.finish()
     }
 
-    fun onCancel(v: View) {
+    open fun onCancel(v: View) {
         dismiss()
     }
 
     override fun dismiss() {
-        if (isResumed)
-            super.dismiss()
+        if (isResumed) super.dismiss()
     }
 }
