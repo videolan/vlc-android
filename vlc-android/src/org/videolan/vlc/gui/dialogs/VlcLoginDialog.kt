@@ -25,6 +25,7 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -41,11 +42,10 @@ import org.videolan.vlc.util.Settings
 
 class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), View.OnFocusChangeListener {
 
-    private lateinit var mSettings: SharedPreferences
+    private lateinit var settings: SharedPreferences
 
 
-    override val layout: Int
-        get() = R.layout.vlc_login_dialog
+    override val layout= R.layout.vlc_login_dialog
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,27 +59,32 @@ class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), V
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mSettings = Settings.getInstance(requireActivity())
+        settings = Settings.getInstance(requireActivity())
     }
 
     fun onLogin(v: View) {
         vlcDialog.postLogin(binding.login.text.toString().trim(),
                 binding.password.text.toString().trim(), binding.store.isChecked)
-        mSettings.edit().putBoolean(LOGIN_STORE, binding.store.isChecked).apply()
+        settings.edit().putBoolean(LOGIN_STORE, binding.store.isChecked).apply()
         dismiss()
     }
 
-    fun store(): Boolean {
-        return mSettings.getBoolean(LOGIN_STORE, true)
-    }
+    fun store() = settings.getBoolean(LOGIN_STORE, true)
 
     override fun onFocusChange(v: View, hasFocus: Boolean) {
         if (hasFocus) UiTools.setKeyboardVisibility(v, v is EditText)
     }
 
-    override fun onDestroy() {
+    // Cancel from LibVLC
+    override fun onCancel(dialog: DialogInterface) {
         LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(Intent(ACTION_DIALOG_CANCELED))
-        super.onDestroy()
+        super.onCancel(dialog)
+    }
+
+    // Cancel from UI
+    override fun onCancel(v: View) {
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(Intent(ACTION_DIALOG_CANCELED))
+        super.onCancel(v)
     }
 
     companion object {
