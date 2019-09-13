@@ -2,6 +2,7 @@ package org.videolan.vlc.gui.tv.browser
 
 import android.content.Context
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -170,7 +171,22 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
             requireActivity().finish()
             return
         }
-        requireActivity().supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        val supportFragmentManager = requireActivity().supportFragmentManager
+        var poped = false
+        for (i in 0 until supportFragmentManager.backStackEntryCount) {
+            if (tag == supportFragmentManager.getBackStackEntryAt(i).name) {
+                supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                poped = true
+                break
+            }
+        }
+        if (!poped) {
+            if (supportFragmentManager.backStackEntryCount == 0) browse(MediaWrapper(Uri.parse(tag)), false)
+            else {
+                (viewModel as IPathOperationDelegate).setDestination(MediaWrapper(Uri.parse(tag)))
+                supportFragmentManager.popBackStack()
+            }
+        }
     }
 
     override fun currentContext(): Context = requireActivity()
@@ -215,6 +231,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
         super.onResume()
         if (item == null) (viewModel.provider as BrowserProvider).browseRoot()
         else refresh()
+        (viewModel as IPathOperationDelegate).getAndRemoveDestination()?.let {
+            browse(it, true)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

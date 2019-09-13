@@ -3,34 +3,35 @@ package org.videolan.vlc.viewmodels.browser
 import android.net.Uri
 import android.util.Base64
 import androidx.collection.SimpleArrayMap
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 
 interface IPathOperationDelegate {
 
-    //    fun getBackstack(from: String, to: String): SimpleArrayMap<String, Uri>
     fun appendPathToUri(path: String, uri: Uri.Builder)
 
     fun replaceStoragePath(path: String): String
     fun makePathSafe(path: String): String
     fun retrieveSafePath(encoded: String): String
+    fun setDestination(media: AbstractMediaWrapper?)
+    fun getAndRemoveDestination(): AbstractMediaWrapper?
 }
 
 class PathOperationDelegate : IPathOperationDelegate {
+    override fun setDestination(media: AbstractMediaWrapper?) {
+        privateDestination = media
+    }
+
+    override fun getAndRemoveDestination(): AbstractMediaWrapper? {
+        val destination = privateDestination
+        privateDestination = null
+        return destination
+    }
 
     companion object {
         val storages = SimpleArrayMap<String, String>()
+        private var privateDestination: AbstractMediaWrapper? = null
     }
 
-//    override fun getBackstack(from: String, to: String): SimpleArrayMap<String, Uri> {
-//        val result = SimpleArrayMap<String, Uri>()
-//        val fromUri = if (from == "root") null else Uri.parse(from)
-//        val toUri = Uri.parse(to)
-//        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "PathAdapter From: $fromUri")
-//        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "PathAdapter To: $toUri")
-//
-//
-//
-//        return result
-//    }
 
     /**
      * Append a path to the Uri from a String

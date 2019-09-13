@@ -77,7 +77,7 @@ class PathAdapter(val browser: PathAdapterListener, media: AbstractMediaWrapper)
         val pathParts = string.split('/').filter { it.isNotEmpty() }
         for (index in pathParts.indices) {
             //start creating the Uri
-            val currentPathUri = Uri.Builder().scheme(uri.scheme).authority(uri.authority)
+            val currentPathUri = Uri.Builder().scheme(uri.scheme).encodedAuthority(uri.authority)
             //append all the previous paths and the current one
             for (i in 0..index) pathOperationDelegate.appendPathToUri(pathParts[i], currentPathUri)
             list.add(currentPathUri.toString())

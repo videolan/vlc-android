@@ -42,6 +42,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -59,7 +60,9 @@ import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IRefreshable
+import org.videolan.vlc.media.MediaSessionBrowser.browse
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.MediaUtils.playAll
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
@@ -168,7 +171,20 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun backTo(tag: String) {
-        requireActivity().supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        val supportFragmentManager = requireActivity().supportFragmentManager
+        var poped = false
+        for (i in 0 until supportFragmentManager.backStackEntryCount) {
+            if (tag == supportFragmentManager.getBackStackEntryAt(i).name) {
+                supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                poped = true
+                break
+            }
+        }
+        if (!poped) {
+            viewModel.setDestination(MediaWrapper(Uri.parse(tag)))
+            supportFragmentManager.popBackStackImmediate()
+        }
+
     }
 
     override fun currentContext() = requireContext()
@@ -189,6 +205,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onResume() {
         super.onResume()
         if (goBack) goBack()
+        viewModel.getAndRemoveDestination()?.let {
+            browse(it, true)
+        }
     }
 
     override fun onStop() {
