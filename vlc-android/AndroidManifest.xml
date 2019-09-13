@@ -515,7 +515,8 @@
         <activity
                 android:name=".gui.DialogActivity"
                 android:configChanges="orientation|screenSize"
-                android:theme="@style/VLCTransparentTheme"/>
+                android:theme="@style/VLCTransparentTheme"
+                android:label="" />
         <activity
                 android:name=".gui.wizard.MLWizardActivity"
                 android:configChanges="orientation|screenSize"
