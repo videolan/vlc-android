@@ -38,6 +38,7 @@ import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
+private const val TAG = "FileBrowserTvFragment"
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
 class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
@@ -89,9 +90,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
         else arguments?.getParcelable(ITEM) as? MediaLibraryItem
         viewModel = getBrowserModel(getCategory(), (item as? AbstractMediaWrapper)?.location, true, false)
 
-        item?.let {
-            mrl = (it as MediaWrapper).location
-        }
+        (item as? MediaWrapper)?.run { mrl = location }
 
         viewModel.currentItem = item
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
@@ -108,8 +107,8 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
                     }
                 }
             }
-            if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "Submit lis of ${items.size} items")
-            if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "header size: ${viewModel.provider.headers.size()}")
+            if (BuildConfig.DEBUG) Log.d(TAG, "Submit list of ${items.size} items")
+            if (BuildConfig.DEBUG) Log.d(TAG, "header size: ${viewModel.provider.headers.size()}")
 
             //headers
             val nbColumns = if ((viewModel as BrowserModel).sort == AbstractMedialibrary.SORT_ALPHA || (viewModel as BrowserModel).sort == AbstractMedialibrary.SORT_DEFAULT) 9 else 1
@@ -128,12 +127,12 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
 
         (viewModel as BrowserModel).provider.liveHeaders.observe(this, Observer {
             headerAdapter.notifyDataSetChanged()
-            if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "header size (observe): ${viewModel.provider.headers.size()}")
+            if (BuildConfig.DEBUG) Log.d(TAG, "header size (observe): ${viewModel.provider.headers.size()}")
         })
 
         (viewModel as BrowserModel).getDescriptionUpdate().observe(this, Observer { pair ->
-            if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "Description update: ${pair.first} ${pair.second}")
-            if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "header size (desc): ${viewModel.provider.headers.size()}")
+            if (BuildConfig.DEBUG) Log.d(TAG, "Description update: ${pair.first} ${pair.second}")
+            if (BuildConfig.DEBUG) Log.d(TAG, "header size (desc): ${viewModel.provider.headers.size()}")
             if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first)
         })
 
