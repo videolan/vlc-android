@@ -25,6 +25,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Message
+import android.util.SparseArray
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
@@ -71,6 +72,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     private lateinit var fastScroller: FastScroller
     override val hasTabs = true
     private var spacing = 0
+    private var restorePositions: SparseArray<Int> = SparseArray()
 
     /**
      * Handle changes on the list
@@ -133,13 +135,15 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             viewPager.adapter = audioPagerAdapter
             val tabPosition = settings.getInt(KEY_AUDIO_CURRENT_TAB, 0)
             currentTab = tabPosition
-            val positions = savedInstanceState?.getIntegerArrayList(KEY_LISTS_POSITIONS)
+            val position = savedInstanceState?.getIntegerArrayList(KEY_LISTS_POSITIONS)
+            position?.withIndex()?.forEach {
+                restorePositions.put(it.index, it.value)
+            }
             for (i in 0 until MODE_TOTAL) {
                 setupLayoutManager(i)
                 (lists[i].layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
                 val list = lists[i]
                 list.adapter = adapters[i]
-                if (positions != null) list.scrollToPosition(positions[i])
                 list.addOnScrollListener(scrollListener)
                 if (viewModel.providersInCard[i]) {
                     val lp = list.layoutParams
@@ -216,6 +220,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             provider.pagedList.observe(this, Observer { items ->
                 @Suppress("UNCHECKED_CAST")
                 if (items != null) adapters[index].submitList(items as PagedList<MediaLibraryItem>?)
+                restorePositions.get(index)?.let {
+                    lists[index].scrollToPosition(it)
+                    restorePositions.delete(index)
+                }
             })
             provider.loading.observe(this, Observer { loading ->
                 if (loading == null || currentTab != index) return@Observer
