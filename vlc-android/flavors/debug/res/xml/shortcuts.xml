@@ -6,8 +6,8 @@
         android:shortcutId="last_playlist"
         android:enabled="true"
         android:icon="@drawable/ic_queue_music"
-        android:shortcutShortLabel="@string/last_playlist_shortcut"
-        android:shortcutLongLabel="@string/last_playlist" >
+            android:shortcutShortLabel="@string/resume_playback"
+            android:shortcutLongLabel="@string/resume_playback_long_shortcut">
         <intent
             android:action="vlc.shortcut.resume"
             android:targetPackage="org.videolan.vlc.debug"
