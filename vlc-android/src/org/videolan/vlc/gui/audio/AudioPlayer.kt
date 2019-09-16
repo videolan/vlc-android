@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.audio
 import android.Manifest
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
@@ -63,6 +64,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.*
@@ -193,14 +195,21 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                     playlistModel.remove(position)
                 }
                 CTX_STOP_AFTER_THIS -> playlistModel.stopAfter(position)
+                CTX_INFORMATION -> showInfoDialog(playlistAdapter.getItem(position))
             }
         }
+    }
+
+    private fun showInfoDialog(media: AbstractMediaWrapper) {
+        val i = Intent(requireActivity(), InfoActivity::class.java)
+        i.putExtra(TAG_ITEM, media)
+        startActivity(i)
     }
 
     override fun onPopupMenu(view: View, position: Int, item: AbstractMediaWrapper?) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
-        val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST or CTX_STOP_AFTER_THIS
+        val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST or CTX_STOP_AFTER_THIS or CTX_INFORMATION
         showContext(activity, ctxReceiver, position, item?.title ?: "", flags)
     }
 
