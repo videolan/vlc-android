@@ -115,7 +115,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open fun browse(url: String? = null) {
-        loading.postValue(true)
+        if (url != null ) loading.postValue(true)
         browserActor.post(Browse(url))
     }
 
@@ -130,7 +130,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             dataset.value = value as MutableList<MediaLibraryItem>
             parseSubDirectories(value)
         }
-        loading.postValue(false)
+        if (url != null ) loading.postValue(false)
     }
 
     private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = withContext(Dispatchers.IO) {
@@ -280,7 +280,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     open fun release() {
         cancel()
-        loading.postValue(false)
+        if (url != null) loading.postValue(false)
     }
 
     protected fun getList(url: String) =  prefetchLists[url]

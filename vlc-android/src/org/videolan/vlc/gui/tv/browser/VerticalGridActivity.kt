@@ -94,10 +94,8 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 (fragment as DetailsFragment).showDetails()
                 return true
             }
-            if (fragment is OnKeyPressedListener) {
-                if ((fragment as OnKeyPressedListener).onKeyPressed(keyCode)) {
+            if ((fragment as? OnKeyPressedListener)?.onKeyPressed(keyCode) == true) {
                     return true
-                }
             }
         }
         return super.onKeyDown(keyCode, event)
