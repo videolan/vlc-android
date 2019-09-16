@@ -145,17 +145,17 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
 
     override fun onStart() {
         super.onStart()
-        setBreadcrumb(viewModel.currentItem as MediaWrapper)
+        (viewModel.currentItem as? MediaWrapper).setBreadcrumb()
     }
 
-    private fun setBreadcrumb(media: MediaWrapper) {
-        val ariane = requireActivity().findViewById<RecyclerView>(org.videolan.vlc.R.id.ariane)
+    private fun MediaWrapper?.setBreadcrumb() {
+        if (this == null) return
+        val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane)
                 ?: return
-
-        if (isSchemeSupported(media.uri?.scheme)) {
+        if (isSchemeSupported(uri?.scheme)) {
             ariane.visibility = View.VISIBLE
             ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            ariane.adapter = PathAdapter(this, media)
+            ariane.adapter = PathAdapter(this@FileBrowserTvFragment, this)
             if (ariane.itemDecorationCount == 0) {
                 val did = object : DividerItemDecoration(requireContext(), HORIZONTAL) {
                     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
