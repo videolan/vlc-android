@@ -261,22 +261,6 @@
         <item>4</item>
     </string-array>
 
-    <string-array name="video_min_group_length_list" translatable="false">
-        <item>@string/video_min_group_length_disable</item>
-        <item>@string/video_min_group_length_folder</item>
-        <!--<item>@string/video_min_group_length_first</item>-->
-        <!--<item>@string/video_min_group_length_short</item>-->
-        <!--<item>@string/video_min_group_length_long</item>-->
-    </string-array>
-
-    <string-array name="video_min_group_length_values" translatable="false">
-        <item>-1</item>
-        <item>0</item>
-        <!--<item>1</item>-->
-        <!--<item>6</item>-->
-        <!--<item>9</item>-->
-    </string-array>
-
     <string-array name="subtitles_encoding_list" tools:ignore="TypographyDashes">
         <item>Default (Windows-1252)</item>
         <item>Universal (UTF-8)</item>
