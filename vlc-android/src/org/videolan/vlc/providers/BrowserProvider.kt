@@ -133,16 +133,22 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         loading.postValue(false)
     }
 
-    private fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow<Media> {
-        val listener = object : EventListener {
-            override fun onMediaAdded(index: Int, media: Media) { if (!isClosedForSend) offer(media.apply { retain() }) }
+    private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = withContext(Dispatchers.IO) {
+        channelFlow {
+            val listener = object : EventListener {
+                override fun onMediaAdded(index: Int, media: Media) {
+                    if (!isClosedForSend) offer(media.apply { retain() })
+                }
 
-            override fun onBrowseEnd() { if (!isClosedForSend) close() }
+                override fun onBrowseEnd() {
+                    if (!isClosedForSend) close()
+                }
 
-            override fun onMediaRemoved(index: Int, media: Media) {}
+                override fun onMediaRemoved(index: Int, media: Media) {}
+            }
+            requestBrowsing(url, listener, interact)
+            awaitClose { mediabrowser?.changeEventListener(null) }
         }
-        requestBrowsing(url, listener, interact)
-        awaitClose { mediabrowser?.changeEventListener(null) }
     }
 
     protected open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
