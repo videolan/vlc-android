@@ -5,7 +5,7 @@
     <shortcut
         android:shortcutId="last_playlist"
         android:enabled="true"
-        android:icon="@drawable/ic_queue_music"
+            android:icon="@drawable/ic_shortcut_resume_playback"
             android:shortcutShortLabel="@string/resume_playback"
             android:shortcutLongLabel="@string/resume_playback_long_shortcut">
         <intent
