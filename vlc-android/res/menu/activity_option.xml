@@ -87,6 +87,23 @@
         </menu>
     </item>
     <item
+            android:orderInCategory="2"
+            android:title="@string/video_min_group_length_title"
+            android:id="@+id/ml_menu_video_group"
+            vlc:showAsAction="never"
+            android:visible="false">
+        <menu>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/video_min_group_length_disable"
+                    android:title="@string/video_min_group_length_disable" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/video_min_group_length_folder"
+                    android:title="@string/video_min_group_length_folder" />
+        </menu>
+    </item>
+    <item
             android:orderInCategory="3"
             android:id="@+id/ml_menu_refresh"
             android:icon="@drawable/ic_menu_refresh"

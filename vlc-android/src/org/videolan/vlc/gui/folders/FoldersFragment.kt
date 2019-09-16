@@ -97,6 +97,7 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_last_playlist)?.isVisible = true
+        menu.findItem(R.id.ml_menu_video_group).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

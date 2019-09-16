@@ -49,6 +49,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.InfoActivity
+import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.SparseBooleanArrayParcelable
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
@@ -56,10 +57,7 @@ import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getW
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.TAG_ITEM
-import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel
 import java.lang.Runnable
@@ -286,6 +284,16 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             R.id.ml_menu_sortby_number -> {
                 sortBy(AbstractMedialibrary.SORT_FILESIZE) //TODO
                 return super.onOptionsItemSelected(item)
+            }
+            R.id.video_min_group_length_disable -> {
+                Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "-1").apply()
+                (activity as MainActivity).forceLoadVideoFragment()
+                return true
+            }
+            R.id.video_min_group_length_folder -> {
+                Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "0").apply()
+                (activity as MainActivity).forceLoadVideoFragment()
+                return true
             }
             else -> return super.onOptionsItemSelected(item)
         }

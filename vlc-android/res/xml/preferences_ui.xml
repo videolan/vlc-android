@@ -44,15 +44,6 @@
             android:title="@string/video"
             android:key="ui_video_category">
 
-        <ListPreference
-                android:defaultValue="-1"
-                android:entries="@array/video_min_group_length_list"
-                android:entryValues="@array/video_min_group_length_values"
-                android:key="video_min_group_length"
-                android:persistent="true"
-                android:summary="@string/video_min_group_length_summary"
-                android:title="@string/video_min_group_length_title"/>
-
         <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:defaultValue="true"
