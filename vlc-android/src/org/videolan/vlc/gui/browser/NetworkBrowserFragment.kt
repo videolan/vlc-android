@@ -37,9 +37,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.ExternalMonitor
@@ -50,7 +48,6 @@ import org.videolan.vlc.gui.dialogs.VlcLoginDialog
 import org.videolan.vlc.util.CTX_FAV_ADD
 import org.videolan.vlc.util.CTX_FAV_EDIT
 import org.videolan.vlc.util.Util
-import org.videolan.vlc.util.runIO
 import org.videolan.vlc.viewmodels.browser.NetworkModel
 
 @ExperimentalCoroutinesApi
@@ -75,11 +72,6 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         if (isRootDirectory) swipeRefreshLayout.isEnabled = false
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        ExternalMonitor.connected.observe(this, Observer { connected -> refresh(connected!!) })
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.fragment_option_network, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -89,16 +81,14 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         super.onPrepareOptionsMenu(menu)
         val item = menu.findItem(R.id.ml_menu_save)
         item.isVisible = !isRootDirectory
-        runIO(Runnable {
-            val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))
-            launch {
-                item.setIcon(if (isFavorite)
-                    R.drawable.ic_menu_bookmark_w
-                else
-                    R.drawable.ic_menu_bookmark_outline_w)
-                item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
-            }
-        })
+        launch {
+            val isFavorite = mrl != null && withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(Uri.parse(mrl)) }
+            item.setIcon(if (isFavorite)
+                R.drawable.ic_menu_bookmark_w
+            else
+                R.drawable.ic_menu_bookmark_outline_w)
+            item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
+        }
     }
 
     override fun onStart() {
@@ -109,11 +99,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun refresh() {
-        refresh(ExternalMonitor.isConnected)
-    }
-
-    fun refresh(connected: Boolean) {
-        if (connected)
+        if (ExternalMonitor.isConnected)
             super.refresh()
         else {
             updateEmptyView()

@@ -120,4 +120,7 @@ private val descComp by lazy {
 }
 
 @ExperimentalCoroutinesApi
-fun Fragment.getBrowserModel(category: Long, url: String?, showHiddenFiles: Boolean, showDummyCategory: Boolean) = ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), url, category, showHiddenFiles, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)
+fun Fragment.getBrowserModel(category: Long, url: String?, showHiddenFiles: Boolean, showDummyCategory: Boolean) = if (category == TYPE_NETWORK)
+    ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), url, showHiddenFiles)).get(NetworkModel::class.java)
+else
+    ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), url, category, showHiddenFiles, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)

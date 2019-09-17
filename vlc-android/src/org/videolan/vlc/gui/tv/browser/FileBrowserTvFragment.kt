@@ -9,6 +9,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,10 +34,7 @@ import org.videolan.vlc.util.CATEGORY
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.ITEM
 import org.videolan.vlc.util.isSchemeSupported
-import org.videolan.vlc.viewmodels.browser.BrowserModel
-import org.videolan.vlc.viewmodels.browser.TYPE_FILE
-import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
-import org.videolan.vlc.viewmodels.browser.getBrowserModel
+import org.videolan.vlc.viewmodels.browser.*
 
 private const val TAG = "FileBrowserTvFragment"
 @UseExperimental(ObsoleteCoroutinesApi::class)
@@ -90,10 +88,10 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
         super.onCreate(savedInstanceState)
         item = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(ITEM) as? MediaLibraryItem
         else arguments?.getParcelable(ITEM) as? MediaLibraryItem
-        viewModel = getBrowserModel(getCategory(), (item as? AbstractMediaWrapper)?.location, true, false)
 
         isRootLevel = arguments?.getBoolean("rootLevel") ?: false
         (item as? MediaWrapper)?.run { mrl = location }
+        viewModel = ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), mrl, false)).get(NetworkModel::class.java)
 
         viewModel.currentItem = item
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
