@@ -112,7 +112,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         val nbTracks = tracks?.size ?: 0
         if (nbTracks > 0) for (media in tracks!!) length += media.length
         if (length > 0)
-            binding.length = Tools.millisToText(length)
+            binding.length = Tools.millisToTextLarge(length)
 
         if (item is AbstractMediaWrapper) {
             val media = item as AbstractMediaWrapper
