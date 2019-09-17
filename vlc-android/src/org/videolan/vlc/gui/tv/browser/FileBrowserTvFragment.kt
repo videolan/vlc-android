@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,7 @@ import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.tv.FileTvItemAdapter
 import org.videolan.vlc.gui.tv.TvItemAdapter
 import org.videolan.vlc.gui.tv.TvUtil
+import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
@@ -161,7 +163,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
             ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             ariane.adapter = PathAdapter(this@FileBrowserTvFragment, this)
             if (ariane.itemDecorationCount == 0) {
-                val did = object : DividerItemDecoration(requireContext(), HORIZONTAL) {
+                val did = object : VLCDividerItemDecoration(requireContext(), HORIZONTAL, ContextCompat.getDrawable(requireContext(), R.drawable.ic_divider)!!) {
                     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                         val position = parent.getChildAdapterPosition(view)
                         // hide the divider for the last child
@@ -172,7 +174,6 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
                         }
                     }
                 }
-                did.setDrawable(ContextCompat.getDrawable(requireContext(), org.videolan.vlc.R.drawable.ic_divider)!!)
                 ariane.addItemDecoration(did)
             }
             ariane.scrollToPosition(ariane.adapter!!.itemCount - 1)

@@ -2,6 +2,7 @@ package org.videolan.vlc.gui
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
@@ -27,13 +29,13 @@ import org.videolan.medialibrary.interfaces.media.AbstractArtist
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.InfoActivityBinding
 import org.videolan.vlc.gui.browser.PathAdapter
 import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.video.MediaInfoAdapter
+import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
 import java.io.File
@@ -132,9 +134,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
                     binding.ariane.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
                     binding.ariane.adapter = PathAdapter(this, media)
                     if (binding.ariane.itemDecorationCount == 0) {
-                        val did = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
-                        did.setDrawable(ContextCompat.getDrawable(this, R.drawable.ic_divider)!!)
-                        binding.ariane.addItemDecoration(did)
+                        binding.ariane.addItemDecoration(VLCDividerItemDecoration(this, DividerItemDecoration.HORIZONTAL, ContextCompat.getDrawable(this, R.drawable.ic_divider)!!))
                     }
                 } else binding.ariane.visibility = View.GONE
             }
