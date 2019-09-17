@@ -48,8 +48,8 @@
     <string name="insert_next">Wstaw jako następny</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
-    <string name="last_playlist">Wznów odtwarzanie</string>
-    <string name="last_playlist_shortcut">Wznów</string>
+    <string name="resume_playback">Wznów odtwarzanie</string>
+    <string name="resume_playback_long_shortcut">Wznów</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
@@ -363,14 +363,12 @@
     <string name="lockscreen_cover_summary">Jeśli jest dostępna, ustaw aktualną okładkę albumu jako tapetę ekranu blokady</string>
     <string name="playlist_animate_scroll_title">Animuj automatyczne przewijanie bieżącej listy odtwarzania</string>
     <string name="playlist_animate_scroll_summary">Animuj przewijanie podczas zmiany mediów</string>
-    <string name="list_title_ellipsize">Skracanie jednowierszowych tytułów na listach</string>
+    <string name="list_title_ellipsize">Skrót jednowierszowych tytułów na listach</string>
     <string name="list_title_ellipsize_default">Domyślnie</string>
     <string name="list_title_ellipsize_left">Do lewej</string>
     <string name="list_title_ellipsize_right">Do prawej</string>
     <string name="list_title_ellipsize_middle">W środku</string>
     <string name="list_title_ellipsize_marquee">Przewijający się tekst</string>
-    <string name="audio_save_repeat_title">Zapisz tryb powtórz</string>
-    <string name="audio_save_repeat_summary">Zapamiętaj tryb powtórz podczas ładowania list odtwarzania dźwięku</string>
     <string name="audio_boost_title">Wzmacniacz dźwięku</string>
     <string name="audio_boost_summary">Zezwól na głośność do 200%</string>
     <string name="headset_prefs_category">Słuchawki</string>
