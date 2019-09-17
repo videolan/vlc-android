@@ -46,8 +46,8 @@
     <string name="insert_next">Als volgende invoegen</string>
     <string name="play_all">Alles afspelen</string>
     <string name="append_all">Alles toevoegen</string>
-    <string name="last_playlist">Laatste afspeellijst</string>
-    <string name="last_playlist_shortcut">Afspelen hervatten</string>
+    <string name="resume_playback">Afspelen hervatten</string>
+    <string name="resume_playback_long_shortcut">Afspelen van laatste afspeellijst hervatten</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijderen</string>
     <string name="set_song">Als beltoon instellen</string>
@@ -349,14 +349,12 @@
     <string name="lockscreen_cover_summary">Wanneer beschikbaar, de huidige media-hoes instellen als achtergrond op vergrendelscherm</string>
     <string name="playlist_animate_scroll_title">Automatisch scrollen van huidige afspeellijst animeren</string>
     <string name="playlist_animate_scroll_summary">Scrollen bij media-overgang animeren</string>
-    <string name="audio_title_alignment">Audiotitel-oriëntatie</string>
-    <string name="audio_title_alignment_default">Standaard</string>
-    <string name="audio_title_alignment_left">Links</string>
-    <string name="audio_title_alignment_centre">Midden</string>
-    <string name="audio_title_alignment_right">Rechts</string>
-    <string name="audio_title_alignment_marquee">Lichtkrant</string>
-    <string name="audio_save_repeat_title">Herhaalmodus opslaan</string>
-    <string name="audio_save_repeat_summary">Herhaalmodus onthouden bij het laden van audio-afspeellijsten</string>
+    <string name="list_title_ellipsize">Beletselteken gebruiken voor titel bij lijsten met één regel</string>
+    <string name="list_title_ellipsize_default">Standaard</string>
+    <string name="list_title_ellipsize_left">Links</string>
+    <string name="list_title_ellipsize_right">Rechts</string>
+    <string name="list_title_ellipsize_middle">Midden</string>
+    <string name="list_title_ellipsize_marquee">Lichtkrant</string>
     <string name="audio_boost_title">Audio-boost</string>
     <string name="audio_boost_summary">Volume tot 200 % toestaan</string>
     <string name="headset_prefs_category">Headset</string>
@@ -714,4 +712,5 @@
     <string name="report_a_bug">Een bug rapporteren</string>
     <string name="report_a_crash">Een crash rapporteren</string>
     <string name="describe_crash">Beschrijf hoe deze crash gebeurde</string>
+    <string name="favorite">Favoriet</string>
 </resources>
