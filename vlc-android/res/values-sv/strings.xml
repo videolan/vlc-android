@@ -46,8 +46,8 @@
     <string name="insert_next">Kölägg nästa</string>
     <string name="play_all">Spela upp alla</string>
     <string name="append_all">Kölägg alla</string>
-    <string name="last_playlist">Återuppta uppspelning</string>
-    <string name="last_playlist_shortcut">Återuppta uppspelning av senaste spellista</string>
+    <string name="resume_playback">Återuppta uppspelning</string>
+    <string name="resume_playback_long_shortcut">Återuppta uppspelning av senaste spellista</string>
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
     <string name="set_song">Ange som ringsignal</string>
@@ -355,8 +355,6 @@
     <string name="list_title_ellipsize_right">Höger</string>
     <string name="list_title_ellipsize_middle">Mitten</string>
     <string name="list_title_ellipsize_marquee">Skärmtext</string>
-    <string name="audio_save_repeat_title">Spara slingaläge</string>
-    <string name="audio_save_repeat_summary">Kom ihåg slingaläge när ljudspellistor läses in</string>
     <string name="audio_boost_title">Utökat volymreglage</string>
     <string name="audio_boost_summary">Tillåt volym upp till 200 %</string>
     <string name="headset_prefs_category">Hörlurar</string>
