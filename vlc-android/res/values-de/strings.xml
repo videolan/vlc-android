@@ -46,8 +46,8 @@
     <string name="insert_next">Als nächsten einfügen</string>
     <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
-    <string name="last_playlist">Letzte Wiedergabe</string>
-    <string name="last_playlist_shortcut">Fortsetzen</string>
+    <string name="resume_playback">Liste fortsetzen</string>
+    <string name="resume_playback_long_shortcut">Fortsetzen</string>
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
@@ -355,8 +355,6 @@
     <string name="list_title_ellipsize_right">Rechts</string>
     <string name="list_title_ellipsize_middle">Mitte</string>
     <string name="list_title_ellipsize_marquee">Laufschrift</string>
-    <string name="audio_save_repeat_title">Wiederholen-Modus speichern</string>
-    <string name="audio_save_repeat_summary">Wiederholen-Modus merken wenn Audio-Wiedergabelisten geladen werden</string>
     <string name="audio_boost_title">Audio-Boost</string>
     <string name="audio_boost_summary">Lautstärke bis zu 200% erlauben</string>
     <string name="headset_prefs_category">Kopfhörer</string>
