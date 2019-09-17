@@ -82,9 +82,10 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
             client.stop()
             FileUtils.zip(arrayOf(path), logcatZipPath)
 
-            val emailIntent = Intent(Intent.ACTION_SEND)
+            val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
             emailIntent.type = "message/rfc822"
             //get medialib db if needed
+            val attachments = ArrayList<Uri>()
             if (binding.includeMedialibSwitch.isChecked) {
                 if (Permissions.canWriteStorage()) {
                     val db = File(getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
@@ -94,9 +95,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                     FileUtils.zip(arrayOf(dbPath), dbZipPath)
                     FileUtils.deleteFile(dbFile)
 
-                    val dbUri = FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", File(dbZipPath))
-                    emailIntent.putExtra(Intent.EXTRA_STREAM, dbUri)
-                    emailIntent.type = "application/zip"
+                    attachments.add(FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", File(dbZipPath)))
                 }
             }
             val appData = StringBuilder()
@@ -111,11 +110,11 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
             appData.append("System name: ${Build.DISPLAY}<br/>")
             appData.append("Memory free: ${AppUtils.freeMemory().readableFileSize()} on ${AppUtils.totalMemory().readableFileSize()}")
 
-            val logcatUri = FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", File(logcatZipPath))
-            emailIntent.putExtra(Intent.EXTRA_STREAM, logcatUri)
+            attachments.add(FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", File(logcatZipPath)))
+            emailIntent.putExtra(Intent.EXTRA_STREAM, attachments)
             emailIntent.type = "application/zip"
 
-            val describeCrash = getString(R.string.describe_crash)
+            val describeCrash = getString(org.videolan.vlc.R.string.describe_crash)
             val body = "<p>Here are my crash logs for VLC</strong></p><p style=3D\"color:#16171A;\"> [$describeCrash]</p><p>$appData</p>"
             val htmlBody = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(body, HtmlCompat.FROM_HTML_MODE_LEGACY) else Html.fromHtml(body)
 
@@ -162,5 +161,4 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
         if (::client.isInitialized) client.release()
         super.onDestroy()
     }
-
 }
