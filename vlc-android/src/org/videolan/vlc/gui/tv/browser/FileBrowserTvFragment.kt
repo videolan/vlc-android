@@ -56,6 +56,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
     override fun showRoot(): Boolean = true
 
     private var favExists: Boolean = false
+    private var isRootLevel = false
     private lateinit var browserFavRepository: BrowserFavRepository
     private var item: MediaLibraryItem? = null
     override lateinit var adapter: TvItemAdapter
@@ -71,11 +72,12 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
     override fun getColumnNumber() = resources.getInteger(R.integer.tv_songs_col_count)
 
     companion object {
-        fun newInstance(type: Long, item: MediaLibraryItem?) =
+        fun newInstance(type: Long, item: MediaLibraryItem?, root : Boolean = false) =
                 FileBrowserTvFragment().apply {
                     arguments = Bundle().apply {
                         this.putLong(CATEGORY, type)
                         this.putParcelable(ITEM, item)
+                        this.putBoolean("rootLevel", root)
                     }
                 }
     }
@@ -90,6 +92,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
         else arguments?.getParcelable(ITEM) as? MediaLibraryItem
         viewModel = getBrowserModel(getCategory(), (item as? AbstractMediaWrapper)?.location, true, false)
 
+        isRootLevel = arguments?.getBoolean("rootLevel") ?: false
         (item as? MediaWrapper)?.run { mrl = location }
 
         viewModel.currentItem = item
@@ -178,7 +181,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         launch {
-            animationDelegate.setVisibility(binding.favoriteButton, View.VISIBLE)
+            animationDelegate.setVisibility(binding.favoriteButton, if (isRootLevel) View.GONE else View.VISIBLE)
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
             favExists = withContext(Dispatchers.IO) {
@@ -198,20 +201,17 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
                         else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
                     }
                     favExists = !favExists
-                    launch {
-                        binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
-                        binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
-                    }
                 }
+                if (!isRootLevel) binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
+                binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
             }
         }
-        binding.favoriteButton.setOnClickListener(favoriteClickListener)
+        if (!isRootLevel) binding.favoriteButton.setOnClickListener(favoriteClickListener)
         binding.imageButtonFavorite.setOnClickListener(favoriteClickListener)
     }
 
     override fun onResume() {
         super.onResume()
-
         if (item == null) (viewModel.provider as BrowserProvider).browseRoot()
         else refresh()
     }

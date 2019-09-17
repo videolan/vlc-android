@@ -252,8 +252,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                             requireActivity().reloadLibrary()
                         }
                     }
-                    ID_ABOUT_TV -> activity.startActivity(Intent(activity, org.videolan.vlc.gui.tv.AboutActivity::class.java))
-                    ID_LICENCE -> startActivity(Intent(activity, org.videolan.vlc.gui.tv.LicenceActivity::class.java))
+                    ID_ABOUT_TV -> activity.startActivity(Intent(activity, AboutActivity::class.java))
+                    ID_LICENCE -> startActivity(Intent(activity, LicenceActivity::class.java))
                 }
             }
             else -> {

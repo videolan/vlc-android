@@ -73,7 +73,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 mediabrowser = null
             }
         }
-
     }
 
     private val browserActor = actor<BrowserAction>(capacity = Channel.UNLIMITED, onCompletion = completionHandler) {

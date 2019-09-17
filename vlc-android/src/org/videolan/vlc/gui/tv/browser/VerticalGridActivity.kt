@@ -71,9 +71,9 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 val item = if (uri == null) null else MLServiceLocator.getAbstractMediaWrapper(uri)
                 if (item != null && intent.hasExtra(FAVORITE_TITLE)) item.title = intent.getStringExtra(FAVORITE_TITLE)
 
-                fragment = FileBrowserTvFragment.newInstance(TYPE_NETWORK, item)
+                fragment = FileBrowserTvFragment.newInstance(TYPE_NETWORK, item, true)
             } else if (type == HEADER_DIRECTORIES) {
-                fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, intent.data?.let { MLServiceLocator.getAbstractMediaWrapper(it) })
+                fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, intent.data?.let { MLServiceLocator.getAbstractMediaWrapper(it) }, true)
             } else {
                 finish()
                 return
@@ -101,7 +101,6 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
         return super.onKeyDown(keyCode, event)
     }
 
-
     override fun showProgress(show: Boolean) {
         runOnUiThread {
             tv_fragment_empty.visibility = View.GONE
@@ -118,14 +117,11 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
     }
 
     interface OnKeyPressedListener {
-
         /**
          * a key has been pressed
          * @param keyCode the pressed key
          * @return true if the event has been intercepted
          */
         fun onKeyPressed(keyCode: Int): Boolean
-
-
     }
 }
