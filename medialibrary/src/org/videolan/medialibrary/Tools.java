@@ -5,14 +5,14 @@ import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import androidx.annotation.Nullable;
+
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
-
-import androidx.annotation.Nullable;
 
 public class Tools {
 
@@ -40,8 +40,8 @@ public class Tools {
         long lastTime = media.getTime();
         if (lastTime == 0L) return "";
         return String.format("%s / %s",
-                millisToString(lastTime, true, false),
-                millisToString(media.getLength(), true, false));
+                millisToString(lastTime, true, false, false),
+                millisToString(media.getLength(), true, false, false));
     }
 
     /**
@@ -50,7 +50,7 @@ public class Tools {
      * @return formated string (hh:)mm:ss
      */
     public static String millisToString(long millis) {
-        return millisToString(millis, false, true);
+        return millisToString(millis, false, true, false);
     }
 
     /**
@@ -59,7 +59,17 @@ public class Tools {
      * @return formated string "[hh]h[mm]min" / "[mm]min[s]s"
      */
     public static String millisToText(long millis) {
-        return millisToString(millis, true, true);
+        return millisToString(millis, true, true, false);
+    }
+
+    /**
+     * Convert time to a string with large formatting
+     *
+     * @param millis e.g.time/length from file
+     * @return formated string "[hh]h [mm]min " / "[mm]min [s]s"
+     */
+    public static String millisToTextLarge(long millis) {
+        return millisToString(millis, true, true, true);
     }
 
     public static String getResolution(AbstractMediaWrapper media) {
@@ -92,7 +102,7 @@ public class Tools {
         }
     }
 
-    public static String millisToString(long millis, boolean text, boolean seconds) {
+    public static String millisToString(long millis, boolean text, boolean seconds, boolean large) {
         sb.setLength(0);
         if (millis < 0) {
             millis = -millis;
@@ -108,16 +118,16 @@ public class Tools {
 
         if (text) {
             if (hours > 0)
-                sb.append(hours).append('h');
+                sb.append(hours).append('h').append(large ? " " : "");
             if (min > 0)
-                sb.append(min).append("min");
+                sb.append(min).append("min").append(large ? " " : "");
             if ((seconds || sb.length() == 0) && sec > 0)
-                sb.append(sec).append("s");
+                sb.append(sec).append("s").append(large ? " " : "");
         } else {
             if (hours > 0)
-                sb.append(hours).append(':').append(format.format(min)).append(':').append(format.format(sec));
+                sb.append(hours).append(':').append(large ? " " : "").append(format.format(min)).append(':').append(large ? " " : "").append(format.format(sec));
             else
-                sb.append(min).append(':').append(format.format(sec));
+                sb.append(min).append(':').append(large ? " " : "").append(format.format(sec));
         }
         return sb.toString();
     }
