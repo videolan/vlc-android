@@ -58,6 +58,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected var mediabrowser: MediaBrowser? = null
     private var parsingJob : Job? = null
+    private var discoveryJob : Job? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
     private val showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
@@ -121,9 +122,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected open suspend fun browseImpl(url: String? = null) {
         if (url == null) {
-            filesFlow(url).collect { findMedia(it)?.let { addMedia(it) } }
-            if (dataset.value.isNotEmpty()) parseSubDirectories()
-            else dataset.clear() // send observable event when folder is empty
+            coroutineScope {
+                discoveryJob = launch { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
+            }
         } else {
             val value = filesFlow(url).mapNotNull { findMedia(it) }.toList()
             computeHeaders(value)
@@ -272,6 +273,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     open fun stop() {
         browserActor.offer(Release)
+        discoveryJob?.cancel()
+        discoveryJob = null
         parsingJob?.cancel()
         parsingJob = null
     }
