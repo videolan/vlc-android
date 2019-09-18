@@ -731,6 +731,8 @@
     <string name="report_a_crash">Report a crash</string>
     <string name="describe_crash">Please describe how this crash happened</string>
     <string name="favorite">Favorite</string>
+    <string name="add_to_scanned">Scan this folder</string>
+    <string name="scanned_directory_added">%s added to your scanned folders</string>
     <string name="directory_not_scanned">This directory is not scanned</string>
     <string name="scanned_directory_added">%s added to your scanned directories</string>
     <string name="video_group_size_dialog_text">Number of characters used to group by name</string>

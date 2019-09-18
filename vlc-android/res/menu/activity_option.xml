@@ -39,6 +39,13 @@
             android:icon="@drawable/ic_view_grid"
             android:visible="false"/>
     <item
+            android:orderInCategory="3"
+            android:id="@+id/ml_menu_scan"
+            android:title="@string/add_to_scanned"
+            vlc:showAsAction="ifRoom|collapseActionView"
+            android:icon="@drawable/ic_menu_scan"
+            android:visible="false" />
+    <item
             android:orderInCategory="2"
             android:title="@string/sortby"
             android:icon="@drawable/ic_menu_sort"

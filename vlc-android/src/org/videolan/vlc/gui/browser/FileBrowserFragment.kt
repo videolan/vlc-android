@@ -40,6 +40,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -142,7 +143,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (!(this is FilePickerFragment || this is StorageBrowserFragment))
-            inflater!!.inflate(R.menu.fragment_option_network, menu)
+            inflater.inflate(R.menu.fragment_option_network, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -150,6 +151,9 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         super.onPrepareOptionsMenu(menu)
         val item = menu.findItem(R.id.ml_menu_save) ?: return
         item.isVisible = !isRootDirectory && mrl!!.startsWith("file")
+        mrl?.let {
+            menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && mrl!!.startsWith("file") && !MedialibraryUtils.isScanned(it)
+        }
         runIO(Runnable {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))
             launch {

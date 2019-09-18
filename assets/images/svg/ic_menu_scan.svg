@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48" height="48"
+        id="svg4682" version="1.1" inkscape:version="0.92.3 (2405546, 2018-03-11)"
+        sodipodi:docname="ic_menu_scan.svg"
+        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+        inkscape:export-xdpi="90" inkscape:export-ydpi="90">
+    <defs id="defs4684" />
+    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
+            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="15.839192"
+            inkscape:cx="16.249969" inkscape:cy="21.90058" inkscape:document-units="px"
+            inkscape:current-layer="layer1" showgrid="true" inkscape:window-width="1920"
+            inkscape:window-height="1053" inkscape:window-x="0" inkscape:window-y="27"
+            inkscape:window-maximized="1" inkscape:snap-grids="true" inkscape:snap-bbox="true"
+            inkscape:bbox-paths="true" inkscape:bbox-nodes="true"
+            inkscape:snap-bbox-edge-midpoints="true" inkscape:snap-bbox-midpoints="true"
+            inkscape:object-paths="true" inkscape:snap-intersection-paths="true"
+            inkscape:object-nodes="true" inkscape:snap-smooth-nodes="true"
+            inkscape:snap-midpoints="true" inkscape:snap-object-midpoints="true"
+            inkscape:snap-center="true" showguides="true" inkscape:guide-bbox="true">
+        <inkscape:grid type="xygrid" id="grid3002" />
+        <sodipodi:guide position="-10,24" orientation="0,1" id="guide814" inkscape:locked="false"
+                inkscape:label="" inkscape:color="rgb(0,0,255)" />
+    </sodipodi:namedview>
+    <metadata id="metadata4687">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title></dc:title>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+            transform="translate(0,-1004.3622)">
+        <path style="fill:#ffffff;fill-opacity:1;stroke-width:2.00000525"
+                d="m 19.734319,1012.3621 c -0.380001,0 -0.805182,0.046 -1.109383,0.2734 -0.601602,0.4504 -0.843322,1.173 -1.367184,2.7345 -0.523861,1.5614 -0.546881,1.6405 -0.546881,1.6405 2.188106,1.0941 3.77507,1.1964 6.042976,0 0,0 -0.025,-0.086 -0.546862,-1.6405 -0.521841,-1.5554 -0.761982,-2.2732 -1.367203,-2.7345 -0.302241,-0.2302 -0.725462,-0.2734 -1.105463,-0.2734 z m -4.937513,10.3906 -2.187506,6.5665 -0.004,0.02 c 0.01,0 0.018,0 0.0274,0 2.042825,1.7706 4.558712,2.6566 7.078139,2.664 a 14.000037,14.000037 0 0 1 5.601574,-7.3125 l -0.640621,-1.9218 h -0.004 c -3.318249,2.4776 -6.588957,2.458 -9.871106,0 z m 18.203168,3.6095 a 10.000026,10.000026 0 0 0 -10.000027,10.0001 10.000026,10.000026 0 0 0 10.000027,10 10.000026,10.000026 0 0 0 9.789085,-8 h -3.082028 a 7.0000184,7.0000184 0 0 1 -6.707057,5 7.0000184,7.0000184 0 0 1 -7.000019,-7 7.0000184,7.0000184 0 0 1 7.000019,-7 7.0000184,7.0000184 0 0 1 4.945333,2.0545 l -2.945328,2.9455 H 39.703111 42.796879 43 v -8.0001 l -2.933608,2.9337 a 10.000026,10.000026 0 0 0 -7.066418,-2.9337 z m -23.7930224,6.2383 c -0.7272619,0 -1.4046637,0.5488 -1.6172043,1.2735 l -1.2734433,4.3359 c -0.4162811,1.4222 -0.8278822,2.8317 -1.2460833,4.2618 -0.1750005,0.5976 -0.00108,1.04 0.2812407,1.3438 0.1748005,0.188 0.3911211,0.3234 0.5898416,0.414 0.1988005,0.088 0.3355409,0.132 0.4922013,0.132 0.3652009,0 6.7433377,0 13.3008147,0 0.884222,0 0.929622,-2e-4 1.792964,0 a 14.000037,14.000037 0 0 1 -2.277345,-5.4062 c -3.180529,-0.098 -6.288897,-1.132 -8.261742,-3.0626 -0.412581,-0.4036 -0.273621,-0.82 0,-1.6406 0.1824,-0.547 0.527341,-1.6484 0.527341,-1.6484 H 9.2069516 Z"
+                id="path6982" inkscape:connector-curvature="0" inkscape:transform-center-y="1" />
+    </g>
+</svg>

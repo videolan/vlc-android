@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -50,6 +51,7 @@ import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
@@ -394,8 +396,20 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 viewModel.updateShowHiddenFiles(item.isChecked)
                 true
             }
+            R.id.ml_menu_scan -> {
+                currentMedia?.let { media ->
+                    addToScannedFolders(media)
+                    item.isVisible = false
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun addToScannedFolders(mw: AbstractMediaWrapper) {
+        MedialibraryUtils.addDir(mw.uri.toString(), requireActivity().applicationContext)
+        Snackbar.make(binding.root, getString(R.string.scanned_directory_added, Uri.parse(mw.uri.toString()).lastPathSegment), Snackbar.LENGTH_LONG).show()
     }
 
     private fun toggleFavorite() = launch {
@@ -456,6 +470,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                         else flags or CTX_FAV_REMOVE
                     } else flags or CTX_FAV_ADD
                 }
+                if (isFileBrowser && !isRootDirectory && !MedialibraryUtils.isScanned(item.uri.toString())) {
+                    flags = flags or CTX_ADD_SCANNED
+                }
             } else {
                 val isVideo = mw.type == AbstractMediaWrapper.TYPE_VIDEO
                 val isAudio = mw.type == AbstractMediaWrapper.TYPE_AUDIO
@@ -487,6 +504,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
             CTX_FAV_REMOVE -> launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
+            CTX_ADD_SCANNED -> addToScannedFolders(mw)
         }
     }
 
