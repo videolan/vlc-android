@@ -46,8 +46,8 @@
     <string name="insert_next">Inserta a pustis</string>
     <string name="play_all">Riprodui totu</string>
     <string name="append_all">Annanghe totu</string>
-    <string name="last_playlist">Sighi a riproduire</string>
-    <string name="last_playlist_shortcut">Sighi cun sa riprodutzione de s\'ùrtima iscalita</string>
+    <string name="resume_playback">Sighi a riproduire</string>
+    <string name="resume_playback_long_shortcut">Sighi cun sa riprodutzione de s\'ùrtima iscalita</string>
     <string name="delete">Iscantzella</string>
     <string name="remove">Boga</string>
     <string name="set_song">Imposta comente soneria</string>
@@ -294,7 +294,6 @@
 
     <string name="video_prefs_category">Vìdeos</string>
     <string name="video_min_group_length_title">Agrupa sos vìdeos</string>
-    <string name="video_min_group_length_summary">Sos vìdeos benint agrupados si sa prima lìtera est sa matessi.</string>
     <string name="video_min_group_length_disable">Disabìlita</string>
     <string name="video_min_group_length_folder">Agrupa pro cartella</string>
     <string name="video_min_group_length_first">Petzi sa prima lìtera</string>
@@ -355,8 +354,6 @@
     <string name="list_title_ellipsize_right">A destra</string>
     <string name="list_title_ellipsize_middle">Tzentru</string>
     <string name="list_title_ellipsize_marquee">Testu in subraimpressione</string>
-    <string name="audio_save_repeat_title">Sarva sa modalidade de ripetitzione</string>
-    <string name="audio_save_repeat_summary">Ammenta sa modalidade de ripetitzione cando càrrigas sas iscalitas àudio</string>
     <string name="audio_boost_title">Ismanniamentu àudio</string>
     <string name="audio_boost_summary">Abìlita su volume finas a su 200%</string>
     <string name="headset_prefs_category">Cùfias</string>
