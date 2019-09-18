@@ -74,6 +74,8 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
         (viewModel.provider as MedialibraryProvider<*>).pagedList.observe(this, Observer { items ->
             submitList(items)
 
+            binding.empty = items.isEmpty()
+
             //headers
             val nbColumns = if ((viewModel as MediaBrowserViewModel).sort == AbstractMedialibrary.SORT_ALPHA || (viewModel as MediaBrowserViewModel).sort == AbstractMedialibrary.SORT_DEFAULT) 9 else 1
 
