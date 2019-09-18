@@ -90,6 +90,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = SongBrowserBinding.inflate(inflater, container, false)
+        binding.empty = false
         return binding.root
     }
 

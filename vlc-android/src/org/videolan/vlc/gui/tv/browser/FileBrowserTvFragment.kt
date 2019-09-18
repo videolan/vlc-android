@@ -34,7 +34,10 @@ import org.videolan.vlc.util.CATEGORY
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.ITEM
 import org.videolan.vlc.util.isSchemeSupported
-import org.videolan.vlc.viewmodels.browser.*
+import org.videolan.vlc.viewmodels.browser.BrowserModel
+import org.videolan.vlc.viewmodels.browser.NetworkModel
+import org.videolan.vlc.viewmodels.browser.TYPE_FILE
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 
 private const val TAG = "FileBrowserTvFragment"
 @UseExperimental(ObsoleteCoroutinesApi::class)
@@ -108,6 +111,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
                     }
                 }
             }
+            binding.empty = if (isRootLevel && getCategory() == TYPE_NETWORK) false else items.isEmpty()
             if (BuildConfig.DEBUG) Log.d(TAG, "Submit list of ${items.size} items")
             if (BuildConfig.DEBUG) Log.d(TAG, "header size: ${viewModel.provider.headers.size()}")
 
