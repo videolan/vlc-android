@@ -48,8 +48,8 @@
     <string name="insert_next">להכניס כבא בתור</string>
     <string name="play_all">נגינת הכול</string>
     <string name="append_all">הוספת הכול</string>
-    <string name="last_playlist">להמשיך בנגינה</string>
-    <string name="last_playlist_shortcut">להמשיך את נגינת רשימת הנגינה האחרונה</string>
+    <string name="resume_playback">להמשיך בנגינה</string>
+    <string name="resume_playback_long_shortcut">להמשיך את נגינת רשימת הנגינה הקודמת</string>
     <string name="delete">מחיקה</string>
     <string name="remove">הסרה</string>
     <string name="set_song">הגדרה כצלצול</string>
@@ -308,7 +308,6 @@
 
     <string name="video_prefs_category">סרטון</string>
     <string name="video_min_group_length_title">סרטונים קבוצתיים</string>
-    <string name="video_min_group_length_summary">סרטונים מקובצים אם האותיות הראשונות שלהם זהות.</string>
     <string name="video_min_group_length_disable">השבתה</string>
     <string name="video_min_group_length_folder">קיבוץ לפי תיקייה</string>
     <string name="video_min_group_length_first">אות ראשונה בלבד</string>
@@ -369,8 +368,6 @@
     <string name="list_title_ellipsize_right">ימים</string>
     <string name="list_title_ellipsize_middle">אמצע</string>
     <string name="list_title_ellipsize_marquee">גלילה</string>
-    <string name="audio_save_repeat_title">שמירת מצב החזרה</string>
-    <string name="audio_save_repeat_summary">לזכור את מצב החזרה בעת טעינת רשימות נגינת שמע</string>
     <string name="audio_boost_title">הגברת שמע</string>
     <string name="audio_boost_summary">לאפשר עצמת שמע עד 200%</string>
     <string name="headset_prefs_category">אזניות</string>
