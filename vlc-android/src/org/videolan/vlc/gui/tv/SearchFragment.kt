@@ -31,16 +31,11 @@ import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum
-import org.videolan.medialibrary.interfaces.media.AbstractArtist
-import org.videolan.medialibrary.interfaces.media.AbstractGenre
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
-import org.videolan.medialibrary.media.*
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.util.getFromMl
-import java.util.*
 
 private const val TAG = "SearchFragment"
 private const val REQUEST_SPEECH = 1
@@ -87,22 +82,22 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         val empty = searchAggregate == null || searchAggregate.isEmpty
         updateEmtyView(empty)
         if (searchAggregate == null || empty) return@launch
-        val mediaEmpty = empty || (Tools.isArrayEmpty(searchAggregate.tracks) && Tools.isArrayEmpty(searchAggregate.videos))
+        val mediaEmpty = empty || (searchAggregate.tracks.isNullOrEmpty() && searchAggregate.videos.isNullOrEmpty())
         val cp = CardPresenter(requireActivity())
         val videoAdapter = ArrayObjectAdapter(cp)
-        if (!mediaEmpty) videoAdapter.addAll(0, Arrays.asList(*searchAggregate.videos))
+        if (!mediaEmpty) searchAggregate.videos?.let { videoAdapter.addAll(0, listOf(*it)) }
 //        val episodesAdapter = ArrayObjectAdapter(cp)
 //        if (!mediaEmpty) episodesAdapter.addAll(0, Arrays.asList(searchAggregate.mediaSearchAggregate.episodes))
 //        val moviesAdapter = ArrayObjectAdapter(cp)
 //        if (!mediaEmpty) moviesAdapter.addAll(0, Arrays.asList(searchAggregate.mediaSearchAggregate.movies))
         val songsAdapter = ArrayObjectAdapter(cp)
-        if (!mediaEmpty) songsAdapter.addAll(0, Arrays.asList(*searchAggregate.tracks))
+        if (!mediaEmpty) searchAggregate.tracks?.let { songsAdapter.addAll(0, listOf(*it)) }
         val artistsAdapter = ArrayObjectAdapter(cp)
-        if (!empty) artistsAdapter.addAll(0, Arrays.asList<AbstractArtist>(*searchAggregate.artists))
+        if (!empty) searchAggregate.artists?.let { artistsAdapter.addAll(0, listOf(*it)) }
         val albumsAdapter = ArrayObjectAdapter(cp)
-        if (!empty) albumsAdapter.addAll(0, Arrays.asList<AbstractAlbum>(*searchAggregate.albums))
+        if (!empty) searchAggregate.albums?.let { albumsAdapter.addAll(0, listOf(*it)) }
         val genresAdapter = ArrayObjectAdapter(cp)
-        if (!empty) genresAdapter.addAll(0, Arrays.asList<AbstractGenre>(*searchAggregate.genres))
+        if (!empty) searchAggregate.genres?.let { genresAdapter.addAll(0, listOf(*it)) }
         if (!mediaEmpty && videoAdapter.size() > 0)
             rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.videos)), videoAdapter))
 //        if (!mediaEmpty && episodesAdapter.size() > 0)
