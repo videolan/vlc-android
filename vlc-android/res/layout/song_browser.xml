@@ -24,10 +24,10 @@
 
         <TextView
                 android:id="@+id/textview_nomedia"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
-                android:drawableTop="@drawable/ic_no_media"
+                android:drawableTop="@drawable/ic_empty"
                 android:drawablePadding="@dimen/default_margin"
                 android:gravity="center"
                 android:maxWidth="600dp"
