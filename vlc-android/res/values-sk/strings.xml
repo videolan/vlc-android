@@ -48,8 +48,8 @@
     <string name="insert_next">Vložiť ako ďalšie</string>
     <string name="play_all">Prehrať všetko</string>
     <string name="append_all">Pripojiť všetko</string>
-    <string name="last_playlist">Pokrač. v prehráv.</string>
-    <string name="last_playlist_shortcut">Pokračovať v prehrávaní na poslednom playliste</string>
+    <string name="resume_playback">Pokračovať v prehrávaní</string>
+    <string name="resume_playback_long_shortcut">Pokračovať v prehrávaní na poslednom playliste</string>
     <string name="delete">Vymazať</string>
     <string name="remove">Odstrániť</string>
     <string name="set_song">Nastaviť ako zvonenie</string>
@@ -308,7 +308,6 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Zoskupiť videá</string>
-    <string name="video_min_group_length_summary">Videá sú zoskupované vtedy, keď sú ich prvé písmená rovnaké.</string>
     <string name="video_min_group_length_disable">Vypnúť</string>
     <string name="video_min_group_length_folder">Zoskupiť podľa priečinka</string>
     <string name="video_min_group_length_first">Len prvé písmeno</string>
@@ -369,8 +368,6 @@
     <string name="list_title_ellipsize_right">Vpravo</string>
     <string name="list_title_ellipsize_middle">V strede</string>
     <string name="list_title_ellipsize_marquee">Rolovanie</string>
-    <string name="audio_save_repeat_title">Uložiť režim opakovania</string>
-    <string name="audio_save_repeat_summary">Pamätať si režim opakovania pri načítavaní zvukových playlistov</string>
     <string name="audio_boost_title">Zosilnenie zvuku</string>
     <string name="audio_boost_summary">Umožniť hlasitosť až do 200 %</string>
     <string name="headset_prefs_category">Slúchadlá</string>
