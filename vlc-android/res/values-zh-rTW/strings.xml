@@ -45,8 +45,8 @@
     <string name="insert_next">插入為下一個</string>
     <string name="play_all">全部播放</string>
     <string name="append_all">全部附加</string>
-    <string name="last_playlist">前次播放清單</string>
-    <string name="last_playlist_shortcut">繼續播放</string>
+    <string name="resume_playback">繼續播放</string>
+    <string name="resume_playback_long_shortcut">繼續播放上次的播放清單</string>
     <string name="delete">刪除</string>
     <string name="remove">移除</string>
     <string name="set_song">設為鈴聲</string>
@@ -287,7 +287,6 @@
 
     <string name="video_prefs_category">視訊</string>
     <string name="video_min_group_length_title">影片群組</string>
-    <string name="video_min_group_length_summary">若影片前面的字母相同時，影片會被分到同一組。</string>
     <string name="video_min_group_length_disable">停用</string>
     <string name="video_min_group_length_folder">依照資料夾分組</string>
     <string name="video_min_group_length_first">僅第一個字母</string>
@@ -342,14 +341,12 @@
     <string name="lockscreen_cover_summary">可用時，會將目前的媒體封面圖片設定為鎖定畫面桌布</string>
     <string name="playlist_animate_scroll_title">以動畫的方式顯示目前的播放清單的自動捲動</string>
     <string name="playlist_animate_scroll_summary">在媒體轉換時動畫捲動</string>
-    <string name="audio_title_alignment">音訊標題對齊</string>
-    <string name="audio_title_alignment_default">預設</string>
-    <string name="audio_title_alignment_left">靠左</string>
-    <string name="audio_title_alignment_centre">居中</string>
-    <string name="audio_title_alignment_right">靠右</string>
-    <string name="audio_title_alignment_marquee">滾動</string>
-    <string name="audio_save_repeat_title">儲存重複模式</string>
-    <string name="audio_save_repeat_summary">當載入音訊播放清單時記住重複模式</string>
+    <string name="list_title_ellipsize">單行清單標題省略</string>
+    <string name="list_title_ellipsize_default">預設</string>
+    <string name="list_title_ellipsize_left">左</string>
+    <string name="list_title_ellipsize_right">右</string>
+    <string name="list_title_ellipsize_middle">中</string>
+    <string name="list_title_ellipsize_marquee">滾動</string>
     <string name="audio_boost_title">音訊增益</string>
     <string name="audio_boost_summary">允許高達 200% 的音量</string>
     <string name="headset_prefs_category">耳機</string>
@@ -678,6 +675,7 @@
     <string name="jump_to">跳至</string>
     <string name="show_video_thumbnails_summary">在清單中顯示影片縮圖</string>
     <string name="show_video_thumbnails">影片縮圖</string>
+    <string name="eq_snap_bands">捕捉樂團</string>
     <string name="enable_equalizer">啟用</string>
     <string name="preamp">前置放大</string>
     <string name="presets">預置</string>
@@ -700,9 +698,11 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">歡迎使用 VLC beta 程式。\n請注意，這個版本可能會有一些錯誤。</string>
     <string name="welcome_beta_description_bugs">如果您發現錯誤，請回報到我們的討論區或錯誤追蹤器。</string>
+    <string name="welcome_beta_description_crashes">如果您遇到當機，請使用啟動器中的 VLC 回報圖示來傳送給我們。</string>
     <string name="send">傳送</string>
     <string name="send_crash_action_title">您想要做什麼？</string>
     <string name="report_a_bug">回報錯誤</string>
     <string name="report_a_crash">回報當機</string>
     <string name="describe_crash">請描述當機如何發生</string>
+    <string name="favorite">收藏</string>
 </resources>
