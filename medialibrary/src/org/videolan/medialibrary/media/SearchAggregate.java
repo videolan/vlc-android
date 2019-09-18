@@ -1,5 +1,7 @@
 package org.videolan.medialibrary.media;
 
+import androidx.annotation.Nullable;
+
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
@@ -35,26 +37,32 @@ public class SearchAggregate {
         this.playlists = playlists;
     }
 
+    @Nullable
     public AbstractAlbum[] getAlbums() {
         return albums;
     }
 
+    @Nullable
     public AbstractArtist[] getArtists() {
         return artists;
     }
 
+    @Nullable
     public AbstractGenre[] getGenres() {
         return genres;
     }
 
+    @Nullable
     public AbstractMediaWrapper[] getVideos() {
         return videos;
     }
 
+    @Nullable
     public AbstractMediaWrapper[] getTracks() {
         return tracks;
     }
 
+    @Nullable
     public AbstractPlaylist[] getPlaylists() {
         return playlists;
     }
@@ -66,32 +74,32 @@ public class SearchAggregate {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if (albums.length > 0) {
+        if (!Tools.isArrayEmpty(albums)) {
             sb.append("Albums:\n");
             for (AbstractAlbum album : albums)
                 sb.append(album.getTitle()).append("\n");
         }
-        if (artists.length > 0) {
+        if (!Tools.isArrayEmpty(artists)) {
             sb.append("Artists:\n");
             for (AbstractArtist artist : artists)
                 sb.append(artist.getTitle()).append("\n");
         }
-        if (genres.length > 0) {
+        if (!Tools.isArrayEmpty(genres)) {
             sb.append("Genres:\n");
             for (AbstractGenre genre : genres)
                 sb.append(genre.getTitle()).append("\n");
         }
-        if (tracks.length > 0) {
+        if (!Tools.isArrayEmpty(tracks)) {
             sb.append("Tracks:\n");
             for (AbstractMediaWrapper m : tracks)
                 sb.append(m.getTitle()).append("\n");
         }
-        if (videos.length > 0) {
+        if (!Tools.isArrayEmpty(videos)) {
             sb.append("Videos:\n");
             for (AbstractMediaWrapper m : videos)
                 sb.append(m.getTitle()).append("\n");
         }
-        if (playlists.length > 0) {
+        if (!Tools.isArrayEmpty(playlists)) {
             sb.append("Playlists:\n");
             for (AbstractPlaylist playlist : playlists)
                 sb.append(playlist.getTitle()).append("\n");

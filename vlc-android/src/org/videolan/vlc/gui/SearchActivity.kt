@@ -71,12 +71,12 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
             if (!isStarted()) return@launch
             binding.searchAggregate = searchAggregate
             if (searchAggregate != null) {
-                (binding.albumsResults.adapter as SearchResultAdapter).add(searchAggregate.albums.filterNotNull().toTypedArray())
-                (binding.artistsResults.adapter as SearchResultAdapter).add(searchAggregate.artists.filterNotNull().toTypedArray())
-                (binding.genresResults.adapter as SearchResultAdapter).add(searchAggregate.genres.filterNotNull().toTypedArray())
-                (binding.playlistsResults.adapter as SearchResultAdapter).add(searchAggregate.playlists.filterNotNull().toTypedArray())
-                (binding.othersResults.adapter as SearchResultAdapter).add(searchAggregate.videos.filterNotNull().toTypedArray())
-                (binding.songsResults.adapter as SearchResultAdapter).add(searchAggregate.tracks.filterNotNull().toTypedArray())
+                searchAggregate.albums?.filterNotNull()?.let { (binding.albumsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                searchAggregate.artists?.filterNotNull()?.let { (binding.artistsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                searchAggregate.genres?.filterNotNull()?.let { (binding.genresResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                searchAggregate.playlists?.filterNotNull()?.let { (binding.playlistsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                searchAggregate.videos?.filterNotNull()?.let { (binding.othersResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                searchAggregate.tracks?.filterNotNull()?.let { (binding.songsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
             }
         }
     }

@@ -108,10 +108,10 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             if (!isActive) return@launch
             if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.length ?: 0 > 2) playbackService.medialibrary.search(query)?.run {
                 when {
-                    !albums.isNullOrEmpty() -> tracks = albums[0].tracks
-                    !artists.isNullOrEmpty() -> tracks = artists[0].tracks
-                    !playlists.isNullOrEmpty() -> tracks = playlists[0].tracks
-                    !genres.isNullOrEmpty() -> tracks = genres[0].tracks
+                    !albums.isNullOrEmpty() -> tracks = albums!![0].tracks
+                    !artists.isNullOrEmpty() -> tracks = artists!![0].tracks
+                    !playlists.isNullOrEmpty() -> tracks = playlists!![0].tracks
+                    !genres.isNullOrEmpty() -> tracks = genres!![0].tracks
                 }
             }
             if (!isActive) return@launch

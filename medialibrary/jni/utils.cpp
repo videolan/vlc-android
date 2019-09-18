@@ -173,59 +173,74 @@ jobject
 convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr)
 {
     //Albums
-    jobjectArray albums = (jobjectArray) env->NewObjectArray(searchAggregatePtr.albums->count(), fields->Album.clazz, NULL);
+    jobjectArray albums = nullptr;
     int index = -1;
-    for(medialibrary::AlbumPtr const& album : searchAggregatePtr.albums->all()) {
-        jobject item = convertAlbumObject(env, fields, album);
-        env->SetObjectArrayElement(albums, ++index, item);
-        env->DeleteLocalRef(item);
+    if (searchAggregatePtr.albums != nullptr) {
+        albums = (jobjectArray) env->NewObjectArray(searchAggregatePtr.albums->count(), fields->Album.clazz, NULL);
+        for(medialibrary::AlbumPtr const& album : searchAggregatePtr.albums->all()) {
+            jobject item = convertAlbumObject(env, fields, album);
+            env->SetObjectArrayElement(albums, ++index, item);
+            env->DeleteLocalRef(item);
+        }
     }
     //Artists
-    jobjectArray artists = (jobjectArray) env->NewObjectArray(searchAggregatePtr.artists->count(), fields->Artist.clazz, NULL);
-    index = -1;
-    for(medialibrary::ArtistPtr const& artist : searchAggregatePtr.artists->all()) {
-        jobject item = convertArtistObject(env, fields, artist);
-        env->SetObjectArrayElement(artists, ++index, item);
-        env->DeleteLocalRef(item);
+    jobjectArray artists = nullptr;
+    if (searchAggregatePtr.artists != nullptr)  {
+        index = -1;
+        artists = (jobjectArray) env->NewObjectArray(searchAggregatePtr.artists->count(), fields->Artist.clazz, NULL);
+        for(medialibrary::ArtistPtr const& artist : searchAggregatePtr.artists->all()) {
+            jobject item = convertArtistObject(env, fields, artist);
+            env->SetObjectArrayElement(artists, ++index, item);
+            env->DeleteLocalRef(item);
+        }
     }
     //Genres
-    jobjectArray genres = (jobjectArray) env->NewObjectArray(searchAggregatePtr.genres->count(), fields->Genre.clazz, NULL);
-    index = -1;
-    for(medialibrary::GenrePtr const& genre : searchAggregatePtr.genres->all()) {
-        jobject item = convertGenreObject(env, fields, genre);
-        env->SetObjectArrayElement(genres, ++index, item);
-        env->DeleteLocalRef(item);
+    jobjectArray genres = nullptr;
+    if (searchAggregatePtr.genres != nullptr)  {
+        index = -1;
+        genres = (jobjectArray) env->NewObjectArray(searchAggregatePtr.genres->count(), fields->Genre.clazz, NULL);
+        for(medialibrary::GenrePtr const& genre : searchAggregatePtr.genres->all()) {
+            jobject item = convertGenreObject(env, fields, genre);
+            env->SetObjectArrayElement(genres, ++index, item);
+            env->DeleteLocalRef(item);
+        }
     }
     //Playlists
-    jobjectArray playlists = (jobjectArray) env->NewObjectArray(searchAggregatePtr.playlists->count(), fields->Playlist.clazz, NULL);
-    index = -1;
-    for(medialibrary::PlaylistPtr const& playlist : searchAggregatePtr.playlists->all()) {
-        jobject item = convertPlaylistObject(env, fields, playlist);
-        env->SetObjectArrayElement(playlists, ++index, item);
-        env->DeleteLocalRef(item);
+    jobjectArray playlists = nullptr;
+    if (searchAggregatePtr.playlists != nullptr) {
+        index = -1;
+        playlists = (jobjectArray) env->NewObjectArray(searchAggregatePtr.playlists->count(), fields->Playlist.clazz, NULL);
+        for(medialibrary::PlaylistPtr const& playlist : searchAggregatePtr.playlists->all()) {
+            jobject item = convertPlaylistObject(env, fields, playlist);
+            env->SetObjectArrayElement(playlists, ++index, item);
+            env->DeleteLocalRef(item);
+        }
     }
     //Media
     std::vector<medialibrary::MediaPtr> videos = {};
     std::vector<medialibrary::MediaPtr> tracks = {};
-    for(medialibrary::MediaPtr const& media : searchAggregatePtr.media->all()) {
-        if (media->subType() == medialibrary::IMedia::SubType::AlbumTrack) tracks.push_back(media);
-        else videos.push_back(media);
+    jobjectArray videoList = nullptr;
+    jobjectArray tracksList = nullptr;
+    if (searchAggregatePtr.media != nullptr) {
+        for(medialibrary::MediaPtr const& media : searchAggregatePtr.media->all()) {
+            if (media->subType() == medialibrary::IMedia::SubType::AlbumTrack) tracks.push_back(media);
+            else videos.push_back(media);
+        }
+        videoList = (jobjectArray) env->NewObjectArray(videos.size(), fields->MediaWrapper.clazz, NULL);
+        index = -1;
+        for(medialibrary::MediaPtr const& media : videos) {
+            jobject item = mediaToMediaWrapper(env, fields, media);
+            env->SetObjectArrayElement(videoList, ++index, item);
+            env->DeleteLocalRef(item);
+        }
+        tracksList = (jobjectArray) env->NewObjectArray(tracks.size(), fields->MediaWrapper.clazz, NULL);
+        index = -1;
+        for(medialibrary::MediaPtr const& media : tracks) {
+            jobject item = mediaToMediaWrapper(env, fields, media);
+            env->SetObjectArrayElement(tracksList, ++index, item);
+            env->DeleteLocalRef(item);
+        }
     }
-    jobjectArray videoList = (jobjectArray) env->NewObjectArray(videos.size(), fields->MediaWrapper.clazz, NULL);
-    index = -1;
-    for(medialibrary::MediaPtr const& media : videos) {
-        jobject item = mediaToMediaWrapper(env, fields, media);
-        env->SetObjectArrayElement(videoList, ++index, item);
-        env->DeleteLocalRef(item);
-    }
-    jobjectArray tracksList = (jobjectArray) env->NewObjectArray(tracks.size(), fields->MediaWrapper.clazz, NULL);
-    index = -1;
-    for(medialibrary::MediaPtr const& media : tracks) {
-        jobject item = mediaToMediaWrapper(env, fields, media);
-        env->SetObjectArrayElement(tracksList, ++index, item);
-        env->DeleteLocalRef(item);
-    }
-
     return env->NewObject(fields->SearchAggregate.clazz, fields->SearchAggregate.initID,
                           albums, artists, genres, videoList, tracksList, playlists);
 }
