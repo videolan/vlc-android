@@ -46,8 +46,8 @@
     <string name="insert_next">Indsæt næste</string>
     <string name="play_all">Afspil alle</string>
     <string name="append_all">Tilføj alle</string>
-    <string name="last_playlist">Seneste afspilningsliste</string>
-    <string name="last_playlist_shortcut">Genoptag afspilning</string>
+    <string name="resume_playback">Genoptag afspilning</string>
+    <string name="resume_playback_long_shortcut">Genoptag afspilning af sidste afspilningsliste</string>
     <string name="delete">Slet</string>
     <string name="remove">Fjern</string>
     <string name="set_song">Anvend som ringetone</string>
@@ -294,7 +294,6 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Gruppér videoer</string>
-    <string name="video_min_group_length_summary">Videoer grupperes hvis deres første bogstav er det samme.</string>
     <string name="video_min_group_length_disable">Deaktivér</string>
     <string name="video_min_group_length_folder">Gruppér efter mappe</string>
     <string name="video_min_group_length_first">Kun første bogstav</string>
@@ -349,14 +348,12 @@
     <string name="lockscreen_cover_summary">Når det er muligt, angiv det aktuelle mediecoverbillede som låseskærmens tapet</string>
     <string name="playlist_animate_scroll_title">Animer aktuelle spilleliste auto-rulning</string>
     <string name="playlist_animate_scroll_summary">Animer rulning ved medieovergang</string>
-    <string name="audio_title_alignment">Justering af lydtitel</string>
-    <string name="audio_title_alignment_default">Standard</string>
-    <string name="audio_title_alignment_left">Venstre</string>
-    <string name="audio_title_alignment_centre">Midten</string>
-    <string name="audio_title_alignment_right">Højre</string>
-    <string name="audio_title_alignment_marquee">Lysavis</string>
-    <string name="audio_save_repeat_title">Gem gentagtilstand</string>
-    <string name="audio_save_repeat_summary">Husk gentagtilstand ved indlæsning af lydspillelister</string>
+    <string name="list_title_ellipsize">Ellipse for titelliste på én linje</string>
+    <string name="list_title_ellipsize_default">Standard</string>
+    <string name="list_title_ellipsize_left">Venstre</string>
+    <string name="list_title_ellipsize_right">Højre</string>
+    <string name="list_title_ellipsize_middle">Midten</string>
+    <string name="list_title_ellipsize_marquee">Lysavis</string>
     <string name="audio_boost_title">Lydforstærkning</string>
     <string name="audio_boost_summary">Tillad lydstyrke op til 200 %</string>
     <string name="headset_prefs_category">Hovedtelefoner</string>
@@ -618,6 +615,8 @@
     <string name="audio_digital_title">Digital audio output (gennemsendelse)</string>
     <string name="audio_task_cleared_title">Handling ved strygning af program</string>
     <string name="audio_task_cleared_summary">Stop afspilning når programmet skjules</string>
+    <string name="audio_resume_card_title">Vis tip for sidste afspilningsliste</string>
+    <string name="audio_resume_card_summary">Viser et tip for at hjælpe dig med at genoptage lydafspilning når programmet starter</string>
     <string name="playback_rewind">Spol tilbage</string>
     <string name="playback_forward">Hurtigere</string>
     <string name="ml_wizard_title">Udvalg i VLC-mediebibliotek</string>
@@ -691,13 +690,26 @@
     <string name="appended">Spor tilføjet</string>
     <string name="inserted">Spor indsæt</string>
     <string name="remove_current">Fjern nuværende</string>
+    <string name="validation_delete_playlist">Er du sikker på, at du vil slette afspilningslisten?</string>
     <string name="validation_delete_playlist_text">Handlingen kan ikke fortrydes.</string>
     <string name="display_in_list">Vis som liste</string>
     <string name="display_in_grid">Vis som gitter</string>
+    <string name="dump_db_succes">Databasen blev lagt i roden af det interne lager</string>
+    <string name="dump_db_failure">Kunne ikke lægge databasen</string>
+    <string name="send_crash_title">VLC-nedbrudsrapport</string>
+    <string name="send_crash_description">Ved at sende dit nedbrud, hjælper du med at forbedre VLCs stabilitet.</string>
+    <string name="send_crash_warning">Sørg for at slette eventuelle følsomme data som du ikke vil have sendt.</string>
     <string name="dont_ask_again">Spørg ikke igen</string>
+    <string name="include_medialib">Medtag din database</string>
+    <string name="vlc_reporter">VLC-rapport</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Velkommen i VLCs betaprogram.\nBemærk venligst at versionem kan have fejl.</string>
+    <string name="welcome_beta_description_bugs">Hvis du bemærker en fejl, så rapportér det venligst i vores forum eller bug tracker.</string>
+    <string name="welcome_beta_description_crashes">Hvis du oplever et nedbrud, så brug venligst VLC-rapport-ikonet i din opstarter, for at sende det til os.</string>
     <string name="send">Send</string>
     <string name="send_crash_action_title">Hvad vil du?</string>
     <string name="report_a_bug">Rapportér en fejl</string>
     <string name="report_a_crash">Rapportér et nedbrud</string>
     <string name="describe_crash">Beskriv venligst hvordan nedbruddet skete</string>
+    <string name="favorite">Favorit</string>
 </resources>
