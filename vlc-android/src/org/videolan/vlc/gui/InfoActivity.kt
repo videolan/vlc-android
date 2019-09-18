@@ -2,11 +2,11 @@ package org.videolan.vlc.gui
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -18,22 +18,23 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.Extensions
-import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractArtist
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.InfoActivityBinding
 import org.videolan.vlc.gui.browser.PathAdapter
 import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.video.MediaInfoAdapter
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.media.MediaUtils
@@ -104,6 +105,13 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         })
         if (model.cover.value === null) model.getCover(item.artworkMrl, getScreenWidth())
         launch { updateMeta() }
+        binding.directoryNotScannedButton.setOnClickListener {
+            val media = item as AbstractMediaWrapper
+            val parent = media.uri.toString().substring(0, media.uri.toString().lastIndexOf("/"))
+            MedialibraryUtils.addDir(parent, applicationContext)
+            Snackbar.make(binding.root, getString(R.string.scanned_directory_added, Uri.parse(parent).lastPathSegment), Snackbar.LENGTH_LONG).show()
+            binding.scanned = true
+        }
     }
 
     private fun updateMeta() {
@@ -112,18 +120,17 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         val nbTracks = tracks?.size ?: 0
         if (nbTracks > 0) for (media in tracks!!) length += media.length
         if (length > 0)
-            binding.length = Tools.millisToTextLarge(length)
 
-        if (item is AbstractMediaWrapper) {
-            val media = item as AbstractMediaWrapper
-            val resolution = generateResolutionClass(media.width, media.height)
-            binding.resolution = resolution
-        }
+            if (item is AbstractMediaWrapper) {
+                val media = item as AbstractMediaWrapper
+                val resolution = generateResolutionClass(media.width, media.height)
+                binding.resolution = resolution
+            }
 
+        binding.scanned = true
         when {
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
                 val media = item as AbstractMediaWrapper
-//                binding.path = Uri.decode(media!!.uri.path).replace("/", " > ")
                 binding.progress = if (media.length == 0L) 0 else (100.toLong() * media.time / length).toInt()
                 binding.sizeTitleText = getString(R.string.file_size)
 
@@ -136,6 +143,15 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
                     if (binding.ariane.itemDecorationCount == 0) {
                         binding.ariane.addItemDecoration(VLCDividerItemDecoration(this, DividerItemDecoration.HORIZONTAL, ContextCompat.getDrawable(this, R.drawable.ic_divider)!!))
                     }
+                    //scheme is supported => test if the parent is scanned
+                    var isScanned = false
+                    AbstractMedialibrary.getInstance().foldersList.forEach search@{
+                        if (media.uri.toString().startsWith(Uri.parse(it).toString())) {
+                            isScanned = true
+                            return@search
+                        }
+                    }
+                    binding.scanned = isScanned
                 } else binding.ariane.visibility = View.GONE
             }
             item.itemType == MediaLibraryItem.TYPE_ARTIST -> {

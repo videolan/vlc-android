@@ -55,6 +55,10 @@
                 name="resolution"
                 type="String"/>
 
+        <variable
+                name="scanned"
+                type="boolean" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -200,16 +204,43 @@
                         android:clipToPadding="false"
                         android:layout_marginTop="8dp"/>
 
-                <ImageView
+                <TextView
+                        android:id="@+id/directory_not_scanned_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/directory_not_scanned"
+                        android:textStyle="bold"
+                        android:visibility="@{scanned ? View.GONE : View.VISIBLE}"
+                        vlc:layout_constraintBottom_toBottomOf="@+id/directory_not_scanned_button"
+                        vlc:layout_constraintEnd_toStartOf="@+id/directory_not_scanned_button"
+                        vlc:layout_constraintStart_toStartOf="parent"
+                        vlc:layout_constraintTop_toTopOf="@+id/directory_not_scanned_button" />
+
+                <Button
+                        android:id="@+id/directory_not_scanned_button"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        vlc:srcCompat="@drawable/ic_duration"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/add"
+                        android:visibility="@{scanned ? View.GONE : View.VISIBLE}"
+                        vlc:layout_constraintEnd_toEndOf="parent"
+                        vlc:layout_constraintTop_toBottomOf="@+id/ariane" />
+
+                <ImageView
                         android:id="@+id/length_icon"
-                        android:layout_marginTop="24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:padding="8dp"
-                        vlc:layout_constraintTop_toBottomOf="@+id/ariane"
+                        android:visibility="@{TextUtils.isEmpty(length) ? View.GONE : View.VISIBLE}"
                         vlc:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="16dp"/>
+                        vlc:layout_constraintTop_toBottomOf="@+id/directory_not_scanned_button"
+                        vlc:srcCompat="@drawable/ic_duration" />
 
                 <TextView
                         android:id="@+id/length_title"
@@ -217,6 +248,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/length"
                         android:textColor="?attr/font_audio_light"
+                        android:visibility="@{TextUtils.isEmpty(length) ? View.GONE : View.VISIBLE}"
                         android:textStyle="bold"
                         vlc:layout_constraintStart_toEndOf="@+id/length_icon"
                         android:layout_marginStart="16dp"
