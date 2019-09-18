@@ -1,128 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <import type="android.view.View" />
+
         <variable
-            name="empty"
-            type="boolean" />
+                name="empty"
+                type="boolean" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <include layout="@layout/button_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <org.videolan.vlc.gui.view.SwipeRefreshLayout
-        android:id="@+id/swipeLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="@{empty ? View.GONE : View.VISIBLE}">
-        <org.videolan.vlc.gui.view.AutoFitRecyclerView
-            android:id="@+id/video_grid"
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/half_default_margin"
-            android:clipToPadding="false"
-            android:scrollbarStyle="outsideOverlay"
-            android:numColumns="auto_fit"
-            android:fastScrollEnabled="true"
-            android:scrollbars="vertical"
-            android:fadingEdge="none"
-            android:stretchMode="none"
-            android:gravity="center" />
-    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textview_nomedia"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/loading_title"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_margin="@dimen/default_margin"
-        android:drawableBottom="@drawable/ic_no_media"
-        android:drawablePadding="@dimen/default_margin"
-        android:gravity="center"
-        android:maxWidth="600dp"
-        android:text="@string/nomedia"
-        android:textSize="20sp"
-        android:visibility="@{empty ? View.VISIBLE : View.GONE, default=gone}" />
+        <include
+                layout="@layout/button_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_nomedia"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:text="@string/button_medialibrary_preferences"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_nomedia"
-        android:visibility="@{empty ? View.VISIBLE : View.GONE, default=gone}" />
+        <org.videolan.vlc.gui.view.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{empty ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchButton">
 
-    <TextView
-        android:id="@+id/loading_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/loading_flipper"
-        app:layout_constraintTop_toBottomOf="@+id/button_nomedia"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        android:layout_weight="1"
-        android:gravity="start"
-        android:text="@string/loading"
-        android:textSize="20sp" />
-
-    <ViewFlipper
-        android:id="@+id/loading_flipper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/loading_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/loading_title"
-        android:layout_gravity="start"
-        android:autoStart="true"
-        android:flipInterval="1000" >
+            <org.videolan.vlc.gui.view.AutoFitRecyclerView
+                    android:id="@+id/video_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:fadingEdge="none"
+                    android:fastScrollEnabled="true"
+                    android:gravity="center"
+                    android:numColumns="auto_fit"
+                    android:padding="@dimen/half_default_margin"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbars="vertical"
+                    android:stretchMode="none" />
+        </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/empty"
-            android:textSize="20sp" />
+                android:id="@+id/textview_nomedia"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:drawableBottom="@drawable/ic_empty"
+                android:drawablePadding="@dimen/default_margin"
+                android:gravity="center"
+                android:maxWidth="600dp"
+                android:text="@string/nomedia"
+                android:textSize="20sp"
+                android:visibility="@{empty ? View.VISIBLE : View.GONE, default=gone}"
+                app:layout_constraintBottom_toTopOf="@+id/loading_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:visibility="visible" />
+
+        <Button
+                android:id="@+id/button_nomedia"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_medialibrary_preferences"
+                android:visibility="@{empty ? View.VISIBLE : View.GONE, default=gone}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textview_nomedia" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/load_1_period"
-            android:textSize="20sp" />
+                android:id="@+id/loading_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/loading"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/loading_flipper"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_nomedia" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/load_2_period"
-            android:textSize="20sp" />
+        <ViewFlipper
+                android:id="@+id/loading_flipper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:autoStart="true"
+                android:flipInterval="1000"
+                app:layout_constraintBaseline_toBaselineOf="@+id/loading_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/loading_title">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/load_3_period"
-            android:textSize="20sp" />
-    </ViewFlipper>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/empty"
+                    android:textSize="20sp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/load_1_period"
+                    android:textSize="20sp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/load_2_period"
+                    android:textSize="20sp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/load_3_period"
+                    android:textSize="20sp" />
+        </ViewFlipper>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

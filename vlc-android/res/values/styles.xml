@@ -229,6 +229,7 @@
         <item name="ariane_text_color">@color/simple_list_title</item>
         <item name="list_title">@color/grey50</item>
         <item name="ariane_text_size">18sp</item>
+        <item name="font_light">@color/grey50transparent_ea</item>
     </style>
 
     <style name="Theme.VLC.Info" parent="Theme.VLC">
