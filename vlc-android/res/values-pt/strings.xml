@@ -46,8 +46,8 @@
     <string name="insert_next">Inserir seguinte</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="append_all">Acrescentar tudo</string>
-    <string name="last_playlist">Última lista de reprodução</string>
-    <string name="last_playlist_shortcut">Retomar reprodução</string>
+    <string name="resume_playback">Retomar reprodução</string>
+    <string name="resume_playback_long_shortcut">Retomar reprodução da última lista de reprodução</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque de chamada</string>
@@ -294,7 +294,6 @@
 
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupar vídeos</string>
-    <string name="video_min_group_length_summary">Os vídeos são agrupados se as suas iniciais forem iguais.</string>
     <string name="video_min_group_length_disable">Desativar</string>
     <string name="video_min_group_length_folder">Agrupar por pasta</string>
     <string name="video_min_group_length_first">Apenas primeira letra</string>
@@ -349,14 +348,12 @@
     <string name="lockscreen_cover_summary">Se disponível, utilizar a imagem do ficheiro em reprodução como papel de parede</string>
     <string name="playlist_animate_scroll_title">Animar lista de reprodução ao deslocar automaticamente</string>
     <string name="playlist_animate_scroll_summary">Animar deslocação na transição multimédia</string>
-    <string name="audio_title_alignment">Alinhamento do título de áudio</string>
-    <string name="audio_title_alignment_default">Predefinido</string>
-    <string name="audio_title_alignment_left">Esquerda</string>
-    <string name="audio_title_alignment_centre">Centro</string>
-    <string name="audio_title_alignment_right">Direita</string>
-    <string name="audio_title_alignment_marquee">Logótipo</string>
-    <string name="audio_save_repeat_title">Guardar modo de repetição</string>
-    <string name="audio_save_repeat_summary">Memorizar modo de repetição ao carregar as listas de reprodução áudio</string>
+    <string name="list_title_ellipsize">Título da lista de linha única reticulada</string>
+    <string name="list_title_ellipsize_default">Predefinido</string>
+    <string name="list_title_ellipsize_left">Esquerda</string>
+    <string name="list_title_ellipsize_right">Direita</string>
+    <string name="list_title_ellipsize_middle">Meio</string>
+    <string name="list_title_ellipsize_marquee">Letreiro</string>
     <string name="audio_boost_title">Amplificação áudio</string>
     <string name="audio_boost_summary">Permitir volume até 200%</string>
     <string name="headset_prefs_category">Auriculares</string>
@@ -695,4 +692,24 @@
     <string name="remove_current">Remover atual</string>
     <string name="validation_delete_playlist">Tem a certeza que quer eliminar esta lista de reprodução?</string>
     <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>
+    <string name="display_in_list">Mostrar em lista</string>
+    <string name="display_in_grid">Mostrar em grelha</string>
+    <string name="dump_db_succes">Banco de dados despejado na raiz de armazenamento interno</string>
+    <string name="dump_db_failure">Falha ao despejar o banco de dados</string>
+    <string name="send_crash_title">Relator de falhas do VLC</string>
+    <string name="send_crash_description">Ao enviar a sua falha, ajuda-nos a melhorar a estabilidade do VLC.</string>
+    <string name="send_crash_warning">Tenha a certeza que remove todos os dados confidenciais que não deseja enviar.</string>
+    <string name="dont_ask_again">Não perguntar novamente</string>
+    <string name="include_medialib">Incluir a sua base de dados</string>
+    <string name="vlc_reporter">Relator VLC</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Bem-vindo ao programa beta do VLC.\nObserve que esta versão pode ter alguns erros.</string>
+    <string name="welcome_beta_description_bugs">Se você reparar num erro, por favor reporte-o no nosso fórum ou no monitorizador de erros.</string>
+    <string name="welcome_beta_description_crashes">Se ocorrer uma falha, por favor utilize o ícone do Relator VLC no seu lançador para enviá-lo para nós.</string>
+    <string name="send">Enviar</string>
+    <string name="send_crash_action_title">O que quer fazer?</string>
+    <string name="report_a_bug">Reportar um bug</string>
+    <string name="report_a_crash">Reportar um crash</string>
+    <string name="describe_crash">Por favor descreva como essa falha aconteceu</string>
+    <string name="favorite">Favorito</string>
 </resources>
