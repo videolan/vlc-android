@@ -36,7 +36,7 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
 
 abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) : HeaderProvider(),
-        ISortModel
+        SortModule
 {
     private val settings = Settings.getInstance(context)
     protected val medialibrary = AbstractMedialibrary.getInstance()

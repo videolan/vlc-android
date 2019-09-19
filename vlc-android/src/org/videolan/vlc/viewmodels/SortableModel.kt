@@ -2,12 +2,12 @@ package org.videolan.vlc.viewmodels
 
 import android.content.Context
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.vlc.util.ISortModel
 import org.videolan.vlc.util.RefreshModel
 import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.SortModule
 
 abstract class SortableModel(protected val context: Context): ScopedModel(), RefreshModel,
-    ISortModel
+    SortModule
 {
     private val settings = Settings.getInstance(context)
     protected open val sortKey : String = this.javaClass.simpleName
