@@ -52,7 +52,6 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         }
         super.onCreate(savedInstanceState)
         findPreference<Preference>("ui_audio_category")?.isVisible = false
-        findPreference<Preference>(FORCE_LIST_PORTRAIT)?.isVisible = false
         findPreference<Preference>(PREF_TV_UI)?.isVisible = AndroidDevices.hasTsp
         findPreference<Preference>(KEY_APP_THEME)?.isVisible = false
         prepareLocaleList()

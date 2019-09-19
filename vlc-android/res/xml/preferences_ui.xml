@@ -52,12 +52,6 @@
                 android:title="@string/force_play_all_title"/>
         <CheckBoxPreference
                 app:singleLineTitle="false"
-                android:defaultValue="false"
-                android:key="force_list_portrait"
-                android:summary="@string/force_list_portrait_summary"
-                android:title="@string/force_list_portrait"/>
-        <CheckBoxPreference
-                app:singleLineTitle="false"
                 android:defaultValue="true"
                 android:key="show_video_thumbnails"
                 android:summary="@string/show_video_thumbnails_summary"

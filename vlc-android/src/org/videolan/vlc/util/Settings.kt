@@ -35,7 +35,6 @@ const val KEY_APP_THEME = "app_theme"
 const val KEY_BLACK_THEME = "enable_black_theme"
 const val KEY_DAYNIGHT = "daynight"
 const val SHOW_VIDEO_THUMBNAILS = "show_video_thumbnails"
-const val FORCE_LIST_PORTRAIT = "force_list_portrait"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"

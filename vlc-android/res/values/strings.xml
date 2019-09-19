@@ -324,8 +324,6 @@
     <string name="video_transition_summary">Show new video title on transition</string>
     <string name="media_seen">Show seen video marker</string>
     <string name="media_seen_summary">Mark a video as seen when you play it until the end</string>
-    <string name="force_list_portrait">No grid in portrait mode</string>
-    <string name="force_list_portrait_summary">Show videos in list instead of grid in portrait mode</string>
     <string name="force_play_all_summary">Play all videos, starting with the one you clicked on</string>
     <string name="force_play_all_title">Video playlist mode</string>
     <string name="save_brightness_summary">Remember brightness level in video player</string>

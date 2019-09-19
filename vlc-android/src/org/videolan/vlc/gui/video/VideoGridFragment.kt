@@ -22,7 +22,6 @@ package org.videolan.vlc.gui.video
 
 import android.annotation.TargetApi
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -78,7 +77,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private lateinit var binding: VideoGridBinding
     private var gridItemDecoration: RecyclerView.ItemDecoration? = null
 
-
     class VideoGridFragmentHandler(private val videoGridFragment: WeakReference<VideoGridFragment>) : Handler() {
 
         override fun handleMessage(msg: Message?) {
@@ -104,7 +102,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(this, seenMarkVisible)
             multiSelectHelper = videoListAdapter.multiSelectHelper
-            val folder = if (savedInstanceState != null ) savedInstanceState.getParcelable<AbstractFolder>(KEY_FOLDER)
+            val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<AbstractFolder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
             viewModel = getViewModel(folder)
             viewModel.provider.pagedList.observe(this, this)
@@ -122,12 +120,21 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_last_playlist).isVisible = true
         menu.findItem(R.id.ml_menu_video_group).isVisible = true
+        val displayInCards = Settings.getInstance(requireActivity()).getBoolean("video_display_in_cards", true)
+        menu.findItem(R.id.ml_menu_display_grid).isVisible = displayInCards
+        menu.findItem(R.id.ml_menu_display_list).isVisible = !displayInCards
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.ml_menu_last_playlist -> {
                 MediaUtils.loadlastPlaylist(activity, PLAYLIST_TYPE_VIDEO)
+                true
+            }
+            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
+                val displayInCards = Settings.getInstance(requireActivity()).getBoolean("video_display_in_cards", true)
+                Settings.getInstance(requireActivity()).edit().putBoolean("video_display_in_cards", !displayInCards).apply()
+                (activity as MainActivity).forceLoadVideoFragment()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -201,7 +208,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val res = resources
         if (gridItemDecoration == null)
             gridItemDecoration = ItemOffsetDecoration(resources, R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin)
-        val listMode = res.getBoolean(R.bool.list_mode) || res.configuration.orientation == Configuration.ORIENTATION_PORTRAIT && Settings.getInstance(requireContext()).getBoolean(FORCE_LIST_PORTRAIT, false)
+        val listMode = Settings.getInstance(requireContext()).getBoolean("video_display_in_cards", false)
 
         // Select between grid or list
         binding.videoGrid.removeItemDecoration(gridItemDecoration!!)
@@ -216,7 +223,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         binding.videoGrid.setNumColumns(if (listMode) 1 else -1)
         if (videoListAdapter.isListMode != listMode) videoListAdapter.isListMode = listMode
     }
-
 
     private fun playVideo(media: AbstractMediaWrapper, fromStart: Boolean) {
         media.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
@@ -336,7 +342,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         return true
     }
 
-
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
@@ -347,7 +352,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (actionMode == null)
             showContext(requireActivity(), this, position, item.getTitle(), flags)
     }
-
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
 
