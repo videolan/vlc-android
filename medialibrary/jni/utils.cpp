@@ -1,17 +1,5 @@
 
 #include "utils.h"
-#include <medialibrary/IAlbumTrack.h>
-#include <medialibrary/IVideoTrack.h>
-#include <medialibrary/IFile.h>
-#include <medialibrary/IMedia.h>
-#include <medialibrary/IArtist.h>
-#include <medialibrary/IGenre.h>
-#include <medialibrary/IAlbum.h>
-#include <medialibrary/IPlaylist.h>
-#include <medialibrary/IFolder.h>
-#include <medialibrary/IMediaLibrary.h>
-#include <medialibrary/IMetadata.h>
-#include<medialibrary/filesystem/IDevice.h>
 #define LOG_TAG "VLC/JNI/Utils"
 #include "log.h"
 
@@ -167,6 +155,16 @@ convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& 
                           (jlong) folderPtr->id(), name, mrl);
     env->DeleteLocalRef(name);
     env->DeleteLocalRef(mrl);
+    return item;
+}
+
+jobject
+convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::VideoGroupPtr const& videogroupPtr)
+{
+    jstring name = env->NewStringUTF(videogroupPtr->name().c_str());
+    jobject item = env->NewObject(fields->VideoGroup.clazz, fields->VideoGroup.initID,
+                          name, (jint)videogroupPtr->count());
+    env->DeleteLocalRef(name);
     return item;
 }
 

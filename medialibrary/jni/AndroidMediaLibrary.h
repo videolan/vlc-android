@@ -11,12 +11,12 @@
 #include "AndroidDeviceLister.h"
 #include "utils.h"
 
-
 #include <medialibrary/IAlbum.h>
 #include <medialibrary/IArtist.h>
 #include <medialibrary/IGenre.h>
 #include <medialibrary/IPlaylist.h>
 #include <medialibrary/IFolder.h>
+#include <medialibrary/IVideoGroup.h>
 #include <medialibrary/Types.h>
 #include <medialibrary/IDeviceLister.h>
 #include <medialibrary/IMedia.h>
@@ -79,6 +79,7 @@ public:
     medialibrary::MediaPtr addStream(const std::string& mrl, const std::string& title);
     medialibrary::Query<medialibrary::IMedia> videoFiles( const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IMedia> audioFiles( const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IVideoGroup> videoGroups( const medialibrary::QueryParameters* params );
     medialibrary::Query<medialibrary::IAlbum> albums(const medialibrary::QueryParameters* params);
     medialibrary::AlbumPtr album(int64_t albumId);
     medialibrary::Query<medialibrary::IArtist> artists(bool includeAll, const medialibrary::QueryParameters* params);
@@ -99,6 +100,10 @@ public:
     medialibrary::Query<medialibrary::IMedia> mediaFromFolder(int64_t folderId, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IFolder> folders(const medialibrary::QueryParameters* params = nullptr, medialibrary::IMedia::Type type = medialibrary::IMedia::Type::Unknown );
     medialibrary::Query<medialibrary::IFolder> subFolders(int64_t folderId, const medialibrary::QueryParameters* params = nullptr );
+    // VideoGroups
+    void setVideoGroupsPrefixLength( uint32_t prefixLength );
+    medialibrary::Query<medialibrary::IMedia> mediaFromVideoGroup(const std::string& name, const medialibrary::QueryParameters* params );
+    medialibrary::Query<medialibrary::IMedia> searchFromVideoGroup( const std::string& name, const std::string& query, const medialibrary::QueryParameters* params );
     //PLaylists
     bool playlistAppend(int64_t playlistId, int64_t mediaId);
     bool playlistAdd(int64_t playlistId, int64_t mediaId, unsigned int position);

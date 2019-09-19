@@ -510,6 +510,32 @@ medialibrary::Query<medialibrary::IFolder> AndroidMediaLibrary::subFolders(int64
     return folder != nullptr ? folder->subfolders(params) : nullptr;
 }
 
+medialibrary::Query<medialibrary::IVideoGroup>
+AndroidMediaLibrary::videoGroups( const medialibrary::QueryParameters* params )
+{
+    return p_ml->videoGroups(params);
+}
+
+void
+AndroidMediaLibrary::setVideoGroupsPrefixLength( uint32_t prefixLength )
+{
+    p_ml->setVideoGroupsPrefixLength(prefixLength);
+}
+
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::mediaFromVideoGroup(const std::string& name, const medialibrary::QueryParameters* params )
+{
+    medialibrary::VideoGroupPtr group = p_ml->videoGroup(name);
+    return group != nullptr ? group->media(params) : nullptr;
+}
+
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::searchFromVideoGroup( const std::string& name, const std::string& query, const medialibrary::QueryParameters* params )
+{
+    auto group = p_ml->videoGroup(name);
+    return group == nullptr ? nullptr : group->searchMedia(query, params);
+}
+
 void
 AndroidMediaLibrary::requestThumbnail( int64_t media_id, medialibrary::ThumbnailSizeType sizeType, uint32_t desiredWidth,
                                        uint32_t desiredHeight, float position )

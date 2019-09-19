@@ -22,6 +22,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.io.File;
@@ -599,6 +600,9 @@ abstract public class AbstractMedialibrary {
     abstract public AbstractMediaWrapper[] getRecentAudio();
     abstract public int getVideoCount();
     abstract public int getAudioCount();
+    abstract public AbstractVideoGroup[] getVideoGroups(int sort, boolean desc, int nbItems, int offset);
+    abstract public int getVideoGroupsCount();
+    abstract public void setVideoGroupsPrefixLength(int lenght);
     abstract public AbstractAlbum[] getAlbums();
     abstract public AbstractAlbum[] getAlbums(int sort, boolean desc);
     abstract public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
