@@ -51,7 +51,7 @@ const val TAG = "VLC/BrowserProvider"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private val showHiddenFiles: Boolean) : CoroutineScope, HeaderProvider() {
+abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private var showHiddenFiles: Boolean) : CoroutineScope, HeaderProvider() {
 
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     val loading = MutableLiveData<Boolean>().apply { value = false }
@@ -61,7 +61,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     private var discoveryJob : Job? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
-    private val showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
+    private var showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = AbstractMedialibrary.getInstance()
@@ -283,6 +283,16 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     open fun release() {
         cancel()
         if (url != null) loading.postValue(false)
+    }
+
+    fun updateShowAllFiles(value: Boolean) {
+        showAll = value
+        refresh()
+    }
+
+    fun updateShowHiddenFiles(value: Boolean) {
+        showHiddenFiles = value
+        refresh()
     }
 
     protected fun getList(url: String) =  prefetchLists[url]

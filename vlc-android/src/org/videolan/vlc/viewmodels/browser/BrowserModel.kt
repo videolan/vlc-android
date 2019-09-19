@@ -80,6 +80,14 @@ open class BrowserModel(context: Context, val url: String?, type: Long, showHidd
         super.onCleared()
     }
 
+    fun updateShowAllFiles(value: Boolean) {
+        provider.updateShowAllFiles(value)
+    }
+
+    fun updateShowHiddenFiles(value: Boolean) {
+        provider.updateShowHiddenFiles(value)
+    }
+
     fun addCustomDirectory(path: String) = DirectoryRepository.getInstance(context).addCustomDirectory(path)
 
     fun deleteCustomDirectory(path: String) = DirectoryRepository.getInstance(context).deleteCustomDirectory(path)

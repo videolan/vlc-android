@@ -121,4 +121,26 @@
             android:visible="false"
             android:icon="@android:drawable/ic_menu_close_clear_cancel"
             android:id="@+id/search_clear_history"/>
+
+    <item
+            android:orderInCategory="3"
+            android:title="@string/browser_show_all_title"
+            android:visible="false"
+            android:checkable="true"
+            vlc:showAsAction="never"
+            android:id="@+id/browser_show_all_files" />
+    <item
+            android:orderInCategory="3"
+            android:title="@string/browser_show_hidden_files_title"
+            android:visible="false"
+            android:checkable="true"
+            vlc:showAsAction="never"
+            android:id="@+id/browser_show_hidden_files" />
+    <item
+            android:orderInCategory="3"
+            android:title="@string/artists_show_all_title"
+            android:visible="false"
+            android:checkable="true"
+            vlc:showAsAction="never"
+            android:id="@+id/artists_show_all_title" />
 </menu>

@@ -111,6 +111,15 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_filter)?.isVisible = enableSearchOption()
         menu.findItem(R.id.ml_menu_sortby)?.isVisible = !isRootDirectory
+        val browserShowAllFiles = menu.findItem(R.id.browser_show_all_files)
+        browserShowAllFiles.isVisible = true
+        browserShowAllFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", true)
+
+        val browserShowHiddenFiles = menu.findItem(R.id.browser_show_hidden_files)
+        browserShowHiddenFiles.isVisible = true
+        browserShowHiddenFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_hidden_files", true)
+
+
     }
 
     protected open fun defineIsRoot() = mrl == null
@@ -370,6 +379,18 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             R.id.ml_menu_save -> {
                 toggleFavorite()
                 menu?.let { onPrepareOptionsMenu(it) }
+                true
+            }
+            R.id.browser_show_all_files -> {
+                item.isChecked = !Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", true)
+                Settings.getInstance(requireActivity()).edit().putBoolean("browser_show_all_files", item.isChecked).apply()
+                viewModel.updateShowAllFiles(item.isChecked)
+                true
+            }
+            R.id.browser_show_hidden_files -> {
+                item.isChecked = !Settings.getInstance(requireActivity()).getBoolean("browser_show_hidden_files", true)
+                Settings.getInstance(requireActivity()).edit().putBoolean("browser_show_hidden_files", item.isChecked).apply()
+                viewModel.updateShowHiddenFiles(item.isChecked)
                 true
             }
             else -> super.onOptionsItemSelected(item)

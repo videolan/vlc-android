@@ -343,7 +343,6 @@
     <string name="popup_keepscreen_title">Keep screen ON in Pop-Up mode</string>
     <string name="popup_keepscreen_summary">Always keep screen ON while Pop-Up is displayed, even if video is paused.</string>
     <string name="browser_show_hidden_files_title">Show hidden files</string>
-    <string name="browser_show_hidden_files_summary">Show hidden files in browsers</string>
 
     <string name="subtitles_prefs_category">Subtitles</string>
     <string name="subtitles_size_title">Subtitles Size</string>
@@ -403,7 +402,6 @@
     <string name="cast_performance_warning">Casting this video requires conversion. This conversion can use all the available power and could quickly drain your battery.</string>
     <string name="casting_connected_renderer">Connected to renderer \'%1$s\'</string>
     <string name="artists_show_all_title">Show all artists</string>
-    <string name="artists_show_all_summary">Show all artists in Artists listing, not only album artists</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_enable_category">Chose extensions to enable</string>
@@ -455,8 +453,7 @@
     <string name="restart_message">Changes will take effect once application has restarted.\n\nRestart now?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Later</string>
-    <string name="browser_show_all_title">Show all files in browser</string>
-    <string name="browser_show_all_summary">Display files that are not recognized as audio or video in browsers</string>
+    <string name="browser_show_all_title">Show all files</string>
 
     <string name="developer_prefs_category">Developer</string>
     <string name="enable_verbose_mode">Verbose</string>

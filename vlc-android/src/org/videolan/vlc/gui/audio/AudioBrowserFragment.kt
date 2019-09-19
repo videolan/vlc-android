@@ -256,6 +256,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
             menu.findItem(R.id.ml_menu_display_grid).isVisible = currentTab in 0..2 && !viewModel.providersInCard[currentTab]
             menu.findItem(R.id.ml_menu_display_list).isVisible = currentTab in 0..2 && viewModel.providersInCard[currentTab]
+            val showAllArtistsItem = menu.findItem(R.id.artists_show_all_title)
+            showAllArtistsItem.isVisible = currentTab == 0
+            showAllArtistsItem.isChecked = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
         }
         sortMenuTitles()
     }
@@ -268,6 +271,13 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
                 lists[currentTab].adapter = adapters[currentTab]
                 activity?.invalidateOptionsMenu()
                 Settings.getInstance(requireActivity()).edit().putBoolean(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid).apply()
+                true
+            }
+            R.id.artists_show_all_title -> {
+                item.isChecked = !Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, true)
+                Settings.getInstance(requireActivity()).edit().putBoolean(KEY_ARTISTS_SHOW_ALL, item.isChecked).apply()
+                viewModel.artistsProvider.showAll = item.isChecked
+                viewModel.refresh()
                 true
             }
             else -> super.onOptionsItemSelected(item)

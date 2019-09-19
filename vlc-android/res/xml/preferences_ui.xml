@@ -24,12 +24,6 @@
             android:key="set_locale"
             android:title="@string/set_locale"/>
 
-    <CheckBoxPreference
-            app:singleLineTitle="false"
-            android:defaultValue="true"
-            android:key="browser_show_all_files"
-            android:summary="@string/browser_show_all_summary"
-            android:title="@string/browser_show_all_title"/>
 
     <ListPreference
             android:defaultValue="0"
@@ -93,11 +87,5 @@
                 android:key="lockscreen_cover"
                 android:summary="@string/lockscreen_cover_summary"
                 android:title="@string/lockscreen_cover_title"/>
-        <CheckBoxPreference
-                app:singleLineTitle="false"
-                android:defaultValue="false"
-                android:key="artists_show_all"
-                android:summary="@string/artists_show_all_summary"
-                android:title="@string/artists_show_all_title"/>
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
