@@ -43,7 +43,7 @@ object ModelsHelper {
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
                     val title = item.title
-                    val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || ModelsHelper.isSpecialItem(item)) "#" else title.substring(0, 1).toUpperCase()
+                    val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || item.isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
                     if (currentLetter === null || !TextUtils.equals(currentLetter, letter)) {
                         currentLetter = letter
                         if (array[letter].isNullOrEmpty()) array[letter] = mutableListOf()
@@ -55,8 +55,7 @@ object ModelsHelper {
                 var currentLengthCategory: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val length = ModelsHelper.getLength(item)
-                    val lengthCategory = ModelsHelper.lengthToCategory(length)
+                    val lengthCategory = item.getLength().lengthToCategory()
                     if (currentLengthCategory == null || !TextUtils.equals(currentLengthCategory, lengthCategory)) {
                         currentLengthCategory = lengthCategory
                         if (array[currentLengthCategory].isNullOrEmpty()) array[currentLengthCategory] = mutableListOf()
@@ -68,7 +67,7 @@ object ModelsHelper {
                 var currentYear: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val year = ModelsHelper.getYear(item)
+                    val year = item.getYear()
                     if (currentYear === null || !TextUtils.equals(currentYear, year)) {
                         currentYear = year
                         if (array[currentYear].isNullOrEmpty()) array[currentYear] = mutableListOf()
@@ -106,35 +105,35 @@ object ModelsHelper {
         else array
     }
 
-    fun getFirstLetter(item: MediaLibraryItem): String {
-        return if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
+    fun MediaLibraryItem.getFirstLetter(): String {
+        return if (title.isEmpty() || !Character.isLetter(title[0]) || isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
     }
 
     fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?) = if (context !== null && item != null) when (sort) {
         SORT_DEFAULT,
         SORT_FILENAME,
         SORT_ALPHA -> {
-            val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || ModelsHelper.isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
+            val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || item.isSpecialItem()) "#" else item.title.substring(0, 1).toUpperCase()
             if (aboveItem == null) letter
             else {
-                val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0]) || ModelsHelper.isSpecialItem(aboveItem)) "#" else aboveItem.title.substring(0, 1).toUpperCase()
+                val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0]) || aboveItem.isSpecialItem()) "#" else aboveItem.title.substring(0, 1).toUpperCase()
                 letter.takeIf { it != previous }
             }
         }
         SORT_DURATION -> {
-            val length = getLength(item)
-            val lengthCategory = lengthToCategory(length)
+            val length = item.getLength()
+            val lengthCategory = length.toLong().lengthToCategory()
             if (aboveItem == null) lengthCategory
             else {
-                val previous = lengthToCategory(getLength(aboveItem))
+                val previous = aboveItem.getLength().lengthToCategory()
                 lengthCategory.takeIf { it != previous }
             }
         }
         SORT_RELEASEDATE -> {
-            val year = getYear(item)
+            val year = item.getYear()
             if (aboveItem == null) year
             else {
-                val previous = getYear(aboveItem)
+                val previous = aboveItem.getYear()
                 year.takeIf { it != previous }
             }
         }
@@ -185,42 +184,42 @@ object ModelsHelper {
         else -> context.getString(R.string.time_category_older)
     }
 
-    private fun isSpecialItem(item: MediaLibraryItem) = item.itemType == MediaLibraryItem.TYPE_ARTIST
-            && (item.id == 1L || item.id == 2L) || item.itemType == MediaLibraryItem.TYPE_ALBUM
-            && item.title == AbstractAlbum.SpecialRes.UNKNOWN_ALBUM
+    private fun MediaLibraryItem.isSpecialItem() = itemType == MediaLibraryItem.TYPE_ARTIST
+            && (id == 1L || id == 2L) || itemType == MediaLibraryItem.TYPE_ALBUM
+            && title == AbstractAlbum.SpecialRes.UNKNOWN_ALBUM
 
-    private fun getLength(media: MediaLibraryItem) = when {
-        media.itemType == MediaLibraryItem.TYPE_ALBUM -> (media as AbstractAlbum).duration
-        media.itemType == MediaLibraryItem.TYPE_MEDIA -> (media as AbstractMediaWrapper).length
+    private fun MediaLibraryItem.getLength() = when {
+        itemType == MediaLibraryItem.TYPE_ALBUM -> (this as AbstractAlbum).duration
+        itemType == MediaLibraryItem.TYPE_MEDIA -> (this as AbstractMediaWrapper).length
         else -> 0L
     }
 
-    private fun lengthToCategory(length: Long): String {
+    private fun Long.lengthToCategory(): String {
         val value: Int
-        if (length == 0L) return "-"
-        if (length < 60000) return "< 1 min"
-        if (length < 600000) {
-            value = floor((length / 60000).toDouble()).toInt()
+        if (this == 0L) return "-"
+        if (this < 60000) return "< 1 min"
+        if (this < 600000) {
+            value = floor((this / 60000).toDouble()).toInt()
             return "$value - ${(value + 1)} min"
         }
-        return if (length < 3600000) {
-            value = (10 * floor((length / 600000).toDouble())).toInt()
+        return if (this < 3600000) {
+            value = (10 * floor((this / 600000).toDouble())).toInt()
             "$value - ${(value + 10)} min"
         } else {
-            value = floor((length / 3600000).toDouble()).toInt()
+            value = floor((this / 3600000).toDouble()).toInt()
             "$value - ${(value + 1)} h"
         }
     }
 
-    private fun getYear(media: MediaLibraryItem) = when (media.itemType) {
-        MediaLibraryItem.TYPE_ALBUM -> if ((media as AbstractAlbum).releaseYear == 0) "-" else media.releaseYear.toString()
-        MediaLibraryItem.TYPE_MEDIA -> if ((media as AbstractMediaWrapper).date == null) "-" else media.date
+    private fun MediaLibraryItem.getYear() = when (itemType) {
+        MediaLibraryItem.TYPE_ALBUM -> if ((this as AbstractAlbum).releaseYear == 0) "-" else releaseYear.toString()
+        MediaLibraryItem.TYPE_MEDIA -> if ((this as AbstractMediaWrapper).date == null) "-" else date
         else -> "-"
     }
 
-    fun getTracksCount(media: MediaLibraryItem) = when (media.itemType) {
-        MediaLibraryItem.TYPE_ALBUM -> (media as AbstractAlbum).tracksCount
-        MediaLibraryItem.TYPE_PLAYLIST -> (media as AbstractPlaylist).tracksCount
+    fun MediaLibraryItem.getTracksCount() = when (itemType) {
+        MediaLibraryItem.TYPE_ALBUM -> (this as AbstractAlbum).tracksCount
+        MediaLibraryItem.TYPE_PLAYLIST -> (this as AbstractPlaylist).tracksCount
         else -> 0
     }
 }
