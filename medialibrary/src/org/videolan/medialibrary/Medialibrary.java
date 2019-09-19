@@ -38,6 +38,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.io.File;
@@ -197,12 +198,32 @@ public class Medialibrary extends AbstractMedialibrary {
         return mIsInitiated ? nativeGetRecentAudio() : new AbstractMediaWrapper[0];
     }
 
+    @WorkerThread
     public int getVideoCount() {
         return mIsInitiated ? nativeGetVideoCount() : 0;
     }
 
+    @WorkerThread
     public int getAudioCount() {
         return mIsInitiated ? nativeGetAudioCount() : 0;
+    }
+
+    @Override
+    @WorkerThread
+    public AbstractVideoGroup[] getVideoGroups(int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetVideoGroups(sort, desc, nbItems, offset) : new AbstractVideoGroup[0];
+    }
+
+    @Override
+    @WorkerThread
+    public int getVideoGroupsCount() {
+        return mIsInitiated ? nativeGetVideoGroupsCount() : 0;
+    }
+
+    @Override
+    @WorkerThread
+    public void setVideoGroupsPrefixLength(int lenght) {
+        if (mIsInitiated) nativeSetVideoGroupsPrefixLength(lenght);
     }
 
 
@@ -533,6 +554,9 @@ public class Medialibrary extends AbstractMedialibrary {
     private native AbstractMediaWrapper[] nativeGetRecentAudio();
     private native int nativeGetVideoCount();
     private native int nativeGetAudioCount();
+    private native AbstractVideoGroup[] nativeGetVideoGroups(int sort, boolean desc, int nbItems, int offset);
+    private native int nativeGetVideoGroupsCount();
+    private native void nativeSetVideoGroupsPrefixLength(int length);
     private native AbstractAlbum[] nativeGetAlbums(int sort, boolean desc);
     private native AbstractAlbum[] nativeGetPagedAlbums(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetAlbumsCount();

@@ -12,12 +12,14 @@ import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
+import org.videolan.medialibrary.media.VideoGroup;
 import org.videolan.medialibrary.stubs.StubAlbum;
 import org.videolan.medialibrary.stubs.StubArtist;
 import org.videolan.medialibrary.stubs.StubFolder;
@@ -25,6 +27,7 @@ import org.videolan.medialibrary.stubs.StubGenre;
 import org.videolan.medialibrary.stubs.StubMediaWrapper;
 import org.videolan.medialibrary.stubs.StubMedialibrary;
 import org.videolan.medialibrary.stubs.StubPlaylist;
+import org.videolan.medialibrary.stubs.StubVideoGroup;
 
 public class MLServiceLocator {
 
@@ -178,6 +181,14 @@ public class MLServiceLocator {
             return new Folder(in);
         } else {
             return new StubFolder(in);
+        }
+    }
+
+    public static AbstractVideoGroup getAbstractVideoGroup(Parcel in) {
+        if (sMode == LocatorMode.VLC_ANDROID) {
+            return new VideoGroup(in);
+        } else {
+            return new StubVideoGroup(in);
         }
     }
 

@@ -14,6 +14,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.util.ArrayList;
@@ -125,6 +126,19 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public int getAudioCount() {
         return dt.mAudioMediaWrappers.size();
     }
+
+    @Override
+    public AbstractVideoGroup[] getVideoGroups(int sort, boolean desc, int nbItems, int offset) {
+        return new AbstractVideoGroup[0];
+    }
+
+    @Override
+    public int getVideoGroupsCount() {
+        return 0;
+    }
+
+    @Override
+    public void setVideoGroupsPrefixLength(int lenght) {}
 
     public AbstractAlbum[] getAlbums() {
         return getAlbums(SORT_DEFAULT, false);
