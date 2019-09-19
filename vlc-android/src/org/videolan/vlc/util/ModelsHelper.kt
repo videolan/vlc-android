@@ -235,7 +235,7 @@ interface RefreshModel {
     fun refresh()
 }
 
-interface ISortModel {
+interface SortModule {
     fun sort(sort: Int)
     fun canSortByName() = true
     fun canSortByFileNameName() = false
