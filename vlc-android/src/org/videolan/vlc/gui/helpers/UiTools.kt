@@ -674,12 +674,5 @@ fun BaseActivity.applyTheme() {
         setTheme(R.style.Theme_VLC_Black)
         return
     }
-    if (settings.contains(KEY_APP_THEME)) {
-        AppCompatDelegate.setDefaultNightMode(Integer.valueOf(settings.getString(KEY_APP_THEME, "-1")!!))
-    } else if (settings.contains(KEY_DAYNIGHT) || settings.contains(KEY_BLACK_THEME)) { // legacy support
-        val daynight = settings.getBoolean(KEY_DAYNIGHT, false)
-        val dark = settings.getBoolean(KEY_BLACK_THEME, false)
-        val mode = if (dark) AppCompatDelegate.MODE_NIGHT_YES else if (daynight) AppCompatDelegate.MODE_NIGHT_AUTO else AppCompatDelegate.MODE_NIGHT_NO
-        AppCompatDelegate.setDefaultNightMode(mode)
-    }
+    AppCompatDelegate.setDefaultNightMode(Integer.valueOf(settings.getString(KEY_APP_THEME, "-1")!!))
 }

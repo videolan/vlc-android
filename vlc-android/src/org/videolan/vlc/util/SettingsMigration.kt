@@ -27,6 +27,7 @@ package org.videolan.vlc.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import org.videolan.vlc.BuildConfig
 
 object SettingsMigration {
@@ -43,11 +44,21 @@ object SettingsMigration {
     private fun migrateToVersion3030000(settings: SharedPreferences) {
         Log.i(this::class.java.simpleName, "Migrating preferences to 3030000")
         val editor = settings.edit()
+        //Migrate video Resume confirmation
         val dialogConfirmResume = settings.getBoolean("dialog_confirm_resume", false)
         if (dialogConfirmResume) {
             editor.putString(KEY_VIDEO_CONFIRM_RESUME, "2")
         }
         editor.remove("dialog_confirm_resume")
+        //Migrate apptheme
+        if (!settings.contains(KEY_APP_THEME)) {
+            val daynight = settings.getBoolean("daynight", false)
+            val dark = settings.getBoolean("enable_black_theme", false)
+            val mode = if (dark) AppCompatDelegate.MODE_NIGHT_YES else if (daynight) AppCompatDelegate.MODE_NIGHT_AUTO else AppCompatDelegate.MODE_NIGHT_NO
+            editor.putString(KEY_APP_THEME, mode.toString())
+        }
+        editor.remove("daynight").remove("enable_black_theme")
+
         editor.apply()
     }
 }
