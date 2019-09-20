@@ -442,7 +442,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         switchingView = false
 
-        askResume = settings.getBoolean("dialog_confirm_resume", false)
+        askResume = settings.getString(KEY_VIDEO_CONFIRM_RESUME, "0") == "2"
         sDisplayRemainingTime = settings.getBoolean(KEY_REMAINING_TIME_DISPLAY, false)
         // Clear the resume time, since it is only used for resumes in external
         // videos.
@@ -2291,7 +2291,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         service?.let { service ->
             isPlaying = false
             var title: String? = null
-            var fromStart = false
+            var fromStart = settings.getString(KEY_VIDEO_CONFIRM_RESUME, "0") == "1"
             var itemTitle: String? = null
             var positionInPlaylist = -1
             val intent = intent
@@ -2316,7 +2316,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             if (extras != null) {
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
                     videoUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION)
-                fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, false)
+                fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, false) || settings.getString(KEY_VIDEO_CONFIRM_RESUME, "0") == "1"
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
                 intent.putExtra(PLAY_EXTRA_FROM_START, false)

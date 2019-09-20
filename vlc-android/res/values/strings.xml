@@ -510,8 +510,7 @@
     <string name="chapter">Chapter</string>
     <string name="resume_from_position">Resume from last position</string>
     <string name="confirm_resume">Resume from last position?</string>
-    <string name="confirm_resume_title">Ask confirmation to resume</string>
-    <string name="confirm_resume_summary">if activated you will be asked to confirm when a video can be resumed from last position</string>
+    <string name="confirm_resume_title">Resume played videos</string>
     <string name="directory_empty">Directory is empty</string>
     <string name="tv_ui_title">Android TV interface</string>
     <string name="tv_ui_summary">Change UI to TV adapted theme</string>
@@ -731,6 +730,9 @@
     <string name="report_a_crash">Report a crash</string>
     <string name="describe_crash">Please describe how this crash happened</string>
     <string name="favorite">Favorite</string>
+    <string name="always">Always</string>
+    <string name="never">Never</string>
+    <string name="ask_confirmation">Ask confirmation</string>
     <string name="add_to_scanned">Scan this folder</string>
     <string name="directory_not_scanned">This directory is not scanned</string>
     <string name="scanned_directory_added">%s added to your scanned directories</string>

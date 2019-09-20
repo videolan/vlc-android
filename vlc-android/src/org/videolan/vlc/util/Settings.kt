@@ -29,12 +29,15 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManage
 
 }
 
+const val KEY_CURRENT_SETTINGS_VERSION = "current_settings_version"
+
 // Keys
 const val KEY_ARTISTS_SHOW_ALL = "artists_show_all"
 const val KEY_APP_THEME = "app_theme"
 const val KEY_BLACK_THEME = "enable_black_theme"
 const val KEY_DAYNIGHT = "daynight"
 const val SHOW_VIDEO_THUMBNAILS = "show_video_thumbnails"
+const val KEY_VIDEO_CONFIRM_RESUME = "video_confirm_resume"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
