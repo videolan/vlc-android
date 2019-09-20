@@ -23,10 +23,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum
-import org.videolan.medialibrary.interfaces.media.AbstractFolder
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
+import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -35,6 +32,7 @@ import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
+import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.util.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -201,6 +199,39 @@ object MediaUtils : CoroutineScope {
                         index += pageCount
                     }
                     service.append(appendList)
+                }
+            }
+        }
+    }
+
+    fun playAllTracks(context: Context?, provider: VideoGroupsProvider, position: Int, shuffle: Boolean) {
+        if (context == null) return
+        SuspendDialogCallback(context) { service ->
+            val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
+            fun play(list: List<AbstractMediaWrapper>) {
+                service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+                if (shuffle && !service.isShuffling) service.shuffle()
+            }
+            when (count) {
+                0 -> return@SuspendDialogCallback
+                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
+                    provider.getAll().flatMap {
+                        it.media(AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
+                    }
+                })
+                else -> {
+                    var index = 0
+                    while (index < count) {
+                        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+                        val list = withContext(Dispatchers.IO) {
+                            provider.getPage(pageCount, index).flatMap {
+                                it.media(AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
+                            }
+                        }
+                        if (index == 0) play(list)
+                        else service.append(list)
+                        index += pageCount
+                    }
                 }
             }
         }
@@ -449,6 +480,24 @@ fun AbstractFolder.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: In
         index += pageCount
     }
     return all
+}
+
+@WorkerThread
+fun AbstractVideoGroup.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AbstractMediaWrapper> {
+    var index = 0
+    val count = mediaCount()
+    val all = mutableListOf<AbstractMediaWrapper>()
+    while (index < count) {
+        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+        val list = media(sort, desc, pageCount, index)
+        all.addAll(list)
+        index += pageCount
+    }
+    return all
+}
+
+fun List<AbstractVideoGroup>.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AbstractMediaWrapper> {
+return flatMap { it.getAll(sort, desc) }
 }
 
 fun List<AbstractFolder>.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AbstractMediaWrapper> {

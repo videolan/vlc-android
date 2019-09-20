@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
@@ -78,7 +79,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private var gridItemDecoration: RecyclerView.ItemDecoration? = null
 
     class VideoGridFragmentHandler(private val videoGridFragment: WeakReference<VideoGridFragment>) : Handler() {
-
         override fun handleMessage(msg: Message?) {
             when (msg?.what) {
                 UPDATE_LIST -> {
@@ -104,7 +104,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<AbstractFolder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
-            viewModel = getViewModel(folder)
+            val group = if (savedInstanceState != null ) savedInstanceState.getParcelable<AbstractVideoGroup>(KEY_GROUP)
+            else arguments?.getParcelable(KEY_GROUP)
+            Log.d(TAG, "group ${group?.title}")
+            viewModel = getViewModel(folder, group)
             viewModel.provider.pagedList.observe(this, this)
             viewModel.provider.loading.observe(this, Observer { loading ->
                 if (loading) handler.sendEmptyMessageDelayed(SET_REFRESHING, 300L)
@@ -184,6 +187,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_FOLDER, viewModel.folder)
+        outState.putParcelable(KEY_GROUP, viewModel.group)
     }
 
     override fun onDestroy() {
@@ -196,7 +200,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (list != null) videoListAdapter.submitList(list)
     }
 
-    override fun getTitle() = viewModel.folder?.title ?: getString(R.string.video)
+    override fun getTitle() = viewModel.folder?.title ?: viewModel.group?.title ?: getString(R.string.video)
 
     override fun getMultiHelper(): MultiSelectHelper<VideosViewModel>? = if (::videoListAdapter.isInitialized) videoListAdapter.multiSelectHelper as? MultiSelectHelper<VideosViewModel> else null
 

@@ -44,6 +44,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.KEY_FOLDER
+import org.videolan.vlc.util.KEY_GROUP
 import org.videolan.vlc.util.RESULT_RESCAN
 
 @ExperimentalCoroutinesApi
@@ -125,6 +126,7 @@ class SecondaryActivity : ContentActivity() {
                 fragment = VideoGridFragment().apply {
                     arguments = Bundle(1).apply {
                         putParcelable(KEY_FOLDER, intent.getParcelableExtra<Parcelable>(KEY_FOLDER))
+                        putParcelable(KEY_GROUP, intent.getParcelableExtra<Parcelable>(KEY_GROUP))
                     }
                 }
             }

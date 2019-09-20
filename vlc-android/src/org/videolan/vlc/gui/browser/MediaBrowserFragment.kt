@@ -295,6 +295,11 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
                 (activity as MainActivity).forceLoadVideoFragment()
                 return true
             }
+            R.id.video_min_group_length_name -> {
+                Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "6").apply()
+                (activity as MainActivity).forceLoadVideoFragment()
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }

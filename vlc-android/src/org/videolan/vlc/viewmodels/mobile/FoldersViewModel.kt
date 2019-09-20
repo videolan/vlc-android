@@ -21,13 +21,16 @@
 package org.videolan.vlc.viewmodels.mobile
 
 import android.content.Context
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.isStarted
 import org.videolan.vlc.gui.folders.FoldersFragment
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
@@ -54,6 +57,13 @@ class FoldersViewModel(context: Context, val type : Int) : MedialibraryViewModel
     fun playSelection(selection: List<AbstractFolder>) = launch {
         val list = selection.flatMap { it.getAll() }
         MediaUtils.openList(context, list, 0)
+    }
+
+    fun addToPlaylist(activity: FragmentActivity, position: Int) = launch {
+        provider.pagedList.value?.get(position)?.let {
+                val list = withContext(Dispatchers.IO) { it.getAll() }
+                if (activity.isStarted()) UiTools.addToPlaylist(activity, list)
+        }
     }
 
     fun appendSelection(selection: List<AbstractFolder>) = launch {

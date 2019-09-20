@@ -1,4 +1,4 @@
-package org.videolan.vlc.gui.folders
+package org.videolan.vlc.gui.videogroups
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,10 +7,10 @@ import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.folders_fragment.*
+import kotlinx.android.synthetic.main.videogroups_fragment.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
-import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
@@ -23,54 +23,55 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
-import org.videolan.vlc.viewmodels.mobile.FoldersViewModel
+import org.videolan.vlc.viewmodels.mobile.VideogroupsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
-@ExperimentalCoroutinesApi
+
 @ObsoleteCoroutinesApi
-class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionReceiver {
+@ExperimentalCoroutinesApi
+class VideoGroupsFragment : MediaBrowserFragment<VideogroupsViewModel>(), CtxActionReceiver {
 
-    private lateinit var adapter: FoldersAdapter
+    private lateinit var adapter: VideoGroupsAdapter
 
-    private val actor = actor<FolderAction> {
+    private val actor = actor<VideoGroupAction> {
         for (action in channel) when(action) {
-            is FolderClick -> {
+            is VideoGroupClick -> {
                 if (actionMode != null) {
                     adapter.multiSelectHelper.toggleSelection(action.position)
                     invalidateActionMode()
                 } else {
                     val i = Intent(activity, SecondaryActivity::class.java)
                     i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
-                    i.putExtra(KEY_FOLDER, action.folder)
+                    i.putExtra(KEY_GROUP, action.group)
                     activity?.startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
                 }
             }
-            is FolderLongClick -> {
+            is VideoGroupLongClick -> {
                 adapter.multiSelectHelper.toggleSelection(action.position, true)
                 if (actionMode == null) {
                     startActionMode()
                 }
             }
-            is FolderCtxClick -> {
-                showContext(requireActivity(), this@FoldersFragment, action.position, action.folder.title, CTX_FOLDER_FLAGS)
+            is VideoGroupCtxClick -> {
+                showContext(requireActivity(), this@VideoGroupsFragment, action.position, action.group.title, CTX_FOLDER_FLAGS)
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = FoldersAdapter(actor)
+        adapter = VideoGroupsAdapter(actor)
         viewModel = getViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.folders_fragment, container, false)
+        return inflater.inflate(R.layout.videogroups_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        folders_list.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
-        folders_list.adapter = adapter
+        groups_list.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
+        groups_list.adapter = adapter
         swipeRefreshLayout.setOnRefreshListener { activity?.reloadLibrary() }
         viewModel.provider.pagedList.observe(requireActivity(), Observer {
             swipeRefreshLayout.isRefreshing = false
@@ -85,10 +86,9 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
     }
 
+    override fun getTitle() = getString(R.string.video)
 
-    override fun getTitle(): String = getString(R.string.video)
-
-    override fun getMultiHelper(): MultiSelectHelper<FoldersViewModel>? = if (::adapter.isInitialized) adapter.multiSelectHelper as? MultiSelectHelper<FoldersViewModel> else null
+    override fun getMultiHelper(): MultiSelectHelper<VideogroupsViewModel>? = if (::adapter.isInitialized) adapter.multiSelectHelper as? MultiSelectHelper<VideogroupsViewModel> else null
 
     override fun onRefresh() = viewModel.refresh()
 
@@ -98,29 +98,25 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         menu.findItem(R.id.ml_menu_video_group).isVisible = true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.ml_menu_last_playlist -> {
-            MediaUtils.loadlastPlaylist(activity, PLAYLIST_TYPE_VIDEO)
-            true
+    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem): Boolean {
+        val selection = adapter.multiSelectHelper.getSelection()
+        when (item.itemId) {
+            R.id.action_folder_play -> viewModel.playSelection(selection)
+            R.id.action_folder_append -> viewModel.appendSelection(selection)
+            R.id.action_folder_add_playlist -> launch { UiTools.addToPlaylist(requireActivity(), withContext(Dispatchers.Default) { selection.getAll() }) }
+            else -> return false
         }
-        else -> super.onOptionsItemSelected(item)
+        stopActionMode()
+        return true
     }
 
-    override fun onCtxAction(position: Int, option: Int) {
-        when (option) {
-            CTX_PLAY -> launch { viewModel.play(position) }
-            CTX_APPEND -> launch { viewModel.append(position) }
-            CTX_ADD_TO_PLAYLIST -> viewModel.addToPlaylist(requireActivity(), position)
-        }
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        mode?.apply { menuInflater.inflate(R.menu.action_mode_folder, menu) }
+        return true
     }
 
     override fun onFabPlayClick(view: View) {
         MediaUtils.playAllTracks(context, viewModel.provider, 0, false)
-    }
-
-    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) : Boolean {
-        mode?.apply { menuInflater.inflate(R.menu.action_mode_folder, menu) }
-        return true
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -133,25 +129,21 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         return true
     }
 
-    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem) : Boolean {
-        val selection = adapter.multiSelectHelper.getSelection()
-        when (item.itemId) {
-            R.id.action_folder_play -> viewModel.playSelection(selection)
-            R.id.action_folder_append -> viewModel.appendSelection(selection)
-            R.id.action_folder_add_playlist -> launch { UiTools.addToPlaylist(requireActivity(), withContext(Dispatchers.Default) { selection.getAll() }) }
-            else -> return false
-        }
-        stopActionMode()
-        return true
-    }
-
     override fun onDestroyActionMode(mode: ActionMode?) {
         actionMode = null
         adapter.multiSelectHelper.clearSelection()
     }
+
+    override fun onCtxAction(position: Int, option: Int) {
+        when (option) {
+            CTX_PLAY -> viewModel.play(position)
+            CTX_APPEND -> viewModel.append(position)
+            CTX_ADD_TO_PLAYLIST -> viewModel.addToPlaylist(requireActivity(), position)
+        }
+    }
 }
 
-sealed class FolderAction
-class FolderClick(val position: Int, val folder: AbstractFolder) : FolderAction()
-class FolderLongClick(val position: Int, val folder: AbstractFolder) : FolderAction()
-class FolderCtxClick(val position: Int, val folder: AbstractFolder) : FolderAction()
+sealed class VideoGroupAction
+class VideoGroupClick(val position: Int, val group: AbstractVideoGroup) : VideoGroupAction()
+class VideoGroupLongClick(val position: Int, val group: AbstractVideoGroup) : VideoGroupAction()
+class VideoGroupCtxClick(val position: Int, val group: AbstractVideoGroup) : VideoGroupAction()

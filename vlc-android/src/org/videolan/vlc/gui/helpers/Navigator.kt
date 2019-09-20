@@ -58,6 +58,7 @@ import org.videolan.vlc.gui.folders.FoldersFragment
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoGridFragment
+import org.videolan.vlc.gui.videogroups.VideoGroupsFragment
 import org.videolan.vlc.gui.view.HackyDrawerLayout
 import org.videolan.vlc.util.*
 
@@ -142,8 +143,11 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
             R.id.nav_mrl -> MRLPanelFragment()
             else -> {
                 val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "6")!!)
-                if (group == 0) FoldersFragment()
-                else VideoGridFragment()
+                when {
+                    group > 0 -> VideoGroupsFragment()
+                    group == 0 -> FoldersFragment()
+                    else -> VideoGridFragment()
+                }
             }
         }
     }

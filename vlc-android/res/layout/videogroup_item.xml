@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <data>
+        <variable
+            name="group"
+            type="org.videolan.medialibrary.interfaces.media.AbstractVideoGroup" />
+
+        <variable
+            name="bgColor"
+            type="int" />
+
+        <variable
+            name="cover"
+            type="android.graphics.drawable.BitmapDrawable" />
+
+        <variable
+            name="holder"
+            type="org.videolan.vlc.gui.videogroups.VideoGroupsAdapter.ViewHolder" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:background="@{bgColor}"
+        android:onClick="@{holder::onClick}" >
+
+        <ImageView
+            android:id="@+id/folder_image"
+            android:layout_width="128dp"
+            android:layout_height="80dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:media="@{group}"
+            android:scaleType="centerCrop"
+            android:src="@{cover}" />
+
+        <TextView
+                android:id="@+id/folder_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/group_desc"
+                app:layout_constraintEnd_toStartOf="@+id/folder_more"
+                app:layout_constraintStart_toEndOf="@+id/folder_image"
+                app:layout_constraintTop_toTopOf="@+id/folder_image"
+                app:layout_constraintVertical_chainStyle="packed"
+                android:text="@{group.title}"
+                app:ellipsizeMode="@{true}"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:textColor="?attr/list_title"
+                android:textSize="16sp"
+                android:lineSpacingMultiplier="1.1"/>
+
+        <TextView
+            android:id="@+id/group_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/folder_image"
+            app:layout_constraintEnd_toStartOf="@+id/folder_more"
+            app:layout_constraintStart_toEndOf="@+id/folder_image"
+            app:layout_constraintTop_toBottomOf="@+id/folder_name"
+            tools:text="Description"
+            android:maxLines="1"
+            android:textColor="?attr/list_subtitle"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/folder_more"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="true"
+            android:contentDescription="@string/more_actions"
+            android:onClick="@{holder::onCtxClick}"
+            android:scaleType="center"
+            android:src="@drawable/ic_more" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

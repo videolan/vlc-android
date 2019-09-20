@@ -69,10 +69,10 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
         updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding)
         return
     }
-    val isGroup = isMedia && (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_GROUP
+    val isGroup = isMedia && item.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
     val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER
     val cacheKey = when {
-        isGroup -> "group:${item.title}"
+        isGroup -> "videogroup:${item.title}"
         isFolder -> "folder:${item.title}"
         else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item)
     }
@@ -80,7 +80,7 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
     if (bitmap !== null) updateImageView(bitmap, v, binding)
     else {
         val scope = (v.context as? CoroutineScope) ?: AppScope
-        scope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding, imageWidth) }
+        scope.launch { getImage(v, findInLibrary(item, isMedia), binding, imageWidth) }
     }
 }
 
@@ -275,8 +275,8 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, update
     }
 }
 
-private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean, isGroup: Boolean): MediaLibraryItem {
-    if (isMedia && !isGroup && item.id == 0L) {
+private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean): MediaLibraryItem {
+    if (isMedia && item.id == 0L) {
         val mw = item as AbstractMediaWrapper
         val type = mw.type
         val isMediaFile = type == AbstractMediaWrapper.TYPE_AUDIO || type == AbstractMediaWrapper.TYPE_VIDEO
