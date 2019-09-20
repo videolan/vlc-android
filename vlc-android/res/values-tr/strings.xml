@@ -46,8 +46,8 @@
     <string name="insert_next">Sonrakini ekle</string>
     <string name="play_all">Tümünü oynat</string>
     <string name="append_all">Tümünü ekle</string>
-    <string name="last_playlist">Oynatmayı sürdür</string>
-    <string name="last_playlist_shortcut">Son oynatma listesini oynatmayı sürdürür</string>
+    <string name="resume_playback">Oynatmayı sürdür</string>
+    <string name="resume_playback_long_shortcut">Son oynatma listesini oynatmayı sürdürür</string>
     <string name="delete">Sil</string>
     <string name="remove">Kaldır</string>
     <string name="set_song">Zil sesi olarak ayarla</string>
@@ -294,7 +294,6 @@
 
     <string name="video_prefs_category">Görüntü</string>
     <string name="video_min_group_length_title">Görüntüler gruplansın</string>
-    <string name="video_min_group_length_summary">İlk harfi aynı olan görüntüleri gruplar.</string>
     <string name="video_min_group_length_disable">Devre dışı bırak</string>
     <string name="video_min_group_length_folder">Klasöre göre grupla</string>
     <string name="video_min_group_length_first">Yalnız ilk harf</string>
@@ -355,8 +354,6 @@
     <string name="list_title_ellipsize_right">Sağda</string>
     <string name="list_title_ellipsize_middle">Ortada</string>
     <string name="list_title_ellipsize_marquee">Marka</string>
-    <string name="audio_save_repeat_title">Yineleme kipi kaydedilsin</string>
-    <string name="audio_save_repeat_summary">Bu seçenek etkinleştirildiğinde, ses oynatma listeleri yüklenirken yineleme kipi hatırlanır</string>
     <string name="audio_boost_title">Ses güçlendirmesi</string>
     <string name="audio_boost_summary">Ses %200 arttırılabilsin</string>
     <string name="headset_prefs_category">Kulaklık</string>
