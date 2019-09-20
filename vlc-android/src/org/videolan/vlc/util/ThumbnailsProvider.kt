@@ -17,6 +17,7 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary.MEDIALIB_FOLDER_NAME
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
@@ -43,7 +44,13 @@ object ThumbnailsProvider {
     @WorkerThread
     fun getFolderThumbnail(folder: AbstractFolder, width: Int): Bitmap? {
         val media = folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, AbstractMedialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
-        return getComposedImage("folder:" + folder.title, media, width)
+        return getComposedImage("folder:${folder.title}", media, width)
+    }
+
+    @WorkerThread
+    fun getVideoGroupThumbnail(group: AbstractVideoGroup, width: Int): Bitmap? {
+        val media = group.media(AbstractMedialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
+        return getComposedImage("videogroup:${group.title}", media, width)
     }
 
     @WorkerThread
@@ -164,6 +171,7 @@ object ThumbnailsProvider {
         when (item) {
             is AbstractMediaWrapper -> getMediaThumbnail(item, width)
             is AbstractFolder -> getFolderThumbnail(item, width)
+            is AbstractVideoGroup -> getVideoGroupThumbnail(item, width)
             else -> readCoverBitmap(Uri.decode(item.artworkMrl), width)
         }
     }

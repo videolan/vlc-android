@@ -16,6 +16,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.vlc.R
 import org.videolan.vlc.databinding.FolderItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.util.UPDATE_SELECTION
@@ -38,7 +39,7 @@ class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<Ab
         launch {
             val count = withContext(Dispatchers.IO) { folder?.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) ?: 0 }
             holder.binding.folderDesc.visibility = if (count == 0) View.GONE else View.VISIBLE
-            if (count > 0) holder.binding.folderDesc.text = "$count videos"
+            if (count > 0) holder.binding.folderDesc.text = holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count)
         }
     }
 

@@ -315,6 +315,7 @@
     <string name="video_min_group_length_title">Group videos</string>
     <string name="video_min_group_length_disable">Disable</string>
     <string name="video_min_group_length_folder">Group by folder</string>
+    <string name="video_min_group_length_name">Group by name</string>
     <string name="video_min_group_length_first">First letter only</string>
     <string name="video_min_group_length_short">Short number of letters (6)</string>
     <string name="video_min_group_length_long">Long number of letters (9)</string>

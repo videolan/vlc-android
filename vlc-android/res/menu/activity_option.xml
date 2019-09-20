@@ -101,6 +101,10 @@
                     android:orderInCategory="2"
                     android:id="@+id/video_min_group_length_folder"
                     android:title="@string/video_min_group_length_folder" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/video_min_group_length_name"
+                    android:title="@string/video_min_group_length_name" />
         </menu>
     </item>
     <item

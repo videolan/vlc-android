@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -34,23 +35,23 @@ import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
-class VideosViewModel(context: Context, val folder: AbstractFolder?) : MedialibraryViewModel(context) {
+class VideosViewModel(context: Context, val folder: AbstractFolder?, val group: AbstractVideoGroup?) : MedialibraryViewModel(context) {
 
-    val provider = VideosProvider(folder, context, this)
+    val provider = VideosProvider(folder, group, context, this)
     override val providers: Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
     init {
         watchMedia()
     }
 
-    class Factory(val context: Context, val folder: AbstractFolder?): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val folder: AbstractFolder?, val group: AbstractVideoGroup?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return VideosViewModel(context.applicationContext, folder) as T
+            return VideosViewModel(context.applicationContext, folder, group) as T
         }
     }
 }
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-internal fun VideoGridFragment.getViewModel(folder: AbstractFolder?) = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), folder)).get(VideosViewModel::class.java)
+internal fun VideoGridFragment.getViewModel(folder: AbstractFolder?, group: AbstractVideoGroup?) = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), folder, group)).get(VideosViewModel::class.java)
