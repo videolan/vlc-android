@@ -45,8 +45,8 @@
     <string name="insert_next">次に挿入</string>
     <string name="play_all">すべて再生</string>
     <string name="append_all">すべて追加</string>
-    <string name="last_playlist">再生を再開</string>
-    <string name="last_playlist_shortcut">プレイリストの最後から再生を再開する</string>
+    <string name="resume_playback">再生を再開</string>
+    <string name="resume_playback_long_shortcut">プレイリストの最後から再生を再開する</string>
     <string name="delete">削除</string>
     <string name="remove">削除</string>
     <string name="set_song">着信音に設定</string>
@@ -287,7 +287,6 @@
 
     <string name="video_prefs_category">ビデオ</string>
     <string name="video_min_group_length_title">ビデオをグループ化</string>
-    <string name="video_min_group_length_summary">最初の一文字が同じ場合、ビデオがグループ化されます。</string>
     <string name="video_min_group_length_disable">無効化</string>
     <string name="video_min_group_length_folder">フォルダーごとにグループ化</string>
     <string name="video_min_group_length_first">最初一文字のみ</string>
@@ -348,8 +347,6 @@
     <string name="list_title_ellipsize_right">右</string>
     <string name="list_title_ellipsize_middle">中央</string>
     <string name="list_title_ellipsize_marquee">マーキー</string>
-    <string name="audio_save_repeat_title">リピートモードを保存</string>
-    <string name="audio_save_repeat_summary">オーディオプレイリストを読み込む際、リピートモードを記憶する</string>
     <string name="audio_boost_title">オーディオブースト</string>
     <string name="audio_boost_summary">音量を200%まで設定可能</string>
     <string name="headset_prefs_category">ヘッドセット</string>
