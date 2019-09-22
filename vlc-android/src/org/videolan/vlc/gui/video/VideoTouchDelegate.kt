@@ -396,7 +396,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private val mScaleListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
 
-        private var savedScale: MediaPlayer.ScaleType? = null
+        private var savedScale: MediaPlayer.ScaleType = MediaPlayer.ScaleType.SURFACE_BEST_FIT
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
             return screenConfig.xRange != 0 || player.fov == 0f
         }
@@ -418,11 +418,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 if (grow && player.currentScaleType != MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     savedScale = player.currentScaleType
                     player.setVideoScale(MediaPlayer.ScaleType.SURFACE_FIT_SCREEN)
-                } else if (!grow && savedScale != null) {
-                    player.setVideoScale(savedScale!!)
-                    savedScale = null
-                } else if (!grow && player.currentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
-                    player.setVideoScale(MediaPlayer.ScaleType.SURFACE_BEST_FIT)
+                } else if (!grow) {
+                    player.setVideoScale(savedScale)
                 }
             }
         }
