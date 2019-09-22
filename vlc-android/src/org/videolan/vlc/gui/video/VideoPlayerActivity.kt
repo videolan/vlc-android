@@ -1975,6 +1975,29 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         setVideoScale(scale)
     }
 
+    private val hasCutout: Boolean
+        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            videoLayout?.rootWindowInsets?.displayCutout == null
+        } else {
+            false
+        }
+
+    var enableSafeCutouts: Boolean
+        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && hasCutout) {
+            window.attributes.layoutInDisplayCutoutMode == WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+        } else {
+            false
+        }
+        set(value) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if (value) {
+                    window.setAttributes { layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER }
+                } else {
+                    window.setAttributes { layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES }
+                }
+            }
+        }
+
     internal fun setVideoScale(scale: MediaPlayer.ScaleType) = service?.run {
         if (scale != mediaplayer.videoScale) {
             mediaplayer.videoScale = scale
@@ -2786,6 +2809,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             return intent
         }
     }
+}
+
+private inline fun Window.setAttributes(edit: WindowManager.LayoutParams.() -> Unit) {
+    val attributes = this.attributes
+    edit(attributes)
+    this.attributes = attributes
 }
 
 @ExperimentalCoroutinesApi

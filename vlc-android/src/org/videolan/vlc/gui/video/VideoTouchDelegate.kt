@@ -422,12 +422,18 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             if (player.fov == 0f && !player.isLocked) {
                 val grow = detector.scaleFactor > 1.0f
                 when (if (grow) currentScale.grow() else currentScale.shrink()) {
+                    ScaleEvent.REMOVE_CUTOUT_MARGINS -> {
+                        player.enableSafeCutouts = false
+                    }
                     ScaleEvent.FIT_SCREEN -> {
                         savedScale = player.currentScaleType
                         player.setVideoScale(MediaPlayer.ScaleType.SURFACE_FIT_SCREEN)
                     }
                     ScaleEvent.NO_FIT_SCREEN -> {
                         player.setVideoScale(savedScale)
+                    }
+                    ScaleEvent.ADD_CUTOUT_MARGINS -> {
+                        player.enableSafeCutouts = true
                     }
                     null -> {
                         // no - op
@@ -438,30 +444,37 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private val currentScale: ScaleState
-        get() = if (player.currentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
+        get() = if (player.enableSafeCutouts) {
+            ScaleState.SAFE_CUTOUT
+        } else if (player.currentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
             ScaleState.FIT_SCREEN
         } else {
             ScaleState.NORMAL
         }
 
     private enum class ScaleState {
+        SAFE_CUTOUT,
         NORMAL,
         FIT_SCREEN;
 
         fun grow() = when (this) {
+            SAFE_CUTOUT -> ScaleEvent.REMOVE_CUTOUT_MARGINS
             NORMAL -> ScaleEvent.FIT_SCREEN
             FIT_SCREEN -> null
         }
 
         fun shrink() = when (this) {
             FIT_SCREEN -> ScaleEvent.NO_FIT_SCREEN
-            NORMAL -> null
+            NORMAL -> ScaleEvent.ADD_CUTOUT_MARGINS
+            SAFE_CUTOUT -> null
         }
     }
 
     private enum class ScaleEvent {
+        REMOVE_CUTOUT_MARGINS,
         FIT_SCREEN,
         NO_FIT_SCREEN,
+        ADD_CUTOUT_MARGINS,
     }
 
     //Seek
