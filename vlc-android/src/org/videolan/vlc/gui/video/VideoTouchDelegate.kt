@@ -421,14 +421,47 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         override fun onScaleEnd(detector: ScaleGestureDetector) {
             if (player.fov == 0f && !player.isLocked) {
                 val grow = detector.scaleFactor > 1.0f
-                if (grow) {
-                    savedScale = player.currentScaleType
-                    player.setVideoScale(MediaPlayer.ScaleType.SURFACE_FIT_SCREEN)
-                } else if (!grow) {
-                    player.setVideoScale(savedScale)
+                when (if (grow) currentScale.grow() else currentScale.shrink()) {
+                    ScaleEvent.FIT_SCREEN -> {
+                        savedScale = player.currentScaleType
+                        player.setVideoScale(MediaPlayer.ScaleType.SURFACE_FIT_SCREEN)
+                    }
+                    ScaleEvent.NO_FIT_SCREEN -> {
+                        player.setVideoScale(savedScale)
+                    }
+                    null -> {
+                        // no - op
+                    }
                 }
             }
         }
+    }
+
+    private val currentScale: ScaleState
+        get() = if (player.currentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
+            ScaleState.FIT_SCREEN
+        } else {
+            ScaleState.NORMAL
+        }
+
+    private enum class ScaleState {
+        NORMAL,
+        FIT_SCREEN;
+
+        fun grow() = when (this) {
+            NORMAL -> ScaleEvent.FIT_SCREEN
+            FIT_SCREEN -> null
+        }
+
+        fun shrink() = when (this) {
+            FIT_SCREEN -> ScaleEvent.NO_FIT_SCREEN
+            NORMAL -> null
+        }
+    }
+
+    private enum class ScaleEvent {
+        FIT_SCREEN,
+        NO_FIT_SCREEN,
     }
 
     //Seek
