@@ -1976,18 +1976,20 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     internal fun setVideoScale(scale: MediaPlayer.ScaleType) = service?.run {
-        mediaplayer.videoScale = scale
-        when (scale) {
-            MediaPlayer.ScaleType.SURFACE_BEST_FIT -> showInfo(R.string.surface_best_fit, 1000)
-            MediaPlayer.ScaleType.SURFACE_FIT_SCREEN -> showInfo(R.string.surface_fit_screen, 1000)
-            MediaPlayer.ScaleType.SURFACE_FILL -> showInfo(R.string.surface_fill, 1000)
-            MediaPlayer.ScaleType.SURFACE_16_9 -> showInfo("16:9", 1000)
-            MediaPlayer.ScaleType.SURFACE_4_3 -> showInfo("4:3", 1000)
-            MediaPlayer.ScaleType.SURFACE_ORIGINAL -> showInfo(R.string.surface_original, 1000)
+        if (scale != mediaplayer.videoScale) {
+            mediaplayer.videoScale = scale
+            when (scale) {
+                MediaPlayer.ScaleType.SURFACE_BEST_FIT -> showInfo(R.string.surface_best_fit, 1000)
+                MediaPlayer.ScaleType.SURFACE_FIT_SCREEN -> showInfo(R.string.surface_fit_screen, 1000)
+                MediaPlayer.ScaleType.SURFACE_FILL -> showInfo(R.string.surface_fill, 1000)
+                MediaPlayer.ScaleType.SURFACE_16_9 -> showInfo("16:9", 1000)
+                MediaPlayer.ScaleType.SURFACE_4_3 -> showInfo("4:3", 1000)
+                MediaPlayer.ScaleType.SURFACE_ORIGINAL -> showInfo(R.string.surface_original, 1000)
+            }
+            settings.edit()
+                    .putInt(VIDEO_RATIO, scale.ordinal)
+                    .apply()
         }
-        settings.edit()
-                .putInt(VIDEO_RATIO, scale.ordinal)
-                .apply()
     }
 
     /**
