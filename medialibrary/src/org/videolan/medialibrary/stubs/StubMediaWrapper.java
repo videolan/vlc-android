@@ -12,11 +12,11 @@ public class StubMediaWrapper extends AbstractMediaWrapper {
     public StubMediaWrapper(long id, String mrl, long time, long length, int type, String title,
                         String filename, String artist, String genre, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
-                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated) {
+                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate) {
         super(id, mrl, time, length, type, title, filename, artist,
                 genre, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified,
-                seen, isThumbnailGenerated);
+                seen, isThumbnailGenerated, releaseDate);
     }
 
     public StubMediaWrapper(Uri uri, long time, long length, int type,

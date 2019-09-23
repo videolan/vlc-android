@@ -63,21 +63,21 @@ public class StubDataSource {
         media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 18820L, 0,
                 fileName, fileName, "", "",
                 "", "", 416, 304, "", 0, -2,
-                0, 0, 1509466228L, 0L, true);
+                0, 0, 1509466228L, 0L, true, 0);
         addVideo(media);
 
         fileName = "FMA - MultiChapter.mkv";
         media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 1467383L, 0,
                 "Encoded with MiniCoder", fileName, "", "",
                 "", "", 1280, 720, "", 0,
-                -2, 0, 0, 1512396147L, 0L, true);
+                -2, 0, 0, 1512396147L, 0L, true, 0);
         addVideo(media);
 
         fileName = "114_My_Heart_Will_Go_On.avi";
         media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 20000L, 0,
                 "My Heart Will Go On - Celine Dion", fileName, "", "",
                 "", "", 352, 220, "", 0,
-                -2, 0, 0, 1509465852L, 0L, true);
+                -2, 0, 0, 1509465852L, 0L, true, 0);
         addVideo(media);
 
         // Audio
@@ -89,7 +89,7 @@ public class StubDataSource {
                 "Shine On CD2", "Peter Frampton",
                 0, 0, "/storage/emulated/0/Music/Peter Frampton/Shine On - CD2/Folder.jpg",
                 0, -2, 1, 0,
-                1547452796L, 0L, true);
+                1547452796L, 0L, true, 0);
         addAudio(media, "", 1965, 400);
 
         fileName = "01-Wind Of Change.mp3";
@@ -99,7 +99,7 @@ public class StubDataSource {
                 "Shine On CD1", "Peter Frampton",
                 0, 0, "/storage/emulated/0/Music/Peter Frampton/Shine On - CD1/Folder.jpg",
                 0, -2, 1, 0,
-                1547452786L, 0L, true);
+                1547452786L, 0L, true, 0);
         addAudio(media, "", 1960, 250);
 
         fileName = "03 Bloody Well Right.wma";
@@ -109,7 +109,7 @@ public class StubDataSource {
                 "The Autobiography of Supertramp", "Supertramp",
                 0, 0, "/storage/emulated/0/Music/Supertramp/Best of/Folder.jpg", 0,
                 -2, 3, 0,
-                1547452814L, 0L, true);
+                1547452814L, 0L, true, 0);
         addAudio(media, "", 1970, 360);
     }
 

@@ -2008,7 +2008,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaWrapper.initID,
            ml_fields.MediaWrapper.clazz,
-           "<init>", "(JLjava/lang/String;JJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZ)V");
+           "<init>", "(JLjava/lang/String;JJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZI)V");
 
     GET_CLASS(ml_fields.HistoryItem.clazz,
               "org/videolan/medialibrary/media/HistoryItem", true);
