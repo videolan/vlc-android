@@ -66,6 +66,7 @@ import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
+import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.media.MediaUtils
@@ -122,6 +123,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         if (isPlaylist) {
             itemTouchHelper = ItemTouchHelper(SwipeDragItemTouchHelperCallback(audioBrowserAdapter))
             itemTouchHelper!!.attachToRecyclerView(binding.songs)
+        } else {
+            binding.songs.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
         }
 
         binding.songs.layoutManager = LinearLayoutManager(this)
