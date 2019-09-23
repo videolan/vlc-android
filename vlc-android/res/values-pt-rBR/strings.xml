@@ -46,8 +46,8 @@
     <string name="insert_next">Inserir como próximo</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="append_all">Adicionar todos</string>
-    <string name="last_playlist">Retomar reprodução</string>
-    <string name="last_playlist_shortcut">Retomar a reprodução da última lista de reprodução</string>
+    <string name="resume_playback">Retomar reprodução</string>
+    <string name="resume_playback_long_shortcut">Retomar a reprodução da última lista de reprodução</string>
     <string name="delete">Excluir</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque</string>
@@ -294,7 +294,6 @@
 
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupar vídeos</string>
-    <string name="video_min_group_length_summary">Vídeos são agrupados se as primeiras letras forem as mesmas.</string>
     <string name="video_min_group_length_disable">Desabilitar</string>
     <string name="video_min_group_length_folder">Agrupar por pasta</string>
     <string name="video_min_group_length_first">Somente a primeira letra</string>
@@ -306,8 +305,6 @@
     <string name="video_transition_summary">Exibir o título do novo vídeo na transição</string>
     <string name="media_seen">Exibir marcador em vídeo visto</string>
     <string name="media_seen_summary">Marca um video como visto quando reproduzido até o fim</string>
-    <string name="force_list_portrait">Desativar a grade no modo retrato</string>
-    <string name="force_list_portrait_summary">Exibir vídeos em lista em vez de grade, no modo retrato</string>
     <string name="force_play_all_summary">Reproduz todos os vídeos, iniciando pelo que você clicar.</string>
     <string name="force_play_all_title">Modo de lista de reprodução de vídeos</string>
     <string name="save_brightness_summary">Salvar o nível de brilho no reprodutor de vídeos</string>
@@ -325,7 +322,6 @@
     <string name="popup_keepscreen_title">Manter a tela ativa no modo Pop-Up</string>
     <string name="popup_keepscreen_summary">Sempre manter a tela ativa enquanto um Pop-Up é exibido, mesmo se o vídeo estiver pausado</string>
     <string name="browser_show_hidden_files_title">Exibir arquivos ocultos</string>
-    <string name="browser_show_hidden_files_summary">Exibir arquivos ocultos em navegadores</string>
 
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho da Legenda</string>
@@ -355,8 +351,6 @@
     <string name="list_title_ellipsize_right">Direita</string>
     <string name="list_title_ellipsize_middle">Meio</string>
     <string name="list_title_ellipsize_marquee">Logotipo</string>
-    <string name="audio_save_repeat_title">Salvar o modo contínuo</string>
-    <string name="audio_save_repeat_summary">Lembrar do modo contínuo quando carregar listas de reprodução de áudio</string>
     <string name="audio_boost_title">Amplificação do áudio</string>
     <string name="audio_boost_summary">Permite aumento do volume de áudio em até 200%</string>
     <string name="headset_prefs_category">Fone de Ouvido</string>
@@ -385,7 +379,6 @@
     <string name="cast_performance_warning">Para juntar esse vídeo é necessário conversão. A conversão pode usar todo o poder de processamento e rapidamente drenar a sua bateria.</string>
     <string name="casting_connected_renderer">Conectado ao gerador \'%1$s\'</string>
     <string name="artists_show_all_title">Exibir todos os artistas</string>
-    <string name="artists_show_all_summary">Exibir todos os artistas na Listagem de Artistas e não somente artistas com álbuns</string>
 
     <string name="extensions_prefs_category">Extensões</string>
     <string name="extensions_enable_category">Escolher extensões para habilitar</string>
@@ -437,8 +430,7 @@
     <string name="restart_message">As modificações terão efeito quando o aplicativo for reiniciado.\n\nReiniciar agora?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Mais tarde</string>
-    <string name="browser_show_all_title">Exibir todos os arquivos em um navegador</string>
-    <string name="browser_show_all_summary">Exibir arquivos que não são reconhecidos como áudio ou vídeo em navegadores</string>
+    <string name="browser_show_all_title">Exibir todos os arquivos</string>
 
     <string name="developer_prefs_category">Desenvolvedor</string>
     <string name="enable_verbose_mode">Modo detalhado</string>
