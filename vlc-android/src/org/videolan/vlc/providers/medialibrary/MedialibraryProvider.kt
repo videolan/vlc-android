@@ -65,6 +65,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     abstract fun getTotalCount(): Int
     abstract fun getPage(loadSize: Int, startposition: Int): Array<T>
     abstract fun getAll(): Array<T>
+    open fun isByDisc(): Boolean = false
 
     override fun sort(sort: Int) {
         if (canSortBy(sort)) {
@@ -101,7 +102,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                 startposition > 0 -> pagedList.value?.getOrNull(startposition + position - 1)
                 else -> null
             }
-            ModelsHelper.getHeader(context, sort, item, previous)?.let {
+            ModelsHelper.getHeader(context, sort, item, previous, isByDisc())?.let {
                 privateHeaders.put(startposition + position, it)
             }
         }

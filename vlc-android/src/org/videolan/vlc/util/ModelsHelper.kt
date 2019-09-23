@@ -12,6 +12,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import kotlin.math.floor
@@ -109,7 +110,16 @@ object ModelsHelper {
         return if (title.isEmpty() || !Character.isLetter(title[0]) || isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
     }
 
-    fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?) = if (context !== null && item != null) when (sort) {
+    private fun MediaLibraryItem.getDiscNumber(): String? = if (this is MediaWrapper && this.discNumber != 0) "Disc ${this.discNumber}" else null
+
+    fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?, forceByDiscs: Boolean = false) = if (context !== null && item != null) if (forceByDiscs) {
+        val disc = item.getDiscNumber()
+        if (aboveItem == null) disc
+        else {
+            val previousDisc = aboveItem.getDiscNumber()
+            disc.takeIf { it != previousDisc }
+        }
+    } else when (sort) {
         SORT_DEFAULT,
         SORT_FILENAME,
         SORT_ALPHA -> {
@@ -122,7 +132,7 @@ object ModelsHelper {
         }
         SORT_DURATION -> {
             val length = item.getLength()
-            val lengthCategory = length.toLong().lengthToCategory()
+            val lengthCategory = length.lengthToCategory()
             if (aboveItem == null) lengthCategory
             else {
                 val previous = aboveItem.getLength().lengthToCategory()
