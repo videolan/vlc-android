@@ -46,8 +46,8 @@
     <string name="insert_next">Als nächsten einfügen</string>
     <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
-    <string name="last_playlist">Letzte Wiedergabe</string>
-    <string name="last_playlist_shortcut">Fortsetzen</string>
+    <string name="resume_playback">Liste fortsetzen</string>
+    <string name="resume_playback_long_shortcut">Fortsetzen</string>
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
@@ -255,7 +255,7 @@
     <string name="preferences">Einstellungen</string>
 
     <string name="general_prefs_category">Allgemein</string>
-    <string name="directories_summary">Verzeichnisse auswählen, die zur Medienbibliothek hinzugefügt werden sollen</string>
+    <string name="directories_summary">Verzeichnisse, die zur Medienbibliothek hinzugefügt werden sollen</string>
     <string name="add_custom_path">Benutzerdefinierten Pfad hinzufügen</string>
     <string name="add_custom_path_description">Ein zusätzliches, benutzerdefiniertes Verzeichnis zum Durchsuchen eingeben:</string>
     <string name="remove_custom_path">Benutzerdefinierten Pfad entfernen</string>
@@ -294,7 +294,6 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Videos gruppieren</string>
-    <string name="video_min_group_length_summary">Videos werden gruppiert, wenn ihre Anfangsbuchstaben des Titels gleich sind</string>
     <string name="video_min_group_length_disable">Deaktivieren</string>
     <string name="video_min_group_length_folder">Nach Ordner gruppieren</string>
     <string name="video_min_group_length_first">Nur erster Buchstabe</string>
@@ -355,8 +354,6 @@
     <string name="list_title_ellipsize_right">Rechts</string>
     <string name="list_title_ellipsize_middle">Mitte</string>
     <string name="list_title_ellipsize_marquee">Laufschrift</string>
-    <string name="audio_save_repeat_title">Wiederholen-Modus speichern</string>
-    <string name="audio_save_repeat_summary">Wiederholen-Modus merken wenn Audio-Wiedergabelisten geladen werden</string>
     <string name="audio_boost_title">Audio-Boost</string>
     <string name="audio_boost_summary">Lautstärke bis zu 200% erlauben</string>
     <string name="headset_prefs_category">Kopfhörer</string>
@@ -662,11 +659,11 @@
     <string name="removed_from_playlist_anonymous">Element(e) wurden aus der Wiedergabeliste entfernt</string>
     <string name="welcome_title">Herzlich Willkommen beim VLC!</string>
     <string name="welcome_subtitle">Der freie und quelloffene Multimedia-Abspieler</string>
-    <string name="permission_media">VLC benötigt von Ihnen die Genehmigung zum Zugriff auf die Mediendateien auf diesem Gerät.</string>
-    <string name="medialibrary_scan_explanation">VLC kann zur Verwaltung Ihrer Medienkollektion automatisch Ihr Gerät durchsuchen.</string>
+    <string name="permission_media">VLC benötigt Ihre Erlaubnis, um auf die Mediendateien auf diesem Gerät zuzugreifen.</string>
+    <string name="medialibrary_scan_explanation">VLC kann Ihr Gerät automatisch durchsuchen, um Ihre Mediensammlung zu verwalten.</string>
     <string name="onboarding_theme_title">Fühlen Sie sich wie zu Hause</string>
     <string name="done">Fertig</string>
-    <string name="onboarding_scan_title">Entdecken Sie Ihre neuen Medien automatisch</string>
+    <string name="onboarding_scan_title">Automatische Erkennung Ihrer Medien</string>
     <string name="daynight_explanation">VLC wechselt zur passenden Zeit automatisch in den Nachtmodus</string>
     <string name="onboarding_scanning_enable">VLC mein Gerät nach neuen Medieninhalten durchsuchen lassen</string>
     <string name="onboarding_scan_whole">VLC soll meine gesamte SD-Karte durchsuchen</string>
