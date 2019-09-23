@@ -36,6 +36,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
     override fun canSortByDuration() = true
     override fun canSortByAlbum() = parent !== null
     override fun canSortByLastModified() = true
+    override fun canSortByReleaseDate() = true
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, AbstractMedialibrary.SORT_DEFAULT)
