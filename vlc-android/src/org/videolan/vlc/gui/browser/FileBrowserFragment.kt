@@ -32,12 +32,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.isStarted
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -45,6 +44,7 @@ import org.videolan.vlc.gui.helpers.hf.OtgAccess
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
+import java.lang.Runnable
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -152,7 +152,10 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         val item = menu.findItem(R.id.ml_menu_save) ?: return
         item.isVisible = !isRootDirectory && mrl!!.startsWith("file")
         mrl?.let {
-            menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && mrl!!.startsWith("file") && !MedialibraryUtils.isScanned(it)
+            launch {
+                val isScanned = withContext(Dispatchers.IO) { MedialibraryUtils.isScanned(it) }
+                if (isStarted()) menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && mrl!!.startsWith("file") && !isScanned
+            }
         }
         runIO(Runnable {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))
