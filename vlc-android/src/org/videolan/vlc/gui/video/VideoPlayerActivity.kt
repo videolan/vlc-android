@@ -811,7 +811,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             hudRightBinding.playlistToggle.setOnClickListener(this@VideoPlayerActivity)
             closeButton.setOnClickListener { togglePlaylist() }
 
-            val callback = SwipeDragItemTouchHelperCallback(playlistAdapter)
+            val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
             val touchHelper = ItemTouchHelper(callback)
             touchHelper.attachToRecyclerView(playlist)
         }
