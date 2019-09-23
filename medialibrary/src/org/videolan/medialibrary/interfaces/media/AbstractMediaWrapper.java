@@ -14,7 +14,6 @@ import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.util.Locale;
@@ -76,6 +75,7 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     protected String mAlbumArtist;
     protected String mRating;
     protected String mDate;
+    protected int mReleaseYear;
     protected String mSettings;
     protected String mNowPlaying;
     protected String mPublisher;
@@ -120,13 +120,14 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     public AbstractMediaWrapper(long id, String mrl, long time, long length, int type, String title,
                                 String filename, String artist, String genre, String album, String albumArtist,
                                 int width, int height, String artworkURL, int audio, int spu, int trackNumber,
-                                int discNumber, long lastModified, long seen, boolean isThumbnailGenerated) {
+                                int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate) {
         super();
         if (TextUtils.isEmpty(mrl)) throw new IllegalArgumentException("uri was empty");
 
         mUri = Uri.parse(manageVLCMrl(mrl));
         mId = id;
         mFilename = filename;
+        mReleaseYear = releaseDate;
         init(time, length, type, null, title, artist, genre, album, albumArtist, width, height,
                 artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu,
                 trackNumber, discNumber, lastModified, seen, null);
@@ -554,6 +555,10 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
 
     public String getDate() {
         return mDate;
+    }
+
+    public int getReleaseYear() {
+        return mReleaseYear;
     }
 
     public String getSettings() {

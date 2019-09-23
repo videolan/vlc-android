@@ -85,7 +85,8 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
                           (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
                           title, filename, artist, genre, album,
                           albumArtist, width, height, thumbnail,
-                          audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(), seen, mediaPtr->isThumbnailGenerated(medialibrary::ThumbnailSizeType::Thumbnail));
+                          audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
+                           seen, mediaPtr->isThumbnailGenerated(medialibrary::ThumbnailSizeType::Thumbnail), mediaPtr->releaseDate());
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)
