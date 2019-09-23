@@ -11,6 +11,7 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.WorkerThread
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
@@ -23,8 +24,8 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper.TYPE_ALL
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.startMedialibrary
 import java.io.File
 import java.net.URI
@@ -104,38 +105,16 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: AbstractMedi
     }
 }
 
-
-fun List<AbstractMediaWrapper>.getWithMLMeta() : List<AbstractMediaWrapper> {
-    if (this is MutableList<AbstractMediaWrapper>) return updateWithMLMeta()
-    val list = mutableListOf<AbstractMediaWrapper>()
+@WorkerThread
+fun List<AbstractMediaWrapper>.updateWithMLMeta() : MutableList<AbstractMediaWrapper> {
     val ml = AbstractMedialibrary.getInstance()
+    val list = mutableListOf<AbstractMediaWrapper>()
     for (media in this) {
-        if (media.id == 0L) {
-            val mw = ml.findMedia(media)
-            if (mw.id != 0L) if (mw.type == AbstractMediaWrapper.TYPE_ALL) mw.type = media.type
-            list.add(mw)
-        }
+        list.add(ml.findMedia(media).apply {
+            if (type == TYPE_ALL) type = media.type
+        })
     }
     return list
-}
-
-
-fun MutableList<AbstractMediaWrapper>.updateWithMLMeta() : MutableList<AbstractMediaWrapper> {
-    val iter = listIterator()
-    val ml = AbstractMedialibrary.getInstance()
-    try {
-        while (iter.hasNext()) {
-            val media = iter.next()
-            if (media.id == 0L) {
-                val mw = ml.findMedia(media)
-                if (mw!!.id != 0L) {
-                    if (mw.type == AbstractMediaWrapper.TYPE_ALL) mw.type = media.getType()
-                    iter.set(mw)
-                }
-            }
-        }
-    } catch (ignored: Exception) {}
-    return this
 }
 
 @ExperimentalCoroutinesApi

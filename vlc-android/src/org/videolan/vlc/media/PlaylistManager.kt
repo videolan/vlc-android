@@ -651,7 +651,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             load(list, 0)
             return
         }
-        val list = withContext(Dispatchers.IO) { list.getWithMLMeta() }
+        val list = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
         mediaList.removeEventListener(this)
         for (media in list) mediaList.add(media)
         mediaList.addEventListener(this)
