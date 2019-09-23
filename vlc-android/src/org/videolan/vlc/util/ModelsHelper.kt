@@ -222,8 +222,8 @@ object ModelsHelper {
     }
 
     private fun MediaLibraryItem.getYear() = when (itemType) {
-        MediaLibraryItem.TYPE_ALBUM -> if ((this as AbstractAlbum).releaseYear == 0) "-" else releaseYear.toString()
-        MediaLibraryItem.TYPE_MEDIA -> if ((this as AbstractMediaWrapper).date == null) "-" else date
+        MediaLibraryItem.TYPE_ALBUM -> if ((this as AbstractAlbum).releaseYear <= 0) "-" else releaseYear.toString()
+        MediaLibraryItem.TYPE_MEDIA -> if ((this as AbstractMediaWrapper).releaseYear <= 0) "-" else releaseYear.toString()
         else -> "-"
     }
 

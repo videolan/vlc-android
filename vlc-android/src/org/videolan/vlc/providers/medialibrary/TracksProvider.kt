@@ -37,6 +37,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
     override fun canSortByDuration() = true
     override fun canSortByAlbum() = parent !== null
     override fun canSortByLastModified() = true
+    override fun canSortByReleaseDate() = true
 
     override fun isByDisc(): Boolean {
         return parent is Album
