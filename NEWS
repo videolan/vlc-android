@@ -1,3 +1,26 @@
+Changes between 3.2.0-beta-04 and 3.2.0-beta-05:
+------------------
+
+Application:
+ * Group videos by name feature
+ * Move video group setting to main UI
+ * Improve network login in browser
+ * Fix audio lists position restoration
+ * Improve empty view appearence
+ * Fix drag&drop in video player playlist
+ * Add sort by release year for tracks
+ * Misc. crash fixes
+
+TV:
+ * Breadcrumb in browsers
+
+&VLC:
+ * Security fixes
+ * fix smb2/dsm conflicts
+
+DeX:
+ * Fix videoplayer mouse inputs
+
 Changes between 3.2.0-beta-03 and 3.2.0-beta-04:
 ------------------
 
