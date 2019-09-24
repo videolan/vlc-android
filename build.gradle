@@ -29,8 +29,8 @@ allprojects {
 ext {
     versionName = '3.3.0-dev'
     versionCode = 3030000
-    libvlcVersion = '3.2-eap10'
-    medialibraryVersion = '0.5-eap10'
+    libvlcVersion = '3.2-eap11'
+    medialibraryVersion = '0.5-eap11'
     minSdkVersion = 17
     targetSdkVersion = 28
     compileSdkVersion = 28
