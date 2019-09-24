@@ -2316,7 +2316,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             if (extras != null) {
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
                     videoUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION)
-                fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, false) || settings.getString(KEY_VIDEO_CONFIRM_RESUME, "0") == "1"
+                fromStart = fromStart or extras.getBoolean(PLAY_EXTRA_FROM_START, false)
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
                 intent.putExtra(PLAY_EXTRA_FROM_START, false)

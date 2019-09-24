@@ -28,21 +28,22 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
-import org.videolan.vlc.BuildConfig
+
+private const val CURRENT_VERSION = 1
 
 object SettingsMigration {
 
     fun migrateSettings(context: Context) {
         val settings = Settings.getInstance(context)
         val lastVersion = settings.getInt(KEY_CURRENT_SETTINGS_VERSION, 0)
-        if (lastVersion < 3030000) {
-            migrateToVersion3030000(settings)
+        if (lastVersion < 1) {
+            migrateToVersion1(settings)
         }
-        settings.edit().putInt(KEY_CURRENT_SETTINGS_VERSION, BuildConfig.VERSION_CODE).apply()
+        settings.edit().putInt(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION).apply()
     }
 
-    private fun migrateToVersion3030000(settings: SharedPreferences) {
-        Log.i(this::class.java.simpleName, "Migrating preferences to 3030000")
+    private fun migrateToVersion1(settings: SharedPreferences) {
+        Log.i(this::class.java.simpleName, "Migrating preferences to Version 1")
         val editor = settings.edit()
         //Migrate video Resume confirmation
         val dialogConfirmResume = settings.getBoolean("dialog_confirm_resume", false)
