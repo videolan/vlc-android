@@ -562,45 +562,16 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
     }
 }
 
-void AndroidMediaLibrary::onMediaModified( std::vector<medialibrary::MediaPtr> mediaList )
+void AndroidMediaLibrary::onMediaModified( std::vector<int64_t> mediaIds )
 {
     if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO || m_mediaUpdatedType & FLAG_MEDIA_UPDATED_VIDEO
             || m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO_EMPTY) {
         JNIEnv *env = getEnv();
         if (env == NULL)
             return;
-        jobjectArray mediaRefs, results;
-        int index;
-        if ((m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_VIDEO)) == 0)
+        if (weak_thiz)
         {
-            index = 0;
-            mediaRefs = (jobjectArray) env->NewObjectArray(0, p_fields->MediaWrapper.clazz, NULL);
-        } else
-        {
-            mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), p_fields->MediaWrapper.clazz, NULL);
-            index = -1;
-            jobject item;
-            for (medialibrary::MediaPtr const& media : mediaList) {
-                medialibrary::IMedia::Type type = media->type();
-                if ((type == medialibrary::IMedia::Type::Audio && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO) ||
-                        (type == medialibrary::IMedia::Type::Video && m_mediaUpdatedType & FLAG_MEDIA_UPDATED_VIDEO))
-                    item = mediaToMediaWrapper(env, p_fields, media);
-                else
-                    item = nullptr;
-                env->SetObjectArrayElement(mediaRefs, ++index, item);
-                if (item != nullptr)
-                    env->DeleteLocalRef(item);
-            }
-        }
-        if (index > -1)
-        {
-            results = filteredArray(env, mediaRefs, p_fields->MediaWrapper.clazz, -1);
-            if (weak_thiz)
-            {
-                env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaUpdatedId, results);
-                env->DeleteLocalRef(results);
-            } else
-                env->DeleteLocalRef(mediaRefs);
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaUpdatedId);
         }
     }
 }
@@ -624,7 +595,7 @@ void AndroidMediaLibrary::onArtistsAdded( std::vector<medialibrary::ArtistPtr> a
     }
 }
 
-void AndroidMediaLibrary::onArtistsModified( std::vector<medialibrary::ArtistPtr> artist )
+void AndroidMediaLibrary::onArtistsModified( std::vector<int64_t>  artistsIds )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -662,7 +633,7 @@ void AndroidMediaLibrary::onAlbumsAdded( std::vector<medialibrary::AlbumPtr> alb
     }
 }
 
-void AndroidMediaLibrary::onAlbumsModified( std::vector<medialibrary::AlbumPtr> albums )
+void AndroidMediaLibrary::onAlbumsModified( std::vector<int64_t> albums )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -689,7 +660,7 @@ void AndroidMediaLibrary::onPlaylistsAdded( std::vector<medialibrary::PlaylistPt
 
 }
 
-void AndroidMediaLibrary::onPlaylistsModified( std::vector<medialibrary::PlaylistPtr> playlist )
+void AndroidMediaLibrary::onPlaylistsModified( std::vector<int64_t> playlist )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -728,7 +699,7 @@ void AndroidMediaLibrary::onGenresAdded( std::vector<medialibrary::GenrePtr> )
     }
 }
 
-void AndroidMediaLibrary::onGenresModified( std::vector<medialibrary::GenrePtr> )
+void AndroidMediaLibrary::onGenresModified( std::vector<int64_t> )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {

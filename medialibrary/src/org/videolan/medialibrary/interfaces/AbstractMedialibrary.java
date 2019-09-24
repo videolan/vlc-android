@@ -233,7 +233,7 @@ abstract public class AbstractMedialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onMediaUpdated(AbstractMediaWrapper[] mediaList) {
+    public void onMediaUpdated() {
         synchronized (mMediaCbs) {
             for (MediaCb cb : mMediaCbs) cb.onMediaModified();
         }

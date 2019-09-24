@@ -2044,7 +2044,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onMediaUpdatedId,
            ml_fields.MediaLibrary.clazz,
-           "onMediaUpdated", "([Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;)V");
+           "onMediaUpdated", "()V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onMediaDeletedId,
            ml_fields.MediaLibrary.clazz,

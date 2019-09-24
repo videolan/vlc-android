@@ -110,23 +110,23 @@ public:
                            uint32_t desiredHeight, float position );
 
     void onMediaAdded( std::vector<medialibrary::MediaPtr> media );
-    void onMediaModified( std::vector<medialibrary::MediaPtr> media ) ;
+    void onMediaModified( std::vector<int64_t> media ) ;
     void onMediaDeleted( std::vector<int64_t> ids ) ;
 
     void onArtistsAdded( std::vector<medialibrary::ArtistPtr> artists ) ;
-    void onArtistsModified( std::vector<medialibrary::ArtistPtr> artist );
+    void onArtistsModified( std::vector<int64_t> artist );
     void onArtistsDeleted( std::vector<int64_t> ids );
 
     void onAlbumsAdded( std::vector<medialibrary::AlbumPtr> albums );
-    void onAlbumsModified( std::vector<medialibrary::AlbumPtr> albums );
+    void onAlbumsModified( std::vector<int64_t> albums );
     void onAlbumsDeleted( std::vector<int64_t> ids );
 
     void onPlaylistsAdded( std::vector<medialibrary::PlaylistPtr> playlists );
-    void onPlaylistsModified( std::vector<medialibrary::PlaylistPtr> playlist );
+    void onPlaylistsModified( std::vector<int64_t> playlist );
     void onPlaylistsDeleted( std::vector<int64_t> ids );
 
     void onGenresAdded( std::vector<medialibrary::GenrePtr> );
-    void onGenresModified( std::vector<medialibrary::GenrePtr> );
+    void onGenresModified( std::vector<int64_t> );
     void onGenresDeleted( std::vector<int64_t> );
 
     void onDiscoveryStarted( const std::string& entryPoint );
