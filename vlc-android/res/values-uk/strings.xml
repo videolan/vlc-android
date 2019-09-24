@@ -48,8 +48,8 @@
     <string name="insert_next">Вставити наступне</string>
     <string name="play_all">Відтворити все</string>
     <string name="append_all">Додати все</string>
-    <string name="last_playlist">Останній список</string>
-    <string name="last_playlist_shortcut">Відновити відтворення</string>
+    <string name="resume_playback">Відновити відтворення</string>
+    <string name="resume_playback_long_shortcut">Відновити відтворення з останнього списку</string>
     <string name="delete">Видалити</string>
     <string name="remove">Видалити</string>
     <string name="set_song">Встановити як мелодію</string>
@@ -308,7 +308,6 @@
 
     <string name="video_prefs_category">Відео</string>
     <string name="video_min_group_length_title">Групувати відео</string>
-    <string name="video_min_group_length_summary">Відео групується, якщо перші літери назви однакові.</string>
     <string name="video_min_group_length_disable">Вимкнути</string>
     <string name="video_min_group_length_folder">Групувати за текою</string>
     <string name="video_min_group_length_first">Лише перші букви</string>
@@ -320,8 +319,6 @@
     <string name="video_transition_summary">Показувати нові заголовки відео на переході</string>
     <string name="media_seen">Показувати заголовок медіа на початку відтворення</string>
     <string name="media_seen_summary">Позначте відео, як переглянути, коли ви додивитеся до кінця</string>
-    <string name="force_list_portrait">Немає сітки у портретному режимі</string>
-    <string name="force_list_portrait_summary">Показувати відео списком замість сітки у портретному режимі</string>
     <string name="force_play_all_summary">Відтворювати усе відео, починаючи з першого, на тицьнули</string>
     <string name="force_play_all_title">Режим відтворення списку відео</string>
     <string name="save_brightness_summary">Запам\'ятати рівень яскравості у відеопрогравачі</string>
@@ -339,7 +336,6 @@
     <string name="popup_keepscreen_title">Зберігати увімкненим екран у режимі вигульків</string>
     <string name="popup_keepscreen_summary">Завжди зберігає увімкненим екран, коли показуються вигульки, навіть при зупинці відео.</string>
     <string name="browser_show_hidden_files_title">Показати приховані файли</string>
-    <string name="browser_show_hidden_files_summary">Показати приховані файли в оглядачі</string>
 
     <string name="subtitles_prefs_category">Субтитри</string>
     <string name="subtitles_size_title">Розмір субтитрів</string>
@@ -363,14 +359,12 @@
     <string name="lockscreen_cover_summary">Якщо доступно, то встановіть обкладинку як шпалери екрану блокування</string>
     <string name="playlist_animate_scroll_title">Анімація списку відтворення через автоматичну прокрутку</string>
     <string name="playlist_animate_scroll_summary">Анімація прокрутки при медійному переході</string>
-    <string name="audio_title_alignment">Вирівнювання заголовків аудіо</string>
-    <string name="audio_title_alignment_default">Типово</string>
-    <string name="audio_title_alignment_left">Лівий</string>
-    <string name="audio_title_alignment_centre">По центру</string>
-    <string name="audio_title_alignment_right">Правий</string>
-    <string name="audio_title_alignment_marquee">Рухливий текст</string>
-    <string name="audio_save_repeat_title">Зберегти режим повторення</string>
-    <string name="audio_save_repeat_summary">Запам\'ятати режим повторення, коли завантажуються списки відтворення аудіо</string>
+    <string name="list_title_ellipsize">Скорочення назв в однорядкові заголовки на списках</string>
+    <string name="list_title_ellipsize_default">Усталено</string>
+    <string name="list_title_ellipsize_left">Зліва</string>
+    <string name="list_title_ellipsize_right">Справа</string>
+    <string name="list_title_ellipsize_middle">Посередині</string>
+    <string name="list_title_ellipsize_marquee">Скраю</string>
     <string name="audio_boost_title">Наростання звуку</string>
     <string name="audio_boost_summary">Дозволити зростання гучності до 200%</string>
     <string name="headset_prefs_category">Навушники</string>
@@ -399,7 +393,6 @@
     <string name="cast_performance_warning">Для трансляції цього відео потрібне перетворення. Воно може використовувати всю наявну потужність і, відповідно, швидко розрядити акумулятор.</string>
     <string name="casting_connected_renderer">Під\'єднано до відтворювача \'%1$s\'</string>
     <string name="artists_show_all_title">Показати всіх виконавців</string>
-    <string name="artists_show_all_summary">Показує всіх виконавців у списку, а не лише причетних до альбому</string>
 
     <string name="extensions_prefs_category">Розширення</string>
     <string name="extensions_enable_category">Виберіть розширення для увімкнення</string>
@@ -451,8 +444,7 @@
     <string name="restart_message">Зміни набудуть сили після перезапуску програми.\n\nПерезапустити зараз?</string>
     <string name="restart_message_OK">Гаразд</string>
     <string name="restart_message_Later">Пізніше</string>
-    <string name="browser_show_all_title">Показати всі файли в оглядачі</string>
-    <string name="browser_show_all_summary">Показувати файли, що не розпізнані як аудіо та відео у переглядачах</string>
+    <string name="browser_show_all_title">Показати усі файли</string>
 
     <string name="developer_prefs_category">Розробник</string>
     <string name="enable_verbose_mode">Інформативність</string>
@@ -728,4 +720,5 @@
     <string name="report_a_bug">Повідомити про хибу</string>
     <string name="report_a_crash">Повідомити про збій</string>
     <string name="describe_crash">Будь ласка, опишіть як трапився цей збій</string>
+    <string name="favorite">Обране</string>
 </resources>
