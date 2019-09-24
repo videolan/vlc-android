@@ -34,9 +34,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
+import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -47,11 +48,13 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.VLCOptions
+import java.lang.Runnable
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class EqualizerFragment : VLCBottomSheetDialogFragment() {
+class EqualizerFragment : VLCBottomSheetDialogFragment(), CoroutineScope by MainScope() {
     override fun getDefaultState() = STATE_EXPANDED
 
     override fun needToManageOrientation() = false
@@ -69,6 +72,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
     private lateinit var binding: EqualizerBinding
     private val state = EqualizerState()
     private val newPresetName = VLCApplication.appResources.getString(org.videolan.vlc.R.string.equalizer_new_preset_name)
+    private var bandCount = -1
 
     private val eqBandsViews = ArrayList<EqualizerBar>()
 
@@ -129,10 +133,16 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         }
     }
 
-    private fun fillViews() {
+    private fun fillViews() = launch(start = CoroutineStart.UNDISPATCHED) {
         val presets = equalizerPresets
 
-        if (context == null || presets == null) return
+        if (context == null || presets == null) return@launch
+
+        if (bandCount == -1) bandCount = withContext(Dispatchers.IO) {
+            VLCInstance.get(requireContext())
+            MediaPlayer.Equalizer.getBandCount()
+        }
+        if (!isStarted()) return@launch
 
         allSets.clear()
         allSets = ArrayList()
@@ -167,7 +177,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         eqBandsViews.clear()
         binding.equalizerBands.removeAllViews()
         // bands
-        for (i in 0 until BAND_COUNT) {
+        for (i in 0 until bandCount) {
             val band = MediaPlayer.Equalizer.getBandFrequency(i)
 
             val bar = EqualizerBar(requireContext(), band)
@@ -198,7 +208,6 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
                 updateEqualizer(0)
             }
         }
-
     }
 
     override fun onResume() {
@@ -435,7 +444,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         UiTools.snackerWithCancel(binding.root, message, null, cancelAction)
     }
 
-    private fun updateEqualizer(pos: Int) {
+    private fun updateEqualizer(pos: Int) = launch(start = CoroutineStart.UNDISPATCHED) {
         if (updateAlreadyHandled) {
             updateAlreadyHandled = false
         } else {
@@ -454,9 +463,14 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
                 }
             }
         }
+        if (bandCount == -1) bandCount = withContext(Dispatchers.IO) {
+            VLCInstance.get(requireContext())
+            MediaPlayer.Equalizer.getBandCount()
+        }
+        if (!isStarted()) return@launch
 
         binding.equalizerPreamp.progress = equalizer.preAmp.toInt() + 20
-        for (i in 0 until BAND_COUNT) {
+        for (i in 0 until bandCount) {
             val bar = binding.equalizerBands.getChildAt(i) as EqualizerBar
             bar.setValue(equalizer.getAmp(i))
         }
@@ -487,7 +501,6 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
     companion object {
 
         const val TAG = "VLC/EqualizerFragment"
-        private val BAND_COUNT = MediaPlayer.Equalizer.getBandCount()
 
         private const val TYPE_PRESET = 0
         private const val TYPE_CUSTOM = 1
