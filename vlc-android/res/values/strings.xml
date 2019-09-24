@@ -731,4 +731,7 @@
     <string name="report_a_crash">Report a crash</string>
     <string name="describe_crash">Please describe how this crash happened</string>
     <string name="favorite">Favorite</string>
+    <string name="video_group_size_dialog_text">Number of characters used to group by name</string>
+    <string name="video_group_size_summary">Group by %s first letters</string>
+    <string name="video_group_size">Group videos by name</string>
 </resources>
