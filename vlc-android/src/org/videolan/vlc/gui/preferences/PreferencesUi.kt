@@ -25,12 +25,16 @@ package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.InputType
+import android.text.TextUtils
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.*
@@ -48,6 +52,22 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         super.onCreate(savedInstanceState)
         prepareLocaleList()
         setupTheme()
+    }
+
+    override fun onCreatePreferences(bundle: Bundle?, s: String?) {
+        super.onCreatePreferences(bundle, s)
+        val groupVideoPreference = preferenceManager.findPreference<EditTextPreference>("video_group_size")
+        groupVideoPreference?.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        groupVideoPreference?.summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
+            val text = preference.text
+            if (TextUtils.isEmpty(text)) {
+                ""
+            } else {
+                getString(R.string.video_group_size_summary, text)
+            }
+        }
     }
 
     private fun setupTheme() {
@@ -106,6 +126,10 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             KEY_APP_THEME -> (activity as PreferencesActivity).exitAndRescan()
             LIST_TITLE_ELLIPSIZE -> {
                 Settings.listTitleEllipsize = sharedPreferences.getString(LIST_TITLE_ELLIPSIZE, "0").toInt()
+                (activity as PreferencesActivity).setRestart()
+            }
+            "video_group_size" -> {
+                AbstractMedialibrary.getInstance().setVideoGroupsPrefixLength(Settings.getInstance(requireActivity()).getString(key, "6").toInt())
                 (activity as PreferencesActivity).setRestart()
             }
         }
