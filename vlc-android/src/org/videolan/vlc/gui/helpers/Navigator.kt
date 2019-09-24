@@ -142,7 +142,7 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
             R.id.nav_network -> NetworkBrowserFragment()
             R.id.nav_mrl -> MRLPanelFragment()
             else -> {
-                val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "6")!!)
+                val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "-1")!!)
                 when {
                     group > 0 -> VideoGroupsFragment()
                     group == 0 -> FoldersFragment()
