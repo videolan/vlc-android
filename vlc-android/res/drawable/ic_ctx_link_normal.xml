@@ -1,0 +1,38 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_link_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2019 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope th202020202020at it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="38dp"
+        android:height="38dp"
+        android:viewportWidth="20"
+        android:viewportHeight="20">
+    <path
+            android:pathData="m5.75,6.25a3.75,3.75 0,0 0,-3.75 3.75,3.75 3.75,0 0,0 3.75,3.75L9,13.75v-1.5L5.75,12.25a2.25,2.25 0,0 1,-2.25 -2.25,2.25 2.25,0 0,1 2.25,-2.25L9,7.75v-1.5zM11,6.25v1.5h3.25a2.25,2.25 0,0 1,2.25 2.25,2.25 2.25,0 0,1 -2.25,2.25L11,12.25v1.5h3.25a3.75,3.75 0,0 0,3.75 -3.75,3.75 3.75,0 0,0 -3.75,-3.75zM7,9.25v1.5h6v-1.5z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="0.32731667"
+            android:fillColor="#000000"
+            android:strokeColor="#00000000"
+            android:fillAlpha="1" />
+</vector>
