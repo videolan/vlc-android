@@ -48,8 +48,8 @@
     <string name="insert_next">Wstaw jako następny</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
-    <string name="last_playlist">Wznów odtwarzanie</string>
-    <string name="last_playlist_shortcut">Wznów</string>
+    <string name="resume_playback">Wznów odtwarzanie</string>
+    <string name="resume_playback_long_shortcut">Wznów</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
@@ -269,7 +269,7 @@
     <string name="preferences">Ustawienia</string>
 
     <string name="general_prefs_category">Ogólne</string>
-    <string name="directories_summary">Wybierz katalogi do dołączenia w bibliotece mediów</string>
+    <string name="directories_summary">Wybierz katalogi, które dołączyć do biblioteki multimediów</string>
     <string name="add_custom_path">Dodaj własną ścieżkę</string>
     <string name="add_custom_path_description">Wprowadź własny, dodatkowy katalog do skanowania:</string>
     <string name="remove_custom_path">Usuń własną ścieżkę</string>
@@ -294,7 +294,7 @@
     <string name="daynight_title">Tryb dzień/noc</string>
     <string name="daynight_follow_system_title">Tak jak w trybie systemowym</string>
     <string name="daynight_battery_title">Tak jak w trybie oszczędzania baterii</string>
-    <string name="daynight_summary">W odpowiednim czasie automatycznie przełącz w tryb nocny</string>
+    <string name="daynight_summary">Automatycznie przełącz na tryb nocny w odpowiednim czasie</string>
 
     <string name="extra_prefs_category">Dodatkowe ustawienia</string>
 
@@ -308,7 +308,6 @@
 
     <string name="video_prefs_category">Obraz</string>
     <string name="video_min_group_length_title">Grupuj filmy</string>
-    <string name="video_min_group_length_summary">Filmy są pogrupowane, jeśli ich pierwsze litery tytułu są takie same.</string>
     <string name="video_min_group_length_disable">Wyłącz</string>
     <string name="video_min_group_length_folder">Grupuj według folderu</string>
     <string name="video_min_group_length_first">Tylko pierwsza litera</string>
@@ -320,8 +319,6 @@
     <string name="video_transition_summary">Pokaż tytuł widea podczas przejścia</string>
     <string name="media_seen">Pokaż znacznik obejrzanego filmu</string>
     <string name="media_seen_summary">Oznacz film jako obejrzany, gdy odtworzysz go do końca</string>
-    <string name="force_list_portrait">Brak kratki w trybie portretowym</string>
-    <string name="force_list_portrait_summary">Pokaż filmy w liście zamiast w kratkę w trybie portretowym</string>
     <string name="force_play_all_summary">Odtwórz wszystkie filmy, zaczynając od tego, którego kliknąłeś</string>
     <string name="force_play_all_title">Tryb odtwarzania listy filmów</string>
     <string name="save_brightness_summary">Zapamiętaj ustawiony poziom jasności w odtwarzaczu</string>
@@ -339,7 +336,6 @@
     <string name="popup_keepscreen_title">Ekran włączony w trybie pop-up</string>
     <string name="popup_keepscreen_summary">Zawsze pozostaw ekran włączony podczas wyświetlania w trybie pop-up, nawet jeśli film został wstrzymany.</string>
     <string name="browser_show_hidden_files_title">Pokaż ukryte pliki</string>
-    <string name="browser_show_hidden_files_summary">Pokaż ukryte pliki w przeglądarkach</string>
 
     <string name="subtitles_prefs_category">Napisy</string>
     <string name="subtitles_size_title">Rozmiar napisów</string>
@@ -363,14 +359,12 @@
     <string name="lockscreen_cover_summary">Jeśli jest dostępna, ustaw aktualną okładkę albumu jako tapetę ekranu blokady</string>
     <string name="playlist_animate_scroll_title">Animuj automatyczne przewijanie bieżącej listy odtwarzania</string>
     <string name="playlist_animate_scroll_summary">Animuj przewijanie podczas zmiany mediów</string>
-    <string name="list_title_ellipsize">Skracanie jednowierszowych tytułów na listach</string>
+    <string name="list_title_ellipsize">Skrót jednowierszowych tytułów na listach</string>
     <string name="list_title_ellipsize_default">Domyślnie</string>
     <string name="list_title_ellipsize_left">Do lewej</string>
     <string name="list_title_ellipsize_right">Do prawej</string>
     <string name="list_title_ellipsize_middle">W środku</string>
     <string name="list_title_ellipsize_marquee">Przewijający się tekst</string>
-    <string name="audio_save_repeat_title">Zapisz tryb powtórz</string>
-    <string name="audio_save_repeat_summary">Zapamiętaj tryb powtórz podczas ładowania list odtwarzania dźwięku</string>
     <string name="audio_boost_title">Wzmacniacz dźwięku</string>
     <string name="audio_boost_summary">Zezwól na głośność do 200%</string>
     <string name="headset_prefs_category">Słuchawki</string>
@@ -399,7 +393,6 @@
     <string name="cast_performance_warning">Transmisja tego filmu wymaga konwersji. Ta konwersja może zużyć całą dostępną energię i szybciej wyczerpać baterię.</string>
     <string name="casting_connected_renderer">Połączony z rendererem \'%1$s\'</string>
     <string name="artists_show_all_title">Pokaż wszystkich wykonawców</string>
-    <string name="artists_show_all_summary">Pokaż wszystkich wykonawców na liście, a nie tylko wykonawców albumów</string>
 
     <string name="extensions_prefs_category">Rozszerzenia</string>
     <string name="extensions_enable_category">Wybierz włączone rozszerzenia</string>
@@ -451,8 +444,7 @@
     <string name="restart_message">Zmiany będą zaakceptowane po ponownym uruchomieniu aplikacji.\n\nZrestartować teraz?</string>
     <string name="restart_message_OK">Tak</string>
     <string name="restart_message_Later">Później</string>
-    <string name="browser_show_all_title">Pokaż wszystkie pliki w przeglądarce</string>
-    <string name="browser_show_all_summary">Wyświetlaj pliki, które nie są rozpoznawane jako audio lub wideo w przeglądarkach</string>
+    <string name="browser_show_all_title">Pokaż wszystkie pliki</string>
 
     <string name="developer_prefs_category">Programisty</string>
     <string name="enable_verbose_mode">Szczegółowość</string>
@@ -680,11 +672,11 @@
     <string name="medialibrary_scan_explanation">VLC może automatycznie przeszukać urządzenie, aby uporządkować kolekcję multimediów.</string>
     <string name="onboarding_theme_title">Rozgość się</string>
     <string name="done">Gotowe</string>
-    <string name="onboarding_scan_title">Automatycznie odkrywaj swoje multimedia</string>
+    <string name="onboarding_scan_title">Automatyczne wykrywanie multimediów</string>
     <string name="daynight_explanation">VLC automatycznie przełączy się na tryb nocny w odpowiednim czasie</string>
     <string name="onboarding_scanning_enable">Pozwól VLC przeskanować moje urządzenie w poszukiwaniu treści multimedialnych</string>
     <string name="onboarding_scan_whole">VLC przeszuka całą moją kartę SDCard</string>
-    <string name="onboarding_scan_customize">Pozwól mi wybrać, które foldery będą przeszukiwane</string>
+    <string name="onboarding_scan_customize">Pozwól mi wybrać foldery, które VLC będzie skanować</string>
     <string name="button_medialibrary_preferences">Przejdź do preferencji biblioteki multimediów</string>
     <string name="light_theme">Jasny motyw</string>
     <string name="add">Dodaj</string>
