@@ -741,4 +741,5 @@
     <string name="video_group_size_dialog_text">Number of characters used to group by name</string>
     <string name="video_group_size_summary">Group by %s first letters</string>
     <string name="video_group_size">Group videos by name</string>
+    <string name="url_copied_to_clipboard">Url copied to clipboard</string>
 </resources>
