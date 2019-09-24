@@ -123,8 +123,10 @@ class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEven
                     val scale = newWidth.toFloat() / itemSize
                     binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
 
-                    eventsHandler.onItemFocused(binding.root, getItem(layoutPosition))
-                    focusListener?.onFocusChanged(layoutPosition)
+                    if (layoutPosition in dataset.indices) {
+                        eventsHandler.onItemFocused(binding.root, getItem(layoutPosition))
+                        focusListener?.onFocusChanged(layoutPosition)
+                    }
                 } else {
                     binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
                 }
