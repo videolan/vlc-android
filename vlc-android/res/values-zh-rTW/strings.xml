@@ -45,8 +45,8 @@
     <string name="insert_next">插入為下一個</string>
     <string name="play_all">全部播放</string>
     <string name="append_all">全部附加</string>
-    <string name="last_playlist">前次播放清單</string>
-    <string name="last_playlist_shortcut">繼續播放</string>
+    <string name="resume_playback">繼續播放</string>
+    <string name="resume_playback_long_shortcut">繼續播放上次的播放清單</string>
     <string name="delete">刪除</string>
     <string name="remove">移除</string>
     <string name="set_song">設為鈴聲</string>
@@ -287,9 +287,9 @@
 
     <string name="video_prefs_category">視訊</string>
     <string name="video_min_group_length_title">影片群組</string>
-    <string name="video_min_group_length_summary">若影片前面的字母相同時，影片會被分到同一組。</string>
     <string name="video_min_group_length_disable">停用</string>
     <string name="video_min_group_length_folder">依照資料夾分組</string>
+    <string name="video_min_group_length_name">名稱分組</string>
     <string name="video_min_group_length_first">僅第一個字母</string>
     <string name="video_min_group_length_short">短數量的字母 (6)</string>
     <string name="video_min_group_length_long">長數量的字母 (9)</string>
@@ -299,8 +299,6 @@
     <string name="video_transition_summary">在轉場時顯示新影片標題</string>
     <string name="media_seen">顯示已看過影片的標記</string>
     <string name="media_seen_summary">將影片播放到最後之後，將它標示為已看過</string>
-    <string name="force_list_portrait">直向模式時不使用格狀排列</string>
-    <string name="force_list_portrait_summary">在直向模式時以清單顯示影片而非格狀排列</string>
     <string name="force_play_all_summary">播放所有影片，從您點選的開始</string>
     <string name="force_play_all_title">影片播放清單模式</string>
     <string name="save_brightness_summary">記住視訊播放器的亮度值</string>
@@ -318,7 +316,6 @@
     <string name="popup_keepscreen_title">在彈出式視窗模式中保持螢幕開啟</string>
     <string name="popup_keepscreen_summary">當彈出式視窗顯示時，即便影片已暫停，也總是保持螢幕開啟。</string>
     <string name="browser_show_hidden_files_title">顯示隱藏檔案</string>
-    <string name="browser_show_hidden_files_summary">在瀏覽器中顯示隱藏檔案</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
@@ -342,14 +339,12 @@
     <string name="lockscreen_cover_summary">可用時，會將目前的媒體封面圖片設定為鎖定畫面桌布</string>
     <string name="playlist_animate_scroll_title">以動畫的方式顯示目前的播放清單的自動捲動</string>
     <string name="playlist_animate_scroll_summary">在媒體轉換時動畫捲動</string>
-    <string name="audio_title_alignment">音訊標題對齊</string>
-    <string name="audio_title_alignment_default">預設</string>
-    <string name="audio_title_alignment_left">靠左</string>
-    <string name="audio_title_alignment_centre">居中</string>
-    <string name="audio_title_alignment_right">靠右</string>
-    <string name="audio_title_alignment_marquee">滾動</string>
-    <string name="audio_save_repeat_title">儲存重複模式</string>
-    <string name="audio_save_repeat_summary">當載入音訊播放清單時記住重複模式</string>
+    <string name="list_title_ellipsize">單行清單標題省略</string>
+    <string name="list_title_ellipsize_default">預設</string>
+    <string name="list_title_ellipsize_left">左</string>
+    <string name="list_title_ellipsize_right">右</string>
+    <string name="list_title_ellipsize_middle">中</string>
+    <string name="list_title_ellipsize_marquee">滾動</string>
     <string name="audio_boost_title">音訊增益</string>
     <string name="audio_boost_summary">允許高達 200% 的音量</string>
     <string name="headset_prefs_category">耳機</string>
@@ -378,7 +373,6 @@
     <string name="cast_performance_warning">投放這個影片需要轉換。轉換可能使用所有可用的電力，並快速耗盡電池。</string>
     <string name="casting_connected_renderer">已連接到繪製器「%1$s」</string>
     <string name="artists_show_all_title">顯示所有藝人</string>
-    <string name="artists_show_all_summary">在藝人清單中顯示所有藝人，不只是專輯藝人</string>
 
     <string name="extensions_prefs_category">擴充套件</string>
     <string name="extensions_enable_category">選擇要啟用的擴充套件</string>
@@ -430,8 +424,7 @@
     <string name="restart_message">應用程式重新啟動後，變更才會生效。\n\n現在要重新啟動嗎？</string>
     <string name="restart_message_OK">確定</string>
     <string name="restart_message_Later">稍後</string>
-    <string name="browser_show_all_title">在瀏覽器中顯示所有檔案</string>
-    <string name="browser_show_all_summary">在瀏覽器中顯示不被視為音訊或視訊的檔案</string>
+    <string name="browser_show_all_title">顯示所有檔案</string>
 
     <string name="developer_prefs_category">開發者</string>
     <string name="enable_verbose_mode">Verbose</string>
@@ -678,6 +671,7 @@
     <string name="jump_to">跳至</string>
     <string name="show_video_thumbnails_summary">在清單中顯示影片縮圖</string>
     <string name="show_video_thumbnails">影片縮圖</string>
+    <string name="eq_snap_bands">捕捉樂團</string>
     <string name="enable_equalizer">啟用</string>
     <string name="preamp">前置放大</string>
     <string name="presets">預置</string>
@@ -700,9 +694,17 @@
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">歡迎使用 VLC beta 程式。\n請注意，這個版本可能會有一些錯誤。</string>
     <string name="welcome_beta_description_bugs">如果您發現錯誤，請回報到我們的討論區或錯誤追蹤器。</string>
+    <string name="welcome_beta_description_crashes">如果您遇到當機，請使用啟動器中的 VLC 回報圖示來傳送給我們。</string>
     <string name="send">傳送</string>
     <string name="send_crash_action_title">您想要做什麼？</string>
     <string name="report_a_bug">回報錯誤</string>
     <string name="report_a_crash">回報當機</string>
     <string name="describe_crash">請描述當機如何發生</string>
+    <string name="favorite">收藏</string>
+    <string name="directory_not_scanned">此目錄未被掃描</string>
+    <string name="scanned_directory_added">%s 已新增至您的已掃描目錄</string>
+    <string name="video_group_size_dialog_text">用於按名稱分組的字元數</string>
+    <string name="video_group_size_summary">按頭 %s 個字母分組</string>
+    <string name="video_group_size">按名稱將影片分組</string>
+    <string name="url_copied_to_clipboard">Url 已複製到剪貼簿</string>
 </resources>
