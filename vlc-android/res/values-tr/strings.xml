@@ -46,8 +46,8 @@
     <string name="insert_next">Sonrakini ekle</string>
     <string name="play_all">Tümünü oynat</string>
     <string name="append_all">Tümünü ekle</string>
-    <string name="last_playlist">Oynatmayı sürdür</string>
-    <string name="last_playlist_shortcut">Son oynatma listesini oynatmayı sürdürür</string>
+    <string name="resume_playback">Oynatmayı sürdür</string>
+    <string name="resume_playback_long_shortcut">Son oynatma listesini oynatmayı sürdürür</string>
     <string name="delete">Sil</string>
     <string name="remove">Kaldır</string>
     <string name="set_song">Zil sesi olarak ayarla</string>
@@ -294,9 +294,9 @@
 
     <string name="video_prefs_category">Görüntü</string>
     <string name="video_min_group_length_title">Görüntüler gruplansın</string>
-    <string name="video_min_group_length_summary">İlk harfi aynı olan görüntüleri gruplar.</string>
     <string name="video_min_group_length_disable">Devre dışı bırak</string>
     <string name="video_min_group_length_folder">Klasöre göre grupla</string>
+    <string name="video_min_group_length_name">Ada göre grupla</string>
     <string name="video_min_group_length_first">Yalnız ilk harf</string>
     <string name="video_min_group_length_short">Kısa harf sayısı (6)</string>
     <string name="video_min_group_length_long">Uzun harf sayısı (9)</string>
@@ -306,8 +306,6 @@
     <string name="video_transition_summary">Dönüştürme sırasında yeni görüntü başlığı görüntülensin</string>
     <string name="media_seen">Görüldü görüntü işareti görüntülensin</string>
     <string name="media_seen_summary">Sonuna dek oynatılmış görüntüleri görüldü olarak işaretler</string>
-    <string name="force_list_portrait">Dikey konumda tablo olmasın</string>
-    <string name="force_list_portrait_summary">Dikey konumda görüntüler tablo yerine liste şeklinde görüntülenir</string>
     <string name="force_play_all_summary">Tüm görüntüleri oynatın, birine tıklayarak başlayın</string>
     <string name="force_play_all_title">Görüntü oynatma listesi kipi</string>
     <string name="save_brightness_summary">Görüntü oynatıcısının parlaklık düzeyi hatırlansın</string>
@@ -325,7 +323,6 @@
     <string name="popup_keepscreen_title">Açılan pencere kipinde ekran açık kalsın</string>
     <string name="popup_keepscreen_summary">Açılan pencere görüntülenirken görüntü duraklatılmış olsa bile ekran açık kalır.</string>
     <string name="browser_show_hidden_files_title">Gizli dosyalar görüntülensin</string>
-    <string name="browser_show_hidden_files_summary">Web tarayıcılarındaki gizli dosyalar görüntülenir</string>
 
     <string name="subtitles_prefs_category">Alt yazılar</string>
     <string name="subtitles_size_title">Alt Yazı Boyutu</string>
@@ -355,8 +352,6 @@
     <string name="list_title_ellipsize_right">Sağda</string>
     <string name="list_title_ellipsize_middle">Ortada</string>
     <string name="list_title_ellipsize_marquee">Marka</string>
-    <string name="audio_save_repeat_title">Yineleme kipi kaydedilsin</string>
-    <string name="audio_save_repeat_summary">Bu seçenek etkinleştirildiğinde, ses oynatma listeleri yüklenirken yineleme kipi hatırlanır</string>
     <string name="audio_boost_title">Ses güçlendirmesi</string>
     <string name="audio_boost_summary">Ses %200 arttırılabilsin</string>
     <string name="headset_prefs_category">Kulaklık</string>
@@ -385,7 +380,6 @@
     <string name="cast_performance_warning">Bu görüntünün aktarılabilmesi için dönüştürülmesi gerekli. Dönüşüm işlemi tüm gücü kullanarak pilin hızla bitmesine neden olabilir.</string>
     <string name="casting_connected_renderer">\'%1$s\' görüntüleyiciye bağlanıldı</string>
     <string name="artists_show_all_title">Tüm sanatçılar görüntülensin</string>
-    <string name="artists_show_all_summary">Bu seçenek etkinleştirildiğinde, albüm listesinde yalnız albüm sanatçısı değil tüm sanatçılar görüntülenir</string>
 
     <string name="extensions_prefs_category">Eklentiler</string>
     <string name="extensions_enable_category">Kullanılacak eklentileri seçin</string>
@@ -437,8 +431,7 @@
     <string name="restart_message">Değişikliklerin etkili olması için uygulamanın yeniden başlatılması gerekiyor.\n\nYeniden başlatılsın mı?</string>
     <string name="restart_message_OK">Tamam</string>
     <string name="restart_message_Later">Sonra</string>
-    <string name="browser_show_all_title">Tüm dosyalar web tarayıcısında görüntülensin</string>
-    <string name="browser_show_all_summary">Ses ya da görüntü olduğu anlaşılmayan dosyalar web tarayıcıda görüntülenir</string>
+    <string name="browser_show_all_title">Tüm dosyaları görüntüle</string>
 
     <string name="developer_prefs_category">Geliştirici</string>
     <string name="enable_verbose_mode">Ayrıntıları görüntüle</string>
@@ -715,4 +708,10 @@
     <string name="report_a_crash">Çökme bildirmek</string>
     <string name="describe_crash">Lütfen çökmenin nasıl gerçekleştiğini açıklayın</string>
     <string name="favorite">Sık kullanılan</string>
+    <string name="directory_not_scanned">Bu klasör taranmayacak</string>
+    <string name="scanned_directory_added">%s taranacak klasörlere eklendi</string>
+    <string name="video_group_size_dialog_text">Ada göre gruplama için kullanılacak karakter sayısı</string>
+    <string name="video_group_size_summary">İlk %s karaktere göre grupla</string>
+    <string name="video_group_size">Görüntüleri ada göre grupla</string>
+    <string name="url_copied_to_clipboard">Adres panoya kopyalandı</string>
 </resources>
