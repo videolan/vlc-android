@@ -160,6 +160,10 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
 
     override fun onQueryTextSubmit(query: String) = false
 
+    open fun forceLoadVideoFragment() {
+        throw NotImplementedError("forceLoadVideoFragment not implemented")
+    }
+
     private fun openSearchActivity() {
         startActivity(Intent(Intent.ACTION_SEARCH, null, this, SearchActivity::class.java)
                 .putExtra(SearchManager.QUERY, searchView.query.toString()))
