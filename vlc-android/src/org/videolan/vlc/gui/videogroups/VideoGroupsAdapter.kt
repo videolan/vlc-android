@@ -14,9 +14,11 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideogroupItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.UPDATE_SELECTION
 
 
@@ -51,6 +53,10 @@ class VideoGroupsAdapter (val actor: SendChannel<VideoGroupAction>) : PagedListA
                 }
             }
         }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        holder.binding.setVariable(BR.cover, UiTools.getDefaultVideoDrawable(holder.itemView.context))
     }
 
     @TargetApi(Build.VERSION_CODES.M)
