@@ -48,8 +48,8 @@
     <string name="insert_next">להכניס כבא בתור</string>
     <string name="play_all">נגינת הכול</string>
     <string name="append_all">הוספת הכול</string>
-    <string name="last_playlist">להמשיך בנגינה</string>
-    <string name="last_playlist_shortcut">להמשיך את נגינת רשימת הנגינה האחרונה</string>
+    <string name="resume_playback">להמשיך בנגינה</string>
+    <string name="resume_playback_long_shortcut">להמשיך את נגינת רשימת הנגינה הקודמת</string>
     <string name="delete">מחיקה</string>
     <string name="remove">הסרה</string>
     <string name="set_song">הגדרה כצלצול</string>
@@ -308,9 +308,9 @@
 
     <string name="video_prefs_category">סרטון</string>
     <string name="video_min_group_length_title">סרטונים קבוצתיים</string>
-    <string name="video_min_group_length_summary">סרטונים מקובצים אם האותיות הראשונות שלהם זהות.</string>
     <string name="video_min_group_length_disable">השבתה</string>
     <string name="video_min_group_length_folder">קיבוץ לפי תיקייה</string>
+    <string name="video_min_group_length_name">קיבוץ לפי שם</string>
     <string name="video_min_group_length_first">אות ראשונה בלבד</string>
     <string name="video_min_group_length_short">מספר מוגבל של אותיות (6)</string>
     <string name="video_min_group_length_long">מספר מורחב של אותיות (9)</string>
@@ -320,8 +320,6 @@
     <string name="video_transition_summary">הצגת סרטון חדש עם המעבר</string>
     <string name="media_seen">הצגת סמן צפייה</string>
     <string name="media_seen_summary">סימון צפייה על הסרטון בעת נגינתו עד לסופו</string>
-    <string name="force_list_portrait">אין רשת במצב אנכי</string>
-    <string name="force_list_portrait_summary">הצגת סרטונים ברשימה במקום ברשת במצב אנכי</string>
     <string name="force_play_all_summary">לנגן את כל הסרטונים, החל מזה שעליו לחצת</string>
     <string name="force_play_all_title">מצב רשימת סרטונים</string>
     <string name="save_brightness_summary">שמירת רמת הבהירות בנגן הסרטונים</string>
@@ -339,7 +337,6 @@
     <string name="popup_keepscreen_title">להשאיר את המסך פעיל במצב חלונית</string>
     <string name="popup_keepscreen_summary">תמיד להשאיר את המסך פעיל כאשר מוצג חלון קופץ, אפילו אם הסרטון מושהה.</string>
     <string name="browser_show_hidden_files_title">הצגת קבצים מוסתרים</string>
-    <string name="browser_show_hidden_files_summary">הצגת קבצים מוסתרים בדפדפנים</string>
 
     <string name="subtitles_prefs_category">כתוביות</string>
     <string name="subtitles_size_title">גודל הכתוביות</string>
@@ -369,8 +366,6 @@
     <string name="list_title_ellipsize_right">ימים</string>
     <string name="list_title_ellipsize_middle">אמצע</string>
     <string name="list_title_ellipsize_marquee">גלילה</string>
-    <string name="audio_save_repeat_title">שמירת מצב החזרה</string>
-    <string name="audio_save_repeat_summary">לזכור את מצב החזרה בעת טעינת רשימות נגינת שמע</string>
     <string name="audio_boost_title">הגברת שמע</string>
     <string name="audio_boost_summary">לאפשר עצמת שמע עד 200%</string>
     <string name="headset_prefs_category">אזניות</string>
@@ -399,7 +394,6 @@
     <string name="cast_performance_warning">לצורך שידור הסרטון הזה נדרשת המרה. המרה זו יכולה להשתמש בכל תכולת הסוללה ואולי אף לרוקן אותה בזמן קצר.</string>
     <string name="casting_connected_renderer">יש חיבור להתקן העיבוד ‚%1$s’</string>
     <string name="artists_show_all_title">הצגת כל האומנים</string>
-    <string name="artists_show_all_summary">הצגת כל האומנים ברשימת האומים, לא רק את אומני האלבומים</string>
 
     <string name="extensions_prefs_category">הרחבות</string>
     <string name="extensions_enable_category">בחירת הרחבות להפעלה</string>
@@ -451,8 +445,7 @@
     <string name="restart_message">השינויים יחולו עם הפעלת היישום מחדש.\n\nלהפעיל מחדש כעת?</string>
     <string name="restart_message_OK">אישור</string>
     <string name="restart_message_Later">אחר כך</string>
-    <string name="browser_show_all_title">הצגת כל הקבצים בדפדפן</string>
-    <string name="browser_show_all_summary">להציג את כל הקבצים שאינם מזוהים כשמע או וידאו בדפדפנים</string>
+    <string name="browser_show_all_title">הצגת כל הקבצים</string>
 
     <string name="developer_prefs_category">למתכנתים</string>
     <string name="enable_verbose_mode">פירוט</string>
@@ -729,4 +722,10 @@
     <string name="report_a_crash">לדווח על קריסה</string>
     <string name="describe_crash">נא לתאר איך אירעה הקריסה הזאת</string>
     <string name="favorite">סימון כמועדף</string>
+    <string name="directory_not_scanned">התיקייה לא נסרקה</string>
+    <string name="scanned_directory_added">%s נוספה לתיקיות שלך שנסרקו</string>
+    <string name="video_group_size_dialog_text">מספר התווים שמשמשים לקיבוץ לפי שם</string>
+    <string name="video_group_size_summary">קיבוץ לפי %s אותיות ראשונות</string>
+    <string name="video_group_size">קיבוץ סרטונים לפי שם</string>
+    <string name="url_copied_to_clipboard">הכתובת הועתקה ללוח הגזירים</string>
 </resources>
