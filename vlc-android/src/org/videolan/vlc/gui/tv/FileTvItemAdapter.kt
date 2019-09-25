@@ -24,11 +24,10 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.UPDATE_PAYLOAD
 import org.videolan.vlc.util.generateResolutionClass
-import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEventsHandler, var itemSize: Int) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEventsHandler, var itemSize: Int, val showProtocol: Boolean) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
         if (pagedList is List<*>) {
@@ -53,7 +52,7 @@ class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEven
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding> {
         val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding = MediaBrowserTvItemBinding.inflate(inflater, parent, false)
-        return MediaItemTVViewHolder(binding, eventsHandler)
+        return MediaItemTVViewHolder(binding, eventsHandler, showProtocol)
     }
 
     override fun onBindViewHolder(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>, position: Int) {
@@ -100,7 +99,7 @@ class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEven
     }
 
     inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
+    internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler, private val showProtocol: Boolean) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
 
@@ -172,7 +171,7 @@ class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEven
             binding.isSquare = isSquare
             binding.seen = seen
             binding.description = description
-            if (type == TYPE_NETWORK && item is AbstractMediaWrapper) binding.protocol = getProtocol(item)
+            if (showProtocol && item is AbstractMediaWrapper) binding.protocol = getProtocol(item)
             val cover = if (item is AbstractMediaWrapper) getMediaIconDrawable(binding.root.context, item.type, true) else defaultCover
             cover?.let { binding.cover = it }
             if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
