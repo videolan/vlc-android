@@ -1,57 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-            layout="@layout/button_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <org.videolan.vlc.gui.view.SwipeRefreshLayout
-            android:id="@+id/swipeLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchButton">
+        <import type="android.view.View" />
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/groups_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:fadingEdge="none"
-                android:fastScrollEnabled="true"
+        <variable
+                name="empty"
+                type="boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <include
+                layout="@layout/button_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <org.videolan.vlc.gui.view.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchButton">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/groups_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:fadingEdge="none"
+                    android:fastScrollEnabled="true"
+                    android:gravity="center"
+                    android:numColumns="auto_fit"
+                    android:padding="@dimen/half_default_margin"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:stretchMode="none" />
+        </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+
+        <TextView
+                android:id="@+id/textview_nomedia"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:drawableBottom="@drawable/ic_empty"
+                android:drawablePadding="@dimen/default_margin"
                 android:gravity="center"
-                android:numColumns="auto_fit"
-                android:padding="@dimen/half_default_margin"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:stretchMode="none" />
-    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+                android:maxWidth="600dp"
+                android:text="@string/nomedia"
+                android:textSize="20sp"
+                android:visibility="@{empty ? View.VISIBLE : View.GONE, default=gone}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-            android:id="@+id/textview_nomedia"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
-            android:drawableBottom="@drawable/ic_empty"
-            android:drawablePadding="@dimen/default_margin"
-            android:gravity="center"
-            android:maxWidth="600dp"
-            android:text="@string/nomedia"
-            android:textSize="20sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+        <Button
+                android:id="@+id/button_nomedia"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_medialibrary_preferences"
+                android:visibility="@{empty ? View.VISIBLE : View.GONE, default=gone}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textview_nomedia" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+                android:id="@+id/loading_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/loading"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/loading_flipper"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_nomedia" />
+
+        <ViewFlipper
+                android:id="@+id/loading_flipper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:autoStart="true"
+                android:flipInterval="1000"
+                app:layout_constraintBaseline_toBaselineOf="@+id/loading_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/loading_title">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/empty"
+                    android:textSize="20sp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/load_1_period"
+                    android:textSize="20sp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/load_2_period"
+                    android:textSize="20sp" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/load_3_period"
+                    android:textSize="20sp" />
+        </ViewFlipper>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -13,6 +13,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
+import org.videolan.vlc.databinding.FoldersFragmentBinding
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -30,6 +31,7 @@ import org.videolan.vlc.viewmodels.mobile.getViewModel
 @ObsoleteCoroutinesApi
 class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionReceiver {
 
+    private lateinit var binding: FoldersFragmentBinding
     private lateinit var adapter: FoldersAdapter
 
     private val actor = actor<FolderAction> {
@@ -64,7 +66,8 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.folders_fragment, container, false)
+        binding = FoldersFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,7 +79,28 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
             swipeRefreshLayout.isRefreshing = false
             adapter.submitList(it)
             restoreMultiSelectHelper()
+            updateEmptyView()
         })
+        val empty = viewModel.isEmpty()
+        binding.loadingFlipper.visibility = if (empty) View.VISIBLE else View.GONE
+        binding.loadingTitle.visibility = if (empty) View.VISIBLE else View.GONE
+        binding.empty = empty
+        binding.buttonNomedia.setOnClickListener {
+            val activity = requireActivity()
+            val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)
+            intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
+            startActivity(intent)
+            activity.setResult(RESULT_RESTART)
+        }
+
+    }
+
+    private fun updateEmptyView() {
+        val empty = viewModel.isEmpty()
+        val working = mediaLibrary.isWorking
+        binding.loadingFlipper.visibility = if (empty && working) View.VISIBLE else View.GONE
+        binding.loadingTitle.visibility = if (empty && working) View.VISIBLE else View.GONE
+        binding.empty = empty && !working
     }
 
     override fun onStart() {
