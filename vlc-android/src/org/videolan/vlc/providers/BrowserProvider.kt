@@ -147,7 +147,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 override fun onMediaRemoved(index: Int, media: Media) {}
             }
             requestBrowsing(url, listener, interact)
-            awaitClose { mediabrowser?.changeEventListener(null) }
+            awaitClose { if (url != null) browserActor.post(ClearListener) }
         }
     }
 
