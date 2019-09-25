@@ -46,6 +46,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
+import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
@@ -131,6 +132,12 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         return when (item.itemId) {
             R.id.ml_menu_last_playlist -> {
                 MediaUtils.loadlastPlaylist(activity, PLAYLIST_TYPE_VIDEO)
+                true
+            }
+            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
+                val displayInCards = Settings.getInstance(requireActivity()).getBoolean("video_display_in_cards", true)
+                Settings.getInstance(requireActivity()).edit().putBoolean("video_display_in_cards", !displayInCards).apply()
+                (activity as ContentActivity).forceLoadVideoFragment()
                 true
             }
             else -> super.onOptionsItemSelected(item)

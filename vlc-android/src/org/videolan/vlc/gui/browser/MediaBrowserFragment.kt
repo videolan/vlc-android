@@ -287,17 +287,17 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             }
             R.id.video_min_group_length_disable -> {
                 Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "-1").apply()
-                (activity as MainActivity).forceLoadVideoFragment()
+                (activity as ContentActivity).forceLoadVideoFragment()
                 return true
             }
             R.id.video_min_group_length_folder -> {
                 Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "0").apply()
-                (activity as MainActivity).forceLoadVideoFragment()
+                (activity as ContentActivity).forceLoadVideoFragment()
                 return true
             }
             R.id.video_min_group_length_name -> {
                 Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "6").apply()
-                (activity as MainActivity).forceLoadVideoFragment()
+                (activity as ContentActivity).forceLoadVideoFragment()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
