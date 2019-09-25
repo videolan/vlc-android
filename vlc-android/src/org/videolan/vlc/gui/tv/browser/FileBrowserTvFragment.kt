@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -85,7 +84,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
     }
 
     override fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter {
-        return FileTvItemAdapter(getCategory(), this, itemSize)
+        return FileTvItemAdapter(getCategory(), this, itemSize, isRootLevel)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
