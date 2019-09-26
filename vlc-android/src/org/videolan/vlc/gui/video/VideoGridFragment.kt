@@ -244,7 +244,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onFabPlayClick(view: View) {
-        MediaUtils.playAll(requireContext(), viewModel.provider, 0, false)
+        MediaUtils.playAll(context, viewModel.provider, 0, false)
     }
 
     @MainThread
