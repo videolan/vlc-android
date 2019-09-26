@@ -109,7 +109,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             else arguments?.getParcelable(KEY_FOLDER)
             val group = if (savedInstanceState != null ) savedInstanceState.getParcelable<AbstractVideoGroup>(KEY_GROUP)
             else arguments?.getParcelable(KEY_GROUP)
-            Log.d(TAG, "group ${group?.title}")
             viewModel = getViewModel(folder, group)
             viewModel.provider.pagedList.observe(this, this)
             viewModel.provider.loading.observe(this, Observer { loading ->
@@ -199,7 +198,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onChanged(list: PagedList<AbstractMediaWrapper>?) {
-        videoListAdapter.showFilename(viewModel.sort == AbstractMedialibrary.SORT_FILENAME)
+        videoListAdapter.showFilename(viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
         if (list != null) videoListAdapter.submitList(list)
     }
 
