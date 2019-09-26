@@ -52,7 +52,7 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
             else -> watchMedia()
         }
         //Initial state coming from preferences and falling back to [providersInCard] hardcoded values
-        for (i in 0 until displayModeKeys.size) {
+        for (i in displayModeKeys.indices) {
             providersInCard[i] = settings.getBoolean(displayModeKeys[i], providersInCard[i])
         }
     }

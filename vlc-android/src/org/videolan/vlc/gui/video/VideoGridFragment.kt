@@ -370,7 +370,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             if (!mediaLibrary.isWorking) handler.sendEmptyMessage(UNSET_REFRESHING)
             updateEmptyView()
             setFabPlayVisibility(true)
-            UiTools.updateSortTitles(this@VideoGridFragment)
+            menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
         }
         restoreMultiSelectHelper()
     }
