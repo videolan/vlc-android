@@ -232,7 +232,6 @@ object FileUtils {
                 return docFile.delete()
             } catch (ignored: Exception) {
             }
-
         return false
     }
 
@@ -325,11 +324,10 @@ object FileUtils {
     @WorkerThread
     fun findFile(uri: Uri): DocumentFile? {
         uri.path?.let { path ->
-            val storage = getMediaStorage(uri)
-            val treePref = Settings.getInstance(VLCApplication.appContext).getString("tree_uri_" + storage!!, null)
-                    ?: return null
+            val context = (VLCApplication.appContext as Context?) ?: return null
+            val treePref = getMediaStorage(uri)?.let { Settings.getInstance(context).getString("tree_uri_$it", null) } ?: return null
             val treeUri = Uri.parse(treePref)
-            var documentFile = DocumentFile.fromTreeUri(VLCApplication.appContext, treeUri)
+            var documentFile = DocumentFile.fromTreeUri(context, treeUri)
             val parts = path.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             for (i in 3 until parts.size) {
                 if (documentFile != null)
@@ -340,7 +338,6 @@ object FileUtils {
             return documentFile
         }
         return null
-
     }
 
     @WorkerThread
