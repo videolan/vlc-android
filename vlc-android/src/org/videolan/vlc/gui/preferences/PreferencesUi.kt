@@ -129,7 +129,12 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestart()
             }
             "video_group_size" -> {
-                AbstractMedialibrary.getInstance().setVideoGroupsPrefixLength(Settings.getInstance(requireActivity()).getString(key, "6").toInt())
+                val goupSizeValue = try {
+                    Settings.getInstance(requireActivity()).getString(key, "6").toInt()
+                } catch (e: NumberFormatException) {
+                    6
+                }
+                AbstractMedialibrary.getInstance().setVideoGroupsPrefixLength(goupSizeValue)
                 (activity as PreferencesActivity).setRestart()
             }
         }
