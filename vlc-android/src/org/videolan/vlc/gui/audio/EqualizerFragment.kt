@@ -35,7 +35,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.*
-import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -222,7 +221,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), CoroutineScope by Main
         binding.equalizerPreamp.setOnSeekBarChangeListener(null)
         if (binding.equalizerButton.isChecked) {
             val pos = binding.equalizerPresets.selectedItemPosition
-            VLCOptions.saveEqualizerInSettings(requireActivity(), equalizer, allSets[pos], true, state.saved)
+            if (::equalizer.isInitialized) VLCOptions.saveEqualizerInSettings(requireActivity(), equalizer, allSets[pos], true, state.saved)
         } else {
             VLCOptions.saveEqualizerInSettings(requireActivity(), MediaPlayer.Equalizer.createFromPreset(0), allSets[0], false, true)
         }
