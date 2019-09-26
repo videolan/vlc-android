@@ -55,6 +55,7 @@
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/grey900</item>
         <item name="android:windowBackground">@color/grey200</item>
+        <item name="empty_icon">@drawable/ic_empty_normal</item>
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
@@ -167,6 +168,7 @@
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/white</item>
         <item name="android:windowBackground">@color/grey900</item>
+        <item name="empty_icon">@drawable/ic_empty_w</item>
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
         <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
