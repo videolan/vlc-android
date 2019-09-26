@@ -35,6 +35,7 @@
     <attr name="ariane_text_color" format="reference|color"/>
     <attr name="ariane_text_size" format="dimension" />
     <attr name="card_background" format="color"/>
+    <attr name="empty_icon" format="reference" />
 
     <!--Main Icons-->
     <attr name="ic_down_style" format="reference" />
