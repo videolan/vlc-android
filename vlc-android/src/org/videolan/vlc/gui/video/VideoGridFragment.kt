@@ -123,7 +123,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_last_playlist).isVisible = true
-        menu.findItem(R.id.ml_menu_video_group).isVisible = true
+        menu.findItem(R.id.ml_menu_video_group).isVisible = viewModel.group == null && viewModel.folder == null
         val displayInCards = Settings.getInstance(requireActivity()).getBoolean("video_display_in_cards", true)
         menu.findItem(R.id.ml_menu_display_grid).isVisible = displayInCards
         menu.findItem(R.id.ml_menu_display_list).isVisible = !displayInCards
