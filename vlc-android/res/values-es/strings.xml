@@ -46,8 +46,8 @@
     <string name="insert_next">Insertar siguiente</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Añadir todo</string>
-    <string name="last_playlist">Última lista de reproducción</string>
-    <string name="last_playlist_shortcut">Continuar reproducción</string>
+    <string name="resume_playback">Continuar reproducción</string>
+    <string name="resume_playback_long_shortcut">Continuar reproducción de la última lista de reproducción</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Quitar</string>
     <string name="set_song">Establecer como tono de llamada</string>
@@ -294,9 +294,9 @@
 
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupar vídeos</string>
-    <string name="video_min_group_length_summary">Los vídeos son agrupados si la primera letra coincide</string>
     <string name="video_min_group_length_disable">Deshabilitar</string>
     <string name="video_min_group_length_folder">Agrupar por carpeta</string>
+    <string name="video_min_group_length_name">Agrupar por nombre</string>
     <string name="video_min_group_length_first">Solo primera letra</string>
     <string name="video_min_group_length_short">Número corto de letras (6)</string>
     <string name="video_min_group_length_long">Número largo de letras (9)</string>
@@ -306,8 +306,6 @@
     <string name="video_transition_summary">Mostrar título de nuevo vídeo en la transición</string>
     <string name="media_seen">Mostrar en creador de vídeos</string>
     <string name="media_seen_summary">Marcar vídeo como visto al reproducirlo hasta el final</string>
-    <string name="force_list_portrait">Sin rejilla en modo retrato</string>
-    <string name="force_list_portrait_summary">Mostar vídeos en una lista en vez de rejilla en modo retrato</string>
     <string name="force_play_all_summary">Reproducir todos los vídeos, empezando con el clicado</string>
     <string name="force_play_all_title">Modo de lista de reproducciónd e vídeo</string>
     <string name="save_brightness_summary">Recordar nivel de brillo en el reproductor de vídeo</string>
@@ -325,7 +323,6 @@
     <string name="popup_keepscreen_title">Mantener pantalla encendida en modo emergente</string>
     <string name="popup_keepscreen_summary">Mantiene siempre la pantalla encendida cuando se muestra en modo emergente, incluso si el vídeo está pausado.</string>
     <string name="browser_show_hidden_files_title">Mostrar archivos ocultos</string>
-    <string name="browser_show_hidden_files_summary">Mostrar archivos ocultos en exploradores</string>
 
     <string name="subtitles_prefs_category">Subtítulos</string>
     <string name="subtitles_size_title">Tamaño de subtítulos</string>
@@ -349,14 +346,12 @@
     <string name="lockscreen_cover_summary">Si está disponible, establece la cubierta actual como fondo de pantalla de la pantalla de bloqueo</string>
     <string name="playlist_animate_scroll_title">Animar autodesplazamiento en la lista de reproducción actual</string>
     <string name="playlist_animate_scroll_summary">Animar desplazamiento en la transición de medio</string>
-    <string name="audio_title_alignment">Alineación del audio</string>
-    <string name="audio_title_alignment_default">Predeterminado</string>
-    <string name="audio_title_alignment_left">Izquierda</string>
-    <string name="audio_title_alignment_centre">Centro</string>
-    <string name="audio_title_alignment_right">Derecha</string>
-    <string name="audio_title_alignment_marquee">Marquesina</string>
-    <string name="audio_save_repeat_title">Guardar modo repetición</string>
-    <string name="audio_save_repeat_summary">Recordar modo repetición al cargar listas de reproducción de audio</string>
+    <string name="list_title_ellipsize">Lista de única línea título en elipse</string>
+    <string name="list_title_ellipsize_default">Predeterminado</string>
+    <string name="list_title_ellipsize_left">Izquierda</string>
+    <string name="list_title_ellipsize_right">Derecha</string>
+    <string name="list_title_ellipsize_middle">Medio</string>
+    <string name="list_title_ellipsize_marquee">Marquesina</string>
     <string name="audio_boost_title">Apoyo de audio</string>
     <string name="audio_boost_summary">Permitir subir el volumen hasta el 200%</string>
     <string name="headset_prefs_category">Auriculares</string>
@@ -385,7 +380,6 @@
     <string name="cast_performance_warning">Transformar este vídeo requiere conversión. Esta conversión puede usar toda la energía disponible y consumir rápidamente la batería.</string>
     <string name="casting_connected_renderer">Conectado al visualizador «%1$s»</string>
     <string name="artists_show_all_title">Mostrar todos los artistas</string>
-    <string name="artists_show_all_summary">Mostrar todos los artistas en el listado de artistas, no solo los álbumes de artistas</string>
 
     <string name="extensions_prefs_category">Extensiones</string>
     <string name="extensions_enable_category">Elegir extensiones a habilitar</string>
@@ -437,8 +431,7 @@
     <string name="restart_message">Los cambios tomarán efecto una vez se reinicie la aplicación.\n\n¿Reiniciar ahora?</string>
     <string name="restart_message_OK">Aceptar</string>
     <string name="restart_message_Later">Más tarde</string>
-    <string name="browser_show_all_title">Mostrar todos los archivos en explorador</string>
-    <string name="browser_show_all_summary">Mostrar archivos que no son reconocidos como audio o vídeo en exploradores</string>
+    <string name="browser_show_all_title">Mostrar todos los archivos</string>
 
     <string name="developer_prefs_category">Desarrollador</string>
     <string name="enable_verbose_mode">Nivel de detalle</string>
@@ -699,4 +692,26 @@
     <string name="display_in_grid">Mostrar en rejilla</string>
     <string name="dump_db_succes">Base de datos volcada en la raíz del almacenamiento interno</string>
     <string name="dump_db_failure">Fall al volcar base de datos</string>
+    <string name="send_crash_title">Informador de fallos de VLC</string>
+    <string name="send_crash_description">Enviando su fallo, nos ayudará a mejorar la estabilidad de VLC.</string>
+    <string name="send_crash_warning">Asegúrese de eliminar cualquier dato sensible que no quiera enviar.</string>
+    <string name="dont_ask_again">No preguntar de nuevo</string>
+    <string name="include_medialib">Incluir su base de datos</string>
+    <string name="vlc_reporter">Informador de VLC</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Bienvenido al programa beta de VLC.\nNote que esta versión puede incluir algunos errores.</string>
+    <string name="welcome_beta_description_bugs">Si se da cuenta de un error, informe de él en nuestro foro o seguimiento de errores.</string>
+    <string name="welcome_beta_description_crashes">Si experimenta un fallo, use el icono del informador de VLC en su lanzador para enviárnoslo.</string>
+    <string name="send">Enviar</string>
+    <string name="send_crash_action_title">¿Qué desea hacer?</string>
+    <string name="report_a_bug">Informar de un error</string>
+    <string name="report_a_crash">Informar de un error</string>
+    <string name="describe_crash">Describa como ocurrió el error</string>
+    <string name="favorite">Favorito</string>
+    <string name="directory_not_scanned">Esta carpeta no es analizada</string>
+    <string name="scanned_directory_added">%s añadido a sus carpetas analizadas</string>
+    <string name="video_group_size_dialog_text">Número de caracteres usados para agrupar por nombre</string>
+    <string name="video_group_size_summary">Agrupar por las primeras %s letras</string>
+    <string name="video_group_size">Agrupar vídeos por nombre</string>
+    <string name="url_copied_to_clipboard">URL copiada al portapapeles</string>
 </resources>
