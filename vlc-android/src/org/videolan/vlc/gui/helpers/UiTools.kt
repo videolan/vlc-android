@@ -41,7 +41,6 @@ import android.renderscript.*
 import android.text.Html
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
@@ -442,6 +441,7 @@ object UiTools {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
     fun setOnDragListener(activity: Activity) {
         val view = if (AndroidUtil.isNougatOrLater) activity.window.peekDecorView() else null
         view?.setOnDragListener(View.OnDragListener { _, event ->
@@ -609,8 +609,7 @@ fun setEllipsizeModeByPref(t: TextView, activated: Boolean) {
     if (!activated) return
 
     when (Settings.listTitleEllipsize) {
-        0 -> {
-        }
+        0 -> {}
         1 -> t.ellipsize = TextUtils.TruncateAt.START
         2 -> t.ellipsize = TextUtils.TruncateAt.END
         3 -> t.ellipsize = TextUtils.TruncateAt.MIDDLE
@@ -622,42 +621,32 @@ fun setEllipsizeModeByPref(t: TextView, activated: Boolean) {
 }
 
 interface MarqueeViewHolder {
-    fun titleView(): TextView?
+    val titleView: TextView?
 }
 
-fun enableMarqueeEffect(recyclerView: RecyclerView) {
+fun enableMarqueeEffect(recyclerView: RecyclerView, handler: Handler) {
     val layoutManager = recyclerView.layoutManager
     if (layoutManager is LinearLayoutManager) {
         //Initial animation for already visible items
-        Handler().post {
-            launchMarquee(recyclerView, layoutManager)
-        }
+        handler.post { launchMarquee(recyclerView, layoutManager, handler) }
         //Animation when done scrolling
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-
-                val doScroll = newState == RecyclerView.SCROLL_STATE_IDLE
-                if (doScroll) {
-                    launchMarquee(recyclerView, layoutManager)
-                }
+                handler.removeCallbacksAndMessages(null)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) launchMarquee(recyclerView, layoutManager, handler)
             }
         })
     }
 }
 
-private fun launchMarquee(recyclerView: RecyclerView, layoutManager: LinearLayoutManager) {
-    Handler().postDelayed({
+private fun launchMarquee(recyclerView: RecyclerView, layoutManager: LinearLayoutManager, handler: Handler) {
+    handler.postDelayed({
         val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
             val holder = recyclerView.findViewHolderForLayoutPosition(i)
-            if (holder is MarqueeViewHolder) {
-//                holder.titleView().isSelected = false
-                if (BuildConfig.DEBUG) Log.d("UiTools", "Launching marquee for ${holder.titleView()?.text}")
-
-                holder.titleView()?.isSelected = true
-            }
+            (holder as? MarqueeViewHolder)?.titleView?.isSelected = true
         }
     }, 1500)
 }

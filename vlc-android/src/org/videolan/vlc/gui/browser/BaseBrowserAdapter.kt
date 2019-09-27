@@ -26,6 +26,7 @@ import android.annotation.TargetApi
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,6 +79,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
     var mediaCount = 0
     private var networkRoot = false
     private var specialIcons = false
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
     constructor(fragment: BaseBrowserFragment) : this() {
         this.fragment = fragment
@@ -111,7 +113,12 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        enableMarqueeEffect(recyclerView)
+        if (Settings.listTitleEllipsize == 0 || Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        handler.removeCallbacksAndMessages(null)
+        super.onDetachedFromRecyclerView(recyclerView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
@@ -152,7 +159,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
         super.onViewRecycled(holder)
-        holder.titleView()?.isSelected = false
+        holder.titleView?.isSelected = false
     }
 
     override fun getItemCount(): Int {
@@ -179,7 +186,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
 
     @TargetApi(Build.VERSION_CODES.M)
     internal inner class MediaViewHolder(binding: BrowserItemBinding) : ViewHolder<BrowserItemBinding>(binding), View.OnFocusChangeListener, MarqueeViewHolder {
-        override fun titleView(): TextView = binding.title
+        override val titleView: TextView? = binding.title
 
         init {
             binding.holder = this
@@ -235,7 +242,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
     }
 
     private inner class SeparatorViewHolder(binding: BrowserItemSeparatorBinding) : ViewHolder<BrowserItemSeparatorBinding>(binding) {
-        override fun titleView(): TextView? = null
+        override val titleView: TextView? = null
 
         override fun getType(): Int {
             return MediaLibraryItem.TYPE_DUMMY

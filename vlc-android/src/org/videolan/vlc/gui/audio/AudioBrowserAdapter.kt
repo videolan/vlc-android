@@ -27,6 +27,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -61,6 +62,7 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.UPDATE_SELECTION
 
 private const val SHOW_IN_LIST = -1
@@ -82,6 +84,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     private var focusNext = -1
     private var focusListener: FocusableRecyclerView.FocusListener? = null
     private lateinit var inflater: LayoutInflater
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
     val isEmpty: Boolean
         get() = currentList.isNullOrEmpty()
@@ -112,7 +115,12 @@ class AudioBrowserAdapter @JvmOverloads constructor(
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        enableMarqueeEffect(recyclerView)
+        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        handler.removeCallbacksAndMessages(null)
+        super.onDetachedFromRecyclerView(recyclerView)
     }
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
@@ -210,7 +218,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         private var coverlayResource = 0
         var onTouchListener: View.OnTouchListener
 
-        override fun titleView(): TextView = binding.title
+        override val titleView: TextView? = binding.title
 
         init {
             binding.holder = this
@@ -261,7 +269,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     internal constructor(binding: AudioBrowserCardItemBinding) : AbstractMediaItemViewHolder<AudioBrowserCardItemBinding>(binding), View.OnFocusChangeListener {
         private var coverlayResource = 0
 
-        override fun titleView(): TextView = binding.title
+        override val titleView = binding.title
 
         init {
             binding.holder = this
@@ -303,29 +311,23 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             get() = reorder
 
         fun onClick(v: View) {
-            val item = getItem(layoutPosition)
-            if (item != null)
-                eventsHandler.onClick(v, layoutPosition, item)
+            getItem(layoutPosition)?.let { eventsHandler.onClick(v, layoutPosition, it) }
         }
 
         fun onMoreClick(v: View) {
-            val item = getItem(layoutPosition)
-            if (item != null) eventsHandler.onCtxClick(v, layoutPosition, item)
+            getItem(layoutPosition)?.let { eventsHandler.onCtxClick(v, layoutPosition, it) }
         }
 
-        fun onLongClick(view: View): Boolean {
-            val item = getItem(layoutPosition)
-            return item != null && eventsHandler.onLongClick(view, layoutPosition, item)
+        fun onLongClick(v: View): Boolean {
+            return getItem(layoutPosition)?.let { eventsHandler.onLongClick(v, layoutPosition, it) } == true
         }
 
         fun onImageClick(v: View) {
-            val item = getItem(layoutPosition)
-            if (item != null) eventsHandler.onImageClick(v, layoutPosition, item)
+            getItem(layoutPosition)?.let { eventsHandler.onImageClick(v, layoutPosition, it) }
         }
 
         fun onMainActionClick(v: View) {
-            val item = getItem(layoutPosition)
-            if (item != null) eventsHandler.onMainActionClick(v, layoutPosition, item)
+            getItem(layoutPosition)?.let { eventsHandler.onMainActionClick(v, layoutPosition, it) }
         }
 
 
