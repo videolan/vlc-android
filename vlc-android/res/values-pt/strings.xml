@@ -46,8 +46,8 @@
     <string name="insert_next">Inserir seguinte</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="append_all">Acrescentar tudo</string>
-    <string name="last_playlist">Última lista de reprodução</string>
-    <string name="last_playlist_shortcut">Retomar reprodução</string>
+    <string name="resume_playback">Retomar reprodução</string>
+    <string name="resume_playback_long_shortcut">Retomar reprodução da última lista de reprodução</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque de chamada</string>
@@ -294,9 +294,9 @@
 
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupar vídeos</string>
-    <string name="video_min_group_length_summary">Os vídeos são agrupados se as suas iniciais forem iguais.</string>
     <string name="video_min_group_length_disable">Desativar</string>
     <string name="video_min_group_length_folder">Agrupar por pasta</string>
+    <string name="video_min_group_length_name">Agrupar por nome</string>
     <string name="video_min_group_length_first">Apenas primeira letra</string>
     <string name="video_min_group_length_short">Número de letras (6)</string>
     <string name="video_min_group_length_long">Número de letras (9)</string>
@@ -306,8 +306,6 @@
     <string name="video_transition_summary">Mostrar o titulo do novo vídeo na transição </string>
     <string name="media_seen">Mostrar marcador de vídeo visto</string>
     <string name="media_seen_summary">Marcar vídeo como visto se reproduzido até ao final</string>
-    <string name="force_list_portrait">Lista no modo vertical</string>
-    <string name="force_list_portrait_summary">No modo vertical, mostrar vídeos em lista e não em grelha</string>
     <string name="force_play_all_summary">Reproduzir todos os vídeos, iniciando com o que for clicado</string>
     <string name="force_play_all_title">Modo de lista de reprodução de vídeo</string>
     <string name="save_brightness_summary">Memorizar nível de brilho no reprodutor de vídeo</string>
@@ -325,7 +323,6 @@
     <string name="popup_keepscreen_title">Manter ecrã ligado no modo de janela</string>
     <string name="popup_keepscreen_summary">Manter ecrã ligado enquanto o modo de janela é exibido, mesmo se o vídeo estiver pausado.</string>
     <string name="browser_show_hidden_files_title">Mostrar ficheiros ocultos</string>
-    <string name="browser_show_hidden_files_summary">Mostrar ficheiros ocultos nos navegadores</string>
 
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho das Legendas</string>
@@ -349,14 +346,12 @@
     <string name="lockscreen_cover_summary">Se disponível, utilizar a imagem do ficheiro em reprodução como papel de parede</string>
     <string name="playlist_animate_scroll_title">Animar lista de reprodução ao deslocar automaticamente</string>
     <string name="playlist_animate_scroll_summary">Animar deslocação na transição multimédia</string>
-    <string name="audio_title_alignment">Alinhamento do título de áudio</string>
-    <string name="audio_title_alignment_default">Predefinido</string>
-    <string name="audio_title_alignment_left">Esquerda</string>
-    <string name="audio_title_alignment_centre">Centro</string>
-    <string name="audio_title_alignment_right">Direita</string>
-    <string name="audio_title_alignment_marquee">Logótipo</string>
-    <string name="audio_save_repeat_title">Guardar modo de repetição</string>
-    <string name="audio_save_repeat_summary">Memorizar modo de repetição ao carregar as listas de reprodução áudio</string>
+    <string name="list_title_ellipsize">Título da lista de linha única reticulada</string>
+    <string name="list_title_ellipsize_default">Predefinido</string>
+    <string name="list_title_ellipsize_left">Esquerda</string>
+    <string name="list_title_ellipsize_right">Direita</string>
+    <string name="list_title_ellipsize_middle">Meio</string>
+    <string name="list_title_ellipsize_marquee">Letreiro</string>
     <string name="audio_boost_title">Amplificação áudio</string>
     <string name="audio_boost_summary">Permitir volume até 200%</string>
     <string name="headset_prefs_category">Auriculares</string>
@@ -385,7 +380,6 @@
     <string name="cast_performance_warning">A difusão deste vídeo requer a conversão. Esta conversão pode usar toda a energia disponível e descarregar rapidamente a sua bateria.</string>
     <string name="casting_connected_renderer">Conectado ao processador \'%1$s\'</string>
     <string name="artists_show_all_title">Mostrar todos os artistas</string>
-    <string name="artists_show_all_summary">Mostrar todos os artistas na lista de Artistas e não apenas em artistas do álbum</string>
 
     <string name="extensions_prefs_category">Extensões</string>
     <string name="extensions_enable_category">Escolher extensões para ativar</string>
@@ -437,8 +431,7 @@
     <string name="restart_message">As alterações surtirão efeito após a aplicação ser reiniciada.\n\nReiniciar agora?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Mais tarde</string>
-    <string name="browser_show_all_title">Mostrar todos os ficheiros no navegador</string>
-    <string name="browser_show_all_summary">Mostrar ficheiros que não são reconhecidos com áudio ou vídeo nos navegadores</string>
+    <string name="browser_show_all_title">Mostrar todos os ficheiros</string>
 
     <string name="developer_prefs_category">Programadores/Criadores</string>
     <string name="enable_verbose_mode">Detalhado</string>
@@ -695,4 +688,30 @@
     <string name="remove_current">Remover atual</string>
     <string name="validation_delete_playlist">Tem a certeza que quer eliminar esta lista de reprodução?</string>
     <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>
+    <string name="display_in_list">Mostrar em lista</string>
+    <string name="display_in_grid">Mostrar em grelha</string>
+    <string name="dump_db_succes">Banco de dados despejado na raiz de armazenamento interno</string>
+    <string name="dump_db_failure">Falha ao despejar o banco de dados</string>
+    <string name="send_crash_title">Relator de falhas do VLC</string>
+    <string name="send_crash_description">Ao enviar a sua falha, ajuda-nos a melhorar a estabilidade do VLC.</string>
+    <string name="send_crash_warning">Tenha a certeza que remove todos os dados confidenciais que não deseja enviar.</string>
+    <string name="dont_ask_again">Não perguntar novamente</string>
+    <string name="include_medialib">Incluir a sua base de dados</string>
+    <string name="vlc_reporter">Relator VLC</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Bem-vindo ao programa beta do VLC.\nObserve que esta versão pode ter alguns erros.</string>
+    <string name="welcome_beta_description_bugs">Se você reparar num erro, por favor reporte-o no nosso fórum ou no monitorizador de erros.</string>
+    <string name="welcome_beta_description_crashes">Se ocorrer uma falha, por favor utilize o ícone do Relator VLC no seu lançador para enviá-lo para nós.</string>
+    <string name="send">Enviar</string>
+    <string name="send_crash_action_title">O que quer fazer?</string>
+    <string name="report_a_bug">Reportar um bug</string>
+    <string name="report_a_crash">Reportar um crash</string>
+    <string name="describe_crash">Por favor descreva como essa falha aconteceu</string>
+    <string name="favorite">Favorito</string>
+    <string name="directory_not_scanned">Este diretório não é examinado</string>
+    <string name="scanned_directory_added">%s  adicionado aos seus diretórios examinados</string>
+    <string name="video_group_size_dialog_text">Número de caracteres usados para agrupar por nome</string>
+    <string name="video_group_size_summary">Agrupar por %s letras iniciais</string>
+    <string name="video_group_size">Grupo de vídeos por nome</string>
+    <string name="url_copied_to_clipboard">Url copiado para a área de transferência</string>
 </resources>
