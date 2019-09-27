@@ -33,12 +33,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.tools.coroutineScope
+import org.videolan.tools.setGone
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioPagerAdapter
 import org.videolan.vlc.gui.helpers.UiTools
 
@@ -50,7 +53,7 @@ private const val MODE_TOTAL = 2 // Number of audio browser modes
 class AboutFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(org.videolan.vlc.R.layout.about, container, false)
+        return inflater.inflate(R.layout.about, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,17 +61,18 @@ class AboutFragment : Fragment() {
 
         (activity as? AppCompatActivity)?.supportActionBar?.title = "VLC ${BuildConfig.VERSION_NAME}"
 
-        val aboutMain = view.findViewById<NestedScrollView>(org.videolan.vlc.R.id.about_main)
-        val webView = view.findViewById<WebView>(org.videolan.vlc.R.id.webview)
-        val revision = getString(org.videolan.vlc.R.string.build_revision)
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).setGone()
+        val aboutMain = view.findViewById<NestedScrollView>(R.id.about_main)
+        val webView = view.findViewById<WebView>(R.id.webview)
+        val revision = getString(R.string.build_revision)
 
         val lists = arrayOf(aboutMain, webView)
-        val titles = arrayOf(getString(org.videolan.vlc.R.string.about), getString(org.videolan.vlc.R.string.licence))
-        val viewPager = view.findViewById<ViewPager>(org.videolan.vlc.R.id.pager).apply {
+        val titles = arrayOf(getString(R.string.about), getString(R.string.licence))
+        val viewPager = view.findViewById<ViewPager>(R.id.pager).apply {
             offscreenPageLimit = MODE_TOTAL - 1
             adapter = AudioPagerAdapter(lists as Array<View>, titles)
         }
-        requireActivity().findViewById<TabLayout>(org.videolan.vlc.R.id.sliding_tabs).apply {
+        requireActivity().findViewById<TabLayout>(R.id.sliding_tabs).apply {
             visibility = View.VISIBLE
             setupWithViewPager(viewPager)
         }
