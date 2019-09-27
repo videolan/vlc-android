@@ -29,8 +29,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -58,7 +58,7 @@ class AboutFragment : Fragment() {
 
         (activity as? AppCompatActivity)?.supportActionBar?.title = "VLC ${BuildConfig.VERSION_NAME}"
 
-        val aboutMain = view.findViewById<ScrollView>(org.videolan.vlc.R.id.about_main)
+        val aboutMain = view.findViewById<NestedScrollView>(org.videolan.vlc.R.id.about_main)
         val webView = view.findViewById<WebView>(org.videolan.vlc.R.id.webview)
         val revision = getString(org.videolan.vlc.R.string.build_revision)
 
