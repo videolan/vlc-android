@@ -128,15 +128,16 @@ class SecondaryActivity : ContentActivity() {
     private fun fetchSecondaryFragment(id: String) {
         when (id) {
             ALBUMS_SONGS -> {
-                fragment = AudioAlbumsSongsFragment()
-                val args = Bundle()
-                args.putParcelable(AudioBrowserFragment.TAG_ITEM, intent.getParcelableExtra<Parcelable>(AudioBrowserFragment.TAG_ITEM))
-                fragment!!.arguments = args
+                fragment = AudioAlbumsSongsFragment().apply {
+                    val args = Bundle(1)
+                    args.putParcelable(AudioBrowserFragment.TAG_ITEM, intent.getParcelableExtra<Parcelable>(AudioBrowserFragment.TAG_ITEM))
+                    arguments = args
+                }
             }
             ABOUT -> fragment = AboutFragment()
             VIDEO_GROUP_LIST -> {
                 fragment = VideoGridFragment().apply {
-                    arguments = Bundle(1).apply {
+                    arguments = Bundle(2).apply {
                         putParcelable(KEY_FOLDER, intent.getParcelableExtra<Parcelable>(KEY_FOLDER))
                         putParcelable(KEY_GROUP, intent.getParcelableExtra<Parcelable>(KEY_GROUP))
                     }
