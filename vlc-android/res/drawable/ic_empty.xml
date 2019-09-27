@@ -1,0 +1,35 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_empty.xml
+  ~ **************************************************************************
+  ~ Copyright © 2019 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="96dp"
+        android:height="96dp"
+        android:viewportWidth="25.4"
+        android:viewportHeight="25.400002">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="?attr/font_light"
+            android:pathData="M12.7,2.3812C11.6369,2.3812 10.677,3.1167 10.2629,4.0959L9.108,7.5608L7.5163,12.3372L6.7205,14.7252L5.0421,14.7252C4.5129,14.7252 4.0206,15.1249 3.8659,15.6523L2.9388,18.8066C2.6359,19.8416 2.3357,20.8688 2.0314,21.9093C1.904,22.3441 2.0314,22.6638 2.2371,22.8849C2.3643,23.0218 2.5214,23.1207 2.666,23.1867C2.7273,23.2139 2.7777,23.2325 2.8272,23.2487C3.3701,23.3414 3.9845,23.2577 4.7589,22.779C7.5762,21.0334 8.2804,24.5252 11.1058,22.779C13.9231,21.0334 14.6268,24.5252 17.4522,22.779C19.7797,21.3369 20.6658,23.4669 22.4963,23.2673C22.5676,23.2519 22.6411,23.2279 22.734,23.1867C22.8786,23.1207 23.0357,23.0218 23.1629,22.8849C23.3683,22.6638 23.496,22.3441 23.3686,21.9093C23.0643,20.8688 22.7641,19.8416 22.4612,18.8066L21.5341,15.6523C21.3794,15.1249 20.8871,14.7252 20.3579,14.7252L18.6795,14.7252L17.8837,12.3372L16.292,7.5608L15.1464,4.1238C14.7397,3.1305 13.7733,2.3812 12.7,2.3812zM10.3187,12.7A2.1167,2.1167 0,0 1,12.4354 14.8167A2.1167,2.1167 0,0 1,10.3187 16.9333A2.1167,2.1167 0,0 1,8.2021 14.8167A2.1167,2.1167 0,0 1,10.3187 12.7zM15.6104,13.2292A1.5875,1.5875 90,0 1,17.1979 14.8167A1.5875,1.5875 90,0 1,15.6104 16.4042A1.5875,1.5875 90,0 1,14.0229 14.8167A1.5875,1.5875 90,0 1,15.6104 13.2292z"
+            android:strokeWidth="1.00004995" />
+</vector>

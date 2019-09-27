@@ -496,7 +496,7 @@
     <string name="audio_delay">Audio delay</string>
     <string name="spu_delay">Subtitle delay</string>
     <string name="sleep_time_not_set">none set</string>
-    <string name="network_shares_discovery">Looking for network shares…</string>
+    <string name="network_shares_discovery">Looking for network shares</string>
     <string name="network_empty">This directory is empty.</string>
     <string name="network_connection_needed">No connection to local network.</string>
     <string name="search_hint">Search media</string>

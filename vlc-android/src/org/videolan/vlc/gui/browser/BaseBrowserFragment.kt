@@ -57,6 +57,7 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IRefreshable
@@ -276,16 +277,14 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         swipeRefreshLayout.let {
             if (Util.isListEmpty(viewModel.dataset.value)) {
                 if (it.isRefreshing) {
-                    binding.empty.setText(R.string.loading)
-                    binding.empty.visibility = View.VISIBLE
+                    binding.emptyLoading.state = EmptyLoadingState.LOADING
                     binding.networkList.visibility = View.GONE
                 } else {
-                    binding.empty.setText(R.string.directory_empty)
-                    binding.empty.visibility = View.VISIBLE
+                    binding.emptyLoading.state = EmptyLoadingState.EMPTY
                     binding.networkList.visibility = View.GONE
                 }
-            } else if (binding.empty.visibility == View.VISIBLE) {
-                binding.empty.visibility = View.GONE
+            } else {
+                binding.emptyLoading.state = EmptyLoadingState.NONE
                 binding.networkList.visibility = View.VISIBLE
             }
         }

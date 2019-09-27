@@ -56,6 +56,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
@@ -220,15 +221,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val empty = viewModel.isEmpty()
-        binding.loadingFlipper.visibility = if (empty) View.VISIBLE else View.GONE
-        binding.loadingTitle.visibility = if (empty) View.VISIBLE else View.GONE
+        binding.emptyLoading.state = if (empty) EmptyLoadingState.LOADING else EmptyLoadingState.NONE
         binding.empty = empty
-        binding.buttonNomedia.setOnClickListener {
-            val activity = requireActivity()
-            val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)
-            intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
-            startActivity(intent)
-            activity.setResult(RESULT_RESTART)
+        binding.emptyLoading.setOnNoMediaClickListener {
+            requireActivity().setResult(RESULT_RESTART)
         }
     }
 
@@ -309,8 +305,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private fun updateEmptyView() {
         val empty = viewModel.isEmpty()
         val working = mediaLibrary.isWorking
-        binding.loadingFlipper.visibility = if (empty && working) View.VISIBLE else View.GONE
-        binding.loadingTitle.visibility = if (empty && working) View.VISIBLE else View.GONE
+        binding.emptyLoading.state = if (empty && working) EmptyLoadingState.LOADING else if (empty && !working) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
         binding.empty = empty && !working
     }
 

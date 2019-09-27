@@ -11,9 +11,6 @@
             name="loading"
             type="boolean" />
 
-        <variable
-                name="empty"
-                type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,23 +19,16 @@
         android:layout_height="match_parent"
         tools:theme="@style/Theme.VLC.TV">
 
-        <TextView
-                android:id="@+id/textview_nomedia"
+        <org.videolan.vlc.gui.view.EmptyLoadingStateView
+                android:id="@+id/empty_loading"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/default_margin"
-                android:drawableTop="@drawable/ic_empty_w"
-                android:drawablePadding="@dimen/default_margin"
-                android:gravity="center"
-                android:maxWidth="600dp"
-                android:text="@string/nomedia"
-                android:textSize="22sp"
-                android:visibility="@{empty ? View.VISIBLE : View.GONE, default=gone}"
-                app:layout_constraintBottom_toBottomOf="@+id/list"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:empty_text="@string/nomedia"
+                app:layout_constraintWidth_max="600dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/headerListContainer"

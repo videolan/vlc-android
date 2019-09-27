@@ -50,34 +50,15 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent" />
 
-
-    <TextView
-            android:id="@+id/no_media"
+    <org.videolan.vlc.gui.view.EmptyLoadingStateView
+            android:id="@+id/empty_loading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
-            android:drawableBottom="?attr/empty_icon"
-            android:drawablePadding="@dimen/default_margin"
-            android:gravity="center"
-            android:maxWidth="600dp"
-            android:text="@string/nomedia"
-            android:textSize="20sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/button_nomedia"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchButton"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-    <Button
-            android:id="@+id/button_nomedia"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_medialibrary_preferences"
-            android:visibility="gone"
+            app:empty_text="@string/nomedia"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/no_media" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

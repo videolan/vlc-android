@@ -70,7 +70,7 @@ class FilePickerFragment : FileBrowserFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.empty.setText(R.string.no_subs_found)
+        binding.emptyLoading.emptyText = R.string.no_subs_found
     }
 
     override fun onStart() {

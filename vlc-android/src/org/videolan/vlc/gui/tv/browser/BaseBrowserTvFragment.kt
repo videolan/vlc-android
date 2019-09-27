@@ -54,6 +54,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SongBrowserBinding
 import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.RefreshModel
@@ -90,7 +91,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = SongBrowserBinding.inflate(inflater, container, false)
-        binding.empty = false
+        binding.emptyLoading.state = EmptyLoadingState.NONE
         return binding.root
     }
 

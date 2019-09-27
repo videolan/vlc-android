@@ -35,7 +35,7 @@
     <attr name="ariane_text_color" format="reference|color"/>
     <attr name="ariane_text_size" format="dimension" />
     <attr name="card_background" format="color"/>
-    <attr name="empty_icon" format="reference" />
+    <attr name="empty_button" format="reference" />
 
     <!--Main Icons-->
     <attr name="ic_down_style" format="reference" />
@@ -88,6 +88,10 @@
 
     <declare-styleable name="MiniVisualizer">
         <attr name="bar_color" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="EmptyLoadingStateView">
+        <attr name="empty_text" format="reference|string" />
+        <attr name="show_no_media" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="HalfCircleView">

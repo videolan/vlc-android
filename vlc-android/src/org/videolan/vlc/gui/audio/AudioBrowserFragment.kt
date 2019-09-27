@@ -27,8 +27,6 @@ import android.os.Bundle
 import android.os.Message
 import android.util.SparseArray
 import android.view.*
-import android.widget.Button
-import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
@@ -46,9 +44,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.*
-import org.videolan.vlc.gui.view.FastScroller
-import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
-import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
+import org.videolan.vlc.gui.view.*
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
@@ -65,8 +61,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     private lateinit var albumsAdapter: AudioBrowserAdapter
     private lateinit var genresAdapter: AudioBrowserAdapter
 
-    private lateinit var emptyView: TextView
-    private lateinit var medialibrarySettingsBtn: Button
+    private lateinit var emptyView: EmptyLoadingStateView
     private val lists = mutableListOf<RecyclerView>()
     private lateinit var settings: SharedPreferences
     private lateinit var fastScroller: FastScroller
@@ -106,17 +101,11 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        emptyView = view.findViewById(R.id.no_media)
-        medialibrarySettingsBtn = view.findViewById(R.id.button_nomedia)
+        emptyView = view.findViewById(R.id.empty_loading)
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller)
         fastScroller.attachToCoordinator(view.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, view.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
-        medialibrarySettingsBtn.setOnClickListener {
-            activity?.run {
-                val intent = Intent(applicationContext, SecondaryActivity::class.java)
-                intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
-                startActivity(intent)
-                setResult(RESULT_RESTART)
-            }
+        emptyView.setOnNoMediaClickListener {
+            requireActivity().setResult(RESULT_RESTART)
         }
     }
 
@@ -309,8 +298,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     }
 
     private fun updateEmptyView() {
-        emptyView.visibility = if (getCurrentAdapter().isEmpty) View.VISIBLE else View.GONE
-        medialibrarySettingsBtn.visibility = if (getCurrentAdapter().isEmpty) View.VISIBLE else View.GONE
+        emptyView.state = if (getCurrentAdapter().isEmpty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
         setFabPlayShuffleAllVisibility()
     }
 

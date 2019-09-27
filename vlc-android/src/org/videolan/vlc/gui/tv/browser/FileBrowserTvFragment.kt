@@ -27,6 +27,7 @@ import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.tv.FileTvItemAdapter
 import org.videolan.vlc.gui.tv.TvItemAdapter
 import org.videolan.vlc.gui.tv.TvUtil
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.BrowserProvider
@@ -97,7 +98,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
                     }
                 }
             }
-            binding.empty = if (isRootLevel && getCategory() == TYPE_NETWORK) false else items.isEmpty()
+            binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             if (BuildConfig.DEBUG) Log.d(TAG, "Submit list of ${items.size} items")
             if (BuildConfig.DEBUG) Log.d(TAG, "header size: ${viewModel.provider.headers.size()}")
 
@@ -114,6 +115,10 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
             }
             headerAdapter.items = headerItems
             headerAdapter.notifyDataSetChanged()
+        })
+
+        (viewModel.provider as BrowserProvider).loading.observe(this, Observer {
+            if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
         })
 
         (viewModel as BrowserModel).provider.liveHeaders.observe(this, Observer {
@@ -225,6 +230,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
         }
         if (!isRootLevel) binding.favoriteButton.setOnClickListener(favoriteClickListener)
         binding.imageButtonFavorite.setOnClickListener(favoriteClickListener)
+        binding.emptyLoading.showNoMedia = false
     }
 
     override fun onResume() {

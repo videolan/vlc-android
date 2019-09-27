@@ -16,6 +16,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.MediaTvItemAdapter
 import org.videolan.vlc.gui.tv.TvItemAdapter
 import org.videolan.vlc.gui.tv.TvUtil
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
@@ -74,7 +75,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
         (viewModel.provider as MedialibraryProvider<*>).pagedList.observe(this, Observer { items ->
             submitList(items)
 
-            binding.empty = items.isEmpty()
+            binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
 
             //headers
             val nbColumns = if ((viewModel as MediaBrowserViewModel).sort == AbstractMedialibrary.SORT_ALPHA || (viewModel as MediaBrowserViewModel).sort == AbstractMedialibrary.SORT_DEFAULT) 9 else 1

@@ -33,7 +33,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +44,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog
+import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.CTX_FAV_ADD
 import org.videolan.vlc.util.CTX_FAV_EDIT
 import org.videolan.vlc.util.Util
@@ -139,25 +139,32 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         if (ExternalMonitor.isConnected) {
             if (Util.isListEmpty(viewModel.dataset.value)) {
                 if (swipeRefreshLayout.isRefreshing) {
-                    binding.empty.setText(R.string.loading)
-                    binding.empty.visibility = View.VISIBLE
+                    binding.emptyLoading.state = EmptyLoadingState.LOADING
                     binding.networkList.visibility = View.GONE
                 } else {
-                    if (isRootDirectory)
-                        binding.empty.setText(if (allowLAN()) R.string.network_shares_discovery else R.string.network_connection_needed)
-                    else
-                        binding.empty.setText(R.string.network_empty)
-                    binding.empty.visibility = View.VISIBLE
+
+                    if (isRootDirectory) {
+                        if (allowLAN()) {
+                            binding.emptyLoading.state = EmptyLoadingState.LOADING
+                            binding.emptyLoading.loadingText = R.string.network_shares_discovery
+                        } else {
+                            binding.emptyLoading.state = EmptyLoadingState.EMPTY
+                            binding.emptyLoading.emptyText = R.string.network_connection_needed
+                        }
+                    } else {
+                        binding.emptyLoading.state = EmptyLoadingState.EMPTY
+                        binding.emptyLoading.emptyText = R.string.network_empty
+                    }
                     binding.networkList.visibility = View.GONE
                     handler.sendEmptyMessage(MSG_HIDE_LOADING)
                 }
-            } else if (binding.empty.visibility == View.VISIBLE) {
-                binding.empty.visibility = View.GONE
+            } else {
+                binding.emptyLoading.state = EmptyLoadingState.NONE
                 binding.networkList.visibility = View.VISIBLE
             }
         } else {
-            binding.empty.setText(R.string.network_connection_needed)
-            binding.empty.visibility = View.VISIBLE
+            binding.emptyLoading.state = EmptyLoadingState.EMPTY
+            binding.emptyLoading.emptyText = R.string.network_connection_needed
             binding.networkList.visibility = View.GONE
             binding.showFavorites = false
         }
