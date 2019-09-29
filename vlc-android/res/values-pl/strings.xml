@@ -310,6 +310,7 @@
     <string name="video_min_group_length_title">Grupuj filmy</string>
     <string name="video_min_group_length_disable">Wyłącz</string>
     <string name="video_min_group_length_folder">Grupuj według folderu</string>
+    <string name="video_min_group_length_name">Grupuj według nazwy</string>
     <string name="video_min_group_length_first">Tylko pierwsza litera</string>
     <string name="video_min_group_length_short">Krótka liczba liter (6)</string>
     <string name="video_min_group_length_long">Długa liczba liter (9)</string>
@@ -721,4 +722,10 @@
     <string name="report_a_crash">Zgłosić awarię</string>
     <string name="describe_crash">Opisz, jak doszło do tej awarii</string>
     <string name="favorite">Ulubiony</string>
+    <string name="directory_not_scanned">Ten katalog nie jest skanowany</string>
+    <string name="scanned_directory_added">%s dodany do zeskanowanych katalogów</string>
+    <string name="video_group_size_dialog_text">Liczba znaków używanych do grupowania według nazwy</string>
+    <string name="video_group_size_summary">Grupuj według %s pierwszych liter</string>
+    <string name="video_group_size">Grupuj filmy według nazwy</string>
+    <string name="url_copied_to_clipboard">Adres URL skopiowany do schowka</string>
 </resources>
