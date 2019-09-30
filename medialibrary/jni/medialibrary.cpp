@@ -1027,7 +1027,11 @@ searchFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstri
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromAlbum(id, queryChar, &params);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    if (query == nullptr)
+    {
+        env->ReleaseStringUTFChars(filterQuery, queryChar);
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    }
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
@@ -1105,7 +1109,11 @@ searchFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstr
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromArtist(id, queryChar, &params);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    if (query == nullptr)
+    {
+        env->ReleaseStringUTFChars(filterQuery, queryChar);
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    }
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
@@ -1184,7 +1192,11 @@ searchAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAlbumsFromArtist(id, queryChar, &params);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
+    if (query == nullptr)
+    {
+        env->ReleaseStringUTFChars(filterQuery, queryChar);
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
+    }
     std::vector<medialibrary::AlbumPtr> albums = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray albumsRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
@@ -1276,7 +1288,11 @@ searchMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, 
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromGenre(id, queryChar, &params);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    if (query == nullptr)
+    {
+        env->ReleaseStringUTFChars(filterQuery, queryChar);
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    }
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
@@ -1355,7 +1371,11 @@ searchAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id,
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAlbumsFromGenre(id, queryChar, &params);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
+    if (query == nullptr)
+    {
+        env->ReleaseStringUTFChars(filterQuery, queryChar);
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
+    }
     std::vector<medialibrary::AlbumPtr> albums = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray albumsRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
@@ -1547,7 +1567,11 @@ searchFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, js
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromPLaylist(id, queryChar);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    if (query == nullptr)
+    {
+        env->ReleaseStringUTFChars(filterQuery, queryChar);
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    }
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
@@ -1655,7 +1679,11 @@ searchMediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id,
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromFolder(id, queryChar, (medialibrary::IMedia::Type)mediaType, &params);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    if (query == nullptr)
+    {
+        env->ReleaseStringUTFChars(filterQuery, queryChar);
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    }
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
@@ -1789,7 +1817,11 @@ getPagedMediaFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jst
     };
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
     const auto query = aml->mediaFromVideoGroup(char_name, &params);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    if (query == nullptr)
+    {
+        env->ReleaseStringUTFChars(name, char_name);
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    }
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
@@ -1821,7 +1853,12 @@ searchFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jstring na
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromVideoGroup(char_name, queryChar, &params);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    if (query == nullptr)
+    {
+        env->ReleaseStringUTFChars(filterQuery, queryChar);
+        env->ReleaseStringUTFChars(name, char_name);
+        return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    }
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
