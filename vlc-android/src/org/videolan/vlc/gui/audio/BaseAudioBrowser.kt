@@ -217,6 +217,7 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+        if (!isStarted()) return false
         val list = getCurrentAdapter()?.multiSelectHelper?.getSelection()
         stopActionMode()
         if (!list.isNullOrEmpty()) launch {

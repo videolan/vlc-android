@@ -275,6 +275,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+        if (!isStarted()) return false
         val list = audioBrowserAdapter.multiSelectHelper.getSelection()
         val tracks = ArrayList<AbstractMediaWrapper>()
         for (mediaItem in list)

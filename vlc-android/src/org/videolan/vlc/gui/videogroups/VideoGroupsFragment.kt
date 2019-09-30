@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideogroupsFragmentBinding
 import org.videolan.vlc.gui.SecondaryActivity
@@ -122,6 +123,7 @@ class VideoGroupsFragment : MediaBrowserFragment<VideogroupsViewModel>(), CtxAct
     }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem): Boolean {
+        if (!isStarted()) return false
         val selection = adapter.multiSelectHelper.getSelection()
         when (item.itemId) {
             R.id.action_folder_play -> viewModel.playSelection(selection)

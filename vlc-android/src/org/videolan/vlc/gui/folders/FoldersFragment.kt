@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.FoldersFragmentBinding
 import org.videolan.vlc.gui.SecondaryActivity
@@ -158,6 +159,7 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
     }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem) : Boolean {
+        if (!isStarted()) return false
         val selection = adapter.multiSelectHelper.getSelection()
         when (item.itemId) {
             R.id.action_folder_play -> viewModel.playSelection(selection)
