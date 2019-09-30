@@ -36,6 +36,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
@@ -169,6 +170,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+        if (!isStarted()) return false
         val selection = multiSelectHelper.getSelection()
         if (selection.isNotEmpty()) {
             when (item.itemId) {
