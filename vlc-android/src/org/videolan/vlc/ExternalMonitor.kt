@@ -190,7 +190,9 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     internal fun unregister() {
         val ctx = VLCApplication.appContext
-        if (registered) ctx.unregisterReceiver(this)
+        if (registered) try {
+            ctx.unregisterReceiver(this)
+        } catch (iae: IllegalArgumentException) {}
         registered = false
         connected.value = false
         devices.clear()
