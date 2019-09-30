@@ -20,16 +20,24 @@
 
 package org.videolan.vlc
 
+import android.annotation.TargetApi
 import android.app.PendingIntent
 import android.app.Service
-import android.content.*
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.*
 import android.text.format.DateFormat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.Logcat
+import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.getContextWithLocale
 import java.io.*
 import java.util.*
 
@@ -109,13 +117,10 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         sendMessage(MSG_ONLOG, log)
     }
 
-    @Synchronized
-    fun start() {
-        if (logcat != null) return
-        clear()
-        logcat = Logcat()
-        logcat!!.start(this)
-
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun forceForeground() {
+        if (AndroidUtil.isOOrLater)
+            NotificationHelper.createDebugServcieChannel(applicationContext)
         val debugLogIntent = Intent(this, DebugLogActivity::class.java)
         debugLogIntent.action = "android.intent.action.MAIN"
         debugLogIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -127,9 +132,17 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         builder.setSmallIcon(R.drawable.ic_stat_vlc)
         builder.setContentIntent(pi)
         val notification = builder.build()
-        startForeground(R.string.log_service_title, notification)
+        startForeground(3, notification)
+    }
 
-        startService(Intent(this, DebugLogService::class.java))
+    @Synchronized
+    fun start() {
+        if (logcat != null) return
+        clear()
+        logcat = Logcat()
+        logcat!!.start(this)
+
+        ContextCompat.startForegroundService(this, Intent(this, DebugLogService::class.java))
         sendMessage(MSG_STARTED, null)
     }
 
@@ -198,6 +211,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        if (AndroidUtil.isOOrLater) forceForeground()
         return START_STICKY
     }
 
@@ -279,8 +293,6 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
             synchronized(this) {
                 if (mIDebugLogService != null) {
                     try {
-                        if (AndroidUtil.isOOrLater)
-                            NotificationHelper.createDebugServcieChannel(mContext.applicationContext)
                         mIDebugLogService!!.start()
                         return true
                     } catch (e: RemoteException) {
