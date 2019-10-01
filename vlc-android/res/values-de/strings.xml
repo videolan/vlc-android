@@ -296,6 +296,7 @@
     <string name="video_min_group_length_title">Videos gruppieren</string>
     <string name="video_min_group_length_disable">Deaktivieren</string>
     <string name="video_min_group_length_folder">Nach Ordner gruppieren</string>
+    <string name="video_min_group_length_name">Nach Name gruppieren</string>
     <string name="video_min_group_length_first">Nur erster Buchstabe</string>
     <string name="video_min_group_length_short">Mind. Anzahl der Buchstaben (6)</string>
     <string name="video_min_group_length_long">Max. Anzahl der Buchstaben (9)</string>
@@ -707,4 +708,11 @@
     <string name="report_a_crash">Einen Absturz melden</string>
     <string name="describe_crash">Bitte beschreiben Sie, wie dieser Absturz passiert ist</string>
     <string name="favorite">Favorit</string>
+    <string name="add_to_scanned">Diesen Ordner durchsuchen</string>
+    <string name="directory_not_scanned">Dieser Ordner wurde noch nicht durchsucht</string>
+    <string name="scanned_directory_added">%s wurde zu den durchsuchten Ordnern hinzugefügt</string>
+    <string name="video_group_size_dialog_text">Anzahl an Zeichen die zur Namensgruppierung verwendet werden</string>
+    <string name="video_group_size_summary">Gruppierung entsprechend der %s ersten Zeichen</string>
+    <string name="video_group_size">Videos nach Name gruppe</string>
+    <string name="url_copied_to_clipboard">URL in die Zwischenablage kopiert</string>
 </resources>
