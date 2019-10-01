@@ -1,0 +1,50 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_audiosub_info.xml
+  ~ **************************************************************************
+  ~ Copyright © 2019 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:pathData="M24,24m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="15.1181097"
+            android:fillColor="@color/player_circle_background"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:fillAlpha="0.75294118"
+            android:strokeLineCap="butt" />
+    <path
+            android:pathData="m15,13.5c-1.662,0 -3,1.338 -3,3v15c0,1.662 1.338,3 3,3h18c1.662,0 3,-1.338 3,-3v-15c0,-1.662 -1.338,-3 -3,-3zM15,25.5h3.75v2.25L15,27.75ZM21,25.5h12v2.25L21,27.75ZM15,29.25h12v2.25L15,31.5ZM29.25,29.25L33,29.25v2.25h-3.75z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="1.5"
+            android:fillColor="#fafafa"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:fillAlpha="1"
+            android:strokeLineCap="round" />
+</vector>

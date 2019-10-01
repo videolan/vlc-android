@@ -127,7 +127,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/default_margin"
                             vlc:layout_constraintEnd_toEndOf="parent"
-                            android:src="@drawable/ic_audiosub_circle_normal_o"
+                            vlc:srcCompat="@drawable/ic_audiosub_info"
                             android:visibility="gone"
                             tools:visibility="visible"
                             android:layout_marginTop="8dp"
