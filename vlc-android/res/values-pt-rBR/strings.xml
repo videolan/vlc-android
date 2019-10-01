@@ -296,6 +296,7 @@
     <string name="video_min_group_length_title">Agrupar vídeos</string>
     <string name="video_min_group_length_disable">Desabilitar</string>
     <string name="video_min_group_length_folder">Agrupar por pasta</string>
+    <string name="video_min_group_length_name">Agrupar por nome</string>
     <string name="video_min_group_length_first">Somente a primeira letra</string>
     <string name="video_min_group_length_short">Pequeno número de letras (6)</string>
     <string name="video_min_group_length_long">Grande número de letras (9)</string>
@@ -707,4 +708,11 @@
     <string name="report_a_crash">Relatar um problema</string>
     <string name="describe_crash">Por favor descreva como o problema ocorreu</string>
     <string name="favorite">Favorito</string>
+    <string name="add_to_scanned">Verificar esta pasta</string>
+    <string name="directory_not_scanned">Esta pasta não é verificada</string>
+    <string name="scanned_directory_added">%s adicionado às suas pastas verificadas</string>
+    <string name="video_group_size_dialog_text">Número de caracteres usados para agrupar por nome</string>
+    <string name="video_group_size_summary">Agrupar pelos %s primeiros caracteres</string>
+    <string name="video_group_size">Agrupar vídeos por nome</string>
+    <string name="url_copied_to_clipboard">Url copiado para a área de transferência</string>
 </resources>
