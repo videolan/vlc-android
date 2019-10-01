@@ -46,8 +46,8 @@
     <string name="insert_next">Kölägg nästa</string>
     <string name="play_all">Spela upp alla</string>
     <string name="append_all">Kölägg alla</string>
-    <string name="last_playlist">Återuppta uppspelning</string>
-    <string name="last_playlist_shortcut">Återuppta uppspelning av senaste spellista</string>
+    <string name="resume_playback">Återuppta uppspelning</string>
+    <string name="resume_playback_long_shortcut">Återuppta uppspelning av senaste spellista</string>
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
     <string name="set_song">Ange som ringsignal</string>
@@ -294,9 +294,9 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Gruppera videor</string>
-    <string name="video_min_group_length_summary">Videor grupperas om den första bokstaven är densamma.</string>
     <string name="video_min_group_length_disable">Inaktivera</string>
     <string name="video_min_group_length_folder">Gruppera efter mapp</string>
+    <string name="video_min_group_length_name">Gruppera efter namn</string>
     <string name="video_min_group_length_first">Endast första bokstaven</string>
     <string name="video_min_group_length_short">Litet antal bokstäver (6)</string>
     <string name="video_min_group_length_long">Stort antal bokstäver (9)</string>
@@ -306,8 +306,6 @@
     <string name="video_transition_summary">Visa ny videotitel vid övergång</string>
     <string name="media_seen">Visa markör för sedda videor</string>
     <string name="media_seen_summary">Markera en video som sedd när du spelar den till slutet</string>
-    <string name="force_list_portrait">Inget rutnät i porträttläge</string>
-    <string name="force_list_portrait_summary">Visa videor i en lista istället för rutnät i porträttläge</string>
     <string name="force_play_all_summary">Spela upp alla videor, börja med den du klickade på</string>
     <string name="force_play_all_title">Videospellistläge</string>
     <string name="save_brightness_summary">Kom ihåg ljusstyrkans nivå i videospelaren</string>
@@ -325,7 +323,6 @@
     <string name="popup_keepscreen_title">Låt skärmen vara igång i popupp-läge</string>
     <string name="popup_keepscreen_summary">Låt skärmen alltid vara igång när popupp visas, även om videon är pausad.</string>
     <string name="browser_show_hidden_files_title">Visa dolda filer</string>
-    <string name="browser_show_hidden_files_summary">Visa dolda filer i filbläddraren</string>
 
     <string name="subtitles_prefs_category">Undertexter</string>
     <string name="subtitles_size_title">Undertextstorlek</string>
@@ -355,8 +352,6 @@
     <string name="list_title_ellipsize_right">Höger</string>
     <string name="list_title_ellipsize_middle">Mitten</string>
     <string name="list_title_ellipsize_marquee">Skärmtext</string>
-    <string name="audio_save_repeat_title">Spara slingaläge</string>
-    <string name="audio_save_repeat_summary">Kom ihåg slingaläge när ljudspellistor läses in</string>
     <string name="audio_boost_title">Utökat volymreglage</string>
     <string name="audio_boost_summary">Tillåt volym upp till 200 %</string>
     <string name="headset_prefs_category">Hörlurar</string>
@@ -385,7 +380,6 @@
     <string name="cast_performance_warning">För att casta denna video måste den konverteras. Denna konvertering kan använda all tillgänglig kraft och kan snabbt dränera ditt batteri.</string>
     <string name="casting_connected_renderer">Ansluten till \"%1$s\"</string>
     <string name="artists_show_all_title">Visa alla artister</string>
-    <string name="artists_show_all_summary">Visa alla artister i listan över artister, inte bara albumartister</string>
 
     <string name="extensions_prefs_category">Tillägg</string>
     <string name="extensions_enable_category">Välj tillägg att aktivera</string>
@@ -437,8 +431,7 @@
     <string name="restart_message">Ändringarna kommer att träda i kraft när applikationen har startats om.\n\nStarta om nu?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Senare</string>
-    <string name="browser_show_all_title">Visa alla filer i filbläddraren</string>
-    <string name="browser_show_all_summary">Visa filer som inte känns igen som ljud eller video i filbläddrare</string>
+    <string name="browser_show_all_title">Visa alla filer</string>
 
     <string name="developer_prefs_category">Utvecklare</string>
     <string name="enable_verbose_mode">Detaljerad loggdata</string>
@@ -715,4 +708,11 @@
     <string name="report_a_crash">Rapportera en krasch</string>
     <string name="describe_crash">Beskriv hur denna krasch inträffade</string>
     <string name="favorite">Favoritmarkera</string>
+    <string name="add_to_scanned">Sök igenom denna mapp</string>
+    <string name="directory_not_scanned">Denna filkatalog har inte sökts igenom</string>
+    <string name="scanned_directory_added">%s lades till i dina filkataloger att söka igenom</string>
+    <string name="video_group_size_dialog_text">Antal tecken att använda för att gruppera efter namn</string>
+    <string name="video_group_size_summary">Gruppera efter de %s första bokstäverna</string>
+    <string name="video_group_size">Gruppera videor efter namn</string>
+    <string name="url_copied_to_clipboard">Webbadressen kopierades till urklipp</string>
 </resources>
