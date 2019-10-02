@@ -82,6 +82,10 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     private var discoverTriggered = false
     internal val sb = StringBuilder()
 
+    val exceptionHandler = AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg ->
+        Log.d(TAG, "Exception occured, $context: $errMsg")
+    }
+
     private val notificationActor by lazy {
         actor<Notification>(capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {
@@ -400,6 +404,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
                 val context = this@MediaParsingService
                 var shouldInit = !dbExists()
                 val initCode = medialibrary.init(context)
+                medialibrary.exceptionHandler = exceptionHandler
                 shouldInit = shouldInit or (initCode == AbstractMedialibrary.ML_INIT_DB_RESET) or (initCode == AbstractMedialibrary.ML_INIT_DB_CORRUPTED)
                 if (initCode != AbstractMedialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
                 else exitCommand()
