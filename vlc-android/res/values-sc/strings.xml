@@ -46,8 +46,8 @@
     <string name="insert_next">Inserta a pustis</string>
     <string name="play_all">Riprodui totu</string>
     <string name="append_all">Annanghe totu</string>
-    <string name="last_playlist">Sighi a riproduire</string>
-    <string name="last_playlist_shortcut">Sighi cun sa riprodutzione de s\'ùrtima iscalita</string>
+    <string name="resume_playback">Sighi a riproduire</string>
+    <string name="resume_playback_long_shortcut">Sighi cun sa riprodutzione de s\'ùrtima iscalita</string>
     <string name="delete">Iscantzella</string>
     <string name="remove">Boga</string>
     <string name="set_song">Imposta comente soneria</string>
@@ -294,9 +294,9 @@
 
     <string name="video_prefs_category">Vìdeos</string>
     <string name="video_min_group_length_title">Agrupa sos vìdeos</string>
-    <string name="video_min_group_length_summary">Sos vìdeos benint agrupados si sa prima lìtera est sa matessi.</string>
     <string name="video_min_group_length_disable">Disabìlita</string>
     <string name="video_min_group_length_folder">Agrupa pro cartella</string>
+    <string name="video_min_group_length_name">Agrupa pro nùmene</string>
     <string name="video_min_group_length_first">Petzi sa prima lìtera</string>
     <string name="video_min_group_length_short">Nùmeru minore de lìteras (6)</string>
     <string name="video_min_group_length_long">Nùmeru mannu de lìteras (9)</string>
@@ -306,8 +306,6 @@
     <string name="video_transition_summary">Ammustra su tìtulu de su vìdeu nou in sa transitzione</string>
     <string name="media_seen">Ammustra su marcadore de su vìdeu pompiadu</string>
     <string name="media_seen_summary">Marca unu vìdeu comente bidu cando l\'as riproduidu finas a sa fine</string>
-    <string name="force_list_portrait">Peruna griglia in modalidade verticale</string>
-    <string name="force_list_portrait_summary">Ammustra un\'elencu de vìdeos imbetzes de sa griglia in modalidade verticale</string>
     <string name="force_play_all_summary">Riprodui totu sos vìdeos, incumintzende cun su chi as tocadu</string>
     <string name="force_play_all_title">Modalidade iscalita de vìdeos</string>
     <string name="save_brightness_summary">Ammenta su livellu de luminosidade in su leghidore de vìdeos</string>
@@ -325,7 +323,6 @@
     <string name="popup_keepscreen_title">Mantene s\'ischermu ativu in modalidade cun ventana a cumparsa</string>
     <string name="popup_keepscreen_summary">Mantene s\'ischermu semper ativu cando sa ventana a cumparsa est ammustrada, fintzas si su vìdeu est in pàusa.</string>
     <string name="browser_show_hidden_files_title">Ammustra sos documentos istichidos</string>
-    <string name="browser_show_hidden_files_summary">Ammustra sos documentos istichidos cun sos esploradores</string>
 
     <string name="subtitles_prefs_category">Sutatìtulos</string>
     <string name="subtitles_size_title">Mannària de sos sutatìtulos</string>
@@ -355,8 +352,6 @@
     <string name="list_title_ellipsize_right">A destra</string>
     <string name="list_title_ellipsize_middle">Tzentru</string>
     <string name="list_title_ellipsize_marquee">Testu in subraimpressione</string>
-    <string name="audio_save_repeat_title">Sarva sa modalidade de ripetitzione</string>
-    <string name="audio_save_repeat_summary">Ammenta sa modalidade de ripetitzione cando càrrigas sas iscalitas àudio</string>
     <string name="audio_boost_title">Ismanniamentu àudio</string>
     <string name="audio_boost_summary">Abìlita su volume finas a su 200%</string>
     <string name="headset_prefs_category">Cùfias</string>
@@ -385,7 +380,6 @@
     <string name="cast_performance_warning">Sa trasmissione de custu vìdeu tenet bisòngiu de una conversione. Custa conversione podet impreare totu sa potèntzia disponìbile e iscarrigare in manera lestra sa bateria.</string>
     <string name="casting_connected_renderer">Connessu a su renderizadore \'%1$s\'</string>
     <string name="artists_show_all_title">Ammustra totu sos artistas</string>
-    <string name="artists_show_all_summary">Ammustra totu sos artistas in s\'elencu Artistas, non petzi sos artistas de s\'album</string>
 
     <string name="extensions_prefs_category">Estensiones</string>
     <string name="extensions_enable_category">Issèbera sas estensiones de abilitare</string>
@@ -437,8 +431,7 @@
     <string name="restart_message">Sas modìficas ant a tènnere efetu cando s\'aplicatzione at a èssere torrada a allùghere\n\n\Torrare a l\'allùghere como?</string>
     <string name="restart_message_OK">AB</string>
     <string name="restart_message_Later">Prus a tardu</string>
-    <string name="browser_show_all_title">Ammustra totu sos documentos in s\'esploradore</string>
-    <string name="browser_show_all_summary">Ammustra sos documentos chi non sunt reconnotos comente àudio o vìdeos in sos esploradores</string>
+    <string name="browser_show_all_title">Ammustra totu sos documentos</string>
 
     <string name="developer_prefs_category">Isvilupadore</string>
     <string name="enable_verbose_mode">Verbosu</string>
@@ -698,7 +691,7 @@
     <string name="display_in_list">Ammustra in lista</string>
     <string name="display_in_grid">Ammustra in grìllia</string>
     <string name="dump_db_succes">Base de datos iscarrigada in sa raighina (root) de sa memòria interna</string>
-    <string name="dump_db_failure">Iscarrigamentu de sa base de datos fallida</string>
+    <string name="dump_db_failure">Sarvamentu de sa base de datos fallidu</string>
     <string name="send_crash_title">Sinnaladore de istudaduras de VLC</string>
     <string name="send_crash_description">Imbiende·nos una sinnalatzione a pitzu de sa serradura anòmala tua as a agiudare a megiorare s\'istabilidade de VLC.</string>
     <string name="send_crash_warning">Dae cara e faghe in modu de bogare cale si siat datu sensìbile chi non cheres imbiare.</string>
@@ -715,4 +708,11 @@
     <string name="report_a_crash">Sinnala un\'istudada improvisa (crash)</string>
     <string name="describe_crash">Pro praghere descrie·nos comente est acontèssida cust\'istudadura</string>
     <string name="favorite">Preferidu</string>
+    <string name="add_to_scanned">Iscansi custa cartella</string>
+    <string name="directory_not_scanned">Custa cartella non benit iscansida.</string>
+    <string name="scanned_directory_added">%s annànghida a sas cartellas iscansidas tuas</string>
+    <string name="video_group_size_dialog_text">Nùmeru de caràteres impreados pro agrupare pro nùmene</string>
+    <string name="video_group_size_summary">Agrupa impreende sas primas %s lìteras</string>
+    <string name="video_group_size">Agrupa sos vìdeos pro nùmene</string>
+    <string name="url_copied_to_clipboard">Url copiadu in sos apuntos</string>
 </resources>
