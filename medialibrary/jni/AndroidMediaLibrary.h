@@ -149,6 +149,8 @@ public:
                                bool success );
     void onHistoryChanged( medialibrary::HistoryType historyType );
 
+    bool onUnhandledException( const char* /* context */, const char* /* errMsg */ );
+
 private:
     void jni_detach_thread(void *data);
     JNIEnv *getEnv();

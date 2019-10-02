@@ -917,6 +917,17 @@ void AndroidMediaLibrary::onMediaThumbnailReady( medialibrary::MediaPtr media, m
     }
 }
 
+bool AndroidMediaLibrary::onUnhandledException( const char* context, const char* errMsg )
+{
+    JNIEnv *env = getEnv();
+    jstring ctx = env->NewStringUTF(context);
+    jstring msg = env->NewStringUTF(errMsg);
+    env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onUnhandledExceptionId, ctx, msg);
+    env->DeleteLocalRef(ctx);
+    env->DeleteLocalRef(msg);
+    return true;
+}
+
 JNIEnv *
 AndroidMediaLibrary::getEnv() {
     JNIEnv *env = (JNIEnv *)pthread_getspecific(jni_env_key);
