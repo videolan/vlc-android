@@ -122,6 +122,7 @@ const val CATEGORY = "category"
 const val ITEM = "item"
 const val KEY_GROUP = "key_group"
 const val KEY_FOLDER = "key_folder"
+const val KEY_GROUPING = "key_grouping"
 const val FAVORITE_TITLE = "favorite_title"
 
 // Items updates

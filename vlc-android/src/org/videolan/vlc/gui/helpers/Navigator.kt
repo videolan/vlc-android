@@ -56,13 +56,13 @@ import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.browser.FileBrowserFragment
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment
-import org.videolan.vlc.gui.folders.FoldersFragment
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.gui.videogroups.VideoGroupsFragment
 import org.videolan.vlc.gui.view.HackyDrawerLayout
 import org.videolan.vlc.util.*
+import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 private const val TAG = "Navigator"
 @ObsoleteCoroutinesApi
@@ -155,7 +155,11 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
                 val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "-1")!!)
                 when {
                     group > 0 -> VideoGroupsFragment()
-                    group == 0 -> FoldersFragment()
+                    group == 0 -> VideoGridFragment().apply {
+                        arguments = Bundle(2).apply {
+                            putSerializable(KEY_GROUPING, VideoGroupingType.FOLDER)
+                        }
+                    }
                     else -> VideoGridFragment()
                 }
             }

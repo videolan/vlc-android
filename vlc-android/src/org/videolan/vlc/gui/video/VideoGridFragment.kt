@@ -36,12 +36,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
@@ -53,14 +55,22 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.folders.FolderAction
+import org.videolan.vlc.gui.folders.FolderClick
+import org.videolan.vlc.gui.folders.FolderCtxClick
+import org.videolan.vlc.gui.folders.FolderLongClick
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.providers.medialibrary.FoldersProvider
+import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
+import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
+import org.videolan.vlc.viewmodels.mobile.getFolderViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.lang.ref.WeakReference
 import java.util.*
@@ -76,9 +86,34 @@ private const val UNSET_REFRESHING = 16
 class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<AbstractMediaWrapper>>, CtxActionReceiver {
 
     private lateinit var videoListAdapter: VideoListAdapter
-    private lateinit var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper>
+    private lateinit var multiSelectHelper: MultiSelectHelper<MediaLibraryItem>
     private lateinit var binding: VideoGridBinding
     private var gridItemDecoration: RecyclerView.ItemDecoration? = null
+
+    private val actor = actor<FolderAction> {
+        for (action in channel) when (action) {
+            is FolderClick -> {
+                if (actionMode != null) {
+                    videoListAdapter.multiSelectHelper.toggleSelection(action.position)
+                    invalidateActionMode()
+                } else {
+                    val i = Intent(activity, SecondaryActivity::class.java)
+                    i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
+                    i.putExtra(KEY_FOLDER, action.folder)
+                    activity?.startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
+                }
+            }
+            is FolderLongClick -> {
+                videoListAdapter.multiSelectHelper.toggleSelection(action.position, true)
+                if (actionMode == null) {
+                    startActionMode()
+                }
+            }
+            is FolderCtxClick -> {
+                showContext(requireActivity(), this@VideoGridFragment, action.position, action.folder.title, CTX_FOLDER_FLAGS)
+            }
+        }
+    }
 
     class VideoGridFragmentHandler(private val videoGridFragment: WeakReference<VideoGridFragment>) : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -106,10 +141,30 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<AbstractFolder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
-            val group = if (savedInstanceState != null ) savedInstanceState.getParcelable<AbstractVideoGroup>(KEY_GROUP)
+            val group = if (savedInstanceState != null) savedInstanceState.getParcelable<AbstractVideoGroup>(KEY_GROUP)
             else arguments?.getParcelable(KEY_GROUP)
-            viewModel = getViewModel(folder, group)
-            viewModel.provider.pagedList.observe(this, this)
+            val grouping = arguments?.getSerializable(KEY_GROUPING) ?: VideoGroupingType.NONE
+
+            when (grouping) {
+                VideoGroupingType.FOLDER -> {
+                    viewModel = getFolderViewModel()
+                    (viewModel.provider as FoldersProvider).pagedList.observe(requireActivity(), Observer {
+                        swipeRefreshLayout.isRefreshing = false
+                        videoListAdapter.showFilename(viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
+                        if (it != null) videoListAdapter.submitList(it as PagedList<MediaLibraryItem>)
+                        restoreMultiSelectHelper()
+                        updateEmptyView()
+                    })
+                    videoListAdapter.dataType = VideoGroupingType.NONE
+                }
+                VideoGroupingType.NONE -> {
+                    viewModel = getViewModel(folder, group)
+                    (viewModel.provider as VideosProvider).pagedList.observe(this, this)
+                    videoListAdapter.dataType = VideoGroupingType.FOLDER
+                }
+            }
+
+
             viewModel.provider.loading.observe(this, Observer { loading ->
                 if (loading) handler.sendEmptyMessageDelayed(SET_REFRESHING, 300L)
                 else handler.sendEmptyMessage(UNSET_REFRESHING)
@@ -198,10 +253,11 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onChanged(list: PagedList<AbstractMediaWrapper>?) {
         videoListAdapter.showFilename(viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
-        if (list != null) videoListAdapter.submitList(list)
+        if (list != null) videoListAdapter.submitList(list as PagedList<MediaLibraryItem>)
     }
 
-    override fun getTitle() = viewModel.folder?.title ?: viewModel.group?.title ?: getString(R.string.video)
+    override fun getTitle() = viewModel.folder?.title ?: viewModel.group?.title
+    ?: getString(R.string.video)
 
     override fun getMultiHelper(): MultiSelectHelper<VideosViewModel>? = if (::videoListAdapter.isInitialized) videoListAdapter.multiSelectHelper as? MultiSelectHelper<VideosViewModel> else null
 
@@ -241,7 +297,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onFabPlayClick(view: View) {
-        MediaUtils.playAll(context, viewModel.provider, 0, false)
+        MediaUtils.playAll(context, viewModel.provider as VideosProvider, 0, false)
     }
 
     @MainThread
@@ -292,7 +348,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (!isStarted()) return false
         val list = ArrayList<AbstractMediaWrapper>()
         for (mw in multiSelectHelper.getSelection()) {
-            list.add(mw)
+            list.add(mw as MediaWrapper)
         }
         if (list.isNotEmpty()) {
             when (item.itemId) {
@@ -336,7 +392,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         media.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
         val settings = Settings.getInstance(v.context)
         if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
-            MediaUtils.playAll(requireContext(), viewModel.provider, position, false)
+            MediaUtils.playAll(requireContext(), viewModel.provider as VideosProvider, position, false)
         } else {
             playVideo(media, false)
         }
@@ -383,16 +439,25 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (position >= videoListAdapter.itemCount) return
         val media = videoListAdapter.getItem(position) ?: return
         val activity = activity ?: return
-        when (option) {
+        if (media is MediaWrapper) when (option) {
             CTX_PLAY_FROM_START -> playVideo(media, true)
             CTX_PLAY_AS_AUDIO -> playAudio(media)
-            CTX_PLAY_ALL -> MediaUtils.playAll(requireContext(), viewModel.provider, position, false)
+            CTX_PLAY_ALL -> MediaUtils.playAll(requireContext(), viewModel.provider as VideosProvider, position, false)
             CTX_INFORMATION -> showInfoDialog(media)
             CTX_DELETE -> removeItem(media)
-            CTX_APPEND -> MediaUtils.appendMedia(activity, media)
+            CTX_APPEND -> {
+                if (media.type == MediaLibraryItem.TYPE_FOLDER) {
+                    launch { viewModel.append(position) }
+                } else MediaUtils.appendMedia(activity, media)
+            }
             CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
-            CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            CTX_ADD_TO_PLAYLIST -> {
+                if (media.type == MediaLibraryItem.TYPE_FOLDER) {
+                    viewModel.addToPlaylist(requireActivity(), position)
+                } else UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            }
+            CTX_PLAY -> launch { viewModel.play(position) }
         }
     }
 
@@ -401,7 +466,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private val thumbObs = Observer<AbstractMediaWrapper> { media ->
         if (!::videoListAdapter.isInitialized) return@Observer
         val position = viewModel.provider.pagedList.value?.indexOf(media) ?: return@Observer
-        videoListAdapter.getItem(position)?.run {
+        val item = videoListAdapter.getItem(position) as? MediaWrapper
+        item?.run {
             artworkURL = media.artworkURL
             videoListAdapter.notifyItemChanged(position)
         }

@@ -23,14 +23,14 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
+import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
-import org.videolan.vlc.viewmodels.mobile.FoldersViewModel
-import org.videolan.vlc.viewmodels.mobile.getViewModel
+import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionReceiver {
+class FoldersFragment : MediaBrowserFragment<VideosViewModel>(), CtxActionReceiver {
 
     private lateinit var binding: FoldersFragmentBinding
     private lateinit var adapter: FoldersAdapter
@@ -63,7 +63,7 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         adapter = FoldersAdapter(actor)
-        viewModel = getViewModel()
+//        viewModel = getFolderViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -76,7 +76,7 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         folders_list.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         folders_list.adapter = adapter
         swipeRefreshLayout.setOnRefreshListener { activity?.reloadLibrary() }
-        viewModel.provider.pagedList.observe(requireActivity(), Observer {
+        (viewModel.provider as FoldersProvider).pagedList.observe(requireActivity(), Observer {
             swipeRefreshLayout.isRefreshing = false
             adapter.submitList(it)
             restoreMultiSelectHelper()
@@ -113,7 +113,7 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
 
     override fun getTitle(): String = getString(R.string.video)
 
-    override fun getMultiHelper(): MultiSelectHelper<FoldersViewModel>? = if (::adapter.isInitialized) adapter.multiSelectHelper as? MultiSelectHelper<FoldersViewModel> else null
+    override fun getMultiHelper(): MultiSelectHelper<VideosViewModel>? = if (::adapter.isInitialized) adapter.multiSelectHelper as? MultiSelectHelper<VideosViewModel> else null
 
     override fun onRefresh() = viewModel.refresh()
 
@@ -140,7 +140,7 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
     }
 
     override fun onFabPlayClick(view: View) {
-        MediaUtils.playAllTracks(context, viewModel.provider, 0, false)
+        MediaUtils.playAllTracks(context, (viewModel.provider as FoldersProvider), 0, false)
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) : Boolean {

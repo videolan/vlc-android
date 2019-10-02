@@ -24,12 +24,10 @@ import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
-import org.videolan.vlc.gui.folders.FoldersFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
@@ -79,6 +77,6 @@ class FoldersViewModel(context: Context, val type : Int) : MedialibraryViewModel
     }
 }
 
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
-internal fun FoldersFragment.getViewModel() = ViewModelProviders.of(requireActivity(), FoldersViewModel.Factory(requireContext(), AbstractFolder.TYPE_FOLDER_VIDEO)).get(FoldersViewModel::class.java)
+//@ObsoleteCoroutinesApi
+//@ExperimentalCoroutinesApi
+//internal fun FoldersFragment.getViewModel() = ViewModelProviders.of(requireActivity(), FoldersViewModel.Factory(requireContext(), AbstractFolder.TYPE_FOLDER_VIDEO)).get(FoldersViewModel::class.java)
