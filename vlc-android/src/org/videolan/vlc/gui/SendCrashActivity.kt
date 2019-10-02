@@ -38,20 +38,22 @@ import androidx.core.content.FileProvider
 import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SendCrashActivityBinding
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.util.*
 import java.io.File
+import java.lang.Runnable
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
+class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback, CoroutineScope by MainScope() {
     private var logMessage = ""
     override fun onStarted(lostList: List<String>) {
         logMessage = "Starting collecting logs at ${System.currentTimeMillis()}"
@@ -78,56 +80,60 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
             client.stop()
             return
         }
-        runIO(Runnable {
-            client.stop()
-            FileUtils.zip(arrayOf(path), logcatZipPath)
+        launch(start = CoroutineStart.UNDISPATCHED) {
+            val emailIntent = withContext(Dispatchers.IO) {
+                client.stop()
+                FileUtils.zip(arrayOf(path), logcatZipPath)
 
-            val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
-            emailIntent.type = "message/rfc822"
-            //get medialib db if needed
-            val attachments = ArrayList<Uri>()
-            if (binding.includeMedialibSwitch.isChecked) {
-                if (Permissions.canWriteStorage()) {
-                    val db = File(getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+                val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
+                emailIntent.type = "message/rfc822"
+                //get medialib db if needed
+                val attachments = ArrayList<Uri>()
+                if (binding.includeMedialibSwitch.isChecked) {
+                    if (StoragePermissionsDelegate.getStoragePermission(this@SendCrashActivity, true)) {
+                        val db = File(getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+                        val dbFile = File(dbPath)
+                        FileUtils.copyFile(db, dbFile)
+                        FileUtils.zip(arrayOf(dbPath), dbZipPath)
+                        FileUtils.deleteFile(dbFile)
 
-                    val dbFile = File(dbPath)
-                    FileUtils.copyFile(db, dbFile)
-                    FileUtils.zip(arrayOf(dbPath), dbZipPath)
-                    FileUtils.deleteFile(dbFile)
-
-                    attachments.add(FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", File(dbZipPath)))
+                        attachments.add(FileProvider.getUriForFile(this@SendCrashActivity, applicationContext.packageName + ".provider", File(dbZipPath)))
+                    }
                 }
+                val appData = StringBuilder()
+                try {
+                    appData.append("App version: ${BuildConfig.VERSION_NAME}<br/>App version code: ${BuildConfig.VERSION_CODE}<br/>")
+                } catch (e: PackageManager.NameNotFoundException) {
+
+                }
+                appData.append("Time: " + DateFormat.format("MM/dd/yyyy kk:mm:ss", System.currentTimeMillis()) + "<br/>")
+                appData.append("Device model: ${Build.MANUFACTURER} ${Build.MODEL}<br/>")
+                appData.append("Android version: ${Build.VERSION.SDK_INT}<br/>")
+                appData.append("System name: ${Build.DISPLAY}<br/>")
+                appData.append("Memory free: ${AppUtils.freeMemory().readableFileSize()} on ${AppUtils.totalMemory().readableFileSize()}")
+
+                attachments.add(FileProvider.getUriForFile(this@SendCrashActivity, applicationContext.packageName + ".provider", File(logcatZipPath)))
+                emailIntent.putExtra(Intent.EXTRA_STREAM, attachments)
+                emailIntent.type = "application/zip"
+
+                val describeCrash = if (::errMsg.isInitialized) {
+                    "$errCtx:\n$errMsg"
+                } else {
+                    getString(R.string.describe_crash)
+                }
+                val body = "<p>Here are my crash logs for VLC</strong></p><p style=3D\"color:#16171A;\"> [$describeCrash]</p><p>$appData</p>"
+                val htmlBody = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(body, HtmlCompat.FROM_HTML_MODE_LEGACY) else Html.fromHtml(body)
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("vlc.crashreport+androidcrash@gmail.com"))
+                val subject = if (::errMsg.isInitialized) "[${BuildConfig.VERSION_NAME}] Medialibrary uncaught exception!"
+                else "[${BuildConfig.VERSION_NAME}] Crash logs for VLC"
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+                emailIntent.putExtra(Intent.EXTRA_TEXT, htmlBody)
+                emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                emailIntent
             }
-            val appData = StringBuilder()
-            try {
-                appData.append("App version: ${AppUtils.getVersionName(VLCApplication.appContext)}<br/>App version code: ${AppUtils.getVersionCode(VLCApplication.appContext)}<br/>")
-            } catch (e: PackageManager.NameNotFoundException) {
-
-            }
-            appData.append("Time: " + DateFormat.format("MM/dd/yyyy kk:mm:ss", System.currentTimeMillis()) + "<br/>")
-            appData.append("Device model: ${Build.MANUFACTURER} ${Build.MODEL}<br/>")
-            appData.append("Android version: ${Build.VERSION.SDK_INT}<br/>")
-            appData.append("System name: ${Build.DISPLAY}<br/>")
-            appData.append("Memory free: ${AppUtils.freeMemory().readableFileSize()} on ${AppUtils.totalMemory().readableFileSize()}")
-
-            attachments.add(FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", File(logcatZipPath)))
-            emailIntent.putExtra(Intent.EXTRA_STREAM, attachments)
-            emailIntent.type = "application/zip"
-
-            val describeCrash = getString(org.videolan.vlc.R.string.describe_crash)
-            val body = "<p>Here are my crash logs for VLC</strong></p><p style=3D\"color:#16171A;\"> [$describeCrash]</p><p>$appData</p>"
-            val htmlBody = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(body, HtmlCompat.FROM_HTML_MODE_LEGACY) else Html.fromHtml(body)
-
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("vlc.crashreport+androidcrash@gmail.com"))
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[${AppUtils.getVersionName(VLCApplication.appContext)}] Crash logs for VLC")
-            emailIntent.putExtra(Intent.EXTRA_TEXT, htmlBody)
-            emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(emailIntent)
-            runOnUiThread {
-                finish()
-            }
-
-        })
+            finish()
+        }
     }
 
     private lateinit var client: DebugLogService.Client
@@ -135,6 +141,8 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
     private val dbPath = VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath + "/" + AbstractMedialibrary.VLC_MEDIA_DB_NAME
     private val dbZipPath = VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath + "/" + "db.zip"
     private val logcatZipPath = VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath + "/" + "logcat.zip"
+    private lateinit var errMsg : String
+    private lateinit var errCtx : String
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -155,10 +163,22 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
             binding.sendCrashButton.visibility = View.GONE
             binding.sendCrashProgress.visibility = View.VISIBLE
         }
+        errMsg = intent.extras?.getString(CRASH_ML_MSG) ?: return
+        errCtx = intent.extras?.getString(CRASH_ML_CTX) ?: return
+        binding.crashFirstStepContainer.visibility = View.GONE
+        binding.crashSecondStepContainer.visibility = View.VISIBLE
+        binding.includeMedialibSwitch.isChecked = true
+        client = DebugLogService.Client(this, this)
     }
 
     override fun onDestroy() {
+        job?.complete()
+        job = null
         if (::client.isInitialized) client.release()
         super.onDestroy()
+    }
+
+    companion object {
+        var job : CompletableJob? = null
     }
 }

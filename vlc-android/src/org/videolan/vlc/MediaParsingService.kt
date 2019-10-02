@@ -46,6 +46,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
+import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
@@ -82,9 +83,23 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     private var discoverTriggered = false
     internal val sb = StringBuilder()
 
-    val exceptionHandler = AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg ->
-        Log.d(TAG, "Exception occured, $context: $errMsg")
-    }
+    private val exceptionHandler = if (BuildConfig.BETA) AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg ->
+        val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
+            putExtra(CRASH_ML_CTX, context)
+            putExtra(CRASH_ML_MSG, errMsg)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        // Lock the Medialibrary thread during DB extraction.
+        runBlocking {
+            SendCrashActivity.job = Job()
+            try {
+                startActivity(intent)
+                SendCrashActivity.job?.join()
+            } catch (e: Exception) {
+                SendCrashActivity.job = null
+            }
+        }
+    } else null
 
     private val notificationActor by lazy {
         actor<Notification>(capacity = Channel.UNLIMITED) {
