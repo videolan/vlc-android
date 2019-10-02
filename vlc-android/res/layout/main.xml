@@ -57,6 +57,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/navigation"
+
+            app:headerLayout="@layout/nav_drawer_header"
         app:itemTextColor="?attr/navigationview_item_color"
         app:itemIconTint="?attr/navigationview_item_color"
         android:keyboardNavigationCluster="true"

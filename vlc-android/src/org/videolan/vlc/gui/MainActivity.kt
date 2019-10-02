@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
@@ -70,6 +71,7 @@ class MainActivity : ContentActivity(),
     private lateinit var mediaLibrary: AbstractMedialibrary
     private var scanNeeded = false
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Util.checkCpuCompatibility(this)

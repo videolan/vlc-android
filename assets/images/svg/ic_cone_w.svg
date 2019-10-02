@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="24" height="24"
+        id="svg4682" version="1.1" inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+        sodipodi:docname="ic_cone_w.svg"
+        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+        inkscape:export-xdpi="90" inkscape:export-ydpi="90">
+    <defs id="defs4684" />
+    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
+            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="31.678384"
+            inkscape:cx="11.956197" inkscape:cy="12.574776" inkscape:document-units="px"
+            inkscape:current-layer="layer1" showgrid="true" inkscape:window-width="1920"
+            inkscape:window-height="1043" inkscape:window-x="1920" inkscape:window-y="0"
+            inkscape:window-maximized="1">
+        <inkscape:grid type="xygrid" id="grid3002" />
+    </sodipodi:namedview>
+    <metadata id="metadata4687">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title></dc:title>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+            transform="translate(0,-1028.3622)">
+        <path inkscape:connector-curvature="0"
+                style="fill:#fafafa;fill-opacity:1;stroke-width:0.19745927"
+                d="m 12.000002,1030.9857 c -0.206345,0 -0.436065,0.024 -0.601248,0.1473 -0.326678,0.2446 -0.458318,0.6369 -0.742787,1.4847 -0.284467,0.8479 -0.296958,0.8909 -0.296958,0.8909 1.188161,0.5941 2.050484,0.6497 3.281988,0 0,0 -0.01359,-0.047 -0.296961,-0.8909 -0.283364,-0.8446 -0.414143,-1.2342 -0.742786,-1.4847 -0.164126,-0.1251 -0.394903,-0.1473 -0.601248,-0.1473 z m -2.6807403,5.6422 -1.1878398,3.5643 -0.00272,0.011 c 0.00532,0 0.00967,0 0.015041,0 2.2277991,1.9308 5.4950941,1.9308 7.7228931,0 0.0014,0 0.0025,0 0.0038,0 h -0.002 l -1.187842,-3.5639 c -7.91e-4,0 -0.0014,0 -0.0023,0 -1.801845,1.3455 -3.576928,1.3336 -5.3591689,0 z m -3.0343945,5.3461 c -0.3949181,0 -0.7623642,0.2983 -0.8777674,0.6919 l -0.69188,2.3536 c -0.2260466,0.7724 -0.4501361,1.5391 -0.6772219,2.3155 -0.09506,0.3245 1.976e-4,0.5632 0.1534935,0.7282 0.094984,0.1021 0.2121877,0.1759 0.3200985,0.2253 0.1079836,0.048 0.181817,0.074 0.26688,0.074 0.198317,0 3.660747,0 7.2215321,0 3.560785,0 7.023216,0 7.221534,0 0.08506,0 0.158891,-0.026 0.266878,-0.074 0.107918,-0.049 0.225119,-0.1232 0.320099,-0.2253 0.153273,-0.165 0.24855,-0.4037 0.153495,-0.7282 -0.227088,-0.7764 -0.451177,-1.5431 -0.677224,-2.3155 l -0.691879,-2.3536 c -0.115404,-0.3936 -0.48285,-0.6919 -0.877769,-0.6919 h -1.252632 c -5.92e-4,0 -0.0012,0 -0.002,0 0,0 0.198434,0.5941 0.297347,0.8913 0.143529,0.4311 0.214543,0.6439 0,0.8908 -1.044246,1.0443 -2.710979,1.6017 -4.413911,1.6664 -1.930163,0.074 -3.8951839,-0.4957 -5.0915175,-1.6664 -0.2240298,-0.2192 -0.1485771,-0.4452 0,-0.8908 0.099035,-0.2971 0.2850047,-0.8951 0.2850047,-0.8951 z"
+                id="path8119" />
+    </g>
+</svg>

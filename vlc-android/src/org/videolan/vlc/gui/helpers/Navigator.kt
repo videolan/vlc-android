@@ -27,6 +27,8 @@ import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -111,6 +113,14 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
         drawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close)
         drawerLayout.addDrawerListener(drawerToggle)
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
+
+        val headerView = navigationView.getHeaderView(0)
+        if (BuildConfig.DEBUG) {
+            headerView.findViewById<TextView>(R.id.nav_header_title).text = "${getString(R.string.app_name)} - ${BuildConfig.VERSION_NAME}"
+        }
+        headerView.findViewById<ImageView>(R.id.nav_header_background).setOnClickListener {
+            showSecondaryFragment(SecondaryActivity.ABOUT)
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -201,7 +211,6 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
     }
 
     private fun getTag(id: Int) = when (id) {
-        R.id.nav_about -> ID_ABOUT
         R.id.nav_settings -> ID_PREFERENCES
         R.id.nav_audio -> ID_AUDIO
         R.id.nav_playlists -> ID_PLAYLISTS
@@ -239,7 +248,6 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
                     return false
                 }
             } else when (id) {
-                R.id.nav_about -> showSecondaryFragment(SecondaryActivity.ABOUT)
                 R.id.nav_settings -> activity.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
                 else -> {
                     activity.slideDownAudioPlayer()
@@ -279,7 +287,7 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
 
     private fun updateCheckedItem(id: Int) {
         when (id) {
-            R.id.nav_settings, R.id.nav_about -> return
+            R.id.nav_settings -> return
             else -> {
                 val currentId = currentFragmentId
                 val target = navigationView.menu.findItem(id)

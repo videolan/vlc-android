@@ -51,10 +51,6 @@
             android:id="@+id/nav_settings"
             android:title="@string/preferences"
             android:icon="@drawable/ic_menu_preferences" />
-        <item
-            android:id="@+id/nav_about"
-            android:title="@string/about"
-            android:icon="@drawable/ic_menu_cone" />
     </group>
 
 </menu>
