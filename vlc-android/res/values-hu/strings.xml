@@ -46,8 +46,8 @@
     <string name="insert_next">Következő beszúrása</string>
     <string name="play_all">Összes lejátszása</string>
     <string name="append_all">Összes hozzáfűzése</string>
-    <string name="last_playlist">Előző lejátszási lista</string>
-    <string name="last_playlist_shortcut">Lejátszás folytatása</string>
+    <string name="resume_playback">Lejátszás folytatása</string>
+    <string name="resume_playback_long_shortcut">A legutóbbi lejátszólista folytatása</string>
     <string name="delete">Törlés</string>
     <string name="remove">Eltávolítás</string>
     <string name="set_song">Beállítás csengőhangként</string>
@@ -294,9 +294,9 @@
 
     <string name="video_prefs_category">Videó</string>
     <string name="video_min_group_length_title">Videók csoportosítása</string>
-    <string name="video_min_group_length_summary">Videók csoportosításra kerülnek, ha a kezdőbetűik azonosak.</string>
     <string name="video_min_group_length_disable">Letiltás</string>
     <string name="video_min_group_length_folder">Csoportosítás mappa szerint</string>
+    <string name="video_min_group_length_name">Csoportosítás név szerint</string>
     <string name="video_min_group_length_first">Csak a kezdőbetű</string>
     <string name="video_min_group_length_short">Kevés betű (6)</string>
     <string name="video_min_group_length_long">Sok betű (9)</string>
@@ -306,8 +306,6 @@
     <string name="video_transition_summary">Az új videó címének megjelenítése átváltáskor</string>
     <string name="media_seen">Megtekintett videók megjelölése</string>
     <string name="media_seen_summary">A videók megjelölése megtekintettként, ha végignézte</string>
-    <string name="force_list_portrait">Álló módban nincs rács</string>
-    <string name="force_list_portrait_summary">A videók megjelenítése listában, a rács helyett, álló mód esetén.</string>
     <string name="force_play_all_summary">Az összes videó lejátszása, kezdve azzal, amelyikre kattintott</string>
     <string name="force_play_all_title">Videó lejátszólista mód</string>
     <string name="save_brightness_summary">Fényerő szintjének megjegyzése a videólejátszóban</string>
@@ -325,7 +323,6 @@
     <string name="popup_keepscreen_title">A képernyő bekapcsolva tartása felugró módban</string>
     <string name="popup_keepscreen_summary">Mindig tartsa bekapcsolva a képernyőt, ha a felugró megjelenített, akkor is, ha videó szünetel.</string>
     <string name="browser_show_hidden_files_title">Rejtett fájlok megjelenítése</string>
-    <string name="browser_show_hidden_files_summary">Rejtett fájlok megjelenítése tallózáskor</string>
 
     <string name="subtitles_prefs_category">Feliratok</string>
     <string name="subtitles_size_title">Feliratok mérete</string>
@@ -349,14 +346,12 @@
     <string name="lockscreen_cover_summary">Ha elérhető, állítsa be a jelenlegi média borítóját a képernyőzár háttereként</string>
     <string name="playlist_animate_scroll_title">A jelenlegi lejátszólista automatikus görgetésének animálása</string>
     <string name="playlist_animate_scroll_summary">Görgetésanimáció médiaváltáskor</string>
-    <string name="audio_title_alignment">Felirat automatikus igazítása</string>
-    <string name="audio_title_alignment_default">Alapértelmezett</string>
-    <string name="audio_title_alignment_left">Balra</string>
-    <string name="audio_title_alignment_centre">Középre</string>
-    <string name="audio_title_alignment_right">Jobbra</string>
-    <string name="audio_title_alignment_marquee">Futó szöveg</string>
-    <string name="audio_save_repeat_title">Ismétlés mód mentése</string>
-    <string name="audio_save_repeat_summary">Az ismétlés mód megjegyzése a hang lejátszólisták betöltésekor</string>
+    <string name="list_title_ellipsize">Egysoros listacímek végének kipontozása</string>
+    <string name="list_title_ellipsize_default">Alapértelmezett</string>
+    <string name="list_title_ellipsize_left">Bal</string>
+    <string name="list_title_ellipsize_right">Jobb</string>
+    <string name="list_title_ellipsize_middle">Középső</string>
+    <string name="list_title_ellipsize_marquee">Futó szöveg</string>
     <string name="audio_boost_title">Hangerő-növelés</string>
     <string name="audio_boost_summary">Hangerő növelésének engedélyezése 200% fölé</string>
     <string name="headset_prefs_category">Fejhallgató</string>
@@ -385,7 +380,6 @@
     <string name="cast_performance_warning">A videóvetítés átalakítást igényel. Ez az átalakítás az összes erőforrást elhasználhatja, és gyorsan lemerítheti az akkumulátort.</string>
     <string name="casting_connected_renderer">Kapcsolódva a(z) „%1$s” renderelőhöz</string>
     <string name="artists_show_all_title">Összes előadó megjelenítése</string>
-    <string name="artists_show_all_summary">Az összes előadó megjelenítése az Előadók listában, nem csak az album előadóké</string>
 
     <string name="extensions_prefs_category">Bővítmények</string>
     <string name="extensions_enable_category">Válassza ki az engedélyezendő bővítményeket</string>
@@ -437,8 +431,7 @@
     <string name="restart_message">A változások az alkalmazás újraindítása után lépnek érvénybe.\n\nÚjraindítja most?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Később</string>
-    <string name="browser_show_all_title">Összes fájl megjelenítése a böngészőben</string>
-    <string name="browser_show_all_summary">Fájlok megjelenítése, melyeket nem ismernek fel hangként vagy videóként a böngészők</string>
+    <string name="browser_show_all_title">Összes fájl megjelenítése</string>
 
     <string name="developer_prefs_category">Fejlesztő</string>
     <string name="enable_verbose_mode">Részletes</string>
@@ -699,4 +692,27 @@
     <string name="display_in_grid">Megjelenítés rácsban</string>
     <string name="dump_db_succes">Adatbázis kiírva a belső tárhely gyökerében</string>
     <string name="dump_db_failure">Az adatbázis kiírása sikertelen</string>
+    <string name="send_crash_title">VLC összeomlás-jelentő</string>
+    <string name="send_crash_description">Az összeomlás elküldésével segít a VLC stabilitásának fejlesztésében.</string>
+    <string name="send_crash_warning">Győződjön meg róla, hogy törli azokat az érzékeny adatokat, amelyeket nem akar elküldeni.</string>
+    <string name="dont_ask_again">Ne kérdezze újra</string>
+    <string name="include_medialib">Az adatbázis is legyen benne</string>
+    <string name="vlc_reporter">VLC jelentő</string>
+    <string name="welcome_beta_title">VLC béta</string>
+    <string name="welcome_beta_description">Üdvözöljük a VLC béta programban.\nVegye figyelembe, hogy a verzió hibákat tartalmazhat.</string>
+    <string name="welcome_beta_description_bugs">Ha hibát vesz észre, jelentse a fórumon vagy a hibakövetőben.</string>
+    <string name="welcome_beta_description_crashes">Ha összeomlást tapasztal, akkor használja a VLC jelentő ikont az indítóban, hogy elküldje nekünk.</string>
+    <string name="send">Küldés</string>
+    <string name="send_crash_action_title">Mit szeretne tenni?</string>
+    <string name="report_a_bug">Hiba jelentése</string>
+    <string name="report_a_crash">Összeomlás jelentése</string>
+    <string name="describe_crash">Írja le hogyan történt az összeomlás</string>
+    <string name="favorite">Kedvenc</string>
+    <string name="add_to_scanned">Mappa átvizsgálása</string>
+    <string name="directory_not_scanned">Ez a mappa nincs átvizsgálva</string>
+    <string name="scanned_directory_added">%s hozzáadva a vizsgálandó könyvtárakhoz</string>
+    <string name="video_group_size_dialog_text">A név szerint csoportosításhoz használt karakterek száma</string>
+    <string name="video_group_size_summary">A(z) %s csoportosítása az első betűk szerint</string>
+    <string name="video_group_size">Videók csoportosítása név szerint</string>
+    <string name="url_copied_to_clipboard">URL a vágólapra másolva</string>
 </resources>
