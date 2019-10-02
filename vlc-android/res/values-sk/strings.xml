@@ -48,8 +48,8 @@
     <string name="insert_next">Vložiť ako ďalšie</string>
     <string name="play_all">Prehrať všetko</string>
     <string name="append_all">Pripojiť všetko</string>
-    <string name="last_playlist">Pokrač. v prehráv.</string>
-    <string name="last_playlist_shortcut">Pokračovať v prehrávaní na poslednom playliste</string>
+    <string name="resume_playback">Pokračovať v prehrávaní</string>
+    <string name="resume_playback_long_shortcut">Pokračovať v prehrávaní na poslednom playliste</string>
     <string name="delete">Vymazať</string>
     <string name="remove">Odstrániť</string>
     <string name="set_song">Nastaviť ako zvonenie</string>
@@ -308,9 +308,9 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Zoskupiť videá</string>
-    <string name="video_min_group_length_summary">Videá sú zoskupované vtedy, keď sú ich prvé písmená rovnaké.</string>
     <string name="video_min_group_length_disable">Vypnúť</string>
     <string name="video_min_group_length_folder">Zoskupiť podľa priečinka</string>
+    <string name="video_min_group_length_name">Zoskupiť podľa názvu</string>
     <string name="video_min_group_length_first">Len prvé písmeno</string>
     <string name="video_min_group_length_short">Malý počet písmen (6)</string>
     <string name="video_min_group_length_long">Veľký počet písmen (9)</string>
@@ -320,8 +320,6 @@
     <string name="video_transition_summary">Zobraziť názov nového videa pri prechode</string>
     <string name="media_seen">Zobraziť značku pre už videné video</string>
     <string name="media_seen_summary">Pri prehratí videa až do konca ho označiť ako videné</string>
-    <string name="force_list_portrait">Bez mriežky v režime na výšku</string>
-    <string name="force_list_portrait_summary">V režime na výšku zobraziť videá ako zoznam, nie v mriežke</string>
     <string name="force_play_all_summary">Prehrať všetky videá počínajúc tým, na ktoré ste klikli</string>
     <string name="force_play_all_title">Režim playlistu videa</string>
     <string name="save_brightness_summary">Pamätať si úroveň jasu v prehrávači videa</string>
@@ -339,7 +337,6 @@
     <string name="popup_keepscreen_title">V režime vyskakovacieho okna ponechať ZAPNUTÝ displej</string>
     <string name="popup_keepscreen_summary">Počas zobrazenia vyskakovacieho okna ponechať displej ZAPNUTÝ, aj pri pozastavení videa.</string>
     <string name="browser_show_hidden_files_title">Zobraziť skryté súbory</string>
-    <string name="browser_show_hidden_files_summary">Zobraziť skryté súbory v prehliadačoch</string>
 
     <string name="subtitles_prefs_category">Titulky</string>
     <string name="subtitles_size_title">Veľkosť titulkov</string>
@@ -369,8 +366,6 @@
     <string name="list_title_ellipsize_right">Vpravo</string>
     <string name="list_title_ellipsize_middle">V strede</string>
     <string name="list_title_ellipsize_marquee">Rolovanie</string>
-    <string name="audio_save_repeat_title">Uložiť režim opakovania</string>
-    <string name="audio_save_repeat_summary">Pamätať si režim opakovania pri načítavaní zvukových playlistov</string>
     <string name="audio_boost_title">Zosilnenie zvuku</string>
     <string name="audio_boost_summary">Umožniť hlasitosť až do 200 %</string>
     <string name="headset_prefs_category">Slúchadlá</string>
@@ -399,7 +394,6 @@
     <string name="cast_performance_warning">Streamovanie tohto videa vyžaduje jeho konverziu. Táto konverzia môže spotrebovať všetku dostupnú energiu a rýchlo môže vybiť batériu.</string>
     <string name="casting_connected_renderer">Pripojené k vykresľovaču \'%1$s\'</string>
     <string name="artists_show_all_title">Zobraziť všetkých umelcov</string>
-    <string name="artists_show_all_summary">Zobraziť všetkých umelcov v zozname umelcov, nielen umelcov z albumu</string>
 
     <string name="extensions_prefs_category">Rozšírenia</string>
     <string name="extensions_enable_category">Vyberte rozšírenia, ktoré sa majú zapnúť</string>
@@ -451,8 +445,7 @@
     <string name="restart_message">Zmeny sa prejavia po reštartovaní aplikácie.\n\nReštartovať teraz?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Neskôr</string>
-    <string name="browser_show_all_title">Zobraziť všetky súbory v prehliadači</string>
-    <string name="browser_show_all_summary">Zobraziť nerozpoznané súbory ako audio alebo video v prehliadačoch</string>
+    <string name="browser_show_all_title">Zobraziť všetky súbory</string>
 
     <string name="developer_prefs_category">Vývojár</string>
     <string name="enable_verbose_mode">Komunikatívnosť</string>
@@ -729,4 +722,11 @@
     <string name="report_a_crash">Nahlásiť pád</string>
     <string name="describe_crash">Prosím opíšte ako došlo k pádu aplikácie</string>
     <string name="favorite">Obľubené</string>
+    <string name="add_to_scanned">Skenovať tento priečinok</string>
+    <string name="directory_not_scanned">Tento priečinok nie je skenovaný</string>
+    <string name="scanned_directory_added">pridané do skenovaných priečinkov: %s </string>
+    <string name="video_group_size_dialog_text">Počet znakov použitých pri zoskupovaní podľa názvu</string>
+    <string name="video_group_size_summary">Zoskupiť podľa prvých %s písmen</string>
+    <string name="video_group_size">Zoskupiť videá podľa názvu</string>
+    <string name="url_copied_to_clipboard">Adresa URL bola skopírovaná do schránky</string>
 </resources>
