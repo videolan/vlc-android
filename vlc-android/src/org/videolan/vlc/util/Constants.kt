@@ -178,5 +178,9 @@ const val CTX_FOLDER_FLAGS = CTX_PLAY or CTX_APPEND or CTX_ADD_TO_PLAYLIST
 const val TYPE_NETWORK_FAV = 0
 const val TYPE_LOCAL_FAV = 1
 
+//Crash reporting
+const val CRASH_ML_CTX = "crash_ml_ctx"
+const val CRASH_ML_MSG = "crash_ml_msg"
+
 
 
