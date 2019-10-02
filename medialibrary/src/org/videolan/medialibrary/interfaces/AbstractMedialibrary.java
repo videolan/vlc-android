@@ -80,6 +80,7 @@ abstract public class AbstractMedialibrary {
     protected volatile boolean isMedialibraryStarted = false;
     protected final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
     protected final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
+    private MedialibraryExceptionHandler mExceptionHandler;
     protected static Context sContext;
     public static LiveData<AbstractMediaWrapper> lastThumb = new SingleEvent<>();
 
@@ -204,6 +205,19 @@ abstract public class AbstractMedialibrary {
     public interface OnDeviceChangeListener {
         void onDeviceChange();
     }
+
+    public interface MedialibraryExceptionHandler {
+        void onUnhandledException(String context, String errMsg);
+    }
+
+    public MedialibraryExceptionHandler getExceptionHandler() {
+        return mExceptionHandler;
+    }
+
+    public void setExceptionHandler(MedialibraryExceptionHandler mExceptionHandler) {
+        this.mExceptionHandler = mExceptionHandler;
+    }
+
 
     // If media is not in ML, find it with its path
     public AbstractMediaWrapper findMedia(AbstractMediaWrapper mw) {
@@ -387,6 +401,10 @@ abstract public class AbstractMedialibrary {
                 for (OnMedialibraryReadyListener listener : onMedialibraryReadyListeners) listener.onMedialibraryIdle();
             }
         }
+    }
+    @SuppressWarnings("unused")
+    public void onUnhandledException(String context, String errMsg) {
+        if (mExceptionHandler != null) mExceptionHandler.onUnhandledException(context, errMsg);
     }
 
     @SuppressWarnings("unused")

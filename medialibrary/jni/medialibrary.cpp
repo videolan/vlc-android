@@ -2315,6 +2315,10 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.MediaLibrary.onMediaThumbnailReadyId,
            ml_fields.MediaLibrary.clazz,
            "onMediaThumbnailReady", "(Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;Z)V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onUnhandledExceptionId,
+           ml_fields.MediaLibrary.clazz,
+           "onUnhandledException", "(Ljava/lang/String;Ljava/lang/String;)V");
 
 #undef GET_CLASS
 #undef GET_ID

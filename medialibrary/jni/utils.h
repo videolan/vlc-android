@@ -79,6 +79,7 @@ struct fields {
         jmethodID onEntryPointAddedId;
         jmethodID onEntryPointRemovedId;
         jmethodID onMediaThumbnailReadyId;
+        jmethodID onUnhandledExceptionId;
     } MediaLibrary;
     struct Album {
         jclass clazz;
