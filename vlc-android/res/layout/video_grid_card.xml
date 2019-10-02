@@ -11,7 +11,7 @@
 
         <variable
             name="media"
-            type="org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper" />
+            type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
         <variable
             name="seen"
@@ -24,10 +24,6 @@
         <variable
             name="resolution"
             type="String" />
-
-        <variable
-            name="showFilename"
-            type="androidx.databinding.ObservableBoolean" />
 
         <variable
             name="max"
@@ -96,7 +92,7 @@
                 style="@style/VLC.TextViewTitle"
                 android:textColor="@color/grey50"
                 android:layout_marginStart="4dp"
-                android:text="@{showFilename ? media.fileName : media.title}"
+                android:text="@{media.title}"
                 tools:targetApi="jelly_bean"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 android:textSize="14sp"

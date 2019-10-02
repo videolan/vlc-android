@@ -8,7 +8,7 @@
 
         <variable
             name="media"
-            type="org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper" />
+            type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
         <variable
             name="seen"
@@ -17,10 +17,6 @@
         <variable
             name="time"
             type="String" />
-
-        <variable
-            name="showFilename"
-            type="androidx.databinding.ObservableBoolean" />
 
         <variable
             name="bgColor"
@@ -101,7 +97,7 @@
                 android:gravity="center_vertical"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:text="@{showFilename ? media.fileName : media.title}"
+                android:text="@{media.title}"
                 style="@style/VLC.TextViewTitle"/>
 
         <ImageView

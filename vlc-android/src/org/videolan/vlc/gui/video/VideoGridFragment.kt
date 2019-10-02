@@ -34,10 +34,8 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -145,25 +143,11 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             else arguments?.getParcelable(KEY_GROUP)
             val grouping = arguments?.getSerializable(KEY_GROUPING) ?: VideoGroupingType.NONE
 
-            when (grouping) {
-                VideoGroupingType.FOLDER -> {
-                    viewModel = getFolderViewModel()
-                    (viewModel.provider as FoldersProvider).pagedList.observe(requireActivity(), Observer {
-                        swipeRefreshLayout.isRefreshing = false
-                        videoListAdapter.showFilename(viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
-                        if (it != null) videoListAdapter.submitList(it as PagedList<MediaLibraryItem>)
-                        restoreMultiSelectHelper()
-                        updateEmptyView()
-                    })
-                    videoListAdapter.dataType = VideoGroupingType.NONE
-                }
-                VideoGroupingType.NONE -> {
-                    viewModel = getViewModel(folder, group)
-                    (viewModel.provider as VideosProvider).pagedList.observe(this, this)
-                    videoListAdapter.dataType = VideoGroupingType.FOLDER
-                }
+            viewModel = when (grouping) {
+                VideoGroupingType.FOLDER -> getFolderViewModel()
+                else -> getViewModel(folder, group)
             }
-
+            setDataObservers()
 
             viewModel.provider.loading.observe(this, Observer { loading ->
                 if (loading) handler.sendEmptyMessageDelayed(SET_REFRESHING, 300L)
@@ -172,6 +156,24 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
             })
             AbstractMedialibrary.lastThumb.observe(this, thumbObs)
+        }
+    }
+
+    private fun setDataObservers() {
+        videoListAdapter.dataType = viewModel.groupingType
+        when(viewModel.groupingType) {
+            VideoGroupingType.NONE -> {
+                (viewModel.provider as VideosProvider).pagedList.observe(this, this)
+            }
+            VideoGroupingType.FOLDER -> {
+                (viewModel.provider as FoldersProvider).pagedList.observe(requireActivity(), Observer {
+                    swipeRefreshLayout.isRefreshing = false
+                    videoListAdapter.showFilename.set(viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
+                    if (it != null) videoListAdapter.submitList(it as PagedList<MediaLibraryItem>)
+                    restoreMultiSelectHelper()
+                    updateEmptyView()
+                })
+            }
         }
     }
 
@@ -196,8 +198,46 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 (activity as ContentActivity).forceLoadVideoFragment()
                 true
             }
+            R.id.video_min_group_length_disable -> {
+                launch {
+                    withContext(Dispatchers.IO) {
+                        Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "-1").commit()
+                    }
+                    if (isStarted()) changeGroupingType(VideoGroupingType.NONE)
+                }
+                true
+            }
+            R.id.video_min_group_length_folder -> {
+                launch {
+                    withContext(Dispatchers.IO) {
+                        Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "0").commit()
+                    }
+                    if (isStarted()) changeGroupingType(VideoGroupingType.FOLDER)
+                }
+                true
+            }
+            R.id.video_min_group_length_name -> {
+                launch {
+                    withContext(Dispatchers.IO) {
+                        Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "6").commit()
+                    }
+                    if (isStarted()) changeGroupingType(VideoGroupingType.NONE)
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun sortBy(sort: Int) {
+        videoListAdapter.showFilename.set(sort == AbstractMedialibrary.SORT_FILENAME)
+        super.sortBy(sort)
+    }
+
+    private fun changeGroupingType(type: VideoGroupingType) {
+        viewModel.provider.pagedList.removeObservers(this)
+        viewModel.changeGroupingType(type)
+        setDataObservers()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -237,6 +277,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onStop() {
         super.onStop()
+        videoListAdapter.coroutineContext.cancelChildren()
         unregisterForContextMenu(binding.videoGrid)
     }
 
@@ -248,11 +289,11 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onDestroy() {
         super.onDestroy()
+        videoListAdapter.release()
         gridItemDecoration = null
     }
 
     override fun onChanged(list: PagedList<AbstractMediaWrapper>?) {
-        videoListAdapter.showFilename(viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
         if (list != null) videoListAdapter.submitList(list as PagedList<MediaLibraryItem>)
     }
 
@@ -383,18 +424,23 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        val media = item as AbstractMediaWrapper
-        if (actionMode != null) {
-            multiSelectHelper.toggleSelection(position)
-            invalidateActionMode()
-            return
-        }
-        media.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
-        val settings = Settings.getInstance(v.context)
-        if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
-            MediaUtils.playAll(requireContext(), viewModel.provider as VideosProvider, position, false)
-        } else {
-            playVideo(media, false)
+        when (item) {
+            is AbstractMediaWrapper -> {
+                if (actionMode != null) {
+                    multiSelectHelper.toggleSelection(position)
+                    invalidateActionMode()
+                    return
+                }
+                item.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+                val settings = Settings.getInstance(v.context)
+                if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
+                    MediaUtils.playAll(requireContext(), viewModel.provider as VideosProvider, position, false)
+                } else {
+                    playVideo(item, false)
+                }
+            }
+            is AbstractFolder -> actor.offer(FolderClick(position, item))
+            else -> {}
         }
     }
 

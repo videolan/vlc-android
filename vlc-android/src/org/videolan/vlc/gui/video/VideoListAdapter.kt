@@ -29,6 +29,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.MainThread
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
@@ -39,13 +40,10 @@ import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.Folder
@@ -67,13 +65,13 @@ private const val TAG = "VLC/VideoListAdapter"
 class VideoListAdapter internal constructor(
         private val mEventsHandler: IEventsHandler,
         private var mIsSeenMediaMarkerVisible: Boolean
-) : PagedListAdapter<MediaLibraryItem, VideoListAdapter.ViewHolder>(VideoItemDiffCallback), MultiSelectAdapter<MediaLibraryItem>, CoroutineScope {
+) : PagedListAdapter<MediaLibraryItem, VideoListAdapter.ViewHolder>(VideoItemDiffCallback),
+        MultiSelectAdapter<MediaLibraryItem>, CoroutineScope by MainScope() {
 
-    override val coroutineContext = Dispatchers.Main.immediate
     var isListMode = false
     var dataType = VideoGroupingType.NONE
     private var gridCardWidth = 0
-    private val showFilename = ObservableBoolean()
+    val showFilename = ObservableBoolean(false)
 
     val multiSelectHelper = MultiSelectHelper(this, UPDATE_SELECTION)
 
@@ -90,6 +88,7 @@ class VideoListAdapter internal constructor(
     }
 
     fun release() {
+        cancel()
         AbstractMedialibrary.lastThumb.removeObserver(thumbObs)
     }
 
@@ -99,7 +98,6 @@ class VideoListAdapter internal constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, if (isListMode) R.layout.video_list_card else R.layout.video_grid_card, parent, false)
-        binding.setVariable(BR.showFilename, showFilename)
         if (!isListMode) {
             val params = binding.root.layoutParams as GridLayoutManager.LayoutParams
             params.width = gridCardWidth
@@ -115,15 +113,23 @@ class VideoListAdapter internal constructor(
         fillView(holder, media)
         holder.binding.setVariable(BR.media, media)
         holder.selectView(multiSelectHelper.isSelected(position))
-        if (media is Folder) {
-            launch {
+        when (media) {
+            is AbstractFolder -> launch {
                 val count = withContext(Dispatchers.IO) { media.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) }
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
 //                holder.binding.time.visibility = if (count == 0) View.GONE else View.VISIBLE
+                holder.title.text = media.title
+            }
+            is AbstractMediaWrapper -> {
+                holder.title.text = if (showFilename.get()) media.fileName else media.title
             }
         }
     }
 
+    override fun getItemViewType(position: Int) = when (dataType) {
+        VideoGroupingType.FOLDER -> 1
+        else -> 0
+    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
         if (payloads.isEmpty())
             onBindViewHolder(holder, position)
@@ -200,6 +206,7 @@ class VideoListAdapter internal constructor(
     inner class ViewHolder @TargetApi(Build.VERSION_CODES.M)
     constructor(binding: ViewDataBinding) : SelectorViewHolder<ViewDataBinding>(binding), View.OnFocusChangeListener {
         val overlay: ImageView = itemView.findViewById(R.id.ml_item_overlay)
+        val title : TextView = itemView.findViewById(R.id.ml_item_title)
 
         init {
             binding.setVariable(BR.holder, this)
@@ -264,10 +271,6 @@ class VideoListAdapter internal constructor(
 
     fun setSeenMediaMarkerVisible(seenMediaMarkerVisible: Boolean) {
         mIsSeenMediaMarkerVisible = seenMediaMarkerVisible
-    }
-
-    fun showFilename(show: Boolean) {
-        showFilename.set(show)
     }
 }
 

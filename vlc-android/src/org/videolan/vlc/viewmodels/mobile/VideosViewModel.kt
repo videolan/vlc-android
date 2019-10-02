@@ -40,12 +40,27 @@ import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
-class VideosViewModel(context: Context, val groupingType: VideoGroupingType, val folder: AbstractFolder?, val group: AbstractVideoGroup?) : MedialibraryViewModel(context) {
+class VideosViewModel(context: Context, type: VideoGroupingType, val folder: AbstractFolder?, val group: AbstractVideoGroup?) : MedialibraryViewModel(context) {
 
-    val provider = when (groupingType) {
-        VideoGroupingType.NONE -> VideosProvider(folder, group, context, this)
-        VideoGroupingType.FOLDER -> FoldersProvider(context, this, AbstractFolder.TYPE_FOLDER_VIDEO)
+    var groupingType = type
+        private set
+    var provider = loadProvider()
+        private set
+
+    private fun loadProvider(): MedialibraryProvider<out MediaLibraryItem> {
+        return when (groupingType) {
+            VideoGroupingType.NONE -> VideosProvider(folder, group, context, this)
+            VideoGroupingType.FOLDER -> FoldersProvider(context, this, AbstractFolder.TYPE_FOLDER_VIDEO)
+        }
     }
+
+    fun changeGroupingType(type: VideoGroupingType) {
+        if (groupingType == type) return
+        groupingType = type
+        provider = loadProvider()
+        refresh()
+    }
+
     override val providers: Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
     init {
