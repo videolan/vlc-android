@@ -54,13 +54,8 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
-import org.videolan.vlc.gui.folders.FolderAction
-import org.videolan.vlc.gui.folders.FolderClick
-import org.videolan.vlc.gui.folders.FolderCtxClick
-import org.videolan.vlc.gui.folders.FolderLongClick
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
@@ -83,34 +78,67 @@ private const val UNSET_REFRESHING = 16
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<AbstractMediaWrapper>>, CtxActionReceiver {
+class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, Observer<PagedList<AbstractMediaWrapper>>, CtxActionReceiver {
 
     private lateinit var videoListAdapter: VideoListAdapter
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaLibraryItem>
     private lateinit var binding: VideoGridBinding
     private var gridItemDecoration: RecyclerView.ItemDecoration? = null
 
-    private val actor = actor<FolderAction> {
+    private val actor = actor<VideoAction> {
         for (action in channel) when (action) {
-            is FolderClick -> {
-                if (actionMode != null) {
-                    videoListAdapter.multiSelectHelper.toggleSelection(action.position)
-                    invalidateActionMode()
-                } else {
-                    val i = Intent(activity, SecondaryActivity::class.java)
-                    i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
-                    i.putExtra(KEY_FOLDER, action.folder)
-                    activity?.startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
+            is VideoClick -> {
+                when (action.item) {
+                    is AbstractMediaWrapper -> {
+                        if (actionMode != null) {
+                            multiSelectHelper.toggleSelection(action.position)
+                            invalidateActionMode()
+                        } else {
+                            action.item.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+                            val settings = Settings.getInstance(requireActivity())
+                            if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
+                                MediaUtils.playAll(requireContext(), viewModel.provider as VideosProvider, action.position, false)
+                            } else {
+                                playVideo(action.item, false)
+                            }
+                        }
+                    }
+                    is AbstractFolder -> {
+                        if (actionMode != null) {
+                            multiSelectHelper.toggleSelection(action.position)
+                            invalidateActionMode()
+                        } else {
+                            val i = Intent(activity, SecondaryActivity::class.java)
+                            i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
+                            i.putExtra(KEY_FOLDER, action.item)
+                            activity?.startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
+                        }
+                    }
                 }
             }
-            is FolderLongClick -> {
-                videoListAdapter.multiSelectHelper.toggleSelection(action.position, true)
-                if (actionMode == null) {
-                    startActionMode()
+            is VideoLongClick -> {
+                multiSelectHelper.toggleSelection(action.position, true)
+                if (actionMode == null) startActionMode()
+            }
+            is VideoCtxClick -> {
+                when (action.item) {
+                    is Folder -> showContext(requireActivity(), this@VideoGridFragment, action.position, action.item.title, CTX_FOLDER_FLAGS)
+                    is MediaWrapper -> {
+                        val group = action.item.type == AbstractMediaWrapper.TYPE_GROUP
+                        var flags = if (group) CTX_VIDEO_GOUP_FLAGS else CTX_VIDEO_FLAGS
+                        if (action.item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
+                        showContext(requireActivity(), this@VideoGridFragment, action.position, action.item.getTitle(), flags)
+                    }
                 }
             }
-            is FolderCtxClick -> {
-                showContext(requireActivity(), this@VideoGridFragment, action.position, action.folder.title, CTX_FOLDER_FLAGS)
+            is VideoUpdateFinished -> {
+                if (isStarted()) {
+                    if (!mediaLibrary.isWorking) handler.sendEmptyMessage(UNSET_REFRESHING)
+                    updateEmptyView()
+                    setFabPlayVisibility(true)
+                    menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
+                }
+                restoreMultiSelectHelper()
             }
         }
     }
@@ -137,7 +165,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (!::videoListAdapter.isInitialized) {
             val preferences = Settings.getInstance(requireContext())
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
-            videoListAdapter = VideoListAdapter(this, seenMarkVisible)
+            videoListAdapter = VideoListAdapter(seenMarkVisible, actor)
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<AbstractFolder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
@@ -450,63 +478,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         multiSelectHelper.clearSelection()
     }
 
-    override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        when (item) {
-            is AbstractMediaWrapper -> {
-                if (actionMode != null) {
-                    multiSelectHelper.toggleSelection(position)
-                    invalidateActionMode()
-                    return
-                }
-                item.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
-                val settings = Settings.getInstance(v.context)
-                if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
-                    MediaUtils.playAll(requireContext(), viewModel.provider as VideosProvider, position, false)
-                } else {
-                    playVideo(item, false)
-                }
-            }
-            is AbstractFolder -> actor.offer(FolderClick(position, item))
-            else -> {
-            }
-        }
-    }
-
-    override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        multiSelectHelper.toggleSelection(position, true)
-        if (actionMode == null) startActionMode()
-        return true
-    }
-
-    override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
-
-    override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        when (item) {
-            is Folder -> showContext(requireActivity(), this, position, item.title, CTX_FOLDER_FLAGS)
-            is MediaWrapper -> {
-                val group = item.type == AbstractMediaWrapper.TYPE_GROUP
-                var flags = if (group) CTX_VIDEO_GOUP_FLAGS else CTX_VIDEO_FLAGS
-                if (item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
-                showContext(requireActivity(), this, position, item.getTitle(), flags)
-            }
-        }
-    }
-
-    override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
-
-    override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        launch {
-            if (!isResumed) return@launch
-            if (!mediaLibrary.isWorking) handler.sendEmptyMessage(UNSET_REFRESHING)
-            updateEmptyView()
-            setFabPlayVisibility(true)
-            menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
-        }
-        restoreMultiSelectHelper()
-    }
-
-    override fun onItemFocused(v: View, item: MediaLibraryItem) {}
-
     fun updateSeenMediaMarker() {
         videoListAdapter.setSeenMediaMarkerVisible(Settings.getInstance(requireContext()).getBoolean("media_seen", true))
         videoListAdapter.notifyItemRangeChanged(0, videoListAdapter.itemCount - 1, UPDATE_SEEN)
@@ -548,3 +519,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         }
     }
 }
+
+sealed class VideoAction
+class VideoClick(val position: Int, val item: MediaLibraryItem) : VideoAction()
+class VideoLongClick(val position: Int, val item: MediaLibraryItem) : VideoAction()
+class VideoCtxClick(val position: Int, val item: MediaLibraryItem) : VideoAction()
+class VideoUpdateFinished(val adapter: RecyclerView.Adapter<*>) : VideoAction()

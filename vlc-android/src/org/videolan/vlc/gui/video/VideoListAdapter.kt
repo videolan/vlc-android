@@ -41,6 +41,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.SendChannel
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
@@ -56,15 +57,14 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.loadImage
-import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 private const val TAG = "VLC/VideoListAdapter"
 
 class VideoListAdapter internal constructor(
-        private val mEventsHandler: IEventsHandler,
-        private var mIsSeenMediaMarkerVisible: Boolean
+        private var mIsSeenMediaMarkerVisible: Boolean,
+        val actor: SendChannel<VideoAction>
 ) : PagedListAdapter<MediaLibraryItem, VideoListAdapter.ViewHolder>(VideoItemDiffCallback),
         MultiSelectAdapter<MediaLibraryItem>, CoroutineScope by MainScope() {
 
@@ -220,17 +220,17 @@ class VideoListAdapter internal constructor(
 
         fun onClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { mEventsHandler.onClick(v, position, it) }
+            if (isPositionValid(position)) getItem(position)?.let { actor.offer(VideoClick(layoutPosition, it)) }
         }
 
         fun onMoreClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { mEventsHandler.onCtxClick(v, position, it) }
+            if (isPositionValid(position)) getItem(position)?.let { actor.offer(VideoCtxClick(layoutPosition, it)) }
         }
 
         fun onLongClick(v: View): Boolean {
             val position = layoutPosition
-            return isPositionValid(position) && getItem(position)?.let { mEventsHandler.onLongClick(v, position, it) } == true
+            return isPositionValid(position) && getItem(position)?.let { actor.offer(VideoLongClick(layoutPosition, it)) } == true
         }
 
         override fun selectView(selected: Boolean) {
@@ -243,7 +243,7 @@ class VideoListAdapter internal constructor(
     }
 
     override fun onCurrentListChanged(previousList: PagedList<MediaLibraryItem>?, currentList: PagedList<MediaLibraryItem>?) {
-        mEventsHandler.onUpdateFinished(this)
+        actor.offer(VideoUpdateFinished(this))
     }
 
     private object VideoItemDiffCallback : DiffUtil.ItemCallback<MediaLibraryItem>() {
