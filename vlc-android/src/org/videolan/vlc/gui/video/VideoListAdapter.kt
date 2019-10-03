@@ -47,6 +47,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -108,22 +109,11 @@ class VideoListAdapter internal constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val media = getItem(position) ?: return
+        val item = getItem(position) ?: return
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER_CROP)
-        fillView(holder, media)
-        holder.binding.setVariable(BR.media, media)
+        fillView(holder, item)
+        holder.binding.setVariable(BR.media, item)
         holder.selectView(multiSelectHelper.isSelected(position))
-        when (media) {
-            is AbstractFolder -> launch {
-                val count = withContext(Dispatchers.IO) { media.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) }
-                holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
-//                holder.binding.time.visibility = if (count == 0) View.GONE else View.VISIBLE
-                holder.title.text = media.title
-            }
-            is AbstractMediaWrapper -> {
-                holder.title.text = if (showFilename.get()) media.fileName else media.title
-            }
-        }
     }
 
     override fun getItemViewType(position: Int) = when (dataType) {
@@ -160,38 +150,48 @@ class VideoListAdapter internal constructor(
     @MainThread
     fun clear() {}
 
-    private fun fillView(holder: ViewHolder, media: MediaLibraryItem) {
-        if (media is MediaWrapper) {
-            val text: String?
-            val resolution = generateResolutionClass(media.width, media.height)
-            var max = 0
-            var progress = 0
-            var seen = 0L
-
-            text = if (media.type == AbstractMediaWrapper.TYPE_GROUP) {
-                media.description
-            } else {
-                seen = if (mIsSeenMediaMarkerVisible) media.seen else 0L
-                /* Time / Duration */
-                if (media.length > 0) {
-                    val lastTime = media.displayTime
-                    if (lastTime > 0) {
-                        max = (media.length / 1000).toInt()
-                        progress = (lastTime / 1000).toInt()
-                    }
-                    if (isListMode && resolution !== null) {
-                        "${Tools.millisToText(media.length)} | $resolution"
-                    } else Tools.millisToText(media.length)
-                } else null
+    private fun fillView(holder: ViewHolder, item: MediaLibraryItem) {
+        when (item) {
+            is AbstractFolder -> launch {
+                val count = withContext(Dispatchers.IO) { item.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) }
+                holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
+                holder.title.text = item.title
             }
+            is AbstractVideoGroup -> launch {
+                val count = item.mediaCount()
+                holder.binding.setVariable(BR.time, if (count < 2) null else holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
+                holder.title.text = item.title
+            }
+            is AbstractMediaWrapper -> {
+                holder.title.text = if (showFilename.get()) item.fileName else item.title
+                val text: String?
+                val resolution = generateResolutionClass(item.width, item.height)
+                var max = 0
+                var progress = 0
+                var seen = 0L
 
-            holder.binding.setVariable(BR.time, text)
-            holder.binding.setVariable(BR.max, max)
-            holder.binding.setVariable(BR.progress, progress)
-            holder.binding.setVariable(BR.seen, seen)
-            if (!isListMode) holder.binding.setVariable(BR.resolution, resolution)
-        } else if (media is Folder) {
-//            BR.time =
+                text = if (item.type == AbstractMediaWrapper.TYPE_GROUP) {
+                    item.description
+                } else {
+                    seen = if (mIsSeenMediaMarkerVisible) item.seen else 0L
+                    /* Time / Duration */
+                    if (item.length > 0) {
+                        val lastTime = item.displayTime
+                        if (lastTime > 0) {
+                            max = (item.length / 1000).toInt()
+                            progress = (lastTime / 1000).toInt()
+                        }
+                        if (isListMode && resolution !== null) {
+                            "${Tools.millisToText(item.length)} | $resolution"
+                        } else Tools.millisToText(item.length)
+                    } else null
+                }
+                holder.binding.setVariable(BR.time, text)
+                holder.binding.setVariable(BR.max, max)
+                holder.binding.setVariable(BR.progress, progress)
+                holder.binding.setVariable(BR.seen, seen)
+                if (!isListMode) holder.binding.setVariable(BR.resolution, resolution)
+            }
         }
     }
 
@@ -199,9 +199,7 @@ class VideoListAdapter internal constructor(
         this.gridCardWidth = gridCardWidth
     }
 
-    override fun getItemId(position: Int): Long {
-        return 0L
-    }
+    override fun getItemId(position: Int) = 0L
 
     inner class ViewHolder @TargetApi(Build.VERSION_CODES.M)
     constructor(binding: ViewDataBinding) : SelectorViewHolder<ViewDataBinding>(binding), View.OnFocusChangeListener {

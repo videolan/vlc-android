@@ -59,7 +59,6 @@ import org.videolan.vlc.gui.browser.NetworkBrowserFragment
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoGridFragment
-import org.videolan.vlc.gui.videogroups.VideoGroupsFragment
 import org.videolan.vlc.gui.view.HackyDrawerLayout
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
@@ -154,9 +153,13 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
             else -> {
                 val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "-1")!!)
                 when {
-                    group > 0 -> VideoGroupsFragment()
+                    group > 0 -> VideoGridFragment().apply {
+                        arguments = Bundle(1).apply {
+                            putSerializable(KEY_GROUPING, VideoGroupingType.NAME)
+                        }
+                    }
                     group == 0 -> VideoGridFragment().apply {
-                        arguments = Bundle(2).apply {
+                        arguments = Bundle(1).apply {
                             putSerializable(KEY_GROUPING, VideoGroupingType.FOLDER)
                         }
                     }

@@ -670,6 +670,7 @@
     <string name="device_dialog_title">External device inserted</string>
     <string name="device_dialog_message">You just plugged a new storage device to your TV box, do you want to open it with VLC?</string>
     <string name="videos_folders_title">Videos by folders</string>
+    <string name="videos_groups_title">Video groups</string>
     <string name="video_save_remote_setting">Automatically activate remote control mode?</string>
     <string name="video_save_clone_mode">Automatically activate clone mode?</string>
     <string name="video_remote_enable">Switch to remote control mode</string>
