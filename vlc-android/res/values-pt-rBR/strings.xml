@@ -294,7 +294,7 @@
 
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupar vídeos</string>
-    <string name="video_min_group_length_disable">Desabilitar</string>
+    <string name="video_min_group_length_disable">Não agrupar vídeos</string>
     <string name="video_min_group_length_folder">Agrupar por pasta</string>
     <string name="video_min_group_length_name">Agrupar por nome</string>
     <string name="video_min_group_length_first">Somente a primeira letra</string>
