@@ -211,7 +211,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}
 
     override fun onRemove(position: Int, item: MediaLibraryItem) {
-        val tracks = ArrayList(Arrays.asList(*item.tracks))
+        val tracks = ArrayList(listOf(*item.tracks))
         removeFromPlaylist(tracks, ArrayList(Arrays.asList(position)))
     }
 
@@ -373,21 +373,24 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         val itemsRemoved = HashMap<Int, Long>()
         val playlist = viewModel.playlist as? AbstractPlaylist
                 ?: return
-
-        for (mediaItem in list) {
-            for (i in 0 until playlist.tracks.size) {
-                if (playlist.tracks[i].id == mediaItem.id) {
-                    itemsRemoved[i] = mediaItem.id
+        launch {
+            val tracks = withContext(Dispatchers.IO) { playlist.tracks }
+            for (mediaItem in list) {
+                for (i in tracks.indices) {
+                    if (tracks[i].id == mediaItem.id) {
+                        itemsRemoved[i] = mediaItem.id
+                    }
                 }
             }
-        }
-        for (index in indexes) playlist.remove(index)
-
-        UiTools.snackerWithCancel(binding.root, getString(R.string.removed_from_playlist_anonymous), null, Runnable {
-            for ((key, value) in itemsRemoved) {
-                playlist.add(value, key)
+            withContext(Dispatchers.IO) {
+                for (index in indexes) playlist.remove(index)
             }
-        })
+            if (isStarted()) UiTools.snackerWithCancel(binding.root, getString(R.string.removed_from_playlist_anonymous), null, Runnable {
+                for ((key, value) in itemsRemoved) {
+                    playlist.add(value, key)
+                }
+            })
+        }
     }
 
     companion object {
