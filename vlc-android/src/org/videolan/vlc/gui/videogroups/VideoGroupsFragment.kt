@@ -43,10 +43,13 @@ class VideoGroupsFragment : MediaBrowserFragment<VideogroupsViewModel>(), CtxAct
                     adapter.multiSelectHelper.toggleSelection(action.position)
                     invalidateActionMode()
                 } else {
-                    val i = Intent(activity, SecondaryActivity::class.java)
-                    i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
-                    i.putExtra(KEY_GROUP, action.group)
-                    activity?.startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
+                    if (action.group.mediaCount() == 1) viewModel.play(action.position)
+                    else {
+                        val i = Intent(activity, SecondaryActivity::class.java)
+                        i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
+                        i.putExtra(KEY_GROUP, action.group)
+                        activity?.startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
+                    }
                 }
             }
             is VideoGroupLongClick -> {
