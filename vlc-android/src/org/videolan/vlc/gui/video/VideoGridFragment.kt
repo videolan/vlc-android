@@ -40,6 +40,7 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
+import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.MultiSelectHelper
@@ -62,6 +63,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
@@ -161,17 +163,15 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun setDataObservers() {
         videoListAdapter.dataType = viewModel.groupingType
-        when(viewModel.groupingType) {
+        when (viewModel.groupingType) {
             VideoGroupingType.NONE -> {
                 (viewModel.provider as VideosProvider).pagedList.observe(this, this)
             }
             VideoGroupingType.FOLDER -> {
                 (viewModel.provider as FoldersProvider).pagedList.observe(requireActivity(), Observer {
-                    swipeRefreshLayout.isRefreshing = false
                     videoListAdapter.showFilename.set(viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
                     if (it != null) videoListAdapter.submitList(it as PagedList<MediaLibraryItem>)
                     restoreMultiSelectHelper()
-                    updateEmptyView()
                 })
             }
         }
@@ -338,7 +338,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onFabPlayClick(view: View) {
-        MediaUtils.playAll(context, viewModel.provider as VideosProvider, 0, false)
+        when (viewModel.groupingType) {
+            VideoGroupingType.NONE -> MediaUtils.playAll(context, viewModel.provider as VideosProvider, 0, false)
+            VideoGroupingType.FOLDER -> MediaUtils.playAllTracks(context, (viewModel.provider as FoldersProvider), 0, false)
+        }
     }
 
     @MainThread
@@ -370,7 +373,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-        mode.menuInflater.inflate(R.menu.action_mode_video, menu)
+        when (viewModel.groupingType) {
+            VideoGroupingType.NONE -> mode.menuInflater.inflate(R.menu.action_mode_video, menu)
+            VideoGroupingType.FOLDER -> mode.menuInflater.inflate(R.menu.action_mode_folder, menu)
+        }
         return true
     }
 
@@ -380,36 +386,57 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             stopActionMode()
             return false
         }
-        menu.findItem(R.id.action_video_info).isVisible = count == 1
         menu.findItem(R.id.action_video_append).isVisible = PlaylistManager.hasMedia()
+        when (viewModel.groupingType) {
+            VideoGroupingType.NONE ->
+                menu.findItem(R.id.action_video_info).isVisible = count == 1
+            VideoGroupingType.FOLDER -> {
+            }
+        }
         return true
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         if (!isStarted()) return false
-        val list = ArrayList<AbstractMediaWrapper>()
-        for (mw in multiSelectHelper.getSelection()) {
-            list.add(mw as MediaWrapper)
-        }
-        if (list.isNotEmpty()) {
-            when (item.itemId) {
-                R.id.action_video_play -> MediaUtils.openList(activity, list, 0)
-                R.id.action_video_append -> MediaUtils.appendMedia(activity, list)
-                R.id.action_video_info -> showInfoDialog(list[0])
-                //            case R.id.action_video_delete:
-                //                for (int position : rowsAdapter.getSelectedPositions())
-                //                    removeVideo(position, rowsAdapter.getItem(position));
-                //                break;
-                R.id.action_video_download_subtitles -> MediaUtils.getSubs(requireActivity(), list)
-                R.id.action_video_play_audio -> {
-                    for (media in list) media.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
-                    MediaUtils.openList(activity, list, 0)
+        when (viewModel.groupingType) {
+            VideoGroupingType.NONE -> {
+                val list = ArrayList<AbstractMediaWrapper>()
+                for (mw in multiSelectHelper.getSelection()) {
+                    list.add(mw as MediaWrapper)
                 }
-                R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
-                R.id.action_video_delete -> removeItems(list)
-                else -> {
-                    stopActionMode()
-                    return false
+                if (list.isNotEmpty()) {
+                    when (item.itemId) {
+                        R.id.action_video_play -> MediaUtils.openList(activity, list, 0)
+                        R.id.action_video_append -> MediaUtils.appendMedia(activity, list)
+                        R.id.action_video_info -> showInfoDialog(list[0])
+                        //            case R.id.action_video_delete:
+                        //                for (int position : rowsAdapter.getSelectedPositions())
+                        //                    removeVideo(position, rowsAdapter.getItem(position));
+                        //                break;
+                        R.id.action_video_download_subtitles -> MediaUtils.getSubs(requireActivity(), list)
+                        R.id.action_video_play_audio -> {
+                            for (media in list) media.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+                            MediaUtils.openList(activity, list, 0)
+                        }
+                        R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
+                        R.id.action_video_delete -> removeItems(list)
+                        else -> {
+                            stopActionMode()
+                            return false
+                        }
+                    }
+                }
+            }
+            VideoGroupingType.FOLDER -> {
+                val selection = ArrayList<Folder>()
+                for (mw in multiSelectHelper.getSelection()) {
+                    selection.add(mw as Folder)
+                }
+                when (item.itemId) {
+                    R.id.action_folder_play -> viewModel.playSelection(selection)
+                    R.id.action_folder_append -> viewModel.appendSelection(selection)
+                    R.id.action_folder_add_playlist -> launch { UiTools.addToPlaylist(requireActivity(), withContext(Dispatchers.Default) { selection.getAll() }) }
+                    else -> return false
                 }
             }
         }
@@ -440,7 +467,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 }
             }
             is AbstractFolder -> actor.offer(FolderClick(position, item))
-            else -> {}
+            else -> {
+            }
         }
     }
 
@@ -453,12 +481,15 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        val mw = item as AbstractMediaWrapper
-        val group = mw.type == AbstractMediaWrapper.TYPE_GROUP
-        var flags = if (group) CTX_VIDEO_GOUP_FLAGS else CTX_VIDEO_FLAGS
-        if (mw.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
-        if (actionMode == null)
-            showContext(requireActivity(), this, position, item.getTitle(), flags)
+        when (item) {
+            is Folder -> showContext(requireActivity(), this, position, item.title, CTX_FOLDER_FLAGS)
+            is MediaWrapper -> {
+                val group = item.type == AbstractMediaWrapper.TYPE_GROUP
+                var flags = if (group) CTX_VIDEO_GOUP_FLAGS else CTX_VIDEO_FLAGS
+                if (item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
+                showContext(requireActivity(), this, position, item.getTitle(), flags)
+            }
+        }
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
@@ -485,29 +516,27 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (position >= videoListAdapter.itemCount) return
         val media = videoListAdapter.getItem(position) ?: return
         val activity = activity ?: return
-        if (media is MediaWrapper) when (option) {
-            CTX_PLAY_FROM_START -> playVideo(media, true)
-            CTX_PLAY_AS_AUDIO -> playAudio(media)
-            CTX_PLAY_ALL -> MediaUtils.playAll(requireContext(), viewModel.provider as VideosProvider, position, false)
-            CTX_INFORMATION -> showInfoDialog(media)
-            CTX_DELETE -> removeItem(media)
-            CTX_APPEND -> {
-                if (media.type == MediaLibraryItem.TYPE_FOLDER) {
-                    launch { viewModel.append(position) }
-                } else MediaUtils.appendMedia(activity, media)
+        when (media) {
+            is MediaWrapper -> when (option) {
+                CTX_PLAY_FROM_START -> playVideo(media, true)
+                CTX_PLAY_AS_AUDIO -> playAudio(media)
+                CTX_PLAY_ALL -> MediaUtils.playAll(requireContext(), viewModel.provider as VideosProvider, position, false)
+                CTX_INFORMATION -> showInfoDialog(media)
+                CTX_DELETE -> removeItem(media)
+                CTX_APPEND -> MediaUtils.appendMedia(activity, media)
+                CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
+                CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
+                CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             }
-            CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
-            CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
-            CTX_ADD_TO_PLAYLIST -> {
-                if (media.type == MediaLibraryItem.TYPE_FOLDER) {
-                    viewModel.addToPlaylist(requireActivity(), position)
-                } else UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            is Folder -> when (option) {
+                CTX_PLAY -> launch { viewModel.play(position) }
+                CTX_APPEND -> launch { viewModel.append(position) }
+                CTX_ADD_TO_PLAYLIST -> viewModel.addToPlaylist(requireActivity(), position)
             }
-            CTX_PLAY -> launch { viewModel.play(position) }
         }
     }
 
-    private val handler = VideoGridFragmentHandler(WeakReference(this))
+    private val handler = VideoGridFragment.VideoGridFragmentHandler(WeakReference(this))
 
     private val thumbObs = Observer<AbstractMediaWrapper> { media ->
         if (!::videoListAdapter.isInitialized) return@Observer

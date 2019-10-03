@@ -36,7 +36,7 @@ class FoldersFragment : MediaBrowserFragment<VideosViewModel>(), CtxActionReceiv
     private lateinit var adapter: FoldersAdapter
 
     private val actor = actor<FolderAction> {
-        for (action in channel) when(action) {
+        for (action in channel) when (action) {
             is FolderClick -> {
                 if (actionMode != null) {
                     adapter.multiSelectHelper.toggleSelection(action.position)
@@ -93,9 +93,9 @@ class FoldersFragment : MediaBrowserFragment<VideosViewModel>(), CtxActionReceiv
             startActivity(intent)
             activity.setResult(RESULT_RESTART)
         }
-
     }
 
+    //done
     private fun updateEmptyView() {
         val empty = viewModel.isEmpty()
         val working = mediaLibrary.isWorking
@@ -104,12 +104,12 @@ class FoldersFragment : MediaBrowserFragment<VideosViewModel>(), CtxActionReceiv
         binding.empty = empty && !working
     }
 
+    //done
     override fun onStart() {
         super.onStart()
         setFabPlayVisibility(true)
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
     }
-
 
     override fun getTitle(): String = getString(R.string.video)
 
@@ -117,12 +117,14 @@ class FoldersFragment : MediaBrowserFragment<VideosViewModel>(), CtxActionReceiv
 
     override fun onRefresh() = viewModel.refresh()
 
+    //done
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_last_playlist)?.isVisible = true
         menu.findItem(R.id.ml_menu_video_group).isVisible = true
     }
 
+    //done
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.ml_menu_last_playlist -> {
             MediaUtils.loadlastPlaylist(activity, PLAYLIST_TYPE_VIDEO)
@@ -131,6 +133,7 @@ class FoldersFragment : MediaBrowserFragment<VideosViewModel>(), CtxActionReceiv
         else -> super.onOptionsItemSelected(item)
     }
 
+    //done
     override fun onCtxAction(position: Int, option: Int) {
         when (option) {
             CTX_PLAY -> launch { viewModel.play(position) }
@@ -139,15 +142,18 @@ class FoldersFragment : MediaBrowserFragment<VideosViewModel>(), CtxActionReceiv
         }
     }
 
+    //done
     override fun onFabPlayClick(view: View) {
         MediaUtils.playAllTracks(context, (viewModel.provider as FoldersProvider), 0, false)
     }
 
-    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) : Boolean {
+    //done
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         mode?.apply { menuInflater.inflate(R.menu.action_mode_folder, menu) }
         return true
     }
 
+    //done
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
         val count = adapter.multiSelectHelper.getSelectionCount()
         if (count == 0) {
@@ -158,7 +164,8 @@ class FoldersFragment : MediaBrowserFragment<VideosViewModel>(), CtxActionReceiv
         return true
     }
 
-    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem) : Boolean {
+    //done
+    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem): Boolean {
         if (!isStarted()) return false
         val selection = adapter.multiSelectHelper.getSelection()
         when (item.itemId) {
@@ -171,6 +178,7 @@ class FoldersFragment : MediaBrowserFragment<VideosViewModel>(), CtxActionReceiv
         return true
     }
 
+    //done
     override fun onDestroyActionMode(mode: ActionMode?) {
         actionMode = null
         adapter.multiSelectHelper.clearSelection()
