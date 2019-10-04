@@ -308,7 +308,7 @@
 
     <string name="video_prefs_category">Obraz</string>
     <string name="video_min_group_length_title">Grupuj filmy</string>
-    <string name="video_min_group_length_disable">Wyłącz</string>
+    <string name="video_min_group_length_disable">Nie grupuj filmów</string>
     <string name="video_min_group_length_folder">Grupuj według folderu</string>
     <string name="video_min_group_length_name">Grupuj według nazwy</string>
     <string name="video_min_group_length_first">Tylko pierwsza litera</string>
