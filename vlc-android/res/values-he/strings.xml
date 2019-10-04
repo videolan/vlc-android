@@ -308,7 +308,7 @@
 
     <string name="video_prefs_category">סרטון</string>
     <string name="video_min_group_length_title">סרטונים קבוצתיים</string>
-    <string name="video_min_group_length_disable">השבתה</string>
+    <string name="video_min_group_length_disable">לא לקבץ סרטונים</string>
     <string name="video_min_group_length_folder">קיבוץ לפי תיקייה</string>
     <string name="video_min_group_length_name">קיבוץ לפי שם</string>
     <string name="video_min_group_length_first">אות ראשונה בלבד</string>
