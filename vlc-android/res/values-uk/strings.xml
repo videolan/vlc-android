@@ -308,8 +308,9 @@
 
     <string name="video_prefs_category">Відео</string>
     <string name="video_min_group_length_title">Групувати відео</string>
-    <string name="video_min_group_length_disable">Вимкнути</string>
+    <string name="video_min_group_length_disable">Не групувати відео</string>
     <string name="video_min_group_length_folder">Групувати за текою</string>
+    <string name="video_min_group_length_name">Групувати за назвою</string>
     <string name="video_min_group_length_first">Лише перші букви</string>
     <string name="video_min_group_length_short">Коротке число літер (6)</string>
     <string name="video_min_group_length_long">Довге число літер (9)</string>
@@ -721,4 +722,11 @@
     <string name="report_a_crash">Повідомити про збій</string>
     <string name="describe_crash">Будь ласка, опишіть як трапився цей збій</string>
     <string name="favorite">Обране</string>
+    <string name="add_to_scanned">Сканувати цю теку</string>
+    <string name="directory_not_scanned">Цей каталог не просканований</string>
+    <string name="scanned_directory_added">%s додано до ваших сканованих каталогів</string>
+    <string name="video_group_size_dialog_text">Число символів, використаних для групування за назвою</string>
+    <string name="video_group_size_summary">Групувати за першими%s буквами</string>
+    <string name="video_group_size">Групувати відео за назвою</string>
+    <string name="url_copied_to_clipboard">Url скопійовано у буфер обміну</string>
 </resources>
