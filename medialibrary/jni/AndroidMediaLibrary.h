@@ -149,7 +149,7 @@ public:
                                bool success );
     void onHistoryChanged( medialibrary::HistoryType historyType );
 
-    bool onUnhandledException( const char* /* context */, const char* /* errMsg */ );
+    bool onUnhandledException( const char* /* context */, const char* /* errMsg */, bool /* clearSuggested */ );
 
 private:
     void jni_detach_thread(void *data);

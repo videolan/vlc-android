@@ -83,7 +83,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     private var discoverTriggered = false
     internal val sb = StringBuilder()
 
-    private val exceptionHandler = if (BuildConfig.BETA) AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg ->
+    private val exceptionHandler = if (BuildConfig.BETA) AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
         val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
             putExtra(CRASH_ML_CTX, context)
             putExtra(CRASH_ML_MSG, errMsg)

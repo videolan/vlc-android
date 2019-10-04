@@ -207,7 +207,7 @@ abstract public class AbstractMedialibrary {
     }
 
     public interface MedialibraryExceptionHandler {
-        void onUnhandledException(String context, String errMsg);
+        void onUnhandledException(String context, String errMsg, boolean clearSuggested);
     }
 
     public MedialibraryExceptionHandler getExceptionHandler() {
@@ -403,8 +403,8 @@ abstract public class AbstractMedialibrary {
         }
     }
     @SuppressWarnings("unused")
-    public void onUnhandledException(String context, String errMsg) {
-        if (mExceptionHandler != null) mExceptionHandler.onUnhandledException(context, errMsg);
+    public void onUnhandledException(String context, String errMsg, boolean clearSuggested) {
+        if (mExceptionHandler != null) mExceptionHandler.onUnhandledException(context, errMsg, clearSuggested);
     }
 
     @SuppressWarnings("unused")
