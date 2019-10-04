@@ -294,7 +294,7 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Videos gruppieren</string>
-    <string name="video_min_group_length_disable">Deaktivieren</string>
+    <string name="video_min_group_length_disable">Videos nicht gruppieren</string>
     <string name="video_min_group_length_folder">Nach Ordner gruppieren</string>
     <string name="video_min_group_length_name">Nach Name gruppieren</string>
     <string name="video_min_group_length_first">Nur erster Buchstabe</string>
