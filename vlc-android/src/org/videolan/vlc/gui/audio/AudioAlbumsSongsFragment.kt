@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.audio
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -240,7 +241,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        if (option == CTX_PLAY_ALL) MediaUtils.playAll(requireContext(), viewModel.tracksProvider, position, false)
+        if (option == CTX_PLAY_ALL) MediaUtils.playAll(activity, viewModel.tracksProvider, position, false)
         else super.onCtxAction(position, option)
     }
 
@@ -266,6 +267,6 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         if (currentTab == 0)
             MediaUtils.playAlbums(activity, viewModel.albumsProvider, 0, false)
         else
-            MediaUtils.playAll(view.context, viewModel.tracksProvider, 0, false)
+            MediaUtils.playAll(activity, viewModel.tracksProvider, 0, false)
     }
 }

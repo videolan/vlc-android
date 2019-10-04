@@ -289,7 +289,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     }
 
     override fun onFabPlayClick(view: View) {
-        MediaUtils.playAll(view.context, viewModel.tracksProvider, 0, true)
+        MediaUtils.playAll(activity, viewModel.tracksProvider, 0, true)
     }
 
     private fun setFabPlayShuffleAllVisibility() {
@@ -342,7 +342,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
     override fun onCtxAction(position: Int, option: Int) {
         @Suppress("UNCHECKED_CAST")
-        if (option == CTX_PLAY_ALL) MediaUtils.playAll(requireContext(), viewModel.providers[currentTab] as MedialibraryProvider<AbstractMediaWrapper>, position, false)
+        if (option == CTX_PLAY_ALL) MediaUtils.playAll(activity, viewModel.providers[currentTab] as MedialibraryProvider<AbstractMediaWrapper>, position, false)
         else super.onCtxAction(position, option)
     }
 

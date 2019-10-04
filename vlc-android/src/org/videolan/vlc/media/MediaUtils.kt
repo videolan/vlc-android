@@ -177,7 +177,7 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    fun playAll(context: Context?, provider: MedialibraryProvider<AbstractMediaWrapper>, position: Int, shuffle: Boolean) {
+    fun playAll(context: Activity?, provider: MedialibraryProvider<AbstractMediaWrapper>, position: Int, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }

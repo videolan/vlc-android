@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.viewmodels.mobile
 
+import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
@@ -38,8 +40,11 @@ import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
+import org.videolan.vlc.util.FORCE_PLAY_ALL
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
+@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class VideosViewModel(context: Context, type: VideoGroupingType, val folder: AbstractFolder?, val group: AbstractVideoGroup?) : MedialibraryViewModel(context) {
 
@@ -56,7 +61,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Abs
 
     override val providers: Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
-    fun changeGroupingType(type: VideoGroupingType) {
+    internal fun changeGroupingType(type: VideoGroupingType) {
         if (groupingType == type) return
         groupingType = type
         provider = loadProvider()
@@ -76,7 +81,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Abs
     }
 
     // Folders & Groups
-    suspend fun play(position: Int) {
+    internal suspend fun play(position: Int) {
         val item = provider.pagedList.value?.get(position) ?: return
         withContext(Dispatchers.IO) {
             when (item) {
@@ -87,7 +92,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Abs
         }?.let { MediaUtils.openList(context, it, 0) }
     }
 
-    suspend fun append(position: Int) {
+    internal suspend fun append(position: Int) {
         val item = provider.pagedList.value?.get(position) ?: return
         withContext(Dispatchers.IO) {
             when (item) {
@@ -98,17 +103,17 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Abs
         }?.let { MediaUtils.appendMedia(context, it) }
     }
 
-    fun playFoldersSelection(selection: List<AbstractFolder>) = launch {
+    internal fun playFoldersSelection(selection: List<AbstractFolder>) = launch {
         val list = selection.flatMap { it.getAll() }
         MediaUtils.openList(context, list, 0)
     }
 
-    fun playGroupsSelection(selection: List<AbstractVideoGroup>) = launch {
+    internal fun playGroupsSelection(selection: List<AbstractVideoGroup>) = launch {
         val list = selection.flatMap { it.getAll() }
         MediaUtils.openList(context, list, 0)
     }
 
-    fun addToPlaylist(activity: FragmentActivity, position: Int) = launch {
+    internal fun addToPlaylist(activity: FragmentActivity, position: Int) = launch {
         val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
             when (item) {
@@ -119,14 +124,40 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Abs
         }?.let {if (activity.isStarted()) UiTools.addToPlaylist(activity, it) }
     }
 
-    fun appendFoldersSelection(selection: List<AbstractFolder>) = launch {
+    internal fun appendFoldersSelection(selection: List<AbstractFolder>) = launch {
         val list = selection.flatMap { it.getAll() }
         MediaUtils.appendMedia(context, list)
     }
 
-    fun appendGroupsSelection(selection: List<AbstractVideoGroup>) = launch {
+    internal fun appendGroupsSelection(selection: List<AbstractVideoGroup>) = launch {
         val list = selection.flatMap { it.getAll() }
         MediaUtils.appendMedia(context, list)
+    }
+
+    internal fun playVideo(context: Activity?, mw: AbstractMediaWrapper, position: Int, fromStart: Boolean = false) {
+        if (context === null) return
+        mw.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+        val settings = Settings.getInstance(context)
+        if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
+            MediaUtils.playAll(context, provider as VideosProvider, position, false)
+        } else {
+            if (fromStart) mw.addFlags(AbstractMediaWrapper.MEDIA_FROM_START)
+            MediaUtils.openMedia(context, mw)
+        }
+    }
+
+    internal fun playAll(activity: FragmentActivity?, position: Int = 0) {
+        if (activity?.isStarted() == true) when (groupingType) {
+            VideoGroupingType.NONE -> MediaUtils.playAll(activity, provider as VideosProvider, position, false)
+            VideoGroupingType.FOLDER -> MediaUtils.playAllTracks(activity, (provider as FoldersProvider), position, false)
+            VideoGroupingType.NAME -> MediaUtils.playAllTracks(activity, (provider as VideoGroupsProvider), position, false)
+        }
+    }
+
+    internal fun playAudio(activity: FragmentActivity?, media: AbstractMediaWrapper) {
+        if (activity == null) return
+        media.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+        MediaUtils.openMedia(activity, media)
     }
 }
 
