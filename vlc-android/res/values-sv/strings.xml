@@ -294,7 +294,7 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Gruppera videor</string>
-    <string name="video_min_group_length_disable">Inaktivera</string>
+    <string name="video_min_group_length_disable">Gruppera inte videor</string>
     <string name="video_min_group_length_folder">Gruppera efter mapp</string>
     <string name="video_min_group_length_name">Gruppera efter namn</string>
     <string name="video_min_group_length_first">Endast första bokstaven</string>
