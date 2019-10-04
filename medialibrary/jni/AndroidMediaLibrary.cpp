@@ -917,12 +917,12 @@ void AndroidMediaLibrary::onMediaThumbnailReady( medialibrary::MediaPtr media, m
     }
 }
 
-bool AndroidMediaLibrary::onUnhandledException( const char* context, const char* errMsg )
+bool AndroidMediaLibrary::onUnhandledException( const char* context, const char* errMsg, bool clearSuggested )
 {
     JNIEnv *env = getEnv();
     jstring ctx = env->NewStringUTF(context);
     jstring msg = env->NewStringUTF(errMsg);
-    env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onUnhandledExceptionId, ctx, msg);
+    env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onUnhandledExceptionId, ctx, msg, clearSuggested);
     env->DeleteLocalRef(ctx);
     env->DeleteLocalRef(msg);
     return true;

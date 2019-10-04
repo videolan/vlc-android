@@ -2318,7 +2318,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onUnhandledExceptionId,
            ml_fields.MediaLibrary.clazz,
-           "onUnhandledException", "(Ljava/lang/String;Ljava/lang/String;)V");
+           "onUnhandledException", "(Ljava/lang/String;Ljava/lang/String;Z)V");
 
 #undef GET_CLASS
 #undef GET_ID

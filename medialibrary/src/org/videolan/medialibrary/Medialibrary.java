@@ -381,6 +381,10 @@ public class Medialibrary extends AbstractMedialibrary {
         return mIsInitiated && nativeClearHistory();
     }
 
+    public void clearDatabase(boolean restorePlaylist) {
+        if (mIsInitiated) nativeClearDatabase(restorePlaylist);
+    }
+
     public boolean addToHistory(String mrl, String title) {
         return mIsInitiated && nativeAddToHistory(Tools.encodeVLCMrl(mrl), Tools.encodeVLCMrl(title));
     }
