@@ -50,7 +50,6 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.BR
@@ -78,7 +77,7 @@ class VideoListAdapter internal constructor(
 
     private val thumbObs = Observer<AbstractMediaWrapper> { media ->
         val position = currentList?.snapshot()?.indexOf(media) ?: return@Observer
-        (getItem(position) as? MediaWrapper)?.run {
+        (getItem(position) as? AbstractMediaWrapper)?.run {
             artworkURL = media.artworkURL
             notifyItemChanged(position)
         }
@@ -128,7 +127,7 @@ class VideoListAdapter internal constructor(
             for (data in payloads) {
                 when (data as Int) {
                     UPDATE_THUMB -> loadImage(holder.overlay, media)
-                    UPDATE_TIME, UPDATE_SEEN -> fillView(holder, media as MediaWrapper)
+                    UPDATE_TIME, UPDATE_SEEN -> fillView(holder, media as AbstractMediaWrapper)
                     UPDATE_SELECTION -> holder.selectView(multiSelectHelper.isSelected(position))
                 }
             }
@@ -246,14 +245,14 @@ class VideoListAdapter internal constructor(
 
     private object VideoItemDiffCallback : DiffUtil.ItemCallback<MediaLibraryItem>() {
         override fun areItemsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
-            return if (oldItem is MediaWrapper && newItem is MediaWrapper)
+            return if (oldItem is AbstractMediaWrapper && newItem is AbstractMediaWrapper)
                 oldItem === newItem || oldItem.type == newItem.type && oldItem.equals(newItem)
             else oldItem === newItem || oldItem.itemType == newItem.itemType && oldItem.equals(newItem)
         }
 
         @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
-            return if (oldItem is MediaWrapper && newItem is MediaWrapper) oldItem === newItem || (oldItem.displayTime == newItem.displayTime
+            return if (oldItem is AbstractMediaWrapper && newItem is AbstractMediaWrapper) oldItem === newItem || (oldItem.displayTime == newItem.displayTime
                     && TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl)
                     && oldItem.seen == newItem.seen)
             else if (oldItem is Folder && newItem is Folder) return oldItem === newItem || (oldItem.title == newItem.title && oldItem.artworkMrl == newItem.artworkMrl)
@@ -261,7 +260,7 @@ class VideoListAdapter internal constructor(
         }
 
         override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem) = when {
-            (oldItem is MediaWrapper && newItem is MediaWrapper) && oldItem.displayTime != newItem.displayTime -> UPDATE_TIME
+            (oldItem is AbstractMediaWrapper && newItem is AbstractMediaWrapper) && oldItem.displayTime != newItem.displayTime -> UPDATE_TIME
             !TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl) -> UPDATE_THUMB
             else -> UPDATE_SEEN
         }

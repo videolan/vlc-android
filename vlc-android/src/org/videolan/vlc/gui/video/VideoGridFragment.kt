@@ -43,7 +43,6 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
@@ -135,7 +134,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             is VideoCtxClick -> {
                 when (action.item) {
                     is AbstractFolder, is AbstractVideoGroup -> showContext(requireActivity(), this@VideoGridFragment, action.position, action.item.title, CTX_FOLDER_FLAGS)
-                    is MediaWrapper -> {
+                    is AbstractMediaWrapper -> {
                         val group = action.item.type == AbstractMediaWrapper.TYPE_GROUP
                         var flags = if (group) CTX_VIDEO_GOUP_FLAGS else CTX_VIDEO_FLAGS
                         if (action.item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
@@ -439,7 +438,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             VideoGroupingType.NONE -> {
                 val list = ArrayList<AbstractMediaWrapper>()
                 for (mw in multiSelectHelper.getSelection()) {
-                    list.add(mw as MediaWrapper)
+                    list.add(mw as AbstractMediaWrapper)
                 }
                 if (list.isNotEmpty()) {
                     when (item.itemId) {
@@ -538,7 +537,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private val thumbObs = Observer<AbstractMediaWrapper> { media ->
         if (!::videoListAdapter.isInitialized) return@Observer
         val position = viewModel.provider.pagedList.value?.indexOf(media) ?: return@Observer
-        val item = videoListAdapter.getItem(position) as? MediaWrapper
+        val item = videoListAdapter.getItem(position) as? AbstractMediaWrapper
         item?.run {
             artworkURL = media.artworkURL
             videoListAdapter.notifyItemChanged(position)

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:vlc="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:vlc="http://schemas.android.com/apk/res-auto" >
     <data>
-
         <import type="android.view.View" />
-
+        <import type="android.text.TextUtils" />
         <variable
             name="media"
             type="org.videolan.medialibrary.media.MediaLibraryItem" />
@@ -86,19 +84,19 @@
             vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
 
         <TextView
-                android:id="@+id/ml_item_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                vlc:layout_constraintTop_toTopOf="parent"
-                vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail"
-                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
-                vlc:layout_constraintBottom_toTopOf="@+id/ml_item_time"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:text="@{media.title}"
-                style="@style/VLC.TextViewTitle"/>
+            android:id="@+id/ml_item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            vlc:layout_constraintTop_toTopOf="parent"
+            vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+            vlc:layout_constraintBottom_toTopOf="@+id/ml_item_time"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="@{media.title}"
+            style="@style/VLC.TextViewTitle"/>
 
         <ImageView
             android:id="@+id/item_more"
@@ -123,6 +121,7 @@
             android:layout_marginLeft="16dp"
             android:gravity="start"
             android:text="@{time}"
+            android:visibility="@{TextUtils.isEmpty(time) ? View.GONE : View.VISIBLE}"
             vlc:layout_constraintTop_toBottomOf="@+id/ml_item_title"
             vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
             vlc:layout_constraintEnd_toStartOf="@+id/item_more"
