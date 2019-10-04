@@ -62,6 +62,6 @@ class VideosProvider(val folder : AbstractFolder?, val group: AbstractVideoGroup
     override fun getAll(): Array<AbstractMediaWrapper> = when {
         folder !== null -> folder.getAll(AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc).toTypedArray()
         group !== null -> group.getAll(sort, desc).toTypedArray()
-        else -> medialibrary.videos
+        else -> medialibrary.getVideos(sort, desc)
     }
 }
