@@ -482,8 +482,7 @@
     <string name="chapter">章節</string>
     <string name="resume_from_position">從上次播放的位置繼續</string>
     <string name="confirm_resume">從上次播放的位置繼續嗎？</string>
-    <string name="confirm_resume_title">確認是否繼續播放</string>
-    <string name="confirm_resume_summary">如果啟用，當影片可以從上次播放的位置繼續播放時，會向您確認</string>
+    <string name="confirm_resume_title">恢復播放過的影片</string>
     <string name="directory_empty">資料夾為空</string>
     <string name="tv_ui_title">Android TV 介面</string>
     <string name="tv_ui_summary">將介面更改至適合電視的主題</string>
@@ -641,6 +640,7 @@
     <string name="device_dialog_title">已插入外部裝置</string>
     <string name="device_dialog_message">您剛插入了一個新儲存裝置到您的電視盒，您想要以 VLC 開啟它嗎？</string>
     <string name="videos_folders_title">依照資料夾顯示影片</string>
+    <string name="videos_groups_title">影片分組</string>
     <string name="video_save_remote_setting">要自動啟動遠端控制模式嗎？</string>
     <string name="video_save_clone_mode">自動啟用複製模式？</string>
     <string name="video_remote_enable">切換至遠端控制模式</string>
@@ -701,6 +701,9 @@
     <string name="report_a_crash">回報當機</string>
     <string name="describe_crash">請描述當機如何發生</string>
     <string name="favorite">收藏</string>
+    <string name="always">總是</string>
+    <string name="never">從不</string>
+    <string name="ask_confirmation">確認</string>
     <string name="add_to_scanned">掃描此資料夾</string>
     <string name="directory_not_scanned">此目錄未被掃描</string>
     <string name="scanned_directory_added">%s 已新增至您的已掃描目錄</string>
