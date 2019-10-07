@@ -28,7 +28,6 @@ import android.os.Handler
 import android.os.Message
 import android.util.Log
 import android.view.*
-import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.FragmentActivity
@@ -36,7 +35,6 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.android.synthetic.main.vlc_login_dialog.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
@@ -61,12 +59,11 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
-import org.videolan.vlc.providers.medialibrary.FoldersProvider
-import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
-import org.videolan.vlc.viewmodels.mobile.*
+import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
+import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.lang.ref.WeakReference
 import java.util.*

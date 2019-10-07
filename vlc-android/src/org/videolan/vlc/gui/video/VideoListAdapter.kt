@@ -48,7 +48,6 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
-import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
@@ -244,19 +243,21 @@ class VideoListAdapter internal constructor(
     }
 
     private object VideoItemDiffCallback : DiffUtil.ItemCallback<MediaLibraryItem>() {
-        override fun areItemsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
-            return if (oldItem is AbstractMediaWrapper && newItem is AbstractMediaWrapper)
+        override fun areItemsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem) = when {
+            oldItem is AbstractMediaWrapper && newItem is AbstractMediaWrapper -> {
                 oldItem === newItem || oldItem.type == newItem.type && oldItem.equals(newItem)
-            else oldItem === newItem || oldItem.itemType == newItem.itemType && oldItem.equals(newItem)
+            }
+            else -> oldItem === newItem || oldItem.itemType == newItem.itemType && oldItem.equals(newItem)
         }
 
         @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
-            return if (oldItem is AbstractMediaWrapper && newItem is AbstractMediaWrapper) oldItem === newItem || (oldItem.displayTime == newItem.displayTime
-                    && TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl)
-                    && oldItem.seen == newItem.seen)
-            else if (oldItem is Folder && newItem is Folder) return oldItem === newItem || (oldItem.title == newItem.title && oldItem.artworkMrl == newItem.artworkMrl)
-            else false
+            return if (oldItem is AbstractMediaWrapper && newItem is AbstractMediaWrapper) {
+                oldItem === newItem || (oldItem.displayTime == newItem.displayTime
+                        && TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl)
+                        && oldItem.seen == newItem.seen)
+            } //else if (oldItem is Folder && newItem is Folder) return oldItem === newItem || (oldItem.title == newItem.title && oldItem.artworkMrl == newItem.artworkMrl)
+            else oldItem.itemType == MediaLibraryItem.TYPE_FOLDER || oldItem.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
         }
 
         override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem) = when {
