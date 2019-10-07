@@ -2,6 +2,7 @@ package org.videolan.medialibrary.interfaces.media;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -60,5 +61,21 @@ public abstract class AbstractVideoGroup extends MediaLibraryItem {
     public AbstractVideoGroup(Parcel in) {
         super(in);
         this.mCount = in.readInt();
+    }
+
+    public boolean equals(AbstractVideoGroup other) {
+        return TextUtils.equals(mTitle, other.getTitle());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AbstractVideoGroup) return equals((AbstractVideoGroup)obj);
+        return super.equals(obj);
+    }
+
+    @Override
+    public boolean equals(MediaLibraryItem other) {
+        if (other instanceof AbstractVideoGroup) return equals((AbstractVideoGroup)other);
+        return super.equals(other);
     }
 }

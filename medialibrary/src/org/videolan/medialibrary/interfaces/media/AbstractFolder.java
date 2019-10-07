@@ -64,4 +64,20 @@ public abstract class AbstractFolder extends MediaLibraryItem {
         super(in);
         this.mMrl = in.readString();
     }
+
+    public boolean equals(AbstractFolder other) {
+        return mId == other.getId();
+    }
+
+    @Override
+    public boolean equals(MediaLibraryItem other) {
+        if (other instanceof AbstractFolder) return equals((AbstractFolder)other);
+        return super.equals(other);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AbstractFolder) return equals((AbstractFolder)obj);
+        return super.equals(obj);
+    }
 }
