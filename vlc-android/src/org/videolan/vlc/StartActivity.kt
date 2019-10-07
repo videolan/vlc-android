@@ -202,6 +202,8 @@ class StartActivity : FragmentActivity() {
             } catch (ex: SecurityException) {
                 intent.data.let { MediaUtils.openMediaNoUi(it) }
             }
+        } else if (intent.data?.authority == getString(R.string.tv_provider_authority)) {
+            MediaUtils.openMediaNoUiFromTvContent(this, intent.data)
         } else
             intent.data.let { MediaUtils.openMediaNoUi(it) }
         finish()

@@ -32,19 +32,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.*
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.VLCInstance
 import java.io.File
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
     override fun getXml(): Int {
         return R.xml.preferences_adv
     }
@@ -103,27 +105,19 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "dump_media_db" -> {
                 if (AbstractMedialibrary.getInstance().isWorking)
                     UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
-                else
-                    runIO(Runnable {
-                        val dump = Runnable {
-                            val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+                else {
+                    val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+                    launch {
+                        if (getWritePermission(Uri.fromFile(dst))) {
+                            val copied = withContext(Dispatchers.IO) {
+                                val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
 
-                            if (FileUtils.copyFile(db, File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)))
-                                runOnMainThread(Runnable {
-                                    val ctx = context
-                                    if (ctx != null) Toast.makeText(ctx, getString(R.string.dump_db_succes), Toast.LENGTH_LONG).show()
-                                })
-                            else
-                                runOnMainThread(Runnable {
-                                    val ctx = context
-                                    if (ctx != null) Toast.makeText(ctx, getString(R.string.dump_db_failure), Toast.LENGTH_LONG).show()
-                                })
+                                FileUtils.copyFile(db, dst)
+                            }
+                            Toast.makeText(context, getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
                         }
-                        if (Permissions.canWriteStorage())
-                            dump.run()
-                        else
-                            Permissions.askWriteStoragePermission(requireActivity(), false, dump)
-                    })
+                    }
+                }
                 return true
             }
         }

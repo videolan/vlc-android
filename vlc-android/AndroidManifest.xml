@@ -26,6 +26,14 @@
     <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA"/>
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA"/>
 
+    <!-- Custom permissions for our content provider -->
+    <permission
+            android:name="${applicationId}.MEDIA"
+            android:protectionLevel="signature" />
+
+    <!-- Declare permissions used by our app -->
+    <uses-permission android:name="${applicationId}.MEDIA" />
+
     <uses-feature
             android:name="android.software.leanback"
             android:required="false"/>
@@ -675,6 +683,15 @@
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/provider_paths"/>
+        </provider>
+        <!-- Provides search suggestions for keywords against video meta data. -->
+        <provider
+                android:name=".TVSearchProvider"
+                android:authorities="@string/tv_provider_authority"
+                android:exported="true">
+            <path-permission
+                    android:pathPrefix="/search"
+                    android:readPermission="android.permission.GLOBAL_SEARCH" />
         </provider>
 
         <service

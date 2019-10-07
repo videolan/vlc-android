@@ -25,26 +25,32 @@ package org.videolan.vlc.gui.tv.preferences
 
 import android.annotation.TargetApi
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
+import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.VLCInstance
+import java.io.File
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
+class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
     override fun getXml(): Int {
         return R.xml.preferences_adv
     }
@@ -97,6 +103,24 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             }
             "quit_app" -> {
                 android.os.Process.killProcess(android.os.Process.myPid())
+                return true
+            }
+            "dump_media_db" -> {
+                if (AbstractMedialibrary.getInstance().isWorking)
+                    UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
+                else {
+                    val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+                    launch {
+                        if ((activity as FragmentActivity).getWritePermission(Uri.fromFile(dst))) {
+                            val copied = withContext(Dispatchers.IO) {
+                                val db = File(activity.getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+
+                                FileUtils.copyFile(db, dst)
+                            }
+                            Toast.makeText(activity, getString(if (copied) R.string.dump_db_succes else R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
                 return true
             }
         }

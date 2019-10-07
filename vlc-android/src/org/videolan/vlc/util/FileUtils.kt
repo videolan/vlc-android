@@ -40,8 +40,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.media.MediaUtils
 import java.io.*
@@ -419,6 +421,10 @@ object FileUtils {
                 }
             } else if (TextUtils.equals(data.authority, "media")) {
                 uri = MediaUtils.getContentMediaUri(data)
+            } else if (TextUtils.equals(data.authority, ctx.getString(R.string.tv_provider_authority))) {
+                val medialibrary = AbstractMedialibrary.getInstance()
+                val media = medialibrary.getMedia(data.lastPathSegment.toLong())
+                uri = media.uri
             } else {
                 val inputPFD: ParcelFileDescriptor?
                 try {
@@ -450,7 +456,6 @@ object FileUtils {
                     Log.e(TAG, "Permission is no longer valid")
                     return null
                 }
-
             }// Media or MMS URI
         }
         return uri

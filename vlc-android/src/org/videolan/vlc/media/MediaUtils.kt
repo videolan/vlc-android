@@ -24,7 +24,10 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.*
+import org.videolan.medialibrary.media.Album
+import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -466,6 +469,47 @@ object MediaUtils : CoroutineScope {
     }
 
     fun deletePlaylist(playlist: AbstractPlaylist) = launch(Dispatchers.IO) { playlist.delete() }
+    fun openMediaNoUiFromTvContent(context: Context, data: Uri?) {
+        launch {
+            data?.lastPathSegment?.let { id ->
+                val mw = context.getFromMl {
+                    val longId = id.substringAfter("_").toLong()
+                    when {
+                        id.startsWith("album") -> {
+                            getAlbum(longId)
+                        }
+                        id.startsWith("artist") -> getArtist(longId)
+                        else -> getMedia(longId)
+                    }
+                }
+                if (mw != null) {
+                    when (mw) {
+                        is MediaWrapper -> openMediaNoUi(mw.uri)
+                        is Album -> playAlbum(context, mw)
+                        is Artist -> playArtist(context, mw)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun playAlbum(context: Context?, album: Album) {
+        if (context == null) return
+        SuspendDialogCallback(context) { service ->
+            album.tracks?.takeIf { it.isNotEmpty() }?.let { list ->
+                service.load(list, 0)
+            }
+        }
+    }
+
+    private fun playArtist(context: Context?, artist: Artist) {
+        if (context == null) return
+        SuspendDialogCallback(context) { service ->
+            artist.tracks?.takeIf { it.isNotEmpty() }?.let { list ->
+                service.load(list, 0)
+            }
+        }
+    }
 }
 
 @WorkerThread
