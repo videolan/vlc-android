@@ -10,11 +10,9 @@ class StringsTest {
 
     @Test
     fun stripTrailingSlash() {
-        var s = stripTrailingSlash("foo/")
-        assertEquals(s, "foo")
+        assertEquals("foo/".stripTrailingSlash(), "foo")
 
-        s = stripTrailingSlash("bar")
-        assertEquals(s, "bar")
+        assertEquals("bar".stripTrailingSlash(), "bar")
     }
 
     @Test

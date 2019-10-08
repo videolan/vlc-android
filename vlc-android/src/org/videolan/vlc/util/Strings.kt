@@ -26,9 +26,7 @@ import java.text.DecimalFormat
 
 private const val TAG = "VLC/UiTools/Strings"
 
-fun stripTrailingSlash(s: String): String {
-    return if (s.endsWith("/") && s.length > 1) s.substring(0, s.length - 1) else s
-}
+fun String.stripTrailingSlash() = if (endsWith("/") && length > 1) dropLast(1) else this
 
 //TODO: Remove this after convert the dependent code to kotlin
 fun startsWith(array: Array<String>, text: String) = array.any { text.startsWith(it)}

@@ -8,10 +8,7 @@ import androidx.core.content.ContextCompat
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.util.ACTION_DISCOVER
-import org.videolan.vlc.util.ACTION_DISCOVER_DEVICE
-import org.videolan.vlc.util.EXTRA_PATH
-import org.videolan.vlc.util.runIO
+import org.videolan.vlc.util.*
 
 object MedialibraryUtils {
 
@@ -36,7 +33,7 @@ object MedialibraryUtils {
         //scheme is supported => test if the parent is scanned
         var isScanned = false
         AbstractMedialibrary.getInstance().foldersList.forEach search@{
-            if (path.startsWith(Uri.parse(it).toString())) {
+            if (path.stripTrailingSlash().startsWith(Uri.parse(it).toString().stripTrailingSlash())) {
                 isScanned = true
                 return@search
             }
