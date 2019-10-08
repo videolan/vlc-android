@@ -475,7 +475,7 @@
     <string name="audio_delay">Audioverzögerung</string>
     <string name="spu_delay">Untertitelverzögerung</string>
     <string name="sleep_time_not_set">nichts eingestellt</string>
-    <string name="network_shares_discovery">Nach Netzwerkfreigaben wird gesucht…</string>
+    <string name="network_shares_discovery">Nach Netzwerkfreigaben wird gesucht</string>
     <string name="network_empty">Das Verzeichnis ist leer.</string>
     <string name="network_connection_needed">Keine Verbindung zum lokalen Netzwerk.</string>
     <string name="search_hint">Medien suchen</string>
