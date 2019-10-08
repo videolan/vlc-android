@@ -475,7 +475,7 @@
     <string name="audio_delay">Ljudfördröjning</string>
     <string name="spu_delay">Undertextfördröjning</string>
     <string name="sleep_time_not_set">inte angiven</string>
-    <string name="network_shares_discovery">Letar efter nätverksdelningar…</string>
+    <string name="network_shares_discovery">Letar efter nätverksdelningar</string>
     <string name="network_empty">Denna filkatalog är tom.</string>
     <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
     <string name="search_hint">Sök media</string>
