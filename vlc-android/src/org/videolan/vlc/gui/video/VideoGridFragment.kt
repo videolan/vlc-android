@@ -150,8 +150,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         menu.findItem(R.id.ml_menu_last_playlist).isVisible = true
         menu.findItem(R.id.ml_menu_video_group).isVisible = viewModel.group == null && viewModel.folder == null
         val displayInCards = Settings.getInstance(requireActivity()).getBoolean("video_display_in_cards", true)
-        menu.findItem(R.id.ml_menu_display_grid).isVisible = displayInCards
-        menu.findItem(R.id.ml_menu_display_list).isVisible = !displayInCards
+        menu.findItem(R.id.ml_menu_display_grid).isVisible = !displayInCards
+        menu.findItem(R.id.ml_menu_display_list).isVisible = displayInCards
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -208,7 +208,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         viewModel.changeGroupingType(type)
         setDataObservers()
         (activity as? AppCompatActivity)?.run {
-            supportActionBar?.title = getTitle()
+            supportActionBar?.title = title
             invalidateOptionsMenu()
         }
     }
