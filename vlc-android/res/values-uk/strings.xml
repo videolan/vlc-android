@@ -503,8 +503,7 @@
     <string name="chapter">Глава</string>
     <string name="resume_from_position">Відновити із останньої позиції</string>
     <string name="confirm_resume">Відновити із останньої позиції?</string>
-    <string name="confirm_resume_title">Запитувати підтвердження про відновлення</string>
-    <string name="confirm_resume_summary">якщо задіяно, то вас запитуватимуть про підтвердження, коли відтворення відео можна відновити із останньої позиції</string>
+    <string name="confirm_resume_title">Відновити відтворене відео</string>
     <string name="directory_empty">Каталог - порожній</string>
     <string name="tv_ui_title">Інтерфейс ТБ Андроїд</string>
     <string name="tv_ui_summary">Змінити інтерфейс на тему під ТБ</string>
@@ -662,6 +661,7 @@
     <string name="device_dialog_title">Вставлено зовнішній пристрій</string>
     <string name="device_dialog_message">Ви під\'єднали новий накопичувач до вашого телевізора. Хочете його відкрити за допомогою VLC?</string>
     <string name="videos_folders_title">Відео за теками</string>
+    <string name="videos_groups_title">Групи відео</string>
     <string name="video_save_remote_setting">Автоматично увімкнути режим віддаленого управління?</string>
     <string name="video_save_clone_mode">Автоматично увімкнути режим клонування?</string>
     <string name="video_remote_enable">Перемкнутися у режим віддаленого управління</string>
@@ -722,6 +722,9 @@
     <string name="report_a_crash">Повідомити про збій</string>
     <string name="describe_crash">Будь ласка, опишіть як трапився цей збій</string>
     <string name="favorite">Обране</string>
+    <string name="always">Завжди</string>
+    <string name="never">Ніколи</string>
+    <string name="ask_confirmation">Запитувати підтвердження</string>
     <string name="add_to_scanned">Сканувати цю теку</string>
     <string name="directory_not_scanned">Цей каталог не просканований</string>
     <string name="scanned_directory_added">%s додано до ваших сканованих каталогів</string>
