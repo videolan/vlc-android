@@ -308,7 +308,7 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Zoskupiť videá</string>
-    <string name="video_min_group_length_disable">Vypnúť</string>
+    <string name="video_min_group_length_disable">Nezoskupovať videá</string>
     <string name="video_min_group_length_folder">Zoskupiť podľa priečinka</string>
     <string name="video_min_group_length_name">Zoskupiť podľa názvu</string>
     <string name="video_min_group_length_first">Len prvé písmeno</string>
@@ -489,7 +489,7 @@
     <string name="audio_delay">Oneskorenie zvuku</string>
     <string name="spu_delay">Oneskorenie titulkov</string>
     <string name="sleep_time_not_set">nenastavené</string>
-    <string name="network_shares_discovery">Vyhľadávanie sieťových zdieľaní…</string>
+    <string name="network_shares_discovery">Vyhľadávanie sieťových zdieľaní</string>
     <string name="network_empty">Tento priečinok je prázdny.</string>
     <string name="network_connection_needed">Bez pripojenia k lokálnej sieti.</string>
     <string name="search_hint">Vyhľadávanie média</string>
@@ -503,8 +503,7 @@
     <string name="chapter">Kapitola</string>
     <string name="resume_from_position">Pokračovať od poslednej pozície</string>
     <string name="confirm_resume">Pokračovať od poslednej pozície?</string>
-    <string name="confirm_resume_title">Vyžiadať potvrdenie pre pokračovanie</string>
-    <string name="confirm_resume_summary">ak je táto voľba aktívna, budete požiadaní o potvrdenie pokračovania od poslednej pozície vo videu</string>
+    <string name="confirm_resume_title">Pokračovať v prehrávaných videách</string>
     <string name="directory_empty">Priečinok je prázdny</string>
     <string name="tv_ui_title">Rozhranie Android TV</string>
     <string name="tv_ui_summary">Zmeniť UI na tému prispôsobenú TV</string>
@@ -662,6 +661,7 @@
     <string name="device_dialog_title">Bolo vložené externé zariadenie</string>
     <string name="device_dialog_message">Práve ste pripojili nové úložné zariadenie ku svojmu TV boxu. Chcete ho otvoriť s použitím VLC?</string>
     <string name="videos_folders_title">Videá podľa priečinkov</string>
+    <string name="videos_groups_title">Skupiny videí</string>
     <string name="video_save_remote_setting">Automaticky aktivovať režim ovládania na diaľku?</string>
     <string name="video_save_clone_mode">Aktivovať režim klonovania automaticky?</string>
     <string name="video_remote_enable">Prepnúť na režim ovládania na diaľku</string>
@@ -722,6 +722,9 @@
     <string name="report_a_crash">Nahlásiť pád</string>
     <string name="describe_crash">Prosím opíšte ako došlo k pádu aplikácie</string>
     <string name="favorite">Obľubené</string>
+    <string name="always">Vždy</string>
+    <string name="never">Nikdy</string>
+    <string name="ask_confirmation">Vyžiadať potvrdenie</string>
     <string name="add_to_scanned">Skenovať tento priečinok</string>
     <string name="directory_not_scanned">Tento priečinok nie je skenovaný</string>
     <string name="scanned_directory_added">pridané do skenovaných priečinkov: %s </string>
