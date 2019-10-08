@@ -475,7 +475,7 @@
     <string name="audio_delay">Ses gecikmesi</string>
     <string name="spu_delay">Alt yazı gecikmesi</string>
     <string name="sleep_time_not_set">hiçbiri ayarlanmamış</string>
-    <string name="network_shares_discovery">Ağ paylaşımları aranıyor…</string>
+    <string name="network_shares_discovery">Ağ paylaşımları aranıyor</string>
     <string name="network_empty">Bu klasör boş.</string>
     <string name="network_connection_needed">Yerel ağ bağlantısı yok.</string>
     <string name="search_hint">Ortam arama</string>
@@ -489,8 +489,7 @@
     <string name="chapter">Bölüm</string>
     <string name="resume_from_position">Oynatmayı kalınan konumdan sürdür</string>
     <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
-    <string name="confirm_resume_title">Sürdürme onayı istensin</string>
-    <string name="confirm_resume_summary">Bu seçenek etkinlleştirildiğinde, oynatılan bir görüntünün kalınan konumdan sürdürülmesi için onay istenir</string>
+    <string name="confirm_resume_title">Oynatılan görüntüleri sürdür</string>
     <string name="directory_empty">Klasör boş</string>
     <string name="tv_ui_title">Android TV arayüzü</string>
     <string name="tv_ui_summary">Kullanıcı arayüzü TV uyumlu temaya dönüştürülsün</string>
@@ -648,6 +647,7 @@
     <string name="device_dialog_title">Bir dış aygıt takıldı</string>
     <string name="device_dialog_message">TV kutunuza yeni bir depolama aygıtı bağladınız. Bu aygıtın VLC ile açılmasını ister misiniz?</string>
     <string name="videos_folders_title">Klasörlere göre görüntüler</string>
+    <string name="videos_groups_title">Görüntü grupları</string>
     <string name="video_save_remote_setting">Uzaktan kumanda kipi otomatik olarak etkinleştirilsin mi?</string>
     <string name="video_save_clone_mode">Kopya kipi otomatik olarak etkinleştirilsin mi?</string>
     <string name="video_remote_enable">Uzaktan kumanda kipine geç</string>
@@ -708,6 +708,9 @@
     <string name="report_a_crash">Çökme bildirmek</string>
     <string name="describe_crash">Lütfen çökmenin nasıl gerçekleştiğini açıklayın</string>
     <string name="favorite">Sık kullanılan</string>
+    <string name="always">Her zaman</string>
+    <string name="never">Asla</string>
+    <string name="ask_confirmation">Onay istensin</string>
     <string name="add_to_scanned">Bu klasörü tara</string>
     <string name="directory_not_scanned">Bu klasör taranmayacak</string>
     <string name="scanned_directory_added">%s taranacak klasörlere eklendi</string>
