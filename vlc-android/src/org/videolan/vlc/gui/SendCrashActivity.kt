@@ -83,6 +83,10 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback, 
         launch(start = CoroutineStart.UNDISPATCHED) {
             val emailIntent = withContext(Dispatchers.IO) {
                 client.stop()
+                if (!::logcatZipPath.isInitialized) {
+                    val path = VLCApplication.appContext.getExternalFilesDir(null)?.absolutePath ?: return@withContext null
+                    logcatZipPath =  "$path/logcat.zip"
+                }
                 FileUtils.zip(arrayOf(path), logcatZipPath)
 
                 val emailIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
@@ -91,6 +95,12 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback, 
                 val attachments = ArrayList<Uri>()
                 if (binding.includeMedialibSwitch.isChecked) {
                     if (StoragePermissionsDelegate.getStoragePermission(this@SendCrashActivity, true)) {
+
+                        if (!::dbPath.isInitialized) {
+                            val path = VLCApplication.appContext.getExternalFilesDir(null)?.absolutePath ?: return@withContext null
+                            dbPath = "$path/${AbstractMedialibrary.VLC_MEDIA_DB_NAME}"
+                            dbZipPath = "$path/db.zip"
+                        }
                         val db = File(getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
                         val dbFile = File(dbPath)
                         FileUtils.copyFile(db, dbFile)
@@ -131,16 +141,16 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback, 
                 emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 emailIntent
             }
-            startActivity(emailIntent)
+            emailIntent?.let { startActivity(it) }
             finish()
         }
     }
 
     private lateinit var client: DebugLogService.Client
     private lateinit var binding: SendCrashActivityBinding
-    private val dbPath = VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath + "/" + AbstractMedialibrary.VLC_MEDIA_DB_NAME
-    private val dbZipPath = VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath + "/" + "db.zip"
-    private val logcatZipPath = VLCApplication.appContext.getExternalFilesDir(null)!!.absolutePath + "/" + "logcat.zip"
+    private lateinit var dbPath : String
+    private lateinit var dbZipPath : String
+    private lateinit var logcatZipPath : String
     private lateinit var errMsg : String
     private lateinit var errCtx : String
 
