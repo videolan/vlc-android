@@ -154,11 +154,17 @@ class VideoListAdapter internal constructor(
                 val count = withContext(Dispatchers.IO) { item.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) }
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.title.text = item.title
+                if (!isListMode) holder.binding.setVariable(BR.resolution, null)
+                holder.binding.setVariable(BR.seen, 0L)
+                holder.binding.setVariable(BR.max, 0)
             }
             is AbstractVideoGroup -> launch {
                 val count = item.mediaCount()
                 holder.binding.setVariable(BR.time, if (count < 2) null else holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.title.text = item.title
+                if (!isListMode) holder.binding.setVariable(BR.resolution, null)
+                holder.binding.setVariable(BR.seen, 0L)
+                holder.binding.setVariable(BR.max, 0)
             }
             is AbstractMediaWrapper -> {
                 holder.title.text = if (showFilename.get()) item.fileName else item.title
