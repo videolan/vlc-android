@@ -489,8 +489,7 @@
     <string name="chapter">Kapitel</string>
     <string name="resume_from_position">Återuppta från senaste position</string>
     <string name="confirm_resume">Återuppta från senaste position?</string>
-    <string name="confirm_resume_title">Bekräfta fortsatt uppspelning</string>
-    <string name="confirm_resume_summary">Du kommer ombes att bekräfta om en video ska återupptas från senaste position när detta aktiveras</string>
+    <string name="confirm_resume_title">Återuppta uppspelade videor</string>
     <string name="directory_empty">Katalogen är tom</string>
     <string name="tv_ui_title">Android TV-gränssnitt</string>
     <string name="tv_ui_summary">Ändra gränssnitt till TV-anpassat tema</string>
@@ -648,6 +647,7 @@
     <string name="device_dialog_title">Extern enhet matades in</string>
     <string name="device_dialog_message">Du anslöt precis en ny lagringsenhet till din TV-box, vill du öppna den med VLC?</string>
     <string name="videos_folders_title">Videor efter mappar</string>
+    <string name="videos_groups_title">Videogrupper</string>
     <string name="video_save_remote_setting">Aktivera fjärrkontrollsläge automatiskt?</string>
     <string name="video_save_clone_mode">Aktivera kloningsläge automatiskt?</string>
     <string name="video_remote_enable">Byt till fjärrkontrollsläge</string>
@@ -708,6 +708,9 @@
     <string name="report_a_crash">Rapportera en krasch</string>
     <string name="describe_crash">Beskriv hur denna krasch inträffade</string>
     <string name="favorite">Favoritmarkera</string>
+    <string name="always">Alltid</string>
+    <string name="never">Aldrig</string>
+    <string name="ask_confirmation">Fråga</string>
     <string name="add_to_scanned">Sök igenom denna mapp</string>
     <string name="directory_not_scanned">Denna filkatalog har inte sökts igenom</string>
     <string name="scanned_directory_added">%s lades till i dina filkataloger att söka igenom</string>
