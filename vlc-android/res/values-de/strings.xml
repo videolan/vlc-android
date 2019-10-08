@@ -489,8 +489,7 @@
     <string name="chapter">Kapitel</string>
     <string name="resume_from_position">Fortsetzen von letzter Position</string>
     <string name="confirm_resume">Von letzter Position fortsetzen?</string>
-    <string name="confirm_resume_title">Bestätigung zum Fortsetzen</string>
-    <string name="confirm_resume_summary">Wenn aktiviert, wird eine Bestätigung eingeblendet, wenn ein Video von der letzten Position fortgesetzt werden kann</string>
+    <string name="confirm_resume_title">Wiedergegebene Videos fortsetzen</string>
     <string name="directory_empty">Verzeichnis ist leer</string>
     <string name="tv_ui_title">Android-TV-Schnittstelle</string>
     <string name="tv_ui_summary">Benutzeroberfläche zum TV angepassten Design ändern</string>
@@ -648,6 +647,7 @@
     <string name="device_dialog_title">Externes Gerät angeschlossen</string>
     <string name="device_dialog_message">Sie haben ein neues Speichermedium an Ihre TV-Box angeschlossen, möchten Sie dieses mit VLC öffnen?</string>
     <string name="videos_folders_title">Videos nach Ordnern sortiert</string>
+    <string name="videos_groups_title">Videogruppen</string>
     <string name="video_save_remote_setting">Fernbedienungsmodus automatisch aktivieren?</string>
     <string name="video_save_clone_mode">Klonmodus automatisch aktivieren?</string>
     <string name="video_remote_enable">In den Fernbedienungsmodus wechseln</string>
@@ -708,6 +708,9 @@
     <string name="report_a_crash">Einen Absturz melden</string>
     <string name="describe_crash">Bitte beschreiben Sie, wie dieser Absturz passiert ist</string>
     <string name="favorite">Favorit</string>
+    <string name="always">Immer</string>
+    <string name="never">Nie</string>
+    <string name="ask_confirmation">Nach Bestätigung fragen</string>
     <string name="add_to_scanned">Diesen Ordner durchsuchen</string>
     <string name="directory_not_scanned">Dieser Ordner wurde noch nicht durchsucht</string>
     <string name="scanned_directory_added">%s wurde zu den durchsuchten Ordnern hinzugefügt</string>
