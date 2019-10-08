@@ -125,10 +125,10 @@
     <string name="shuffle_title">Ammestrura</string>
     <string name="shuffle">No ammestures</string>
     <string name="shuffle_on">Ammestura</string>
-    <string name="repeat_title">Ripite</string>
+    <string name="repeat_title">Modalidade de ripetitzione</string>
     <string name="repeat">Peruna ripetitzione</string>
     <string name="repeat_single">Ripetitzione sìngula</string>
-    <string name="repeat_all">Ripite totu</string>
+    <string name="repeat_all">Repite totu</string>
     <string name="previous">Antepostu</string>
     <string name="stop">Firma</string>
     <string name="firstsong">Primu branu de s\'iscalita</string>
@@ -294,7 +294,7 @@
 
     <string name="video_prefs_category">Vìdeos</string>
     <string name="video_min_group_length_title">Agrupa sos vìdeos</string>
-    <string name="video_min_group_length_disable">Disabìlita</string>
+    <string name="video_min_group_length_disable">No agrupes sos vìdeos</string>
     <string name="video_min_group_length_folder">Agrupa pro cartella</string>
     <string name="video_min_group_length_name">Agrupa pro nùmene</string>
     <string name="video_min_group_length_first">Petzi sa prima lìtera</string>
@@ -475,7 +475,7 @@
     <string name="audio_delay">Ritardu àudio</string>
     <string name="spu_delay">Ritardu de sos sutatìtulos</string>
     <string name="sleep_time_not_set">non impostadu</string>
-    <string name="network_shares_discovery">Chirchende cumpartziduras de retza…</string>
+    <string name="network_shares_discovery">Chirchende cumpartziduras de retza</string>
     <string name="network_empty">Custa cartella est bòida.</string>
     <string name="network_connection_needed">Peruna connessione a sa retza locale.</string>
     <string name="search_hint">Chirca documentos multimediales</string>
@@ -489,8 +489,7 @@
     <string name="chapter">Capìtulu</string>
     <string name="resume_from_position">Sighi dae s\'ùrtima positzione</string>
     <string name="confirm_resume">Cheres sighire dae s\'ùrtima positzione?</string>
-    <string name="confirm_resume_title">Pedi una cunfirma pro sighire</string>
-    <string name="confirm_resume_summary">Si ativadu, t\'at a èssere pedida una cunfirma cando unu vìdeu at a pòdere èssere fatu sighire dae s\'ùrtima positzione</string>
+    <string name="confirm_resume_title">Sighi a riproduire sos vìdeos</string>
     <string name="directory_empty">Sa cartella est bòida</string>
     <string name="tv_ui_title">Interfache Android TV</string>
     <string name="tv_ui_summary">Càmbia s\'interfache cun unu tema adatadu a sa TV</string>
@@ -648,6 +647,7 @@
     <string name="device_dialog_title">Dispositivu esternu insertadu</string>
     <string name="device_dialog_message">As collegadu como unu dispositivu de archiviatzione nou a s\'iscàtula (box) TV tua, lu cheres abèrrere cun VLC?</string>
     <string name="videos_folders_title">Vìdeos pro cartella</string>
+    <string name="videos_groups_title">Grupos de vìdeos</string>
     <string name="video_save_remote_setting">Allùghere automaticamente sa modalidade de controllu a distàntzia?</string>
     <string name="video_save_clone_mode">Cheres allùghere automaticamente sa modalidade de clonatzione?</string>
     <string name="video_remote_enable">Cola a sa modalidade de controllu a distàntzia</string>
@@ -708,6 +708,9 @@
     <string name="report_a_crash">Sinnala un\'istudada improvisa (crash)</string>
     <string name="describe_crash">Pro praghere descrie·nos comente est acontèssida cust\'istudadura</string>
     <string name="favorite">Preferidu</string>
+    <string name="always">Semper</string>
+    <string name="never">Mai</string>
+    <string name="ask_confirmation">Pedi una cunfirma</string>
     <string name="add_to_scanned">Iscansi custa cartella</string>
     <string name="directory_not_scanned">Custa cartella non benit iscansida.</string>
     <string name="scanned_directory_added">%s annànghida a sas cartellas iscansidas tuas</string>
