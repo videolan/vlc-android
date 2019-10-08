@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.Extensions
+import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractArtist
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -120,12 +121,13 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         val nbTracks = tracks?.size ?: 0
         if (nbTracks > 0) for (media in tracks!!) length += media.length
         if (length > 0)
+            binding.length = Tools.millisToTextLarge(length)
 
-            if (item is AbstractMediaWrapper) {
-                val media = item as AbstractMediaWrapper
-                val resolution = generateResolutionClass(media.width, media.height)
-                binding.resolution = resolution
-            }
+        if (item is AbstractMediaWrapper) {
+            val media = item as AbstractMediaWrapper
+            val resolution = generateResolutionClass(media.width, media.height)
+            binding.resolution = resolution
+        }
 
         binding.scanned = true
         when {
