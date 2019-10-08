@@ -475,7 +475,7 @@
     <string name="audio_delay">Atraso de áudio</string>
     <string name="spu_delay">Atraso da legenda</string>
     <string name="sleep_time_not_set">Nenhum definido</string>
-    <string name="network_shares_discovery">Procurando compartilhamentos de rede...</string>
+    <string name="network_shares_discovery">Procurar compartilhamentos de rede</string>
     <string name="network_empty">A pasta está vazia.</string>
     <string name="network_connection_needed">Não há conexões à rede local.</string>
     <string name="search_hint">Procurar mídia</string>
@@ -489,8 +489,7 @@
     <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Continuar a reprodução da última posição</string>
     <string name="confirm_resume">Continuar a reprodução da última posição?</string>
-    <string name="confirm_resume_title">Pedir confirmação para continuar a reprodução</string>
-    <string name="confirm_resume_summary">se habilitado, será necessária uma confirmação para quando um vídeo puder ser continuado da última posição</string>
+    <string name="confirm_resume_title">Retomar vídeos já reproduzidos</string>
     <string name="directory_empty">A pasta está vazia</string>
     <string name="tv_ui_title">Interface do Android TV</string>
     <string name="tv_ui_summary">Alterar a interface de usuário para o tema TV</string>
@@ -648,6 +647,7 @@
     <string name="device_dialog_title">Dispositivo externo inserido</string>
     <string name="device_dialog_message">Um novo dispositivo de armazenamento acaba de ser conectado à sua TV. Deseja abri-lo no VLC?</string>
     <string name="videos_folders_title">Vídeos por pastas</string>
+    <string name="videos_groups_title">Grupos de vídeo</string>
     <string name="video_save_remote_setting">Ativar automaticamente o modo de controle remoto?</string>
     <string name="video_save_clone_mode">Ativar automaticamente o modo cópia</string>
     <string name="video_remote_enable">Alternar para o modo de controle remoto</string>
@@ -708,6 +708,9 @@
     <string name="report_a_crash">Relatar um problema</string>
     <string name="describe_crash">Por favor descreva como o problema ocorreu</string>
     <string name="favorite">Favorito</string>
+    <string name="always">Sempre</string>
+    <string name="never">Nunca</string>
+    <string name="ask_confirmation">Pedir confirmação</string>
     <string name="add_to_scanned">Verificar esta pasta</string>
     <string name="directory_not_scanned">Esta pasta não é verificada</string>
     <string name="scanned_directory_added">%s adicionado às suas pastas verificadas</string>
