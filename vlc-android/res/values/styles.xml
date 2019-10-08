@@ -20,9 +20,13 @@
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
         <item name="preferenceTheme">@style/VLCPreferenceTheme.Light</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        </item>
 
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/orange700</item>
+        <item name="colorSecondary">@color/orange700</item>
+        <item name="colorOnSecondary">@color/grey50</item>
         <item name="colorAccent">@color/orange500</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/orange500</item>
@@ -134,10 +138,14 @@
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
         <item name="preferenceTheme">@style/VLCPreferenceTheme.Dark</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        </item>
 
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange600</item>
+        <item name="colorSecondary">@color/orange600</item>
+        <item name="colorOnSecondary">@color/grey50</item>
         <item name="item_footer">@color/grey700</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/grey875</item>

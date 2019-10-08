@@ -370,10 +370,8 @@
                 vlc:layout_anchor="@+id/container"
                 vlc:layout_anchorGravity="bottom|end"
                 android:layout_margin="16dp"
-
                 vlc:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
-                android:src="@drawable/ic_fab_play"
-                android:tint="@color/grey50"/>
+                android:src="@drawable/ic_fab_play" />
 
         <include layout="@layout/audioplayercontainer"/>
 
