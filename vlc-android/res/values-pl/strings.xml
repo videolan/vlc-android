@@ -503,8 +503,7 @@
     <string name="chapter">Rozdział</string>
     <string name="resume_from_position">Wznów od ostatniej pozycji</string>
     <string name="confirm_resume">Wznowić od ostatniej pozycji?</string>
-    <string name="confirm_resume_title">Potwierdzenie, aby wznowić</string>
-    <string name="confirm_resume_summary">Jeśli włączone, będziesz proszony o potwierdzenie, czy wideo ma zostać wznowione z ostatniej pozycji</string>
+    <string name="confirm_resume_title">Wznów odtwarzane filmy</string>
     <string name="directory_empty">Katalog jest pusty</string>
     <string name="tv_ui_title">Interfejs Android TV</string>
     <string name="tv_ui_summary">Zmień interfejs użytkownika do dopasowanego przez TV</string>
@@ -662,6 +661,7 @@
     <string name="device_dialog_title">Włożono urządzenie zewnętrzne</string>
     <string name="device_dialog_message">Podłączyłeś nowe urządzenie pamięci masowej do twojego telewizora, czy chcesz je otworzyć za pomocą VLC?</string>
     <string name="videos_folders_title">Filmy grupowane według folderów</string>
+    <string name="videos_groups_title">Grupy wideo</string>
     <string name="video_save_remote_setting">Czy automatycznie włączyć tryb zdalnego sterowania?</string>
     <string name="video_save_clone_mode">Czy automatycznie włączyć tryb klonowania?</string>
     <string name="video_remote_enable">Przełącz na tryb zdalnego sterowania</string>
@@ -722,6 +722,9 @@
     <string name="report_a_crash">Zgłosić awarię</string>
     <string name="describe_crash">Opisz, jak doszło do tej awarii</string>
     <string name="favorite">Ulubiony</string>
+    <string name="always">Zawsze</string>
+    <string name="never">Nigdy</string>
+    <string name="ask_confirmation">Wyświetl potwierdzenie</string>
     <string name="add_to_scanned">Zeskanuj ten folder</string>
     <string name="directory_not_scanned">Ten katalog nie jest zeskanowany</string>
     <string name="scanned_directory_added">%s dodany do zeskanowanych katalogów</string>
