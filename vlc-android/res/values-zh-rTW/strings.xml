@@ -468,7 +468,7 @@
     <string name="audio_delay">音訊延遲</string>
     <string name="spu_delay">字幕延遲</string>
     <string name="sleep_time_not_set">未設定</string>
-    <string name="network_shares_discovery">正在尋找網路分享...</string>
+    <string name="network_shares_discovery">正在尋找網路分享</string>
     <string name="network_empty">這個資料夾是空的。</string>
     <string name="network_connection_needed">無區域網路連線。</string>
     <string name="search_hint">搜尋媒體</string>
