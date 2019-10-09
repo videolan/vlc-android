@@ -25,7 +25,6 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -43,13 +42,10 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.MainThread
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
@@ -59,6 +55,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.isStarted
+import org.videolan.tools.px
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -74,6 +71,8 @@ import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
+import kotlin.math.max
+import kotlin.math.min
 
 private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 10000L
@@ -93,13 +92,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
 
     private var showRemainingTime = false
     private var previewingSeek = false
-    private var advFuncVisible = false
-    private var playlistSwitchVisible = false
-    private var searchVisible = false
-    private var searchTextVisible = false
-    private var headerPlayPauseVisible = false
-    private var progressBarVisible = false
-    private var headerTimeVisible = false
     private var playerState = 0
     private var currentCoverArt: String? = null
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
@@ -145,7 +137,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.songsList)
 
-        setHeaderVisibilities(false, false, true, true, true, false)
         binding.fragment = this
 
         binding.next.setOnTouchListener(LongSeekListener(true,
@@ -166,6 +157,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         pauseToPlay = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
         playToPauseSmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause)!!
         pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
+        onSlide(0f)
     }
 
     override fun onResume() {
@@ -310,7 +302,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                         binding.backgroundView.setImageBitmap(blurredCover)
                         binding.backgroundView.visibility = View.VISIBLE
                         binding.songsList.setBackgroundResource(0)
-                        binding.header.setBackgroundColor(UiTools.getColorFromAttribute(requireContext(), R.attr.audio_player_transparent))
                     } else setDefaultBackground()
                 }
             }
@@ -320,7 +311,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     @MainThread
     private fun setDefaultBackground() {
         binding.songsList.setBackgroundResource(DEFAULT_BACKGROUND_ID)
-        binding.header.setBackgroundResource(DEFAULT_BACKGROUND_ID)
         binding.backgroundView.visibility = View.INVISIBLE
     }
 
@@ -398,35 +388,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         optionsDelegate.show(PlayerOptionType.ADVANCED)
     }
 
-    private fun setHeaderVisibilities(advFuncVisible: Boolean, playlistSwitchVisible: Boolean,
-                                      headerPlayPauseVisible: Boolean, progressBarVisible: Boolean,
-                                      headerTimeVisible: Boolean, searchVisible: Boolean,
-                                      filter: Boolean = false) {
-        this.advFuncVisible = !filter && advFuncVisible
-        this.playlistSwitchVisible = !filter && playlistSwitchVisible && resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE
-        this.headerPlayPauseVisible = !filter && headerPlayPauseVisible
-        this.progressBarVisible = !filter && progressBarVisible
-        this.headerTimeVisible = !filter && headerTimeVisible
-        this.searchVisible = !filter && searchVisible
-        this.searchTextVisible = filter
-        restoreHeaderButtonVisibilities()
-    }
-
-    private fun restoreHeaderButtonVisibilities() {
-        binding.progressBar.visibility = if (progressBarVisible) View.VISIBLE else View.INVISIBLE
-        val cl = binding.header
-        TransitionManager.beginDelayedTransition(cl, AutoTransition().setDuration(200))
-        ConstraintSet().apply {
-            clone(cl)
-            setVisibility(R.id.playlist_search, if (searchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.playlist_switch, if (playlistSwitchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.adv_function, if (advFuncVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.header_play_pause, if (headerPlayPauseVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.header_time, if (headerTimeVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.playlist_search_text, if (searchTextVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.audio_media_switcher, if (searchTextVisible) ConstraintSet.GONE else ConstraintSet.VISIBLE)
-            applyTo(cl)
-        }
+    private fun manageSearchVisibilities(filter: Boolean = false) {
+        binding.playlistSearch.alpha = if (filter) 0f else 1f
+        binding.playlistSwitch.alpha = if (filter) 0f else 1f
+        binding.advFunction.alpha = if (filter) 0f else 1f
+        binding.audioMediaSwitcher.alpha = if (filter) 0f else 1f
+        binding.playlistSearchText.visibility = if (filter) View.VISIBLE else View.GONE
     }
 
     fun onABRepeat(v: View) {
@@ -434,7 +401,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     }
 
     fun onSearchClick(v: View) {
-        setHeaderVisibilities(false, false, false, false, false, false, true)
+        manageSearchVisibilities(true)
         binding.playlistSearchText.editText?.requestFocus()
         if (binding.showCover) onPlaylistSwitchClick(binding.playlistSwitch)
         val imm = v.context.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -465,8 +432,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
             addTextChangedListener(this@AudioPlayer)
         }
         UiTools.setKeyboardVisibility(binding.playlistSearchText, false)
-        if (playerState == BottomSheetBehavior.STATE_COLLAPSED) setHeaderVisibilities(false, false, true, true, true, false)
-        else setHeaderVisibilities(true, true, false, false, false, true)
+        manageSearchVisibilities(false)
         return true
     }
 
@@ -571,17 +537,34 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         when (newState) {
             BottomSheetBehavior.STATE_COLLAPSED -> {
                 backPressed()
-                binding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID)
-                setHeaderVisibilities(advFuncVisible = false, playlistSwitchVisible = false, headerPlayPauseVisible = true, progressBarVisible = true, headerTimeVisible = true, searchVisible = false)
+                onSlide(0f)
             }
             BottomSheetBehavior.STATE_EXPANDED -> {
-                binding.header.setBackgroundColor(UiTools.getColorFromAttribute(requireContext(), R.attr.audio_player_transparent))
-                setHeaderVisibilities(advFuncVisible = true, playlistSwitchVisible = true, headerPlayPauseVisible = false, progressBarVisible = false, headerTimeVisible = false, searchVisible = true)
+                onSlide(1f)
                 showPlaylistTips()
                 playlistAdapter.currentIndex = playlistModel.currentMediaPosition
             }
-//            else -> binding.header.setBackgroundResource(0)
         }
+    }
+
+    fun onSlide(slideOffset: Float) {
+        binding.progressBarMask.alpha = slideOffset
+        if (slideOffset != 1f) {
+            clearSearch()
+        }
+
+        binding.playlistSearch.alpha = slideOffset
+        binding.playlistSwitch.alpha = slideOffset
+        binding.advFunction.alpha = slideOffset
+        binding.headerPlayPause.alpha = 1 - slideOffset
+        binding.headerTime.alpha = 1 - slideOffset
+
+        val translationOffset = min(1f, max(0f, (slideOffset * 1.4f) - 0.2f))
+        binding.playlistSearch.translationY = (1 - translationOffset) * 60.px
+        binding.playlistSwitch.translationY = (1 - translationOffset) * 60.px
+        binding.advFunction.translationY = (1 - translationOffset) * 60.px
+        binding.headerPlayPause.translationY = -translationOffset * 60.px
+        binding.headerTime.translationY = -translationOffset * 60.px
     }
 
     private var timelineListener: OnSeekBarChangeListener = object : OnSeekBarChangeListener {

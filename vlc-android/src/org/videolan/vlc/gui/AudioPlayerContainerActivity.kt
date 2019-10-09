@@ -132,6 +132,14 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         bottomSheetBehavior = from(audioPlayerContainer!!) as BottomSheetBehavior<*>
         bottomSheetBehavior!!.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         bottomSheetBehavior!!.setBottomSheetCallback(audioPlayerBottomSheetCallback)
+        bottomSheetBehavior!!.addBottomSheetCallback(object : BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                audioPlayer?.onSlide(slideOffset)
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+            }
+        })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
     }
 

@@ -50,6 +50,17 @@
                 android:paddingRight="0px"
                 android:progressDrawable="?attr/progress_mini_player"/>
 
+        <View
+                android:id="@+id/progressBarMask"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/progressBar"
+                app:layout_constraintEnd_toEndOf="@id/progressBar"
+                app:layout_constraintTop_toTopOf="@id/progressBar"
+                app:layout_constraintBottom_toBottomOf="@id/progressBar"
+                android:alpha="0"
+                android:background="?attr/background_default_darker" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/header"
                 android:layout_width="0dp"
@@ -89,12 +100,14 @@
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/playlist_search_text"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
                     android:focusable="true"
                     android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/header_play_pause"
                     app:layout_constraintStart_toEndOf="@+id/playlist_playasaudio_off"
                     app:layout_constraintTop_toTopOf="parent">
@@ -104,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/search_hint"
                         android:imeOptions="actionSearch"
-                        android:inputType="textFilter"/>
+                        android:inputType="textFilter" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
@@ -225,14 +238,13 @@
 
 
         <View
+                android:id="@+id/bottom_bar"
                 android:layout_width="0dp"
                 android:layout_height="72dp"
-                android:id="@+id/bottom_bar"
-                android:background="?attr/audio_player_transparent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="?attr/background_default_darker"
                 app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         <TextView
