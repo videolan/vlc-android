@@ -46,8 +46,8 @@
     <string name="insert_next">Következő beszúrása</string>
     <string name="play_all">Összes lejátszása</string>
     <string name="append_all">Összes hozzáfűzése</string>
-    <string name="resume_playback">Lejátszás folytatása</string>
-    <string name="resume_playback_long_shortcut">A legutóbbi lejátszólista folytatása</string>
+    <string name="resume_playback_short">Lejátszás folytatása</string>
+    <string name="resume_playback_long">A legutóbbi lejátszólista folytatása</string>
     <string name="delete">Törlés</string>
     <string name="remove">Eltávolítás</string>
     <string name="set_song">Beállítás csengőhangként</string>
@@ -294,7 +294,7 @@
 
     <string name="video_prefs_category">Videó</string>
     <string name="video_min_group_length_title">Videók csoportosítása</string>
-    <string name="video_min_group_length_disable">Letiltás</string>
+    <string name="video_min_group_length_disable">Ne csoportosítsa a videókat</string>
     <string name="video_min_group_length_folder">Csoportosítás mappa szerint</string>
     <string name="video_min_group_length_name">Csoportosítás név szerint</string>
     <string name="video_min_group_length_first">Csak a kezdőbetű</string>
@@ -475,7 +475,7 @@
     <string name="audio_delay">Hang késleltetése</string>
     <string name="spu_delay">Felirat késleltetése</string>
     <string name="sleep_time_not_set">nincs megadva</string>
-    <string name="network_shares_discovery">Hálózati megosztások keresése…</string>
+    <string name="network_shares_discovery">Hálózati megosztások keresése</string>
     <string name="network_empty">Ez a könyvtár üres.</string>
     <string name="network_connection_needed">Nincs kapcsolat a helyi hálózathoz.</string>
     <string name="search_hint">Média keresése</string>
@@ -489,8 +489,7 @@
     <string name="chapter">Fejezet</string>
     <string name="resume_from_position">Folytatás az utolsó pozíciótól</string>
     <string name="confirm_resume">Folytatja az utolsó pozíciótól?</string>
-    <string name="confirm_resume_title">Megerősítés a folytatáshoz</string>
-    <string name="confirm_resume_summary">Ha be van kapcsolva, akkor megkérdezi, hogy akarja-e folytatni a videót a legutolsó pozíciótól</string>
+    <string name="confirm_resume_title">Lejátszott videók folytatása</string>
     <string name="directory_empty">A könyvtár üres</string>
     <string name="tv_ui_title">Android TV felület</string>
     <string name="tv_ui_summary">Felület módosítása a TV-re szabott témára</string>
@@ -648,6 +647,7 @@
     <string name="device_dialog_title">Külső eszköz behelyezve</string>
     <string name="device_dialog_message">Egy új tárolóeszközt csatlakoztatott a TV-jéhez, a VLC-vel akarja megnyitni?</string>
     <string name="videos_folders_title">Videók mappák szerint</string>
+    <string name="videos_groups_title">Videócsoportok</string>
     <string name="video_save_remote_setting">Automatikusan aktiválja a távvezérlő módot?</string>
     <string name="video_save_clone_mode">Automatikusan aktiválja a klónozás módot?</string>
     <string name="video_remote_enable">Váltás távvezérlő módba</string>
@@ -708,6 +708,9 @@
     <string name="report_a_crash">Összeomlás jelentése</string>
     <string name="describe_crash">Írja le hogyan történt az összeomlás</string>
     <string name="favorite">Kedvenc</string>
+    <string name="always">Mindig</string>
+    <string name="never">Soha</string>
+    <string name="ask_confirmation">Megerősítés kérése</string>
     <string name="add_to_scanned">Mappa átvizsgálása</string>
     <string name="directory_not_scanned">Ez a mappa nincs átvizsgálva</string>
     <string name="scanned_directory_added">%s hozzáadva a vizsgálandó könyvtárakhoz</string>
