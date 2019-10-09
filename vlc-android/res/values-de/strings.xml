@@ -46,8 +46,8 @@
     <string name="insert_next">Als nächsten einfügen</string>
     <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
-    <string name="resume_playback">Liste fortsetzen</string>
-    <string name="resume_playback_long_shortcut">Fortsetzen</string>
+    <string name="resume_playback_short">Letzte Wiedergabe</string>
+    <string name="resume_playback_long">Fortsetzen</string>
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
