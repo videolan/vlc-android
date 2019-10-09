@@ -46,8 +46,8 @@
     <string name="insert_next">Sonrakini ekle</string>
     <string name="play_all">Tümünü oynat</string>
     <string name="append_all">Tümünü ekle</string>
-    <string name="resume_playback">Oynatmayı sürdür</string>
-    <string name="resume_playback_long_shortcut">Son oynatma listesini oynatmayı sürdürür</string>
+    <string name="resume_playback_short">Oynatmayı sürdür</string>
+    <string name="resume_playback_long">Son oynatma listesini oynatmayı sürdürür</string>
     <string name="delete">Sil</string>
     <string name="remove">Kaldır</string>
     <string name="set_song">Zil sesi olarak ayarla</string>
