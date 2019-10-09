@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.audio
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -168,6 +167,10 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 lists[index].layoutManager = LinearLayoutManager(activity)
             }
         }
+    }
+
+    override fun sortBy(sort: Int) {
+        viewModel.providers[currentTab].sort(sort)
     }
 
     override fun getCurrentAdapter() = adapters[currentTab]
