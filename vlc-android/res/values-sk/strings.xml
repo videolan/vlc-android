@@ -48,8 +48,8 @@
     <string name="insert_next">Vložiť ako ďalšie</string>
     <string name="play_all">Prehrať všetko</string>
     <string name="append_all">Pripojiť všetko</string>
-    <string name="resume_playback">Pokračovať v prehrávaní</string>
-    <string name="resume_playback_long_shortcut">Pokračovať v prehrávaní na poslednom playliste</string>
+    <string name="resume_playback_short">Pokračovať v prehrávaní</string>
+    <string name="resume_playback_long">Pokračovať v prehrávaní na poslednom playliste</string>
     <string name="delete">Vymazať</string>
     <string name="remove">Odstrániť</string>
     <string name="set_song">Nastaviť ako zvonenie</string>
