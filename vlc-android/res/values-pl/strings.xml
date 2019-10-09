@@ -48,8 +48,8 @@
     <string name="insert_next">Wstaw jako następny</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
-    <string name="resume_playback">Wznów odtwarzanie</string>
-    <string name="resume_playback_long_shortcut">Wznów</string>
+    <string name="resume_playback_short">Wznów odtwarzanie</string>
+    <string name="resume_playback_long">Wznów</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
@@ -489,7 +489,7 @@
     <string name="audio_delay">Opóźnienie dźwięku</string>
     <string name="spu_delay">Opóźnienie napisów</string>
     <string name="sleep_time_not_set">nic nie ustawione</string>
-    <string name="network_shares_discovery">Szukanie udziałów sieciowych…</string>
+    <string name="network_shares_discovery">Szukanie udziałów sieciowych</string>
     <string name="network_empty">Ten katalog jest pusty.</string>
     <string name="network_connection_needed">Brak połączenia z siecią lokalną.</string>
     <string name="search_hint">Szukaj mediów</string>
