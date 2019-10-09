@@ -27,10 +27,10 @@ allprojects {
 }
 
 ext {
-    versionName = '3.2.0-beta-5'
-    versionCode = 3019500
-    libvlcVersion = '3.2-eap11'
-    medialibraryVersion = '0.5-eap11'
+    versionName = '3.2.0-beta-6'
+    versionCode = 3019600
+    libvlcVersion = '3.2-eap12'
+    medialibraryVersion = '0.5-eap12'
     minSdkVersion = 17
     targetSdkVersion = 28
     compileSdkVersion = 28
