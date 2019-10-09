@@ -1,3 +1,16 @@
+Changes between 3.2.0-beta-05 and 3.2.0-beta-06:
+------------------
+
+Application:
+ * Fix crash on Android 4
+ * Play single videos fron the videos groups view
+ * Fix videos playback sometimes loaded in the wrong order
+ * Crash and ANR fixes
+
+Medialibrary:
+ * Titles decrapifier
+ * Report unhandled exceptions
+
 Changes between 3.2.0-beta-04 and 3.2.0-beta-05:
 ------------------
 
