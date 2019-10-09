@@ -48,8 +48,8 @@
     <string name="insert_next">להכניס כבא בתור</string>
     <string name="play_all">נגינת הכול</string>
     <string name="append_all">הוספת הכול</string>
-    <string name="resume_playback">להמשיך בנגינה</string>
-    <string name="resume_playback_long_shortcut">להמשיך את נגינת רשימת הנגינה הקודמת</string>
+    <string name="resume_playback_short">להמשיך בנגינה</string>
+    <string name="resume_playback_long">להמשיך את נגינת רשימת הנגינה הקודמת</string>
     <string name="delete">מחיקה</string>
     <string name="remove">הסרה</string>
     <string name="set_song">הגדרה כצלצול</string>
@@ -489,7 +489,7 @@
     <string name="audio_delay">השהיית שמע</string>
     <string name="spu_delay">השהיית כתוביות</string>
     <string name="sleep_time_not_set">לא הוגדרו</string>
-    <string name="network_shares_discovery">מתבצע חיפוש אחר שיתופי רשת…</string>
+    <string name="network_shares_discovery">מתבצע איתור שיתופי רשת</string>
     <string name="network_empty">התיקייה ריקה.</string>
     <string name="network_connection_needed">אין קישור לרשת המקומית.</string>
     <string name="search_hint">חיפוש במדיה</string>
@@ -503,8 +503,7 @@
     <string name="chapter">פרק</string>
     <string name="resume_from_position">המשך מהמיקום האחרון</string>
     <string name="confirm_resume">להמשיך מהמיקום האחרון?</string>
-    <string name="confirm_resume_title">לבקש אישור כדי להמשיך</string>
-    <string name="confirm_resume_summary">אם אפשרות זו מופעלת יהיה עליך לאשר האם להמשיך את הסרטון מהמיקום האחרון</string>
+    <string name="confirm_resume_title">להמשיך סרטונים שנעצרו</string>
     <string name="directory_empty">התיקייה ריקה</string>
     <string name="tv_ui_title">מנשק טלוויזיית אנדרויד</string>
     <string name="tv_ui_summary">החלפת מנשק המשתמש לערכת נושא תואמת טלוויזייה</string>
@@ -662,6 +661,7 @@
     <string name="device_dialog_title">חובר מכשיר חיצוני</string>
     <string name="device_dialog_message">חיברת התקן אחסון חדש למערכת הטלוויזיה שלך, לפתוח אותו עם VLC?</string>
     <string name="videos_folders_title">סרטונים לפי תיקיות</string>
+    <string name="videos_groups_title">קבוצות סרטונים</string>
     <string name="video_save_remote_setting">להפעיל את מצב השלט?</string>
     <string name="video_save_clone_mode">להפעיל מצב כפילות אוטומטית?</string>
     <string name="video_remote_enable">מעבר למצב שלט</string>
@@ -722,6 +722,9 @@
     <string name="report_a_crash">לדווח על קריסה</string>
     <string name="describe_crash">נא לתאר איך אירעה הקריסה הזאת</string>
     <string name="favorite">סימון כמועדף</string>
+    <string name="always">תמיד</string>
+    <string name="never">אף פעם</string>
+    <string name="ask_confirmation">בקשת אישור</string>
     <string name="add_to_scanned">סריקת התיקייה הזאת</string>
     <string name="directory_not_scanned">התיקייה לא נסרקה</string>
     <string name="scanned_directory_added">%s נוספה לתיקיות שלך שנסרקו</string>
