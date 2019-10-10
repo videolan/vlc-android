@@ -34,7 +34,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
     private lateinit var editAddress: EditText
     private lateinit var editPort: EditText
     private lateinit var editFolder: EditText
-    private lateinit var editUsername: EditText
+    private lateinit var editUsername: TextInputLayout
     private lateinit var editServername: EditText
     private lateinit var spinnerProtocol: Spinner
     private lateinit var url: TextView
@@ -84,7 +84,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         editAddressLayout = v.findViewById(R.id.server_domain)
         editAddress = editAddressLayout.editText!!
         editFolder = (v.findViewById<View>(R.id.server_folder) as TextInputLayout).editText!!
-        editUsername = (v.findViewById<View>(R.id.server_username) as TextInputLayout).editText!!
+        editUsername = (v.findViewById<View>(R.id.server_username) as TextInputLayout)
         editServername = (v.findViewById<View>(R.id.server_name) as TextInputLayout).editText!!
         spinnerProtocol = v.findViewById(R.id.server_protocol)
         editPort = v.findViewById(R.id.server_port)
@@ -107,7 +107,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
             mIgnoreFirstSpinnerCb = true
             editAddress.setText(networkUri.host)
             if (!TextUtils.isEmpty(networkUri.userInfo))
-                editUsername.setText(networkUri.userInfo)
+                editUsername.editText!!.setText(networkUri.userInfo)
             if (!TextUtils.isEmpty(networkUri.path))
                 editFolder.setText(networkUri.path)
             if (!TextUtils.isEmpty(networkName))
@@ -125,7 +125,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         editPort.addTextChangedListener(this)
         editAddress.addTextChangedListener(this)
         editFolder.addTextChangedListener(this)
-        editUsername.addTextChangedListener(this)
+        editUsername.editText!!.addTextChangedListener(this)
 
         updateUrl()
     }
@@ -146,8 +146,8 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         val sb = StringBuilder()
         sb.append(spinnerProtocol.selectedItem.toString().toLowerCase())
                 .append("://")
-        if (editUsername.isEnabled && !TextUtils.isEmpty(editUsername.text)) {
-            sb.append(editUsername.text).append('@')
+        if (editUsername.isEnabled && !TextUtils.isEmpty(editUsername.editText!!.text)) {
+            sb.append(editUsername.editText!!.text).append('@')
         }
         sb.append(editAddress.text)
         if (needPort()) {
@@ -228,7 +228,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         if (editUsername.hasFocus() && TextUtils.equals(spinnerProtocol.selectedItem.toString(), "SFTP")) {
             editFolder.removeTextChangedListener(this)
-            editFolder.setText("/home/" + editUsername.text.toString())
+            editFolder.setText("/home/" + editUsername.editText!!.text.toString())
             editFolder.addTextChangedListener(this)
         }
         updateUrl()

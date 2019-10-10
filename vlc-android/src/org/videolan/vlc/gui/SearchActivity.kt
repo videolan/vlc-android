@@ -113,17 +113,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
         return false
     }
 
-    private fun clear() {
-        binding.searchEditText.removeTextChangedListener(this)
-        binding.searchEditText.setText("")
-        binding.searchEditText.addTextChangedListener(this)
-        binding.searchAggregate = SearchAggregate()
-    }
-
     inner class ClickHandler {
-        fun onClean(v: View) {
-            clear()
-        }
 
         fun onBack(v: View) {
             finish()

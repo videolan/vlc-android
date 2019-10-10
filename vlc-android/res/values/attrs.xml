@@ -36,6 +36,7 @@
     <attr name="ariane_text_size" format="dimension" />
     <attr name="card_background" format="color"/>
     <attr name="empty_button" format="reference" />
+    <attr name="default_separator" format="color" />
 
     <!--Main Icons-->
     <attr name="ic_down_style" format="reference" />

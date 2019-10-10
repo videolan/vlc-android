@@ -33,34 +33,28 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/mrl_edit"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:paddingEnd="4dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/play"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <!--android:paddingTop ==> Space between cursor and top hint-->
-                    <!--android:paddingBottom ==> Space between cursor and bottom border-->
-                    <EditText
-                        android:layout_width="match_parent"
+                        android:id="@+id/mrl_edit"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:layout_marginStart="8dp"
-                        android:hint="@string/open_mrl_dialog_msg"
-                        android:imeOptions="actionGo"
-                        android:inputType="textUri"
-                        android:maxLines="2"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="@={viewmodel.observableSearchText}"
-                        android:textColor="?font_default" />
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/play"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        tools:ignore="RtlSymmetry">
+
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:hint="@string/open_mrl_dialog_msg"
+                            android:imeOptions="actionGo"
+                            android:inputType="textUri"
+                            android:text="@={viewmodel.observableSearchText}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView

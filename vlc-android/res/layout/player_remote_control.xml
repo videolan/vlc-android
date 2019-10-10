@@ -124,7 +124,10 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/close_button"
-            app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:boxStrokeColor="@color/grey200"
+                app:hintTextColor="@color/grey200"
+                android:textCursorDrawable="@drawable/cursor_w"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:layout_marginTop="8dp">

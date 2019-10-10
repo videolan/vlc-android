@@ -40,30 +40,21 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    android:paddingEnd="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/play"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     tools:ignore="RtlSymmetry">
 
-                    <!--android:paddingTop ==> Space between cursor and top hint-->
-                    <!--android:paddingBottom ==> Space between cursor and bottom border-->
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="8dp"
-                        android:background="@drawable/edittext_bottom_border"
                         android:hint="@string/open_mrl_dialog_msg"
                         android:imeOptions="actionGo"
                         android:inputType="textUri"
-                        android:maxLines="2"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="@={viewmodel.observableSearchText}"
-                        android:textColor="?font_default"
-                        android:textCursorDrawable="@drawable/cursor_o" />
+                            android:text="@={viewmodel.observableSearchText}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
