@@ -27,6 +27,7 @@
         <item name="colorPrimaryDark">@color/orange700</item>
         <item name="colorSecondary">@color/orange700</item>
         <item name="colorOnSecondary">@color/grey50</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/orange500</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/orange500</item>
@@ -146,6 +147,7 @@
         <item name="colorAccent">@color/orange600</item>
         <item name="colorSecondary">@color/orange600</item>
         <item name="colorOnSecondary">@color/grey50</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="item_footer">@color/grey700</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/grey875</item>

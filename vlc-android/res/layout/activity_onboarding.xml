@@ -85,7 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_widget_onboarding_next_w" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/doneButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
