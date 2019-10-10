@@ -46,8 +46,8 @@
     <string name="insert_next">Als volgende invoegen</string>
     <string name="play_all">Alles afspelen</string>
     <string name="append_all">Alles toevoegen</string>
-    <string name="last_playlist">Laatste afspeellijst</string>
-    <string name="last_playlist_shortcut">Afspelen hervatten</string>
+    <string name="resume_playback_short">Afspelen hervatten</string>
+    <string name="resume_playback_long">Afspelen van laatste afspeellijst hervatten</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijderen</string>
     <string name="set_song">Als beltoon instellen</string>
@@ -294,9 +294,9 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Video\'s groeperen</string>
-    <string name="video_min_group_length_summary">Video\'s worden gegroepeerd als hun eerste letters dezelfde zijn.</string>
-    <string name="video_min_group_length_disable">Uitschakelen</string>
+    <string name="video_min_group_length_disable">Video\'s niet groeperen</string>
     <string name="video_min_group_length_folder">Groeperen volgens map</string>
+    <string name="video_min_group_length_name">Groeperen op naam</string>
     <string name="video_min_group_length_first">Alleen eerste letter</string>
     <string name="video_min_group_length_short">Klein aantal letters (6)</string>
     <string name="video_min_group_length_long">Groot aantal letters (9)</string>
@@ -306,8 +306,6 @@
     <string name="video_transition_summary">Nieuwe videotitel weergeven bij overgang</string>
     <string name="media_seen">Gezien-videomarker weergeven</string>
     <string name="media_seen_summary">Een video als gezien markeren als u hem tot het einde afspeelt</string>
-    <string name="force_list_portrait">Geen raster in staande modus</string>
-    <string name="force_list_portrait_summary">Video\'s in lijst weergeven in plaats van in raster in staande modus</string>
     <string name="force_play_all_summary">Alle video\'s afspelen, beginnend met die waar u op klikte</string>
     <string name="force_play_all_title">Video-afspeellijst modus</string>
     <string name="save_brightness_summary">Helderheidsniveau in videospeler onthouden</string>
@@ -325,7 +323,6 @@
     <string name="popup_keepscreen_title">Scherm aan houden in pop-up-modus</string>
     <string name="popup_keepscreen_summary">Scherm altijd AAN houden wanneer pop-up weergegeven wordt, zelfs als video gepauzeerd is.</string>
     <string name="browser_show_hidden_files_title">Verborgen bestanden weergeven</string>
-    <string name="browser_show_hidden_files_summary">Verborgen bestanden in browsers weergeven</string>
 
     <string name="subtitles_prefs_category">Ondertitels</string>
     <string name="subtitles_size_title">Ondertitelgrootte</string>
@@ -349,14 +346,12 @@
     <string name="lockscreen_cover_summary">Wanneer beschikbaar, de huidige media-hoes instellen als achtergrond op vergrendelscherm</string>
     <string name="playlist_animate_scroll_title">Automatisch scrollen van huidige afspeellijst animeren</string>
     <string name="playlist_animate_scroll_summary">Scrollen bij media-overgang animeren</string>
-    <string name="audio_title_alignment">Audiotitel-oriëntatie</string>
-    <string name="audio_title_alignment_default">Standaard</string>
-    <string name="audio_title_alignment_left">Links</string>
-    <string name="audio_title_alignment_centre">Midden</string>
-    <string name="audio_title_alignment_right">Rechts</string>
-    <string name="audio_title_alignment_marquee">Lichtkrant</string>
-    <string name="audio_save_repeat_title">Herhaalmodus opslaan</string>
-    <string name="audio_save_repeat_summary">Herhaalmodus onthouden bij het laden van audio-afspeellijsten</string>
+    <string name="list_title_ellipsize">Beletselteken gebruiken voor titel bij lijsten met één regel</string>
+    <string name="list_title_ellipsize_default">Standaard</string>
+    <string name="list_title_ellipsize_left">Links</string>
+    <string name="list_title_ellipsize_right">Rechts</string>
+    <string name="list_title_ellipsize_middle">Midden</string>
+    <string name="list_title_ellipsize_marquee">Lichtkrant</string>
     <string name="audio_boost_title">Audio-boost</string>
     <string name="audio_boost_summary">Volume tot 200 % toestaan</string>
     <string name="headset_prefs_category">Headset</string>
@@ -385,7 +380,6 @@
     <string name="cast_performance_warning">Uitzenden van deze video vereist conversie. Deze conversie kan alle beschikbare energie gebruiken en uw batterij snel leegtrekken.</string>
     <string name="casting_connected_renderer">Verbonden met renderer \'%1$s\'</string>
     <string name="artists_show_all_title">Alle artiesten weergeven</string>
-    <string name="artists_show_all_summary">Alle artiesten weergeven in artiestenlijst, niet alleen albumartiesten</string>
 
     <string name="extensions_prefs_category">Extensies</string>
     <string name="extensions_enable_category">Extensies kiezen om in te schakelen</string>
@@ -437,8 +431,7 @@
     <string name="restart_message">Wijzigingen zullen van kracht worden van zodra de toepassing opnieuw gestart is.\n\nNu opnieuw starten?</string>
     <string name="restart_message_OK">Ok</string>
     <string name="restart_message_Later">Later</string>
-    <string name="browser_show_all_title">Alle bestanden in browser weergeven</string>
-    <string name="browser_show_all_summary">Bestanden in browsers weergeven die niet als audio of video herkend worden</string>
+    <string name="browser_show_all_title">Alle bestanden weergeven</string>
 
     <string name="developer_prefs_category">Ontwikkelaar</string>
     <string name="enable_verbose_mode">Uitgebreid</string>
@@ -482,7 +475,7 @@
     <string name="audio_delay">Audiovertraging</string>
     <string name="spu_delay">Ondertitelvertraging</string>
     <string name="sleep_time_not_set">niets ingesteld</string>
-    <string name="network_shares_discovery">Zoeken naar gedeelde netwerkbestanden…</string>
+    <string name="network_shares_discovery">Zoeken naar gedeelde netwerkbestanden</string>
     <string name="network_empty">Deze map is leeg.</string>
     <string name="network_connection_needed">Geen verbinding met lokaal netwerk.</string>
     <string name="search_hint">Media zoeken</string>
@@ -496,8 +489,7 @@
     <string name="chapter">Hoofdstuk</string>
     <string name="resume_from_position">Hervatten vanaf laatste positie</string>
     <string name="confirm_resume">Hervatten vanaf laatste positie?</string>
-    <string name="confirm_resume_title">Bevestiging vragen om te hervatten</string>
-    <string name="confirm_resume_summary">Indien ingeschakeld zult u gevraagd worden om te bevestigen wanneer een video hervat kan worden vanaf de laatste positie</string>
+    <string name="confirm_resume_title">Afgespeelde video\'s hervatten</string>
     <string name="directory_empty">Map is leeg</string>
     <string name="tv_ui_title">Android tv-interface</string>
     <string name="tv_ui_summary">UI wijzigen naar aangepast tv-thema</string>
@@ -655,6 +647,7 @@
     <string name="device_dialog_title">Extern apparaat geplaatst</string>
     <string name="device_dialog_message">U hebt een nieuw opslagapparaat verbonden met uw tv-box. Wilt u het openen met VLC?</string>
     <string name="videos_folders_title">Video\'s volgens mappen</string>
+    <string name="videos_groups_title">Videogroepen</string>
     <string name="video_save_remote_setting">Modus bediening op afstand automatisch inschakelen?</string>
     <string name="video_save_clone_mode">Kloon-modus automatisch inschakelen?</string>
     <string name="video_remote_enable">Overschakelen naar modus bediening op afstand</string>
@@ -714,4 +707,15 @@
     <string name="report_a_bug">Een bug rapporteren</string>
     <string name="report_a_crash">Een crash rapporteren</string>
     <string name="describe_crash">Beschrijf hoe deze crash gebeurde</string>
+    <string name="favorite">Favoriet</string>
+    <string name="always">Altijd</string>
+    <string name="never">Nooit</string>
+    <string name="ask_confirmation">Bevestiging vragen</string>
+    <string name="add_to_scanned">Deze map scannen</string>
+    <string name="directory_not_scanned">Deze map wordt niet gescand</string>
+    <string name="scanned_directory_added">%s aan uw gescande mappen toegevoegd</string>
+    <string name="video_group_size_dialog_text">Aantal tekens om te groeperen op naam</string>
+    <string name="video_group_size_summary">Groeperen op eerste %s letters</string>
+    <string name="video_group_size">Video\'s groeperen op naam</string>
+    <string name="url_copied_to_clipboard">URL naar klembord gekopieerd</string>
 </resources>
