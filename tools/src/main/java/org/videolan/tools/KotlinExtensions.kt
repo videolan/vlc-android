@@ -55,8 +55,8 @@ fun View?.setVisible() = setVisibility(View.VISIBLE)
 fun View?.setInvisible() = setVisibility(View.INVISIBLE)
 fun View?.setGone() = setVisibility(View.GONE)
 
-val Int.dp: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
-val Int.px: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+val Int.px: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 fun CoroutineScope.conflatedActor(time: Long = 2000L, action: () -> Unit) = actor<Unit>(capacity = Channel.CONFLATED) {
     for (evt in channel) {

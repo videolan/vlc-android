@@ -54,8 +54,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.tools.dp
 import org.videolan.tools.isStarted
-import org.videolan.tools.px
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -560,11 +560,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         binding.headerTime.alpha = 1 - slideOffset
 
         val translationOffset = min(1f, max(0f, (slideOffset * 1.4f) - 0.2f))
-        binding.playlistSearch.translationY = (1 - translationOffset) * 60.px
-        binding.playlistSwitch.translationY = (1 - translationOffset) * 60.px
-        binding.advFunction.translationY = (1 - translationOffset) * 60.px
-        binding.headerPlayPause.translationY = -translationOffset * 60.px
-        binding.headerTime.translationY = -translationOffset * 60.px
+        binding.playlistSearch.translationY = -(1 - translationOffset) * 48.dp
+        binding.playlistSwitch.translationY = -(1 - translationOffset) * 48.dp
+        binding.advFunction.translationY = -(1 - translationOffset) * 48.dp
+        binding.headerPlayPause.translationY = translationOffset * 48.dp
+        binding.headerTime.translationY = translationOffset * 48.dp
     }
 
     private var timelineListener: OnSeekBarChangeListener = object : OnSeekBarChangeListener {

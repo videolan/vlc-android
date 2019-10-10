@@ -15,7 +15,6 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Playlist
-import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ActivityMediaListTvBinding
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
