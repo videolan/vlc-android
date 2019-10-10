@@ -282,7 +282,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val res = resources
         if (gridItemDecoration == null)
             gridItemDecoration = ItemOffsetDecoration(resources, R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin)
-        val listMode = Settings.getInstance(requireContext()).getBoolean("video_display_in_cards", false)
+        val listMode = !Settings.getInstance(requireContext()).getBoolean("video_display_in_cards", true)
 
         // Select between grid or list
         binding.videoGrid.removeItemDecoration(gridItemDecoration!!)
