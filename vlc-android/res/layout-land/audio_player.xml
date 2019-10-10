@@ -50,14 +50,14 @@
 
         <View
                 android:id="@+id/progressBarMask"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/progressBar"
-                app:layout_constraintEnd_toEndOf="@id/progressBar"
-                app:layout_constraintTop_toTopOf="@id/progressBar"
-                app:layout_constraintBottom_toBottomOf="@id/progressBar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:alpha="0"
-                android:background="?attr/background_default_darker" />
+                android:background="?attr/background_default_darker"
+                app:layout_constraintBottom_toBottomOf="@id/progressBar"
+                app:layout_constraintEnd_toEndOf="@id/progressBar"
+                app:layout_constraintStart_toStartOf="@id/progressBar"
+                app:layout_constraintTop_toTopOf="@id/progressBar" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
