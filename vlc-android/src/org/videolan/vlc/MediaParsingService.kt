@@ -420,9 +420,11 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
                 var shouldInit = !dbExists()
                 val initCode = medialibrary.init(context)
                 medialibrary.exceptionHandler = exceptionHandler
-                shouldInit = shouldInit or (initCode == AbstractMedialibrary.ML_INIT_DB_RESET) or (initCode == AbstractMedialibrary.ML_INIT_DB_CORRUPTED)
-                if (initCode != AbstractMedialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
-                else exitCommand()
+                if (initCode != AbstractMedialibrary.ML_INIT_ALREADY_INITIALIZED) {
+                    shouldInit = shouldInit or (initCode == AbstractMedialibrary.ML_INIT_DB_RESET) or (initCode == AbstractMedialibrary.ML_INIT_DB_CORRUPTED)
+                    if (initCode != AbstractMedialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
+                    else exitCommand()
+                } else  exitCommand()
             }
             is StartScan -> {
                 scanActivated = true

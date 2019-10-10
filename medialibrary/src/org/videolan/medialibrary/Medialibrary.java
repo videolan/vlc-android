@@ -49,6 +49,7 @@ public class Medialibrary extends AbstractMedialibrary {
 
     public int init(Context context) {
         if (context == null) return ML_INIT_FAILED;
+        if (mIsInitiated) return ML_INIT_ALREADY_INITIALIZED;
         sContext = context;
         final File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
@@ -92,6 +93,7 @@ public class Medialibrary extends AbstractMedialibrary {
     }
 
     public void start() {
+        if (isStarted()) return;
         nativeStart();
         isMedialibraryStarted = true;
         synchronized (onMedialibraryReadyListeners) {
