@@ -31,6 +31,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.databinding.ActivityMediaListTvBinding
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.gui.tv.TvUtil
@@ -145,7 +146,7 @@ fun placeHolderView(v: View, item: MediaLibraryItem?) {
     }
 }
 
-fun isForTV(binding: ViewDataBinding?) = (binding is MediaBrowserTvItemBinding) || binding is MediaBrowserTvItemBinding
+fun isForTV(binding: ViewDataBinding?) = (binding is MediaBrowserTvItemBinding) || binding is MediaBrowserTvItemBinding || binding is ActivityMediaListTvBinding
 
 @MainThread
 @BindingAdapter("placeholderImage")

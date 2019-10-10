@@ -33,10 +33,6 @@
             name="totalTime"
             type="String" />
 
-        <variable
-            name="imageWidth"
-            type="int" />
-
     </data>
 
 
@@ -63,7 +59,6 @@
                 android:layout_height="90dp"
                 android:layout_marginStart="@dimen/tv_overscan_horizontal"
                 android:layout_marginBottom="8dp"
-                app:imageWidth="@{imageWidth}"
                 app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintStart_toStartOf="parent"

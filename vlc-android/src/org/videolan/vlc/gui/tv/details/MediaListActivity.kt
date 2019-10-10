@@ -75,7 +75,6 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler, CoroutineScope by 
         }
 
         binding.totalTime = Tools.millisToString(item.tracks.sumByDouble { it.length.toDouble() }.toLong())
-        binding.imageWidth = 90.dp
 
 
         binding.play.setOnClickListener { TvUtil.playMedia(this, item.tracks.toMutableList()) }
