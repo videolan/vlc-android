@@ -45,8 +45,8 @@
     <string name="insert_next">插入為下一個</string>
     <string name="play_all">全部播放</string>
     <string name="append_all">全部附加</string>
-    <string name="resume_playback">繼續播放</string>
-    <string name="resume_playback_long_shortcut">繼續播放上次的播放清單</string>
+    <string name="resume_playback_short">繼續播放</string>
+    <string name="resume_playback_long">繼續播放前次播放清單</string>
     <string name="delete">刪除</string>
     <string name="remove">移除</string>
     <string name="set_song">設為鈴聲</string>
