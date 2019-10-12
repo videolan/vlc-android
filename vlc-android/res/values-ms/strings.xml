@@ -45,8 +45,8 @@
     <string name="insert_next">Sisip berikutnya</string>
     <string name="play_all">Main semua</string>
     <string name="append_all">Tambah semua</string>
-    <string name="last_playlist">Senarai main terakhir</string>
-    <string name="last_playlist_shortcut">Sambung semula main balik</string>
+    <string name="resume_playback_short">Sambung semula main balik</string>
+    <string name="resume_playback_long">Sambung semula main balik bagi senarai main terakhir</string>
     <string name="delete">Padam</string>
     <string name="remove">Buang</string>
     <string name="set_song">Tetapkan sebagai nada dering</string>
@@ -287,9 +287,9 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Video kumpulan</string>
-    <string name="video_min_group_length_summary">Video dikumpulkan jika abjad pertama mereka adalah serupa.</string>
-    <string name="video_min_group_length_disable">Lumpuhkan</string>
+    <string name="video_min_group_length_disable">Jangan kelompokkan video</string>
     <string name="video_min_group_length_folder">Kelompok mengikut folder</string>
+    <string name="video_min_group_length_name">Kelompok mengikut nama</string>
     <string name="video_min_group_length_first">Abjad pertama sahaja</string>
     <string name="video_min_group_length_short">Bilangan abjad pendek (6)</string>
     <string name="video_min_group_length_long">Bilangan abjad panjang (9)</string>
@@ -299,8 +299,6 @@
     <string name="video_transition_summary">Tunjuk tajuk video baharu ketika peralihan</string>
     <string name="media_seen">Tunjuk penanda video ditonton</string>
     <string name="media_seen_summary">Tanda video yang telah ditonton yang anda telah mainkan sehingga tamat</string>
-    <string name="force_list_portrait">Tiada grid dalam mod potret</string>
-    <string name="force_list_portrait_summary">Tunjuk video di dalam senarai bukannya grid dalam mod potret</string>
     <string name="force_play_all_summary">Main semua video, mulakan dengan salah satu yang anda klik</string>
     <string name="force_play_all_title">Mod senarai main video</string>
     <string name="save_brightness_summary">Ingat aras kecerahan dalam pemain video</string>
@@ -318,7 +316,6 @@
     <string name="popup_keepscreen_title">Kekalkan skrin HIDUP dalam mod Timbul</string>
     <string name="popup_keepscreen_summary">Sentiasa kekalkan skrin HIDUP ketika Kotak Timbul dipaparkan, walaupun ketika video dijeda.</string>
     <string name="browser_show_hidden_files_title">Tunjukk fail tersembunyi</string>
-    <string name="browser_show_hidden_files_summary">Tunjuk fail tersembunyi dalam pelayar</string>
 
     <string name="subtitles_prefs_category">Sarikata</string>
     <string name="subtitles_size_title">Saiz Sarikata</string>
@@ -342,14 +339,12 @@
     <string name="lockscreen_cover_summary">Bila tersedia, tetapkan seni kulit hadapan media semasa sebagai kertas dinding skrin kunci</string>
     <string name="playlist_animate_scroll_title">Animasikan auto-penatalan senarai main semasa</string>
     <string name="playlist_animate_scroll_summary">Animasikan penatalan pada peralihan media</string>
-    <string name="audio_title_alignment">Jajaran tajuk audio</string>
-    <string name="audio_title_alignment_default">Lalai</string>
-    <string name="audio_title_alignment_left">Kiri</string>
-    <string name="audio_title_alignment_centre">Tengah</string>
-    <string name="audio_title_alignment_right">Kanan</string>
-    <string name="audio_title_alignment_marquee">Marquee</string>
-    <string name="audio_save_repeat_title">Simpan mod ulang</string>
-    <string name="audio_save_repeat_summary">Ingat mod ulang ketika memuatkan senarai main audio</string>
+    <string name="list_title_ellipsize">Senarai satu baris elipsis tajuk</string>
+    <string name="list_title_ellipsize_default">Lalai</string>
+    <string name="list_title_ellipsize_left">Kiri</string>
+    <string name="list_title_ellipsize_right">Kanan</string>
+    <string name="list_title_ellipsize_middle">Tengah</string>
+    <string name="list_title_ellipsize_marquee">Marquee</string>
     <string name="audio_boost_title">Galak-audio</string>
     <string name="audio_boost_summary">Benarkan volum naik sehingga 200%</string>
     <string name="headset_prefs_category">Set Kepala</string>
@@ -378,7 +373,6 @@
     <string name="cast_performance_warning">Casting video ini memerlukan penukaran. Penukaran ini boleh gunakan semua kuasa yang ada dan boleh mengeringkan kuasa bateri dengan pantas.</string>
     <string name="casting_connected_renderer">Bersambung dengan penerap \'%1$s\'</string>
     <string name="artists_show_all_title">Tunjuk semua artis</string>
-    <string name="artists_show_all_summary">Tunjuk semua artis dalam penyenaraian Artis, bukan sahaja artis album</string>
 
     <string name="extensions_prefs_category">Sambungan</string>
     <string name="extensions_enable_category">Pilih sambungan untuk dibenarkan</string>
@@ -430,8 +424,7 @@
     <string name="restart_message">Perubahan akan berkesan sebaik sahaja aplikasi dimulakan semula.\n\nMula Semula sekarang?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Kemudian</string>
-    <string name="browser_show_all_title">Tunjuk semua fail dalam pelayar</string>
-    <string name="browser_show_all_summary">Papar fail yang tidak dikenali sebagai audio atau video di dalam pelayar</string>
+    <string name="browser_show_all_title">Tunjuk semua fail</string>
 
     <string name="developer_prefs_category">Pembangun</string>
     <string name="enable_verbose_mode">Berjela</string>
@@ -475,7 +468,7 @@
     <string name="audio_delay">Lengah audio</string>
     <string name="spu_delay">Lengah sarikata</string>
     <string name="sleep_time_not_set">tidak ditetapkan</string>
-    <string name="network_shares_discovery">Mencari perkongsian rangkaian…</string>
+    <string name="network_shares_discovery">Mencari perkongsian rangkaian</string>
     <string name="network_empty">Direktori ini kosong.</string>
     <string name="network_connection_needed">Tiada sambungan untuk rangkaian setempat.</string>
     <string name="search_hint">Gelintar media</string>
@@ -489,8 +482,7 @@
     <string name="chapter">Bab</string>
     <string name="resume_from_position">Sambung dari kedudukan terakhir</string>
     <string name="confirm_resume">Sambung dari kedudukan terakhir?</string>
-    <string name="confirm_resume_title">Tanya pengesahan untuk sambung semula</string>
-    <string name="confirm_resume_summary">jika diaktifkan anda akan ditanya untuk sahkan sama ada video boleh disambung semula dari kedudukan terakhirnya</string>
+    <string name="confirm_resume_title">Sambung semula video-video yang telah dimainkan</string>
     <string name="directory_empty">Direktori kosong</string>
     <string name="tv_ui_title">Antaramuka Android TV</string>
     <string name="tv_ui_summary">Ubah UI ke tema tersuai TV</string>
@@ -611,6 +603,8 @@
     <string name="audio_digital_title">Output audio digital (passthrough)</string>
     <string name="audio_task_cleared_title">Henti ketika leret aplikasi</string>
     <string name="audio_task_cleared_summary">Henti main balik ketika aplikasi disinggirkan</string>
+    <string name="audio_resume_card_title">Tunjuk petua senarai main terakihr</string>
+    <string name="audio_resume_card_summary">Menunjukkan satu petua yang dapat bantu anda menyambung semula main balik audio ketika apl bermula</string>
     <string name="playback_rewind">Mandir</string>
     <string name="playback_forward">Maju pantas</string>
     <string name="ml_wizard_title">Pemilihan Pustaka Media VLC</string>
@@ -646,6 +640,7 @@
     <string name="device_dialog_title">Peranti luar disisip</string>
     <string name="device_dialog_message">Anda baru sahaja memalam peranti storan baharu ke dalam kotak TV anda, anda mahu membukanya dengan VLC?</string>
     <string name="videos_folders_title">Video mengikut folder</string>
+    <string name="videos_groups_title">Kumpulan video</string>
     <string name="video_save_remote_setting">Aktifkan mod kawalan jauh secara automatik?</string>
     <string name="video_save_clone_mode">Aktifkan mod klon secara automatik?</string>
     <string name="video_remote_enable">Tukar ke mod kawalan jauh</string>
@@ -686,4 +681,34 @@
     <string name="remove_current">Buang semasa</string>
     <string name="validation_delete_playlist">Anda pasti mahu memadam senarai main ini?</string>
     <string name="validation_delete_playlist_text">Tindakan ini tidak boleh dikembalikan.</string>
+    <string name="display_in_list">Papar dalam senarai</string>
+    <string name="display_in_grid">Papar dalam grid</string>
+    <string name="dump_db_succes">Pangkalan data dilonggok ke dalam root storan dalaman</string>
+    <string name="dump_db_failure">Gagal melonggok pangkalan data</string>
+    <string name="send_crash_title">Pelapor kerosakan VLC</string>
+    <string name="send_crash_description">Dengan mengirim data kerosakan anda kepada kami, anda dapat bantu kami menambahbaik kestabilan VLC ini.</string>
+    <string name="send_crash_warning">Pastikan anda telah membuang apa jua data sulit anda sebelum menghantarnya.</string>
+    <string name="dont_ask_again">Jangan tanya lagi</string>
+    <string name="include_medialib">Sertakan pangkalan data anda</string>
+    <string name="vlc_reporter">Pelapor VLC</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Selamat datang ke program VLC beta.\nSila fahami versi ini mengandungi pepijat-pepijat.</string>
+    <string name="welcome_beta_description_bugs">Jika anda menemui sebarang pepijat, sila laporkannya di dalam forum atau penjejak pepijat kami.</string>
+    <string name="welcome_beta_description_crashes">Jika anda mengalami kerosakan, sila klik ikon Pelapor VLC di dalam pelancar anda untuk menghantar masalah tersebut kepada kami.</string>
+    <string name="send">Hantar</string>
+    <string name="send_crash_action_title">Apa yang anda mahu lakukan?</string>
+    <string name="report_a_bug">Laporkan pepijat</string>
+    <string name="report_a_crash">Laporkan kerosakan</string>
+    <string name="describe_crash">Sila terangkan bagaimanakah kerosakan ini berlaku</string>
+    <string name="favorite">Kegemaran</string>
+    <string name="always">Sentiasa</string>
+    <string name="never">Tidak sesekali</string>
+    <string name="ask_confirmation">Tanya pengesahan</string>
+    <string name="add_to_scanned">Imbas folder ini</string>
+    <string name="directory_not_scanned">Direktori ini tidak diimbas</string>
+    <string name="scanned_directory_added">%s ditambah ke dalam direktori terimbas anda</string>
+    <string name="video_group_size_dialog_text">Bilangan aksara yang digunakan pada kelompok mengikut nama</string>
+    <string name="video_group_size_summary">Kelompok mengikut %s abjad pertama</string>
+    <string name="video_group_size">Kelompok video mengikut nama</string>
+    <string name="url_copied_to_clipboard">Url disalin ke dalam papan keratan</string>
 </resources>
