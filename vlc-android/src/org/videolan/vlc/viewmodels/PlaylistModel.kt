@@ -22,10 +22,7 @@ package org.videolan.vlc.viewmodels
 
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
@@ -40,7 +37,7 @@ import org.videolan.vlc.util.REPEAT_NONE
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallback, Observer<PlaybackService> {
+class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback, Observer<PlaybackService> {
 
     var service: PlaybackService? = null
     val dataset = LiveDataset<AbstractMediaWrapper>()
@@ -56,7 +53,7 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
     private val filter by lazy(LazyThreadSafetyMode.NONE) { PlaylistFilterDelegate(dataset) }
 
     private val filterActor by lazy(mode = LazyThreadSafetyMode.NONE) {
-        actor<CharSequence?> {
+        viewModelScope.actor<CharSequence?> {
             for (query in channel) filter.filter(query)
         }
     }

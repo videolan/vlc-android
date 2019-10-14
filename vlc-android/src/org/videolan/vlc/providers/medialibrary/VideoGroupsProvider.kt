@@ -5,7 +5,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.vlc.viewmodels.SortableModel
 
 
-class VideoGroupsProvider(context: Context, scope: SortableModel) : MedialibraryProvider<AbstractVideoGroup>(context, scope) {
+class VideoGroupsProvider(context: Context, model: SortableModel) : MedialibraryProvider<AbstractVideoGroup>(context, model) {
     override fun getAll() : Array<AbstractVideoGroup> = medialibrary.getVideoGroups(sort, desc, getTotalCount(), 0)
 
     override fun getTotalCount() = medialibrary.videoGroupsCount

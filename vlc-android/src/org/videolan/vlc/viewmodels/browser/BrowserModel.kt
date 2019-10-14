@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -60,7 +61,7 @@ open class BrowserModel(context: Context, val url: String?, type: Long, showHidd
 
     @MainThread
     override fun sort(sort: Int) {
-        launch {
+        viewModelScope.launch {
             this@BrowserModel.sort = sort
             desc = !desc
             dataset.value = withContext(Dispatchers.Default) { dataset.value.apply { sortWith(if (desc) descComp else ascComp) }.also { provider.computeHeaders(dataset.value) } }

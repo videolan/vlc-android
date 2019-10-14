@@ -30,31 +30,31 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class VideosProvider(val folder : AbstractFolder?, val group: AbstractVideoGroup?, context: Context, scope: SortableModel) : MedialibraryProvider<AbstractMediaWrapper>(context, scope){
+class VideosProvider(val folder : AbstractFolder?, val group: AbstractVideoGroup?, context: Context, model: SortableModel) : MedialibraryProvider<AbstractMediaWrapper>(context, model){
 
     override fun canSortByFileNameName() = true
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = folder == null
 
-    override fun getTotalCount() = if (scope.filterQuery == null) when {
+    override fun getTotalCount() = if (model.filterQuery == null) when {
         folder !== null -> folder.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO)
         group !== null -> group.mediaCount()
         else -> medialibrary.videoCount
     } else when {
-        folder !== null -> folder.searchTracksCount(scope.filterQuery, AbstractFolder.TYPE_FOLDER_VIDEO)
-        group !== null -> group.searchTracksCount(scope.filterQuery)
-        else -> medialibrary.getVideoCount(scope.filterQuery)
+        folder !== null -> folder.searchTracksCount(model.filterQuery, AbstractFolder.TYPE_FOLDER_VIDEO)
+        group !== null -> group.searchTracksCount(model.filterQuery)
+        else -> medialibrary.getVideoCount(model.filterQuery)
     }
 
     override fun getPage(loadSize: Int, startposition: Int): Array<AbstractMediaWrapper> {
-        val list = if (scope.filterQuery == null) when {
+        val list = if (model.filterQuery == null) when {
             folder !== null -> folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
             group !== null -> group.media(sort, desc, loadSize, startposition)
             else -> medialibrary.getPagedVideos(sort, desc, loadSize, startposition)
         } else when {
-            folder !== null -> folder.searchTracks(scope.filterQuery, AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
-            group !== null -> group.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
-            else -> medialibrary.searchVideo(scope.filterQuery, sort, desc, loadSize, startposition)
+            folder !== null -> folder.searchTracks(model.filterQuery, AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
+            group !== null -> group.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
+            else -> medialibrary.searchVideo(model.filterQuery, sort, desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
     }

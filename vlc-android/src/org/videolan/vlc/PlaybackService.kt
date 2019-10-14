@@ -1250,11 +1250,11 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
      * Browsing
      */
 
-    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): MediaBrowserServiceCompat.BrowserRoot? {
-        return if (Permissions.canReadStorage(this@PlaybackService)) MediaBrowserServiceCompat.BrowserRoot(MediaSessionBrowser.ID_ROOT, null) else null
+    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
+        return if (Permissions.canReadStorage(this@PlaybackService)) BrowserRoot(MediaSessionBrowser.ID_ROOT, null) else null
     }
 
-    override fun onLoadChildren(parentId: String, result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>) {
+    override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
         launch {
             getFromMl { isStarted }
@@ -1262,7 +1262,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         }
     }
 
-    private fun sendResults(result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
+    private fun sendResults(result: Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
         launch(Dispatchers.IO) {
             try {
                 result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))

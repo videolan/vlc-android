@@ -31,7 +31,7 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<AbstractMediaWrapper>(context, scope) {
+class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: SortableModel) : MedialibraryProvider<AbstractMediaWrapper>(context, model) {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
@@ -56,33 +56,33 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
     override fun getAll(): Array<AbstractMediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, desc)
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<AbstractMediaWrapper> {
-        val list = if (scope.filterQuery == null) when(parent) {
+        val list = if (model.filterQuery == null) when(parent) {
             is AbstractArtist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is AbstractAlbum -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is AbstractGenre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is AbstractPlaylist -> parent.getPagedTracks(loadSize, startposition)
             else -> medialibrary.getPagedAudio(sort, desc, loadSize, startposition)
         } else when(parent) {
-            is AbstractArtist -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
-            is AbstractAlbum -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
-            is AbstractGenre -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
-            is AbstractPlaylist -> parent.searchTracks(scope.filterQuery, sort, desc, loadSize, startposition)
-            else -> medialibrary.searchAudio(scope.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractArtist -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractAlbum -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractGenre -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
+            is AbstractPlaylist -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
+            else -> medialibrary.searchAudio(model.filterQuery, sort, desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
     }
 
-    override fun getTotalCount() = if (scope.filterQuery == null) when (parent) {
+    override fun getTotalCount() = if (model.filterQuery == null) when (parent) {
         is AbstractAlbum -> parent.realTracksCount
         is AbstractPlaylist -> parent.realTracksCount
         is AbstractArtist,
         is AbstractGenre -> parent.tracksCount
         else -> medialibrary.audioCount
     } else when(parent) {
-        is AbstractArtist -> parent.searchTracksCount(scope.filterQuery)
-        is AbstractAlbum -> parent.searchTracksCount(scope.filterQuery)
-        is AbstractGenre -> parent.searchTracksCount(scope.filterQuery)
-        is AbstractPlaylist -> parent.searchTracksCount(scope.filterQuery)
-        else ->medialibrary.getAudioCount(scope.filterQuery)
+        is AbstractArtist -> parent.searchTracksCount(model.filterQuery)
+        is AbstractAlbum -> parent.searchTracksCount(model.filterQuery)
+        is AbstractGenre -> parent.searchTracksCount(model.filterQuery)
+        is AbstractPlaylist -> parent.searchTracksCount(model.filterQuery)
+        else ->medialibrary.getAudioCount(model.filterQuery)
     }
 }

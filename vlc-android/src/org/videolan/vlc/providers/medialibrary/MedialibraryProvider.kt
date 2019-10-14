@@ -22,6 +22,7 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Config
 import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
@@ -35,7 +36,7 @@ import org.videolan.vlc.providers.HeaderProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
 
-abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) : HeaderProvider(),
+abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val model: SortableModel) : HeaderProvider(),
         SortModule
 {
     private val settings = Settings.getInstance(context)
@@ -113,7 +114,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
 
         @ExperimentalCoroutinesApi
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-            scope.launch(Dispatchers.Unconfined) {
+            model.viewModelScope.launch(Dispatchers.Unconfined) {
                 retry(1) {
                     val page = getPage(params.requestedLoadSize, params.requestedStartPosition)
                     val count = if (page.size < params.requestedLoadSize) page.size else getTotalCount()

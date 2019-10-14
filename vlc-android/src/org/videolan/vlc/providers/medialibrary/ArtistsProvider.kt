@@ -27,16 +27,16 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class ArtistsProvider(context: Context, scope: SortableModel, var showAll: Boolean) : MedialibraryProvider<AbstractArtist>(context, scope) {
+class ArtistsProvider(context: Context, model: SortableModel, var showAll: Boolean) : MedialibraryProvider<AbstractArtist>(context, model) {
 
     override fun getAll() : Array<AbstractArtist> = medialibrary.getArtists(showAll, sort, desc)
 
     override fun getPage(loadSize: Int, startposition: Int): Array<AbstractArtist> {
-        val list = if (scope.filterQuery == null) medialibrary.getPagedArtists(showAll, sort, desc, loadSize, startposition)
-        else medialibrary.searchArtist(scope.filterQuery, sort, desc, loadSize, startposition)
+        val list = if (model.filterQuery == null) medialibrary.getPagedArtists(showAll, sort, desc, loadSize, startposition)
+        else medialibrary.searchArtist(model.filterQuery, sort, desc, loadSize, startposition)
         return list.also { completeHeaders(it, startposition) }
     }
 
-    override fun getTotalCount() = if (scope.filterQuery == null) medialibrary.getArtistsCount(showAll)
-    else medialibrary.getArtistsCount(scope.filterQuery)
+    override fun getTotalCount() = if (model.filterQuery == null) medialibrary.getArtistsCount(showAll)
+    else medialibrary.getArtistsCount(model.filterQuery)
 }

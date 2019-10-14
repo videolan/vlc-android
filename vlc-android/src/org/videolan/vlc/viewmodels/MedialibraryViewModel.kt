@@ -1,6 +1,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import androidx.lifecycle.viewModelScope
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 
@@ -10,7 +11,7 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
 
     init {
         @Suppress("LeakingThis")
-        registerCallBacks { refresh() }
+        viewModelScope.registerCallBacks { refresh() }
     }
 
     abstract val providers : Array<MedialibraryProvider<out MediaLibraryItem>>

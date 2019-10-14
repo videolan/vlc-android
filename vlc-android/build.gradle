@@ -255,6 +255,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycleViewmodelVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archVersion"
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"

@@ -22,6 +22,7 @@ package org.videolan.vlc.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -42,16 +43,16 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     open val loading = MutableLiveData<Boolean>().apply { value = false }
 
     val categories by lazy(LazyThreadSafetyMode.NONE) {
-        map(dataset) { ModelsHelper.splitList(sort, it!!.toList()) }
+        viewModelScope.map(dataset) { ModelsHelper.splitList(sort, it!!.toList()) }
     }
 
     val sections by lazy(LazyThreadSafetyMode.NONE) {
-        map(dataset) { ModelsHelper.generateSections(sort, it!!.toList()) }
+        viewModelScope.map(dataset) { ModelsHelper.generateSections(sort, it!!.toList()) }
     }
 
     @Suppress("UNCHECKED_CAST")
     protected val updateActor by lazy {
-        actor<Update>(capacity = Channel.UNLIMITED) {
+        viewModelScope.actor<Update>(capacity = Channel.UNLIMITED) {
             for (update in channel) if (isActive) when (update) {
                 Refresh -> updateList()
                 is Filter -> filter.filter(update.query)

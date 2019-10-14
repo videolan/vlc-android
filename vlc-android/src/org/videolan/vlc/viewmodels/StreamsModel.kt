@@ -24,6 +24,7 @@ import android.content.Context
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,7 +45,7 @@ class StreamsModel(context: Context) : MedialibraryModel<AbstractMediaWrapper>(c
 
     fun rename(position: Int, name: String) {
         val media = dataset.value[position] ?: return
-        launch(Dispatchers.IO) { media.rename(name) }
+        viewModelScope.launch(Dispatchers.IO) { media.rename(name) }
         refresh()
     }
 

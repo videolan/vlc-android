@@ -21,6 +21,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -31,7 +32,7 @@ abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseM
 
     init {
         @Suppress("LeakingThis")
-        registerCallBacks { refresh() }
+        viewModelScope.registerCallBacks { refresh() }
     }
 
     override fun onCleared() {

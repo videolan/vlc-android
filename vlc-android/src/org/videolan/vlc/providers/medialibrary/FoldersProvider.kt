@@ -27,7 +27,7 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class FoldersProvider(context: Context, scope: SortableModel, val type: Int) : MedialibraryProvider<AbstractFolder>(context, scope) {
+class FoldersProvider(context: Context, model: SortableModel, val type: Int) : MedialibraryProvider<AbstractFolder>(context, model) {
     override fun getAll() : Array<AbstractFolder> = medialibrary.getFolders(type, sort, desc, getTotalCount(), 0)
 
     override fun getTotalCount() = medialibrary.getFoldersCount(type)

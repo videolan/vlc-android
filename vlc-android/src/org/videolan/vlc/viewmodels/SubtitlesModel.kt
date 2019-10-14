@@ -21,7 +21,7 @@ import java.util.*
 
 private const val LAST_USED_LANGUAGES = "last_used_subtitles"
 
-class SubtitlesModel(private val context: Context, private val mediaUri: Uri): ScopedModel() {
+class SubtitlesModel(private val context: Context, private val mediaUri: Uri): ViewModel() {
     val observableSearchName = ObservableField<String>()
     val observableSearchEpisode = ObservableField<String>()
     val observableSearchSeason = ObservableField<String>()
@@ -33,7 +33,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri): S
     val observableMessage = ObservableField<String>()
 
     private val apiResultLiveData: MutableLiveData<List<OpenSubtitle>> = MutableLiveData()
-    val downloadedLiveData = Transformations.map(ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri)) {
+    private val downloadedLiveData = Transformations.map(ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri)) {
         it.map { SubtitleItem(it.idSubtitle, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "") }
     }
 
@@ -56,13 +56,13 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri): S
 
         history.apply {
             addSource(downloadedLiveData) {
-                launch {
+                viewModelScope.launch {
                     value = merge(it, downloadingLiveData.value?.values?.filter { it.mediaUri == mediaUri })
                 }
             }
 
             addSource(downloadingLiveData) {
-                launch {
+                viewModelScope.launch {
                     value = merge(downloadedLiveData.value, it?.values?.filter { it.mediaUri == mediaUri })
                 }
             }
@@ -70,14 +70,14 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri): S
 
         result.apply {
             addSource(apiResultLiveData) {
-                launch {
+                viewModelScope.launch {
                     value = updateListState(it, history.value)
                 }
 
             }
 
             addSource(history) {
-                launch {
+                viewModelScope.launch {
                     value = updateListState(apiResultLiveData.value, it)
                 }
             }
@@ -135,7 +135,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri): S
         observableMessage.set("")
         apiResultLiveData.postValue(listOf())
 
-        searchJob = launch {
+        searchJob = viewModelScope.launch {
             try {
                 val subs = if (byHash) {
                     withContext(Dispatchers.IO) {

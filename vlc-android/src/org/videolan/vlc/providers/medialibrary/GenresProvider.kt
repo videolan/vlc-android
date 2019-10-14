@@ -27,15 +27,15 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class GenresProvider(context: Context, scope: SortableModel) : MedialibraryProvider<AbstractGenre>(context, scope)  {
+class GenresProvider(context: Context, model: SortableModel) : MedialibraryProvider<AbstractGenre>(context, model)  {
 
     override fun getAll() : Array<AbstractGenre> = medialibrary.getGenres(sort, desc)
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<AbstractGenre> {
-        val list = if (scope.filterQuery == null) medialibrary.getPagedGenres(sort, desc, loadSize, startposition)
-        else medialibrary.searchGenre(scope.filterQuery, sort, desc, loadSize, startposition)
+        val list = if (model.filterQuery == null) medialibrary.getPagedGenres(sort, desc, loadSize, startposition)
+        else medialibrary.searchGenre(model.filterQuery, sort, desc, loadSize, startposition)
         return list.also { completeHeaders(it, startposition) }
     }
 
-    override fun getTotalCount() = if (scope.filterQuery == null) medialibrary.genresCount else medialibrary.getGenresCount(scope.filterQuery)
+    override fun getTotalCount() = if (model.filterQuery == null) medialibrary.genresCount else medialibrary.getGenresCount(model.filterQuery)
 }
