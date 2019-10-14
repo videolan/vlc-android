@@ -47,7 +47,7 @@ ext {
     androidxMaterialVersion = '1.1.0-beta01'
     constraintLayoutVersion = '1.1.3'
     archVersion = '2.1.0'
-    roomVersion = '2.1.0'
+    roomVersion = '2.2.0'
     pagingVersion = '2.1.0'
     junitVersion = '4.12'
     mockito = '2.8.9'
