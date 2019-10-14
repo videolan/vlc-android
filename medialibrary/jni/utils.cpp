@@ -53,7 +53,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     filename = mediaPtr->fileName().empty() ? NULL : env->NewStringUTF(mediaPtr->fileName().c_str());
     try {
         mrl = env->NewStringUTF(files.at(0)->mrl().c_str());
-    } catch(const medialibrary::fs::DeviceRemovedException&) {
+    } catch(const medialibrary::fs::errors::DeviceRemoved&) {
         return nullptr;
     }
     thumbnail = mediaPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnailMrl(medialibrary::ThumbnailSizeType::Thumbnail).c_str());
