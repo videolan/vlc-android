@@ -446,7 +446,10 @@ object MediaUtils : CoroutineScope {
         }
 
         private fun dismiss() {
-            if (this::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
+            try {
+                if (this::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
+            } catch (ignored: IllegalArgumentException) {
+            }
         }
     }
 
