@@ -36,6 +36,7 @@
 #include <medialibrary/IMetadata.h>
 #include<medialibrary/filesystem/IDevice.h>
 #include <medialibrary/IVideoGroup.h>
+#include <medialibrary/filesystem/Errors.h>
 
 #define VLC_JNI_VERSION JNI_VERSION_1_2
 

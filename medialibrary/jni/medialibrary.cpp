@@ -10,6 +10,7 @@
 #include "log.h"
 #include "utils.h"
 #include "AndroidMediaLibrary.h"
+#include <medialibrary/filesystem/Errors.h>
 
 static JavaVM *myVm;
 static fields ml_fields;
@@ -1749,7 +1750,7 @@ folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean des
             env->SetObjectArrayElement(foldersRefs, ++index, item);
             env->DeleteLocalRef(item);
         }
-        catch( const medialibrary::fs::DeviceRemovedException& )
+        catch( const medialibrary::fs::errors::DeviceRemoved& )
         {
             // Ignore this folder since it's on a removed device.
         }
@@ -1793,7 +1794,7 @@ videoGroups(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint
             env->SetObjectArrayElement(groupsRefs, ++index, item);
             env->DeleteLocalRef(item);
         }
-        catch( const medialibrary::fs::DeviceRemovedException& )
+        catch( const medialibrary::fs::errors::DeviceRemoved& )
         {
             // Ignore this VideoGroup since it's on a removed device.
         }
