@@ -7,9 +7,6 @@
         <variable
             name="fragment"
             type="org.videolan.vlc.gui.audio.AudioPlayer" />
-        <variable
-            name="showCover"
-            type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -209,7 +206,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_centerHorizontal="true"
                 android:clipToPadding="false"
-                android:visibility="@{showCover ? View.GONE : View.VISIBLE}"
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/background_default"
                 android:paddingBottom="@dimen/listview_bottom_padding"
@@ -219,14 +215,15 @@
                 android:id="@+id/cover_media_switcher"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_margin="@dimen/audio_player_cover_margin"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/play_pause"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/header"
-                app:layout_constraintBottom_toTopOf="@+id/play_pause"
-                android:layout_margin="@dimen/audio_player_cover_margin"
-                android:visibility="@{showCover ? View.VISIBLE : View.GONE}"
-                tools:layout_constraintLeft_creator="1"/>
+                tools:layout_constraintLeft_creator="1"
+                tools:visibility="visible" />
 
         <include
                 layout="@layout/shadow_top"

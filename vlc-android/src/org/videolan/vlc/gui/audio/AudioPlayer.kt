@@ -21,16 +21,12 @@
 package org.videolan.vlc.gui.audio
 
 import android.Manifest
-import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -39,7 +35,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import androidx.annotation.MainThread
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -54,8 +49,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
-import org.videolan.tools.dp
-import org.videolan.tools.isStarted
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -71,8 +64,6 @@ import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
-import kotlin.math.max
-import kotlin.math.min
 
 private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 10000L
@@ -80,29 +71,24 @@ private const val SEARCH_TIMEOUT_MILLIS = 10000L
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @Suppress("UNUSED_PARAMETER")
-class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineScope by MainScope() {
+class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineScope by MainScope(), IAudioPlayerAnimator by AudioPlayerAnimator() {
 
     private lateinit var binding: AudioPlayerBinding
     private lateinit var playlistAdapter: PlaylistAdapter
     private lateinit var settings: SharedPreferences
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
     private val updateActor = actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
-    private lateinit var playlistModel: PlaylistModel
+    lateinit var playlistModel: PlaylistModel
     private lateinit var optionsDelegate: PlayerOptionsDelegate
 
     private var showRemainingTime = false
     private var previewingSeek = false
     private var playerState = 0
-    private var currentCoverArt: String? = null
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
     private lateinit var playToPause: AnimatedVectorDrawableCompat
     private lateinit var pauseToPlaySmall: AnimatedVectorDrawableCompat
     private lateinit var playToPauseSmall: AnimatedVectorDrawableCompat
 
-    companion object {
-        private var DEFAULT_BACKGROUND_DARKER_ID = 0
-        private var DEFAULT_BACKGROUND_ID = 0
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,13 +106,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = AudioPlayerBinding.inflate(inflater)
+        setupAnimator(binding)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        DEFAULT_BACKGROUND_DARKER_ID = UiTools.getResourceFromAttribute(view.context, R.attr.background_default_darker)
-        DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.context, R.attr.background_default)
         binding.songsList.layoutManager = LinearLayoutManager(view.context)
         binding.songsList.adapter = playlistAdapter
         binding.audioMediaSwitcher.setAudioMediaSwitcherListener(headerMediaSwitcherListener)
@@ -148,8 +133,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
 
         registerForContextMenu(binding.songsList)
         userVisibleHint = true
-        binding.showCover = settings.getBoolean("audio_player_show_cover", false)
-        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (binding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
+        showCover(settings.getBoolean("audio_player_show_cover", false))
+        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (isShowingCover()) R.attr.ic_playlist else R.attr.ic_playlist_on))
         binding.timeline.setOnSeekBarChangeListener(timelineListener)
 
         //For resizing purpose, we have to cache this twice even if it's from the same resource
@@ -282,38 +267,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private fun updateBackground() {
-        if (settings.getBoolean("blurred_cover_background", true)) {
-            launch {
-                val mw = playlistModel.currentMediaWrapper
-                if (!isStarted() || mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
-                currentCoverArt = mw.artworkMrl
-                if (TextUtils.isEmpty(mw.artworkMrl)) {
-                    setDefaultBackground()
-                } else {
-                    val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else activity?.getScreenWidth()
-                            ?: return@launch
-                    val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
-                    if (!isStarted()) return@launch
-                    if (blurredCover !== null) {
-                        val activity = activity as? AudioPlayerContainerActivity ?: return@launch
-                        binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
-                        binding.backgroundView.setImageBitmap(blurredCover)
-                        binding.backgroundView.visibility = View.VISIBLE
-                        binding.songsList.setBackgroundResource(0)
-                    } else setDefaultBackground()
-                }
-            }
-        }
-    }
-
-    @MainThread
-    private fun setDefaultBackground() {
-        binding.songsList.setBackgroundResource(DEFAULT_BACKGROUND_ID)
-        binding.backgroundView.visibility = View.INVISIBLE
-    }
-
     override fun onSelectionSet(position: Int) {
         if (playerState != BottomSheetBehavior.STATE_COLLAPSED && playerState != com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN) {
             binding.songsList.scrollToPosition(position)
@@ -357,9 +310,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     }
 
     fun onPlaylistSwitchClick(view: View) {
-        binding.showCover = !binding.showCover
-        settings.edit().putBoolean("audio_player_show_cover", binding.showCover).apply()
-        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (binding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
+        switchShowCover()
+        settings.edit().putBoolean("audio_player_show_cover", isShowingCover()).apply()
+        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (isShowingCover()) R.attr.ic_playlist else R.attr.ic_playlist_on))
     }
 
     fun onShuffleClick(view: View) {
@@ -388,22 +341,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         optionsDelegate.show(PlayerOptionType.ADVANCED)
     }
 
-    private fun manageSearchVisibilities(filter: Boolean = false) {
-        binding.playlistSearch.alpha = if (filter) 0f else 1f
-        binding.playlistSwitch.alpha = if (filter) 0f else 1f
-        binding.advFunction.alpha = if (filter) 0f else 1f
-        binding.audioMediaSwitcher.alpha = if (filter) 0f else 1f
-        binding.playlistSearchText.visibility = if (filter) View.VISIBLE else View.GONE
-    }
-
-    fun onABRepeat(v: View) {
-        playlistModel.toggleABRepeat()
-    }
-
     fun onSearchClick(v: View) {
         manageSearchVisibilities(true)
         binding.playlistSearchText.editText?.requestFocus()
-        if (binding.showCover) onPlaylistSwitchClick(binding.playlistSwitch)
+        if (isShowingCover()) onPlaylistSwitchClick(binding.playlistSwitch)
         val imm = v.context.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS)
@@ -419,7 +360,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         return clearSearch()
     }
 
-    private fun clearSearch(): Boolean {
+    fun clearSearch(): Boolean {
         if (this::playlistModel.isInitialized) playlistModel.filter(null)
         return hideSearchField()
     }
@@ -545,26 +486,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                 playlistAdapter.currentIndex = playlistModel.currentMediaPosition
             }
         }
-    }
-
-    fun onSlide(slideOffset: Float) {
-        binding.progressBarMask.alpha = slideOffset
-        if (slideOffset != 1f) {
-            clearSearch()
-        }
-
-        binding.playlistSearch.alpha = slideOffset
-        binding.playlistSwitch.alpha = slideOffset
-        binding.advFunction.alpha = slideOffset
-        binding.headerPlayPause.alpha = 1 - slideOffset
-        binding.headerTime.alpha = 1 - slideOffset
-
-        val translationOffset = min(1f, max(0f, (slideOffset * 1.4f) - 0.2f))
-        binding.playlistSearch.translationY = -(1 - translationOffset) * 48.dp
-        binding.playlistSwitch.translationY = -(1 - translationOffset) * 48.dp
-        binding.advFunction.translationY = -(1 - translationOffset) * 48.dp
-        binding.headerPlayPause.translationY = translationOffset * 48.dp
-        binding.headerTime.translationY = translationOffset * 48.dp
     }
 
     private var timelineListener: OnSeekBarChangeListener = object : OnSeekBarChangeListener {

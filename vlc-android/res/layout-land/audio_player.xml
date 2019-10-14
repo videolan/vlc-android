@@ -7,9 +7,6 @@
         <variable
             name="fragment"
             type="org.videolan.vlc.gui.audio.AudioPlayer" />
-        <variable
-            name="showCover"
-            type="boolean" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_layout"
@@ -210,7 +207,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_centerHorizontal="true"
             android:clipToPadding="false"
-            android:visibility="visible"
             android:layout_gravity="center_horizontal"
             android:background="?attr/background_default"
             android:paddingBottom="@dimen/listview_bottom_padding" />
