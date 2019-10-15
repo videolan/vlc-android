@@ -442,8 +442,8 @@
     <string name="clear_log">Iscantzella su log</string>
     <string name="log_service_title">Registratzione de su log de VLC</string>
     <string name="log_service_text">Aberi sa console de sos logs</string>
-    <string name="copy_to_clipboard">Còpia in sos apuntos</string>
-    <string name="copied_to_clipboard">Log copiadu in sos apuntos.</string>
+    <string name="copy_to_clipboard">Còpia in punta de billete</string>
+    <string name="copied_to_clipboard">Log copiadu in punta de billete</string>
     <string name="dump_logcat">Sarva log logcat</string>
     <string name="dump_logcat_success">Logcat sarvadu currettamente in %1$s!</string>
     <string name="dump_logcat_failure">Sarvatàgiu logcat fallidu.</string>
@@ -489,7 +489,7 @@
     <string name="chapter">Capìtulu</string>
     <string name="resume_from_position">Sighi dae s\'ùrtima positzione</string>
     <string name="confirm_resume">Cheres sighire dae s\'ùrtima positzione?</string>
-    <string name="confirm_resume_title">Sighi a riproduire sos vìdeos</string>
+    <string name="confirm_resume_title">Sighi cun sos vìdeos riproduidos</string>
     <string name="directory_empty">Sa cartella est bòida</string>
     <string name="tv_ui_title">Interfache Android TV</string>
     <string name="tv_ui_summary">Càmbia s\'interfache cun unu tema adatadu a sa TV</string>
@@ -610,7 +610,7 @@
     <string name="audio_digital_title">Essida àudio digitale (coladòrgiu àudio)</string>
     <string name="audio_task_cleared_title">Firma in casu de trisinadura</string>
     <string name="audio_task_cleared_summary">Firma sa riprodutzione cando s\'aplicatzione benit serrada</string>
-    <string name="audio_resume_card_title">Ammustra s\'ùrtimu impòsitu de s\'iscalita</string>
+    <string name="audio_resume_card_title">Ammustra un impòsitu cun s\'ùrtima iscalita</string>
     <string name="audio_resume_card_summary">Ammustrat un\'impòsitu pro t\'agiudare a torrare a fàghere partire sa riprodutzione de s\'àudio cando benit alluta s\'aplicatzione</string>
     <string name="playback_rewind">Torra in segus</string>
     <string name="playback_forward">In antis lestru</string>
@@ -700,12 +700,12 @@
     <string name="vlc_reporter">Sinnaladore VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Bene bènnidu in su programma beta de VLC.\nPro praghere ammenta·ti chi custa versione diat pòdere tènnere carchi problema.</string>
-    <string name="welcome_beta_description_bugs">Si otas una faddina pro praghere sinnala·la in su forum o in s\'arrastadore de faddinas nostru.</string>
-    <string name="welcome_beta_description_crashes">Si si verìficat una serradura anòmala, pro praghere imprea s\'icona de su sinnaldore de VLC in s\'allughidore (launcher) pro nos imbiare una sinnalatzione.</string>
+    <string name="welcome_beta_description_bugs">Si notas una faddina pro praghere sinnala·la in su forum o in s\'arrastadore de faddinas nostru.</string>
+    <string name="welcome_beta_description_crashes">Si si verìficat una serradura anòmala, pro praghere imprea s\'icona de su sinnaladore de VLC in s\'allughidore (launcher) pro nos imbiare una sinnalatzione.</string>
     <string name="send">Imbia</string>
     <string name="send_crash_action_title">Ite cheres fàghere?</string>
     <string name="report_a_bug">Sinnala una faddina</string>
-    <string name="report_a_crash">Sinnala un\'istudada improvisa (crash)</string>
+    <string name="report_a_crash">Sinnala un\'istudada anòmala (crash)</string>
     <string name="describe_crash">Pro praghere descrie·nos comente est acontèssida cust\'istudadura</string>
     <string name="favorite">Preferidu</string>
     <string name="always">Semper</string>
@@ -717,5 +717,5 @@
     <string name="video_group_size_dialog_text">Nùmeru de caràteres impreados pro agrupare pro nùmene</string>
     <string name="video_group_size_summary">Agrupa impreende sas primas %s lìteras</string>
     <string name="video_group_size">Agrupa sos vìdeos pro nùmene</string>
-    <string name="url_copied_to_clipboard">Url copiadu in sos apuntos</string>
+    <string name="url_copied_to_clipboard">Url copiadu in punta de billete</string>
 </resources>
