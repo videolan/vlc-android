@@ -97,6 +97,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
 
 @Suppress("DEPRECATION")
@@ -550,6 +551,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
         setIntent(intent)
         if (playbackStarted) service?.run {
             if (::hudBinding.isInitialized) {
@@ -1837,7 +1839,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 .setOnDismissListener { this.dimStatusBar(true) }
                 .create().apply {
                     setCanceledOnTouchOutside(true)
-                    ownerActivity = this@VideoPlayerActivity
+                    setOwnerActivity(this@VideoPlayerActivity)
                     show()
                 }
     }

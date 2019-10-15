@@ -60,8 +60,8 @@ class StoragesMonitor : BroadcastReceiver() {
 }
 
 private sealed class MediaEvent(val ctx: Context)
-private class Mount(ctx: Context, val uri : Uri, val path : String = uri.path, val uuid : String = uri.lastPathSegment) : MediaEvent(ctx)
-private class Unmount(ctx: Context, val uri : Uri, val path : String = uri.path, val uuid : String = uri.lastPathSegment) : MediaEvent(ctx)
+private class Mount(ctx: Context, val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : MediaEvent(ctx)
+private class Unmount(ctx: Context, val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : MediaEvent(ctx)
 
 fun Context.enableStorageMonitoring() {
     val componentName = ComponentName(applicationContext, StoragesMonitor::class.java)

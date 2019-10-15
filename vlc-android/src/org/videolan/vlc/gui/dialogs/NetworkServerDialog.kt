@@ -113,10 +113,12 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
             if (!TextUtils.isEmpty(networkName))
                 editServername.setText(networkName)
 
-            val position = getProtocolSpinnerPosition(networkUri.scheme.toUpperCase())
-            spinnerProtocol.setSelection(position)
-            val port = networkUri.port
-            editPort.setText(if (port != -1) port.toString() else getPortForProtocol(position))
+            networkUri.scheme?.toUpperCase()?.let {
+                val position = getProtocolSpinnerPosition(it)
+                spinnerProtocol.setSelection(position)
+                val port = networkUri.port
+                editPort.setText(if (port != -1) port.toString() else getPortForProtocol(position))
+            }
         }
         spinnerProtocol.onItemSelectedListener = this
         save.setOnClickListener(this)

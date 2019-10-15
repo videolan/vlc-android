@@ -49,7 +49,7 @@ class ExternalSubRepository(private val externalSubDao: ExternalSubDao ) {
     }
 
     fun getDownloadedSubtitles(mediaUri: Uri): LiveData<List<ExternalSub>> {
-        val externalSubs = externalSubDao.get(mediaUri.path)
+        val externalSubs = externalSubDao.get(mediaUri.path!!)
         return Transformations.map(externalSubs) { list ->
             val existExternalSubs: MutableList<ExternalSub> = mutableListOf()
             list.forEach {

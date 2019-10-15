@@ -21,7 +21,7 @@ class SubtitleHistoryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mediaUri = arguments?.getParcelable(MEDIA_PATH) ?: Uri.EMPTY
-        viewModel = ViewModelProviders.of(requireActivity(), SubtitlesModel.Factory(requireContext(), mediaUri)).get(mediaUri.path, SubtitlesModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity(), SubtitlesModel.Factory(requireContext(), mediaUri)).get(mediaUri.path!!, SubtitlesModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

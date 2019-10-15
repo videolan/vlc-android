@@ -150,8 +150,9 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (isRootDirectory) {
             val storage = adapter.getItem(position) as Storage
+            val path = storage.uri.path ?: return
             launch {
-                val isCustom = viewModel.customDirectoryExists(storage.uri.path)
+                val isCustom = viewModel.customDirectoryExists(path)
                 if (isCustom && isAdded) showContext(requireActivity(), this@StorageBrowserFragment, position, item.title, CTX_CUSTOM_REMOVE)
             }
         }
@@ -159,7 +160,8 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
     override fun onCtxAction(position: Int, option: Int) {
         val storage = adapter.getItem(position) as Storage
-        viewModel.deleteCustomDirectory(storage.uri.path)
+        val path = storage.uri.path ?: return
+        viewModel.deleteCustomDirectory(path)
         viewModel.remove(storage)
         (activity as AudioPlayerContainerActivity).updateLib()
     }

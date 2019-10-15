@@ -125,12 +125,12 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
             "browser_show_all_files", "video_min_group_length" -> (activity as PreferencesActivity).setRestart()
             KEY_APP_THEME -> (activity as PreferencesActivity).exitAndRescan()
             LIST_TITLE_ELLIPSIZE -> {
-                Settings.listTitleEllipsize = sharedPreferences.getString(LIST_TITLE_ELLIPSIZE, "0").toInt()
+                Settings.listTitleEllipsize = sharedPreferences.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
                 (activity as PreferencesActivity).setRestart()
             }
             "video_group_size" -> {
                 val goupSizeValue = try {
-                    Settings.getInstance(requireActivity()).getString(key, "6").toInt()
+                    Settings.getInstance(requireActivity()).getString(key, "6")?.toInt() ?: 6
                 } catch (e: NumberFormatException) {
                     6
                 }

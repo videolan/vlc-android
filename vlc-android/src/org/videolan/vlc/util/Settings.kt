@@ -21,7 +21,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManage
     fun init(prefs: SharedPreferences) {
         showVideoThumbs = prefs.getBoolean(SHOW_VIDEO_THUMBNAILS, true)
         tvUI = prefs.getBoolean(PREF_TV_UI, false)
-        listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0").toInt()
+        listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
     }
 
     val showTvUi : Boolean

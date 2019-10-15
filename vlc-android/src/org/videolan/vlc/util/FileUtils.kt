@@ -412,7 +412,7 @@ object FileUtils {
                 uri = MediaUtils.getContentMediaUri(data)
             } else if (TextUtils.equals(data.authority, ctx.getString(R.string.tv_provider_authority))) {
                 val medialibrary = AbstractMedialibrary.getInstance()
-                val media = medialibrary.getMedia(data.lastPathSegment.toLong())
+                val media = medialibrary.getMedia(data.lastPathSegment!!.toLong())
                 uri = media.uri
             } else {
                 val inputPFD: ParcelFileDescriptor?

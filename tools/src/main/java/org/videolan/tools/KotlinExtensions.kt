@@ -75,6 +75,7 @@ fun Context.getColorFromAttr(
 }
 
 fun Context.copy(label: String, text: String) {
-    val clipboard = applicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    clipboard.primaryClip = ClipData.newPlainText(label, text)
+    (applicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager)?.run {
+        setPrimaryClip(ClipData.newPlainText(label, text))
+    }
 }

@@ -42,7 +42,9 @@ class SubtitleDownloaderDialogFragment : DialogFragment() {
         for (subtitleEvent in channel) if (isActive) when (subtitleEvent) {
             is Click -> when (subtitleEvent.item.state) {
                 State.NotDownloaded -> VLCDownloadManager.download(requireActivity(), subtitleEvent.item)
-                State.Downloaded -> deleteSubtitleDialog(requireActivity(), DialogInterface.OnClickListener { _, _ -> viewModel.deleteSubtitle(subtitleEvent.item.mediaUri.path, subtitleEvent.item.idSubtitle) }
+                State.Downloaded -> deleteSubtitleDialog(requireActivity(), DialogInterface.OnClickListener { _, _ ->
+                    subtitleEvent.item.mediaUri.path?.let { viewModel.deleteSubtitle(it, subtitleEvent.item.idSubtitle) }
+                }
                         , DialogInterface.OnClickListener { _, _ -> })
                 else -> return@actor
             }
@@ -68,7 +70,7 @@ class SubtitleDownloaderDialogFragment : DialogFragment() {
                 ?: arguments?.getParcelableArrayList<Uri>(MEDIA_PATHS)?.toList() ?: listOf()
         if (uris.isEmpty()) dismiss()
 
-        viewModel = ViewModelProviders.of(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0])).get(uris[0].path, SubtitlesModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0])).get(uris[0].path!!, SubtitlesModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

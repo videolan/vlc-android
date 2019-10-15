@@ -84,7 +84,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
             ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
             downloadedPaths.forEach {
                 if (it.endsWith(".srt"))
-                    ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(idSubtitle, it, mediaUri.path, subLanguageID, movieReleaseName)
+                    ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(idSubtitle, it, mediaUri.path!!, subLanguageID, movieReleaseName)
             }
             withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
         }
@@ -122,7 +122,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
             cursor.getString(localUriIndex)
         else ""
 
-        return Pair(status, if (localUri != null) Uri.parse(localUri).path else "")
+        return Pair(status, if (localUri != null) Uri.parse(localUri).path!! else "")
     }
 }
 

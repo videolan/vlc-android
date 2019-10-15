@@ -79,7 +79,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
         viewModel.mediaStarted = false
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
-        viewModel.mediaItemDetails = extras.getParcelable("item") as MediaItemDetails
+        viewModel.mediaItemDetails = extras.getParcelable("item") ?: return
         val hasMedia = extras.containsKey("media")
         val media = (extras.getParcelable<Parcelable>("media")
                 ?: MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.LocationToUri(viewModel.mediaItemDetails.location))) as AbstractMediaWrapper

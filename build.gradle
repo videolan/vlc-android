@@ -32,8 +32,8 @@ ext {
     libvlcVersion = '3.2-eap13'
     medialibraryVersion = '0.5-eap13'
     minSdkVersion = 17
-    targetSdkVersion = 28
-    compileSdkVersion = 28
+    targetSdkVersion = 29
+    compileSdkVersion = 29
     androidxLegacyVersion = '1.0.0'
     androidxCoreVersion = '1.1.0'
     lifecycleViewmodelVersion = '2.1.0'
