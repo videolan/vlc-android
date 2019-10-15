@@ -62,15 +62,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VLC.Transparent"
         android:usesCleartextTraffic="true"
-        tools:targetApi="o">
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="q">
 
         <!-- Enable VLC in Samsung multiwindow mode -->
         <meta-data
                 android:name="com.samsung.android.sdk.multiwindow.enable"
-                android:value="true"/> <!-- Enable VLC in LG split window mode -->
+                android:value="true"/>
+        <!-- Enable VLC in LG split window mode -->
         <meta-data
                 android:name="com.lge.support.SPLIT_WINDOW"
-                android:value="true"/> <!-- Android auto -->
+                android:value="true"/>
+        <!-- Android auto -->
         <meta-data
                 android:name="com.google.android.gms.car.application"
                 android:resource="@xml/automotive_app_desc"/>
