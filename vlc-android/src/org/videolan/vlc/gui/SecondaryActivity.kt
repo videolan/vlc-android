@@ -42,10 +42,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.KEY_FOLDER
-import org.videolan.vlc.util.KEY_GROUP
-import org.videolan.vlc.util.RESULT_RESCAN
+import org.videolan.vlc.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -143,7 +140,10 @@ class SecondaryActivity : ContentActivity() {
                     }
                 }
             }
-            STORAGE_BROWSER -> fragment = StorageBrowserFragment()
+            STORAGE_BROWSER -> {
+                fragment = StorageBrowserFragment()
+                setResult(RESULT_RESTART)
+            }
             else -> throw IllegalArgumentException("Wrong fragment id.")
         }
     }
