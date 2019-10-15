@@ -24,6 +24,7 @@
 
 package org.videolan.vlc.gui.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
@@ -35,6 +36,7 @@ import androidx.annotation.StringRes
 import kotlinx.android.synthetic.main.view_empty_loading.view.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.util.ACTIVITY_RESULT_PREFERENCES
 
 class EmptyLoadingStateView : FrameLayout {
 
@@ -101,7 +103,7 @@ class EmptyLoadingStateView : FrameLayout {
         noMediaButton.setOnClickListener {
             val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
             intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
-            context.startActivity(intent)
+            (context as Activity).startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES)
             noMediaClickListener?.invoke()
         }
     }
