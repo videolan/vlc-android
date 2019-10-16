@@ -542,27 +542,27 @@ export ac_cv_func_tdestroy=no
 export ac_cv_func_tfind=no
 
 if [ ! -e ./config.h -o "$AVLC_RELEASE" = 1 ]; then
-VLC_CONFIGURE_DEBUG=""
-if [ ! "$AVLC_RELEASE" = 1 ]; then
-    VLC_CONFIGURE_DEBUG="--enable-debug"
-fi
+    VLC_CONFIGURE_DEBUG=""
+    if [ ! "$AVLC_RELEASE" = 1 ]; then
+        VLC_CONFIGURE_DEBUG="--enable-debug"
+    fi
 
-CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
-CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
-CC="${CROSS_TOOLS}clang" \
-CXX="${CROSS_TOOLS}clang++" \
-NM="${CROSS_TOOLS}nm" \
-STRIP="${CROSS_TOOLS}strip" \
-RANLIB="${CROSS_TOOLS}ranlib" \
-AR="${CROSS_TOOLS}ar" \
-PKG_CONFIG_LIBDIR=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
-PKG_CONFIG_PATH=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
-PATH=../contrib/bin:$PATH \
-sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux \
-    --with-contrib=${VLC_SRC_DIR}/contrib/${TARGET_TUPLE} \
-    --prefix=${VLC_BUILD_DIR}/install/ \
-    ${EXTRA_PARAMS} ${VLC_CONFIGURE_ARGS} ${VLC_CONFIGURE_DEBUG}
-avlc_checkfail "vlc: configure failed"
+    CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
+    CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
+    CC="${CROSS_TOOLS}clang" \
+    CXX="${CROSS_TOOLS}clang++" \
+    NM="${CROSS_TOOLS}nm" \
+    STRIP="${CROSS_TOOLS}strip" \
+    RANLIB="${CROSS_TOOLS}ranlib" \
+    AR="${CROSS_TOOLS}ar" \
+    PKG_CONFIG_LIBDIR=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
+    PKG_CONFIG_PATH=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
+    PATH=../contrib/bin:$PATH \
+    sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux \
+        --with-contrib=${VLC_SRC_DIR}/contrib/${TARGET_TUPLE} \
+        --prefix=${VLC_BUILD_DIR}/install/ \
+        ${EXTRA_PARAMS} ${VLC_CONFIGURE_ARGS} ${VLC_CONFIGURE_DEBUG}
+    avlc_checkfail "vlc: configure failed"
 fi
 
 ############
