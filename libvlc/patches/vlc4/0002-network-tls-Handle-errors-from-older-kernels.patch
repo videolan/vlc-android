@@ -1,7 +1,10 @@
-From 57d2653f9c5dc92b6ca6bbf40523479833ebfd76 Mon Sep 17 00:00:00 2001
+From 1ac1a72efed635e5d6c59db61e056cef08756ed1 Mon Sep 17 00:00:00 2001
+Message-Id: <1ac1a72efed635e5d6c59db61e056cef08756ed1.1571236616.git.rom@rom1v.com>
+In-Reply-To: <dfab4e10f396671cfa1c48a9ab0b9f4443946321.1571236616.git.rom@rom1v.com>
+References: <dfab4e10f396671cfa1c48a9ab0b9f4443946321.1571236616.git.rom@rom1v.com>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 29 Mar 2019 10:56:26 +0100
-Subject: [PATCH 2/5] network: tls: Handle errors from older kernels
+Subject: [PATCH 2/3] network: tls: Handle errors from older kernels
 
 If MSG_FASTOPEN is defined, but turns out to be unimplemented by the
 underlying kernel (as is the case on android where the NDK claims to
@@ -35,5 +38,5 @@ index 5a24bd7134..0b9b1573d7 100644
  #endif
  
 -- 
-2.20.1
+2.23.0
 

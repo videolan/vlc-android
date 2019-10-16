@@ -1,7 +1,10 @@
-From 6a8b6462c17a9268df7976c55749268203b63431 Mon Sep 17 00:00:00 2001
+From cba62e75c2be117abfdeea091f030ff7e252bfec Mon Sep 17 00:00:00 2001
+Message-Id: <cba62e75c2be117abfdeea091f030ff7e252bfec.1571236616.git.rom@rom1v.com>
+In-Reply-To: <dfab4e10f396671cfa1c48a9ab0b9f4443946321.1571236616.git.rom@rom1v.com>
+References: <dfab4e10f396671cfa1c48a9ab0b9f4443946321.1571236616.git.rom@rom1v.com>
 From: Soomin Lee <bubu@mikan.io>
 Date: Mon, 1 Oct 2018 15:37:57 +0200
-Subject: [PATCH 3/5] access_output: file: Add error dialog for write/open
+Subject: [PATCH 3/3] access_output: file: Add error dialog for write/open
 
 ---
  modules/access_output/file.c | 8 ++++++++
@@ -36,5 +39,5 @@ index c983e3a8f0..8a690fc41f 100644
                  break;
              flags &= ~O_EXCL;
 -- 
-2.20.1
+2.23.0
 
