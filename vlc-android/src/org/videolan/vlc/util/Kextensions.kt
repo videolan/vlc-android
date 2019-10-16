@@ -12,20 +12,26 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.WorkerThread
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.FileProvider
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper.TYPE_ALL
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper.TYPE_VIDEO
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.isStarted
+import org.videolan.vlc.R
 import org.videolan.vlc.startMedialibrary
 import java.io.File
 import java.net.URI
@@ -73,6 +79,23 @@ suspend fun retry (
 }
 
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
+suspend fun AppCompatActivity.share(media: AbstractMediaWrapper) {
+    val intentShareFile = Intent(Intent.ACTION_SEND)
+    val fileWithinMyDir = File(media.uri.path)
+    val validFile = withContext(Dispatchers.IO) {
+        fileWithinMyDir.exists()
+    }
+
+    if (isStarted())
+        if (validFile) {
+            intentShareFile.type = if (media.type == TYPE_VIDEO) "video/*" else "audio/*"
+            intentShareFile.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, packageName + ".provider", fileWithinMyDir))
+            intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
+            intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message))
+            startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file, title)))
+        } else Snackbar.make(findViewById(android.R.id.content), R.string.invalid_file, Snackbar.LENGTH_LONG).show()
+}
+
 fun AbstractMediaWrapper?.isMedia() = this != null && (type == AbstractMediaWrapper.TYPE_AUDIO || type == AbstractMediaWrapper.TYPE_VIDEO)
 fun AbstractMediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == AbstractMediaWrapper.TYPE_DIR || type == AbstractMediaWrapper.TYPE_PLAYLIST)
 

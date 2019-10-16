@@ -328,6 +328,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
             CTX_PLAY_NEXT -> MediaUtils.insertNext(this, media.tracks)
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(this, media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_SET_RINGTONE -> AudioUtil.setRingtone(media, this)
+            CTX_SHARE -> launch { share(media) }
         }
 
     }

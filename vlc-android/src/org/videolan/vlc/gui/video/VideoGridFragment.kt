@@ -426,6 +426,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
                 CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
                 CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+                CTX_SHARE -> launch { (requireActivity() as AppCompatActivity).share(media) }
             }
             is AbstractFolder -> when (option) {
                 CTX_PLAY -> launch { viewModel.play(position) }

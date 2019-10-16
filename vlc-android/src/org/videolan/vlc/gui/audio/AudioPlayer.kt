@@ -173,6 +173,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                 }
                 CTX_STOP_AFTER_THIS -> playlistModel.stopAfter(position)
                 CTX_INFORMATION -> showInfoDialog(playlistAdapter.getItem(position))
+                CTX_SHARE -> launch { (requireActivity() as AppCompatActivity).share(playlistAdapter.getItem(position)) }
             }
         }
     }
@@ -186,7 +187,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     override fun onPopupMenu(view: View, position: Int, item: AbstractMediaWrapper?) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
-        val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST or CTX_STOP_AFTER_THIS or CTX_INFORMATION
+        val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST or CTX_STOP_AFTER_THIS or CTX_INFORMATION or CTX_SHARE
         showContext(activity, ctxReceiver, position, item?.title ?: "", flags)
     }
 
