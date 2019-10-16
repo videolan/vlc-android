@@ -45,8 +45,8 @@
     <string name="insert_next">次に挿入</string>
     <string name="play_all">すべて再生</string>
     <string name="append_all">すべて追加</string>
-    <string name="resume_playback">再生を再開</string>
-    <string name="resume_playback_long_shortcut">プレイリストの最後から再生を再開する</string>
+    <string name="resume_playback_short">再生を再開</string>
+    <string name="resume_playback_long">最後のプレイリストの再生を再開</string>
     <string name="delete">削除</string>
     <string name="remove">削除</string>
     <string name="set_song">着信音に設定</string>
@@ -287,7 +287,7 @@
 
     <string name="video_prefs_category">ビデオ</string>
     <string name="video_min_group_length_title">ビデオをグループ化</string>
-    <string name="video_min_group_length_disable">無効化</string>
+    <string name="video_min_group_length_disable">ビデオをグループ化しない</string>
     <string name="video_min_group_length_folder">フォルダーごとにグループ化</string>
     <string name="video_min_group_length_name">名前でグループ化</string>
     <string name="video_min_group_length_first">最初一文字のみ</string>
@@ -468,7 +468,7 @@
     <string name="audio_delay">オーディオの遅延</string>
     <string name="spu_delay">字幕の遅延</string>
     <string name="sleep_time_not_set">設定なし</string>
-    <string name="network_shares_discovery">ネットワーク共有の検索…</string>
+    <string name="network_shares_discovery">ネットワーク共有の検索</string>
     <string name="network_empty">このディレクトリは空です。</string>
     <string name="network_connection_needed">ローカルネットワークへの接続がありません。</string>
     <string name="search_hint">メディアの検索</string>
@@ -482,8 +482,7 @@
     <string name="chapter">チャプター</string>
     <string name="resume_from_position">前回の位置から再生</string>
     <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
-    <string name="confirm_resume_title">再開を確認する</string>
-    <string name="confirm_resume_summary">このオプションを有効にすると、ビデオ再生時に前回再生を終了した位置から再生するかどうか確認します。</string>
+    <string name="confirm_resume_title">再生していたビデオを再開</string>
     <string name="directory_empty">ディレクトリは空です。</string>
     <string name="tv_ui_title">Android TVインターフェース</string>
     <string name="tv_ui_summary">TVのテーマにUIを変更</string>
@@ -641,6 +640,7 @@
     <string name="device_dialog_title">外部デバイスが接続されました</string>
     <string name="device_dialog_message">TVボックスに新しいストレージデバイスが接続されました。そのデバイスをVLCで使用しますか?</string>
     <string name="videos_folders_title">フォルダーごとにビデオをグループ化</string>
+    <string name="videos_groups_title">ビデオグループ</string>
     <string name="video_save_remote_setting">自動的にリモートコントロールモードを有効化しますか?</string>
     <string name="video_save_clone_mode">自動的にクローンモードを有効化しますか?</string>
     <string name="video_remote_enable">リモートコントロールモードに切替</string>
@@ -701,6 +701,9 @@
     <string name="report_a_crash">クラッシュをレポート</string>
     <string name="describe_crash">このクラッシュがどのようにして発生したか記述をお願いします</string>
     <string name="favorite">お気に入り</string>
+    <string name="always">常に</string>
+    <string name="never">常にしない</string>
+    <string name="ask_confirmation">確認する</string>
     <string name="add_to_scanned">このフォルダーをスキャン</string>
     <string name="directory_not_scanned">このディレクトリはスキャンされていません</string>
     <string name="scanned_directory_added">%s がスキャン済みディレクトリに追加されました。</string>
