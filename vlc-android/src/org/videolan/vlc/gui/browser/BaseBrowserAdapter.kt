@@ -34,6 +34,7 @@ import android.widget.TextView
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -52,6 +53,7 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.Settings.init
 import org.videolan.vlc.util.UPDATE_SELECTION
 import java.util.*
 
@@ -174,9 +176,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
 
         open fun onImageClick(v: View) {}
 
-        open fun onLongClick(v: View): Boolean {
-            return false
-        }
+        open fun onLongClick(v: View) = false
 
         open fun onCheckBoxClick(v: View) {}
 
@@ -187,6 +187,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
     @TargetApi(Build.VERSION_CODES.M)
     internal inner class MediaViewHolder(binding: BrowserItemBinding) : ViewHolder<BrowserItemBinding>(binding), View.OnFocusChangeListener, MarqueeViewHolder {
         override val titleView: TextView? = binding.title
+        var job : Job? = null
 
         init {
             binding.holder = this
