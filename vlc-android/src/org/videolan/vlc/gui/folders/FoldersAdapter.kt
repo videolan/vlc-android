@@ -7,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.SendChannel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.tools.MultiSelectAdapter
@@ -36,10 +33,11 @@ class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<Ab
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val folder = getItem(position)
         holder.binding.folder = folder
-        launch {
+        holder.job = launch(start = CoroutineStart.UNDISPATCHED) {
             val count = withContext(Dispatchers.IO) { folder?.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) ?: 0 }
             holder.binding.folderDesc.visibility = if (count == 0) View.GONE else View.VISIBLE
             if (count > 0) holder.binding.folderDesc.text = holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count)
+            holder.job = null
         }
     }
 
@@ -55,10 +53,17 @@ class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<Ab
         }
     }
 
+    override fun onViewRecycled(holder: ViewHolder) {
+        holder.job?. cancel()
+        holder.job = null
+        super.onViewRecycled(holder)
+    }
+
     override fun getItem(position: Int): AbstractFolder? = super.getItem(position)
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class ViewHolder(binding: FolderItemBinding) : SelectorViewHolder<FolderItemBinding>(binding) {
+        var job : Job? = null
         init {
             binding.holder = this
             itemView.setOnLongClickListener {
