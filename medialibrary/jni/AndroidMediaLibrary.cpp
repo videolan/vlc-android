@@ -897,6 +897,10 @@ void AndroidMediaLibrary::onHistoryChanged( medialibrary::HistoryType )
 {
 }
 
+void AndroidMediaLibrary::onRescanStarted()
+{
+}
+
 void AndroidMediaLibrary::onBackgroundTasksIdleChanged( bool isIdle )
 {
     JNIEnv *env = getEnv();
