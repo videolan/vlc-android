@@ -314,10 +314,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         activity?.reloadLibrary()
     }
 
-    override fun clear() {
-        videoListAdapter.clear()
-    }
-
     override fun setFabPlayVisibility(enable: Boolean) {
         super.setFabPlayVisibility(!viewModel.isEmpty() && enable)
     }

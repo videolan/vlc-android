@@ -30,7 +30,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.MainThread
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
@@ -135,28 +134,24 @@ class VideoListAdapter internal constructor(
 
     override fun onViewRecycled(holder: ViewHolder) {
         holder.binding.setVariable(BR.cover, UiTools.getDefaultVideoDrawable(holder.itemView.context))
+        holder.job?.cancel()
+        holder.job = null
     }
 
     override fun getItem(position: Int) = if (isPositionValid(position)) super.getItem(position) else null
 
     private fun isPositionValid(position: Int) =  position in 0 until itemCount
 
-//    operator fun contains(mw: AbstractMediaWrapper): Boolean {
-//        return getDataset().indexOf(mw) !== -1
-//    }
-
-    @MainThread
-    fun clear() {}
-
     private fun fillView(holder: ViewHolder, item: MediaLibraryItem) {
         when (item) {
-            is AbstractFolder -> launch {
+            is AbstractFolder -> holder.job = launch(start = CoroutineStart.UNDISPATCHED) {
                 val count = withContext(Dispatchers.IO) { item.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) }
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.title.text = item.title
                 if (!isListMode) holder.binding.setVariable(BR.resolution, null)
                 holder.binding.setVariable(BR.seen, 0L)
                 holder.binding.setVariable(BR.max, 0)
+                holder.job = null
             }
             is AbstractVideoGroup -> launch {
                 val count = item.mediaCount()
@@ -199,6 +194,7 @@ class VideoListAdapter internal constructor(
         }
     }
 
+
     fun setGridCardWidth(gridCardWidth: Int) {
         this.gridCardWidth = gridCardWidth
     }
@@ -209,6 +205,7 @@ class VideoListAdapter internal constructor(
     constructor(binding: ViewDataBinding) : SelectorViewHolder<ViewDataBinding>(binding), View.OnFocusChangeListener {
         val overlay: ImageView = itemView.findViewById(R.id.ml_item_overlay)
         val title : TextView = itemView.findViewById(R.id.ml_item_title)
+        var job: Job? = null
 
         init {
             binding.setVariable(BR.holder, this)
