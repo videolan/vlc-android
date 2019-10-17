@@ -86,6 +86,11 @@ class BottomSheetBehavior<V : View> : com.google.android.material.bottomsheet.Bo
         return false
     }
 
+    override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int)=  try {
+        super.onLayoutChild(parent, child, layoutDirection)
+    } catch (ignored: IndexOutOfBoundsException) {
+        false
+    }
 
     override fun onTouchEvent(parent: CoordinatorLayout, child: V, event: MotionEvent): Boolean {
         if (lock) return false
