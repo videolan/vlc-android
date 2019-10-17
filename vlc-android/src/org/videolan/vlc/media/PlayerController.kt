@@ -103,11 +103,11 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     fun setPosition(position: Float) {
-        if (seekable) mediaplayer.position = position
+        if (seekable && mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.position = position
     }
 
     fun setTime(time: Long) {
-        if (seekable) mediaplayer.time = time
+        if (seekable && mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.time = time
     }
 
     fun isPlaying() = playbackState == PlaybackStateCompat.STATE_PLAYING
