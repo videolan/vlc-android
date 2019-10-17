@@ -70,18 +70,7 @@ object FileUtils {
         fun onResult(success: Boolean)
     }
 
-    fun getFileNameFromPath(path: String?): String {
-        var path: String? = path ?: return ""
-        var index = path!!.lastIndexOf('/')
-        if (index == path.length - 1) {
-            path = path.substring(0, index)
-            index = path.lastIndexOf('/')
-        }
-        return if (index > -1)
-            path.substring(index + 1)
-        else
-            path
-    }
+    fun getFileNameFromPath(filePath: String?) =  filePath?.substringBeforeLast('/') ?: ""
 
     fun getParent(path: String?): String? {
         if (path == null || TextUtils.equals("/", path))

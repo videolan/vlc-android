@@ -247,8 +247,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     }
 
     private suspend fun addDevices(context: Context, addExternal: Boolean) {
-        val devices = mutableListOf<String>()
-        devices.addAll(DirectoryRepository.getInstance(context).getMediaDirectories())
+        val devices = DirectoryRepository.getInstance(context).getMediaDirectories()
         val knownDevices = if (AndroidDevices.watchDevices) medialibrary.devices else null
         for (device in devices) {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
@@ -270,7 +269,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
                     medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
                 }
                 else {
-
                     for (folder in preselectedStorages) {
                         medialibrary.discover(folder)
                     }
@@ -298,11 +296,11 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
             val devices = AndroidDevices.externalStorageDirectories
             Pair(devices, medialibrary.devices)
         }
-        val missingDevices = Util.arrayToArrayList(knownDevices)
+        val missingDevices = knownDevices.toMutableList()
         missingDevices.remove("file://${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}")
         for (device in devices) {
             val uuid = FileUtils.getFileNameFromPath(device)
-            if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid) || !device.scanAllowed()) continue
+            if (device.isEmpty() || uuid.isEmpty() || !device.scanAllowed()) continue
             if (containsDevice(knownDevices, device)) {
                 missingDevices.remove("file://$device")
                 continue
@@ -460,8 +458,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     }
 
     private fun String.isSelected() : Boolean {
-        if (preselectedStorages.isEmpty()) return false
-        for (mrl in preselectedStorages) {
+        if (preselectedStorages.isNotEmpty()) for (mrl in preselectedStorages) {
             if (mrl.substringAfter("file://").startsWith(this)) return true
         }
         return false
@@ -473,7 +470,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         val progress = MutableLiveData<ScanProgress>()
         val newStorages = MutableLiveData<MutableList<String>>()
         val preselectedStorages = mutableListOf<String>()
-        var exceptionHandler : AbstractMedialibrary.MedialibraryExceptionHandler? = null
     }
 }
 
