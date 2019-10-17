@@ -21,6 +21,8 @@
  *  ***************************************************************************
  */
 
+@file:Suppress("EXPERIMENTAL_API_USAGE")
+
 package org.videolan.vlc.gui.helpers.hf
 
 import android.Manifest
@@ -114,13 +116,13 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             val upgrade = intent?.getBooleanExtra(EXTRA_UPGRADE, false) ?: false
             val firstRun = upgrade && intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
             AppScope.launch {
-                if (getStoragePermission(activity, write)) (cb ?: getAction(activity, firstRun, upgrade)).run()
+                if (activity.getStoragePermission(write)) (cb ?: getAction(activity, firstRun, upgrade)).run()
             }
         }
 
-        suspend fun getStoragePermission(activity: FragmentActivity, write: Boolean) : Boolean{
-            if (activity.isFinishing) return false
-            val fm = activity.supportFragmentManager
+        suspend fun FragmentActivity.getStoragePermission(write: Boolean = false) : Boolean{
+            if (isFinishing) return false
+            val fm = supportFragmentManager
             var fragment: Fragment? = fm.findFragmentByTag(TAG)
             if (fragment == null) {
                 val args = Bundle()
@@ -143,7 +145,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         }
 
         suspend fun FragmentActivity.getWritePermission(uri: Uri) = if (uri.path?.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) == true) {
-            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) getStoragePermission(this, true)
+            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) getStoragePermission(true)
             else withContext(Dispatchers.IO) { FileUtils.canWrite(uri) }
         } else getExtWritePermission(uri)
 

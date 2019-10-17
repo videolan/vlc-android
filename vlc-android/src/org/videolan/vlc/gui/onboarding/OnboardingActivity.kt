@@ -18,7 +18,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.MainActivity
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.gui.view.NonSwipeableViewPager
 import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.*
@@ -93,7 +93,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
             launch {
                 if (viewPager.currentItem == 0 && !viewModel.permissionGranted) {
                     viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
-                            || StoragePermissionsDelegate.getStoragePermission(this@OnboardingActivity, false)
+                            || getStoragePermission()
                     if (!viewModel.permissionGranted) {
                         return@launch
                     } else {

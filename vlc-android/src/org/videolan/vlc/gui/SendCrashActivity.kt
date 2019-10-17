@@ -47,6 +47,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SendCrashActivityBinding
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.*
 import java.io.File
 import java.lang.Runnable
@@ -94,7 +95,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback, 
                 //get medialib db if needed
                 val attachments = ArrayList<Uri>()
                 if (binding.includeMedialibSwitch.isChecked) {
-                    if (StoragePermissionsDelegate.getStoragePermission(this@SendCrashActivity, true)) {
+                    if (getStoragePermission(true)) {
 
                         if (!::dbPath.isInitialized) {
                             val path = VLCApplication.appContext.getExternalFilesDir(null)?.absolutePath ?: return@withContext null
