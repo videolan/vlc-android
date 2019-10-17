@@ -134,8 +134,11 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 val xgesturesize = xChanged / screenConfig.metrics.xdpi * 2.54f
                 val deltaY = ((abs(initTouchY - event.y) / screenConfig.metrics.xdpi + 0.5f) * 2f).coerceAtLeast(1f)
 
-                val xTouch = event.x.roundToInt()
-                val yTouch = event.y.roundToInt()
+                val (xTouch, yTouch) = try {
+                    Pair(event.x.roundToInt(), event.y.roundToInt())
+                } catch (e: IllegalArgumentException) {
+                    return false
+                }
 
                 val now = System.currentTimeMillis()
                 when (event.action) {
