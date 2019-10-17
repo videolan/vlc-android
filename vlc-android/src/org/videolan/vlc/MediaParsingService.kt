@@ -92,6 +92,27 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         }
     }
 
+    private val exceptionHandler = if (BuildConfig.BETA) AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
+        val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
+            putExtra(CRASH_ML_CTX, context)
+            putExtra(CRASH_ML_MSG, errMsg)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        Log.wtf(TAG, "medialibrary reported unhandled exception: -----------------")
+        // Lock the Medialibrary thread during DB extraction.
+        runBlocking {
+            SendCrashActivity.job = Job()
+            try {
+                startActivity(intent)
+                SendCrashActivity.job?.join()
+            } catch (e: Exception) {
+                SendCrashActivity.job = null
+            }
+        }
+    } else if (BuildConfig.DEBUG) AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
+        throw IllegalStateException("$context:\n$errMsg")
+    } else null
+
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.getContextWithLocale())
     }
@@ -121,6 +142,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
                 exitCommand()
             }
         })
+        medialibrary.exceptionHandler = exceptionHandler
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -373,6 +395,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         unregisterReceiver(receiver)
         localBroadcastManager.unregisterReceiver(receiver)
         if (wakeLock.isHeld) wakeLock.release()
+        medialibrary.exceptionHandler = null
         super.onDestroy()
     }
 
@@ -401,8 +424,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
                 val context = this@MediaParsingService
                 var shouldInit = !dbExists()
                 val initCode = medialibrary.init(context)
-                setExceptionHandler()
-                medialibrary.exceptionHandler = exceptionHandler
                 if (initCode != AbstractMedialibrary.ML_INIT_ALREADY_INITIALIZED) {
                     shouldInit = shouldInit or (initCode == AbstractMedialibrary.ML_INIT_DB_RESET) or (initCode == AbstractMedialibrary.ML_INIT_DB_CORRUPTED)
                     if (initCode != AbstractMedialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
@@ -453,31 +474,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         val newStorages = MutableLiveData<MutableList<String>>()
         val preselectedStorages = mutableListOf<String>()
         var exceptionHandler : AbstractMedialibrary.MedialibraryExceptionHandler? = null
-    }
-
-    private fun setExceptionHandler() {
-        if (exceptionHandler !== null) return
-        exceptionHandler = if (BuildConfig.BETA) AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
-            val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
-                putExtra(CRASH_ML_CTX, context)
-                putExtra(CRASH_ML_MSG, errMsg)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            Log.wtf(TAG, "medialibrary reported unhandled exception: -----------------")
-            // Lock the Medialibrary thread during DB extraction.
-            runBlocking {
-                SendCrashActivity.job = Job()
-                try {
-                    startActivity(intent)
-                    SendCrashActivity.job?.join()
-                } catch (e: Exception) {
-                    SendCrashActivity.job = null
-                }
-            }
-        } else if (BuildConfig.DEBUG) AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
-            throw IllegalStateException("$context:\n$errMsg")
-        } else null
-
     }
 }
 
