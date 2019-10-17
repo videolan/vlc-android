@@ -27,16 +27,12 @@ import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.MediaParsingService
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.containsPath
@@ -47,22 +43,21 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
 
     private var mediaDirsLocation: MutableList<String> = mutableListOf()
     private lateinit var customDirsLocation: List<String>
-    private var job : Job? = null
+    private var updateJob : Job? = null
 
     init {
         updateMediaDirs(fragment.requireContext())
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
-        launch {
-            val vh = holder as BaseBrowserAdapter.MediaViewHolder
+        val vh = holder as MediaViewHolder
+        vh.job = launch(start = CoroutineStart.UNDISPATCHED) {
             var storage = getItem(position)
-
             if (storage.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as AbstractMediaWrapper).uri)
             var storagePath = (storage as Storage).uri.path ?: ""
             if (!storagePath.endsWith("/")) storagePath += "/"
             vh.binding.item = storage
-            job?.join()
+            updateJob?.join()
             val hasContextMenu = customDirsLocation.contains(storagePath)
             val checked = (fragment as StorageBrowserFragment).scannedDirectory || mediaDirsLocation.containsPath(storagePath)
             vh.binding.hasContextMenu = hasContextMenu
@@ -72,7 +67,16 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
                 else -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
             }
             vh.binding.checkEnabled = !(fragment as StorageBrowserFragment).scannedDirectory
+            vh.job = null
         }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
+        (holder as MediaViewHolder).apply {
+            job?.cancel()
+            job = null
+        }
+        super.onViewRecycled(holder)
     }
 
     private fun hasDiscoveredChildren(path: String): Boolean {
@@ -82,7 +86,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
 
     suspend fun updateListState(context: Context) {
         updateMediaDirs(context)
-        job?.join()
+        updateJob?.join()
         notifyItemRangeChanged(0, itemCount)
     }
 
@@ -101,7 +105,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
             mediaDirsLocation.add(Uri.decode(if (it.startsWith("file://")) it.substring(7) else it))
         }
 
-        job = launch {
+        updateJob = launch {
             customDirsLocation = DirectoryRepository.getInstance(context).getCustomDirectories().map { it.path }
         }
     }
