@@ -625,10 +625,9 @@ interface MarqueeViewHolder {
 }
 
 fun enableMarqueeEffect(recyclerView: RecyclerView, handler: Handler) {
-    val layoutManager = recyclerView.layoutManager
-    if (layoutManager is LinearLayoutManager) {
+    (recyclerView.layoutManager as? LinearLayoutManager)?.let { layoutManager ->
         //Initial animation for already visible items
-        handler.post { launchMarquee(recyclerView, layoutManager, handler) }
+        launchMarquee(recyclerView, layoutManager, handler)
         //Animation when done scrolling
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
