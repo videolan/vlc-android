@@ -469,7 +469,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG)
 
         updateHasWidget()
-        initMediaSession()
+        if (!this::mediaSession.isInitialized) initMediaSession()
 
         val filter = IntentFilter().apply {
             priority = Integer.MAX_VALUE
@@ -565,12 +565,12 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
         val ctx = this@PlaybackService
+        NotificationHelper.createNotificationChannels(ctx.applicationContext)
         val stopped = playlistManager.player.playbackState == PlaybackStateCompat.STATE_STOPPED
         val notification = if (this::notification.isInitialized && !stopped) notification
         else NotificationHelper.createPlaybackNotification(ctx, false,
                 ctx.resources.getString(R.string.loading), "", "", null,
                 false, true, mediaSession.sessionToken, sessionPendingIntent)
-        NotificationHelper.createNotificationChannels(ctx.applicationContext)
         startForeground(3, notification)
         isForeground = true
         if (isVideoPlaying || Settings.showTvUi || stopped) hideNotification(true)
@@ -1017,12 +1017,12 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     fun load(mediaList: List<AbstractMediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
 
     private fun updateMediaQueue() = launch {
+        if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
         val ctx = this@PlaybackService
         val queue = withContext(Dispatchers.Default) {
             LinkedList<MediaSessionCompat.QueueItem>().also {
                 for ((position, media) in playlistManager.getMediaList().withIndex()) {
-                    var title: String? = media.nowPlaying
-                    if (title == null) title = media.title
+                    val title: String = media.nowPlaying ?: media.title
                     val builder = MediaDescriptionCompat.Builder()
                     builder.setTitle(title)
                             .setDescription(Util.getMediaDescription(MediaUtils.getMediaArtist(ctx, media), MediaUtils.getMediaAlbum(ctx, media)))
@@ -1033,7 +1033,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                 }
             }
         }
-        mediaSession.setQueue(queue)
+        if (this@PlaybackService.lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED)) mediaSession.setQueue(queue)
     }
 
     @MainThread
