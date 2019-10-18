@@ -698,11 +698,11 @@ $NDK_BUILD -C $VLC_OUT_PATH/.. \
     NDK_PROJECT_PATH=ndk \
     NDK_TOOLCHAIN_VERSION=clang \
     NDK_DEBUG=${NDK_DEBUG}
+avlc_checkfail "ndk-build libvlc failed"
 
 # Remove gdbserver to avoid conflict with libvlcjni.so debug options
 rm -f $VLC_OUT_PATH/libs/${ANDROID_ABI}/gdb*
 
-avlc_checkfail "ndk-build libvlc failed"
 } # avlc_build()
 
 if [ "$AVLC_SOURCED" != "1" ]; then
