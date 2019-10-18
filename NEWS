@@ -1,3 +1,13 @@
+Changes between 3.2.0-beta-06 and 3.2.0-beta-07:
+------------------
+
+Application:
+ * Various crash fixes
+
+Medialibrary:
+ * Handle corrupted DB
+ * Improved titles decrapifier
+
 Changes between 3.2.0-beta-05 and 3.2.0-beta-06:
 ------------------
 
