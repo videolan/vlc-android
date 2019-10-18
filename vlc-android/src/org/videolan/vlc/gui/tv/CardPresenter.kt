@@ -43,18 +43,19 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.gui.helpers.AudioUtil
-import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
-import org.videolan.vlc.gui.helpers.loadImage
-import org.videolan.vlc.gui.helpers.loadPlaylistImageWithWidth
+import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.next.models.MediaResult
+import org.videolan.vlc.next.models.getImageUri
+import org.videolan.vlc.next.models.getYear
 import org.videolan.vlc.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class CardPresenter(private val context: Activity) : Presenter() {
+class CardPresenter(private val context: Activity, private val isPoster: Boolean = false) : Presenter() {
 
     private var mIsSeenMediaMarkerVisible = true
     private var sDefaultCardImage: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_default_cone)
@@ -119,6 +120,12 @@ class CardPresenter(private val context: Activity) : Presenter() {
             cardView.mainImage = image
             cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
         }
+
+        fun updateCardViewImage(image: Uri?) {
+            cardView.mainImage = BitmapDrawable(cardView.resources, getBitmapFromDrawable(context, R.drawable.ic_movie_placeholder))
+            cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+            downloadIcon(cardView.mainImageView, image)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
@@ -126,7 +133,8 @@ class CardPresenter(private val context: Activity) : Presenter() {
         cardView.isFocusable = true
         cardView.isFocusableInTouchMode = true
         cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.lb_details_overview_bg_color))
-        cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
+        if (isPoster) cardView.setMainImageDimensions(CARD_WIDTH_POSTER, CARD_HEIGHT_POSTER)
+        else cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
         return ViewHolder(cardView)
     }
 
@@ -145,6 +153,12 @@ class CardPresenter(private val context: Activity) : Presenter() {
                     TvUtil.showMediaDetail(v.context, item)
                     true
                 }
+            }
+            is MediaResult -> {
+                holder.cardView.titleText = item.title
+                holder.cardView.contentText = item.getYear()
+
+                holder.updateCardViewImage(item.getImageUri())
             }
             is MediaLibraryItem -> {
                 holder.cardView.titleText = item.title
@@ -211,6 +225,9 @@ class CardPresenter(private val context: Activity) : Presenter() {
         private const val TAG = "CardPresenter"
         private val CARD_WIDTH = VLCApplication.appResources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width)
         private val CARD_HEIGHT = VLCApplication.appResources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height)
+
+        private val CARD_WIDTH_POSTER = 190.dp
+        private val CARD_HEIGHT_POSTER = 285.dp
 
     }
 }

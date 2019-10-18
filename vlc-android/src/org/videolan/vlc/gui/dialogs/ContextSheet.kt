@@ -111,6 +111,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         if (flags and CTX_COPY != 0) add(Simple(CTX_COPY, getString(R.string.copy_to_clipboard), R.drawable.ic_ctx_link_normal))
         if (flags and CTX_DELETE != 0) add(Simple(CTX_DELETE, getString(R.string.delete), R.drawable.ic_ctx_delete_normal))
         if (flags and CTX_SHARE != 0) add(Simple(CTX_SHARE, getString(R.string.share), R.drawable.ic_ctx_share_normal))
+        if (flags and CTX_FIND_METADATA != 0) add(Simple(CTX_FIND_METADATA, getString(R.string.find_metadata), R.drawable.ic_ctx_delete_normal))
     }
 
     inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {

@@ -174,9 +174,11 @@ fun imageCardViewContent(v: View, content: String?) {
 
 @BindingAdapter("imageUri")
 fun downloadIcon(v: View, imageUri: Uri?) {
-    if (imageUri != null && imageUri.scheme == "http") v.scope.launch {
-        val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
-        updateImageView(image, v, DataBindingUtil.findBinding(v))
+    if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
+        v.scope.launch {
+            val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
+            updateImageView(image, v, DataBindingUtil.findBinding(v))
+        }
     }
 }
 

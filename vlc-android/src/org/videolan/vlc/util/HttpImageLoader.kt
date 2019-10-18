@@ -26,6 +26,7 @@ package org.videolan.vlc.util
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 
 import org.videolan.vlc.gui.helpers.BitmapCache
 
@@ -49,7 +50,9 @@ object HttpImageLoader {
             icon = BitmapFactory.decodeStream(inputStream)
             BitmapCache.addBitmapToMemCache(imageUrl, icon)
         } catch (ignored: IOException) {
+            Log.e("", ignored.message, ignored)
         } catch (ignored: IllegalArgumentException) {
+            Log.e("", ignored.message, ignored)
         } finally {
             Util.close(inputStream)
             urlConnection?.disconnect()

@@ -77,6 +77,7 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
             packageManager.setComponentEnabledSetting(ComponentName(this, SendCrashActivity::class.java),
                     if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
             SettingsMigration.migrateSettings(this)
+            nextApiUrl = getString(R.string.next_api_url)
         }).start()
         if (AndroidUtil.isOOrLater)
             NotificationHelper.createNotificationChannels(this@VLCApplication)
@@ -105,6 +106,7 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
     }
 
     companion object {
+        lateinit var nextApiUrl: String
         private const val TAG = "VLC/VLCApplication"
 
         const val ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication"

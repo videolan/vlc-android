@@ -495,6 +495,9 @@
                 android:name=".gui.SearchActivity"
                 android:theme="@style/Theme.VLC"/>
         <activity
+                android:name=".gui.NextActivity"
+                android:theme="@style/Theme.VLC" />
+        <activity
                 android:name=".gui.SendCrashActivity"
                 android:label="@string/vlc_reporter"
                 android:theme="@style/Theme.VLC.SendCrashDialog"
@@ -616,6 +619,11 @@
                 android:exported="true"
                 android:screenOrientation="landscape"
                 android:theme="@style/Theme.VLC.Black"/>
+        <activity
+                android:name=".gui.tv.NextTvActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.VLC.TV" />
         <activity
                 android:name=".gui.tv.SearchActivity"
                 android:exported="true"

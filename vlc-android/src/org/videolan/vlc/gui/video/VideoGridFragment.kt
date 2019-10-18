@@ -49,6 +49,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.NextActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -416,6 +417,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
                 CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
                 CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+                CTX_FIND_METADATA -> startActivity(Intent(requireActivity(), NextActivity::class.java).apply { putExtra(NextActivity.MEDIA, media) })
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media) }
             }
             is AbstractFolder -> when (option) {

@@ -60,6 +60,7 @@ private const val ID_BROWSE = 5
 private const val ID_DL_SUBS = 6
 private const val ID_PLAY_FROM_START = 7
 private const val ID_PLAYLIST = 8
+private const val ID_GET_INFO = 9
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -161,6 +162,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                     VideoPlayerActivity.start(requireActivity(), viewModel.media.uri, true)
                     activity.finish()
                 }
+                ID_GET_INFO -> startActivity(Intent(requireActivity(), NextTvActivity::class.java).apply { putExtra(NextTvActivity.MEDIA, mediaWrapper) })
             }
         }
         selector.addClassPresenter(DetailsOverviewRow::class.java, rowPresenter)
@@ -208,6 +210,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                 if (FileUtils.canWrite(viewModel.media.uri))
                     detailsOverview.addAction(Action(ID_DL_SUBS.toLong(), res.getString(R.string.download_subtitles)))
                 detailsOverview.addAction(Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
+                    detailsOverview.addAction(Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
             }
             rowsAdapter.add(detailsOverview)
             adapter = rowsAdapter
