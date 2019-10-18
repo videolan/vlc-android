@@ -321,6 +321,7 @@ VLC_BOOTSTRAP_ARGS="\
 ###########################
 
 VLC_CONFIGURE_ARGS="\
+    --with-pic \
     --disable-nls \
     --enable-live555 --enable-realrtsp \
     --enable-avformat \
