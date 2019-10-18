@@ -707,15 +707,15 @@ LOCAL_MODULE    := libvlc
 LOCAL_SRC_FILES := libvlcjni-modules.c libvlcjni-symbols.c dummy.cpp
 LOCAL_LDFLAGS := -L$(VLC_CONTRIB)/lib
 LOCAL_LDLIBS := \
-	$(VLC_MODULES) \
-	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \
-	$(VLC_BUILD_DIR)/src/.libs/libvlccore.a \
-	$(VLC_BUILD_DIR)/compat/.libs/libcompat.a \
-	$(VLC_CONTRIB_LDFLAGS) \
-	-ldl -lz -lm -llog \
-	-la52 -ljpeg \
-	-llua \
-	$(VLC_LDFLAGS)
+    $(VLC_MODULES) \
+    $(VLC_BUILD_DIR)/lib/.libs/libvlc.a \
+    $(VLC_BUILD_DIR)/src/.libs/libvlccore.a \
+    $(VLC_BUILD_DIR)/compat/.libs/libcompat.a \
+    $(VLC_CONTRIB_LDFLAGS) \
+    -ldl -lz -lm -llog \
+    -la52 -ljpeg \
+    -llua \
+    $(VLC_LDFLAGS)
 LOCAL_CXXFLAGS := -std=c++11
 include $(BUILD_SHARED_LIBRARY)
 EOF
