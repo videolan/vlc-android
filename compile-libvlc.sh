@@ -49,7 +49,7 @@ if [ -z "$MAKEFLAGS" ]; then
     MAKEFLAGS=
     if which nproc >/dev/null; then
         MAKEFLAGS=-j$(nproc)
-    elif [ "$UNAMES" == "Darwin" ] && which sysctl >/dev/null; then
+    elif [ "$UNAMES" = "Darwin" ] && which sysctl >/dev/null; then
         MAKEFLAGS=-j$(sysctl -n machdep.cpu.thread_count)
     fi
 fi
