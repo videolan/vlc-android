@@ -5,6 +5,12 @@
 #############
 
 AVLC_RELEASE=$RELEASE
+# Indicated if prebuilt contribs package
+# should be created
+AVLC_MAKE_PREBUILT_CONTRIBS=0
+# Indicates that prebuit contribs should be
+# used instead of building the contribs from source
+AVLC_USE_PREBUILT_CONTRIBS=0
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help)
@@ -19,9 +25,23 @@ while [ $# -gt 0 ]; do
         release|--release)
             AVLC_RELEASE=1
             ;;
+        --package-contribs)
+            AVLC_MAKE_PREBUILT_CONTRIBS=1
+            ;;
+        --with-prebuilt-contribs)
+            AVLC_USE_PREBUILT_CONTRIBS=1
+            ;;
     esac
     shift
 done
+
+# Validate arguments
+if [ "$AVLC_MAKE_PREBUILT_CONTRIBS" -gt "0" ] && 
+   [ "$AVLC_USE_PREBUILT_CONTRIBS" -gt "0" ]; then
+    echo >&2 "ERROR: The --package-contribs and --with-prebuilt-contribs options"
+    echo >&2 "       can not be used together."
+    exit 1
+fi
 
 # Make in //
 if [ -z "$MAKEFLAGS" ]; then
@@ -487,31 +507,48 @@ ANDROID_ABI=${ANDROID_ABI} ANDROID_API=${ANDROID_API} \
     ../bootstrap --host=${TARGET_TUPLE} ${VLC_BOOTSTRAP_ARGS}
 avlc_checkfail "contribs: bootstrap failed"
 
-# Some libraries have arm assembly which won't build in thumb mode
-# We append -marm to the CFLAGS of these libs to disable thumb mode
-[ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
+if [ "$AVLC_USE_PREBUILT_CONTRIBS" -gt "0" ]; then
+    # Fetch prebuilt contribs
+    if [ -z "$VLC_PREBUILT_CONTRIBS_URL" ]; then
+        make prebuilt
+        avlc_checkfail "Fetching prebuilt contribs failed"
+    else
+        make prebuilt PREBUILT_URL="$VLC_PREBUILT_CONTRIBS_URL" \
+            || abort_err "Fetching prebuilt contribs from ${VLC_PREBUILT_CONTRIBS_URL} failed"
+    fi
+else
+    # Some libraries have arm assembly which won't build in thumb mode
+    # We append -marm to the CFLAGS of these libs to disable thumb mode
+    [ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
 
-echo "EXTRA_CFLAGS=${EXTRA_CFLAGS}" >> config.mak
-echo "EXTRA_CXXFLAGS=${EXTRA_CXXFLAGS}" >> config.mak
-echo "EXTRA_LDFLAGS=${EXTRA_LDFLAGS}" >> config.mak
-echo "CC=${NDK_TOOLCHAIN_PATH}/clang" >> config.mak
-echo "CXX=${NDK_TOOLCHAIN_PATH}/clang++" >> config.mak
-echo "AR=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ar" >> config.mak
-echo "RANLIB=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ranlib" >> config.mak
-echo "LD=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ld" >> config.mak
+    echo "EXTRA_CFLAGS=${EXTRA_CFLAGS}" >> config.mak
+    echo "EXTRA_CXXFLAGS=${EXTRA_CXXFLAGS}" >> config.mak
+    echo "EXTRA_LDFLAGS=${EXTRA_LDFLAGS}" >> config.mak
+    echo "CC=${NDK_TOOLCHAIN_PATH}/clang" >> config.mak
+    echo "CXX=${NDK_TOOLCHAIN_PATH}/clang++" >> config.mak
+    echo "AR=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ar" >> config.mak
+    echo "RANLIB=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ranlib" >> config.mak
+    echo "LD=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ld" >> config.mak
 
-# fix modplug endianess check (narrowing error)
-export ac_cv_c_bigendian=no
+    # fix modplug endianess check (narrowing error)
+    export ac_cv_c_bigendian=no
 
-make $MAKEFLAGS fetch
-avlc_checkfail "contribs: make fetch failed"
+    make $MAKEFLAGS fetch
+    avlc_checkfail "contribs: make fetch failed"
 
-# gettext
-which autopoint >/dev/null || make $MAKEFLAGS .gettext
-#export the PATH
-# Make
-make $MAKEFLAGS
-avlc_checkfail "contribs: make failed"
+    # gettext
+    which autopoint >/dev/null || make $MAKEFLAGS .gettext
+    #export the PATH
+    # Make
+    make $MAKEFLAGS
+    avlc_checkfail "contribs: make failed"
+
+    # Make prebuilt contribs package
+    if [ "$AVLC_MAKE_PREBUILT_CONTRIBS" -gt "0" ]; then
+        make package
+        avlc_checkfail "Creating prebuilt contribs package failed"
+    fi
+fi
 
 cd ../../
 
