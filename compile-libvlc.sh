@@ -297,6 +297,7 @@ VLC_BOOTSTRAP_ARGS="\
     --disable-aribb25 \
     --enable-mpg123 \
     --enable-libdsm \
+    --enable-smb2 \
     --enable-libarchive \
     --disable-libmpeg2 \
     --enable-soxr \
@@ -378,6 +379,7 @@ VLC_CONFIGURE_ARGS="\
     --disable-schroedinger \
     --disable-vnc \
     --enable-jpeg \
+    --enable-smb2 \
 "
 
 ########################
