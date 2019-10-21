@@ -235,7 +235,7 @@ avlc_make_toolchain()
 {
 NDK_TOOLCHAIN_PROPS=${NDK_TOOLCHAIN_DIR}/source.properties
 NDK_FORCE_ARG=
-if [ "$(cat \"${NDK_TOOLCHAIN_PROPS}\" 2>/dev/null)" != "$(cat \"${ANDROID_NDK}/source.properties\")" ];then
+if [ "`cat \"${NDK_TOOLCHAIN_PROPS}\" 2>/dev/null`" != "`cat \"${ANDROID_NDK}/source.properties\"`" ];then
      echo "NDK changed, making new toolchain"
      NDK_FORCE_ARG="--force"
 fi
