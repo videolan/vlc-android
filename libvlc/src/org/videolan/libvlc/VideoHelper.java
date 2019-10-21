@@ -186,7 +186,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
 
     @TargetApi(Build.VERSION_CODES.N)
     void updateVideoSurfaces() {
-        if (mMediaPlayer == null || mMediaPlayer.isReleased()) return;
+        if (mMediaPlayer == null || mMediaPlayer.isReleased() || !mMediaPlayer.getVLCVout().areViewsAttached()) return;
         final boolean isPrimary = mDisplayManager == null || mDisplayManager.isPrimary();
         final Activity activity = isPrimary && mVideoSurfaceFrame.getContext() instanceof Activity ? (Activity) mVideoSurfaceFrame.getContext() : null;
 
