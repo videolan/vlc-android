@@ -139,6 +139,7 @@ object VLCOptions {
                 val optionsArray = customOptions!!.split("\\r?\\n".toRegex()).toTypedArray()
                 if (!optionsArray.isNullOrEmpty()) Collections.addAll(options, *optionsArray)
             }
+            options.add("--smb-force-v1")
             return options
         }
 
