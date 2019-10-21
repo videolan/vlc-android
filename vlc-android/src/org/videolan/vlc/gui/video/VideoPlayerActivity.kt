@@ -616,37 +616,39 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     @TargetApi(Build.VERSION_CODES.O)
     fun switchToPopup() {
-        val mw = service?.currentMediaWrapper
-        if (mw == null || !AndroidDevices.pipAllowed
-                || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))
-            return
+        if (!isBenchmark) {
+            val mw = service?.currentMediaWrapper
+            if (mw == null || !AndroidDevices.pipAllowed
+                    || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))
+                return
 
-        val forceLegacy = Settings.getInstance(this).getBoolean(POPUP_FORCE_LEGACY, false)
-        if (AndroidDevices.hasPiP && !forceLegacy) {
-            if (AndroidUtil.isOOrLater)
-                try {
-                    videoLayout?.findViewById<View>(R.id.surface_video)?.run {
-                        val height = if (height != 0) height else mw.height
-                        val width = Math.min(if (width != 0) width else mw.width, (height * 2.39f).toInt())
-                        enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(Rational(width, height)).build())
+            val forceLegacy = Settings.getInstance(this).getBoolean(POPUP_FORCE_LEGACY, false)
+            if (AndroidDevices.hasPiP && !forceLegacy) {
+                if (AndroidUtil.isOOrLater)
+                    try {
+                        videoLayout?.findViewById<View>(R.id.surface_video)?.run {
+                            val height = if (height != 0) height else mw.height
+                            val width = Math.min(if (width != 0) width else mw.width, (height * 2.39f).toInt())
+                            enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(Rational(width, height)).build())
+                        }
+                    } catch (e: IllegalArgumentException) { // Fallback with default parameters
+
+                        enterPictureInPictureMode()
                     }
-                } catch (e: IllegalArgumentException) { // Fallback with default parameters
+                else {
 
                     enterPictureInPictureMode()
                 }
-            else {
-
-                enterPictureInPictureMode()
+            } else {
+                if (Permissions.canDrawOverlays(this)) {
+                    switchingView = true
+                    switchToPopup = true
+                    if (service?.isPlaying != true) mw.addFlags(AbstractMediaWrapper.MEDIA_PAUSED)
+                    cleanUI()
+                    exitOK()
+                } else
+                    Permissions.checkDrawOverlaysPermission(this)
             }
-        } else {
-            if (Permissions.canDrawOverlays(this)) {
-                switchingView = true
-                switchToPopup = true
-                if (service?.isPlaying != true) mw.addFlags(AbstractMediaWrapper.MEDIA_PAUSED)
-                cleanUI()
-                exitOK()
-            } else
-                Permissions.checkDrawOverlaysPermission(this)
         }
     }
 
