@@ -516,6 +516,7 @@ if [ "$AVLC_USE_PREBUILT_CONTRIBS" -gt "0" ]; then
         make prebuilt PREBUILT_URL="$VLC_PREBUILT_CONTRIBS_URL"
         avlc_checkfail "Fetching prebuilt contribs from ${VLC_PREBUILT_CONTRIBS_URL} failed"
     fi
+    make .luac
 else
     # Some libraries have arm assembly which won't build in thumb mode
     # We append -marm to the CFLAGS of these libs to disable thumb mode
