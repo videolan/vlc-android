@@ -2,25 +2,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
-    <string name="ok">ഓക്കെ</string>
+    <string name="ok">ശെരി</string>
     <string name="cancel">ഉപേക്ഷിക്കുക</string>
     <string name="other">മറ്റുള്ളവ</string>
     <string name="sortby">ക്രമീകരിക്കുക…</string>
-    <string name="sortby_name">പേര്</string>
-    <string name="sortby_name_desc">പേര് (വിവരണം)</string>
-    <string name="sortby_filename">ഫയല്‍ നാമം</string>
-    <string name="sortby_filename_desc">ഫയല്‍ നാമം (എതിര്‍ക്രമം)</string>
-    <string name="sortby_artist_name">കലാകാരന്‍റെ പേര്</string>
-    <string name="sortby_artist_name_desc">കലാകാരന്‍റെ പേര് (എതിര്‍ക്രമം)</string>
-    <string name="sortby_album_name">ആൽബം</string>
-    <string name="sortby_album_name_desc">ആൽബം പേര് (വിവരണം)</string>
-    <string name="sortby_length">ദൈര്‍ഘ്യം</string>
-    <string name="sortby_length_desc">ദൈർഘ്യം (വിവരണം)</string>
-    <string name="sortby_date">തീയതി</string>
-    <string name="sortby_date_desc">തീയതി (വിവരണം)</string>
-    <string name="sortby_number">ട്രാക്കുകളുടെ എണ്ണം</string>
-    <string name="sortby_number_desc">ട്രാക്കുകളുടെ എണ്ണം (എതിര്‍ക്രമം)</string>
-    <string name="searchable_hint">തിരയുക…</string>
+    <string name="sortby_name">പേര് ഉപയോഗിച് ക്രമീകരിക്കുക</string>
+    <string name="sortby_name_desc">പേര് ഉപയോഗിച്ച് ക്രമീകരിക്കുക(എതിർ ക്രമം)</string>
+    <string name="sortby_filename">ഫയലിന്റെ പേരിനാൽ ക്രമീകരിക്കുക</string>
+    <string name="sortby_filename_desc">ഫയലിന്റെ പേരിനാൽ ക്രമീകരിക്കുക(എതിർ ക്രമം)</string>
+    <string name="sortby_artist_name">കലാകാരന്റെ പേരിനാൽ ക്രമീകരിക്കുക</string>
+    <string name="sortby_artist_name_desc">കലാകാരന്റെ പേരിനാൽ ക്രമീകരിക്കുക(എതിർ ക്രമം)</string>
+    <string name="sortby_album_name">ആൽബം ഉപയോഗിച് ക്രമീകരിക്കുക</string>
+    <string name="sortby_album_name_desc">ആൽബം ഉപയോഗിച് ക്രമീകരിക്കുക(എതിർ ക്രമം)</string>
+    <string name="sortby_length">ദൈർഘ്യം ഉപയോഗിച് ക്രമീകരിക്കുക</string>
+    <string name="sortby_length_desc">ദൈർഘ്യം ഉപയോഗിച് ക്രമീകരിക്കുക(എതിർ ക്രമം)</string>
+    <string name="sortby_date">തീയതി ഉപയോഗിച് ക്രമീകരിക്കുക</string>
+    <string name="sortby_date_desc">തീയതി ഉപയോഗിച് ക്രമീകരിക്കുക(എതിർ ക്രമം)</string>
+    <string name="sortby_number">എണ്ണം ഉപയോഗിച് ക്രമീകരിക്കുക</string>
+    <string name="sortby_number_desc">എണ്ണം ഉപയോഗിച് ക്രമീകരിക്കുക(എതിർ ക്രമം)</string>
+    <string name="searchable_hint">തിരയാൻ ആവുന്ന സൂചന</string>
     <string name="history">ചരിത്രം</string>
 
     <plurals name="search_found_results_quantity">
