@@ -63,7 +63,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
                 }
             } else {
                 final ViewStub stub = mVideoSurfaceFrame.findViewById(R.id.texture_stub);
-                mVideoTexture = stub != null ? (TextureView) stub.inflate() : (TextureView) mVideoSurfaceFrame.findViewById(R.id.texture_video);;
+                mVideoTexture = stub != null ? (TextureView) stub.inflate() : (TextureView) mVideoSurfaceFrame.findViewById(R.id.texture_video);
             }
         } else if (mDisplayManager.getPresentation() != null){
             mVideoSurfaceFrame = mDisplayManager.getPresentation().getSurfaceFrame();
