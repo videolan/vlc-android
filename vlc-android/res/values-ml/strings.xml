@@ -54,16 +54,16 @@
     <string name="confirm_delete_playlist">\'%1$s\' പ്ലേലിസ്റ്റ് നശിപ്പിക്കട്ടെ?</string>
     <string name="ringtone_set">\'%1$s\' റിംഗ്ടോണ്‍ ആക്കി</string>
     <string name="ringtone_error">റിംഗ്ടോണ്‍ ആക്കാന്‍ സാധിച്ചില്ല</string>
-    <string name="pause">വിരാമം</string>
+    <string name="pause">തൽക്കാലത്തേക്ക് നിർത്തുക</string>
     <string name="not_show_again">ഈ മെസേജ് വീണ്ടും കാണിക്കേണ്ട</string>
-    <string name="info_title">വിഎല്‍സി</string>
+    <string name="info_title">വി എൽ സി</string>
     <string name="unknown_artist">അജ്ഞാത കലാകാരന്‍</string>
     <string name="unknown_album">അജ്ഞാത ആല്‍ബം</string>
     <string name="unknown_genre">അജ്ഞാത വിഭാഗം</string>
     <string name="unknown_number">ട്രാക്കുകളുടെ എണ്ണം അജ്ഞാതം</string>
     <string name="songs">ഗാനങ്ങള്‍</string>
     <plurals name="songs_quantity">
-        <item quantity="one">൧ ഗാനം</item>
+        <item quantity="one">1 ഗാനം</item>
         <item quantity="other">%d ഗാനങ്ങള്‍</item>
     </plurals>
 
@@ -72,15 +72,15 @@
     <string name="tracks">ട്രാക്കുകൾ</string>
 
     <plurals name="albums_quantity">
-        <item quantity="one">൧ അല്‍ബം</item>
+        <item quantity="one">1 അല്‍ബം</item>
         <item quantity="other">%d ആല്‍ബങ്ങള്‍</item>
     </plurals>
     <plurals name="subfolders_quantity">
-        <item quantity="one">൧ സബ്ഫോള്‍ഡര്‍</item>
+        <item quantity="one">1 സബ്ഫോള്‍ഡര്‍</item>
         <item quantity="other">%d സബ്ഫോള്‍ഡറുകള്‍</item>
     </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">൧ മീഡിയ ഫയല്‍</item>
+        <item quantity="one">1 മീഡിയ ഫയല്‍</item>
         <item quantity="other">%d മീഡിയ ഫയലുകള്‍</item>
     </plurals>
     <string name="internal_memory">ആന്തരിക മെമറി</string>
@@ -106,7 +106,7 @@
     <string name="nosubdirectory">സബ്ഡയറക്‍ട്ടറികള്‍ ഇല്ല</string>
     <string name="directorynotfound">%1$s  ഫോള്‍ഡറിലേക്കുള്ള വഴി കണ്ടെത്താനായില്ല</string>
     <string name="nohistory">നിങ്ങള്‍ക്ക് ഇതുവരെ പ്ളേബാക്ക് ചരിത്രം ഇല്ല</string>
-    <string name="validation">ഉറപ്പാണോ?</string>
+    <string name="validation">ഉറപ്പാണോ ?</string>
 
     <string name="cover_art">കവര്‍ ആര്‍ട്ട്</string>
     <string name="shuffle_title">ഷഫിൾ മോഡ്</string>
@@ -141,15 +141,15 @@
     <string name="sound_on">ശബ്ദം ഓണ്‍ ആക്കുക</string>
     <string name="sound_off">ശബ്ദം ഓഫ് ആക്കുക</string>
     <string name="brightness">തെളിച്ചം</string>
-    <string name="navmenu">ഗതിനിയന്ത്രണ പട്ടിക</string>
+    <string name="navmenu">ഗതിനിയന്ത്രണ മെനു</string>
     <string name="advanced">വിപുലീകരിച്ച ഐച്ഛികങ്ങൾ</string>
     <string name="audio_boost_warning">100% ത്തില്‍ കൂടുതല്‍ പോകാന്‍ മുകളിലേക്ക് ഇനിയും നീക്കുക</string>
     <string name="track_resolution_info">റെസല്യൂഷന്‍ %1$dX%2$d\n</string>
     <string name="tools">ഉപകരണങ്ങള്‍</string>
     <string name="playback_speed">പ്ളേബാക്ക് വേഗത</string>
-    <string name="sleep_title">സ്ലീപ് റ്റൈമര്‍</string>
+    <string name="sleep_title">സ്ലീപ് ടൈമർ</string>
     <string name="sleep_in">ഇത്ര സമയത്തിനുള്ളില്‍ ഉറങ്ങുക</string>
-    <string name="sleep_cancel">സ്ലീപ് റ്റൈമര്‍ റദ്ദാക്കുക</string>
+    <string name="sleep_cancel">സ്ലീപ് ടൈമർ റദ്ദാക്കുക</string>
     <string name="jump_to_time">സമയത്തിലേക്ക് ചാടുക</string>
     <string name="subtitle_label">സബ്ടൈറ്റില്‍ ഫയല്‍ ചേര്‍ക്കുക</string>
     <string name="subtitle_select">സബ്ടൈറ്റില്‍ ഫയല്‍ തിരഞ്ഞെടുക്കുക</string>
@@ -191,7 +191,7 @@
     <string name="show_playlist">പ്ലേലിസ്റ്റ് കാണിക്കുക</string>
 
     <!-- About -->
-    <string name="app_name_full">ആന്‍ഡ്രോയ്ഡിനുള്ള വിഎല്‍സി</string>
+    <string name="app_name_full">ആന്‍ഡ്രോയ്ഡിനുള്ള വി എൽ സി</string>
     <string name="licence">ലൈസന്‍സ്‌</string>
     <string name="revision">പരിഷ്‌കരണം</string>
     <string name="about">കുറിച്ച്‌</string>
