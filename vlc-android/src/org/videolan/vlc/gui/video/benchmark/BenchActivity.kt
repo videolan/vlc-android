@@ -41,10 +41,13 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCInstance
 import java.io.*
@@ -109,6 +112,8 @@ class BenchActivity : ShallowVideoPlayer() {
     private var mPosition = 0f
     private var mPositionCounter = 0
 
+    /* File in which vlc will store logs in case of a crash or freeze */
+    private var stacktraceFile: String? = null
 
     override fun onChanged(service: PlaybackService?) {
         super.onChanged(service)
@@ -168,6 +173,11 @@ class BenchActivity : ShallowVideoPlayer() {
             errorFinish("Missing action intent extra")
             return
         }
+
+        if (intent.hasExtra(EXTRA_STACKTRACE_FILE)) {
+            stacktraceFile = intent.getStringExtra(EXTRA_STACKTRACE_FILE)
+        }
+
         when (intent.getStringExtra(EXTRA_ACTION)) {
             EXTRA_ACTION_PLAYBACK -> {
             }
@@ -317,9 +327,9 @@ class BenchActivity : ShallowVideoPlayer() {
         // tmp fix
         // mService should never be null in this context but it happens
         if (service == null) {
-            Log.w(TAG, "seekScreenshot: service is null");
-            errorFinish("PlayerService is null");
-            return;
+            Log.w(TAG, "seekScreenshot: service is null")
+            errorFinish("PlayerService is null")
+            return
         }
         if (mProjectionManager != null && mScreenshotCount < mTimestamp!!.size) {
             setTimeout()
@@ -385,23 +395,59 @@ class BenchActivity : ShallowVideoPlayer() {
         Log.e(TAG, "errorFinish: $resultString")
         val sendIntent = Intent()
         sendIntent.putExtra("Error", resultString)
+        getStackTrace()
         setResult(RESULT_FAILED, sendIntent)
         super.finish()
+    }
+
+    /**
+     * Method reading vlc-android logs so that the benchmark can get the cause
+     * of the crash / freeze
+     */
+    private fun getStackTrace() = AppScope.launch(Dispatchers.IO) {
+        if (stacktraceFile != null) {
+            try {
+                val pid = android.os.Process.myPid()
+                /*Displays priority, tag, and PID of the process issuing the message from this pid*/
+                val process = Runtime.getRuntime().exec("logcat -d -v brief --pid=$pid")
+                val bufferedReader = BufferedReader(
+                        InputStreamReader(process.inputStream))
+                var line = bufferedReader.readLine()
+                val stacktraceContent = StringBuilder()
+                while (line != null) {
+                    stacktraceContent.append(line)
+                    line = bufferedReader.readLine()
+                }
+                val outputFile = File(stacktraceFile)
+                val fileOutputStream = FileOutputStream(outputFile)
+                fileOutputStream.write(stacktraceContent.toString().toByteArray(Charsets.UTF_8))
+                fileOutputStream.close()
+                bufferedReader.close()
+                /* Clear logs, so that next test is not polluted by current one */
+                ProcessBuilder()
+                        .command("logcat", "-c")
+                        .redirectErrorStream(true)
+                        .start()
+            } catch (ex: IOException) {
+                Log.e(TAG, ex.toString())
+            }
+        } else {
+            Log.e(TAG, "getStackTrace: There was no stacktrace file provided")
+        }
     }
 
     /**
      * Method analysing VLC logs to find warnings,
      * and report them to VLCBenchmark
      */
-    private fun checkLogs() {
+    private fun checkLogs() = AppScope.launch (Dispatchers.IO){
         var counter = 0
-
         try {
             val pid = android.os.Process.myPid()
             /*Displays priority, tag, and PID of the process issuing the message from this pid*/
             val process = Runtime.getRuntime().exec("logcat -d -v brief --pid=$pid")
-            val bufferedReader = BufferedReader(
-                    InputStreamReader(process.inputStream))
+            val inputStreamReader = InputStreamReader(process.inputStream)
+            val bufferedReader = BufferedReader(inputStreamReader)
             var line = bufferedReader.readLine()
             while (line != null) {
                 if (line.contains("W/") || line.contains("E/")) {
@@ -411,6 +457,8 @@ class BenchActivity : ShallowVideoPlayer() {
                 }
                 line = bufferedReader.readLine()
             }
+            inputStreamReader.close()
+            bufferedReader.close()
             /* Clear logs, so that next test is not polluted by current one */
             ProcessBuilder()
                     .command("logcat", "-c")
@@ -574,6 +622,7 @@ class BenchActivity : ShallowVideoPlayer() {
         private const val EXTRA_SCREENSHOT_DIR = "extra_benchmark_screenshot_dir"
         private const val EXTRA_ACTION = "extra_benchmark_action"
         private const val EXTRA_HARDWARE = "extra_benchmark_disable_hardware"
+        private const val EXTRA_STACKTRACE_FILE = "stacktrace_file"
 
         private const val TAG = "VLCBenchmark"
         private const val REQUEST_SCREENSHOT = 666
