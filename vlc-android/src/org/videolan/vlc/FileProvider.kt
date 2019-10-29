@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import org.videolan.vlc.util.AndroidDevices
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -26,13 +27,16 @@ class FileProvider : ContentProvider() {
 
     override fun getType(uri: Uri) = "image/${uri.path?.substringAfterLast('.')}"
 
-    override fun openFile(uri: Uri, mode: String?): ParcelFileDescriptor {
-        val file = File(uri.path)
-        if (file.canonicalPath.startsWith("/data")) throw SecurityException("Illegal access")
+    override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor {
+        val path = uri.path ?: throw SecurityException("Illegal access")
+        if (path.contains("..")) throw SecurityException("Illegal access")
+        val file = File(path)
+        val canonicalPath = file.canonicalPath
+        if (!AndroidDevices.mountBL.any { canonicalPath.startsWith(it) }) throw SecurityException("Illegal access")
         if (file.exists()) {
             return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
         }
-        throw FileNotFoundException(uri.path)
+        throw FileNotFoundException(path)
     }
 }
 
