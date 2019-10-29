@@ -262,7 +262,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun setRenderer(item: RendererItem?) {
         player.setRenderer(item)
-        showAudioPlayer.value = player.playbackState != PlaybackStateCompat.STATE_STOPPED && (item !== null || !player.isVideoPlaying())
+        showAudioPlayer.value = PlayerController.playbackState != PlaybackStateCompat.STATE_STOPPED && (item !== null || !player.isVideoPlaying())
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0) {

@@ -62,6 +62,7 @@ import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
 import org.videolan.vlc.widget.VLCAppWidgetProvider
@@ -566,7 +567,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     private fun forceForeground() {
         val ctx = this@PlaybackService
         NotificationHelper.createNotificationChannels(ctx.applicationContext)
-        val stopped = playlistManager.player.playbackState == PlaybackStateCompat.STATE_STOPPED
+        val stopped = PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED
         val notification = if (this::notification.isInitialized && !stopped) notification
         else NotificationHelper.createPlaybackNotification(ctx, false,
                 ctx.resources.getString(R.string.loading), "", "", null,
@@ -816,7 +817,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         var actions = PLAYBACK_BASE_ACTIONS
         val hasMedia = playlistManager.hasCurrentMedia()
         var time = position ?: time
-        var state = playlistManager.player.playbackState
+        var state = PlayerController.playbackState
         when (state) {
             PlaybackStateCompat.STATE_PLAYING -> actions = actions or (PlaybackStateCompat.ACTION_PAUSE or PlaybackStateCompat.ACTION_STOP)
             PlaybackStateCompat.STATE_PAUSED -> actions = actions or (PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_STOP)

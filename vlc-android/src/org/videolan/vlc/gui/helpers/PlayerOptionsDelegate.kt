@@ -33,6 +33,7 @@ import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.ABRepeat
+import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.util.*
 import java.util.*
 
@@ -91,7 +92,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     }
 
     fun setup() {
-        if (!this::recyclerview.isInitialized || service.playlistManager.player.playbackState == PlaybackStateCompat.STATE_STOPPED) return
+        if (!this::recyclerview.isInitialized || PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED) return
         val options = mutableListOf<PlayerOption>()
         when (playerOptionType) {
             PlayerOptionType.ADVANCED -> {

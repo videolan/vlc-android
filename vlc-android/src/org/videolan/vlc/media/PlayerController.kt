@@ -36,8 +36,6 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     var pausable = false
     var previousMediaStats: Media.Stats? = null
         private set
-    @Volatile var playbackState = PlaybackStateCompat.STATE_STOPPED
-        private set
     @Volatile var hasRenderer = false
         private set
 
@@ -264,7 +262,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun getTitleIdx() = if (!mediaplayer.isReleased) mediaplayer.title else -1
 
     fun setTitleIdx(title: Int) {
-       if (!mediaplayer.isReleased)  mediaplayer.title = title
+        if (!mediaplayer.isReleased)  mediaplayer.title = title
     }
 
     fun getVolume() = if (!mediaplayer.isReleased) mediaplayer.volume else 100
@@ -320,12 +318,16 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         lastTime = 0L
     }
 
-//    private fun onPlayerError() {
+    //    private fun onPlayerError() {
 //        launch(UI) {
 //            restart()
 //            Toast.makeText(context, context.getString(R.string.feedback_player_crashed), Toast.LENGTH_LONG).show()
 //        }
 //    }
+    companion object {
+        @Volatile var playbackState = PlaybackStateCompat.STATE_STOPPED
+            private set
+    }
 }
 
 class Progress(var time: Long = 0L, var length: Long = 0L)
