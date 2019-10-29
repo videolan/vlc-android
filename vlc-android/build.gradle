@@ -21,6 +21,8 @@ android {
         preDexLibraries true
     }
 
+    kotlinOptions.jvmTarget = "1.8"
+
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     flavorDimensions "abi"
@@ -246,8 +248,8 @@ dependencies {
     implementation project(':tools')
 
     // AppCompat
-    implementation "androidx.activity:activity:$rootProject.ext.androidxActivityVersion"
-    implementation "androidx.fragment:fragment:$rootProject.ext.androidxFragmentVersion"
+    implementation "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"
+    implementation "androidx.fragment:fragment-ktx:$rootProject.ext.androidxFragmentVersion"
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxRecyclerviewVersion"
     implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
     implementation "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
@@ -256,6 +258,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycleViewmodelVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.lifecycleRuntimeVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archVersion"
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
