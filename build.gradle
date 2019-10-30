@@ -36,7 +36,7 @@ ext {
     compileSdkVersion = 29
     androidxLegacyVersion = '1.0.0'
     androidxCoreVersion = '1.1.0'
-    lifecycleViewmodelVersion = '2.1.0'
+    lifecycleViewmodelVersion = '2.2.0-rc01'
     lifecycleRuntimeVersion = '2.2.0-rc01'
     androidxPreferencesVersion = '1.1.0'
     androidxVersion = '1.1.0'
