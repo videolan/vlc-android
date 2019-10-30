@@ -43,6 +43,7 @@ private const val EXTERNAL_SUBTITLES_TABLE_NAME = "external_subtitles_table"
 private const val SLAVES_TABLE_NAME = "SLAVES_table"
 private const val FAV_TABLE_NAME = "fav_table"
 private const val CUSTOM_DIRECTORY_TABLE_NAME = "CustomDirectory"
+private const val MEDIA_METADATA_TABLE_NAME = "media_metadata"
 
 fun dropUnnecessaryTables(database: SupportSQLiteDatabase) {
     database.execSQL("DROP TABLE IF EXISTS $DIR_TABLE_NAME;")
@@ -200,6 +201,13 @@ val migration_28_29 = object:Migration(28, 29) {
         // Drop old External Subtitle Table
         database.execSQL("DROP TABLE IF EXISTS $EXTERNAL_SUBTITLES_TABLE_NAME;")
         database.execSQL("CREATE TABLE IF NOT EXISTS `${EXTERNAL_SUBTITLES_TABLE_NAME}` (`idSubtitle` TEXT NOT NULL, `subtitlePath` TEXT NOT NULL, `mediaPath` TEXT NOT NULL, `subLanguageID` TEXT NOT NULL, `movieReleaseName` TEXT NOT NULL, PRIMARY KEY(`mediaPath`, `idSubtitle`))")
+    }
+}
+
+val migration_29_30 = object : Migration(29, 30) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // Drop old External Subtitle Table
+        database.execSQL("CREATE TABLE IF NOT EXISTS `${MEDIA_METADATA_TABLE_NAME}` (`ml_id` INTEGER NOT NULL, `type` INTEGER NOT NULL, `title` TEXT NOT NULL, `summary` TEXT NOT NULL, `date` INTEGER, PRIMARY KEY(`ml_id`))")
     }
 }
 

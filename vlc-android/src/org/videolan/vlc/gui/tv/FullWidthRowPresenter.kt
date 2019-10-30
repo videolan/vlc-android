@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  NextApiRepository.kt
+ *  FullWidthRowPresenter.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,35 +22,33 @@
  *
  */
 
-package org.videolan.vlc.repository
+package org.videolan.vlc.gui.tv
 
-import org.videolan.vlc.next.INextApiService
-import org.videolan.vlc.next.NextApiClient
-import org.videolan.vlc.next.models.body.ScrobbleBody
-import org.videolan.vlc.next.models.identify.IdentifyResult
-import org.videolan.vlc.next.models.identify.Media
-import org.videolan.vlc.next.models.media.NextResults
-import org.videolan.vlc.next.models.media.cast.CastResult
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.leanback.widget.RowPresenter
+import org.videolan.vlc.R
 
-class NextApiRepository(private val nextApiService: INextApiService) {
+open class FullWidthRowPresenter : RowPresenter() {
 
-    suspend fun search(query: String): NextResults {
-        return nextApiService.search(query = query)
+    open inner class FullWidthRowPresenterViewHolder(view: View) : ViewHolder(view) {
+
+//        init {
+//            val container = view.findViewById<ConstraintLayout>(R.id.container)
+//        }
     }
 
-    suspend fun searchMedia(query: ScrobbleBody): IdentifyResult {
-        return nextApiService.searchMedia(query)
+    init {
+        selectEffectEnabled = false
     }
 
-    suspend fun getMedia(mediaId: String): Media {
-        return nextApiService.getMedia(mediaId)
+    override fun createRowViewHolder(parent: ViewGroup): ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.tv_description_row, parent, false)
+        return FullWidthRowPresenterViewHolder(v)
     }
 
-    suspend fun getMediaCast(mediaId: String): CastResult {
-        return nextApiService.getMediaCast(mediaId)
-    }
-
-    companion object {
-        fun getInstance() = NextApiRepository(NextApiClient.instance)
+    override fun isUsingDefaultSelectEffect(): Boolean {
+        return true
     }
 }

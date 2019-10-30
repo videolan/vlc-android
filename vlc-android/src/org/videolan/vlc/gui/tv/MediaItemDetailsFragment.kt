@@ -33,7 +33,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.widget.*
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,13 +45,19 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
+import org.videolan.vlc.database.models.MediaImageType
+import org.videolan.vlc.database.models.MediaMetadata
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
+import org.videolan.vlc.repository.MediaMetadataRepository
+import org.videolan.vlc.repository.MediaPersonRepository
 import org.videolan.vlc.util.ACTION_REMOTE_STOP
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.viewmodels.MediaMetadataModel
 
 private const val TAG = "MediaItemDetailsFragment"
 private const val ID_PLAY = 1
@@ -67,10 +75,16 @@ private const val ID_GET_INFO = 9
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MediaItemDetailsFragment : DetailsSupportFragment() {
 
+    private lateinit var detailsDescriptionPresenter: DetailsDescriptionPresenter
     private lateinit var backgroundManager: BackgroundManager
     private lateinit var rowsAdapter: ArrayObjectAdapter
     private lateinit var browserFavRepository: BrowserFavRepository
-    private val viewModel : MediaItemDetailsModel by activityViewModels()
+    private lateinit var mediaMetadataRepository: MediaMetadataRepository
+    private lateinit var mediaPersonRepository: MediaPersonRepository
+    private lateinit var mediaMetadataModel: MediaMetadataModel
+    private lateinit var detailsOverview: DetailsOverviewRow
+    private var mediaStarted: Boolean = false
+    private val viewModel: MediaItemDetailsModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +92,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
         backgroundManager.isAutoReleaseOnStop = false
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
         viewModel.mediaStarted = false
+        detailsDescriptionPresenter = DetailsDescriptionPresenter()
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
         viewModel.mediaItemDetails = extras.getParcelable("item") ?: return
@@ -88,11 +103,38 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
         viewModel.media = media
         if (!hasMedia) viewModel.media.setDisplayTitle(viewModel.mediaItemDetails.title)
         title = viewModel.media.title
+        mediaMetadataRepository = MediaMetadataRepository.getInstance(requireContext())
+        mediaPersonRepository = MediaPersonRepository.getInstance(requireContext())
+        mediaStarted = false
         buildDetails()
+
+        mediaMetadataModel = ViewModelProviders.of(this, MediaMetadataModel.Factory(requireActivity(), media.id)).get(media.uri.path
+                ?: "", MediaMetadataModel::class.java)
+
+        mediaMetadataModel.mediaMetadataLiveData.observe(this, Observer {
+            updateMetadata()
+        })
+        mediaMetadataModel.actorsLiveData.observe(this, Observer {
+            updateMetadata()
+        })
+        mediaMetadataModel.writersLiveData.observe(this, Observer {
+            updateMetadata()
+        })
+        mediaMetadataModel.musiciansLiveData.observe(this, Observer {
+            updateMetadata()
+        })
+        mediaMetadataModel.directorsLiveData.observe(this, Observer {
+            updateMetadata()
+        })
+        mediaMetadataModel.producersLiveData.observe(this, Observer {
+            updateMetadata()
+        })
+
     }
 
     override fun onResume() {
         super.onResume()
+//        buildDetails()
         if (!backgroundManager.isAttached) backgroundManager.attachToView(view)
     }
 
@@ -110,14 +152,75 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
         super.onSaveInstanceState(outState)
     }
 
+    private fun updateMetadata() {
+        detailsDescriptionPresenter.metadata = mediaMetadataModel.mediaMetadataLiveData.value?.metadata
+
+        val items = ArrayList<Any>()
+        items.add(detailsOverview)
+
+        if (!mediaMetadataModel.writersLiveData.value.isNullOrEmpty()) {
+            val arrayObjectAdapterWriters = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+            arrayObjectAdapterWriters.setItems(mediaMetadataModel.writersLiveData.value, null)
+            val headerWriters = HeaderItem(0, getString(R.string.written_by))
+            items.add(ListRow(headerWriters, arrayObjectAdapterWriters))
+        }
+
+        if (!mediaMetadataModel.actorsLiveData.value.isNullOrEmpty()) {
+            val arrayObjectAdapterActors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+            arrayObjectAdapterActors.setItems(mediaMetadataModel.actorsLiveData.value, null)
+            val headerActors = HeaderItem(0, getString(R.string.casting))
+            items.add(ListRow(headerActors, arrayObjectAdapterActors))
+        }
+
+        if (!mediaMetadataModel.directorsLiveData.value.isNullOrEmpty()) {
+            val arrayObjectAdapterDirectors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+            arrayObjectAdapterDirectors.setItems(mediaMetadataModel.directorsLiveData.value, null)
+            val headerDirectors = HeaderItem(0, getString(R.string.directed_by))
+            items.add(ListRow(headerDirectors, arrayObjectAdapterDirectors))
+        }
+
+        if (!mediaMetadataModel.producersLiveData.value.isNullOrEmpty()) {
+            val arrayObjectAdapterProducers = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+            arrayObjectAdapterProducers.setItems(mediaMetadataModel.producersLiveData.value, null)
+            val headerProducers = HeaderItem(0, getString(R.string.produced_by))
+            items.add(ListRow(headerProducers, arrayObjectAdapterProducers))
+        }
+
+        if (!mediaMetadataModel.musiciansLiveData.value.isNullOrEmpty()) {
+            val arrayObjectAdapterMusicians = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+            arrayObjectAdapterMusicians.setItems(mediaMetadataModel.musiciansLiveData.value, null)
+            val headerMusicians = HeaderItem(0, getString(R.string.music_by))
+            items.add(ListRow(headerMusicians, arrayObjectAdapterMusicians))
+        }
+
+//                }
+        mediaMetadataModel.mediaMetadataLiveData.value?.let { metadata ->
+            if (metadata.images.any { it.imageType == MediaImageType.POSTER }) {
+                val arrayObjectAdapterPosters = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.POSTER))
+                arrayObjectAdapterPosters.setItems(metadata.images.filter { it.imageType == MediaImageType.POSTER }, null)
+                val headerPosters = HeaderItem(0, getString(R.string.posters))
+                items.add(ListRow(headerPosters, arrayObjectAdapterPosters))
+            }
+
+            if (metadata.images.any { it.imageType == MediaImageType.BACKDROP }) {
+                val arrayObjectAdapterBackdrops = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.BACKDROP))
+                arrayObjectAdapterBackdrops.setItems(metadata.images.filter { it.imageType == MediaImageType.BACKDROP }, null)
+                val headerBackdrops = HeaderItem(0, getString(R.string.backdrops))
+                items.add(ListRow(headerBackdrops, arrayObjectAdapterBackdrops))
+            }
+        }
+        rowsAdapter.setItems(items, null)
+    }
+
     private fun buildDetails() {
         val selector = ClassPresenterSelector()
 
         // Attach your media item details presenter to the row presenter:
-        val rowPresenter = FullWidthDetailsOverviewRowPresenter(DetailsDescriptionPresenter())
+        val rowPresenter = FullWidthDetailsOverviewRowPresenter(detailsDescriptionPresenter)
+        val videoPresenter = VideoDetailsPresenter(requireActivity(), requireActivity().getScreenWidth())
 
         val activity = requireActivity()
-        val detailsOverview = DetailsOverviewRow(viewModel.mediaItemDetails)
+        detailsOverview = DetailsOverviewRow(viewModel.mediaItemDetails)
         val actionAdd = Action(ID_FAVORITE_ADD.toLong(), getString(R.string.favorites_add))
         val actionDelete = Action(ID_FAVORITE_DELETE.toLong(), getString(R.string.favorites_remove))
 
@@ -162,10 +265,11 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                     VideoPlayerActivity.start(requireActivity(), viewModel.media.uri, true)
                     activity.finish()
                 }
-                ID_GET_INFO -> startActivity(Intent(requireActivity(), NextTvActivity::class.java).apply { putExtra(NextTvActivity.MEDIA, mediaWrapper) })
+                ID_GET_INFO -> startActivity(Intent(requireActivity(), NextTvActivity::class.java).apply { putExtra(NextTvActivity.MEDIA, viewModel.media) })
             }
         }
         selector.addClassPresenter(DetailsOverviewRow::class.java, rowPresenter)
+        selector.addClassPresenter(VideoDetailsOverviewRow::class.java, videoPresenter)
         selector.addClassPresenter(ListRow::class.java,
                 ListRowPresenter())
         rowsAdapter = ArrayObjectAdapter(selector)
@@ -187,7 +291,6 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                 detailsOverview.isImageScaleUpAllowed = true
                 detailsOverview.addAction(Action(ID_BROWSE.toLong(), res.getString(R.string.browse_folder)))
                 if (canSave) detailsOverview.addAction(if (browserFavExists) actionDelete else actionAdd)
-
             } else if (viewModel.media.type == AbstractMediaWrapper.TYPE_AUDIO) {
                 // Add images and action buttons to the details view
                 if (cover == null) {
@@ -210,10 +313,10 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                 if (FileUtils.canWrite(viewModel.media.uri))
                     detailsOverview.addAction(Action(ID_DL_SUBS.toLong(), res.getString(R.string.download_subtitles)))
                 detailsOverview.addAction(Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
-                    detailsOverview.addAction(Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
+                detailsOverview.addAction(Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
             }
-            rowsAdapter.add(detailsOverview)
             adapter = rowsAdapter
+            updateMetadata()
             blurred?.let { backgroundManager.setBitmap(blurred) }
         }
     }
@@ -224,3 +327,5 @@ class MediaItemDetailsModel : ViewModel() {
     lateinit var media: AbstractMediaWrapper
     var mediaStarted = false
 }
+
+class VideoDetailsOverviewRow(val item: MediaMetadata) : DetailsOverviewRow(item)

@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  INextApiService.kt
+ *  IdentifyResult.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,25 +22,15 @@
  *
  */
 
-package org.videolan.vlc.next
+package org.videolan.vlc.next.models.identify
 
-import org.videolan.vlc.next.models.body.ScrobbleBody
-import org.videolan.vlc.next.models.identify.IdentifyResult
-import org.videolan.vlc.next.models.identify.Media
-import org.videolan.vlc.next.models.media.NextResults
-import org.videolan.vlc.next.models.media.cast.CastResult
-import retrofit2.http.*
+import com.squareup.moshi.Json
 
-interface INextApiService {
-    @GET("search")
-    suspend fun search(@Query("count") count: Int = 20, @Query("q") query: String): NextResults
+data class IdentifyResult(
+        @field:Json(name = "lucky")
+        val lucky: Media?,
+        @field:Json(name = "results")
+        val results: List<Media>
+)
 
-    @POST("search-media/identify")
-    suspend fun searchMedia(@Body body: ScrobbleBody): IdentifyResult
-
-    @GET("media/{media}")
-    suspend fun getMedia(@Path("media") mediaId: String): Media
-
-    @GET("media/{media}/cast")
-    suspend fun getMediaCast(@Path("media") mediaId: String): CastResult
-}
+fun IdentifyResult.getAllResults() = mutableListOf(lucky).apply { addAll(results) }.distinctBy { media -> media?.mediaId }.filterNotNull()

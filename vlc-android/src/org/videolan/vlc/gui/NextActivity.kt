@@ -40,7 +40,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.NextActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
-import org.videolan.vlc.next.models.MediaResult
+import org.videolan.vlc.next.models.identify.Media
+import org.videolan.vlc.next.models.identify.getAllResults
 import org.videolan.vlc.viewmodels.NextModel
 
 open class NextActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionListener {
@@ -68,12 +69,12 @@ open class NextActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionLi
 
         binding.searchEditText.addTextChangedListener(this)
         binding.searchEditText.setOnEditorActionListener(this)
-        viewModel = ViewModelProviders.of(this, NextModel.Factory(this, media.uri)).get(media.uri.path
+        viewModel = ViewModelProviders.of(this, NextModel.Factory()).get(media.uri.path
                 ?: "", NextModel::class.java)
         viewModel.apiResultLiveData.observe(this, Observer {
-            nextResultAdapter.setItems(it.medias.results)
+            nextResultAdapter.setItems(it.getAllResults())
         })
-        performSearh(media.title)
+        viewModel.search(media.uri)
         binding.searchEditText.setText(media.title)
     }
 
@@ -102,7 +103,7 @@ open class NextActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionLi
             finish()
         }
 
-        fun onItemClick(item: MediaResult) {
+        fun onItemClick(item: Media) {
             //todo
             finish()
         }

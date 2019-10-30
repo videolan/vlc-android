@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  Images.kt
+ *  Backdrop.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,11 +22,15 @@
  *
  */
 
-package org.videolan.vlc.next.models
+package org.videolan.vlc.next.models.identify
 
 import com.squareup.moshi.Json
 
-data class Images(
-        @field:Json(name = "posters")
-        val posters: List<Poster>
+data class Backdrop(
+        @field:Json(name = "language")
+        val language: String,
+        @field:Json(name = "path")
+        val path: String,
+        @field:Json(name = "ratio")
+        val ratio: Double
 )

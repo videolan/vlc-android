@@ -20,28 +20,30 @@
 
 package org.videolan.vlc.database
 
-import androidx.sqlite.db.SupportSQLiteDatabase
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import android.content.Context
+import androidx.sqlite.db.SupportSQLiteDatabase
 import org.videolan.tools.SingletonHolder
-import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.vlc.database.models.CustomDirectory
-import org.videolan.vlc.database.models.ExternalSub
-import org.videolan.vlc.database.models.Slave
+import org.videolan.vlc.database.models.*
 import org.videolan.vlc.util.AndroidDevices
 
 private const val DB_NAME = "vlc_database"
 
-@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class], version = 29)
+@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class, MediaMetadata::class, Person::class, MediaPersonJoin::class, MediaImage::class], version = 30)
 @TypeConverters(Converters::class)
 abstract class MediaDatabase: RoomDatabase() {
     abstract fun externalSubDao(): ExternalSubDao
     abstract fun slaveDao(): SlaveDao
     abstract fun browserFavDao(): BrowserFavDao
     abstract fun customDirectoryDao(): CustomDirectoryDao
+    abstract fun mediaMetadataDao(): MediaMetadataDao
+    abstract fun personDao(): PersonDao
+    abstract fun mediaPersonActorJoinDao(): MediaPersonJoinDao
+    abstract fun mediaMedataDataFullDao(): MediaMetadataDataFullDao
+    abstract fun mediaImageDao(): MediaImageDao
 
     companion object : SingletonHolder<MediaDatabase, Context>({ buildDatabase(it.applicationContext) })
 }
@@ -54,7 +56,8 @@ private fun buildDatabase(context: Context) = Room.databaseBuilder(context.appli
                 migration_13_14, migration_14_15, migration_15_16, migration_16_17,
                 migration_17_18, migration_18_19, migration_19_20, migration_20_21,
                 migration_21_22, migration_22_23, migration_23_24, migration_24_25,
-                migration_25_26, migration_26_27, migration_27_28, migration_28_29)
+                migration_25_26, migration_26_27, migration_27_28, migration_28_29,
+                migration_29_30)
         .addCallback(object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) { if (!AndroidDevices.isTv) populateDB(context) }
         })

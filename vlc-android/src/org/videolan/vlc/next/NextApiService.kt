@@ -30,6 +30,8 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.VLCApplication
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -45,6 +47,7 @@ private fun buildClient() =
                 .client(OkHttpClient.Builder()
                         .addInterceptor(UserAgentInterceptor(USER_AGENT))
                         .addInterceptor(ConnectivityInterceptor())
+                        .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
                         .readTimeout(10, TimeUnit.SECONDS)
                         .connectTimeout(5, TimeUnit.SECONDS)
                         .build())
@@ -56,7 +59,12 @@ private class UserAgentInterceptor(val userAgent: String) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request: Request = chain.request()
-        val userAgentRequest: Request = request.newBuilder().header("User-Agent", userAgent).build()
+        val userAgentRequest: Request = request.newBuilder()
+                .header("User-Agent", userAgent)
+                .header("Client", "vlc-android")
+                .header("Client-Version", BuildConfig.VERSION_CODE.toString())
+                .header("Client-Type", BuildConfig.BUILD_TYPE)
+                .build()
         return chain.proceed(userAgentRequest)
     }
 }

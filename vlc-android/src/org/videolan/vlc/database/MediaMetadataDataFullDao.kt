@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  INextApiService.kt
+ *  MediaMetadataDataFullDao.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,25 +22,20 @@
  *
  */
 
-package org.videolan.vlc.next
+package org.videolan.vlc.database
 
-import org.videolan.vlc.next.models.body.ScrobbleBody
-import org.videolan.vlc.next.models.identify.IdentifyResult
-import org.videolan.vlc.next.models.identify.Media
-import org.videolan.vlc.next.models.media.NextResults
-import org.videolan.vlc.next.models.media.cast.CastResult
-import retrofit2.http.*
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Query
+import org.videolan.vlc.database.models.MediaMetadataWithImages
 
-interface INextApiService {
-    @GET("search")
-    suspend fun search(@Query("count") count: Int = 20, @Query("q") query: String): NextResults
+@Dao
+interface MediaMetadataDataFullDao {
 
-    @POST("search-media/identify")
-    suspend fun searchMedia(@Body body: ScrobbleBody): IdentifyResult
+    @Query("select * from media_metadata where ml_id = :id")
+    fun getMedia(id: Long): LiveData<MediaMetadataWithImages?>
 
-    @GET("media/{media}")
-    suspend fun getMedia(@Path("media") mediaId: String): Media
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    fun insert(mediaMetadataFull: MediaMetadataFull)
 
-    @GET("media/{media}/cast")
-    suspend fun getMediaCast(@Path("media") mediaId: String): CastResult
 }

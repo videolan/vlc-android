@@ -22,7 +22,7 @@
  *
  */
 
-package org.videolan.vlc.next.models
+package org.videolan.vlc.next.models.media
 
 import com.squareup.moshi.Json
 import java.util.*

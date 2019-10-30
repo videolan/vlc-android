@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  INextApiService.kt
+ *  MediaMetadataWithImages.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,25 +22,15 @@
  *
  */
 
-package org.videolan.vlc.next
+package org.videolan.vlc.database.models
 
-import org.videolan.vlc.next.models.body.ScrobbleBody
-import org.videolan.vlc.next.models.identify.IdentifyResult
-import org.videolan.vlc.next.models.identify.Media
-import org.videolan.vlc.next.models.media.NextResults
-import org.videolan.vlc.next.models.media.cast.CastResult
-import retrofit2.http.*
+import androidx.room.Embedded
+import androidx.room.Relation
 
-interface INextApiService {
-    @GET("search")
-    suspend fun search(@Query("count") count: Int = 20, @Query("q") query: String): NextResults
+class MediaMetadataWithImages {
+    @Embedded
+    lateinit var metadata: MediaMetadata
 
-    @POST("search-media/identify")
-    suspend fun searchMedia(@Body body: ScrobbleBody): IdentifyResult
-
-    @GET("media/{media}")
-    suspend fun getMedia(@Path("media") mediaId: String): Media
-
-    @GET("media/{media}/cast")
-    suspend fun getMediaCast(@Path("media") mediaId: String): CastResult
+    @Relation(parentColumn = "ml_id", entityColumn = "media_id", entity = MediaImage::class)
+    var images: List<MediaImage> = ArrayList()
 }

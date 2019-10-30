@@ -1,0 +1,88 @@
+/*
+ * ************************************************************************
+ *  MediaPersonRepository.kt
+ * *************************************************************************
+ * Copyright © 2019 VLC authors and VideoLAN
+ * Author: Nicolas POMEPUY
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ * **************************************************************************
+ *
+ *
+ */
+
+/*******************************************************************************
+ *  BrowserFavRepository.kt
+ * ****************************************************************************
+ * Copyright © 2018 VLC authors and VideoLAN
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ ******************************************************************************/
+
+package org.videolan.vlc.repository
+
+import android.content.Context
+import androidx.lifecycle.LiveData
+import kotlinx.coroutines.launch
+import org.videolan.tools.IOScopedObject
+import org.videolan.tools.SingletonHolder
+import org.videolan.vlc.database.MediaDatabase
+import org.videolan.vlc.database.MediaPersonJoinDao
+import org.videolan.vlc.database.models.MediaMetadata
+import org.videolan.vlc.database.models.MediaPersonJoin
+import org.videolan.vlc.database.models.Person
+import org.videolan.vlc.database.models.PersonType
+
+class MediaPersonRepository(private val mediaPersonActorJoinDao: MediaPersonJoinDao) : IOScopedObject() {
+
+    fun addActor(mediaPerson: MediaPersonJoin) = launch {
+        mediaPersonActorJoinDao.insertActor(mediaPerson)
+    }
+
+    fun getPersons(metadata: MediaMetadata): MediaPersons {
+        return MediaPersons(
+                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.ACTOR),
+                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.DIRECTOR),
+                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.MUSICIAN),
+                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.PRODUCER),
+                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.WRITER)
+        )
+    }
+
+    fun getPersonsByType(mlId: Long, personType: PersonType): LiveData<List<Person>> {
+        return mediaPersonActorJoinDao.getActorsForMediaLive(mlId, personType)
+    }
+
+    companion object : SingletonHolder<MediaPersonRepository, Context>({ MediaPersonRepository(MediaDatabase.getInstance(it).mediaPersonActorJoinDao()) })
+}
+
+data class MediaPersons(
+        val actors: List<Person>,
+        val directors: List<Person>,
+        val musicians: List<Person>,
+        val producers: List<Person>,
+        val writers: List<Person>
+)

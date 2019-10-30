@@ -334,7 +334,7 @@ object FileUtils {
     @WorkerThread
     fun computeHash(file: File): String? {
         val size = file.length()
-        val chunkSizeForFile = Math.min(HASH_CHUNK_SIZE.toLong(), size)
+        val chunkSizeForFile = HASH_CHUNK_SIZE.toLong().coerceAtMost(size)
         val head: Long
         val tail: Long
         var fis: FileInputStream? = null
@@ -346,7 +346,7 @@ object FileUtils {
 
             //Alternate way to calculate tail hash for files over 4GB.
             val bb = ByteBuffer.allocateDirect(chunkSizeForFile.toInt())
-            var position = Math.max(size - HASH_CHUNK_SIZE, 0)
+            var position = (size - HASH_CHUNK_SIZE).coerceAtLeast(0)
             var read = fileChannel.read(bb, position)
             while (read > 0) {
                 position += read.toLong()

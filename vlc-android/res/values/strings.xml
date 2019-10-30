@@ -741,7 +741,20 @@
     <string name="video_group_size_summary">Group by %s first letters</string>
     <string name="video_group_size">Group videos by name</string>
     <string name="url_copied_to_clipboard">Url copied to clipboard</string>
+    <string name="share">Share</string>
+    <string name="invalid_file">Invalid file. Cannot be shared.</string>
+    <string name="share_file">Share %s</string>
+    <string name="share_message">Here is %s</string>
     <string name="find_metadata">Find metadata</string>
     <string name="next_hint">Search metadata</string>
     <string name="next_result">Video results</string>
+    <string name="release_date">Released:</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="directed_by">Directed by</string>
+    <string name="casting">Casting</string>
+    <string name="produced_by">Produced by</string>
+    <string name="written_by">Written by</string>
+    <string name="music_by">Music by</string>
+    <string name="posters">Posters</string>
+    <string name="backdrops">Backdrops</string>
 </resources>

@@ -22,8 +22,12 @@ package org.videolan.vlc.gui.tv
 
 import android.net.Uri
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter
+import org.videolan.vlc.database.models.MediaMetadata
+import org.videolan.vlc.database.models.subtitle
 
 class DetailsDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
+
+    var metadata: MediaMetadata? = null
 
     override fun onBindDescription(viewHolder: ViewHolder, itemData: Any) {
         val details = itemData as MediaItemDetails
@@ -32,18 +36,17 @@ class DetailsDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
         // viewHolder.getTitle().setText(details.getShortTitle());
 
         // Here we provide static data for testing purposes:
-        val body = if (details.body == null)
-            Uri.decode(details.location)
-        else
-            details.body + "\n" + Uri.decode(details.location)
-        viewHolder.title.text = details.title
-        viewHolder.subtitle.text = details.subTitle
+        val body = when {
+            metadata != null -> metadata!!.summary
+            details.body == null -> Uri.decode(details.location)
+            else -> details.body + "\n" + Uri.decode(details.location)
+        }
+        viewHolder.title.text = metadata?.title ?: details.title
+        viewHolder.subtitle.text = metadata?.subtitle() ?: details.subTitle
         viewHolder.body.text = body
     }
 
     companion object {
         const val TAG = "DetailsDescriptionPresenter"
     }
-
-
 }

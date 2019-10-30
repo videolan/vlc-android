@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  Persons.kt
+ *  Externalids.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,17 +22,13 @@
  *
  */
 
-package org.videolan.vlc.next.models
+package org.videolan.vlc.next.models.identify
 
 import com.squareup.moshi.Json
 
-data class Persons(
-        @field:Json(name = "phrases")
-        val phrases: List<Phrase>,
-        @field:Json(name = "resultCount")
-        val resultCount: Int,
-        @field:Json(name = "results")
-        val results: List<PersonResult>,
-        @field:Json(name = "total")
-        val total: Int
+data class Externalids(
+        @field:Json(name = "imdb")
+        val imdb: String,
+        @field:Json(name = "themoviedb")
+        val themoviedb: String
 )

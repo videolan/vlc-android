@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  INextApiService.kt
+ *  Medias.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,25 +22,17 @@
  *
  */
 
-package org.videolan.vlc.next
+package org.videolan.vlc.next.models.media
 
-import org.videolan.vlc.next.models.body.ScrobbleBody
-import org.videolan.vlc.next.models.identify.IdentifyResult
-import org.videolan.vlc.next.models.identify.Media
-import org.videolan.vlc.next.models.media.NextResults
-import org.videolan.vlc.next.models.media.cast.CastResult
-import retrofit2.http.*
+import com.squareup.moshi.Json
 
-interface INextApiService {
-    @GET("search")
-    suspend fun search(@Query("count") count: Int = 20, @Query("q") query: String): NextResults
-
-    @POST("search-media/identify")
-    suspend fun searchMedia(@Body body: ScrobbleBody): IdentifyResult
-
-    @GET("media/{media}")
-    suspend fun getMedia(@Path("media") mediaId: String): Media
-
-    @GET("media/{media}/cast")
-    suspend fun getMediaCast(@Path("media") mediaId: String): CastResult
-}
+data class Medias(
+        @field:Json(name = "phrases")
+        val phrases: List<Phrase>,
+        @field:Json(name = "resultCount")
+        val resultCount: Int,
+        @field:Json(name = "results")
+        val results: List<MediaResult>,
+        @field:Json(name = "total")
+        val total: Int
+)

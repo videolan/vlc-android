@@ -33,13 +33,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.databinding.NextItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.vlc.next.models.MediaResult
-import org.videolan.vlc.next.models.getImageUri
-import org.videolan.vlc.next.models.getYear
+import org.videolan.vlc.next.models.identify.Media
+import org.videolan.vlc.next.models.identify.getImageUri
+import org.videolan.vlc.next.models.identify.getYear
 
 class NextResultAdapter internal constructor(private val mLayoutInflater: LayoutInflater) : RecyclerView.Adapter<NextResultAdapter.ViewHolder>() {
 
-    private var dataList: List<MediaResult>? = null
+    private var dataList: List<Media>? = null
     internal lateinit var clickHandler: NextActivity.ClickHandler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,7 +53,7 @@ class NextResultAdapter internal constructor(private val mLayoutInflater: Layout
         holder.binding.imageUrl = mediaResult.getImageUri()
     }
 
-    fun setItems(newList: List<MediaResult>) {
+    fun setItems(newList: List<Media>) {
         dataList = newList
         notifyDataSetChanged()
     }
@@ -73,6 +73,6 @@ class NextResultAdapter internal constructor(private val mLayoutInflater: Layout
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @BindingAdapter("year")
-fun showYear(view: TextView, item: MediaResult) {
+fun showYear(view: TextView, item: Media) {
     view.text = item.getYear()
 }

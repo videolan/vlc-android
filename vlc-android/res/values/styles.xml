@@ -292,6 +292,27 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="VLCImageCardViewTitleOnly" parent="Theme.Leanback">
+        <item name="imageCardViewStyle">@style/VLCImageCardViewTitleOnlyStyle</item>
+        <item name="imageCardViewTitleStyle">@style/VLCImageCardViewTitleOnlyTextStyle</item>
+    </style>
+
+    <style name="VLCImageCardViewNoTitle" parent="Theme.Leanback">
+        <item name="imageCardViewStyle">@style/VLCImageCardViewNoTitle</item>
+    </style>
+
+    <style name="VLCImageCardViewTitleOnlyTextStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:height">38sp</item>
+    </style>
+
+    <style name="VLCImageCardViewTitleOnlyStyle" parent="Widget.Leanback.ImageCardViewStyle">
+        <item name="android:textAlignment">center</item>
+        <item name="lbImageCardViewType">Title</item>
+    </style>
+
     <style name="VLCImageCardViewContentStyleTextAppearance" parent="TextAppearance.Leanback.ImageCardView.Content">
         <item name="android:gravity">center_horizontal</item>
 

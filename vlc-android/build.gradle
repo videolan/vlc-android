@@ -279,6 +279,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
     implementation "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
 
     // Test
     testImplementation project(":medialibrary")

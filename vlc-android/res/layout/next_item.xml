@@ -32,7 +32,7 @@
 
         <variable
                 name="item"
-                type="org.videolan.vlc.next.models.MediaResult" />
+                type="org.videolan.vlc.next.models.identify.Media" />
 
         <variable
                 name="handler"

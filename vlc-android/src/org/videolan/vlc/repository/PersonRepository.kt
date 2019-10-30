@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  NextTvActivity.kt
+ *  PersonRepository.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,11 +22,10 @@
  *
  */
 
-/*****************************************************************************
- * SearchActivity.java
- *
- * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
- * Author: Geoffrey Métais
+/*******************************************************************************
+ *  BrowserFavRepository.kt
+ * ****************************************************************************
+ * Copyright © 2018 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,50 +40,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- */
-package org.videolan.vlc.gui.tv
+ ******************************************************************************/
 
-import android.annotation.TargetApi
-import android.os.Build
-import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
-import org.videolan.vlc.R
+package org.videolan.vlc.repository
 
-@ExperimentalCoroutinesApi
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class NextTvActivity : FragmentActivity() {
+import android.content.Context
+import kotlinx.coroutines.launch
+import org.videolan.tools.IOScopedObject
+import org.videolan.tools.SingletonHolder
+import org.videolan.vlc.database.MediaDatabase
+import org.videolan.vlc.database.PersonDao
+import org.videolan.vlc.database.models.Person
 
-    private lateinit var fragment: NextTvFragment
-    private lateinit var emptyView: TextView
+class PersonRepository(private val personDao: PersonDao) : IOScopedObject() {
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.tv_next)
-
-        fragment = NextTvFragment().apply { arguments = Bundle().apply { putParcelable(MEDIA, intent.getParcelableExtra<AbstractMediaWrapper>(MEDIA)) } }
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_placeholder, fragment)
-                .commit()
-
-
-        emptyView = findViewById(R.id.empty)
+    fun addPerson(person: Person) = launch {
+        personDao.insert(person)
     }
 
-    fun updateEmptyView(empty: Boolean) {
-        emptyView.visibility = if (empty) View.VISIBLE else View.GONE
-    }
+    fun addPersonImmediate(person: Person) =
+            personDao.insert(person)
 
-    override fun onSearchRequested(): Boolean {
-        fragment.startRecognition()
-        return true
-    }
-
-    companion object {
-        const val MEDIA: String = "MEDIA"
-        private val TAG = "VLC/SearchActivity"
-    }
+    companion object : SingletonHolder<PersonRepository, Context>({ PersonRepository(MediaDatabase.getInstance(it).personDao()) })
 }

@@ -57,6 +57,8 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
+import org.videolan.vlc.next.models.identify.Media
+import org.videolan.vlc.next.models.identify.getAllResults
 import org.videolan.vlc.viewmodels.NextModel
 
 private const val TAG = "SearchFragment"
@@ -72,8 +74,11 @@ class NextTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private val defaultItemClickedListener: OnItemViewClickedListener
         get() = OnItemViewClickedListener { _, item, _, row ->
-            //todo
-            requireActivity().finish()
+            if (item is Media) {
+                viewModel.saveMediaMetadata(requireActivity(), media, item)
+                requireActivity().finish()
+            }
+
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,16 +91,18 @@ class NextTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
 
         media = arguments!!.getParcelable(NextTvActivity.MEDIA)!!
 
-        viewModel = ViewModelProviders.of(this, NextModel.Factory(requireActivity(), media.uri)).get(media.uri.path
+        viewModel = ViewModelProviders.of(this, NextModel.Factory()).get(media.uri.path
                 ?: "", NextModel::class.java)
         viewModel.apiResultLiveData.observe(this, Observer {
             val cp = CardPresenter(requireActivity(), true)
             val videoAdapter = ArrayObjectAdapter(cp)
-            videoAdapter.addAll(0, it.medias.results)
+            val medias = it.getAllResults()
+            videoAdapter.addAll(0, medias)
             rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.next_result)), videoAdapter))
-            updateEmptyView(it.medias.results.isEmpty())
+            updateEmptyView(medias.isEmpty())
         })
-        setSearchQuery(media.title, true)
+        setSearchQuery(media.title, false)
+        viewModel.search(media.uri)
     }
 
     override fun getResultsAdapter() = rowsAdapter

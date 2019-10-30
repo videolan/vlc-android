@@ -47,9 +47,9 @@ import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.*
-import org.videolan.vlc.next.models.MediaResult
-import org.videolan.vlc.next.models.getImageUri
-import org.videolan.vlc.next.models.getYear
+import org.videolan.vlc.next.models.identify.Media
+import org.videolan.vlc.next.models.identify.getImageUri
+import org.videolan.vlc.next.models.identify.getYear
 import org.videolan.vlc.util.*
 
 @ObsoleteCoroutinesApi
@@ -122,7 +122,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
         }
 
         fun updateCardViewImage(image: Uri?) {
-            cardView.mainImage = BitmapDrawable(cardView.resources, getBitmapFromDrawable(context, R.drawable.ic_movie_placeholder))
+            cardView.mainImage = BitmapDrawable(cardView.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_video_big_normal))
             cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
             downloadIcon(cardView.mainImageView, image)
         }
@@ -154,7 +154,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                     true
                 }
             }
-            is MediaResult -> {
+            is Media -> {
                 holder.cardView.titleText = item.title
                 holder.cardView.contentText = item.getYear()
 

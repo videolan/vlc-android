@@ -20,13 +20,44 @@
 
 package org.videolan.vlc.database
 
-import androidx.room.TypeConverter
 import android.net.Uri
-import org.videolan.libvlc.Media
-import org.videolan.vlc.database.models.Slave
-
+import androidx.room.TypeConverter
+import org.videolan.vlc.database.models.MediaImageType
+import org.videolan.vlc.database.models.PersonType
+import java.util.*
 
 class Converters {
     @TypeConverter fun uriToString(uri: Uri): String = uri.toString()
     @TypeConverter fun stringToUri(value: String): Uri = Uri.parse(value)
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time?.toLong()
+    }
+
+    //Person type
+    @TypeConverter
+    fun personTypeToKey(personType: PersonType): Int {
+        return personType.key
+    }
+
+    @TypeConverter
+    fun personTypeFromKey(key: Int): PersonType {
+        return PersonType.fromKey(key)
+    }
+
+    //Media type
+    @TypeConverter
+    fun mediaImageTypeToKey(mediaImageType: MediaImageType): Int {
+        return mediaImageType.key
+    }
+
+    @TypeConverter
+    fun mediaImageTypeFromKey(key: Int): MediaImageType {
+        return MediaImageType.fromKey(key)
+    }
 }
