@@ -58,6 +58,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
             if (!storagePath.endsWith("/")) storagePath += "/"
             vh.binding.item = storage
             updateJob?.join()
+            if (updateJob?.isCancelled == true) return@launch
             val hasContextMenu = customDirsLocation.contains(storagePath)
             val checked = (fragment as StorageBrowserFragment).scannedDirectory || mediaDirsLocation.containsPath(storagePath)
             vh.binding.hasContextMenu = hasContextMenu
@@ -87,7 +88,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
     suspend fun updateListState(context: Context) {
         updateMediaDirs(context)
         updateJob?.join()
-        notifyItemRangeChanged(0, itemCount)
+        if (updateJob?.isCancelled == false) notifyItemRangeChanged(0, itemCount)
     }
 
     fun updateMediaDirs(context: Context) {

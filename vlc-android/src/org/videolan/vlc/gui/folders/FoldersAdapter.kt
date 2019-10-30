@@ -24,7 +24,6 @@ class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<Ab
 
     val multiSelectHelper = MultiSelectHelper(this, UPDATE_SELECTION)
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (!this::inflater.isInitialized) inflater = LayoutInflater.from(parent.context)
         return ViewHolder(FolderItemBinding.inflate(inflater, parent, false))
@@ -54,7 +53,7 @@ class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<Ab
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
-        holder.job?. cancel()
+        holder.job?.cancel()
         holder.job = null
         super.onViewRecycled(holder)
     }
