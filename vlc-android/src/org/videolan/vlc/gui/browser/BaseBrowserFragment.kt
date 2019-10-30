@@ -217,6 +217,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.stop()
     }
 
+    override fun onDestroy() {
+        adapter.cancel()
+        super.onDestroy()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString(KEY_MRL, mrl)
         outState.putParcelable(KEY_MEDIA, currentMedia)
