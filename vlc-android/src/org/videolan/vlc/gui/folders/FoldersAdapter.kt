@@ -19,7 +19,7 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.util.UPDATE_SELECTION
 
 class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<AbstractFolder, FoldersAdapter.ViewHolder>(DIFF_CALLBACK), MultiSelectAdapter<AbstractFolder>, CoroutineScope {
-    override val coroutineContext = Dispatchers.Main.immediate
+    override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     private lateinit var inflater: LayoutInflater
 
     val multiSelectHelper = MultiSelectHelper(this, UPDATE_SELECTION)

@@ -110,6 +110,10 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
     }
 
+    override fun onDestroy() {
+        adapter.cancel()
+        super.onDestroy()
+    }
 
     override fun getTitle(): String = getString(R.string.video)
 
