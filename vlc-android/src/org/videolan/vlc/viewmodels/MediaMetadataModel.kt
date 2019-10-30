@@ -28,40 +28,54 @@ import android.content.Context
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.database.models.Person
 import org.videolan.vlc.database.models.PersonType
 import org.videolan.vlc.repository.MediaMetadataRepository
 import org.videolan.vlc.repository.MediaPersonRepository
 
-class MediaMetadataModel(context: Context, mlId: Long) : ViewModel() {
+class MediaMetadataModel(context: Context, mlId: Long) : ViewModel(), CoroutineScope by MainScope() {
 
-    var mediaMetadataLiveData: MediatorLiveData<MediaMetadataWithImages> = MediatorLiveData()
-    val actorsLiveData: MediatorLiveData<List<Person>> = MediatorLiveData()
-    val writersLiveData: MediatorLiveData<List<Person>> = MediatorLiveData()
-    val producersLiveData: MediatorLiveData<List<Person>> = MediatorLiveData()
-    val musiciansLiveData: MediatorLiveData<List<Person>> = MediatorLiveData()
-    val directorsLiveData: MediatorLiveData<List<Person>> = MediatorLiveData()
+    val updateLiveData: MediatorLiveData<MediaMetadataFull> = MediatorLiveData()
+    private val updateActor = actor<MediaMetadataFull>(capacity = Channel.CONFLATED) {
+        for (entry in channel) {
+            updateLiveData.value = entry
+            delay(100L)
+        }
+    }
 
     init {
+        val mediaMetadataFull = MediaMetadataFull()
         val metadata = MediaMetadataRepository.getInstance(context).getMetadata(mlId)
-        mediaMetadataLiveData.addSource(metadata) {
-            mediaMetadataLiveData.postValue(it)
+        updateLiveData.addSource(metadata) {
+            mediaMetadataFull.metadata = it
+            updateActor.offer(mediaMetadataFull)
+
         }
-        actorsLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.ACTOR)) {
-            actorsLiveData.postValue(it)
+        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.ACTOR)) {
+            mediaMetadataFull.actors = it
+            updateActor.offer(mediaMetadataFull)
         }
-        writersLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.WRITER)) {
-            writersLiveData.postValue(it)
+        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.WRITER)) {
+            mediaMetadataFull.writers = it
+            updateActor.offer(mediaMetadataFull)
         }
-        producersLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.PRODUCER)) {
-            producersLiveData.postValue(it)
+        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.PRODUCER)) {
+            mediaMetadataFull.producers = it
+            updateActor.offer(mediaMetadataFull)
         }
-        musiciansLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.MUSICIAN)) {
-            musiciansLiveData.postValue(it)
+        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.MUSICIAN)) {
+            mediaMetadataFull.musicians = it
+            updateActor.offer(mediaMetadataFull)
         }
-        directorsLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.DIRECTOR)) {
-            directorsLiveData.postValue(it)
+        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.DIRECTOR)) {
+            mediaMetadataFull.directors = it
+            updateActor.offer(mediaMetadataFull)
         }
     }
 
@@ -71,4 +85,13 @@ class MediaMetadataModel(context: Context, mlId: Long) : ViewModel() {
             return MediaMetadataModel(context.applicationContext, mlId) as T
         }
     }
+}
+
+class MediaMetadataFull {
+    var metadata: MediaMetadataWithImages? = null
+    var actors: List<Person>? = null
+    var writers: List<Person>? = null
+    var producers: List<Person>? = null
+    var musicians: List<Person>? = null
+    var directors: List<Person>? = null
 }

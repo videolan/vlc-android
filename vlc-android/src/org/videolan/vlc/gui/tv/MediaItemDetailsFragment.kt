@@ -37,10 +37,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -57,6 +54,7 @@ import org.videolan.vlc.repository.MediaPersonRepository
 import org.videolan.vlc.util.ACTION_REMOTE_STOP
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.viewmodels.MediaMetadataFull
 import org.videolan.vlc.viewmodels.MediaMetadataModel
 
 private const val TAG = "MediaItemDetailsFragment"
@@ -73,7 +71,7 @@ private const val ID_GET_INFO = 9
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class MediaItemDetailsFragment : DetailsSupportFragment() {
+class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by MainScope() {
 
     private lateinit var detailsDescriptionPresenter: DetailsDescriptionPresenter
     private lateinit var backgroundManager: BackgroundManager
@@ -111,25 +109,9 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
         mediaMetadataModel = ViewModelProviders.of(this, MediaMetadataModel.Factory(requireActivity(), media.id)).get(media.uri.path
                 ?: "", MediaMetadataModel::class.java)
 
-        mediaMetadataModel.mediaMetadataLiveData.observe(this, Observer {
-            updateMetadata()
+        mediaMetadataModel.updateLiveData.observe(this, Observer {
+            updateMetadata(it)
         })
-        mediaMetadataModel.actorsLiveData.observe(this, Observer {
-            updateMetadata()
-        })
-        mediaMetadataModel.writersLiveData.observe(this, Observer {
-            updateMetadata()
-        })
-        mediaMetadataModel.musiciansLiveData.observe(this, Observer {
-            updateMetadata()
-        })
-        mediaMetadataModel.directorsLiveData.observe(this, Observer {
-            updateMetadata()
-        })
-        mediaMetadataModel.producersLiveData.observe(this, Observer {
-            updateMetadata()
-        })
-
     }
 
     override fun onResume() {
@@ -152,64 +134,66 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
         super.onSaveInstanceState(outState)
     }
 
-    private fun updateMetadata() {
-        detailsDescriptionPresenter.metadata = mediaMetadataModel.mediaMetadataLiveData.value?.metadata
+    private fun updateMetadata(mediaMetadataFull: MediaMetadataFull?) {
+        mediaMetadataFull?.let { mediaMetadata ->
+            detailsDescriptionPresenter.metadata = mediaMetadata.metadata?.metadata
 
-        val items = ArrayList<Any>()
-        items.add(detailsOverview)
+            val items = ArrayList<Any>()
+            items.add(detailsOverview)
 
-        if (!mediaMetadataModel.writersLiveData.value.isNullOrEmpty()) {
-            val arrayObjectAdapterWriters = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-            arrayObjectAdapterWriters.setItems(mediaMetadataModel.writersLiveData.value, null)
-            val headerWriters = HeaderItem(0, getString(R.string.written_by))
-            items.add(ListRow(headerWriters, arrayObjectAdapterWriters))
-        }
+            if (!mediaMetadata.writers.isNullOrEmpty()) {
+                val arrayObjectAdapterWriters = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+                arrayObjectAdapterWriters.setItems(mediaMetadata.writers, null)
+                val headerWriters = HeaderItem(0, getString(R.string.written_by))
+                items.add(ListRow(headerWriters, arrayObjectAdapterWriters))
+            }
 
-        if (!mediaMetadataModel.actorsLiveData.value.isNullOrEmpty()) {
-            val arrayObjectAdapterActors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-            arrayObjectAdapterActors.setItems(mediaMetadataModel.actorsLiveData.value, null)
-            val headerActors = HeaderItem(0, getString(R.string.casting))
-            items.add(ListRow(headerActors, arrayObjectAdapterActors))
-        }
+            if (!mediaMetadata.actors.isNullOrEmpty()) {
+                val arrayObjectAdapterActors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+                arrayObjectAdapterActors.setItems(mediaMetadata.actors, null)
+                val headerActors = HeaderItem(0, getString(R.string.casting))
+                items.add(ListRow(headerActors, arrayObjectAdapterActors))
+            }
 
-        if (!mediaMetadataModel.directorsLiveData.value.isNullOrEmpty()) {
-            val arrayObjectAdapterDirectors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-            arrayObjectAdapterDirectors.setItems(mediaMetadataModel.directorsLiveData.value, null)
-            val headerDirectors = HeaderItem(0, getString(R.string.directed_by))
-            items.add(ListRow(headerDirectors, arrayObjectAdapterDirectors))
-        }
+            if (!mediaMetadata.directors.isNullOrEmpty()) {
+                val arrayObjectAdapterDirectors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+                arrayObjectAdapterDirectors.setItems(mediaMetadata.directors, null)
+                val headerDirectors = HeaderItem(0, getString(R.string.directed_by))
+                items.add(ListRow(headerDirectors, arrayObjectAdapterDirectors))
+            }
 
-        if (!mediaMetadataModel.producersLiveData.value.isNullOrEmpty()) {
-            val arrayObjectAdapterProducers = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-            arrayObjectAdapterProducers.setItems(mediaMetadataModel.producersLiveData.value, null)
-            val headerProducers = HeaderItem(0, getString(R.string.produced_by))
-            items.add(ListRow(headerProducers, arrayObjectAdapterProducers))
-        }
+            if (!mediaMetadata.producers.isNullOrEmpty()) {
+                val arrayObjectAdapterProducers = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+                arrayObjectAdapterProducers.setItems(mediaMetadata.producers, null)
+                val headerProducers = HeaderItem(0, getString(R.string.produced_by))
+                items.add(ListRow(headerProducers, arrayObjectAdapterProducers))
+            }
 
-        if (!mediaMetadataModel.musiciansLiveData.value.isNullOrEmpty()) {
-            val arrayObjectAdapterMusicians = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-            arrayObjectAdapterMusicians.setItems(mediaMetadataModel.musiciansLiveData.value, null)
-            val headerMusicians = HeaderItem(0, getString(R.string.music_by))
-            items.add(ListRow(headerMusicians, arrayObjectAdapterMusicians))
-        }
+            if (!mediaMetadata.musicians.isNullOrEmpty()) {
+                val arrayObjectAdapterMusicians = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
+                arrayObjectAdapterMusicians.setItems(mediaMetadata.musicians, null)
+                val headerMusicians = HeaderItem(0, getString(R.string.music_by))
+                items.add(ListRow(headerMusicians, arrayObjectAdapterMusicians))
+            }
 
 //                }
-        mediaMetadataModel.mediaMetadataLiveData.value?.let { metadata ->
-            if (metadata.images.any { it.imageType == MediaImageType.POSTER }) {
-                val arrayObjectAdapterPosters = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.POSTER))
-                arrayObjectAdapterPosters.setItems(metadata.images.filter { it.imageType == MediaImageType.POSTER }, null)
-                val headerPosters = HeaderItem(0, getString(R.string.posters))
-                items.add(ListRow(headerPosters, arrayObjectAdapterPosters))
-            }
+            mediaMetadata.metadata?.let { metadata ->
+                if (metadata.images.any { it.imageType == MediaImageType.POSTER }) {
+                    val arrayObjectAdapterPosters = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.POSTER))
+                    arrayObjectAdapterPosters.setItems(metadata.images.filter { it.imageType == MediaImageType.POSTER }, null)
+                    val headerPosters = HeaderItem(0, getString(R.string.posters))
+                    items.add(ListRow(headerPosters, arrayObjectAdapterPosters))
+                }
 
-            if (metadata.images.any { it.imageType == MediaImageType.BACKDROP }) {
-                val arrayObjectAdapterBackdrops = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.BACKDROP))
-                arrayObjectAdapterBackdrops.setItems(metadata.images.filter { it.imageType == MediaImageType.BACKDROP }, null)
-                val headerBackdrops = HeaderItem(0, getString(R.string.backdrops))
-                items.add(ListRow(headerBackdrops, arrayObjectAdapterBackdrops))
+                if (metadata.images.any { it.imageType == MediaImageType.BACKDROP }) {
+                    val arrayObjectAdapterBackdrops = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.BACKDROP))
+                    arrayObjectAdapterBackdrops.setItems(metadata.images.filter { it.imageType == MediaImageType.BACKDROP }, null)
+                    val headerBackdrops = HeaderItem(0, getString(R.string.backdrops))
+                    items.add(ListRow(headerBackdrops, arrayObjectAdapterBackdrops))
+                }
             }
+            rowsAdapter.setItems(items, null)
         }
-        rowsAdapter.setItems(items, null)
     }
 
     private fun buildDetails() {
@@ -316,7 +300,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                 detailsOverview.addAction(Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
             }
             adapter = rowsAdapter
-            updateMetadata()
+            //    updateMetadata(mediaMetadataModel.updateLiveData.value)
             blurred?.let { backgroundManager.setBitmap(blurred) }
         }
     }
