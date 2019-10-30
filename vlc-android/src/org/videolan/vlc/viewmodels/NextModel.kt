@@ -119,6 +119,10 @@ class NextModel : ViewModel() {
                         item.date)
 
                 val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
+
+                val oldMediaMetadata = mediaMetadataRepository.getMetadata(media.id)
+                val oldImages = oldMediaMetadata?.images
+
                 mediaMetadataRepository.addMetadataImmediate(mediaMetadata)
 
                 val images = ArrayList<MediaImage>()
@@ -128,44 +132,58 @@ class NextModel : ViewModel() {
                 item.images?.posters?.forEach {
                     images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.mlId, MediaImageType.POSTER))
                 }
+                //delete old images
+                oldImages?.let {
+                    mediaMetadataRepository.deleteImages(it.filter { images.any { newImage -> it.url == newImage.url }.not() })
+                }
                 mediaMetadataRepository.addImagesImmediate(images)
+
+                val personsToAdd = ArrayList<MediaPersonJoin>()
 
                 val castResult = NextApiRepository.getInstance().getMediaCast(item.mediaId)
                 castResult.actor?.forEach { actor ->
                     val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                     if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as actor")
                     PersonRepository.getInstance(context).addPersonImmediate(actorEntity)
-                    MediaPersonRepository.getInstance(context).addActor(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.ACTOR))
+                    personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.ACTOR))
 
                 }
                 castResult.director?.forEach { actor ->
                     val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                     if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as director")
                     PersonRepository.getInstance(context).addPersonImmediate(actorEntity)
-                    MediaPersonRepository.getInstance(context).addActor(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.DIRECTOR))
+                    personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.DIRECTOR))
 
                 }
                 castResult.writer?.forEach { actor ->
                     val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                     if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as writer")
                     PersonRepository.getInstance(context).addPersonImmediate(actorEntity)
-                    MediaPersonRepository.getInstance(context).addActor(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.WRITER))
+                    personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.WRITER))
 
                 }
                 castResult.musician?.forEach { actor ->
                     val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                     if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as musician")
                     PersonRepository.getInstance(context).addPersonImmediate(actorEntity)
-                    MediaPersonRepository.getInstance(context).addActor(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.MUSICIAN))
+                    personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.MUSICIAN))
 
                 }
                 castResult.producer?.forEach { actor ->
                     val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                     if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as producer")
                     PersonRepository.getInstance(context).addPersonImmediate(actorEntity)
-                    MediaPersonRepository.getInstance(context).addActor(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.PRODUCER))
+                    personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.nextId, PersonType.PRODUCER))
 
                 }
+                MediaPersonRepository.getInstance(context).removeAllFor(mediaMetadata.mlId)
+                MediaPersonRepository.getInstance(context).addPersons(personsToAdd)
+
+                //Remove orphans
+                val allPersons = PersonRepository.getInstance(context).getAll()
+                val allPersonJoins = MediaPersonRepository.getInstance(context).getAll()
+                val personsToRemove = allPersons.filter { person -> allPersonJoins.any { personJoin -> person.nextId == personJoin.personId }.not() }
+                PersonRepository.getInstance(context).deleteAll(personsToRemove)
             }
         }
     }

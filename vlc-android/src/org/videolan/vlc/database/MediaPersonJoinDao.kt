@@ -36,7 +36,16 @@ import org.videolan.vlc.database.models.PersonType
 @Dao
 interface MediaPersonJoinDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertActor(playlistSongJoin: MediaPersonJoin)
+    fun insertPerson(person: MediaPersonJoin)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPersons(persons: List<MediaPersonJoin>)
+
+    @Query("DELETE FROM media_person_join WHERE mediaId = :mlId")
+    fun removeAllFor(mlId: Long)
+
+    @Query("SELECT * FROM media_person_join")
+    fun getAll(): List<MediaPersonJoin>
 
     @Query("""
            SELECT * FROM media_metadata_person

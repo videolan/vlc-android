@@ -46,7 +46,6 @@ package org.videolan.vlc.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.launch
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.MediaDatabase
@@ -58,9 +57,11 @@ import org.videolan.vlc.database.models.PersonType
 
 class MediaPersonRepository(private val mediaPersonActorJoinDao: MediaPersonJoinDao) : IOScopedObject() {
 
-    fun addActor(mediaPerson: MediaPersonJoin) = launch {
-        mediaPersonActorJoinDao.insertActor(mediaPerson)
-    }
+    fun addPersons(mediaPersons: List<MediaPersonJoin>) = mediaPersonActorJoinDao.insertPersons(mediaPersons)
+    fun removeAllFor(mlId: Long) = mediaPersonActorJoinDao.removeAllFor(mlId)
+
+    fun getAll() =
+            mediaPersonActorJoinDao.getAll()
 
     fun getPersons(metadata: MediaMetadata): MediaPersons {
         return MediaPersons(

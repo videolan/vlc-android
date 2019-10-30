@@ -61,5 +61,10 @@ class PersonRepository(private val personDao: PersonDao) : IOScopedObject() {
     fun addPersonImmediate(person: Person) =
             personDao.insert(person)
 
+    fun getAll() =
+            personDao.getAll()
+
+    fun deleteAll(personsToRemove: List<Person>) = personDao.deleteAll(personsToRemove)
+
     companion object : SingletonHolder<PersonRepository, Context>({ PersonRepository(MediaDatabase.getInstance(it).personDao()) })
 }

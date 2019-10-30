@@ -66,7 +66,13 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     fun addImagesImmediate(images: List<MediaImage>) = mediaImageDao.insertAll(images)
 
     @WorkerThread
-    fun getMetadata(mediaId: Long): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMedia(mediaId)
+    fun deleteImages(images: List<MediaImage>) = mediaImageDao.deleteAll(images)
+
+    @WorkerThread
+    fun getMetadataLive(mediaId: Long): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMediaLive(mediaId)
+
+    @WorkerThread
+    suspend fun getMetadata(mediaId: Long): MediaMetadataWithImages? = mediaMetadataFullDao.getMedia(mediaId)
 
     companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao()) })
 }

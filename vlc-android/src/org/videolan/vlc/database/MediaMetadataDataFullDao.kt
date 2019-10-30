@@ -33,7 +33,10 @@ import org.videolan.vlc.database.models.MediaMetadataWithImages
 interface MediaMetadataDataFullDao {
 
     @Query("select * from media_metadata where ml_id = :id")
-    fun getMedia(id: Long): LiveData<MediaMetadataWithImages?>
+    fun getMediaLive(id: Long): LiveData<MediaMetadataWithImages?>
+
+    @Query("select * from media_metadata where ml_id = :id")
+    fun getMedia(id: Long): MediaMetadataWithImages?
 
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    fun insert(mediaMetadataFull: MediaMetadataFull)

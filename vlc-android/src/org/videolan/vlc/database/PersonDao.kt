@@ -44,10 +44,7 @@
 
 package org.videolan.vlc.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import org.videolan.vlc.database.models.Person
 
 @Dao
@@ -55,6 +52,12 @@ interface PersonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(person: Person)
 
+    @Delete
+    fun deleteAll(person: List<Person>)
+
     @Query("SELECT * from media_metadata_person where next_id = :id")
     fun getPerson(id: String): Person
+
+    @Query("SELECT * from media_metadata_person")
+    fun getAll(): List<Person>
 }

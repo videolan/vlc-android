@@ -45,6 +45,7 @@
 package org.videolan.vlc.database
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import org.videolan.vlc.database.models.MediaImage
@@ -56,4 +57,7 @@ interface MediaImageDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(mediaImages: List<MediaImage>)
+
+    @Delete
+    fun deleteAll(mediaImages: List<MediaImage>)
 }

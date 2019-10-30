@@ -51,7 +51,7 @@ class MediaMetadataModel(context: Context, mlId: Long) : ViewModel(), CoroutineS
 
     init {
         val mediaMetadataFull = MediaMetadataFull()
-        val metadata = MediaMetadataRepository.getInstance(context).getMetadata(mlId)
+        val metadata = MediaMetadataRepository.getInstance(context).getMetadataLive(mlId)
         updateLiveData.addSource(metadata) {
             mediaMetadataFull.metadata = it
             updateActor.offer(mediaMetadataFull)
