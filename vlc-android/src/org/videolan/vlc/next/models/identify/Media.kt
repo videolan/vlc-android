@@ -37,7 +37,7 @@ data class Media(
         @field:Json(name = "childrenId")
         val childrenId: List<Any>,
         @field:Json(name = "country")
-        val country: List<String>,
+        val country: List<String>?,
         @field:Json(name = "date")
         val date: Date?,
         @field:Json(name = "externalids")

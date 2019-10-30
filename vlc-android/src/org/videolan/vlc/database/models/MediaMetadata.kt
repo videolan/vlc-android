@@ -49,6 +49,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Entity(tableName = "media_metadata")
 data class MediaMetadata(
@@ -66,16 +67,20 @@ data class MediaMetadata(
         @ColumnInfo(name = "genres")
         val genres: String,
         @ColumnInfo(name = "release_date")
-        val releaseDate: Date?
+        val releaseDate: Date?,
+        @ColumnInfo(name = "countries")
+        val countries: String
 )
 
 fun MediaMetadata.titleWithYear(): String = title + if (releaseDate != null) " - ${SimpleDateFormat("yyyy", Locale.getDefault()).format(releaseDate)}" else ""
 fun MediaMetadata.subtitle(): String {
-    val subtitle = StringBuilder()
-    if (releaseDate != null) {
-        subtitle.append("${SimpleDateFormat("yyyy", Locale.getDefault()).format(releaseDate)} ")
-    }
-    subtitle.append(genres)
 
-    return subtitle.toString()
+    val subtitle = ArrayList<String>()
+    if (releaseDate != null) {
+        subtitle.add("${SimpleDateFormat("yyyy", Locale.getDefault()).format(releaseDate)} ")
+    }
+    subtitle.add("$genres")
+    subtitle.add("$countries")
+
+    return subtitle.joinToString(separator = " · ") { it }
 }

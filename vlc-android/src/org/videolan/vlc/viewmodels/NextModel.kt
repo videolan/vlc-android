@@ -91,15 +91,6 @@ class NextModel : ViewModel() {
         }
     }
 
-    fun getMediaCast(mediaId: String) {
-        mediaJob?.cancel()
-
-        mediaJob = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                getMediaCastResultLiveData.postValue(NextApiRepository.getInstance().getMediaCast(mediaId))
-            }
-        }
-    }
 
     fun saveMediaMetadata(context: Context, media: AbstractMediaWrapper, item: Media) {
         val type = when (item.type) {
@@ -116,7 +107,8 @@ class NextModel : ViewModel() {
                         item.title,
                         item.summary ?: "",
                         item.genre?.joinToString { genre -> genre } ?: "",
-                        item.date)
+                        item.date,
+                        item.country?.joinToString { genre -> genre } ?: "")
 
                 val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
 
