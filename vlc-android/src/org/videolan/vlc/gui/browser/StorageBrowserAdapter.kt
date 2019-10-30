@@ -27,7 +27,10 @@ import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -51,7 +54,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
         val vh = holder as MediaViewHolder
-        vh.job = launch(start = CoroutineStart.UNDISPATCHED) {
+        vh.job = launch {
             var storage = getItem(position)
             if (storage.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as AbstractMediaWrapper).uri)
             var storagePath = (storage as Storage).uri.path ?: ""
@@ -99,8 +102,6 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
         } else {
             AbstractMedialibrary.getInstance().foldersList
         }
-
-
 
         folders.forEach {
             mediaDirsLocation.add(Uri.decode(if (it.startsWith("file://")) it.substring(7) else it))

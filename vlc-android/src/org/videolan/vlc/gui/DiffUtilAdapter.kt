@@ -10,7 +10,7 @@ import kotlinx.coroutines.channels.actor
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>(), CoroutineScope {
-    override val coroutineContext = Dispatchers.Main.immediate
+    override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 
     protected var dataset: List<D> = listOf()
     private set
