@@ -174,7 +174,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
     private fun updateMetadata(mediaMetadataFull: MediaMetadataFull?) {
         var backdropLoaded = false
         mediaMetadataFull?.let { mediaMetadata ->
-            detailsDescriptionPresenter.metadata = mediaMetadata.metadata?.metadata
+            detailsDescriptionPresenter.metadata = mediaMetadata.metadata
             mediaMetadata.metadata?.metadata?.let {
                 loadBackdrop(it.currentBackdrop)
                 backdropLoaded = true

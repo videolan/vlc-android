@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  MediaMetadata.kt
+ *  MediaTvshow.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -46,39 +46,15 @@ package org.videolan.vlc.database.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import java.util.*
 
-@Entity(tableName = "media_metadata", foreignKeys = [ForeignKey(entity = MediaTvshow::class, parentColumns = ["moviepedia_show_id"], childColumns = ["show_id"])])
-data class MediaMetadata(
+@Entity(tableName = "media_tv_show")
+data class MediaTvshow(
         @PrimaryKey
-        @ColumnInfo(name = "ml_id")
-        val mlId: Long,
-        @ColumnInfo(name = "type")
-        val type: Int,
-        @ColumnInfo(name = "moviepedia_id")
-        val moviepediaId: String,
-        @ColumnInfo(name = "title")
-        val title: String,
-        @ColumnInfo(name = "summary")
-        val summary: String,
-        @ColumnInfo(name = "genres")
-        val genres: String,
-        @ColumnInfo(name = "release_date")
-        val releaseDate: Date?,
-        @ColumnInfo(name = "countries")
-        val countries: String,
-        @ColumnInfo(name = "current_poster")
-        var currentPoster: String,
-        @ColumnInfo(name = "season")
-        val season: Int?,
-        @ColumnInfo(name = "episode")
-        val episode: Int?,
-        @ColumnInfo(name = "current_backdrop")
-        var currentBackdrop: String,
-        @ColumnInfo(name = "show_id")
-        var show_id: String?
+        @ColumnInfo(name = "moviepedia_show_id")
+        val moviepediaShowId: String,
+        @ColumnInfo(name = "name")
+        val name: String
 
 )
 

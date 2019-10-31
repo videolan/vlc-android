@@ -26,11 +26,42 @@ package org.videolan.vlc.database.models
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MediaMetadataWithImages {
     @Embedded
     lateinit var metadata: MediaMetadata
 
+    @Relation(parentColumn = "show_id", entityColumn = "moviepedia_show_id", entity = MediaTvshow::class)
+    lateinit var show: MediaTvshow
+
     @Relation(parentColumn = "ml_id", entityColumn = "media_id", entity = MediaImage::class)
     var images: List<MediaImage> = ArrayList()
+}
+
+fun MediaMetadataWithImages.subtitle(): String = if (metadata.type == 0) movieSubtitle() else tvshowSubtitle()
+fun MediaMetadataWithImages.movieSubtitle(): String {
+
+    val subtitle = ArrayList<String>()
+    metadata.releaseDate?.let {
+        subtitle.add(SimpleDateFormat("yyyy", Locale.getDefault()).format(it))
+    }
+    subtitle.add(metadata.genres)
+    subtitle.add(metadata.countries)
+
+    return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
+}
+
+fun MediaMetadataWithImages.tvshowSubtitle(): String {
+
+    val subtitle = ArrayList<String>()
+    metadata.releaseDate?.let {
+        subtitle.add(SimpleDateFormat("yyyy", Locale.getDefault()).format(it))
+    }
+    subtitle.add(show.name)
+    subtitle.add("S${metadata.season.toString().padStart(1, '0')}E${metadata.episode.toString().padStart(1, '0')}")
+
+    return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
 }

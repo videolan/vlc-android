@@ -71,12 +71,35 @@ data class Media(
         @field:Json(name = "title")
         val title: String,
         @field:Json(name = "type")
-        val type: String,
+        val mediaType: MediaType,
         @field:Json(name = "videos")
         val videos: List<Video>,
+        @field:Json(name = "season")
+        val season: Int,
+        @field:Json(name = "episode")
+        val episode: Int,
+        @field:Json(name = "showTitle")
+        val showTitle: String,
+        @field:Json(name = "showId")
+        val showId: String,
         @field:Json(name = "wished")
         val wished: Any
 )
+
+enum class MediaType {
+        @Json(name = "tvshow")
+        TV_SHOW,
+        @Json(name = "tvseason")
+        TV_SEASON,
+        @Json(name = "tvepisode")
+        TV_EPISODE,
+        @Json(name = "movie")
+        MOVIE
+}
+
+fun Media.getCardSubtitle() = if (mediaType == MediaType.TV_EPISODE) getShow() else getYear()
+
+fun Media.getShow() = "$showTitle · S${season.toString().padStart(1, '0')}E${episode.toString().padStart(1, '0')}"
 
 fun Media.getYear() = date?.let {
     SimpleDateFormat("yyyy", Locale.getDefault()).format(date)

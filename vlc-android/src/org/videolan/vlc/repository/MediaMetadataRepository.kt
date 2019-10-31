@@ -49,15 +49,13 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
-import org.videolan.vlc.database.MediaDatabase
-import org.videolan.vlc.database.MediaImageDao
-import org.videolan.vlc.database.MediaMetadataDao
-import org.videolan.vlc.database.MediaMetadataDataFullDao
+import org.videolan.vlc.database.*
 import org.videolan.vlc.database.models.MediaImage
 import org.videolan.vlc.database.models.MediaMetadata
 import org.videolan.vlc.database.models.MediaMetadataWithImages
+import org.videolan.vlc.database.models.MediaTvshow
 
-class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDataFullDao, private val mediaMetadataDao: MediaMetadataDao, private val mediaImageDao: MediaImageDao) : IOScopedObject() {
+class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDataFullDao, private val mediaMetadataDao: MediaMetadataDao, private val mediaImageDao: MediaImageDao, private val mediaTvshowDao: MediaTvshowDao) : IOScopedObject() {
 
     @WorkerThread
     fun addMetadataImmediate(mediaMetadata: MediaMetadata) = mediaMetadataDao.insert(mediaMetadata)
@@ -72,7 +70,10 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     fun getMetadataLive(mediaId: Long): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMediaLive(mediaId)
 
     @WorkerThread
-    suspend fun getMetadata(mediaId: Long): MediaMetadataWithImages? = mediaMetadataFullDao.getMedia(mediaId)
+    fun getMetadata(mediaId: Long): MediaMetadataWithImages? = mediaMetadataFullDao.getMedia(mediaId)
 
-    companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao()) })
+    @WorkerThread
+    fun insertShow(show: MediaTvshow) = mediaTvshowDao.insert(show)
+
+    companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao(), MediaDatabase.getInstance(it).mediaTvshowDao()) })
 }

@@ -48,8 +48,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.moviepedia.models.identify.Media
+import org.videolan.vlc.moviepedia.models.identify.getCardSubtitle
 import org.videolan.vlc.moviepedia.models.identify.getImageUri
-import org.videolan.vlc.moviepedia.models.identify.getYear
 import org.videolan.vlc.util.*
 
 @ObsoleteCoroutinesApi
@@ -156,7 +156,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             }
             is Media -> {
                 holder.cardView.titleText = item.title
-                holder.cardView.contentText = item.getYear()
+                holder.cardView.contentText = item.getCardSubtitle()
 
                 holder.updateCardViewImage(item.getImageUri())
             }

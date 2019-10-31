@@ -41,6 +41,7 @@ import org.videolan.vlc.database.models.*
 import org.videolan.vlc.moviepedia.models.body.ScrobbleBody
 import org.videolan.vlc.moviepedia.models.identify.IdentifyResult
 import org.videolan.vlc.moviepedia.models.identify.Media
+import org.videolan.vlc.moviepedia.models.identify.MediaType
 import org.videolan.vlc.moviepedia.models.identify.getImageUriFromPath
 import org.videolan.vlc.moviepedia.models.media.cast.CastResult
 import org.videolan.vlc.moviepedia.models.media.cast.image
@@ -93,13 +94,25 @@ class MoviepediaModel : ViewModel() {
 
 
     fun saveMediaMetadata(context: Context, media: AbstractMediaWrapper, item: Media) {
-        val type = when (item.type) {
-            "tvshow" -> 1
+        val type = when (item.mediaType) {
+            MediaType.TV_EPISODE -> 1
             else -> 0
         }
 
         mediaJob = viewModelScope.launch {
             withContext(Dispatchers.IO) {
+
+                val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
+
+                val show = when (item.mediaType) {
+                    MediaType.TV_EPISODE -> {
+                        val show = MediaTvshow(item.showId, item.showTitle)
+                        mediaMetadataRepository.insertShow(show)
+                        show.moviepediaShowId
+                    }
+                    else -> null
+                }
+
                 val mediaMetadata = MediaMetadata(
                         media.id,
                         type,
@@ -108,9 +121,8 @@ class MoviepediaModel : ViewModel() {
                         item.summary ?: "",
                         item.genre?.joinToString { genre -> genre } ?: "",
                         item.date,
-                        item.country?.joinToString { genre -> genre } ?: "", "", "")
-
-                val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
+                        item.country?.joinToString { genre -> genre }
+                                ?: "", "", item.season, item.episode, "", show)
 
                 val oldMediaMetadata = mediaMetadataRepository.getMetadata(media.id)
                 val oldImages = oldMediaMetadata?.images
