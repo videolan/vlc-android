@@ -44,10 +44,8 @@
 
 package org.videolan.vlc.database.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Entity(tableName = "media_metadata", foreignKeys = [ForeignKey(entity = MediaTvshow::class, parentColumns = ["moviepedia_show_id"], childColumns = ["show_id"])])
@@ -82,3 +80,109 @@ data class MediaMetadata(
 
 )
 
+class MediaMetadataWithImages {
+    @Embedded
+    lateinit var metadata: MediaMetadata
+
+    @Relation(parentColumn = "show_id", entityColumn = "moviepedia_show_id", entity = MediaTvshow::class)
+    lateinit var show: MediaTvshow
+
+    @Relation(parentColumn = "ml_id", entityColumn = "media_id", entity = MediaImage::class)
+    var images: List<MediaImage> = ArrayList()
+}
+
+fun MediaMetadataWithImages.subtitle(): String = if (metadata.type == 0) movieSubtitle() else tvshowSubtitle()
+fun MediaMetadataWithImages.movieSubtitle(): String {
+
+    val subtitle = ArrayList<String>()
+    metadata.releaseDate?.let {
+        subtitle.add(SimpleDateFormat("yyyy", Locale.getDefault()).format(it))
+    }
+    subtitle.add(metadata.genres)
+    subtitle.add(metadata.countries)
+
+    return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
+}
+
+fun MediaMetadataWithImages.tvshowSubtitle(): String {
+
+    val subtitle = ArrayList<String>()
+    metadata.releaseDate?.let {
+        subtitle.add(SimpleDateFormat("yyyy", Locale.getDefault()).format(it))
+    }
+    subtitle.add(show.name)
+    subtitle.add("S${metadata.season.toString().padStart(1, '0')}E${metadata.episode.toString().padStart(1, '0')}")
+
+    return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
+}
+
+@Entity(tableName = "media_person_join",
+        primaryKeys = arrayOf("mediaId", "personId", "type"),
+        foreignKeys = arrayOf(
+                ForeignKey(entity = MediaMetadata::class,
+                        parentColumns = arrayOf("ml_id"),
+                        childColumns = arrayOf("mediaId")),
+                ForeignKey(entity = Person::class,
+                        parentColumns = arrayOf("moviepedia_id"),
+                        childColumns = arrayOf("personId"))
+        )
+)
+data class MediaPersonJoin(
+        val mediaId: Long,
+        val personId: String,
+        val type: PersonType
+)
+
+enum class PersonType(val key: Int) {
+    ACTOR(0), DIRECTOR(1), MUSICIAN(2), PRODUCER(3), WRITER(4);
+
+    companion object {
+        fun fromKey(key: Int): PersonType {
+            values().forEach { if (it.key == key) return it }
+            return ACTOR
+        }
+    }
+}
+
+@Entity(tableName = "media_tv_show")
+data class MediaTvshow(
+        @PrimaryKey
+        @ColumnInfo(name = "moviepedia_show_id")
+        val moviepediaShowId: String,
+        @ColumnInfo(name = "name")
+        val name: String
+
+)
+
+@Entity(tableName = "media_metadata_person")
+data class Person(
+        @PrimaryKey
+        @ColumnInfo(name = "moviepedia_id")
+        val moviepediaId: String,
+        @ColumnInfo(name = "name")
+        val name: String,
+        @ColumnInfo(name = "image")
+        val image: String?
+)
+
+@Entity(tableName = "media_metadata_image", foreignKeys = [ForeignKey(entity = MediaMetadata::class, parentColumns = ["ml_id"], childColumns = ["media_id"])])
+data class MediaImage(
+        @PrimaryKey
+        @ColumnInfo(name = "url")
+        val url: String,
+        @ColumnInfo(name = "media_id")
+        val mediaId: Long,
+        @ColumnInfo(name = "image_type")
+        val imageType: MediaImageType
+)
+
+enum class MediaImageType(val key: Int) {
+    BACKDROP(0), POSTER(1);
+
+    companion object {
+        fun fromKey(key: Int): MediaImageType {
+            values().forEach { if (it.key == key) return it }
+            return BACKDROP
+        }
+    }
+}
