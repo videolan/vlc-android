@@ -133,7 +133,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.dataset.observe(this, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems -> adapter.update(mediaLibraryItems!!) })
         viewModel.getDescriptionUpdate().observe(this, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
         viewModel.loading.observe(this, Observer {
-
             (activity as? MainActivity)?.refreshing = it
         })
     }
@@ -182,7 +181,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onDestroy() {
-        adapter.cancel()
+        if (::adapter.isInitialized) adapter.cancel()
         super.onDestroy()
     }
 
