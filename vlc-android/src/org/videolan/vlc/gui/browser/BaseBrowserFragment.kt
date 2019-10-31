@@ -62,14 +62,11 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IRefreshable
-import org.videolan.vlc.media.MediaSessionBrowser.browse
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.media.MediaUtils.playAll
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
-import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import java.util.*
 
 private const val TAG = "VLC/BaseBrowserFragment"
@@ -130,8 +127,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val browserShowHiddenFiles = menu.findItem(R.id.browser_show_hidden_files)
         browserShowHiddenFiles.isVisible = true
         browserShowHiddenFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_hidden_files", true)
-
-
     }
 
     protected open fun defineIsRoot() = mrl == null
@@ -186,7 +181,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             viewModel.setDestination(MediaWrapper(Uri.parse(tag)))
             supportFragmentManager.popBackStackImmediate()
         }
-
     }
 
     override fun currentContext() = requireContext()
@@ -218,7 +212,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onDestroy() {
-        adapter.cancel()
+        if (::adapter.isInitialized) adapter.cancel()
         super.onDestroy()
     }
 
@@ -386,7 +380,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         if (!isStarted()) return false
-        val list = adapter.multiSelectHelper.getSelection() as? List<AbstractMediaWrapper> ?: return false
+        val list = adapter.multiSelectHelper.getSelection() as? List<AbstractMediaWrapper>
+                ?: return false
         if (list.isNotEmpty()) {
             when (item.itemId) {
                 R.id.action_mode_file_play -> MediaUtils.openList(activity, list, 0)
