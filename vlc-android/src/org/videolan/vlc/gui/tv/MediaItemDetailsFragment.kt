@@ -95,9 +95,9 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
     }
 
     private val personsDiffCallback = object : DiffCallback<Person>() {
-        override fun areItemsTheSame(oldItem: Person, newItem: Person) = oldItem.nextId == newItem.nextId
+        override fun areItemsTheSame(oldItem: Person, newItem: Person) = oldItem.moviepediaId == newItem.moviepediaId
 
-        override fun areContentsTheSame(oldItem: Person, newItem: Person) = oldItem.nextId == newItem.nextId && oldItem.image == newItem.image && oldItem.name == newItem.name
+        override fun areContentsTheSame(oldItem: Person, newItem: Person) = oldItem.moviepediaId == newItem.moviepediaId && oldItem.image == newItem.image && oldItem.name == newItem.name
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -191,7 +191,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             if (!mediaMetadata.writers.isNullOrEmpty()) {
                 val arrayObjectAdapterWriters = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
                 arrayObjectAdapterWriters.setItems(mediaMetadata.writers, personsDiffCallback)
-                val headerWriters = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                val headerWriters = HeaderItem(mediaMetadata.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.written_by))
                 items.add(ListRow(headerWriters, arrayObjectAdapterWriters))
             }
@@ -199,7 +199,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             if (!mediaMetadata.actors.isNullOrEmpty()) {
                 val arrayObjectAdapterActors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
                 arrayObjectAdapterActors.setItems(mediaMetadata.actors, personsDiffCallback)
-                val headerActors = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                val headerActors = HeaderItem(mediaMetadata.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.casting))
                 items.add(ListRow(headerActors, arrayObjectAdapterActors))
             }
@@ -207,7 +207,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             if (!mediaMetadata.directors.isNullOrEmpty()) {
                 val arrayObjectAdapterDirectors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
                 arrayObjectAdapterDirectors.setItems(mediaMetadata.directors, personsDiffCallback)
-                val headerDirectors = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                val headerDirectors = HeaderItem(mediaMetadata.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.directed_by))
                 items.add(ListRow(headerDirectors, arrayObjectAdapterDirectors))
             }
@@ -215,7 +215,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             if (!mediaMetadata.producers.isNullOrEmpty()) {
                 val arrayObjectAdapterProducers = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
                 arrayObjectAdapterProducers.setItems(mediaMetadata.producers, personsDiffCallback)
-                val headerProducers = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                val headerProducers = HeaderItem(mediaMetadata.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.produced_by))
                 items.add(ListRow(headerProducers, arrayObjectAdapterProducers))
             }
@@ -223,7 +223,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             if (!mediaMetadata.musicians.isNullOrEmpty()) {
                 val arrayObjectAdapterMusicians = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
                 arrayObjectAdapterMusicians.setItems(mediaMetadata.musicians, personsDiffCallback)
-                val headerMusicians = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                val headerMusicians = HeaderItem(mediaMetadata.metadata?.metadata?.moviepediaId?.toLong(36)
                         ?: 0, getString(R.string.music_by))
                 items.add(ListRow(headerMusicians, arrayObjectAdapterMusicians))
             }
@@ -231,7 +231,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             mediaMetadata.metadata?.let { metadata ->
                 if (metadata.images.any { it.imageType == MediaImageType.POSTER }) {
                     arrayObjectAdapterPosters.setItems(metadata.images.filter { it.imageType == MediaImageType.POSTER }, imageDiffCallback)
-                    val headerPosters = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                    val headerPosters = HeaderItem(mediaMetadata.metadata?.metadata?.moviepediaId?.toLong(36)
                             ?: 0, getString(R.string.posters))
                     items.add(ListRow(headerPosters, arrayObjectAdapterPosters))
                 }
@@ -239,7 +239,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 if (metadata.images.any { it.imageType == MediaImageType.BACKDROP }) {
                     val arrayObjectAdapterBackdrops = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.BACKDROP))
                     arrayObjectAdapterBackdrops.setItems(metadata.images.filter { it.imageType == MediaImageType.BACKDROP }, imageDiffCallback)
-                    val headerBackdrops = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                    val headerBackdrops = HeaderItem(mediaMetadata.metadata?.metadata?.moviepediaId?.toLong(36)
                             ?: 0, getString(R.string.backdrops))
                     items.add(ListRow(headerBackdrops, arrayObjectAdapterBackdrops))
                 }
@@ -312,7 +312,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     VideoPlayerActivity.start(requireActivity(), viewModel.media.uri, true)
                     activity.finish()
                 }
-                ID_GET_INFO -> startActivity(Intent(requireActivity(), NextTvActivity::class.java).apply { putExtra(NextTvActivity.MEDIA, viewModel.media) })
+                ID_GET_INFO -> startActivity(Intent(requireActivity(), MoviepediaTvActivity::class.java).apply { putExtra(MoviepediaTvActivity.MEDIA, viewModel.media) })
             }
         }
         selector.addClassPresenter(DetailsOverviewRow::class.java, rowPresenter)

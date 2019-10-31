@@ -495,7 +495,7 @@
                 android:name=".gui.SearchActivity"
                 android:theme="@style/Theme.VLC"/>
         <activity
-                android:name=".gui.NextActivity"
+                android:name=".gui.MoviepediaActivity"
                 android:theme="@style/Theme.VLC" />
         <activity
                 android:name=".gui.SendCrashActivity"
@@ -620,7 +620,7 @@
                 android:screenOrientation="landscape"
                 android:theme="@style/Theme.VLC.Black"/>
         <activity
-                android:name=".gui.tv.NextTvActivity"
+                android:name=".gui.tv.MoviepediaTvActivity"
                 android:exported="true"
                 android:screenOrientation="landscape"
                 android:theme="@style/Theme.VLC.TV" />

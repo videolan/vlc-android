@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  MediaPerson.kt
+ *  CastResult.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,35 +22,19 @@
  *
  */
 
-package org.videolan.vlc.database.models
+package org.videolan.vlc.moviepedia.models.media.cast
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import com.squareup.moshi.Json
 
-@Entity(tableName = "media_person_join",
-        primaryKeys = arrayOf("mediaId", "personId", "type"),
-        foreignKeys = arrayOf(
-                ForeignKey(entity = MediaMetadata::class,
-                        parentColumns = arrayOf("ml_id"),
-                        childColumns = arrayOf("mediaId")),
-                ForeignKey(entity = Person::class,
-                        parentColumns = arrayOf("moviepedia_id"),
-                        childColumns = arrayOf("personId"))
-        )
+data class CastResult(
+        @field:Json(name = "actor")
+        val actor: List<Actor>?,
+        @field:Json(name = "director")
+        val director: List<Director>?,
+        @field:Json(name = "musician")
+        val musician: List<Musician>?,
+        @field:Json(name = "producer")
+        val producer: List<Producer>?,
+        @field:Json(name = "writer")
+        val writer: List<Writer>?
 )
-data class MediaPersonJoin(
-        val mediaId: Long,
-        val personId: String,
-        val type: PersonType
-)
-
-enum class PersonType(val key: Int) {
-    ACTOR(0), DIRECTOR(1), MUSICIAN(2), PRODUCER(3), WRITER(4);
-
-    companion object {
-        fun fromKey(key: Int): PersonType {
-            values().forEach { if (it.key == key) return it }
-            return ACTOR
-        }
-    }
-}

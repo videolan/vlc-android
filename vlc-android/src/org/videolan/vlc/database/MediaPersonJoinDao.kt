@@ -50,7 +50,7 @@ interface MediaPersonJoinDao {
     @Query("""
            SELECT * FROM media_metadata_person
            INNER JOIN media_person_join
-           ON media_metadata_person.next_id=media_person_join.personId
+           ON media_metadata_person.moviepedia_id=media_person_join.personId
            WHERE media_person_join.mediaId=:mediaId AND media_person_join.type=:type
            """)
     fun getActorsForMediaLive(mediaId: Long, type: PersonType): LiveData<List<Person>>
@@ -58,7 +58,7 @@ interface MediaPersonJoinDao {
     @Query("""
            SELECT * FROM media_metadata_person
            INNER JOIN media_person_join
-           ON media_metadata_person.next_id=media_person_join.personId
+           ON media_metadata_person.moviepedia_id=media_person_join.personId
            WHERE media_person_join.mediaId=:mediaId AND media_person_join.type=:type
            """)
     fun getActorsForMedia(mediaId: Long, type: PersonType): List<Person>

@@ -55,7 +55,7 @@ interface PersonDao {
     @Delete
     fun deleteAll(person: List<Person>)
 
-    @Query("SELECT * from media_metadata_person where next_id = :id")
+    @Query("SELECT * from media_metadata_person where moviepedia_id = :id")
     fun getPerson(id: String): Person
 
     @Query("SELECT * from media_metadata_person")

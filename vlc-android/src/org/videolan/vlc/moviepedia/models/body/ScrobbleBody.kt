@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  MediaPerson.kt
+ *  ScrobbleBody.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,35 +22,19 @@
  *
  */
 
-package org.videolan.vlc.database.models
+package org.videolan.vlc.moviepedia.models.body
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-
-@Entity(tableName = "media_person_join",
-        primaryKeys = arrayOf("mediaId", "personId", "type"),
-        foreignKeys = arrayOf(
-                ForeignKey(entity = MediaMetadata::class,
-                        parentColumns = arrayOf("ml_id"),
-                        childColumns = arrayOf("mediaId")),
-                ForeignKey(entity = Person::class,
-                        parentColumns = arrayOf("moviepedia_id"),
-                        childColumns = arrayOf("personId"))
-        )
+data class ScrobbleBody(
+        val osdbhash: String? = null,
+        val infohash: String? = null,
+        val imdbId: String? = null,
+        val dvdId: String? = null,
+        val title: String? = null,
+        val alternativeTitles: String? = null,
+        val filename: String? = null,
+        val show: String? = null,
+        val year: String? = null,
+        val season: String? = null,
+        val episode: String? = null,
+        val duration: String? = null
 )
-data class MediaPersonJoin(
-        val mediaId: Long,
-        val personId: String,
-        val type: PersonType
-)
-
-enum class PersonType(val key: Int) {
-    ACTOR(0), DIRECTOR(1), MUSICIAN(2), PRODUCER(3), WRITER(4);
-
-    companion object {
-        fun fromKey(key: Int): PersonType {
-            values().forEach { if (it.key == key) return it }
-            return ACTOR
-        }
-    }
-}

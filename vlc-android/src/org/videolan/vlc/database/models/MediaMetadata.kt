@@ -58,8 +58,8 @@ data class MediaMetadata(
         val mlId: Long,
         @ColumnInfo(name = "type")
         val type: Int,
-        @ColumnInfo(name = "next_id")
-        val nextId: String,
+        @ColumnInfo(name = "moviepedia_id")
+        val moviepediaId: String,
         @ColumnInfo(name = "title")
         val title: String,
         @ColumnInfo(name = "summary")

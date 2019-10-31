@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  MediaPerson.kt
+ *  INextApiService.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,35 +22,25 @@
  *
  */
 
-package org.videolan.vlc.database.models
+package org.videolan.vlc.moviepedia
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import org.videolan.vlc.moviepedia.models.body.ScrobbleBody
+import org.videolan.vlc.moviepedia.models.identify.IdentifyResult
+import org.videolan.vlc.moviepedia.models.identify.Media
+import org.videolan.vlc.moviepedia.models.media.MoviepediaResults
+import org.videolan.vlc.moviepedia.models.media.cast.CastResult
+import retrofit2.http.*
 
-@Entity(tableName = "media_person_join",
-        primaryKeys = arrayOf("mediaId", "personId", "type"),
-        foreignKeys = arrayOf(
-                ForeignKey(entity = MediaMetadata::class,
-                        parentColumns = arrayOf("ml_id"),
-                        childColumns = arrayOf("mediaId")),
-                ForeignKey(entity = Person::class,
-                        parentColumns = arrayOf("moviepedia_id"),
-                        childColumns = arrayOf("personId"))
-        )
-)
-data class MediaPersonJoin(
-        val mediaId: Long,
-        val personId: String,
-        val type: PersonType
-)
+interface IMoviepediaApiService {
+    @GET("search")
+    suspend fun search(@Query("count") count: Int = 20, @Query("q") query: String): MoviepediaResults
 
-enum class PersonType(val key: Int) {
-    ACTOR(0), DIRECTOR(1), MUSICIAN(2), PRODUCER(3), WRITER(4);
+    @POST("search-media/identify")
+    suspend fun searchMedia(@Body body: ScrobbleBody): IdentifyResult
 
-    companion object {
-        fun fromKey(key: Int): PersonType {
-            values().forEach { if (it.key == key) return it }
-            return ACTOR
-        }
-    }
+    @GET("media/{media}")
+    suspend fun getMedia(@Path("media") mediaId: String): Media
+
+    @GET("media/{media}/cast")
+    suspend fun getMediaCast(@Path("media") mediaId: String): CastResult
 }

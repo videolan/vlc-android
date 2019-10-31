@@ -746,8 +746,8 @@
     <string name="share_file">Share %s</string>
     <string name="share_message">Here is %s</string>
     <string name="find_metadata">Find metadata</string>
-    <string name="next_hint">Search metadata</string>
-    <string name="next_result">Video results</string>
+    <string name="moviepedia_hint">Search metadata</string>
+    <string name="moviepedia_result">Video results</string>
     <string name="release_date">Released:</string>
     <string name="synopsis">Synopsis</string>
     <string name="directed_by">Directed by</string>
