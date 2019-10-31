@@ -42,8 +42,10 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
+import org.videolan.vlc.database.models.MediaImage
 import org.videolan.vlc.database.models.MediaImageType
 import org.videolan.vlc.database.models.MediaMetadata
+import org.videolan.vlc.database.models.Person
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -53,6 +55,7 @@ import org.videolan.vlc.repository.MediaMetadataRepository
 import org.videolan.vlc.repository.MediaPersonRepository
 import org.videolan.vlc.util.ACTION_REMOTE_STOP
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.MediaMetadataFull
 import org.videolan.vlc.viewmodels.MediaMetadataModel
@@ -71,7 +74,7 @@ private const val ID_GET_INFO = 9
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by MainScope() {
+class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by MainScope(), OnItemViewClickedListener {
 
     private lateinit var detailsDescriptionPresenter: DetailsDescriptionPresenter
     private lateinit var backgroundManager: BackgroundManager
@@ -81,8 +84,21 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
     private lateinit var mediaPersonRepository: MediaPersonRepository
     private lateinit var mediaMetadataModel: MediaMetadataModel
     private lateinit var detailsOverview: DetailsOverviewRow
+    private lateinit var arrayObjectAdapterPosters: ArrayObjectAdapter
     private var mediaStarted: Boolean = false
     private val viewModel: MediaItemDetailsModel by activityViewModels()
+
+    private val imageDiffCallback = object : DiffCallback<MediaImage>() {
+        override fun areItemsTheSame(oldItem: MediaImage, newItem: MediaImage) = oldItem.url == newItem.url
+
+        override fun areContentsTheSame(oldItem: MediaImage, newItem: MediaImage) = oldItem.url == newItem.url
+    }
+
+    private val personsDiffCallback = object : DiffCallback<Person>() {
+        override fun areItemsTheSame(oldItem: Person, newItem: Person) = oldItem.nextId == newItem.nextId
+
+        override fun areContentsTheSame(oldItem: Person, newItem: Person) = oldItem.nextId == newItem.nextId && oldItem.image == newItem.image && oldItem.name == newItem.name
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +107,8 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
         viewModel.mediaStarted = false
         detailsDescriptionPresenter = DetailsDescriptionPresenter()
+        arrayObjectAdapterPosters = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.POSTER))
+
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
         viewModel.mediaItemDetails = extras.getParcelable("item") ?: return
@@ -112,6 +130,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         mediaMetadataModel.updateLiveData.observe(this, Observer {
             updateMetadata(it)
         })
+        onItemViewClickedListener = this
     }
 
     override fun onResume() {
@@ -134,66 +153,110 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         super.onSaveInstanceState(outState)
     }
 
+    override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
+        when (item) {
+            is MediaImage -> {
+                mediaMetadataModel.updateMetadataImage(item)
+            }
+        }
+    }
+
+    private fun loadBackdrop(url: String? = null) {
+        lifecycleScope.launchWhenStarted {
+            val cover = if (!url.isNullOrEmpty()) withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(url) } else if (viewModel.media.type == AbstractMediaWrapper.TYPE_AUDIO || viewModel.media.type == AbstractMediaWrapper.TYPE_VIDEO)
+                withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512) }
+            else null
+            val blurred = cover?.let { withContext(Dispatchers.IO) { UiTools.blurBitmap(it) } }
+            blurred?.let { backgroundManager.setBitmap(blurred) }
+        }
+    }
+
     private fun updateMetadata(mediaMetadataFull: MediaMetadataFull?) {
+        var backdropLoaded = false
         mediaMetadataFull?.let { mediaMetadata ->
             detailsDescriptionPresenter.metadata = mediaMetadata.metadata?.metadata
+            mediaMetadata.metadata?.metadata?.let {
+                loadBackdrop(it.currentBackdrop)
+                backdropLoaded = true
+            }
+            lifecycleScope.launchWhenStarted {
+                if (!mediaMetadata.metadata?.metadata?.currentPoster.isNullOrEmpty()) {
+                    detailsOverview.setImageBitmap(requireActivity(), withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(mediaMetadata.metadata?.metadata?.currentPoster!!) })
+                }
+            }
 
             val items = ArrayList<Any>()
             items.add(detailsOverview)
 
             if (!mediaMetadata.writers.isNullOrEmpty()) {
                 val arrayObjectAdapterWriters = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterWriters.setItems(mediaMetadata.writers, null)
-                val headerWriters = HeaderItem(0, getString(R.string.written_by))
+                arrayObjectAdapterWriters.setItems(mediaMetadata.writers, personsDiffCallback)
+                val headerWriters = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                        ?: 0, getString(R.string.written_by))
                 items.add(ListRow(headerWriters, arrayObjectAdapterWriters))
             }
 
             if (!mediaMetadata.actors.isNullOrEmpty()) {
                 val arrayObjectAdapterActors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterActors.setItems(mediaMetadata.actors, null)
-                val headerActors = HeaderItem(0, getString(R.string.casting))
+                arrayObjectAdapterActors.setItems(mediaMetadata.actors, personsDiffCallback)
+                val headerActors = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                        ?: 0, getString(R.string.casting))
                 items.add(ListRow(headerActors, arrayObjectAdapterActors))
             }
 
             if (!mediaMetadata.directors.isNullOrEmpty()) {
                 val arrayObjectAdapterDirectors = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterDirectors.setItems(mediaMetadata.directors, null)
-                val headerDirectors = HeaderItem(0, getString(R.string.directed_by))
+                arrayObjectAdapterDirectors.setItems(mediaMetadata.directors, personsDiffCallback)
+                val headerDirectors = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                        ?: 0, getString(R.string.directed_by))
                 items.add(ListRow(headerDirectors, arrayObjectAdapterDirectors))
             }
 
             if (!mediaMetadata.producers.isNullOrEmpty()) {
                 val arrayObjectAdapterProducers = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterProducers.setItems(mediaMetadata.producers, null)
-                val headerProducers = HeaderItem(0, getString(R.string.produced_by))
+                arrayObjectAdapterProducers.setItems(mediaMetadata.producers, personsDiffCallback)
+                val headerProducers = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                        ?: 0, getString(R.string.produced_by))
                 items.add(ListRow(headerProducers, arrayObjectAdapterProducers))
             }
 
             if (!mediaMetadata.musicians.isNullOrEmpty()) {
                 val arrayObjectAdapterMusicians = ArrayObjectAdapter(PersonCardPresenter(requireActivity()))
-                arrayObjectAdapterMusicians.setItems(mediaMetadata.musicians, null)
-                val headerMusicians = HeaderItem(0, getString(R.string.music_by))
+                arrayObjectAdapterMusicians.setItems(mediaMetadata.musicians, personsDiffCallback)
+                val headerMusicians = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                        ?: 0, getString(R.string.music_by))
                 items.add(ListRow(headerMusicians, arrayObjectAdapterMusicians))
             }
 
-//                }
             mediaMetadata.metadata?.let { metadata ->
                 if (metadata.images.any { it.imageType == MediaImageType.POSTER }) {
-                    val arrayObjectAdapterPosters = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.POSTER))
-                    arrayObjectAdapterPosters.setItems(metadata.images.filter { it.imageType == MediaImageType.POSTER }, null)
-                    val headerPosters = HeaderItem(0, getString(R.string.posters))
+                    arrayObjectAdapterPosters.setItems(metadata.images.filter { it.imageType == MediaImageType.POSTER }, imageDiffCallback)
+                    val headerPosters = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                            ?: 0, getString(R.string.posters))
                     items.add(ListRow(headerPosters, arrayObjectAdapterPosters))
                 }
 
                 if (metadata.images.any { it.imageType == MediaImageType.BACKDROP }) {
                     val arrayObjectAdapterBackdrops = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.BACKDROP))
-                    arrayObjectAdapterBackdrops.setItems(metadata.images.filter { it.imageType == MediaImageType.BACKDROP }, null)
-                    val headerBackdrops = HeaderItem(0, getString(R.string.backdrops))
+                    arrayObjectAdapterBackdrops.setItems(metadata.images.filter { it.imageType == MediaImageType.BACKDROP }, imageDiffCallback)
+                    val headerBackdrops = HeaderItem(mediaMetadata.metadata?.metadata?.nextId?.toLong(36)
+                            ?: 0, getString(R.string.backdrops))
                     items.add(ListRow(headerBackdrops, arrayObjectAdapterBackdrops))
                 }
             }
-            rowsAdapter.setItems(items, null)
+            rowsAdapter.setItems(items, object : DiffCallback<Row>() {
+                override fun areItemsTheSame(oldItem: Row, newItem: Row) = (oldItem is DetailsOverviewRow && newItem is DetailsOverviewRow && (oldItem.item == newItem.item)) || (oldItem is ListRow && newItem is ListRow && oldItem.contentDescription == newItem.contentDescription && oldItem.adapter.size() == newItem.adapter.size() && oldItem.id == newItem.id)
+
+                override fun areContentsTheSame(oldItem: Row, newItem: Row): Boolean {
+                    if (oldItem is DetailsOverviewRow && newItem is DetailsOverviewRow) {
+                        return oldItem.item as MediaItemDetails == newItem.item as MediaItemDetails
+                    }
+                    return true
+                }
+            })
+            rowsAdapter.notifyItemRangeChanged(0, 1)
         }
+        if (!backdropLoaded) loadBackdrop()
     }
 
     private fun buildDetails() {
@@ -261,7 +324,6 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             val cover = if (viewModel.media.type == AbstractMediaWrapper.TYPE_AUDIO || viewModel.media.type == AbstractMediaWrapper.TYPE_VIDEO)
                 withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512) }
             else null
-            val blurred = cover?.let { withContext(Dispatchers.IO) { UiTools.blurBitmap(it) } }
             val browserFavExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(Uri.parse(viewModel.mediaItemDetails.location)) }
             val isDir = viewModel.media.type == AbstractMediaWrapper.TYPE_DIR
             val canSave = isDir && withContext(Dispatchers.IO) { FileUtils.canSave(viewModel.media) }
@@ -301,7 +363,6 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             }
             adapter = rowsAdapter
             //    updateMetadata(mediaMetadataModel.updateLiveData.value)
-            blurred?.let { backgroundManager.setBitmap(blurred) }
         }
     }
 }

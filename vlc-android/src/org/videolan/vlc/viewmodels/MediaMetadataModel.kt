@@ -28,18 +28,14 @@ import android.content.Context
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.delay
-import org.videolan.vlc.database.models.MediaMetadataWithImages
-import org.videolan.vlc.database.models.Person
-import org.videolan.vlc.database.models.PersonType
+import org.videolan.vlc.database.models.*
 import org.videolan.vlc.repository.MediaMetadataRepository
 import org.videolan.vlc.repository.MediaPersonRepository
 
-class MediaMetadataModel(context: Context, mlId: Long) : ViewModel(), CoroutineScope by MainScope() {
+class MediaMetadataModel(private val context: Context, mlId: Long) : ViewModel(), CoroutineScope by MainScope() {
 
     val updateLiveData: MediatorLiveData<MediaMetadataFull> = MediatorLiveData()
     private val updateActor = actor<MediaMetadataFull>(capacity = Channel.CONFLATED) {
@@ -76,6 +72,19 @@ class MediaMetadataModel(context: Context, mlId: Long) : ViewModel(), CoroutineS
         updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mlId, PersonType.DIRECTOR)) {
             mediaMetadataFull.directors = it
             updateActor.offer(mediaMetadataFull)
+        }
+    }
+
+    fun updateMetadataImage(item: MediaImage) {
+        val metadata = updateLiveData.value?.metadata?.metadata ?: return
+        when (item.imageType) {
+            MediaImageType.POSTER -> metadata.currentPoster = item.url
+            MediaImageType.BACKDROP -> metadata.currentBackdrop = item.url
+        }
+        launch {
+            withContext(Dispatchers.IO) {
+                MediaMetadataRepository.getInstance(context).addMetadataImmediate(metadata)
+            }
         }
     }
 

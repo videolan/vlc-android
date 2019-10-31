@@ -69,7 +69,11 @@ data class MediaMetadata(
         @ColumnInfo(name = "release_date")
         val releaseDate: Date?,
         @ColumnInfo(name = "countries")
-        val countries: String
+        val countries: String,
+        @ColumnInfo(name = "current_poster")
+        var currentPoster: String,
+        @ColumnInfo(name = "current_backdrop")
+        var currentBackdrop: String
 )
 
 fun MediaMetadata.titleWithYear(): String = title + if (releaseDate != null) " - ${SimpleDateFormat("yyyy", Locale.getDefault()).format(releaseDate)}" else ""
@@ -82,5 +86,5 @@ fun MediaMetadata.subtitle(): String {
     subtitle.add("$genres")
     subtitle.add("$countries")
 
-    return subtitle.joinToString(separator = " · ") { it }
+    return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
 }

@@ -108,7 +108,7 @@ class NextModel : ViewModel() {
                         item.summary ?: "",
                         item.genre?.joinToString { genre -> genre } ?: "",
                         item.date,
-                        item.country?.joinToString { genre -> genre } ?: "")
+                        item.country?.joinToString { genre -> genre } ?: "", "", "")
 
                 val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
 
