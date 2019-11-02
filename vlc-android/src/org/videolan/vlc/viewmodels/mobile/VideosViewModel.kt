@@ -109,11 +109,6 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Abs
         MediaUtils.openList(context, list, 0)
     }
 
-    internal fun playGroupsSelection(selection: List<AbstractVideoGroup>) = viewModelScope.launch {
-        val list = selection.flatMap { it.getAll() }
-        MediaUtils.openList(context, list, 0)
-    }
-
     internal fun addToPlaylist(activity: FragmentActivity, position: Int) = viewModelScope.launch {
         val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
@@ -126,11 +121,6 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Abs
     }
 
     internal fun appendFoldersSelection(selection: List<AbstractFolder>) = viewModelScope.launch {
-        val list = selection.flatMap { it.getAll() }
-        MediaUtils.appendMedia(context, list)
-    }
-
-    internal fun appendGroupsSelection(selection: List<AbstractVideoGroup>) = viewModelScope.launch {
         val list = selection.flatMap { it.getAll() }
         MediaUtils.appendMedia(context, list)
     }

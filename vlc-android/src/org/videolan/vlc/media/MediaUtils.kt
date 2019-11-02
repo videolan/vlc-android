@@ -218,18 +218,14 @@ object MediaUtils : CoroutineScope {
             when (count) {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
-                    provider.getAll().flatMap {
-                        it.media(AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
-                    }
+                    provider.getAll().toList()
                 })
                 else -> {
                     var index = 0
                     while (index < count) {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) {
-                            provider.getPage(pageCount, index).flatMap {
-                                it.media(AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
-                            }
+                            provider.getPage(pageCount, index).toList()
                         }
                         if (index == 0) play(list)
                         else service.append(list)
@@ -543,12 +539,22 @@ fun AbstractVideoGroup.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, des
     return all
 }
 
-fun List<AbstractVideoGroup>.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AbstractMediaWrapper> {
-return flatMap { it.getAll(sort, desc) }
+fun List<MediaLibraryItem>.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) =  flatMap {
+    when (it) {
+        is AbstractVideoGroup -> it.getAll(sort, desc)
+        is AbstractMediaWrapper -> listOf(it)
+        else -> listOf()
+    }
 }
 
-fun List<AbstractFolder>.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AbstractMediaWrapper> {
-    return flatMap { it.getAll(type, sort, desc) }
+fun List<AbstractFolder>.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) =  flatMap {
+    it.getAll(type, sort, desc)
+}
+
+private fun Array<MediaLibraryItem>.toList() = flatMap {
+    if (it is AbstractVideoGroup) {
+        it.media(AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
+    } else listOf(this as AbstractMediaWrapper)
 }
 
 private sealed class Action
