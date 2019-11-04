@@ -6,6 +6,7 @@ import android.content.ContextWrapper
 import android.os.Build
 import org.videolan.vlc.VLCApplication
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
 fun ContextWrapper.wrap(language: String): ContextWrapper {
@@ -41,6 +42,18 @@ fun ContextWrapper.getSystemLocaleLegacy(): Locale = baseContext.resources.confi
 
 @TargetApi(Build.VERSION_CODES.N)
 fun ContextWrapper.getSystemLocale(): Locale = baseContext.resources.configuration.locales[0]
+
+@Suppress("DEPRECATION")
+fun Context.getLocaleLanguages(): List<String> {
+    val locales = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        val locales = ArrayList<Locale>()
+        for (i in 0 until resources.configuration.locales.size()) {
+            locales.add(resources.configuration.locales.get(i))
+        }
+        locales
+    } else arrayListOf(resources.configuration.locale)
+    return locales.map { it.language }
+}
 
 @Suppress("DEPRECATION")
 fun ContextWrapper.setSystemLocaleLegacy(locale: Locale) {

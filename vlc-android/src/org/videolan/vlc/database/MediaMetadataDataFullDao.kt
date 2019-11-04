@@ -38,6 +38,9 @@ interface MediaMetadataDataFullDao {
     @Query("select * from media_metadata where ml_id = :id")
     fun getMedia(id: Long): MediaMetadataWithImages?
 
+    @Query("select count(ml_id) from media_metadata where type = 0")
+    fun getMovieCount(): Int
+
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    fun insert(mediaMetadataFull: MediaMetadataFull)
 

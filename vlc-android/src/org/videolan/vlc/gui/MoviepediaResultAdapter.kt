@@ -36,21 +36,22 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.moviepedia.models.identify.Media
 import org.videolan.vlc.moviepedia.models.identify.getImageUri
 import org.videolan.vlc.moviepedia.models.identify.getYear
+import org.videolan.vlc.util.getLocaleLanguages
 
-class MoviepediaResultAdapter internal constructor(private val mLayoutInflater: LayoutInflater) : RecyclerView.Adapter<MoviepediaResultAdapter.ViewHolder>() {
+class MoviepediaResultAdapter internal constructor(private val layoutInflater: LayoutInflater) : RecyclerView.Adapter<MoviepediaResultAdapter.ViewHolder>() {
 
     private var dataList: List<Media>? = null
     internal lateinit var clickHandler: MoviepediaActivity.ClickHandler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(MoviepediaItemBinding.inflate(mLayoutInflater, parent, false))
+        return ViewHolder(MoviepediaItemBinding.inflate(layoutInflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val mediaResult = dataList!![position]
         holder.binding.item = mediaResult
-        holder.binding.imageUrl = mediaResult.getImageUri()
+        holder.binding.imageUrl = mediaResult.getImageUri(layoutInflater.context.getLocaleLanguages())
     }
 
     fun setItems(newList: List<Media>) {

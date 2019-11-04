@@ -95,6 +95,14 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d videos</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 movie</item>
+        <item quantity="other">%d movies</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV show</item>
+        <item quantity="other">%d TV shows</item>
+    </plurals>
 
     <string name="internal_memory">Internal memory</string>
     <string name="parent_folder">Up to parent folder</string>
@@ -757,4 +765,8 @@
     <string name="music_by">Music by</string>
     <string name="posters">Posters</string>
     <string name="backdrops">Backdrops</string>
+    <string name="header_tvshows">TV shows</string>
+    <string name="all_movies">All movies</string>
+    <string name="movie_count">%s movie(s)</string>
+    <string name="header_movies">Movies</string>
 </resources>

@@ -27,6 +27,7 @@ package org.videolan.vlc.database
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import org.videolan.vlc.database.models.MediaTvshow
 
 @Dao
@@ -34,4 +35,7 @@ interface MediaTvshowDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(show: MediaTvshow)
+
+    @Query("select count(moviepedia_show_id) from media_tv_show")
+    fun getTvshowsCount(): Int
 }

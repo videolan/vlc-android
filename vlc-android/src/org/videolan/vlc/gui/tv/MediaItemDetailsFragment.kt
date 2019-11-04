@@ -184,6 +184,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     detailsOverview.setImageBitmap(requireActivity(), withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(mediaMetadata.metadata?.metadata?.currentPoster!!) })
                 }
             }
+            title = mediaMetadata.metadata?.metadata?.title
 
             val items = ArrayList<Any>()
             items.add(detailsOverview)

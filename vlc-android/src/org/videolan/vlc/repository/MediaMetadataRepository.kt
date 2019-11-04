@@ -70,6 +70,12 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     fun getMetadataLive(mediaId: Long): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMediaLive(mediaId)
 
     @WorkerThread
+    fun getMovieCount(): Int = mediaMetadataFullDao.getMovieCount()
+
+    @WorkerThread
+    fun getTvshowsCount(): Int = mediaTvshowDao.getTvshowsCount()
+
+    @WorkerThread
     fun getMetadata(mediaId: Long): MediaMetadataWithImages? = mediaMetadataFullDao.getMedia(mediaId)
 
     @WorkerThread

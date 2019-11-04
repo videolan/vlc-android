@@ -158,7 +158,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                 holder.cardView.titleText = item.title
                 holder.cardView.contentText = item.getCardSubtitle()
 
-                holder.updateCardViewImage(item.getImageUri())
+                holder.updateCardViewImage(item.getImageUri(context.getLocaleLanguages()))
             }
             is MediaLibraryItem -> {
                 holder.cardView.titleText = item.title

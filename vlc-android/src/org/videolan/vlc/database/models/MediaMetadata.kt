@@ -67,12 +67,12 @@ data class MediaMetadata(
         val releaseDate: Date?,
         @ColumnInfo(name = "countries")
         val countries: String,
-        @ColumnInfo(name = "current_poster")
-        var currentPoster: String,
         @ColumnInfo(name = "season")
         val season: Int?,
         @ColumnInfo(name = "episode")
         val episode: Int?,
+        @ColumnInfo(name = "current_poster")
+        var currentPoster: String,
         @ColumnInfo(name = "current_backdrop")
         var currentBackdrop: String,
         @ColumnInfo(name = "show_id")
@@ -173,7 +173,9 @@ data class MediaImage(
         @ColumnInfo(name = "media_id")
         val mediaId: Long,
         @ColumnInfo(name = "image_type")
-        val imageType: MediaImageType
+        val imageType: MediaImageType,
+        @ColumnInfo(name = "image_language")
+        val language: String
 )
 
 enum class MediaImageType(val key: Int) {

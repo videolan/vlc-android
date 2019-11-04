@@ -39,10 +39,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.database.models.*
 import org.videolan.vlc.moviepedia.models.body.ScrobbleBody
-import org.videolan.vlc.moviepedia.models.identify.IdentifyResult
-import org.videolan.vlc.moviepedia.models.identify.Media
-import org.videolan.vlc.moviepedia.models.identify.MediaType
-import org.videolan.vlc.moviepedia.models.identify.getImageUriFromPath
+import org.videolan.vlc.moviepedia.models.identify.*
 import org.videolan.vlc.moviepedia.models.media.cast.CastResult
 import org.videolan.vlc.moviepedia.models.media.cast.image
 import org.videolan.vlc.repository.MediaMetadataRepository
@@ -50,6 +47,7 @@ import org.videolan.vlc.repository.MediaPersonRepository
 import org.videolan.vlc.repository.MoviepediaApiRepository
 import org.videolan.vlc.repository.PersonRepository
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.getLocaleLanguages
 import java.io.File
 
 class MoviepediaModel : ViewModel() {
@@ -113,6 +111,7 @@ class MoviepediaModel : ViewModel() {
                     else -> null
                 }
 
+                val languages = context.getLocaleLanguages()
                 val mediaMetadata = MediaMetadata(
                         media.id,
                         type,
@@ -122,7 +121,7 @@ class MoviepediaModel : ViewModel() {
                         item.genre?.joinToString { genre -> genre } ?: "",
                         item.date,
                         item.country?.joinToString { genre -> genre }
-                                ?: "", "", item.season, item.episode, "", show)
+                                ?: "", item.season, item.episode, item.getImageUri(languages).toString(), item.getBackdropUri(languages).toString(), show)
 
                 val oldMediaMetadata = mediaMetadataRepository.getMetadata(media.id)
                 val oldImages = oldMediaMetadata?.images
@@ -130,11 +129,11 @@ class MoviepediaModel : ViewModel() {
                 mediaMetadataRepository.addMetadataImmediate(mediaMetadata)
 
                 val images = ArrayList<MediaImage>()
-                item.images?.backdrops?.forEach {
-                    images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.mlId, MediaImageType.BACKDROP))
+                item.getBackdrops(languages)?.forEach {
+                    images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.mlId, MediaImageType.BACKDROP, it.language))
                 }
-                item.images?.posters?.forEach {
-                    images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.mlId, MediaImageType.POSTER))
+                item.getPosters(languages)?.forEach {
+                    images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.mlId, MediaImageType.POSTER, it.language))
                 }
                 //delete old images
                 oldImages?.let {

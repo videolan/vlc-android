@@ -181,6 +181,17 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             resetLines()
 
         })
+        model.tvshows.observe(this, Observer {
+            if (it.size > 0) {
+                videoAdapter.add(2, GenericCardItem(ID_ALL_TVSHOWS, getString(R.string.header_tvshows), getString(R.string.movie_count, it.size.toString()), R.drawable.ic_browser_video_big_normal, R.color.tv_card_content_dark))
+            } else {
+
+            }
+            resetLines()
+        })
+        model.movies.observe(this, Observer {
+            videoAdapter.add(1, GenericCardItem(ID_ALL_MOVIES, getString(R.string.header_movies), getString(R.string.movie_count, it.size.toString()), R.drawable.ic_browser_video_big_normal, R.color.tv_card_content_dark))
+        })
     }
 
     private fun resetLines() {

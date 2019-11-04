@@ -28,6 +28,7 @@ import android.net.Uri
 import com.squareup.moshi.Json
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.Comparator
 
 data class IdentifyResult(
         @field:Json(name = "lucky")
@@ -137,7 +138,19 @@ fun Media.getYear() = date?.let {
         SimpleDateFormat("yyyy", Locale.getDefault()).format(date)
 }
 
-fun Media.getImageUri() = images?.posters?.firstOrNull()?.let {
+fun Media.getPosters(languages: List<String>) = images?.posters?.sortedWith(Comparator { p0, p1 ->
+        -(languages.indexOf(p0.language) - languages.indexOf(p1.language))
+})
+
+fun Media.getImageUri(languages: List<String>) = getPosters(languages)?.firstOrNull()?.let {
+        Uri.parse(imageEndpoint + "img" + it.path)
+}
+
+fun Media.getBackdrops(languages: List<String>) = images?.backdrops?.sortedWith(Comparator { p0, p1 ->
+        -(languages.indexOf(p0.language) - languages.indexOf(p1.language))
+})
+
+fun Media.getBackdropUri(languages: List<String>) = getBackdrops(languages)?.firstOrNull()?.let {
         Uri.parse(imageEndpoint + "img" + it.path)
 }
 
