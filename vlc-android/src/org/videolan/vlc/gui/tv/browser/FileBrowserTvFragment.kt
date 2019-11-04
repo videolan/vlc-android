@@ -5,7 +5,6 @@ import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
@@ -20,7 +19,6 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.PathAdapter
 import org.videolan.vlc.gui.browser.PathAdapterListener
@@ -99,8 +97,6 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
                 }
             }
             binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
-            if (BuildConfig.DEBUG) Log.d(TAG, "Submit list of ${items.size} items")
-            if (BuildConfig.DEBUG) Log.d(TAG, "header size: ${viewModel.provider.headers.size()}")
 
             //headers
             val nbColumns = if ((viewModel as BrowserModel).sort == AbstractMedialibrary.SORT_ALPHA || (viewModel as BrowserModel).sort == AbstractMedialibrary.SORT_DEFAULT) 9 else 1
@@ -123,12 +119,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
 
         (viewModel as BrowserModel).provider.liveHeaders.observe(this, Observer {
             headerAdapter.notifyDataSetChanged()
-            if (BuildConfig.DEBUG) Log.d(TAG, "header size (observe): ${viewModel.provider.headers.size()}")
         })
 
         (viewModel as BrowserModel).getDescriptionUpdate().observe(this, Observer { pair ->
-            if (BuildConfig.DEBUG) Log.d(TAG, "Description update: ${pair.first} ${pair.second}")
-            if (BuildConfig.DEBUG) Log.d(TAG, "header size (desc): ${viewModel.provider.headers.size()}")
             if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first)
         })
 
