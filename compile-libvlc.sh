@@ -268,7 +268,6 @@ avlc_make_toolchain
 ###########################
 
 VLC_BOOTSTRAP_ARGS="\
-    --disable-disc \
     --enable-dvdread \
     --enable-dvdnav \
     --disable-dca \
@@ -340,7 +339,7 @@ VLC_CONFIGURE_ARGS="\
     --disable-v4l2 \
     --enable-dvdread \
     --enable-dvdnav \
-    --disable-bluray \
+    --enable-bluray \
     --disable-linsys \
     --disable-decklink \
     --disable-libva \
