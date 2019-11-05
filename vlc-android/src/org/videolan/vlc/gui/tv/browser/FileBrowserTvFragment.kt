@@ -125,10 +125,6 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
             if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first)
         })
 
-        (viewModel as BrowserModel).loading.observe(this, Observer {
-            binding.loading = it
-            animationDelegate.setVisibility(binding.loadingBar, if (it) View.VISIBLE else View.GONE)
-        })
     }
 
     override fun onStart() {

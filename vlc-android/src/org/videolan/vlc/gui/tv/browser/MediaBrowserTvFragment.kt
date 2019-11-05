@@ -92,8 +92,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
             headerAdapter.notifyDataSetChanged()
         })
         (viewModel.provider as MedialibraryProvider<*>).loading.observe(this, Observer {
-            binding.loading = it
-            animationDelegate.setVisibility(binding.loadingBar, if (it) View.VISIBLE else View.GONE)
+            if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
         })
     }
 

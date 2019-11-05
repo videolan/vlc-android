@@ -251,9 +251,6 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment, 
         headerVisibleConstraintSet.clear(R.id.imageButtonSettings, ConstraintSet.BOTTOM)
         headerVisibleConstraintSet.connect(R.id.imageButtonSettings, ConstraintSet.TOP, R.id.headerListContainer, ConstraintSet.BOTTOM)
 
-
-        transition.removeTarget(R.id.loadingBar)
-        transition.excludeTarget(R.id.loadingBar, true)
         transition.excludeTarget(ProgressBar::class.java, true)
 
         // The fake toolbar has to be View.GONE to avoid focus on its elements when it's not shown
