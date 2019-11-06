@@ -15,6 +15,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.database.models.DisplayableMediaMetadata
 import kotlin.math.floor
 
 private const val LENGTH_WEEK = 7 * 24 * 60 * 60
@@ -172,6 +173,62 @@ object ModelsHelper {
                 album.takeIf { it != previous }
             }
         }
+        else -> null
+    } else null
+
+    fun getHeaderMoviepedia(context: Context?, sort: Int, item: DisplayableMediaMetadata?, aboveItem: DisplayableMediaMetadata?) = if (context !== null && item != null) when (sort) {
+        SORT_DEFAULT,
+        SORT_FILENAME,
+        SORT_ALPHA -> {
+            val letter = if (item.getTitle().isEmpty() || !Character.isLetter(item.getTitle()[0])) "#" else item.getTitle().substring(0, 1).toUpperCase()
+            if (aboveItem == null) letter
+            else {
+                val previous = if (aboveItem.getTitle().isEmpty() || !Character.isLetter(aboveItem.getTitle()[0])) "#" else aboveItem.getTitle().substring(0, 1).toUpperCase()
+                letter.takeIf { it != previous }
+            }
+        }
+//        SORT_DURATION -> {
+//            val length = item.getLength()
+//            val lengthCategory = length.lengthToCategory()
+//            if (aboveItem == null) lengthCategory
+//            else {
+//                val previous = aboveItem.getLength().lengthToCategory()
+//                lengthCategory.takeIf { it != previous }
+//            }
+//        }
+        SORT_RELEASEDATE -> {
+            val year = item.getYear()
+            if (aboveItem == null) year
+            else {
+                val previous = aboveItem.getYear()
+                year.takeIf { it != previous }
+            }
+        }
+//        SORT_LASTMODIFICATIONDATE -> {
+//            val timestamp = (item as AbstractMediaWrapper).lastModified
+//            val category = getTimeCategory(timestamp)
+//            if (aboveItem == null) getTimeCategoryString(context, category)
+//            else {
+//                val prevCat = getTimeCategory((aboveItem as AbstractMediaWrapper).lastModified)
+//                if (prevCat != category) getTimeCategoryString(context, category) else null
+//            }
+//        }
+//        SORT_ARTIST -> {
+//            val artist = (item as AbstractMediaWrapper).artist ?: ""
+//            if (aboveItem == null) artist
+//            else {
+//                val previous = (aboveItem as AbstractMediaWrapper).artist ?: ""
+//                artist.takeIf { it != previous }
+//            }
+//        }
+//        SORT_ALBUM -> {
+//            val album = (item as AbstractMediaWrapper).album ?: ""
+//            if (aboveItem == null) album
+//            else {
+//                val previous = (aboveItem as AbstractMediaWrapper).album ?: ""
+//                album.takeIf { it != previous }
+//            }
+//        }
         else -> null
     } else null
 

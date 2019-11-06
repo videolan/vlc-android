@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  MediaMetadataDataFullDao.kt
+ *  MovieDataSource.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,32 +22,27 @@
  *
  */
 
-package org.videolan.vlc.database
+package org.videolan.vlc.providers.datasources
 
-import androidx.lifecycle.LiveData
+import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.RawQuery
-import androidx.sqlite.db.SupportSQLiteQuery
+import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.database.models.MediaMetadataWithImages
+import org.videolan.vlc.repository.MediaMetadataRepository
 
-@Dao
-interface MediaMetadataDataFullDao {
+class MovieDataSourceFactory(private val context: Context, private val sort: Pair<Int, Boolean>) : DataSource.Factory<Int, MediaMetadataWithImages>() {
+    private val dataSource = MutableLiveData<DataSource<Int, MediaMetadataWithImages>>()
+    override fun create(): DataSource<Int, MediaMetadataWithImages> {
+        val sortField = when (sort.first) {
+            AbstractMedialibrary.SORT_DEFAULT -> "title"
+            AbstractMedialibrary.SORT_RELEASEDATE -> "releaseDate"
+            else -> "title"
+        }
+        val sortType = if (sort.second) "DESC" else "ASC"
 
-    @Query("select * from media_metadata where ml_id = :id")
-    fun getMediaLive(id: Long): LiveData<MediaMetadataWithImages?>
-
-    @Query("select * from media_metadata where ml_id = :id")
-    fun getMedia(id: Long): MediaMetadataWithImages?
-
-    @Query("select count(ml_id) from media_metadata where type = 0")
-    fun getMovieCount(): Int
-
-    @RawQuery(observedEntities = [MediaMetadataWithImages::class])
-    fun getAllPaged(query: SupportSQLiteQuery): DataSource.Factory<Int, MediaMetadataWithImages>
-
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insert(mediaMetadataFull: MediaMetadataFull)
-
+        val newDataSource = MediaMetadataRepository.getInstance(context).getMoviePagedList(sortField, sortType).create()
+        dataSource.postValue(newDataSource)
+        return newDataSource
+    }
 }

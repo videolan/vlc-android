@@ -26,8 +26,8 @@ import java.util.*
 
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
-class MediaBrowserTvFragment : BaseBrowserTvFragment() {
-    override fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter {
+class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
+    override fun provideAdapter(eventsHandler: IEventsHandler<MediaLibraryItem>, itemSize: Int): TvItemAdapter {
         return MediaTvItemAdapter(when ((viewModel as MediaBrowserViewModel).category) {
             CATEGORY_SONGS -> AbstractMediaWrapper.TYPE_AUDIO
             CATEGORY_ALBUMS -> AbstractMediaWrapper.TYPE_ALBUM

@@ -27,7 +27,7 @@ import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEventsHandler, var itemSize: Int, val showProtocol: Boolean) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, val showProtocol: Boolean) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
         if (pagedList is List<*>) {
@@ -99,7 +99,7 @@ class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEven
     }
 
     inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler, private val showProtocol: Boolean) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
+    internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler<MediaLibraryItem>, private val showProtocol: Boolean) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
 

@@ -24,10 +24,9 @@
 
 package org.videolan.vlc.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.paging.DataSource
+import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import org.videolan.vlc.database.models.MediaTvshow
 
 @Dao
@@ -38,4 +37,7 @@ interface MediaTvshowDao {
 
     @Query("select count(moviepedia_show_id) from media_tv_show")
     fun getTvshowsCount(): Int
+
+    @RawQuery(observedEntities = [MediaTvshow::class])
+    fun getAllPaged(query: SupportSQLiteQuery): DataSource.Factory<Int, MediaTvshow>
 }

@@ -49,6 +49,8 @@ import org.videolan.vlc.repository.PersonRepository
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.getLocaleLanguages
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MoviepediaModel : ViewModel() {
 
@@ -104,7 +106,8 @@ class MoviepediaModel : ViewModel() {
 
                 val show = when (item.mediaType) {
                     MediaType.TV_EPISODE -> {
-                        val show = MediaTvshow(item.showId, item.showTitle)
+                        //todo moviepedia we have to add an API call to retrieve more TV ShOW info
+                        val show = MediaTvshow(item.showId, item.showTitle, "", "", Date())
                         mediaMetadataRepository.insertShow(show)
                         show.moviepediaShowId
                     }

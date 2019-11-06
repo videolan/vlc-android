@@ -93,11 +93,15 @@ object UiTools {
     private var DEFAULT_COVER_AUDIO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ALBUM_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ARTIST_DRAWABLE: BitmapDrawable? = null
+    private var DEFAULT_COVER_MOVIE_DRAWABLE: BitmapDrawable? = null
+    private var DEFAULT_COVER_TVSHOW_DRAWABLE: BitmapDrawable? = null
 
     private var DEFAULT_COVER_VIDEO_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_ALBUM_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_ARTIST_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_MOVIE_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_TVSHOW_DRAWABLE_BIG: BitmapDrawable? = null
 
     private val sHandler = Handler(Looper.getMainLooper())
     const val DELETE_DURATION = 3000
@@ -132,6 +136,20 @@ object UiTools {
         return DEFAULT_COVER_ARTIST_DRAWABLE!!
     }
 
+    fun getDefaultMovieDrawable(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_MOVIE_DRAWABLE == null) {
+            DEFAULT_COVER_MOVIE_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_movie))
+        }
+        return DEFAULT_COVER_MOVIE_DRAWABLE!!
+    }
+
+    fun getDefaultTvshowDrawable(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_TVSHOW_DRAWABLE == null) {
+            DEFAULT_COVER_TVSHOW_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_tvshow))
+        }
+        return DEFAULT_COVER_TVSHOW_DRAWABLE!!
+    }
+
     fun getDefaultVideoDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE_BIG == null) {
             val DEFAULT_COVER_VIDEO = getBitmapFromDrawable(context, R.drawable.ic_browser_video_big_normal)
@@ -160,6 +178,20 @@ object UiTools {
             DEFAULT_COVER_ARTIST_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_artist_big))
         }
         return DEFAULT_COVER_ARTIST_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultMovieDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_MOVIE_DRAWABLE_BIG == null) {
+            DEFAULT_COVER_MOVIE_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_movie_big))
+        }
+        return DEFAULT_COVER_MOVIE_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultTvshowDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_TVSHOW_DRAWABLE_BIG == null) {
+            DEFAULT_COVER_TVSHOW_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_tvshow_big))
+        }
+        return DEFAULT_COVER_TVSHOW_DRAWABLE_BIG!!
     }
 
     /**

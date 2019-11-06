@@ -42,7 +42,7 @@ import org.videolan.vlc.gui.tv.browser.BaseBrowserTvFragment
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment, private val cl: ConstraintLayout) : RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
+internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*>, private val cl: ConstraintLayout) : RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
 
     private val scrolledUpConstraintSet = ConstraintSet()
     private val scrolledDownFABCollapsedConstraintSet = ConstraintSet()
@@ -282,7 +282,7 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment, 
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-fun BaseBrowserTvFragment.setAnimator(cl: ConstraintLayout) {
+fun BaseBrowserTvFragment<*>.setAnimator(cl: ConstraintLayout) {
     animationDelegate = MediaBrowserAnimatorDelegate(this, cl)
     headerButton.onFocusChangeListener = animationDelegate
     sortButton.onFocusChangeListener = animationDelegate

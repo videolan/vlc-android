@@ -71,17 +71,17 @@ private const val TAG = "MediaBrowserTvFragment"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHandler,
+abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, IEventsHandler<T>,
         PopupMenu.OnMenuItemClickListener, MediaHeaderAdapter.OnHeaderSelected,
         VerticalGridActivity.OnKeyPressedListener {
 
     abstract fun getTitle(): String
     abstract fun getCategory(): Long
     abstract fun getColumnNumber(): Int
-    abstract fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter
+    abstract fun provideAdapter(eventsHandler: IEventsHandler<T>, itemSize: Int): TvItemAdapter
 
     lateinit var binding: SongBrowserBinding
-    lateinit var viewModel: TvBrowserModel
+    lateinit var viewModel: TvBrowserModel<T>
     private var spacing: Int = 0
     abstract var adapter: TvItemAdapter
     lateinit var headerAdapter: MediaHeaderAdapter
@@ -118,9 +118,13 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         calculateNbColumns()
 
         title.text = viewModel.currentItem?.let {
-            if (getCategory() == TYPE_NETWORK || getCategory() == TYPE_FILE) {
-                ""
-            } else it.title
+            when (it) {
+                is MediaLibraryItem -> if (getCategory() == TYPE_NETWORK || getCategory() == TYPE_FILE) {
+                    ""
+                } else it.title
+                else -> ""
+            }
+
         } ?: getTitle()
 
         val searchHeaderClick: (View) -> Unit = { animationDelegate.hideFAB() }
@@ -218,20 +222,20 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
 
     override fun refresh() = (viewModel as RefreshModel).refresh()
 
-    override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
+    override fun onLongClick(v: View, position: Int, item: T): Boolean {
         if (item is AbstractMediaWrapper) {
             TvUtil.showMediaDetail(requireActivity(), item)
         }
         return true
     }
 
-    override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
+    override fun onCtxClick(v: View, position: Int, item: T) {}
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {}
 
-    override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
+    override fun onImageClick(v: View, position: Int, item: T) {}
 
-    override fun onItemFocused(v: View, item: MediaLibraryItem) {
+    override fun onItemFocused(v: View, item: T) {
         (item as? MediaLibraryItem)?.run {
             if (currentArt == artworkMrl) return@run
             currentArt = artworkMrl
@@ -239,7 +243,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         }
     }
 
-    override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
+    override fun onMainActionClick(v: View, position: Int, item: T) {}
 
     fun sort(v: View) {
         val menu = PopupMenu(v.context, v)

@@ -71,7 +71,7 @@ private const val SHOW_IN_LIST = -1
 @ExperimentalCoroutinesApi
 class AudioBrowserAdapter @JvmOverloads constructor(
         type: Int,
-        private val eventsHandler: IEventsHandler,
+        private val eventsHandler: IEventsHandler<MediaLibraryItem>,
         private val listEventsHandler: IListEventsHandler? = null,
         private val reorder: Boolean = false,
         internal var cardSize: Int = SHOW_IN_LIST

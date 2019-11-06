@@ -63,7 +63,7 @@ data class MediaMetadata(
         val summary: String,
         @ColumnInfo(name = "genres")
         val genres: String,
-        @ColumnInfo(name = "release_date")
+        @ColumnInfo(name = "releaseDate")
         val releaseDate: Date?,
         @ColumnInfo(name = "countries")
         val countries: String,
@@ -80,7 +80,15 @@ data class MediaMetadata(
 
 )
 
-class MediaMetadataWithImages {
+class MediaMetadataWithImages : DisplayableMediaMetadata {
+    override fun getDescription() = subtitle()
+
+    override fun getTitle() = metadata.title
+
+    override fun getPoster() = metadata.currentPoster
+
+    override fun getYear() = SimpleDateFormat("yyyy", Locale.getDefault()).format(metadata.releaseDate)
+
     @Embedded
     lateinit var metadata: MediaMetadata
 
@@ -150,9 +158,23 @@ data class MediaTvshow(
         @ColumnInfo(name = "moviepedia_show_id")
         val moviepediaShowId: String,
         @ColumnInfo(name = "name")
-        val name: String
+        val name: String,
+        @ColumnInfo(name = "summary")
+        val summary: String,
+        @ColumnInfo(name = "image")
+        val image: String,
+        @ColumnInfo(name = "release_date")
+        val releaseDate: Date
 
-)
+) : DisplayableMediaMetadata {
+    override fun getDescription(): String = summary
+
+    override fun getTitle() = name
+
+    override fun getPoster() = image
+
+    override fun getYear() = SimpleDateFormat("yyyy", Locale.getDefault()).format(releaseDate)
+}
 
 @Entity(tableName = "media_metadata_person")
 data class Person(
@@ -187,4 +209,11 @@ enum class MediaImageType(val key: Int) {
             return BACKDROP
         }
     }
+}
+
+interface DisplayableMediaMetadata {
+    fun getTitle(): String
+    fun getDescription(): String
+    fun getPoster(): String
+    fun getYear(): String?
 }

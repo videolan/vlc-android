@@ -38,7 +38,7 @@ import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class HistoryAdapter(private val mEventsHandler: IEventsHandler) : DiffUtilAdapter<AbstractMediaWrapper, HistoryAdapter.ViewHolder>(), MultiSelectAdapter<AbstractMediaWrapper> {
+class HistoryAdapter(private val mEventsHandler: IEventsHandler<MediaLibraryItem>) : DiffUtilAdapter<AbstractMediaWrapper, HistoryAdapter.ViewHolder>(), MultiSelectAdapter<AbstractMediaWrapper> {
     private var mLayoutInflater: LayoutInflater? = null
     var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper> = MultiSelectHelper(this, UPDATE_SELECTION)
 

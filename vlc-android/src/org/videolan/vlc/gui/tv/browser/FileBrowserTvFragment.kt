@@ -40,7 +40,7 @@ import org.videolan.vlc.viewmodels.browser.*
 private const val TAG = "FileBrowserTvFragment"
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
-class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
+class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAdapterListener {
 
     private var favExists: Boolean = false
     private var isRootLevel = false
@@ -69,7 +69,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
                 }
     }
 
-    override fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter {
+    override fun provideAdapter(eventsHandler: IEventsHandler<MediaLibraryItem>, itemSize: Int): TvItemAdapter {
         return FileTvItemAdapter(getCategory(), this, itemSize, isRootLevel)
     }
 

@@ -80,7 +80,7 @@ import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
+open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
 
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
     private val mediaLibrary = AbstractMedialibrary.getInstance()

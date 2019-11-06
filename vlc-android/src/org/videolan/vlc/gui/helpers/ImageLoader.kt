@@ -36,11 +36,8 @@ import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.tv.TvUtil
-import org.videolan.vlc.util.HttpImageLoader
-import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.util.*
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
-import org.videolan.vlc.util.scope
 
 private val sMedialibrary = AbstractMedialibrary.getInstance()
 @Volatile
@@ -111,6 +108,14 @@ fun getMediaIconDrawable(context: Context?, type: Int, big: Boolean = false): Bi
     }
 }
 
+fun getMoviepediaIconDrawable(context: Context?, type: Long, big: Boolean = false): BitmapDrawable? = context?.let {
+    when (type) {
+        HEADER_MOVIES -> if (big) UiTools.getDefaultMovieDrawableBig(it) else UiTools.getDefaultMovieDrawable(it)
+        HEADER_TV_SHOW -> if (big) UiTools.getDefaultTvshowDrawableBig(it) else UiTools.getDefaultTvshowDrawable(it)
+        else -> null
+    }
+}
+
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 fun getBitmapFromDrawable(context: Context, @DrawableRes drawableId: Int): Bitmap {
     val drawable = AppCompatResources.getDrawable(context, drawableId)
@@ -137,7 +142,7 @@ fun getMediaIconDrawable(context: Context, type: Int): BitmapDrawable? = when (t
 private var placeholderTvBg: Drawable? = null
 @MainThread
 @BindingAdapter("placeholder")
-fun placeHolderView(v: View, item: MediaLibraryItem?) {
+fun placeHolderView(v: View, item: Any?) {
     if (item == null) {
         if (placeholderTvBg === null) placeholderTvBg = ContextCompat.getDrawable(v.context, R.drawable.rounded_corners_grey)
         v.background = placeholderTvBg
@@ -176,6 +181,19 @@ fun imageCardViewContent(v: View, content: String?) {
 fun downloadIcon(v: View, imageUri: Uri?) {
     if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
         v.scope.launch {
+            val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
+            updateImageView(image, v, DataBindingUtil.findBinding(v))
+        }
+    }
+}
+
+@BindingAdapter("imageUrl")
+fun downloadIcon(v: View, imageUrl: String?) {
+    if (imageUrl.isNullOrEmpty()) return
+    val imageUri = Uri.parse(imageUrl)
+    if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
+        val scope = (v.context as? CoroutineScope) ?: AppScope
+        scope.launch {
             val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
             updateImageView(image, v, DataBindingUtil.findBinding(v))
         }

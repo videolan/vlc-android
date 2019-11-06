@@ -1,11 +1,10 @@
 package org.videolan.vlc.viewmodels.tv
 
-import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.HeaderProvider
 
-interface TvBrowserModel {
+interface TvBrowserModel<T> {
     fun isEmpty() : Boolean
-    var currentItem: MediaLibraryItem?
+    var currentItem: T?
     var nbColumns: Int
     val provider: HeaderProvider
 }

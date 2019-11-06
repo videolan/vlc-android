@@ -1,3 +1,27 @@
+/*
+ * ************************************************************************
+ *  MoviepediaTvItemAdapter.kt
+ * *************************************************************************
+ * Copyright © 2019 VLC authors and VideoLAN
+ * Author: Nicolas POMEPUY
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ * **************************************************************************
+ *
+ *
+ */
+
 package org.videolan.vlc.gui.tv
 
 import android.annotation.TargetApi
@@ -19,9 +43,10 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
+import org.videolan.vlc.database.models.DisplayableMediaMetadata
+import org.videolan.vlc.databinding.MovieBrowserTvItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.vlc.gui.helpers.getMediaIconDrawable
+import org.videolan.vlc.gui.helpers.getMoviepediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.UPDATE_PAYLOAD
@@ -30,7 +55,7 @@ import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int) : PagedListAdapter<MediaLibraryItem, MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, TvItemAdapter {
+class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHandler<DisplayableMediaMetadata>, var itemSize: Int) : PagedListAdapter<DisplayableMediaMetadata, MoviepediaTvItemAdapter.AbstractMoviepediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, TvItemAdapter {
     override var focusNext = -1
     private val defaultCover: BitmapDrawable?
     private var focusListener: FocusableRecyclerView.FocusListener? = null
@@ -41,17 +66,17 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             is Fragment -> (eventsHandler as Fragment).context
             else -> null
         }
-        defaultCover = ctx?.let { getMediaIconDrawable(it, type, true) }
+        defaultCover = ctx?.let { getMoviepediaIconDrawable(it, type, true) }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMoviepediaItemViewHolder<ViewDataBinding> {
         val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val binding = MediaBrowserTvItemBinding.inflate(inflater, parent, false)
+        val binding = MovieBrowserTvItemBinding.inflate(inflater, parent, false)
         @Suppress("UNCHECKED_CAST")
-        return MediaItemTVViewHolder(binding, eventsHandler) as AbstractMediaItemViewHolder<ViewDataBinding>
+        return MovieItemTVViewHolder(binding, eventsHandler) as AbstractMoviepediaItemViewHolder<ViewDataBinding>
     }
 
-    override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
+    override fun onBindViewHolder(holder: AbstractMoviepediaItemViewHolder<ViewDataBinding>, position: Int) {
         if (position >= itemCount) return
         val item = getItem(position)
         holder.setItem(item)
@@ -62,7 +87,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         }
     }
 
-    override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
+    override fun onBindViewHolder(holder: AbstractMoviepediaItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
         if (Util.isListEmpty(payloads))
             onBindViewHolder(holder, position)
         else {
@@ -75,14 +100,12 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         }
     }
 
-    override fun onViewRecycled(holder: AbstractMediaItemViewHolder<ViewDataBinding>) {
+    override fun onViewRecycled(holder: AbstractMoviepediaItemViewHolder<ViewDataBinding>) {
         super.onViewRecycled(holder)
         holder.recycle()
     }
 
     override fun hasSections() = true
-
-    override fun isEmpty() = currentList.isNullOrEmpty()
 
     override fun submitList(pagedList: Any?) {
         if (pagedList == null) {
@@ -90,7 +113,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         }
         if (pagedList is PagedList<*>) {
             @Suppress("UNCHECKED_CAST")
-            this.submitList(pagedList as PagedList<MediaLibraryItem>)
+            this.submitList(pagedList as PagedList<DisplayableMediaMetadata>)
         }
     }
 
@@ -106,22 +129,21 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
          */
         private var preventNextAnim: Boolean = false
 
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MediaLibraryItem>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DisplayableMediaMetadata>() {
             override fun areItemsTheSame(
-                    oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem) = if (preventNextAnim)  true
-            else oldMedia === newMedia || oldMedia.itemType == newMedia.itemType && oldMedia.equals(newMedia)
+                    oldMedia: DisplayableMediaMetadata, newMedia: DisplayableMediaMetadata) = if (preventNextAnim) true
+            else oldMedia === newMedia
 
-            override fun areContentsTheSame(oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem) = false
+            override fun areContentsTheSame(oldMedia: DisplayableMediaMetadata, newMedia: DisplayableMediaMetadata) = false
 
-            override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any? {
+            override fun getChangePayload(oldItem: DisplayableMediaMetadata, newItem: DisplayableMediaMetadata): Any? {
                 preventNextAnim = false
                 return UPDATE_PAYLOAD
             }
         }
     }
 
-
-    abstract class AbstractMediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
+    abstract class AbstractMoviepediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
     internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener {
 
         fun onClick(v: View) {
@@ -133,7 +155,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         }
 
         fun onLongClick(view: View): Boolean {
-            return getItem(layoutPosition)?.let { eventsHandler.onLongClick(view, layoutPosition, it) } ?: false
+            return getItem(layoutPosition)?.let { eventsHandler.onLongClick(view, layoutPosition, it) }
+                    ?: false
         }
 
         fun onImageClick(v: View) {
@@ -144,20 +167,20 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             getItem(layoutPosition)?.let { eventsHandler.onMainActionClick(v, layoutPosition, it) }
         }
 
-        abstract fun getItem(layoutPosition: Int): MediaLibraryItem?
+        abstract fun getItem(layoutPosition: Int): DisplayableMediaMetadata?
 
-        abstract val eventsHandler: IEventsHandler<MediaLibraryItem>
+        abstract val eventsHandler: IEventsHandler<DisplayableMediaMetadata>
 
-        abstract fun setItem(item: MediaLibraryItem?)
+        abstract fun setItem(item: DisplayableMediaMetadata?)
 
         abstract fun recycle()
 
         abstract fun setCoverlay(selected: Boolean)
     }
 
-    inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler<MediaLibraryItem>) : AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
-        override fun getItem(layoutPosition: Int) =  this@MediaTvItemAdapter.getItem(layoutPosition)
+    inner class MovieItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
+    internal constructor(binding: MovieBrowserTvItemBinding, override val eventsHandler: IEventsHandler<DisplayableMediaMetadata>) : AbstractMoviepediaItemViewHolder<MovieBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
+        override fun getItem(layoutPosition: Int) = this@MoviepediaTvItemAdapter.getItem(layoutPosition)
 
         init {
             binding.holder = this
@@ -181,7 +204,6 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                     if (focusListener != null) {
                         focusListener!!.onFocusChanged(layoutPosition)
                     }
-
                 } else {
                     binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
                 }
@@ -196,12 +218,12 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.mediaCover.resetFade()
         }
 
-        override fun setItem(item: MediaLibraryItem?) {
+        override fun setItem(item: DisplayableMediaMetadata?) {
             binding.item = item
             var isSquare = true
             var progress = 0
             var seen = 0L
-            var description = item?.description
+            var description = item?.getDescription()
             var resolution = ""
             if (item is AbstractMediaWrapper) {
                 if (item.type == AbstractMediaWrapper.TYPE_VIDEO) {
@@ -234,6 +256,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         }
 
         @ObsoleteCoroutinesApi
-        override fun setCoverlay(selected: Boolean) {}
+        override fun setCoverlay(selected: Boolean) {
+        }
     }
 }

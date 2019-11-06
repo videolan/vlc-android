@@ -51,7 +51,7 @@ private const val TAG = "VLC/HistoryFragment"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
+class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler<MediaLibraryItem> {
 
     private lateinit var cleanMenuItem: MenuItem
     private lateinit var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper>

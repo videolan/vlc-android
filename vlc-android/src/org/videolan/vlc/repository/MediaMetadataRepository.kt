@@ -47,6 +47,8 @@ package org.videolan.vlc.repository
 import android.content.Context
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.sqlite.db.SimpleSQLiteQuery
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.*
@@ -80,6 +82,16 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
 
     @WorkerThread
     fun insertShow(show: MediaTvshow) = mediaTvshowDao.insert(show)
+
+    fun getMoviePagedList(sortField: String, sortType: String): DataSource.Factory<Int, MediaMetadataWithImages> {
+        val query = SimpleSQLiteQuery("SELECT * FROM media_metadata WHERE type = 0 ORDER BY $sortField $sortType")
+        return mediaMetadataFullDao.getAllPaged(query)
+    }
+
+    fun getTvshowPagedList(sortField: String, sortType: String): DataSource.Factory<Int, MediaTvshow> {
+        val query = SimpleSQLiteQuery("SELECT * FROM media_tv_show ORDER BY $sortField $sortType")
+        return mediaTvshowDao.getAllPaged(query)
+    }
 
     companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao(), MediaDatabase.getInstance(it).mediaTvshowDao()) })
 }
