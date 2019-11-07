@@ -57,6 +57,12 @@ struct vlcjni_object_sys
 {
     jobject jwindow;
     libvlc_video_viewpoint_t *p_vp;
+
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR >= 4
+    pthread_mutex_t     stop_lock;
+    pthread_cond_t      stop_cond;
+    bool                stopped;
+#endif
 };
 
 static libvlc_equalizer_t *
@@ -85,6 +91,17 @@ MediaPlayer_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
 {
     switch (p_ev->type)
     {
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR >= 4
+        case libvlc_MediaPlayerStopped:
+            pthread_mutex_lock(&p_obj->p_sys->stop_lock);
+            if (!p_obj->p_sys->stopped)
+            {
+                p_obj->p_sys->stopped = true;
+                pthread_cond_signal(&p_obj->p_sys->stop_cond);
+            }
+            pthread_mutex_unlock(&p_obj->p_sys->stop_lock);
+            break;
+#endif
         case libvlc_MediaPlayerBuffering:
             p_java_event->argf1 = p_ev->u.media_player_buffering.new_cache;
             break;
@@ -147,6 +164,12 @@ MediaPlayer_newCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj,
     }
     libvlc_media_player_set_android_context(p_obj->u.p_mp, p_obj->p_sys->jwindow);
 
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR >= 4
+    pthread_mutex_init(&p_obj->p_sys->stop_lock, NULL);
+    pthread_cond_init(&p_obj->p_sys->stop_cond, NULL);
+    p_obj->p_sys->stopped = true;
+#endif
+
     VLCJniObject_attachEvents(p_obj, MediaPlayer_event_cb,
                               libvlc_media_player_event_manager(p_obj->u.p_mp),
                               mp_events);
@@ -201,6 +224,12 @@ Java_org_videolan_libvlc_MediaPlayer_nativeRelease(JNIEnv *env, jobject thiz)
         (*env)->DeleteGlobalRef(env, p_obj->p_sys->jwindow);
 
     free(p_obj->p_sys->p_vp);
+
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR >= 4
+    pthread_mutex_destroy(&p_obj->p_sys->stop_lock);
+    pthread_cond_destroy(&p_obj->p_sys->stop_cond);
+#endif
+
     free(p_obj->p_sys);
 
     VLCJniObject_release(env, thiz, p_obj);
@@ -328,7 +357,21 @@ Java_org_videolan_libvlc_MediaPlayer_nativeStop(JNIEnv *env, jobject thiz)
     if (!p_obj)
         return;
 
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR >= 4
+    /* XXX: temporary during the VLC 3.0 -> 4.0 transition. The Java API need
+     * to be updated to handle async stop (only?). */
+    pthread_mutex_lock(&p_obj->p_sys->stop_lock);
+    p_obj->p_sys->stopped = false;
+    int ret = libvlc_media_player_stop_async(p_obj->u.p_mp);
+    if (ret == 0)
+        while (!p_obj->p_sys->stopped)
+            pthread_cond_wait(&p_obj->p_sys->stop_cond, &p_obj->p_sys->stop_lock);
+    else
+        p_obj->p_sys->stopped = true;
+    pthread_mutex_unlock(&p_obj->p_sys->stop_lock);
+#else
     libvlc_media_player_stop(p_obj->u.p_mp);
+#endif
 }
 
 void
