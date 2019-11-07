@@ -727,7 +727,14 @@ Java_org_videolan_libvlc_Media_nativeGetStats(JNIEnv *env, jobject thiz)
                                           stats.i_lost_pictures,
                                           stats.i_played_abuffers,
                                           stats.i_lost_abuffers,
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR >= 4
+/* XXX: Temporary during the VLC 3.0 -> 4.0 transition. The Java API need
+ * to be updated. */
+                                          0, 0, 0
+#else
                                           stats.i_sent_packets,
                                           stats.i_sent_bytes,
-                                          stats.f_send_bitrate);
+                                          stats.f_send_bitrate
+#endif
+                                          );
 }
