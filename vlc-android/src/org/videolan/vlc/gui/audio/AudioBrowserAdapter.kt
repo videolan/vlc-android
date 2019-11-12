@@ -173,7 +173,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
     override fun getItem(position: Int): MediaLibraryItem? {
-        return super.getItem(position)
+        return if (position in 0 until itemCount) super.getItem(position) else null
     }
 
     override fun getItemViewType(position: Int): Int {
