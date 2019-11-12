@@ -195,9 +195,10 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), CoroutineScope by Main
 
         // Set the default selection asynchronously to prevent a layout initialization bug.
         binding.equalizerPresets.post {
+            val activity = activity ?: return@post
             binding.equalizerPresets.onItemSelectedListener = setListener
-            val pos = allSets.indexOf(VLCOptions.getEqualizerNameFromSettings(requireActivity()))
-            state.update(pos, VLCOptions.getEqualizerSavedState(requireActivity()))
+            val pos = allSets.indexOf(VLCOptions.getEqualizerNameFromSettings(activity))
+            state.update(pos, VLCOptions.getEqualizerSavedState(activity))
             updateAlreadyHandled = true
             if (binding.equalizerButton.isChecked || !state.saved) {
                 savePos = pos
