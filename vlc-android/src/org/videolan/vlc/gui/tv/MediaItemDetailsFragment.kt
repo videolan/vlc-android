@@ -163,11 +163,15 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
 
     private fun loadBackdrop(url: String? = null) {
         lifecycleScope.launchWhenStarted {
-            val cover = if (!url.isNullOrEmpty()) withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(url) } else if (viewModel.media.type == AbstractMediaWrapper.TYPE_AUDIO || viewModel.media.type == AbstractMediaWrapper.TYPE_VIDEO)
-                withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512) }
-            else null
-            val blurred = cover?.let { withContext(Dispatchers.IO) { UiTools.blurBitmap(it) } }
-            blurred?.let { backgroundManager.setBitmap(blurred) }
+            when {
+                !url.isNullOrEmpty() -> withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(url) }
+                viewModel.media.type == AbstractMediaWrapper.TYPE_AUDIO || viewModel.media.type == AbstractMediaWrapper.TYPE_VIDEO -> {
+                    withContext(Dispatchers.IO) {
+                        AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512)?.let { UiTools.blurBitmap(it) }
+                    }
+                }
+                else -> null
+            }?.let { backgroundManager.setBitmap(it) }
         }
     }
 
