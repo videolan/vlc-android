@@ -47,17 +47,13 @@ import org.videolan.vlc.viewmodels.browser.TYPE_PICKER
 const val EXTRA_MRL = "sub_mrl"
 class FilePickerFragment : FileBrowserFragment() {
 
-    val isSortEnabled: Boolean
-        get() = false
-
-
     override fun createFragment(): Fragment {
         return FilePickerFragment()
     }
 
     override fun onCreate(bundle: Bundle?) {
         val uri = activity?.intent?.data
-        if (uri == null || TextUtils.equals(uri.scheme, "http")) {
+        if (uri == null || uri.scheme == "http" || uri.scheme == "content" || uri.scheme == "fd") {
             activity?.intent = null
         }
         super.onCreate(bundle)

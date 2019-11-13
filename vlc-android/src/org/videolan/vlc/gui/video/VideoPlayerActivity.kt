@@ -1895,10 +1895,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     fun pickSubtitles() {
-        if (videoUri == null) return
+        val uri = videoUri?: return
         isShowingDialog = true
         val filePickerIntent = Intent(this, FilePickerActivity::class.java)
-        filePickerIntent.data = Uri.parse(FileUtils.getParent(videoUri!!.toString()))
+        filePickerIntent.data = Uri.parse(FileUtils.getParent(uri.toString()))
         startActivityForResult(filePickerIntent, 0)
     }
 
