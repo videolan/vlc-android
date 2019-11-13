@@ -99,7 +99,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (bundle == null) bundle = arguments
         if (bundle != null) {
             currentMedia = bundle.getParcelable(KEY_MEDIA)
-            mrl = if (currentMedia != null) currentMedia!!.location else bundle.getString(KEY_MRL)
+            mrl = currentMedia?.location ?: bundle.getString(KEY_MRL)
             savedPosition = bundle.getInt(KEY_POSITION)
         } else if (requireActivity().intent != null) {
             mrl = requireActivity().intent.dataString
