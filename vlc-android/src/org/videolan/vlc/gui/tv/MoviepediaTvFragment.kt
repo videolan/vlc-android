@@ -91,9 +91,9 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
 
         media = arguments!!.getParcelable(MoviepediaTvActivity.MEDIA)!!
 
-        viewModel = ViewModelProviders.of(this, MoviepediaModel.Factory()).get(media.uri.path
+        viewModel = ViewModelProviders.of(this).get(media.uri.path
                 ?: "", MoviepediaModel::class.java)
-        viewModel.apiResultLiveData.observe(this, Observer {
+        viewModel.apiResult.observe(this, Observer {
             val cp = CardPresenter(requireActivity(), true)
             val videoAdapter = ArrayObjectAdapter(cp)
             val medias = it.getAllResults()

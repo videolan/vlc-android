@@ -69,9 +69,9 @@ open class MoviepediaActivity : BaseActivity(), TextWatcher, TextView.OnEditorAc
 
         binding.searchEditText.addTextChangedListener(this)
         binding.searchEditText.setOnEditorActionListener(this)
-        viewModel = ViewModelProviders.of(this, MoviepediaModel.Factory()).get(media.uri.path
+        viewModel = ViewModelProviders.of(this).get(media.uri.path
                 ?: "", MoviepediaModel::class.java)
-        viewModel.apiResultLiveData.observe(this, Observer {
+        viewModel.apiResult.observe(this, Observer {
             moviepediaResultAdapter.setItems(it.getAllResults())
         })
         viewModel.search(media.uri)

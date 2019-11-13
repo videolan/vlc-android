@@ -24,33 +24,36 @@
 
 package org.videolan.vlc.repository
 
+import android.net.Uri
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.videolan.vlc.moviepedia.IMoviepediaApiService
 import org.videolan.vlc.moviepedia.NextApiClient
 import org.videolan.vlc.moviepedia.models.body.ScrobbleBody
 import org.videolan.vlc.moviepedia.models.identify.IdentifyResult
-import org.videolan.vlc.moviepedia.models.identify.Media
-import org.videolan.vlc.moviepedia.models.media.MoviepediaResults
-import org.videolan.vlc.moviepedia.models.media.cast.CastResult
+import org.videolan.vlc.util.FileUtils
+import java.io.File
 
 class MoviepediaApiRepository(private val moviepediaApiService: IMoviepediaApiService) {
 
-    suspend fun search(query: String): MoviepediaResults {
-        return moviepediaApiService.search(query = query)
+    suspend fun search(query: String) = moviepediaApiService.search(query = query)
+
+    suspend fun searchMedia(uri: Uri): IdentifyResult {
+        val hash = withContext(Dispatchers.IO){ FileUtils.computeHash(File(uri.path)) }
+        val scrobbleBody = ScrobbleBody(filename = uri.lastPathSegment, osdbhash = hash)
+        return moviepediaApiService.searchMedia(scrobbleBody)
     }
 
-    suspend fun searchMedia(query: ScrobbleBody): IdentifyResult {
-        return moviepediaApiService.searchMedia(query)
-    }
+    suspend fun searchTitle(title: String) = moviepediaApiService.searchMedia(ScrobbleBody(title = title))
 
-    suspend fun getMedia(mediaId: String): Media {
-        return moviepediaApiService.getMedia(mediaId)
-    }
+    suspend fun searchMedia(query: ScrobbleBody) = moviepediaApiService.searchMedia(query)
 
-    suspend fun getMediaCast(mediaId: String): CastResult {
-        return moviepediaApiService.getMediaCast(mediaId)
-    }
+    suspend fun getMedia(mediaId: String) = moviepediaApiService.getMedia(mediaId)
+
+    suspend fun getMediaCast(mediaId: String) =  moviepediaApiService.getMediaCast(mediaId)
 
     companion object {
-        fun getInstance() = MoviepediaApiRepository(NextApiClient.instance)
+        private val instance = MoviepediaApiRepository(NextApiClient.instance)
+        fun getInstance() = instance
     }
 }
