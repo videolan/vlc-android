@@ -64,7 +64,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
         }
     }
 
-    fun isEmpty() = dataset.value.isNullOrEmpty()
+    fun isEmpty() = dataset.isEmpty()
 
     override fun refresh() {
         if (!updateActor.isClosedForSend) updateActor.offer(Refresh)

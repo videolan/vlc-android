@@ -47,7 +47,6 @@ import org.videolan.vlc.gui.dialogs.VlcLoginDialog
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.CTX_FAV_ADD
 import org.videolan.vlc.util.CTX_FAV_EDIT
-import org.videolan.vlc.util.Util
 import org.videolan.vlc.viewmodels.browser.NetworkModel
 
 @ExperimentalCoroutinesApi
@@ -137,12 +136,11 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
      */
     override fun updateEmptyView() {
         if (ExternalMonitor.isConnected) {
-            if (Util.isListEmpty(viewModel.dataset.value)) {
+            if (viewModel.isEmpty()) {
                 if (swipeRefreshLayout.isRefreshing) {
                     binding.emptyLoading.state = EmptyLoadingState.LOADING
                     binding.networkList.visibility = View.GONE
                 } else {
-
                     if (isRootDirectory) {
                         if (allowLAN()) {
                             binding.emptyLoading.state = EmptyLoadingState.LOADING

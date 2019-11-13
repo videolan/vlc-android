@@ -7,31 +7,42 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
 
     private val emptyList = mutableListOf<T>()
 
-    override fun getValue(): MutableList<T> {
-        return super.getValue() ?: emptyList
+    private var internalList = emptyList
+
+    fun isEmpty() = internalList.isEmpty()
+
+    override fun setValue(value: MutableList<T>?) {
+        internalList = value ?: emptyList
+        super.setValue(value)
     }
 
+    override fun getValue() = super.getValue() ?: emptyList
+
+    fun get(position: Int) = internalList[position]
+
+    fun getList() = internalList.toList()
+
     fun clear() {
-        value = value.apply { clear() }
+        value = internalList.apply { clear() }
     }
 
     fun add(item: T) {
-        value = value.apply { add(item) }
+        value = internalList.apply { add(item) }
     }
 
     fun add(position: Int, item: T) {
-        value = value.apply { add(position, item) }
+        value = internalList.apply { add(position, item) }
     }
 
     fun add(items: List<T>) {
-        value = value.apply { addAll(items.filter { !this.contains(it) }) }
+        value = internalList.apply { addAll(items.filter { !this.contains(it) }) }
     }
 
     fun remove(item: T) {
-        value = value.apply { remove(item) }
+        value = internalList.apply { remove(item) }
     }
 
     fun remove(position: Int) {
-        value = value.apply { removeAt(position) }
+        value = internalList.apply { removeAt(position) }
     }
 }

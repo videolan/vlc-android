@@ -165,7 +165,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     private fun showContext(position: Int) {
         val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_COPY
-        val media = viewModel.dataset.value.get(position)
+        val media = viewModel.dataset.get(position)
         showContext(requireActivity(), this, position, media.title, flags)
     }
 
@@ -173,15 +173,15 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         when (option) {
             CTX_RENAME -> renameStream(position)
             CTX_APPEND -> {
-                val media = viewModel.dataset.value[position]
+                val media = viewModel.dataset.get(position)
                 MediaUtils.appendMedia(requireContext(), media)
             }
             CTX_ADD_TO_PLAYLIST -> {
-                val media = viewModel.dataset.value[position]
+                val media = viewModel.dataset.get(position)
                 UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             }
             CTX_COPY -> {
-                val media = viewModel.dataset.value[position]
+                val media = viewModel.dataset.get(position)
                 requireContext().copy(media.title, media.location)
                 Snackbar.make(requireActivity().window.decorView.findViewById<View>(android.R.id.content), R.string.url_copied_to_clipboard, Snackbar.LENGTH_LONG).show()
             }
@@ -189,7 +189,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
     }
 
     private fun renameStream(position: Int) {
-        val media = viewModel.dataset.value[position]
+        val media = viewModel.dataset.get(position)
         val edit = EditText(requireActivity())
         AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.rename_media, media.title))

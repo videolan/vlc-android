@@ -130,7 +130,7 @@ object TvUtil {
         when (item) {
             is AbstractMediaWrapper -> when {
                 item.type == AbstractMediaWrapper.TYPE_AUDIO -> {
-                    val list = (model!!.dataset.value as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
+                    val list = (model?.dataset?.getList() as? List<AbstractMediaWrapper>)?.filter { it.type != AbstractMediaWrapper.TYPE_DIR } ?: return
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
@@ -149,7 +149,7 @@ object TvUtil {
                 }
                 else -> {
                     model?.run {
-                        val list = (dataset.value as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
+                        val list = (dataset.getList() as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
                         val position = list.getposition(item)
                         MediaUtils.openList(activity, list, position)
                     } ?: MediaUtils.openMedia(activity, item)
@@ -178,7 +178,7 @@ object TvUtil {
         when (item) {
             is AbstractMediaWrapper -> when {
                 item.type == AbstractMediaWrapper.TYPE_AUDIO -> {
-                    val list = (model.dataset.value as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
+                    val list = (model.dataset.getList() as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
@@ -197,7 +197,7 @@ object TvUtil {
                 }
                 else -> {
                     model.run {
-                        val list = (dataset.value as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
+                        val list = (dataset.getList() as List<AbstractMediaWrapper>).filter { it.type != AbstractMediaWrapper.TYPE_DIR }
                         val position = list.getposition(item)
                         MediaUtils.openList(activity, list, position)
                     }

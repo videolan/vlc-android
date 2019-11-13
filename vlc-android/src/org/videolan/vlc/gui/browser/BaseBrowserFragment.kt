@@ -276,7 +276,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
      */
     protected open fun updateEmptyView() {
         swipeRefreshLayout.let {
-            if (Util.isListEmpty(viewModel.dataset.value)) {
+            if (viewModel.isEmpty()) {
                 if (it.isRefreshing) {
                     binding.emptyLoading.state = EmptyLoadingState.LOADING
                     binding.networkList.visibility = View.GONE
@@ -344,7 +344,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     private fun playAll(mw: AbstractMediaWrapper?) {
         var positionInPlaylist = 0
         val mediaLocations = LinkedList<AbstractMediaWrapper>()
-        for (file in viewModel.dataset.value)
+        for (file in viewModel.dataset.getList())
             if (file is AbstractMediaWrapper) {
                 if (file.type == AbstractMediaWrapper.TYPE_VIDEO || file.type == AbstractMediaWrapper.TYPE_AUDIO) {
                     mediaLocations.add(file)
@@ -549,7 +549,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         swipeRefreshLayout.isRefreshing = false
         handler.sendEmptyMessage(MSG_HIDE_LOADING)
         updateEmptyView()
-        if (!Util.isListEmpty(viewModel.dataset.value)) {
+        if (!viewModel.isEmpty()) {
             if (savedPosition > 0) {
                 layoutManager.scrollToPositionWithOffset(savedPosition, 0)
                 savedPosition = 0
