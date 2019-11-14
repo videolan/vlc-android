@@ -195,8 +195,8 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
 
         // get screen size
         if (activity != null) {
-            sw = activity.getWindow().getDecorView().getWidth();
-            sh = activity.getWindow().getDecorView().getHeight();
+            sw = mVideoSurfaceFrame.getWidth();
+            sh = mVideoSurfaceFrame.getHeight();
         } else if (mDisplayManager != null && mDisplayManager.getPresentation() != null && mDisplayManager.getPresentation().getWindow() != null) {
             sw = mDisplayManager.getPresentation().getWindow().getDecorView().getWidth();
             sh = mDisplayManager.getPresentation().getWindow().getDecorView().getHeight();
@@ -295,12 +295,6 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
         mVideoSurface.setLayoutParams(lp);
         if (mSubtitlesSurface != null) mSubtitlesSurface.setLayoutParams(lp);
-
-        // set frame size (crop if necessary)
-        lp = mVideoSurfaceFrame.getLayoutParams();
-        lp.width = (int) Math.floor(dw);
-        lp.height = (int) Math.floor(dh);
-        mVideoSurfaceFrame.setLayoutParams(lp);
 
         mVideoSurface.invalidate();
         if (mSubtitlesSurface != null) mSubtitlesSurface.invalidate();
