@@ -121,8 +121,10 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         return super.getApplicationContext().getContextWithLocale()
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     @SuppressLint("WakelockTimeout")
     override fun onCreate() {
+        if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(applicationContext)
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
         localBroadcastManager = LocalBroadcastManager.getInstance(this)
@@ -182,7 +184,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
         val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused)
-        NotificationHelper.createNotificationChannels(applicationContext)
         startForeground(43, notification)
     }
 

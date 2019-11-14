@@ -85,7 +85,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         get() = playlistManager.player.mediaplayer
     private lateinit var keyguardManager: KeyguardManager
     internal lateinit var settings: SharedPreferences
-    private val mBinder = LocalBinder()
+    private val binder = LocalBinder()
     internal lateinit var medialibrary: AbstractMedialibrary
 
     private val callbacks = mutableListOf<Callback>()
@@ -453,6 +453,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     override fun onCreate() {
+        if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(applicationContext)
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
         settings = Settings.getInstance(this)
@@ -555,7 +556,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     override fun onBind(intent: Intent): IBinder? {
         dispatcher.onServicePreSuperOnBind()
-        return if (MediaBrowserServiceCompat.SERVICE_INTERFACE == intent.action) super.onBind(intent) else mBinder
+        return if (MediaBrowserServiceCompat.SERVICE_INTERFACE == intent.action) super.onBind(intent) else binder
     }
 
     val vout: IVLCVout?
@@ -566,7 +567,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
         val ctx = this@PlaybackService
-        NotificationHelper.createNotificationChannels(ctx.applicationContext)
         val stopped = PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED
         val notification = if (this::notification.isInitialized && !stopped) notification
         else NotificationHelper.createPlaybackNotification(ctx, false,
