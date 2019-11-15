@@ -27,14 +27,13 @@ import android.annotation.TargetApi
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -44,11 +43,9 @@ import org.videolan.vlc.util.VLCInstance
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
-    override fun getXml(): Int {
-        return R.xml.preferences_adv
-    }
-
+class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener,
+CoroutineScope by MainScope() {
+    override fun getXml() = R.xml.preferences_adv
 
     override fun getTitleId(): Int {
         return R.string.advanced_prefs_category
@@ -80,19 +77,27 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "clear_history" -> {
-                AlertDialog.Builder(activity)
+                AlertDialog.Builder(ctx)
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(R.string.yes) { _, _ -> AbstractMedialibrary.getInstance().clearHistory() }
-                        .setNegativeButton(R.string.cancel, null).show()
+                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
+                            AbstractMedialibrary.getInstance().clearHistory()
+                        }}
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 return true
             }
             "clear_media_db" -> {
-                val i = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                i.addCategory(Intent.CATEGORY_DEFAULT)
-                i.data = Uri.parse("package:" + ctx.packageName)
-                startActivity(i)
+                AlertDialog.Builder(ctx)
+                        .setTitle(R.string.clear_media_db)
+                        .setMessage(R.string.validation)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
+                            (AbstractMedialibrary.getInstance() as Medialibrary).clearDatabase(true)
+                        }}
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 return true
             }
             "quit_app" -> {

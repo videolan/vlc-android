@@ -26,14 +26,13 @@ package org.videolan.vlc.gui.preferences
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -41,14 +40,14 @@ import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.*
 import java.io.File
+import java.lang.Runnable
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
-    override fun getXml(): Int {
-        return R.xml.preferences_adv
-    }
+class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener,
+        CoroutineScope by MainScope() {
 
+    override fun getXml() = R.xml.preferences_adv
 
     override fun getTitleId(): Int {
         return R.string.advanced_prefs_category
@@ -71,8 +70,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        if (preference.key == null)
-            return false
+        if (preference.key == null) return false
         when (preference.key) {
             "debug_logs" -> {
                 val intent = Intent(requireContext(), DebugLogActivity::class.java)
@@ -84,16 +82,23 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(R.string.yes) { dialog, _ -> AbstractMedialibrary.getInstance().clearHistory() }
-
-                        .setNegativeButton(R.string.cancel, null).show()
+                        .setPositiveButton(R.string.yes) { _, _ ->
+                            launch(Dispatchers.IO) { AbstractMedialibrary.getInstance().clearHistory() }
+                        }
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 return true
             }
             "clear_media_db" -> {
-                val i = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                i.addCategory(Intent.CATEGORY_DEFAULT)
-                i.data = Uri.parse("package:" + requireContext().packageName)
-                startActivity(i)
+                AlertDialog.Builder(requireContext())
+                        .setTitle(R.string.clear_media_db)
+                        .setMessage(R.string.validation)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
+                            AbstractMedialibrary.getInstance().clearDatabase(true)
+                        }}
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 return true
             }
             "quit_app" -> {
@@ -103,27 +108,26 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "dump_media_db" -> {
                 if (AbstractMedialibrary.getInstance().isWorking)
                     UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
-                else
-                    runIO(Runnable {
-                        val dump = Runnable {
-                            val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+                else launch(Dispatchers.IO) {
+                    val dump = Runnable {
+                        val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
 
-                            if (FileUtils.copyFile(db, File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)))
-                                runOnMainThread(Runnable {
-                                    val ctx = context
-                                    if (ctx != null) Toast.makeText(ctx, getString(R.string.dump_db_succes), Toast.LENGTH_LONG).show()
-                                })
-                            else
-                                runOnMainThread(Runnable {
-                                    val ctx = context
-                                    if (ctx != null) Toast.makeText(ctx, getString(R.string.dump_db_failure), Toast.LENGTH_LONG).show()
-                                })
-                        }
-                        if (Permissions.canWriteStorage())
-                            dump.run()
+                        if (FileUtils.copyFile(db, File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)))
+                            runOnMainThread(Runnable {
+                                val ctx = context
+                                if (ctx != null) Toast.makeText(ctx, getString(R.string.dump_db_succes), Toast.LENGTH_LONG).show()
+                            })
                         else
-                            Permissions.askWriteStoragePermission(requireActivity(), false, dump)
-                    })
+                            runOnMainThread(Runnable {
+                                val ctx = context
+                                if (ctx != null) Toast.makeText(ctx, getString(R.string.dump_db_failure), Toast.LENGTH_LONG).show()
+                            })
+                    }
+                    if (Permissions.canWriteStorage())
+                        dump.run()
+                    else
+                        Permissions.askWriteStoragePermission(requireActivity(), false, dump)
+                }
                 return true
             }
         }
