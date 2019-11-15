@@ -330,6 +330,9 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return true;
     }
 
+    @Override
+    public void clearDatabase(boolean restorePlaylist) {}
+
     //TODO what if two files have the same name ??
     // TODO what happens in case of false return
     public boolean addToHistory(String mrl, String title) {
