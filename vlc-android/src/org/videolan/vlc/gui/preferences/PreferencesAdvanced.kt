@@ -47,10 +47,8 @@ import java.io.File
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
-    override fun getXml(): Int {
-        return R.xml.preferences_adv
-    }
 
+    override fun getXml() =  R.xml.preferences_adv
 
     override fun getTitleId(): Int {
         return R.string.advanced_prefs_category
@@ -86,16 +84,22 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(R.string.yes) { dialog, _ -> AbstractMedialibrary.getInstance().clearHistory() }
+                        .setPositiveButton(R.string.yes) { _, _ ->
+                            launch(Dispatchers.IO) { AbstractMedialibrary.getInstance().clearHistory() }
+                        }
 
                         .setNegativeButton(R.string.cancel, null).show()
                 return true
             }
             "clear_media_db" -> {
-                val i = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                i.addCategory(Intent.CATEGORY_DEFAULT)
-                i.data = Uri.parse("package:" + requireContext().packageName)
-                startActivity(i)
+                AlertDialog.Builder(requireContext())
+                        .setTitle(R.string.clear_media_db)
+                        .setMessage(R.string.validation)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
+                            AbstractMedialibrary.getInstance().clearDatabase(true)
+                        }}
+                        .setNegativeButton(R.string.cancel, null).show()
                 return true
             }
             "quit_app" -> {
@@ -104,7 +108,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             }
             "dump_media_db" -> {
                 if (AbstractMedialibrary.getInstance().isWorking)
-                    UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
+                    view?.let { UiTools.snacker(it, getString(R.string.settings_ml_block_scan)) }
                 else {
                     val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
                     launch {

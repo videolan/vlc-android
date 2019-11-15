@@ -86,19 +86,26 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "clear_history" -> {
-                AlertDialog.Builder(activity)
+                AlertDialog.Builder(ctx)
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(R.string.yes) { _, _ -> AbstractMedialibrary.getInstance().clearHistory() }
-                        .setNegativeButton(R.string.cancel, null).show()
+                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
+                            AbstractMedialibrary.getInstance().clearHistory()
+                        }}
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 return true
             }
             "clear_media_db" -> {
-                val i = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                i.addCategory(Intent.CATEGORY_DEFAULT)
-                i.data = Uri.parse("package:" + ctx.packageName)
-                startActivity(i)
+                AlertDialog.Builder(ctx)
+                        .setTitle(R.string.clear_media_db)
+                        .setMessage(R.string.validation)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) { AbstractMedialibrary.getInstance().clearDatabase(true)
+                        }}
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 return true
             }
             "quit_app" -> {
