@@ -208,23 +208,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.VLCObject.clazz,
            "dispatchEventFromNative", "(IJJFLjava/lang/String;)V");
 
-    if (fields.SDK_INT <= 13)
-    {
-        LOGE("fields.SDK_INT is less than 13 (honeycomb_mr2): using compat WeakReference");
-        GET_ID(GetMethodID,
-               fields.VLCObject.getWeakReferenceID,
-               fields.VLCObject.clazz,
-               "getWeakReference", "()Ljava/lang/Object;");
-        GET_ID(GetStaticMethodID,
-               fields.VLCObject.dispatchEventFromWeakNativeID,
-               fields.VLCObject.clazz,
-               "dispatchEventFromWeakNative", "(Ljava/lang/Object;IJJFLjava/lang/String;)V");
-    } else
-    {
-        fields.VLCObject.getWeakReferenceID = NULL;
-        fields.VLCObject.dispatchEventFromWeakNativeID = NULL;
-    }
-
     GET_ID(GetStaticMethodID,
            fields.Media.createAudioTrackFromNativeID,
            fields.Media.clazz,
