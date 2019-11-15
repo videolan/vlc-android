@@ -655,6 +655,7 @@ abstract public class AbstractMedialibrary {
     abstract public AbstractMediaWrapper[] lastMediaPlayed();
     abstract public AbstractMediaWrapper[] lastStreamsPlayed();
     abstract public boolean clearHistory();
+    abstract public void clearDatabase(boolean restorePlaylist);
     abstract public boolean addToHistory(String mrl, String title);
     abstract public AbstractMediaWrapper getMedia(long id);
     abstract public AbstractMediaWrapper getMedia(Uri uri);
