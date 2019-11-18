@@ -89,14 +89,16 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
         if (Intent.ACTION_SEARCH == intent.action || "com.google.android.gms.actions.SEARCH_ACTION" == intent.action)
             onQueryTextSubmit(intent.getStringExtra(SearchManager.QUERY))
 
-        media = arguments!!.getParcelable(MoviepediaTvActivity.MEDIA)!!
+        val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
+        media = extras.getParcelable(MoviepediaTvActivity.MEDIA) ?: return
 
         viewModel = ViewModelProviders.of(this).get(media.uri.path
                 ?: "", MoviepediaModel::class.java)
+        val cp = CardPresenter(requireActivity(), true)
+        val videoAdapter = ArrayObjectAdapter(cp)
         viewModel.apiResult.observe(this, Observer {
-            val cp = CardPresenter(requireActivity(), true)
-            val videoAdapter = ArrayObjectAdapter(cp)
             val medias = it.getAllResults()
+            videoAdapter.clear()
             videoAdapter.addAll(0, medias)
             rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.moviepedia_result)), videoAdapter))
             updateEmptyView(medias.isEmpty())

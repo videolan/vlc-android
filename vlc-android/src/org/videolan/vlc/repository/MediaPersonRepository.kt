@@ -50,7 +50,6 @@ import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.MediaPersonJoinDao
-import org.videolan.vlc.database.models.MediaMetadata
 import org.videolan.vlc.database.models.MediaPersonJoin
 import org.videolan.vlc.database.models.Person
 import org.videolan.vlc.database.models.PersonType
@@ -63,15 +62,6 @@ class MediaPersonRepository(private val mediaPersonActorJoinDao: MediaPersonJoin
     fun getAll() =
             mediaPersonActorJoinDao.getAll()
 
-    fun getPersons(metadata: MediaMetadata): MediaPersons {
-        return MediaPersons(
-                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.ACTOR),
-                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.DIRECTOR),
-                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.MUSICIAN),
-                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.PRODUCER),
-                mediaPersonActorJoinDao.getActorsForMedia(metadata.mlId, PersonType.WRITER)
-        )
-    }
 
     fun getPersonsByType(mlId: Long, personType: PersonType): LiveData<List<Person>> {
         return mediaPersonActorJoinDao.getActorsForMediaLive(mlId, personType)
@@ -79,11 +69,3 @@ class MediaPersonRepository(private val mediaPersonActorJoinDao: MediaPersonJoin
 
     companion object : SingletonHolder<MediaPersonRepository, Context>({ MediaPersonRepository(MediaDatabase.getInstance(it).mediaPersonActorJoinDao()) })
 }
-
-data class MediaPersons(
-        val actors: List<Person>,
-        val directors: List<Person>,
-        val musicians: List<Person>,
-        val producers: List<Person>,
-        val writers: List<Person>
-)

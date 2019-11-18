@@ -44,7 +44,7 @@ class MoviepediaApiRepository(private val moviepediaApiService: IMoviepediaApiSe
         return moviepediaApiService.searchMedia(scrobbleBody)
     }
 
-    suspend fun searchTitle(title: String) = moviepediaApiService.searchMedia(ScrobbleBody(title = title))
+    suspend fun searchTitle(title: String) = moviepediaApiService.searchMedia(ScrobbleBody(title = title, filename = title))
 
     suspend fun searchMedia(query: ScrobbleBody) = moviepediaApiService.searchMedia(query)
 
