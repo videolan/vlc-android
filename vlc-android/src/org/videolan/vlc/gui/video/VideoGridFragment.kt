@@ -22,7 +22,6 @@ package org.videolan.vlc.gui.video
 
 import android.annotation.TargetApi
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -127,8 +126,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         menu.findItem(R.id.ml_menu_last_playlist).isVisible = true
         menu.findItem(R.id.ml_menu_video_group).isVisible = viewModel.group == null && viewModel.folder == null
         val displayInCards = Settings.getInstance(requireActivity()).getBoolean("video_display_in_cards", true)
-        menu.findItem(R.id.ml_menu_display_grid).isVisible = displayInCards
-        menu.findItem(R.id.ml_menu_display_list).isVisible = !displayInCards
+        menu.findItem(R.id.ml_menu_display_grid).isVisible = !displayInCards
+        menu.findItem(R.id.ml_menu_display_list).isVisible = displayInCards
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -215,7 +214,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val res = resources
         if (gridItemDecoration == null)
             gridItemDecoration = ItemOffsetDecoration(resources, R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin)
-        val listMode = res.getBoolean(R.bool.list_mode) || res.configuration.orientation == Configuration.ORIENTATION_PORTRAIT && Settings.getInstance(requireContext()).getBoolean(FORCE_LIST_PORTRAIT, false)
+        val listMode = !Settings.getInstance(requireContext()).getBoolean("video_display_in_cards", true)
 
         // Select between grid or list
         binding.videoGrid.removeItemDecoration(gridItemDecoration!!)
