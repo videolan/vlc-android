@@ -37,21 +37,17 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.database.models.*
 import org.videolan.vlc.moviepedia.models.identify.*
-import org.videolan.vlc.moviepedia.models.media.cast.CastResult
 import org.videolan.vlc.moviepedia.models.media.cast.image
 import org.videolan.vlc.repository.MediaMetadataRepository
 import org.videolan.vlc.repository.MediaPersonRepository
 import org.videolan.vlc.repository.MoviepediaApiRepository
 import org.videolan.vlc.repository.PersonRepository
 import org.videolan.vlc.util.getLocaleLanguages
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MoviepediaModel : ViewModel() {
 
     val apiResult: MutableLiveData<IdentifyResult> = MutableLiveData()
-    val mediaResult: MutableLiveData<Media> = MutableLiveData()
-    val mediaCastResult: MutableLiveData<CastResult> = MutableLiveData()
+    private val mediaResult: MutableLiveData<Media> = MutableLiveData()
     private val repo = MoviepediaApiRepository.getInstance()
     private var searchJob: Job? = null
         set(value) {
@@ -94,8 +90,13 @@ class MoviepediaModel : ViewModel() {
 
             val show = when (item.mediaType) {
                 MediaType.TV_EPISODE -> {
-                    //todo moviepedia we have to add an API call to retrieve more TV Show info
-                    val show = MediaTvshow(item.showId, item.showTitle, "", "", Date())
+                    //check if show already exists
+                    mediaMetadataRepository.getTvshow(item.showId)?.moviepediaShowId
+                    //show doesn't exist, let's retrieve it
+                    val tvShowResult = repo.getMedia(item.showId)
+                    val show = MediaTvshow(item.showId, item.showTitle, tvShowResult.summary
+                            ?: "", tvShowResult.getImageUri(context.getLocaleLanguages())?.toString()
+                            ?: "", tvShowResult.date)
                     mediaMetadataRepository.insertShow(show)
                     show.moviepediaShowId
                 }

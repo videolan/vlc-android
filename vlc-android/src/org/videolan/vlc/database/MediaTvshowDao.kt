@@ -35,7 +35,10 @@ interface MediaTvshowDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(show: MediaTvshow)
 
-    @Query("select count(moviepedia_show_id) from media_tv_show")
+    @Query("SELECT * FROM media_tv_show WHERE moviepedia_show_id=:showId")
+    fun find(showId: String): MediaTvshow?
+
+    @Query("SELECT count(moviepedia_show_id) FROM media_tv_show")
     fun getTvshowsCount(): Int
 
     @RawQuery(observedEntities = [MediaTvshow::class])

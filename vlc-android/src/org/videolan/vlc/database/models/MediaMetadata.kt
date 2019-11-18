@@ -164,7 +164,7 @@ data class MediaTvshow(
         @ColumnInfo(name = "image")
         val image: String,
         @ColumnInfo(name = "release_date")
-        val releaseDate: Date
+        val releaseDate: Date?
 
 ) : DisplayableMediaMetadata {
     override fun getDescription(): String = summary

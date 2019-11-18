@@ -93,5 +93,7 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
         return mediaTvshowDao.getAllPaged(query)
     }
 
+    fun getTvshow(showId: String) = mediaTvshowDao.find(showId)
+
     companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao(), MediaDatabase.getInstance(it).mediaTvshowDao()) })
 }
