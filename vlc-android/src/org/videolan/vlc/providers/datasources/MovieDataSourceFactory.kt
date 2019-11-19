@@ -28,10 +28,11 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.repository.MediaMetadataRepository
 
-class MovieDataSourceFactory(private val context: Context, private val sort: Pair<Int, Boolean>) : DataSource.Factory<Int, MediaMetadataWithImages>() {
+class MovieDataSourceFactory(private val context: Context, private val sort: Pair<Int, Boolean>, private val metadataType: MediaMetadataType) : DataSource.Factory<Int, MediaMetadataWithImages>() {
     private val dataSource = MutableLiveData<DataSource<Int, MediaMetadataWithImages>>()
     override fun create(): DataSource<Int, MediaMetadataWithImages> {
         val sortField = when (sort.first) {
@@ -41,7 +42,7 @@ class MovieDataSourceFactory(private val context: Context, private val sort: Pai
         }
         val sortType = if (sort.second) "DESC" else "ASC"
 
-        val newDataSource = MediaMetadataRepository.getInstance(context).getMoviePagedList(sortField, sortType).create()
+        val newDataSource = MediaMetadataRepository.getInstance(context).getMoviePagedList(sortField, sortType, metadataType).create()
         dataSource.postValue(newDataSource)
         return newDataSource
     }

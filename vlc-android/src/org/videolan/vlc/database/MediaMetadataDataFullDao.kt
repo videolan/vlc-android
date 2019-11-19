@@ -44,8 +44,14 @@ interface MediaMetadataDataFullDao {
     @Query("select * from media_metadata where ml_id = :id")
     fun getMedia(id: Long): MediaMetadataWithImages?
 
-    @Query("select count(ml_id) from media_metadata where type = 0")
+    @Query("select * from media_metadata where moviepedia_id = :id")
+    fun getMediaById(id: String): MediaMetadataWithImages?
+
+    @Query("select count(moviepedia_id) from media_metadata where type = 0")
     fun getMovieCount(): Int
+
+    @Query("select count(moviepedia_id) from media_metadata where type = 2")
+    fun getTvshowsCount(): Int
 
     @RawQuery(observedEntities = [MediaMetadataWithImages::class])
     fun getAllPaged(query: SupportSQLiteQuery): DataSource.Factory<Int, MediaMetadataWithImages>

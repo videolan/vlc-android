@@ -29,13 +29,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations.switchMap
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.providers.datasources.MovieDataSourceFactory
 
-class MoviepediaMovieProvider(private val context: Context) : MoviepediaProvider<MediaMetadataWithImages>(context) {
+class MoviepediaMovieProvider(private val context: Context, private val mediaType: MediaMetadataType) : MoviepediaProvider(context) {
 
     override var pagedList: LiveData<PagedList<MediaMetadataWithImages>> = switchMap(sortQuery) { input ->
-        val movieDataSourceFactory = MovieDataSourceFactory(context, input)
+        val movieDataSourceFactory = MovieDataSourceFactory(context, input, mediaType)
         //todo moviepedia set the right values
         val pagedListConfig = PagedList.Config.Builder()
                 .setInitialLoadSizeHint(1)

@@ -41,8 +41,8 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.BrowserFav
+import org.videolan.vlc.database.models.MediaMetadata
 import org.videolan.vlc.database.models.MediaMetadataWithImages
-import org.videolan.vlc.database.models.MediaTvshow
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
@@ -80,7 +80,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
     val history: LiveData<List<AbstractMediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val movies: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
-    val tvshows: MediatorLiveData<List<MediaTvshow>> = MediatorLiveData()
+    val tvshows: MediatorLiveData<List<MediaMetadata>> = MediatorLiveData()
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
 

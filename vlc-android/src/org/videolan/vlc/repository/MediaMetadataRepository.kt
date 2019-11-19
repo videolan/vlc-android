@@ -51,13 +51,16 @@ import androidx.paging.DataSource
 import androidx.sqlite.db.SimpleSQLiteQuery
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
-import org.videolan.vlc.database.*
+import org.videolan.vlc.database.MediaDatabase
+import org.videolan.vlc.database.MediaImageDao
+import org.videolan.vlc.database.MediaMetadataDao
+import org.videolan.vlc.database.MediaMetadataDataFullDao
 import org.videolan.vlc.database.models.MediaImage
 import org.videolan.vlc.database.models.MediaMetadata
+import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.MediaMetadataWithImages
-import org.videolan.vlc.database.models.MediaTvshow
 
-class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDataFullDao, private val mediaMetadataDao: MediaMetadataDao, private val mediaImageDao: MediaImageDao, private val mediaTvshowDao: MediaTvshowDao) : IOScopedObject() {
+class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDataFullDao, private val mediaMetadataDao: MediaMetadataDao, private val mediaImageDao: MediaImageDao) : IOScopedObject() {
 
     @WorkerThread
     fun addMetadataImmediate(mediaMetadata: MediaMetadata) = mediaMetadataDao.insert(mediaMetadata)
@@ -78,25 +81,17 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     fun getMovieCount(): Int = mediaMetadataFullDao.getMovieCount()
 
     @WorkerThread
-    fun getTvshowsCount(): Int = mediaTvshowDao.getTvshowsCount()
+    fun getTvshowsCount(): Int = mediaMetadataFullDao.getTvshowsCount()
 
     @WorkerThread
     fun getMetadata(mediaId: Long): MediaMetadataWithImages? = mediaMetadataFullDao.getMedia(mediaId)
 
-    @WorkerThread
-    fun insertShow(show: MediaTvshow) = mediaTvshowDao.insert(show)
-
-    fun getMoviePagedList(sortField: String, sortType: String): DataSource.Factory<Int, MediaMetadataWithImages> {
-        val query = SimpleSQLiteQuery("SELECT * FROM media_metadata WHERE type = 0 ORDER BY $sortField $sortType")
+    fun getMoviePagedList(sortField: String, sortType: String, metadataType: MediaMetadataType): DataSource.Factory<Int, MediaMetadataWithImages> {
+        val query = SimpleSQLiteQuery("SELECT * FROM media_metadata WHERE type = ${metadataType.key} ORDER BY $sortField $sortType")
         return mediaMetadataFullDao.getAllPaged(query)
     }
 
-    fun getTvshowPagedList(sortField: String, sortType: String): DataSource.Factory<Int, MediaTvshow> {
-        val query = SimpleSQLiteQuery("SELECT * FROM media_tv_show ORDER BY $sortField $sortType")
-        return mediaTvshowDao.getAllPaged(query)
-    }
+    fun getTvshow(showId: String) = mediaMetadataFullDao.getMediaById(showId)
 
-    fun getTvshow(showId: String) = mediaTvshowDao.find(showId)
-
-    companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao(), MediaDatabase.getInstance(it).mediaTvshowDao()) })
+    companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao()) })
 }

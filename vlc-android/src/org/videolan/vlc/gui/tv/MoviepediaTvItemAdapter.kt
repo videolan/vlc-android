@@ -31,7 +31,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
@@ -40,10 +39,8 @@ import androidx.recyclerview.widget.DiffUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.database.models.DisplayableMediaMetadata
+import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.databinding.MovieBrowserTvItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMoviepediaIconDrawable
@@ -51,11 +48,10 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.UPDATE_PAYLOAD
 import org.videolan.vlc.util.Util
-import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHandler<DisplayableMediaMetadata>, var itemSize: Int) : PagedListAdapter<DisplayableMediaMetadata, MoviepediaTvItemAdapter.AbstractMoviepediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, TvItemAdapter {
+class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHandler<MediaMetadataWithImages>, var itemSize: Int) : PagedListAdapter<MediaMetadataWithImages, MoviepediaTvItemAdapter.AbstractMoviepediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, TvItemAdapter {
     override var focusNext = -1
     private val defaultCover: BitmapDrawable?
     private var focusListener: FocusableRecyclerView.FocusListener? = null
@@ -113,7 +109,7 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
         }
         if (pagedList is PagedList<*>) {
             @Suppress("UNCHECKED_CAST")
-            this.submitList(pagedList as PagedList<DisplayableMediaMetadata>)
+            this.submitList(pagedList as PagedList<MediaMetadataWithImages>)
         }
     }
 
@@ -129,14 +125,14 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
          */
         private var preventNextAnim: Boolean = false
 
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DisplayableMediaMetadata>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MediaMetadataWithImages>() {
             override fun areItemsTheSame(
-                    oldMedia: DisplayableMediaMetadata, newMedia: DisplayableMediaMetadata) = if (preventNextAnim) true
+                    oldMedia: MediaMetadataWithImages, newMedia: MediaMetadataWithImages) = if (preventNextAnim) true
             else oldMedia === newMedia
 
-            override fun areContentsTheSame(oldMedia: DisplayableMediaMetadata, newMedia: DisplayableMediaMetadata) = false
+            override fun areContentsTheSame(oldMedia: MediaMetadataWithImages, newMedia: MediaMetadataWithImages) = false
 
-            override fun getChangePayload(oldItem: DisplayableMediaMetadata, newItem: DisplayableMediaMetadata): Any? {
+            override fun getChangePayload(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages): Any? {
                 preventNextAnim = false
                 return UPDATE_PAYLOAD
             }
@@ -167,11 +163,11 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
             getItem(layoutPosition)?.let { eventsHandler.onMainActionClick(v, layoutPosition, it) }
         }
 
-        abstract fun getItem(layoutPosition: Int): DisplayableMediaMetadata?
+        abstract fun getItem(layoutPosition: Int): MediaMetadataWithImages?
 
-        abstract val eventsHandler: IEventsHandler<DisplayableMediaMetadata>
+        abstract val eventsHandler: IEventsHandler<MediaMetadataWithImages>
 
-        abstract fun setItem(item: DisplayableMediaMetadata?)
+        abstract fun setItem(item: MediaMetadataWithImages?)
 
         abstract fun recycle()
 
@@ -179,7 +175,7 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
     }
 
     inner class MovieItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: MovieBrowserTvItemBinding, override val eventsHandler: IEventsHandler<DisplayableMediaMetadata>) : AbstractMoviepediaItemViewHolder<MovieBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
+    internal constructor(binding: MovieBrowserTvItemBinding, override val eventsHandler: IEventsHandler<MediaMetadataWithImages>) : AbstractMoviepediaItemViewHolder<MovieBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
         override fun getItem(layoutPosition: Int) = this@MoviepediaTvItemAdapter.getItem(layoutPosition)
 
         init {
@@ -218,41 +214,41 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
             binding.mediaCover.resetFade()
         }
 
-        override fun setItem(item: DisplayableMediaMetadata?) {
+        override fun setItem(item: MediaMetadataWithImages?) {
             binding.item = item
-            var isSquare = true
-            var progress = 0
+//            var isSquare = true
+//            var progress = 0
             var seen = 0L
-            var description = item?.getDescription()
-            var resolution = ""
-            if (item is AbstractMediaWrapper) {
-                if (item.type == AbstractMediaWrapper.TYPE_VIDEO) {
-                    resolution = generateResolutionClass(item.width, item.height) ?: ""
-                    isSquare = false
-                    description = if (item.time == 0L) Tools.millisToString(item.length) else Tools.getProgressText(item)
-                    binding.badge = resolution
-                    seen = item.seen
-                    var max = 0
-
-                    if (item.length > 0) {
-                        val lastTime = item.displayTime
-                        if (lastTime > 0) {
-                            max = (item.length / 1000).toInt()
-                            progress = (lastTime / 1000).toInt()
-                        }
-                    }
-                    binding.max = max
-                }
-            }
-
-            binding.progress = progress
-            binding.isSquare = isSquare
+            var description = item?.metadata?.summary
+//            var resolution = ""
+//            if (item is AbstractMediaWrapper) {
+//                if (item.type == AbstractMediaWrapper.TYPE_VIDEO) {
+//                    resolution = generateResolutionClass(item.width, item.height) ?: ""
+//                    isSquare = false
+//                    description = if (item.time == 0L) Tools.millisToString(item.length) else Tools.getProgressText(item)
+//                    binding.badge = resolution
+//                    seen = item.seen
+//                    var max = 0
+//
+//                    if (item.length > 0) {
+//                        val lastTime = item.displayTime
+//                        if (lastTime > 0) {
+//                            max = (item.length / 1000).toInt()
+//                            progress = (lastTime / 1000).toInt()
+//                        }
+//                    }
+//                    binding.max = max
+//                }
+//            }
+//
+//            binding.progress = progress
+            binding.isSquare = true
             binding.seen = seen
             binding.description = description
-            binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
-            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
-            if (progress <= 0L) binding.progressBar.visibility = View.GONE
-            binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
+//            binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
+//            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
+//            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+//            binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
         @ObsoleteCoroutinesApi

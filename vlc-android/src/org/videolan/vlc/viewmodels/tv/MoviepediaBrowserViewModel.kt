@@ -30,14 +30,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.vlc.database.models.DisplayableMediaMetadata
+import org.videolan.vlc.database.models.MediaMetadataType
+import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.providers.MoviepediaMovieProvider
-import org.videolan.vlc.providers.MoviepediaTvshowProvider
-import org.videolan.vlc.util.HEADER_MOVIES
+import org.videolan.vlc.util.HEADER_TV_SHOW
 import org.videolan.vlc.viewmodels.SortableModel
 
 @ExperimentalCoroutinesApi
-class MoviepediaBrowserViewModel(context: Context, val category: Long) : SortableModel(context), TvBrowserModel<DisplayableMediaMetadata> {
+class MoviepediaBrowserViewModel(context: Context, val category: Long) : SortableModel(context), TvBrowserModel<MediaMetadataWithImages> {
     override fun restore() {
     }
 
@@ -48,14 +48,11 @@ class MoviepediaBrowserViewModel(context: Context, val category: Long) : Sortabl
         provider.refresh()
     }
 
-    override var currentItem: DisplayableMediaMetadata? = null
+    override var currentItem: MediaMetadataWithImages? = null
 
     override var nbColumns = 0
 
-    override val provider = when (category) {
-        HEADER_MOVIES -> MoviepediaMovieProvider(context)
-        else -> MoviepediaTvshowProvider(context)
-    }
+    override val provider = MoviepediaMovieProvider(context, if (category == HEADER_TV_SHOW) MediaMetadataType.TV_SHOW else MediaMetadataType.MOVIE)
 
     override fun sort(sort: Int) {
         provider.sort(sort)

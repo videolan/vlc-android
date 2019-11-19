@@ -48,7 +48,7 @@ import androidx.room.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Entity(tableName = "media_metadata", foreignKeys = [ForeignKey(entity = MediaTvshow::class, parentColumns = ["moviepedia_show_id"], childColumns = ["show_id"])])
+@Entity(tableName = "media_metadata", foreignKeys = [ForeignKey(entity = MediaMetadata::class, parentColumns = ["moviepedia_id"], childColumns = ["show_id"])])
 data class MediaMetadata(
         @PrimaryKey
         @ColumnInfo(name = "moviepedia_id")
@@ -56,7 +56,7 @@ data class MediaMetadata(
         @ColumnInfo(name = "ml_id")
         val mlId: Long?,
         @ColumnInfo(name = "type")
-        val type: Int,
+        val type: MediaMetadataType,
         @ColumnInfo(name = "title")
         val title: String,
         @ColumnInfo(name = "summary")
@@ -80,26 +80,19 @@ data class MediaMetadata(
 
 )
 
-class MediaMetadataWithImages : DisplayableMediaMetadata {
-    override fun getDescription() = subtitle()
-
-    override fun getTitle() = metadata.title
-
-    override fun getPoster() = metadata.currentPoster
-
-    override fun getYear() = SimpleDateFormat("yyyy", Locale.getDefault()).format(metadata.releaseDate)
-
+fun MediaMetadata.getYear() = SimpleDateFormat("yyyy", Locale.getDefault()).format(releaseDate)
+class MediaMetadataWithImages {
     @Embedded
     lateinit var metadata: MediaMetadata
 
-    @Relation(parentColumn = "show_id", entityColumn = "moviepedia_show_id", entity = MediaTvshow::class)
-    lateinit var show: MediaTvshow
+    @Relation(parentColumn = "show_id", entityColumn = "moviepedia_id", entity = MediaMetadata::class)
+    lateinit var show: MediaMetadata
 
     @Relation(parentColumn = "ml_id", entityColumn = "media_id", entity = MediaImage::class)
     var images: List<MediaImage> = ArrayList()
 }
 
-fun MediaMetadataWithImages.subtitle(): String = if (metadata.type == 0) movieSubtitle() else tvshowSubtitle()
+fun MediaMetadataWithImages.subtitle(): String = if (metadata.type == MediaMetadataType.MOVIE) movieSubtitle() else tvshowSubtitle()
 fun MediaMetadataWithImages.movieSubtitle(): String {
 
     val subtitle = ArrayList<String>()
@@ -118,7 +111,7 @@ fun MediaMetadataWithImages.tvshowSubtitle(): String {
     metadata.releaseDate?.let {
         subtitle.add(SimpleDateFormat("yyyy", Locale.getDefault()).format(it))
     }
-    subtitle.add(show.name)
+    subtitle.add(show.title)
     subtitle.add("S${metadata.season.toString().padStart(1, '0')}E${metadata.episode.toString().padStart(1, '0')}")
 
     return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
@@ -152,29 +145,17 @@ enum class PersonType(val key: Int) {
     }
 }
 
-@Entity(tableName = "media_tv_show")
-data class MediaTvshow(
-        @PrimaryKey
-        @ColumnInfo(name = "moviepedia_show_id")
-        val moviepediaShowId: String,
-        @ColumnInfo(name = "name")
-        val name: String,
-        @ColumnInfo(name = "summary")
-        val summary: String,
-        @ColumnInfo(name = "image")
-        val image: String,
-        @ColumnInfo(name = "release_date")
-        val releaseDate: Date?
+enum class MediaMetadataType(val key: Int) {
+    MOVIE(0), TV_EPISODE(1), TV_SHOW(2);
 
-) : DisplayableMediaMetadata {
-    override fun getDescription(): String = summary
-
-    override fun getTitle() = name
-
-    override fun getPoster() = image
-
-    override fun getYear() = SimpleDateFormat("yyyy", Locale.getDefault()).format(releaseDate)
+    companion object {
+        fun fromKey(key: Int): MediaMetadataType {
+            values().forEach { if (it.key == key) return it }
+            return MOVIE
+        }
+    }
 }
+
 
 @Entity(tableName = "media_metadata_person")
 data class Person(
@@ -209,11 +190,4 @@ enum class MediaImageType(val key: Int) {
             return BACKDROP
         }
     }
-}
-
-interface DisplayableMediaMetadata {
-    fun getTitle(): String
-    fun getDescription(): String
-    fun getPoster(): String
-    fun getYear(): String?
 }

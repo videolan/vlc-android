@@ -34,9 +34,8 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
-import org.videolan.vlc.database.models.DisplayableMediaMetadata
+import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.MediaMetadataWithImages
-import org.videolan.vlc.database.models.MediaTvshow
 import org.videolan.vlc.gui.tv.MoviepediaTvItemAdapter
 import org.videolan.vlc.gui.tv.TvItemAdapter
 import org.videolan.vlc.gui.tv.TvUtil
@@ -50,8 +49,8 @@ import java.util.*
 
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
-class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<DisplayableMediaMetadata>() {
-    override fun provideAdapter(eventsHandler: IEventsHandler<DisplayableMediaMetadata>, itemSize: Int): TvItemAdapter {
+class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImages>() {
+    override fun provideAdapter(eventsHandler: IEventsHandler<MediaMetadataWithImages>, itemSize: Int): TvItemAdapter {
         return MoviepediaTvItemAdapter((viewModel as MoviepediaBrowserViewModel).category, this, itemSize)
     }
 
@@ -85,7 +84,7 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<DisplayableMediaMetada
         viewModel = getMoviepediaBrowserModel(arguments?.getLong(CATEGORY, HEADER_MOVIES)
                 ?: HEADER_MOVIES)
 
-        (viewModel.provider as MoviepediaProvider<*>).pagedList.observe(this, Observer { items ->
+        (viewModel.provider as MoviepediaProvider).pagedList.observe(this, Observer { items ->
             submitList(items)
 
             binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
@@ -104,39 +103,39 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<DisplayableMediaMetada
             headerAdapter.items = headerItems
             headerAdapter.notifyDataSetChanged()
         })
-        (viewModel.provider as MoviepediaProvider<*>).loading.observe(this, Observer {
+        (viewModel.provider as MoviepediaProvider).loading.observe(this, Observer {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
         })
     }
 
-    override fun onClick(v: View, position: Int, item: DisplayableMediaMetadata) {
-        when (item) {
-            is MediaMetadataWithImages -> {
+    override fun onClick(v: View, position: Int, item: MediaMetadataWithImages) {
+        when (item.metadata.type) {
+            MediaMetadataType.TV_SHOW -> {
+                //todo moviepedia we have to create a new DetailFragment that display the TV show info + a line by season
+            }
+            else -> {
                 item.metadata.mlId?.let {
                     launch {
                         val media = requireActivity().getFromMl { getMedia(it) }
                         TvUtil.showMediaDetail(requireActivity(), media)
                     }
                 }
-            }
-            is MediaTvshow -> {
-                //todo moviepedia we have to create a new DetailFragment that display the TV show info + a line by season
             }
         }
     }
 
-    override fun onLongClick(v: View, position: Int, item: DisplayableMediaMetadata): Boolean {
-        when (item) {
-            is MediaMetadataWithImages -> {
+    override fun onLongClick(v: View, position: Int, item: MediaMetadataWithImages): Boolean {
+        when (item.metadata.type) {
+            MediaMetadataType.TV_SHOW -> {
+                //todo moviepedia we have to create a new DetailFragment that display the TV show info + a line by season
+            }
+            else -> {
                 item.metadata.mlId?.let {
                     launch {
                         val media = requireActivity().getFromMl { getMedia(it) }
                         TvUtil.showMediaDetail(requireActivity(), media)
                     }
                 }
-            }
-            is MediaTvshow -> {
-                //todo moviepedia we have to create a new DetailFragment that display the TV show info + a line by season
             }
         }
 

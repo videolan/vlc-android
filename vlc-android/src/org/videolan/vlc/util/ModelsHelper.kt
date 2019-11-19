@@ -15,7 +15,8 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.database.models.DisplayableMediaMetadata
+import org.videolan.vlc.database.models.MediaMetadata
+import org.videolan.vlc.database.models.getYear
 import kotlin.math.floor
 
 private const val LENGTH_WEEK = 7 * 24 * 60 * 60
@@ -176,14 +177,14 @@ object ModelsHelper {
         else -> null
     } else null
 
-    fun getHeaderMoviepedia(context: Context?, sort: Int, item: DisplayableMediaMetadata?, aboveItem: DisplayableMediaMetadata?) = if (context !== null && item != null) when (sort) {
+    fun getHeaderMoviepedia(context: Context?, sort: Int, item: MediaMetadata?, aboveItem: MediaMetadata?) = if (context !== null && item != null) when (sort) {
         SORT_DEFAULT,
         SORT_FILENAME,
         SORT_ALPHA -> {
-            val letter = if (item.getTitle().isEmpty() || !Character.isLetter(item.getTitle()[0])) "#" else item.getTitle().substring(0, 1).toUpperCase()
+            val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0])) "#" else item.title.substring(0, 1).toUpperCase()
             if (aboveItem == null) letter
             else {
-                val previous = if (aboveItem.getTitle().isEmpty() || !Character.isLetter(aboveItem.getTitle()[0])) "#" else aboveItem.getTitle().substring(0, 1).toUpperCase()
+                val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0])) "#" else aboveItem.title.substring(0, 1).toUpperCase()
                 letter.takeIf { it != previous }
             }
         }

@@ -33,7 +33,7 @@
 
         <import type="android.text.TextUtils" />
 
-        <import type="org.videolan.vlc.database.models.DisplayableMediaMetadata" />
+        <import type="org.videolan.vlc.database.models.MediaMetadataWithImages" />
 
 
         <variable
@@ -58,7 +58,7 @@
 
         <variable
                 name="item"
-                type="DisplayableMediaMetadata" />
+                type="MediaMetadataWithImages" />
 
         <variable
                 name="cover"
@@ -110,11 +110,11 @@
                 tools:srcCompat="@drawable/ic_album_big"
                 vlc:constraintRatio="@{isSquare}"
                 android:src="@{cover}"
-                android:scaleType="@{scaleType}"
+                android:scaleType="centerCrop"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
-                vlc:imageUrl="@{item.getPoster()}" />
+                vlc:imageUrl="@{item.metadata.currentPoster}" />
 
         <ImageView
                 android:id="@+id/ml_item_seen"
@@ -186,7 +186,7 @@
                 android:maxLines="2"
                 android:textSize="12sp"
                 tools:text="Title"
-                vlc:asyncText="@{item.title}"
+                vlc:asyncText="@{item.metadata.title}"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toBottomOf="@+id/progressBar"

@@ -54,7 +54,7 @@ import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.moviepedia.models.identify.Media
@@ -66,7 +66,7 @@ private const val REQUEST_SPEECH = 1
 
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider {
+class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider, CoroutineScope by MainScope() {
 
     private lateinit var viewModel: MoviepediaModel
     lateinit var media: AbstractMediaWrapper
@@ -75,8 +75,12 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
     private val defaultItemClickedListener: OnItemViewClickedListener
         get() = OnItemViewClickedListener { _, item, _, row ->
             if (item is Media) {
-                viewModel.saveMediaMetadata(requireActivity(), media, item)
-                requireActivity().finish()
+                launch {
+                    withContext(Dispatchers.IO) {
+                        viewModel.saveMediaMetadata(requireActivity(), media, item)
+                    }
+                    requireActivity().finish()
+                }
             }
 
         }

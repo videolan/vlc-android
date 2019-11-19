@@ -29,13 +29,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.vlc.database.models.DisplayableMediaMetadata
+import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.Settings
 
-abstract class MoviepediaProvider<T : DisplayableMediaMetadata>(private val context: Context) : HeaderProvider() {
+abstract class MoviepediaProvider(private val context: Context) : HeaderProvider() {
 
-    abstract var pagedList: LiveData<PagedList<T>>
+    abstract var pagedList: LiveData<PagedList<MediaMetadataWithImages>>
     val loading = MutableLiveData<Boolean>().apply { value = true }
     private val settings = Settings.getInstance(context)
     protected open val sortKey: String = this.javaClass.simpleName
@@ -72,14 +72,14 @@ abstract class MoviepediaProvider<T : DisplayableMediaMetadata>(private val cont
         return true
     }
 
-    fun completeHeaders(list: Array<T?>, startposition: Int) {
+    fun completeHeaders(list: Array<MediaMetadataWithImages>, startposition: Int) {
         for ((position, item) in list.withIndex()) {
             val previous = when {
                 position > 0 -> list[position - 1]
                 startposition > 0 -> pagedList.value?.getOrNull(startposition + position - 1)
                 else -> null
             }
-            ModelsHelper.getHeaderMoviepedia(context, sort, item, previous)?.let {
+            ModelsHelper.getHeaderMoviepedia(context, sort, item.metadata, previous?.metadata)?.let {
                 privateHeaders.put(startposition + position, it)
             }
         }

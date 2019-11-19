@@ -23,6 +23,7 @@ package org.videolan.vlc.database
 import android.net.Uri
 import androidx.room.TypeConverter
 import org.videolan.vlc.database.models.MediaImageType
+import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.PersonType
 import java.util.*
 
@@ -50,7 +51,7 @@ class Converters {
         return PersonType.fromKey(key)
     }
 
-    //Media type
+    //Media image type
     @TypeConverter
     fun mediaImageTypeToKey(mediaImageType: MediaImageType): Int {
         return mediaImageType.key
@@ -59,5 +60,16 @@ class Converters {
     @TypeConverter
     fun mediaImageTypeFromKey(key: Int): MediaImageType {
         return MediaImageType.fromKey(key)
+    }
+
+    //Media type
+    @TypeConverter
+    fun mediaTypeToKey(mediaType: MediaMetadataType): Int {
+        return mediaType.key
+    }
+
+    @TypeConverter
+    fun mediaTypeFromKey(key: Int): MediaMetadataType {
+        return MediaMetadataType.fromKey(key)
     }
 }
