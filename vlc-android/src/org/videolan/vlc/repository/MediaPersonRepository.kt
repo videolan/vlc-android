@@ -57,14 +57,13 @@ import org.videolan.vlc.database.models.PersonType
 class MediaPersonRepository(private val mediaPersonActorJoinDao: MediaPersonJoinDao) : IOScopedObject() {
 
     fun addPersons(mediaPersons: List<MediaPersonJoin>) = mediaPersonActorJoinDao.insertPersons(mediaPersons)
-    fun removeAllFor(mlId: Long) = mediaPersonActorJoinDao.removeAllFor(mlId)
+    fun removeAllFor(moviepediaId: String) = mediaPersonActorJoinDao.removeAllFor(moviepediaId)
 
     fun getAll() =
             mediaPersonActorJoinDao.getAll()
 
-
-    fun getPersonsByType(mlId: Long, personType: PersonType): LiveData<List<Person>> {
-        return mediaPersonActorJoinDao.getActorsForMediaLive(mlId, personType)
+    fun getPersonsByType(moviepediaId: String, personType: PersonType): LiveData<List<Person>> {
+        return mediaPersonActorJoinDao.getActorsForMediaLive(moviepediaId, personType)
     }
 
     companion object : SingletonHolder<MediaPersonRepository, Context>({ MediaPersonRepository(MediaDatabase.getInstance(it).mediaPersonActorJoinDao()) })

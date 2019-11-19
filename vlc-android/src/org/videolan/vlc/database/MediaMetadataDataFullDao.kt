@@ -36,7 +36,10 @@ import org.videolan.vlc.database.models.MediaMetadataWithImages
 interface MediaMetadataDataFullDao {
 
     @Query("select * from media_metadata where ml_id = :id")
-    fun getMediaLive(id: Long): LiveData<MediaMetadataWithImages?>
+    fun getMetadataLiveByML(id: Long): LiveData<MediaMetadataWithImages?>
+
+    @Query("select * from media_metadata where moviepedia_id = :id")
+    fun getMediaLive(id: String): LiveData<MediaMetadataWithImages?>
 
     @Query("select * from media_metadata where ml_id = :id")
     fun getMedia(id: Long): MediaMetadataWithImages?

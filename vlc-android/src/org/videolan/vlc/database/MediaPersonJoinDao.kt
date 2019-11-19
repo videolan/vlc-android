@@ -41,8 +41,8 @@ interface MediaPersonJoinDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPersons(persons: List<MediaPersonJoin>)
 
-    @Query("DELETE FROM media_person_join WHERE mediaId = :mlId")
-    fun removeAllFor(mlId: Long)
+    @Query("DELETE FROM media_person_join WHERE mediaId = :moviepediaId")
+    fun removeAllFor(moviepediaId: String)
 
     @Query("SELECT * FROM media_person_join")
     fun getAll(): List<MediaPersonJoin>
@@ -51,15 +51,15 @@ interface MediaPersonJoinDao {
            SELECT * FROM media_metadata_person
            INNER JOIN media_person_join
            ON media_metadata_person.moviepedia_id=media_person_join.personId
-           WHERE media_person_join.mediaId=:mediaId AND media_person_join.type=:type
+           WHERE media_person_join.mediaId=:moviepediaId AND media_person_join.type=:type
            """)
-    fun getActorsForMediaLive(mediaId: Long, type: PersonType): LiveData<List<Person>>
+    fun getActorsForMediaLive(moviepediaId: String, type: PersonType): LiveData<List<Person>>
 
     @Query("""
            SELECT * FROM media_metadata_person
            INNER JOIN media_person_join
            ON media_metadata_person.moviepedia_id=media_person_join.personId
-           WHERE media_person_join.mediaId=:mediaId AND media_person_join.type=:type
+           WHERE media_person_join.mediaId=:moviepediaId AND media_person_join.type=:type
            """)
-    fun getActorsForMedia(mediaId: Long, type: PersonType): List<Person>
+    fun getActorsForMedia(moviepediaId: String, type: PersonType): List<Person>
 }

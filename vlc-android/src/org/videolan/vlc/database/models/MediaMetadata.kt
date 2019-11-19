@@ -51,12 +51,12 @@ import java.util.*
 @Entity(tableName = "media_metadata", foreignKeys = [ForeignKey(entity = MediaTvshow::class, parentColumns = ["moviepedia_show_id"], childColumns = ["show_id"])])
 data class MediaMetadata(
         @PrimaryKey
-        @ColumnInfo(name = "ml_id")
-        val mlId: Long,
-        @ColumnInfo(name = "type")
-        val type: Int,
         @ColumnInfo(name = "moviepedia_id")
         val moviepediaId: String,
+        @ColumnInfo(name = "ml_id")
+        val mlId: Long?,
+        @ColumnInfo(name = "type")
+        val type: Int,
         @ColumnInfo(name = "title")
         val title: String,
         @ColumnInfo(name = "summary")
@@ -128,7 +128,7 @@ fun MediaMetadataWithImages.tvshowSubtitle(): String {
         primaryKeys = arrayOf("mediaId", "personId", "type"),
         foreignKeys = arrayOf(
                 ForeignKey(entity = MediaMetadata::class,
-                        parentColumns = arrayOf("ml_id"),
+                        parentColumns = arrayOf("moviepedia_id"),
                         childColumns = arrayOf("mediaId")),
                 ForeignKey(entity = Person::class,
                         parentColumns = arrayOf("moviepedia_id"),
@@ -136,7 +136,7 @@ fun MediaMetadataWithImages.tvshowSubtitle(): String {
         )
 )
 data class MediaPersonJoin(
-        val mediaId: Long,
+        val mediaId: String,
         val personId: String,
         val type: PersonType
 )
@@ -187,13 +187,13 @@ data class Person(
         val image: String?
 )
 
-@Entity(tableName = "media_metadata_image", foreignKeys = [ForeignKey(entity = MediaMetadata::class, parentColumns = ["ml_id"], childColumns = ["media_id"])])
+@Entity(tableName = "media_metadata_image", foreignKeys = [ForeignKey(entity = MediaMetadata::class, parentColumns = ["moviepedia_id"], childColumns = ["media_id"])])
 data class MediaImage(
         @PrimaryKey
         @ColumnInfo(name = "url")
         val url: String,
         @ColumnInfo(name = "media_id")
-        val mediaId: Long,
+        val mediaId: String,
         @ColumnInfo(name = "image_type")
         val imageType: MediaImageType,
         @ColumnInfo(name = "image_language")

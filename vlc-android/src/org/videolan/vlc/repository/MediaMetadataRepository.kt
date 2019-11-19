@@ -69,7 +69,10 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     fun deleteImages(images: List<MediaImage>) = mediaImageDao.deleteAll(images)
 
     @WorkerThread
-    fun getMetadataLive(mediaId: Long): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMediaLive(mediaId)
+    fun getMetadataLiveByML(mediaId: Long): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMetadataLiveByML(mediaId)
+
+    @WorkerThread
+    fun getMetadataLive(mediaId: String): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMediaLive(mediaId)
 
     @WorkerThread
     fun getMovieCount(): Int = mediaMetadataFullDao.getMovieCount()

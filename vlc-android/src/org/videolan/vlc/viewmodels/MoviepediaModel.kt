@@ -105,9 +105,9 @@ class MoviepediaModel : ViewModel() {
 
             val languages = context.getLocaleLanguages()
             val mediaMetadata = MediaMetadata(
+                    item.mediaId,
                     media.id,
                     type,
-                    item.mediaId,
                     item.title,
                     item.summary ?: "",
                     item.genre?.joinToString { genre -> genre } ?: "",
@@ -122,10 +122,10 @@ class MoviepediaModel : ViewModel() {
 
             val images = ArrayList<MediaImage>()
             item.getBackdrops(languages)?.forEach {
-                images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.mlId, MediaImageType.BACKDROP, it.language))
+                images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.moviepediaId, MediaImageType.BACKDROP, it.language))
             }
             item.getPosters(languages)?.forEach {
-                images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.mlId, MediaImageType.POSTER, it.language))
+                images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.moviepediaId, MediaImageType.POSTER, it.language))
             }
             //delete old images
             oldImages?.let {
@@ -140,37 +140,37 @@ class MoviepediaModel : ViewModel() {
                 val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as actor")
                 personRepo.addPersonImmediate(actorEntity)
-                personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.moviepediaId, PersonType.ACTOR))
+                personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.ACTOR))
 
             }
             castResult.director?.forEach { actor ->
                 val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as director")
                 personRepo.addPersonImmediate(actorEntity)
-                personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.moviepediaId, PersonType.DIRECTOR))
+                personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.DIRECTOR))
 
             }
             castResult.writer?.forEach { actor ->
                 val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as writer")
                 personRepo.addPersonImmediate(actorEntity)
-                personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.moviepediaId, PersonType.WRITER))
+                personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.WRITER))
             }
             castResult.musician?.forEach { actor ->
                 val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as musician")
                 personRepo.addPersonImmediate(actorEntity)
-                personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.moviepediaId, PersonType.MUSICIAN))
+                personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.MUSICIAN))
 
             }
             castResult.producer?.forEach { actor ->
                 val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Inserting ${actor.person.name} - ${actor.person.personId} as producer")
                 personRepo.addPersonImmediate(actorEntity)
-                personsToAdd.add(MediaPersonJoin(mediaMetadata.mlId, actorEntity.moviepediaId, PersonType.PRODUCER))
+                personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.PRODUCER))
 
             }
-            MediaPersonRepository.getInstance(context).removeAllFor(mediaMetadata.mlId)
+            MediaPersonRepository.getInstance(context).removeAllFor(mediaMetadata.moviepediaId)
             MediaPersonRepository.getInstance(context).addPersons(personsToAdd)
 
             //Remove orphans

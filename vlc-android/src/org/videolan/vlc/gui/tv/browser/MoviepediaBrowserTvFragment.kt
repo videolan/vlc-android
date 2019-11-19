@@ -112,9 +112,11 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<DisplayableMediaMetada
     override fun onClick(v: View, position: Int, item: DisplayableMediaMetadata) {
         when (item) {
             is MediaMetadataWithImages -> {
-                launch {
-                    val media = requireActivity().getFromMl { getMedia(item.metadata.mlId) }
-                    TvUtil.playMedia(requireActivity(), media)
+                item.metadata.mlId?.let {
+                    launch {
+                        val media = requireActivity().getFromMl { getMedia(it) }
+                        TvUtil.showMediaDetail(requireActivity(), media)
+                    }
                 }
             }
             is MediaTvshow -> {
@@ -126,9 +128,11 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<DisplayableMediaMetada
     override fun onLongClick(v: View, position: Int, item: DisplayableMediaMetadata): Boolean {
         when (item) {
             is MediaMetadataWithImages -> {
-                launch {
-                    val media = requireActivity().getFromMl { getMedia(item.metadata.mlId) }
-                    TvUtil.showMediaDetail(requireActivity(), media)
+                item.metadata.mlId?.let {
+                    launch {
+                        val media = requireActivity().getFromMl { getMedia(it) }
+                        TvUtil.showMediaDetail(requireActivity(), media)
+                    }
                 }
             }
             is MediaTvshow -> {

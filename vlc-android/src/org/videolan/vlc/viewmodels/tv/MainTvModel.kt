@@ -259,15 +259,17 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
                 }
             }
             is MediaMetadataWithImages -> {
-                launch {
-                    context.getFromMl {
-                        getMedia(item.metadata.mlId)
-                    }.let {
-                        val intent = Intent(activity, DetailsActivity::class.java)
-                        // pass the item information
-                        intent.putExtra("media", it)
-                        intent.putExtra("item", MediaItemDetails(it.title, it.artist, it.album, it.location, it.artworkURL))
-                        activity.startActivity(intent)
+                item.metadata.mlId?.let {
+                    launch {
+                        context.getFromMl {
+                            getMedia(it)
+                        }.let {
+                            val intent = Intent(activity, DetailsActivity::class.java)
+                            // pass the item information
+                            intent.putExtra("media", it)
+                            intent.putExtra("item", MediaItemDetails(it.title, it.artist, it.album, it.location, it.artworkURL))
+                            activity.startActivity(intent)
+                        }
                     }
                 }
             }
