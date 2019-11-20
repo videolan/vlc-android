@@ -177,7 +177,7 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
         view.visibility = View.GONE
         return
     }
-    val text = if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) view.context.getString(org.videolan.vlc.R.string.track_number, item.tracks.size.toString()) else item.description
+    val text = if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) view.context.getString(R.string.track_number, item.tracksCount) else item.description
     if (text.isNullOrEmpty()) {
         view.visibility = View.GONE
         return

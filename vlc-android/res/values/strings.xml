@@ -697,7 +697,7 @@
     <string name="popup_force_legacy_title">Use custom Picture-in-Picture popup</string>
     <string name="popup_force_legacy_summary">Use custom Picture-in-Picture resizable popup</string>
     <string name="device_default">Device default</string>
-    <string name="track_number">%s tracks</string>
+    <string name="track_number">%d tracks</string>
     <string name="jump_to">Jump to</string>
     <string name="show_video_thumbnails_summary">Show video thumbnails in lists</string>
     <string name="show_video_thumbnails">Video thumbnails</string>
