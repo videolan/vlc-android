@@ -30,6 +30,7 @@ import androidx.paging.toLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.HeaderProvider
@@ -116,8 +117,8 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
             model.viewModelScope.launch(Dispatchers.Unconfined) {
                 retry(1) {
-                    val page = getPage(params.requestedLoadSize, params.requestedStartPosition)
-                    val count = if (page.size < params.requestedLoadSize) page.size else getTotalCount()
+                    val page = withContext(Dispatchers.IO) { getPage(params.requestedLoadSize, params.requestedStartPosition) }
+                    val count = if (page.size < params.requestedLoadSize) page.size else withContext(Dispatchers.IO) { getTotalCount() }
                     try {
                         callback.onResult(page.toList(), params.requestedStartPosition, count)
                         true
@@ -130,7 +131,10 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         }
 
         override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
-            callback.onResult(getPage(params.loadSize, params.startPosition).toList())
+            model.viewModelScope.launch {
+                    val result = withContext(Dispatchers.IO) { getPage(params.loadSize, params.startPosition).toList() }
+                    callback.onResult(result)
+            }
         }
     }
 

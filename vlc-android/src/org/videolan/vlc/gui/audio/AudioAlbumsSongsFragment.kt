@@ -138,16 +138,10 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
         }
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
-        viewModel.albumsProvider.pagedList.observe(this, Observer { albums -> if (albums != null) albumsAdapter.submitList(albums as PagedList<MediaLibraryItem>) })
-        viewModel.tracksProvider.pagedList.observe(this, Observer { tracks ->
-            if (tracks != null) {
-                @Suppress("UNCHECKED_CAST")
-                if (tracks.isEmpty() && !viewModel.isFiltering()) {
-                    val activity = activity
-                    activity?.finish()
-                } else
-                    songsAdapter.submitList(tracks as PagedList<MediaLibraryItem>)
-            }
+        viewModel.albumsProvider.pagedList.observe(requireActivity(), Observer { albums -> if (albums != null) albumsAdapter.submitList(albums as PagedList<MediaLibraryItem>) })
+        viewModel.tracksProvider.pagedList.observe(requireActivity(), Observer { tracks ->
+            @Suppress("UNCHECKED_CAST")
+            (tracks as? PagedList<MediaLibraryItem>)?.let { songsAdapter.submitList(it) }
         })
         for (i in 0..1) setupLayoutManager(i)
     }

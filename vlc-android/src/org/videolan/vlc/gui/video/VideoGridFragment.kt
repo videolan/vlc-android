@@ -36,6 +36,7 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
@@ -140,7 +141,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             if (loading) handler.sendEmptyMessageDelayed(SET_REFRESHING, 300L)
             else handler.sendEmptyMessage(UNSET_REFRESHING)
             (activity as? MainActivity)?.refreshing = loading
-
+            updateEmptyView()
         })
         videoListAdapter.showFilename.set(viewModel.groupingType == VideoGroupingType.NONE && viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
     }
@@ -450,7 +451,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         }
     }
 
-    private val actor = actor<VideoAction> {
+    private val actor = actor<VideoAction>(capacity = Channel.UNLIMITED) {
         for (action in channel) when (action) {
             is VideoClick -> {
                 when (action.item) {
@@ -495,8 +496,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             }
             is VideoUpdateFinished -> {
                 if (isStarted()) {
+                    yield() //Let the refresh actually happen
                     if (!mediaLibrary.isWorking) handler.sendEmptyMessage(UNSET_REFRESHING)
-                    updateEmptyView()
                     setFabPlayVisibility(true)
                     menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
                 }

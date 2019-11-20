@@ -111,13 +111,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         binding.playlist = playlist
         viewModel = getViewModel(playlist)
         viewModel.tracksProvider.pagedList.observe(this, Observer { tracks ->
-            if (tracks != null) {
-                @Suppress("UNCHECKED_CAST")
-                if (tracks.isEmpty() && !viewModel.isFiltering())
-                    finish()
-                else
-                    audioBrowserAdapter.submitList(tracks as PagedList<MediaLibraryItem>?)
-            }
+            @Suppress("UNCHECKED_CAST")
+            (tracks as? PagedList<MediaLibraryItem>)?.let { audioBrowserAdapter.submitList(it) }
         })
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
         if (isPlaylist) {

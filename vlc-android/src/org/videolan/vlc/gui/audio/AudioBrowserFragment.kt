@@ -40,6 +40,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -220,7 +221,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
                     handler.sendEmptyMessageDelayed(SET_REFRESHING, 300)
                 else
                     handler.sendEmptyMessage(UNSET_REFRESHING)
-
+                updateEmptyView()
                 (activity as? MainActivity)?.refreshing = loading
             })
         }
@@ -298,7 +299,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     }
 
     private fun updateEmptyView() {
-        emptyView.state = if (getCurrentAdapter().isEmpty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+        emptyView.state = if (viewModel.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
         setFabPlayShuffleAllVisibility()
     }
 
@@ -361,12 +362,14 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
-        if (adapter === getCurrentAdapter()) {
-            swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-            updateEmptyView()
-            fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
-        } else
-            setFabPlayShuffleAllVisibility()
+        launch { // force a dispatch
+            if (adapter === getCurrentAdapter()) {
+                swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
+                updateEmptyView()
+                fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+            } else
+                setFabPlayShuffleAllVisibility()
+        }
     }
 
     override fun getCurrentRV() = lists[currentTab]
