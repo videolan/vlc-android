@@ -24,6 +24,7 @@
 
 package org.videolan.vlc.gui.tv.browser
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -36,9 +37,7 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.MediaMetadataWithImages
-import org.videolan.vlc.gui.tv.MoviepediaTvItemAdapter
-import org.videolan.vlc.gui.tv.TvItemAdapter
-import org.videolan.vlc.gui.tv.TvUtil
+import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.MoviepediaProvider
@@ -85,26 +84,31 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
                 ?: HEADER_MOVIES)
 
         (viewModel.provider as MoviepediaProvider).pagedList.observe(this, Observer { items ->
-            submitList(items)
+            binding.emptyLoading.post {
+                submitList(items)
 
-            binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
 
-            //headers
-            val nbColumns = if ((viewModel as MoviepediaBrowserViewModel).sort == AbstractMedialibrary.SORT_ALPHA || (viewModel as MoviepediaBrowserViewModel).sort == AbstractMedialibrary.SORT_DEFAULT) 9 else 1
+                //headers
+                val nbColumns = if ((viewModel as MoviepediaBrowserViewModel).sort == AbstractMedialibrary.SORT_ALPHA || (viewModel as MoviepediaBrowserViewModel).sort == AbstractMedialibrary.SORT_DEFAULT) 9 else 1
 
-            headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
-            headerAdapter.sortType = (viewModel as MoviepediaBrowserViewModel).sort
-            val headerItems = ArrayList<String>()
-            viewModel.provider.headers.run {
-                for (i in 0 until size()) {
-                    headerItems.add(valueAt(i))
+                headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
+                headerAdapter.sortType = (viewModel as MoviepediaBrowserViewModel).sort
+                val headerItems = ArrayList<String>()
+                viewModel.provider.headers.run {
+                    for (i in 0 until size()) {
+                        headerItems.add(valueAt(i))
+                    }
                 }
+                headerAdapter.items = headerItems
+                headerAdapter.notifyDataSetChanged()
             }
-            headerAdapter.items = headerItems
-            headerAdapter.notifyDataSetChanged()
         })
         (viewModel.provider as MoviepediaProvider).loading.observe(this, Observer {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
+        })
+        (viewModel.provider as MoviepediaProvider).liveHeaders.observe(this, Observer {
+            headerAdapter.notifyDataSetChanged()
         })
     }
 
@@ -112,6 +116,9 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
         when (item.metadata.type) {
             MediaMetadataType.TV_SHOW -> {
                 //todo moviepedia we have to create a new DetailFragment that display the TV show info + a line by season
+                val intent = Intent(activity, MoviepediaTvshowDetailsActivity::class.java)
+                intent.putExtra(TV_SHOW_ID, item.metadata.moviepediaId)
+                requireActivity().startActivity(intent)
             }
             else -> {
                 item.metadata.mlId?.let {
@@ -128,6 +135,9 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
         when (item.metadata.type) {
             MediaMetadataType.TV_SHOW -> {
                 //todo moviepedia we have to create a new DetailFragment that display the TV show info + a line by season
+                val intent = Intent(activity, MoviepediaTvshowDetailsActivity::class.java)
+                intent.putExtra(TV_SHOW_ID, item.metadata.moviepediaId)
+                requireActivity().startActivity(intent)
             }
             else -> {
                 item.metadata.mlId?.let {

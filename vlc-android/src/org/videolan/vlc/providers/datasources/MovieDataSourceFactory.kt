@@ -42,7 +42,18 @@ class MovieDataSourceFactory(private val context: Context, private val sort: Pai
         }
         val sortType = if (sort.second) "DESC" else "ASC"
 
-        val newDataSource = MediaMetadataRepository.getInstance(context).getMoviePagedList(sortField, sortType, metadataType).create()
+        val newDataSource = MediaMetadataRepository.getInstance(context).getMoviePagedList(sortField, sortType, metadataType).mapByPage {
+            //Inject ML medias to results
+            val medialibrary = AbstractMedialibrary.getInstance()
+            if (medialibrary.isStarted) it.forEach { episode ->
+                if (episode.media == null) {
+                    episode.metadata.mlId?.let { mlId ->
+                        episode.media = medialibrary.getMedia(mlId)
+                    }
+                }
+            }
+            it
+        }.create()
         dataSource.postValue(newDataSource)
         return newDataSource
     }

@@ -605,6 +605,11 @@
                 android:screenOrientation="landscape"
                 android:theme="@style/Theme.Leanback.Details"/>
         <activity
+                android:name=".gui.tv.MoviepediaTvshowDetailsActivity"
+                android:exported="true"
+                android:screenOrientation="landscape"
+                android:theme="@style/Theme.Leanback.Details" />
+        <activity
                 android:name=".gui.tv.browser.VerticalGridActivity"
                 android:exported="true"
                 android:screenOrientation="landscape"

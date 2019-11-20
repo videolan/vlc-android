@@ -41,11 +41,17 @@ interface MediaMetadataDataFullDao {
     @Query("select * from media_metadata where moviepedia_id = :id")
     fun getMediaLive(id: String): LiveData<MediaMetadataWithImages?>
 
+    @Query("select * from media_metadata where show_id = :showId")
+    fun getEpisodesLive(showId: String): LiveData<List<MediaMetadataWithImages>>
+
     @Query("select * from media_metadata where ml_id = :id")
     fun getMedia(id: Long): MediaMetadataWithImages?
 
     @Query("select * from media_metadata where moviepedia_id = :id")
     fun getMediaById(id: String): MediaMetadataWithImages?
+
+    @Query("select * from media_metadata where moviepedia_id = :id")
+    fun getMediaByIdLive(id: String): LiveData<MediaMetadataWithImages>
 
     @Query("select count(moviepedia_id) from media_metadata where type = 0")
     fun getMovieCount(): Int

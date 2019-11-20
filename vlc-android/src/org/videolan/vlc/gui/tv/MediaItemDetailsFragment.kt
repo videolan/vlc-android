@@ -124,7 +124,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         mediaStarted = false
         buildDetails()
 
-        mediaMetadataModel = ViewModelProviders.of(this, MediaMetadataModel.Factory(requireActivity(), media.id)).get(media.uri.path
+        mediaMetadataModel = ViewModelProviders.of(this, MediaMetadataModel.Factory(requireActivity(), mlId = media.id)).get(media.uri.path
                 ?: "", MediaMetadataModel::class.java)
 
         mediaMetadataModel.updateLiveData.observe(this, Observer {

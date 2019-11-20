@@ -108,7 +108,7 @@
                 android:layout_gravity="center"
                 android:background="@color/lb_details_overview_bg_color"
                 tools:srcCompat="@drawable/ic_album_big"
-                vlc:constraintRatio="@{isSquare}"
+                vlc:layout_constraintDimensionRatio="2:3"
                 android:src="@{cover}"
                 android:scaleType="centerCrop"
                 vlc:layout_constraintEnd_toEndOf="parent"

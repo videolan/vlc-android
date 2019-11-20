@@ -34,6 +34,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.vlc.database.models.*
 import org.videolan.vlc.repository.MediaMetadataRepository
 import org.videolan.vlc.repository.MediaPersonRepository
+import org.videolan.vlc.util.getFromMl
 
 class MediaMetadataModel(private val context: Context, mlId: Long? = null, moviepediaId: String? = null) : ViewModel(), CoroutineScope by MainScope() {
 
@@ -86,6 +87,37 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
             updateLiveData.addSource(metadata) {
                 mediaMetadataFull.metadata = it
                 updateActor.offer(mediaMetadataFull)
+                if (it?.metadata?.type == MediaMetadataType.TV_SHOW) {
+                    val episodes = MediaMetadataRepository.getInstance(context).getEpisodesLive(mId)
+                    updateLiveData.addSource(episodes) { episodes ->
+                        val seasons = ArrayList<Season>()
+                        episodes.forEach { episode ->
+                            val existingSeason = seasons.firstOrNull { it.seasonNumber == episode.metadata.season }
+                            val season = if (existingSeason == null) {
+                                val newSeason = Season(episode.metadata.season ?: 0)
+                                seasons.add(newSeason)
+                                newSeason
+                            } else existingSeason
+                            season.episodes.add(episode)
+                        }
+                        launch {
+                            seasons.forEach { season ->
+                                season.episodes.sortBy { episode -> episode.metadata.episode }
+                                //retrieve ML media
+                                season.episodes.forEach { episode ->
+                                    if (episode.media == null) {
+                                        episode.metadata.mlId?.let {
+                                            val fromMl = context.getFromMl { getMedia(it) }
+                                            episode.media = fromMl
+                                        }
+                                    }
+                                }
+                            }
+                            mediaMetadataFull.seasons = seasons.sortedBy { it.seasonNumber }
+                            updateActor.offer(mediaMetadataFull)
+                        }
+                    }
+                }
 
             }
             updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(mId, PersonType.ACTOR)) {
@@ -124,19 +156,25 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
         }
     }
 
-    class Factory(private val context: Context, private val mlId: Long) : ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context, private val mlId: Long? = null, private val showId: String? = null) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return MediaMetadataModel(context.applicationContext, mlId) as T
+            return MediaMetadataModel(context.applicationContext, mlId, showId) as T
         }
     }
 }
 
 class MediaMetadataFull {
     var metadata: MediaMetadataWithImages? = null
+    var seasons: List<Season>? = null
     var actors: List<Person>? = null
     var writers: List<Person>? = null
     var producers: List<Person>? = null
     var musicians: List<Person>? = null
     var directors: List<Person>? = null
 }
+
+data class Season(
+        var seasonNumber: Int = 0,
+        var episodes: ArrayList<MediaMetadataWithImages> = ArrayList()
+)

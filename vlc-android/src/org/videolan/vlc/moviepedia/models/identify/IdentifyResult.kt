@@ -132,7 +132,7 @@ enum class MediaType {
 
 fun Media.getCardSubtitle() = if (mediaType == MediaType.TV_EPISODE) getShow() else getYear()
 
-fun Media.getShow() = "$showTitle · S${season.toString().padStart(1, '0')}E${episode.toString().padStart(1, '0')}"
+fun Media.getShow() = "$showTitle · S${season.toString().padStart(2, '0')}E${episode.toString().padStart(2, '0')}"
 
 fun Media.getYear() = date?.let {
         SimpleDateFormat("yyyy", Locale.getDefault()).format(date)

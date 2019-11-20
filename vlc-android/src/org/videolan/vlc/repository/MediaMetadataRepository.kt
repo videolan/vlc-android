@@ -78,6 +78,9 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     fun getMetadataLive(mediaId: String): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMediaLive(mediaId)
 
     @WorkerThread
+    fun getEpisodesLive(showId: String): LiveData<List<MediaMetadataWithImages>> = mediaMetadataFullDao.getEpisodesLive(showId)
+
+    @WorkerThread
     fun getMovieCount(): Int = mediaMetadataFullDao.getMovieCount()
 
     @WorkerThread
@@ -92,6 +95,8 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     }
 
     fun getTvshow(showId: String) = mediaMetadataFullDao.getMediaById(showId)
+
+    fun getTvshowLive(showId: String) = mediaMetadataFullDao.getMediaByIdLive(showId)
 
     companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao()) })
 }

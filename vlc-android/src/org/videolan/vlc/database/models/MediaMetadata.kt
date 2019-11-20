@@ -45,6 +45,7 @@
 package org.videolan.vlc.database.models
 
 import androidx.room.*
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -88,7 +89,10 @@ class MediaMetadataWithImages {
     @Relation(parentColumn = "show_id", entityColumn = "moviepedia_id", entity = MediaMetadata::class)
     lateinit var show: MediaMetadata
 
-    @Relation(parentColumn = "ml_id", entityColumn = "media_id", entity = MediaImage::class)
+    @Ignore
+    var media: AbstractMediaWrapper? = null
+
+    @Relation(parentColumn = "moviepedia_id", entityColumn = "media_id", entity = MediaImage::class)
     var images: List<MediaImage> = ArrayList()
 }
 
@@ -112,10 +116,12 @@ fun MediaMetadataWithImages.tvshowSubtitle(): String {
         subtitle.add(SimpleDateFormat("yyyy", Locale.getDefault()).format(it))
     }
     subtitle.add(show.title)
-    subtitle.add("S${metadata.season.toString().padStart(1, '0')}E${metadata.episode.toString().padStart(1, '0')}")
+    subtitle.add("S${metadata.season.toString().padStart(2, '0')}E${metadata.episode.toString().padStart(2, '0')}")
 
     return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
 }
+
+fun MediaMetadataWithImages.tvEpisodeSubtitle() = "S${metadata.season.toString().padStart(2, '0')}E${metadata.episode.toString().padStart(2, '0')}"
 
 @Entity(tableName = "media_person_join",
         primaryKeys = arrayOf("mediaId", "personId", "type"),
@@ -168,9 +174,8 @@ data class Person(
         val image: String?
 )
 
-@Entity(tableName = "media_metadata_image", foreignKeys = [ForeignKey(entity = MediaMetadata::class, parentColumns = ["moviepedia_id"], childColumns = ["media_id"])])
+@Entity(tableName = "media_metadata_image", primaryKeys = ["url", "media_id"], foreignKeys = [ForeignKey(entity = MediaMetadata::class, parentColumns = ["moviepedia_id"], childColumns = ["media_id"])])
 data class MediaImage(
-        @PrimaryKey
         @ColumnInfo(name = "url")
         val url: String,
         @ColumnInfo(name = "media_id")

@@ -769,4 +769,7 @@
     <string name="all_movies">All movies</string>
     <string name="movie_count">%s movie(s)</string>
     <string name="header_movies">Movies</string>
+    <string name="season_number">Season %s</string>
+    <string name="resume_episode">Resume (%s)</string>
+    <string name="start_over">Start over</string>
 </resources>
