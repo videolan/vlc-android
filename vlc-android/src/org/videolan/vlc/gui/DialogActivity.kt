@@ -44,9 +44,6 @@ class DialogActivity : BaseActivity() {
             return
         }
         when {
-            key!!.startsWith(KEY_LOGIN) -> setupLoginDialog(key)
-            key.startsWith(KEY_QUESTION) -> setupQuestionDialog(key)
-            key.startsWith(KEY_PROGRESS) -> setupProgressDialog(key)
             KEY_SERVER == key -> setupServerDialog()
             KEY_SUBS_DL == key -> setupSubsDialog()
             KEY_DEVICE == key -> setupDeviceDialog()
@@ -75,32 +72,8 @@ class DialogActivity : BaseActivity() {
             finish()
     }
 
-    private fun setupLoginDialog(key: String) {
-        val dialog = VlcLoginDialog()
-        startVlcDialog(key, dialog)
-    }
-
-    private fun setupQuestionDialog(key: String) {
-        val dialog = VlcQuestionDialog()
-        startVlcDialog(key, dialog)
-    }
-
-    private fun setupProgressDialog(key: String) {
-        val dialog = VlcProgressDialog()
-        startVlcDialog(key, dialog)
-    }
-
-    private fun startVlcDialog(key: String, dialog: VlcDialog<*, *>) {
-        dialog.init(key)
-        val fm = supportFragmentManager
-        dialog.show(fm, key)
-    }
-
     companion object {
 
-        const val KEY_LOGIN = "LoginDialog"
-        const val KEY_QUESTION = "QuestionDialog"
-        const val KEY_PROGRESS = "ProgressDialog"
         const val KEY_SERVER = "serverDialog"
         const val KEY_SUBS_DL = "subsdlDialog"
         const val KEY_DEVICE = "deviceDialog"

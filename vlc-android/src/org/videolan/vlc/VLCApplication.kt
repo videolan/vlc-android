@@ -37,8 +37,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.multidex.MultiDexApplication
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.gui.DialogActivity
@@ -53,39 +55,7 @@ import java.lang.reflect.InvocationTargetException
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VLCApplication : MultiDexApplication() {
-
-    private var dialogCallbacks: Dialog.Callbacks = object : Dialog.Callbacks {
-        override fun onDisplay(dialog: Dialog.ErrorMessage) {
-            Log.w(TAG, "ErrorMessage " + dialog.text)
-        }
-
-        override fun onDisplay(dialog: Dialog.LoginDialog) {
-            val key = DialogActivity.KEY_LOGIN + dialogCounter++
-            fireDialog(dialog, key)
-        }
-
-        override fun onDisplay(dialog: Dialog.QuestionDialog) {
-            if (!Util.byPassChromecastDialog(dialog)) {
-                val key = DialogActivity.KEY_QUESTION + dialogCounter++
-                fireDialog(dialog, key)
-            }
-        }
-
-        override fun onDisplay(dialog: Dialog.ProgressDialog) {
-            val key = DialogActivity.KEY_PROGRESS + dialogCounter++
-            fireDialog(dialog, key)
-        }
-
-        override fun onCanceled(dialog: Dialog?) {
-            (dialog?.context as? DialogFragment)?.dismiss()
-        }
-
-        override fun onProgressUpdate(dialog: Dialog.ProgressDialog) {
-            val vlcProgressDialog = dialog.context as VlcProgressDialog
-            if (vlcProgressDialog.isVisible) vlcProgressDialog.updateProgress()
-        }
-    }
+class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate {
 
     init {
         instance = this
@@ -103,19 +73,19 @@ class VLCApplication : MultiDexApplication() {
                 instance = ContextWrapper(this).wrap(locale!!)
             }
 
-            runIO(Runnable {
-                if (AndroidUtil.isOOrLater)
-                    NotificationHelper.createNotificationChannels(this@VLCApplication)
+            AppScope.launch(Dispatchers.IO) {
                 // Prepare cache folder constants
                 AudioUtil.prepareCacheFolder(appContext)
 
-                if (!VLCInstance.testCompatibleCPU(appContext)) return@Runnable
-                Dialog.setCallbacks(VLCInstance[instance], dialogCallbacks)
-            })
+                if (!VLCInstance.testCompatibleCPU(appContext)) return@launch
+                Dialog.setCallbacks(VLCInstance[instance], DialogDelegate)
+            }
             packageManager.setComponentEnabledSetting(ComponentName(this, SendCrashActivity::class.java),
                     if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
             SettingsMigration.migrateSettings(this)
         }).start()
+        if (AndroidUtil.isOOrLater)
+            NotificationHelper.createNotificationChannels(this@VLCApplication)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -140,12 +110,6 @@ class VLCApplication : MultiDexApplication() {
         BitmapCache.clear()
     }
 
-    private fun fireDialog(dialog: Dialog, key: String) {
-        storeData(key, dialog)
-        startActivity(Intent(appContext, DialogActivity::class.java).setAction(key)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-    }
-
     companion object {
         private const val TAG = "VLC/VLCApplication"
 
@@ -154,10 +118,6 @@ class VLCApplication : MultiDexApplication() {
         @SuppressLint("StaticFieldLeak")
         @Volatile
         private lateinit var instance: Context
-
-        private val dataMap = SimpleArrayMap<String, WeakReference<Any>>()
-
-        private var dialogCounter = 0
 
         // Property to get the new locale only on restart to prevent change the locale partially on runtime
         var locale: String? = ""
@@ -189,18 +149,6 @@ class VLCApplication : MultiDexApplication() {
          */
         val appResources: Resources
             get() = appContext.resources
-
-        fun storeData(key: String, data: Any) {
-            dataMap.put(key, WeakReference(data))
-        }
-
-        fun getData(key: String) = dataMap.remove(key)?.get()
-
-        fun hasData(key: String) = dataMap.containsKey(key)
-
-        fun clearData() {
-            dataMap.clear()
-        }
 
         /**
          * Check if application is currently displayed

@@ -10,12 +10,12 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import org.videolan.tools.KeyHelper
 import org.videolan.vlc.gui.helpers.applyTheme
-import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.getContextWithLocale
+import org.videolan.vlc.util.*
 
-open class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+abstract class BaseActivity : AppCompatActivity(), IDialogHandler, CoroutineScope by MainScope() {
 
     lateinit var settings: SharedPreferences
+    private val dialogDelegate = DialogDelegate()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         settings = Settings.getInstance(this)

@@ -96,7 +96,6 @@ class CallBackDelegate : ICallBackHandler,
         if (genresCb) medialibrary.removeGenreCb(this)
         if (playlistsCb) medialibrary.removePlaylistCb(this)
         refreshActor.close()
-
     }
 
     override fun onMedialibraryReady() { refreshActor.offer(Unit) }

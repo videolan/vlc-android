@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
+import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -79,7 +80,9 @@ private const val MSG_REFRESH = 3
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler, CtxActionReceiver, PathAdapterListener {
+abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable,
+        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler, CtxActionReceiver,
+        PathAdapterListener {
 
     protected val handler = BrowserFragmentHandler(this)
     private lateinit var layoutManager: LinearLayoutManager
@@ -87,7 +90,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected var currentMedia: AbstractMediaWrapper? = null
     private var savedPosition = -1
     var isRootDirectory: Boolean = false
-    protected var goBack = false
     protected var showHiddenFiles: Boolean = false
     protected lateinit var adapter: BaseBrowserAdapter
     protected abstract val categoryTitle: String
@@ -146,7 +148,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.dataset.observe(this, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems -> adapter.update(mediaLibraryItems!!) })
         viewModel.getDescriptionUpdate().observe(this, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
         viewModel.loading.observe(this, Observer {
-
             (activity as? MainActivity)?.refreshing = it
         })
     }
@@ -200,7 +201,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onResume() {
         super.onResume()
-        if (goBack) goBack()
         viewModel.getAndRemoveDestination()?.let {
             browse(it, true)
         }
@@ -243,8 +243,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
 
     fun goBack(): Boolean {
-        val activity = activity ?: return false
-        if (!activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return false
+        val activity = activity
+        if (activity?.isStarted() != true) return false
         if (!isRootDirectory && !activity.isFinishing && !activity.isDestroyed) activity.supportFragmentManager.popBackStack()
         return !isRootDirectory
     }

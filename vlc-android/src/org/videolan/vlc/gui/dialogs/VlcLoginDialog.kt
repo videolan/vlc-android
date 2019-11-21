@@ -44,9 +44,7 @@ class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), V
 
     private lateinit var settings: SharedPreferences
 
-
     override val layout= R.layout.vlc_login_dialog
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,21 +71,5 @@ class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), V
 
     override fun onFocusChange(v: View, hasFocus: Boolean) {
         if (hasFocus) UiTools.setKeyboardVisibility(v, v is EditText)
-    }
-
-    // Cancel from LibVLC
-    override fun onCancel(dialog: DialogInterface) {
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(Intent(ACTION_DIALOG_CANCELED))
-        super.onCancel(dialog)
-    }
-
-    // Cancel from UI
-    override fun onCancel(v: View) {
-        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(Intent(ACTION_DIALOG_CANCELED))
-        super.onCancel(v)
-    }
-
-    companion object {
-        const val ACTION_DIALOG_CANCELED = "action_dialog_canceled"
     }
 }

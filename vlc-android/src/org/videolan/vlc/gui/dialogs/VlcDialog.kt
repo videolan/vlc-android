@@ -32,18 +32,13 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import org.videolan.libvlc.Dialog
 import org.videolan.vlc.BR
-import org.videolan.vlc.VLCApplication
 
 abstract class VlcDialog<T : Dialog, B : ViewDataBinding> : DialogFragment() {
 
-    protected lateinit var vlcDialog: T
+    lateinit var vlcDialog: T
     protected lateinit var binding: B
 
     protected abstract val layout: Int
-
-    fun init(key: String) {
-        vlcDialog = VLCApplication.getData(key) as T
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, layout, container, false)
@@ -66,7 +61,6 @@ abstract class VlcDialog<T : Dialog, B : ViewDataBinding> : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         if (::vlcDialog.isInitialized) vlcDialog.dismiss()
-        activity?.finish()
     }
 
     open fun onCancel(v: View) {

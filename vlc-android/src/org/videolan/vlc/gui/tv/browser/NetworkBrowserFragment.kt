@@ -34,27 +34,24 @@ import androidx.leanback.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog
-import org.videolan.vlc.util.UPDATE_DESCRIPTION
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.NetworkModel
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class NetworkBrowserFragment : MediaSortedFragment<NetworkModel>() {
-    internal var goBack = false
+class NetworkBrowserFragment : MediaSortedFragment<NetworkModel>(), IDialogManager {
 
-    private val localReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (!isResumed) goBack = true
-        }
-    }
+    private val dialogsDelegate = DialogDelegate()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +72,7 @@ class NetworkBrowserFragment : MediaSortedFragment<NetworkModel>() {
                     }
             }
         })
+        dialogsDelegate.observeDialogs(this, this)
     }
 
     fun refresh(connected: Boolean) {
@@ -82,28 +80,20 @@ class NetworkBrowserFragment : MediaSortedFragment<NetworkModel>() {
         //TODO Disconnected view
     }
 
-    override fun onStart() {
-        super.onStart()
-        LocalBroadcastManager.getInstance(VLCApplication.appContext).registerReceiver(localReceiver, IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED))
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (goBack) requireActivity().finish()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        LocalBroadcastManager.getInstance(VLCApplication.appContext).unregisterReceiver(localReceiver)
-    }
-
     override fun onItemClicked(viewHolder: Presenter.ViewHolder, item: Any, viewHolder1: RowPresenter.ViewHolder, row: Row) {
         if (item is AbstractMediaWrapper && item.type == AbstractMediaWrapper.TYPE_DIR) viewModel.saveList(item)
         super.onItemClicked(viewHolder, item, viewHolder1, row)
     }
 
-    companion object {
+    override fun fireDialog(dialog: Dialog) = showVlcDialog(dialog)
 
-        const val TAG = "VLC/NetworkBrowserFragment"
+    override fun dialogCanceled(dialog: Dialog?) {
+        when(dialog) {
+            is Dialog.LoginDialog -> activity?.finish()
+            is Dialog.ErrorMessage -> {
+                view?.let { Snackbar.make(it, "${dialog.title}: ${dialog.text}", Snackbar.LENGTH_LONG).show() }
+                activity?.finish()
+            }
+        }
     }
 }

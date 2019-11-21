@@ -1,8 +1,8 @@
 /*
  * *************************************************************************
- *  NetworkBrowserFragment.java
+ *  NetworkBrowserFragment.kt
  * **************************************************************************
- *  Copyright © 2015-2017 VLC authors and VideoLAN
+ *  Copyright © 2015-2019 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -23,46 +23,39 @@
 
 package org.videolan.vlc.gui.browser
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
+import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog
-import org.videolan.vlc.gui.dialogs.VlcLoginDialog
 import org.videolan.vlc.gui.view.EmptyLoadingState
-import org.videolan.vlc.util.CTX_FAV_ADD
-import org.videolan.vlc.util.CTX_FAV_EDIT
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.NetworkModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class NetworkBrowserFragment : BaseBrowserFragment() {
+class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
+
+    private val dialogsDelegate = DialogDelegate()
+
+    override fun createFragment() = NetworkBrowserFragment()
 
     override val categoryTitle: String
         get() = getString(R.string.network_browsing)
 
-    private val mLocalReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (isResumed)
-                goBack()
-            else
-                goBack = true
-        }
+    override fun onCreate(bundle: Bundle?) {
+        super.onCreate(bundle)
+        dialogsDelegate.observeDialogs(this, this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,7 +85,6 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
 
     override fun onStart() {
         super.onStart()
-        if (!isRootDirectory) LocalBroadcastManager.getInstance(VLCApplication.appContext).registerReceiver(mLocalReceiver, IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED))
         fabPlay?.setImageResource(if (isRootDirectory) R.drawable.ic_fab_add else R.drawable.ic_fab_play)
         fabPlay?.setOnClickListener(this)
     }
@@ -106,14 +98,18 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         }
     }
 
-    override fun createFragment(): Fragment {
-        return NetworkBrowserFragment()
+    override fun fireDialog(dialog: Dialog) {
+        showVlcDialog(dialog)
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (!isRootDirectory) LocalBroadcastManager.getInstance(VLCApplication.appContext).unregisterReceiver(mLocalReceiver)
-        goBack = false
+    override fun dialogCanceled(dialog: Dialog?) {
+        when(dialog) {
+            is Dialog.LoginDialog -> goBack()
+            is Dialog.ErrorMessage -> {
+               view?.let { Snackbar.make(it, "${dialog.title}: ${dialog.text}", Snackbar.LENGTH_LONG).show() }
+               goBack()
+            }
+        }
     }
 
     override fun onCtxAction(position: Int, option: Int) {
@@ -127,9 +123,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
 
     override fun browseRoot() {}
 
-    private fun allowLAN(): Boolean {
-        return ExternalMonitor.isLan || ExternalMonitor.isVPN
-    }
+    private fun allowLAN() = ExternalMonitor.isLan || ExternalMonitor.isVPN
 
     /**
      * Update views visibility and emptiness info
@@ -177,7 +171,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     private fun showAddServerDialog(mw: AbstractMediaWrapper?) {
         val fm = fragmentManager ?: return
         val dialog = NetworkServerDialog()
-        if (mw != null) dialog.setServer(mw)
+        mw?.let { dialog.setServer(it) }
         dialog.show(fm, "fragment_add_server")
     }
 
