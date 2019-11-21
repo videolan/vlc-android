@@ -32,13 +32,13 @@ import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.tools.coroutineScope
 import org.videolan.tools.setGone
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -76,7 +76,7 @@ class AboutFragment : Fragment() {
             visibility = View.VISIBLE
             setupWithViewPager(viewPager)
         }
-        coroutineScope.launch {
+        lifecycleScope.launch {
             UiTools.fillAboutView(view)
             webView.loadUrl("file:///android_asset/licence.htm")
 

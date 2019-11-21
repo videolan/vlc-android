@@ -15,10 +15,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
-import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloaderDialogBinding
 import org.videolan.vlc.gui.DialogActivity
@@ -38,7 +38,7 @@ class SubtitleDownloaderDialogFragment : DialogFragment() {
     private lateinit var viewModel: SubtitlesModel
     private lateinit var toast: Toast
 
-    val listEventActor = coroutineScope.actor<SubtitleEvent> {
+    val listEventActor = lifecycleScope.actor<SubtitleEvent> {
         for (subtitleEvent in channel) if (isActive) when (subtitleEvent) {
             is Click -> when (subtitleEvent.item.state) {
                 State.NotDownloaded -> VLCDownloadManager.download(requireActivity(), subtitleEvent.item)

@@ -36,6 +36,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,7 +48,6 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.copy
-import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.ContentActivity
@@ -71,7 +71,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
     private lateinit var editText: com.google.android.material.textfield.TextInputLayout
     private lateinit var viewModel: StreamsModel
 
-    private val listEventActor = coroutineScope.actor<MrlAction> {
+    private val listEventActor = lifecycleScope.actor<MrlAction> {
         for (event in channel) when (event) {
             is Playmedia -> playMedia(event.media)
             is ShowContext -> showContext(event.position)

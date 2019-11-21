@@ -29,11 +29,11 @@ import android.os.Bundle
 import android.text.TextUtils
 import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.util.getFromMl
 
@@ -76,7 +76,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         return true
     }
 
-    private fun loadRows(query: String?) = coroutineScope.launch {
+    private fun loadRows(query: String?) = lifecycleScope.launch {
         if (query == null || query.length < 3) return@launch
         val searchAggregate = context?.getFromMl { search(query) }
         val empty = searchAggregate == null || searchAggregate.isEmpty
