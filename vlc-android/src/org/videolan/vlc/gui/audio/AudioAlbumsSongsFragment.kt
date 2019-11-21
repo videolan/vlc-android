@@ -22,9 +22,6 @@ package org.videolan.vlc.gui.audio
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Parcelable
 import android.view.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
@@ -50,7 +47,6 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.CTX_PLAY_ALL
 import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -67,7 +63,6 @@ private const val MODE_TOTAL = 2 // Number of audio mProvider modes
 class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeRefreshLayout.OnRefreshListener {
 
     private var spacing: Int = 0
-    private var handler = Handler(Looper.getMainLooper())
 
     private lateinit var lists: Array<RecyclerView>
     private lateinit var songsAdapter: AudioBrowserAdapter
@@ -87,11 +82,9 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val item = if (savedInstanceState != null)
-            savedInstanceState.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem
-        else
-            arguments!!.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem
-        viewModel = getViewModel(item)
+        val item = savedInstanceState?.getParcelable<MediaLibraryItem>(AudioBrowserFragment.TAG_ITEM)
+                ?: arguments?.getParcelable<MediaLibraryItem>(AudioBrowserFragment.TAG_ITEM)
+        viewModel = getViewModel(item!!)
     }
 
     override fun getTitle(): String = viewModel.parent.title
@@ -113,7 +106,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         lists = arrayOf(albumsList, songsList)
         val titles = arrayOf(getString(R.string.albums), getString(R.string.songs))
         albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, cardSize = if (viewModel.providersInCard[0]) itemSize else -1)
-        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, cardSize = if (viewModel.providersInCard[0]) itemSize else -1)
+        songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, cardSize = if (viewModel.providersInCard[1]) itemSize else -1)
         adapters = arrayOf(albumsAdapter, songsAdapter)
 
 
@@ -138,12 +131,22 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
         }
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
-        viewModel.albumsProvider.pagedList.observe(requireActivity(), Observer { albums -> if (albums != null) albumsAdapter.submitList(albums as PagedList<MediaLibraryItem>) })
+        viewModel.albumsProvider.pagedList.observe(requireActivity(), Observer { albums ->
+            @Suppress("UNCHECKED_CAST")
+            (albums as? PagedList<MediaLibraryItem>)?.let { albumsAdapter.submitList(it) }
+        })
         viewModel.tracksProvider.pagedList.observe(requireActivity(), Observer { tracks ->
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { songsAdapter.submitList(it) }
         })
         for (i in 0..1) setupLayoutManager(i)
+        viewModel.albumsProvider.loading.observe(requireActivity(), Observer { loading ->
+            if (!loading) {
+                if (empty && !viewModel.isFiltering()) currentTab = 1
+                fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+            }
+            setRefreshing(loading)
+        })
     }
 
     private fun setupLayoutManager(index: Int) {
@@ -209,19 +212,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         }
     }
 
-    override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        super.onUpdateFinished(adapter)
-        handler.post {
-            swipeRefreshLayout.isRefreshing = false
-            val albums = viewModel.albumsProvider.pagedList.value
-            if (Util.isListEmpty(albums) && !viewModel.isFiltering()) currentTab = 1
-            fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
-        }
-    }
-
     override fun clear() {
-        albumsAdapter.clear()
-        songsAdapter.clear()
+        adapters.forEach { it.clear() }
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {

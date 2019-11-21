@@ -35,7 +35,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -239,10 +238,6 @@ class VideoListAdapter internal constructor(
         }
 
         override fun isSelected() = multiSelectHelper.isSelected(layoutPosition)
-    }
-
-    override fun onCurrentListChanged(previousList: PagedList<MediaLibraryItem>?, currentList: PagedList<MediaLibraryItem>?) {
-        actor.offer(VideoUpdateFinished(this))
     }
 
     private object VideoItemDiffCallback : DiffUtil.ItemCallback<MediaLibraryItem>() {

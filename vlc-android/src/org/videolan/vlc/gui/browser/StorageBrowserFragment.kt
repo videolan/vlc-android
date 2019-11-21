@@ -38,6 +38,7 @@ import androidx.collection.SimpleArrayMap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -106,7 +107,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         super.onStart()
         AbstractMedialibrary.getInstance().addEntryPointsEventsCb(this)
         snack?.show()
-        launch { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
+        lifecycleScope.launchWhenStarted { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
     }
 
     override fun onStop() {
@@ -151,7 +152,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         if (isRootDirectory) {
             val storage = adapter.getItem(position) as Storage
             val path = storage.uri.path ?: return
-            launch {
+            lifecycleScope.launchWhenStarted {
                 val isCustom = viewModel.customDirectoryExists(path)
                 if (isCustom && isAdded) showContext(requireActivity(), this@StorageBrowserFragment, position, item.title, CTX_CUSTOM_REMOVE)
             }
@@ -258,7 +259,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
                 return@OnClickListener
             }
 
-            launch(CoroutineExceptionHandler { _, _ -> }) {
+            lifecycleScope.launch(CoroutineExceptionHandler { _, _ -> }) {
                 viewModel.addCustomDirectory(f.canonicalPath).join()
                 viewModel.browseRoot()
             }

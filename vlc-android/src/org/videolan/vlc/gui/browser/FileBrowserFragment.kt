@@ -32,19 +32,24 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.coroutines.*
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.isStarted
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.CTX_FAV_ADD
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.removeFileProtocole
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
-import java.lang.Runnable
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -151,22 +156,18 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         super.onPrepareOptionsMenu(menu)
         val item = menu.findItem(R.id.ml_menu_save) ?: return
         item.isVisible = !isRootDirectory && mrl!!.startsWith("file")
-        mrl?.let {
-            launch {
+        lifecycleScope.launchWhenStarted {
+            mrl?.let {
                 val isScanned = withContext(Dispatchers.IO) { MedialibraryUtils.isScanned(it) }
-                if (isStarted()) menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && mrl!!.startsWith("file") && !isScanned
+                menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && it.startsWith("file") && !isScanned
             }
+            val isFavorite = mrl != null && withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(Uri.parse(mrl)) }
+            item.setIcon(if (isFavorite)
+                R.drawable.ic_menu_bookmark_w
+            else
+                R.drawable.ic_menu_bookmark_outline_w)
+            item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
         }
-        runIO(Runnable {
-            val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))
-            launch {
-                item.setIcon(if (isFavorite)
-                    R.drawable.ic_menu_bookmark_w
-                else
-                    R.drawable.ic_menu_bookmark_outline_w)
-                item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
-            }
-        })
     }
 
     private fun browseOtgDevice(uri: Uri, title: String) {

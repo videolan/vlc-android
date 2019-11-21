@@ -92,7 +92,11 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
             headerAdapter.notifyDataSetChanged()
         })
         (viewModel.provider as MedialibraryProvider<*>).loading.observe(this, Observer {
-            if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
+            binding.emptyLoading.state = when {
+                it -> EmptyLoadingState.LOADING
+                viewModel.isEmpty() && adapter.isEmpty() -> EmptyLoadingState.EMPTY
+                else -> EmptyLoadingState.NONE
+            }
         })
     }
 

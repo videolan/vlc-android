@@ -30,6 +30,7 @@ import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -37,7 +38,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -103,13 +103,13 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         super.onActivityCreated(savedInstanceState)
         viewModel.provider.pagedList.observe(requireActivity(), Observer {
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
-            binding.empty.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
         })
-        viewModel.provider.loading.observe(this, Observer<Boolean> { loading ->
-            launch {
+        viewModel.provider.loading.observe(requireActivity(), Observer<Boolean> { loading ->
+            lifecycleScope.launchWhenStarted {
                 binding.swipeLayout.isRefreshing = loading == true
                 (activity as? MainActivity)?.refreshing = loading
             }
+            if (!loading) binding.empty.visibility = if (empty) View.VISIBLE else View.GONE
         })
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)

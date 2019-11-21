@@ -35,6 +35,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -325,7 +326,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val mw = item as? AbstractMediaWrapper ?: return false
         val cancel = Runnable { viewModel.refresh() }
         val deleteAction = Runnable {
-            launch {
+            lifecycleScope.launch {
                 deleteMedia(mw, false, cancel)
                 viewModel.remove(mw)
             }
@@ -439,7 +440,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         Snackbar.make(binding.root, getString(R.string.scanned_directory_added, Uri.parse(mw.uri.toString()).lastPathSegment), Snackbar.LENGTH_LONG).show()
     }
 
-    private fun toggleFavorite() = launch {
+    private fun toggleFavorite() = lifecycleScope.launch {
         val mw = currentMedia ?: return@launch
         withContext(Dispatchers.IO) {
             when {
@@ -480,7 +481,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (actionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) launch {
+        if (actionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) lifecycleScope.launch {
             val mw = item as AbstractMediaWrapper
             if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@launch
             var flags = if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) CTX_DELETE else 0
@@ -530,7 +531,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
-            CTX_FAV_REMOVE -> launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
+            CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
             CTX_ADD_SCANNED -> addToScannedFolders(mw)
         }
     }

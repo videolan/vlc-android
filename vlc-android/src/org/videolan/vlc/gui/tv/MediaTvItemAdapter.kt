@@ -82,6 +82,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
 
     override fun hasSections() = true
 
+    override fun isEmpty() = currentList.isNullOrEmpty()
+
     override fun submitList(pagedList: Any?) {
         if (pagedList == null) {
             this.submitList(null)

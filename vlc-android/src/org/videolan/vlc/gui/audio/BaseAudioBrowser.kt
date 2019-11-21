@@ -31,6 +31,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,12 +58,11 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
-import org.videolan.vlc.viewmodels.SortableModel
 import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), IEventsHandler, CtxActionReceiver, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
+abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragment<T>(), IEventsHandler, CtxActionReceiver, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
     internal lateinit var adapters: Array<AudioBrowserAdapter>
 
@@ -81,7 +81,7 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     protected var currentTab
         get() = if (::viewPager.isInitialized) viewPager.currentItem else 0
         set(value) {
-            viewPager.currentItem = value
+            if (::viewPager.isInitialized) viewPager.currentItem = value
         }
 
     private lateinit var layoutOnPageChangeListener: TabLayout.TabLayoutOnPageChangeListener
@@ -221,7 +221,7 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
         if (!isStarted()) return false
         val list = getCurrentAdapter()?.multiSelectHelper?.getSelection()
         stopActionMode()
-        if (!list.isNullOrEmpty()) launch {
+        if (!list.isNullOrEmpty()) lifecycleScope.launch {
             if (isStarted()) when (item.itemId) {
                 R.id.action_mode_audio_play -> MediaUtils.openList(activity, list.getTracks(), 0)
                 R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, list.getTracks())
@@ -312,9 +312,12 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
             CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_SET_RINGTONE -> AudioUtil.setRingtone(media as AbstractMediaWrapper, requireActivity())
-            CTX_SHARE -> launch { (requireActivity() as AppCompatActivity).share(media as AbstractMediaWrapper) }
+            CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as AbstractMediaWrapper) }
         }
     }
+
+    protected val empty : Boolean
+            get() = viewModel.isEmpty() && getCurrentAdapter()?.isEmpty == false
 
     override fun getMultiHelper(): MultiSelectHelper<T>? = getCurrentAdapter()?.multiSelectHelper as? MultiSelectHelper<T>
 }

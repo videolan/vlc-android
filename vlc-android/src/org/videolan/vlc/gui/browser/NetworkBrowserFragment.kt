@@ -29,9 +29,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.isStarted
@@ -73,7 +77,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
         super.onPrepareOptionsMenu(menu)
         val item = menu.findItem(R.id.ml_menu_save)
         item.isVisible = !isRootDirectory
-        launch {
+        lifecycleScope.launchWhenStarted {
             val isFavorite = mrl != null && withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(Uri.parse(mrl)) }
             item.setIcon(if (isFavorite)
                 R.drawable.ic_menu_bookmark_w

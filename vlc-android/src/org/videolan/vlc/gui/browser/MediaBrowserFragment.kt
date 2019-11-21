@@ -35,6 +35,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -70,7 +71,7 @@ private const val KEY_SELECTION = "key_selection"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.Callback, Filterable, CoroutineScope by MainScope() {
+abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.Callback, Filterable {
 
     private lateinit var searchButtonView: View
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -82,6 +83,12 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     open lateinit var viewModel: T
         protected set
     open val hasTabs = false
+
+    private var refreshJob : Job? = null
+        set(value) {
+            field?.cancel()
+            field = value
+        }
 
     abstract fun getTitle(): String
     abstract fun getMultiHelper(): MultiSelectHelper<T>?
@@ -168,7 +175,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             return
         }
         val v = view ?: return
-        snackerConfirm(v,getString(R.string.confirm_delete_several_media, items.size)) {
+        lifecycleScope.snackerConfirm(v,getString(R.string.confirm_delete_several_media, items.size)) {
             for (item in items) {
                 if (!isStarted()) break
                 when(item) {
@@ -181,15 +188,15 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     }
 
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
-        view ?: return false
-        when {
-            item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as AbstractPlaylist) })
-            item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
+        val view = view ?: return false
+        when (item.itemType) {
+            MediaLibraryItem.TYPE_PLAYLIST -> snackerConfirm(view, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as AbstractPlaylist) })
+            MediaLibraryItem.TYPE_MEDIA -> {
                 val deleteAction = Runnable {
-                    if (isStarted()) launch { deleteMedia(item, false, null) }
+                    if (isStarted()) lifecycleScope.launch { deleteMedia(item, false, null) }
                 }
                 val resid = if ((item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-                UiTools.snackerConfirm(view!!, getString(resid, item.getTitle()), Runnable { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
+                UiTools.snackerConfirm(view, getString(resid, item.getTitle()), Runnable { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
             }
             else -> return false
         }
@@ -351,4 +358,11 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     }
 
     override fun allowedToExpand() = true
+
+    protected fun setRefreshing(refreshing: Boolean) {
+        refreshJob = lifecycleScope.launchWhenStarted {
+            if (refreshing) delay(300L)
+            swipeRefreshLayout.isRefreshing = refreshing
+        }
+    }
 }

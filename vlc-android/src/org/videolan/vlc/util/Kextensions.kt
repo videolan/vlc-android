@@ -21,6 +21,7 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
@@ -38,7 +39,6 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
 import kotlin.coroutines.resume
-
 
 
 //object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManager.getDefaultSharedPreferences(it) })
