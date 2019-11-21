@@ -33,7 +33,11 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import kotlinx.coroutines.*
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.tools.awaitAppIsForegroung
@@ -56,7 +60,7 @@ private const val SEND_CRASH_RESULT = 0
 private const val TAG = "VLC/StartActivity"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class StartActivity : FragmentActivity(), CoroutineScope by MainScope() {
+class StartActivity : FragmentActivity() {
 
     private val idFromShortcut: Int
         get() {
@@ -197,7 +201,7 @@ class StartActivity : FragmentActivity(), CoroutineScope by MainScope() {
         }
     }
 
-    private fun startPlaybackFromApp(intent: Intent) = launch(start = CoroutineStart.UNDISPATCHED) {
+    private fun startPlaybackFromApp(intent: Intent) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         // workaround for a Android 9 bug
         // https://issuetracker.google.com/issues/113122354
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.P && !awaitAppIsForegroung()) {

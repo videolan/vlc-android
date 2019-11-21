@@ -45,9 +45,7 @@ private const val TAG = "VLC/MediaUtils"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-object MediaUtils : CoroutineScope {
-    override val coroutineContext = Dispatchers.Main.immediate
-
+object MediaUtils  {
     fun getSubs(activity: FragmentActivity, mediaList: List<AbstractMediaWrapper>) {
         if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri })
         else {
@@ -128,7 +126,7 @@ object MediaUtils : CoroutineScope {
         })
     }
 
-    fun openMediaNoUi(ctx: Context, id: Long) = launch {
+    fun openMediaNoUi(ctx: Context, id: Long) = AppScope.launch {
         val media = ctx.getFromMl { getMedia(id) }
         openMediaNoUi(ctx, media)
     }
@@ -147,7 +145,7 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    fun playTracks(context: Context, item: MediaLibraryItem, position: Int) = launch {
+    fun playTracks(context: Context, item: MediaLibraryItem, position: Int) = context.scope.launch {
         openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position)
     }
 
@@ -410,7 +408,7 @@ object MediaUtils : CoroutineScope {
     private class SuspendDialogCallback(context: Context, private val task: suspend (service: PlaybackService) -> Unit) : BaseCallBack() {
         private lateinit var dialog: ProgressDialog
         var job: Job = Job()
-        val actor = actor<Action>(capacity = Channel.UNLIMITED) {
+        val actor = context.scope.actor<Action>(capacity = Channel.UNLIMITED) {
             for (action in channel) when (action) {
                 Connect -> {
                     PlaybackService.service.observeForever(this@SuspendDialogCallback)
@@ -427,7 +425,7 @@ object MediaUtils : CoroutineScope {
         }
 
         init {
-            job = launch {
+            job = context.scope.launch {
                 delay(300)
                 dialog = ProgressDialog.show(
                         context,
@@ -467,9 +465,9 @@ object MediaUtils : CoroutineScope {
     } catch (ignored: SecurityException) {
     }
 
-    fun deletePlaylist(playlist: AbstractPlaylist) = launch(Dispatchers.IO) { playlist.delete() }
+    fun deletePlaylist(playlist: AbstractPlaylist) = AppScope.launch(Dispatchers.IO) { playlist.delete() }
     fun openMediaNoUiFromTvContent(context: Context, data: Uri?) {
-        launch {
+        AppScope.launch {
             data?.lastPathSegment?.let { id ->
                 val mw = context.getFromMl {
                     val longId = id.substringAfter("_").toLong()
@@ -556,6 +554,9 @@ private fun Array<MediaLibraryItem>.toList() = flatMap {
         it.media(AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
     } else listOf(this as AbstractMediaWrapper)
 }
+
+private val Context.scope : CoroutineScope
+    get() = (this as? CoroutineScope) ?: AppScope
 
 private sealed class Action
 private object Connect : Action()

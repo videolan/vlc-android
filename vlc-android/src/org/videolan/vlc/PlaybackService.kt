@@ -75,8 +75,7 @@ private const val TAG = "VLC/PlaybackService"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOwner {
-    override val coroutineContext = Dispatchers.Main.immediate
+class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope(), LifecycleOwner {
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     lateinit var playlistManager: PlaylistManager
@@ -542,6 +541,9 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     override fun onDestroy() {
+        cancel()
+        playlistManager.cancel()
+        playlistManager.player.cancel()
         (service as MutableLiveData).value = null
         dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
@@ -1017,7 +1019,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     @MainThread
     fun load(mediaList: List<AbstractMediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
 
-    private fun updateMediaQueue() = launch {
+    private fun updateMediaQueue() = launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
         val ctx = this@PlaybackService
         val queue = withContext(Dispatchers.Default) {
@@ -1257,7 +1259,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
-        launch {
+        launch(start = CoroutineStart.UNDISPATCHED) {
             getFromMl { isStarted }
             sendResults(result, parentId)
         }

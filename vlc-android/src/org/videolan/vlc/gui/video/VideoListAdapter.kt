@@ -34,6 +34,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -60,10 +61,11 @@ import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 private const val TAG = "VLC/VideoListAdapter"
 
 class VideoListAdapter internal constructor(
+        val scope: LifecycleCoroutineScope,
         private var mIsSeenMediaMarkerVisible: Boolean,
         val actor: SendChannel<VideoAction>
 ) : PagedListAdapter<MediaLibraryItem, VideoListAdapter.ViewHolder>(VideoItemDiffCallback),
-        MultiSelectAdapter<MediaLibraryItem>, CoroutineScope by MainScope() {
+        MultiSelectAdapter<MediaLibraryItem> {
 
     var isListMode = false
     var dataType = VideoGroupingType.NONE
@@ -85,7 +87,6 @@ class VideoListAdapter internal constructor(
     }
 
     fun release() {
-        cancel()
         AbstractMedialibrary.lastThumb.removeObserver(thumbObs)
     }
 
@@ -143,7 +144,7 @@ class VideoListAdapter internal constructor(
 
     private fun fillView(holder: ViewHolder, item: MediaLibraryItem) {
         when (item) {
-            is AbstractFolder -> holder.job = launch(start = CoroutineStart.UNDISPATCHED) {
+            is AbstractFolder -> holder.job = scope.launch(start = CoroutineStart.UNDISPATCHED) {
                 val count = withContext(Dispatchers.IO) { item.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) }
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.title.text = item.title
@@ -152,7 +153,7 @@ class VideoListAdapter internal constructor(
                 holder.binding.setVariable(BR.max, 0)
                 holder.job = null
             }
-            is AbstractVideoGroup -> launch {
+            is AbstractVideoGroup -> scope.launch {
                 val count = item.mediaCount()
                 holder.binding.setVariable(BR.time, if (count < 2) null else holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.title.text = item.title

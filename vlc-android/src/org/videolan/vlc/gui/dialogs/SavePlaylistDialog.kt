@@ -32,24 +32,24 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SimpleAdapter
 import java.util.*
 
 class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
-        TextView.OnEditorActionListener, SimpleAdapter.ClickHandler,
-        CoroutineScope by MainScope() {
+        TextView.OnEditorActionListener, SimpleAdapter.ClickHandler  {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
     override fun needToManageOrientation(): Boolean = false
@@ -121,7 +121,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         return false
     }
 
-    private fun savePlaylist() = launch{
+    private fun savePlaylist() = lifecycleScope.launchWhenStarted {
         withContext(Dispatchers.IO) {
             val name = editText?.text?.toString()?.trim { it <= ' ' } ?: return@withContext
             val addTracks = !Tools.isArrayEmpty(newTrack)
@@ -163,7 +163,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
             playlist.append(ids)
         }
-        if (activity?.isStarted() == true)dismiss()
+        dismiss()
     }
 
 

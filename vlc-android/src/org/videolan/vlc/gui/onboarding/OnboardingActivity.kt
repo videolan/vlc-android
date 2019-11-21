@@ -12,8 +12,11 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -27,7 +30,7 @@ const val ONBOARDING_DONE_KEY = "app_onboarding_done"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, IOnScanningCustomizeChangedListener, CoroutineScope by MainScope() {
+class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, IOnScanningCustomizeChangedListener {
 
     private lateinit var viewPager: NonSwipeableViewPager
 
@@ -90,7 +93,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         }
 
         nextButton.setOnClickListener {
-            launch {
+            lifecycleScope.launch {
                 if (viewPager.currentItem == 0 && !viewModel.permissionGranted) {
                     viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
                             || getStoragePermission()
@@ -118,11 +121,6 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         selectPage(0)
 
         if (count == 4) onCustomizedChanged(true)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cancel()
     }
 
     private fun completeOnBoarding() {
@@ -199,7 +197,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         if (customizeEnabled) {
             indicators[3]?.visibility = View.VISIBLE
             indicators[3]?.animate()?.alpha(0.6f)?.scaleX(0.5f)?.scaleY(0.5f)!!.setListener(null)
-            if (MediaParsingService.preselectedStorages.isEmpty()) launch {
+            if (MediaParsingService.preselectedStorages.isEmpty()) lifecycleScope.launch {
                     MediaParsingService.preselectedStorages.run {
                         addAll(AndroidDevices.externalStorageDirectories)
                         AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path?.let { add(it) }

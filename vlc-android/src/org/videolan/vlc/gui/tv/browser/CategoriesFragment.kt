@@ -32,9 +32,7 @@ import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import androidx.lifecycle.lifecycleScope
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -52,7 +50,7 @@ private const val TAG = "VLC/CategoriesFragment"
 
 open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSupportFragment(),
         Sortable, OnItemViewSelectedListener, OnItemViewClickedListener,
-        BrowserFragmentInterface, CoroutineScope by MainScope() {
+        BrowserFragmentInterface {
 
     private lateinit var selecteditem: MediaLibraryItem
     private lateinit var backgroundManager: BackgroundManager
@@ -79,19 +77,14 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
         backgroundManager.attachToView(view)
         searchAffordanceColor = ContextCompat.getColor(requireContext(), R.color.orange500)
         requireActivity().findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_menu_sort)
-        if (this::viewModel.isInitialized) viewModel.loading.observe(this, Observer { (activity as? VerticalGridActivity)?.showProgress(it) })
+        if (this::viewModel.isInitialized) viewModel.loading.observe(viewLifecycleOwner, Observer { (activity as? VerticalGridActivity)?.showProgress(it) })
     }
 
     override fun onStart() {
         super.onStart()
-        if (this::selecteditem.isInitialized) updateBackground(requireContext(), backgroundManager, selecteditem)
+        if (this::selecteditem.isInitialized) lifecycleScope.updateBackground(requireContext(), backgroundManager, selecteditem)
         if (restart) refresh()
         restart = true
-    }
-
-    override fun onDestroy() {
-        cancel()
-        super.onDestroy()
     }
 
     private var currentArt : String? = null
@@ -100,7 +93,7 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
         selecteditem = item as AbstractMediaWrapper
         if (currentArt == item.artworkMrl) return
         currentArt = item.artworkMrl
-        updateBackground(requireContext(), backgroundManager, item)
+        lifecycleScope.updateBackground(requireContext(), backgroundManager, item)
     }
 
     override fun onItemClicked(viewHolder: Presenter.ViewHolder, item: Any, viewHolder1: RowPresenter.ViewHolder, row: Row) {

@@ -40,13 +40,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.delay
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.tools.setVisibility
 import org.videolan.vlc.*
@@ -164,7 +166,6 @@ open class AudioPlayerContainerActivity : BaseActivity() {
 
     override fun onDestroy() {
         activityHandler.removeMessages(ACTION_SHOW_PLAYER)
-        coroutineContext.cancelChildren()
         super.onDestroy()
     }
 
@@ -368,14 +369,13 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     }
 
     @SuppressLint("RestrictedApi")
-    fun proposeCard() = launch {
+    fun proposeCard() = lifecycleScope.launchWhenStarted {
         delay(1000L)
-        if (PlaylistManager.showAudioPlayer.value == true) return@launch
-        val song = settings.getString("current_song", null) ?: return@launch
+        if (PlaylistManager.showAudioPlayer.value == true) return@launchWhenStarted
+        val song = settings.getString("current_song", null) ?: return@launchWhenStarted
         val media = getFromMl { getMedia(Uri.parse(song)) }
         val title = media?.title
                 ?: Uri.decode(FileUtils.getFileNameFromPath(song)).substringBeforeLast('.')
-        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return@launch
         resumeCard = Snackbar.make(appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
                 .setAction(R.string.play) { PlaybackService.loadLastAudio(it.context) }
         resumeCard.show()

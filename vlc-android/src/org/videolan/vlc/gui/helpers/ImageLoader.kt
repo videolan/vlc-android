@@ -36,11 +36,11 @@ import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.tv.TvUtil
-import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
+import org.videolan.vlc.util.scope
 
 private val sMedialibrary = AbstractMedialibrary.getInstance()
 @Volatile
@@ -81,8 +81,7 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
     val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding)
     else {
-        val scope = (v.context as? CoroutineScope) ?: AppScope
-        scope.launch { getImage(v, findInLibrary(item, isMedia), binding, imageWidth) }
+        v.scope.launch { getImage(v, findInLibrary(item, isMedia), binding, imageWidth) }
     }
 }
 
@@ -90,7 +89,7 @@ fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth
     if (imageWidth == 0) return
     if (item == null) return
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
-    AppScope.launch { getPlaylistImage(v, item, binding, imageWidth) }
+    v.scope.launch { getPlaylistImage(v, item, binding, imageWidth) }
 }
 
 fun getAudioIconDrawable(context: Context?, type: Int, big: Boolean = false): BitmapDrawable? = context?.let {
@@ -175,7 +174,7 @@ fun imageCardViewContent(v: View, content: String?) {
 
 @BindingAdapter("imageUri")
 fun downloadIcon(v: View, imageUri: Uri?) {
-    if (imageUri != null && imageUri.scheme == "http") AppScope.launch {
+    if (imageUri != null && imageUri.scheme == "http") v.scope.launch {
         val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
         updateImageView(image, v, DataBindingUtil.findBinding(v))
     }

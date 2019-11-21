@@ -5,14 +5,14 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 import org.videolan.tools.KeyHelper
 import org.videolan.vlc.gui.helpers.applyTheme
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.IDialogHandler
+import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.getContextWithLocale
 
-abstract class BaseActivity : AppCompatActivity(), IDialogHandler, CoroutineScope by MainScope() {
+abstract class BaseActivity : AppCompatActivity(), IDialogHandler {
 
     lateinit var settings: SharedPreferences
     private val dialogDelegate = DialogDelegate()
@@ -40,10 +40,5 @@ abstract class BaseActivity : AppCompatActivity(), IDialogHandler, CoroutineScop
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
         KeyHelper.manageModifiers(event)
         return super.onKeyUp(keyCode, event)
-    }
-
-    override fun onDestroy() {
-        cancel()
-        super.onDestroy()
     }
 }

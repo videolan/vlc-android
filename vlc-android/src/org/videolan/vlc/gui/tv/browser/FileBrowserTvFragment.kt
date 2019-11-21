@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -191,7 +192,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        launch {
+        lifecycleScope.launch {
             animationDelegate.setVisibility(binding.favoriteButton, if (isRootLevel) View.GONE else View.VISIBLE)
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
@@ -203,7 +204,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
         }
         val favoriteClickListener: (View) -> Unit = {
-            launch {
+            lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
                     val mw = (item as MediaWrapper)
                     when {

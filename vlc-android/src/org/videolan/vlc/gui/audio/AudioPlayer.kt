@@ -39,14 +39,18 @@ import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.PlaybackService
@@ -71,13 +75,13 @@ private const val SEARCH_TIMEOUT_MILLIS = 10000L
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @Suppress("UNUSED_PARAMETER")
-class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineScope by MainScope(), IAudioPlayerAnimator by AudioPlayerAnimator() {
+class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlayerAnimator by AudioPlayerAnimator() {
 
     private lateinit var binding: AudioPlayerBinding
     private lateinit var playlistAdapter: PlaylistAdapter
     private lateinit var settings: SharedPreferences
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
-    private val updateActor = actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
+    private val updateActor = lifecycleScope.actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
     lateinit var playlistModel: PlaylistModel
     private lateinit var optionsDelegate: PlayerOptionsDelegate
 
@@ -173,7 +177,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                 }
                 CTX_STOP_AFTER_THIS -> playlistModel.stopAfter(position)
                 CTX_INFORMATION -> showInfoDialog(playlistAdapter.getItem(position))
-                CTX_SHARE -> launch { (requireActivity() as AppCompatActivity).share(playlistAdapter.getItem(position)) }
+                CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(playlistAdapter.getItem(position)) }
             }
         }
     }
@@ -194,8 +198,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     private fun doUpdate() {
         if (activity === null || (isVisible && playlistModel.switchToVideo())) return
         binding.playlistPlayasaudioOff.visibility = if (playlistModel.videoTrackCount > 0) View.VISIBLE else View.GONE
-        binding.audioMediaSwitcher.updateMedia(this, playlistModel.service)
-        binding.coverMediaSwitcher.updateMedia(this, playlistModel.service)
+        binding.audioMediaSwitcher.updateMedia(lifecycleScope, playlistModel.service)
+        binding.coverMediaSwitcher.updateMedia(lifecycleScope, playlistModel.service)
 
         updatePlayPause()
         updateShuffleMode()

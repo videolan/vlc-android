@@ -16,16 +16,15 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.SearchAggregate
-import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SearchActivityBinding
@@ -65,10 +64,8 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
     }
 
     private fun performSearh(query: String?) {
-        if (query == null || query.length < 3) return
-        launch {
+        if (query != null && query.length > 2) lifecycleScope.launchWhenStarted {
             val searchAggregate = withContext(Dispatchers.IO) { medialibrary.search(query) }
-            if (!isStarted()) return@launch
             binding.searchAggregate = searchAggregate
             if (searchAggregate != null) {
                 searchAggregate.albums?.filterNotNull()?.let { (binding.albumsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }

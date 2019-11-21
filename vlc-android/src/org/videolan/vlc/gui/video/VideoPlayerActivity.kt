@@ -55,10 +55,10 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,8 +66,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -618,9 +620,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     fun switchToPopup() {
         if (!isBenchmark) {
             val mw = service?.currentMediaWrapper
-            if (mw == null || !AndroidDevices.pipAllowed
-                    || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))
-                return
+            if (mw == null || !AndroidDevices.pipAllowed || !isStarted()) return
 
             val forceLegacy = Settings.getInstance(this).getBoolean(POPUP_FORCE_LEGACY, false)
             if (AndroidDevices.hasPiP && !forceLegacy) {
@@ -2656,13 +2656,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (service == null) return
         isNavMenu = false
         menuIdx = -1
-
-        runIO(Runnable {
-            val titles = service?.titles
-            runOnMainThread(Runnable {
-                if (isFinishing || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return@Runnable
+        lifecycleScope.launchWhenStarted {
+            val titles = withContext(Dispatchers.IO) { service?.titles }
+                if (isFinishing) return@launchWhenStarted
                 if (titles != null) {
-                    val currentIdx = service?.titleIdx ?: return@Runnable
+                    val currentIdx = service?.titleIdx ?: return@launchWhenStarted
                     for (i in titles.indices) {
                         val title = titles[i]
                         if (title.isMenu) {
@@ -2683,8 +2681,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
                 navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.GONE)
                 supportInvalidateOptionsMenu()
-            })
-        })
+        }
     }
 
     override fun onChanged(service: PlaybackService?) {

@@ -9,9 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.leanback.app.BackgroundManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Playlist
@@ -32,7 +34,7 @@ import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MediaListActivity : BaseTvActivity(), ITVEventsHandler, CoroutineScope by MainScope() {
+class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
 
     override fun refresh() {}
 
@@ -113,17 +115,12 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler, CoroutineScope by 
 
     override fun onResume() {
         super.onResume()
-        updateBackground(this, backgroundManager, item)
+        lifecycleScope.updateBackground(this, backgroundManager, item)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(ITEM, item)
-    }
-
-    override fun onDestroy() {
-        cancel()
-        super.onDestroy()
     }
 
     override fun onClickPlay(v: View, position: Int) {
@@ -156,7 +153,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler, CoroutineScope by 
     }
 
     override fun onFocusChanged(item: MediaLibraryItem) {
-        if (item != lateSelectedItem) updateBackground(this, backgroundManager, item)
+        if (item != lateSelectedItem) lifecycleScope.updateBackground(this, backgroundManager, item)
         lateSelectedItem = item
     }
 

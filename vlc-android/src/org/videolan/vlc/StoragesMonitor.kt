@@ -7,8 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.text.TextUtils
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
@@ -16,6 +14,7 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.getFromMl
+import org.videolan.vlc.util.isAppStarted
 import org.videolan.vlc.util.scanAllowed
 
 
@@ -25,8 +24,7 @@ class StoragesMonitor : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action ?: return
-        if (ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return
-        when (action) {
+        if (!isAppStarted()) when (action) {
             Intent.ACTION_MEDIA_MOUNTED -> intent.data?.let { actor.offer(Mount(context, it)) }
             Intent.ACTION_MEDIA_UNMOUNTED -> intent.data?.let { actor.offer(Unmount(context, it)) }
             else -> return

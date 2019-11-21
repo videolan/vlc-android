@@ -27,10 +27,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
 import org.videolan.vlc.util.*
@@ -148,7 +148,7 @@ interface CtxActionReceiver {
 }
 
 fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, title: String, flags: Int) {
-    if (!activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
+    if (!activity.isStarted()) return
     val ctxDialog = ContextSheet()
     ctxDialog.arguments = Bundle(3).apply {
         putString(CTX_TITLE_KEY, title)

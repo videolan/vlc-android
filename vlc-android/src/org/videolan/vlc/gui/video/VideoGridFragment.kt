@@ -95,7 +95,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (!::videoListAdapter.isInitialized) {
             val preferences = Settings.getInstance(requireContext())
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
-            videoListAdapter = VideoListAdapter(seenMarkVisible, actor)
+            videoListAdapter = VideoListAdapter(lifecycleScope, seenMarkVisible, actor)
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<AbstractFolder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
@@ -235,7 +235,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onStop() {
         super.onStop()
-        videoListAdapter.coroutineContext.cancelChildren()
+        lifecycleScope.coroutineContext.cancelChildren()
         unregisterForContextMenu(binding.videoGrid)
     }
 

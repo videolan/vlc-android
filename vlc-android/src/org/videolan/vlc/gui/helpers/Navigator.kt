@@ -36,11 +36,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -98,7 +98,7 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
                  * the info dialog. If (for any reason) the dialog is not shown,
                  * open the menu after a short delay.
                  */
-                launch {
+                lifecycleScope.launchWhenStarted {
                     delay(500L)
                     drawerLayout.openDrawer(navigationView)
                 }

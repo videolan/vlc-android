@@ -175,7 +175,7 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
     (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
 }
 
-fun isAppStarted() = ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
+fun isAppStarted() = ProcessLifecycleOwner.get().isStarted()
 
 fun Int.toPixel(): Int {
     val metrics = Resources.getSystem().displayMetrics
@@ -208,3 +208,6 @@ fun generateResolutionClass(width: Int, height: Int) : String? = if (width <= 0 
     width >= 1280 -> "720p"
     else -> "SD"
 }
+
+val View.scope : CoroutineScope
+    get() = context as? CoroutineScope ?: AppScope

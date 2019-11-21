@@ -34,12 +34,15 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
-import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.TvAudioPlayerBinding
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -126,12 +129,10 @@ class AudioPlayerActivity : BaseTvActivity() {
         updateBackground()
     }
 
-    private fun updateBackground() = launch {
-        if (!isStarted()) return@launch
+    private fun updateBackground() = lifecycleScope.launchWhenStarted {
         val width = if (binding.albumCover.width > 0) binding.albumCover.width else this@AudioPlayerActivity.getScreenWidth()
         val cover = withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(currentCoverArt), width) }
         val blurredCover = if (cover != null) withContext(Dispatchers.Default) { UiTools.blurBitmap(cover) } else null
-        if (!isStarted()) return@launch
         if (cover == null) {
             binding.albumCover.setImageResource(R.drawable.ic_no_artwork_big)
             binding.background.clearColorFilter()

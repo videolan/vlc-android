@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -101,7 +101,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        launch {
+        lifecycleScope.launchWhenStarted {
             if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL, true)) {
                 TvUtil.playMedia(requireActivity(), item as AbstractMediaWrapper)
             } else {

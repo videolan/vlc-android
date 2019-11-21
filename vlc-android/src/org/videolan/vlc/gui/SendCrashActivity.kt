@@ -37,6 +37,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
@@ -46,7 +47,6 @@ import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SendCrashActivityBinding
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.util.*
 import java.io.File
@@ -54,7 +54,7 @@ import java.lang.Runnable
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback, CoroutineScope by MainScope() {
+class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
     private var logMessage = ""
     override fun onStarted(lostList: List<String>) {
         logMessage = "Starting collecting logs at ${System.currentTimeMillis()}"
@@ -81,7 +81,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback, 
             client.stop()
             return
         }
-        launch(start = CoroutineStart.UNDISPATCHED) {
+        lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
             val emailIntent = withContext(Dispatchers.IO) {
                 client.stop()
                 if (!::logcatZipPath.isInitialized) {
@@ -96,7 +96,6 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback, 
                 val attachments = ArrayList<Uri>()
                 if (binding.includeMedialibSwitch.isChecked) {
                     if (getStoragePermission(true)) {
-
                         if (!::dbPath.isInitialized) {
                             val path = VLCApplication.appContext.getExternalFilesDir(null)?.absolutePath ?: return@withContext null
                             dbPath = "$path/${AbstractMedialibrary.VLC_MEDIA_DB_NAME}"

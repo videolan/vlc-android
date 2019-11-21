@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.tv
 
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -68,6 +69,6 @@ class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callba
 
     private fun updateCurrent() = model.run {
         updateNowPlaying()
-        if (showHistory) launch { updateHistory() }
+        if (showHistory) viewModelScope.launch { updateHistory() }
     }
 }

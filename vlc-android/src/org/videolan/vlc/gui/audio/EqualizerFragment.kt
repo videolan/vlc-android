@@ -33,6 +33,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.*
 import org.videolan.libvlc.MediaPlayer
@@ -53,7 +54,7 @@ import java.lang.Runnable
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class EqualizerFragment : VLCBottomSheetDialogFragment(), CoroutineScope by MainScope() {
+class EqualizerFragment : VLCBottomSheetDialogFragment() {
     override fun getDefaultState() = STATE_EXPANDED
 
     override fun needToManageOrientation() = false
@@ -132,7 +133,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), CoroutineScope by Main
         }
     }
 
-    private fun fillViews() = launch(start = CoroutineStart.UNDISPATCHED) {
+    private fun fillViews() = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         val presets = equalizerPresets
 
         if (context == null || presets == null) return@launch
@@ -444,7 +445,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), CoroutineScope by Main
         UiTools.snackerWithCancel(binding.root, message, null, cancelAction)
     }
 
-    private fun updateEqualizer(pos: Int) = launch(start = CoroutineStart.UNDISPATCHED) {
+    private fun updateEqualizer(pos: Int) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (updateAlreadyHandled) {
             updateAlreadyHandled = false
         } else {

@@ -36,6 +36,7 @@ import androidx.annotation.MainThread
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.lifecycleScope
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import kotlinx.coroutines.*
@@ -128,7 +129,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun updateBackground() {
         if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean("blurred_cover_background", true)) {
-            audioPlayer.launch {
+            audioPlayer.lifecycleScope.launch {
                 val mw = audioPlayer.playlistModel.currentMediaWrapper
                 if (!audioPlayer.isStarted() || mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
                 currentCoverArt = mw.artworkMrl

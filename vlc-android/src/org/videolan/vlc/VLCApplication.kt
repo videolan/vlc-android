@@ -25,16 +25,12 @@ import android.app.Application
 import android.content.ComponentName
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.collection.SimpleArrayMap
-import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.multidex.MultiDexApplication
 import kotlinx.coroutines.Dispatchers
@@ -43,14 +39,12 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.vlc.gui.DialogActivity
+import org.videolan.tools.isStarted
 import org.videolan.vlc.gui.SendCrashActivity
-import org.videolan.vlc.gui.dialogs.VlcProgressDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapCache
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.*
-import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationTargetException
 
 @ObsoleteCoroutinesApi
@@ -155,6 +149,6 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
          * @return true if an activity is displayed, false if app is in background.
          */
         val isForeground: Boolean
-            get() = ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
+            get() = ProcessLifecycleOwner.get().isStarted()
     }
 }

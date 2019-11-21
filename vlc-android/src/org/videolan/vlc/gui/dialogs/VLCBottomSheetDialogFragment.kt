@@ -8,13 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.videolan.vlc.R
-import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.Settings
 
 abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -29,19 +27,13 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
     var onDismissListener: DialogInterface.OnDismissListener? = null
 
     fun inflate(inflater: LayoutInflater, container: ViewGroup?, @LayoutRes layout: Int): View? {
-//        if (Settings.showTvUi) {
-//
-//            val contextThemeWrapper = ContextThemeWrapper(activity, R.style.Theme_VLC_Black) // your app theme here
-//            return inflater.cloneInContext(contextThemeWrapper).inflate(layout, container, true)
-//        }
         return inflater.inflate(layout, container, false)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        AppScope.launch(Dispatchers.Main) {
+        lifecycleScope.launchWhenStarted {
             dialog?.window?.setLayout(resources.getDimensionPixelSize(R.dimen.default_context_width), ViewGroup.LayoutParams.MATCH_PARENT)
             (dialog as BottomSheetDialog).findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)?.let {
                 val bsb = BottomSheetBehavior.from(it)

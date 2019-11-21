@@ -24,7 +24,6 @@ package org.videolan.vlc
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -57,9 +56,8 @@ private const val NOTIFICATION_DELAY = 1000L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, LifecycleOwner {
+class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwner {
 
-    override val coroutineContext = Dispatchers.Main.immediate
     private val dispatcher = ServiceLifecycleDispatcher(this)
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var localBroadcastManager: LocalBroadcastManager
@@ -84,7 +82,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     internal val sb = StringBuilder()
 
     private val notificationActor by lazy {
-        actor<Notification>(capacity = Channel.UNLIMITED) {
+        lifecycleScope.actor<Notification>(capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {
                 Show -> showNotification()
                 Hide -> hideNotification()
@@ -148,19 +146,17 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     }
 
     override fun onBind(intent: Intent): IBinder? {
+        super.onBind(intent)
         dispatcher.onServicePreSuperOnBind()
         return binder
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         // Set 1s delay before displaying scan icon
         // Except for Android 8+ which expects startForeground immediately
         if (AndroidUtil.isOOrLater) forceForeground()
         else if (lastNotificationTime <= 0L) lastNotificationTime = System.currentTimeMillis()
-        if (intent == null) {
-            exitCommand()
-            return Service.START_NOT_STICKY
-        }
+        super.onStartCommand(intent, flags, startId)
         dispatcher.onServicePreSuperOnStart()
         when (intent.action) {
             ACTION_INIT -> {
@@ -380,7 +376,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         if (reload <= 0) exitCommand()
     }
 
-    private fun exitCommand() = launch {
+    private fun exitCommand() {
         if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
             stopSelf()
@@ -409,7 +405,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         progress.value = if (status === null) ScanProgress(parsing, discovery) else status.copy(parsing = parsing, discovery = discovery)
     }
 
-    private val actions = actor<MLAction>(context = Dispatchers.IO, capacity = Channel.UNLIMITED) {
+    private val actions = lifecycleScope.actor<MLAction>(context = Dispatchers.IO, capacity = Channel.UNLIMITED) {
         for (action in channel) when (action) {
             is DiscoverStorage -> {
                 for (folder in AbstractMedialibrary.getBlackList()) medialibrary.banFolder(action.path + folder)

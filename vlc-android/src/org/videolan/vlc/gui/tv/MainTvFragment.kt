@@ -30,7 +30,9 @@ import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.*
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -51,7 +53,7 @@ private const val TAG = "VLC/MainTvFragment"
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener,
-        View.OnClickListener, CoroutineScope by MainScope() {
+        View.OnClickListener {
 
     private var backgroundManager: BackgroundManager? = null
     private lateinit var rowsAdapter: ArrayObjectAdapter
@@ -152,20 +154,20 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private fun registerDatasets() {
-        model.browsers.observe(this, Observer {
+        model.browsers.observe(viewLifecycleOwner, Observer {
             browserAdapter.setItems(it, diffCallback)
         })
-        model.audioCategories.observe(this, Observer {
+        model.audioCategories.observe(viewLifecycleOwner, Observer {
             categoriesAdapter.setItems(it.toList(), diffCallback)
         })
-        model.videos.observe(this, Observer {
+        model.videos.observe(viewLifecycleOwner, Observer {
             videoAdapter.setItems(it, diffCallback)
         })
-        model.nowPlaying.observe(this, Observer {
+        model.nowPlaying.observe(viewLifecycleOwner, Observer {
             displayNowPlaying = it.isNotEmpty()
             nowPlayingAdapter.setItems(it, diffCallback)
         })
-        model.history.observe(this, Observer {
+        model.history.observe(viewLifecycleOwner, Observer {
             displayHistory = it.isNotEmpty()
             if (it.isNotEmpty()) {
                 historyAdapter.setItems(it, diffCallback)
@@ -173,7 +175,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             resetLines()
         })
 
-        model.playlist.observe(this, Observer {
+        model.playlist.observe(viewLifecycleOwner, Observer {
             displayPlaylist = it.isNotEmpty()
             playlistAdapter.setItems(it, diffCallback)
             resetLines()
@@ -204,18 +206,13 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onStart() {
         super.onStart()
-        if (selectedItem is AbstractMediaWrapper) updateBackground(requireContext(), backgroundManager, selectedItem)
+        if (selectedItem is AbstractMediaWrapper) lifecycleScope.updateBackground(requireContext(), backgroundManager, selectedItem)
         model.refresh()
     }
 
     override fun onStop() {
         super.onStop()
         if (AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater) requireActivity().startService(Intent(requireActivity(), RecommendationsService::class.java))
-    }
-
-    override fun onDestroy() {
-        cancel()
-        super.onDestroy()
     }
 
     override fun onClick(v: View?) = requireActivity().startActivity(Intent(requireContext(), SearchActivity::class.java))
@@ -264,6 +261,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onItemSelected(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         selectedItem = item
-        updateBackground(requireContext(), backgroundManager, item)
+        lifecycleScope.updateBackground(requireContext(), backgroundManager, item)
     }
 }

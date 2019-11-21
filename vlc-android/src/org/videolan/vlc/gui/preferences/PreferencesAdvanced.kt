@@ -30,6 +30,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.*
@@ -46,7 +47,7 @@ import java.io.File
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener, CoroutineScope by MainScope() {
+class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun getXml() =  R.xml.preferences_adv
 
@@ -85,7 +86,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(R.string.yes) { _, _ ->
-                            launch(Dispatchers.IO) { AbstractMedialibrary.getInstance().clearHistory() }
+                            lifecycleScope.launch(Dispatchers.IO) { AbstractMedialibrary.getInstance().clearHistory() }
                         }
 
                         .setNegativeButton(R.string.cancel, null).show()
@@ -96,7 +97,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setTitle(R.string.clear_media_db)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
+                        .setPositiveButton(R.string.yes) { _, _ -> lifecycleScope.launch(Dispatchers.IO) {
                             AbstractMedialibrary.getInstance().clearDatabase(true)
                         }}
                         .setNegativeButton(R.string.cancel, null).show()
@@ -111,7 +112,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                     view?.let { UiTools.snacker(it, getString(R.string.settings_ml_block_scan)) }
                 else {
                     val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
-                    launch {
+                    lifecycleScope.launch {
                         if (getWritePermission(Uri.fromFile(dst))) {
                             val copied = withContext(Dispatchers.IO) {
                                 val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)

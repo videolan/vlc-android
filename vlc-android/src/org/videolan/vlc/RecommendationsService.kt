@@ -31,10 +31,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.gui.helpers.BitmapUtil
@@ -45,8 +42,7 @@ private const val TAG = "VLC/RecommendationsService"
 private const val MAX_RECOMMENDATIONS = 3
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class RecommendationsService : IntentService("RecommendationService"), CoroutineScope {
-    override val coroutineContext = Dispatchers.Main.immediate
+class RecommendationsService : IntentService("RecommendationService"), CoroutineScope by MainScope() {
 
     private lateinit var mNotificationManager: NotificationManager
 
@@ -105,5 +101,10 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
             buildRecommendation(mediaWrapper, id, NotificationManagerCompat.IMPORTANCE_DEFAULT)
             if (id == MAX_RECOMMENDATIONS) break
         }
+    }
+
+    override fun onDestroy() {
+        cancel()
+        super.onDestroy()
     }
 }

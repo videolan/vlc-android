@@ -34,7 +34,10 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.*
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.tools.KeyHelper
 import org.videolan.vlc.*
@@ -49,7 +52,7 @@ private const val TAG = "VLC/BaseTvActivity"
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope() {
+abstract class BaseTvActivity : FragmentActivity() {
 
     private lateinit var mediaLibrary: AbstractMedialibrary
     private lateinit var settings: SharedPreferences
@@ -71,7 +74,7 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
         mediaLibrary = AbstractMedialibrary.getInstance()
         settings = Settings.getInstance(this)
         registerLiveData()
-        launch { findViewById<View>(R.id.tv_time)?.let { registerTimeView(it as TextView) } }
+        lifecycleScope.launch { findViewById<View>(R.id.tv_time)?.let { registerTimeView(it as TextView) } }
     }
 
     override fun onStart() {
@@ -86,11 +89,6 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
         currentlyVisible = false
         ExternalMonitor.unsubscribeStorageCb(this)
         super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cancel()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {

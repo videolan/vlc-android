@@ -26,8 +26,7 @@ private const val TAG = "PreviewInputService"
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class PreviewVideoInputService : TvInputService(), CoroutineScope {
-    override val coroutineContext = Dispatchers.Main.immediate
+class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope() {
 
     override fun onCreateSession(inputId: String): TvInputService.Session? {
         return PreviewSession(this)
@@ -118,5 +117,10 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
                 surfaceReady = null
             }
         }
+    }
+
+    override fun onDestroy() {
+        cancel()
+        super.onDestroy()
     }
 }

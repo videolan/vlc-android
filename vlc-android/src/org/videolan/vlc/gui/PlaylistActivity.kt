@@ -41,6 +41,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -126,7 +127,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         binding.songs.adapter = audioBrowserAdapter
         val fabVisibility = savedInstanceState != null && savedInstanceState.getBoolean(TAG_FAB_VISIBILITY)
 
-        launch {
+        lifecycleScope.launch {
             val cover = withContext(Dispatchers.IO) {
                 if (!TextUtils.isEmpty(playlist.artworkMrl)) {
                     AudioUtil.readCoverBitmap(Uri.decode(playlist.artworkMrl), resources.getDimensionPixelSize(R.dimen.audio_browser_item_size))
@@ -134,17 +135,14 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
                     ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}", playlist.tracks.toList(), getScreenWidth())
                 }
             }
-
             if (cover != null) {
                 binding.cover = BitmapDrawable(this@PlaylistActivity.resources, cover)
-                launch {
-                    binding.appbar.setExpanded(true, true)
-                    if (savedInstanceState != null) {
-                        if (fabVisibility)
-                            binding.fab.show()
-                        else
-                            binding.fab.hide()
-                    }
+                binding.appbar.setExpanded(true, true)
+                if (savedInstanceState != null) {
+                    if (fabVisibility)
+                        binding.fab.show()
+                    else
+                        binding.fab.hide()
                 }
             } else fabFallback()
         }
@@ -273,8 +271,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         if (!isStarted()) return false
         val list = audioBrowserAdapter.multiSelectHelper.getSelection()
         val tracks = ArrayList<AbstractMediaWrapper>()
-        for (mediaItem in list)
-            tracks.addAll(listOf(*mediaItem.tracks))
+        list.forEach { tracks.addAll(listOf(*it.tracks)) }
 
         if (item.itemId == R.id.action_mode_audio_playlist_up) {
             Toast.makeText(this, "UP !", Toast.LENGTH_SHORT).show()
@@ -323,7 +320,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
             CTX_PLAY_NEXT -> MediaUtils.insertNext(this, media.tracks)
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(this, media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_SET_RINGTONE -> AudioUtil.setRingtone(media, this)
-            CTX_SHARE -> launch { share(media) }
+            CTX_SHARE -> lifecycleScope.launch { share(media) }
         }
 
     }
@@ -339,7 +336,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     }
 
     private fun removeItems(items: List<AbstractMediaWrapper>) {
-        snackerConfirm(binding.root,getString(R.string.confirm_delete_several_media, items.size)) {
+        lifecycleScope.snackerConfirm(binding.root,getString(R.string.confirm_delete_several_media, items.size)) {
             for (item in items) {
                 if (!isStarted()) break
                 if (getWritePermission(item.uri)) deleteMedia(item)
@@ -348,7 +345,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         }
     }
 
-    private fun deleteMedia(mw: MediaLibraryItem) = launch(Dispatchers.IO) {
+    private fun deleteMedia(mw: MediaLibraryItem) = lifecycleScope.launch(Dispatchers.IO) {
         val foldersToReload = LinkedList<String>()
         for (media in mw.tracks) {
             val path = media.uri.path
@@ -369,7 +366,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         val itemsRemoved = HashMap<Int, Long>()
         val playlist = viewModel.playlist as? AbstractPlaylist
                 ?: return
-        launch {
+        lifecycleScope.launchWhenStarted {
             val tracks = withContext(Dispatchers.IO) { playlist.tracks }
             for (mediaItem in list) {
                 for (i in tracks.indices) {
@@ -381,7 +378,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
             withContext(Dispatchers.IO) {
                 for (index in indexes) playlist.remove(index)
             }
-            if (isStarted()) UiTools.snackerWithCancel(binding.root, getString(R.string.removed_from_playlist_anonymous), null, Runnable {
+            UiTools.snackerWithCancel(binding.root, getString(R.string.removed_from_playlist_anonymous), null, Runnable {
                 for ((key, value) in itemsRemoved) {
                     playlist.add(value, key)
                 }

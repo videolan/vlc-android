@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import kotlinx.coroutines.*
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.databinding.DialogExtDeviceBinding
@@ -15,7 +17,7 @@ import org.videolan.vlc.util.EXTRA_PATH
 
 private const val TAG = "VLC/DeviceDialog"
 
-class DeviceDialog : DialogFragment(), CoroutineScope by MainScope() {
+class DeviceDialog : DialogFragment() {
 
     private lateinit var path : String
     private lateinit var uuid : String
@@ -36,7 +38,7 @@ class DeviceDialog : DialogFragment(), CoroutineScope by MainScope() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launch {
+        lifecycleScope.launch {
             delay(30_000L)
             dismissAllowingStateLoss()
         }
@@ -44,7 +46,6 @@ class DeviceDialog : DialogFragment(), CoroutineScope by MainScope() {
 
     override fun onDestroy() {
         super.onDestroy()
-        cancel()
         activity?.finish()
     }
 

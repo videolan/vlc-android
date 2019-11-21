@@ -27,9 +27,12 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
@@ -57,7 +60,7 @@ private const val TAG = "MainTvModel"
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrary.OnMedialibraryReadyListener,
-        AbstractMedialibrary.OnDeviceChangeListener, CoroutineScope by MainScope() {
+        AbstractMedialibrary.OnDeviceChangeListener {
 
     val context = getApplication<Application>().baseContext!!
     private val medialibrary = AbstractMedialibrary.getInstance()
@@ -78,11 +81,11 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
 
-    private val updateActor = actor<Unit>(capacity = Channel.CONFLATED) {
+    private val updateActor = viewModelScope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (action in channel) updateBrowsers()
     }
 
-    private val historyActor = actor<Unit>(capacity = Channel.CONFLATED) {
+    private val historyActor = viewModelScope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (action in channel) setHistory()
     }
 
@@ -105,7 +108,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         PlaylistManager.showAudioPlayer.observeForever(playerObserver)
     }
 
-    fun refresh() = launch {
+    fun refresh() = viewModelScope.launch {
         updateNowPlaying()
         updateVideos()
         updateAudioCategories()
@@ -127,7 +130,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         (history as MutableLiveData).value = context.getFromMl { lastMediaPlayed().toMutableList() }
     }
 
-    private fun updateVideos() = launch {
+    private fun updateVideos() = viewModelScope.launch {
         context.getFromMl {
             getPagedVideos(AbstractMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
@@ -138,7 +141,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         }
     }
 
-    fun updateNowPlaying() = launch {
+    fun updateNowPlaying() = viewModelScope.launch {
         val list = mutableListOf<MediaLibraryItem>()
         PlaybackService.service.value?.run {
             currentMediaWrapper?.let {
@@ -148,7 +151,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         (nowPlaying as MutableLiveData).value = list
     }
 
-    private fun updatePlaylists() = launch {
+    private fun updatePlaylists() = viewModelScope.launch {
         context.getFromMl {
             getPagedPlaylists(AbstractMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
@@ -210,7 +213,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         ExternalMonitor.storagePlugged.removeObserver(monitorObserver)
         PlaylistManager.showAudioPlayer.removeObserver(playerObserver)
         nowPlayingDelegate.onClear()
-        cancel()
     }
 
     fun open(activity: FragmentActivity, item: Any?) {

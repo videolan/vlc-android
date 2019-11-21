@@ -54,6 +54,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.providers.HeadersIndex
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.WeakHandler
+import org.videolan.vlc.util.scope
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.max
 import kotlin.math.min
@@ -71,9 +72,8 @@ private const val ITEM_THRESHOLD = 25
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
+class FastScroller : LinearLayout, Observer<HeadersIndex> {
 
-    override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     private var currentHeight: Int = 0
     private var itemCount: Int = 0
     private var fastScrolling: Boolean = false
@@ -99,7 +99,6 @@ class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
     private var tryCollapseAppbarOnNextScroll = false
     private var tryExpandAppbarOnNextScroll = false
     private val sb = StringBuilder()
-
 
     private val handler = object : WeakHandler<FastScroller>(this) {
         override fun handleMessage(msg: Message) {
@@ -350,10 +349,9 @@ class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
         }
     }
 
-    private val actor = actor<Unit>(capacity = Channel.CONFLATED) {
+    private val actor = scope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (evt in channel) if (fastScrolling) {
             sb.setLength(0)
-
             //ItemDecoration has to be taken into account so we add 1 for the sticky header
             val position = layoutManager.findFirstVisibleItemPosition() + 1
             if (BuildConfig.DEBUG) Log.d(TAG, "findFirstVisibleItemPosition $position")

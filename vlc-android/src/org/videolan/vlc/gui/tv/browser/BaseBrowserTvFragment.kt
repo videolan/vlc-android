@@ -41,11 +41,13 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -71,7 +73,7 @@ private const val TAG = "MediaBrowserTvFragment"
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHandler,
         PopupMenu.OnMenuItemClickListener, MediaHeaderAdapter.OnHeaderSelected,
-        VerticalGridActivity.OnKeyPressedListener, CoroutineScope by MainScope() {
+        VerticalGridActivity.OnKeyPressedListener {
 
     abstract fun getTitle(): String
     abstract fun getCategory(): Long
@@ -193,11 +195,6 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         setFocus = true
     }
 
-    override fun onDestroy() {
-        cancel()
-        super.onDestroy()
-    }
-
     private fun calculateNbColumns() {
         viewModel.nbColumns = getColumnNumber()
     }
@@ -238,7 +235,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         (item as? MediaLibraryItem)?.run {
             if (currentArt == artworkMrl) return@run
             currentArt = artworkMrl
-            updateBackground(v.context, backgroundManager, this)
+            lifecycleScope.updateBackground(v.context, backgroundManager, this)
         }
     }
 
@@ -352,7 +349,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         adapter.submitList(pagedList)
         if (setFocus) {
             setFocus = false
-            launch { binding.list.requestFocus() }
+            lifecycleScope.launchWhenStarted { binding.list.requestFocus() }
         }
         animationDelegate.setVisibility(imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)

@@ -15,6 +15,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -48,7 +50,9 @@ private const val TAG_FAB_VISIBILITY = "FAB"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathAdapterListener, IPathOperationDelegate by PathOperationDelegate() {
+class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathAdapterListener,
+        IPathOperationDelegate by PathOperationDelegate()
+{
 
     private lateinit var item: MediaLibraryItem
     private lateinit var adapter: MediaInfoAdapter
@@ -97,7 +101,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         model.cover.observe(this, Observer {
             if (it != null) {
                 binding.cover = BitmapDrawable(this@InfoActivity.resources, it)
-                launch {
+                lifecycleScope.launch {
                     ViewCompat.setNestedScrollingEnabled(binding.container, true)
                     binding.appbar.setExpanded(true, true)
                     if (fabVisibility != -1) binding.fab.visibility = fabVisibility
@@ -105,7 +109,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
             } else noCoverFallback()
         })
         if (model.cover.value === null) model.getCover(item.artworkMrl, getScreenWidth())
-        launch { updateMeta() }
+        updateMeta()
         binding.directoryNotScannedButton.setOnClickListener {
             val media = item as AbstractMediaWrapper
             val parent = media.uri.toString().substring(0, media.uri.toString().lastIndexOf("/"))
@@ -115,7 +119,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         }
     }
 
-    private fun updateMeta() {
+    private fun updateMeta() = lifecycleScope.launchWhenStarted {
         var length = 0L
         val tracks = item.tracks
         val nbTracks = tracks?.size ?: 0
@@ -140,10 +144,10 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
 
                 if (isSchemeSupported(media.uri?.scheme)) {
                     binding.ariane.visibility = View.VISIBLE
-                    binding.ariane.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-                    binding.ariane.adapter = PathAdapter(this, media)
+                    binding.ariane.layoutManager = LinearLayoutManager(this@InfoActivity, LinearLayoutManager.HORIZONTAL, false)
+                    binding.ariane.adapter = PathAdapter(this@InfoActivity, media)
                     if (binding.ariane.itemDecorationCount == 0) {
-                        binding.ariane.addItemDecoration(VLCDividerItemDecoration(this, DividerItemDecoration.HORIZONTAL, ContextCompat.getDrawable(this, R.drawable.ic_divider)!!))
+                        binding.ariane.addItemDecoration(VLCDividerItemDecoration(this@InfoActivity, DividerItemDecoration.HORIZONTAL, ContextCompat.getDrawable(this@InfoActivity, R.drawable.ic_divider)!!))
                     }
                     //scheme is supported => test if the parent is scanned
                     var isScanned = false
@@ -161,15 +165,15 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
                 val nbAlbums = albums?.size ?: 0
                 binding.sizeTitleText = getString(R.string.albums)
                 binding.sizeValueText = nbAlbums.toString()
-                binding.sizeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_album))
+                binding.sizeIcon.setImageDrawable(ContextCompat.getDrawable(this@InfoActivity, R.drawable.ic_album))
                 binding.extraTitleText = getString(R.string.tracks)
                 binding.extraValueText = nbTracks.toString()
-                binding.extraIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_song))
+                binding.extraIcon.setImageDrawable(ContextCompat.getDrawable(this@InfoActivity, R.drawable.ic_song))
             }
             else -> {
                 binding.sizeTitleText = getString(R.string.tracks)
                 binding.sizeValueText = nbTracks.toString()
-                binding.sizeIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_song))
+                binding.sizeIcon.setImageDrawable(ContextCompat.getDrawable(this@InfoActivity, R.drawable.ic_song))
             }
         }
     }
@@ -222,18 +226,18 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class InfoModel : ViewModel(), CoroutineScope by MainScope() {
+class InfoModel : ViewModel() {
 
     internal val hasSubs = MutableLiveData<Boolean>()
     internal val mediaTracks = MutableLiveData<List<Media.Track>>()
     internal val sizeText = MutableLiveData<String>()
     internal val cover = MutableLiveData<Bitmap>()
 
-    internal fun getCover(mrl: String?, width: Int) = launch {
+    internal fun getCover(mrl: String?, width: Int) = viewModelScope.launch {
         cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(it), width) } }
     }
 
-    internal fun parseTracks(context: Context, mw: AbstractMediaWrapper) = launch {
+    internal fun parseTracks(context: Context, mw: AbstractMediaWrapper) = viewModelScope.launch {
         val media = withContext(Dispatchers.IO) {
             val libVlc = VLCInstance[context]
             Media(libVlc, mw.uri).apply { parse() }
@@ -252,7 +256,7 @@ class InfoModel : ViewModel(), CoroutineScope by MainScope() {
         mediaTracks.value = tracks.toList()
     }
 
-    internal fun checkFile(mw: AbstractMediaWrapper) = launch {
+    internal fun checkFile(mw: AbstractMediaWrapper) = viewModelScope.launch {
         val itemFile = withContext(Dispatchers.IO) { File(Uri.decode(mw.location.substring(5))) }
 
         if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) return@launch
@@ -296,9 +300,5 @@ class InfoModel : ViewModel(), CoroutineScope by MainScope() {
                 return@withContext
             }
         }
-    }
-
-    override fun onCleared() {
-        cancel()
     }
 }
