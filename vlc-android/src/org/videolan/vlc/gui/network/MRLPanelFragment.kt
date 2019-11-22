@@ -50,6 +50,7 @@ import org.videolan.tools.copy
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
+import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
@@ -111,33 +112,25 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
         binding.play.setOnClickListener(this)
 
-        // dialog?.setTitle(R.string.open_mrl_dialog_title)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.dataset.observe(this, Observer { adapter.setList(it as List<AbstractMediaWrapper>) })
-        viewModel.loading.observe(this, Observer {
-            (activity as? MainActivity)?.refreshing = it
-        })
+        viewModel.dataset.observe(requireActivity(), Observer { adapter.setList(it as List<AbstractMediaWrapper>) })
+        viewModel.loading.observe(requireActivity(), Observer { (activity as? MainActivity)?.refreshing = it })
     }
 
     override fun onStart() {
         super.onStart()
         viewModel.refresh()
-        val activity = activity as AppCompatActivity? ?: return
-        if (activity.supportActionBar != null) {
-            activity.supportActionBar!!.setTitle(R.string.open_mrl)
-        }
+        (activity as? ContentActivity)?.setTabLayoutVisibility(false)
+        (activity as? AppCompatActivity)?.supportActionBar?.setTitle(R.string.open_mrl)
     }
 
-
-    override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-        return (keyCode == EditorInfo.IME_ACTION_DONE ||
-                keyCode == EditorInfo.IME_ACTION_GO ||
-                event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) && processUri()
-    }
+    override fun onKey(v: View, keyCode: Int, event: KeyEvent) = (keyCode == EditorInfo.IME_ACTION_DONE ||
+            keyCode == EditorInfo.IME_ACTION_GO ||
+            event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) && processUri()
 
     private fun processUri(): Boolean {
         if (!TextUtils.isEmpty(viewModel.observableSearchText.get())) {
@@ -201,8 +194,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
                 .show()
     }
 
-
     override fun refresh() {
-        refresh()
+        viewModel.refresh()
     }
 }
