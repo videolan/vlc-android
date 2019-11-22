@@ -532,11 +532,6 @@
                 android:configChanges="orientation|screenSize"
                 android:theme="@style/VLCTransparentTheme"
                 android:label="" />
-        <activity
-                android:name=".gui.wizard.MLWizardActivity"
-                android:configChanges="orientation|screenSize"
-                android:label="@string/ml_wizard_title"
-                android:theme="@style/Theme.MaterialComponents.Light.Dialog"/>
 
         <service android:name=".extensions.ExtensionManagerService"/>
         <service android:name=".PlaybackService">
