@@ -1,5 +1,7 @@
 package org.videolan.tools
 
+import android.app.ActivityManager
+import android.app.ActivityManager.RunningAppProcessInfo
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -78,3 +80,26 @@ fun Context.copy(label: String, text: String) {
     val clipboard = applicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipboard.primaryClip = ClipData.newPlainText(label, text)
 }
+
+suspend fun retry(
+        times: Int = 3,
+        delayTime: Long = 500L,
+        block: suspend () -> Boolean): Boolean {
+    repeat(times - 1) {
+        if (block()) return true
+        if (delayTime > 0L) delay(delayTime)
+    }
+    return block() // last attempt
+}
+
+suspend fun Context.awaitAppIsForegroung(): Boolean {
+    val activityManager = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+            ?: return false
+    repeat(times = 2) {
+        if (activityManager.isAppForeground()) return true
+        else yield() //dispatch next try
+    }
+    return activityManager.isAppForeground()
+}
+
+private fun ActivityManager.isAppForeground() = runningAppProcesses[0].importance <= RunningAppProcessInfo.IMPORTANCE_FOREGROUND

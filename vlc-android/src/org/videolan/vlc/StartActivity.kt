@@ -26,16 +26,17 @@ package org.videolan.vlc
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.vlc.gui.BetaWelcomeActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SearchActivity
@@ -54,7 +55,7 @@ private const val SEND_CRASH_RESULT = 0
 private const val TAG = "VLC/StartActivity"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class StartActivity : FragmentActivity() {
+class StartActivity : FragmentActivity(), CoroutineScope by MainScope() {
 
     private val idFromShortcut: Int
         get() {
@@ -195,15 +196,21 @@ class StartActivity : FragmentActivity() {
         }
     }
 
-    private fun startPlaybackFromApp(intent: Intent) {
+    private fun startPlaybackFromApp(intent: Intent) = launch(start = CoroutineStart.UNDISPATCHED) {
+        // workaround for a Android 9 bug
+        // https://issuetracker.google.com/issues/113122354
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.P && !awaitAppIsForegroung()) {
+            finish()
+            return@launch
+        }
         if (intent.type?.startsWith("video") == true) {
             try {
-                startActivity(intent.setClass(this, VideoPlayerActivity::class.java))
+                startActivity(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java))
             } catch (ex: SecurityException) {
-                intent.data.let { MediaUtils.openMediaNoUi(it) }
+                intent.data?.let { MediaUtils.openMediaNoUi(it) }
             }
         } else
-            intent.data.let { MediaUtils.openMediaNoUi(it) }
+            intent.data?.let { MediaUtils.openMediaNoUi(it) }
         finish()
     }
 

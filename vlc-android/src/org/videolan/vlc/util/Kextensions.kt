@@ -60,18 +60,6 @@ inline fun <reified T : ViewModel> Fragment.getModelWithActivity() = ViewModelPr
 inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
 inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
 
-suspend fun retry (
-        times: Int = 3,
-        delayTime: Long = 500L,
-        block: suspend () -> Boolean): Boolean
-{
-    repeat(times - 1) {
-        if (block()) return true
-        delay(delayTime)
-    }
-    return block() // last attempt
-}
-
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
 fun AbstractMediaWrapper?.isMedia() = this != null && (type == AbstractMediaWrapper.TYPE_AUDIO || type == AbstractMediaWrapper.TYPE_VIDEO)
 fun AbstractMediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == AbstractMediaWrapper.TYPE_DIR || type == AbstractMediaWrapper.TYPE_PLAYLIST)
