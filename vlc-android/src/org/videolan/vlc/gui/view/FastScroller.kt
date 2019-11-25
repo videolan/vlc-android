@@ -359,10 +359,12 @@ class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
             if (BuildConfig.DEBUG) Log.d(TAG, "findFirstVisibleItemPosition $position")
             val pos = provider.getPositionForSection(position)
             val sectionforPosition = provider.getSectionforPosition(pos)
-            sb.append(' ')
-                    .append(sectionforPosition)
-                    .append(' ')
-            if (!sectionforPosition.isEmpty()) bubble.text = sb.toString()
+            if (sectionforPosition.isNotEmpty()) bubble.text = withContext(Dispatchers.Default) {
+                sb.append(' ')
+                        .append(sectionforPosition)
+                        .append(' ')
+                        .toString()
+            }
             delay(100L)
         }
     }
