@@ -772,4 +772,5 @@
     <string name="season_number">Season %s</string>
     <string name="resume_episode">Resume (%s)</string>
     <string name="start_over">Start over</string>
+    <string name="next_episode">Next episode</string>
 </resources>

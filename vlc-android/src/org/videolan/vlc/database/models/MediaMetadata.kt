@@ -77,7 +77,7 @@ data class MediaMetadata(
         @ColumnInfo(name = "current_backdrop")
         var currentBackdrop: String,
         @ColumnInfo(name = "show_id")
-        var show_id: String?,
+        var showId: String?,
         @ColumnInfo(name = "has_cast")
         var hasCast: Boolean
 

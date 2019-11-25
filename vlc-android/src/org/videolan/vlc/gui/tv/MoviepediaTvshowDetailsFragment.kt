@@ -146,7 +146,7 @@ class MoviepediaTvshowDetailsFragment : DetailsSupportFragment(), CoroutineScope
                     val media = item.media
                             ?: item.metadata.mlId?.let { requireActivity().getFromMl { getMedia(it) } }
                     media?.let {
-                        TvUtil.playMedia(requireActivity(), it)
+                        TvUtil.showMediaDetail(requireActivity(), it)
                     }
                 }
             }

@@ -75,6 +75,9 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     fun getMetadataLiveByML(mediaId: Long): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMetadataLiveByML(mediaId)
 
     @WorkerThread
+    fun findNextEpisode(showId: String, season: Int, episode: Int): MediaMetadataWithImages? = mediaMetadataFullDao.findNextEpisode(showId, season, episode)
+
+    @WorkerThread
     fun getMetadataLive(mediaId: String): LiveData<MediaMetadataWithImages?> = mediaMetadataFullDao.getMediaLive(mediaId)
 
     @WorkerThread

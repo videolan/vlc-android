@@ -26,6 +26,7 @@ package org.videolan.vlc.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.*
@@ -40,6 +41,7 @@ import org.videolan.vlc.util.getFromMl
 class MediaMetadataModel(private val context: Context, mlId: Long? = null, moviepediaId: String? = null) : ViewModel(), CoroutineScope by MainScope() {
 
     val updateLiveData: MediatorLiveData<MediaMetadataFull> = MediatorLiveData()
+    val nextEpisode: MutableLiveData<MediaMetadataWithImages> = MutableLiveData()
     private val updateActor = actor<MediaMetadataFull>(capacity = Channel.CONFLATED) {
         for (entry in channel) {
             updateLiveData.value = entry
@@ -55,6 +57,22 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
             updateLiveData.addSource(metadata) { mediaMetadataWithImages ->
                 mediaMetadataFull.metadata = mediaMetadataWithImages
                 updateActor.offer(mediaMetadataFull)
+                if (mediaMetadataFull.metadata?.metadata?.type == MediaMetadataType.TV_EPISODE) {
+                    //look for a next episode
+                    mediaMetadataFull.metadata?.show?.let {
+                        if (mediaMetadataFull.metadata!!.metadata.showId != null && mediaMetadataFull.metadata!!.metadata.season != null && mediaMetadataFull.metadata!!.metadata.episode != null) {
+                            launch {
+                                val metadataWithImages = withContext(Dispatchers.IO) { MediaMetadataRepository.getInstance(context).findNextEpisode(mediaMetadataFull.metadata!!.metadata.showId!!, mediaMetadataFull.metadata!!.metadata.season!!, mediaMetadataFull.metadata!!.metadata.episode!!) }
+                                metadataWithImages?.metadata?.mlId?.let {
+
+                                    val fromMl = context.getFromMl { getMedia(it) }
+                                    metadataWithImages.media = fromMl
+                                    nextEpisode.postValue(metadataWithImages)
+                                }
+                            }
+                        }
+                    }
+                }
                 mediaMetadataWithImages?.metadata?.let {
                     launch {
                         if (!it.hasCast && it.mlId != null) {

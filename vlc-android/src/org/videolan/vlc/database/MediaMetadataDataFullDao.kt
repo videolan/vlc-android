@@ -65,6 +65,9 @@ interface MediaMetadataDataFullDao {
     @Query("select * from media_metadata")
     fun getAllLive(): LiveData<List<MediaMetadataWithImages>>
 
+    @Query("SELECT * FROM media_metadata WHERE show_id = :showId AND ((season = :season AND episode > :episode) OR (season > :season)) ORDER BY season, episode ASC")
+    fun findNextEpisode(showId: String, season: Int, episode: Int): MediaMetadataWithImages?
+
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    fun insert(mediaMetadataFull: MediaMetadataFull)
 

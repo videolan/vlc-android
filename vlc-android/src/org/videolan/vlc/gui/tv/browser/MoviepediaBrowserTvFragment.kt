@@ -115,7 +115,6 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
     override fun onClick(v: View, position: Int, item: MediaMetadataWithImages) {
         when (item.metadata.type) {
             MediaMetadataType.TV_SHOW -> {
-                //todo moviepedia we have to create a new DetailFragment that display the TV show info + a line by season
                 val intent = Intent(activity, MoviepediaTvshowDetailsActivity::class.java)
                 intent.putExtra(TV_SHOW_ID, item.metadata.moviepediaId)
                 requireActivity().startActivity(intent)
@@ -134,7 +133,6 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
     override fun onLongClick(v: View, position: Int, item: MediaMetadataWithImages): Boolean {
         when (item.metadata.type) {
             MediaMetadataType.TV_SHOW -> {
-                //todo moviepedia we have to create a new DetailFragment that display the TV show info + a line by season
                 val intent = Intent(activity, MoviepediaTvshowDetailsActivity::class.java)
                 intent.putExtra(TV_SHOW_ID, item.metadata.moviepediaId)
                 requireActivity().startActivity(intent)

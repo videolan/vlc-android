@@ -62,14 +62,16 @@ import org.videolan.vlc.viewmodels.MediaMetadataModel
 
 private const val TAG = "MediaItemDetailsFragment"
 private const val ID_PLAY = 1
-private const val ID_LISTEN = 2
-private const val ID_FAVORITE_ADD = 3
-private const val ID_FAVORITE_DELETE = 4
-private const val ID_BROWSE = 5
-private const val ID_DL_SUBS = 6
-private const val ID_PLAY_FROM_START = 7
-private const val ID_PLAYLIST = 8
-private const val ID_GET_INFO = 9
+private const val ID_NEXT_EPISODE = 2
+private const val ID_LISTEN = 3
+private const val ID_FAVORITE_ADD = 4
+private const val ID_FAVORITE_DELETE = 5
+private const val ID_BROWSE = 6
+private const val ID_DL_SUBS = 7
+private const val ID_PLAY_FROM_START = 8
+private const val ID_PLAYLIST = 9
+private const val ID_GET_INFO = 10
+private const val ID_FAVORITE = 11
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -87,6 +89,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
     private lateinit var arrayObjectAdapterPosters: ArrayObjectAdapter
     private var mediaStarted: Boolean = false
     private val viewModel: MediaItemDetailsModel by activityViewModels()
+    private val actionsAdapter = SparseArrayObjectAdapter()
 
     private val imageDiffCallback = object : DiffCallback<MediaImage>() {
         override fun areItemsTheSame(oldItem: MediaImage, newItem: MediaImage) = oldItem.url == newItem.url
@@ -109,7 +112,6 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         detailsDescriptionPresenter = DetailsDescriptionPresenter()
         arrayObjectAdapterPosters = ArrayObjectAdapter(MediaImageCardPresenter(requireActivity(), MediaImageType.POSTER))
 
-
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
         viewModel.mediaItemDetails = extras.getParcelable("item") ?: return
         val hasMedia = extras.containsKey("media")
@@ -129,6 +131,13 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
 
         mediaMetadataModel.updateLiveData.observe(this, Observer {
             updateMetadata(it)
+        })
+
+        mediaMetadataModel.nextEpisode.observe(this, Observer {
+            if (it != null) {
+                actionsAdapter.set(ID_NEXT_EPISODE, Action(ID_NEXT_EPISODE.toLong(), getString(R.string.next_episode)))
+                actionsAdapter.notifyArrayItemRangeChanged(0, actionsAdapter.size())
+            }
         })
         onItemViewClickedListener = this
     }
@@ -298,15 +307,13 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     else
                         browserFavRepository.addNetworkFavItem(uri, viewModel.mediaItemDetails.title
                                 ?: "", viewModel.mediaItemDetails.artworkUrl)
-                    detailsOverview.removeAction(actionAdd)
-                    detailsOverview.addAction(actionDelete)
+                    actionsAdapter.set(ID_FAVORITE, actionDelete)
                     rowsAdapter.notifyArrayItemRangeChanged(0, rowsAdapter.size())
                     Toast.makeText(activity, R.string.favorite_added, Toast.LENGTH_SHORT).show()
                 }
                 ID_FAVORITE_DELETE -> {
                     browserFavRepository.deleteBrowserFav(Uri.parse(viewModel.mediaItemDetails.location))
-                    detailsOverview.removeAction(actionDelete)
-                    detailsOverview.addAction(actionAdd)
+                    actionsAdapter.set(ID_FAVORITE, actionAdd)
                     rowsAdapter.notifyArrayItemRangeChanged(0, rowsAdapter.size())
                     Toast.makeText(activity, R.string.favorite_removed, Toast.LENGTH_SHORT).show()
                 }
@@ -318,6 +325,10 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     activity.finish()
                 }
                 ID_GET_INFO -> startActivity(Intent(requireActivity(), MoviepediaTvActivity::class.java).apply { putExtra(MoviepediaTvActivity.MEDIA, viewModel.media) })
+                ID_NEXT_EPISODE -> mediaMetadataModel.nextEpisode.value?.media?.let {
+                    TvUtil.showMediaDetail(requireActivity(), it)
+                    requireActivity().finish()
+                }
             }
         }
         selector.addClassPresenter(DetailsOverviewRow::class.java, rowPresenter)
@@ -340,8 +351,8 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 else
                     R.drawable.ic_menu_network_big)
                 detailsOverview.isImageScaleUpAllowed = true
-                detailsOverview.addAction(Action(ID_BROWSE.toLong(), res.getString(R.string.browse_folder)))
-                if (canSave) detailsOverview.addAction(if (browserFavExists) actionDelete else actionAdd)
+                actionsAdapter.set(ID_BROWSE, Action(ID_BROWSE.toLong(), res.getString(R.string.browse_folder)))
+                if (canSave) actionsAdapter.set(ID_FAVORITE, if (browserFavExists) actionDelete else actionAdd)
             } else if (viewModel.media.type == AbstractMediaWrapper.TYPE_AUDIO) {
                 // Add images and action buttons to the details view
                 if (cover == null) {
@@ -349,9 +360,10 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 } else {
                     detailsOverview.setImageBitmap(context, cover)
                 }
-                detailsOverview.addAction(Action(ID_PLAY.toLong(), res.getString(R.string.play)))
-                detailsOverview.addAction(Action(ID_LISTEN.toLong(), res.getString(R.string.listen)))
-                detailsOverview.addAction(Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
+
+                actionsAdapter.set(ID_PLAY, Action(ID_PLAY.toLong(), res.getString(R.string.play)))
+                actionsAdapter.set(ID_LISTEN, Action(ID_LISTEN.toLong(), res.getString(R.string.listen)))
+                actionsAdapter.set(ID_PLAYLIST, Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
             } else if (viewModel.media.type == AbstractMediaWrapper.TYPE_VIDEO) {
                 // Add images and action buttons to the details view
                 if (cover == null) {
@@ -359,14 +371,15 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 } else {
                     detailsOverview.setImageBitmap(context, cover)
                 }
-                detailsOverview.addAction(Action(ID_PLAY.toLong(), res.getString(R.string.play)))
-                detailsOverview.addAction(Action(ID_PLAY_FROM_START.toLong(), res.getString(R.string.play_from_start)))
+                actionsAdapter.set(ID_PLAY, Action(ID_PLAY.toLong(), res.getString(R.string.play)))
+                actionsAdapter.set(ID_PLAY_FROM_START, Action(ID_PLAY_FROM_START.toLong(), res.getString(R.string.play_from_start)))
                 if (FileUtils.canWrite(viewModel.media.uri))
-                    detailsOverview.addAction(Action(ID_DL_SUBS.toLong(), res.getString(R.string.download_subtitles)))
-                detailsOverview.addAction(Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
-                detailsOverview.addAction(Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
+                    actionsAdapter.set(ID_DL_SUBS, Action(ID_DL_SUBS.toLong(), res.getString(R.string.download_subtitles)))
+                actionsAdapter.set(ID_PLAYLIST, Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
+                actionsAdapter.set(ID_GET_INFO, Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
             }
             adapter = rowsAdapter
+            detailsOverview.actionsAdapter = actionsAdapter
             //    updateMetadata(mediaMetadataModel.updateLiveData.value)
         }
     }
