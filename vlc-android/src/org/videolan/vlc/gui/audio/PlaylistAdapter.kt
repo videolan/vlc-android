@@ -32,6 +32,7 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -106,6 +107,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
         val media = getItem(position)
         holder.binding.media = media
         holder.binding.subTitle = MediaUtils.getMediaSubtitle(media)
+        holder.binding.scaleType = ImageView.ScaleType.CENTER_CROP
         if (currentIndex == position) {
             if (mModel?.playing != false) holder.binding.playing.start() else holder.binding.playing.stop()
             holder.binding.playing.visibility = View.VISIBLE
