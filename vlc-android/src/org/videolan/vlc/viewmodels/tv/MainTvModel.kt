@@ -27,12 +27,9 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
@@ -41,7 +38,6 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.vlc.database.models.MediaMetadata
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.tv.*
@@ -68,6 +64,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
     val settings = Settings.getInstance(context)
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
+    private val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
     private var updatedFavoritList: List<AbstractMediaWrapper> = listOf()
     var showHistory = false
         private set
@@ -79,8 +76,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
     val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val history: LiveData<List<AbstractMediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val movies: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
-    val tvshows: MediatorLiveData<List<MediaMetadata>> = MediatorLiveData()
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
 
@@ -101,6 +96,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
 
     private val playerObserver = Observer<Boolean> { updateAudioCategories() }
 
+    private val videoObserver = Observer<Any> { updateVideos() }
+
     init {
         medialibrary.addOnMedialibraryReadyListener(this)
         medialibrary.addOnDeviceChangeListener(this)
@@ -109,6 +106,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         ExternalMonitor.storageUnplugged.observeForever(monitorObserver)
         ExternalMonitor.storagePlugged.observeForever(monitorObserver)
         PlaylistManager.showAudioPlayer.observeForever(playerObserver)
+        mediaMetadataRepository.getAllLive().observeForever(videoObserver)
+
     }
 
     fun refresh() = viewModelScope.launch {
@@ -134,8 +133,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
     }
 
     private fun updateVideos() = viewModelScope.launch {
-        val allMovies = withContext(Dispatchers.IO) { MediaMetadataRepository.getInstance(context).getMovieCount() }
-        val allTvshows = withContext(Dispatchers.IO) { MediaMetadataRepository.getInstance(context).getTvshowsCount() }
+        val allMovies = withContext(Dispatchers.IO) { mediaMetadataRepository.getMovieCount() }
+        val allTvshows = withContext(Dispatchers.IO) { mediaMetadataRepository.getTvshowsCount() }
         context.getFromMl {
             getPagedVideos(AbstractMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
@@ -260,7 +259,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
             }
             is MediaMetadataWithImages -> {
                 item.metadata.mlId?.let {
-                    launch {
+                    viewModelScope.launch {
                         context.getFromMl {
                             getMedia(it)
                         }.let {

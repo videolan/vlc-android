@@ -57,6 +57,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
+import org.videolan.vlc.moviepedia.MoviepediaIndexer
 import org.videolan.vlc.moviepedia.models.identify.Media
 import org.videolan.vlc.moviepedia.models.identify.getAllResults
 import org.videolan.vlc.viewmodels.MoviepediaModel
@@ -77,7 +78,7 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
             if (item is Media) {
                 launch {
                     withContext(Dispatchers.IO) {
-                        viewModel.saveMediaMetadata(requireActivity(), media, item)
+                        MoviepediaIndexer.saveMediaMetadata(requireActivity(), media, item)
                     }
                     requireActivity().finish()
                 }

@@ -117,6 +117,8 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
         }
     }
 
+    override fun isEmpty() = currentList?.isEmpty() != false
+
     override fun setOnFocusChangeListener(focusListener: FocusableRecyclerView.FocusListener?) {
         this.focusListener = focusListener
     }
@@ -185,6 +187,7 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
         init {
             binding.holder = this
             if (defaultCover != null) binding.cover = defaultCover
+            binding.scaleType = ImageView.ScaleType.FIT_CENTER
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
                     onMoreClick(v)
@@ -213,6 +216,7 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
 
         override fun recycle() {
             if (defaultCover != null) binding.cover = defaultCover
+            binding.scaleType = ImageView.ScaleType.FIT_CENTER
             binding.title.text = ""
             binding.subtitle.text = ""
             binding.mediaCover.resetFade()

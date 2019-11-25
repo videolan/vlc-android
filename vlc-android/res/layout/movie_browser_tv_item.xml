@@ -110,7 +110,7 @@
                 tools:srcCompat="@drawable/ic_album_big"
                 vlc:layout_constraintDimensionRatio="2:3"
                 android:src="@{cover}"
-                android:scaleType="centerCrop"
+                android:scaleType="@{scaleType}"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"

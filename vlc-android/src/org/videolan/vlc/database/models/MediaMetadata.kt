@@ -77,11 +77,14 @@ data class MediaMetadata(
         @ColumnInfo(name = "current_backdrop")
         var currentBackdrop: String,
         @ColumnInfo(name = "show_id")
-        var show_id: String?
+        var show_id: String?,
+        @ColumnInfo(name = "has_cast")
+        var hasCast: Boolean
 
 )
 
-fun MediaMetadata.getYear() = SimpleDateFormat("yyyy", Locale.getDefault()).format(releaseDate)
+fun MediaMetadata.getYear() = releaseDate?.let { SimpleDateFormat("yyyy", Locale.getDefault()).format(it) }
+        ?: ""
 class MediaMetadataWithImages {
     @Embedded
     lateinit var metadata: MediaMetadata

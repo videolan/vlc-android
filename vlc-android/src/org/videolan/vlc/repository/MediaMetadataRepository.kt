@@ -94,6 +94,8 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
         return mediaMetadataFullDao.getAllPaged(query)
     }
 
+    fun getAllLive(): LiveData<List<MediaMetadataWithImages>> = mediaMetadataFullDao.getAllLive()
+
     fun getTvshow(showId: String) = mediaMetadataFullDao.getMediaById(showId)
 
     fun getTvshowLive(showId: String) = mediaMetadataFullDao.getMediaByIdLive(showId)

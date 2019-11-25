@@ -32,6 +32,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.vlc.database.models.*
+import org.videolan.vlc.moviepedia.MoviepediaIndexer
 import org.videolan.vlc.repository.MediaMetadataRepository
 import org.videolan.vlc.repository.MediaPersonRepository
 import org.videolan.vlc.util.getFromMl
@@ -55,25 +56,30 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
                 mediaMetadataFull.metadata = mediaMetadataWithImages
                 updateActor.offer(mediaMetadataFull)
                 mediaMetadataWithImages?.metadata?.let {
-                    updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.ACTOR)) { persons ->
-                        mediaMetadataFull.actors = persons
-                        updateActor.offer(mediaMetadataFull)
-                    }
-                    updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.WRITER)) { persons ->
-                        mediaMetadataFull.writers = persons
-                        updateActor.offer(mediaMetadataFull)
-                    }
-                    updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.PRODUCER)) { persons ->
-                        mediaMetadataFull.producers = persons
-                        updateActor.offer(mediaMetadataFull)
-                    }
-                    updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.MUSICIAN)) { persons ->
-                        mediaMetadataFull.musicians = persons
-                        updateActor.offer(mediaMetadataFull)
-                    }
-                    updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.DIRECTOR)) { persons ->
-                        mediaMetadataFull.directors = persons
-                        updateActor.offer(mediaMetadataFull)
+                    launch {
+                        if (!it.hasCast && it.mlId != null) {
+                            withContext(Dispatchers.IO) { MoviepediaIndexer.retrieveCasting(context, it) }
+                        }
+                        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.ACTOR)) { persons ->
+                            mediaMetadataFull.actors = persons
+                            updateActor.offer(mediaMetadataFull)
+                        }
+                        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.WRITER)) { persons ->
+                            mediaMetadataFull.writers = persons
+                            updateActor.offer(mediaMetadataFull)
+                        }
+                        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.PRODUCER)) { persons ->
+                            mediaMetadataFull.producers = persons
+                            updateActor.offer(mediaMetadataFull)
+                        }
+                        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.MUSICIAN)) { persons ->
+                            mediaMetadataFull.musicians = persons
+                            updateActor.offer(mediaMetadataFull)
+                        }
+                        updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.DIRECTOR)) { persons ->
+                            mediaMetadataFull.directors = persons
+                            updateActor.offer(mediaMetadataFull)
+                        }
                     }
                 }
 

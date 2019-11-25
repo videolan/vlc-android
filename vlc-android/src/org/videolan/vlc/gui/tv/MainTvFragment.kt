@@ -154,20 +154,20 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private fun registerDatasets() {
-        model.browsers.observe(viewLifecycleOwner, Observer {
+        model.browsers.observe(requireActivity(), Observer {
             browserAdapter.setItems(it, diffCallback)
         })
-        model.audioCategories.observe(viewLifecycleOwner, Observer {
+        model.audioCategories.observe(requireActivity(), Observer {
             categoriesAdapter.setItems(it.toList(), diffCallback)
         })
-        model.videos.observe(viewLifecycleOwner, Observer {
+        model.videos.observe(requireActivity(), Observer {
             videoAdapter.setItems(it, diffCallback)
         })
-        model.nowPlaying.observe(viewLifecycleOwner, Observer {
+        model.nowPlaying.observe(requireActivity(), Observer {
             displayNowPlaying = it.isNotEmpty()
             nowPlayingAdapter.setItems(it, diffCallback)
         })
-        model.history.observe(viewLifecycleOwner, Observer {
+        model.history.observe(requireActivity(), Observer {
             displayHistory = it.isNotEmpty()
             if (it.isNotEmpty()) {
                 historyAdapter.setItems(it, diffCallback)
@@ -175,22 +175,11 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             resetLines()
         })
 
-        model.playlist.observe(viewLifecycleOwner, Observer {
+        model.playlist.observe(requireActivity(), Observer {
             displayPlaylist = it.isNotEmpty()
             playlistAdapter.setItems(it, diffCallback)
             resetLines()
 
-        })
-        model.tvshows.observe(this, Observer {
-            if (it.size > 0) {
-                videoAdapter.add(2, GenericCardItem(ID_ALL_TVSHOWS, getString(R.string.header_tvshows), getString(R.string.movie_count, it.size.toString()), R.drawable.ic_browser_video_big_normal, R.color.tv_card_content_dark))
-            } else {
-
-            }
-            resetLines()
-        })
-        model.movies.observe(this, Observer {
-            videoAdapter.add(1, GenericCardItem(ID_ALL_MOVIES, getString(R.string.header_movies), getString(R.string.movie_count, it.size.toString()), R.drawable.ic_browser_video_big_normal, R.color.tv_card_content_dark))
         })
     }
 

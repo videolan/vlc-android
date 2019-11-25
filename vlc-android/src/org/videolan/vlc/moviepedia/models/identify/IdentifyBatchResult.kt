@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  ScrobbleBody.kt
+ *  IdentifyBatch.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -22,25 +22,13 @@
  *
  */
 
-package org.videolan.vlc.moviepedia.models.body
+package org.videolan.vlc.moviepedia.models.identify
 
-data class ScrobbleBody(
-        val osdbhash: String? = null,
-        val infohash: String? = null,
-        val imdbId: String? = null,
-        val dvdId: String? = null,
-        val title: String? = null,
-        val alternativeTitles: String? = null,
-        val filename: String? = null,
-        val show: String? = null,
-        val year: String? = null,
-        val season: String? = null,
-        val episode: String? = null,
-        val duration: String? = null
-)
+import com.squareup.moshi.Json
 
-data class ScrobbleBodyBatch(
+data class IdentifyBatchResult(
+        @Json(name = "id")
         val id: String,
-        val metadata: ScrobbleBody
+        @Json(name = "lucky")
+        val lucky: Media?
 )
-

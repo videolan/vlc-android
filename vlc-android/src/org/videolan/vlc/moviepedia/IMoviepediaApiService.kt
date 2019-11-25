@@ -25,6 +25,8 @@
 package org.videolan.vlc.moviepedia
 
 import org.videolan.vlc.moviepedia.models.body.ScrobbleBody
+import org.videolan.vlc.moviepedia.models.body.ScrobbleBodyBatch
+import org.videolan.vlc.moviepedia.models.identify.IdentifyBatchResult
 import org.videolan.vlc.moviepedia.models.identify.IdentifyResult
 import org.videolan.vlc.moviepedia.models.identify.Media
 import org.videolan.vlc.moviepedia.models.media.MoviepediaResults
@@ -37,6 +39,9 @@ interface IMoviepediaApiService {
 
     @POST("search-media/identify")
     suspend fun searchMedia(@Body body: ScrobbleBody): IdentifyResult
+
+    @POST("search-media/batchidentify")
+    suspend fun searchMediaBatch(@Body body: List<ScrobbleBodyBatch>): List<IdentifyBatchResult>
 
     @GET("media/{media}")
     suspend fun getMedia(@Path("media") mediaId: String): Media

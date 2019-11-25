@@ -59,6 +59,8 @@ class MoviepediaBrowserViewModel(context: Context, val category: Long) : Sortabl
         provider.refresh()
     }
 
+    override fun isEmpty() = provider.pagedList.value?.isEmpty() != false
+
     override var currentItem: MediaMetadataWithImages? = null
 
     override var nbColumns = 0

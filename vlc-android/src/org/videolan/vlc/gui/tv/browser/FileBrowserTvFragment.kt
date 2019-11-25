@@ -59,7 +59,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun getColumnNumber() = resources.getInteger(R.integer.tv_songs_col_count)
 
     companion object {
-        fun newInstance(type: Long, item: MediaLibraryItem?, root : Boolean = false) =
+        fun newInstance(type: Long, item: MediaLibraryItem?, root: Boolean = false) =
                 FileBrowserTvFragment().apply {
                     arguments = Bundle().apply {
                         this.putLong(CATEGORY, type)
@@ -125,7 +125,6 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         (viewModel as BrowserModel).getDescriptionUpdate().observe(this, Observer { pair ->
             if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first)
         })
-
     }
 
     override fun onStart() {

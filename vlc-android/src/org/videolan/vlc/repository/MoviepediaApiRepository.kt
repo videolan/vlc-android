@@ -30,6 +30,8 @@ import kotlinx.coroutines.withContext
 import org.videolan.vlc.moviepedia.IMoviepediaApiService
 import org.videolan.vlc.moviepedia.NextApiClient
 import org.videolan.vlc.moviepedia.models.body.ScrobbleBody
+import org.videolan.vlc.moviepedia.models.body.ScrobbleBodyBatch
+import org.videolan.vlc.moviepedia.models.identify.IdentifyBatchResult
 import org.videolan.vlc.moviepedia.models.identify.IdentifyResult
 import org.videolan.vlc.util.FileUtils
 import java.io.File
@@ -42,6 +44,19 @@ class MoviepediaApiRepository(private val moviepediaApiService: IMoviepediaApiSe
         val hash = withContext(Dispatchers.IO){ FileUtils.computeHash(File(uri.path)) }
         val scrobbleBody = ScrobbleBody(filename = uri.lastPathSegment, osdbhash = hash)
         return moviepediaApiService.searchMedia(scrobbleBody)
+    }
+
+    suspend fun searchMediaBatch(uris: HashMap<Long, Uri>): List<IdentifyBatchResult> {
+        val body = ArrayList<ScrobbleBodyBatch>()
+        uris.forEach { uri ->
+            val hash = withContext(Dispatchers.IO) { FileUtils.computeHash(File(uri.value.path)) }
+            val scrobbleBody = ScrobbleBody(filename = uri.value.lastPathSegment, osdbhash = hash)
+
+            val scrobbleBodyBatch = ScrobbleBodyBatch(id = uri.key.toString(), metadata = scrobbleBody)
+            body.add(scrobbleBodyBatch)
+        }
+
+        return moviepediaApiService.searchMediaBatch(body)
     }
 
     suspend fun searchTitle(title: String) = moviepediaApiService.searchMedia(ScrobbleBody(title = title, filename = title))

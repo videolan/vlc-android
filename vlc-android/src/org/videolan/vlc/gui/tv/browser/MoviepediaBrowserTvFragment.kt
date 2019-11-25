@@ -28,11 +28,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.MediaMetadataType
@@ -122,7 +122,7 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
             }
             else -> {
                 item.metadata.mlId?.let {
-                    launch {
+                    lifecycleScope.launchWhenStarted {
                         val media = requireActivity().getFromMl { getMedia(it) }
                         TvUtil.showMediaDetail(requireActivity(), media)
                     }
@@ -141,7 +141,7 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
             }
             else -> {
                 item.metadata.mlId?.let {
-                    launch {
+                    lifecycleScope.launchWhenStarted {
                         val media = requireActivity().getFromMl { getMedia(it) }
                         TvUtil.showMediaDetail(requireActivity(), media)
                     }

@@ -62,6 +62,9 @@ interface MediaMetadataDataFullDao {
     @RawQuery(observedEntities = [MediaMetadataWithImages::class])
     fun getAllPaged(query: SupportSQLiteQuery): DataSource.Factory<Int, MediaMetadataWithImages>
 
+    @Query("select * from media_metadata")
+    fun getAllLive(): LiveData<List<MediaMetadataWithImages>>
+
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    fun insert(mediaMetadataFull: MediaMetadataFull)
 
