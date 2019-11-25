@@ -66,18 +66,6 @@ inline fun <reified T : ViewModel> Fragment.getModelWithActivity() = ViewModelPr
 inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
 inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
 
-suspend fun retry (
-        times: Int = 3,
-        delayTime: Long = 500L,
-        block: suspend () -> Boolean): Boolean
-{
-    repeat(times - 1) {
-        if (block()) return true
-        delay(delayTime)
-    }
-    return block() // last attempt
-}
-
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
 suspend fun AppCompatActivity.share(media: AbstractMediaWrapper) {
     val intentShareFile = Intent(Intent.ACTION_SEND)

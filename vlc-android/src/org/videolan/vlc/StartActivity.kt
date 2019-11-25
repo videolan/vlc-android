@@ -26,6 +26,7 @@ package org.videolan.vlc
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -35,6 +36,7 @@ import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.vlc.gui.BetaWelcomeActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SearchActivity
@@ -196,6 +198,12 @@ class StartActivity : FragmentActivity(), CoroutineScope by MainScope() {
     }
 
     private fun startPlaybackFromApp(intent: Intent) = launch(start = CoroutineStart.UNDISPATCHED) {
+        // workaround for a Android 9 bug
+        // https://issuetracker.google.com/issues/113122354
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.P && !awaitAppIsForegroung()) {
+            finish()
+            return@launch
+        }
         if (Permissions.canReadStorage(applicationContext) || getStoragePermission()) when {
             intent.type?.startsWith("video") == true -> try {
                 startActivity(intent.setClass(this@StartActivity, VideoPlayerActivity::class.java))
