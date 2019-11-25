@@ -26,14 +26,13 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper.TYPE_ALL
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.R
 import org.videolan.vlc.startMedialibrary
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
 import kotlin.coroutines.resume
-
-
 
 //object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManager.getDefaultSharedPreferences(it) })
 
@@ -142,7 +141,7 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
         view.visibility = View.GONE
         return
     }
-    val text = if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) view.context.getString(R.string.track_number, item.tracksCount) else item.description
+    val text = if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) view.context.getString(R.string.track_number, item.tracksCount.toString()) else item.description
     if (text.isNullOrEmpty()) {
         view.visibility = View.GONE
         return
