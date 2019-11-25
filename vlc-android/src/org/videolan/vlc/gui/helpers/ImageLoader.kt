@@ -34,6 +34,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.ActivityMediaListTvBinding
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
+import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.HttpImageLoader
@@ -227,7 +228,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
 
-private fun isCard(binding: ViewDataBinding?) = binding is AudioBrowserCardItemBinding
+private fun isCard(binding: ViewDataBinding?) = binding is AudioBrowserCardItemBinding || binding is PlaylistItemBinding
 
 private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, width: Int) {
     var bindChanged = false
