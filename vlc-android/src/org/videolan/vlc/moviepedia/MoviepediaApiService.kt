@@ -33,13 +33,13 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.api.ConnectivityInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-private const val USER_AGENT = "VLSub 0.9"
+private const val USER_AGENT = "VLC-Android"
 
 private fun buildClient() =
         Retrofit.Builder()
@@ -67,23 +67,6 @@ private class UserAgentInterceptor(val userAgent: String) : Interceptor {
                 .build()
         return chain.proceed(userAgentRequest)
     }
-}
-
-private class ConnectivityInterceptor : Interceptor {
-
-    @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response {
-        //if (!ExternalMonitor.isConnected) throw NoConnectivityException()
-
-        val builder = chain.request().newBuilder()
-        return chain.proceed(builder.build())
-    }
-}
-
-class NoConnectivityException : IOException() {
-
-    override val message: String?
-        get() = "No connectivity exception"
 }
 
 interface NextApiClient {

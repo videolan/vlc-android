@@ -21,7 +21,6 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
@@ -33,7 +32,11 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper.TYPE_VIDE
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
+import org.videolan.vlc.api.NoConnectivityException
+import org.videolan.vlc.gui.tv.browser.REQUEST_CODE_NO_CONNECTION
+import org.videolan.vlc.gui.tv.dialogs.ConfirmationTvActivity
 import org.videolan.vlc.startMedialibrary
+import org.videolan.vlc.util.Settings.showTvUi
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
@@ -211,3 +214,18 @@ fun generateResolutionClass(width: Int, height: Int) : String? = if (width <= 0 
 
 val View.scope : CoroutineScope
     get() = context as? CoroutineScope ?: AppScope
+
+fun Activity.manageHttpException(e: Exception) {
+    when (e) {
+        is NoConnectivityException -> {
+            if (showTvUi) {
+                val intent = Intent(this, ConfirmationTvActivity::class.java)
+                intent.putExtra(ConfirmationTvActivity.CONFIRMATION_DIALOG_TITLE, getString(R.string.no_internet_connection))
+                intent.putExtra(ConfirmationTvActivity.CONFIRMATION_DIALOG_TEXT, getString(R.string.open_network_settings))
+                startActivityForResult(intent, REQUEST_CODE_NO_CONNECTION)
+            } else {
+                Snackbar.make(findViewById<View>(android.R.id.content), R.string.no_internet_connection, Snackbar.LENGTH_LONG).show()
+            }
+        }
+    }
+}

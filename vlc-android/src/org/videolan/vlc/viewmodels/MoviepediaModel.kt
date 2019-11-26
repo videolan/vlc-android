@@ -33,12 +33,15 @@ import kotlinx.coroutines.launch
 import org.videolan.vlc.moviepedia.models.identify.IdentifyResult
 import org.videolan.vlc.moviepedia.models.identify.Media
 import org.videolan.vlc.repository.MoviepediaApiRepository
+import videolan.org.commontools.LiveEvent
 
 class MoviepediaModel : ViewModel() {
 
     val apiResult: MutableLiveData<IdentifyResult> = MutableLiveData()
     private val mediaResult: MutableLiveData<Media> = MutableLiveData()
     private val repo = MoviepediaApiRepository.getInstance()
+    val exceptionLiveData = LiveEvent<Exception?>()
+
     private var searchJob: Job? = null
         set(value) {
             field?.cancel()
@@ -52,20 +55,31 @@ class MoviepediaModel : ViewModel() {
 
     fun search(query: String) {
         searchJob = viewModelScope.launch {
-            apiResult.value = repo.searchTitle(query)
+            try {
+                apiResult.value = repo.searchTitle(query)
+            } catch (e: Exception) {
+                exceptionLiveData.value = e
+            }
         }
     }
 
     fun search(uri: Uri) {
         searchJob = viewModelScope.launch {
-            apiResult.value = repo.searchMedia(uri)
+            try {
+                apiResult.value = repo.searchMedia(uri)
+            } catch (e: Exception) {
+                exceptionLiveData.value = e
+            }
         }
     }
 
     fun getMedia(mediaId: String) {
         mediaJob = viewModelScope.launch {
-            mediaResult.value = repo.getMedia(mediaId)
+            try {
+                mediaResult.value = repo.getMedia(mediaId)
+            } catch (e: Exception) {
+                exceptionLiveData.value = e
+            }
         }
     }
-
 }

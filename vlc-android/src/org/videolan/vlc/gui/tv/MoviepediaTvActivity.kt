@@ -49,14 +49,14 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.tv.browser.BaseTvActivity
 
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class MoviepediaTvActivity : FragmentActivity() {
+class MoviepediaTvActivity : BaseTvActivity() {
 
     private lateinit var fragment: MoviepediaTvFragment
     private lateinit var emptyView: TextView
@@ -72,6 +72,10 @@ class MoviepediaTvActivity : FragmentActivity() {
 
 
         emptyView = findViewById(R.id.empty)
+    }
+
+    override fun refresh() {
+        fragment.refresh()
     }
 
     fun updateEmptyView(empty: Boolean) {

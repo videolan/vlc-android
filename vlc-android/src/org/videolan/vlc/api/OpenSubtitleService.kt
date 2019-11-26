@@ -4,7 +4,6 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import org.videolan.vlc.ExternalMonitor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
@@ -37,16 +36,7 @@ private class UserAgentInterceptor(val userAgent: String): Interceptor {
 }
 
 
-private class ConnectivityInterceptor: Interceptor {
 
-    @Throws(IOException::class)
-    override fun intercept(chain: Interceptor.Chain): Response {
-        if (!ExternalMonitor.isConnected) throw NoConnectivityException()
-
-        val builder = chain.request().newBuilder()
-        return chain.proceed(builder.build())
-    }
-}
 
 class NoConnectivityException : IOException() {
 

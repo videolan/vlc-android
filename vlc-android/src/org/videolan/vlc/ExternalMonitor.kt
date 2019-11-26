@@ -51,7 +51,6 @@ import videolan.org.commontools.LiveEvent
 import java.lang.ref.WeakReference
 import java.net.NetworkInterface
 import java.net.SocketException
-import java.util.*
 
 private const val TAG = "VLC/ExternalMonitor"
 
@@ -101,6 +100,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
                 if (connected.value == null || isConnected != connected.value) {
                     connected.value = isConnected
                 }
+                networkObservers.forEach { it.get()?.onNetworkChanged() }
             }
             Intent.ACTION_MEDIA_MOUNTED -> intent.data?.let { actor.offer(MediaMounted(it)) }
             Intent.ACTION_MEDIA_UNMOUNTED,
@@ -153,6 +153,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     var isVPN = false
         private set
     private var storageObserver: WeakReference<Activity>? = null
+    private var networkObservers: ArrayList<WeakReference<NetworkObserver>> = ArrayList()
 
     var devices = LiveDataset<UsbDevice>()
 
@@ -230,6 +231,18 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             storageObserver = null
         }
     }
+
+    @Synchronized
+    fun subscribeNetworkCb(observer: NetworkObserver) {
+        networkObservers.add(WeakReference(observer))
+    }
+
+    @Synchronized
+    fun unsubscribeNetworkCb(observer: NetworkObserver) {
+        networkObservers.remove(WeakReference(observer))
+    }
+
+
 }
 
 fun containsDevice(devices: Array<String>, device: String): Boolean {
@@ -241,3 +254,6 @@ fun containsDevice(devices: Array<String>, device: String): Boolean {
 private sealed class DeviceAction
 private class MediaMounted(val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : DeviceAction()
 private class MediaUnmounted(val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : DeviceAction()
+interface NetworkObserver {
+    fun onNetworkChanged()
+}

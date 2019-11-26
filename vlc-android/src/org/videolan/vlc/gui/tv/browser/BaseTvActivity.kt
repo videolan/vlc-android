@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.tv.browser
 
 import android.annotation.TargetApi
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -43,11 +44,13 @@ import org.videolan.tools.KeyHelper
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.SearchActivity
+import org.videolan.vlc.gui.tv.dialogs.ConfirmationTvActivity
 import org.videolan.vlc.gui.tv.registerTimeView
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.getContextWithLocale
 
 private const val TAG = "VLC/BaseTvActivity"
+const val REQUEST_CODE_NO_CONNECTION = 100
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -126,5 +129,28 @@ abstract class BaseTvActivity : FragmentActivity() {
             for (device in devices) UiTools.newStorageDetected(this@BaseTvActivity, device)
             MediaParsingService.newStorages.value = null
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            REQUEST_CODE_NO_CONNECTION -> {
+                if (resultCode == ConfirmationTvActivity.ACTION_ID_NEGATIVE) finish() else {
+
+                    try {
+                        val name = ComponentName("com.android.tv.settings",
+                                "com.android.tv.settings.connectivity.NetworkActivity")
+                        val i = Intent(Intent.ACTION_MAIN)
+                        i.addCategory(Intent.CATEGORY_LAUNCHER)
+                        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                        i.component = name
+                        startActivity(i)
+                    } catch (e: Exception) {
+                        startActivity(Intent(android.provider.Settings.ACTION_SETTINGS))
+                    }
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

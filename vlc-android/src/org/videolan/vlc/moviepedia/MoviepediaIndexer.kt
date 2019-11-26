@@ -58,14 +58,22 @@ object MoviepediaIndexer : CoroutineScope by MainScope() {
                     if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Retrieving infos for: ${filesToIndex.value.lastPathSegment}")
                 }
                 val repo = MoviepediaApiRepository.getInstance()
-                val results = repo.searchMediaBatch(filesToIndex)
+                val results = try {
+                    repo.searchMediaBatch(filesToIndex)
+                } catch (e: Exception) {
+                    return@withContext
+                }
                 medias.forEach { media ->
                     media?.setLongMeta(AbstractMediaWrapper.META_METADATA_RETRIEVED, 1L)
                 }
                 results.forEach { result ->
                     result.lucky?.let {
                         val media = medias.find { it.id == result.id.toLong() }
-                        saveMediaMetadata(context, media, it, retrieveCast = false, removePersonOrphans = false)
+                        try {
+                            saveMediaMetadata(context, media, it, retrieveCast = false, removePersonOrphans = false)
+                        } catch (e: Exception) {
+                            media?.setLongMeta(251, 0L)
+                        }
                     }
                 }
                 removePersonOrphans(context)

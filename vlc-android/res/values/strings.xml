@@ -773,4 +773,5 @@
     <string name="resume_episode">Resume (%s)</string>
     <string name="start_over">Start over</string>
     <string name="next_episode">Next episode</string>
+    <string name="open_network_settings">Open network settings?</string>
 </resources>

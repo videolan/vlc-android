@@ -56,10 +56,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.vlc.ExternalMonitor
+import org.videolan.vlc.NetworkObserver
 import org.videolan.vlc.R
 import org.videolan.vlc.moviepedia.MoviepediaIndexer
 import org.videolan.vlc.moviepedia.models.identify.Media
 import org.videolan.vlc.moviepedia.models.identify.getAllResults
+import org.videolan.vlc.util.manageHttpException
 import org.videolan.vlc.viewmodels.MoviepediaModel
 
 private const val TAG = "SearchFragment"
@@ -67,7 +70,7 @@ private const val REQUEST_SPEECH = 1
 
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider, CoroutineScope by MainScope() {
+class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider, CoroutineScope by MainScope(), NetworkObserver {
 
     private lateinit var viewModel: MoviepediaModel
     lateinit var media: AbstractMediaWrapper
@@ -78,7 +81,11 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
             if (item is Media) {
                 launch {
                     withContext(Dispatchers.IO) {
-                        MoviepediaIndexer.saveMediaMetadata(requireActivity(), media, item)
+                        try {
+                            MoviepediaIndexer.saveMediaMetadata(requireActivity(), media, item)
+                        } catch (e: Exception) {
+                            requireActivity().manageHttpException(e)
+                        }
                     }
                     requireActivity().finish()
                 }
@@ -108,8 +115,19 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
             rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.moviepedia_result)), videoAdapter))
             updateEmptyView(medias.isEmpty())
         })
+        viewModel.exceptionLiveData.observe(this, Observer { e ->
+            e?.let {
+                requireActivity().manageHttpException(it)
+                ExternalMonitor.subscribeNetworkCb(this)
+            }
+        })
         setSearchQuery(media.title, false)
         viewModel.search(media.uri)
+    }
+
+    override fun onDestroy() {
+        ExternalMonitor.unsubscribeNetworkCb(this)
+        super.onDestroy()
     }
 
     override fun getResultsAdapter() = rowsAdapter
@@ -133,6 +151,14 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_SPEECH && resultCode == Activity.RESULT_OK) setSearchQuery(data, true)
+    }
+
+    fun refresh() {
+        viewModel.search(media.uri)
+    }
+
+    override fun onNetworkChanged() {
+        refresh()
     }
 }
 

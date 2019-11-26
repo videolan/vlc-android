@@ -380,7 +380,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     private fun exitCommand() {
         if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
-            MoviepediaIndexer.indexMedialib(this@MediaParsingService)
+            try {
+                MoviepediaIndexer.indexMedialib(this@MediaParsingService)
+            } catch (e: Exception) {
+                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "${e.cause}")
+            }
             stopSelf()
         }
     }
@@ -425,7 +429,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
                     shouldInit = shouldInit or (initCode == AbstractMedialibrary.ML_INIT_DB_RESET) or (initCode == AbstractMedialibrary.ML_INIT_DB_CORRUPTED)
                     if (initCode != AbstractMedialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
                     else exitCommand()
-                } else  exitCommand()
+                } else exitCommand()
             }
             is StartScan -> {
                 scanActivated = true
@@ -456,7 +460,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         }
     }
 
-    private fun String.isSelected() : Boolean {
+    private fun String.isSelected(): Boolean {
         if (preselectedStorages.isNotEmpty()) for (mrl in preselectedStorages) {
             if (mrl.substringAfter("file://").startsWith(this)) return true
         }
