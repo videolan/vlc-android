@@ -458,6 +458,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             requestedOrientation = getScreenOrientation(screenOrientation)
         } catch (ignored: IllegalStateException) {
             Log.w(TAG, "onCreate: failed to set orientation")
+        } catch (ignored: IllegalArgumentException) {
+            Log.w(TAG, "onCreate: failed to set orientation")
         }
 
         // Extra initialization when no secondary display is detected
