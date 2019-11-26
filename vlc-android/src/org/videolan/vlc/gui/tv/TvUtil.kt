@@ -365,8 +365,10 @@ object TvUtil {
 @Suppress("UNNECESSARY_SAFE_CALL")
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 fun CoroutineScope.updateBackground(context: Context, bm: BackgroundManager?, item: Any?) {
-    if (bm === null || item === null) return
-    clearBackground(context, bm)
+    if (bm === null || item === null) {
+        clearBackground(context, bm)
+        return
+    }
     if (item is MediaLibraryItem) launch {
         val crop = item.itemType != MediaLibraryItem.TYPE_MEDIA || (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_AUDIO
         val artworkMrl = item.artworkMrl
@@ -395,7 +397,7 @@ fun CoroutineScope.updateBackground(context: Context, bm: BackgroundManager?, it
     }
 }
 
-private fun clearBackground(context: Context, bm: BackgroundManager?) {
+fun clearBackground(context: Context, bm: BackgroundManager?) {
     if (bm === null) return
     bm.color = ContextCompat.getColor(context, R.color.tv_bg)
     bm.drawable = null

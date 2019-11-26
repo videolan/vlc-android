@@ -195,6 +195,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
     }
 
     override fun onStart() {
+        clearBackground(requireContext(), backgroundManager)
         super.onStart()
         setFocus = true
     }
