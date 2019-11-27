@@ -257,7 +257,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun getTitle() = when(viewModel.groupingType) {
-        VideoGroupingType.NONE -> viewModel.folder?.title ?: viewModel.group?.title ?: getString(R.string.videos)
+        VideoGroupingType.NONE -> viewModel.folder?.displayTitle ?: viewModel.group?.displayTitle ?: getString(R.string.videos)
         VideoGroupingType.FOLDER -> getString(R.string.videos_folders_title)
         VideoGroupingType.NAME -> getString(R.string.videos_groups_title)
     }

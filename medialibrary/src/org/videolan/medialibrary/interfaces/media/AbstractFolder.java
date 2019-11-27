@@ -27,6 +27,10 @@ public abstract class AbstractFolder extends MediaLibraryItem {
     abstract public AbstractMediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query, int mediaType);
 
+    public String getDisplayTitle() {
+        return super.getTitle();
+    }
+
     @Override
     public AbstractMediaWrapper[] getTracks() {
         return new AbstractMediaWrapper[0];

@@ -21,6 +21,10 @@ public abstract class AbstractVideoGroup extends MediaLibraryItem {
     abstract public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
 
+    public String getDisplayTitle() {
+        return super.getTitle() + "…";
+    }
+
     public int mediaCount() {
         return mCount;
     }
