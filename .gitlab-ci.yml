@@ -24,10 +24,9 @@ cache:
             - master
             - merge_requests
         changes:
+            # For build script, we rely on the .build-ml-base config
+            # which will also build libvlc
             - libvlc/**/*
-            - build-common
-            - compile.sh
-            - compile-libvlc.sh
     except:
         - schedules
     variables:
