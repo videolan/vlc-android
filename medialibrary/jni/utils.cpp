@@ -69,12 +69,13 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     const medialibrary::IMetadata& seenMeta =  mediaPtr->metadata( medialibrary::IMedia::MetadataType::Seen );
     int64_t seen = seenMeta.isSet() ? seenMeta.asInt() : 0;
 
+    auto hasThumbnail = mediaPtr->thumbnailStatus(medialibrary::ThumbnailSizeType::Thumbnail) == medialibrary::ThumbnailStatus::Available;
     jobject item = env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
                           (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
                           title, filename, artist, genre, album,
                           albumArtist, width, height, thumbnail,
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
-                           seen, mediaPtr->isThumbnailGenerated(medialibrary::ThumbnailSizeType::Thumbnail), mediaPtr->releaseDate());
+                           seen, hasThumbnail, mediaPtr->releaseDate());
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)
