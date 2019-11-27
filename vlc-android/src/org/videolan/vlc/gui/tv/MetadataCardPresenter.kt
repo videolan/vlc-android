@@ -69,7 +69,7 @@ import org.videolan.vlc.util.generateResolutionClass
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class EpisodeCardPresenter(private val context: Activity) : Presenter() {
+class MetadataCardPresenter(private val context: Activity) : Presenter() {
 
     private var defaultCardImage: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_account_circle_black_24dp)
 
@@ -111,6 +111,7 @@ class EpisodeCardPresenter(private val context: Activity) : Presenter() {
         val lp = cardView.findViewById<ImageView>(R.id.media_cover).layoutParams
         lp.width = CARD_WIDTH_POSTER
         lp.height = CARD_HEIGHT_POSTER
+        cardView.findViewById<View>(R.id.container).layoutParams.height = CARD_HEIGHT_POSTER + 64.dp
         return ViewHolder(cardView)
     }
 

@@ -103,5 +103,9 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
 
     fun getTvshowLive(showId: String) = mediaMetadataFullDao.getMediaByIdLive(showId)
 
+    fun getByIds(mlids: List<Long>) = mediaMetadataFullDao.getByIds(mlids)
+
+    fun getRecentlyAdded() = mediaMetadataFullDao.getRecentlyAdded()
+
     companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao()) })
 }

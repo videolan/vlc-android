@@ -76,6 +76,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
     val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val history: LiveData<List<AbstractMediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
+    val recentlyPlayed: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
+    val recentlyAdded: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
 
@@ -113,6 +115,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
     fun refresh() = viewModelScope.launch {
         updateNowPlaying()
         updateVideos()
+        updateRecentlyPlayed()
+        updateRecentlyAdded()
         updateAudioCategories()
         historyActor.offer(Unit)
         updateActor.offer(Unit)
@@ -149,6 +153,21 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
                 addAll(it)
             }
         }
+    }
+
+    private fun updateRecentlyPlayed() = viewModelScope.launch {
+        val history = context.getFromMl { lastMediaPlayed().toMutableList() }
+        recentlyPlayed.addSource(withContext(Dispatchers.IO) { mediaMetadataRepository.getByIds(history.map { it.id }) }) {
+            recentlyPlayed.value = it.sortedBy { history.indexOf(history.find { media -> media.id == it.metadata.mlId }) }
+        }
+
+    }
+
+    private fun updateRecentlyAdded() = viewModelScope.launch {
+        recentlyAdded.addSource(withContext(Dispatchers.IO) { mediaMetadataRepository.getRecentlyAdded() }) {
+            recentlyAdded.value = it
+        }
+
     }
 
     fun updateNowPlaying() = viewModelScope.launch {

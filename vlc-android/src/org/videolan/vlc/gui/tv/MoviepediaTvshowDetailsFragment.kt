@@ -95,11 +95,7 @@ class MoviepediaTvshowDetailsFragment : DetailsSupportFragment(), CoroutineScope
         override fun areContentsTheSame(oldItem: Person, newItem: Person) = oldItem.moviepediaId == newItem.moviepediaId && oldItem.image == newItem.image && oldItem.name == newItem.name
     }
 
-    private val metadataDiffCallback = object : DiffCallback<MediaMetadataWithImages>() {
-        override fun areItemsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) = oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId
 
-        override fun areContentsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) = oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId && oldItem.metadata.title == newItem.metadata.title && oldItem.metadata.currentPoster == newItem.metadata.currentPoster
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -179,8 +175,8 @@ class MoviepediaTvshowDetailsFragment : DetailsSupportFragment(), CoroutineScope
 
             tvshow.seasons?.let {
                 it.forEach {
-                    val arrayObjectAdapterSeason = ArrayObjectAdapter(EpisodeCardPresenter(requireActivity()))
-                    arrayObjectAdapterSeason.setItems(it.episodes, metadataDiffCallback)
+                    val arrayObjectAdapterSeason = ArrayObjectAdapter(MetadataCardPresenter(requireActivity()))
+                    arrayObjectAdapterSeason.setItems(it.episodes, TvUtil.metadataDiffCallback)
                     val headerSeason = HeaderItem(tvshow.metadata?.metadata?.moviepediaId?.toLong(36)
                             ?: 0, getString(R.string.season_number, it.seasonNumber.toString()))
                     items.add(ListRow(headerSeason, arrayObjectAdapterSeason))

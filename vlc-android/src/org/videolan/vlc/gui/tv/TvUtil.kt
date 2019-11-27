@@ -43,6 +43,7 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.getposition
 import org.videolan.vlc.R
+import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
@@ -87,6 +88,12 @@ object TvUtil {
             return if (!TextUtils.equals(oldMedia.artworkMrl, newMedia.artworkMrl)) UPDATE_THUMB
             else UPDATE_SEEN
         }
+    }
+
+    var metadataDiffCallback = object : DiffCallback<MediaMetadataWithImages>() {
+        override fun areItemsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) = oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId
+
+        override fun areContentsTheSame(oldItem: MediaMetadataWithImages, newItem: MediaMetadataWithImages) = oldItem.metadata.moviepediaId == newItem.metadata.moviepediaId && oldItem.metadata.title == newItem.metadata.title && oldItem.metadata.currentPoster == newItem.metadata.currentPoster
     }
 
     val listDiffCallback: DiffCallback<ListRow> = object : DiffCallback<ListRow>() {

@@ -774,4 +774,6 @@
     <string name="start_over">Start over</string>
     <string name="next_episode">Next episode</string>
     <string name="open_network_settings">Open network settings?</string>
+    <string name="recently_played">Recently played</string>
+    <string name="recently_added">Recently added</string>
 </resources>

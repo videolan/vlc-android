@@ -41,6 +41,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.RecommendationsService
 import org.videolan.vlc.gui.tv.TvUtil.diffCallback
+import org.videolan.vlc.gui.tv.TvUtil.metadataDiffCallback
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.reloadLibrary
@@ -59,6 +60,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var rowsAdapter: ArrayObjectAdapter
 
     private lateinit var nowPlayingAdapter: ArrayObjectAdapter
+    private lateinit var recentlyPlayedAdapter: ArrayObjectAdapter
+    private lateinit var recentlyAddedAdapter: ArrayObjectAdapter
     private lateinit var videoAdapter: ArrayObjectAdapter
     private lateinit var categoriesAdapter: ArrayObjectAdapter
     private lateinit var historyAdapter: ArrayObjectAdapter
@@ -67,6 +70,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var otherAdapter: ArrayObjectAdapter
 
     private lateinit var nowPlayingRow: ListRow
+    private lateinit var recentlyPlayedRow: ListRow
+    private lateinit var recentlyAdddedRow: ListRow
     private lateinit var videoRow: ListRow
     private lateinit var audioRow: ListRow
     private lateinit var historyRow: ListRow
@@ -77,7 +82,12 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private var displayHistory = false
     private var displayPlaylist = false
     private var displayNowPlaying = false
+    private var displayRecentlyPlayed = false
+    private var displayRecentlyAdded = false
     private var selectedItem: Any? = null
+
+    private var lines: Int = 7
+    private var loadedLines = ArrayList<Long>()
 
     internal lateinit var model: MainTvModel
 
@@ -105,9 +115,19 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
         // Now Playing
         nowPlayingAdapter = ArrayObjectAdapter(CardPresenter(ctx))
-        val nowPlayingHeader = HeaderItem(HEADER_CATEGORIES, getString(R.string.music_now_playing))
+        val nowPlayingHeader = HeaderItem(HEADER_NOW_PLAYING, getString(R.string.music_now_playing))
         nowPlayingRow = ListRow(nowPlayingHeader, nowPlayingAdapter)
         rowsAdapter.add(nowPlayingRow)
+        //Recently played
+        recentlyPlayedAdapter = ArrayObjectAdapter(MetadataCardPresenter(ctx))
+        val recentlyPlayedHeader = HeaderItem(HEADER_RECENTLY_PLAYED, getString(R.string.recently_played))
+        recentlyPlayedRow = ListRow(recentlyPlayedHeader, recentlyPlayedAdapter)
+        rowsAdapter.add(recentlyPlayedRow)
+        //Recently added
+        recentlyAddedAdapter = ArrayObjectAdapter(MetadataCardPresenter(ctx))
+        val recentlyAddedHeader = HeaderItem(HEADER_RECENTLY_ADDED, getString(R.string.recently_added))
+        recentlyAdddedRow = ListRow(recentlyAddedHeader, recentlyAddedAdapter)
+        rowsAdapter.add(recentlyAdddedRow)
         // Video
         videoAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val videoHeader = HeaderItem(0, getString(R.string.video))
@@ -156,16 +176,32 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private fun registerDatasets() {
         model.browsers.observe(requireActivity(), Observer {
             browserAdapter.setItems(it, diffCallback)
+            addAndCheckLoadedLines(HEADER_NETWORK)
         })
         model.audioCategories.observe(requireActivity(), Observer {
             categoriesAdapter.setItems(it.toList(), diffCallback)
+            addAndCheckLoadedLines(HEADER_CATEGORIES)
         })
         model.videos.observe(requireActivity(), Observer {
             videoAdapter.setItems(it, diffCallback)
+            addAndCheckLoadedLines(HEADER_VIDEO)
         })
         model.nowPlaying.observe(requireActivity(), Observer {
             displayNowPlaying = it.isNotEmpty()
             nowPlayingAdapter.setItems(it, diffCallback)
+            addAndCheckLoadedLines(HEADER_NOW_PLAYING)
+        })
+        model.recentlyPlayed.observe(requireActivity(), Observer {
+            displayRecentlyPlayed = it.isNotEmpty()
+            recentlyPlayedAdapter.setItems(it, metadataDiffCallback)
+            resetLines()
+            addAndCheckLoadedLines(HEADER_RECENTLY_PLAYED)
+        })
+        model.recentlyAdded.observe(requireActivity(), Observer {
+            displayRecentlyAdded = it.isNotEmpty()
+            recentlyAddedAdapter.setItems(it, metadataDiffCallback)
+            resetLines()
+            addAndCheckLoadedLines(HEADER_RECENTLY_ADDED)
         })
         model.history.observe(requireActivity(), Observer {
             displayHistory = it.isNotEmpty()
@@ -173,19 +209,35 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 historyAdapter.setItems(it, diffCallback)
             }
             resetLines()
+            addAndCheckLoadedLines(HEADER_HISTORY)
         })
 
         model.playlist.observe(requireActivity(), Observer {
             displayPlaylist = it.isNotEmpty()
             playlistAdapter.setItems(it, diffCallback)
             resetLines()
+            addAndCheckLoadedLines(HEADER_PLAYLISTS)
 
         })
     }
 
+    /**
+     * Used for initial selection. Here we wait that all the lines have been loaded and when done, we force the selection to the first item
+     * It's done that way to prevent the default selection that falls back to the first item that cannot be hidden (Videos lines)
+     */
+    private fun addAndCheckLoadedLines(header: Long) {
+        if (!loadedLines.contains(header)) loadedLines.add(header)
+        if (lines == loadedLines.size) {
+            selectedPosition = 0
+            lines = -1
+        }
+    }
+
     private fun resetLines() {
-        val adapters = listOf(nowPlayingRow, videoRow, audioRow, playlistRow, historyRow, browsersRow, miscRow).filter {
+        val adapters = listOf(nowPlayingRow, recentlyPlayedRow, recentlyAdddedRow, videoRow, audioRow, playlistRow, historyRow, browsersRow, miscRow).filter {
             when {
+                !displayRecentlyPlayed && it == recentlyPlayedRow -> false
+                !displayRecentlyAdded && it == recentlyAdddedRow -> false
                 !displayHistory && it == historyRow -> false
                 !displayPlaylist && it == playlistRow -> false
                 !displayNowPlaying && it == nowPlayingRow -> false

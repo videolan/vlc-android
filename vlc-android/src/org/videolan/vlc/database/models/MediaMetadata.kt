@@ -79,8 +79,9 @@ data class MediaMetadata(
         @ColumnInfo(name = "show_id")
         var showId: String?,
         @ColumnInfo(name = "has_cast")
-        var hasCast: Boolean
-
+        var hasCast: Boolean,
+        @ColumnInfo(name = "insertDate")
+        val insertDate: Date = Date()
 )
 
 fun MediaMetadata.getYear() = releaseDate?.let { SimpleDateFormat("yyyy", Locale.getDefault()).format(it) }
@@ -124,7 +125,12 @@ fun MediaMetadataWithImages.tvshowSubtitle(): String {
     return subtitle.filter { it.isNotEmpty() }.joinToString(separator = " · ") { it }
 }
 
-fun MediaMetadataWithImages.tvEpisodeSubtitle() = "S${metadata.season.toString().padStart(2, '0')}E${metadata.episode.toString().padStart(2, '0')}"
+fun MediaMetadataWithImages.tvEpisodeSubtitle(): String {
+    return when (metadata.type) {
+        MediaMetadataType.TV_EPISODE -> "S${metadata.season.toString().padStart(2, '0')}E${metadata.episode.toString().padStart(2, '0')}"
+        else -> SimpleDateFormat("yyyy", Locale.getDefault()).format(metadata.releaseDate)
+    }
+}
 
 @Entity(tableName = "media_person_join",
         primaryKeys = arrayOf("mediaId", "personId", "type"),
