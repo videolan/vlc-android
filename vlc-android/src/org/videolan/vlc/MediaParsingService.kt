@@ -380,7 +380,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     private fun exitCommand() {
         if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
-            try {
+            //todo reenable entry point when ready
+            if (BuildConfig.DEBUG) try {
                 MoviepediaIndexer.indexMedialib(this@MediaParsingService)
             } catch (e: Exception) {
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "${e.cause}")

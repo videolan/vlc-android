@@ -41,6 +41,7 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.MediaImage
 import org.videolan.vlc.database.models.MediaImageType
@@ -376,7 +377,8 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 if (FileUtils.canWrite(viewModel.media.uri))
                     actionsAdapter.set(ID_DL_SUBS, Action(ID_DL_SUBS.toLong(), res.getString(R.string.download_subtitles)))
                 actionsAdapter.set(ID_PLAYLIST, Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
-                actionsAdapter.set(ID_GET_INFO, Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
+                //todo reenable entry point when ready
+                if (BuildConfig.DEBUG) actionsAdapter.set(ID_GET_INFO, Action(ID_GET_INFO.toLong(), res.getString(R.string.find_metadata)))
             }
             adapter = rowsAdapter
             detailsOverview.actionsAdapter = actionsAdapter
