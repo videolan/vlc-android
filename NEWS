@@ -1,3 +1,28 @@
+Changes between 3.2.1 and 3.2.2:
+------------------
+
+Application:
+ * Fix audio tabs shown on streams view
+ * Various crash fixes
+
+VLC:
+ * Security fixes
+ * add bluray support
+
+Changes between 3.2.0 and 3.2.1:
+------------------
+
+Application:
+ * Various crash fixes
+
+Changes between 3.2.0-beta-07 and 3.2.0:
+------------------
+
+Application:
+ * Set priority to SMBv1
+ * Security fix
+ * Various crash fixes
+
 Changes between 3.2.0-beta-06 and 3.2.0-beta-07:
 ------------------
 
