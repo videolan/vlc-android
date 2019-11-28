@@ -106,6 +106,18 @@
         <item quantity="many">Počet videí: %d</item>
         <item quantity="other">Počet videí: %d</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="few">%d filmy</item>
+        <item quantity="many">%d filmov</item>
+        <item quantity="other">%d filmov</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV show</item>
+        <item quantity="few"> %d TV show</item>
+        <item quantity="many">%d TV show</item>
+        <item quantity="other">%d TV show</item>
+    </plurals>
 
     <string name="internal_memory">Interná pamäť</string>
     <string name="parent_folder">Do rodičovského priečinka</string>
@@ -688,7 +700,7 @@
     <string name="popup_force_legacy_title">Použiť používateľské okno PiP</string>
     <string name="popup_force_legacy_summary">Použiť používateľské okno PiP s možnosťou zmeny veľkosti</string>
     <string name="device_default">Predvolené zariadenie</string>
-    <string name="track_number">stôp: %s</string>
+    <string name="track_number">stôp: %d</string>
     <string name="jump_to">Preskočiť na</string>
     <string name="show_video_thumbnails_summary">Zobraziť náhľady videa v zoznamoch</string>
     <string name="show_video_thumbnails">Náhľady videa</string>
@@ -732,4 +744,31 @@
     <string name="video_group_size_summary">Zoskupiť podľa prvých %s písmen</string>
     <string name="video_group_size">Zoskupiť videá podľa názvu</string>
     <string name="url_copied_to_clipboard">Adresa URL bola skopírovaná do schránky</string>
+    <string name="share">Zdieľať</string>
+    <string name="invalid_file">Neplatný súbor. Nemožno zdieľať.</string>
+    <string name="share_file">Zdieľať %s</string>
+    <string name="share_message">Tu je %s</string>
+    <string name="find_metadata">Nájsť metadáta</string>
+    <string name="moviepedia_hint">Vyhľadať metadáta</string>
+    <string name="moviepedia_result">Výsledky pre video</string>
+    <string name="release_date">Vydané:</string>
+    <string name="synopsis">Zhrnutie</string>
+    <string name="directed_by">Réžia</string>
+    <string name="casting">Obsadenie (casting)</string>
+    <string name="produced_by">Produkcia</string>
+    <string name="written_by">Napísal/scenár</string>
+    <string name="music_by">Hudba</string>
+    <string name="posters">Plagáty</string>
+    <string name="backdrops">Kulisy</string>
+    <string name="header_tvshows">TV show</string>
+    <string name="all_movies">Všetky filmy</string>
+    <string name="movie_count">%s film/filmy/filmov</string>
+    <string name="header_movies">Filmy</string>
+    <string name="season_number">Séria %s</string>
+    <string name="resume_episode">Pokračovať (%s)</string>
+    <string name="start_over">Spustiť odznovu</string>
+    <string name="next_episode">Ďalšia epizóda</string>
+    <string name="open_network_settings">Otvoriť nastavenia siete?</string>
+    <string name="recently_played">Naposledy prehrávané</string>
+    <string name="recently_added">Naposledy pridané</string>
 </resources>
