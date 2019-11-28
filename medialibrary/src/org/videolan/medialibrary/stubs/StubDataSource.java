@@ -325,7 +325,8 @@ public class StubDataSource {
                     0,
                     jsonObject.getLong("last_modified"),
                     0L,
-                    true
+                    true,
+                    jsonObject.getInt("release_date")
             );
             if (type == AbstractMediaWrapper.TYPE_VIDEO) {
                 addVideo(media);
@@ -480,7 +481,8 @@ public class StubDataSource {
                 0,
                 media.getLastModified(),
                 0L,
-                true
+                true,
+                releaseYear
         );
         mAudioMediaWrappers.add(newMedia);
     }
