@@ -382,7 +382,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
             lastNotificationTime = 0L
             //todo reenable entry point when ready
             if (BuildConfig.DEBUG) try {
-                MoviepediaIndexer.indexMedialib(this@MediaParsingService)
+                MoviepediaIndexer.indexMedialib(applicationContext)
             } catch (e: Exception) {
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "${e.cause}")
             }

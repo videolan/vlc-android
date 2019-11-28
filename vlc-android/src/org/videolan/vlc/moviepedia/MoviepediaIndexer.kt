@@ -27,7 +27,10 @@ package org.videolan.vlc.moviepedia
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.BuildConfig
@@ -44,40 +47,38 @@ import org.videolan.vlc.util.getLocaleLanguages
 object MoviepediaIndexer : CoroutineScope by MainScope() {
 
     fun indexMedialib(context: Context) {
-        launch {
-            withContext(Dispatchers.IO) {
-                val medias = context.getFromMl { getPagedVideos(AbstractMedialibrary.SORT_DEFAULT, false, 1000, 0) }
+        launch(Dispatchers.IO) {
+            val medias = context.getFromMl { getPagedVideos(AbstractMedialibrary.SORT_DEFAULT, false, 1000, 0) }
 
-                val filesToIndex = HashMap<Long, Uri>()
-                medias.forEach {
-                    if (it.getMetaLong(AbstractMediaWrapper.META_METADATA_RETRIEVED) != 1L)
-                        filesToIndex[it.id] = it.uri
-                }
-                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Retrieving infos for ${filesToIndex.size} files")
-                for (filesToIndex in filesToIndex) {
-                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Retrieving infos for: ${filesToIndex.value.lastPathSegment}")
-                }
-                val repo = MoviepediaApiRepository.getInstance()
-                val results = try {
-                    repo.searchMediaBatch(filesToIndex)
-                } catch (e: Exception) {
-                    return@withContext
-                }
-                medias.forEach { media ->
-                    media?.setLongMeta(AbstractMediaWrapper.META_METADATA_RETRIEVED, 1L)
-                }
-                results.forEach { result ->
-                    result.lucky?.let {
-                        val media = medias.find { it.id == result.id.toLong() }
-                        try {
-                            saveMediaMetadata(context, media, it, retrieveCast = false, removePersonOrphans = false)
-                        } catch (e: Exception) {
-                            media?.setLongMeta(251, 0L)
-                        }
+            val filesToIndex = HashMap<Long, Uri>()
+            medias.forEach {
+                if (it.getMetaLong(AbstractMediaWrapper.META_METADATA_RETRIEVED) != 1L)
+                    filesToIndex[it.id] = it.uri
+            }
+            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Retrieving infos for ${filesToIndex.size} files")
+            for (filesToIndex in filesToIndex) {
+                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Retrieving infos for: ${filesToIndex.value.lastPathSegment}")
+            }
+            val repo = MoviepediaApiRepository.getInstance()
+            val results = try {
+                repo.searchMediaBatch(filesToIndex)
+            } catch (e: Exception) {
+                return@launch
+            }
+            medias.forEach { media ->
+                media?.setLongMeta(AbstractMediaWrapper.META_METADATA_RETRIEVED, 1L)
+            }
+            results.forEach { result ->
+                result.lucky?.let {
+                    val media = medias.find { it.id == result.id.toLong() }
+                    try {
+                        saveMediaMetadata(context, media, it, retrieveCast = false, removePersonOrphans = false)
+                    } catch (e: Exception) {
+                        media?.setLongMeta(251, 0L)
                     }
                 }
-                removePersonOrphans(context)
             }
+            removePersonOrphans(context)
         }
     }
 
