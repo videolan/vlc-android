@@ -213,7 +213,11 @@ fun generateResolutionClass(width: Int, height: Int) : String? = if (width <= 0 
 }
 
 val View.scope : CoroutineScope
-    get() = context as? CoroutineScope ?: AppScope
+    get() = when(val ctx = context) {
+        is CoroutineScope -> ctx
+        is LifecycleOwner -> ctx.lifecycleScope
+        else -> AppScope
+    }
 
 fun Activity.manageHttpException(e: Exception) {
     when (e) {
