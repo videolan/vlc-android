@@ -106,6 +106,18 @@
         <item quantity="many">%d סרטונים</item>
         <item quantity="other">%d סרטונים</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">סרט אחד</item>
+        <item quantity="two">%d סרטים</item>
+        <item quantity="many">%d סרטים</item>
+        <item quantity="other">%d סרטים</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">סדרת טלוויזיה אחת</item>
+        <item quantity="two">%d סדרות טלוויזיה</item>
+        <item quantity="many">%d סדרות טלוויזיה</item>
+        <item quantity="other">%d סדרות טלוויזיה</item>
+    </plurals>
 
     <string name="internal_memory">זיכרון פנימי</string>
     <string name="parent_folder">חזרה לתיקיית ההורה</string>
@@ -688,7 +700,7 @@
     <string name="popup_force_legacy_title">להשתמש בחלונית צפה מותאמת לתמונה בתוך תמונה</string>
     <string name="popup_force_legacy_summary">להשתמש בחלונית צפה גמישה מותאמת לתמונה בתוך תמונה</string>
     <string name="device_default">בררת המחדל של המכשיר</string>
-    <string name="track_number">%s רצועות</string>
+    <string name="track_number">%d רצועות</string>
     <string name="jump_to">קפיצה אל</string>
     <string name="show_video_thumbnails_summary">הצגת תמונות ייצוגיות של הסרטונים ברשימות</string>
     <string name="show_video_thumbnails">תמונות ייצוגיות של סרטונים</string>
@@ -732,4 +744,31 @@
     <string name="video_group_size_summary">קיבוץ לפי %s אותיות ראשונות</string>
     <string name="video_group_size">קיבוץ סרטונים לפי שם</string>
     <string name="url_copied_to_clipboard">הכתובת הועתקה ללוח הגזירים</string>
+    <string name="share">שיתוף</string>
+    <string name="invalid_file">קובץ פגום. לא ניתן לשתף</string>
+    <string name="share_file">שיתוף %s</string>
+    <string name="share_message">הנה %s</string>
+    <string name="find_metadata">איתור נתוני על</string>
+    <string name="moviepedia_hint">חיפוש נתוני על</string>
+    <string name="moviepedia_result">תוצאות וידאו</string>
+    <string name="release_date">הוצאה לאור:</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="directed_by">בוים על ידי</string>
+    <string name="casting">ליהוק</string>
+    <string name="produced_by">הופק על ידי</string>
+    <string name="written_by">נכתב על ידי</string>
+    <string name="music_by">מוזיקה על ידי</string>
+    <string name="posters">כרזות</string>
+    <string name="backdrops">תמונות רקע</string>
+    <string name="header_tvshows">סדרות טלוויזיה</string>
+    <string name="all_movies">כל הסרטים</string>
+    <string name="movie_count">%s סרט/ים</string>
+    <string name="header_movies">סרטים</string>
+    <string name="season_number">עונה %s</string>
+    <string name="resume_episode">להמשיך (%s)</string>
+    <string name="start_over">להתחיל מההתחלה</string>
+    <string name="next_episode">הפרק הבא</string>
+    <string name="open_network_settings">לפתוח הגדרות רשת?</string>
+    <string name="recently_played">התנגנו לאחרונה</string>
+    <string name="recently_added">נוספו לאחרונה</string>
 </resources>
