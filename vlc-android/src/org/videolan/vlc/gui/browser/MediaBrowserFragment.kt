@@ -50,6 +50,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.InfoActivity
+import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.SparseBooleanArrayParcelable
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
@@ -363,6 +364,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         refreshJob = lifecycleScope.launchWhenStarted {
             if (refreshing) delay(300L)
             swipeRefreshLayout.isRefreshing = refreshing
+            (activity as? MainActivity)?.refreshing = refreshing
         }
     }
 }

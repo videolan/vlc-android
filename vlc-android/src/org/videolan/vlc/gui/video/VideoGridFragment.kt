@@ -76,7 +76,7 @@ private const val UNSET_REFRESHING = 16
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, Observer<PagedList<AbstractMediaWrapper>>, CtxActionReceiver {
+class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, CtxActionReceiver {
 
     private lateinit var videoListAdapter: VideoListAdapter
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaLibraryItem>
@@ -111,17 +111,11 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun setDataObservers() {
         videoListAdapter.dataType = viewModel.groupingType
-        when (viewModel.groupingType) {
-            VideoGroupingType.NONE -> {
-                (viewModel.provider as VideosProvider).pagedList.observe(this, this)
-            }
-            VideoGroupingType.FOLDER, VideoGroupingType.NAME -> {
-                viewModel.provider.pagedList.observe(requireActivity(), Observer {
-                    if (it != null) videoListAdapter.submitList(it as PagedList<MediaLibraryItem>)
-                    restoreMultiSelectHelper()
-                })
-            }
-        }
+        viewModel.provider.pagedList.observe(requireActivity(), Observer {
+            (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
+            updateEmptyView()
+            restoreMultiSelectHelper()
+        })
 
         viewModel.provider.loading.observe(this, Observer { loading ->
             setRefreshing(loading)
@@ -130,8 +124,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
                 restoreMultiSelectHelper()
             }
-            (activity as? MainActivity)?.refreshing = loading
-            updateEmptyView()
         })
         videoListAdapter.showFilename.set(viewModel.groupingType == VideoGroupingType.NONE && viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
     }
@@ -251,10 +243,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         super.onDestroy()
         videoListAdapter.release()
         gridItemDecoration = null
-    }
-
-    override fun onChanged(list: PagedList<AbstractMediaWrapper>?) {
-        if (list != null) videoListAdapter.submitList(list as PagedList<MediaLibraryItem>)
     }
 
     override fun getTitle() = when(viewModel.groupingType) {

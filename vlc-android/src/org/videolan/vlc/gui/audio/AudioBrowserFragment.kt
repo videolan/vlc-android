@@ -204,6 +204,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             provider.pagedList.observe(this, Observer { items ->
                 @Suppress("UNCHECKED_CAST")
                 if (items != null) adapters[index].submitList(items as PagedList<MediaLibraryItem>?)
+                updateEmptyView()
                 restorePositions.get(index)?.let {
                     lists[index].scrollToPosition(it)
                     restorePositions.delete(index)
@@ -215,10 +216,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 if (loading) empty_loading.state = EmptyLoadingState.LOADING
                 else {
                     swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-                    updateEmptyView()
                     songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
                 }
-                (activity as? MainActivity)?.refreshing = loading
             })
         }
     }
