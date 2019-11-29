@@ -22,18 +22,13 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import androidx.paging.Config
 import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
 import androidx.paging.toLiveData
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.CompletableDeferred
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.retry
 import org.videolan.vlc.providers.HeaderProvider
 import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.vlc.util.ModelsHelper
@@ -48,8 +43,14 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     protected val medialibrary = AbstractMedialibrary.getInstance()
     private lateinit var dataSource : DataSource<Int, T>
     val loading = MutableLiveData<Boolean>().apply { value = true }
+    private var refreshDeferred : CompletableDeferred<Unit>? = null
     var isRefreshing = medialibrary.isWorking
         private set(value) {
+            refreshDeferred = if (value) CompletableDeferred()
+            else {
+                refreshDeferred?.complete(Unit)
+                null
+            }
             loading.postValue(value || medialibrary.isWorking)
             field = value
         }
@@ -87,6 +88,11 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                     .putBoolean("${sortKey}_desc", desc)
                     .apply()
         }
+    }
+
+    suspend fun awaitRefresh() {
+        refresh()
+        refreshDeferred?.await()
     }
 
     fun refresh(): Boolean {

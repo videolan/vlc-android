@@ -25,14 +25,17 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.GenresProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
 import org.videolan.vlc.util.KEY_ARTISTS_SHOW_ALL
+import org.videolan.vlc.util.KEY_AUDIO_CURRENT_TAB
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
@@ -40,11 +43,12 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 @ExperimentalCoroutinesApi
 class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
 
+    var currentTab = Settings.getInstance(context).getInt(KEY_AUDIO_CURRENT_TAB, 0)
     val artistsProvider = ArtistsProvider(context, this,
             Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false))
-    val albumsProvider = AlbumsProvider(null, context, this)
+    private val albumsProvider = AlbumsProvider(null, context, this)
     val tracksProvider = TracksProvider(null, context, this)
-    val genresProvider = GenresProvider(context, this)
+    private val genresProvider = GenresProvider(context, this)
     override val providers = arrayOf(artistsProvider, albumsProvider, tracksProvider, genresProvider)
     private val settings = Settings.getInstance(context)
     val providersInCard = arrayOf(true, true, false, false)
@@ -59,7 +63,7 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
         watchGenres()
         watchMedia()
         //Initial state coming from preferences and falling back to [providersInCard] hardcoded values
-        for (i in 0 until displayModeKeys.size) {
+        for (i in displayModeKeys.indices) {
             providersInCard[i] = settings.getBoolean(displayModeKeys[i], providersInCard[i])
         }
 
@@ -67,12 +71,10 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
 
     override fun refresh() {
         artistsProvider.showAll = settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false)
-        super.refresh()
-    }
-
-    @MainThread
-    internal fun setLoading() {
-        providers.forEach { it.loading.value = true }
+        viewModelScope.launch {
+            providers[currentTab].awaitRefresh()
+            for (index in providers.indices) if (index != currentTab) providers[index].awaitRefresh()
+        }
     }
 
     class Factory(val context: Context): ViewModelProvider.NewInstanceFactory() {

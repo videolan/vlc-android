@@ -116,8 +116,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             val audioPagerAdapter = AudioPagerAdapter(views.toTypedArray(), titles)
             @Suppress("UNCHECKED_CAST")
             viewPager.adapter = audioPagerAdapter
-            val tabPosition = settings.getInt(KEY_AUDIO_CURRENT_TAB, 0)
-            currentTab = tabPosition
+            currentTab = viewModel.currentTab
             savedInstanceState?.getIntegerArrayList(KEY_LISTS_POSITIONS)?.withIndex()?.forEach {
                 restorePositions.put(it.index, it.value)
             }
@@ -297,6 +296,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     override fun onTabSelected(tab: TabLayout.Tab) {
         adapter = adapters[tab.position]
+        viewModel.currentTab = tab.position
         super.onTabSelected(tab)
         songs_fast_scroller?.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
         settings.edit().putInt(KEY_AUDIO_CURRENT_TAB, tab.position).apply()
