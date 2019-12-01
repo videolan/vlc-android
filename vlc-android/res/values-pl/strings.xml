@@ -48,8 +48,8 @@
     <string name="insert_next">Wstaw jako następny</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
-    <string name="resume_playback_short">Wznów odtwarzanie</string>
-    <string name="resume_playback_long">Wznów</string>
+    <string name="resume_playback_short">Wznów</string>
+    <string name="resume_playback_long">Wznów odtwarzanie</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
@@ -105,6 +105,18 @@
         <item quantity="few">%d filmy</item>
         <item quantity="many">%d filmów</item>
         <item quantity="other">%d filmów</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="few">%d filmy</item>
+        <item quantity="many">%d filmów</item>
+        <item quantity="other">%d filmy</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 serial</item>
+        <item quantity="few">%d seriale</item>
+        <item quantity="many">%d serialów</item>
+        <item quantity="other">%d seriale</item>
     </plurals>
 
     <string name="internal_memory">Pamięć wewnętrzna</string>
@@ -688,7 +700,7 @@
     <string name="popup_force_legacy_title">Wyskakujące okno \"Obraz w obrazie\"</string>
     <string name="popup_force_legacy_summary">Użyj własnego, z możliwością zmiany rozmiaru, wyskakującego okna \"Obraz w obrazie\"</string>
     <string name="device_default">Systemowy</string>
-    <string name="track_number">%s utwory</string>
+    <string name="track_number">%d utwory</string>
     <string name="jump_to">Przejdź do</string>
     <string name="show_video_thumbnails_summary">Pokaż miniaturki wideo w listach</string>
     <string name="show_video_thumbnails">Miniaturki wideo</string>
@@ -732,4 +744,31 @@
     <string name="video_group_size_summary">Grupuj według %s pierwszych liter</string>
     <string name="video_group_size">Grupuj filmy według nazwy</string>
     <string name="url_copied_to_clipboard">Adres URL skopiowany do schowka</string>
+    <string name="share">Udostępnij</string>
+    <string name="invalid_file">Niepoprawny plik. Nie można udostępnić.</string>
+    <string name="share_file">Udostępnij %s</string>
+    <string name="share_message">Tutaj jest %s</string>
+    <string name="find_metadata">Znajdź metadane</string>
+    <string name="moviepedia_hint">Wyszukaj metadane</string>
+    <string name="moviepedia_result">Wyniki wideo</string>
+    <string name="release_date">Data wydania:</string>
+    <string name="synopsis">Streszczenie:</string>
+    <string name="directed_by">Reżyseria:</string>
+    <string name="casting">Obsada:</string>
+    <string name="produced_by">Produkcja:</string>
+    <string name="written_by">Scenariusz:</string>
+    <string name="music_by">Muzyka:</string>
+    <string name="posters">Plakaty</string>
+    <string name="backdrops">Tła</string>
+    <string name="header_tvshows">Seriale</string>
+    <string name="all_movies">Wszystkie filmy</string>
+    <string name="movie_count">%s filmy(ów)</string>
+    <string name="header_movies">Filmy</string>
+    <string name="season_number">Sezon %s</string>
+    <string name="resume_episode">Wznów (%s)</string>
+    <string name="start_over">Zacznij od początku</string>
+    <string name="next_episode">Następny epizod</string>
+    <string name="open_network_settings">Czy otworzyć ustawienia sieciowe?</string>
+    <string name="recently_played">Ostatnio odtwarzane</string>
+    <string name="recently_added">Ostatnio dodane</string>
 </resources>
