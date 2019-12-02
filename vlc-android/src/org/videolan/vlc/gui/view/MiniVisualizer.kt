@@ -81,7 +81,7 @@ class MiniVisualizer : LinearLayout {
             animator.duration = 3000
             animator.interpolator = LinearInterpolator()
             animator.start()
-        } else if (Build.VERSION.SDK_INT < 19) {
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             if (!animator.isStarted) {
                 animator.start()
             }
@@ -94,7 +94,7 @@ class MiniVisualizer : LinearLayout {
 
     fun stop() {
         if (::animator.isInitialized && animator.isRunning && animator.isStarted) {
-            if (Build.VERSION.SDK_INT < 19) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                 animator.end()
             } else {
                 animator.pause()

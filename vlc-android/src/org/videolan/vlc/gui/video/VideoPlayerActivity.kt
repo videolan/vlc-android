@@ -360,7 +360,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         get() = playlistContainer.visibility == View.VISIBLE
 
     private val btReceiver = object : BroadcastReceiver() {
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent == null) return
             service?.let { service ->
@@ -684,7 +683,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onStart() {
         medialibrary.pauseBackgroundOperations()
         super.onStart()
@@ -837,7 +835,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private fun stopPlayback() {
         if (!playbackStarted) return
 
@@ -886,7 +883,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private fun cleanUI() {
 
         rootView?.run { keepScreenOn = false }
@@ -2183,7 +2179,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         window.decorView.systemUiVisibility = visibility
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private fun showTitle() {
         if (isNavMenu) return
 

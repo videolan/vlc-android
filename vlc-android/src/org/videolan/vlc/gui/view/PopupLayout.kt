@@ -89,7 +89,6 @@ class PopupLayout : RelativeLayout, ScaleGestureDetector.OnScaleGestureListener,
     /*
      * Update layout dimensions and apply layout params to window manager
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     fun setViewSize(width: Int, height: Int) {
         var width = width
         var height = height

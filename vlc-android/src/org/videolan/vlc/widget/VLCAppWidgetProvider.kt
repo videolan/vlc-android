@@ -134,7 +134,6 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
         applyUpdate(context, views, partial)
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private fun applyUpdate(context: Context, views: RemoteViews, partial: Boolean) {
         val widget = ComponentName(context, this.javaClass)
         val manager = AppWidgetManager.getInstance(context)

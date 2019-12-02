@@ -101,7 +101,6 @@ class MainActivity : ContentActivity(),
         drawerToggle.syncState()
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private fun prepareActionBar() {
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)

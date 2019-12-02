@@ -60,7 +60,6 @@ import org.videolan.vlc.viewmodels.browser.BrowserModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 object TvUtil {
 
     private const val TAG = "VLC/TvUtil"

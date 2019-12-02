@@ -69,7 +69,6 @@ object Permissions {
         return !AndroidUtil.isMarshMallowOrLater || android.provider.Settings.System.canWrite(context)
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     fun canReadStorage(context: Context): Boolean {
         return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED

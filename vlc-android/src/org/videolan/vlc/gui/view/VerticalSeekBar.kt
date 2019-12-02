@@ -28,7 +28,7 @@ class VerticalSeekBar : AppCompatSeekBar {
     private fun initialize() {
 
         //The custom drawable looks not great for kitkat. So we use the default one to mitigate the issue
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             progressDrawable = ContextCompat.getDrawable(context, R.drawable.po_seekbar)
         }
     }

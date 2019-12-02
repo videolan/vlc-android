@@ -301,7 +301,6 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         viewModel.sort(sort)
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     fun startActionMode() {
         val activity = activity as AppCompatActivity? ?: return
         actionMode = activity.startSupportActionMode(this)

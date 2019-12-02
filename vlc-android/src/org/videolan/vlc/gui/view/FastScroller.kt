@@ -125,7 +125,6 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
         initialize(context)
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         initialize(context)
     }

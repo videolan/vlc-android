@@ -60,7 +60,7 @@ object VLCOptions {
         get() {
             val context = VLCApplication.appContext
             val pref = Settings.getInstance(context)
-            if (context != null && Build.VERSION.SDK_INT >= 21 && audiotrackSessionId == 0) {
+            if (context != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && audiotrackSessionId == 0) {
                 val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
                 audiotrackSessionId = audioManager.generateAudioSessionId()
             }

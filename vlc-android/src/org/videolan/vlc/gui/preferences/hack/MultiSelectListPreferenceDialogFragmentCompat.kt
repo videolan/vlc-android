@@ -10,7 +10,6 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceDialogFragmentCompat
 import java.util.*
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 class MultiSelectListPreferenceDialogFragmentCompat : PreferenceDialogFragmentCompat(), DialogPreference.TargetFragment {
     private val newValues = HashSet<String>()
     private var preferenceChanged: Boolean = false

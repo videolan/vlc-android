@@ -40,7 +40,6 @@ abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
         addPreferencesFromResource(getXml())
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected fun loadFragment(fragment: Fragment) {
         activity.fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment)
                 .addToBackStack("main")

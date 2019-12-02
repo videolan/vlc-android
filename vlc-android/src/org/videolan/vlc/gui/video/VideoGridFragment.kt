@@ -299,7 +299,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         super.setFabPlayVisibility(!viewModel.isEmpty() && enable)
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
         when (viewModel.groupingType) {
             VideoGroupingType.NONE -> mode.menuInflater.inflate(R.menu.action_mode_video, menu)

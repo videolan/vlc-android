@@ -230,7 +230,6 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             binding.fab.show()
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     fun startActionMode() {
         actionMode = startSupportActionMode(this)
     }

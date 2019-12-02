@@ -30,7 +30,6 @@ import androidx.collection.LruCache
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.util.readableSize
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 object BitmapCache {
     private val mMemCache: LruCache<String, Bitmap>
     private val TAG = "VLC/BitmapCache"

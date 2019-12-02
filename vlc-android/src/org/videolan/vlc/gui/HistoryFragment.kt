@@ -57,7 +57,6 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     private lateinit var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(this)
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.history_list, container, false)
     }
