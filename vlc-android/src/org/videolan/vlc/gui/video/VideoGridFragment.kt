@@ -48,7 +48,6 @@ import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
 import org.videolan.vlc.gui.ContentActivity
-import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.MoviepediaActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
@@ -282,6 +281,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     private fun updateEmptyView() {
+        if (!::binding.isInitialized) return
         val empty = viewModel.isEmpty() && videoListAdapter.currentList.isNullOrEmpty()
         val working = mediaLibrary.isWorking
         binding.emptyLoading.state = when {
