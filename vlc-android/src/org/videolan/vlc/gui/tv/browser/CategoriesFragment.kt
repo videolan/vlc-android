@@ -82,7 +82,7 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
 
     override fun onStart() {
         super.onStart()
-        if (this::selecteditem.isInitialized) lifecycleScope.updateBackground(requireContext(), backgroundManager, selecteditem)
+        if (this::selecteditem.isInitialized) lifecycleScope.updateBackground(requireActivity(), backgroundManager, selecteditem)
         if (restart) refresh()
         restart = true
     }
@@ -93,7 +93,7 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
         selecteditem = item as AbstractMediaWrapper
         if (currentArt == item.artworkMrl) return
         currentArt = item.artworkMrl
-        lifecycleScope.updateBackground(requireContext(), backgroundManager, item)
+        lifecycleScope.updateBackground(requireActivity(), backgroundManager, item)
     }
 
     override fun onItemClicked(viewHolder: Presenter.ViewHolder, item: Any, viewHolder1: RowPresenter.ViewHolder, row: Row) {

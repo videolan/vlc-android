@@ -258,7 +258,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onStart() {
         super.onStart()
-        if (selectedItem is AbstractMediaWrapper) lifecycleScope.updateBackground(requireContext(), backgroundManager, selectedItem)
+        if (selectedItem is AbstractMediaWrapper) lifecycleScope.updateBackground(requireActivity(), backgroundManager, selectedItem)
         model.refresh()
     }
 
@@ -313,6 +313,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onItemSelected(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         selectedItem = item
-        lifecycleScope.updateBackground(requireContext(), backgroundManager, item)
+        lifecycleScope.updateBackground(requireActivity(), backgroundManager, item)
     }
 }

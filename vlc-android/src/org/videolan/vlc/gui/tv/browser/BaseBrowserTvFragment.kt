@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.tv.browser
 
 import android.annotation.TargetApi
+import android.app.Activity
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Build
@@ -240,7 +241,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         (item as? MediaLibraryItem)?.run {
             if (currentArt == artworkMrl) return@run
             currentArt = artworkMrl
-            lifecycleScope.updateBackground(v.context, backgroundManager, this)
+            lifecycleScope.updateBackground(v.context as Activity, backgroundManager, this)
         }
     }
 

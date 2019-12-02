@@ -136,7 +136,8 @@ object TvUtil {
         when (item) {
             is AbstractMediaWrapper -> when {
                 item.type == AbstractMediaWrapper.TYPE_AUDIO -> {
-                    val list = (model?.dataset?.getList() as? List<AbstractMediaWrapper>)?.filter { it.type != AbstractMediaWrapper.TYPE_DIR } ?: return
+                    val list = (model?.dataset?.getList() as? List<AbstractMediaWrapper>)?.filter { it.type != AbstractMediaWrapper.TYPE_DIR }
+                            ?: return
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
@@ -363,36 +364,45 @@ object TvUtil {
 
 @Suppress("UNNECESSARY_SAFE_CALL")
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-fun CoroutineScope.updateBackground(context: Context, bm: BackgroundManager?, item: Any?) {
+fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, item: Any?) {
     if (bm === null || item === null) {
-        clearBackground(context, bm)
+        clearBackground(activity, bm)
         return
     }
+    val screenRatio: Float = activity.getScreenWidth().toFloat() / activity.getScreenHeight()
     if (item is MediaLibraryItem) launch {
-        val crop = item.itemType != MediaLibraryItem.TYPE_MEDIA || (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_AUDIO
         val artworkMrl = item.artworkMrl
         if (!TextUtils.isEmpty(artworkMrl)) {
             val blurred = withContext(Dispatchers.IO) {
                 var cover: Bitmap? = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
                         ?: return@withContext null
-                if (cover != null && crop)
-                    cover = BitmapUtil.centerCrop(cover, cover.width, cover.width * 10 / 16)
+                if (cover != null) cover = BitmapUtil.centerCrop(cover, cover.width, (cover.width / screenRatio).toInt())
                 UiTools.blurBitmap(cover, 10f)
             }
             if (!isActive) return@launch
             bm?.color = 0
-            bm?.drawable = BitmapDrawable(context.resources, blurred)
+            bm?.drawable = BitmapDrawable(activity.resources, blurred)
         } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
             val blurred = withContext(Dispatchers.IO) {
                 var cover: Bitmap? = ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), 512)
                         ?: return@withContext null
-                if (crop) cover = cover?.let { BitmapUtil.centerCrop(it, it.width, it.width * 10 / 16) }
+                cover = cover?.let { BitmapUtil.centerCrop(it, it.width, (it.width / screenRatio).toInt()) }
                 UiTools.blurBitmap(cover, 10f)
             }
             if (!isActive) return@launch
             bm?.color = 0
-            bm?.drawable = BitmapDrawable(context.resources, blurred)
+            bm?.drawable = BitmapDrawable(activity.resources, blurred)
         }
+    } else if (item is MediaMetadataWithImages) launch {
+        val blurred = withContext(Dispatchers.IO) {
+            var cover: Bitmap? = HttpImageLoader.downloadBitmap(item.metadata.currentPoster)
+            cover?.let { cover = BitmapUtil.centerCrop(it, it.width, (it.width / screenRatio).toInt()) }
+            UiTools.blurBitmap(cover, 10f)
+        }
+        if (!isActive) return@launch
+        bm?.color = 0
+        bm?.drawable = BitmapDrawable(activity.resources, blurred)
+
     }
 }
 
