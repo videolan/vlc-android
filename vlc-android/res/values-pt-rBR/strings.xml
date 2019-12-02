@@ -94,6 +94,14 @@
         <item quantity="one">1 vídeo</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 filme</item>
+        <item quantity="other">%d filmes</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 Programa de TV</item>
+        <item quantity="other">%d Programas de TV</item>
+    </plurals>
 
     <string name="internal_memory">memória interna</string>
     <string name="parent_folder">Pasta superior</string>
@@ -674,7 +682,7 @@
     <string name="popup_force_legacy_title">Usar popup de mini tela personalizado</string>
     <string name="popup_force_legacy_summary">Usa um popup de mini tela redimensionável e personalizado</string>
     <string name="device_default">Dispositivo padrão</string>
-    <string name="track_number">%s trilhas</string>
+    <string name="track_number">%d trilhas</string>
     <string name="jump_to">Ir para</string>
     <string name="show_video_thumbnails_summary">Exibir miniaturas de vídeos em listas</string>
     <string name="show_video_thumbnails">Miniaturas de vídeos</string>
@@ -718,4 +726,31 @@
     <string name="video_group_size_summary">Agrupar pelos %s primeiros caracteres</string>
     <string name="video_group_size">Agrupar vídeos por nome</string>
     <string name="url_copied_to_clipboard">Url copiado para a área de transferência</string>
+    <string name="share">Compartilhar</string>
+    <string name="invalid_file">Arquivo inválido. Nao é possível compartilhá-lo.</string>
+    <string name="share_file">Compartilhar 1%s</string>
+    <string name="share_message">Aqui está 1%s</string>
+    <string name="find_metadata">Encontrar metadados</string>
+    <string name="moviepedia_hint">Pesquisar metadados</string>
+    <string name="moviepedia_result">Resultados de vídeo</string>
+    <string name="release_date">Lançamento:</string>
+    <string name="synopsis">Sinopse</string>
+    <string name="directed_by">Dirigido por</string>
+    <string name="casting">Estrelando</string>
+    <string name="produced_by">Produzido por</string>
+    <string name="written_by">Escrito por</string>
+    <string name="music_by">Música de</string>
+    <string name="posters">Pôsteres</string>
+    <string name="backdrops">Painéis Pantográficos</string>
+    <string name="header_tvshows">Programas de TV</string>
+    <string name="all_movies">Todos os filmes</string>
+    <string name="movie_count">%s filme(s)</string>
+    <string name="header_movies">Filmes</string>
+    <string name="season_number">Temporada %s</string>
+    <string name="resume_episode">Retomar (%s)</string>
+    <string name="start_over">Reiniciar</string>
+    <string name="next_episode">Próximo episódio</string>
+    <string name="open_network_settings">Abrir configurações de rede?</string>
+    <string name="recently_played">Reproduzido recentemente</string>
+    <string name="recently_added">Adicionado recentemente</string>
 </resources>
