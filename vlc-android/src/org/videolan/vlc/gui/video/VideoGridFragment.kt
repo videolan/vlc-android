@@ -227,7 +227,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onStop() {
         super.onStop()
-        lifecycleScope.coroutineContext.cancelChildren()
         unregisterForContextMenu(binding.videoGrid)
     }
 
