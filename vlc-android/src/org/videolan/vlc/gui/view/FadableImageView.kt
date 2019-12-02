@@ -1,5 +1,6 @@
 package org.videolan.vlc.gui.view
 
+import android.animation.Animator
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
@@ -25,12 +26,28 @@ class FadableImageView : AppCompatImageView {
         if (animationRunning?.get() == true) return
         alpha = 0f
         animationRunning?.set(true)
-        animate().withEndAction { animationRunning?.set(false) }.alpha(1f)
+        animate().setListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(p0: Animator?) {
+            }
+
+            override fun onAnimationEnd(p0: Animator?) {
+                animationRunning?.set(false)
+                alpha = 1f
+            }
+
+            override fun onAnimationCancel(p0: Animator?) {
+                animationRunning?.set(false)
+                alpha = 1f
+            }
+
+            override fun onAnimationStart(p0: Animator?) {
+            }
+        }).alpha(1f)
     }
 
     fun resetFade() {
-        animate().cancel()
         post {
+            animate().cancel()
             alpha = 1f
         }
     }
