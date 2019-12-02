@@ -58,6 +58,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.*
+import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.getFromMl
@@ -271,7 +272,7 @@ class MoviepediaTvshowDetailsFragment : DetailsSupportFragment(), CoroutineScope
         rowPresenter.onActionClickedListener = OnActionClickedListener { action ->
             when (action.id.toInt()) {
                 ID_RESUME -> {
-                    TvUtil.playMedia(activity, getResumeMedias())
+                    MediaUtils.openList(activity, getResumeMedias(), 0)
                 }
                 ID_START_OVER -> {
 
