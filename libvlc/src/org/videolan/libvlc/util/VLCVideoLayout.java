@@ -8,12 +8,12 @@ import android.view.TextureView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import org.videolan.R;
-import org.videolan.libvlc.MediaPlayer;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import org.videolan.R;
+import org.videolan.libvlc.MediaPlayer;
 
 /**
  * VLC-ready layout which includes 2 {@link SurfaceView} (video+subtitles) and 1 {@link TextureView}
@@ -50,7 +50,7 @@ public class VLCVideoLayout extends FrameLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        setBackgroundColor(getResources().getColor(android.R.color.black));
+        setBackgroundResource(R.color.black);
         final ViewGroup.LayoutParams lp = getLayoutParams();
         lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
         lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
