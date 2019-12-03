@@ -774,7 +774,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 MediaPlayer.Event.EncounteredError -> {
                     service.showToast(service.getString(
                             R.string.invalid_location,
-                            getCurrentMedia()?.location ?: ""), Toast.LENGTH_SHORT)
+                            getCurrentMedia()?.location ?: ""), Toast.LENGTH_SHORT, true)
                     if (currentIndex != nextIndex) next() else stop()
                 }
                 MediaPlayer.Event.TimeChanged -> {

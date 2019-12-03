@@ -134,7 +134,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
                         stop()
                     }
                 }
-                VLCAppWidgetProvider.ACTION_WIDGET_ENABLED , VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
+                VLCAppWidgetProvider.ACTION_WIDGET_ENABLED, VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
                 ACTION_CAR_MODE_EXIT -> MediaSessionBrowser.unbindExtensionConnection()
                 AudioManager.ACTION_AUDIO_BECOMING_NOISY -> if (detectHeadset) {
                     if (BuildConfig.DEBUG) Log.i(TAG, "Becoming noisy")
@@ -169,6 +169,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
                 } else {
                     showNotification()
                 }
+                handler.nbErrors = 0
             }
             MediaPlayer.Event.Paused -> {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Paused")
@@ -634,14 +635,27 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
 
     private class PlaybackServiceHandler(owner: PlaybackService) : WeakHandler<PlaybackService>(owner) {
 
+        var currentToast: Toast? = null
+        var nbErrors = 0
+
         override fun handleMessage(msg: Message) {
             val service = owner ?: return
             when (msg.what) {
                 SHOW_TOAST -> {
                     val bundle = msg.data
-                    val text = bundle.getString("text")
+                    var text = bundle.getString("text")
                     val duration = bundle.getInt("duration")
-                    Toast.makeText(VLCApplication.appContext, text, duration).show()
+                    val isError = bundle.getBoolean("isError")
+                    if (isError) {
+                        when {
+                            nbErrors > 5 -> return
+                            nbErrors == 5 -> text = service.getString(R.string.playback_multiple_errors)
+                        }
+                        currentToast?.cancel()
+                        nbErrors++
+                    }
+                    currentToast = Toast.makeText(VLCApplication.appContext, text, duration)
+                    currentToast?.show()
                 }
                 END_MEDIASESSION -> if (service::mediaSession.isInitialized) service.mediaSession.isActive = false
             }
@@ -962,12 +976,13 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
         runOnceReady(Runnable { playlistManager.loadLastPlaylist(type) })
     }
 
-    fun showToast(text: String, duration: Int) {
+    fun showToast(text: String, duration: Int, isError: Boolean = false) {
         val msg = handler.obtainMessage().apply {
             what = SHOW_TOAST
             data = Bundle(2).apply {
                 putString("text", text)
                 putInt("duration", duration)
+                putBoolean("isError", isError)
             }
         }
         handler.removeMessages(SHOW_TOAST)
@@ -1147,7 +1162,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     @MainThread
     fun insertItem(position: Int, mw: AbstractMediaWrapper) = playlistManager.insertItem(position, mw)
 
-
     @MainThread
     fun remove(position: Int) = playlistManager.remove(position)
 
@@ -1274,7 +1288,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
         }
     }
 
-
     private val cbActor by lazy {
         actor<CbAction>(capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {
@@ -1321,6 +1334,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
 
 // Actor actions sealed classes
 private sealed class CbAction
+
 private object CbUpdate : CbAction()
 private class CbMediaEvent(val event: Media.Event) : CbAction()
 private class CbMediaPlayerEvent(val event: MediaPlayer.Event) : CbAction()

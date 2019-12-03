@@ -776,4 +776,5 @@
     <string name="open_network_settings">Open network settings?</string>
     <string name="recently_played">Recently played</string>
     <string name="recently_added">Recently added</string>
+    <string name="playback_multiple_errors">Multiple media cannot be played</string>
 </resources>
