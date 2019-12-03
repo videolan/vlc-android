@@ -31,10 +31,7 @@ import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
 import android.provider.BaseColumns
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import android.util.Log
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.util.ThumbnailsProvider
@@ -46,6 +43,7 @@ class TVSearchProvider : ContentProvider() {
     override fun query(uri: Uri, projection: Array<String>?, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
         return if (uri.pathSegments.firstOrNull() == "search") {
             selectionArgs?.firstOrNull()?.let { query ->
+                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Voice search for ${query.replace(Regex("[^A-Za-z0-9 ]"), "")}")
                 val medialibrary = AbstractMedialibrary.getInstance()
                 val columns = arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID, SearchManager.SUGGEST_COLUMN_TEXT_1, SearchManager.SUGGEST_COLUMN_TEXT_2, SearchManager.SUGGEST_COLUMN_RESULT_CARD_IMAGE, SearchManager.SUGGEST_COLUMN_PRODUCTION_YEAR, SearchManager.SUGGEST_COLUMN_DURATION)
 
@@ -53,36 +51,39 @@ class TVSearchProvider : ContentProvider() {
 
                 val searchAggregate = medialibrary.search(query.replace(Regex("[^A-Za-z0-9 ]"), ""))
                         ?: return null
-                GlobalScope.launch(Dispatchers.IO) {
-                    searchAggregate.artists?.filterNotNull()?.let {
-                        it.forEach { media ->
-                            val thumbnail = if (media.artworkMrl != null) getFileUri(media.artworkMrl) else ""
-                            matrixCursor.addRow(arrayOf(media.id, "artist_${media.id}", media.title, media.description, thumbnail, "", -1))
-                        }
-
+                searchAggregate.artists?.filterNotNull()?.let {
+                    it.forEach { media ->
+                        val thumbnail = if (media.artworkMrl != null) getFileUri(media.artworkMrl) else ""
+                        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Adding artist ${media.title}")
+                        matrixCursor.addRow(arrayOf(media.id, "artist_${media.id}", media.title, media.description, thumbnail, "", -1))
                     }
-                    searchAggregate.albums?.filterNotNull()?.let {
-                        it.forEach { media ->
-                            val thumbnail = if (media.artworkMrl != null) getFileUri(media.artworkMrl) else ""
-                            matrixCursor.addRow(arrayOf(media.id, "album_${media.id}", media.title, media.description, thumbnail, media.releaseYear, media.duration))
-                        }
 
-                    }
-                    searchAggregate.videos?.filterNotNull()?.let {
-                        it.forEach { media ->
-                            val thumbnail = if (media.artworkURL != null) getFileUri(media.artworkURL) else media.getThumb()
-                            matrixCursor.addRow(arrayOf(media.id, "media_${media.id}", media.title, media.description, thumbnail, media.date, media.length))
-                        }
-
-                    }
-                    searchAggregate.tracks?.filterNotNull()?.let {
-                        it.forEach { media ->
-                            val thumbnail = if (media.artworkURL != null) getFileUri(media.artworkURL) else media.getThumb()
-                            matrixCursor.addRow(arrayOf(media.id, "media_${media.id}", media.title, media.description, thumbnail, media.releaseYear, media.length))
-                        }
-
-                    }
                 }
+                searchAggregate.albums?.filterNotNull()?.let {
+                    it.forEach { media ->
+                        val thumbnail = if (media.artworkMrl != null) getFileUri(media.artworkMrl) else ""
+                        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Adding album ${media.title}")
+                        matrixCursor.addRow(arrayOf(media.id, "album_${media.id}", media.title, media.description, thumbnail, media.releaseYear, media.duration))
+                    }
+
+                }
+                searchAggregate.videos?.filterNotNull()?.let {
+                    it.forEach { media ->
+                        val thumbnail = if (media.artworkURL != null) getFileUri(media.artworkURL) else media.getThumb()
+                        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Adding video ${media.title}")
+                        matrixCursor.addRow(arrayOf(media.id, "media_${media.id}", media.title, media.description, thumbnail, media.date, media.length))
+                    }
+
+                }
+                searchAggregate.tracks?.filterNotNull()?.let {
+                    it.forEach { media ->
+                        val thumbnail = if (media.artworkURL != null) getFileUri(media.artworkURL) else media.getThumb()
+                        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Adding track ${media.title}")
+                        matrixCursor.addRow(arrayOf(media.id, "media_${media.id}", media.title, media.description, thumbnail, media.releaseYear, media.length))
+                    }
+
+                }
+                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Found ${matrixCursor.count} results")
                 matrixCursor
 
             }
@@ -102,9 +103,9 @@ class TVSearchProvider : ContentProvider() {
     override fun getType(uri: Uri): String? = null
 }
 
-private suspend fun AbstractMediaWrapper.getThumb(): Uri {
+private fun AbstractMediaWrapper.getThumb(): Uri {
     if (!isThumbnailGenerated) {
-        withContext(Dispatchers.IO) { ThumbnailsProvider.getVideoThumbnail(this@getThumb, 512) }
+        ThumbnailsProvider.getVideoThumbnail(this@getThumb, 512)
     }
     val mrl = artworkMrl
             ?: return Uri.parse("android.resource://${BuildConfig.APPLICATION_ID}/${R.drawable.ic_browser_video_big_normal}")
