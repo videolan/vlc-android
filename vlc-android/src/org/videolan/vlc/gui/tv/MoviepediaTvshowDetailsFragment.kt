@@ -55,7 +55,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.*
 import org.videolan.vlc.media.MediaUtils
@@ -265,18 +264,14 @@ class MoviepediaTvshowDetailsFragment : DetailsSupportFragment(), CoroutineScope
 
         val activity = requireActivity()
         detailsOverview = DetailsOverviewRow(tvShow)
-//        val actionAdd = Action(ID_FAVORITE_ADD.toLong(), getString(R.string.favorites_add))
-//        val actionDelete = Action(ID_FAVORITE_DELETE.toLong(), getString(R.string.favorites_remove))
-//
         rowPresenter.backgroundColor = ContextCompat.getColor(activity, R.color.orange500)
         rowPresenter.onActionClickedListener = OnActionClickedListener { action ->
             when (action.id.toInt()) {
                 ID_RESUME -> {
-                    MediaUtils.openList(activity, getResumeMedias(), 0)
+                    MediaUtils.openList(activity, viewModel.provider.getResumeMedias(viewModel.updateLiveData.value?.seasons), 0)
                 }
                 ID_START_OVER -> {
-
-                    TvUtil.playMedia(activity, getAllMedias())
+                    TvUtil.playMedia(activity, viewModel.provider.getAllMedias(viewModel.updateLiveData.value?.seasons))
                 }
             }
         }
@@ -312,36 +307,6 @@ class MoviepediaTvshowDetailsFragment : DetailsSupportFragment(), CoroutineScope
             }
         }
         return null
-    }
-
-    private fun getResumeMedias(): List<AbstractMediaWrapper> {
-        val mediasToPlay = ArrayList<AbstractMediaWrapper>()
-        var firstResumableFound = false
-        val seasons = viewModel.updateLiveData.value?.seasons
-        seasons?.forEach {
-            it.episodes.forEach { episode ->
-                episode.media?.let { media ->
-                    if (media.seen < 1 || firstResumableFound) {
-                        firstResumableFound = true
-                        mediasToPlay.add(media)
-                    }
-                }
-            }
-        }
-        return mediasToPlay
-    }
-
-    private fun getAllMedias(): List<AbstractMediaWrapper> {
-        val mediasToPlay = ArrayList<AbstractMediaWrapper>()
-        val seasons = viewModel.updateLiveData.value?.seasons
-        seasons?.forEach {
-            it.episodes.forEach { episode ->
-                episode.media?.let { media ->
-                    mediasToPlay.add(media)
-                }
-            }
-        }
-        return mediasToPlay
     }
 }
 

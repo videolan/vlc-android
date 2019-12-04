@@ -92,6 +92,9 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     @WorkerThread
     fun getMetadata(mediaId: Long): MediaMetadataWithImages? = mediaMetadataFullDao.getMedia(mediaId)
 
+    @WorkerThread
+    fun getMediaById(mediaId: String): MediaMetadataWithImages? = mediaMetadataFullDao.getMediaById(mediaId)
+
     fun getMoviePagedList(sortField: String, sortType: String, metadataType: MediaMetadataType): DataSource.Factory<Int, MediaMetadataWithImages> {
         val query = SimpleSQLiteQuery("SELECT * FROM media_metadata WHERE type = ${metadataType.key} ORDER BY $sortField $sortType")
         return mediaMetadataFullDao.getAllPaged(query)
@@ -106,6 +109,10 @@ class MediaMetadataRepository(private val mediaMetadataFullDao: MediaMetadataDat
     fun getByIds(mlids: List<Long>) = mediaMetadataFullDao.getByIds(mlids)
 
     fun getRecentlyAdded() = mediaMetadataFullDao.getRecentlyAdded()
+
+    fun searchMedia(sanitizedQuery: String) = mediaMetadataFullDao.searchMedia(sanitizedQuery)
+
+    fun getTvShowEpisodes(tvshowId: String) = mediaMetadataFullDao.getTvShowEpisodes(tvshowId)
 
     companion object : SingletonHolder<MediaMetadataRepository, Context>({ MediaMetadataRepository(MediaDatabase.getInstance(it).mediaMedataDataFullDao(), MediaDatabase.getInstance(it).mediaMetadataDao(), MediaDatabase.getInstance(it).mediaImageDao()) })
 }

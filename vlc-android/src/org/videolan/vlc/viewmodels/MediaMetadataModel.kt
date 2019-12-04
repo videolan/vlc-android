@@ -34,6 +34,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.vlc.database.models.*
 import org.videolan.vlc.moviepedia.MoviepediaIndexer
+import org.videolan.vlc.providers.MoviepediaTvshowProvider
 import org.videolan.vlc.repository.MediaMetadataRepository
 import org.videolan.vlc.repository.MediaPersonRepository
 import org.videolan.vlc.util.getFromMl
@@ -42,6 +43,7 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
 
     val updateLiveData: MediatorLiveData<MediaMetadataFull> = MediatorLiveData()
     val nextEpisode: MutableLiveData<MediaMetadataWithImages> = MutableLiveData()
+    val provider = MoviepediaTvshowProvider(context)
     private val updateActor = actor<MediaMetadataFull>(capacity = Channel.CONFLATED) {
         for (entry in channel) {
             updateLiveData.value = entry
@@ -114,29 +116,9 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
                 if (it?.metadata?.type == MediaMetadataType.TV_SHOW) {
                     val episodes = MediaMetadataRepository.getInstance(context).getEpisodesLive(mId)
                     updateLiveData.addSource(episodes) { episodes ->
-                        val seasons = ArrayList<Season>()
-                        episodes.forEach { episode ->
-                            val existingSeason = seasons.firstOrNull { it.seasonNumber == episode.metadata.season }
-                            val season = if (existingSeason == null) {
-                                val newSeason = Season(episode.metadata.season ?: 0)
-                                seasons.add(newSeason)
-                                newSeason
-                            } else existingSeason
-                            season.episodes.add(episode)
-                        }
+
                         launch {
-                            seasons.forEach { season ->
-                                season.episodes.sortBy { episode -> episode.metadata.episode }
-                                //retrieve ML media
-                                season.episodes.forEach { episode ->
-                                    if (episode.media == null) {
-                                        episode.metadata.mlId?.let {
-                                            val fromMl = context.getFromMl { getMedia(it) }
-                                            episode.media = fromMl
-                                        }
-                                    }
-                                }
-                            }
+                            val seasons = withContext(Dispatchers.IO) { provider.getAllSeasons(mediaMetadataFull.metadata!!) }
                             mediaMetadataFull.seasons = seasons.sortedBy { it.seasonNumber }
                             updateActor.offer(mediaMetadataFull)
                         }

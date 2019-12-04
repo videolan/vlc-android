@@ -74,7 +74,10 @@ interface MediaMetadataDataFullDao {
     @Query("select * from media_metadata ORDER BY insertDate DESC LIMIT 10")
     fun getRecentlyAdded(): LiveData<List<MediaMetadataWithImages>>
 
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun insert(mediaMetadataFull: MediaMetadataFull)
+    @Query("select * from media_metadata WHERE title LIKE :sanitizedQuery")
+    fun searchMedia(sanitizedQuery: String): List<MediaMetadataWithImages>
+
+    @Query("select * from media_metadata WHERE show_id = :tvshowId ORDER by season, episode")
+    fun getTvShowEpisodes(tvshowId: String): List<MediaMetadataWithImages>
 
 }

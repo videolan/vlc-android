@@ -33,6 +33,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
+import org.videolan.vlc.providers.MoviepediaTvshowProvider
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
@@ -45,7 +46,7 @@ private const val TAG = "VLC/MediaUtils"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-object MediaUtils  {
+object MediaUtils {
     fun getSubs(activity: FragmentActivity, mediaList: List<AbstractMediaWrapper>) {
         if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri })
         else {
@@ -356,7 +357,6 @@ object MediaUtils  {
 
         protected constructor()
 
-
         fun disconnect() {
             PlaybackService.service.removeObserver(this)
         }
@@ -469,23 +469,43 @@ object MediaUtils  {
     fun openMediaNoUiFromTvContent(context: Context, data: Uri?) {
         AppScope.launch {
             data?.lastPathSegment?.let { id ->
-                val mw = context.getFromMl {
-                    val longId = id.substringAfter("_").toLong()
-                    when {
-                        id.startsWith("album") -> {
-                            getAlbum(longId)
+                when {
+                    //Resume TV show from moviepedia
+                    id.startsWith("resume_") -> {
+                        val provider = MoviepediaTvshowProvider(context)
+                        val resumableEpisodes = withContext(Dispatchers.IO) { provider.getResumeMediasById(id.substringAfter("_")) }
+                        openList(context, resumableEpisodes, 0, false)
+                    }
+                    id.startsWith("episode_") -> {
+                        val provider = MoviepediaTvshowProvider(context)
+                        val moviepediaId = id.substringAfter("_")
+                        val resumableEpisodes = withContext(Dispatchers.IO) { provider.getShowIdForEpisode(moviepediaId)?.let { provider.getAllEpisodesForShow(it) } }
+                        resumableEpisodes?.let { openList(context, it.mapNotNull { episode -> episode.media }, it.indexOfFirst { it.metadata.moviepediaId == moviepediaId }, false) }
+                    }
+                    //Media from medialib
+                    else -> {
+                        val mw = context.getFromMl {
+                            val longId = id.substringAfter("_").toLong()
+                            when {
+                                id.startsWith("album_") -> {
+                                    getAlbum(longId)
+                                }
+                                id.startsWith("artist_") -> getArtist(longId)
+                                else -> getMedia(longId)
+                            }
                         }
-                        id.startsWith("artist") -> getArtist(longId)
-                        else -> getMedia(longId)
+                        mw?.let {
+                            when (it) {
+                                is MediaWrapper -> openMediaNoUi(it.uri)
+                                is Album -> playAlbum(context, it)
+                                is Artist -> playArtist(context, it)
+                                else -> {
+                                }
+                            }
+                        }
                     }
                 }
-                if (mw != null) {
-                    when (mw) {
-                        is MediaWrapper -> openMediaNoUi(mw.uri)
-                        is Album -> playAlbum(context, mw)
-                        is Artist -> playArtist(context, mw)
-                    }
-                }
+
             }
         }
     }
@@ -510,7 +530,7 @@ object MediaUtils  {
 }
 
 @WorkerThread
-fun AbstractFolder.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AbstractMediaWrapper> {
+fun AbstractFolder.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false): List<AbstractMediaWrapper> {
     var index = 0
     val count = mediaCount(type)
     val all = mutableListOf<AbstractMediaWrapper>()
@@ -524,7 +544,7 @@ fun AbstractFolder.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: In
 }
 
 @WorkerThread
-fun AbstractVideoGroup.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AbstractMediaWrapper> {
+fun AbstractVideoGroup.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false): List<AbstractMediaWrapper> {
     var index = 0
     val count = mediaCount()
     val all = mutableListOf<AbstractMediaWrapper>()
@@ -537,7 +557,7 @@ fun AbstractVideoGroup.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, des
     return all
 }
 
-fun List<MediaLibraryItem>.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) =  flatMap {
+fun List<MediaLibraryItem>.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
     when (it) {
         is AbstractVideoGroup -> it.getAll(sort, desc)
         is AbstractMediaWrapper -> listOf(it)
@@ -545,7 +565,7 @@ fun List<MediaLibraryItem>.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT,
     }
 }
 
-fun List<AbstractFolder>.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) =  flatMap {
+fun List<AbstractFolder>.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
     it.getAll(type, sort, desc)
 }
 
@@ -555,7 +575,7 @@ private fun Array<MediaLibraryItem>.toList() = flatMap {
     } else listOf(this as AbstractMediaWrapper)
 }
 
-private val Context.scope : CoroutineScope
+private val Context.scope: CoroutineScope
     get() = (this as? CoroutineScope) ?: AppScope
 
 private sealed class Action
