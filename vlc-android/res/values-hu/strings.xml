@@ -94,6 +94,14 @@
         <item quantity="one">1 videó</item>
         <item quantity="other">%d videó</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d film</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 sorozat</item>
+        <item quantity="other">%d sorozat</item>
+    </plurals>
 
     <string name="internal_memory">Belső memória</string>
     <string name="parent_folder">Vissza a szülőmappához</string>
@@ -674,7 +682,7 @@
     <string name="popup_force_legacy_title">Egyéni „Kép a képben” felugró ablak</string>
     <string name="popup_force_legacy_summary">Egyéni „Kép a képben” átméretezhető felugró ablak</string>
     <string name="device_default">Eszköz alapértelmezése</string>
-    <string name="track_number">%s szám</string>
+    <string name="track_number">%d szám</string>
     <string name="jump_to">Ugrás</string>
     <string name="show_video_thumbnails_summary">Videó bélyegképek megjelenítése a listákban</string>
     <string name="show_video_thumbnails">Videó bélyegképek</string>
@@ -718,4 +726,32 @@
     <string name="video_group_size_summary">A(z) %s csoportosítása az első betűk szerint</string>
     <string name="video_group_size">Videók csoportosítása név szerint</string>
     <string name="url_copied_to_clipboard">URL a vágólapra másolva</string>
+    <string name="share">Megosztás</string>
+    <string name="invalid_file">Érvénytelen fájl. Nem osztható meg.</string>
+    <string name="share_file">%s megosztása</string>
+    <string name="share_message">Itt van: %s</string>
+    <string name="find_metadata">Metaadatok keresése</string>
+    <string name="moviepedia_hint">Metaadatok keresése</string>
+    <string name="moviepedia_result">Videótalálatok</string>
+    <string name="release_date">Kiadva:</string>
+    <string name="synopsis">Összegzés</string>
+    <string name="directed_by">Rendezte:</string>
+    <string name="casting">Szereposztás</string>
+    <string name="produced_by">Producer:</string>
+    <string name="written_by">Írta:</string>
+    <string name="music_by">Zenét szerezte:</string>
+    <string name="posters">Poszterek</string>
+    <string name="backdrops">Hátterek:</string>
+    <string name="header_tvshows">TV-sorozatok</string>
+    <string name="all_movies">Összes film</string>
+    <string name="movie_count">%s film</string>
+    <string name="header_movies">Filmek</string>
+    <string name="season_number">%s. évad</string>
+    <string name="resume_episode">Folytatás (%s)</string>
+    <string name="start_over">Újrakezdés</string>
+    <string name="next_episode">Következő epizód</string>
+    <string name="open_network_settings">Megnyitja a hálózati beállításokat?</string>
+    <string name="recently_played">Legutóbb játszott</string>
+    <string name="recently_added">Legutóbb hozzáadott</string>
+    <string name="playback_multiple_errors">Több média nem játszható le</string>
 </resources>
