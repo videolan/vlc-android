@@ -46,8 +46,8 @@
     <string name="insert_next">Als nächsten einfügen</string>
     <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
-    <string name="resume_playback_short">Letzte Wiedergabe</string>
-    <string name="resume_playback_long">Fortsetzen</string>
+    <string name="resume_playback_short">Fortsetzen</string>
+    <string name="resume_playback_long">Letzte Wiedergabe</string>
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
@@ -93,6 +93,14 @@
     <plurals name="videos_quantity">
         <item quantity="one">1 Video</item>
         <item quantity="other">%d Videos</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 Film</item>
+        <item quantity="other">%d Filme</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV-Sendung</item>
+        <item quantity="other">%d TV-Sendungen</item>
     </plurals>
 
     <string name="internal_memory">Interner Speicher</string>
@@ -674,7 +682,7 @@
     <string name="popup_force_legacy_title">Benutzerdefiniertes Bild-in-Bild</string>
     <string name="popup_force_legacy_summary">Ein benutzerdefiniertes Bild-in-Bild im größenveränderbaren Fenster verwenden</string>
     <string name="device_default">Systemsprache</string>
-    <string name="track_number">%s Titel</string>
+    <string name="track_number">%d Titel</string>
     <string name="jump_to">Springe zu</string>
     <string name="show_video_thumbnails_summary">Video-Vorschau in Listen anzeigen</string>
     <string name="show_video_thumbnails">Video-Vorschau</string>
@@ -718,4 +726,32 @@
     <string name="video_group_size_summary">Gruppierung entsprechend der %s ersten Zeichen</string>
     <string name="video_group_size">Videos nach Name gruppe</string>
     <string name="url_copied_to_clipboard">URL in die Zwischenablage kopiert</string>
+    <string name="share">Teilen</string>
+    <string name="invalid_file">Ungültige Datei, kann nicht geteilt werden.</string>
+    <string name="share_file">%s teilen</string>
+    <string name="share_message">Hier ist %s</string>
+    <string name="find_metadata">Metadaten finden</string>
+    <string name="moviepedia_hint">Metadaten suchen</string>
+    <string name="moviepedia_result">Video-Ergebnisse</string>
+    <string name="release_date">Veröffentlicht:</string>
+    <string name="synopsis">Zusammenfassung</string>
+    <string name="directed_by">Unter der Regie von</string>
+    <string name="casting">Besetzung</string>
+    <string name="produced_by">Produziert von</string>
+    <string name="written_by">Verfasst von</string>
+    <string name="music_by">Musik von</string>
+    <string name="posters">Poster</string>
+    <string name="backdrops">Kulissen</string>
+    <string name="header_tvshows">TV-Sendungen</string>
+    <string name="all_movies">Alle Filme</string>
+    <string name="movie_count">%s Film(e)</string>
+    <string name="header_movies">Filme</string>
+    <string name="season_number">Staffel %s</string>
+    <string name="resume_episode">Fortsetzen (%s)</string>
+    <string name="start_over"> Von vorn beginnen</string>
+    <string name="next_episode">Nächste Episode</string>
+    <string name="open_network_settings">Netzwerk-Einstellungen öffnen?</string>
+    <string name="recently_played">Zuletzt wiedergegeben</string>
+    <string name="recently_added">Zuletzt hinzugefügt</string>
+    <string name="playback_multiple_errors">Mehrere Medien können nicht abgespielt werden</string>
 </resources>
