@@ -88,6 +88,12 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d 個影片</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">%d 部電影</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">%d 部電視節目</item>
+    </plurals>
 
     <string name="internal_memory">內部記憶體</string>
     <string name="parent_folder">回到上一層目錄</string>
@@ -667,7 +673,7 @@
     <string name="popup_force_legacy_title">使用自訂子母畫面彈出</string>
     <string name="popup_force_legacy_summary">使用自訂子母畫面可調整大小彈出</string>
     <string name="device_default">裝置預設值</string>
-    <string name="track_number">%s 軌道</string>
+    <string name="track_number">%d 個軌道</string>
     <string name="jump_to">跳至</string>
     <string name="show_video_thumbnails_summary">在清單中顯示影片縮圖</string>
     <string name="show_video_thumbnails">影片縮圖</string>
@@ -711,4 +717,32 @@
     <string name="video_group_size_summary">按頭 %s 個字母分組</string>
     <string name="video_group_size">按名稱將影片分組</string>
     <string name="url_copied_to_clipboard">Url 已複製到剪貼簿</string>
+    <string name="share">分享</string>
+    <string name="invalid_file">無效的檔案。無法分享。</string>
+    <string name="share_file">分享 %s</string>
+    <string name="share_message">這是 %s</string>
+    <string name="find_metadata">尋找詮釋資料</string>
+    <string name="moviepedia_hint">搜尋詮釋資料</string>
+    <string name="moviepedia_result">視訊結果</string>
+    <string name="release_date">已釋出：</string>
+    <string name="synopsis">概要</string>
+    <string name="directed_by">導演為</string>
+    <string name="casting">正在投放</string>
+    <string name="produced_by">製作人為</string>
+    <string name="written_by">編劇為</string>
+    <string name="music_by">音樂製作人為</string>
+    <string name="posters">海報</string>
+    <string name="backdrops">背景</string>
+    <string name="header_tvshows">電視節目</string>
+    <string name="all_movies">所有電影</string>
+    <string name="movie_count">%s 電影</string>
+    <string name="header_movies">電影</string>
+    <string name="season_number">第 %s 季</string>
+    <string name="resume_episode">繼續 (%s)</string>
+    <string name="start_over">重來</string>
+    <string name="next_episode">下一集</string>
+    <string name="open_network_settings">開啟網路設定？</string>
+    <string name="recently_played">最近播放</string>
+    <string name="recently_added">最近新增</string>
+    <string name="playback_multiple_errors">無法播放多種媒體</string>
 </resources>
