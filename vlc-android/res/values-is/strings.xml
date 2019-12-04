@@ -46,8 +46,8 @@
     <string name="insert_next">Setja inn næsta</string>
     <string name="play_all">Spila allt</string>
     <string name="append_all">Bæta öllu við</string>
-    <string name="last_playlist">Síðasti spilunarlisti</string>
-    <string name="last_playlist_shortcut">Halda afspilun áfram</string>
+    <string name="resume_playback_short">Halda afspilun áfram</string>
+    <string name="resume_playback_long">Halda áfram afspilun síðasta spilunarlista</string>
     <string name="delete">Eyða</string>
     <string name="remove">Fjarlægja</string>
     <string name="set_song">Setja sem hringitón</string>
@@ -93,6 +93,14 @@
     <plurals name="videos_quantity">
         <item quantity="one">1 myndskeið</item>
         <item quantity="other">%d myndskeið</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 kvikmynd</item>
+        <item quantity="other">%d kvikmyndir</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 sjónvarpsþáttur</item>
+        <item quantity="other">%d sjónvarpsþættir</item>
     </plurals>
 
     <string name="internal_memory">Innra minni</string>
@@ -294,9 +302,9 @@
 
     <string name="video_prefs_category">Myndskeið</string>
     <string name="video_min_group_length_title">Hópa myndskeið</string>
-    <string name="video_min_group_length_summary">Myndskeið eru hópuð ef fyrsti stafur í heiti þeirra er sá sami.</string>
-    <string name="video_min_group_length_disable">Gera óvirkt</string>
+    <string name="video_min_group_length_disable">Ekki hópa myndskeið</string>
     <string name="video_min_group_length_folder">Hópa eftir möppum</string>
+    <string name="video_min_group_length_name">Hópa eftir nafni</string>
     <string name="video_min_group_length_first">Einungis fyrsti stafur</string>
     <string name="video_min_group_length_short">Lítill fjöldi stafa (6)</string>
     <string name="video_min_group_length_long">Meiri fjöldi stafa (9)</string>
@@ -306,8 +314,6 @@
     <string name="video_transition_summary">Birta titil nýs myndskeiðs við millifærslu</string>
     <string name="media_seen">Birta merkingu um áhorf</string>
     <string name="media_seen_summary">Merkja myndskeið sem séð þegar þú ert búinn að spila það til enda</string>
-    <string name="force_list_portrait">Ekki reitir í lóðréttri stöðu</string>
-    <string name="force_list_portrait_summary">Birta myndskeið í lista en ekki reitum þegar verið er í lóðréttri stöðu</string>
     <string name="force_play_all_summary">Spila öll myndskeið, byrja á því sem þú smelltir á</string>
     <string name="force_play_all_title">Hamur fyrir spilunarlista myndskeiða</string>
     <string name="save_brightness_summary">Muna birtustig í myndspilara</string>
@@ -325,7 +331,6 @@
     <string name="popup_keepscreen_title">Halda skjá Á í sprettgluggaham</string>
     <string name="popup_keepscreen_summary">Alltaf halda skjá Á þegar sprettgluggi er birtur, jafnvel þó myndskeið sé í bið.</string>
     <string name="browser_show_hidden_files_title">Birta faldar skrár</string>
-    <string name="browser_show_hidden_files_summary">Sýna faldar skrár í vöfrum</string>
 
     <string name="subtitles_prefs_category">Skjátextar</string>
     <string name="subtitles_size_title">Stærð skjátexta</string>
@@ -349,14 +354,12 @@
     <string name="lockscreen_cover_summary">Þegar það er hægt, setja umslagsmynd núverandi gagnamiðils sem bakgrunn á læsiskjá</string>
     <string name="playlist_animate_scroll_title">Hreyfingar á núverandi spilunarlista við sjálfvirkt skrun</string>
     <string name="playlist_animate_scroll_summary">Hreyfingar við skrun þegar skipt er um efni</string>
-    <string name="audio_title_alignment">Jöfnun titils fyrir hljóð</string>
-    <string name="audio_title_alignment_default">Sjálfgefið</string>
-    <string name="audio_title_alignment_left">Vinstri</string>
-    <string name="audio_title_alignment_centre">Miðja</string>
-    <string name="audio_title_alignment_right">Hægri</string>
-    <string name="audio_title_alignment_marquee">Útjaðar</string>
-    <string name="audio_save_repeat_title">Vista endurtekningarham</string>
-    <string name="audio_save_repeat_summary">Muna endurtekningarham þegar spilunarlistum er hlaðið inn</string>
+    <string name="list_title_ellipsize">Titill í einni línu fær punktaslóð</string>
+    <string name="list_title_ellipsize_default">Sjálfgefið</string>
+    <string name="list_title_ellipsize_left">Vinstri</string>
+    <string name="list_title_ellipsize_right">Hægri</string>
+    <string name="list_title_ellipsize_middle">Miðja</string>
+    <string name="list_title_ellipsize_marquee">Textastrengur (marquee)</string>
     <string name="audio_boost_title">Auka-hljóðstyrkur</string>
     <string name="audio_boost_summary">Leyfa hljóðstyrk upp í 200%</string>
     <string name="headset_prefs_category">Heyrnartól</string>
@@ -385,7 +388,6 @@
     <string name="cast_performance_warning">Útvörpun þessa myndskeiðs krefst umkóðunar. Þessi umbreyting getur notað allt það afl sem býðst og gæti tæmt rafhlöðina þína mjög fljótt.</string>
     <string name="casting_connected_renderer">Tengt við myndgerðarþjóninn \'%1$s\'</string>
     <string name="artists_show_all_title">Sýna alla flytjendur</string>
-    <string name="artists_show_all_summary">Sýna alla flytjendur í listanum, ekki bara flytjendur á hljómplötu</string>
 
     <string name="extensions_prefs_category">Forritsaukar</string>
     <string name="extensions_enable_category">Veldu forritsauka sem á að virkja</string>
@@ -421,6 +423,7 @@
     <string name="dump_media_db_summary">Afrita gagnagrunn á rót innri gagnageymslu</string>
     <string name="clear_media_db">Hreinsa gagnagrunn yfir margmiðlunarefni</string>
     <string name="clear_media_db_summary">Fá aðgang að upplýsingum Android VLC til að hreinsa út gögn</string>
+    <string name="clear_history">Hreinsa feril</string>
     <string name="media_db_cleared">Hreinsaði gagnagrunn yfir margmiðlunarefni!</string>
     <string name="set_locale">Setja staðfærslu</string>
     <string name="set_locale_detail">Skilja eftir autt til að frumstilla</string>
@@ -436,8 +439,7 @@
     <string name="restart_message">Breytingar munu taka gildi eftir að forritið hefur verið endurræst.\n\nEndurræsa núna?</string>
     <string name="restart_message_OK">Í lagi</string>
     <string name="restart_message_Later">Seinna</string>
-    <string name="browser_show_all_title">Sýna allar skrár í vafra</string>
-    <string name="browser_show_all_summary">Birta skrár sem ekki eru þekktar sem hljóð- eða myndskrár í vöfrum</string>
+    <string name="browser_show_all_title">Birta allar skrár</string>
 
     <string name="developer_prefs_category">Forritari</string>
     <string name="enable_verbose_mode">Birta ítarlegri upplýsingar</string>
@@ -481,7 +483,7 @@
     <string name="audio_delay">Hljóðtöf</string>
     <string name="spu_delay">Töf skjátexta</string>
     <string name="sleep_time_not_set">ekkert stillt</string>
-    <string name="network_shares_discovery">Leita að netsameignum…</string>
+    <string name="network_shares_discovery">Leita að netsameignum</string>
     <string name="network_empty">Þessi mappa er tóm.</string>
     <string name="network_connection_needed">Engin tenging við staðarnet.</string>
     <string name="search_hint">Leita á miðlum</string>
@@ -495,8 +497,7 @@
     <string name="chapter">Kafli</string>
     <string name="resume_from_position">Halda áfram frá síðustu stöðu</string>
     <string name="confirm_resume">Halda áfram frá síðustu stöðu?</string>
-    <string name="confirm_resume_title">Biðja um staðfestingu á að halda áfram</string>
-    <string name="confirm_resume_summary">ef þetta er virkt verður spurt um staðfestingu þegar hægt er að halda áfram með myndskeið frá síðustu þekktu staðsetningu</string>
+    <string name="confirm_resume_title">Halda áfram með spilandi myndskeið</string>
     <string name="directory_empty">Mappa er tóm</string>
     <string name="tv_ui_title">Android TV-viðmót</string>
     <string name="tv_ui_summary">Skipta í viðmótsþema fyrir sjónvörp</string>
@@ -617,6 +618,8 @@
     <string name="audio_digital_title">Stafrænt hljóðúttak (gegnumstreymi)</string>
     <string name="audio_task_cleared_title">Stöðva þegar strokið er yfir forrit</string>
     <string name="audio_task_cleared_summary">Stöðva afspilun þegar hætt er í forriti</string>
+    <string name="audio_resume_card_title">Birta síðustu ábendingu vegna spilunarlista</string>
+    <string name="audio_resume_card_summary">Birtir ábendingu sem hjálpar þér að halda áfram með hljóðspilun þegar forritið ræsist</string>
     <string name="playback_rewind">Spóla til baka</string>
     <string name="playback_forward">Spóla hratt áfram</string>
     <string name="ml_wizard_title">Úrval úr VLC-margmiðlunarsafni</string>
@@ -652,6 +655,7 @@
     <string name="device_dialog_title">Ytra tæki var tengt</string>
     <string name="device_dialog_message">Þú varst að stinga geymslutæki í samband við sjónvarpsboxið þitt, viltu opna það með VLC?</string>
     <string name="videos_folders_title">Myndskeið eftir möppum</string>
+    <string name="videos_groups_title">Hópar myndskeiða</string>
     <string name="video_save_remote_setting">Virkja fjarstýringarham sjálfvirkt?</string>
     <string name="video_save_clone_mode">Virkja klónunarham sjálfvirkt?</string>
     <string name="video_remote_enable">Skipta yfir í fjarstýringarham</string>
@@ -678,7 +682,7 @@
     <string name="popup_force_legacy_title">Nota sérsniðinn mynd-í-mynd (PiP) sprettglugga</string>
     <string name="popup_force_legacy_summary">Nota sérsniðinn mynd-í-mynd (PiP) sprettglugga með breytanlegri stærð</string>
     <string name="device_default">Sjálfgefið á tæki</string>
-    <string name="track_number">%s lög</string>
+    <string name="track_number">%d hljóðspor </string>
     <string name="jump_to">Hoppa á</string>
     <string name="show_video_thumbnails_summary">Sýna smámyndir myndskeiða í listum</string>
     <string name="show_video_thumbnails">Smámyndir myndskeiða</string>
@@ -689,4 +693,65 @@
     <string name="reset">Endurstilla</string>
     <string name="appended">Lagi/lögum bætt við</string>
     <string name="inserted">Lag/lög sett inn</string>
+    <string name="remove_current">Fjarlægja fyrirliggjandi</string>
+    <string name="validation_delete_playlist">Ertu viss um að þú viljir eyða þessum spilunarlista?</string>
+    <string name="validation_delete_playlist_text">Þessa aðgerð er ekki hægt að afturkalla.</string>
+    <string name="display_in_list">Birta í lista</string>
+    <string name="display_in_grid">Birta í reitum</string>
+    <string name="dump_db_succes">Dembdi gagnagrunni á rót innri gagnageymslu</string>
+    <string name="dump_db_failure">Mistókst að demba gagnagrunni</string>
+    <string name="send_crash_title">Hrunskýrslugerð VLC</string>
+    <string name="send_crash_description">Með því að senda okkur upplýsingar um hrunið hjá þér, þá ertu að hjálpa okkur við að bæta stöðugleika VLC.</string>
+    <string name="send_crash_warning">Gakktu úr skugga um að þú fjarlægir öll viðkvæm gögn sem þú vilt ekki að sendist með.</string>
+    <string name="dont_ask_again">Ekki spyrja aftur</string>
+    <string name="include_medialib">Hafðu með gagnagrunninn þinn</string>
+    <string name="vlc_reporter">VLC-skýrslugerð</string>
+    <string name="welcome_beta_title">VLC-prófunarútgáfa</string>
+    <string name="welcome_beta_description">Velkomin í VLC-beta prófunarútgáfuna.\nAthugaðu að þessi útgáfa gæti innihaldið ýmsar villur í kóða.</string>
+    <string name="welcome_beta_description_bugs">Ef þú rekst á villu, skaltu endilega tilkynna hana á spjallsvæðinu okkar eða í villuskráningunni.</string>
+    <string name="welcome_beta_description_crashes">Ef þú verður fyrir hruni, þá ættirðu að nota táknmyndina fyrir \"VLC-skýrslugerð\" í ræsinum þínum til að senda upplýsingar um það til okkar.</string>
+    <string name="send">Senda</string>
+    <string name="send_crash_action_title">Hvað viltu gera?</string>
+    <string name="report_a_bug">Tilkynna um villu</string>
+    <string name="report_a_crash">Tilkynna um hrun</string>
+    <string name="describe_crash">Lýstu því hvernig þetta hrun átti sér stað</string>
+    <string name="favorite">Eftirlæti</string>
+    <string name="always">Alltaf</string>
+    <string name="never">Aldrei</string>
+    <string name="ask_confirmation">Biðja um staðfestingu</string>
+    <string name="add_to_scanned">Skanna þessa möppu</string>
+    <string name="directory_not_scanned">Þessi mappa hefur ekki verið skönnuð.</string>
+    <string name="scanned_directory_added">%s bættist við skannaðar möppur</string>
+    <string name="video_group_size_dialog_text">Fjöldi stafa sem notaður er til að hópa eftir nafni</string>
+    <string name="video_group_size_summary">Hópa eftir %s fyrstu stöfunum</string>
+    <string name="video_group_size">Hópa myndskeið eftir nafni</string>
+    <string name="url_copied_to_clipboard">Afritaði slóð á klippispjald</string>
+    <string name="share">Deila</string>
+    <string name="invalid_file">Ógild skrá. Er ekki hægt að deila.</string>
+    <string name="share_file">Deila %s</string>
+    <string name="share_message">Hér er %s</string>
+    <string name="find_metadata">Finna lýsigögn</string>
+    <string name="moviepedia_hint">Leita að lýsigögnum</string>
+    <string name="moviepedia_result">Niðurstöður myndskeiða</string>
+    <string name="release_date">Útgefið:</string>
+    <string name="synopsis">Samantekt</string>
+    <string name="directed_by">Leikstýrt af</string>
+    <string name="casting">Leikarar</string>
+    <string name="produced_by">Framleitt af</string>
+    <string name="written_by">Skrifað af</string>
+    <string name="music_by">Tónlist eftir</string>
+    <string name="posters">Auglýsingaspjöld</string>
+    <string name="backdrops">Bakgrunnar</string>
+    <string name="header_tvshows">Sjónvarpsþættir</string>
+    <string name="all_movies">Allar kvikmyndir</string>
+    <string name="movie_count">%s kvikmynd(ir)</string>
+    <string name="header_movies">Kvikmyndir</string>
+    <string name="season_number">Árgangur %s</string>
+    <string name="resume_episode">Halda áfram  (%s)</string>
+    <string name="start_over">Byrja aftur</string>
+    <string name="next_episode">Næsti þáttur</string>
+    <string name="open_network_settings">Opna netstillingar?</string>
+    <string name="recently_played">Nýlega spilað</string>
+    <string name="recently_added">Nýlega bætt við</string>
+    <string name="playback_multiple_errors">Ekki er hægt að spila margar gagnaskrár</string>
 </resources>
