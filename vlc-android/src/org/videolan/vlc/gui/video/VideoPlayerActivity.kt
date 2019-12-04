@@ -625,19 +625,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (AndroidDevices.hasPiP && !forceLegacy) {
             if (AndroidUtil.isOOrLater)
                 try {
-                    videoLayout?.findViewById<View>(R.id.surface_video)?.run {
-                        val height = if (height != 0) height else mw.height
-                        val width = Math.min(if (width != 0) width else mw.width, (height * 2.39f).toInt())
-                        enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(Rational(width, height)).build())
-                    }
+                    val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack
+                            ?: return
+                    val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
+                    enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(ar).build())
                 } catch (e: IllegalArgumentException) { // Fallback with default parameters
-
                     enterPictureInPictureMode()
                 }
-            else {
-
-                enterPictureInPictureMode()
-            }
+            else enterPictureInPictureMode()
         } else {
             if (Permissions.canDrawOverlays(this)) {
                 switchingView = true
@@ -645,8 +640,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (service?.isPlaying != true) mw.addFlags(AbstractMediaWrapper.MEDIA_PAUSED)
                 cleanUI()
                 exitOK()
-            } else
-                Permissions.checkDrawOverlaysPermission(this)
+            } else Permissions.checkDrawOverlaysPermission(this)
         }
     }
 
