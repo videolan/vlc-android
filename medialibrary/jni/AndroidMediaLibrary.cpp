@@ -310,7 +310,7 @@ AndroidMediaLibrary::searchGenre(const std::string& query, const medialibrary::Q
 medialibrary::Query<medialibrary::IArtist>
 AndroidMediaLibrary::searchArtists(const std::string& query, const medialibrary::QueryParameters* params)
 {
-    return p_ml->searchArtists(query, true, params);
+    return p_ml->searchArtists(query, medialibrary::ArtistIncluded::All, params);
 }
 
 medialibrary::MediaPtr
@@ -373,7 +373,8 @@ AndroidMediaLibrary::album(int64_t albumId)
 medialibrary::Query<medialibrary::IArtist>
 AndroidMediaLibrary::artists(bool includeAll, const medialibrary::QueryParameters* params)
 {
-    return p_ml->artists(includeAll, params);
+    return p_ml->artists(includeAll ? medialibrary::ArtistIncluded::All : medialibrary::ArtistIncluded::AlbumArtistOnly,
+                         params);
 }
 
 medialibrary::ArtistPtr
@@ -436,8 +437,10 @@ AndroidMediaLibrary::albumsFromArtist( int64_t artistId, const medialibrary::Que
 medialibrary::Query<medialibrary::IMedia>
 AndroidMediaLibrary::mediaFromGenre( int64_t genreId, bool withThumbnail, const medialibrary::QueryParameters* params )
 {
+    using medialibrary::IGenre;
     auto genre = p_ml->genre(genreId);
-    return genre == nullptr ? nullptr : genre->tracks(withThumbnail, params);
+    return genre == nullptr ? nullptr : genre->tracks(withThumbnail ? medialibrary::IGenre::TracksIncluded::WithThumbnailOnly : medialibrary::IGenre::TracksIncluded::All,
+                                                      params);
 }
 
 medialibrary::Query<medialibrary::IAlbum>
