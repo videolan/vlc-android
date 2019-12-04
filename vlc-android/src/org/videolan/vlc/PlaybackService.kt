@@ -1069,8 +1069,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     @MainThread
     fun showWithoutParse(index: Int) {
         playlistManager.setVideoTrackEnabled(false)
-        val media = playlistManager.getMedia(index)
-        if (media == null || !isPlaying) return
+        val media = playlistManager.getMedia(index) ?: return
         // Show an URI without interrupting/losing the current stream
         if (BuildConfig.DEBUG) Log.v(TAG, "Showing index " + index + " with playing URI " + media.uri)
         playlistManager.currentIndex = index
