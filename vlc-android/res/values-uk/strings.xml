@@ -106,6 +106,18 @@
         <item quantity="many">%d відео</item>
         <item quantity="other">%d відео</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 фільм</item>
+        <item quantity="few">%d фільми</item>
+        <item quantity="many">%d фільмів</item>
+        <item quantity="other">%d фільму</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 серіал</item>
+        <item quantity="few">%d серіали</item>
+        <item quantity="many">%d серіалів</item>
+        <item quantity="other">%d серіала</item>
+    </plurals>
 
     <string name="internal_memory">Внутрішня пам\'ять</string>
     <string name="parent_folder">До батьківського каталогу</string>
@@ -688,7 +700,7 @@
     <string name="popup_force_legacy_title">Використовувати особливий  вигульк картинка-в-картинці </string>
     <string name="popup_force_legacy_summary">Використовувати особливий вигульк картинка-в-картинці зі змінним розміром</string>
     <string name="device_default">Типовий пристрій</string>
-    <string name="track_number">%s доріжок</string>
+    <string name="track_number">%dдоріжок</string>
     <string name="jump_to">Перейти до</string>
     <string name="show_video_thumbnails_summary">Показувати  ескізи відео у списках</string>
     <string name="show_video_thumbnails">Ескізи відео</string>
@@ -732,4 +744,32 @@
     <string name="video_group_size_summary">Групувати за першими%s буквами</string>
     <string name="video_group_size">Групувати відео за назвою</string>
     <string name="url_copied_to_clipboard">Url скопійовано у буфер обміну</string>
+    <string name="share">Поширити</string>
+    <string name="invalid_file">Недійсний файл. Не можна поширити.</string>
+    <string name="share_file">Поширити %s</string>
+    <string name="share_message">Тут %s</string>
+    <string name="find_metadata">Знайти метадані</string>
+    <string name="moviepedia_hint">Пошук метаданих</string>
+    <string name="moviepedia_result">Відео результати</string>
+    <string name="release_date">Випущено:</string>
+    <string name="synopsis">Короткий огляд</string>
+    <string name="directed_by">Режисер</string>
+    <string name="casting">Підбір акторів</string>
+    <string name="produced_by">Знято</string>
+    <string name="written_by">Написано</string>
+    <string name="music_by">Музика</string>
+    <string name="posters">Плакати</string>
+    <string name="backdrops">Художнє оформлення</string>
+    <string name="header_tvshows">Серіали</string>
+    <string name="all_movies">Усі фільми</string>
+    <string name="movie_count">%s фільм(и)</string>
+    <string name="header_movies">Фільми</string>
+    <string name="season_number">Сезон %s</string>
+    <string name="resume_episode">Відновити (%s)</string>
+    <string name="start_over">Почати з початку</string>
+    <string name="next_episode">Наступний епізод</string>
+    <string name="open_network_settings">Відкрити налаштування мережі?</string>
+    <string name="recently_played">Нещодавно відтворені</string>
+    <string name="recently_added">Нещодавно додані</string>
+    <string name="playback_multiple_errors">Кратні медіа не можуть бути відтворені </string>
 </resources>
