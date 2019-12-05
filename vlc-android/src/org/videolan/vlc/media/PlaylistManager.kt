@@ -200,7 +200,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             stop()
             return
         }
-        videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         launch { playIndex(currentIndex) }
     }
 
@@ -266,6 +265,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     suspend fun playIndex(index: Int, flags: Int = 0) {
+        videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
             return
