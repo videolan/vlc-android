@@ -67,7 +67,7 @@
     <string name="unknown_artist">Bilinmeyen Sanatçı</string>
     <string name="unknown_album">Bilinmeyen Albüm</string>
     <string name="unknown_genre">Bilinmeyen Tür</string>
-    <string name="unknown_number">Bilinmeyen kayıt numarası</string>
+    <string name="unknown_number">Kayıt numarası bilinmiyor</string>
     <string name="songs">Parçalar</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 parça</item>
@@ -93,6 +93,14 @@
     <plurals name="videos_quantity">
         <item quantity="one">1 görüntü</item>
         <item quantity="other">%d görüntü</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d film</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV dizisi</item>
+        <item quantity="other">%d TV dizisi</item>
     </plurals>
 
     <string name="internal_memory">İç bellek</string>
@@ -674,7 +682,7 @@
     <string name="popup_force_legacy_title">Görsel içinde görsel penceresi kullanılsın</string>
     <string name="popup_force_legacy_summary">Boyutu ayarlanabilir görsel içinde görsel penceresi kullanılsın</string>
     <string name="device_default">Aygıt varsayılanları</string>
-    <string name="track_number">%s kayıt</string>
+    <string name="track_number">%d kayıt</string>
     <string name="jump_to">Şuraya atla</string>
     <string name="show_video_thumbnails_summary">Bu seçenek etkinleştirildiğinde, listede görüntü küçük görselleri görüntülenir</string>
     <string name="show_video_thumbnails">Görüntü küçük görselleri</string>
@@ -718,4 +726,32 @@
     <string name="video_group_size_summary">İlk %s karaktere göre grupla</string>
     <string name="video_group_size">Görüntüleri ada göre grupla</string>
     <string name="url_copied_to_clipboard">Adres panoya kopyalandı</string>
+    <string name="share">Paylaş</string>
+    <string name="invalid_file">Dosya geçersiz olduğundan paylaşılamaz.</string>
+    <string name="share_file">%s paylaş</string>
+    <string name="share_message">%s şurada</string>
+    <string name="find_metadata">Üst verileri bul</string>
+    <string name="moviepedia_hint">Üst veri arama</string>
+    <string name="moviepedia_result">Görüntü sonuçları</string>
+    <string name="release_date">Yayım tarihi:</string>
+    <string name="synopsis">Konu</string>
+    <string name="directed_by">Yönetmen</string>
+    <string name="casting">Oyuncular</string>
+    <string name="produced_by">Yapımcı</string>
+    <string name="written_by">Yazar</string>
+    <string name="music_by">Müzikler</string>
+    <string name="posters">Afişler</string>
+    <string name="backdrops">Arka plan</string>
+    <string name="header_tvshows">TV dizilieri</string>
+    <string name="all_movies">Tüm filmler</string>
+    <string name="movie_count">%s film</string>
+    <string name="header_movies">Filmler</string>
+    <string name="season_number">%s. sezon</string>
+    <string name="resume_episode">Özgeçmiş (%s)</string>
+    <string name="start_over">Baştan başla</string>
+    <string name="next_episode">Sonraki bölüm</string>
+    <string name="open_network_settings">Ağ ayarları açılsın mı?</string>
+    <string name="recently_played">Son oynatılanlar</string>
+    <string name="recently_added">Son eklenenler</string>
+    <string name="playback_multiple_errors">Aynı anda birden çok ortam oynatılamaz</string>
 </resources>
