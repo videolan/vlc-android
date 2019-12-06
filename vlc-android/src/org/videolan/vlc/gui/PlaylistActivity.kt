@@ -23,11 +23,9 @@
 
 package org.videolan.vlc.gui
 
-import android.annotation.TargetApi
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.TextUtils
@@ -130,7 +128,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         lifecycleScope.launch {
             val cover = withContext(Dispatchers.IO) {
                 if (!TextUtils.isEmpty(playlist.artworkMrl)) {
-                    AudioUtil.readCoverBitmap(Uri.decode(playlist.artworkMrl), resources.getDimensionPixelSize(R.dimen.audio_browser_item_size))
+                    AudioUtil.readCoverBitmap(Uri.decode(playlist.artworkMrl), getScreenWidth())
                 } else {
                     ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}", playlist.tracks.toList(), getScreenWidth())
                 }
