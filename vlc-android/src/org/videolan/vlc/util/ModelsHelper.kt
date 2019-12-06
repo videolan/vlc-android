@@ -264,23 +264,6 @@ object ModelsHelper {
         else -> 0L
     }
 
-    private fun Long.lengthToCategory(): String {
-        val value: Int
-        if (this == 0L) return "-"
-        if (this < 60000) return "< 1 min"
-        if (this < 600000) {
-            value = floor((this / 60000).toDouble()).toInt()
-            return "$value - ${(value + 1)} min"
-        }
-        return if (this < 3600000) {
-            value = (10 * floor((this / 600000).toDouble())).toInt()
-            "$value - ${(value + 10)} min"
-        } else {
-            value = floor((this / 3600000).toDouble()).toInt()
-            "$value - ${(value + 1)} h"
-        }
-    }
-
     private fun MediaLibraryItem.getYear() = when (itemType) {
         MediaLibraryItem.TYPE_ALBUM -> if ((this as AbstractAlbum).releaseYear <= 0) "-" else releaseYear.toString()
         MediaLibraryItem.TYPE_MEDIA -> if ((this as AbstractMediaWrapper).releaseYear <= 0) "-" else releaseYear.toString()
@@ -291,6 +274,23 @@ object ModelsHelper {
         MediaLibraryItem.TYPE_ALBUM -> (this as AbstractAlbum).tracksCount
         MediaLibraryItem.TYPE_PLAYLIST -> (this as AbstractPlaylist).tracksCount
         else -> 0
+    }
+}
+
+fun Long.lengthToCategory(): String {
+    val value: Int
+    if (this == 0L) return "-"
+    if (this < 60000) return "< 1 min"
+    if (this < 600000) {
+        value = floor((this / 60000).toDouble()).toInt()
+        return "$value - ${(value + 1)} min"
+    }
+    return if (this < 3600000) {
+        value = (10 * floor((this / 600000).toDouble())).toInt()
+        "$value - ${(value + 10)} min"
+    } else {
+        value = floor((this / 3600000).toDouble()).toInt()
+        "$value - ${(value + 1)} h"
     }
 }
 

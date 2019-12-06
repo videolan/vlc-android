@@ -21,7 +21,7 @@ class VideosViewModelTest : BaseTest() {
     }
 
     private fun setupViewModel(folder: AbstractFolder?) {
-        videosViewModel = VideosViewModel(context, folder)
+        videosViewModel = VideosViewModel(context, VideoGroupingType.NONE, folder, null)
     }
 
     @Test

@@ -69,7 +69,7 @@ class ModelsHelperTest : BaseTest() {
     @Test
     fun withDurationSortingAndPreviousItemIsNullAndCurrentItemIsAlbum_headerShouldBeLengthToCategory() {
         val item = MLServiceLocator.getAbstractAlbum(dataSource.uuid, "Abc", 2018, "Artwork", "Dummy", 9, 1, 48000)
-        assertEquals(ModelsHelper.lengthToCategory(item.duration), getHeader(context, Medialibrary.SORT_DURATION, item, null))
+        assertEquals(item.duration.lengthToCategory(), getHeader(context, Medialibrary.SORT_DURATION, item, null))
     }
 
     @Test
