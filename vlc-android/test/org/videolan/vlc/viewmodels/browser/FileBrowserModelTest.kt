@@ -18,6 +18,7 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.stubs.StubMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.database.models.BrowserFav
@@ -56,7 +57,7 @@ class FileBrowserModelTest : BaseTest() {
 
         BrowserProvider.overrideCreator = false
         BrowserProvider.registerCreator {
-            this@FileBrowserModelTest.mediaBrowser = spyk(MediaBrowser(mockedLibVlc, it, handler))
+            this@FileBrowserModelTest.mediaBrowser = spyk(MediaBrowser(mockedLibVlc, null, handler))
             mediaBrowser
         }
         BrowserProvider.registerCreator(clazz = CoroutineContextProvider::class.java) { TestCoroutineContextProvider() }
@@ -80,12 +81,11 @@ class FileBrowserModelTest : BaseTest() {
 
     private fun addFileToProvider(i: Int, file: File) {
         val t = StubMedia(mockedLibVlc, "file://${file.path}").apply { if (!file.name.endsWith(".mp4")) type = IMedia.Type.Directory }
-        browserProvider.onMediaAdded(i, t)
+        browserProvider.addMedia(StubMediaWrapper(t))
     }
 
     private fun fillFilesInDataset(file: File) {
         file.listFiles().sorted().mapIndexed(this::addFileToProvider)
-        browserProvider.onBrowseEnd()
     }
 
     private fun getFakeBrowserFav(index: Int): BrowserFav {
@@ -102,8 +102,6 @@ class FileBrowserModelTest : BaseTest() {
                 .value()[0]
 
         // TODO Has to wait for browserChannel queue
-        Thread.sleep(1000)
-        browserProvider.onBrowseEnd()
         Thread.sleep(1000)
 
         assertTrue(browserModel.isFolderEmpty(internalStorage as AbstractMediaWrapper))
@@ -141,8 +139,7 @@ class FileBrowserModelTest : BaseTest() {
 
         initBrowserModel(internalStorage.uri.toString(), false)
 
-        val testResult = browserModel.dataset.test()
-                .value()
+        val testResult = browserModel.dataset.test().value()
 
         assertEquals(countDirs + countVideos, testResult.size)
     }

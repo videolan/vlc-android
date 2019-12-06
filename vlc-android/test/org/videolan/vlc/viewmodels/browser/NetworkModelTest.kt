@@ -49,7 +49,7 @@ class NetworkModelTest : BaseTest() {
 
         BrowserProvider.overrideCreator = false
         BrowserProvider.registerCreator {
-            mediaBrowser = spyk(MediaBrowser(mockedLibVlc, it, handler))
+            mediaBrowser = spyk(MediaBrowser(mockedLibVlc, null, handler))
             mediaBrowser
         }
         BrowserProvider.registerCreator(clazz = CoroutineContextProvider::class.java) { TestCoroutineContextProvider() }

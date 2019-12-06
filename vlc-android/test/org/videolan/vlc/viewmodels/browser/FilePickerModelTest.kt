@@ -14,6 +14,7 @@ import org.videolan.libvlc.interfaces.ILibVLC
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.stubs.StubMedia
 import org.videolan.libvlc.util.MediaBrowser
+import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.util.CoroutineContextProvider
@@ -42,7 +43,7 @@ class FilePickerModelTest : BaseTest() {
 
         BrowserProvider.overrideCreator = false
         BrowserProvider.registerCreator {
-            mediaBrowser = spyk(MediaBrowser(mockedLibVlc, it, handler))
+            mediaBrowser = spyk(MediaBrowser(mockedLibVlc, null, handler))
             mediaBrowser
         }
         BrowserProvider.registerCreator(clazz = CoroutineContextProvider::class.java) { TestCoroutineContextProvider() }
@@ -65,13 +66,12 @@ class FilePickerModelTest : BaseTest() {
 
     private fun addFileToProvider(i: Int, file: File) {
         val t = StubMedia(mockedLibVlc, "file://${file.path}").apply { if (!file.name.endsWith(".mp4")) type = IMedia.Type.Directory }
-        browserProvider.onMediaAdded(i, t)
+        browserProvider.addMedia(StubMediaWrapper(t))
     }
 
     @Test
     fun whenBrowseRootAndRootHasFiles_getListOfDirectories() {
         temporaryFolder.root.listFiles().mapIndexed(this::addFileToProvider)
-        browserProvider.onBrowseEnd()
 
         val testResult = browserModel.dataset.test()
                 .value()
@@ -82,7 +82,6 @@ class FilePickerModelTest : BaseTest() {
 
     @Test
     fun whenBrowseRootAndRootEmpty_checkTheFolderIsEmpty() {
-        browserProvider.onBrowseEnd()
 
         browserModel.dataset.test()
                 .assertValue { it.isEmpty() }
@@ -93,8 +92,6 @@ class FilePickerModelTest : BaseTest() {
         browserModel.loading.test()
                 .assertValue(true)
 
-        browserProvider.onBrowseEnd()
-
         browserModel.loading.test()
                 .awaitValue()
                 .assertValue(false)
@@ -103,7 +100,6 @@ class FilePickerModelTest : BaseTest() {
     @Test
     fun whenRootHasFilesAndRefreshCalled_getUpdatedListOfDirectories() {
         temporaryFolder.root.listFiles().mapIndexed(this::addFileToProvider)
-        browserProvider.onBrowseEnd()
 
         var result = browserModel.dataset.test()
                 .value()
@@ -114,7 +110,6 @@ class FilePickerModelTest : BaseTest() {
 
         temporaryFolder.newFile("dir${countDirs + 1}")
         temporaryFolder.root.listFiles().mapIndexed(this::addFileToProvider)
-        browserProvider.onBrowseEnd()
 
         result = browserModel.dataset.test()
                 .value()

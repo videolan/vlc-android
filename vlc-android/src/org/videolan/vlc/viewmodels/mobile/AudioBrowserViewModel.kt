@@ -46,9 +46,9 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     var currentTab = Settings.getInstance(context).getInt(KEY_AUDIO_CURRENT_TAB, 0)
     val artistsProvider = ArtistsProvider(context, this,
             Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false))
-    private val albumsProvider = AlbumsProvider(null, context, this)
+    val albumsProvider = AlbumsProvider(null, context, this)
     val tracksProvider = TracksProvider(null, context, this)
-    private val genresProvider = GenresProvider(context, this)
+    val genresProvider = GenresProvider(context, this)
     override val providers = arrayOf(artistsProvider, albumsProvider, tracksProvider, genresProvider)
     private val settings = Settings.getInstance(context)
     val providersInCard = arrayOf(true, true, false, false)

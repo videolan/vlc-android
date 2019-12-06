@@ -18,6 +18,7 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.stubs.StubMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.R
 import org.videolan.vlc.database.CustomDirectoryDao
@@ -59,7 +60,7 @@ class StorageModelTest : BaseTest() {
 
         BrowserProvider.overrideCreator = false
         BrowserProvider.registerCreator {
-            mediaBrowser = spyk(MediaBrowser(mockedLibVlc, it, handler))
+            mediaBrowser = spyk(MediaBrowser(mockedLibVlc, null, handler))
             mediaBrowser
         }
         BrowserProvider.registerCreator(clazz = CoroutineContextProvider::class.java) { TestCoroutineContextProvider() }
@@ -93,12 +94,11 @@ class StorageModelTest : BaseTest() {
         if (file.name.startsWith(".") && !showHiddenFiles)
             return
         val t = StubMedia(mockedLibVlc, "file://${file.path}").apply { if (!file.name.endsWith(".mp4")) type = IMedia.Type.Directory }
-        browserProvider.onMediaAdded(i, t)
+        browserProvider.addMedia(StubMediaWrapper(t))
     }
 
     private fun fillFilesInDataset(file: File) {
         file.listFiles().sorted().mapIndexed(this::addFileToProvider)
-        browserProvider.onBrowseEnd()
     }
 
     @Test
@@ -143,7 +143,7 @@ class StorageModelTest : BaseTest() {
                 .value()
 
         assertEquals(countDirs, testResult.size)
-        assertEquals(0, browserProvider.getFlags() and MediaBrowser.Flag.ShowHiddenFiles)
+        assertEquals(0, browserProvider.getFlags(false) and MediaBrowser.Flag.ShowHiddenFiles)
     }
 
     @Test
@@ -158,7 +158,7 @@ class StorageModelTest : BaseTest() {
                 .value()
 
         assertEquals(countDirs + countHiddenDirs, testResult.size)
-        assertNotEquals(0, browserProvider.getFlags() and MediaBrowser.Flag.ShowHiddenFiles)
+        assertNotEquals(0, browserProvider.getFlags(false) and MediaBrowser.Flag.ShowHiddenFiles)
     }
 
     @Test

@@ -67,9 +67,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     internal val medialibrary = AbstractMedialibrary.getInstance()
 
     init {
-//        BrowserProvider.registerCreator { CoroutineContextProvider() }
-//        coroutineContextProvider = BrowserProvider.get(this)
-        coroutineContextProvider = CoroutineContextProvider()
+        registerCreator { CoroutineContextProvider() }
+        coroutineContextProvider = get(this)
     }
 
     private val completionHandler : CompletionHandler = object : CompletionHandler {
@@ -98,9 +97,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open fun initBrowser() {
-//        BrowserProvider.registerCreator { MediaBrowser(VLCInstance[context], it, browserHandler) }
-//        if (mediabrowser == null) mediabrowser = BrowserProvider.get(this)
-        if (mediabrowser == null) mediabrowser = MediaBrowser(VLCInstance[context], null, browserHandler)
+        if (mediabrowser == null) {
+            registerCreator { MediaBrowser(VLCInstance[context], null, browserHandler) }
+            mediabrowser = get(this)
+        }
     }
 
     protected abstract suspend fun requestBrowsing(url: String?, eventListener: EventListener, interact : Boolean) : Unit?
@@ -129,7 +129,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected open suspend fun browseImpl(url: String? = null) {
         if (url == null) coroutineScope {
-            discoveryJob = launch { filesFlow(url).collect {  findMedia(it)?.let { item -> addMedia(item) } } }
+            discoveryJob = launch(coroutineContextProvider.Main) { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
         } else {
             val files = filesFlow(url).mapNotNull { findMedia(it) }.toList()
             computeHeaders(files)
@@ -155,7 +155,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         awaitClose { if (url != null) browserActor.post(ClearListener) }
     }.buffer(Channel.UNLIMITED)
 
-    protected open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
+    open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
 
     open fun refresh() {
         if (url === null) return
@@ -307,7 +307,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     fun isFolderEmpty(mw: AbstractMediaWrapper) = foldersContentMap[mw]?.isEmpty() ?: true
 
-    companion object : DependencyProvider<EventListener>() {
+    companion object : DependencyProvider<BrowserProvider>() {
         private val browserHandler by lazy {
             val handlerThread = HandlerThread("vlc-provider", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
             handlerThread.start()
