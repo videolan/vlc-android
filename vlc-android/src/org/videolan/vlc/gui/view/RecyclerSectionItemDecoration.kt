@@ -45,11 +45,13 @@ class RecyclerSectionItemDecoration(private val headerOffset: Int, private val s
         if (sticky && previousChild != null) {
             val position = parent.getChildAdapterPosition(previousChild)
             val sectionPosition = provider.getPositionForSection(position)
-            previousSectionPosition = sectionPosition
+            if (provider.getHeaderForPostion(sectionPosition) != null) {
+                previousSectionPosition = sectionPosition
 
-            val title = provider.getSectionforPosition(sectionPosition)
-            header.text = title
-            drawHeader(c, parent.getChildAt(0), headerView)
+                val title = provider.getSectionforPosition(sectionPosition)
+                header.text = title
+                drawHeader(c, parent.getChildAt(0), headerView)
+            }
         }
 
         val drawnPositions = ArrayList<Int>()
