@@ -46,8 +46,8 @@
     <string name="insert_next">Indsæt næste</string>
     <string name="play_all">Afspil alle</string>
     <string name="append_all">Tilføj alle</string>
-    <string name="last_playlist">Seneste afspilningsliste</string>
-    <string name="last_playlist_shortcut">Genoptag afspilning</string>
+    <string name="resume_playback_short">Genoptag afspilning</string>
+    <string name="resume_playback_long">Genoptag afspilning af sidste afspilningsliste</string>
     <string name="delete">Slet</string>
     <string name="remove">Fjern</string>
     <string name="set_song">Anvend som ringetone</string>
@@ -93,6 +93,14 @@
     <plurals name="videos_quantity">
         <item quantity="one">1 video</item>
         <item quantity="other">%d videoer</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d film</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV-udsendelse</item>
+        <item quantity="other">%d TV-udsendelser</item>
     </plurals>
 
     <string name="internal_memory">Intern hukommelse</string>
@@ -294,9 +302,9 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Gruppér videoer</string>
-    <string name="video_min_group_length_summary">Videoer grupperes hvis deres første bogstav er det samme.</string>
-    <string name="video_min_group_length_disable">Deaktivér</string>
+    <string name="video_min_group_length_disable">Gruppér ikke videoer</string>
     <string name="video_min_group_length_folder">Gruppér efter mappe</string>
+    <string name="video_min_group_length_name">Gruppér efter navn</string>
     <string name="video_min_group_length_first">Kun første bogstav</string>
     <string name="video_min_group_length_short">Korte antal tegn (6)</string>
     <string name="video_min_group_length_long">Lange antal tegn (9)</string>
@@ -306,8 +314,6 @@
     <string name="video_transition_summary">Vis ny videotitel på overgang</string>
     <string name="media_seen">Vis set video-markør</string>
     <string name="media_seen_summary">Mærk en video som set når du afspiller den til slutningen</string>
-    <string name="force_list_portrait">Intet gitter i portræt-tilstand</string>
-    <string name="force_list_portrait_summary">Vis videoer i liste i stedet for gitter i portræt-tilstand</string>
     <string name="force_play_all_summary">Afspil alle videoer, startende med den du klikkede på</string>
     <string name="force_play_all_title">Videospilleliste-tilstand</string>
     <string name="save_brightness_summary">Husk niveau for lysstyrke i videoafspilleren</string>
@@ -325,7 +331,6 @@
     <string name="popup_keepscreen_title">Hold skærmen TÆNDT i pop op-tilstand</string>
     <string name="popup_keepscreen_summary">Hold altid skærmen TÆNDT når pop op vises, selv hvis video er på pause.</string>
     <string name="browser_show_hidden_files_title">Vis skjulte filer</string>
-    <string name="browser_show_hidden_files_summary">Vis skjulte filer i browsere</string>
 
     <string name="subtitles_prefs_category">Undertekster</string>
     <string name="subtitles_size_title">Underteksters størrelse</string>
@@ -349,14 +354,12 @@
     <string name="lockscreen_cover_summary">Når det er muligt, angiv det aktuelle mediecoverbillede som låseskærmens tapet</string>
     <string name="playlist_animate_scroll_title">Animer aktuelle spilleliste auto-rulning</string>
     <string name="playlist_animate_scroll_summary">Animer rulning ved medieovergang</string>
-    <string name="audio_title_alignment">Justering af lydtitel</string>
-    <string name="audio_title_alignment_default">Standard</string>
-    <string name="audio_title_alignment_left">Venstre</string>
-    <string name="audio_title_alignment_centre">Midten</string>
-    <string name="audio_title_alignment_right">Højre</string>
-    <string name="audio_title_alignment_marquee">Lysavis</string>
-    <string name="audio_save_repeat_title">Gem gentagtilstand</string>
-    <string name="audio_save_repeat_summary">Husk gentagtilstand ved indlæsning af lydspillelister</string>
+    <string name="list_title_ellipsize">Ellipse for titelliste på én linje</string>
+    <string name="list_title_ellipsize_default">Standard</string>
+    <string name="list_title_ellipsize_left">Venstre</string>
+    <string name="list_title_ellipsize_right">Højre</string>
+    <string name="list_title_ellipsize_middle">Midten</string>
+    <string name="list_title_ellipsize_marquee">Lysavis</string>
     <string name="audio_boost_title">Lydforstærkning</string>
     <string name="audio_boost_summary">Tillad lydstyrke op til 200 %</string>
     <string name="headset_prefs_category">Hovedtelefoner</string>
@@ -385,7 +388,6 @@
     <string name="cast_performance_warning">Udsendelsen af denne video kræver konvertering. Konverteringen kan bruge al den tilgængelige strøm og kan hurtigt dræne dit batteri.</string>
     <string name="casting_connected_renderer">Forbundet til optegneren \'%1$s\'</string>
     <string name="artists_show_all_title">Vis alle kunstnere</string>
-    <string name="artists_show_all_summary">Vis alle kunstnere i Kunstnere-listning, ikke kun albumkunstnere</string>
 
     <string name="extensions_prefs_category">Udvidelser</string>
     <string name="extensions_enable_category">Vælg udvidelser som skal aktiveres</string>
@@ -437,8 +439,7 @@
     <string name="restart_message">Ændringerne træder i kraft når programmet er blevet genstartet.\n\nGenstart nu?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Senere</string>
-    <string name="browser_show_all_title">Vis alle filer i browser</string>
-    <string name="browser_show_all_summary">Vis filer som ikke genkendes som lyd eller video i browsere</string>
+    <string name="browser_show_all_title">Vis alle filer</string>
 
     <string name="developer_prefs_category">Udvikler</string>
     <string name="enable_verbose_mode">Uddybende</string>
@@ -482,7 +483,7 @@
     <string name="audio_delay">Lydforsinkelse</string>
     <string name="spu_delay">Undertekstforsinkelse</string>
     <string name="sleep_time_not_set">ingen angivet</string>
-    <string name="network_shares_discovery">Leder efter netværksdelinger…</string>
+    <string name="network_shares_discovery">Leder efter netværksdelinger</string>
     <string name="network_empty">Denne mappe er tom.</string>
     <string name="network_connection_needed">Ingen forbindelse til lokalt netværk.</string>
     <string name="search_hint">Søger efter medie</string>
@@ -496,8 +497,7 @@
     <string name="chapter">Kapitel</string>
     <string name="resume_from_position">Genoptag fra sidste position</string>
     <string name="confirm_resume">Genoptag fra sidste position?</string>
-    <string name="confirm_resume_title">Spørg om bekræftelse til at genoptage afspilningen</string>
-    <string name="confirm_resume_summary">Hvis den aktiveres vil du blive spurgt om videoen skal genoptage afspilningen fra sidste position</string>
+    <string name="confirm_resume_title">Genoptag afspilning af videoer</string>
     <string name="directory_empty">Mappen er tom</string>
     <string name="tv_ui_title">Android TV-grænseflade</string>
     <string name="tv_ui_summary">Skift brugerflade til tema som er tilpasset TV</string>
@@ -618,6 +618,8 @@
     <string name="audio_digital_title">Digital audio output (gennemsendelse)</string>
     <string name="audio_task_cleared_title">Handling ved strygning af program</string>
     <string name="audio_task_cleared_summary">Stop afspilning når programmet skjules</string>
+    <string name="audio_resume_card_title">Vis tip for sidste afspilningsliste</string>
+    <string name="audio_resume_card_summary">Viser et tip for at hjælpe dig med at genoptage lydafspilning når programmet starter</string>
     <string name="playback_rewind">Spol tilbage</string>
     <string name="playback_forward">Hurtigere</string>
     <string name="ml_wizard_title">Udvalg i VLC-mediebibliotek</string>
@@ -653,6 +655,7 @@
     <string name="device_dialog_title">Ekstern enhed indsat</string>
     <string name="device_dialog_message">Du har lige sat en ny lagerenhed i din TV-boks. Vil du åbne den med VLC?</string>
     <string name="videos_folders_title">Videoer efter mapper</string>
+    <string name="videos_groups_title">Videogrupper</string>
     <string name="video_save_remote_setting">Automatisk aktivering af fjernstyringstilstand?</string>
     <string name="video_save_clone_mode">Automatisk aktivering af kloningstilstand?</string>
     <string name="video_remote_enable">Skift til fjernstyringstilstand</string>
@@ -679,7 +682,7 @@
     <string name="popup_force_legacy_title">Brug tilpasset billede-i-billede-pop op</string>
     <string name="popup_force_legacy_summary">Brug tilpasset billede-i-billede-pop op, som kan tilpasses i størrelsen</string>
     <string name="device_default">Standard for enhed</string>
-    <string name="track_number">%s spor</string>
+    <string name="track_number">%d spor</string>
     <string name="jump_to">Hop til</string>
     <string name="show_video_thumbnails_summary">Vis videominiaturer i lister</string>
     <string name="show_video_thumbnails">Videominiaturer</string>
@@ -691,13 +694,64 @@
     <string name="appended">Spor tilføjet</string>
     <string name="inserted">Spor indsæt</string>
     <string name="remove_current">Fjern nuværende</string>
+    <string name="validation_delete_playlist">Er du sikker på, at du vil slette afspilningslisten?</string>
     <string name="validation_delete_playlist_text">Handlingen kan ikke fortrydes.</string>
     <string name="display_in_list">Vis som liste</string>
     <string name="display_in_grid">Vis som gitter</string>
+    <string name="dump_db_succes">Databasen blev lagt i roden af det interne lager</string>
+    <string name="dump_db_failure">Kunne ikke lægge databasen</string>
+    <string name="send_crash_title">VLC-nedbrudsrapport</string>
+    <string name="send_crash_description">Ved at sende dit nedbrud, hjælper du med at forbedre VLCs stabilitet.</string>
+    <string name="send_crash_warning">Sørg for at slette eventuelle følsomme data som du ikke vil have sendt.</string>
     <string name="dont_ask_again">Spørg ikke igen</string>
+    <string name="include_medialib">Medtag din database</string>
+    <string name="vlc_reporter">VLC-rapport</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Velkommen i VLCs betaprogram.\nBemærk venligst at versionem kan have fejl.</string>
+    <string name="welcome_beta_description_bugs">Hvis du bemærker en fejl, så rapportér det venligst i vores forum eller bug tracker.</string>
+    <string name="welcome_beta_description_crashes">Hvis du oplever et nedbrud, så brug venligst VLC-rapport-ikonet i din opstarter, for at sende det til os.</string>
     <string name="send">Send</string>
     <string name="send_crash_action_title">Hvad vil du?</string>
     <string name="report_a_bug">Rapportér en fejl</string>
     <string name="report_a_crash">Rapportér et nedbrud</string>
     <string name="describe_crash">Beskriv venligst hvordan nedbruddet skete</string>
+    <string name="favorite">Favorit</string>
+    <string name="always">Altid</string>
+    <string name="never">Aldrig</string>
+    <string name="ask_confirmation">Spørg om bekræftelse</string>
+    <string name="add_to_scanned">Skan mappen</string>
+    <string name="directory_not_scanned">Mappen er ikke blevet skannet</string>
+    <string name="scanned_directory_added">%s blevet tilføjet til dine skannet mapper</string>
+    <string name="video_group_size_dialog_text">Antal tegn som bruges til at gruppere efter navn</string>
+    <string name="video_group_size_summary">Gruppér efter %s første bogstaver</string>
+    <string name="video_group_size">Gruppér videoer efter navn</string>
+    <string name="url_copied_to_clipboard">Url\'en blev kopieret til udklipsholderen</string>
+    <string name="share">Del</string>
+    <string name="invalid_file">Ugyldig fil. Kan ikke deles.</string>
+    <string name="share_file">Del %s</string>
+    <string name="share_message">Her er %s</string>
+    <string name="find_metadata">Find metadata</string>
+    <string name="moviepedia_hint">Søg efter metadata</string>
+    <string name="moviepedia_result">Videoresultater</string>
+    <string name="release_date">Udgivet:</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="directed_by">Instrueret af</string>
+    <string name="casting">Casting</string>
+    <string name="produced_by">Produceret af</string>
+    <string name="written_by">Skrevet af</string>
+    <string name="music_by">Musik af</string>
+    <string name="posters">Plakater</string>
+    <string name="backdrops">Baggrunde</string>
+    <string name="header_tvshows">TV-udsendelser</string>
+    <string name="all_movies">Alle film</string>
+    <string name="movie_count">%s film</string>
+    <string name="header_movies">Film</string>
+    <string name="season_number">Sæson %s</string>
+    <string name="resume_episode">Genoptag (%s)</string>
+    <string name="start_over">Start forfra</string>
+    <string name="next_episode">Næste episode</string>
+    <string name="open_network_settings">Åbn netværksindstillinger?</string>
+    <string name="recently_played">Afspillet for nylig</string>
+    <string name="recently_added">Tilføjet for nylig</string>
+    <string name="playback_multiple_errors">Flere medier kan ikke afspilles</string>
 </resources>
