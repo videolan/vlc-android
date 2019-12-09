@@ -1,7 +1,7 @@
 /*****************************************************************************
- * FlingViewGroup.java
+ * FlingViewGroup.kt
  *
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2019 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,8 +24,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.*
 import android.widget.Scroller
+import kotlin.math.abs
 
-open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs) {
+abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs) {
 
     var position = 0
     private val scroller: Scroller
@@ -42,12 +43,10 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
     private var initialMotionX: Float = 0.toFloat()
     private var initialMotionY: Float = 0.toFloat()
 
-    private var viewSwitchListener: ViewSwitchListener? = null
+    abstract val viewSwitchListener: ViewSwitchListener
 
     init {
-        this.layoutParams = LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.MATCH_PARENT)
+        layoutParams = LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
 
         scroller = Scroller(context)
         val config = ViewConfiguration.get(getContext())
@@ -58,13 +57,11 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         var childLeft = 0
 
-        val count = childCount
-        for (i in 0 until count) {
+        for (i in 0 until childCount) {
             val child = getChildAt(i)
             if (child.visibility != View.GONE) {
                 val childWidth = child.measuredWidth
-                child.layout(childLeft, 0, childLeft + childWidth,
-                        child.measuredHeight)
+                child.layout(childLeft, 0, childLeft + childWidth, child.measuredHeight)
                 childLeft += childWidth
             }
         }
@@ -73,23 +70,20 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        if (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY)
-            return
+        if (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY) return
 
-        val count = childCount
         var maxHeight = 0
-        for (i in 0 until count) {
+        for (i in 0 until childCount) {
             val child = getChildAt(i)
             child.measure(widthMeasureSpec, heightMeasureSpec)
-            maxHeight = Math.max(maxHeight, child.measuredHeight)
+            maxHeight = maxHeight.coerceAtLeast(child.measuredHeight)
         }
 
         setMeasuredDimension(measuredWidth, maxHeight)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        if (!scroller.isFinished)
-            scroller.abortAnimation()
+        if (!scroller.isFinished) scroller.abortAnimation()
         super.onSizeChanged(w, h, oldw, oldh)
         scrollTo(position * w, 0)
         requestLayout()
@@ -103,8 +97,7 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        if (childCount == 0)
-            return false
+        if (childCount == 0) return false
 
         val x = ev.x
         val y = ev.y
@@ -115,18 +108,14 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
                 lastInterceptDownY = ev.y
                 initialMotionX = x
                 initialMotionY = y
-                touchState = if (scroller.isFinished)
-                    TOUCH_STATE_REST
-                else
-                    TOUCH_STATE_MOVE
+                touchState = if (scroller.isFinished) TOUCH_STATE_REST else TOUCH_STATE_MOVE
                 interceptTouchState = TOUCH_STATE_REST
             }
             MotionEvent.ACTION_MOVE -> {
-                if (interceptTouchState == TOUCH_STATE_MOVE)
-                    return false
-                if (Math.abs(lastInterceptDownY - y) > touchSlop)
+                if (interceptTouchState == TOUCH_STATE_MOVE) return false
+                if (abs(lastInterceptDownY - y) > touchSlop)
                     interceptTouchState = TOUCH_STATE_MOVE
-                if (Math.abs(lastX - x) > touchSlop)
+                if (abs(lastX - x) > touchSlop)
                     touchState = TOUCH_STATE_MOVE
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> interceptTouchState = TOUCH_STATE_REST
@@ -136,8 +125,7 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (childCount == 0)
-            return false
+        if (childCount == 0) return false
 
         if (velocityTracker == null)
             velocityTracker = VelocityTracker.obtain()
@@ -149,11 +137,9 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
 
         when (action) {
             MotionEvent.ACTION_DOWN -> {
-                if (!scroller.isFinished)
-                    scroller.abortAnimation()
+                if (!scroller.isFinished) scroller.abortAnimation()
                 lastX = x
-                if (viewSwitchListener != null)
-                    viewSwitchListener!!.onTouchDown()
+                viewSwitchListener.onTouchDown()
             }
             MotionEvent.ACTION_MOVE -> {
                 val delta = (lastX - x).toInt()
@@ -177,27 +163,18 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
                 val dx = x - initialMotionX
                 val dy = y - initialMotionY
 
-                if (dx > 0 && position == 0 && dx > touchSlop) {
-                    if (viewSwitchListener != null)
-                        viewSwitchListener!!.onBackSwitched()
-                } else if (velocityX > 1000 && position > 0) {
-                    snapToScreen(position - 1)
-                } else if (velocityX < -1000 && position < childCount - 1) {
-                    snapToScreen(position + 1)
-                } else {
-                    snapToDestination()
+                when {
+                    dx > 0 && position == 0 && dx > touchSlop -> viewSwitchListener.onBackSwitched()
+                    velocityX > 1000 && position > 0 -> snapToScreen(position - 1)
+                    velocityX < -1000 && position < childCount - 1 -> snapToScreen(position + 1)
+                    else -> snapToDestination()
                 }
 
-                if (this.velocityTracker != null) {
-                    this.velocityTracker!!.recycle()
-                    this.velocityTracker = null
-                }
+                this.velocityTracker?.recycle()
+                this.velocityTracker = null
 
-                if (viewSwitchListener != null) {
-                    viewSwitchListener!!.onTouchUp()
-                    if (dx * dx + dy * dy < touchSlop * touchSlop)
-                        viewSwitchListener!!.onTouchClick()
-                }
+                viewSwitchListener.onTouchUp()
+                if (dx * dx + dy * dy < touchSlop * touchSlop) viewSwitchListener.onTouchClick()
             }
         }
         return true
@@ -205,12 +182,10 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
 
     override fun onScrollChanged(h: Int, v: Int, oldh: Int, oldv: Int) {
         super.onScrollChanged(h, v, oldh, oldv)
-        if (viewSwitchListener != null && Math.abs(oldh - h) > Math.abs(oldv - v)) {
+        if (abs(oldh - h) > abs(oldv - v)) {
             val progress = h.toFloat() / (width * (childCount - 1)).toFloat()
-            if (h != position * width)
-                viewSwitchListener!!.onSwitching(progress)
-            else
-                viewSwitchListener!!.onSwitched(position)
+            if (h != position * width) viewSwitchListener.onSwitching(progress)
+            else viewSwitchListener.onSwitched(position)
         }
     }
 
@@ -241,28 +216,24 @@ open class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup(con
         invalidate()
     }
 
-    fun setOnViewSwitchedListener(l: ViewSwitchListener) {
-        viewSwitchListener = l
-    }
-
-    interface ViewSwitchListener {
-        fun onSwitching(progress: Float)
-
-        fun onSwitched(position: Int)
-
-        fun onTouchDown()
-
-        fun onTouchUp()
-
-        fun onTouchClick()
-
-        fun onBackSwitched()
-    }
-
     companion object {
         const val TAG = "VLC/FlingViewGroup"
         private const val TOUCH_STATE_MOVE = 0
         private const val TOUCH_STATE_REST = 1
     }
-
 }
+
+interface ViewSwitchListener {
+    fun onSwitching(progress: Float)
+
+    fun onSwitched(position: Int)
+
+    fun onTouchDown()
+
+    fun onTouchUp()
+
+    fun onTouchClick()
+
+    fun onBackSwitched()
+}
+

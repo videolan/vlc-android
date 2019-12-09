@@ -127,28 +127,22 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    override fun updateBackground() {
+    override suspend fun updateBackground() {
         if (Settings.getInstance(audioPlayer.requireActivity()).getBoolean("blurred_cover_background", true)) {
-            audioPlayer.lifecycleScope.launch {
-                val mw = audioPlayer.playlistModel.currentMediaWrapper
-                if (!audioPlayer.isStarted() || mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
-                currentCoverArt = mw.artworkMrl
-                if (TextUtils.isEmpty(mw.artworkMrl)) {
-                    setDefaultBackground()
-                } else {
-                    val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else audioPlayer.activity?.getScreenWidth()
-                            ?: return@launch
-                    val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
-                    if (!audioPlayer.isStarted()) return@launch
-                    if (blurredCover !== null) {
-                        val activity = audioPlayer.activity as? AudioPlayerContainerActivity
-                                ?: return@launch
-                        binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
-                        binding.backgroundView.setImageBitmap(blurredCover)
-                        binding.backgroundView.visibility = View.VISIBLE
-                        binding.songsList.setBackgroundResource(0)
-                    } else setDefaultBackground()
-                }
+            val mw = audioPlayer.playlistModel.currentMediaWrapper ?: return
+            if (currentCoverArt == mw.artworkMrl) return
+            currentCoverArt = mw.artworkMrl
+            if (mw.artworkMrl.isNullOrEmpty()) setDefaultBackground()
+            else {
+                val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else audioPlayer.activity?.getScreenWidth() ?: return
+                val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
+                if (blurredCover !== null) {
+                    val activity = audioPlayer.activity as? AudioPlayerContainerActivity ?: return
+                    binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
+                    binding.backgroundView.setImageBitmap(blurredCover)
+                    binding.backgroundView.visibility = View.VISIBLE
+                    binding.songsList.setBackgroundResource(0)
+                } else setDefaultBackground()
             }
         }
     }
@@ -169,10 +163,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
 
     override fun onSlide(slideOffset: Float) {
         binding.progressBarMask.alpha = slideOffset
-        if (slideOffset != 1f) {
-            audioPlayer.clearSearch()
-        }
-
+        if (slideOffset != 1f) audioPlayer.clearSearch()
         binding.playlistSearch.alpha = slideOffset
         binding.playlistSwitch.alpha = slideOffset
         binding.advFunction.alpha = slideOffset
@@ -193,7 +184,7 @@ interface IAudioPlayerAnimator {
     fun isShowingCover(): Boolean
     fun showCover(value: Boolean)
     fun AudioPlayer.setupAnimator(binding: AudioPlayerBinding)
-    fun updateBackground()
+    suspend fun updateBackground()
     fun manageSearchVisibilities(filter: Boolean = false)
     fun onSlide(slideOffset: Float)
 }

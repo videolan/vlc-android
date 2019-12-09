@@ -258,9 +258,10 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycleViewmodelVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.lifecycleRuntimeVersion"
-    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.lifecycleVersion"
+    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.lifecycleVersion"
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
     implementation "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"

@@ -120,9 +120,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         }
     }
 
-
-    abstract class AbstractMediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener {
+    @TargetApi(Build.VERSION_CODES.M)
+    abstract class AbstractMediaItemViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding) {
 
         fun onClick(v: View) {
             getItem(layoutPosition)?.let { eventsHandler.onClick(v, layoutPosition, it) }
@@ -155,8 +154,12 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         abstract fun setCoverlay(selected: Boolean)
     }
 
-    inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler<MediaLibraryItem>) : AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
+    @TargetApi(Build.VERSION_CODES.M)
+    inner class MediaItemTVViewHolder(
+            binding: MediaBrowserTvItemBinding,
+            override val eventsHandler: IEventsHandler<MediaLibraryItem>
+    ) : AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding)
+    {
         override fun getItem(layoutPosition: Int) =  this@MediaTvItemAdapter.getItem(layoutPosition)
 
         init {

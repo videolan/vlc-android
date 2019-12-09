@@ -26,10 +26,11 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.flow.callbackFlow
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 
-open class SelectorViewHolder<T : ViewDataBinding>(vdb: T) : RecyclerView.ViewHolder(vdb.root), View.OnFocusChangeListener {
+open class SelectorViewHolder<T : ViewDataBinding>(vdb: T) : RecyclerView.ViewHolder(vdb.root) {
 
     var binding: T = vdb
     private val ITEM_FOCUS_ON: Int = ContextCompat.getColor(vdb.root.context, R.color.orange500transparent)
@@ -39,7 +40,7 @@ open class SelectorViewHolder<T : ViewDataBinding>(vdb: T) : RecyclerView.ViewHo
     protected open fun isSelected() = false
 
     init {
-        itemView.onFocusChangeListener = this
+        itemView.setOnFocusChangeListener { _, hasFocus -> if (layoutPosition >= 0) setViewBackground(hasFocus, isSelected()) }
     }
 
     open fun selectView(selected: Boolean) {
@@ -51,7 +52,4 @@ open class SelectorViewHolder<T : ViewDataBinding>(vdb: T) : RecyclerView.ViewHo
         binding.setVariable(BR.bgColor, color)
     }
 
-    override fun onFocusChange(v: View, hasFocus: Boolean) {
-        if (layoutPosition >= 0) setViewBackground(hasFocus, isSelected())
-    }
 }

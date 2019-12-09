@@ -26,12 +26,15 @@ import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.history_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.KeyHelper
@@ -39,23 +42,24 @@ import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IHistory
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.viewmodels.HistoryModel
 
 private const val TAG = "VLC/HistoryFragment"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler<MediaLibraryItem> {
+class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var cleanMenuItem: MenuItem
     private lateinit var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper>
-    private val historyAdapter: HistoryAdapter = HistoryAdapter(this)
+    private val historyAdapter: HistoryAdapter = HistoryAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.history_list, container, false)
@@ -64,7 +68,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(this, Observer<List<AbstractMediaWrapper>> { list ->
+        viewModel.dataset.observe(viewLifecycleOwner, Observer<List<AbstractMediaWrapper>> { list ->
             list?.let {
                 historyAdapter.update(it)
                 updateEmptyView()
@@ -73,9 +77,15 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
                 }
             }
         })
-        viewModel.loading.observe(this, Observer {
+        viewModel.loading.observe(viewLifecycleOwner) {
             (activity as? MainActivity)?.refreshing = it
-        })
+        }
+        historyAdapter.updateEvt.observe(viewLifecycleOwner) {
+            UiTools.updateSortTitles(this)
+            swipeRefreshLayout.isRefreshing = false
+            restoreMultiSelectHelper()
+        }
+        historyAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
     }
 
     override fun onStart() {
@@ -191,9 +201,21 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         multiSelectHelper.clearSelection()
     }
 
-    override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
+    private fun Click.process() {
+        val item = viewModel.dataset.get(position)
+        when(this) {
+            is SimpleClick -> onClick(position, item)
+            is LongClick -> onLongClick(position, item)
+            is ImageClick -> {
+                if (actionMode != null) onClick(position, item)
+                else onLongClick(position, item)
+            }
+        }
+    }
+
+    fun onClick(position: Int, item: AbstractMediaWrapper) {
         if (KeyHelper.isShiftPressed && actionMode == null) {
-            onLongClick(v, position, item)
+            onLongClick(position, item)
             return
         }
         if (actionMode != null) {
@@ -202,35 +224,14 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
             invalidateActionMode()
             return
         }
-        if (position != 0) viewModel.moveUp(item as AbstractMediaWrapper)
-        MediaUtils.openMedia(v.context, item as AbstractMediaWrapper)
+        if (position != 0) viewModel.moveUp(item)
+        MediaUtils.openMedia(requireContext(), item)
     }
 
-    override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
+    fun onLongClick(position: Int, item: AbstractMediaWrapper) {
         multiSelectHelper.toggleSelection(position, true)
         historyAdapter.notifyItemChanged(position, item)
         if (actionMode == null) startActionMode()
         invalidateActionMode()
-        return true
     }
-
-    override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (actionMode != null) {
-            onClick(v, position, item)
-            return
-        }
-        onLongClick(v, position, item)
-    }
-
-    override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
-
-    override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
-
-    override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        UiTools.updateSortTitles(this)
-        swipeRefreshLayout.isRefreshing = false
-        restoreMultiSelectHelper()
-    }
-
-    override fun onItemFocused(v: View, item: MediaLibraryItem) {}
 }

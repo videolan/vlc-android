@@ -1,7 +1,7 @@
 /*****************************************************************************
- * AudioPlayer.java
+ * AudioPlayer.kt
  *
- * Copyright © 2011-2014 VLC authors and VideoLAN
+ * Copyright © 2011-2019 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,18 +39,16 @@ import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.Runnable
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.conflate
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.PlaybackService
@@ -63,6 +61,7 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.*
@@ -81,7 +80,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private lateinit var playlistAdapter: PlaylistAdapter
     private lateinit var settings: SharedPreferences
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
-    private val updateActor = lifecycleScope.actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
     lateinit var playlistModel: PlaylistModel
     private lateinit var optionsDelegate: PlayerOptionsDelegate
 
@@ -104,8 +102,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
         playlistModel.progress.observe(this@AudioPlayer, Observer { it?.let { updateProgress(it) } })
-        playlistModel.dataset.observe(this@AudioPlayer, playlistObserver)
         playlistAdapter.setModel(playlistModel)
+        lifecycleScope.launchWhenStarted {
+            playlistModel.dataset.asFlow().conflate().collect {
+                doUpdate()
+                playlistAdapter.update(it)
+                delay(50L)
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -195,15 +199,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         showContext(activity, ctxReceiver, position, item?.title ?: "", flags)
     }
 
-    private fun doUpdate() {
-        if (activity === null || (isVisible && playlistModel.switchToVideo())) return
+    private suspend fun doUpdate() {
+        if (isVisible && playlistModel.switchToVideo()) return
         binding.playlistPlayasaudioOff.visibility = if (playlistModel.videoTrackCount > 0) View.VISIBLE else View.GONE
-        binding.audioMediaSwitcher.updateMedia(lifecycleScope, playlistModel.service)
-        binding.coverMediaSwitcher.updateMedia(lifecycleScope, playlistModel.service)
-
         updatePlayPause()
         updateShuffleMode()
         updateRepeatMode()
+        binding.audioMediaSwitcher.updateMedia(playlistModel.service)
+        binding.coverMediaSwitcher.updateMedia(playlistModel.service)
         updateBackground()
     }
 
@@ -395,15 +398,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     override fun afterTextChanged(editable: Editable) {}
 
-    private val playlistObserver = Observer<MutableList<AbstractMediaWrapper>> {
-        playlistAdapter.update(it!!)
-        updateActor.offer(Unit)
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         if (this::optionsDelegate.isInitialized) optionsDelegate.release()
-        playlistModel.dataset.removeObserver(playlistObserver)
     }
 
     private inner class LongSeekListener(internal var forward: Boolean, internal var normal: Int, internal var pressed: Int) : View.OnTouchListener {
@@ -529,7 +527,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onTouchUp() {}
     }
 
-    private val mCoverMediaSwitcherListener = object : AudioMediaSwitcherListener {
+    private val mCoverMediaSwitcherListener = object : AudioMediaSwitcherListener by AudioMediaSwitcher.EmptySwitcherListener {
 
         override fun onMediaSwitching() {
             (activity as? AudioPlayerContainerActivity)?.bottomSheetBehavior?.lock(true)
@@ -542,12 +540,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             }
             (activity as? AudioPlayerContainerActivity)?.bottomSheetBehavior?.lock(false)
         }
-
-        override fun onTouchDown() {}
-
-        override fun onTouchUp() {}
-
-        override fun onTouchClick() {}
     }
 
     private val hideSearchRunnable by lazy(LazyThreadSafetyMode.NONE) {

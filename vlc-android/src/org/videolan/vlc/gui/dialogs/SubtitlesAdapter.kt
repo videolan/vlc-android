@@ -40,13 +40,13 @@ internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEven
         override fun onClick(v: View) {
             dataset?.get(layoutPosition)?.let {
                 if(!eventActor.isClosedForSend)
-                    eventActor.offer(Click(it)) }
+                    eventActor.offer(SubtitleClick(it)) }
         }
 
         override fun onLongClick(v: View): Boolean {
             dataset?.get(layoutPosition)?.let {
                 if(!eventActor.isClosedForSend)
-                    eventActor.offer(LongClick(it))
+                    eventActor.offer(SubtitleLongClick(it))
             }
             return true
         }
@@ -60,5 +60,5 @@ internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEven
 }
 
 sealed class SubtitleEvent
-class Click(val item: SubtitleItem) : SubtitleEvent()
-class LongClick(val item: SubtitleItem) : SubtitleEvent()
+class SubtitleClick(val item: SubtitleItem) : SubtitleEvent()
+class SubtitleLongClick(val item: SubtitleItem) : SubtitleEvent()

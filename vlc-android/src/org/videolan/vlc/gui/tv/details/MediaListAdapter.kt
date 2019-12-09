@@ -72,26 +72,19 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
         }
     }
 
-
-    inner class MediaListViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: ActivityMediaListTvItemBinding, type: Int) : SelectorViewHolder<ActivityMediaListTvItemBinding>(binding), View.OnFocusChangeListener {
+    @TargetApi(Build.VERSION_CODES.M)
+    inner class MediaListViewHolder(binding: ActivityMediaListTvItemBinding, type: Int) : SelectorViewHolder<ActivityMediaListTvItemBinding>(binding) {
 
         init {
-
-
             val fadableViews = arrayOf(binding.itemMoveDown, binding.itemMoveUp, binding.itemAddPlaylist, binding.itemInsertNext, binding.itemAppend, binding.itemSelector, binding.itemRemove)
             val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
                 val alpha = if (!hasFocus) 0f else 1f
-                fadableViews.forEach {
-                    it.animate().alpha(alpha)
-                }
+                fadableViews.forEach { it.animate().alpha(alpha) }
 
                 val playAlpha = if (v == binding.itemSelector && hasFocus) 1f else 0f
                 binding.itemPlay.animate().alpha(playAlpha)
                 if (hasFocus) {
                     listener.onFocusChanged(getItem(layoutPosition))
-                }
-                if (hasFocus) {
                     focusListener?.onFocusChanged(layoutPosition)
                 }
 

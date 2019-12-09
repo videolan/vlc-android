@@ -283,7 +283,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {
-        MediaUtils.openList(activity, Arrays.asList(*item.tracks), 0)
+        MediaUtils.openList(activity, listOf(*item.tracks), 0)
     }
 
     override fun sortMenuTitles() {

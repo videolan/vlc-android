@@ -213,8 +213,8 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         this.focusListener = focusListener
     }
 
-    inner class MediaItemViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: AudioBrowserItemBinding) : AbstractMediaItemViewHolder<AudioBrowserItemBinding>(binding), View.OnFocusChangeListener {
+    @TargetApi(Build.VERSION_CODES.M)
+    inner class MediaItemViewHolder(binding: AudioBrowserItemBinding) : AbstractMediaItemViewHolder<AudioBrowserItemBinding>(binding) {
         private var coverlayResource = 0
         var onTouchListener: View.OnTouchListener
 
@@ -265,8 +265,8 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         }
     }
 
-    inner class MediaItemCardViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: AudioBrowserCardItemBinding) : AbstractMediaItemViewHolder<AudioBrowserCardItemBinding>(binding), View.OnFocusChangeListener {
+    @TargetApi(Build.VERSION_CODES.M)
+    inner class MediaItemCardViewHolder(binding: AudioBrowserCardItemBinding) : AbstractMediaItemViewHolder<AudioBrowserCardItemBinding>(binding) {
         private var coverlayResource = 0
 
         override val titleView = binding.title
@@ -305,7 +305,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
     abstract inner class AbstractMediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener, MarqueeViewHolder {
+    internal constructor(binding: T) : SelectorViewHolder<T>(binding), MarqueeViewHolder {
 
         val canBeReordered: Boolean
             get() = reorder

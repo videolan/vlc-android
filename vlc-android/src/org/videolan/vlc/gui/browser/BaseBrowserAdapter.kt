@@ -185,7 +185,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    internal inner class MediaViewHolder(binding: BrowserItemBinding) : ViewHolder<BrowserItemBinding>(binding), View.OnFocusChangeListener, MarqueeViewHolder {
+    internal inner class MediaViewHolder(binding: BrowserItemBinding) : ViewHolder<BrowserItemBinding>(binding), MarqueeViewHolder {
         override val titleView: TextView? = binding.title
         var job : Job? = null
 

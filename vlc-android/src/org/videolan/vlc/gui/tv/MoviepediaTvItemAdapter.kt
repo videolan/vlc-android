@@ -145,8 +145,8 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
         }
     }
 
-    abstract class AbstractMoviepediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener {
+    @TargetApi(Build.VERSION_CODES.M)
+    abstract class AbstractMoviepediaItemViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding) {
 
         fun onClick(v: View) {
             getItem(layoutPosition)?.let { eventsHandler.onClick(v, layoutPosition, it) }
@@ -180,8 +180,11 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
         abstract fun setCoverlay(selected: Boolean)
     }
 
-    inner class MovieItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: MovieBrowserTvItemBinding, override val eventsHandler: IEventsHandler<MediaMetadataWithImages>) : AbstractMoviepediaItemViewHolder<MovieBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
+    @TargetApi(Build.VERSION_CODES.M)
+    inner class MovieItemTVViewHolder(
+            binding: MovieBrowserTvItemBinding,
+            override val eventsHandler: IEventsHandler<MediaMetadataWithImages>
+    ) : AbstractMoviepediaItemViewHolder<MovieBrowserTvItemBinding>(binding) {
         override fun getItem(layoutPosition: Int) = this@MoviepediaTvItemAdapter.getItem(layoutPosition)
 
         init {
@@ -197,9 +200,7 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
             binding.container.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     var newWidth = (itemSize * 1.1).toInt()
-                    if (newWidth % 2 == 1) {
-                        newWidth--
-                    }
+                    if (newWidth % 2 == 1) newWidth--
                     val scale = newWidth.toFloat() / itemSize
                     binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
 

@@ -98,8 +98,13 @@ class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEven
         return if (media.type != AbstractMediaWrapper.TYPE_DIR) null else media.uri.scheme
     }
 
-    inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler<MediaLibraryItem>, private val showProtocol: Boolean) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
+    @TargetApi(Build.VERSION_CODES.M)
+    inner class MediaItemTVViewHolder(
+            binding: MediaBrowserTvItemBinding,
+            override val eventsHandler: IEventsHandler<MediaLibraryItem>,
+            private val showProtocol: Boolean
+    ) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding)
+    {
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
 

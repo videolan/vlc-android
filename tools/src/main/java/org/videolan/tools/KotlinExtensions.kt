@@ -12,10 +12,15 @@ import android.view.View
 import androidx.annotation.AttrRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.yield
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
@@ -93,4 +98,15 @@ fun String?.isValidUrl() : Boolean {
         returns(true) implies (this@isValidUrl != null)
     }
     return !isNullOrEmpty() && Patterns.WEB_URL.matcher(this).matches()
+}
+
+fun View.clicks(): Flow<Unit> = callbackFlow {
+    setOnClickListener { safeOffer(Unit) }
+    awaitClose { setOnClickListener(null) }
+}
+
+fun <E> SendChannel<E>.safeOffer(value: E) = !isClosedForSend && try {
+    offer(value)
+} catch (e: CancellationException) {
+    false
 }

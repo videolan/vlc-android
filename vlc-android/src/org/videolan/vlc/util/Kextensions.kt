@@ -23,6 +23,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
@@ -232,4 +234,8 @@ fun Activity.manageHttpException(e: Exception) {
             }
         }
     }
+}
+
+fun <T> Flow<T>.launchWhenStarted(scope: LifecycleCoroutineScope): Job = scope.launchWhenStarted {
+    collect() // tail-call
 }

@@ -120,10 +120,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open suspend fun browseImpl(url: String? = null) {
-        if (url == null) {
-            coroutineScope {
-                discoveryJob = launch { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
-            }
+        if (url == null) coroutineScope {
+            discoveryJob = launch { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
         } else {
             val value = filesFlow(url).mapNotNull { findMedia(it) }.toList()
             computeHeaders(value)
@@ -133,22 +131,20 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         if (url != null ) loading.postValue(false)
     }
 
-    private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = withContext(Dispatchers.IO) {
-        channelFlow {
-            val listener = object : EventListener {
-                override fun onMediaAdded(index: Int, media: Media) {
-                    if (!isClosedForSend) offer(media.apply { retain() })
-                }
-
-                override fun onBrowseEnd() {
-                    if (!isClosedForSend) close()
-                }
-
-                override fun onMediaRemoved(index: Int, media: Media) {}
+    private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow {
+        val listener = object : EventListener {
+            override fun onMediaAdded(index: Int, media: Media) {
+                if (!isClosedForSend) offer(media.apply { retain() })
             }
-            requestBrowsing(url, listener, interact)
-            awaitClose { if (url != null) browserActor.post(ClearListener) }
+
+            override fun onBrowseEnd() {
+                if (!isClosedForSend) close()
+            }
+
+            override fun onMediaRemoved(index: Int, media: Media) {}
         }
+        requestBrowsing(url, listener, interact)
+        awaitClose { if (url != null) browserActor.post(ClearListener) }
     }
 
     protected open fun addMedia(media: MediaLibraryItem) = dataset.add(media)

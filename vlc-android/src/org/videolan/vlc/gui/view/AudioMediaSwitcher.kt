@@ -34,101 +34,79 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 @ExperimentalCoroutinesApi
 abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : FlingViewGroup(context, attrs) {
 
-    private var mAudioMediaSwitcherListener: AudioMediaSwitcherListener? = null
+    private lateinit var audioMediaSwitcherListener: AudioMediaSwitcherListener
 
     private var hasPrevious: Boolean = false
     private var previousPosition: Int = 0
 
-    private val mViewSwitchListener = object : ViewSwitchListener {
-
+    override val viewSwitchListener = object : ViewSwitchListener {
         override fun onSwitching(progress: Float) {
-            if (mAudioMediaSwitcherListener != null)
-                mAudioMediaSwitcherListener!!.onMediaSwitching()
+            audioMediaSwitcherListener.onMediaSwitching()
         }
 
         override fun onSwitched(position: Int) {
-            if (mAudioMediaSwitcherListener != null) {
-                if (previousPosition != position) {
-                    if (position == 0 && hasPrevious)
-                        mAudioMediaSwitcherListener!!.onMediaSwitched(AudioMediaSwitcherListener.PREVIOUS_MEDIA)
-                    if (position == 1 && !hasPrevious)
-                        mAudioMediaSwitcherListener!!.onMediaSwitched(AudioMediaSwitcherListener.NEXT_MEDIA)
-                    else if (position == 2)
-                        mAudioMediaSwitcherListener!!.onMediaSwitched(AudioMediaSwitcherListener.NEXT_MEDIA)
-                    previousPosition = position
-                } else
-                    mAudioMediaSwitcherListener!!.onMediaSwitched(AudioMediaSwitcherListener.CURRENT_MEDIA)
+            audioMediaSwitcherListener.let {
+                when {
+                    previousPosition == position -> it.onMediaSwitched(AudioMediaSwitcherListener.CURRENT_MEDIA)
+                    position == 0 && hasPrevious -> it.onMediaSwitched(AudioMediaSwitcherListener.PREVIOUS_MEDIA)
+                    position == 1 && !hasPrevious -> it.onMediaSwitched(AudioMediaSwitcherListener.NEXT_MEDIA)
+                    position == 2 -> it.onMediaSwitched(AudioMediaSwitcherListener.NEXT_MEDIA)
+                }
+                previousPosition = position
             }
         }
 
         override fun onTouchDown() {
-            if (mAudioMediaSwitcherListener != null)
-                mAudioMediaSwitcherListener!!.onTouchDown()
+            audioMediaSwitcherListener.onTouchDown()
         }
 
         override fun onTouchUp() {
-            if (mAudioMediaSwitcherListener != null)
-                mAudioMediaSwitcherListener!!.onTouchUp()
+            audioMediaSwitcherListener.onTouchUp()
         }
 
         override fun onTouchClick() {
-            if (mAudioMediaSwitcherListener != null)
-                mAudioMediaSwitcherListener!!.onTouchClick()
+            audioMediaSwitcherListener.onTouchClick()
         }
 
         override fun onBackSwitched() {}
     }
 
-    init {
-
-        setOnViewSwitchedListener(mViewSwitchListener)
-    }
-
-    fun updateMedia(scope: CoroutineScope, service: PlaybackService?) {
+    suspend fun updateMedia(service: PlaybackService?) {
         if (service == null) return
         val artMrl = service.coverArt
         val prevArtMrl = service.prevCoverArt
         val nextArtMrl = service.nextCoverArt
-        scope.launch {
-            val coverCurrent = if (artMrl != null) withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(artMrl), 512) } else null
-            val coverPrev = if (prevArtMrl != null) withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(prevArtMrl), 512) } else null
-            val coverNext = if (nextArtMrl != null) withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(nextArtMrl), 512) } else null
-            removeAllViews()
-
-            hasPrevious = false
-            previousPosition = 0
-
-            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            if (service.hasPrevious()) {
-                addMediaView(inflater,
-                        service.titlePrev,
-                        service.artistPrev,
-                        coverPrev)
-                hasPrevious = true
-            }
-            if (service.hasMedia())
-                addMediaView(inflater,
-                        service.title,
-                        service.artist,
-                        coverCurrent)
-            if (service.hasNext())
-                addMediaView(inflater,
-                        service.titleNext,
-                        service.artistNext,
-                        coverNext)
-
-            if (service.hasPrevious() && service.hasMedia()) {
-                previousPosition = 1
-                scrollTo(1)
-            } else
-                scrollTo(0)
+        val (coverCurrent, coverPrev, coverNext) = withContext(Dispatchers.IO) {
+            Triple(
+                    artMrl.let { AudioUtil.readCoverBitmap(Uri.decode(artMrl), 512) },
+                    prevArtMrl.let { AudioUtil.readCoverBitmap(Uri.decode(prevArtMrl), 512) },
+                    nextArtMrl?.let { AudioUtil.readCoverBitmap(Uri.decode(nextArtMrl), 512) }
+            )
         }
+        removeAllViews()
+
+        hasPrevious = false
+        previousPosition = 0
+
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        if (service.hasPrevious()) {
+            addMediaView(inflater, service.titlePrev, service.artistPrev, coverPrev)
+            hasPrevious = true
+        }
+        if (service.hasMedia()) addMediaView(inflater, service.title, service.artist, coverCurrent)
+        if (service.hasNext()) addMediaView(inflater, service.titleNext, service.artistNext, coverNext)
+
+        if (service.hasPrevious() && service.hasMedia()) {
+            previousPosition = 1
+            scrollTo(1)
+        } else
+            scrollTo(0)
     }
 
     protected abstract fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?)
 
     fun setAudioMediaSwitcherListener(l: AudioMediaSwitcherListener) {
-        mAudioMediaSwitcherListener = l
+        audioMediaSwitcherListener = l
     }
 
     interface AudioMediaSwitcherListener {
@@ -148,5 +126,13 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
             const val CURRENT_MEDIA = 2
             const val NEXT_MEDIA = 3
         }
+    }
+
+    object EmptySwitcherListener : AudioMediaSwitcherListener {
+        override fun onMediaSwitching() {}
+        override fun onMediaSwitched(position: Int) {}
+        override fun onTouchDown() {}
+        override fun onTouchUp() {}
+        override fun onTouchClick() {}
     }
 }

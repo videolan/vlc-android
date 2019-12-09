@@ -34,13 +34,13 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.consumeAsFlow
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
@@ -50,22 +50,18 @@ import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.safeOffer
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.helpers.loadImage
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 private const val TAG = "VLC/VideoListAdapter"
 
-class VideoListAdapter internal constructor(
-        val scope: LifecycleCoroutineScope,
-        private var mIsSeenMediaMarkerVisible: Boolean,
-        val actor: SendChannel<VideoAction>
+class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 ) : PagedListAdapter<MediaLibraryItem, VideoListAdapter.ViewHolder>(VideoItemDiffCallback),
-        MultiSelectAdapter<MediaLibraryItem> {
+        MultiSelectAdapter<MediaLibraryItem>, IEventsSource<VideoAction> by EventsSource() {
 
     var isListMode = false
     var dataType = VideoGroupingType.NONE
@@ -144,7 +140,7 @@ class VideoListAdapter internal constructor(
 
     private fun fillView(holder: ViewHolder, item: MediaLibraryItem) {
         when (item) {
-            is AbstractFolder -> holder.job = scope.launch(start = CoroutineStart.UNDISPATCHED) {
+            is AbstractFolder -> holder.job = holder.itemView.scope.launch(start = CoroutineStart.UNDISPATCHED) {
                 val count = withContext(Dispatchers.IO) { item.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) }
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.title.text = item.title
@@ -153,7 +149,7 @@ class VideoListAdapter internal constructor(
                 holder.binding.setVariable(BR.max, 0)
                 holder.job = null
             }
-            is AbstractVideoGroup -> scope.launch {
+            is AbstractVideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
                 holder.binding.setVariable(BR.time, if (count < 2) null else holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.title.text = item.title
@@ -172,7 +168,7 @@ class VideoListAdapter internal constructor(
                 text = if (item.type == AbstractMediaWrapper.TYPE_GROUP) {
                     item.description
                 } else {
-                    seen = if (mIsSeenMediaMarkerVisible) item.seen else 0L
+                    seen = if (isSeenMediaMarkerVisible) item.seen else 0L
                     /* Time / Duration */
                     if (item.length > 0) {
                         val lastTime = item.displayTime
@@ -201,8 +197,8 @@ class VideoListAdapter internal constructor(
 
     override fun getItemId(position: Int) = 0L
 
-    inner class ViewHolder @TargetApi(Build.VERSION_CODES.M)
-    constructor(binding: ViewDataBinding) : SelectorViewHolder<ViewDataBinding>(binding), View.OnFocusChangeListener {
+    @TargetApi(Build.VERSION_CODES.M)
+    inner class ViewHolder(binding: ViewDataBinding) : SelectorViewHolder<ViewDataBinding>(binding) {
         val overlay: ImageView = itemView.findViewById(R.id.ml_item_overlay)
         val title : TextView = itemView.findViewById(R.id.ml_item_title)
         var job: Job? = null
@@ -219,17 +215,17 @@ class VideoListAdapter internal constructor(
 
         fun onClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { actor.offer(VideoClick(layoutPosition, it)) }
+            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoClick(layoutPosition, it)) }
         }
 
         fun onMoreClick(v: View) {
             val position = layoutPosition
-            if (isPositionValid(position)) getItem(position)?.let { actor.offer(VideoCtxClick(layoutPosition, it)) }
+            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoCtxClick(layoutPosition, it)) }
         }
 
         fun onLongClick(v: View): Boolean {
             val position = layoutPosition
-            return isPositionValid(position) && getItem(position)?.let { actor.offer(VideoLongClick(layoutPosition, it)) } == true
+            return isPositionValid(position) && getItem(position)?.let { eventsChannel.safeOffer(VideoLongClick(layoutPosition, it)) } == true
         }
 
         override fun selectView(selected: Boolean) {
@@ -267,7 +263,7 @@ class VideoListAdapter internal constructor(
     }
 
     fun setSeenMediaMarkerVisible(seenMediaMarkerVisible: Boolean) {
-        mIsSeenMediaMarkerVisible = seenMediaMarkerVisible
+        isSeenMediaMarkerVisible = seenMediaMarkerVisible
     }
 }
 

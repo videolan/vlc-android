@@ -23,23 +23,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.safeOffer
 import org.videolan.vlc.databinding.HistoryItemBinding
-import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.vlc.gui.helpers.getMediaIconDrawable
-import org.videolan.vlc.interfaces.IEventsHandler
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.util.UPDATE_SELECTION
 import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class HistoryAdapter(private val mEventsHandler: IEventsHandler<MediaLibraryItem>) : DiffUtilAdapter<AbstractMediaWrapper, HistoryAdapter.ViewHolder>(), MultiSelectAdapter<AbstractMediaWrapper> {
-    private var mLayoutInflater: LayoutInflater? = null
+class HistoryAdapter : DiffUtilAdapter<AbstractMediaWrapper, HistoryAdapter.ViewHolder>(),
+        MultiSelectAdapter<AbstractMediaWrapper>, IEventsSource<Click> by EventsSource() {
+
+    val updateEvt : LiveData<Unit> = MutableLiveData()
+    private lateinit var layoutInflater: LayoutInflater
     var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper> = MultiSelectHelper(this, UPDATE_SELECTION)
 
     inner class ViewHolder(binding: HistoryItemBinding) : SelectorViewHolder<HistoryItemBinding>(binding) {
@@ -50,29 +54,21 @@ class HistoryAdapter(private val mEventsHandler: IEventsHandler<MediaLibraryItem
         }
 
         fun onClick(v: View) {
-            val position = layoutPosition
-            mEventsHandler.onClick(v, position, getItem(position))
+            eventsChannel.safeOffer(SimpleClick(layoutPosition))
         }
 
-        fun onLongClick(v: View): Boolean {
-            val position = layoutPosition
-            return mEventsHandler.onLongClick(v, position, getItem(position))
-        }
+        fun onLongClick(v: View) = eventsChannel.safeOffer(LongClick(layoutPosition))
 
         fun onImageClick(v: View) {
-            val position = layoutPosition
-            mEventsHandler.onImageClick(v, position, getItem(position))
+            eventsChannel.safeOffer(ImageClick(layoutPosition))
         }
 
-        override fun isSelected(): Boolean {
-            return getItem(layoutPosition).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
-        }
+        override fun isSelected() = getItem(layoutPosition).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        if (mLayoutInflater == null)
-            mLayoutInflater = LayoutInflater.from(parent.context)
-        return ViewHolder(HistoryItemBinding.inflate(mLayoutInflater!!, parent, false))
+        if (!::layoutInflater.isInitialized) layoutInflater = LayoutInflater.from(parent.context)
+        return ViewHolder(HistoryItemBinding.inflate(layoutInflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -99,7 +95,7 @@ class HistoryAdapter(private val mEventsHandler: IEventsHandler<MediaLibraryItem
     }
 
     override fun onUpdateFinished() {
-        mEventsHandler.onUpdateFinished(this)
+        (updateEvt as MutableLiveData).value = Unit
     }
 
     companion object {
