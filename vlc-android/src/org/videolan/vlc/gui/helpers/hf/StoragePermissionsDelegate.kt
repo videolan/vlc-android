@@ -97,7 +97,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                     return
                 }
                 storageAccessGranted.value = false
-                model.deferredGrant.complete(false)
+                if (model.permissionPending) model.deferredGrant.complete(false)
                 exit()
             }
             Permissions.PERMISSION_WRITE_STORAGE_TAG -> {
