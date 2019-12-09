@@ -257,8 +257,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     HIDE_INFO -> hideOverlay(true)
                     SHOW_INFO -> showOverlay()
                     HIDE_SEEK -> touchDelegate?.hideSeekOverlay()
-                    else -> {
-                    }
+                    HIDE_SETTINGS -> endPlaybackSetting()
+                    else -> {}
                 }
             }
         }
@@ -949,7 +949,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (service == null || keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B)
             return super.onKeyDown(keyCode, event)
-        if (isPlaybackSettingActive || isOptionsListShowing) return false
+        if (isOptionsListShowing) return false
+        if (isPlaybackSettingActive && keyCode != KeyEvent.KEYCODE_J && keyCode != KeyEvent.KEYCODE_K
+                        && keyCode != KeyEvent.KEYCODE_G && keyCode != KeyEvent.KEYCODE_H) return false
         if (isLoading) {
             when (keyCode) {
                 KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_MEDIA_STOP -> {
@@ -1095,14 +1097,20 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 super.onKeyDown(keyCode, event)
             KeyEvent.KEYCODE_J -> {
                 delayAudio(-50000L)
+                    handler.removeMessages(HIDE_SETTINGS)
+                handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 return true
             }
             KeyEvent.KEYCODE_K -> {
                 delayAudio(50000L)
+                    handler.removeMessages(HIDE_SETTINGS)
+                handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 return true
             }
             KeyEvent.KEYCODE_G -> {
                 delaySubs(-50000L)
+                    handler.removeMessages(HIDE_SETTINGS)
+                handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 return true
             }
             KeyEvent.KEYCODE_T -> {
@@ -1111,7 +1119,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             KeyEvent.KEYCODE_H -> {
                 if (event.isCtrlPressed) {
                     showOverlay()
-                } else delaySubs(50000L)
+                } else {
+                    delaySubs(50000L)
+                    handler.removeMessages(HIDE_SETTINGS)
+                    handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
+                }
                 return true
             }
             KeyEvent.KEYCODE_Z -> {
@@ -1146,7 +1158,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (event.isShiftPressed) {
                     service?.run { setRate(rate * 1.2f, true) }
                     return true
-                }
+                } else service?.run { setRate(1f, true) }
                 return false
             }
             KeyEvent.KEYCODE_MINUS -> {
@@ -1224,7 +1236,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     @SuppressLint("ClickableViewAccessibility")
     fun showDelayControls() {
-        if (touchDelegate != null) touchDelegate!!.clearTouchAction()
+        touchDelegate?.clearTouchAction()
         if (!displayManager.isPrimary) showOverlayTimeout(OVERLAY_INFINITE)
         val vsc = findViewById<ViewStubCompat>(R.id.player_overlay_settings_stub)
         if (vsc != null) {
@@ -1264,6 +1276,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     override fun endPlaybackSetting() {
+        if (playbackSetting == IPlaybackSettingsController.DelayState.OFF) return
         service?.let { service ->
             service.saveMediaMeta()
             if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO && (audiomanager.isBluetoothA2dpOn || audiomanager.isBluetoothScoOn)) {
@@ -2719,6 +2732,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         internal const val SHOW_INFO = 8
         internal const val HIDE_INFO = 9
         internal const val HIDE_SEEK = 10
+        internal const val HIDE_SETTINGS = 11
         private const val KEY_REMAINING_TIME_DISPLAY = "remaining_time_display"
         private const val KEY_BLUETOOTH_DELAY = "key_bluetooth_delay"
 
