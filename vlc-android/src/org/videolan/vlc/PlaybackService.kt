@@ -889,7 +889,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     }
 
     @MainThread
-    fun next() = playlistManager.next()
+    fun next(force: Boolean = true) = playlistManager.next(force)
 
     @MainThread
     fun previous(force: Boolean) = playlistManager.previous(force)

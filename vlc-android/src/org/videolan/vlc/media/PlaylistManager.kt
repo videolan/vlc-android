@@ -131,7 +131,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             clearABRepeat()
             player.setRate(1.0f, false)
             playIndex(currentIndex)
-            onPlaylistLoaded()
+            service.onPlaylistLoaded()
             if (mlUpdate) {
                 mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() } )
             }
@@ -177,11 +177,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         return true
     }
 
-    private suspend fun onPlaylistLoaded() {
-        service.onPlaylistLoaded()
-        determinePrevAndNextIndices()
-    }
-
     fun play() {
         if (hasMedia()) player.play()
     }
@@ -191,14 +186,17 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @MainThread
-    fun next() {
+    fun next(force : Boolean = false) {
         val size = mediaList.size()
-        previous.push(currentIndex)
-        currentIndex = nextIndex
-        if (size == 0 || currentIndex < 0 || currentIndex >= size) {
-            Log.w(TAG, "Warning: invalid next index, aborted !")
-            stop()
-            return
+        if (force || repeating != REPEAT_ONE) {
+            previous.push(currentIndex)
+            currentIndex = nextIndex
+            if (size == 0 || currentIndex < 0 || currentIndex >= size) {
+                Log.w(TAG, "Warning: invalid next index, aborted !")
+                stop()
+                return
+            }
+            videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         }
         launch { playIndex(currentIndex) }
     }
@@ -512,48 +510,41 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val size = mediaList.size()
             shuffling = shuffling and (size > 2)
 
-            // Repeating once doesn't change the index
-            if (repeating == REPEAT_ONE) {
-                nextIndex = currentIndex
-                prevIndex = nextIndex
-            } else {
-                if (shuffling) {
-                    if (!previous.isEmpty()) {
+            if (shuffling) {
+                if (!previous.isEmpty()) {
+                    prevIndex = previous.peek()
+                    while (!isValidPosition(prevIndex)) {
+                        previous.removeAt(previous.size - 1)
+                        if (previous.isEmpty()) {
+                            prevIndex = -1
+                            break
+                        }
                         prevIndex = previous.peek()
-                        while (!isValidPosition(prevIndex)) {
-                            previous.removeAt(previous.size - 1)
-                            if (previous.isEmpty()) {
-                                prevIndex = -1
-                                break
-                            }
-                            prevIndex = previous.peek()
-                        }
                     }
-                    // If we've played all songs already in shuffle, then either
-                    // reshuffle or stop (depending on RepeatType).
-                    if (previous.size + 1 == size) {
-                        if (repeating == REPEAT_NONE) {
-                            nextIndex = -1
-                            return
-                        } else {
-                            previous.clear()
-                            random = Random(System.currentTimeMillis())
-                        }
+                }
+                // If we've played all songs already in shuffle, then either
+                // reshuffle or stop (depending on RepeatType).
+                if (previous.size + 1 == size) {
+                    if (repeating == REPEAT_NONE) {
+                        nextIndex = -1
+                        return
+                    } else {
+                        previous.clear()
+                        random = Random(System.currentTimeMillis())
                     }
-                    random = Random(System.currentTimeMillis())
-                    // Find a new index not in previous.
-                    do {
-                        nextIndex = random.nextInt(size)
-                    } while (nextIndex == currentIndex || previous.contains(nextIndex))
-
-                } else {
-                    // normal playback
-                    if (currentIndex > 0) prevIndex = currentIndex - 1
-                    nextIndex = when {
-                        currentIndex + 1 < size -> currentIndex + 1
-                        repeating == REPEAT_NONE -> -1
-                        else -> 0
-                    }
+                }
+                random = Random(System.currentTimeMillis())
+                // Find a new index not in previous.
+                do {
+                    nextIndex = random.nextInt(size)
+                } while (nextIndex == currentIndex || previous.contains(nextIndex))
+            } else {
+                // normal playback
+                if (currentIndex > 0) prevIndex = currentIndex - 1
+                nextIndex = when {
+                    currentIndex + 1 < size -> currentIndex + 1
+                    repeating == REPEAT_NONE -> -1
+                    else -> 0
                 }
             }
         }
@@ -799,9 +790,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     id = internalMedia.id
                 else {
                     internalMedia = if (mw.type == AbstractMediaWrapper.TYPE_STREAM) {
-                            val media = medialibrary.addStream(Uri.decode(entryUrl ?: mw.uri.toString()), mw.title)
+                        medialibrary.addStream(Uri.decode(entryUrl ?: mw.uri.toString()), mw.title).also {
                             entryUrl = null
-                            media
+                        }
                     } else medialibrary.addMedia(Uri.decode(mw.uri.toString()))
                     if (internalMedia != null) id = internalMedia.id
                 }

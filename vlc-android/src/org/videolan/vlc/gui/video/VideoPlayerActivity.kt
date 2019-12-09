@@ -2266,7 +2266,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         rootView?.run { keepScreenOn = false }
     }
 
-    operator fun next() {
+    fun next() {
         service?.next()
     }
 
