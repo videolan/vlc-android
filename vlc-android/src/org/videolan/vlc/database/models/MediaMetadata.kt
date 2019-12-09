@@ -128,7 +128,8 @@ fun MediaMetadataWithImages.tvshowSubtitle(): String {
 fun MediaMetadataWithImages.tvEpisodeSubtitle(): String {
     return when (metadata.type) {
         MediaMetadataType.TV_EPISODE -> "S${metadata.season.toString().padStart(2, '0')}E${metadata.episode.toString().padStart(2, '0')}"
-        else -> SimpleDateFormat("yyyy", Locale.getDefault()).format(metadata.releaseDate)
+        else -> metadata.releaseDate?.let { SimpleDateFormat("yyyy", Locale.getDefault()).format(metadata.releaseDate) }
+                ?: ""
     }
 }
 
