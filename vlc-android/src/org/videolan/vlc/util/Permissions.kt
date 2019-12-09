@@ -37,11 +37,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 object Permissions {
 
     const val PERMISSION_STORAGE_TAG = 255
@@ -53,7 +61,7 @@ object Permissions {
     private const val PERMISSION_SYSTEM_BRIGHTNESS = 43
     private const val PERMISSION_SYSTEM_DRAW_OVRLAYS = 44
 
-    private var sAlertDialog: Dialog? = null
+    var sAlertDialog: Dialog? = null
 
     /*
      * Marshmallow permission system management
@@ -86,7 +94,7 @@ object Permissions {
                             Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 showStoragePermissionDialog(activity, exit)
             } else
-                requestStoragePermission(activity, false, null)
+                activity.requestStoragePermission(false, null)
             return false
         }
         return true
@@ -97,7 +105,7 @@ object Permissions {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             showStoragePermissionDialog(activity, exit)
         } else
-            requestStoragePermission(activity, true, callback)
+            activity.requestStoragePermission(true, callback)
     }
 
     fun checkDrawOverlaysPermission(activity: FragmentActivity) {
@@ -132,7 +140,7 @@ object Permissions {
                 .setPositiveButton(activity.getString(R.string.permission_ask_again)) { _, _ ->
                     val settings = Settings.getInstance(activity)
                     if (!settings.getBoolean("user_declined_storage_access", false))
-                        requestStoragePermission(activity, false, null)
+                        activity.requestStoragePermission()
                     else {
                         showAppSettingsPage(activity)
                     }
@@ -156,7 +164,7 @@ object Permissions {
                 .setPositiveButton(activity.getString(R.string.permission_ask_again)) { _, _ ->
                     val settings = Settings.getInstance(activity)
                     if (!settings.getBoolean("user_declined_storage_access", false))
-                        requestStoragePermission(activity, false, null)
+                        activity.requestStoragePermission()
                     else {
                         showAppSettingsPage(activity)
                     }
@@ -168,7 +176,15 @@ object Permissions {
             dialogBuilder.setNegativeButton(activity.getString(R.string.exit_app)) { _, _ -> activity.finish() }
                     .setCancelable(false)
         }
-        return dialogBuilder.show()
+        return dialogBuilder.show().apply {
+            activity.lifecycle.addObserver(object : LifecycleObserver {
+                @Suppress("unused")
+                @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+                fun clear() {
+                    dismiss()
+                }
+            })
+        }
     }
 
     private fun showAppSettingsPage(activity: FragmentActivity) {
@@ -224,7 +240,7 @@ object Permissions {
         return dialogBuilder.show()
     }
 
-    private fun requestStoragePermission(activity: FragmentActivity?, write: Boolean, callback: Runnable?) {
-        if (activity != null) StoragePermissionsDelegate.askStoragePermission(activity, write, callback)
+    private fun FragmentActivity.requestStoragePermission(write: Boolean = false, callback: Runnable? = null) {
+        askStoragePermission(write, callback)
     }
 }

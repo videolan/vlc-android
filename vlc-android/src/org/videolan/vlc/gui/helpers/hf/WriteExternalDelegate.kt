@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.DocumentsContract
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
@@ -73,7 +74,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                     val file = DocumentFile.fromTreeUri(context, uriPermission.uri)
                     if (treeFile?.name == file?.name) {
                         contentResolver.releasePersistableUriPermission(uriPermission.uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                        deferredGrant.complete(false)
+                        model.deferredGrant.complete(false)
                         exit()
                         return
                     }
@@ -81,12 +82,12 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
 
                 // else set permission
                 contentResolver.takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                deferredGrant.complete(true)
+                model.deferredGrant.complete(true)
                 exit()
                 return
             }
         }
-        deferredGrant.complete(false)
+        model.deferredGrant.complete(false)
         exit()
     }
 
@@ -114,10 +115,12 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
 suspend fun FragmentActivity.getExtWritePermission(uri: Uri) : Boolean {
     if (!WriteExternalDelegate.needsWritePermission(uri)) return true
     val storage = FileUtils.getMediaStorage(uri) ?: return false
+    val model : PermissionViewmodel by viewModels()
     val fragment = WriteExternalDelegate()
+    model.setupDeferred()
     fragment.arguments = Bundle(1).apply { putString(WriteExternalDelegate.KEY_STORAGE_PATH, storage) }
     supportFragmentManager.beginTransaction().add(fragment, WriteExternalDelegate.TAG).commitAllowingStateLoss()
-    return fragment.awaitGrant()
+    return model.deferredGrant.await()
 }
 
 suspend fun Fragment.getExtWritePermission(uri: Uri) = activity?.getExtWritePermission(uri) ?: false

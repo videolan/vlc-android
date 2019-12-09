@@ -66,7 +66,7 @@ class PreferencesFragment : BasePreferenceFragment() {
                         startActivity(intent)
                         activity.setResult(RESULT_RESTART)
                     }
-                    else -> Permissions.showStoragePermissionDialog(activity as FragmentActivity, false)
+                    else -> Permissions.showStoragePermissionDialog(context as FragmentActivity, false)
                 }
                 true
             }

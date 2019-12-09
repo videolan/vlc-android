@@ -8,12 +8,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.ImageButton
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
+import kotlinx.android.synthetic.main.activity_onboarding.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -21,7 +21,9 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.helpers.hf.PermissionViewmodel
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.resumePermissionRequest
 import org.videolan.vlc.gui.view.NonSwipeableViewPager
 import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.*
@@ -34,12 +36,15 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
 
     private lateinit var viewPager: NonSwipeableViewPager
 
-    private val indicators: Array<View?> = arrayOfNulls(4)
+    private val indicators by lazy(LazyThreadSafetyMode.NONE) { arrayOf(
+            findViewById<View>(R.id.indicator0),
+            findViewById<View>(R.id.indicator1),
+            findViewById<View>(R.id.indicator2),
+            findViewById<View>(R.id.indicator3)
+    ) }
 
-    private lateinit var previousButton: ImageButton
-    private lateinit var nextButton: ImageButton
-    private lateinit var doneButton: Button
-    lateinit var viewModel: OnboardingViewModel
+    private val viewModel: OnboardingViewModel by viewModels()
+    private val permissionModel: PermissionViewmodel by viewModels()
 
     private lateinit var onboardingPagerAdapter: OnboardingFragmentPagerAdapter
 
@@ -52,64 +57,9 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
             window.statusBarColor = ContextCompat.getColor(this, R.color.onboarding_grey_dark)
         }
 
-        viewModel = getOnboardingModel()
+        viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
         setContentView(R.layout.activity_onboarding)
         viewPager = findViewById(R.id.pager)
-        indicators[0] = findViewById(R.id.indicator0)
-        indicators[1] = findViewById(R.id.indicator1)
-        indicators[2] = findViewById(R.id.indicator2)
-        indicators[3] = findViewById(R.id.indicator3)
-
-        previousButton = findViewById(R.id.previous)
-        nextButton = findViewById(R.id.next)
-        doneButton = findViewById(R.id.doneButton)
-
-
-
-        previousButton.scaleX = 0f
-        previousButton.scaleY = 0f
-        previousButton.alpha = 0f
-
-        nextButton.scaleX = 0f
-        nextButton.scaleY = 0f
-        nextButton.alpha = 0f
-
-
-        doneButton.scaleX = 0f
-        doneButton.scaleY = 0f
-        doneButton.alpha = 0f
-        doneButton.visibility = View.GONE
-
-        indicators[3]!!.scaleX = 0f
-        indicators[3]!!.scaleY = 0f
-        indicators[3]!!.alpha = 0f
-        indicators[3]!!.visibility = View.GONE
-
-
-        previousButton.setOnClickListener {
-            if (viewPager.currentItem > 0) {
-                viewPager.currentItem = viewPager.currentItem - 1
-            }
-        }
-
-        nextButton.setOnClickListener {
-            lifecycleScope.launch {
-                if (viewPager.currentItem == 0 && !viewModel.permissionGranted) {
-                    viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
-                            || getStoragePermission()
-                    if (!viewModel.permissionGranted) {
-                        return@launch
-                    } else {
-                        viewPager.scrollEnabled = true
-                    }
-                }
-                if (viewPager.currentItem < viewPager.adapter!!.count) {
-                    viewPager.currentItem = viewPager.currentItem + 1
-                }
-            }
-        }
-
-        doneButton.setOnClickListener { completeOnBoarding() }
 
         val count = viewModel.adapterCount
 
@@ -121,6 +71,40 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         selectPage(0)
 
         if (count == 4) onCustomizedChanged(true)
+
+        if (permissionModel.permissionPending) lifecycleScope.launch {
+            if (resumePermissionRequest()) viewPager.currentItem++
+        }
+    }
+
+    fun onPrevious(@Suppress("UNUSED_PARAMETER") v: View) {
+        if (viewPager.currentItem > 0) viewPager.currentItem--
+    }
+
+    fun onNext(@Suppress("UNUSED_PARAMETER") v: View) {
+        lifecycleScope.launch {
+            if (viewPager.currentItem == 0 && !viewModel.permissionGranted) {
+                viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
+                        || getStoragePermission()
+                if (!viewModel.permissionGranted) {
+                    return@launch
+                } else {
+                    viewPager.scrollEnabled = true
+                }
+            }
+            if (viewPager.currentItem < viewPager.adapter!!.count) {
+                viewPager.currentItem++
+            }
+        }
+    }
+
+    fun onDone(@Suppress("UNUSED_PARAMETER") v: View) {
+        completeOnBoarding()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Permissions.sAlertDialog?.run { dismiss() }
     }
 
     private fun completeOnBoarding() {
@@ -150,18 +134,18 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Selecting page $index pager nb of item: ${onboardingPagerAdapter.count}")
         //Navigation button states
         if (index == 0) {
-            previousButton.animate().scaleY(0f).scaleX(0f).alpha(0f)
+            previous.animate().scaleY(0f).scaleX(0f).alpha(0f)
         } else {
-            previousButton.animate().scaleY(1f).scaleX(1f).alpha(0.6f)
+            previous.animate().scaleY(1f).scaleX(1f).alpha(0.6f)
         }
 
         if (index == onboardingPagerAdapter.count - 1) {
-            nextButton.animate().scaleY(0f).scaleX(0f).alpha(0f)
+            next.animate().scaleY(0f).scaleX(0f).alpha(0f)
             doneButton.animate().cancel()
             doneButton.visibility = View.VISIBLE
             doneButton.animate().scaleY(1f).scaleX(1f).alpha(1f).setListener(null)
         } else {
-            nextButton.animate().scaleY(1f).scaleX(1f).alpha(1f)
+            next.animate().scaleY(1f).scaleX(1f).alpha(1f)
             doneButton.animate().scaleY(0f).scaleX(0f).alpha(0f).setListener(object : Animator.AnimatorListener {
                 override fun onAnimationRepeat(animation: Animator?) {}
 
@@ -176,11 +160,11 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         }
 
         //Indicator states
-        for (pos in 0 until indicators.size) {
+        for (pos in indicators.indices) {
             if (pos != index) {
-                indicators[pos]?.animate()?.alpha(0.6f)?.scaleX(0.5f)?.scaleY(0.5f)
+                indicators[pos].animate()?.alpha(0.6f)?.scaleX(0.5f)?.scaleY(0.5f)
             } else {
-                indicators[pos]?.animate()?.alpha(1f)?.scaleX(1f)?.scaleY(1f)
+                indicators[pos].animate()?.alpha(1f)?.scaleX(1f)?.scaleY(1f)
             }
         }
     }
@@ -195,26 +179,26 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
 
     override fun onCustomizedChanged(customizeEnabled: Boolean) {
         if (customizeEnabled) {
-            indicators[3]?.visibility = View.VISIBLE
-            indicators[3]?.animate()?.alpha(0.6f)?.scaleX(0.5f)?.scaleY(0.5f)!!.setListener(null)
+            indicators[3].visibility = View.VISIBLE
+            indicators[3].animate()?.alpha(0.6f)?.scaleX(0.5f)?.scaleY(0.5f)!!.setListener(null)
             if (MediaParsingService.preselectedStorages.isEmpty()) lifecycleScope.launch {
-                    MediaParsingService.preselectedStorages.run {
-                        addAll(AndroidDevices.externalStorageDirectories)
-                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path?.let { add(it) }
-                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DCIM_DIRECTORY_URI.path?.let { add(it) }
-                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI.path?.let { add(it) }
-                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI.path?.let { add(it) }
-                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI.path?.let { add(it) }
-                        AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI.path?.let { add(it) }
-                    }
+                MediaParsingService.preselectedStorages.run {
+                    addAll(AndroidDevices.externalStorageDirectories)
+                    AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path?.let { add(it) }
+                    AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DCIM_DIRECTORY_URI.path?.let { add(it) }
+                    AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI.path?.let { add(it) }
+                    AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI.path?.let { add(it) }
+                    AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI.path?.let { add(it) }
+                    AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI.path?.let { add(it) }
+                }
             }
         } else {
             MediaParsingService.preselectedStorages.clear()
-            indicators[3]?.animate()?.scaleY(0f)?.scaleX(0f)?.alpha(0f)?.setListener(object : Animator.AnimatorListener {
+            indicators[3].animate()?.scaleY(0f)?.scaleX(0f)?.alpha(0f)?.setListener(object : Animator.AnimatorListener {
                 override fun onAnimationRepeat(animation: Animator?) {}
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    indicators[3]?.visibility = View.GONE
+                    indicators[3].visibility = View.GONE
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {}
@@ -229,4 +213,6 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
     }
 }
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 fun Activity.startOnboarding() = startActivityForResult(Intent(this, OnboardingActivity::class.java), ACTIVITY_RESULT_PREFERENCES)

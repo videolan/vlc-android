@@ -26,12 +26,15 @@ package org.videolan.vlc.gui.helpers.hf
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CompletableDeferred
 
 internal typealias PermissionResults = IntArray
 
 open class BaseHeadlessFragment : Fragment() {
-    protected val deferredGrant = CompletableDeferred<Boolean>()
+
+    protected val model : PermissionViewmodel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +51,21 @@ open class BaseHeadlessFragment : Fragment() {
         }
     }
 
-    suspend fun awaitGrant() = deferredGrant.await()
-
     protected fun PermissionResults.granted() = isNotEmpty() && get(0) == PackageManager.PERMISSION_GRANTED
+}
+
+class PermissionViewmodel : ViewModel() {
+
+    var permissionRationale = false
+    lateinit var deferredGrant : CompletableDeferred<Boolean>
+    val permissionPending : Boolean
+        get() = ::deferredGrant.isInitialized && !deferredGrant.isCompleted
+    val isCompleted : Boolean
+        get() = ::deferredGrant.isInitialized && deferredGrant.isCompleted
+
+    fun setupDeferred() {
+        deferredGrant = CompletableDeferred<Boolean>().apply {
+            invokeOnCompletion { permissionRationale = false }
+        }
+    }
 }
