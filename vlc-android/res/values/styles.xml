@@ -305,7 +305,7 @@
         <item name="android:windowBackground">@color/grey200</item>
     </style>
 
-    <style name="Theme.VLC.Transparent" parent="Theme.AppCompat.DayNight">
+    <style name="Theme.VLC.Transparent" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/orange800</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange600</item>
@@ -313,7 +313,7 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="Theme.VLC.Transparent.NoUI" parent="android:Theme">
+    <style name="Theme.VLC.Transparent.NoUI" parent="Theme.VLC.Transparent">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
