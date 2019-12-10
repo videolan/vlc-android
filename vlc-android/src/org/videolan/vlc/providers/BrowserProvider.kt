@@ -31,10 +31,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -125,10 +122,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 discoveryJob = launch { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
             }
         } else {
-            val value = filesFlow(url).mapNotNull { findMedia(it) }.toList()
-            computeHeaders(value)
-            dataset.value = value as MutableList<MediaLibraryItem>
-            parseSubDirectories(value)
+            val files = filesFlow(url).mapNotNull { findMedia(it) }.toList()
+            computeHeaders(files)
+            dataset.value = files as MutableList<MediaLibraryItem>
+            parseSubDirectories(files)
         }
         if (url != null ) loading.postValue(false)
     }
@@ -149,7 +146,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             requestBrowsing(url, listener, interact)
             awaitClose { if (url != null) browserActor.post(ClearListener) }
         }
-    }
+    }.buffer(Channel.UNLIMITED)
 
     protected open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
 
