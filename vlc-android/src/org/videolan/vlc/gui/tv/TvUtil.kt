@@ -71,9 +71,8 @@ object TvUtil {
 
         override fun areContentsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
             if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return TextUtils.equals(oldItem.description, newItem.description)
-            if (oldItem.itemType != MediaLibraryItem.TYPE_MEDIA) return true
-            val oldMedia = oldItem as AbstractMediaWrapper
-            val newMedia = newItem as AbstractMediaWrapper
+            val oldMedia = oldItem as? AbstractMediaWrapper ?: return true
+            val newMedia = newItem as? AbstractMediaWrapper ?: return true
             return oldMedia === newMedia || (oldMedia.time == newMedia.time
                     && TextUtils.equals(oldMedia.artworkMrl, newMedia.artworkMrl)
                     && oldMedia.seen == newMedia.seen)
