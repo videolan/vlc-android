@@ -486,6 +486,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
+        restoreMultiSelectHelper()
         swipeRefreshLayout.isRefreshing = false
         handler.sendEmptyMessage(MSG_HIDE_LOADING)
         updateEmptyView()
@@ -494,7 +495,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 layoutManager.scrollToPositionWithOffset(savedPosition, 0)
                 savedPosition = 0
             }
-            restoreMultiSelectHelper()
         }
         if (!isRootDirectory) {
             updateFab()
