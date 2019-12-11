@@ -38,8 +38,9 @@
                 type="android.widget.ImageView.ScaleType" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
             android:id="@+id/container"
+            style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -47,7 +48,12 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:longClickable="true"
             android:onClick="@{holder::onClick}"
-            android:onLongClick="@{holder::onLongClick}">
+            android:onLongClick="@{holder::onLongClick}"
+            vlc:cardCornerRadius="8dp"
+            vlc:cardElevation="0dp"
+            vlc:strokeColor="?attr/card_border"
+            android:background="?attr/card_background"
+            vlc:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -148,5 +154,5 @@
                     vlc:layout_constraintEnd_toEndOf="parent"
                     vlc:layout_constraintTop_toTopOf="@+id/title" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

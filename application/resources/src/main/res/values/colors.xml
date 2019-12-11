@@ -42,13 +42,17 @@
     <color name="playerbackground_invert">#c0ebebeb</color>
     <color name="black_more_transparent">#88000000</color>
     <color name="status_bar_transparency">#66000000</color>
+    <color name="status_bar_transparency2">#66ffffff</color>
+
+    <color name="whitetransparent_b9">#b9ffffff</color>
+    <color name="whitetransparent_ea">#eaffffff</color>
 
     <color name="grey50transparent">#b9fafafa</color>
     <color name="grey50transparent_ea">#eafafafa</color>
     <color name="grey400transparent">#80bdbdbd</color>
     <color name="grey600transparent">#80757575</color>
-    <color name="grey850transparent">#bb323232</color>
-    <color name="grey850transparent_dd">#dd323232</color>
+    <color name="grey900transparent_bb">#bb212121</color>
+    <color name="grey900transparent_dd">#dd212121</color>
     <color name="grey900transparent">#80212121</color>
 
     <color name="blacktransparent">#b4000000</color>

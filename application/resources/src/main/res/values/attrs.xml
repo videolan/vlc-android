@@ -32,7 +32,6 @@
     <attr name="background_menu_divider" format="reference|color" />
     <attr name="background_menu" format="reference|color" />
     <attr name="background_menu_selected" format="reference|color" />
-    <attr name="background_header" format="reference|color" />
     <attr name="background_player" format="reference|color" />
     <attr name="background_audio_tips" format="reference|color" />
     <attr name="font_default" format="reference|color" />
@@ -60,6 +59,7 @@
     <attr name="card_background" format="color"/>
     <attr name="empty_button" format="reference" />
     <attr name="default_separator" format="color" />
+    <attr name="card_border" format="color" />
 
     <!--Main Icons-->
     <attr name="ic_down_style" format="reference" />

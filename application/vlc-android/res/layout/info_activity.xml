@@ -88,6 +88,7 @@
                         android:id="@+id/playlist_cover"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:fitsSystemWindows="false"
                         android:scaleType="centerCrop"
                         android:src="@{cover}"
                         vlc:layout_collapseMode="parallax"/>

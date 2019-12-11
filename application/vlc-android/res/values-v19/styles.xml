@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.19"/>
+
+    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.19" />
 
     <style name="Theme.VLC.Player.19" parent="Theme.VLC.Player.7">
         <item name="android:windowTranslucentStatus">true</item>">
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
+
+    <style name="Theme.VLC" parent="Theme.VLC.19" />
+
+    <style name="Theme.VLC.19" parent="Theme.VLC.7">
+        <!--        <item name="android:windowTranslucentStatus">true</item>">-->
+    </style>
+
+    <style name="Theme.VLC.Black.19" parent="Theme.VLC.Black.7">
+        <!--        <item name="android:windowTranslucentStatus">true</item>">-->
+    </style>
+
 </resources>

@@ -1,6 +1,6 @@
 <!--
   ~ *************************************************************************
-  ~  ic_am_renderer_on.xml
+  ~  ic_trash_normal.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -29,12 +29,9 @@
         android:viewportHeight="24">
     <path
             android:fillAlpha="1"
-            android:fillColor="?attr/colorControlNormal"
-            android:fillType="evenOdd"
-            android:pathData="m5.5,5c-0.831,0 -1.5,0.669 -1.5,1.5v3.5h1.5v-3.5h13v11L13,17.5v1.5h5.5c0.831,0 1.5,-0.669 1.5,-1.5v-11c0,-0.831 -0.669,-1.5 -1.5,-1.5zM7,8v2.5273c2.5562,0.9062 4.5675,2.9168 5.4746,5.4727L17,16v-8zM4,11.5v1.5c3.3137,0 6,2.6863 6,6h1.5c0,-4.1421 -3.3579,-7.5 -7.5,-7.5zM4,14.5v1.5c1.6568,0 3,1.3432 3,3h1.5c0,-2.4853 -2.0147,-4.5 -4.5,-4.5zM4,17.5v1.5h1.5c0,-0.8284 -0.6716,-1.5 -1.5,-1.5z"
-            android:strokeWidth="2"
-            android:strokeAlpha="1"
-            android:strokeColor="#00000000"
-            android:strokeLineCap="butt"
-            android:strokeLineJoin="round" />
+            android:fillColor="#ffffff"
+            android:fillType="nonZero"
+            android:pathData="m10,4c-0.7396,0 -1.3727,0.4031 -1.7187,1l-2.2813,-0.013 0,2 12,0 0,-2 -2.2813,0.013c-0.346,-0.5969 -0.9791,-1 -1.7188,-1zM7,8 L7,18c0,1.108 0.892,2 2,2l6,0c1.108,0 2,-0.892 2,-2l0,-10z"
+            android:strokeWidth="1"
+            android:strokeColor="#00000000" />
 </vector>

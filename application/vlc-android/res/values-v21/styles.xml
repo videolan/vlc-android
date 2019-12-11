@@ -11,4 +11,16 @@
         <item name="android:statusBarColor">@color/status_bar_transparency</item>
         <item name="android:navigationBarColor">@color/status_bar_transparency</item>
     </style>
+
+    <style name="Theme.VLC" parent="Theme.VLC.19">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.19">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 </resources>

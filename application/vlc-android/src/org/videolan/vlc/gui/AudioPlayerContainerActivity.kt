@@ -46,9 +46,13 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.tab_layout.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
+import org.videolan.tools.dp
+import org.videolan.tools.isVisible
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.startMedialibrary
@@ -123,6 +127,10 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         appBarLayout = findViewById(R.id.appbar)
         tabLayout = findViewById(R.id.sliding_tabs)
         appBarLayout.setExpanded(true)
+        sliding_tabs?.viewTreeObserver?.addOnGlobalLayoutListener {
+            //add a shadow if there are tabs
+            appbar.elevation = if (sliding_tabs.isVisible()) 4.dp.toFloat() else 0.dp.toFloat()
+        }
         audioPlayerContainer = findViewById(R.id.audio_player_container)
     }
 
