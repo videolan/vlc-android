@@ -58,7 +58,7 @@ private const val TAG = "VLC/ExternalMonitor"
 @ObsoleteCoroutinesApi
 @SuppressLint("StaticFieldLeak")
 object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope {
-    override val coroutineContext = Dispatchers.Main
+    override val coroutineContext = Dispatchers.Main + SupervisorJob()
 
     private lateinit var cm: ConnectivityManager
     private lateinit var ctx: Context

@@ -35,7 +35,7 @@ private const val PLAYLIST_REPEAT_MODE_KEY = "audio_repeat_mode" //we keep the o
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, Media.EventListener, CoroutineScope {
-    override val coroutineContext = Dispatchers.Main.immediate
+    override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 
     companion object {
         val showAudioPlayer = MutableLiveData<Boolean>().apply { value = false }
@@ -205,7 +205,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         clearABRepeat()
         stopAfter = -1
         videoBackground = false
-        getCurrentMedia()?.let {
+        val job = getCurrentMedia()?.let {
             savePosition()
             val audio = isAudioList() // check before dispatching in saveMediaMeta()
             launch(start = CoroutineStart.UNDISPATCHED) {
@@ -223,6 +223,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.onPlaybackStopped(systemExit)
         //Close video player if started
         LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(EXIT_PLAYER))
+        if (systemExit) launch(start = CoroutineStart.UNDISPATCHED) {
+            job?.join()
+            cancel()
+            player.cancel()
+        }
     }
 
     @MainThread
@@ -318,7 +323,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     private fun skipMedia() {
         if (currentIndex != nextIndex) next()
-        else stop(false)
+        else stop()
     }
 
     fun onServiceDestroyed() {

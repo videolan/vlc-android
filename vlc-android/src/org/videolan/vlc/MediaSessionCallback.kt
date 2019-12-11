@@ -52,7 +52,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
-        playbackService.launch {
+        playbackService.scope.launch {
             val context = playbackService.applicationContext
             when {
                 mediaId == MediaSessionBrowser.ID_SHUFFLE_ALL -> {
@@ -89,7 +89,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onPlayFromSearch(query: String?, extras: Bundle?) {
         playbackService.mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.time, 1.0f).build())
-        playbackService.launch(Dispatchers.IO) {
+        playbackService.scope.launch(Dispatchers.IO) {
             if (!isActive) return@launch
             playbackService.getFromMl { isStarted }
             val vsp = VoiceSearchParams(query ?: "", extras)

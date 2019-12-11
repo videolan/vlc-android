@@ -47,6 +47,7 @@ import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.IVLCVout
 import org.videolan.libvlc.Media
@@ -55,6 +56,7 @@ import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.tools.safeOffer
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
@@ -75,7 +77,8 @@ private const val TAG = "VLC/PlaybackService"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope(), LifecycleOwner {
+class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
+    internal lateinit var scope : CoroutineScope
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     lateinit var playlistManager: PlaylistManager
@@ -88,6 +91,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     internal lateinit var medialibrary: AbstractMedialibrary
 
     private val callbacks = mutableListOf<Callback>()
+    private lateinit var cbActor : SendChannel<CbAction>
     private var detectHeadset = true
     private lateinit var wakeLock: PowerManager.WakeLock
     private val audioFocusHelper by lazy { VLCAudioFocusHelper(this) }
@@ -186,7 +190,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
             }
             MediaPlayer.Event.MediaChanged -> if (BuildConfig.DEBUG) Log.d(TAG, "onEvent: MediaChanged")
         }
-        cbActor.offer(CbMediaPlayerEvent(event))
+        cbActor.safeOffer(CbMediaPlayerEvent(event))
     }
 
     private val handler = PlaybackServiceHandler(this)
@@ -455,6 +459,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     override fun onCreate() {
         if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(applicationContext)
         dispatcher.onServicePreSuperOnCreate()
+        setupScope()
         super.onCreate()
         settings = Settings.getInstance(this)
         playlistManager = PlaylistManager(this)
@@ -493,6 +498,23 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
         (service as MutableLiveData).value = this
     }
 
+    private fun setupScope() {
+        if (::scope.isInitialized && scope.isActive) return
+        scope = MainScope()
+        cbActor = scope.actor(capacity = Channel.UNLIMITED) {
+            for (update in channel) when (update) {
+                CbUpdate -> for (callback in callbacks) callback.update()
+                is CbMediaEvent -> for (callback in callbacks) callback.onMediaEvent(update.event)
+                is CbMediaPlayerEvent -> for (callback in callbacks) callback.onMediaPlayerEvent(update.event)
+                is CbRemove -> callbacks.remove(update.cb)
+                is CbAdd -> callbacks.add(update.cb)
+                ShowNotification -> showNotificationInternal()
+                is HideNotification -> hideNotificationInternal(update.remove)
+                UpdateMeta -> updateMetadataInternal()
+            }
+        }
+    }
+
     private fun updateHasWidget() {
         val manager = AppWidgetManager.getInstance(this) ?: return
         widget = when {
@@ -505,6 +527,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (AndroidUtil.isOOrLater && !isForeground) forceForeground()
         dispatcher.onServicePreSuperOnStart()
+        setupScope()
         when (intent?.action) {
             Intent.ACTION_MEDIA_BUTTON -> {
                 if (AndroidDevices.hasTsp || AndroidDevices.hasPlayServices) MediaButtonReceiver.handleIntent(mediaSession, intent)
@@ -542,9 +565,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     }
 
     override fun onDestroy() {
-        cancel()
-        playlistManager.cancel()
-        playlistManager.player.cancel()
         (service as MutableLiveData).value = null
         dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
@@ -620,14 +640,15 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
         // We must publish state before resetting mCurrentIndex
         publishState()
         executeUpdate()
+        scope.cancel()
     }
 
     private fun canSwitchToVideo() = playlistManager.player.canSwitchToVideo()
 
-    fun onMediaEvent(event: Media.Event) = cbActor.offer(CbMediaEvent(event))
+    fun onMediaEvent(event: Media.Event) = cbActor.safeOffer(CbMediaEvent(event))
 
     fun executeUpdate() {
-        cbActor.offer(CbUpdate)
+        cbActor.safeOffer(CbUpdate)
         updateWidget()
         updateMetadata()
         broadcastMetadata()
@@ -664,7 +685,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
 
     fun showNotification(): Boolean {
         notificationShowing = true
-        return cbActor.offer(ShowNotification)
+        return cbActor.safeOffer(ShowNotification)
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -681,7 +702,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
             val sessionToken = mediaSession.sessionToken
             val ctx = this
             val metaData = mediaSession.controller.metadata
-            launch(Dispatchers.Default) {
+            scope.launch(Dispatchers.Default) {
                 delay(100)
                 if (isPlayingPopup || !notificationShowing) return@launch
                 try {
@@ -736,7 +757,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
 
     private fun hideNotification(remove: Boolean): Boolean {
         notificationShowing = false
-        return cbActor.offer(HideNotification(remove))
+        return cbActor.safeOffer(HideNotification(remove))
     }
 
     private fun hideNotificationInternal(remove: Boolean) {
@@ -792,7 +813,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     }
 
     private fun updateMetadata() {
-        cbActor.offer(UpdateMeta)
+        cbActor.safeOffer(UpdateMeta)
     }
 
     private suspend fun updateMetadataInternal() {
@@ -926,7 +947,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
             widgetIntent.putExtra("artist", "")
         }
         widgetIntent.putExtra("isplaying", isPlaying)
-        launch(Dispatchers.Default) { sendWidgetBroadcast(widgetIntent) }
+        scope.launch(Dispatchers.Default) { sendWidgetBroadcast(widgetIntent) }
     }
 
     private fun updateWidgetCover() {
@@ -934,7 +955,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
         val newWidgetCover = mw?.artworkMrl
         if (!TextUtils.equals(currentWidgetCover, newWidgetCover)) {
             currentWidgetCover = newWidgetCover
-            launch(Dispatchers.Default) {
+            scope.launch(Dispatchers.Default) {
                 sendWidgetBroadcast(Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
                         .putExtra("artworkMrl", newWidgetCover))
             }
@@ -956,7 +977,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     private fun broadcastMetadata() {
         val media = playlistManager.getCurrentMedia()
         if (media == null || isVideoPlaying) return
-        launch(Dispatchers.Default) {
+        if (scope.isActive) scope.launch(Dispatchers.Default) {
             sendBroadcast(Intent("com.android.music.metachanged")
                     .putExtra("track", media.title)
                     .putExtra("artist", media.artist)
@@ -999,10 +1020,10 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     fun hasPlaylist() = playlistManager.hasPlaylist()
 
     @MainThread
-    fun addCallback(cb: Callback) = cbActor.offer(CbAdd(cb))
+    fun addCallback(cb: Callback) = cbActor.safeOffer(CbAdd(cb))
 
     @MainThread
-    fun removeCallback(cb: Callback) = cbActor.offer(CbRemove(cb))
+    fun removeCallback(cb: Callback) = cbActor.safeOffer(CbRemove(cb))
 
     fun restartMediaPlayer() = playlistManager.player.restart()
 
@@ -1034,7 +1055,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     @MainThread
     fun load(mediaList: List<AbstractMediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
 
-    private fun updateMediaQueue() = launch(start = CoroutineStart.UNDISPATCHED) {
+    private fun updateMediaQueue() = scope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
         val ctx = this@PlaybackService
         val queue = withContext(Dispatchers.Default) {
@@ -1064,7 +1085,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
      * @param flags LibVLC.MEDIA_* flags
      */
     @JvmOverloads
-    fun playIndex(index: Int, flags: Int = 0) = launch { playlistManager.playIndex(index, flags) }
+    fun playIndex(index: Int, flags: Int = 0) = scope.launch { playlistManager.playIndex(index, flags) }
 
     @MainThread
     fun flush() {
@@ -1128,7 +1149,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
     fun append(mediaList: Array<AbstractMediaWrapper>) = append(mediaList.toList())
 
     @MainThread
-    fun append(mediaList: List<AbstractMediaWrapper>) = launch {
+    fun append(mediaList: List<AbstractMediaWrapper>) = scope.launch {
         playlistManager.append(mediaList)
         onMediaListChanged()
     }
@@ -1272,14 +1293,14 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
 
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
-        launch(start = CoroutineStart.UNDISPATCHED) {
+        scope.launch(start = CoroutineStart.UNDISPATCHED) {
             getFromMl { isStarted }
             sendResults(result, parentId)
         }
     }
 
     private fun sendResults(result: Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
-        launch(Dispatchers.IO) {
+        scope.launch(Dispatchers.IO) {
             try {
                 result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))
             } catch (ignored: RuntimeException) {
@@ -1287,23 +1308,12 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope by MainScope
         }
     }
 
-    private val cbActor by lazy {
-        actor<CbAction>(capacity = Channel.UNLIMITED) {
-            for (update in channel) when (update) {
-                CbUpdate -> for (callback in callbacks) callback.update()
-                is CbMediaEvent -> for (callback in callbacks) callback.onMediaEvent(update.event)
-                is CbMediaPlayerEvent -> for (callback in callbacks) callback.onMediaPlayerEvent(update.event)
-                is CbRemove -> callbacks.remove(update.cb)
-                is CbAdd -> callbacks.add(update.cb)
-                ShowNotification -> showNotificationInternal()
-                is HideNotification -> hideNotificationInternal(update.remove)
-                UpdateMeta -> updateMetadataInternal()
+    companion object {
+        val service: LiveData<PlaybackService> = object : MutableLiveData<PlaybackService>() {
+            override fun onActive() {
+                value?.setupScope()
             }
         }
-    }
-
-    companion object {
-        val service: LiveData<PlaybackService> = MutableLiveData<PlaybackService>()
         val renderer = RendererLiveData()
         val restartPlayer = LiveEvent<Boolean>()
         val headSetDetection = LiveEvent<Boolean>()

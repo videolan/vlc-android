@@ -21,7 +21,7 @@ import kotlin.math.abs
 @ExperimentalCoroutinesApi
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
 class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.EventListener, CoroutineScope {
-    override val coroutineContext = Dispatchers.Main.immediate
+    override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 
     //    private val exceptionHandler by lazy(LazyThreadSafetyMode.NONE) { CoroutineExceptionHandler { _, _ -> onPlayerError() } }
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
