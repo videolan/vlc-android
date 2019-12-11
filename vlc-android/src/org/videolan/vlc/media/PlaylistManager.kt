@@ -167,6 +167,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             if (!audio && position < playList.size && settings.getBoolean(VIDEO_PAUSED, false)) {
                 playList[position].addFlags(AbstractMediaWrapper.MEDIA_PAUSED)
             }
+            if (audio) playList[position].addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
             load(playList, position, true)
             loadingLastPlaylist = false
             if (!audio) {
@@ -810,7 +811,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    internal fun isAudioList() = !player.canSwitchToVideo() && mediaList.isAudioList
+    internal fun isAudioList() = !player.isVideoPlaying() && mediaList.isAudioList
 }
 
 class ABRepeat(var start: Long = -1L, var stop: Long = -1L)
