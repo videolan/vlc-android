@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.videogroups_fragment.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
@@ -18,6 +19,7 @@ import org.videolan.vlc.databinding.VideogroupsFragmentBinding
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
@@ -28,7 +30,6 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.VideogroupsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
-
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class VideoGroupsFragment : MediaBrowserFragment<VideogroupsViewModel>(), CtxActionReceiver {
@@ -37,7 +38,7 @@ class VideoGroupsFragment : MediaBrowserFragment<VideogroupsViewModel>(), CtxAct
     private lateinit var adapter: VideoGroupsAdapter
 
     private val actor = actor<VideoGroupAction> {
-        for (action in channel) when(action) {
+        for (action in channel) when (action) {
             is VideoGroupClick -> {
                 if (actionMode != null) {
                     adapter.multiSelectHelper.toggleSelection(action.position)
@@ -59,7 +60,12 @@ class VideoGroupsFragment : MediaBrowserFragment<VideogroupsViewModel>(), CtxAct
                 }
             }
             is VideoGroupCtxClick -> {
-                showContext(requireActivity(), this@VideoGroupsFragment, action.position, action.group.title, CTX_FOLDER_FLAGS)
+                if (action.group.mediaCount() == 1) {
+                    context?.getFromMl { action.group.media(0, false, 1, 0) }?.get(0)?.let { media ->
+                        showContext(requireActivity(), this@VideoGroupsFragment, action.position, media.title, CTX_VIDEO_GROUP_TEMP_FLAGS)
+                    }
+                } else
+                    showContext(requireActivity(), this@VideoGroupsFragment, action.position, action.group.title, CTX_FOLDER_FLAGS)
             }
         }
     }
@@ -163,11 +169,41 @@ class VideoGroupsFragment : MediaBrowserFragment<VideogroupsViewModel>(), CtxAct
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        when (option) {
+        val item = adapter.getItem(position)
+        if (item?.mediaCount() == 1) {
+            launch {
+                context?.getFromMl { item.media(0, false, 1, 0) }?.get(0)?.let { media ->
+                    when (option) {
+                        CTX_PLAY_FROM_START -> playVideo(media, true)
+                        CTX_PLAY_AS_AUDIO -> playAudio(media)
+                        CTX_INFORMATION -> showInfoDialog(media)
+                        CTX_DELETE -> removeItem(media)
+                        CTX_APPEND -> MediaUtils.appendMedia(activity, media)
+                        CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
+                        CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
+                        CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+                        else -> {
+                        }
+                    }
+                }
+
+            }
+        } else when (option) {
             CTX_PLAY -> viewModel.play(position)
             CTX_APPEND -> viewModel.append(position)
             CTX_ADD_TO_PLAYLIST -> viewModel.addToPlaylist(requireActivity(), position)
         }
+    }
+
+    private fun playVideo(media: AbstractMediaWrapper, fromStart: Boolean) {
+        media.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+        if (fromStart) media.addFlags(AbstractMediaWrapper.MEDIA_FROM_START)
+        MediaUtils.openMedia(requireContext(), media)
+    }
+
+    private fun playAudio(media: AbstractMediaWrapper) {
+        media.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+        MediaUtils.openMedia(activity, media)
     }
 }
 
