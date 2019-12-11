@@ -46,8 +46,6 @@
     <string name="insert_next">Insertar siguiente</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Añadir todo</string>
-    <string name="resume_playback_short">Continuar reproducción</string>
-    <string name="resume_playback_long">Continuar reproducción de la última lista de reproducción</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Quitar</string>
     <string name="set_song">Establecer como tono de llamada</string>

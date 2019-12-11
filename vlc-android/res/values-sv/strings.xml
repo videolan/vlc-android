@@ -46,8 +46,6 @@
     <string name="insert_next">Kölägg nästa</string>
     <string name="play_all">Spela upp alla</string>
     <string name="append_all">Kölägg alla</string>
-    <string name="resume_playback_short">Återuppta uppspelning</string>
-    <string name="resume_playback_long">Återuppta uppspelning av senaste spellistan</string>
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
     <string name="set_song">Ange som ringsignal</string>

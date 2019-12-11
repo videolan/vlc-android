@@ -21,7 +21,7 @@
             android:orderInCategory="2"
             android:id="@+id/ml_menu_last_playlist"
             android:icon="@drawable/ic_menu_lastplaylist"
-            android:title="@string/resume_playback_short"
+            android:title="@string/resume_playback_short_title"
             vlc:showAsAction="ifRoom|collapseActionView"
             android:visible="false"/>
     <item

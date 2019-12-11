@@ -46,8 +46,6 @@
     <string name="insert_next">Als volgende invoegen</string>
     <string name="play_all">Alles afspelen</string>
     <string name="append_all">Alles toevoegen</string>
-    <string name="resume_playback_short">Afspelen hervatten</string>
-    <string name="resume_playback_long">Afspelen van laatste afspeellijst hervatten</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijderen</string>
     <string name="set_song">Als beltoon instellen</string>

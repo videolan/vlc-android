@@ -46,8 +46,6 @@
     <string name="insert_next">Következő beszúrása</string>
     <string name="play_all">Összes lejátszása</string>
     <string name="append_all">Összes hozzáfűzése</string>
-    <string name="resume_playback_short">Lejátszás folytatása</string>
-    <string name="resume_playback_long">A legutóbbi lejátszólista folytatása</string>
     <string name="delete">Törlés</string>
     <string name="remove">Eltávolítás</string>
     <string name="set_song">Beállítás csengőhangként</string>

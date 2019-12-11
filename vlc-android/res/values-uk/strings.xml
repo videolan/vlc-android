@@ -48,8 +48,6 @@
     <string name="insert_next">Вставити наступне</string>
     <string name="play_all">Відтворити все</string>
     <string name="append_all">Додати все</string>
-    <string name="resume_playback_short">Відновити відтворення</string>
-    <string name="resume_playback_long">Відновити відтворення з останнього списку</string>
     <string name="delete">Видалити</string>
     <string name="remove">Видалити</string>
     <string name="set_song">Встановити як мелодію</string>

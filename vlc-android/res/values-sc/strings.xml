@@ -46,8 +46,6 @@
     <string name="insert_next">Inserta a pustis</string>
     <string name="play_all">Riprodui totu</string>
     <string name="append_all">Annanghe totu</string>
-    <string name="resume_playback_short">Sighi a riproduire</string>
-    <string name="resume_playback_long">Sighi cun sa riprodutzione de s\'ùrtima iscalita</string>
     <string name="delete">Iscantzella</string>
     <string name="remove">Boga</string>
     <string name="set_song">Imposta comente soneria</string>

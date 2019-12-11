@@ -45,8 +45,6 @@
     <string name="insert_next">次に挿入</string>
     <string name="play_all">すべて再生</string>
     <string name="append_all">すべて追加</string>
-    <string name="resume_playback_short">再生を再開</string>
-    <string name="resume_playback_long">最後のプレイリストの再生を再開</string>
     <string name="delete">削除</string>
     <string name="remove">削除</string>
     <string name="set_song">着信音に設定</string>

@@ -46,8 +46,6 @@
     <string name="insert_next">Inserir como próximo</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="append_all">Adicionar todos</string>
-    <string name="resume_playback_short">Retomar reprodução</string>
-    <string name="resume_playback_long">Retomar a reprodução da última lista de reprodução</string>
     <string name="delete">Excluir</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque</string>

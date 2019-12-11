@@ -45,8 +45,6 @@
     <string name="insert_next">Sisip berikutnya</string>
     <string name="play_all">Main semua</string>
     <string name="append_all">Tambah semua</string>
-    <string name="resume_playback_short">Sambung semula main balik</string>
-    <string name="resume_playback_long">Sambung semula main balik bagi senarai main terakhir</string>
     <string name="delete">Padam</string>
     <string name="remove">Buang</string>
     <string name="set_song">Tetapkan sebagai nada dering</string>

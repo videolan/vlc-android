@@ -48,8 +48,6 @@
     <string name="insert_next">להכניס כבא בתור</string>
     <string name="play_all">נגינת הכול</string>
     <string name="append_all">הוספת הכול</string>
-    <string name="resume_playback_short">להמשיך בנגינה</string>
-    <string name="resume_playback_long">להמשיך את נגינת רשימת הנגינה הקודמת</string>
     <string name="delete">מחיקה</string>
     <string name="remove">הסרה</string>
     <string name="set_song">הגדרה כצלצול</string>
