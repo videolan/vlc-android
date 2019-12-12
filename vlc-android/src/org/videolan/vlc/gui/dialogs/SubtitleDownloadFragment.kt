@@ -12,10 +12,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.videolan.vlc.R
+import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
 import org.videolan.vlc.gui.OnItemSelectListener
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
 class SubtitleDownloadFragment : Fragment() {
@@ -34,16 +36,17 @@ class SubtitleDownloadFragment : Fragment() {
         val binding = SubtitleDownloadFragmentBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
 
-        if (!AndroidDevices.isAndroidTv)
+        if (!Settings.showTvUi && !AndroidDevices.isChromeBook) {
             //Prevent opening soft keyboard automatically
             binding.constraintLayout.isFocusableInTouchMode = true
+        }
 
         adapter = SubtitlesAdapter((parentFragment as SubtitleDownloaderDialogFragment).listEventActor)
         val recyclerView = binding.subtitleList
         recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        viewModel.result.observe(this, Observer {
+        viewModel.result.observe(viewLifecycleOwner, Observer {
             adapter.setList(it)
             if (it.isNotEmpty()) focusOnView(binding.scrollView, binding.swipeContainer)
         })
@@ -60,7 +63,7 @@ class SubtitleDownloadFragment : Fragment() {
         binding.languageListSpinner.setOnItemsSelectListener(object: OnItemSelectListener {
             override fun onItemSelect(selectedItems: List<Int>) {
                 val selectedLanguages = if (selectedItems.size == allValuesOfLanguages.size) listOf<String>()
-                else selectedItems.filter { it in 0 until allValuesOfLanguages.size }.map { allValuesOfLanguages[it] }
+                else selectedItems.filter { it in allValuesOfLanguages.indices }.map { allValuesOfLanguages[it] }
                 viewModel.observableSearchLanguage.set(selectedLanguages)
             }
         })
