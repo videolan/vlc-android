@@ -30,27 +30,22 @@ internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEven
     override fun getItemCount() = dataset?.size ?: 0
 
     @ExperimentalCoroutinesApi
-    inner class ViewHolder(val binding: SubtitleDownloadItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener, View.OnLongClickListener {
+    inner class ViewHolder(val binding: SubtitleDownloadItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            itemView.setOnClickListener(this)
-            itemView.setOnLongClickListener(this)
-        }
-
-        override fun onClick(v: View) {
-            dataset?.get(layoutPosition)?.let {
-                if(!eventActor.isClosedForSend)
+            itemView.setOnClickListener {
+                dataset?.get(layoutPosition)?.let {
+                    if (!eventActor.isClosedForSend)
                     eventActor.offer(Click(it)) }
-        }
-
-        override fun onLongClick(v: View): Boolean {
-            dataset?.get(layoutPosition)?.let {
-                if(!eventActor.isClosedForSend)
-                    eventActor.offer(LongClick(it))
             }
-            return true
+            itemView.setOnLongClickListener {
+                dataset?.get(layoutPosition)?.let {
+                    if (!eventActor.isClosedForSend)
+                    eventActor.offer(LongClick(it))
+                }
+                true
+            }
         }
-
 
         fun bind(subtitleItem: SubtitleItem?) {
             binding.subtitleItem = subtitleItem
