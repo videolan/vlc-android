@@ -24,6 +24,9 @@
             name="bgColor"
             type="int" />
 
+        <variable
+                name="imageWidth"
+                type="int" />
 
         <variable
             name="holder"
@@ -65,12 +68,13 @@
             android:layout_marginBottom="8dp"
             android:background="@{cover}"
             android:onClick="@{holder::onImageClick}"
-            android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA)) != 0 ? View.VISIBLE : View.GONE, default=gone}"
+                android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA|MediaLibraryItem.TYPE_PLAYLIST)) != 0 ? View.VISIBLE : View.GONE, default=gone}"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintDimensionRatio="1"
             vlc:layout_constraintTop_toTopOf="parent"
             vlc:layout_constraintStart_toEndOf="@id/item_move"
             android:layout_gravity="center"
+                vlc:imageWidth="@{imageWidth}"
             vlc:media="@{item}"/>
 
 
@@ -101,7 +105,7 @@
             style="@style/VLC.TextViewDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            vlc:asyncText="@{item.description}"
+                vlc:asyncText="@{item}"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintEnd_toEndOf="@+id/title"
             vlc:layout_constraintStart_toStartOf="@+id/title"

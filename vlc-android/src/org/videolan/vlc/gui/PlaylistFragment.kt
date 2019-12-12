@@ -23,14 +23,12 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
@@ -46,11 +44,13 @@ import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
 import org.videolan.vlc.gui.view.FastScroller
+import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.CTX_PLAY_ALL
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -92,7 +92,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, cardSize = itemSize)
         adapter = playlistAdapter
 
-        displayListInGrid(playlists, adapter!!, viewModel.provider as MedialibraryProvider<MediaLibraryItem>, spacing)
+        setupLayoutManager()
 
         playlists.adapter = playlistAdapter
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller
@@ -120,6 +120,45 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         mode.menuInflater.inflate(R.menu.action_mode_audio_browser, menu)
         menu.findItem(R.id.action_mode_audio_add_playlist).isVisible = false
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providerInCard
+        menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providerInCard
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
+                viewModel.providerInCard = item.itemId == R.id.ml_menu_display_grid
+                setupLayoutManager()
+                playlists.adapter = adapter
+                activity?.invalidateOptionsMenu()
+                Settings.getInstance(requireActivity()).edit().putBoolean(viewModel.displayModeKey, item.itemId == R.id.ml_menu_display_grid).apply()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setupLayoutManager() {
+        val spacing = resources.getDimension(R.dimen.kl_half).toInt()
+
+        if (playlists.itemDecorationCount > 0) {
+            playlists.removeItemDecorationAt(0)
+        }
+        when (viewModel.providerInCard) {
+            true -> {
+                adapter?.cardSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+                adapter?.let { adapter -> displayListInGrid(playlists, adapter, viewModel.provider as MedialibraryProvider<MediaLibraryItem>, spacing) }
+            }
+            else -> {
+                adapter?.cardSize = -1
+                playlists.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.provider))
+                playlists.layoutManager = LinearLayoutManager(activity)
+            }
+        }
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
