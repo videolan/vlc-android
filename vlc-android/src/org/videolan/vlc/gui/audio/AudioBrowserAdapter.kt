@@ -82,6 +82,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     private var listImageWidth: Int
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
     private val defaultCover: BitmapDrawable?
+    private val defaultCoverCard: BitmapDrawable?
     private var focusNext = -1
     private var focusListener: FocusableRecyclerView.FocusListener? = null
     private lateinit var inflater: LayoutInflater
@@ -97,7 +98,8 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             else -> VLCApplication.appContext
         }
         listImageWidth = ctx.resources.getDimension(R.dimen.audio_browser_item_size).toInt()
-        defaultCover = getAudioIconDrawable(ctx, type, displayInCard())
+        defaultCover = getAudioIconDrawable(ctx, type, false)
+        defaultCoverCard = getAudioIconDrawable(ctx, type, true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
@@ -224,7 +226,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
 
         init {
             binding.holder = this
-            if (defaultCover != null) binding.cover = defaultCover
+            defaultCover?.let { binding.cover = it }
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
                     onMoreClick(v)
@@ -277,7 +279,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         init {
             binding.holder = this
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
-            if (defaultCover != null) binding.cover = defaultCover
+            defaultCoverCard?.let { binding.cover = it }
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
                     onMoreClick(v)
@@ -293,7 +295,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         }
 
         override fun recycle() {
-            if (defaultCover != null) binding.cover = defaultCover
+            defaultCoverCard?.let { binding.cover = it }
             binding.mediaCover.resetFade()
             binding.title.isSelected = false
         }

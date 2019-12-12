@@ -73,7 +73,7 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
     val cacheKey = when {
         isGroup -> "videogroup:${item.title}"
         isFolder -> "folder:${item.title}"
-        else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item)
+        else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item, imageWidth.toString())
     }
     val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding)
@@ -264,7 +264,7 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
 
     var playlistImage = if (!bindChanged) {
         val tracks = withContext(Dispatchers.IO) { item.tracks.toList() }
-        ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", tracks, width)
+        ThumbnailsProvider.getPlaylistImage("playlist:${item.id}_$width", tracks, width)
     } else null
     if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(VLCApplication.appContext).bitmap
     if (!bindChanged) updateImageView(playlistImage, v, binding)
