@@ -30,16 +30,21 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.PlaylistFragment
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.PlaylistsProvider
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 
 @ExperimentalCoroutinesApi
 class PlaylistsViewModel(context: Context) : MedialibraryViewModel(context) {
+    val displayModeKey: String = "display_mode_playlists"
     val provider = PlaylistsProvider(context, this)
+    var providerInCard = true
     override val providers : Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
+    private val settings = Settings.getInstance(context)
 
     init {
         watchPlaylists()
+        providerInCard = settings.getBoolean(displayModeKey, providerInCard)
     }
 
     class Factory(val context: Context): ViewModelProvider.NewInstanceFactory() {

@@ -79,6 +79,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
         FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter
 {
+    private var listImageWidth: Int
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
     private val defaultCover: BitmapDrawable?
     private var focusNext = -1
@@ -95,6 +96,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             is Fragment -> eventsHandler.requireContext()
             else -> VLCApplication.appContext
         }
+        listImageWidth = ctx.resources.getDimension(R.dimen.audio_browser_item_size).toInt()
         defaultCover = getAudioIconDrawable(ctx, type, displayInCard())
     }
 
@@ -244,6 +246,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
                     return false
                 }
             }
+            binding.imageWidth = listImageWidth
         }
 
         override fun setItem(item: MediaLibraryItem?) {
