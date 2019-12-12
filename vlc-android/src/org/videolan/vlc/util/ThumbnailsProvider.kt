@@ -61,14 +61,14 @@ object ThumbnailsProvider {
             readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
 
-    fun getMediaCacheKey(isMedia: Boolean, item: MediaLibraryItem): String? {
+    fun getMediaCacheKey(isMedia: Boolean, item: MediaLibraryItem, width: String = ""): String? {
         if (isMedia && (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) {
             if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + MEDIALIB_FOLDER_NAME
             return if (hasCache) StringBuilder(cacheDir!!).append('/').append(item.fileName).append(".jpg").toString() else null
         }
-        return item.artworkMrl
+        return "${item.artworkMrl}_$width"
     }
 
     @WorkerThread
