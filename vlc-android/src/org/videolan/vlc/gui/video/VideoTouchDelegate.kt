@@ -201,7 +201,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
                         handler.removeCallbacksAndMessages(null)
 
-                        if (now - touchDownMs > ViewConfiguration.getTapTimeout()) {
+                        if (now - touchDownMs > ViewConfiguration.getDoubleTapTimeout()) {
                             //it was not a tap
                             numberOfTaps = 0
                             lastTapTimeMs = 0
