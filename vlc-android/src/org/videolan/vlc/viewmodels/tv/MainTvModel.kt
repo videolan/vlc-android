@@ -131,8 +131,9 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         context.getFromMl {
             getPagedVideos(AbstractMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
+            val videoCount = withContext(Dispatchers.IO) { medialibrary.videoCount }
             (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
-                add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, it.size, it.size)))
+                add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, videoCount, videoCount)))
                 addAll(it)
             }
         }
