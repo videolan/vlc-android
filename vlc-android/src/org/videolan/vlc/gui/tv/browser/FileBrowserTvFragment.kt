@@ -138,7 +138,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
         (viewModel as BrowserModel).getDescriptionUpdate().observe(this, Observer { pair ->
             if (BuildConfig.DEBUG) Log.d(TAG, "Description update: ${pair.first} ${pair.second}")
             if (BuildConfig.DEBUG) Log.d(TAG, "header size (desc): ${viewModel.provider.headers.size()}")
-            if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first)
+            if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first, pair.second)
         })
 
         (viewModel as BrowserModel).loading.observe(this, Observer {

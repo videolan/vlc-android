@@ -66,6 +66,13 @@ class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEven
         }
     }
 
+    override fun onBindViewHolder(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isNullOrEmpty()) super.onBindViewHolder(holder, position, payloads)
+        else for (payload in payloads) {
+            holder.binding.description = if (payload is String) payload else getItem(position).description
+        }
+    }
+
     override fun onViewRecycled(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>) {
         super.onViewRecycled(holder)
         holder.recycle()
