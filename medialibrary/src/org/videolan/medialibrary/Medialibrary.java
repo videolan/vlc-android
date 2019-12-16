@@ -46,7 +46,6 @@ import java.io.File;
 public class Medialibrary extends AbstractMedialibrary {
     private static final String TAG = "VLC/JMedialibrary";
 
-
     public int init(Context context) {
         if (context == null) return ML_INIT_FAILED;
         if (mIsInitiated) return ML_INIT_ALREADY_INITIALIZED;

@@ -36,6 +36,8 @@ interface ICallBackHandler {
     fun watchAlbums()
     fun watchGenres()
     fun watchPlaylists()
+    fun watchHistory()
+    fun watchMediaGroups()
 }
 
 class CallBackDelegate : ICallBackHandler,
@@ -45,7 +47,7 @@ class CallBackDelegate : ICallBackHandler,
         AbstractMedialibrary.ArtistsCb,
         AbstractMedialibrary.AlbumsCb,
         AbstractMedialibrary.GenresCb,
-        AbstractMedialibrary.PlaylistsCb{
+        AbstractMedialibrary.PlaylistsCb, AbstractMedialibrary.HistoryCb, AbstractMedialibrary.MediaGroupCb {
 
     override val medialibrary = AbstractMedialibrary.getInstance()
     private lateinit var refreshActor: SendChannel<Unit>
@@ -55,6 +57,8 @@ class CallBackDelegate : ICallBackHandler,
     private var albumsCb = false
     private var genresCb = false
     private var playlistsCb = false
+    private var historyCb = false
+    private var mediaGroupsCb = false
 
     override fun CoroutineScope.registerCallBacks(refresh: () -> Unit) {
         refreshActor = conflatedActor { refresh() }
@@ -87,6 +91,16 @@ class CallBackDelegate : ICallBackHandler,
         playlistsCb = true
     }
 
+    override fun watchHistory() {
+        medialibrary.addHistoryCb(this)
+        historyCb = true
+    }
+
+    override fun watchMediaGroups() {
+        medialibrary.addMediaGroupCb(this)
+        mediaGroupsCb = true
+    }
+
     override fun releaseCallbacks() {
         medialibrary.removeOnMedialibraryReadyListener(this)
         medialibrary.removeOnDeviceChangeListener(this)
@@ -95,6 +109,8 @@ class CallBackDelegate : ICallBackHandler,
         if (albumsCb) medialibrary.removeAlbumsCb(this)
         if (genresCb) medialibrary.removeGenreCb(this)
         if (playlistsCb) medialibrary.removePlaylistCb(this)
+        if (historyCb) medialibrary.removeHistoryCb(this)
+        if (mediaGroupsCb) medialibrary.removeMediaGroupCb(this)
         refreshActor.close()
     }
 
@@ -133,4 +149,12 @@ class CallBackDelegate : ICallBackHandler,
     override fun onPlaylistsModified() { refreshActor.offer(Unit) }
 
     override fun onPlaylistsDeleted() { refreshActor.offer(Unit) }
+
+    override fun onHistoryModified() { refreshActor.offer(Unit) }
+
+    override fun onMediaGroupsAdded() { refreshActor.offer(Unit) }
+
+    override fun onMediaGroupsModified() { refreshActor.offer(Unit) }
+
+    override fun onMediaGroupsDeleted() { refreshActor.offer(Unit) }
 }

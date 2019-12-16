@@ -513,30 +513,24 @@ medialibrary::Query<medialibrary::IFolder> AndroidMediaLibrary::subFolders(int64
     return folder != nullptr ? folder->subfolders(params) : nullptr;
 }
 
-medialibrary::Query<medialibrary::IVideoGroup>
+medialibrary::Query<medialibrary::IMediaGroup>
 AndroidMediaLibrary::videoGroups( const medialibrary::QueryParameters* params )
 {
-    return p_ml->videoGroups(params);
-}
-
-void
-AndroidMediaLibrary::setVideoGroupsPrefixLength( uint32_t prefixLength )
-{
-    p_ml->setVideoGroupsPrefixLength(prefixLength);
+    return p_ml->mediaGroups(params);
 }
 
 medialibrary::Query<medialibrary::IMedia>
-AndroidMediaLibrary::mediaFromVideoGroup(const std::string& name, const medialibrary::QueryParameters* params )
+AndroidMediaLibrary::mediaFromMediaGroup(const std::string& name, const medialibrary::QueryParameters* params )
 {
-    medialibrary::VideoGroupPtr group = p_ml->videoGroup(name);
-    return group != nullptr ? group->media(params) : nullptr;
+    medialibrary::MediaGroupPtr group = p_ml->mediaGroup(name);
+    return group != nullptr ? group->media(medialibrary::IMedia::Type::Video, params) : nullptr;
 }
 
 medialibrary::Query<medialibrary::IMedia>
-AndroidMediaLibrary::searchFromVideoGroup( const std::string& name, const std::string& query, const medialibrary::QueryParameters* params )
+AndroidMediaLibrary::searchFromMediaGroup( const std::string& name, const std::string& query, const medialibrary::QueryParameters* params )
 {
-    auto group = p_ml->videoGroup(name);
-    return group == nullptr ? nullptr : group->searchMedia(query, params);
+    auto group = p_ml->mediaGroup(name);
+    return group == nullptr ? nullptr : group->searchMedia(query, medialibrary::IMedia::Type::Video, params);
 }
 
 void
@@ -896,8 +890,41 @@ void AndroidMediaLibrary::onParsingStatsUpdated( uint32_t percent)
     }
 }
 
-void AndroidMediaLibrary::onHistoryChanged( medialibrary::HistoryType )
+void AndroidMediaLibrary::onHistoryChanged( medialibrary::HistoryType type)
 {
+    JNIEnv *env = getEnv();
+    if (env != nullptr && weak_thiz)
+    {
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onHistoryChangedId, type);
+    }
+}
+
+
+void AndroidMediaLibrary::onMediaGroupAdded( std::vector<medialibrary::MediaGroupPtr> mediaGroups )
+{
+    JNIEnv *env = getEnv();
+    if (env != nullptr && weak_thiz)
+    {
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaGroupAddedId);
+    }
+}
+
+void AndroidMediaLibrary::onMediaGroupModified( std::vector<int64_t> mediaGroupsIds )
+{
+    JNIEnv *env = getEnv();
+    if (env != nullptr && weak_thiz)
+    {
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaGroupModifiedId);
+    }
+}
+
+void AndroidMediaLibrary::onMediaGroupDeleted( std::vector<int64_t> mediaGroupsIds )
+{
+    JNIEnv *env = getEnv();
+    if (env != nullptr && weak_thiz)
+    {
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaGroupDeletedId);
+    }
 }
 
 void AndroidMediaLibrary::onRescanStarted()

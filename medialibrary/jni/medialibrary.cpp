@@ -301,8 +301,7 @@ jobjectArray
 getSortedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
     medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria), static_cast<bool>( desc )
     };
     return getInternalVideos(env, thiz, &params );
 }
@@ -1768,13 +1767,6 @@ foldersCount(JNIEnv* env, jobject thiz, jint type) {
  * Video groups
  */
 
-void
-setVideoGroupsPrefixLength( JNIEnv* env, jobject thiz, jint prefixLength )
-{
-    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    aml->setVideoGroupsPrefixLength(static_cast<uint32_t>(prefixLength));
-}
-
 jobjectArray
 videoGroups(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
@@ -1784,10 +1776,10 @@ videoGroups(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint
     };
     const auto query = aml->videoGroups(&params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.VideoGroup.clazz, NULL);
-    std::vector<medialibrary::VideoGroupPtr> groupsList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
+    std::vector<medialibrary::MediaGroupPtr> groupsList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray groupsRefs = (jobjectArray) env->NewObjectArray(groupsList.size(), ml_fields.VideoGroup.clazz, NULL);
     int index = -1;
-    for(medialibrary::VideoGroupPtr const& group : groupsList) {
+    for(medialibrary::MediaGroupPtr const& group : groupsList) {
         try
         {
             jobject item = convertVideoGroupObject(env, &ml_fields, group);
@@ -1817,7 +1809,7 @@ getPagedMediaFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jst
         static_cast<bool>( desc )
     };
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
-    const auto query = aml->mediaFromVideoGroup(char_name, &params);
+    const auto query = aml->mediaFromMediaGroup(char_name, &params);
     if (query == nullptr)
     {
         env->ReleaseStringUTFChars(name, char_name);
@@ -1838,7 +1830,7 @@ getPagedMediaFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jst
 jint
 getvideoGroupMediaCount(JNIEnv* env, jobject thiz, jobject medialibrary, jstring name) {
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromVideoGroup(char_name, nullptr);
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromMediaGroup(char_name, nullptr);
     env->ReleaseStringUTFChars(name, char_name);
     return static_cast<jint> (query != nullptr ? query->count() : 0);
 }
@@ -1853,7 +1845,7 @@ searchFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jstring na
     };
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
-    const auto query = aml->searchFromVideoGroup(char_name, queryChar, &params);
+    const auto query = aml->searchFromMediaGroup(char_name, queryChar, &params);
     if (query == nullptr)
     {
         env->ReleaseStringUTFChars(filterQuery, queryChar);
@@ -1877,7 +1869,7 @@ jint
 getSearchFromvideoGroupCount(JNIEnv* env, jobject thiz, jobject medialibrary, jstring name, jstring filterQuery) {
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const char *char_name = env->GetStringUTFChars(name, JNI_FALSE);
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->searchFromVideoGroup(char_name, queryChar, nullptr);
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->searchFromMediaGroup(char_name, queryChar, nullptr);
     env->ReleaseStringUTFChars(filterQuery, queryChar);
     env->ReleaseStringUTFChars(name, char_name);
     return static_cast<jint> (query != nullptr ? query->count() : 0);
@@ -1902,7 +1894,6 @@ static JNINativeMethod methods[] = {
     {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)lastStreamsPlayed },
     {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },
     {"nativeClearHistory", "()Z", (void*)clearHistory },
-    {"nativeSetVideoGroupsPrefixLength", "(I)V", (void*)setVideoGroupsPrefixLength },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getVideos },
     {"nativeGetSortedVideos", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getSortedVideos },
     {"nativeGetSortedPagedVideos", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractMediaWrapper;", (void*)getPagedVideos },
@@ -2264,6 +2255,22 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.MediaLibrary.onGenresModifiedId,
            ml_fields.MediaLibrary.clazz,
            "onGenresModified", "()V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onHistoryChangedId,
+           ml_fields.MediaLibrary.clazz,
+           "onHistoryChanged", "(I)V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onMediaGroupAddedId,
+           ml_fields.MediaLibrary.clazz,
+           "onMediaGroupAdded", "()V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onMediaGroupModifiedId,
+           ml_fields.MediaLibrary.clazz,
+           "onMediaGroupModified", "()V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onMediaGroupDeletedId,
+           ml_fields.MediaLibrary.clazz,
+           "onMediaGroupDeleted", "()V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onPlaylistsModifiedId,
            ml_fields.MediaLibrary.clazz,

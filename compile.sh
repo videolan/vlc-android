@@ -122,8 +122,8 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
 fi
 
 if [ -z "$ANDROID_ABI" ]; then
-   diagnostic "*** No ANDROID_ABI defined architecture: using ARMv7"
-   ANDROID_ABI="armeabi-v7a"
+   diagnostic "*** No ANDROID_ABI defined architecture: using arm64-v8a"
+   ANDROID_ABI="arm64-v8a"
 fi
 
 if [ "$ANDROID_ABI" = "armeabi-v7a" -o "$ANDROID_ABI" = "arm" ]; then

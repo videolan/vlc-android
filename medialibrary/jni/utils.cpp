@@ -160,11 +160,11 @@ convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& 
 }
 
 jobject
-convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::VideoGroupPtr const& videogroupPtr)
+convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr const& videogroupPtr)
 {
     jstring name = env->NewStringUTF(videogroupPtr->name().c_str());
     jobject item = env->NewObject(fields->VideoGroup.clazz, fields->VideoGroup.initID,
-                          name, (jint)videogroupPtr->count());
+                          name, (jint)videogroupPtr->nbVideo());
     env->DeleteLocalRef(name);
     return item;
 }

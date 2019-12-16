@@ -44,6 +44,11 @@ abstract public class AbstractMedialibrary {
     public final static int SORT_PLAYCOUNT = 8;
     public final static int SORT_ALBUM = 9;
     public final static int SORT_FILENAME = 10;
+    public final static int TrackNumber = 11;
+    public final static int TrackId = 12;
+    public final static int NbVideo = 13;
+    public final static int NbAudio = 14;
+    public final static int NbMedia = 15;
 
     protected long mInstanceID;
     public static final int FLAG_MEDIA_UPDATED_AUDIO        = 1 << 0;
@@ -75,6 +80,8 @@ abstract public class AbstractMedialibrary {
     protected final List<MediaCb> mMediaCbs = new ArrayList<>();
     protected final List<GenresCb> mGenreCbs = new ArrayList<>();
     protected final List<PlaylistsCb> mPlaylistCbs = new ArrayList<>();
+    protected final List<HistoryCb> mHistoryCbs = new ArrayList<>();
+    protected final List<MediaGroupCb> mMediaGroupCbs = new ArrayList<>();
     protected final List<OnMedialibraryReadyListener> onMedialibraryReadyListeners = new ArrayList<>();
     protected final List<OnDeviceChangeListener> onDeviceChangeListeners = new ArrayList<>();
     protected volatile boolean isMedialibraryStarted = false;
@@ -195,6 +202,16 @@ abstract public class AbstractMedialibrary {
         void onPlaylistsAdded();
         void onPlaylistsModified();
         void onPlaylistsDeleted();
+    }
+
+    public interface HistoryCb {
+        void onHistoryModified();
+    }
+
+    public interface MediaGroupCb {
+        void onMediaGroupsAdded();
+        void onMediaGroupsModified();
+        void onMediaGroupsDeleted();
     }
 
     public interface OnMedialibraryReadyListener {
@@ -342,6 +359,34 @@ abstract public class AbstractMedialibrary {
     public void onPlaylistsDeleted() {
         synchronized (mPlaylistCbs) {
             for (PlaylistsCb cb : mPlaylistCbs) cb.onPlaylistsDeleted();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onHistoryChanged(int type) {
+        synchronized (mHistoryCbs) {
+            for (HistoryCb cb : mHistoryCbs) cb.onHistoryModified();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onMediaGroupAdded() {
+        synchronized (mMediaGroupCbs) {
+            for (MediaGroupCb cb : mMediaGroupCbs) cb.onMediaGroupsAdded();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onMediaGroupModified() {
+        synchronized (mMediaGroupCbs) {
+            for (MediaGroupCb cb : mMediaGroupCbs) cb.onMediaGroupsModified();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onMediaGroupDeleted() {
+        synchronized (mMediaGroupCbs) {
+            for (MediaGroupCb cb : mMediaGroupCbs) cb.onMediaGroupsDeleted();
         }
     }
 
@@ -543,6 +588,34 @@ abstract public class AbstractMedialibrary {
         if (!mIsInitiated) return;
         synchronized (mPlaylistCbs) {
             this.mPlaylistCbs.remove(playlistCb);
+        }
+    }
+
+    public void addHistoryCb(HistoryCb historyCb) {
+        if (!mIsInitiated) return;
+        synchronized (mHistoryCbs) {
+            this.mHistoryCbs.add(historyCb);
+        }
+    }
+
+    public void removeHistoryCb(HistoryCb historyCb) {
+        if (!mIsInitiated) return;
+        synchronized (mHistoryCbs) {
+            this.mHistoryCbs.remove(historyCb);
+        }
+    }
+
+    public void addMediaGroupCb(MediaGroupCb mediaGroupCb) {
+        if (!mIsInitiated) return;
+        synchronized (mMediaGroupCbs) {
+            this.mMediaGroupCbs.add(mediaGroupCb);
+        }
+    }
+
+    public void removeMediaGroupCb(MediaGroupCb mediaGroupCb) {
+        if (!mIsInitiated) return;
+        synchronized (mMediaGroupCbs) {
+            this.mMediaGroupCbs.remove(mediaGroupCb);
         }
     }
 
