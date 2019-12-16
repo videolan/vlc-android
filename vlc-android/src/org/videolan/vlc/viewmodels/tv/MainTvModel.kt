@@ -139,11 +139,12 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
     private fun updateVideos() = viewModelScope.launch {
         val allMovies = withContext(Dispatchers.IO) { mediaMetadataRepository.getMovieCount() }
         val allTvshows = withContext(Dispatchers.IO) { mediaMetadataRepository.getTvshowsCount() }
+        val videoNb = context.getFromMl { videoCount }
         context.getFromMl {
             getPagedVideos(AbstractMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
-                add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, it.size, it.size)))
+                add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, videoNb, videoNb)))
                 if (allMovies > 0) {
                     add(DummyItem(HEADER_MOVIES, context.getString(R.string.header_movies), context.resources.getQuantityString(R.plurals.movies_quantity, allMovies, allMovies)))
                 }
