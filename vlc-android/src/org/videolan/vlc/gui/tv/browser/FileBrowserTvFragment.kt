@@ -58,17 +58,6 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
     override fun getColumnNumber() = resources.getInteger(R.integer.tv_songs_col_count)
 
-    companion object {
-        fun newInstance(type: Long, item: MediaLibraryItem?, root: Boolean = false) =
-                FileBrowserTvFragment().apply {
-                    arguments = Bundle().apply {
-                        this.putLong(CATEGORY, type)
-                        this.putParcelable(ITEM, item)
-                        this.putBoolean("rootLevel", root)
-                    }
-                }
-    }
-
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaLibraryItem>, itemSize: Int): TvItemAdapter {
         return FileTvItemAdapter(getCategory(), this, itemSize, isRootLevel)
     }
@@ -123,7 +112,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         })
 
         (viewModel as BrowserModel).getDescriptionUpdate().observe(this, Observer { pair ->
-            if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first)
+            if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first, pair.second)
         })
     }
 
@@ -262,5 +251,16 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                 ?: FileUtils.getFileNameFromPath(mrl))
         ft.replace(R.id.tv_fragment_placeholder, next, media.title)
         ft.commit()
+    }
+
+    companion object {
+        fun newInstance(type: Long, item: MediaLibraryItem?, root: Boolean = false) =
+                FileBrowserTvFragment().apply {
+                    arguments = Bundle().apply {
+                        this.putLong(CATEGORY, type)
+                        this.putParcelable(ITEM, item)
+                        this.putBoolean("rootLevel", root)
+                    }
+                }
     }
 }

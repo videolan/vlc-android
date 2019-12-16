@@ -27,7 +27,7 @@ import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, val showProtocol: Boolean) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, private val showProtocol: Boolean) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
         if (pagedList is List<*>) {
@@ -66,6 +66,13 @@ class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEven
         }
     }
 
+    override fun onBindViewHolder(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isNullOrEmpty()) super.onBindViewHolder(holder, position, payloads)
+        else for (payload in payloads) {
+            holder.binding.description = if (payload is String) payload else getItem(position).description
+        }
+    }
+
     override fun onViewRecycled(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>) {
         super.onViewRecycled(holder)
         holder.recycle()
@@ -77,26 +84,22 @@ class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEven
         this.focusListener = focusListener
     }
 
-    override fun createCB(): DiffCallback<AbstractMediaWrapper> {
-        return object : DiffCallback<AbstractMediaWrapper>() {
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = try {
-                oldList[oldItemPosition] == newList[newItemPosition]
-            } catch (e: IndexOutOfBoundsException) {
-                false
-            }
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return oldList[oldItemPosition].description == newList[newItemPosition].description
-                        && oldList[oldItemPosition].title == newList[newItemPosition].title
-            }
-
-            override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int) = arrayListOf(UPDATE_PAYLOAD)
+    override fun createCB(): DiffCallback<AbstractMediaWrapper> = object : DiffCallback<AbstractMediaWrapper>() {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = try {
+            oldList[oldItemPosition] == newList[newItemPosition]
+        } catch (e: IndexOutOfBoundsException) {
+            false
         }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].description == newList[newItemPosition].description
+                    && oldList[oldItemPosition].title == newList[newItemPosition].title
+        }
+
+        override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int) = arrayListOf(UPDATE_PAYLOAD)
     }
 
-    private fun getProtocol(media: AbstractMediaWrapper): String? {
-        return if (media.type != AbstractMediaWrapper.TYPE_DIR) null else media.uri.scheme
-    }
+    private fun getProtocol(media: AbstractMediaWrapper) = if (media.type != AbstractMediaWrapper.TYPE_DIR) null else media.uri.scheme
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemTVViewHolder(

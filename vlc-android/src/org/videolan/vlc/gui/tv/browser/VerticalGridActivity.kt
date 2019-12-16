@@ -26,9 +26,11 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.tv_vertical_grid.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -105,14 +107,14 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
     }
 
     override fun showProgress(show: Boolean) {
-        runOnUiThread {
+        lifecycleScope.launch {
             tv_fragment_empty.visibility = View.GONE
             tv_fragment_progress.visibility = if (show) View.VISIBLE else View.GONE
         }
     }
 
     override fun updateEmptyView(empty: Boolean) {
-        runOnUiThread { tv_fragment_empty.visibility = if (empty) View.VISIBLE else View.GONE }
+        lifecycleScope.launch { tv_fragment_empty.visibility = if (empty) View.VISIBLE else View.GONE }
     }
 
     fun sort(v: View) {

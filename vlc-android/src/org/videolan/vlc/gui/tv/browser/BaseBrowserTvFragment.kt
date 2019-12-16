@@ -49,6 +49,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.yield
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -355,7 +356,10 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         adapter.submitList(pagedList)
         if (setFocus) {
             setFocus = false
-            lifecycleScope.launchWhenStarted { binding.list.requestFocus() }
+            lifecycleScope.launchWhenStarted {
+                yield()
+                binding.list.requestFocus()
+            }
         }
         animationDelegate.setVisibility(imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
