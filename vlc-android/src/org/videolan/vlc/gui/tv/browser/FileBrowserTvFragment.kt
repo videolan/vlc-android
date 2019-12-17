@@ -59,7 +59,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun getColumnNumber() = resources.getInteger(R.integer.tv_songs_col_count)
 
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaLibraryItem>, itemSize: Int): TvItemAdapter {
-        return FileTvItemAdapter(getCategory(), this, itemSize, isRootLevel)
+        return FileTvItemAdapter(this, itemSize, isRootLevel && getCategory() == TYPE_NETWORK)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

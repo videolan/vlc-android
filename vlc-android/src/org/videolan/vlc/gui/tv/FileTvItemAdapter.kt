@@ -27,7 +27,7 @@ import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FileTvItemAdapter(private val type: Long, private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, private val showProtocol: Boolean) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, private val showProtocol: Boolean) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
         if (pagedList is List<*>) {
