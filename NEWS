@@ -1,3 +1,20 @@
+Changes between 3.2.2 and 3.2.3:
+------------------
+
+Application:
+ * Allow displaying the playlists in list mode
+ * Fix PiP aspect ratio
+ * Fix album view thumbnail size
+ * Fix double tap timing issue
+ * Misc. fixes
+
+TV:
+ * Fix browsers showing 65 first files only
+ * Fix background transitions
+ * Fix flickering in browsers
+ * Fix subs dl focus for DPAD navigation
+ * Fix video count on TV main screen
+
 Changes between 3.2.1 and 3.2.2:
 ------------------
 
