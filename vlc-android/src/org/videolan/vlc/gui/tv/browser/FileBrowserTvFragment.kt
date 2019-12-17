@@ -84,7 +84,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
     }
 
     override fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter {
-        return FileTvItemAdapter(getCategory(), this, itemSize, isRootLevel)
+        return FileTvItemAdapter(this, itemSize, isRootLevel && getCategory() == TYPE_NETWORK)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
