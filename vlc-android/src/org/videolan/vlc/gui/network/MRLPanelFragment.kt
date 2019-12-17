@@ -57,6 +57,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
+import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.StreamsModel
@@ -144,7 +145,8 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     private fun playMedia(mw: AbstractMediaWrapper) {
         mw.type = AbstractMediaWrapper.TYPE_STREAM
-        MediaUtils.openMedia(activity, mw)
+        if (mw.uri.scheme?.startsWith("rtsp") == true) VideoPlayerActivity.start(requireContext(), mw.uri)
+        else MediaUtils.openMedia(activity, mw)
         viewModel.refresh()
         activity?.invalidateOptionsMenu()
         UiTools.setKeyboardVisibility(editText, false)
