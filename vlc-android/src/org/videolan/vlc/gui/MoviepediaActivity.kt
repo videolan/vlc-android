@@ -35,7 +35,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MoviepediaActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
@@ -49,7 +49,7 @@ open class MoviepediaActivity : BaseActivity(), TextWatcher, TextView.OnEditorAc
     private lateinit var moviepediaResultAdapter: MoviepediaResultAdapter
 
     private lateinit var viewModel: MoviepediaModel
-    private lateinit var media: AbstractMediaWrapper
+    private lateinit var media: MediaWrapper
     private lateinit var binding: MoviepediaActivityBinding
     private val clickHandler = ClickHandler()
 

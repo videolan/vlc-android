@@ -37,7 +37,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA
 import org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE
@@ -53,7 +53,6 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.Settings.init
 import org.videolan.vlc.util.UPDATE_SELECTION
 import java.util.*
 
@@ -146,14 +145,14 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
     }
 
     private fun onBindMediaViewHolder(vh: MediaViewHolder, position: Int) {
-        val media = getItem(position) as AbstractMediaWrapper
+        val media = getItem(position) as MediaWrapper
         val isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE)
         vh.binding.item = media
         val scheme = media.uri.scheme
         vh.binding.hasContextMenu = ((!networkRoot || isFavorite)
                 && "content" != scheme
                 && "otg" != scheme)
-        vh.binding.filename = if (media.type != AbstractMediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null
+        vh.binding.filename = if (media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null
         if (networkRoot) vh.binding.protocol = getProtocol(media)
         vh.binding.cover = getIcon(media, specialIcons)
         vh.selectView(multiSelectHelper.isSelected(position))
@@ -267,10 +266,10 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
     }
 
 
-    fun getIcon(media: AbstractMediaWrapper, specialFolders: Boolean): BitmapDrawable {
+    fun getIcon(media: MediaWrapper, specialFolders: Boolean): BitmapDrawable {
         when (media.type) {
-            AbstractMediaWrapper.TYPE_AUDIO -> return audioDrawable
-            AbstractMediaWrapper.TYPE_DIR -> {
+            MediaWrapper.TYPE_AUDIO -> return audioDrawable
+            MediaWrapper.TYPE_DIR -> {
                 if (specialFolders) {
                     val uri = media.uri
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI == uri || AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI == uri)
@@ -284,14 +283,14 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
                 }
                 return folderDrawable
             }
-            AbstractMediaWrapper.TYPE_VIDEO -> return videoDrawable
-            AbstractMediaWrapper.TYPE_SUBTITLE -> return subtitleDrawable
+            MediaWrapper.TYPE_VIDEO -> return videoDrawable
+            MediaWrapper.TYPE_SUBTITLE -> return subtitleDrawable
             else -> return unknownDrawable
         }
     }
 
-    private fun getProtocol(media: AbstractMediaWrapper): String? {
-        return if (media.type != AbstractMediaWrapper.TYPE_DIR) null else media.uri.scheme
+    private fun getProtocol(media: MediaWrapper): String? {
+        return if (media.type != MediaWrapper.TYPE_DIR) null else media.uri.scheme
     }
 
     open fun checkBoxAction(v: View, mrl: String) {}
@@ -300,7 +299,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
         val internalList = ArrayList(list)
         mediaCount = 0
         for (item in internalList) {
-            if (item.itemType == TYPE_MEDIA && ((item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_AUDIO || item.type == AbstractMediaWrapper.TYPE_VIDEO))
+            if (item.itemType == TYPE_MEDIA && ((item as MediaWrapper).type == MediaWrapper.TYPE_AUDIO || item.type == MediaWrapper.TYPE_VIDEO))
                 ++mediaCount
         }
         return internalList

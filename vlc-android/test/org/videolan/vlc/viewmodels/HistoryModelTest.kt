@@ -9,7 +9,7 @@ import org.junit.Test
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.TestUtil
@@ -58,7 +58,7 @@ class HistoryModelTest : BaseTest() {
         val fakeMediaStrings = TestUtil.createLocalUris(2)
 
         val result = fakeMediaStrings.map {
-            val media = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(it)).apply { type = AbstractMediaWrapper.TYPE_VIDEO }
+            val media = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(it)).apply { type = MediaWrapper.TYPE_VIDEO }
             mediaLibrary.addToHistory(media.location, media.title)
             media
         }

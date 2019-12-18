@@ -33,7 +33,7 @@ import android.net.Uri
 import android.provider.BaseColumns
 import android.util.Log
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.getYear
 import org.videolan.vlc.database.models.subtitle
@@ -151,7 +151,7 @@ class TVSearchProvider : ContentProvider() {
     override fun getType(uri: Uri): String? = null
 }
 
-private fun AbstractMediaWrapper.getThumb(): Uri {
+private fun MediaWrapper.getThumb(): Uri {
     if (!isThumbnailGenerated) {
         ThumbnailsProvider.getVideoThumbnail(this@getThumb, 512)
     }

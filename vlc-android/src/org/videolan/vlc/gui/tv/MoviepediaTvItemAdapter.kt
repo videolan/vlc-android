@@ -41,7 +41,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.databinding.MovieBrowserTvItemBinding
@@ -230,7 +230,7 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
             var description = item?.metadata?.summary
             var resolution = ""
             item?.media?.let { media ->
-                if (media.type == AbstractMediaWrapper.TYPE_VIDEO) {
+                if (media.type == MediaWrapper.TYPE_VIDEO) {
                     resolution = generateResolutionClass(media.width, media.height) ?: ""
                     description = if (media.time == 0L) Tools.millisToString(media.length) else Tools.getProgressText(media)
                     binding.badge = resolution

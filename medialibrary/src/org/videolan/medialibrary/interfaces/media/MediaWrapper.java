@@ -1,3 +1,24 @@
+/*
+ *****************************************************************************
+ * MediaWrapper.java
+ *****************************************************************************
+ * Copyright © 2019 VLC authors and VideoLAN
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *****************************************************************************/
+
 package org.videolan.medialibrary.interfaces.media;
 
 import android.graphics.Bitmap;
@@ -19,7 +40,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.util.Locale;
 
-public abstract class AbstractMediaWrapper extends MediaLibraryItem implements Parcelable {
+public abstract class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public final static int TYPE_ALL = -1;
     public final static int TYPE_VIDEO = 0;
     public final static int TYPE_AUDIO = 1;
@@ -115,14 +136,14 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     public abstract void requestBanner(int width, float position);
 
     /**
-     * Create a new AbstractMediaWrapper
+     * Create a new MediaWrapper
      *
      * @param mrl Should not be null.
      */
-    public AbstractMediaWrapper(long id, String mrl, long time, long length, int type, String title,
-                                String filename, String artist, String genre, String album, String albumArtist,
-                                int width, int height, String artworkURL, int audio, int spu, int trackNumber,
-                                int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate) {
+    public MediaWrapper(long id, String mrl, long time, long length, int type, String title,
+                        String filename, String artist, String genre, String album, String albumArtist,
+                        int width, int height, String artworkURL, int audio, int spu, int trackNumber,
+                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate) {
         super();
         if (TextUtils.isEmpty(mrl)) throw new IllegalArgumentException("uri was empty");
 
@@ -167,11 +188,11 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     }
 
     /**
-     * Create a new AbstractMediaWrapper
+     * Create a new MediaWrapper
      *
      * @param uri Should not be null.
      */
-    public AbstractMediaWrapper(Uri uri) {
+    public MediaWrapper(Uri uri) {
         super();
         if (uri == null) throw new NullPointerException("uri was null");
 
@@ -181,11 +202,11 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     }
 
     /**
-     * Create a new AbstractMediaWrapper
+     * Create a new MediaWrapper
      *
      * @param media should be parsed and not NULL
      */
-    public AbstractMediaWrapper(IMedia media) {
+    public MediaWrapper(IMedia media) {
         super();
         if (media == null)
             throw new NullPointerException("media was null");
@@ -199,10 +220,10 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
         if (this == obj) return true;
         if (!(obj instanceof MediaLibraryItem) || ((MediaLibraryItem) obj).getItemType() != TYPE_MEDIA)
             return false;
-        return equals((AbstractMediaWrapper) obj);
+        return equals((MediaWrapper) obj);
     }
 
-    public boolean equals(AbstractMediaWrapper obj) {
+    public boolean equals(MediaWrapper obj) {
         long otherId = obj.getId();
         if (otherId != 0L && getId() != 0L && otherId == getId()) return true;
         final Uri otherUri = obj.getUri();
@@ -304,17 +325,17 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
         mSlaves = slaves;
     }
 
-    public AbstractMediaWrapper(Uri uri, long time, long length, int type,
-                                Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-                                int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
+    public MediaWrapper(Uri uri, long time, long length, int type,
+                        Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
+                        int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
         mUri = uri;
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
                 width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, null);
     }
 
     @Override
-    public AbstractMediaWrapper[] getTracks() {
-        return new AbstractMediaWrapper[]{this};
+    public MediaWrapper[] getTracks() {
+        return new MediaWrapper[]{this};
     }
 
     @Override
@@ -646,7 +667,7 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
         return 0;
     }
 
-    public AbstractMediaWrapper(Parcel in) {
+    public MediaWrapper(Parcel in) {
         super(in);
         mUri = in.readParcelable(Uri.class.getClassLoader());
         init(in.readLong(),
@@ -703,15 +724,15 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
             dest.writeTypedArray(null, flags);
     }
 
-    public static final Parcelable.Creator<AbstractMediaWrapper> CREATOR = new Parcelable.Creator<AbstractMediaWrapper>() {
+    public static final Parcelable.Creator<MediaWrapper> CREATOR = new Parcelable.Creator<MediaWrapper>() {
         @Override
-        public AbstractMediaWrapper createFromParcel(Parcel in) {
+        public MediaWrapper createFromParcel(Parcel in) {
             return MLServiceLocator.getAbstractMediaWrapper(in);
         }
 
         @Override
-        public AbstractMediaWrapper[] newArray(int size) {
-            return new AbstractMediaWrapper[size];
+        public MediaWrapper[] newArray(int size) {
+            return new MediaWrapper[size];
         }
     };
 

@@ -5,7 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
@@ -23,7 +23,7 @@ class PlaylistViewModelTest : BaseTest() {
     }
 
     private fun createDummyAudios(count: Int, title: String): List<Long> = (0 until count).map {
-        StubDataSource.getInstance().addMediaWrapper("$title $it", AbstractMediaWrapper.TYPE_AUDIO).id
+        StubDataSource.getInstance().addMediaWrapper("$title $it", MediaWrapper.TYPE_AUDIO).id
     }
 
     private fun waitForProvidersData() = playlistViewModel.providers.map {

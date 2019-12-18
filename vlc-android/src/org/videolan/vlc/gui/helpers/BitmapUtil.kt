@@ -23,7 +23,7 @@ package org.videolan.vlc.gui.helpers
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 
@@ -31,21 +31,21 @@ object BitmapUtil {
     const val TAG = "VLC/UiTools/BitmapUtil"
 
 
-    fun getPictureFromCache(media: AbstractMediaWrapper): Bitmap? {
+    fun getPictureFromCache(media: MediaWrapper): Bitmap? {
         // mPicture is not null only if passed through
         // the ctor which is deprecated by now.
         val b = media.picture
         return b ?: BitmapCache.getBitmapFromMemCache(media.location)
     }
 
-    private fun fetchPicture(media: AbstractMediaWrapper): Bitmap? {
+    private fun fetchPicture(media: MediaWrapper): Bitmap? {
 
         val picture = readCoverBitmap(media.artworkURL)
         if (picture != null) BitmapCache.addBitmapToMemCache(media.location, picture)
         return picture
     }
 
-    fun getPicture(media: AbstractMediaWrapper): Bitmap? {
+    fun getPicture(media: MediaWrapper): Bitmap? {
         val picture = getPictureFromCache(media)
         return picture ?: fetchPicture(media)
     }

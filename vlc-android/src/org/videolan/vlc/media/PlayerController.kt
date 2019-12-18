@@ -13,7 +13,7 @@ import org.videolan.libvlc.*
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IMediaList
 import org.videolan.libvlc.interfaces.IVLCVout
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.repository.SlaveRepository
@@ -193,7 +193,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         setPlaybackStopped()
     }
 
-    fun setSlaves(media: IMedia, mw: AbstractMediaWrapper) = launch {
+    fun setSlaves(media: IMedia, mw: MediaWrapper) = launch {
         if (mediaplayer.isReleased) return@launch
         val slaves = mw.slaves
         slaves?.let { it.forEach { slave -> media.addSlave(slave) } }
@@ -236,7 +236,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
      * @param id of the Meta event received, -1 for none
      * @return true if UI needs to be updated
      */
-    internal fun updateCurrentMeta(id: Int, mw: AbstractMediaWrapper?): Boolean {
+    internal fun updateCurrentMeta(id: Int, mw: MediaWrapper?): Boolean {
         if (id == IMedia.Meta.Publisher) return false
         mw?.updateMeta(mediaplayer)
         return id != IMedia.Meta.NowPlaying || mw?.nowPlaying !== null

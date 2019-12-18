@@ -15,20 +15,20 @@ public abstract class AbstractGenre extends MediaLibraryItem {
     abstract public AbstractAlbum[] getAlbums(int sort, boolean desc);
     abstract public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
     abstract public AbstractArtist[] getArtists(int sort, boolean desc);
-    abstract public AbstractMediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc);
-    abstract public AbstractMediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc);
+    abstract public MediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, int nbItems, int offset);
     abstract public int getTracksCount();
     abstract public int getAlbumsCount();
     abstract public AbstractAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchAlbumsCount(String query);
-    abstract public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
 
-    public AbstractMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
         return getPagedTracks(false, sort, desc, nbItems, offset);
     }
 
-    public AbstractMediaWrapper[] getTracks(int sort, boolean desc) {
+    public MediaWrapper[] getTracks(int sort, boolean desc) {
         return getTracks(false, sort, desc);
     }
 
@@ -38,7 +38,7 @@ public abstract class AbstractGenre extends MediaLibraryItem {
     public AbstractArtist[] getArtists() {
         return getArtists(AbstractMedialibrary.SORT_DEFAULT, false);
     }
-    public AbstractMediaWrapper[] getTracks() {
+    public MediaWrapper[] getTracks() {
         return getTracks(false, AbstractMedialibrary.SORT_ALBUM, false);
     }
     @Override

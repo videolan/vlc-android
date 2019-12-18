@@ -9,12 +9,9 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Test
-import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
-import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.medialibrary.stubs.StubDataSource
+import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.TestUtil
@@ -41,7 +38,7 @@ class StreamsModelTest : BaseTest() {
                 .assertValue(Medialibrary.EMPTY_COLLECTION.toMutableList())
 
         val result = fakeMediaStrings.map {
-            val media = MediaWrapper(Uri.parse(it))
+            val media = MediaWrapperImpl(Uri.parse(it))
             println(mediaLibrary.addToHistory(media.location, media.title))
             media
         }
@@ -67,7 +64,7 @@ class StreamsModelTest : BaseTest() {
         val argumentName = slot<String>()
 
         val result = fakeMediaStrings.map {
-            val media = spyk(MediaWrapper(Uri.parse(it)))
+            val media = spyk(MediaWrapperImpl(Uri.parse(it)))
             mediaLibrary.addToHistory(media.location, media.title)
             media
         }

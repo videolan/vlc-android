@@ -40,7 +40,7 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.audio_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.*
@@ -316,7 +316,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     override fun onCtxAction(position: Int, option: Int) {
         @Suppress("UNCHECKED_CAST")
-        if (option == CTX_PLAY_ALL) MediaUtils.playAll(activity, viewModel.providers[currentTab] as MedialibraryProvider<AbstractMediaWrapper>, position, false)
+        if (option == CTX_PLAY_ALL) MediaUtils.playAll(activity, viewModel.providers[currentTab] as MedialibraryProvider<MediaWrapper>, position, false)
         else super.onCtxAction(position, option)
     }
 
@@ -326,7 +326,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             return
         }
         if (item.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            MediaUtils.openMedia(activity, item as AbstractMediaWrapper)
+            MediaUtils.openMedia(activity, item as MediaWrapper)
             return
         }
         val i: Intent

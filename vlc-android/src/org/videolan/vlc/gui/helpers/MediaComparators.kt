@@ -19,12 +19,12 @@
  */
 package org.videolan.vlc.gui.helpers
 
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import java.util.*
 
 object MediaComparators {
 
-    val BY_TRACK_NUMBER: Comparator<AbstractMediaWrapper> = Comparator { m1, m2 ->
+    val BY_TRACK_NUMBER: Comparator<MediaWrapper> = Comparator { m1, m2 ->
         if (m1.discNumber < m2.discNumber) return@Comparator -1
         if (m1.discNumber > m2.discNumber) return@Comparator 1
         if (m1.trackNumber < m2.trackNumber) return@Comparator -1

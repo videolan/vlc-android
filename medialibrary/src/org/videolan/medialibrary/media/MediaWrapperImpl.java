@@ -1,8 +1,8 @@
 /*
  *****************************************************************************
- * MediaWrapper.java
+ * MediaWrapperImpl.java
  *****************************************************************************
- * Copyright © 2011-2015 VLC authors and VideoLAN
+ * Copyright © 2011-2019 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -27,39 +27,38 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.text.TextUtils;
 
-import org.videolan.libvlc.Media;
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 import java.util.Locale;
 
 @SuppressWarnings("JniMissingFunction")
-public class MediaWrapper extends AbstractMediaWrapper {
-    public final static String TAG = "VLC/MediaWrapper";
+public class MediaWrapperImpl extends MediaWrapper {
+    public final static String TAG = "VLC/MediaWrapperImpl";
 
-    public MediaWrapper(long id, String mrl, long time, long length, int type, String title,
-                         String filename, String artist, String genre, String album, String albumArtist,
-                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,
-                         int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate) {
+    public MediaWrapperImpl(long id, String mrl, long time, long length, int type, String title,
+                            String filename, String artist, String genre, String album, String albumArtist,
+                            int width, int height, String artworkURL, int audio, int spu, int trackNumber,
+                            int discNumber, long lastModified, long seen, boolean isThumbnailGenerated, int releaseDate) {
         super(id, mrl, time, length, type, title, filename, artist,
                 genre, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified,
                 seen, isThumbnailGenerated, releaseDate);
     }
 
-    public MediaWrapper(Uri uri, long time, long length, int type,
-                        Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-                        int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
+    public MediaWrapperImpl(Uri uri, long time, long length, int type,
+                            Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
+                            int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
         super(uri, time, length, type, picture, title, artist,
                 genre, album, albumArtist, width, height, artworkURL,
                 audio, spu, trackNumber, discNumber, lastModified, seen);
     }
 
-    public MediaWrapper(Uri uri) { super(uri); }
-    public MediaWrapper(IMedia media) { super(media); }
-    public MediaWrapper(Parcel in) { super(in); }
+    public MediaWrapperImpl(Uri uri) { super(uri); }
+    public MediaWrapperImpl(IMedia media) { super(media); }
+    public MediaWrapperImpl(Parcel in) { super(in); }
 
     public void rename(String name) {
         final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();

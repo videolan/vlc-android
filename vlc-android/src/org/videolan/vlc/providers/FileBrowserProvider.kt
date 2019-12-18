@@ -32,7 +32,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.ExternalMonitor
@@ -112,7 +112,7 @@ open class FileBrowserProvider(
             if (!file.exists() || !file.canRead()) continue
             storageAccess = true
             val directory = MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
-            directory.type = AbstractMediaWrapper.TYPE_DIR
+            directory.type = MediaWrapper.TYPE_DIR
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation)) {
                 directory.setDisplayTitle(internalmemoryTitle)
                 storagePosition = devices.size
@@ -131,7 +131,7 @@ open class FileBrowserProvider(
         if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.value.isEmpty()) {
             val otg = MLServiceLocator.getAbstractMediaWrapper(Uri.parse("otg://")).apply {
                 title = context.getString(R.string.otg_device_title)
-                type = AbstractMediaWrapper.TYPE_DIR
+                type = MediaWrapper.TYPE_DIR
             }
             otgPosition = devices.size
             devices.add(otg)
@@ -187,7 +187,7 @@ open class FileBrowserProvider(
         } else if (otgPosition == -1) {
             val otg = MLServiceLocator.getAbstractMediaWrapper(Uri.parse("otg://")).apply {
                 title = context.getString(R.string.otg_device_title)
-                type = AbstractMediaWrapper.TYPE_DIR
+                type = MediaWrapper.TYPE_DIR
             }
             otgPosition = storagePosition+1
             dataset.add(otgPosition, otg)

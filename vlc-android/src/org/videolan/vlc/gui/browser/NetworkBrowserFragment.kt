@@ -37,7 +37,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Dialog
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
@@ -117,7 +117,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        val mw = this.adapter.getItem(position) as AbstractMediaWrapper
+        val mw = this.adapter.getItem(position) as MediaWrapper
         when (option) {
             CTX_FAV_ADD -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
             CTX_FAV_EDIT -> showAddServerDialog(mw)
@@ -172,7 +172,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
         else if (v.id == R.id.fab) showAddServerDialog(null)
     }
 
-    private fun showAddServerDialog(mw: AbstractMediaWrapper?) {
+    private fun showAddServerDialog(mw: MediaWrapper?) {
         val fm = fragmentManager ?: return
         val dialog = NetworkServerDialog()
         mw?.let { dialog.setServer(it) }

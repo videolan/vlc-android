@@ -29,7 +29,7 @@ import org.videolan.libvlc.util.Extensions
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractArtist
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.InfoActivityBinding
@@ -80,7 +80,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         }
         this.item = item
         if (item.id == 0L) {
-            val libraryItem = AbstractMedialibrary.getInstance().getMedia((item as AbstractMediaWrapper).uri)
+            val libraryItem = AbstractMedialibrary.getInstance().getMedia((item as MediaWrapper).uri)
             if (libraryItem != null)
                 this.item = libraryItem
         }
@@ -90,7 +90,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         model = getModel()
 
         binding.fab.setOnClickListener(this)
-        if (item is AbstractMediaWrapper) {
+        if (item is MediaWrapper) {
             adapter = MediaInfoAdapter()
             binding.list.layoutManager = LinearLayoutManager(binding.root.context)
             binding.list.adapter = adapter
@@ -113,7 +113,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         if (model.cover.value === null) model.getCover(item.artworkMrl, getScreenWidth())
         updateMeta()
         binding.directoryNotScannedButton.setOnClickListener {
-            val media = item as AbstractMediaWrapper
+            val media = item as MediaWrapper
             val parent = media.uri.toString().substring(0, media.uri.toString().lastIndexOf("/"))
             MedialibraryUtils.addDir(parent, applicationContext)
             Snackbar.make(binding.root, getString(R.string.scanned_directory_added, Uri.parse(parent).lastPathSegment), Snackbar.LENGTH_LONG).show()
@@ -129,8 +129,8 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         if (length > 0)
             binding.length = Tools.millisToTextLarge(length)
 
-        if (item is AbstractMediaWrapper) {
-            val media = item as AbstractMediaWrapper
+        if (item is MediaWrapper) {
+            val media = item as MediaWrapper
             val resolution = generateResolutionClass(media.width, media.height)
             binding.resolution = resolution
         }
@@ -138,7 +138,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         binding.scanned = true
         when {
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
-                val media = item as AbstractMediaWrapper
+                val media = item as MediaWrapper
                 binding.progress = if (media.length == 0L) 0 else (100.toLong() * media.time / length).toInt()
                 binding.sizeTitleText = getString(R.string.file_size)
 
@@ -240,7 +240,7 @@ class InfoModel : ViewModel() {
         cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(it), width) } }
     }
 
-    internal fun parseTracks(context: Context, mw: AbstractMediaWrapper) = viewModelScope.launch {
+    internal fun parseTracks(context: Context, mw: MediaWrapper) = viewModelScope.launch {
         val media = withContext(Dispatchers.IO) {
             val libVlc = VLCInstance[context]
             mMediaFactory.getFromUri(libVlc, mw.uri).apply { parse() }
@@ -259,11 +259,11 @@ class InfoModel : ViewModel() {
         mediaTracks.value = tracks.toList()
     }
 
-    internal fun checkFile(mw: AbstractMediaWrapper) = viewModelScope.launch {
+    internal fun checkFile(mw: MediaWrapper) = viewModelScope.launch {
         val itemFile = withContext(Dispatchers.IO) { File(Uri.decode(mw.location.substring(5))) }
 
         if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) return@launch
-        if (mw.type == AbstractMediaWrapper.TYPE_VIDEO) checkSubtitles(itemFile)
+        if (mw.type == MediaWrapper.TYPE_VIDEO) checkSubtitles(itemFile)
         sizeText.value = itemFile.length().readableFileSize()
     }
 

@@ -50,7 +50,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -186,13 +186,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    private fun showInfoDialog(media: AbstractMediaWrapper) {
+    private fun showInfoDialog(media: MediaWrapper) {
         val i = Intent(requireActivity(), InfoActivity::class.java)
         i.putExtra(TAG_ITEM, media)
         startActivity(i)
     }
 
-    override fun onPopupMenu(view: View, position: Int, item: AbstractMediaWrapper?) {
+    override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
         val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST or CTX_STOP_AFTER_THIS or CTX_INFORMATION or CTX_SHARE
@@ -281,7 +281,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         }
     }
 
-    override fun playItem(position: Int, item: AbstractMediaWrapper) {
+    override fun playItem(position: Int, item: MediaWrapper) {
         clearSearch()
         playlistModel.play(playlistModel.getPlaylistPosition(position, item))
     }
@@ -333,7 +333,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             if (PlaybackService.hasRenderer()) VideoPlayerActivity.startOpened(v.context,
                     it.uri, playlistModel.currentMediaPosition)
             else if (hasMedia()) {
-                it.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+                it.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 playlistModel.switchToVideo()
             }
         }

@@ -167,7 +167,7 @@ class BrowserFavRepositoryTest {
 
 
     // Testing browserFavRepository.networkFavorites is not Easy, because it needs to mock the ExternalMonitor
-    // and MediaWrapper. ExternalMonitor uses Handler(Looper.getMainLooper()) that makes mocking harder
+    // and MediaWrapperImpl. ExternalMonitor uses Handler(Looper.getMainLooper()) that makes mocking harder
     // So I comment this for now until find a proper solution for that
 
 

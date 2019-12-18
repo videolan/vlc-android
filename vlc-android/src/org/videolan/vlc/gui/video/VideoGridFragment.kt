@@ -36,7 +36,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -323,7 +323,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (!isStarted()) return false
         when (viewModel.groupingType) {
             VideoGroupingType.NONE -> {
-                val list = multiSelectHelper.getSelection().map { it as AbstractMediaWrapper }
+                val list = multiSelectHelper.getSelection().map { it as MediaWrapper }
                 if (list.isNotEmpty()) {
                     when (item.itemId) {
                         R.id.action_video_play -> MediaUtils.openList(activity, list, 0)
@@ -335,7 +335,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                         //                break;
                         R.id.action_video_download_subtitles -> MediaUtils.getSubs(requireActivity(), list)
                         R.id.action_video_play_audio -> {
-                            for (media in list) media.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+                            for (media in list) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                             MediaUtils.openList(activity, list, 0)
                         }
                         R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
@@ -388,7 +388,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (position >= videoListAdapter.itemCount) return
         val activity = activity ?: return
         when (val media = videoListAdapter.getItem(position)) {
-            is AbstractMediaWrapper -> when (option) {
+            is MediaWrapper -> when (option) {
                 CTX_PLAY_FROM_START -> viewModel.playVideo(activity, media, position,true)
                 CTX_PLAY_AS_AUDIO -> viewModel.playAudio(activity, media)
                 CTX_PLAY_ALL -> MediaUtils.playAll(activity, viewModel.provider as VideosProvider, position, false)
@@ -414,10 +414,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         }
     }
 
-    private val thumbObs = Observer<AbstractMediaWrapper> { media ->
+    private val thumbObs = Observer<MediaWrapper> { media ->
         if (!::videoListAdapter.isInitialized || viewModel.provider !is VideosProvider) return@Observer
         val position = viewModel.provider.pagedList.value?.indexOf(media) ?: return@Observer
-        val item = videoListAdapter.getItem(position) as? AbstractMediaWrapper
+        val item = videoListAdapter.getItem(position) as? MediaWrapper
         item?.run {
             artworkURL = media.artworkURL
             videoListAdapter.notifyItemChanged(position)
@@ -428,7 +428,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         when (this) {
             is VideoClick -> {
                 when (item) {
-                    is AbstractMediaWrapper -> {
+                    is MediaWrapper -> {
                         if (actionMode != null) {
                             multiSelectHelper.toggleSelection(position)
                             invalidateActionMode()
@@ -459,8 +459,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             is VideoCtxClick -> {
                 when (item) {
                     is AbstractFolder, is AbstractVideoGroup -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS)
-                    is AbstractMediaWrapper -> {
-                        val group = item.type == AbstractMediaWrapper.TYPE_GROUP
+                    is MediaWrapper -> {
+                        val group = item.type == MediaWrapper.TYPE_GROUP
                         var flags = if (group) CTX_VIDEO_GOUP_FLAGS else CTX_VIDEO_FLAGS
                         if (item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
                         showContext(requireActivity(), this@VideoGridFragment, position, item.getTitle(), flags)

@@ -38,7 +38,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
@@ -227,7 +227,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                 R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, list.getTracks())
                 R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list.getTracks())
                 R.id.action_mode_audio_info -> showInfoDialog(list[0])
-                R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as AbstractMediaWrapper, requireActivity())
+                R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
                 R.id.action_mode_audio_delete -> removeItems(list)
             }
         }
@@ -235,7 +235,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     private suspend fun List<MediaLibraryItem>.getTracks() = withContext(Dispatchers.Default) {
-        ArrayList<AbstractMediaWrapper>().apply {
+        ArrayList<MediaWrapper>().apply {
             for (mediaItem in this@getTracks) addAll(Arrays.asList(*mediaItem.tracks))
         }
     }
@@ -311,8 +311,8 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-            CTX_SET_RINGTONE -> AudioUtil.setRingtone(media as AbstractMediaWrapper, requireActivity())
-            CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as AbstractMediaWrapper) }
+            CTX_SET_RINGTONE -> AudioUtil.setRingtone(media as MediaWrapper, requireActivity())
+            CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as MediaWrapper) }
         }
     }
 

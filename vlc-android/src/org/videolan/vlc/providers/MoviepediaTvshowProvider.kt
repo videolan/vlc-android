@@ -26,7 +26,7 @@ package org.videolan.vlc.providers
 
 import android.content.Context
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.repository.MediaMetadataRepository
 import org.videolan.vlc.util.getFromMl
@@ -107,9 +107,9 @@ class MoviepediaTvshowProvider(private val context: Context) {
         return null
     }
 
-    suspend fun getResumeMediasById(id: String): List<AbstractMediaWrapper> {
+    suspend fun getResumeMediasById(id: String): List<MediaWrapper> {
         val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
-        val mediasToPlay = ArrayList<AbstractMediaWrapper>()
+        val mediasToPlay = ArrayList<MediaWrapper>()
         mediaMetadataRepository.getTvshow(id)?.let { tvShow ->
             val seasons = getAllSeasons(tvShow)
             return getResumeMedias(seasons)
@@ -117,8 +117,8 @@ class MoviepediaTvshowProvider(private val context: Context) {
         return mediasToPlay
     }
 
-    fun getResumeMedias(seasons: List<Season>?): List<AbstractMediaWrapper> {
-        val mediasToPlay = ArrayList<AbstractMediaWrapper>()
+    fun getResumeMedias(seasons: List<Season>?): List<MediaWrapper> {
+        val mediasToPlay = ArrayList<MediaWrapper>()
         var firstResumableFound = false
         seasons?.forEach {
             it.episodes.forEach { episode ->
@@ -149,8 +149,8 @@ class MoviepediaTvshowProvider(private val context: Context) {
         return medias
     }
 
-    fun getAllMedias(seasons: List<Season>?): List<AbstractMediaWrapper> {
-        val mediasToPlay = ArrayList<AbstractMediaWrapper>()
+    fun getAllMedias(seasons: List<Season>?): List<MediaWrapper> {
+        val mediasToPlay = ArrayList<MediaWrapper>()
         seasons?.forEach {
             it.episodes.forEach { episode ->
                 episode.media?.let { media ->

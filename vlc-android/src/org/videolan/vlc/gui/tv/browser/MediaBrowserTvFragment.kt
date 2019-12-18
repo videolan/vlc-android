@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.MediaTvItemAdapter
@@ -29,11 +29,11 @@ import java.util.*
 class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaLibraryItem>, itemSize: Int): TvItemAdapter {
         return MediaTvItemAdapter(when ((viewModel as MediaBrowserViewModel).category) {
-            CATEGORY_SONGS -> AbstractMediaWrapper.TYPE_AUDIO
-            CATEGORY_ALBUMS -> AbstractMediaWrapper.TYPE_ALBUM
-            CATEGORY_ARTISTS -> AbstractMediaWrapper.TYPE_ARTIST
-            CATEGORY_GENRES -> AbstractMediaWrapper.TYPE_GENRE
-            else -> AbstractMediaWrapper.TYPE_VIDEO
+            CATEGORY_SONGS -> MediaWrapper.TYPE_AUDIO
+            CATEGORY_ALBUMS -> MediaWrapper.TYPE_ALBUM
+            CATEGORY_ARTISTS -> MediaWrapper.TYPE_ARTIST
+            CATEGORY_GENRES -> MediaWrapper.TYPE_GENRE
+            else -> MediaWrapper.TYPE_VIDEO
         }, this, itemSize)
     }
 
@@ -103,7 +103,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         lifecycleScope.launchWhenStarted {
             if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL, true)) {
-                TvUtil.playMedia(requireActivity(), item as AbstractMediaWrapper)
+                TvUtil.playMedia(requireActivity(), item as MediaWrapper)
             } else {
                 TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>)
             }

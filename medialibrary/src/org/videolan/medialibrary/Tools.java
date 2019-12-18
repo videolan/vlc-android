@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.text.DecimalFormat;
@@ -37,7 +37,7 @@ public class Tools {
     public static boolean isArrayEmpty(@Nullable Object[] array) {
         return array == null || array.length == 0;
     }
-    public static String getProgressText(AbstractMediaWrapper media) {
+    public static String getProgressText(MediaWrapper media) {
         long lastTime = media.getTime();
         if (lastTime == 0L) return "";
         return String.format("%s / %s",
@@ -73,7 +73,7 @@ public class Tools {
         return millisToString(millis, true, true, true);
     }
 
-    public static String getResolution(AbstractMediaWrapper media) {
+    public static String getResolution(MediaWrapper media) {
         if (media.getWidth() > 0 && media.getHeight() > 0)
             return String.format(Locale.US, "%dx%d", media.getWidth(), media.getHeight());
         return "";
@@ -81,8 +81,8 @@ public class Tools {
 
     public static void setMediaDescription (MediaLibraryItem item) {
         if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-            final AbstractMediaWrapper mw = (AbstractMediaWrapper) item;
-            if (mw.getType() == AbstractMediaWrapper.TYPE_VIDEO) {
+            final MediaWrapper mw = (MediaWrapper) item;
+            if (mw.getType() == MediaWrapper.TYPE_VIDEO) {
                 final String progress = mw.getLength() == 0L ? null : mw.getTime() == 0L ? Tools.millisToString(mw.getLength()) : getProgressText(mw);
                 final String resolution = getResolution(mw);
                 boolean hasprogress = !TextUtils.isEmpty(progress), hasResolution = !TextUtils.isEmpty(resolution);
@@ -91,7 +91,7 @@ public class Tools {
                 else if (hasprogress) sb.append(progress);
                 else sb.append(resolution);
                 item.setDescription(sb.toString());
-            } else if (mw.getType() == AbstractMediaWrapper.TYPE_AUDIO) {
+            } else if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
                 final String artist = mw.getReferenceArtist(), album = mw.getAlbum();
                 final StringBuilder sb = new StringBuilder();
                 boolean hasArtist = !TextUtils.isEmpty(artist), hasAlbum = !TextUtils.isEmpty(album);

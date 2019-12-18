@@ -29,9 +29,9 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper.TYPE_ALL
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper.TYPE_VIDEO
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_ALL
+import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_VIDEO
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
@@ -73,7 +73,7 @@ inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProviders.of(t
 inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
 
 fun Media?.canExpand() = this != null && (type == IMedia.Type.Directory || type == IMedia.Type.Playlist)
-suspend fun AppCompatActivity.share(media: AbstractMediaWrapper) {
+suspend fun AppCompatActivity.share(media: MediaWrapper) {
     val intentShareFile = Intent(Intent.ACTION_SEND)
     val fileWithinMyDir = File(media.uri.path)
     val validFile = withContext(Dispatchers.IO) {
@@ -90,8 +90,8 @@ suspend fun AppCompatActivity.share(media: AbstractMediaWrapper) {
         } else Snackbar.make(findViewById(android.R.id.content), R.string.invalid_file, Snackbar.LENGTH_LONG).show()
 }
 
-fun AbstractMediaWrapper?.isMedia() = this != null && (type == AbstractMediaWrapper.TYPE_AUDIO || type == AbstractMediaWrapper.TYPE_VIDEO)
-fun AbstractMediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == AbstractMediaWrapper.TYPE_DIR || type == AbstractMediaWrapper.TYPE_PLAYLIST)
+fun MediaWrapper?.isMedia() = this != null && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO)
+fun MediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == MediaWrapper.TYPE_DIR || type == MediaWrapper.TYPE_PLAYLIST)
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
@@ -125,9 +125,9 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: AbstractMedi
 suspend fun Context.awaitMedialibraryStarted() = getFromMl { isStarted }
 
 @WorkerThread
-fun List<AbstractMediaWrapper>.updateWithMLMeta() : MutableList<AbstractMediaWrapper> {
+fun List<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
     val ml = AbstractMedialibrary.getInstance()
-    val list = mutableListOf<AbstractMediaWrapper>()
+    val list = mutableListOf<MediaWrapper>()
     for (media in this) {
         list.add(ml.findMedia(media).apply {
             if (type == TYPE_ALL) type = media.type

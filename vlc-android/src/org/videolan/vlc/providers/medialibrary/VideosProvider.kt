@@ -23,14 +23,14 @@ package org.videolan.vlc.providers.medialibrary
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class VideosProvider(val folder : AbstractFolder?, val group: AbstractVideoGroup?, context: Context, model: SortableModel) : MedialibraryProvider<AbstractMediaWrapper>(context, model){
+class VideosProvider(val folder : AbstractFolder?, val group: AbstractVideoGroup?, context: Context, model: SortableModel) : MedialibraryProvider<MediaWrapper>(context, model){
 
     override fun canSortByFileNameName() = true
     override fun canSortByDuration() = true
@@ -46,7 +46,7 @@ class VideosProvider(val folder : AbstractFolder?, val group: AbstractVideoGroup
         else -> medialibrary.getVideoCount(model.filterQuery)
     }
 
-    override fun getPage(loadSize: Int, startposition: Int): Array<AbstractMediaWrapper> {
+    override fun getPage(loadSize: Int, startposition: Int): Array<MediaWrapper> {
         val list = if (model.filterQuery == null) when {
             folder !== null -> folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
             group !== null -> group.media(sort, desc, loadSize, startposition)
@@ -59,7 +59,7 @@ class VideosProvider(val folder : AbstractFolder?, val group: AbstractVideoGroup
         return list.also { completeHeaders(it, startposition) }
     }
 
-    override fun getAll(): Array<AbstractMediaWrapper> = when {
+    override fun getAll(): Array<MediaWrapper> = when {
         folder !== null -> folder.getAll(AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc).toTypedArray()
         group !== null -> group.getAll(sort, desc).toTypedArray()
         else -> medialibrary.getVideos(sort, desc)

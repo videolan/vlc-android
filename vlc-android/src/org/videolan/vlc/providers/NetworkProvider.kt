@@ -28,7 +28,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.MediaBrowser
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.ExternalMonitor
@@ -39,7 +39,7 @@ import org.videolan.vlc.util.Settings
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(context, dataset, url, showHiddenFiles), Observer<List<AbstractMediaWrapper>> {
+class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(context, dataset, url, showHiddenFiles), Observer<List<MediaWrapper>> {
 
     private val favorites = if (url == null && !Settings.showTvUi) BrowserFavRepository.getInstance(context).networkFavorites else null
 
@@ -97,7 +97,7 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         super.release()
     }
 
-    override fun onChanged(favs: List<AbstractMediaWrapper>?) {
+    override fun onChanged(favs: List<MediaWrapper>?) {
         val data = dataset.value.toMutableList()
         data.listIterator().run {
             while (hasNext()) {
@@ -108,7 +108,7 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         dataset.value = data.apply { getFavoritesList(favs)?.let { addAll(0, it) } }
     }
 
-    private fun getFavoritesList(favs: List<AbstractMediaWrapper>?): MutableList<MediaLibraryItem>? {
+    private fun getFavoritesList(favs: List<MediaWrapper>?): MutableList<MediaLibraryItem>? {
         if (favs?.isNotEmpty() == true) {
             val list = mutableListOf<MediaLibraryItem>()
             list.add(0, DummyItem(context.getString(R.string.network_favorites)))

@@ -22,9 +22,7 @@
 
 package org.videolan.vlc.gui.browser
 
-import android.annotation.TargetApi
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.SparseBooleanArray
 import android.view.Menu
@@ -41,7 +39,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
@@ -180,7 +178,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             for (item in items) {
                 if (!isStarted()) break
                 when(item) {
-                    is AbstractMediaWrapper -> if (getWritePermission(item.uri)) deleteMedia(item)
+                    is MediaWrapper -> if (getWritePermission(item.uri)) deleteMedia(item)
                     is AbstractPlaylist -> withContext(Dispatchers.IO) { item.delete() }
                 }
             }
@@ -196,7 +194,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
                 val deleteAction = Runnable {
                     if (isStarted()) lifecycleScope.launch { deleteMedia(item, false, null) }
                 }
-                val resid = if ((item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
+                val resid = if ((item as MediaWrapper).type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
                 UiTools.snackerConfirm(view, getString(resid, item.getTitle()), Runnable { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
             }
             else -> return false
@@ -228,7 +226,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         }
     }
 
-    private fun onDeleteFailed(media: AbstractMediaWrapper) {
+    private fun onDeleteFailed(media: MediaWrapper) {
         if (isAdded) view?.let { UiTools.snacker(it, getString(R.string.msg_delete_failed, media.title)) }
     }
 

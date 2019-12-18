@@ -27,7 +27,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
@@ -39,12 +39,12 @@ import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class HistoryAdapter : DiffUtilAdapter<AbstractMediaWrapper, HistoryAdapter.ViewHolder>(),
-        MultiSelectAdapter<AbstractMediaWrapper>, IEventsSource<Click> by EventsSource() {
+class HistoryAdapter : DiffUtilAdapter<MediaWrapper, HistoryAdapter.ViewHolder>(),
+        MultiSelectAdapter<MediaWrapper>, IEventsSource<Click> by EventsSource() {
 
     val updateEvt : LiveData<Unit> = MutableLiveData()
     private lateinit var layoutInflater: LayoutInflater
-    var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper> = MultiSelectHelper(this, UPDATE_SELECTION)
+    var multiSelectHelper: MultiSelectHelper<MediaWrapper> = MultiSelectHelper(this, UPDATE_SELECTION)
 
     inner class ViewHolder(binding: HistoryItemBinding) : SelectorViewHolder<HistoryItemBinding>(binding) {
 
@@ -75,7 +75,7 @@ class HistoryAdapter : DiffUtilAdapter<AbstractMediaWrapper, HistoryAdapter.View
         val media = getItem(position)
         holder.binding.media = media
         holder.binding.cover = getMediaIconDrawable(holder.itemView.context, media.type)
-        (holder.binding.icon.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = if (media.type == AbstractMediaWrapper.TYPE_VIDEO) "16:10" else "1"
+        (holder.binding.icon.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = if (media.type == MediaWrapper.TYPE_VIDEO) "16:10" else "1"
         holder.selectView(multiSelectHelper.isSelected(position))
     }
 

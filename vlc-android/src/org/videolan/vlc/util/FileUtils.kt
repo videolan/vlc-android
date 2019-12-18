@@ -41,7 +41,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -279,7 +279,7 @@ object FileUtils {
         })
     }
 
-    fun canSave(mw: AbstractMediaWrapper?): Boolean {
+    fun canSave(mw: MediaWrapper?): Boolean {
         if (mw == null || mw.uri == null) return false
         val scheme = mw.uri.scheme
         return (TextUtils.equals(scheme, "file") || TextUtils.equals(scheme, "smb")

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -15,7 +15,7 @@ import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 
-class PathAdapter(val browser: PathAdapterListener, media: AbstractMediaWrapper) : RecyclerView.Adapter<PathAdapter.ViewHolder>() {
+class PathAdapter(val browser: PathAdapterListener, media: MediaWrapper) : RecyclerView.Adapter<PathAdapter.ViewHolder>() {
 
     private val pathOperationDelegate = browser.getPathOperationDelegate()
 

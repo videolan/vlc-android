@@ -17,8 +17,8 @@ public abstract class AbstractPlaylist extends MediaLibraryItem {
         mTracksCount = trackCount;
     }
 
-    abstract public AbstractMediaWrapper[] getTracks();
-    abstract public AbstractMediaWrapper[] getPagedTracks(int nbItems, int offset);
+    abstract public MediaWrapper[] getTracks();
+    abstract public MediaWrapper[] getPagedTracks(int nbItems, int offset);
     abstract public int getRealTracksCount();
     abstract public boolean append(long mediaId);
     abstract public boolean append(long[] mediaIds);
@@ -27,7 +27,7 @@ public abstract class AbstractPlaylist extends MediaLibraryItem {
     abstract public boolean move(int oldPosition, int newPosition);
     abstract public boolean remove(int position);
     abstract public boolean delete();
-    abstract public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
 
     @Override

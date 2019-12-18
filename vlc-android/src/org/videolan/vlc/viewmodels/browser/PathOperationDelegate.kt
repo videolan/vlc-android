@@ -3,7 +3,7 @@ package org.videolan.vlc.viewmodels.browser
 import android.net.Uri
 import android.util.Base64
 import androidx.collection.SimpleArrayMap
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 
 interface IPathOperationDelegate {
 
@@ -12,16 +12,16 @@ interface IPathOperationDelegate {
     fun replaceStoragePath(path: String): String
     fun makePathSafe(path: String): String
     fun retrieveSafePath(encoded: String): String
-    fun setDestination(media: AbstractMediaWrapper?)
-    fun getAndRemoveDestination(): AbstractMediaWrapper?
+    fun setDestination(media: MediaWrapper?)
+    fun getAndRemoveDestination(): MediaWrapper?
 }
 
 class PathOperationDelegate : IPathOperationDelegate {
-    override fun setDestination(media: AbstractMediaWrapper?) {
+    override fun setDestination(media: MediaWrapper?) {
         privateDestination = media
     }
 
-    override fun getAndRemoveDestination(): AbstractMediaWrapper? {
+    override fun getAndRemoveDestination(): MediaWrapper? {
         val destination = privateDestination
         privateDestination = null
         return destination
@@ -29,7 +29,7 @@ class PathOperationDelegate : IPathOperationDelegate {
 
     companion object {
         val storages = SimpleArrayMap<String, String>()
-        private var privateDestination: AbstractMediaWrapper? = null
+        private var privateDestination: MediaWrapper? = null
     }
 
 

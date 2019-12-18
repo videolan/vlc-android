@@ -51,7 +51,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.yield
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -226,7 +226,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
     override fun refresh() = (viewModel as RefreshModel).refresh()
 
     override fun onLongClick(v: View, position: Int, item: T): Boolean {
-        if (item is AbstractMediaWrapper) {
+        if (item is MediaWrapper) {
             TvUtil.showMediaDetail(requireActivity(), item)
         }
         return true

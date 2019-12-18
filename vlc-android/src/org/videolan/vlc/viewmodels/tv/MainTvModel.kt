@@ -31,7 +31,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.ExternalMonitor
@@ -65,7 +65,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
     private val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
-    private var updatedFavoritList: List<AbstractMediaWrapper> = listOf()
+    private var updatedFavoritList: List<MediaWrapper> = listOf()
     var showHistory = false
         private set
     // LiveData
@@ -74,7 +74,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
     val videos: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val audioCategories: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val history: LiveData<List<AbstractMediaWrapper>> = MutableLiveData()
+    val history: LiveData<List<MediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val recentlyPlayed: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
     val recentlyAdded: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
@@ -247,8 +247,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
 
     fun open(activity: FragmentActivity, item: Any?) {
         when (item) {
-            is AbstractMediaWrapper -> when {
-                item.type == AbstractMediaWrapper.TYPE_DIR -> {
+            is MediaWrapper -> when {
+                item.type == MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.putExtra(FAVORITE_TITLE, item.title)
@@ -258,7 +258,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
                 }
                 else -> {
                     MediaUtils.openMedia(activity, item)
-                    if (item.type == AbstractMediaWrapper.TYPE_AUDIO) {
+                    if (item.type == MediaWrapper.TYPE_AUDIO) {
                         activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
                     }
                 }

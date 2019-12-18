@@ -42,7 +42,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -244,7 +244,7 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
             if (list != null) {
                 MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
                 for (MediaLibraryItem libraryItem : list) {
-                    if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((AbstractMediaWrapper) libraryItem).getType() != AbstractMediaWrapper.TYPE_AUDIO)
+                    if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) libraryItem).getType() != MediaWrapper.TYPE_AUDIO)
                         continue;
                     Bitmap cover = AudioUtil.INSTANCE.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
                     if (cover == null)
@@ -253,8 +253,8 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                             .setMediaId(generateMediaId(libraryItem));
                     item.setIconBitmap(cover);
                     if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-                        item.setMediaUri(((AbstractMediaWrapper) libraryItem).getUri())
-                                .setSubtitle(MediaUtils.INSTANCE.getMediaSubtitle((AbstractMediaWrapper) libraryItem));
+                        item.setMediaUri(((MediaWrapper) libraryItem).getUri())
+                                .setSubtitle(MediaUtils.INSTANCE.getMediaSubtitle((MediaWrapper) libraryItem));
                     } else item.setSubtitle(libraryItem.getDescription());
                     boolean playable = libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA ||
                             libraryItem.getItemType() == MediaLibraryItem.TYPE_ALBUM ||

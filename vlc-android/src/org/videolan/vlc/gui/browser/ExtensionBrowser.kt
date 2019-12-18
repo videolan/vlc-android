@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.Utils
@@ -154,14 +154,14 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
         when (option) {
             CTX_PLAY_ALL -> {
                 val items = mAdapter.all
-                val medias = ArrayList<AbstractMediaWrapper>(items.size)
+                val medias = ArrayList<MediaWrapper>(items.size)
                 for (vlcItem in items) medias.add(Utils.mediawrapperFromExtension(vlcItem))
                 MediaUtils.openList(activity, medias, position)
             }
             CTX_APPEND -> MediaUtils.appendMedia(activity, Utils.mediawrapperFromExtension(mAdapter.getItem(position)))
             CTX_PLAY_AS_AUDIO -> {
                 val mw = Utils.mediawrapperFromExtension(mAdapter.getItem(position))
-                mw.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+                mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 MediaUtils.openMedia(activity, mw)
             }
             CTX_ITEM_DL -> {

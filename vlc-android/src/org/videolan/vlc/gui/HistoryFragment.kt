@@ -19,8 +19,6 @@
  */
 package org.videolan.vlc.gui
 
-import android.annotation.TargetApi
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
@@ -29,21 +27,18 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.history_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.onEach
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
-import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.helpers.*
-import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IHistory
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
@@ -58,7 +53,7 @@ private const val TAG = "VLC/HistoryFragment"
 class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var cleanMenuItem: MenuItem
-    private lateinit var multiSelectHelper: MultiSelectHelper<AbstractMediaWrapper>
+    private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -68,7 +63,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(viewLifecycleOwner, Observer<List<AbstractMediaWrapper>> { list ->
+        viewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaWrapper>> { list ->
             list?.let {
                 historyAdapter.update(it)
                 updateEmptyView()
@@ -213,7 +208,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         }
     }
 
-    fun onClick(position: Int, item: AbstractMediaWrapper) {
+    fun onClick(position: Int, item: MediaWrapper) {
         if (KeyHelper.isShiftPressed && actionMode == null) {
             onLongClick(position, item)
             return
@@ -228,7 +223,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         MediaUtils.openMedia(requireContext(), item)
     }
 
-    fun onLongClick(position: Int, item: AbstractMediaWrapper) {
+    fun onLongClick(position: Int, item: MediaWrapper) {
         multiSelectHelper.toggleSelection(position, true)
         historyAdapter.notifyItemChanged(position, item)
         if (actionMode == null) startActionMode()

@@ -32,7 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.database.models.*
 import org.videolan.vlc.moviepedia.models.identify.*
@@ -52,7 +52,7 @@ object MoviepediaIndexer : CoroutineScope by MainScope() {
 
             val filesToIndex = HashMap<Long, Uri>()
             medias.forEach {
-                if (it.getMetaLong(AbstractMediaWrapper.META_METADATA_RETRIEVED) != 1L)
+                if (it.getMetaLong(MediaWrapper.META_METADATA_RETRIEVED) != 1L)
                     filesToIndex[it.id] = it.uri
             }
             if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Retrieving infos for ${filesToIndex.size} files")
@@ -66,7 +66,7 @@ object MoviepediaIndexer : CoroutineScope by MainScope() {
                 return@launch
             }
             medias.forEach { media ->
-                media?.setLongMeta(AbstractMediaWrapper.META_METADATA_RETRIEVED, 1L)
+                media?.setLongMeta(MediaWrapper.META_METADATA_RETRIEVED, 1L)
             }
             results.forEach { result ->
                 result.lucky?.let {
@@ -90,7 +90,7 @@ object MoviepediaIndexer : CoroutineScope by MainScope() {
         PersonRepository.getInstance(context).deleteAll(personsToRemove)
     }
 
-    suspend fun saveMediaMetadata(context: Context, media: AbstractMediaWrapper?, item: Media, retrieveCast: Boolean = true, removePersonOrphans: Boolean = true) {
+    suspend fun saveMediaMetadata(context: Context, media: MediaWrapper?, item: Media, retrieveCast: Boolean = true, removePersonOrphans: Boolean = true) {
         val repo = MoviepediaApiRepository.getInstance()
         val type = when (item.mediaType) {
             MediaType.TV_EPISODE -> MediaMetadataType.TV_EPISODE

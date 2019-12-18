@@ -20,11 +20,11 @@ public abstract class AbstractFolder extends MediaLibraryItem {
         mMrl = mrl;
     }
 
-    abstract public AbstractMediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset);
     abstract public int mediaCount(int type);
     abstract public AbstractFolder[] subfolders(int sort, boolean desc, int nbItems, int offset);
     abstract public int subfoldersCount(int type);
-    abstract public AbstractMediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query, int mediaType);
 
     public String getDisplayTitle() {
@@ -32,8 +32,8 @@ public abstract class AbstractFolder extends MediaLibraryItem {
     }
 
     @Override
-    public AbstractMediaWrapper[] getTracks() {
-        return new AbstractMediaWrapper[0];
+    public MediaWrapper[] getTracks() {
+        return new MediaWrapper[0];
     }
 
     @Override

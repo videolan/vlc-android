@@ -17,7 +17,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.DiffUtilAdapter
 import kotlin.math.min
@@ -32,7 +32,7 @@ fun withMediaType(mediaType: Int): DiffAdapterMatcher<MediaLibraryItem> {
         }
 
         override fun matchesSafely(item: MediaLibraryItem?): Boolean {
-            return (item as? AbstractMediaWrapper)?.type == mediaType
+            return (item as? MediaWrapper)?.type == mediaType
         }
     }
 }

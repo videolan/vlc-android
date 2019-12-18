@@ -40,7 +40,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -60,8 +60,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var emptyView: TextView
     private lateinit var saveButton: Button
     private lateinit var adapter: SimpleAdapter
-    private lateinit var tracks: Array<AbstractMediaWrapper>
-    private lateinit var newTrack: Array<AbstractMediaWrapper>
+    private lateinit var tracks: Array<MediaWrapper>
+    private lateinit var newTrack: Array<MediaWrapper>
     private lateinit var medialibrary: AbstractMedialibrary
     private var currentPLaylist: AbstractPlaylist? = null
 
@@ -80,13 +80,13 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         adapter = SimpleAdapter(this)
         tracks = try {
             @Suppress("UNCHECKED_CAST")
-            arguments!!.getParcelableArray(KEY_TRACKS) as Array<AbstractMediaWrapper>
+            arguments!!.getParcelableArray(KEY_TRACKS) as Array<MediaWrapper>
         } catch (e: Exception) {
             emptyArray()
         }
         newTrack = try {
             @Suppress("UNCHECKED_CAST")
-            arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<AbstractMediaWrapper>
+            arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<MediaWrapper>
         } catch (e: Exception) {
             emptyArray()
         }
@@ -137,7 +137,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
             } else {
                 medialibrary.getPlaylistByName(name) ?: medialibrary.createPlaylist(name) ?: return@withContext
             }
-            val playlistTracks: Array<AbstractMediaWrapper>?
+            val playlistTracks: Array<MediaWrapper>?
             playlistTracks = if (addTracks) {
                 newTrack
             } else {//Save a playlist

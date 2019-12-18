@@ -29,7 +29,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
@@ -125,14 +125,14 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Abs
         MediaUtils.appendMedia(context, list)
     }
 
-    internal fun playVideo(context: Activity?, mw: AbstractMediaWrapper, position: Int, fromStart: Boolean = false) {
+    internal fun playVideo(context: Activity?, mw: MediaWrapper, position: Int, fromStart: Boolean = false) {
         if (context === null) return
-        mw.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+        mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         val settings = Settings.getInstance(context)
         if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
             MediaUtils.playAll(context, provider as VideosProvider, position, false)
         } else {
-            if (fromStart) mw.addFlags(AbstractMediaWrapper.MEDIA_FROM_START)
+            if (fromStart) mw.addFlags(MediaWrapper.MEDIA_FROM_START)
             MediaUtils.openMedia(context, mw)
         }
     }
@@ -145,9 +145,9 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Abs
         }
     }
 
-    internal fun playAudio(activity: FragmentActivity?, media: AbstractMediaWrapper) {
+    internal fun playAudio(activity: FragmentActivity?, media: MediaWrapper) {
         if (activity == null) return
-        media.addFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
+        media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         MediaUtils.openMedia(activity, media)
     }
 }

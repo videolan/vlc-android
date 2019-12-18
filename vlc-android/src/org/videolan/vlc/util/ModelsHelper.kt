@@ -8,7 +8,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary.*
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -81,7 +81,7 @@ object ModelsHelper {
                 var currentArtist: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val artist = (item as AbstractMediaWrapper).artist ?: ""
+                    val artist = (item as MediaWrapper).artist ?: ""
                     if (currentArtist === null || !TextUtils.equals(currentArtist, artist)) {
                         currentArtist = artist
                         if (array[currentArtist].isNullOrEmpty()) array[currentArtist] = mutableListOf()
@@ -93,7 +93,7 @@ object ModelsHelper {
                 var currentAlbum: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val album = (item as AbstractMediaWrapper).album ?: ""
+                    val album = (item as MediaWrapper).album ?: ""
                     if (currentAlbum === null || !TextUtils.equals(currentAlbum, album)) {
                         currentAlbum = album
                         if (array[currentAlbum].isNullOrEmpty()) array[currentAlbum] = mutableListOf()
@@ -111,7 +111,7 @@ object ModelsHelper {
         return if (title.isEmpty() || !Character.isLetter(title[0]) || isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
     }
 
-    private fun MediaLibraryItem.getDiscNumber(): String? = if (this is AbstractMediaWrapper && this.discNumber != 0) "Disc ${this.discNumber}" else null
+    private fun MediaLibraryItem.getDiscNumber(): String? = if (this is MediaWrapper && this.discNumber != 0) "Disc ${this.discNumber}" else null
 
     fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?, forceByDiscs: Boolean = false) = if (context !== null && item != null) if (forceByDiscs) {
         val disc = item.getDiscNumber()
@@ -149,27 +149,27 @@ object ModelsHelper {
             }
         }
         SORT_LASTMODIFICATIONDATE -> {
-            val timestamp = (item as AbstractMediaWrapper).lastModified
+            val timestamp = (item as MediaWrapper).lastModified
             val category = getTimeCategory(timestamp)
             if (aboveItem == null) getTimeCategoryString(context, category)
             else {
-                val prevCat = getTimeCategory((aboveItem as AbstractMediaWrapper).lastModified)
+                val prevCat = getTimeCategory((aboveItem as MediaWrapper).lastModified)
                 if (prevCat != category) getTimeCategoryString(context, category) else null
             }
         }
         SORT_ARTIST -> {
-            val artist = (item as AbstractMediaWrapper).artist ?: ""
+            val artist = (item as MediaWrapper).artist ?: ""
             if (aboveItem == null) artist
             else {
-                val previous = (aboveItem as AbstractMediaWrapper).artist ?: ""
+                val previous = (aboveItem as MediaWrapper).artist ?: ""
                 artist.takeIf { it != previous }
             }
         }
         SORT_ALBUM -> {
-            val album = (item as AbstractMediaWrapper).album ?: ""
+            val album = (item as MediaWrapper).album ?: ""
             if (aboveItem == null) album
             else {
-                val previous = (aboveItem as AbstractMediaWrapper).album ?: ""
+                val previous = (aboveItem as MediaWrapper).album ?: ""
                 album.takeIf { it != previous }
             }
         }
@@ -205,27 +205,27 @@ object ModelsHelper {
             }
         }
 //        SORT_LASTMODIFICATIONDATE -> {
-//            val timestamp = (item as AbstractMediaWrapper).lastModified
+//            val timestamp = (item as MediaWrapper).lastModified
 //            val category = getTimeCategory(timestamp)
 //            if (aboveItem == null) getTimeCategoryString(context, category)
 //            else {
-//                val prevCat = getTimeCategory((aboveItem as AbstractMediaWrapper).lastModified)
+//                val prevCat = getTimeCategory((aboveItem as MediaWrapper).lastModified)
 //                if (prevCat != category) getTimeCategoryString(context, category) else null
 //            }
 //        }
 //        SORT_ARTIST -> {
-//            val artist = (item as AbstractMediaWrapper).artist ?: ""
+//            val artist = (item as MediaWrapper).artist ?: ""
 //            if (aboveItem == null) artist
 //            else {
-//                val previous = (aboveItem as AbstractMediaWrapper).artist ?: ""
+//                val previous = (aboveItem as MediaWrapper).artist ?: ""
 //                artist.takeIf { it != previous }
 //            }
 //        }
 //        SORT_ALBUM -> {
-//            val album = (item as AbstractMediaWrapper).album ?: ""
+//            val album = (item as MediaWrapper).album ?: ""
 //            if (aboveItem == null) album
 //            else {
-//                val previous = (aboveItem as AbstractMediaWrapper).album ?: ""
+//                val previous = (aboveItem as MediaWrapper).album ?: ""
 //                album.takeIf { it != previous }
 //            }
 //        }
@@ -257,13 +257,13 @@ object ModelsHelper {
 
     private fun MediaLibraryItem.getLength() = when {
         itemType == MediaLibraryItem.TYPE_ALBUM -> (this as AbstractAlbum).duration
-        itemType == MediaLibraryItem.TYPE_MEDIA -> (this as AbstractMediaWrapper).length
+        itemType == MediaLibraryItem.TYPE_MEDIA -> (this as MediaWrapper).length
         else -> 0L
     }
 
     private fun MediaLibraryItem.getYear() = when (itemType) {
         MediaLibraryItem.TYPE_ALBUM -> if ((this as AbstractAlbum).releaseYear <= 0) "-" else releaseYear.toString()
-        MediaLibraryItem.TYPE_MEDIA -> if ((this as AbstractMediaWrapper).releaseYear <= 0) "-" else releaseYear.toString()
+        MediaLibraryItem.TYPE_MEDIA -> if ((this as MediaWrapper).releaseYear <= 0) "-" else releaseYear.toString()
         else -> "-"
     }
 

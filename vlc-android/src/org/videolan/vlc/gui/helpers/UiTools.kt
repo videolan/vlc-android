@@ -66,7 +66,7 @@ import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -320,15 +320,15 @@ object UiTools {
         }
     }
 
-    fun savePlaylist(activity: FragmentActivity, list: List<AbstractMediaWrapper>) {
+    fun savePlaylist(activity: FragmentActivity, list: List<MediaWrapper>) {
         addToPlaylist(activity, list.toTypedArray(), SavePlaylistDialog.KEY_TRACKS)
     }
 
-    fun addToPlaylist(activity: FragmentActivity, list: List<AbstractMediaWrapper>) {
+    fun addToPlaylist(activity: FragmentActivity, list: List<MediaWrapper>) {
         addToPlaylist(activity, list.toTypedArray(), SavePlaylistDialog.KEY_NEW_TRACKS)
     }
 
-    fun addToPlaylist(activity: FragmentActivity, tracks: Array<AbstractMediaWrapper>, key: String) {
+    fun addToPlaylist(activity: FragmentActivity, tracks: Array<MediaWrapper>, key: String) {
         if (!activity.isStarted()) return
         val savePlaylistDialog = SavePlaylistDialog()
         val args = Bundle()
@@ -343,7 +343,7 @@ object UiTools {
             MediaLibraryItem.TYPE_ARTIST -> getDefaultArtistDrawable(context)
             MediaLibraryItem.TYPE_ALBUM -> getDefaultAlbumDrawable(context)
             MediaLibraryItem.TYPE_MEDIA -> {
-                if ((item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_VIDEO) getDefaultVideoDrawable(context) else getDefaultAudioDrawable(context)
+                if ((item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO) getDefaultVideoDrawable(context) else getDefaultAudioDrawable(context)
             }
             else -> getDefaultAudioDrawable(context)
         }
@@ -492,7 +492,7 @@ object UiTools {
                                 val uri = Uri.parse(item.text.toString())
                                 val media = MLServiceLocator.getAbstractMediaWrapper(uri)
                                 if ("file" != uri.scheme)
-                                    media.type = AbstractMediaWrapper.TYPE_STREAM
+                                    media.type = MediaWrapper.TYPE_STREAM
                                 MediaUtils.openMedia(activity, media)
                             }
                             return@OnDragListener true

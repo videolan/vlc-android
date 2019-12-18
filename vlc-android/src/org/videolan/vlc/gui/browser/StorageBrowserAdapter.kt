@@ -29,7 +29,7 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.MediaParsingService
@@ -53,7 +53,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
         val vh = holder as MediaViewHolder
         vh.job = launch {
             var storage = getItem(position)
-            if (storage.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as AbstractMediaWrapper).uri)
+            if (storage.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
             var storagePath = (storage as Storage).uri.path ?: ""
             if (!storagePath.endsWith("/")) storagePath += "/"
             vh.binding.item = storage

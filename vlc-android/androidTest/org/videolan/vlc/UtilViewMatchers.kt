@@ -24,7 +24,7 @@ import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.gui.browser.BaseBrowserAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
@@ -107,7 +107,7 @@ class MediaRecyclerViewMatcher<VH : SelectorViewHolder<out ViewDataBinding>>(@Id
             override fun matchesSafely(view: View): Boolean {
                 if (!fillMatchesIfRequired(mapVH, view.rootView) { vh ->
                             if (vh is BaseBrowserAdapter.MediaViewHolder) {
-                                val item = (vh as BaseBrowserAdapter.MediaViewHolder).binding.item as? AbstractMediaWrapper
+                                val item = (vh as BaseBrowserAdapter.MediaViewHolder).binding.item as? MediaWrapper
                                 item?.type == mediaType
                             } else false
                         }) return false

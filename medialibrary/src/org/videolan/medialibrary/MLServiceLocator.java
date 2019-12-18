@@ -10,14 +10,14 @@ import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.Genre;
-import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaWrapperImpl;
 import org.videolan.medialibrary.media.Playlist;
 import org.videolan.medialibrary.media.VideoGroup;
 import org.videolan.medialibrary.stubs.StubAlbum;
@@ -55,16 +55,16 @@ public class MLServiceLocator {
         return instance;
     }
 
-    // AbstractMediaWrapper
-    public static AbstractMediaWrapper getAbstractMediaWrapper(long id, String mrl, long time, long length,
-                                                               int type, String title, String filename,
-                                                               String artist, String genre, String album,
-                                                               String albumArtist, int width, int height,
-                                                               String artworkURL, int audio, int spu,
-                                                               int trackNumber, int discNumber, long lastModified,
-                                                               long seen, boolean isThumbnailGenerated, int releaseDate) {
+    // MediaWrapper
+    public static MediaWrapper getAbstractMediaWrapper(long id, String mrl, long time, long length,
+                                                       int type, String title, String filename,
+                                                       String artist, String genre, String album,
+                                                       String albumArtist, int width, int height,
+                                                       String artworkURL, int audio, int spu,
+                                                       int trackNumber, int discNumber, long lastModified,
+                                                       long seen, boolean isThumbnailGenerated, int releaseDate) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new MediaWrapper(id, mrl, time, length, type, title,
+            return new MediaWrapperImpl(id, mrl, time, length, type, title,
                     filename, artist, genre, album, albumArtist, width, height, artworkURL,
                     audio, spu, trackNumber, discNumber, lastModified, seen, isThumbnailGenerated, releaseDate);
         } else {
@@ -74,14 +74,14 @@ public class MLServiceLocator {
         }
     }
 
-    public static AbstractMediaWrapper getAbstractMediaWrapper(Uri uri, long time, long length, int type,
-                                                               Bitmap picture, String title, String artist,
-                                                               String genre, String album, String albumArtist,
-                                                               int width, int height, String artworkURL,
-                                                               int audio, int spu, int trackNumber,
-                                                               int discNumber, long lastModified, long seen) {
+    public static MediaWrapper getAbstractMediaWrapper(Uri uri, long time, long length, int type,
+                                                       Bitmap picture, String title, String artist,
+                                                       String genre, String album, String albumArtist,
+                                                       int width, int height, String artworkURL,
+                                                       int audio, int spu, int trackNumber,
+                                                       int discNumber, long lastModified, long seen) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new MediaWrapper(uri, time, length, type, picture, title, artist, genre,
+            return new MediaWrapperImpl(uri, time, length, type, picture, title, artist, genre,
                     album, albumArtist, width, height, artworkURL, audio, spu, trackNumber,
                     discNumber, lastModified, seen);
         } else {
@@ -91,25 +91,25 @@ public class MLServiceLocator {
         }
     }
 
-    public static AbstractMediaWrapper getAbstractMediaWrapper(Uri uri) {
+    public static MediaWrapper getAbstractMediaWrapper(Uri uri) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new MediaWrapper(uri);
+            return new MediaWrapperImpl(uri);
         } else {
             return new StubMediaWrapper(uri);
         }
     }
 
-    public static AbstractMediaWrapper getAbstractMediaWrapper(IMedia media) {
+    public static MediaWrapper getAbstractMediaWrapper(IMedia media) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new MediaWrapper(media);
+            return new MediaWrapperImpl(media);
         } else {
             return new StubMediaWrapper(media);
         }
     }
 
-    public static AbstractMediaWrapper getAbstractMediaWrapper(Parcel in) {
+    public static MediaWrapper getAbstractMediaWrapper(Parcel in) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new MediaWrapper(in);
+            return new MediaWrapperImpl(in);
         } else {
             return new StubMediaWrapper(in);
         }

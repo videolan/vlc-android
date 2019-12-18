@@ -36,11 +36,11 @@ abstract public class AbstractArtist extends MediaLibraryItem {
     abstract public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
     abstract public AbstractAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchAlbumsCount(String query);
-    abstract public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
     abstract public int getAlbumsCount();
-    abstract public AbstractMediaWrapper[] getTracks(int sort, boolean desc);
-    abstract public AbstractMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] getTracks(int sort, boolean desc);
+    abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
     abstract public int getTracksCount();
 
     public String getShortBio() {
@@ -69,7 +69,7 @@ abstract public class AbstractArtist extends MediaLibraryItem {
     }
 
     @Override
-    public AbstractMediaWrapper[] getTracks() {
+    public MediaWrapper[] getTracks() {
         return getTracks(AbstractMedialibrary.SORT_ALBUM, true);
     }
 

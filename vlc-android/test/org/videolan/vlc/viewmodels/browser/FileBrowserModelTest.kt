@@ -17,7 +17,7 @@ import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.stubs.StubMedia
 import org.videolan.libvlc.util.MediaBrowser
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.database.BrowserFavDao
@@ -104,7 +104,7 @@ class FileBrowserModelTest : BaseTest() {
         // TODO Has to wait for browserChannel queue
         Thread.sleep(1000)
 
-        assertTrue(browserModel.isFolderEmpty(internalStorage as AbstractMediaWrapper))
+        assertTrue(browserModel.isFolderEmpty(internalStorage as MediaWrapper))
     }
 
     @Test
@@ -120,7 +120,7 @@ class FileBrowserModelTest : BaseTest() {
         fillFilesInDataset(temporaryFolder.root)
         Thread.sleep(1000)
 
-        assertFalse(browserModel.isFolderEmpty(internalStorage as AbstractMediaWrapper))
+        assertFalse(browserModel.isFolderEmpty(internalStorage as MediaWrapper))
     }
 
     @Test
@@ -135,7 +135,7 @@ class FileBrowserModelTest : BaseTest() {
         fillFilesInDataset(temporaryFolder.root)
         Thread.sleep(1000)
 
-        browserModel.saveList(internalStorage as AbstractMediaWrapper)
+        browserModel.saveList(internalStorage as MediaWrapper)
 
         initBrowserModel(internalStorage.uri.toString(), false)
 

@@ -50,7 +50,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity
 
@@ -65,7 +65,7 @@ class MoviepediaTvActivity : BaseTvActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tv_next)
 
-        fragment = MoviepediaTvFragment().apply { arguments = Bundle().apply { putParcelable(MEDIA, intent.getParcelableExtra<AbstractMediaWrapper>(MEDIA)) } }
+        fragment = MoviepediaTvFragment().apply { arguments = Bundle().apply { putParcelable(MEDIA, intent.getParcelableExtra<MediaWrapper>(MEDIA)) } }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_placeholder, fragment)
                 .commit()

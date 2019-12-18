@@ -24,10 +24,10 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.util.CoroutineContextProvider
 
-class HistoryModel(context: Context, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<AbstractMediaWrapper>(context, coroutineContextProvider) {
+class HistoryModel(context: Context, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<MediaWrapper>(context, coroutineContextProvider) {
 
     override fun canSortByName() = false
 
@@ -35,7 +35,7 @@ class HistoryModel(context: Context, coroutineContextProvider: CoroutineContextP
         dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastMediaPlayed().toMutableList() }
     }
 
-    fun moveUp(media: AbstractMediaWrapper) {
+    fun moveUp(media: MediaWrapper) {
         dataset.value = dataset.value.apply {
             remove(media)
             add(0, media)

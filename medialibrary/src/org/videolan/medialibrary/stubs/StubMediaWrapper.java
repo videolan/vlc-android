@@ -5,14 +5,13 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.util.SparseArray;
 
-import org.videolan.libvlc.Media;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.libvlc.interfaces.IMedia;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
-public class StubMediaWrapper extends AbstractMediaWrapper {
+public class StubMediaWrapper extends MediaWrapper {
     public StubMediaWrapper(long id, String mrl, long time, long length, int type, String title,
                         String filename, String artist, String genre, String album, String albumArtist,
                         int width, int height, String artworkURL, int audio, int spu, int trackNumber,

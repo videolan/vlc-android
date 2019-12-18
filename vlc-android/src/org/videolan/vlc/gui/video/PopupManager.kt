@@ -36,11 +36,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.view.GestureDetectorCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IVLCVout
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.PopupLayout
@@ -222,7 +221,7 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
     private fun expandToVideoPlayer() {
         removePopup()
         if (mService.hasMedia() && !mService.isPlaying)
-            mService.currentMediaWrapper!!.flags = AbstractMediaWrapper.MEDIA_PAUSED
+            mService.currentMediaWrapper!!.flags = MediaWrapper.MEDIA_PAUSED
         mService.switchToVideo()
     }
 

@@ -5,7 +5,7 @@ import android.os.Parcel;
 import androidx.annotation.WorkerThread;
 
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 
 
@@ -21,14 +21,14 @@ public class VideoGroup extends AbstractVideoGroup {
 
     @Override
     @WorkerThread
-    public AbstractMediaWrapper[] media(int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] media(int sort, boolean desc, int nbItems, int offset) {
         final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         return ml.isInitiated() ? nativeMedia(ml, mTitle, sort, desc, nbItems, offset) : AbstractMedialibrary.EMPTY_COLLECTION;
     }
 
     @Override
     @WorkerThread
-    public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
         final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         return ml.isInitiated() ? nativeSearch(ml, mTitle, query, sort, desc, nbItems, offset) : AbstractMedialibrary.EMPTY_COLLECTION;
     }
@@ -40,7 +40,7 @@ public class VideoGroup extends AbstractVideoGroup {
         return ml.isInitiated() ? nativeGetSearchCount(ml, mTitle, query) : 0;
     }
 
-    private native AbstractMediaWrapper[] nativeMedia(AbstractMedialibrary ml, String name, int sort, boolean desc, int nbItems, int offset);
-    private native AbstractMediaWrapper[] nativeSearch(AbstractMedialibrary ml, String name, String query, int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeMedia(AbstractMedialibrary ml, String name, int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeSearch(AbstractMedialibrary ml, String name, String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetSearchCount(AbstractMedialibrary ml, String name, String query);
 }

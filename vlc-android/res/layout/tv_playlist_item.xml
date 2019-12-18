@@ -9,7 +9,7 @@
             type="int" />
         <variable
             name="media"
-            type="org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper" />
+            type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

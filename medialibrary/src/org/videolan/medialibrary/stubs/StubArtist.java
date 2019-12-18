@@ -1,12 +1,11 @@
 package org.videolan.medialibrary.stubs;
 
 import android.os.Parcel;
-import android.util.Log;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +24,7 @@ public class StubArtist extends AbstractArtist {
 
     private ArrayList<String> getAlbumNames() {
         ArrayList<String> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : getTracks()) {
+        for (MediaWrapper media : getTracks()) {
             if (!results.contains(media.getAlbum())) {
                 results.add(media.getAlbum());
             }
@@ -82,7 +81,7 @@ public class StubArtist extends AbstractArtist {
 
     public int searchTracksCount(String query) {
         int count = 0;
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getArtist().equals(this.getTitle()) &&
                     media.getAlbumArtist().equals(this.getTitle()) &&
                     Tools.hasSubString(media.getTitle(), query)) {
@@ -92,9 +91,9 @@ public class StubArtist extends AbstractArtist {
         return count;
     }
 
-    public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getArtist().equals(this.getTitle()) &&
                     media.getAlbumArtist().equals(this.getTitle()) &&
                     Tools.hasSubString(media.getTitle(), query)) {
@@ -104,9 +103,9 @@ public class StubArtist extends AbstractArtist {
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
-    public AbstractMediaWrapper[] getTracks(int sort, boolean desc) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+    public MediaWrapper[] getTracks(int sort, boolean desc) {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getArtist().equals(this.getTitle()) ||
                     media.getAlbumArtist().equals(this.getTitle())) {
                 results.add(media);
@@ -115,9 +114,9 @@ public class StubArtist extends AbstractArtist {
         return dt.sortMedia(results, sort, desc);
     }
 
-    public AbstractMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+    public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getArtist().equals(this.getTitle()) ||
                     media.getAlbumArtist().equals(this.getTitle())) {
                 results.add(media);
@@ -128,7 +127,7 @@ public class StubArtist extends AbstractArtist {
 
     public int getTracksCount() {
         int count = 0;
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getArtist().equals(this.getTitle()) &&
                     media.getAlbumArtist().equals(this.getTitle())) {
                 count++;

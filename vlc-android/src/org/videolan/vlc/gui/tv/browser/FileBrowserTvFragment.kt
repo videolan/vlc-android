@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.PathAdapter
@@ -68,7 +68,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         else arguments?.getParcelable(ITEM) as? MediaLibraryItem
 
         isRootLevel = arguments?.getBoolean("rootLevel") ?: false
-        (item as? AbstractMediaWrapper)?.run { mrl = location }
+        (item as? MediaWrapper)?.run { mrl = location }
         viewModel = ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), mrl, false)).get(NetworkModel::class.java)
 
         viewModel.currentItem = item
@@ -118,10 +118,10 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
     override fun onStart() {
         super.onStart()
-        (viewModel.currentItem as? AbstractMediaWrapper).setBreadcrumb()
+        (viewModel.currentItem as? MediaWrapper).setBreadcrumb()
     }
 
-    private fun AbstractMediaWrapper?.setBreadcrumb() {
+    private fun MediaWrapper?.setBreadcrumb() {
         if (this == null) return
         val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane)
                 ?: return
@@ -185,7 +185,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
             favExists = withContext(Dispatchers.IO) {
-                (item as? AbstractMediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) }
+                (item as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) }
                         ?: false
             }
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
@@ -194,7 +194,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         val favoriteClickListener: (View) -> Unit = {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    val mw = (item as AbstractMediaWrapper)
+                    val mw = (item as MediaWrapper)
                     when {
                         browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
                         mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
@@ -234,14 +234,14 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun getCategory() = arguments?.getLong(CATEGORY, TYPE_FILE) ?: TYPE_FILE
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        val mediaWrapper = item as AbstractMediaWrapper
+        val mediaWrapper = item as MediaWrapper
 
-        mediaWrapper.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
-        if (mediaWrapper.type == AbstractMediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
+        mediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+        if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
         else TvUtil.openMedia(requireActivity(), item, viewModel as BrowserModel)
     }
 
-    fun browse(media: AbstractMediaWrapper, save: Boolean) {
+    fun browse(media: MediaWrapper, save: Boolean) {
         val ctx = activity
         if (ctx == null || !isResumed || isRemoving) return
         val ft = ctx.supportFragmentManager.beginTransaction()

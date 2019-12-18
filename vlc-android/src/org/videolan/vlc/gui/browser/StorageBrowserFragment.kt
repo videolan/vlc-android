@@ -47,7 +47,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.MediaParsingService
@@ -136,7 +136,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         return super.onOptionsItemSelected(item)
     }
 
-    fun browse(media: AbstractMediaWrapper, position: Int, scanned: Boolean) {
+    fun browse(media: MediaWrapper, position: Int, scanned: Boolean) {
         val ft = activity?.supportFragmentManager?.beginTransaction()
         val next = createFragment()
         val args = Bundle()
@@ -169,7 +169,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         val mw = (item as? Storage)?.let { MLServiceLocator.getAbstractMediaWrapper(it.uri) } ?: return
-        mw.type = AbstractMediaWrapper.TYPE_DIR
+        mw.type = MediaWrapper.TYPE_DIR
         browse(mw, position, (DataBindingUtil.findBinding<BrowserItemBinding>(v))?.browserCheckbox?.state == ThreeStatesCheckbox.STATE_CHECKED)
     }
 

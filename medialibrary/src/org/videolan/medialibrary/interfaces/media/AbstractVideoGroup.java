@@ -17,8 +17,8 @@ public abstract class AbstractVideoGroup extends MediaLibraryItem {
         mCount = count;
     }
 
-    abstract public AbstractMediaWrapper[] media(int sort, boolean desc, int nbItems, int offset);
-    abstract public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] media(int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
 
     public String getDisplayTitle() {
@@ -30,8 +30,8 @@ public abstract class AbstractVideoGroup extends MediaLibraryItem {
     }
 
     @Override
-    public AbstractMediaWrapper[] getTracks() {
-        return new AbstractMediaWrapper[0];
+    public MediaWrapper[] getTracks() {
+        return new MediaWrapper[0];
     }
 
     @Override

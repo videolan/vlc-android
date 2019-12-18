@@ -2,7 +2,6 @@ package org.videolan.medialibrary.stubs;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.webkit.URLUtil;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -88,44 +87,44 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return results.toArray(new String[0]);
     }
 
-    public AbstractMediaWrapper[] getVideos() {
+    public MediaWrapper[] getVideos() {
         return getVideos(SORT_DEFAULT, false);
     }
 
-    public AbstractMediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset) {
         return dt.sortMedia(dt.secureSublist(dt.mVideoMediaWrappers, offset, offset + nbItems), sort, desc);
     }
 
-    public AbstractMediaWrapper[] getVideos(int sort, boolean desc) {
+    public MediaWrapper[] getVideos(int sort, boolean desc) {
         return dt.sortMedia(dt.mVideoMediaWrappers, sort, desc);
     }
 
-    public AbstractMediaWrapper[] getRecentVideos() {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getItemType() == AbstractMediaWrapper.TYPE_VIDEO) results.add(media);
+    public MediaWrapper[] getRecentVideos() {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
+            if (media.getItemType() == MediaWrapper.TYPE_VIDEO) results.add(media);
         }
-        return results.toArray(new AbstractMediaWrapper[0]);
+        return results.toArray(new MediaWrapper[0]);
     }
 
-    public AbstractMediaWrapper[] getAudio() {
+    public MediaWrapper[] getAudio() {
         return getAudio(SORT_DEFAULT, false);
     }
 
-    public AbstractMediaWrapper[] getAudio(int sort, boolean desc) {
+    public MediaWrapper[] getAudio(int sort, boolean desc) {
         return dt.sortMedia(dt.mAudioMediaWrappers, sort, desc);
     }
 
-    public AbstractMediaWrapper[] getPagedAudio(int sort, boolean desc, int nbitems, int offset) {
+    public MediaWrapper[] getPagedAudio(int sort, boolean desc, int nbitems, int offset) {
         return dt.sortMedia(dt.secureSublist(dt.mAudioMediaWrappers, offset, offset + nbitems), sort, desc);
     }
 
-    public AbstractMediaWrapper[] getRecentAudio() {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getItemType() == AbstractMediaWrapper.TYPE_AUDIO) results.add(media);
+    public MediaWrapper[] getRecentAudio() {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
+            if (media.getItemType() == MediaWrapper.TYPE_AUDIO) results.add(media);
         }
-        return results.toArray(new AbstractMediaWrapper[0]);
+        return results.toArray(new MediaWrapper[0]);
     }
 
     public int getVideoCount() {
@@ -324,25 +323,25 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public void forceParserRetry() {}
     public void forceRescan() {}
 
-    public AbstractMediaWrapper[] lastMediaPlayed() {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mHistory) {
-            if (media.getType() == AbstractMediaWrapper.TYPE_VIDEO ||
-                    media.getType() == AbstractMediaWrapper.TYPE_AUDIO) results.add(media);
+    public MediaWrapper[] lastMediaPlayed() {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mHistory) {
+            if (media.getType() == MediaWrapper.TYPE_VIDEO ||
+                    media.getType() == MediaWrapper.TYPE_AUDIO) results.add(media);
             // the native method specifies an nbItems of 100, offset 0
             if (results.size() >= 100) break;
         }
-        return results.toArray(new AbstractMediaWrapper[0]);
+        return results.toArray(new MediaWrapper[0]);
     }
 
-    public AbstractMediaWrapper[] lastStreamsPlayed() {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mHistory) {
-            if (media.getType() == AbstractMediaWrapper.TYPE_STREAM) results.add(media);
+    public MediaWrapper[] lastStreamsPlayed() {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mHistory) {
+            if (media.getType() == MediaWrapper.TYPE_STREAM) results.add(media);
             // the native method specifies an nbItems of 100, offset 0
             if (results.size() >= 100) break;
         }
-        return results.toArray(new AbstractMediaWrapper[0]);
+        return results.toArray(new MediaWrapper[0]);
     }
 
     public boolean clearHistory() {
@@ -356,7 +355,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     //TODO what if two files have the same name ??
     // TODO what happens in case of false return
     public boolean addToHistory(String mrl, String title) {
-        AbstractMediaWrapper media = getMedia(mrl, title);
+        MediaWrapper media = getMedia(mrl, title);
         if (media == null) {
             media = addStream(mrl, title);
         }
@@ -366,56 +365,56 @@ public class StubMedialibrary extends AbstractMedialibrary {
     }
 
     // TODO Handle uri to mrl
-    private AbstractMediaWrapper getMedia(String mrl, String title) {
+    private MediaWrapper getMedia(String mrl, String title) {
         mrl = Tools.encodeVLCMrl(mrl);
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getLocation().equals(mrl)) return media;
         }
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getLocation().equals(mrl)) return media;
         }
-        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
+        for (MediaWrapper media : dt.mStreamMediaWrappers) {
             if (media.getLocation().equals(mrl)) return media;
         }
 
         if (!URLUtil.isNetworkUrl(mrl))
-            return dt.addMediaWrapper(mrl, title, AbstractMediaWrapper.TYPE_ALL);
+            return dt.addMediaWrapper(mrl, title, MediaWrapper.TYPE_ALL);
         return null;
     }
 
-    public AbstractMediaWrapper getMedia(long id) {
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
+    public MediaWrapper getMedia(long id) {
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
             if (media.getId() == id) return media;
         }
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getId() == id) return media;
         }
-        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
+        for (MediaWrapper media : dt.mStreamMediaWrappers) {
             if (media.getId() == id) return media;
-        }
-        return null;
-    }
-
-    public AbstractMediaWrapper getMedia(Uri uri) {
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getUri().equals(uri)) return media;
-        }
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getUri().equals(uri)) return media;
-        }
-        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
-            if (media.getUri().equals(uri)) return media;
         }
         return null;
     }
 
-    public AbstractMediaWrapper getMedia(String mrl) {
+    public MediaWrapper getMedia(Uri uri) {
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
+            if (media.getUri().equals(uri)) return media;
+        }
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
+            if (media.getUri().equals(uri)) return media;
+        }
+        for (MediaWrapper media : dt.mStreamMediaWrappers) {
+            if (media.getUri().equals(uri)) return media;
+        }
+        return null;
+    }
+
+    public MediaWrapper getMedia(String mrl) {
         return null;
     }
 
     /* TODO maybe add a list of medias not in the medialibrary which can be retrieved with mrl to
      * simulate adding a media from system */
-    public AbstractMediaWrapper addMedia(String mrl) {
+    public MediaWrapper addMedia(String mrl) {
         return null;
     }
 
@@ -423,8 +422,8 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return true;
     }
 
-    public AbstractMediaWrapper addStream(String mrl, String title) {
-        return dt.addMediaWrapper(mrl, title, AbstractMediaWrapper.TYPE_STREAM);
+    public MediaWrapper addStream(String mrl, String title) {
+        return dt.addMediaWrapper(mrl, title, MediaWrapper.TYPE_STREAM);
     }
 
     // TODO: Fix sorting, offset etc
@@ -435,7 +434,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
                 if (folders.contains(folder)) continue;
                 String path = folder.mMrl;
                 if (path.isEmpty()) continue;
-                for (AbstractMediaWrapper mediaWrapper : dt.mVideoMediaWrappers) {
+                for (MediaWrapper mediaWrapper : dt.mVideoMediaWrappers) {
                     String childPath = mediaWrapper.getUri().getPath();
                     if (childPath == null) continue;
                     if (isParentFolder(path, childPath)) {
@@ -456,7 +455,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
 
     public boolean increasePlayCount(long mediaId) {
         for (int i = 0; i < dt.mVideoMediaWrappers.size(); i++) {
-            AbstractMediaWrapper media = dt.mVideoMediaWrappers.get(i);
+            MediaWrapper media = dt.mVideoMediaWrappers.get(i);
             if (media.getId() == mediaId) {
                 media.setSeen(media.getSeen() + 1);
                 dt.mVideoMediaWrappers.set(i, media);
@@ -466,8 +465,8 @@ public class StubMedialibrary extends AbstractMedialibrary {
     }
 
     public SearchAggregate search(String query) {
-        AbstractMediaWrapper[] videos = searchVideo(query);
-        AbstractMediaWrapper[] tracks = searchAudio(query);
+        MediaWrapper[] videos = searchVideo(query);
+        MediaWrapper[] tracks = searchAudio(query);
         AbstractAlbum[] albums = searchAlbum(query);
         AbstractArtist[] artists = searchArtist(query);
         AbstractGenre[] genres = searchGenre(query);
@@ -475,50 +474,50 @@ public class StubMedialibrary extends AbstractMedialibrary {
         return new SearchAggregate(albums, artists, genres, videos, tracks, playlists);
     }
 
-    public AbstractMediaWrapper[] searchMedia(String query) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
+    public MediaWrapper[] searchMedia(String query) {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
-        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
+        for (MediaWrapper media : dt.mStreamMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
-        return results.toArray(new AbstractMediaWrapper[0]);
+        return results.toArray(new MediaWrapper[0]);
     }
 
-    public AbstractMediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>(Arrays.asList(searchMedia(query)));
+    public MediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<MediaWrapper> results = new ArrayList<>(Arrays.asList(searchMedia(query)));
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
     public int getMediaCount(String query) {
         int count = 0;
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
-        for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
+        for (MediaWrapper media : dt.mStreamMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
         return count;
     }
 
-    private AbstractMediaWrapper[] searchAudio(String query) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+    private MediaWrapper[] searchAudio(String query) {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         return dt.sortMedia(results, SORT_DEFAULT, false);
     }
 
-    public AbstractMediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+    public MediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
@@ -526,23 +525,23 @@ public class StubMedialibrary extends AbstractMedialibrary {
 
     public int getAudioCount(String query) {
         int count = 0;
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
         return count;
     }
 
-    private AbstractMediaWrapper[] searchVideo(String query) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
+    private MediaWrapper[] searchVideo(String query) {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         return dt.sortMedia(results, SORT_DEFAULT, false);
     }
 
-    public AbstractMediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
+    public MediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
@@ -550,7 +549,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
 
     public int getVideoCount(String query) {
         int count = 0;
-        for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
+        for (MediaWrapper media : dt.mVideoMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) count++;
         }
         return count;

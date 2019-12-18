@@ -12,12 +12,12 @@
 
         <import type="android.text.TextUtils" />
 
-        <import type="org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper" />
+        <import type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
 
 
         <variable
             name="item"
-            type="AbstractMediaWrapper" />
+            type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
 
         <variable
             name="cover"

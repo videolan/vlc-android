@@ -26,7 +26,7 @@ import androidx.leanback.widget.ImageCardView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
@@ -64,7 +64,7 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
         return
     }
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
-    if (isMedia && (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_VIDEO && !Settings.showVideoThumbs) {
+    if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && !Settings.showVideoThumbs) {
         updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding)
         return
     }
@@ -100,10 +100,10 @@ fun getAudioIconDrawable(context: Context?, type: Int, big: Boolean = false): Bi
 
 fun getMediaIconDrawable(context: Context?, type: Int, big: Boolean = false): BitmapDrawable? = context?.let {
     when (type) {
-        AbstractMediaWrapper.TYPE_ALBUM -> if (big) UiTools.getDefaultAlbumDrawableBig(it) else UiTools.getDefaultAlbumDrawable(it)
-        AbstractMediaWrapper.TYPE_ARTIST -> if (big) UiTools.getDefaultArtistDrawableBig(it) else UiTools.getDefaultArtistDrawable(it)
-        AbstractMediaWrapper.TYPE_AUDIO -> if (big) UiTools.getDefaultAudioDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
-        AbstractMediaWrapper.TYPE_VIDEO -> if (big) UiTools.getDefaultVideoDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
+        MediaWrapper.TYPE_ALBUM -> if (big) UiTools.getDefaultAlbumDrawableBig(it) else UiTools.getDefaultAlbumDrawable(it)
+        MediaWrapper.TYPE_ARTIST -> if (big) UiTools.getDefaultArtistDrawableBig(it) else UiTools.getDefaultArtistDrawable(it)
+        MediaWrapper.TYPE_AUDIO -> if (big) UiTools.getDefaultAudioDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
+        MediaWrapper.TYPE_VIDEO -> if (big) UiTools.getDefaultVideoDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
         else -> null
     }
 }
@@ -135,7 +135,7 @@ fun getBitmapFromDrawable(context: Context, @DrawableRes drawableId: Int): Bitma
 }
 
 fun getMediaIconDrawable(context: Context, type: Int): BitmapDrawable? = when (type) {
-    AbstractMediaWrapper.TYPE_VIDEO -> UiTools.getDefaultVideoDrawable(context)
+    MediaWrapper.TYPE_VIDEO -> UiTools.getDefaultVideoDrawable(context)
     else -> UiTools.getDefaultAudioDrawable(context)
 }
 
@@ -298,11 +298,11 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, update
 
 private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean): MediaLibraryItem {
     if (isMedia && item.id == 0L) {
-        val mw = item as AbstractMediaWrapper
+        val mw = item as MediaWrapper
         val type = mw.type
-        val isMediaFile = type == AbstractMediaWrapper.TYPE_AUDIO || type == AbstractMediaWrapper.TYPE_VIDEO
+        val isMediaFile = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO
         val uri = mw.uri
-        if (!isMediaFile && !(type == AbstractMediaWrapper.TYPE_DIR && "upnp" == uri.scheme)) return item
+        if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp" == uri.scheme)) return item
         if (isMediaFile && "file" == uri.scheme) return withContext(Dispatchers.IO) { sMedialibrary.getMedia(uri) }
                 ?: item
     }

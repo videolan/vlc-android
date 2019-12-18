@@ -55,7 +55,7 @@ import androidx.leanback.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.NetworkObserver
 import org.videolan.vlc.R
@@ -73,7 +73,7 @@ private const val REQUEST_SPEECH = 1
 class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider, CoroutineScope by MainScope(), NetworkObserver {
 
     private lateinit var viewModel: MoviepediaModel
-    lateinit var media: AbstractMediaWrapper
+    lateinit var media: MediaWrapper
 
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private val defaultItemClickedListener: OnItemViewClickedListener

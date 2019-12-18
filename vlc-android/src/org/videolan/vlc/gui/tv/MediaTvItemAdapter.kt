@@ -17,7 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
@@ -206,8 +206,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             var seen = 0L
             var description = item?.description
             var resolution = ""
-            if (item is AbstractMediaWrapper) {
-                if (item.type == AbstractMediaWrapper.TYPE_VIDEO) {
+            if (item is MediaWrapper) {
+                if (item.type == MediaWrapper.TYPE_VIDEO) {
                     resolution = generateResolutionClass(item.width, item.height) ?: ""
                     isSquare = false
                     description = if (item.time == 0L) Tools.millisToString(item.length) else Tools.getProgressText(item)

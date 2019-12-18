@@ -42,7 +42,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.TvAudioPlayerBinding
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -84,14 +84,14 @@ class AudioPlayerActivity : BaseTvActivity() {
         binding.playlist.adapter = adapter
         binding.lifecycleOwner = this
         binding.progress = model.progress
-        model.dataset.observe(this, Observer<List<AbstractMediaWrapper>> { mediaWrappers ->
+        model.dataset.observe(this, Observer<List<MediaWrapper>> { mediaWrappers ->
             if (mediaWrappers != null) {
                 adapter.setSelection(-1)
                 adapter.update(mediaWrappers)
             }
         })
         model.playerState.observe(this, Observer { playerState -> update(playerState) })
-        val medialist = intent.getParcelableArrayListExtra<AbstractMediaWrapper>(MEDIA_LIST)
+        val medialist = intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
         if (medialist != null) MediaUtils.openList(this, medialist, position)
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
@@ -113,7 +113,7 @@ class AudioPlayerActivity : BaseTvActivity() {
         wasPlaying = state.playing
 
         val mw = model.currentMediaWrapper
-        if (mw != null && !mw.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
+        if (mw != null && !mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
             model.switchToVideo()
             finish()
             return

@@ -36,7 +36,7 @@ import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -71,7 +71,7 @@ object AudioUtil {
     //     */
     //    public static AtomicReference<String> PLAYLIST_DIR = new AtomicReference<>();
 
-    fun setRingtone(song: AbstractMediaWrapper, context: FragmentActivity) {
+    fun setRingtone(song: MediaWrapper, context: FragmentActivity) {
         if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage(context)) {
             Permissions.askWriteStoragePermission(context, false, Runnable { setRingtone(song, context) })
             return
@@ -173,7 +173,7 @@ object AudioUtil {
             dir.delete()
     }
 
-    private fun getCoverFromMediaStore(context: Context, media: AbstractMediaWrapper): String? {
+    private fun getCoverFromMediaStore(context: Context, media: MediaWrapper): String? {
         val album = media.album ?: return null
         val contentResolver = context.contentResolver
         val uri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
@@ -195,7 +195,7 @@ object AudioUtil {
     }
 
     @Throws(NoSuchAlgorithmException::class, UnsupportedEncodingException::class)
-    private fun getCoverFromVlc(context: Context, media: AbstractMediaWrapper): String? {
+    private fun getCoverFromVlc(context: Context, media: MediaWrapper): String? {
         var artworkURL: String? = media.artworkURL
         if (artworkURL != null && artworkURL.startsWith("file://")) {
             return Uri.decode(artworkURL).replace("file://", "")
@@ -229,7 +229,7 @@ object AudioUtil {
         return null
     }
 
-    private fun getCoverFromFolder(media: AbstractMediaWrapper): String? {
+    private fun getCoverFromFolder(media: MediaWrapper): String? {
         val f = AndroidUtil.UriToFile(media.uri) ?: return null
 
         val folder = f.parentFile ?: return null
@@ -264,12 +264,12 @@ object AudioUtil {
         return null
     }
 
-    private fun getCoverCachePath(context: Context, media: AbstractMediaWrapper, width: Int): String {
+    private fun getCoverCachePath(context: Context, media: MediaWrapper, width: Int): String {
         val hash = MurmurHash.hash32(MediaUtils.getMediaArtist(context, media) + MediaUtils.getMediaAlbum(context, media))
         return COVER_DIR.get() + (if (hash >= 0) "" + hash else "m" + -hash) + "_" + width
     }
 
-    private fun getCoverFromMemCache(context: Context, media: AbstractMediaWrapper?, width: Int): Bitmap? {
+    private fun getCoverFromMemCache(context: Context, media: MediaWrapper?, width: Int): Bitmap? {
         var cover: Bitmap? = null
         if (media != null && media.artist != null && media.album != null) {
             cover = BitmapCache.getBitmapFromMemCache(getCoverCachePath(context, media, width))
@@ -282,7 +282,7 @@ object AudioUtil {
 
     @SuppressLint("NewApi")
     @Synchronized
-    fun getCover(context: Context, media: AbstractMediaWrapper, width: Int): Bitmap? {
+    fun getCover(context: Context, media: MediaWrapper, width: Int): Bitmap? {
         var coverPath: String? = null
         var cover: Bitmap? = null
         var cachePath: String? = null
@@ -387,7 +387,7 @@ object AudioUtil {
     }
 
     @JvmOverloads
-    fun getCover(context: Context, list: List<AbstractMediaWrapper>, width: Int, fromMemCache: Boolean = false): Bitmap? {
+    fun getCover(context: Context, list: List<MediaWrapper>, width: Int, fromMemCache: Boolean = false): Bitmap? {
         var cover: Bitmap? = null
         val testedAlbums = LinkedList<String>()
         for (media in list) {
@@ -406,7 +406,7 @@ object AudioUtil {
         return cover
     }
 
-    fun getCoverFromMemCache(context: Context, list: List<AbstractMediaWrapper>, width: Int): Bitmap? {
+    fun getCoverFromMemCache(context: Context, list: List<MediaWrapper>, width: Int): Bitmap? {
         return getCover(context, list, width, true)
     }
 }

@@ -48,7 +48,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.copy
 import org.videolan.tools.isValidUrl
 import org.videolan.vlc.R
@@ -121,7 +121,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.dataset.observe(requireActivity(), Observer { adapter.setList(it as List<AbstractMediaWrapper>) })
+        viewModel.dataset.observe(requireActivity(), Observer { adapter.setList(it as List<MediaWrapper>) })
         viewModel.loading.observe(requireActivity(), Observer { (activity as? MainActivity)?.refreshing = it })
     }
 
@@ -153,8 +153,8 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         return false
     }
 
-    private fun playMedia(mw: AbstractMediaWrapper) {
-        mw.type = AbstractMediaWrapper.TYPE_STREAM
+    private fun playMedia(mw: MediaWrapper) {
+        mw.type = MediaWrapper.TYPE_STREAM
         if (mw.uri.scheme?.startsWith("rtsp") == true) VideoPlayerActivity.start(requireContext(), mw.uri)
         else MediaUtils.openMedia(activity, mw)
         viewModel.refresh()

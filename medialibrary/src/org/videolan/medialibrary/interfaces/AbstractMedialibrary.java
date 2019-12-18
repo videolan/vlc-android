@@ -20,7 +20,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -66,7 +66,7 @@ abstract public class AbstractMedialibrary {
     public static final int ML_INIT_DB_RESET = 3;
     public static final int ML_INIT_DB_CORRUPTED = 4;
 
-    public static final AbstractMediaWrapper[] EMPTY_COLLECTION = {};
+    public static final MediaWrapper[] EMPTY_COLLECTION = {};
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
     public static final String THUMBS_FOLDER_NAME = "/thumbs";
     public static final String MEDIALIB_FOLDER_NAME = "/medialib";
@@ -89,7 +89,7 @@ abstract public class AbstractMedialibrary {
     protected final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
     private MedialibraryExceptionHandler mExceptionHandler;
     protected static Context sContext;
-    public static LiveData<AbstractMediaWrapper> lastThumb = new SingleEvent<>();
+    public static LiveData<MediaWrapper> lastThumb = new SingleEvent<>();
 
     protected static final AbstractMedialibrary instance = MLServiceLocator.getAbstractMedialibrary();
 
@@ -237,17 +237,17 @@ abstract public class AbstractMedialibrary {
 
 
     // If media is not in ML, find it with its path
-    public AbstractMediaWrapper findMedia(AbstractMediaWrapper mw) {
+    public MediaWrapper findMedia(MediaWrapper mw) {
         if (mIsInitiated && mw != null && mw.getId() == 0L) {
             final Uri uri = mw.getUri();
-            final AbstractMediaWrapper libraryMedia = getMedia(uri);
+            final MediaWrapper libraryMedia = getMedia(uri);
             if (libraryMedia != null) {
                 libraryMedia.addFlags(mw.getFlags());
                 return libraryMedia;
             }
             if (TextUtils.equals("file", uri.getScheme()) &&
                     uri.getPath() != null && uri.getPath().startsWith("/sdcard")) {
-                final AbstractMediaWrapper alternateMedia = getMedia(Tools.convertLocalUri(uri));
+                final MediaWrapper alternateMedia = getMedia(Tools.convertLocalUri(uri));
                 if (alternateMedia != null) {
                     alternateMedia.addFlags(mw.getFlags());
                     return alternateMedia;
@@ -258,7 +258,7 @@ abstract public class AbstractMedialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onMediaAdded(AbstractMediaWrapper[] mediaList) {
+    public void onMediaAdded(MediaWrapper[] mediaList) {
         synchronized (mMediaCbs) {
             for (MediaCb cb : mMediaCbs) cb.onMediaAdded();
         }
@@ -507,9 +507,9 @@ abstract public class AbstractMedialibrary {
         }
     }
 
-    //    public static LiveData<AbstractMediaWrapper> lastThumb = new SingleEvent<>();
+    //    public static LiveData<MediaWrapper> lastThumb = new SingleEvent<>();
     @SuppressWarnings({"unused", "unchecked"})
-    public void onMediaThumbnailReady(AbstractMediaWrapper media, boolean success) {
+    public void onMediaThumbnailReady(MediaWrapper media, boolean success) {
         if (success) ((MutableLiveData)lastThumb).postValue(media);
     }
 
@@ -681,14 +681,14 @@ abstract public class AbstractMedialibrary {
     abstract public void removeFolder(@NonNull String mrl);
     abstract public String[] getFoldersList();
     abstract public boolean removeDevice(String uuid, String path);
-    abstract public AbstractMediaWrapper[] getVideos();
-    abstract public AbstractMediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset);
-    abstract public AbstractMediaWrapper[] getVideos(int sort, boolean desc);
-    abstract public AbstractMediaWrapper[] getRecentVideos();
-    abstract public AbstractMediaWrapper[] getAudio();
-    abstract public AbstractMediaWrapper[] getAudio(int sort, boolean desc);
-    abstract public AbstractMediaWrapper[] getPagedAudio(int sort, boolean desc, int nbitems, int offset);
-    abstract public AbstractMediaWrapper[] getRecentAudio();
+    abstract public MediaWrapper[] getVideos();
+    abstract public MediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] getVideos(int sort, boolean desc);
+    abstract public MediaWrapper[] getRecentVideos();
+    abstract public MediaWrapper[] getAudio();
+    abstract public MediaWrapper[] getAudio(int sort, boolean desc);
+    abstract public MediaWrapper[] getPagedAudio(int sort, boolean desc, int nbitems, int offset);
+    abstract public MediaWrapper[] getRecentAudio();
     abstract public int getVideoCount();
     abstract public int getAudioCount();
     abstract public AbstractVideoGroup[] getVideoGroups(int sort, boolean desc, int nbItems, int offset);
@@ -725,27 +725,27 @@ abstract public class AbstractMedialibrary {
     abstract public void reload(String entrypoint);
     abstract public void forceParserRetry();
     abstract public void forceRescan();
-    abstract public AbstractMediaWrapper[] lastMediaPlayed();
-    abstract public AbstractMediaWrapper[] lastStreamsPlayed();
+    abstract public MediaWrapper[] lastMediaPlayed();
+    abstract public MediaWrapper[] lastStreamsPlayed();
     abstract public boolean clearHistory();
     abstract public void clearDatabase(boolean restorePlaylist);
     abstract public boolean addToHistory(String mrl, String title);
-    abstract public AbstractMediaWrapper getMedia(long id);
-    abstract public AbstractMediaWrapper getMedia(Uri uri);
-    abstract public AbstractMediaWrapper getMedia(String mrl);
-    abstract public AbstractMediaWrapper addMedia(String mrl);
+    abstract public MediaWrapper getMedia(long id);
+    abstract public MediaWrapper getMedia(Uri uri);
+    abstract public MediaWrapper getMedia(String mrl);
+    abstract public MediaWrapper addMedia(String mrl);
     abstract public boolean removeExternalMedia(long id);
-    abstract public AbstractMediaWrapper addStream(String mrl, String title);
+    abstract public MediaWrapper addStream(String mrl, String title);
     abstract public AbstractFolder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset);
     abstract public int getFoldersCount(int type);
     abstract public boolean increasePlayCount(long mediaId);
     abstract public SearchAggregate search(String query);
-    abstract public AbstractMediaWrapper[] searchMedia(String query);
-    abstract public AbstractMediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchMedia(String query);
+    abstract public MediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int getMediaCount(String query);
-    abstract public AbstractMediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int getAudioCount(String query);
-    abstract public AbstractMediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int getVideoCount(String query);
     abstract public AbstractArtist[] searchArtist(String query);
     abstract public AbstractArtist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset);

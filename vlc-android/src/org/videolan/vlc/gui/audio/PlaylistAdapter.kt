@@ -42,7 +42,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlaylistItemBinding
@@ -59,7 +59,7 @@ import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
+class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
 
     private var defaultCoverVideo: BitmapDrawable
     private var defaultCoverAudio: BitmapDrawable
@@ -92,9 +92,9 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
     private val mHandler = PlaylistHandler(this)
 
     interface IPlayer {
-        fun onPopupMenu(view: View, position: Int, item: AbstractMediaWrapper?)
+        fun onPopupMenu(view: View, position: Int, item: MediaWrapper?)
         fun onSelectionSet(position: Int)
-        fun playItem(position: Int, item: AbstractMediaWrapper)
+        fun playItem(position: Int, item: MediaWrapper)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -121,7 +121,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
             holder.binding.coverImage.visibility = View.VISIBLE
         }
 
-        if (media.type == AbstractMediaWrapper.TYPE_VIDEO) {
+        if (media.type == MediaWrapper.TYPE_VIDEO) {
             (holder.binding.coverImage.layoutParams as ConstraintLayout.LayoutParams).dimensionRatio = "16:10"
             holder.binding.cover = defaultCoverVideo
         } else {
@@ -190,7 +190,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
                 }
         }
 
-        fun onClick(@Suppress("UNUSED_PARAMETER") v: View, media: AbstractMediaWrapper) {
+        fun onClick(@Suppress("UNUSED_PARAMETER") v: View, media: MediaWrapper) {
             val position = layoutPosition //getMediaPosition(media);
             player.playItem(position, media)
         }
@@ -232,7 +232,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<AbstractMed
         }
     }
 
-    override fun createCB(): DiffCallback<AbstractMediaWrapper> = MediaItemDiffCallback()
+    override fun createCB(): DiffCallback<MediaWrapper> = MediaItemDiffCallback()
 
     fun setCurrentlyPlaying(playing: Boolean) {
         if (playing) currentPlayingVisu?.start() else currentPlayingVisu?.stop()

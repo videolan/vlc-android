@@ -13,7 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
@@ -27,12 +27,12 @@ import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, private val showProtocol: Boolean) : DiffUtilAdapter<AbstractMediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryItem>, var itemSize: Int, private val showProtocol: Boolean) : DiffUtilAdapter<MediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
         if (pagedList is List<*>) {
             @Suppress("UNCHECKED_CAST")
-            update(pagedList as List<AbstractMediaWrapper>)
+            update(pagedList as List<MediaWrapper>)
         }
     }
 
@@ -84,7 +84,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
         this.focusListener = focusListener
     }
 
-    override fun createCB(): DiffCallback<AbstractMediaWrapper> = object : DiffCallback<AbstractMediaWrapper>() {
+    override fun createCB(): DiffCallback<MediaWrapper> = object : DiffCallback<MediaWrapper>() {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = try {
             oldList[oldItemPosition] == newList[newItemPosition]
         } catch (e: IndexOutOfBoundsException) {
@@ -99,7 +99,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
         override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int) = arrayListOf(UPDATE_PAYLOAD)
     }
 
-    private fun getProtocol(media: AbstractMediaWrapper) = if (media.type != AbstractMediaWrapper.TYPE_DIR) null else media.uri.scheme
+    private fun getProtocol(media: MediaWrapper) = if (media.type != MediaWrapper.TYPE_DIR) null else media.uri.scheme
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemTVViewHolder(
@@ -155,8 +155,8 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             var seen = 0L
             var description = item?.description
             var resolution = ""
-            if (item is AbstractMediaWrapper) {
-                if (item.type == AbstractMediaWrapper.TYPE_VIDEO) {
+            if (item is MediaWrapper) {
+                if (item.type == MediaWrapper.TYPE_VIDEO) {
                     resolution = generateResolutionClass(item.width, item.height) ?: ""
                     isSquare = false
                     description = if (item.time == 0L) Tools.millisToString(item.length) else Tools.getProgressText(item)
@@ -179,8 +179,8 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             binding.isSquare = isSquare
             binding.seen = seen
             binding.description = description
-            if (showProtocol && item is AbstractMediaWrapper) binding.protocol = getProtocol(item)
-            val cover = if (item is AbstractMediaWrapper) getMediaIconDrawable(binding.root.context, item.type, true) else defaultCover
+            if (showProtocol && item is MediaWrapper) binding.protocol = getProtocol(item)
+            val cover = if (item is MediaWrapper) getMediaIconDrawable(binding.root.context, item.type, true) else defaultCover
             cover?.let { binding.cover = it }
             if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
             if (progress <= 0L) binding.progressBar.visibility = View.GONE

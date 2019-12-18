@@ -15,9 +15,9 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.util.MediaBrowser
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.providers.BrowserProvider
@@ -60,12 +60,12 @@ class NetworkModelTest : BaseTest() {
         browserProvider = browserModel.provider
     }
 
-    private fun getFakeMediaWrapper(index: Int): MediaWrapper = MediaWrapper(Uri.parse("http://fake_media.io/vid_$index.mp4"))
+    private fun getFakeMediaWrapper(index: Int): MediaWrapperImpl = MediaWrapperImpl(Uri.parse("http://fake_media.io/vid_$index.mp4"))
 
     @Test
     fun whenAtRootAndNoFavorites_checkResultIsEmpty() {
         Settings.overrideTvUI = true
-        every { mockedFavoritesRepo.networkFavorites } returns MediatorLiveData<List<AbstractMediaWrapper>>().apply { value = emptyList() }
+        every { mockedFavoritesRepo.networkFavorites } returns MediatorLiveData<List<MediaWrapper>>().apply { value = emptyList() }
         initNetworkModel(null)
 
         val testResult = browserModel.dataset.test()
@@ -77,7 +77,7 @@ class NetworkModelTest : BaseTest() {
 
     @Test
     fun whenAtRootWithOneFavoriteAndOneFavoriteAddedLater_checkResultIsNotEmptyAndContainsThem() {
-        val liveFavorites: MediatorLiveData<List<AbstractMediaWrapper>> = MediatorLiveData()
+        val liveFavorites: MediatorLiveData<List<MediaWrapper>> = MediatorLiveData()
         Settings.overrideTvUI = true
         every { mockedFavoritesRepo.networkFavorites } returns liveFavorites
 
@@ -91,7 +91,7 @@ class NetworkModelTest : BaseTest() {
         assertEquals(3, oldResult.size)
         assertEquals(getFakeMediaWrapper(0), oldResult[1])
 
-        liveFavorites.value = ArrayList<AbstractMediaWrapper>().apply {
+        liveFavorites.value = ArrayList<MediaWrapper>().apply {
             liveFavorites.value?.let { addAll(it) }
             add(getFakeMediaWrapper(1).apply { setStateFlags(MediaLibraryItem.FLAG_FAVORITE) })
         }

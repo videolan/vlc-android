@@ -13,7 +13,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 
 import java.util.ArrayList;
@@ -36,10 +36,10 @@ import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_REL
 public class StubDataSource {
 
     private String TAG = this.getClass().getName();
-    ArrayList<AbstractMediaWrapper> mVideoMediaWrappers = new ArrayList<>();
-    ArrayList<AbstractMediaWrapper> mAudioMediaWrappers = new ArrayList<>();
-    ArrayList<AbstractMediaWrapper> mStreamMediaWrappers = new ArrayList<>();
-    ArrayList<AbstractMediaWrapper> mHistory = new ArrayList<>();
+    ArrayList<MediaWrapper> mVideoMediaWrappers = new ArrayList<>();
+    ArrayList<MediaWrapper> mAudioMediaWrappers = new ArrayList<>();
+    ArrayList<MediaWrapper> mStreamMediaWrappers = new ArrayList<>();
+    ArrayList<MediaWrapper> mHistory = new ArrayList<>();
     ArrayList<AbstractAlbum> mAlbums = new ArrayList<>();
     ArrayList<AbstractArtist> mArtists = new ArrayList<>();
     ArrayList<AbstractGenre> mGenres = new ArrayList<>();
@@ -142,12 +142,12 @@ public class StubDataSource {
         }
     }
 
-    class MediaComparator implements Comparator<AbstractMediaWrapper> {
+    class MediaComparator implements Comparator<MediaWrapper> {
         private int sort;
         MediaComparator(int sort) { this.sort = sort; }
 
         @Override //TODO checkout if types of sort are verified before being used in native
-        public int compare(AbstractMediaWrapper o1, AbstractMediaWrapper o2) {
+        public int compare(MediaWrapper o1, MediaWrapper o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
@@ -236,12 +236,12 @@ public class StubDataSource {
         }
     }
 
-    AbstractMediaWrapper[] sortMedia(List<AbstractMediaWrapper> arrayList, int sort, boolean desc) {
-        List<AbstractMediaWrapper> array = new ArrayList<>(arrayList);
+    MediaWrapper[] sortMedia(List<MediaWrapper> arrayList, int sort, boolean desc) {
+        List<MediaWrapper> array = new ArrayList<>(arrayList);
         Collections.sort(array, new MediaComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AbstractMediaWrapper[0]);
+        return array.toArray(new MediaWrapper[0]);
     }
 
     AbstractAlbum[] sortAlbum(List<AbstractAlbum> arrayList, int sort, boolean desc) {
@@ -304,7 +304,7 @@ public class StubDataSource {
     private void addMediaFromJson(JSONObject jsonObject) {
         try {
             int type = jsonObject.getInt("type");
-            AbstractMediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(
+            MediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(
                     getUUID().longValue(),
                     jsonObject.getString("mrl"),
                     0L,
@@ -328,7 +328,7 @@ public class StubDataSource {
                     true,
                     jsonObject.getInt("release_date")
             );
-            if (type == AbstractMediaWrapper.TYPE_VIDEO) {
+            if (type == MediaWrapper.TYPE_VIDEO) {
                 addVideo(media);
             } else {
                 addAudio(media,
@@ -430,7 +430,7 @@ public class StubDataSource {
         return name;
     }
 
-    private void addAudio(AbstractMediaWrapper media, String shortBio, int releaseYear, int trackTotal, String mrl) {
+    private void addAudio(MediaWrapper media, String shortBio, int releaseYear, int trackTotal, String mrl) {
         addFolders(media);
         String albumArtistName = getArtistName(media.getAlbumArtist(), media.getArtist());
         AbstractArtist albumArtist = getArtistFromName(albumArtistName);
@@ -460,12 +460,12 @@ public class StubDataSource {
         raiseAlbumDuration(album, (int) media.getLength());
         AbstractGenre genre = MLServiceLocator.getAbstractGenre(getUUID().longValue(), media.getGenre());
         addGenreSecure(genre);
-        AbstractMediaWrapper newMedia = MLServiceLocator.getAbstractMediaWrapper(
+        MediaWrapper newMedia = MLServiceLocator.getAbstractMediaWrapper(
                 media.getId(),
                 mrl,
                 0L,
                 media.getLength(),
-                AbstractMediaWrapper.TYPE_AUDIO,
+                MediaWrapper.TYPE_AUDIO,
                 media.getTitle(),
                 media.getFileName(),
                 media.getArtist(),
@@ -487,22 +487,22 @@ public class StubDataSource {
         mAudioMediaWrappers.add(newMedia);
     }
 
-    private void addVideo(AbstractMediaWrapper media) {
+    private void addVideo(MediaWrapper media) {
         addFolders(media);
         mVideoMediaWrappers.add(media);
     }
 
-    public AbstractMediaWrapper addMediaWrapper(String mrl, String title, int type) {
-        AbstractMediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(getUUID().longValue(), mrl, 0L, 280224L, type,
+    public MediaWrapper addMediaWrapper(String mrl, String title, int type) {
+        MediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(getUUID().longValue(), mrl, 0L, 280224L, type,
                 title, title, "Artisto", "Jazz", "XYZ CD1", "", 0, 0, baseMrl + title, -2,
                 1, 1, 0, 1547452796L, 0L, true, 0);
-        if (type == AbstractMediaWrapper.TYPE_ALL) type = media.getType();
-        if (type == AbstractMediaWrapper.TYPE_VIDEO) addVideo(media);
-        else if (type == AbstractMediaWrapper.TYPE_AUDIO) addAudio(media, "", 2018, 12313, mrl);
+        if (type == MediaWrapper.TYPE_ALL) type = media.getType();
+        if (type == MediaWrapper.TYPE_VIDEO) addVideo(media);
+        else if (type == MediaWrapper.TYPE_AUDIO) addAudio(media, "", 2018, 12313, mrl);
         return media;
     }
 
-    public AbstractMediaWrapper addMediaWrapper(String title, int type) {
+    public MediaWrapper addMediaWrapper(String title, int type) {
         return addMediaWrapper(baseMrl + title, title, type);
     }
 
@@ -513,7 +513,7 @@ public class StubDataSource {
         return results.toArray(new String[0]);
     }
 
-    private void addFolders(AbstractMediaWrapper media) {
+    private void addFolders(MediaWrapper media) {
         String path = media.getUri().getPath();
         if (path == null)
             return;

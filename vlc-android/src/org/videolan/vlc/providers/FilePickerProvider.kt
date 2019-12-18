@@ -24,7 +24,7 @@ import android.content.Context
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.LiveDataset
 
@@ -39,7 +39,7 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
     }
 
     override suspend fun findMedia(media: IMedia) = MLServiceLocator.getAbstractMediaWrapper(media)?.takeIf { mw ->
-        mw.type == AbstractMediaWrapper.TYPE_DIR || mw.type == AbstractMediaWrapper.TYPE_SUBTITLE
+        mw.type == MediaWrapper.TYPE_DIR || mw.type == MediaWrapper.TYPE_SUBTITLE
     }
 
     override fun computeHeaders(value: List<MediaLibraryItem>) {}

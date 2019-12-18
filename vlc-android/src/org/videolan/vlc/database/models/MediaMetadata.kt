@@ -45,7 +45,7 @@
 package org.videolan.vlc.database.models
 
 import androidx.room.*
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -94,7 +94,7 @@ class MediaMetadataWithImages {
     lateinit var show: MediaMetadata
 
     @Ignore
-    var media: AbstractMediaWrapper? = null
+    var media: MediaWrapper? = null
 
     @Relation(parentColumn = "moviepedia_id", entityColumn = "media_id", entity = MediaImage::class)
     var images: List<MediaImage> = ArrayList()

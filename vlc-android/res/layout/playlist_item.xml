@@ -21,7 +21,7 @@
 
         <variable
                 name="media"
-                type="org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper"/>
+                type="org.videolan.medialibrary.interfaces.media.MediaWrapper"/>
 
         <variable
                 name="subTitle"

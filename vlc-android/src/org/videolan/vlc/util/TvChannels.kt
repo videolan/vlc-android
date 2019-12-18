@@ -31,7 +31,7 @@ import androidx.annotation.RequiresApi
 import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.WatchNextProgram
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PreviewVideoInputService
 import org.videolan.vlc.R
@@ -91,7 +91,7 @@ fun Context.launchChannelUpdate() = AppScope.launch {
     updatePrograms(this@launchChannelUpdate, id)
 }
 
-suspend fun setResumeProgram(context: Context, mw: AbstractMediaWrapper) {
+suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
     var cursor: Cursor? = null
     var isProgramPresent = false
     val mw = context.getFromMl { findMedia(mw) }
@@ -133,7 +133,7 @@ suspend fun setResumeProgram(context: Context, mw: AbstractMediaWrapper) {
 
 }
 
-private suspend fun AbstractMediaWrapper.artUri() : Uri {
+private suspend fun MediaWrapper.artUri() : Uri {
     if (!isThumbnailGenerated) {
         withContext(Dispatchers.IO) { ThumbnailsProvider.getVideoThumbnail(this@artUri, 512) }
     }

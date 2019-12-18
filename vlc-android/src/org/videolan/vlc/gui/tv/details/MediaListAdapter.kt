@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.databinding.ActivityMediaListTvItemBinding
@@ -22,7 +22,7 @@ import org.videolan.vlc.interfaces.ITVEventsHandler
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MediaListAdapter(private val type: Int, private val listener: ITVEventsHandler) : DiffUtilAdapter<AbstractMediaWrapper, MediaListAdapter.MediaListViewHolder>(), TvFocusableAdapter {
+class MediaListAdapter(private val type: Int, private val listener: ITVEventsHandler) : DiffUtilAdapter<MediaWrapper, MediaListAdapter.MediaListViewHolder>(), TvFocusableAdapter {
 
     private var focusListener: FocusableRecyclerView.FocusListener? = null
 
@@ -56,8 +56,8 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
 
     override fun detectMoves() = true
 
-    override fun createCB(): DiffCallback<AbstractMediaWrapper> {
-        return object : DiffCallback<AbstractMediaWrapper>() {
+    override fun createCB(): DiffCallback<MediaWrapper> {
+        return object : DiffCallback<MediaWrapper>() {
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 if (newItemPosition == lastMovedItemFrom) {
                     lastMovedItemFrom = -1

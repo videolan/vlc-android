@@ -32,7 +32,7 @@ import androidx.leanback.widget.*
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.util.getFromMl
@@ -47,7 +47,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private val defaultItemClickedListener: OnItemViewClickedListener
         get() = OnItemViewClickedListener { _, item, _, row ->
-            if (item is AbstractMediaWrapper) TvUtil.openMedia(requireActivity(), item, null)
+            if (item is MediaWrapper) TvUtil.openMedia(requireActivity(), item, null)
             else TvUtil.openAudioCategory(requireActivity(), item as MediaLibraryItem)
             requireActivity().finish()
         }

@@ -35,7 +35,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -160,43 +160,43 @@ public class Medialibrary extends AbstractMedialibrary {
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] getVideos() {
-        return mIsInitiated ? nativeGetVideos() : new AbstractMediaWrapper[0];
+    public MediaWrapper[] getVideos() {
+        return mIsInitiated ? nativeGetVideos() : new MediaWrapper[0];
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetSortedPagedVideos(sort, desc, nbItems, offset) : new AbstractMediaWrapper[0];
+    public MediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetSortedPagedVideos(sort, desc, nbItems, offset) : new MediaWrapper[0];
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] getVideos(int sort, boolean desc) {
-        return mIsInitiated ? nativeGetSortedVideos(sort, desc) : new AbstractMediaWrapper[0];
+    public MediaWrapper[] getVideos(int sort, boolean desc) {
+        return mIsInitiated ? nativeGetSortedVideos(sort, desc) : new MediaWrapper[0];
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] getRecentVideos() {
-        return mIsInitiated ? nativeGetRecentVideos() : new AbstractMediaWrapper[0];
+    public MediaWrapper[] getRecentVideos() {
+        return mIsInitiated ? nativeGetRecentVideos() : new MediaWrapper[0];
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] getAudio() {
-        return mIsInitiated ? nativeGetAudio() : new AbstractMediaWrapper[0];
+    public MediaWrapper[] getAudio() {
+        return mIsInitiated ? nativeGetAudio() : new MediaWrapper[0];
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] getAudio(int sort, boolean desc) {
-        return mIsInitiated ? nativeGetSortedAudio(sort, desc) : new AbstractMediaWrapper[0];
+    public MediaWrapper[] getAudio(int sort, boolean desc) {
+        return mIsInitiated ? nativeGetSortedAudio(sort, desc) : new MediaWrapper[0];
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] getPagedAudio(int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetSortedPagedAudio(sort, desc, nbItems, offset) : new AbstractMediaWrapper[0];
+    public MediaWrapper[] getPagedAudio(int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetSortedPagedAudio(sort, desc, nbItems, offset) : new MediaWrapper[0];
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] getRecentAudio() {
-        return mIsInitiated ? nativeGetRecentAudio() : new AbstractMediaWrapper[0];
+    public MediaWrapper[] getRecentAudio() {
+        return mIsInitiated ? nativeGetRecentAudio() : new MediaWrapper[0];
     }
 
     @WorkerThread
@@ -369,12 +369,12 @@ public class Medialibrary extends AbstractMedialibrary {
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] lastMediaPlayed() {
+    public MediaWrapper[] lastMediaPlayed() {
         return mIsInitiated ? nativeLastMediaPlayed() : EMPTY_COLLECTION;
     }
 
     @WorkerThread
-    public AbstractMediaWrapper[] lastStreamsPlayed() {
+    public MediaWrapper[] lastStreamsPlayed() {
         return mIsInitiated ? nativeLastStreamsPlayed() : EMPTY_COLLECTION;
     }
 
@@ -391,26 +391,26 @@ public class Medialibrary extends AbstractMedialibrary {
     }
 
     @Nullable
-    public AbstractMediaWrapper getMedia(long id) {
+    public MediaWrapper getMedia(long id) {
         return mIsInitiated ? nativeGetMedia(id) : null;
     }
 
     @Nullable
-    public AbstractMediaWrapper getMedia(Uri uri) {
+    public MediaWrapper getMedia(Uri uri) {
         if ("content".equals(uri.getScheme())) return null;
         final String vlcMrl = Tools.encodeVLCMrl(uri.toString());
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeGetMediaFromMrl(vlcMrl) : null;
     }
 
     @Nullable
-    public AbstractMediaWrapper getMedia(String mrl) {
+    public MediaWrapper getMedia(String mrl) {
         if (mrl != null && mrl.startsWith("content:")) return null;
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeGetMediaFromMrl(vlcMrl) : null;
     }
 
     @Nullable
-    public AbstractMediaWrapper addMedia(String mrl) {
+    public MediaWrapper addMedia(String mrl) {
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddMedia(vlcMrl) : null;
     }
@@ -420,7 +420,7 @@ public class Medialibrary extends AbstractMedialibrary {
     }
 
     @Nullable
-    public AbstractMediaWrapper addStream(String mrl, String title) {
+    public MediaWrapper addStream(String mrl, String title) {
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
         final String vlcTitle = Tools.encodeVLCMrl(title);
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddStream(vlcMrl, vlcTitle) : null;
@@ -442,17 +442,17 @@ public class Medialibrary extends AbstractMedialibrary {
     }
 
     // If media is not in ML, find it with its path
-    public AbstractMediaWrapper findMedia(AbstractMediaWrapper mw) {
+    public MediaWrapper findMedia(MediaWrapper mw) {
         if (mIsInitiated && mw != null && mw.getId() == 0L) {
             final Uri uri = mw.getUri();
-            final AbstractMediaWrapper libraryMedia = getMedia(uri);
+            final MediaWrapper libraryMedia = getMedia(uri);
             if (libraryMedia != null) {
                 libraryMedia.addFlags(mw.getFlags());
                 return libraryMedia;
             }
             if (TextUtils.equals("file", uri.getScheme()) &&
                     uri.getPath() != null && uri.getPath().startsWith("/sdcard")) {
-                final AbstractMediaWrapper alternateMedia = getMedia(Tools.convertLocalUri(uri));
+                final MediaWrapper alternateMedia = getMedia(Tools.convertLocalUri(uri));
                 if (alternateMedia != null) {
                     alternateMedia.addFlags(mw.getFlags());
                     return alternateMedia;
@@ -466,11 +466,11 @@ public class Medialibrary extends AbstractMedialibrary {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearch(query) : null;
     }
 
-    public AbstractMediaWrapper[] searchMedia(String query) {
+    public MediaWrapper[] searchMedia(String query) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchMedia(query) : null;
     }
 
-    public AbstractMediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedMedia(query, sort, desc, nbItems, offset) : null;
     }
 
@@ -478,7 +478,7 @@ public class Medialibrary extends AbstractMedialibrary {
         return mIsInitiated ? nativeGetSearchMediaCount(query) : 0;
     }
 
-    public AbstractMediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedAudio(query, sort, desc, nbItems, offset) : null;
     }
 
@@ -486,7 +486,7 @@ public class Medialibrary extends AbstractMedialibrary {
         return mIsInitiated ? nativeGetSearchAudioCount(query) : 0;
     }
 
-    public AbstractMediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedVideo(query, sort, desc, nbItems, offset) : null;
     }
 
@@ -540,23 +540,23 @@ public class Medialibrary extends AbstractMedialibrary {
     private native void nativeRemoveEntryPoint(String path);
     private native String[] nativeEntryPoints();
     private native boolean nativeRemoveDevice(String uuid, String path);
-    private native AbstractMediaWrapper[] nativeLastMediaPlayed();
-    private native AbstractMediaWrapper[] nativeLastStreamsPlayed();
+    private native MediaWrapper[] nativeLastMediaPlayed();
+    private native MediaWrapper[] nativeLastStreamsPlayed();
     private native  boolean nativeAddToHistory(String mrl, String title);
     private native  boolean nativeClearHistory();
-    private native AbstractMediaWrapper nativeGetMedia(long id);
-    private native AbstractMediaWrapper nativeGetMediaFromMrl(String mrl);
-    private native AbstractMediaWrapper nativeAddMedia(String mrl);
+    private native MediaWrapper nativeGetMedia(long id);
+    private native MediaWrapper nativeGetMediaFromMrl(String mrl);
+    private native MediaWrapper nativeAddMedia(String mrl);
     private native boolean nativeRemoveExternalMedia(long id);
-    private native AbstractMediaWrapper nativeAddStream(String mrl, String title);
-    private native AbstractMediaWrapper[] nativeGetVideos();
-    private native AbstractMediaWrapper[] nativeGetSortedVideos(int sort, boolean desc);
-    private native AbstractMediaWrapper[] nativeGetRecentVideos();
-    private native AbstractMediaWrapper[] nativeGetAudio();
-    private native AbstractMediaWrapper[] nativeGetSortedAudio(int sort, boolean desc);
-    private native AbstractMediaWrapper[] nativeGetSortedPagedAudio(int sort, boolean desc, int nbItems, int offset);
-    private native AbstractMediaWrapper[] nativeGetSortedPagedVideos(int sort, boolean desc, int nbItems, int offset);
-    private native AbstractMediaWrapper[] nativeGetRecentAudio();
+    private native MediaWrapper nativeAddStream(String mrl, String title);
+    private native MediaWrapper[] nativeGetVideos();
+    private native MediaWrapper[] nativeGetSortedVideos(int sort, boolean desc);
+    private native MediaWrapper[] nativeGetRecentVideos();
+    private native MediaWrapper[] nativeGetAudio();
+    private native MediaWrapper[] nativeGetSortedAudio(int sort, boolean desc);
+    private native MediaWrapper[] nativeGetSortedPagedAudio(int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeGetSortedPagedVideos(int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeGetRecentAudio();
     private native int nativeGetVideoCount();
     private native int nativeGetAudioCount();
     private native AbstractVideoGroup[] nativeGetVideoGroups(int sort, boolean desc, int nbItems, int offset);
@@ -591,12 +591,12 @@ public class Medialibrary extends AbstractMedialibrary {
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);
     private native SearchAggregate nativeSearch(String query);
-    private native AbstractMediaWrapper[] nativeSearchMedia(String query);
-    private native AbstractMediaWrapper[] nativeSearchPagedMedia(String query, int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeSearchMedia(String query);
+    private native MediaWrapper[] nativeSearchPagedMedia(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetSearchMediaCount(String query);
-    private native AbstractMediaWrapper[] nativeSearchPagedAudio(String query, int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeSearchPagedAudio(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetSearchAudioCount(String query);
-    private native AbstractMediaWrapper[] nativeSearchPagedVideo(String query, int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeSearchPagedVideo(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetSearchVideoCount(String query);
     private native AbstractArtist[] nativeSearchArtist(String query);
     private native AbstractArtist[] nativeSearchPagedArtist(String query, int sort, boolean desc, int nbItems, int offset);

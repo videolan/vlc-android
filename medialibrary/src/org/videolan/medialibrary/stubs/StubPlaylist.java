@@ -3,7 +3,7 @@ package org.videolan.medialibrary.stubs;
 import android.os.Parcel;
 
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 
 import java.util.ArrayList;
@@ -23,22 +23,22 @@ public class StubPlaylist extends AbstractPlaylist {
         super(in);
     }
 
-    public AbstractMediaWrapper[] getTracks() {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+    public MediaWrapper[] getTracks() {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId())) results.add(media);
         }
-        return results.toArray(new AbstractMediaWrapper[0]);
+        return results.toArray(new MediaWrapper[0]);
     }
 
-    public AbstractMediaWrapper[] getPagedTracks(int nbItems, int offset) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>(Arrays.asList(getTracks()));
-        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AbstractMediaWrapper[0]);
+    public MediaWrapper[] getPagedTracks(int nbItems, int offset) {
+        ArrayList<MediaWrapper> results = new ArrayList<>(Arrays.asList(getTracks()));
+        return dt.secureSublist(results, offset, offset + nbItems).toArray(new MediaWrapper[0]);
     }
 
     public int getRealTracksCount() {
         int count = 0;
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId())) count++;
         }
         return count;
@@ -92,20 +92,20 @@ public class StubPlaylist extends AbstractPlaylist {
         return false;
     }
 
-    public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<MediaWrapper> results = new ArrayList<>();
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId()) &&
                     Tools.hasSubString(media.getTitle(), query)) results.add(media);
         }
         results = new ArrayList<>(Arrays.asList(dt.sortMedia(results, sort, desc)));
-        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AbstractMediaWrapper[0]);
+        return dt.secureSublist(results, offset, offset + nbItems).toArray(new MediaWrapper[0]);
 
     }
 
     public int searchTracksCount(String query) {
         int count = 0;
-        for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
+        for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId()) &&
                     Tools.hasSubString(media.getTitle(), query)) count++;
         }

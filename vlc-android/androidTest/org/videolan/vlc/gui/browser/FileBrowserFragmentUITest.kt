@@ -18,7 +18,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.*
 import org.junit.Rule
 import org.junit.Test
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.DiffUtilAdapter
@@ -227,7 +227,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
         val rvMatcher = MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list)
 
         onView(allOf(
-                rvMatcher.atGivenType(AbstractMediaWrapper.TYPE_DIR), firstView()
+                rvMatcher.atGivenType(MediaWrapper.TYPE_DIR), firstView()
         )).perform(longClick())
 
         onView(withId(R.id.action_mode_file_play))
@@ -245,7 +245,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
         val rvMatcher = MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list)
 
         onView(allOf(
-                withId(R.id.item_more), isDescendantOfA(rvMatcher.atGivenType(AbstractMediaWrapper.TYPE_DIR)), firstView()
+                withId(R.id.item_more), isDescendantOfA(rvMatcher.atGivenType(MediaWrapper.TYPE_DIR)), firstView()
         )).perform(click())
 
         assertThat(activity.supportFragmentManager.findFragmentByTag("context"), notNullValue())
@@ -261,11 +261,11 @@ class FileBrowserFragmentUITest : BaseUITest() {
     @Test
     fun whenAtMovieFolderAndVideoLongPress_checkAppbar() {
         onView(allOf(
-                MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(AbstractMediaWrapper.TYPE_DIR), hasDescendant(withText(containsString("Video")))
+                MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(MediaWrapper.TYPE_DIR), hasDescendant(withText(containsString("Video")))
         )).perform(click())
 
         onView(allOf(
-            MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(AbstractMediaWrapper.TYPE_VIDEO), firstView()
+            MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(MediaWrapper.TYPE_VIDEO), firstView()
         )).perform(longClick())
 
         onView(withId(R.id.action_mode_file_info))
@@ -281,11 +281,11 @@ class FileBrowserFragmentUITest : BaseUITest() {
     @Test
     fun whenAtMovieFolderAndVideoClickMore_checkContextMenu() {
         onView(allOf(
-                MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(AbstractMediaWrapper.TYPE_DIR), hasDescendant(withText(containsString("Video")))
+                MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(MediaWrapper.TYPE_DIR), hasDescendant(withText(containsString("Video")))
         )).perform(click())
 
         onView(allOf(
-                withId(R.id.item_more), isDescendantOfA(MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(AbstractMediaWrapper.TYPE_VIDEO)), firstView()
+                withId(R.id.item_more), isDescendantOfA(MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(MediaWrapper.TYPE_VIDEO)), firstView()
         )).perform(click())
 
         assertThat(activity.supportFragmentManager.findFragmentByTag("context"), notNullValue())
@@ -315,7 +315,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
                 .check(matches(isDisplayed()))
 
         val adapter = rvMatcher.recyclerView?.adapter as? DiffUtilAdapter<MediaLibraryItem, RecyclerView.ViewHolder>
-        val pos = adapter?.let { findFirstPosition(it, withMediaType(AbstractMediaWrapper.TYPE_ALL)) } ?: -1
+        val pos = adapter?.let { findFirstPosition(it, withMediaType(MediaWrapper.TYPE_ALL)) } ?: -1
 
         assertThat(pos, not(equalTo(-1)))
 
@@ -340,7 +340,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
                 .check(matches(isDisplayed()))
 
         val adapter = rvMatcher.recyclerView?.adapter as? DiffUtilAdapter<MediaLibraryItem, RecyclerView.ViewHolder>
-        val pos = adapter?.let { findFirstPosition(adapter, withMediaType(AbstractMediaWrapper.TYPE_ALL)) } ?: -1
+        val pos = adapter?.let { findFirstPosition(adapter, withMediaType(MediaWrapper.TYPE_ALL)) } ?: -1
 
         assertThat(pos, equalTo(-1)) // FAILED
     }
@@ -348,11 +348,11 @@ class FileBrowserFragmentUITest : BaseUITest() {
     @Test
     fun whenAtMusicFolderAndAudioClickMore_checkContextMenu() {
         onView(allOf(
-                MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(AbstractMediaWrapper.TYPE_DIR), hasDescendant(withText(containsString("Music")))
+                MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(MediaWrapper.TYPE_DIR), hasDescendant(withText(containsString("Music")))
         )).perform(click())
 
         onView(allOf(
-                withId(R.id.item_more), isDescendantOfA(MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(AbstractMediaWrapper.TYPE_AUDIO)), firstView()
+                withId(R.id.item_more), isDescendantOfA(MediaRecyclerViewMatcher<SelectorViewHolder<ViewDataBinding>>(R.id.network_list).atGivenType(MediaWrapper.TYPE_AUDIO)), firstView()
         )).perform(click())
 
         assertThat(activity.supportFragmentManager.findFragmentByTag("context"), notNullValue())

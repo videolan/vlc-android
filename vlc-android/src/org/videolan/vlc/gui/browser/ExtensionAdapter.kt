@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ExtensionItemViewBinding
 import org.videolan.vlc.extensions.api.VLCExtensionItem
@@ -100,12 +100,12 @@ class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.
 
     private fun getTypeAccordingToItem(type: Int): Int {
         return when (type) {
-            VLCExtensionItem.TYPE_DIRECTORY -> AbstractMediaWrapper.TYPE_DIR
-            VLCExtensionItem.TYPE_VIDEO -> AbstractMediaWrapper.TYPE_VIDEO
-            VLCExtensionItem.TYPE_AUDIO -> AbstractMediaWrapper.TYPE_AUDIO
-            VLCExtensionItem.TYPE_PLAYLIST -> AbstractMediaWrapper.TYPE_PLAYLIST
-            VLCExtensionItem.TYPE_SUBTITLE -> AbstractMediaWrapper.TYPE_SUBTITLE
-            else -> AbstractMediaWrapper.TYPE_ALL
+            VLCExtensionItem.TYPE_DIRECTORY -> MediaWrapper.TYPE_DIR
+            VLCExtensionItem.TYPE_VIDEO -> MediaWrapper.TYPE_VIDEO
+            VLCExtensionItem.TYPE_AUDIO -> MediaWrapper.TYPE_AUDIO
+            VLCExtensionItem.TYPE_PLAYLIST -> MediaWrapper.TYPE_PLAYLIST
+            VLCExtensionItem.TYPE_SUBTITLE -> MediaWrapper.TYPE_SUBTITLE
+            else -> MediaWrapper.TYPE_ALL
         }
     }
 

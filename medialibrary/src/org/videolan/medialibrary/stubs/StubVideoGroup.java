@@ -2,7 +2,7 @@ package org.videolan.medialibrary.stubs;
 
 import android.os.Parcel;
 
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 
 public class StubVideoGroup extends AbstractVideoGroup {
@@ -15,13 +15,13 @@ public class StubVideoGroup extends AbstractVideoGroup {
     }
 
     @Override
-    public AbstractMediaWrapper[] media(int sort, boolean desc, int nbItems, int offset) {
-        return new AbstractMediaWrapper[0];
+    public MediaWrapper[] media(int sort, boolean desc, int nbItems, int offset) {
+        return new MediaWrapper[0];
     }
 
     @Override
-    public AbstractMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
-        return new AbstractMediaWrapper[0];
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+        return new MediaWrapper[0];
     }
 
     @Override

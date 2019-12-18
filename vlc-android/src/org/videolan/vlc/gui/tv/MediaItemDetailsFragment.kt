@@ -40,7 +40,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.MediaImage
@@ -117,7 +117,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         viewModel.mediaItemDetails = extras.getParcelable("item") ?: return
         val hasMedia = extras.containsKey("media")
         val media = (extras.getParcelable<Parcelable>("media")
-                ?: MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.LocationToUri(viewModel.mediaItemDetails.location))) as AbstractMediaWrapper
+                ?: MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.LocationToUri(viewModel.mediaItemDetails.location))) as MediaWrapper
 
         viewModel.media = media
         if (!hasMedia) viewModel.media.setDisplayTitle(viewModel.mediaItemDetails.title)
@@ -175,7 +175,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         lifecycleScope.launchWhenStarted {
             when {
                 !url.isNullOrEmpty() -> withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(url) }
-                viewModel.media.type == AbstractMediaWrapper.TYPE_AUDIO || viewModel.media.type == AbstractMediaWrapper.TYPE_VIDEO -> {
+                viewModel.media.type == MediaWrapper.TYPE_AUDIO || viewModel.media.type == MediaWrapper.TYPE_VIDEO -> {
                     withContext(Dispatchers.IO) {
                         AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512)?.let { UiTools.blurBitmap(it) }
                     }
@@ -338,11 +338,11 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 ListRowPresenter())
         rowsAdapter = ArrayObjectAdapter(selector)
         lifecycleScope.launchWhenStarted {
-            val cover = if (viewModel.media.type == AbstractMediaWrapper.TYPE_AUDIO || viewModel.media.type == AbstractMediaWrapper.TYPE_VIDEO)
+            val cover = if (viewModel.media.type == MediaWrapper.TYPE_AUDIO || viewModel.media.type == MediaWrapper.TYPE_VIDEO)
                 withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512) }
             else null
             val browserFavExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(Uri.parse(viewModel.mediaItemDetails.location)) }
-            val isDir = viewModel.media.type == AbstractMediaWrapper.TYPE_DIR
+            val isDir = viewModel.media.type == MediaWrapper.TYPE_DIR
             val canSave = isDir && withContext(Dispatchers.IO) { FileUtils.canSave(viewModel.media) }
             if (activity.isFinishing) return@launchWhenStarted
             val res = resources
@@ -354,7 +354,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 detailsOverview.isImageScaleUpAllowed = true
                 actionsAdapter.set(ID_BROWSE, Action(ID_BROWSE.toLong(), res.getString(R.string.browse_folder)))
                 if (canSave) actionsAdapter.set(ID_FAVORITE, if (browserFavExists) actionDelete else actionAdd)
-            } else if (viewModel.media.type == AbstractMediaWrapper.TYPE_AUDIO) {
+            } else if (viewModel.media.type == MediaWrapper.TYPE_AUDIO) {
                 // Add images and action buttons to the details view
                 if (cover == null) {
                     detailsOverview.imageDrawable = ContextCompat.getDrawable(activity, R.drawable.ic_default_cone)
@@ -365,7 +365,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 actionsAdapter.set(ID_PLAY, Action(ID_PLAY.toLong(), res.getString(R.string.play)))
                 actionsAdapter.set(ID_LISTEN, Action(ID_LISTEN.toLong(), res.getString(R.string.listen)))
                 actionsAdapter.set(ID_PLAYLIST, Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
-            } else if (viewModel.media.type == AbstractMediaWrapper.TYPE_VIDEO) {
+            } else if (viewModel.media.type == MediaWrapper.TYPE_VIDEO) {
                 // Add images and action buttons to the details view
                 if (cover == null) {
                     detailsOverview.imageDrawable = ContextCompat.getDrawable(activity, R.drawable.ic_default_cone)
@@ -389,7 +389,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
 
 class MediaItemDetailsModel : ViewModel() {
     lateinit var mediaItemDetails: MediaItemDetails
-    lateinit var media: AbstractMediaWrapper
+    lateinit var media: MediaWrapper
     var mediaStarted = false
 }
 

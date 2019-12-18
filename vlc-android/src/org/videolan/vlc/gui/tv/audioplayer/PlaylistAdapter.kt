@@ -26,7 +26,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.databinding.TvPlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
@@ -37,7 +37,7 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PlaylistAdapter
-internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val model: PlaylistModel) : DiffUtilAdapter<AbstractMediaWrapper, PlaylistAdapter.ViewHolder>() {
+internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val model: PlaylistModel) : DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>() {
     var selectedItem = -1
         private set
     private var currentPlayingVisu: MiniVisualizer? = null

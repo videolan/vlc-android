@@ -27,12 +27,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.channels.SendChannel
-import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlItemBinding
 
 internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
-    private var dataset: List<AbstractMediaWrapper>? = null
+    private var dataset: List<MediaWrapper>? = null
 
     val isEmpty: Boolean
         get() = itemCount == 0
@@ -49,12 +49,12 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : Recy
         holder.binding.mrlItemTitle.text = Uri.decode(item?.title)
     }
 
-    fun setList(list: List<AbstractMediaWrapper>?) {
+    fun setList(list: List<MediaWrapper>?) {
         dataset = list
         notifyDataSetChanged()
     }
 
-    fun getItem(position: Int): AbstractMediaWrapper? = when {
+    fun getItem(position: Int): MediaWrapper? = when {
         position >= itemCount -> null
         position < 0 -> null
         else -> dataset?.get(position)
@@ -77,5 +77,5 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : Recy
 }
 
 sealed class MrlAction
-class Playmedia(val media: AbstractMediaWrapper) : MrlAction()
+class Playmedia(val media: MediaWrapper) : MrlAction()
 class ShowContext(val position: Int) : MrlAction()
