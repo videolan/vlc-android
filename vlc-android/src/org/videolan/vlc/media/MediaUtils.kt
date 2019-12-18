@@ -147,7 +147,7 @@ object MediaUtils {
         openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position)
     }
 
-    fun playAlbums(context: Context?, provider: MedialibraryProvider<AbstractAlbum>, position: Int, shuffle: Boolean) {
+    fun playAlbums(context: Context?, provider: MedialibraryProvider<Album>, position: Int, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
@@ -494,7 +494,7 @@ object MediaUtils {
                         mw?.let {
                             when (it) {
                                 is MediaWrapper -> openMediaNoUi(it.uri)
-                                is AbstractAlbum -> playAlbum(context, it)
+                                is Album -> playAlbum(context, it)
                                 is Artist -> playArtist(context, it)
                                 else -> {
                                 }
@@ -507,7 +507,7 @@ object MediaUtils {
         }
     }
 
-    private fun playAlbum(context: Context?, album: AbstractAlbum) {
+    private fun playAlbum(context: Context?, album: Album) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             album.tracks?.takeIf { it.isNotEmpty() }?.let { list ->

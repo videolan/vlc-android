@@ -5,7 +5,7 @@ import android.os.Parcel;
 import androidx.annotation.NonNull;
 
 import org.videolan.medialibrary.interfaces.Medialibrary;
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
@@ -20,20 +20,20 @@ public class ArtistImpl extends Artist {
         super(in);
     }
 
-    public AbstractAlbum[] getAlbums(int sort, boolean desc) {
+    public Album[] getAlbums(int sort, boolean desc) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetAlbums(ml, mId, sort, desc) : new AbstractAlbum[0];
+        return ml.isInitiated() ? nativeGetAlbums(ml, mId, sort, desc) : new Album[0];
     }
 
     @NonNull
-    public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
+    public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetPagedAlbums(ml, mId, sort, desc, nbItems, offset) : new AbstractAlbum[0];
+        return ml.isInitiated() ? nativeGetPagedAlbums(ml, mId, sort, desc, nbItems, offset) : new Album[0];
     }
 
-    public AbstractAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
+    public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeSearchAlbums(ml, mId, query, sort, desc, nbItems, offset) : new AbstractAlbum[0];
+        return ml.isInitiated() ? nativeSearchAlbums(ml, mId, query, sort, desc, nbItems, offset) : new Album[0];
     }
 
     public int searchAlbumsCount(String query) {
@@ -72,11 +72,11 @@ public class ArtistImpl extends Artist {
         return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
     }
 
-    private native AbstractAlbum[] nativeGetAlbums(Medialibrary ml, long mId, int sort, boolean desc);
+    private native Album[] nativeGetAlbums(Medialibrary ml, long mId, int sort, boolean desc);
     private native MediaWrapper[] nativeGetMedia(Medialibrary ml, long mId, int sort, boolean desc);
-    private native AbstractAlbum[] nativeGetPagedAlbums(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
+    private native Album[] nativeGetPagedAlbums(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
     private native MediaWrapper[] nativeGetPagedMedia(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
-    private native AbstractAlbum[] nativeSearchAlbums(Medialibrary ml, long mId, String query, int sort, boolean desc, int nbItems, int offset);
+    private native Album[] nativeSearchAlbums(Medialibrary ml, long mId, String query, int sort, boolean desc, int nbItems, int offset);
     private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetTracksCount(Medialibrary ml, long mId);
     private native int nativeGetAlbumsCount(Medialibrary ml, long mId);

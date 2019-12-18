@@ -32,9 +32,9 @@ abstract public class Artist extends MediaLibraryItem {
         }
     }
 
-    abstract public AbstractAlbum[] getAlbums(int sort, boolean desc);
-    abstract public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
-    abstract public AbstractAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public Album[] getAlbums(int sort, boolean desc);
+    abstract public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
+    abstract public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchAlbumsCount(String query);
     abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
@@ -64,7 +64,7 @@ abstract public class Artist extends MediaLibraryItem {
         this.artworkMrl = artworkMrl;
     }
 
-    public AbstractAlbum[] getAlbums() {
+    public Album[] getAlbums() {
         return getAlbums(Medialibrary.SORT_DEFAULT, false);
     }
 

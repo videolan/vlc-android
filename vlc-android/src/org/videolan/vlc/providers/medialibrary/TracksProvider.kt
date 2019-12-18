@@ -39,7 +39,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
     override fun canSortByReleaseDate() = true
 
     override fun isByDisc(): Boolean {
-        return parent is AbstractAlbum
+        return parent is Album
     }
 
     init {
@@ -47,7 +47,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", parent is Artist)
         if (sort == Medialibrary.SORT_DEFAULT) sort = when (parent) {
             is Artist -> Medialibrary.SORT_ALBUM
-            is AbstractAlbum -> Medialibrary.SORT_DEFAULT
+            is Album -> Medialibrary.SORT_DEFAULT
             else -> Medialibrary.SORT_ALPHA
         }
     }
@@ -57,13 +57,13 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
     override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> {
         val list = if (model.filterQuery == null) when(parent) {
             is Artist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
-            is AbstractAlbum -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is Album -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is AbstractGenre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is AbstractPlaylist -> parent.getPagedTracks(loadSize, startposition)
             else -> medialibrary.getPagedAudio(sort, desc, loadSize, startposition)
         } else when(parent) {
             is Artist -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
-            is AbstractAlbum -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
+            is Album -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             is AbstractGenre -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             is AbstractPlaylist -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             else -> medialibrary.searchAudio(model.filterQuery, sort, desc, loadSize, startposition)
@@ -72,14 +72,14 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
     }
 
     override fun getTotalCount() = if (model.filterQuery == null) when (parent) {
-        is AbstractAlbum -> parent.realTracksCount
+        is Album -> parent.realTracksCount
         is AbstractPlaylist -> parent.realTracksCount
         is Artist,
         is AbstractGenre -> parent.tracksCount
         else -> medialibrary.audioCount
     } else when(parent) {
         is Artist -> parent.searchTracksCount(model.filterQuery)
-        is AbstractAlbum -> parent.searchTracksCount(model.filterQuery)
+        is Album -> parent.searchTracksCount(model.filterQuery)
         is AbstractGenre -> parent.searchTracksCount(model.filterQuery)
         is AbstractPlaylist -> parent.searchTracksCount(model.filterQuery)
         else ->medialibrary.getAudioCount(model.filterQuery)

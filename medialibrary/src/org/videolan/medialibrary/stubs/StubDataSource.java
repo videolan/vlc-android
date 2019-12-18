@@ -9,7 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import org.videolan.medialibrary.MLServiceLocator;
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
@@ -40,7 +40,7 @@ public class StubDataSource {
     ArrayList<MediaWrapper> mAudioMediaWrappers = new ArrayList<>();
     ArrayList<MediaWrapper> mStreamMediaWrappers = new ArrayList<>();
     ArrayList<MediaWrapper> mHistory = new ArrayList<>();
-    ArrayList<AbstractAlbum> mAlbums = new ArrayList<>();
+    ArrayList<Album> mAlbums = new ArrayList<>();
     ArrayList<Artist> mArtists = new ArrayList<>();
     ArrayList<AbstractGenre> mGenres = new ArrayList<>();
     ArrayList<AbstractPlaylist> mPlaylists = new ArrayList<>();
@@ -117,25 +117,25 @@ public class StubDataSource {
     }
 
     int compareAlbumStr(String a1, String a2) {
-        if (a1.equals(AbstractAlbum.SpecialRes.UNKNOWN_ALBUM) &&
-                a2.equals(AbstractAlbum.SpecialRes.UNKNOWN_ALBUM)) {
+        if (a1.equals(Album.SpecialRes.UNKNOWN_ALBUM) &&
+                a2.equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
             return 0;
         }
-        else if (a1.equals(AbstractAlbum.SpecialRes.UNKNOWN_ALBUM)) {
+        else if (a1.equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
             return -1;
-        } else if (a2.equals(AbstractAlbum.SpecialRes.UNKNOWN_ALBUM)) {
+        } else if (a2.equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
             return 1;
         } else {
             return a1.compareTo(a2);
         }
     }
 
-    int compareAlbum(AbstractAlbum a1, AbstractAlbum a2) {
+    int compareAlbum(Album a1, Album a2) {
         if (a1.getTitle().equals(a2.getTitle())) {
             return compareArtist(a1.getAlbumArtist(), a2.getAlbumArtist());
-        } else if (a1.getTitle().equals(AbstractAlbum.SpecialRes.UNKNOWN_ALBUM)) {
+        } else if (a1.getTitle().equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
             return -1;
-        } else if (a2.getTitle().equals(AbstractAlbum.SpecialRes.UNKNOWN_ALBUM)) {
+        } else if (a2.getTitle().equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
             return 1;
         } else {
             return a1.getTitle().compareTo(a2.getTitle());
@@ -176,12 +176,12 @@ public class StubDataSource {
         }
     }
 
-    class AlbumComparator implements Comparator<AbstractAlbum> {
+    class AlbumComparator implements Comparator<Album> {
         private int sort;
         AlbumComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(AbstractAlbum o1, AbstractAlbum o2) {
+        public int compare(Album o1, Album o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA:
@@ -244,12 +244,12 @@ public class StubDataSource {
         return array.toArray(new MediaWrapper[0]);
     }
 
-    AbstractAlbum[] sortAlbum(List<AbstractAlbum> arrayList, int sort, boolean desc) {
-        List<AbstractAlbum> array = new ArrayList<>(arrayList);
+    Album[] sortAlbum(List<Album> arrayList, int sort, boolean desc) {
+        List<Album> array = new ArrayList<>(arrayList);
         Collections.sort(array, new AlbumComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AbstractAlbum[0]);
+        return array.toArray(new Album[0]);
     }
 
     Artist[] sortArtist(List<Artist> arrayList, int sort, boolean desc) {
@@ -363,10 +363,10 @@ public class StubDataSource {
         mGenres.add(newGenre);
     }
 
-    private void addAlbumSecure(AbstractAlbum newAlbum) {
+    private void addAlbumSecure(Album newAlbum) {
         if (newAlbum.getTitle().isEmpty())
             return;
-        for (AbstractAlbum album : mAlbums) {
+        for (Album album : mAlbums) {
             if (album.getTitle().equals(newAlbum.getTitle()) &&
                     album.getAlbumArtist().getTitle().equals(newAlbum.getAlbumArtist().getTitle()))
                 return;
@@ -384,10 +384,10 @@ public class StubDataSource {
         return null;
     }
 
-    private AbstractAlbum getAlbumFromName(String albumName, long artistID) {
+    private Album getAlbumFromName(String albumName, long artistID) {
         if (albumName.equals(""))
-            albumName = AbstractAlbum.SpecialRes.UNKNOWN_ALBUM;
-        for (AbstractAlbum album : mAlbums) {
+            albumName = Album.SpecialRes.UNKNOWN_ALBUM;
+        for (Album album : mAlbums) {
             if (album.getTitle().equals(albumName) && album.getAlbumArtist().getId() == artistID) {
                 return album;
             }
@@ -395,9 +395,9 @@ public class StubDataSource {
         return null;
     }
 
-    private void raiseAlbumDuration(AbstractAlbum album, long duration) {
+    private void raiseAlbumDuration(Album album, long duration) {
         for (int i = 0 ; i < mAlbums.size() ; i++) {
-            AbstractAlbum item = mAlbums.get(i);
+            Album item = mAlbums.get(i);
             Artist artist = item.getAlbumArtist();
             if (item.getTitle().equals(album.getTitle()) &&
                     item.getAlbumArtist().getTitle().equals(artist.getTitle())) {
@@ -425,7 +425,7 @@ public class StubDataSource {
 
     private String getAlbumName(String name) {
         if (name == null || name.isEmpty()) {
-            return AbstractAlbum.SpecialRes.UNKNOWN_ALBUM;
+            return Album.SpecialRes.UNKNOWN_ALBUM;
         }
         return name;
     }
@@ -450,7 +450,7 @@ public class StubDataSource {
             }
         }
         String albumName = getAlbumName(media.getAlbum());
-        AbstractAlbum album = getAlbumFromName(albumName, albumArtist.getId());
+        Album album = getAlbumFromName(albumName, albumArtist.getId());
         if (album == null) {
             album = MLServiceLocator.getAbstractAlbum(getUUID().longValue(), albumName, releaseYear,
                         media.getArtworkMrl(), albumArtist.getTitle(),

@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.Medialibrary;
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
@@ -148,15 +148,15 @@ public class StubMedialibrary extends Medialibrary {
     @Override
     public void setVideoGroupsPrefixLength(int lenght) {}
 
-    public AbstractAlbum[] getAlbums() {
+    public Album[] getAlbums() {
         return getAlbums(SORT_DEFAULT, false);
     }
 
-    public AbstractAlbum[] getAlbums(int sort, boolean desc) {
+    public Album[] getAlbums(int sort, boolean desc) {
         return dt.sortAlbum(dt.mAlbums, sort, desc);
     }
 
-    public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
+    public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
         return dt.sortAlbum(dt.secureSublist(dt.mAlbums, offset, offset + nbItems), sort, desc);
     }
 
@@ -166,14 +166,14 @@ public class StubMedialibrary extends Medialibrary {
 
     public int getAlbumsCount(String query) {
         int count = 0;
-        for (AbstractAlbum album : dt.mAlbums) {
+        for (Album album : dt.mAlbums) {
             if (Tools.hasSubString(album.getTitle(), query)) count++;
         }
         return count;
     }
 
-    public AbstractAlbum getAlbum(long albumId) {
-        for (AbstractAlbum album : dt.mAlbums) {
+    public Album getAlbum(long albumId) {
+        for (Album album : dt.mAlbums) {
             if (album.getId() == albumId) return album;
         }
         return null;
@@ -194,7 +194,7 @@ public class StubMedialibrary extends Medialibrary {
 
     private Artist[] getAlbumArtists() {
         ArrayList<Artist> results = new ArrayList<>();
-        for (AbstractAlbum album : dt.mAlbums) {
+        for (Album album : dt.mAlbums) {
             Artist artist = album.getAlbumArtist();
             if (!checkForArtist(results, artist)) {
                 results.add(artist);
@@ -467,7 +467,7 @@ public class StubMedialibrary extends Medialibrary {
     public SearchAggregate search(String query) {
         MediaWrapper[] videos = searchVideo(query);
         MediaWrapper[] tracks = searchAudio(query);
-        AbstractAlbum[] albums = searchAlbum(query);
+        Album[] albums = searchAlbum(query);
         Artist[] artists = searchArtist(query);
         AbstractGenre[] genres = searchGenre(query);
         AbstractPlaylist[] playlists = searchPlaylist(query);
@@ -568,16 +568,16 @@ public class StubMedialibrary extends Medialibrary {
         return dt.sortArtist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
-    public AbstractAlbum[] searchAlbum(String query) {
-        ArrayList<AbstractAlbum> results = new ArrayList<>();
-        for (AbstractAlbum album : dt.mAlbums) {
+    public Album[] searchAlbum(String query) {
+        ArrayList<Album> results = new ArrayList<>();
+        for (Album album : dt.mAlbums) {
             if (Tools.hasSubString(album.getTitle(), query)) results.add(album);
         }
-        return results.toArray(new AbstractAlbum[0]);
+        return results.toArray(new Album[0]);
     }
 
-    public AbstractAlbum[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractAlbum> results = new ArrayList<>(Arrays.asList(searchAlbum(query)));
+    public Album[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<Album> results = new ArrayList<>(Arrays.asList(searchAlbum(query)));
         return dt.sortAlbum(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 

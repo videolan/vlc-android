@@ -3,19 +3,19 @@ package org.videolan.medialibrary.media;
 import android.os.Parcel;
 
 import org.videolan.medialibrary.interfaces.Medialibrary;
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 @SuppressWarnings("JniMissingFunction")
-public class Album extends AbstractAlbum {
+public class AlbumImpl extends Album {
     public static final String TAG = "VLC/Album";
 
-    public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, long duration) {
+    public AlbumImpl(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, long duration) {
         super(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId, nbTracks, duration);
     }
 
-    public Album(Parcel in) {
+    public AlbumImpl(Parcel in) {
         super(in);
     }
 

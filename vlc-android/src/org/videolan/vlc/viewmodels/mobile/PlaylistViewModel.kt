@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum
+import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.PlaylistActivity
@@ -44,7 +44,7 @@ class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : Medi
     init {
         when (playlist) {
             is AbstractPlaylist -> watchPlaylists()
-            is AbstractAlbum -> watchAlbums()
+            is Album -> watchAlbums()
             else -> watchMedia()
         }
     }

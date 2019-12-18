@@ -12,14 +12,14 @@ public abstract class AbstractGenre extends MediaLibraryItem {
     public AbstractGenre(long id, String title) { super(id, title); }
     public AbstractGenre(Parcel in) { super(in); }
 
-    abstract public AbstractAlbum[] getAlbums(int sort, boolean desc);
-    abstract public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
+    abstract public Album[] getAlbums(int sort, boolean desc);
+    abstract public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
     abstract public Artist[] getArtists(int sort, boolean desc);
     abstract public MediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc);
     abstract public MediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, int nbItems, int offset);
     abstract public int getTracksCount();
     abstract public int getAlbumsCount();
-    abstract public AbstractAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchAlbumsCount(String query);
     abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
@@ -32,7 +32,7 @@ public abstract class AbstractGenre extends MediaLibraryItem {
         return getTracks(false, sort, desc);
     }
 
-    public AbstractAlbum[] getAlbums() {
+    public Album[] getAlbums() {
         return getAlbums(Medialibrary.SORT_DEFAULT, false);
     }
     public Artist[] getArtists() {

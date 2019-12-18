@@ -3,7 +3,7 @@ package org.videolan.medialibrary.stubs;
 import android.os.Parcel;
 
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
@@ -32,10 +32,10 @@ public class StubArtist extends Artist {
         return results;
     }
 
-    public AbstractAlbum[] getAlbums(int sort, boolean desc) {
+    public Album[] getAlbums(int sort, boolean desc) {
         ArrayList<String> albumNames = getAlbumNames();
-        ArrayList<AbstractAlbum> results = new ArrayList<>();
-        for (AbstractAlbum album : dt.mAlbums) {
+        ArrayList<Album> results = new ArrayList<>();
+        for (Album album : dt.mAlbums) {
             if (albumNames.contains(album.getTitle()) &&
                     album.getAlbumArtist().getTitle().equals(this.getTitle())) {
                 results.add(album);
@@ -48,15 +48,15 @@ public class StubArtist extends Artist {
         return getAlbumNames().size();
     }
 
-    public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractAlbum> results = new ArrayList<>(Arrays.asList(getAlbums(sort, desc)));
-        return results.toArray(new AbstractAlbum[0]);
+    public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<Album> results = new ArrayList<>(Arrays.asList(getAlbums(sort, desc)));
+        return results.toArray(new Album[0]);
     }
 
-    public AbstractAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
+    public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
         ArrayList<String> albumNames = getAlbumNames();
-        ArrayList<AbstractAlbum> results = new ArrayList<>();
-        for (AbstractAlbum album : dt.mAlbums) {
+        ArrayList<Album> results = new ArrayList<>();
+        for (Album album : dt.mAlbums) {
             if (albumNames.contains(album.getTitle()) &&
                     album.getAlbumArtist().getTitle().equals(this.getTitle()) &&
                     Tools.hasSubString(album.getTitle(), query)) {
@@ -69,7 +69,7 @@ public class StubArtist extends Artist {
     public int searchAlbumsCount(String query) {
         int count = 0;
         ArrayList<String> albumNames = getAlbumNames();
-        for (AbstractAlbum album : dt.mAlbums) {
+        for (Album album : dt.mAlbums) {
             if (albumNames.contains(album.getDescription()) &&
                     album.getAlbumArtist().getTitle().equals(this.getTitle()) &&
                     Tools.hasSubString(album.getTitle(), query)) {

@@ -7,9 +7,9 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary.*
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.PlaybackService
@@ -253,22 +253,22 @@ object ModelsHelper {
 
     private fun MediaLibraryItem.isSpecialItem() = itemType == MediaLibraryItem.TYPE_ARTIST
             && (id == 1L || id == 2L) || itemType == MediaLibraryItem.TYPE_ALBUM
-            && title == AbstractAlbum.SpecialRes.UNKNOWN_ALBUM
+            && title == Album.SpecialRes.UNKNOWN_ALBUM
 
     private fun MediaLibraryItem.getLength() = when {
-        itemType == MediaLibraryItem.TYPE_ALBUM -> (this as AbstractAlbum).duration
+        itemType == MediaLibraryItem.TYPE_ALBUM -> (this as Album).duration
         itemType == MediaLibraryItem.TYPE_MEDIA -> (this as MediaWrapper).length
         else -> 0L
     }
 
     private fun MediaLibraryItem.getYear() = when (itemType) {
-        MediaLibraryItem.TYPE_ALBUM -> if ((this as AbstractAlbum).releaseYear <= 0) "-" else releaseYear.toString()
+        MediaLibraryItem.TYPE_ALBUM -> if ((this as Album).releaseYear <= 0) "-" else releaseYear.toString()
         MediaLibraryItem.TYPE_MEDIA -> if ((this as MediaWrapper).releaseYear <= 0) "-" else releaseYear.toString()
         else -> "-"
     }
 
     fun MediaLibraryItem.getTracksCount() = when (itemType) {
-        MediaLibraryItem.TYPE_ALBUM -> (this as AbstractAlbum).tracksCount
+        MediaLibraryItem.TYPE_ALBUM -> (this as Album).tracksCount
         MediaLibraryItem.TYPE_PLAYLIST -> (this as AbstractPlaylist).tracksCount
         else -> 0
     }

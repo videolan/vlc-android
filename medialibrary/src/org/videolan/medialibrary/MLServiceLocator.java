@@ -6,14 +6,14 @@ import android.os.Parcel;
 
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.interfaces.Medialibrary;
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
-import org.videolan.medialibrary.media.Album;
+import org.videolan.medialibrary.media.AlbumImpl;
 import org.videolan.medialibrary.media.ArtistImpl;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.Genre;
@@ -150,11 +150,11 @@ public class MLServiceLocator {
     }
 
     //Album
-    public static AbstractAlbum getAbstractAlbum(long id, String title, int releaseYear, String artworkMrl,
-                                                 String albumArtist, long albumArtistId, int nbTracks,
-                                                 long duration) {
+    public static Album getAbstractAlbum(long id, String title, int releaseYear, String artworkMrl,
+                                         String albumArtist, long albumArtistId, int nbTracks,
+                                         long duration) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Album(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId,
+            return new AlbumImpl(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId,
                     nbTracks, duration);
         } else {
             return new StubAlbum(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId,
@@ -162,9 +162,9 @@ public class MLServiceLocator {
         }
     }
 
-    public static AbstractAlbum getAbstractAlbum(Parcel in) {
+    public static Album getAbstractAlbum(Parcel in) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Album(in);
+            return new AlbumImpl(in);
         } else {
             return new StubAlbum(in);
         }

@@ -3,7 +3,7 @@ package org.videolan.medialibrary.stubs;
 import android.os.Parcel;
 
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
@@ -18,11 +18,11 @@ public class StubGenre extends AbstractGenre {
     public StubGenre(long id, String title) { super(id, title); }
     public StubGenre(Parcel in) { super(in); }
 
-    public AbstractAlbum[] getAlbums(int sort, boolean desc) {
-        ArrayList<AbstractAlbum> results = new ArrayList<>();
+    public Album[] getAlbums(int sort, boolean desc) {
+        ArrayList<Album> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) {
-                for (AbstractAlbum album : dt.mAlbums) {
+                for (Album album : dt.mAlbums) {
                     if (album.getTitle().equals(media.getAlbum()) &&
                             !results.contains(album)) {
                         results.add(album);
@@ -33,9 +33,9 @@ public class StubGenre extends AbstractGenre {
         return dt.sortAlbum(results, sort, desc);
     }
 
-    public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractAlbum> results = new ArrayList<>(Arrays.asList(getAlbums(sort, desc)));
-        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AbstractAlbum[0]);
+    public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<Album> results = new ArrayList<>(Arrays.asList(getAlbums(sort, desc)));
+        return dt.secureSublist(results, offset, offset + nbItems).toArray(new Album[0]);
     }
 
     @Override
@@ -43,12 +43,12 @@ public class StubGenre extends AbstractGenre {
         return getAlbums().length;
     }
 
-    public AbstractAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractAlbum> results = new ArrayList<>();
+    public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<Album> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle()) &&
                     Tools.hasSubString(media.getTitle(), query)) {
-                for (AbstractAlbum album : dt.mAlbums) {
+                for (Album album : dt.mAlbums) {
                     if (album.getTitle().equals(media.getAlbum()) &&
                             !results.contains(album)) {
                         results.add(album);
@@ -57,15 +57,15 @@ public class StubGenre extends AbstractGenre {
             }
         }
         results = new ArrayList<>(Arrays.asList(dt.sortAlbum(results, sort, desc)));
-        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AbstractAlbum[0]);
+        return dt.secureSublist(results, offset, offset + nbItems).toArray(new Album[0]);
     }
 
     public int searchAlbumsCount(String query) {
-        ArrayList<AbstractAlbum> results = new ArrayList<>();
+        ArrayList<Album> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle()) &&
                     Tools.hasSubString(media.getTitle(), query)) {
-                for (AbstractAlbum album : dt.mAlbums) {
+                for (Album album : dt.mAlbums) {
                     if (album.getTitle().equals(media.getAlbum()) &&
                             !results.contains(album)) {
                         results.add(album);

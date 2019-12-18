@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum
+import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
@@ -48,7 +48,7 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
     init {
         when (parent) {
             is Artist -> watchArtists()
-            is AbstractAlbum -> watchAlbums()
+            is Album -> watchAlbums()
             else -> watchMedia()
         }
         //Initial state coming from preferences and falling back to [providersInCard] hardcoded values

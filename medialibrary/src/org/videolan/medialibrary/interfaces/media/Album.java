@@ -10,7 +10,7 @@ import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
-public abstract class AbstractAlbum extends MediaLibraryItem {
+public abstract class Album extends MediaLibraryItem {
     public static class SpecialRes {
         public static String UNKNOWN_ALBUM = Medialibrary.getContext().getString(R.string.unknown_album);
     }
@@ -22,7 +22,7 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
     protected int mTracksCount;
     protected long duration;
 
-    public AbstractAlbum(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, long duration) {
+    public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, long duration) {
         super(id, title);
         this.releaseYear = releaseYear;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
@@ -38,7 +38,7 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
         }
     }
 
-    protected AbstractAlbum(Parcel in) {
+    protected Album(Parcel in) {
         super(in);
         this.releaseYear = in.readInt();
         this.artworkMrl = in.readString();
@@ -96,16 +96,16 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
         return TYPE_ALBUM;
     }
 
-    public static Parcelable.Creator<AbstractAlbum> CREATOR
-            = new Parcelable.Creator<AbstractAlbum>() {
+    public static Parcelable.Creator<Album> CREATOR
+            = new Parcelable.Creator<Album>() {
         @Override
-        public AbstractAlbum createFromParcel(Parcel in) {
+        public Album createFromParcel(Parcel in) {
             return MLServiceLocator.getAbstractAlbum(in);
         }
 
         @Override
-        public AbstractAlbum[] newArray(int size) {
-            return new AbstractAlbum[size];
+        public Album[] newArray(int size) {
+            return new Album[size];
         }
     };
 
