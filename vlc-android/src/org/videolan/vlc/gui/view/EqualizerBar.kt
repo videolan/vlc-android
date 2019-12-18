@@ -98,7 +98,7 @@ class EqualizerBar : LinearLayout {
         verticalSeekBar.progress = (value * PRECISION + RANGE).toInt()
     }
 
-    fun setListener(listener: OnEqualizerBarChangeListener) {
+    fun setListener(listener: OnEqualizerBarChangeListener?) {
         this.listener = listener
     }
 

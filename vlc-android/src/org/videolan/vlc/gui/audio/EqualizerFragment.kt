@@ -182,13 +182,13 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
 
             val bar = EqualizerBar(requireContext(), band)
             bar.setValue(equalizer.getAmp(i))
-            bar.setListener(BandListener(i))
 
             binding.equalizerBands.addView(bar)
 
             val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, 1f)
             bar.layoutParams = params
             eqBandsViews.add(bar)
+            bar.setListener(BandListener(i))
         }
 
         eqBandsViews[0].nextFocusLeftId = org.videolan.vlc.R.id.equalizer_preamp
@@ -230,6 +230,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
+        eqBandsViews.forEach { it.setListener(null) }
         super.onDismiss(dialog)
         if (!state.saved)
             createSaveCustomSetDialog(binding.equalizerPresets.selectedItemPosition, displayedByUser = false, onPause = true)
