@@ -12,7 +12,7 @@ import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
-import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 
@@ -42,7 +42,7 @@ public class StubDataSource {
     ArrayList<MediaWrapper> mHistory = new ArrayList<>();
     ArrayList<Album> mAlbums = new ArrayList<>();
     ArrayList<Artist> mArtists = new ArrayList<>();
-    ArrayList<AbstractGenre> mGenres = new ArrayList<>();
+    ArrayList<Genre> mGenres = new ArrayList<>();
     ArrayList<AbstractPlaylist> mPlaylists = new ArrayList<>();
     ArrayList<String> mBannedFolders = new ArrayList<>();
     ArrayList<AbstractFolder> mFolders = new ArrayList<>();
@@ -193,12 +193,12 @@ public class StubDataSource {
         }
     }
 
-    class GenreComparator implements Comparator<AbstractGenre> {
+    class GenreComparator implements Comparator<Genre> {
         private int sort;
         GenreComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(AbstractGenre o1, AbstractGenre o2) {
+        public int compare(Genre o1, Genre o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
@@ -260,12 +260,12 @@ public class StubDataSource {
         return array.toArray(new Artist[0]);
     }
 
-    AbstractGenre[] sortGenre(List<AbstractGenre> arrayList, int sort, boolean desc) {
-        List<AbstractGenre> array = new ArrayList<>(arrayList);
+    Genre[] sortGenre(List<Genre> arrayList, int sort, boolean desc) {
+        List<Genre> array = new ArrayList<>(arrayList);
         Collections.sort(array, new GenreComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AbstractGenre[0]);
+        return array.toArray(new Genre[0]);
     }
 
     AbstractPlaylist[] sortPlaylist(List<AbstractPlaylist> arrayList, int sort, boolean desc) {
@@ -353,10 +353,10 @@ public class StubDataSource {
         mArtists.add(newArtist);
     }
 
-    private void addGenreSecure(AbstractGenre newGenre) {
+    private void addGenreSecure(Genre newGenre) {
         if (newGenre.getTitle().isEmpty())
             return;
-        for (AbstractGenre genre : mGenres) {
+        for (Genre genre : mGenres) {
             if (genre.getTitle().equals(newGenre.getTitle()))
                 return;
         }
@@ -458,7 +458,7 @@ public class StubDataSource {
             addAlbumSecure(album);
         }
         raiseAlbumDuration(album, (int) media.getLength());
-        AbstractGenre genre = MLServiceLocator.getAbstractGenre(getUUID().longValue(), media.getGenre());
+        Genre genre = MLServiceLocator.getAbstractGenre(getUUID().longValue(), media.getGenre());
         addGenreSecure(genre);
         MediaWrapper newMedia = MLServiceLocator.getAbstractMediaWrapper(
                 media.getId(),

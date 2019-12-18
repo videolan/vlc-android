@@ -9,14 +9,14 @@ import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
-import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.AlbumImpl;
 import org.videolan.medialibrary.media.ArtistImpl;
 import org.videolan.medialibrary.media.Folder;
-import org.videolan.medialibrary.media.Genre;
+import org.videolan.medialibrary.media.GenreImpl;
 import org.videolan.medialibrary.media.MediaWrapperImpl;
 import org.videolan.medialibrary.media.Playlist;
 import org.videolan.medialibrary.media.VideoGroup;
@@ -133,17 +133,17 @@ public class MLServiceLocator {
     }
 
     //Genre
-    public static AbstractGenre getAbstractGenre(long id, String title) {
+    public static Genre getAbstractGenre(long id, String title) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Genre(id, title);
+            return new GenreImpl(id, title);
         } else {
             return new StubGenre(id, title);
         }
     }
 
-    public static AbstractGenre getAbstractGenre(Parcel in) {
+    public static Genre getAbstractGenre(Parcel in) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Genre(in);
+            return new GenreImpl(in);
         } else {
             return new StubGenre(in);
         }

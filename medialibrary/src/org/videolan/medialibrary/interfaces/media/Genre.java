@@ -7,10 +7,10 @@ import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
-public abstract class AbstractGenre extends MediaLibraryItem {
+public abstract class Genre extends MediaLibraryItem {
 
-    public AbstractGenre(long id, String title) { super(id, title); }
-    public AbstractGenre(Parcel in) { super(in); }
+    public Genre(long id, String title) { super(id, title); }
+    public Genre(Parcel in) { super(in); }
 
     abstract public Album[] getAlbums(int sort, boolean desc);
     abstract public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
@@ -46,16 +46,16 @@ public abstract class AbstractGenre extends MediaLibraryItem {
         return TYPE_GENRE;
     }
 
-    public static Parcelable.Creator<AbstractGenre> CREATOR
-            = new Parcelable.Creator<AbstractGenre>() {
+    public static Parcelable.Creator<Genre> CREATOR
+            = new Parcelable.Creator<Genre>() {
         @Override
-        public AbstractGenre createFromParcel(Parcel in) {
+        public Genre createFromParcel(Parcel in) {
             return MLServiceLocator.getAbstractGenre(in);
         }
 
         @Override
-        public AbstractGenre[] newArray(int size) {
-            return new AbstractGenre[size];
+        public Genre[] newArray(int size) {
+            return new Genre[size];
         }
     };
 

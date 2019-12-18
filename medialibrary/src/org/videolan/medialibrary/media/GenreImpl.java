@@ -7,13 +7,13 @@ import androidx.annotation.NonNull;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
-import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 @SuppressWarnings("JniMissingFunction")
-public class Genre extends AbstractGenre {
+public class GenreImpl extends Genre {
 
-    public Genre(long id, String title) {
+    public GenreImpl(long id, String title) {
         super(id, title);
     }
 
@@ -90,7 +90,7 @@ public class Genre extends AbstractGenre {
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
     private native int nativeGetSearchAlbumCount(Medialibrary ml, long mId, String query);
 
-    public Genre(Parcel in) {
+    public GenreImpl(Parcel in) {
         super(in);
     }
 }

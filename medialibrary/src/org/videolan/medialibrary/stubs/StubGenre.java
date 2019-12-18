@@ -5,13 +5,13 @@ import android.os.Parcel;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
-import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StubGenre extends AbstractGenre {
+public class StubGenre extends Genre {
 
     private StubDataSource dt = StubDataSource.getInstance();
 

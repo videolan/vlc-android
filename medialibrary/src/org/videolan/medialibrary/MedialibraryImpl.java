@@ -34,7 +34,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
-import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
@@ -285,19 +285,19 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     @WorkerThread
-    public AbstractGenre[] getGenres() {
+    public Genre[] getGenres() {
         return getGenres(Medialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
-    public AbstractGenre[] getGenres(int sort, boolean desc) {
-        return mIsInitiated ? nativeGetGenres(sort, desc) : new AbstractGenre[0];
+    public Genre[] getGenres(int sort, boolean desc) {
+        return mIsInitiated ? nativeGetGenres(sort, desc) : new Genre[0];
     }
 
     @NonNull
     @WorkerThread
-    public AbstractGenre[] getPagedGenres(int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetPagedGenres(sort, desc, nbItems, offset) : new AbstractGenre[0];
+    public Genre[] getPagedGenres(int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetPagedGenres(sort, desc, nbItems, offset) : new Genre[0];
     }
 
     public int getGenresCount() {
@@ -308,7 +308,7 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeGetGenreSearchCount(query) : 0;
     }
 
-    public AbstractGenre getGenre(long genreId) {
+    public Genre getGenre(long genreId) {
         return mIsInitiated ? nativeGetGenre(genreId) : null;
     }
 
@@ -510,11 +510,11 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchAlbum(query) : null;
     }
 
-    public AbstractGenre[] searchGenre(String query) {
+    public Genre[] searchGenre(String query) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchGenre(query) : null;
     }
 
-    public AbstractGenre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset) {
+    public Genre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedGenre(query, sort, desc, nbItems, offset) : null;
     }
 
@@ -570,10 +570,10 @@ public class MedialibraryImpl extends Medialibrary {
     private native Artist[] nativeGetPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetArtistsCount(boolean all);
     private native Artist nativeGetArtist(long artistId);
-    private native AbstractGenre[] nativeGetGenres(int sort, boolean desc);
-    private native AbstractGenre[] nativeGetPagedGenres(int sort, boolean desc, int nbItems, int offset);
+    private native Genre[] nativeGetGenres(int sort, boolean desc);
+    private native Genre[] nativeGetPagedGenres(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetGenresCount();
-    private native AbstractGenre nativeGetGenre(long genreId);
+    private native Genre nativeGetGenre(long genreId);
     private native AbstractPlaylist[] nativeGetPlaylists(int sort, boolean desc);
     private native AbstractPlaylist[] nativeGetPagedPlaylists(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetPlaylistsCount();
@@ -604,8 +604,8 @@ public class MedialibraryImpl extends Medialibrary {
     private native Album[] nativeSearchAlbum(String query);
     private native Album[] nativeSearchPagedAlbum(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetAlbumSearchCount(String query);
-    private native AbstractGenre[] nativeSearchGenre(String query);
-    private native AbstractGenre[] nativeSearchPagedGenre(String query, int sort, boolean desc, int nbItems, int offset);
+    private native Genre[] nativeSearchGenre(String query);
+    private native Genre[] nativeSearchPagedGenre(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetGenreSearchCount(String query);
     private native AbstractPlaylist[] nativeSearchPlaylist(String query);
     private native AbstractPlaylist[] nativeSearchPagedPlaylist(String query, int sort, boolean desc, int nbItems, int offset);

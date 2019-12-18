@@ -39,7 +39,7 @@ import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
-import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
@@ -726,12 +726,12 @@ abstract public class Medialibrary {
     abstract public int getArtistsCount(boolean all);
     abstract public int getArtistsCount(String query);
     abstract public Artist getArtist(long artistId);
-    abstract public AbstractGenre[] getGenres();
-    abstract public AbstractGenre[] getGenres(int sort, boolean desc);
-    abstract public AbstractGenre[] getPagedGenres(int sort, boolean desc, int nbItems, int offset);
+    abstract public Genre[] getGenres();
+    abstract public Genre[] getGenres(int sort, boolean desc);
+    abstract public Genre[] getPagedGenres(int sort, boolean desc, int nbItems, int offset);
     abstract public int getGenresCount();
     abstract public int getGenresCount(String query);
-    abstract public AbstractGenre getGenre(long genreId);
+    abstract public Genre getGenre(long genreId);
     abstract public AbstractPlaylist[] getPlaylists(int sort, boolean desc);
     abstract public AbstractPlaylist[] getPlaylists();
     abstract public AbstractPlaylist[] getPagedPlaylists(int sort, boolean desc, int nbItems, int offset);
@@ -771,8 +771,8 @@ abstract public class Medialibrary {
     abstract public Artist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public Album[] searchAlbum(String query);
     abstract public Album[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset);
-    abstract public AbstractGenre[] searchGenre(String query);
-    abstract public AbstractGenre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public Genre[] searchGenre(String query);
+    abstract public Genre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public AbstractPlaylist[] searchPlaylist(String query);
     abstract public AbstractPlaylist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset);
 }

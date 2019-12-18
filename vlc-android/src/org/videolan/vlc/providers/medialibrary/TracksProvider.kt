@@ -58,13 +58,13 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
         val list = if (model.filterQuery == null) when(parent) {
             is Artist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is Album -> parent.getPagedTracks(sort, desc, loadSize, startposition)
-            is AbstractGenre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is Genre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is AbstractPlaylist -> parent.getPagedTracks(loadSize, startposition)
             else -> medialibrary.getPagedAudio(sort, desc, loadSize, startposition)
         } else when(parent) {
             is Artist -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             is Album -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
-            is AbstractGenre -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
+            is Genre -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             is AbstractPlaylist -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             else -> medialibrary.searchAudio(model.filterQuery, sort, desc, loadSize, startposition)
         }
@@ -75,12 +75,12 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
         is Album -> parent.realTracksCount
         is AbstractPlaylist -> parent.realTracksCount
         is Artist,
-        is AbstractGenre -> parent.tracksCount
+        is Genre -> parent.tracksCount
         else -> medialibrary.audioCount
     } else when(parent) {
         is Artist -> parent.searchTracksCount(model.filterQuery)
         is Album -> parent.searchTracksCount(model.filterQuery)
-        is AbstractGenre -> parent.searchTracksCount(model.filterQuery)
+        is Genre -> parent.searchTracksCount(model.filterQuery)
         is AbstractPlaylist -> parent.searchTracksCount(model.filterQuery)
         else ->medialibrary.getAudioCount(model.filterQuery)
     }

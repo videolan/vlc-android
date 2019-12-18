@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
-import org.videolan.medialibrary.interfaces.media.AbstractGenre;
+import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 
@@ -14,7 +14,7 @@ public class SearchAggregate {
 
     private final Album[] albums;
     private final Artist[] artists;
-    private final AbstractGenre[] genres;
+    private final Genre[] genres;
     private final MediaWrapper[] videos;
     private final MediaWrapper[] tracks;
     private final AbstractPlaylist[] playlists;
@@ -28,7 +28,7 @@ public class SearchAggregate {
         this.playlists = null;
     }
 
-    public SearchAggregate(Album[] albums, Artist[] artists, AbstractGenre[] genres, MediaWrapper[] videos, MediaWrapper[] tracks, AbstractPlaylist[] playlists) {
+    public SearchAggregate(Album[] albums, Artist[] artists, Genre[] genres, MediaWrapper[] videos, MediaWrapper[] tracks, AbstractPlaylist[] playlists) {
         this.albums = albums;
         this.artists = artists;
         this.genres = genres;
@@ -48,7 +48,7 @@ public class SearchAggregate {
     }
 
     @Nullable
-    public AbstractGenre[] getGenres() {
+    public Genre[] getGenres() {
         return genres;
     }
 
@@ -86,7 +86,7 @@ public class SearchAggregate {
         }
         if (!Tools.isArrayEmpty(genres)) {
             sb.append("Genres:\n");
-            for (AbstractGenre genre : genres)
+            for (Genre genre : genres)
                 sb.append(genre.getTitle()).append("\n");
         }
         if (!Tools.isArrayEmpty(tracks)) {

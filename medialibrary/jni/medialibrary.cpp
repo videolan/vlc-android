@@ -1916,8 +1916,8 @@ static JNINativeMethod methods[] = {
     {"nativeSearchArtist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)searchArtist },
     {"nativeSearchPagedArtist", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)searchPagedArtist },
     {"nativeGetArtistsSearchCount", "(Ljava/lang/String;)I", (void*)getArtistsSearchCount },
-    {"nativeSearchGenre", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)searchGenre },
-    {"nativeSearchPagedGenre", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)searchPagedGenre },
+    {"nativeSearchGenre", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)searchGenre },
+    {"nativeSearchPagedGenre", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)searchPagedGenre },
     {"nativeGetGenreSearchCount", "(Ljava/lang/String;)I", (void*)getGenreSearchCount },
     {"nativeSearchPlaylist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)searchPlaylist },
     {"nativeSearchPagedPlaylist", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)searchPagedPlaylist },
@@ -1937,10 +1937,10 @@ static JNINativeMethod methods[] = {
     {"nativeGetPagedArtists", "(ZIZII)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getPagedArtists },
     {"nativeGetArtistsCount", "(Z)I", (void*)getArtistsCount },
     {"nativeGetArtist", "(J)Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getArtist },
-    {"nativeGetGenres", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)getGenres },
-    {"nativeGetPagedGenres", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)getPagedGenres },
+    {"nativeGetGenres", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getGenres },
+    {"nativeGetPagedGenres", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getPagedGenres },
     {"nativeGetGenresCount", "()I", (void*)getGenresCount },
-    {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;", (void*)getGenre },
+    {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getGenre },
     {"nativeGetPlaylists", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)getPlaylists },
     {"nativeGetPagedPlaylists", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;", (void*)getPagedPlaylists },
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
@@ -2127,9 +2127,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.Folder.clazz,
            "<init>", "(JLjava/lang/String;Ljava/lang/String;)V");
 
-    GET_CLASS(ml_fields.Genre.clazz, "org/videolan/medialibrary/media/Genre", true);
+    GET_CLASS(ml_fields.Genre.clazz, "org/videolan/medialibrary/media/GenreImpl", true);
     if (env->RegisterNatives(ml_fields.Genre.clazz, genre_methods, sizeof(genre_methods) / sizeof(genre_methods[0])) < 0) {
-        LOGE("RegisterNatives failed for org/videolan/medialibrary/media/Genre");
+        LOGE("RegisterNatives failed for org/videolan/medialibrary/media/GenreImpl");
         return -1;
     }
     GET_ID(GetMethodID,
@@ -2172,7 +2172,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.SearchAggregate.initID,
            ml_fields.SearchAggregate.clazz,
-           "<init>", "([Lorg/videolan/medialibrary/interfaces/media/Album;[Lorg/videolan/medialibrary/interfaces/media/Artist;[Lorg/videolan/medialibrary/interfaces/media/AbstractGenre;[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;)V");
+           "<init>", "([Lorg/videolan/medialibrary/interfaces/media/Album;[Lorg/videolan/medialibrary/interfaces/media/Artist;[Lorg/videolan/medialibrary/interfaces/media/Genre;[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;[Lorg/videolan/medialibrary/interfaces/media/AbstractPlaylist;)V");
 
     GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/Folder", true);
     if (env->RegisterNatives(ml_fields.Folder.clazz, folder_methods, sizeof(folder_methods) / sizeof(folder_methods[0])) < 0) {
