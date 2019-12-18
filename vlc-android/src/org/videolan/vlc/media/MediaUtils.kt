@@ -24,10 +24,7 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.*
-import org.videolan.medialibrary.media.Album
-import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -496,9 +493,9 @@ object MediaUtils {
                         }
                         mw?.let {
                             when (it) {
-                                is MediaWrapper -> openMediaNoUi(it.uri)
-                                is Album -> playAlbum(context, it)
-                                is Artist -> playArtist(context, it)
+                                is AbstractMediaWrapper -> openMediaNoUi(it.uri)
+                                is AbstractAlbum -> playAlbum(context, it)
+                                is AbstractArtist -> playArtist(context, it)
                                 else -> {
                                 }
                             }
@@ -510,7 +507,7 @@ object MediaUtils {
         }
     }
 
-    private fun playAlbum(context: Context?, album: Album) {
+    private fun playAlbum(context: Context?, album: AbstractAlbum) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             album.tracks?.takeIf { it.isNotEmpty() }?.let { list ->
@@ -519,7 +516,7 @@ object MediaUtils {
         }
     }
 
-    private fun playArtist(context: Context?, artist: Artist) {
+    private fun playArtist(context: Context?, artist: AbstractArtist) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             artist.tracks?.takeIf { it.isNotEmpty() }?.let { list ->

@@ -24,7 +24,6 @@ import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.*
-import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
@@ -40,7 +39,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
     override fun canSortByReleaseDate() = true
 
     override fun isByDisc(): Boolean {
-        return parent is Album
+        return parent is AbstractAlbum
     }
 
     init {

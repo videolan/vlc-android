@@ -4,17 +4,14 @@ import android.content.Context
 import android.text.TextUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
-
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary.*
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.MediaMetadata
@@ -114,7 +111,7 @@ object ModelsHelper {
         return if (title.isEmpty() || !Character.isLetter(title[0]) || isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
     }
 
-    private fun MediaLibraryItem.getDiscNumber(): String? = if (this is MediaWrapper && this.discNumber != 0) "Disc ${this.discNumber}" else null
+    private fun MediaLibraryItem.getDiscNumber(): String? = if (this is AbstractMediaWrapper && this.discNumber != 0) "Disc ${this.discNumber}" else null
 
     fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?, forceByDiscs: Boolean = false) = if (context !== null && item != null) if (forceByDiscs) {
         val disc = item.getDiscNumber()

@@ -35,7 +35,6 @@ public class Playlist extends AbstractPlaylist {
         return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
     }
 
-
     public boolean append(long mediaId) {
         AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
         return ml.isInitiated() && nativePlaylistAppend(ml, mId, mediaId);

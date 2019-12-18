@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.PathAdapter
 import org.videolan.vlc.gui.browser.PathAdapterListener
@@ -68,7 +68,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         else arguments?.getParcelable(ITEM) as? MediaLibraryItem
 
         isRootLevel = arguments?.getBoolean("rootLevel") ?: false
-        (item as? MediaWrapper)?.run { mrl = location }
+        (item as? AbstractMediaWrapper)?.run { mrl = location }
         viewModel = ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), mrl, false)).get(NetworkModel::class.java)
 
         viewModel.currentItem = item
@@ -118,10 +118,10 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
     override fun onStart() {
         super.onStart()
-        (viewModel.currentItem as? MediaWrapper).setBreadcrumb()
+        (viewModel.currentItem as? AbstractMediaWrapper).setBreadcrumb()
     }
 
-    private fun MediaWrapper?.setBreadcrumb() {
+    private fun AbstractMediaWrapper?.setBreadcrumb() {
         if (this == null) return
         val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane)
                 ?: return
@@ -164,9 +164,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             }
         }
         if (!poped) {
-            if (supportFragmentManager.backStackEntryCount == 0) browse(MediaWrapper(Uri.parse(tag)), false)
+            if (supportFragmentManager.backStackEntryCount == 0) browse(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(tag)), false)
             else {
-                (viewModel as IPathOperationDelegate).setDestination(MediaWrapper(Uri.parse(tag)))
+                (viewModel as IPathOperationDelegate).setDestination(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(tag)))
                 supportFragmentManager.popBackStack()
             }
         }
@@ -185,7 +185,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
             favExists = withContext(Dispatchers.IO) {
-                (item as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) }
+                (item as? AbstractMediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) }
                         ?: false
             }
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
@@ -194,7 +194,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         val favoriteClickListener: (View) -> Unit = {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    val mw = (item as MediaWrapper)
+                    val mw = (item as AbstractMediaWrapper)
                     when {
                         browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
                         mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
