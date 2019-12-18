@@ -78,7 +78,7 @@ import org.videolan.libvlc.util.DisplayManager
 import org.videolan.libvlc.util.VLCVideoLayout
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.*
 import org.videolan.vlc.*
@@ -109,7 +109,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private var wasPlaying = true
     var service: PlaybackService? = null
-    private lateinit var medialibrary: AbstractMedialibrary
+    private lateinit var medialibrary: Medialibrary
     private var videoLayout: VLCVideoLayout? = null
     lateinit var displayManager: DisplayManager
     private var rootView: View? = null
@@ -475,7 +475,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
 
 
-        medialibrary = AbstractMedialibrary.getInstance()
+        medialibrary = Medialibrary.getInstance()
         val touch = if (!isTv) {
             val audioTouch = (!AndroidUtil.isLolliPopOrLater || !audiomanager.isVolumeFixed) && settings.getBoolean(ENABLE_VOLUME_GESTURE, true)
             val brightnessTouch = !AndroidDevices.isChromeBook && settings.getBoolean(ENABLE_BRIGHTNESS_GESTURE, true)

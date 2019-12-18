@@ -31,7 +31,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.providers.MoviepediaMovieProvider
@@ -46,7 +46,7 @@ class MoviepediaBrowserViewModel(context: Context, val category: Long) : Sortabl
 
     init {
         @Suppress("LeakingThis")
-        viewModelScope.registerCallBacks { if (AbstractMedialibrary.getInstance().isStarted) refresh() }
+        viewModelScope.registerCallBacks { if (Medialibrary.getInstance().isStarted) refresh() }
     }
 
     override fun restore() {

@@ -23,15 +23,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_ALBUM;
-import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_ALPHA;
-import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_ARTIST;
-import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_DEFAULT;
-import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_DURATION;
-import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_FILENAME;
-import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_INSERTIONDATE;
-import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_LASTMODIFICATIONDATE;
-import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_RELEASEDATE;
+import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_ALBUM;
+import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_ALPHA;
+import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_ARTIST;
+import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_DEFAULT;
+import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_DURATION;
+import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_FILENAME;
+import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_INSERTIONDATE;
+import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_LASTMODIFICATIONDATE;
+import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_RELEASEDATE;
 
 public class StubDataSource {
 

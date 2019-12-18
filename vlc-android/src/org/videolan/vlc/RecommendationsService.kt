@@ -32,7 +32,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -95,7 +95,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
 
     private fun doRecommendations() = launch {
         mNotificationManager.cancelAll()
-        val videoList = withContext(Dispatchers.IO) { AbstractMedialibrary.getInstance().recentVideos }
+        val videoList = withContext(Dispatchers.IO) { Medialibrary.getInstance().recentVideos }
         if (Util.isArrayEmpty(videoList)) return@launch
         for ((id, mediaWrapper) in videoList.withIndex()) {
             buildRecommendation(mediaWrapper, id, NotificationManagerCompat.IMPORTANCE_DEFAULT)

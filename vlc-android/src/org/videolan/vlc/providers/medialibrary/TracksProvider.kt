@@ -22,7 +22,7 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.Settings
@@ -43,12 +43,12 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
     }
 
     init {
-        sort = Settings.getInstance(context).getInt(sortKey, AbstractMedialibrary.SORT_DEFAULT)
+        sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_DEFAULT)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", parent is AbstractArtist)
-        if (sort == AbstractMedialibrary.SORT_DEFAULT) sort = when (parent) {
-            is AbstractArtist -> AbstractMedialibrary.SORT_ALBUM
-            is AbstractAlbum -> AbstractMedialibrary.SORT_DEFAULT
-            else -> AbstractMedialibrary.SORT_ALPHA
+        if (sort == Medialibrary.SORT_DEFAULT) sort = when (parent) {
+            is AbstractArtist -> Medialibrary.SORT_ALBUM
+            is AbstractAlbum -> Medialibrary.SORT_DEFAULT
+            else -> Medialibrary.SORT_ALPHA
         }
     }
 

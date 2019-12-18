@@ -13,8 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary.MEDIALIB_FOLDER_NAME
+import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary.MEDIALIB_FOLDER_NAME
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -44,13 +44,13 @@ object ThumbnailsProvider {
 
     @WorkerThread
     fun getFolderThumbnail(folder: AbstractFolder, width: Int): Bitmap? {
-        val media = folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, AbstractMedialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
+        val media = folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
         return getComposedImage("folder:${folder.title}", media, width)
     }
 
     @WorkerThread
     fun getVideoGroupThumbnail(group: AbstractVideoGroup, width: Int): Bitmap? {
-        val media = group.media(AbstractMedialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
+        val media = group.media(Medialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
         return getComposedImage("videogroup:${group.title}", media, width)
     }
 

@@ -16,7 +16,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -25,7 +25,7 @@ import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 open class BaseTest {
     val context: Context = ApplicationProvider.getApplicationContext()
     val application = (RuntimeEnvironment.application as VLCTestApplication)
-    val medialibrary: AbstractMedialibrary
+    val medialibrary: Medialibrary
 
     //To prevent Method getMainLooper in android.os.Looper not mocked error when setting value for MutableLiveData
     @get:Rule

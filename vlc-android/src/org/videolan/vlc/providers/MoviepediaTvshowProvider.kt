@@ -25,7 +25,7 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.repository.MediaMetadataRepository
@@ -34,7 +34,7 @@ import org.videolan.vlc.viewmodels.Season
 
 class MoviepediaTvshowProvider(private val context: Context) {
 
-    fun getFirstResumableEpisode(medialibrary: AbstractMedialibrary, mediaMetadataEpisodes: List<MediaMetadataWithImages>): MediaMetadataWithImages? {
+    fun getFirstResumableEpisode(medialibrary: Medialibrary, mediaMetadataEpisodes: List<MediaMetadataWithImages>): MediaMetadataWithImages? {
         val seasons = ArrayList<Season>()
         mediaMetadataEpisodes.forEach { episode ->
             val existingSeason = seasons.firstOrNull { it.seasonNumber == episode.metadata.season }

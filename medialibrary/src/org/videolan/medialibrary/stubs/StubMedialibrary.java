@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class StubMedialibrary extends AbstractMedialibrary {
+public class StubMedialibrary extends Medialibrary {
 
     private StubDataSource dt = StubDataSource.getInstance();
 

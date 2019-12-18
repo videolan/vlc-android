@@ -31,7 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.database.models.*
@@ -48,7 +48,7 @@ object MoviepediaIndexer : CoroutineScope by MainScope() {
 
     fun indexMedialib(context: Context) {
         launch(Dispatchers.IO) {
-            val medias = context.getFromMl { getPagedVideos(AbstractMedialibrary.SORT_DEFAULT, false, 1000, 0) }
+            val medias = context.getFromMl { getPagedVideos(Medialibrary.SORT_DEFAULT, false, 1000, 0) }
 
             val filesToIndex = HashMap<Long, Uri>()
             medias.forEach {

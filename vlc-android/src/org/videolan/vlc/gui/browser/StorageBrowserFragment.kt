@@ -45,7 +45,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -105,14 +105,14 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
     override fun onStart() {
         super.onStart()
-        AbstractMedialibrary.getInstance().addEntryPointsEventsCb(this)
+        Medialibrary.getInstance().addEntryPointsEventsCb(this)
         snack?.show()
         lifecycleScope.launchWhenStarted { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
     }
 
     override fun onStop() {
         super.onStop()
-        AbstractMedialibrary.getInstance().removeEntryPointsEventsCb(this)
+        Medialibrary.getInstance().removeEntryPointsEventsCb(this)
         snack?.dismiss()
         alertDialog?.let { if (it.isShowing) it.dismiss() }
     }

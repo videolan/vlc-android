@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
@@ -68,7 +68,7 @@ class MainActivity : ContentActivity(),
             mainLoading.visibility = if (value) View.VISIBLE else View.GONE
             field = value
         }
-    private lateinit var mediaLibrary: AbstractMedialibrary
+    private lateinit var mediaLibrary: Medialibrary
     private var scanNeeded = false
 
     @SuppressLint("SetTextI18n")
@@ -86,7 +86,7 @@ class MainActivity : ContentActivity(),
         /* Reload the latest preferences */
         scanNeeded = savedInstanceState == null && settings.getBoolean("auto_rescan", true)
         if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
-        mediaLibrary = AbstractMedialibrary.getInstance()
+        mediaLibrary = Medialibrary.getInstance()
 
         val color = TypedValue().run {
             theme.resolveAttribute(R.attr.progress_indeterminate_tint, this, true)

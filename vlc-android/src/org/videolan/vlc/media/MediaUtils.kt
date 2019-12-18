@@ -22,7 +22,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.PlaybackService
@@ -244,7 +244,7 @@ object MediaUtils {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
                     provider.getAll().flatMap {
-                        it.media(provider.type, AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
+                        it.media(provider.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
                     }
                 })
                 else -> {
@@ -253,7 +253,7 @@ object MediaUtils {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) {
                             provider.getPage(pageCount, index).flatMap {
-                                it.media(provider.type, AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
+                                it.media(provider.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
                             }
                         }
                         if (index == 0) play(list)
@@ -527,7 +527,7 @@ object MediaUtils {
 }
 
 @WorkerThread
-fun AbstractFolder.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false): List<MediaWrapper> {
+fun AbstractFolder.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false): List<MediaWrapper> {
     var index = 0
     val count = mediaCount(type)
     val all = mutableListOf<MediaWrapper>()
@@ -541,7 +541,7 @@ fun AbstractFolder.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: In
 }
 
 @WorkerThread
-fun AbstractVideoGroup.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false): List<MediaWrapper> {
+fun AbstractVideoGroup.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false): List<MediaWrapper> {
     var index = 0
     val count = mediaCount()
     val all = mutableListOf<MediaWrapper>()
@@ -554,7 +554,7 @@ fun AbstractVideoGroup.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, des
     return all
 }
 
-fun List<MediaLibraryItem>.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
+fun List<MediaLibraryItem>.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
     when (it) {
         is AbstractVideoGroup -> it.getAll(sort, desc)
         is MediaWrapper -> listOf(it)
@@ -562,13 +562,13 @@ fun List<MediaLibraryItem>.getAll(sort: Int = AbstractMedialibrary.SORT_DEFAULT,
     }
 }
 
-fun List<AbstractFolder>.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = AbstractMedialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
+fun List<AbstractFolder>.getAll(type: Int = AbstractFolder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
     it.getAll(type, sort, desc)
 }
 
 private fun Array<MediaLibraryItem>.toList() = flatMap {
     if (it is AbstractVideoGroup) {
-        it.media(AbstractMedialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
+        it.media(Medialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
     } else listOf(this as MediaWrapper)
 }
 

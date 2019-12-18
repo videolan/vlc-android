@@ -27,7 +27,7 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.Extensions
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractArtist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -80,7 +80,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         }
         this.item = item
         if (item.id == 0L) {
-            val libraryItem = AbstractMedialibrary.getInstance().getMedia((item as MediaWrapper).uri)
+            val libraryItem = Medialibrary.getInstance().getMedia((item as MediaWrapper).uri)
             if (libraryItem != null)
                 this.item = libraryItem
         }
@@ -153,7 +153,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
                     }
                     //scheme is supported => test if the parent is scanned
                     var isScanned = false
-                    AbstractMedialibrary.getInstance().foldersList.forEach search@{
+                    Medialibrary.getInstance().foldersList.forEach search@{
                         if (media.uri.toString().startsWith(Uri.parse(it).toString())) {
                             isScanned = true
                             return@search

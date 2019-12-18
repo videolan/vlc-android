@@ -7,8 +7,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Test
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.util.TestCoroutineContextProvider
@@ -17,7 +16,7 @@ import org.videolan.vlc.util.TestUtil
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class HistoryModelTest : BaseTest() {
-    private val mediaLibrary: AbstractMedialibrary = AbstractMedialibrary.getInstance()
+    private val mediaLibrary: Medialibrary = Medialibrary.getInstance()
     private lateinit var historyModel: HistoryModel
 
     override fun beforeTest() {

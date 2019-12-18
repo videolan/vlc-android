@@ -65,7 +65,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
@@ -392,21 +392,21 @@ object UiTools {
         val sort = provider.sort
         val desc = provider.desc
         var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ALPHA && !desc) R.string.sortby_name_desc else R.string.sortby_name)
+        item?.setTitle(if (sort == Medialibrary.SORT_ALPHA && !desc) R.string.sortby_name_desc else R.string.sortby_name)
         item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_FILENAME && !desc) R.string.sortby_filename_desc else R.string.sortby_filename)
+        item?.setTitle(if (sort == Medialibrary.SORT_FILENAME && !desc) R.string.sortby_filename_desc else R.string.sortby_filename)
         item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ARTIST && !desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name)
+        item?.setTitle(if (sort == Medialibrary.SORT_ARTIST && !desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name)
         item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ALBUM && !desc) R.string.sortby_album_name_desc else R.string.sortby_album_name)
+        item?.setTitle(if (sort == Medialibrary.SORT_ALBUM && !desc) R.string.sortby_album_name_desc else R.string.sortby_album_name)
         item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_DURATION && !desc) R.string.sortby_length_desc else R.string.sortby_length)
+        item?.setTitle(if (sort == Medialibrary.SORT_DURATION && !desc) R.string.sortby_length_desc else R.string.sortby_length)
         item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
+        item?.setTitle(if (sort == Medialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
         item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_LASTMODIFICATIONDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
+        item?.setTitle(if (sort == Medialibrary.SORT_LASTMODIFICATIONDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
-        //        if (item != null) item.setTitle(sort == AbstractMedialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
+        //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
     }
 
@@ -416,21 +416,21 @@ object UiTools {
         val sort = model.sort
         val desc = model.desc
         var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ALPHA && !desc) R.string.sortby_name_desc else R.string.sortby_name)
+        item?.setTitle(if (sort == Medialibrary.SORT_ALPHA && !desc) R.string.sortby_name_desc else R.string.sortby_name)
         item = menu.findItem(R.id.ml_menu_sortby_filename)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_FILENAME && !desc) R.string.sortby_filename_desc else R.string.sortby_filename)
+        item?.setTitle(if (sort == Medialibrary.SORT_FILENAME && !desc) R.string.sortby_filename_desc else R.string.sortby_filename)
         item = menu.findItem(R.id.ml_menu_sortby_artist_name)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ARTIST && !desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name)
+        item?.setTitle(if (sort == Medialibrary.SORT_ARTIST && !desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name)
         item = menu.findItem(R.id.ml_menu_sortby_album_name)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_ALBUM && !desc) R.string.sortby_album_name_desc else R.string.sortby_album_name)
+        item?.setTitle(if (sort == Medialibrary.SORT_ALBUM && !desc) R.string.sortby_album_name_desc else R.string.sortby_album_name)
         item = menu.findItem(R.id.ml_menu_sortby_length)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_DURATION && !desc) R.string.sortby_length_desc else R.string.sortby_length)
+        item?.setTitle(if (sort == Medialibrary.SORT_DURATION && !desc) R.string.sortby_length_desc else R.string.sortby_length)
         item = menu.findItem(R.id.ml_menu_sortby_date)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
+        item?.setTitle(if (sort == Medialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
         item = menu.findItem(R.id.ml_menu_sortby_last_modified)
-        item?.setTitle(if (sort == AbstractMedialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
+        item?.setTitle(if (sort == Medialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
         //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
-        //        if (item != null) item.setTitle(sort == AbstractMedialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
+        //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
     }
 

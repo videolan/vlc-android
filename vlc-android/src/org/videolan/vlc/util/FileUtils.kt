@@ -40,7 +40,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -411,7 +411,7 @@ object FileUtils {
             } else if (TextUtils.equals(data.authority, "media")) {
                 uri = MediaUtils.getContentMediaUri(data)
             } else if (TextUtils.equals(data.authority, ctx.getString(R.string.tv_provider_authority))) {
-                val medialibrary = AbstractMedialibrary.getInstance()
+                val medialibrary = Medialibrary.getInstance()
                 val media = medialibrary.getMedia(data.lastPathSegment!!.toLong())
                 uri = media.uri
             } else {

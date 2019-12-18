@@ -41,7 +41,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
@@ -77,11 +77,11 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
     }
 
     init {
-        AbstractMedialibrary.lastThumb.observeForever(thumbObs)
+        Medialibrary.lastThumb.observeForever(thumbObs)
     }
 
     fun release() {
-        AbstractMedialibrary.lastThumb.removeObserver(thumbObs)
+        Medialibrary.lastThumb.removeObserver(thumbObs)
     }
 
     val all: List<MediaLibraryItem>

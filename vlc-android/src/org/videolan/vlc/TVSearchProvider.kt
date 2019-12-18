@@ -32,7 +32,7 @@ import android.database.MatrixCursor
 import android.net.Uri
 import android.provider.BaseColumns
 import android.util.Log
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.getYear
@@ -50,7 +50,7 @@ class TVSearchProvider : ContentProvider() {
         return if (uri.pathSegments.firstOrNull() == "search") {
             selectionArgs?.firstOrNull()?.let { query ->
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Voice search for ${query.replace(Regex("[^A-Za-z0-9 ]"), "")}")
-                val medialibrary = AbstractMedialibrary.getInstance()
+                val medialibrary = Medialibrary.getInstance()
                 val columns = arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID, SearchManager.SUGGEST_COLUMN_TEXT_1, SearchManager.SUGGEST_COLUMN_TEXT_2, SearchManager.SUGGEST_COLUMN_RESULT_CARD_IMAGE, SearchManager.SUGGEST_COLUMN_PRODUCTION_YEAR, SearchManager.SUGGEST_COLUMN_DURATION)
 
                 val matrixCursor = MatrixCursor(columns)

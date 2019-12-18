@@ -50,7 +50,7 @@ import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.yield
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
@@ -266,35 +266,35 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         animationDelegate.collapseExtendedFAB()
         when (item.itemId) {
             R.id.ml_menu_sortby_name -> {
-                sortBy(AbstractMedialibrary.SORT_ALPHA)
+                sortBy(Medialibrary.SORT_ALPHA)
                 return true
             }
             R.id.ml_menu_sortby_filename -> {
-                sortBy(AbstractMedialibrary.SORT_FILENAME)
+                sortBy(Medialibrary.SORT_FILENAME)
                 return true
             }
             R.id.ml_menu_sortby_length -> {
-                sortBy(AbstractMedialibrary.SORT_DURATION)
+                sortBy(Medialibrary.SORT_DURATION)
                 return true
             }
             R.id.ml_menu_sortby_date -> {
-                sortBy(AbstractMedialibrary.SORT_RELEASEDATE)
+                sortBy(Medialibrary.SORT_RELEASEDATE)
                 return true
             }
             R.id.ml_menu_sortby_last_modified -> {
-                sortBy(AbstractMedialibrary.SORT_LASTMODIFICATIONDATE)
+                sortBy(Medialibrary.SORT_LASTMODIFICATIONDATE)
                 return true
             }
             R.id.ml_menu_sortby_artist_name -> {
-                sortBy(AbstractMedialibrary.SORT_ARTIST)
+                sortBy(Medialibrary.SORT_ARTIST)
                 return true
             }
             R.id.ml_menu_sortby_album_name -> {
-                sortBy(AbstractMedialibrary.SORT_ALBUM)
+                sortBy(Medialibrary.SORT_ALBUM)
                 return true
             }
             R.id.ml_menu_sortby_number -> {
-                sortBy(AbstractMedialibrary.SORT_FILESIZE)
+                sortBy(Medialibrary.SORT_FILESIZE)
                 return super.onOptionsItemSelected(item)
             }
             else -> return super.onOptionsItemSelected(item)

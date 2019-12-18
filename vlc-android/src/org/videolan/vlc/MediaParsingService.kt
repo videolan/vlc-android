@@ -44,7 +44,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.medialibrary.stubs.StubMedialibrary
 import org.videolan.vlc.gui.SendCrashActivity
@@ -67,7 +67,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     private lateinit var localBroadcastManager: LocalBroadcastManager
 
     private val binder = LocalBinder()
-    private lateinit var medialibrary: AbstractMedialibrary
+    private lateinit var medialibrary: Medialibrary
     private var parsing = 0
     private var reload = 0
     private var currentDiscovery: String? = null
@@ -94,7 +94,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         }
     }
 
-    private val exceptionHandler = if (BuildConfig.BETA) AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
+    private val exceptionHandler = if (BuildConfig.BETA) Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
         val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
             putExtra(CRASH_ML_CTX, context)
             putExtra(CRASH_ML_MSG, errMsg)
@@ -111,7 +111,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
                 SendCrashActivity.job = null
             }
         }
-    } else if (BuildConfig.DEBUG) AbstractMedialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
+    } else if (BuildConfig.DEBUG) Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
         throw IllegalStateException("$context:\n$errMsg")
     } else null
 
@@ -130,7 +130,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
         localBroadcastManager = LocalBroadcastManager.getInstance(this)
-        medialibrary = AbstractMedialibrary.getInstance()
+        medialibrary = Medialibrary.getInstance()
         medialibrary.addDeviceDiscoveryCb(this@MediaParsingService)
         val filter = IntentFilter()
         filter.addAction(ACTION_PAUSE_SCAN)
@@ -141,7 +141,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         wakeLock.acquire()
 
         if (lastNotificationTime == 5L) stopSelf()
-        AbstractMedialibrary.getState().observe(this, Observer<Boolean> { running ->
+        Medialibrary.getState().observe(this, Observer<Boolean> { running ->
             if (!running && !scanPaused) {
                 exitCommand()
             }
@@ -219,7 +219,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
                     return
                 }
                 medialibrary.addDevice(uuid, path, true)
-                for (folder in AbstractMedialibrary.getBlackList())
+                for (folder in Medialibrary.getBlackList())
                     medialibrary.banFolder(path + folder)
             }
         }
@@ -267,7 +267,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         }
         when {
             shouldInit -> {
-                for (folder in AbstractMedialibrary.getBlackList())
+                for (folder in Medialibrary.getBlackList())
                     medialibrary.banFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + folder)
                 if (preselectedStorages.isEmpty()) {
                     medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
@@ -421,7 +421,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     private val actions = lifecycleScope.actor<MLAction>(context = Dispatchers.IO, capacity = Channel.UNLIMITED) {
         for (action in channel) when (action) {
             is DiscoverStorage -> {
-                for (folder in AbstractMedialibrary.getBlackList()) medialibrary.banFolder(action.path + folder)
+                for (folder in Medialibrary.getBlackList()) medialibrary.banFolder(action.path + folder)
                 medialibrary.discover(action.path)
             }
             is DiscoverFolder -> {
@@ -436,9 +436,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
                 val context = this@MediaParsingService
                 var shouldInit = !dbExists()
                 val initCode = medialibrary.init(context)
-                if (initCode != AbstractMedialibrary.ML_INIT_ALREADY_INITIALIZED) {
-                    shouldInit = shouldInit or (initCode == AbstractMedialibrary.ML_INIT_DB_RESET) or (initCode == AbstractMedialibrary.ML_INIT_DB_CORRUPTED)
-                    if (initCode != AbstractMedialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
+                if (initCode != Medialibrary.ML_INIT_ALREADY_INITIALIZED) {
+                    shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET) or (initCode == Medialibrary.ML_INIT_DB_CORRUPTED)
+                    if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
                     else exitCommand()
                 } else exitCommand()
             }
@@ -498,7 +498,7 @@ fun Context.rescan() {
 }
 
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = AppScope.launch {
-    if (AbstractMedialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
+    if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
     val prefs = withContext(coroutineContextProvider.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (Settings.showTvUi) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
@@ -512,7 +512,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
 }
 
 private suspend fun Context.dbExists(coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = withContext(coroutineContextProvider.IO) {
-    File(getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME).exists()
+    File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 
 private sealed class MLAction

@@ -2,7 +2,7 @@ package org.videolan.vlc.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.util.RefreshModel
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.SortModule
@@ -12,7 +12,7 @@ abstract class SortableModel(protected val context: Context): ViewModel(), Refre
 {
     private val settings = Settings.getInstance(context)
     protected open val sortKey : String = this.javaClass.simpleName
-    var sort = settings.getInt(sortKey, AbstractMedialibrary.SORT_DEFAULT)
+    var sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
     var desc = settings.getBoolean("${sortKey}_desc", false)
 
     var filterQuery : String? = null
@@ -22,7 +22,7 @@ abstract class SortableModel(protected val context: Context): ViewModel(), Refre
     override fun sort(sort: Int) {
         if (canSortBy(sort)) {
             desc = when (this.sort) {
-                AbstractMedialibrary.SORT_DEFAULT -> sort == AbstractMedialibrary.SORT_ALPHA
+                Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
                 sort -> !desc
                 else -> false
             }

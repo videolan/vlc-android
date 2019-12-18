@@ -27,7 +27,7 @@ import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
 import androidx.paging.toLiveData
 import kotlinx.coroutines.CompletableDeferred
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.HeaderProvider
 import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
@@ -40,7 +40,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         SortModule
 {
     private val settings = Settings.getInstance(context)
-    protected val medialibrary = AbstractMedialibrary.getInstance()
+    protected val medialibrary = Medialibrary.getInstance()
     private lateinit var dataSource : DataSource<Int, T>
     val loading = MutableLiveData<Boolean>().apply { value = true }
     private var refreshDeferred : CompletableDeferred<Unit>? = null
@@ -56,7 +56,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         }
 
     protected open val sortKey : String = this.javaClass.simpleName
-    var sort = settings.getInt(sortKey, AbstractMedialibrary.SORT_DEFAULT)
+    var sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
     var desc = settings.getBoolean("${sortKey}_desc", false)
 
     private val pagingConfig = Config(
@@ -77,7 +77,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     override fun sort(sort: Int) {
         if (canSortBy(sort)) {
             desc = when (this.sort) {
-                AbstractMedialibrary.SORT_DEFAULT -> sort == AbstractMedialibrary.SORT_ALPHA
+                Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
                 sort -> !desc
                 else -> false
             }

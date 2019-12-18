@@ -36,7 +36,7 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -64,7 +64,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     private var showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
-    internal val medialibrary = AbstractMedialibrary.getInstance()
+    internal val medialibrary = Medialibrary.getInstance()
 
     init {
         registerCreator { CoroutineContextProvider() }
@@ -172,7 +172,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 position > 0 -> value[position - 1]
                 else -> null
             }
-            ModelsHelper.getHeader(context, AbstractMedialibrary.SORT_ALPHA, item, previous)?.let {
+            ModelsHelper.getHeader(context, Medialibrary.SORT_ALPHA, item, previous)?.let {
                 privateHeaders.put(position, it)
             }
         }

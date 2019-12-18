@@ -32,7 +32,7 @@ import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
@@ -69,7 +69,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         when (preference.key) {
             "directories" -> {
                 when {
-                    AbstractMedialibrary.getInstance().isWorking -> UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
+                    Medialibrary.getInstance().isWorking -> UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
                     Permissions.canReadStorage(requireContext()) -> {
                         val activity = requireActivity()
                         val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)

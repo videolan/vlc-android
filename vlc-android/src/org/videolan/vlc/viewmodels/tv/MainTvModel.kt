@@ -30,7 +30,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -56,11 +56,11 @@ private const val TAG = "MainTvModel"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrary.OnMedialibraryReadyListener,
-        AbstractMedialibrary.OnDeviceChangeListener {
+class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedialibraryReadyListener,
+        Medialibrary.OnDeviceChangeListener {
 
     val context = getApplication<Application>().baseContext!!
-    private val medialibrary = AbstractMedialibrary.getInstance()
+    private val medialibrary = Medialibrary.getInstance()
     val settings = Settings.getInstance(context)
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
@@ -141,7 +141,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
         val allTvshows = withContext(Dispatchers.IO) { mediaMetadataRepository.getTvshowsCount() }
         val videoNb = context.getFromMl { videoCount }
         context.getFromMl {
-            getPagedVideos(AbstractMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
+            getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
                 add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, videoNb, videoNb)))
@@ -183,7 +183,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AbstractMedialibrar
 
     private fun updatePlaylists() = viewModelScope.launch {
         context.getFromMl {
-            getPagedPlaylists(AbstractMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
+            getPagedPlaylists(Medialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (playlist as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
                 //                add(DummyItem(HEADER_PLAYLISTS, context.getString(R.string.playlists), ""))

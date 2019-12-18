@@ -10,7 +10,7 @@ import android.text.TextUtils
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.getFromMl
@@ -51,7 +51,7 @@ class StoragesMonitor : BroadcastReceiver() {
             }
             is Unmount -> {
                 delay(100L)
-                AbstractMedialibrary.getInstance().removeDevice(action.uuid, action.path)
+                Medialibrary.getInstance().removeDevice(action.uuid, action.path)
             }
         }
     }

@@ -1,9 +1,6 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
-import android.graphics.Point
-import android.widget.EditText
-import androidx.databinding.ViewDataBinding
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.*
 import androidx.test.espresso.action.ViewActions.*
@@ -12,21 +9,18 @@ import androidx.test.espresso.contrib.DrawerActions.*
 import androidx.test.espresso.matcher.RootMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
-import com.google.android.material.internal.NavigationMenuItemView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.*
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.BaseUITest
 import org.videolan.vlc.R
 import org.videolan.vlc.*
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.util.EXTRA_TARGET
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -41,10 +35,10 @@ class PlaylistActivityUITest: BaseUITest() {
         // TODO: Hack because of IO Dispatcher used in MediaParsingService channel
         Thread.sleep(3 * 1000)
 
-        val ml = AbstractMedialibrary.getInstance()
+        val ml = Medialibrary.getInstance()
         val pl = ml.createPlaylist("test")
-        pl.append(ml.getPagedVideos(AbstractMedialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
-        pl.append(ml.getPagedAudio(AbstractMedialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
+        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
+        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
 
         val intent = Intent().apply {
             putExtra(AudioBrowserFragment.TAG_ITEM, pl)

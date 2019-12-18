@@ -34,7 +34,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.onEach
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractFolder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
@@ -98,7 +98,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             val grouping = arguments?.getSerializable(KEY_GROUPING) as VideoGroupingType? ?: VideoGroupingType.NONE
             viewModel = getViewModel(grouping, folder, group)
             setDataObservers()
-            AbstractMedialibrary.lastThumb.observe(this, thumbObs)
+            Medialibrary.lastThumb.observe(this, thumbObs)
             videoListAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
         }
     }
@@ -119,7 +119,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 restoreMultiSelectHelper()
             }
         })
-        videoListAdapter.showFilename.set(viewModel.groupingType == VideoGroupingType.NONE && viewModel.provider.sort == AbstractMedialibrary.SORT_FILENAME)
+        videoListAdapter.showFilename.set(viewModel.groupingType == VideoGroupingType.NONE && viewModel.provider.sort == Medialibrary.SORT_FILENAME)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -175,7 +175,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun sortBy(sort: Int) {
-        videoListAdapter.showFilename.set(sort == AbstractMedialibrary.SORT_FILENAME)
+        videoListAdapter.showFilename.set(sort == Medialibrary.SORT_FILENAME)
         super.sortBy(sort)
     }
 

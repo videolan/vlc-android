@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.Parcel;
 
 import org.videolan.libvlc.interfaces.IMedia;
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
@@ -32,11 +32,11 @@ import org.videolan.medialibrary.stubs.StubVideoGroup;
 public class MLServiceLocator {
 
     private static LocatorMode sMode = LocatorMode.VLC_ANDROID;
-    private static volatile AbstractMedialibrary instance;
+    private static volatile Medialibrary instance;
 
     public static void setLocatorMode(LocatorMode mode) {
         if (instance != null && mode != sMode) {
-            throw new IllegalStateException("LocatorMode must be set before AbstractMedialibrary initialization");
+            throw new IllegalStateException("LocatorMode must be set before Medialibrary initialization");
         }
         MLServiceLocator.sMode = mode;
     }
@@ -48,9 +48,9 @@ public class MLServiceLocator {
         TESTS,
     }
 
-    public static synchronized AbstractMedialibrary getAbstractMedialibrary() {
+    public static synchronized Medialibrary getAbstractMedialibrary() {
         if (instance == null) {
-            instance = sMode == LocatorMode.VLC_ANDROID ? new Medialibrary() : new StubMedialibrary();
+            instance = sMode == LocatorMode.VLC_ANDROID ? new MedialibraryImpl() : new StubMedialibrary();
         }
         return instance;
     }

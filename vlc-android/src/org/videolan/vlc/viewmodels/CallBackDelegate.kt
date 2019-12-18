@@ -23,11 +23,11 @@ package org.videolan.vlc.viewmodels
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.SendChannel
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.tools.conflatedActor
 
 interface ICallBackHandler {
-    val medialibrary : AbstractMedialibrary
+    val medialibrary : Medialibrary
 
     fun CoroutineScope.registerCallBacks(refresh: () -> Unit)
     fun releaseCallbacks()
@@ -41,15 +41,15 @@ interface ICallBackHandler {
 }
 
 class CallBackDelegate : ICallBackHandler,
-        AbstractMedialibrary.OnMedialibraryReadyListener,
-        AbstractMedialibrary.OnDeviceChangeListener,
-        AbstractMedialibrary.MediaCb,
-        AbstractMedialibrary.ArtistsCb,
-        AbstractMedialibrary.AlbumsCb,
-        AbstractMedialibrary.GenresCb,
-        AbstractMedialibrary.PlaylistsCb, AbstractMedialibrary.HistoryCb, AbstractMedialibrary.MediaGroupCb {
+        Medialibrary.OnMedialibraryReadyListener,
+        Medialibrary.OnDeviceChangeListener,
+        Medialibrary.MediaCb,
+        Medialibrary.ArtistsCb,
+        Medialibrary.AlbumsCb,
+        Medialibrary.GenresCb,
+        Medialibrary.PlaylistsCb, Medialibrary.HistoryCb, Medialibrary.MediaGroupCb {
 
-    override val medialibrary = AbstractMedialibrary.getInstance()
+    override val medialibrary = Medialibrary.getInstance()
     private lateinit var refreshActor: SendChannel<Unit>
 
     private var mediaCb = false

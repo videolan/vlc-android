@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.collect
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_ALL
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_VIDEO
@@ -98,13 +98,13 @@ fun Context.getAppSystemService(name: String) = applicationContext.getSystemServ
 fun Long.random() = (Random().nextFloat() * this).toLong()
 
 @ExperimentalCoroutinesApi
-suspend inline fun <reified T> Context.getFromMl(crossinline block: AbstractMedialibrary.() -> T) = withContext(Dispatchers.IO) {
-    val ml = AbstractMedialibrary.getInstance()
+suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(Dispatchers.IO) {
+    val ml = Medialibrary.getInstance()
     if (ml.isStarted) block.invoke(ml)
     else {
         val scan = Settings.getInstance(this@getFromMl).getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON) == ML_SCAN_ON
         suspendCancellableCoroutine { continuation ->
-            val listener = object : AbstractMedialibrary.OnMedialibraryReadyListener {
+            val listener = object : Medialibrary.OnMedialibraryReadyListener {
                 override fun onMedialibraryReady() {
                     val cb = this
                     if (!continuation.isCompleted) launch(start = CoroutineStart.UNDISPATCHED) {
@@ -126,7 +126,7 @@ suspend fun Context.awaitMedialibraryStarted() = getFromMl { isStarted }
 
 @WorkerThread
 fun List<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
-    val ml = AbstractMedialibrary.getInstance()
+    val ml = Medialibrary.getInstance()
     val list = mutableListOf<MediaWrapper>()
     for (media in this) {
         list.add(ml.findMedia(media).apply {

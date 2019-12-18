@@ -29,7 +29,7 @@ import android.text.TextUtils;
 
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 import java.util.Locale;
@@ -61,13 +61,13 @@ public class MediaWrapperImpl extends MediaWrapper {
     public MediaWrapperImpl(Parcel in) { super(in); }
 
     public void rename(String name) {
-        final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         if (mId != 0 && ml.isInitiated()) nativeSetMediaTitle(ml, mId, name);
     }
 
     public void removeFromHistory() {
         if (mId != 0L) {
-            final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+            final Medialibrary ml = Medialibrary.getInstance();
             if (ml.isInitiated()) nativeRemoveFromHistory(ml, mId);
         }
     }
@@ -218,17 +218,17 @@ public class MediaWrapperImpl extends MediaWrapper {
     }
 
     public long getMetaLong(int metaDataType) {
-        AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+        Medialibrary ml = Medialibrary.getInstance();
         return mId == 0 || !ml.isInitiated() ? 0L : nativeGetMediaLongMetadata(ml, mId, metaDataType);
     }
 
     public String getMetaString(int metaDataType) {
-        AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+        Medialibrary ml = Medialibrary.getInstance();
         return mId == 0 || !ml.isInitiated() ? null : nativeGetMediaStringMetadata(ml, mId, metaDataType);
     }
 
     public boolean setLongMeta(int metaDataType, long metadataValue) {
-        AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+        Medialibrary ml = Medialibrary.getInstance();
         if (mId != 0 && ml.isInitiated())
             nativeSetMediaLongMetadata(ml, mId, metaDataType, metadataValue);
         return mId != 0;
@@ -236,7 +236,7 @@ public class MediaWrapperImpl extends MediaWrapper {
 
     public boolean setStringMeta(int metaDataType, String metadataValue) {
         if (mId == 0L) return false;
-        AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+        Medialibrary ml = Medialibrary.getInstance();
         if (mId != 0 && ml.isInitiated())
             nativeSetMediaStringMetadata(ml, mId, metaDataType, metadataValue);
         return true;
@@ -245,28 +245,28 @@ public class MediaWrapperImpl extends MediaWrapper {
     public void setThumbnail(String mrl) {
         if (mId == 0L) return;
         mArtworkURL = mrl;
-        final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         if (mId != 0 && ml.isInitiated()) nativeSetMediaThumbnail(ml, mId, Tools.encodeVLCMrl(mrl));
     }
 
     public void requestThumbnail(int width, float position) {
         if (mId == 0L) return;
-        final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
-        if (ml.isInitiated()) nativeRequestThumbnail(ml, mId, AbstractMedialibrary.ThumbnailSizeType.Thumbnail.ordinal(), width, 0, position);
+        final Medialibrary ml = Medialibrary.getInstance();
+        if (ml.isInitiated()) nativeRequestThumbnail(ml, mId, Medialibrary.ThumbnailSizeType.Thumbnail.ordinal(), width, 0, position);
     }
 
     public void requestBanner(int width, float position) {
         if (mId == 0L) return;
-        final AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
-        if (ml.isInitiated()) nativeRequestThumbnail(ml, mId, AbstractMedialibrary.ThumbnailSizeType.Banner.ordinal(), width, 0, position);
+        final Medialibrary ml = Medialibrary.getInstance();
+        if (ml.isInitiated()) nativeRequestThumbnail(ml, mId, Medialibrary.ThumbnailSizeType.Banner.ordinal(), width, 0, position);
     }
 
-    private native long nativeGetMediaLongMetadata(AbstractMedialibrary ml, long id, int metaDataType);
-    private native String nativeGetMediaStringMetadata(AbstractMedialibrary ml, long id, int metaDataType);
-    private native void nativeSetMediaStringMetadata(AbstractMedialibrary ml, long id, int metaDataType, String metadataValue);
-    private native void nativeSetMediaLongMetadata(AbstractMedialibrary ml, long id, int metaDataType, long metadataValue);
-    private native void nativeSetMediaTitle(AbstractMedialibrary ml, long id, String name);
-    private native void nativeRemoveFromHistory(AbstractMedialibrary ml, long id);
-    private native void nativeSetMediaThumbnail(AbstractMedialibrary ml, long id, String mrl);
-    private native void nativeRequestThumbnail(AbstractMedialibrary ml, long mediaId, int type, int width, int height, float position);
+    private native long nativeGetMediaLongMetadata(Medialibrary ml, long id, int metaDataType);
+    private native String nativeGetMediaStringMetadata(Medialibrary ml, long id, int metaDataType);
+    private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
+    private native void nativeSetMediaLongMetadata(Medialibrary ml, long id, int metaDataType, long metadataValue);
+    private native void nativeSetMediaTitle(Medialibrary ml, long id, String name);
+    private native void nativeRemoveFromHistory(Medialibrary ml, long id);
+    private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
+    private native void nativeRequestThumbnail(Medialibrary ml, long mediaId, int type, int width, int height, float position);
 }

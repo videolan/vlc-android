@@ -27,7 +27,7 @@ package org.videolan.vlc.providers.datasources
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.database.models.MediaMetadataType
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.repository.MediaMetadataRepository
@@ -36,15 +36,15 @@ class MovieDataSourceFactory(private val context: Context, private val sort: Pai
     private val dataSource = MutableLiveData<DataSource<Int, MediaMetadataWithImages>>()
     override fun create(): DataSource<Int, MediaMetadataWithImages> {
         val sortField = when (sort.first) {
-            AbstractMedialibrary.SORT_DEFAULT -> "title"
-            AbstractMedialibrary.SORT_RELEASEDATE -> "releaseDate"
+            Medialibrary.SORT_DEFAULT -> "title"
+            Medialibrary.SORT_RELEASEDATE -> "releaseDate"
             else -> "title"
         }
         val sortType = if (sort.second) "DESC" else "ASC"
 
         val newDataSource = MediaMetadataRepository.getInstance(context).getMoviePagedList(sortField, sortType, metadataType).mapByPage {
             //Inject ML medias to results
-            val medialibrary = AbstractMedialibrary.getInstance()
+            val medialibrary = Medialibrary.getInstance()
             if (medialibrary.isStarted) it.forEach { episode ->
                 if (episode.media == null) {
                     episode.metadata.mlId?.let { mlId ->

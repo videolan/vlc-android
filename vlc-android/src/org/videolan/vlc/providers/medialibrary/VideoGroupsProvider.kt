@@ -1,7 +1,7 @@
 package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.viewmodels.SortableModel
@@ -16,5 +16,5 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
 }
 
 private fun Array<AbstractVideoGroup>.extractSingles() = map {
-    if (it.mediaCount() == 1) it.media(AbstractMedialibrary.SORT_DEFAULT, false, 1, 0)[0] else it
+    if (it.mediaCount() == 1) it.media(Medialibrary.SORT_DEFAULT, false, 1, 0)[0] else it
 }.toTypedArray()

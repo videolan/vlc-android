@@ -7,12 +7,12 @@ import android.text.TextUtils;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.MLServiceLocator;
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 public abstract class AbstractAlbum extends MediaLibraryItem {
     public static class SpecialRes {
-        public static String UNKNOWN_ALBUM = AbstractMedialibrary.getContext().getString(R.string.unknown_album);
+        public static String UNKNOWN_ALBUM = Medialibrary.getContext().getString(R.string.unknown_album);
     }
 
     protected int releaseYear;
@@ -88,7 +88,7 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
 
     @Override
     public MediaWrapper[] getTracks() {
-        return getTracks(AbstractMedialibrary.SORT_ALBUM, false);
+        return getTracks(Medialibrary.SORT_ALBUM, false);
     }
 
     @Override

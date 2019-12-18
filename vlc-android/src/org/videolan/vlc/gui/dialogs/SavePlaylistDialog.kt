@@ -39,7 +39,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -62,7 +62,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var adapter: SimpleAdapter
     private lateinit var tracks: Array<MediaWrapper>
     private lateinit var newTrack: Array<MediaWrapper>
-    private lateinit var medialibrary: AbstractMedialibrary
+    private lateinit var medialibrary: Medialibrary
     private var currentPLaylist: AbstractPlaylist? = null
 
     private val coroutineContextProvider: CoroutineContextProvider
@@ -76,7 +76,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        medialibrary = AbstractMedialibrary.getInstance()
+        medialibrary = Medialibrary.getInstance()
         adapter = SimpleAdapter(this)
         tracks = try {
             @Suppress("UNCHECKED_CAST")
@@ -187,4 +187,4 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 }
 
-fun AbstractMedialibrary.getPlaylistByName(name: String): AbstractPlaylist? = playlists.filter { it.title == name }.getOrNull(0)
+fun Medialibrary.getPlaylistByName(name: String): AbstractPlaylist? = playlists.filter { it.title == name }.getOrNull(0)

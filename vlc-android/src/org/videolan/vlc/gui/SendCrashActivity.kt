@@ -41,7 +41,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
@@ -98,10 +98,10 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                     if (getStoragePermission(true)) {
                         if (!::dbPath.isInitialized) {
                             val path = VLCApplication.appContext.getExternalFilesDir(null)?.absolutePath ?: return@withContext null
-                            dbPath = "$path/${AbstractMedialibrary.VLC_MEDIA_DB_NAME}"
+                            dbPath = "$path/${Medialibrary.VLC_MEDIA_DB_NAME}"
                             dbZipPath = "$path/db.zip"
                         }
-                        val db = File(getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+                        val db = File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
                         val dbFile = File(dbPath)
                         FileUtils.copyFile(db, dbFile)
                         FileUtils.zip(arrayOf(dbPath), dbZipPath)

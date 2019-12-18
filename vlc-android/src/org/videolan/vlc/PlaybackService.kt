@@ -54,7 +54,7 @@ import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -88,7 +88,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private lateinit var keyguardManager: KeyguardManager
     internal lateinit var settings: SharedPreferences
     private val binder = LocalBinder()
-    internal lateinit var medialibrary: AbstractMedialibrary
+    internal lateinit var medialibrary: Medialibrary
 
     private val callbacks = mutableListOf<Callback>()
     private lateinit var cbActor : SendChannel<CbAction>
@@ -463,7 +463,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         playlistManager = PlaylistManager(this)
         Util.checkCpuCompatibility(this)
 
-        medialibrary = AbstractMedialibrary.getInstance()
+        medialibrary = Medialibrary.getInstance()
 
         detectHeadset = settings.getBoolean("enable_headset_detection", true)
 

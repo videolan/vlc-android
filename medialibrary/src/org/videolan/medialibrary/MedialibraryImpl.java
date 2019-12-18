@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Medialibrary.java
+ * MedialibraryImpl.java
  *****************************************************************************
- * Copyright © 2017-2018 VLC authors and VideoLAN
+ * Copyright © 2017-2019 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
@@ -42,7 +42,7 @@ import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.io.File;
 
-public class Medialibrary extends AbstractMedialibrary {
+public class MedialibraryImpl extends Medialibrary {
     private static final String TAG = "VLC/JMedialibrary";
 
     public int init(Context context) {
@@ -230,7 +230,7 @@ public class Medialibrary extends AbstractMedialibrary {
 
     @WorkerThread
     public AbstractAlbum[] getAlbums() {
-        return getAlbums(AbstractMedialibrary.SORT_DEFAULT, false);
+        return getAlbums(Medialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
@@ -259,7 +259,7 @@ public class Medialibrary extends AbstractMedialibrary {
 
     @WorkerThread
     public AbstractArtist[] getArtists(boolean all) {
-        return getArtists(all, AbstractMedialibrary.SORT_DEFAULT, false);
+        return getArtists(all, Medialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
@@ -286,7 +286,7 @@ public class Medialibrary extends AbstractMedialibrary {
 
     @WorkerThread
     public AbstractGenre[] getGenres() {
-        return getGenres(AbstractMedialibrary.SORT_DEFAULT, false);
+        return getGenres(Medialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
@@ -314,7 +314,7 @@ public class Medialibrary extends AbstractMedialibrary {
 
     @WorkerThread
     public AbstractPlaylist[] getPlaylists() {
-        return getPlaylists(AbstractMedialibrary.SORT_DEFAULT, false);
+        return getPlaylists(Medialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread

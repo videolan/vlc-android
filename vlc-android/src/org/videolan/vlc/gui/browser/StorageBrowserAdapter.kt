@@ -28,7 +28,8 @@ import android.net.Uri
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import kotlinx.coroutines.launch
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -95,10 +96,10 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
         mediaDirsLocation.clear()
 
         updateJob = launch {
-            val folders = if (!AbstractMedialibrary.getInstance().isInitiated) {
+            val folders = if (!Medialibrary.getInstance().isInitiated) {
                 MediaParsingService.preselectedStorages.toTypedArray()
             } else {
-                withContext(Dispatchers.IO) { AbstractMedialibrary.getInstance().foldersList }
+                withContext(Dispatchers.IO) { Medialibrary.getInstance().foldersList }
             }
 
             folders.forEach {

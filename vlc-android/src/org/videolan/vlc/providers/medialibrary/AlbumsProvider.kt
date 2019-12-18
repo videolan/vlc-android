@@ -22,7 +22,7 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum
 import org.videolan.medialibrary.interfaces.media.AbstractArtist
 import org.videolan.medialibrary.interfaces.media.AbstractGenre
@@ -39,7 +39,7 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, model: So
     override fun canSortByReleaseDate() = true
 
     init {
-        sort = Settings.getInstance(context).getInt(sortKey, if (parent is AbstractArtist) AbstractMedialibrary.SORT_RELEASEDATE else AbstractMedialibrary.SORT_DEFAULT)
+        sort = Settings.getInstance(context).getInt(sortKey, if (parent is AbstractArtist) Medialibrary.SORT_RELEASEDATE else Medialibrary.SORT_DEFAULT)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
     }
 

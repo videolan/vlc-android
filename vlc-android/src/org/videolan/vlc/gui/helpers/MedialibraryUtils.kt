@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.*
@@ -13,7 +13,7 @@ import org.videolan.vlc.util.*
 object MedialibraryUtils {
 
     fun removeDir(path: String) {
-        runIO(Runnable { AbstractMedialibrary.getInstance().removeFolder(path) })
+        runIO(Runnable { Medialibrary.getInstance().removeFolder(path) })
     }
 
     @JvmOverloads
@@ -32,7 +32,7 @@ object MedialibraryUtils {
     fun isScanned(path: String): Boolean {
         //scheme is supported => test if the parent is scanned
         var isScanned = false
-        AbstractMedialibrary.getInstance().foldersList.forEach search@{
+        Medialibrary.getInstance().foldersList.forEach search@{
             if (path.stripTrailingSlash().startsWith(Uri.parse(it).toString().stripTrailingSlash())) {
                 isScanned = true
                 return@search

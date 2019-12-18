@@ -46,7 +46,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -81,7 +81,7 @@ import java.util.*
 open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
 
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
-    private val mediaLibrary = AbstractMedialibrary.getInstance()
+    private val mediaLibrary = Medialibrary.getInstance()
     private lateinit var binding: PlaylistActivityBinding
     private var actionMode: ActionMode? = null
     private var isPlaylist: Boolean = false

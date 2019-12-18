@@ -18,7 +18,7 @@ import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.util.CoroutineContextProvider
@@ -47,14 +47,14 @@ class PlaylistFragmentUITest: BaseUITest() {
 
     @After
     fun resetData() {
-        AbstractMedialibrary.getInstance().playlists.map { it.delete() }
+        Medialibrary.getInstance().playlists.map { it.delete() }
     }
 
     private fun createDummyPlaylist() {
-        val ml = AbstractMedialibrary.getInstance()
+        val ml = Medialibrary.getInstance()
         val pl = ml.createPlaylist(DUMMY_PLAYLIST)
-        pl.append(ml.getPagedVideos(AbstractMedialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
-        pl.append(ml.getPagedAudio(AbstractMedialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
+        pl.append(ml.getPagedVideos(Medialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
+        pl.append(ml.getPagedAudio(Medialibrary.SORT_DEFAULT, false, 5, 0).map { it.id })
     }
 
     @Test

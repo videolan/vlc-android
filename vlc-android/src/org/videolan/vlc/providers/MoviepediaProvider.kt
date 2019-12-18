@@ -28,7 +28,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.database.models.MediaMetadataWithImages
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.Settings
@@ -39,7 +39,7 @@ abstract class MoviepediaProvider(private val context: Context) : HeaderProvider
     val loading = MutableLiveData<Boolean>().apply { value = true }
     private val settings = Settings.getInstance(context)
     protected open val sortKey: String = this.javaClass.simpleName
-    var sort = settings.getInt(sortKey, AbstractMedialibrary.SORT_DEFAULT)
+    var sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
     var desc = settings.getBoolean("${sortKey}_desc", false)
     var sortQuery = MutableLiveData<Pair<Int, Boolean>>().apply { value = Pair(sort, desc) }
     var isRefreshing = false
@@ -50,7 +50,7 @@ abstract class MoviepediaProvider(private val context: Context) : HeaderProvider
 
     fun sort(sort: Int) {
         desc = when (this.sort) {
-            AbstractMedialibrary.SORT_DEFAULT -> sort == AbstractMedialibrary.SORT_ALPHA
+            Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
             sort -> !desc
             else -> false
         }

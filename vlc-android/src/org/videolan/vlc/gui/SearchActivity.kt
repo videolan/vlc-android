@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.SearchAggregate
 import org.videolan.vlc.R
@@ -34,7 +34,7 @@ import org.videolan.vlc.media.MediaUtils
 
 open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionListener {
 
-    private lateinit var medialibrary: AbstractMedialibrary
+    private lateinit var medialibrary: Medialibrary
     private lateinit var binding: SearchActivityBinding
     private val clickHandler = ClickHandler()
 
@@ -45,7 +45,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
         binding = DataBindingUtil.setContentView(this, R.layout.search_activity)
         binding.handler = clickHandler
         binding.searchAggregate = SearchAggregate()
-        medialibrary = AbstractMedialibrary.getInstance()
+        medialibrary = Medialibrary.getInstance()
         if (Intent.ACTION_SEARCH == intent.action || "com.google.android.gms.actions.SEARCH_ACTION" == intent.action) {
             val query = intent.getStringExtra(SearchManager.QUERY)
             initializeLists()

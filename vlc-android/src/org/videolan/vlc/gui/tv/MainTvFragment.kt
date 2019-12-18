@@ -34,7 +34,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.vlc.BuildConfig
@@ -298,7 +298,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 when ((item as GenericCardItem).id) {
                     ID_SETTINGS -> activity.startActivityForResult(Intent(activity, org.videolan.vlc.gui.tv.preferences.PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
                     ID_REFRESH -> {
-                        if (!AbstractMedialibrary.getInstance().isWorking) {
+                        if (!Medialibrary.getInstance().isWorking) {
                             requireActivity().reloadLibrary()
                         }
                     }

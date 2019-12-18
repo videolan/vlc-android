@@ -36,7 +36,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
@@ -91,7 +91,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
-                            AbstractMedialibrary.getInstance().clearHistory()
+                            Medialibrary.getInstance().clearHistory()
                         }}
                         .setNegativeButton(R.string.cancel, null)
                         .show()
@@ -102,7 +102,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setTitle(R.string.clear_media_db)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) { AbstractMedialibrary.getInstance().clearDatabase(true)
+                        .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) { Medialibrary.getInstance().clearDatabase(true)
                         }}
                         .setNegativeButton(R.string.cancel, null)
                         .show()
@@ -113,14 +113,14 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 return true
             }
             "dump_media_db" -> {
-                if (AbstractMedialibrary.getInstance().isWorking)
+                if (Medialibrary.getInstance().isWorking)
                     UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
                 else {
-                    val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+                    val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)
                     launch {
                         if ((activity as FragmentActivity).getWritePermission(Uri.fromFile(dst))) {
                             val copied = withContext(Dispatchers.IO) {
-                                val db = File(activity.getDir("db", Context.MODE_PRIVATE).toString() + AbstractMedialibrary.VLC_MEDIA_DB_NAME)
+                                val db = File(activity.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
 
                                 FileUtils.copyFile(db, dst)
                             }

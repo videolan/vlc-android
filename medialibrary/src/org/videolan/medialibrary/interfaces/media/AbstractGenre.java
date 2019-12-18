@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.videolan.medialibrary.MLServiceLocator;
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 public abstract class AbstractGenre extends MediaLibraryItem {
@@ -33,13 +33,13 @@ public abstract class AbstractGenre extends MediaLibraryItem {
     }
 
     public AbstractAlbum[] getAlbums() {
-        return getAlbums(AbstractMedialibrary.SORT_DEFAULT, false);
+        return getAlbums(Medialibrary.SORT_DEFAULT, false);
     }
     public AbstractArtist[] getArtists() {
-        return getArtists(AbstractMedialibrary.SORT_DEFAULT, false);
+        return getArtists(Medialibrary.SORT_DEFAULT, false);
     }
     public MediaWrapper[] getTracks() {
-        return getTracks(false, AbstractMedialibrary.SORT_ALBUM, false);
+        return getTracks(false, Medialibrary.SORT_ALBUM, false);
     }
     @Override
     public int getItemType() {

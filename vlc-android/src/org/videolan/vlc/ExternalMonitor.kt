@@ -43,7 +43,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
 import org.videolan.vlc.util.*
@@ -74,7 +74,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             }
             is MediaUnmounted -> {
                 delay(100L)
-                AbstractMedialibrary.getInstance().removeDevice(action.uuid, action.path)
+                Medialibrary.getInstance().removeDevice(action.uuid, action.path)
                 if (storageUnplugged.hasActiveObservers()) storageUnplugged.postValue(action.uri)
             }
         }
@@ -178,7 +178,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
     private fun checkNewStorages(ctx: Context) {
-        if (AbstractMedialibrary.getInstance().isStarted) {
+        if (Medialibrary.getInstance().isStarted) {
             val scanOpt = if (Settings.showTvUi) ML_SCAN_ON
             else Settings.getInstance(ctx).getInt(KEY_MEDIALIBRARY_SCAN, -1)
             if (scanOpt == ML_SCAN_ON)

@@ -34,7 +34,7 @@ import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.*
@@ -134,7 +134,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 } catch (e: NumberFormatException) {
                     6
                 }
-                AbstractMedialibrary.getInstance().setVideoGroupsPrefixLength(goupSizeValue)
+                Medialibrary.getInstance().setVideoGroupsPrefixLength(goupSizeValue)
                 (activity as PreferencesActivity).setRestart()
             }
         }

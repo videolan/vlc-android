@@ -38,7 +38,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -74,7 +74,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     private lateinit var searchButtonView: View
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    lateinit var mediaLibrary: AbstractMedialibrary
+    lateinit var mediaLibrary: Medialibrary
     var actionMode: ActionMode? = null
     var fabPlay: FloatingActionButton? = null
     private var savedSelection = SparseBooleanArray()
@@ -100,7 +100,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mediaLibrary = AbstractMedialibrary.getInstance()
+        mediaLibrary = Medialibrary.getInstance()
         setHasOptionsMenu(!AndroidDevices.isAndroidTv)
         (savedInstanceState?.getParcelable<SparseBooleanArrayParcelable>(KEY_SELECTION))?.let { savedSelection = it.data }
     }
@@ -260,35 +260,35 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.ml_menu_sortby_name -> {
-                sortBy(AbstractMedialibrary.SORT_ALPHA)
+                sortBy(Medialibrary.SORT_ALPHA)
                 return true
             }
             R.id.ml_menu_sortby_filename -> {
-                sortBy(AbstractMedialibrary.SORT_FILENAME)
+                sortBy(Medialibrary.SORT_FILENAME)
                 return true
             }
             R.id.ml_menu_sortby_length -> {
-                sortBy(AbstractMedialibrary.SORT_DURATION)
+                sortBy(Medialibrary.SORT_DURATION)
                 return true
             }
             R.id.ml_menu_sortby_date -> {
-                sortBy(AbstractMedialibrary.SORT_RELEASEDATE)
+                sortBy(Medialibrary.SORT_RELEASEDATE)
                 return true
             }
             R.id.ml_menu_sortby_last_modified -> {
-                sortBy(AbstractMedialibrary.SORT_LASTMODIFICATIONDATE)
+                sortBy(Medialibrary.SORT_LASTMODIFICATIONDATE)
                 return true
             }
             R.id.ml_menu_sortby_artist_name -> {
-                sortBy(AbstractMedialibrary.SORT_ARTIST)
+                sortBy(Medialibrary.SORT_ARTIST)
                 return true
             }
             R.id.ml_menu_sortby_album_name -> {
-                sortBy(AbstractMedialibrary.SORT_ALBUM)
+                sortBy(Medialibrary.SORT_ALBUM)
                 return true
             }
             R.id.ml_menu_sortby_number -> {
-                sortBy(AbstractMedialibrary.SORT_FILESIZE) //TODO
+                sortBy(Medialibrary.SORT_FILESIZE) //TODO
                 return super.onOptionsItemSelected(item)
             }
             else -> return super.onOptionsItemSelected(item)

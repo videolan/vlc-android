@@ -3,7 +3,7 @@ package org.videolan.medialibrary.stubs;
 import android.os.Parcel;
 
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
+import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
@@ -31,7 +31,7 @@ public class StubAlbum extends AbstractAlbum {
     }
 
     public AbstractArtist getAlbumArtist() {
-        AbstractMedialibrary ml = AbstractMedialibrary.getInstance();
+        Medialibrary ml = Medialibrary.getInstance();
         return ml.getArtist(this.albumArtistId);
     }
 

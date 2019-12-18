@@ -1,3 +1,23 @@
+/*****************************************************************************
+ * Medialibrary.java
+ *****************************************************************************
+ * Copyright © 2019 VLC authors and VideoLAN
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *****************************************************************************/
+
 package org.videolan.medialibrary.interfaces;
 
 import android.Manifest;
@@ -30,7 +50,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class AbstractMedialibrary {
+abstract public class Medialibrary {
 
     // Sorting
     public final static int SORT_DEFAULT = 0;
@@ -91,7 +111,7 @@ abstract public class AbstractMedialibrary {
     protected static Context sContext;
     public static LiveData<MediaWrapper> lastThumb = new SingleEvent<>();
 
-    protected static final AbstractMedialibrary instance = MLServiceLocator.getAbstractMedialibrary();
+    protected static final Medialibrary instance = MLServiceLocator.getAbstractMedialibrary();
 
     public static Context getContext() {
         return sContext;
@@ -117,7 +137,7 @@ abstract public class AbstractMedialibrary {
     }
 
     @NonNull
-    public static AbstractMedialibrary getInstance() {
+    public static Medialibrary getInstance() {
         return instance;
     }
 
