@@ -122,6 +122,8 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: AbstractMedi
     }
 }
 
+suspend fun Context.awaitMedialibraryStarted() = getFromMl { isStarted }
+
 @WorkerThread
 fun List<AbstractMediaWrapper>.updateWithMLMeta() : MutableList<AbstractMediaWrapper> {
     val ml = AbstractMedialibrary.getInstance()

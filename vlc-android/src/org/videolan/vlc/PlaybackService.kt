@@ -108,8 +108,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private var widgetPositionTimestamp = System.currentTimeMillis()
     private var popupManager: PopupManager? = null
 
-    internal var libraryReceiver: PBSMedialibraryReceiver? = null
-
     private val receiver = object : BroadcastReceiver() {
         private var wasPlaying = false
         override fun onReceive(context: Context, intent: Intent) {
@@ -466,7 +464,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         Util.checkCpuCompatibility(this)
 
         medialibrary = AbstractMedialibrary.getInstance()
-        if (!medialibrary.isInitiated) registerMedialibrary(null)
 
         detectHeadset = settings.getBoolean("enable_headset_detection", true)
 
@@ -990,11 +987,17 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     private fun loadLastAudioPlaylist() {
         if (AndroidDevices.isAndroidTv) return
-        runOnceReady(Runnable { if (!playlistManager.loadLastPlaylist()) stopSelf() })
+        scope.launch {
+            awaitMedialibraryStarted()
+            if (!playlistManager.loadLastPlaylist()) stopSelf()
+        }
     }
 
     fun loadLastPlaylist(type: Int) {
-        runOnceReady(Runnable { playlistManager.loadLastPlaylist(type) })
+        scope.launch {
+            awaitMedialibraryStarted()
+            playlistManager.loadLastPlaylist(type)
+        }
     }
 
     fun showToast(text: String, duration: Int, isError: Boolean = false) {
@@ -1294,7 +1297,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
         scope.launch(start = CoroutineStart.UNDISPATCHED) {
-            getFromMl { isStarted }
+            awaitMedialibraryStarted()
             sendResults(result, parentId)
         }
     }
