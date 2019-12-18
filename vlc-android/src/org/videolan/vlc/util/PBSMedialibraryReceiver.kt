@@ -50,7 +50,7 @@ internal fun PlaybackService.registerMedialibrary(action: Runnable?) {
     if (!Permissions.canReadStorage(this)) return
     if (libraryReceiver == null) {
         libraryReceiver = PBSMedialibraryReceiver(this)
-        startMedialibrary(parse = false)
+        startMedialibrary()
     }
     if (action != null) libraryReceiver?.addAction(action)
 }
