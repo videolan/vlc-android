@@ -22,16 +22,16 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class PlaylistsProvider(context: Context, model: SortableModel) : MedialibraryProvider<AbstractPlaylist>(context, model) {
+class PlaylistsProvider(context: Context, model: SortableModel) : MedialibraryProvider<Playlist>(context, model) {
 
-    override fun getAll() : Array<AbstractPlaylist> = medialibrary.getPlaylists(sort, desc)
+    override fun getAll() : Array<Playlist> = medialibrary.getPlaylists(sort, desc)
 
-    override fun getPage(loadSize: Int, startposition: Int)  : Array<AbstractPlaylist> {
+    override fun getPage(loadSize: Int, startposition: Int)  : Array<Playlist> {
         val list = if (model.filterQuery == null) medialibrary.getPagedPlaylists(sort, desc, loadSize, startposition)
         else medialibrary.searchPlaylist(model.filterQuery, sort, desc, loadSize, startposition)
         return list.also { completeHeaders(it, startposition) }

@@ -7,7 +7,7 @@ import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.Playlist;
 
 public class SearchAggregate {
     private static final String TAG = "VLC/SearchAggregate";
@@ -17,7 +17,7 @@ public class SearchAggregate {
     private final Genre[] genres;
     private final MediaWrapper[] videos;
     private final MediaWrapper[] tracks;
-    private final AbstractPlaylist[] playlists;
+    private final Playlist[] playlists;
 
     public SearchAggregate() {
         this.albums = null;
@@ -28,7 +28,7 @@ public class SearchAggregate {
         this.playlists = null;
     }
 
-    public SearchAggregate(Album[] albums, Artist[] artists, Genre[] genres, MediaWrapper[] videos, MediaWrapper[] tracks, AbstractPlaylist[] playlists) {
+    public SearchAggregate(Album[] albums, Artist[] artists, Genre[] genres, MediaWrapper[] videos, MediaWrapper[] tracks, Playlist[] playlists) {
         this.albums = albums;
         this.artists = artists;
         this.genres = genres;
@@ -63,7 +63,7 @@ public class SearchAggregate {
     }
 
     @Nullable
-    public AbstractPlaylist[] getPlaylists() {
+    public Playlist[] getPlaylists() {
         return playlists;
     }
 
@@ -101,7 +101,7 @@ public class SearchAggregate {
         }
         if (!Tools.isArrayEmpty(playlists)) {
             sb.append("Playlists:\n");
-            for (AbstractPlaylist playlist : playlists)
+            for (Playlist playlist : playlists)
                 sb.append(playlist.getTitle()).append("\n");
         }
         return sb.toString();

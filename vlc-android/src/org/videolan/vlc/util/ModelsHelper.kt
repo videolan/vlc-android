@@ -8,7 +8,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary.*
 import org.videolan.medialibrary.interfaces.media.Album
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -269,7 +269,7 @@ object ModelsHelper {
 
     fun MediaLibraryItem.getTracksCount() = when (itemType) {
         MediaLibraryItem.TYPE_ALBUM -> (this as Album).tracksCount
-        MediaLibraryItem.TYPE_PLAYLIST -> (this as AbstractPlaylist).tracksCount
+        MediaLibraryItem.TYPE_PLAYLIST -> (this as Playlist).tracksCount
         else -> 0
     }
 }

@@ -41,7 +41,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SimpleAdapter
@@ -63,7 +63,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var tracks: Array<MediaWrapper>
     private lateinit var newTrack: Array<MediaWrapper>
     private lateinit var medialibrary: Medialibrary
-    private var currentPLaylist: AbstractPlaylist? = null
+    private var currentPLaylist: Playlist? = null
 
     private val coroutineContextProvider: CoroutineContextProvider
 
@@ -174,7 +174,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 
     override fun onClick(item: MediaLibraryItem) {
-        currentPLaylist = item as AbstractPlaylist
+        currentPLaylist = item as Playlist
         editText?.setText(item.title)
     }
 
@@ -187,4 +187,4 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 }
 
-fun Medialibrary.getPlaylistByName(name: String): AbstractPlaylist? = playlists.filter { it.title == name }.getOrNull(0)
+fun Medialibrary.getPlaylistByName(name: String): Playlist? = playlists.filter { it.title == name }.getOrNull(0)

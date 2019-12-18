@@ -48,7 +48,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -208,7 +208,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
     override fun onMove(oldPosition: Int, newPosition: Int) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Moving item from $oldPosition to $newPosition")
-        (viewModel.playlist as AbstractPlaylist).move(oldPosition, newPosition)
+        (viewModel.playlist as Playlist).move(oldPosition, newPosition)
 
     }
 
@@ -325,7 +325,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     private fun removeItem(position: Int, media: MediaWrapper) {
         val resId = if (isPlaylist) R.string.confirm_remove_from_playlist else R.string.confirm_delete
         if (isPlaylist) {
-            snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as AbstractPlaylist).remove(position) })
+            snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
         } else {
             val deleteAction = Runnable { deleteMedia(media) }
             snackerConfirm(binding.root, getString(resId, media.title), Runnable { if (Util.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
@@ -361,7 +361,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
     private fun removeFromPlaylist(list: List<MediaWrapper>, indexes: List<Int>) {
         val itemsRemoved = HashMap<Int, Long>()
-        val playlist = viewModel.playlist as? AbstractPlaylist
+        val playlist = viewModel.playlist as? Playlist
                 ?: return
         lifecycleScope.launchWhenStarted {
             val tracks = withContext(Dispatchers.IO) { playlist.tracks }

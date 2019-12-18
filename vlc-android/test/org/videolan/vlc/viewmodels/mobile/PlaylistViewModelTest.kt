@@ -6,7 +6,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
@@ -15,7 +15,7 @@ import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
 @ExperimentalCoroutinesApi
 class PlaylistViewModelTest : BaseTest() {
     private lateinit var playlistViewModel: PlaylistViewModel
-    private lateinit var parent: AbstractPlaylist
+    private lateinit var parent: Playlist
 
     override fun beforeTest() {
         super.beforeTest()

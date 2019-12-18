@@ -40,7 +40,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
@@ -179,7 +179,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
                 if (!isStarted()) break
                 when(item) {
                     is MediaWrapper -> if (getWritePermission(item.uri)) deleteMedia(item)
-                    is AbstractPlaylist -> withContext(Dispatchers.IO) { item.delete() }
+                    is Playlist -> withContext(Dispatchers.IO) { item.delete() }
                 }
             }
             if (isStarted()) viewModel.refresh()
@@ -189,7 +189,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
         val view = view ?: return false
         when (item.itemType) {
-            MediaLibraryItem.TYPE_PLAYLIST -> snackerConfirm(view, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as AbstractPlaylist) })
+            MediaLibraryItem.TYPE_PLAYLIST -> snackerConfirm(view, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as Playlist) })
             MediaLibraryItem.TYPE_MEDIA -> {
                 val deleteAction = Runnable {
                     if (isStarted()) lifecycleScope.launch { deleteMedia(item, false, null) }

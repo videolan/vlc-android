@@ -14,7 +14,7 @@ import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.Playlist;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +43,7 @@ public class StubDataSource {
     ArrayList<Album> mAlbums = new ArrayList<>();
     ArrayList<Artist> mArtists = new ArrayList<>();
     ArrayList<Genre> mGenres = new ArrayList<>();
-    ArrayList<AbstractPlaylist> mPlaylists = new ArrayList<>();
+    ArrayList<Playlist> mPlaylists = new ArrayList<>();
     ArrayList<String> mBannedFolders = new ArrayList<>();
     ArrayList<AbstractFolder> mFolders = new ArrayList<>();
     ArrayList<String> mDevices = new ArrayList<>();
@@ -207,12 +207,12 @@ public class StubDataSource {
         }
     }
 
-    class PlaylistComparator implements Comparator<AbstractPlaylist> {
+    class PlaylistComparator implements Comparator<Playlist> {
         private int sort;
         PlaylistComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(AbstractPlaylist o1, AbstractPlaylist o2) {
+        public int compare(Playlist o1, Playlist o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
@@ -268,12 +268,12 @@ public class StubDataSource {
         return array.toArray(new Genre[0]);
     }
 
-    AbstractPlaylist[] sortPlaylist(List<AbstractPlaylist> arrayList, int sort, boolean desc) {
-        List<AbstractPlaylist> array = new ArrayList<>(arrayList);
+    Playlist[] sortPlaylist(List<Playlist> arrayList, int sort, boolean desc) {
+        List<Playlist> array = new ArrayList<>(arrayList);
         Collections.sort(array, new PlaylistComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AbstractPlaylist[0]);
+        return array.toArray(new Playlist[0]);
     }
 
     AbstractFolder[] sortFolder(List<AbstractFolder> arrayList, int sort, boolean desc) {

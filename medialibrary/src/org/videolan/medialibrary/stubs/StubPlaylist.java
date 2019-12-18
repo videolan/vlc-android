@@ -4,13 +4,13 @@ import android.os.Parcel;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.Playlist;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class StubPlaylist extends AbstractPlaylist {
+public class StubPlaylist extends Playlist {
 
     private ArrayList<Long> mTracksId = new ArrayList<>();
     private StubDataSource dt = StubDataSource.getInstance();

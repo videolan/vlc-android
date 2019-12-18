@@ -14,7 +14,7 @@ import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
 
@@ -270,15 +270,15 @@ public class StubMedialibrary extends Medialibrary {
         return null;
     }
 
-    public AbstractPlaylist[] getPlaylists() {
-        return dt.mPlaylists.toArray(new AbstractPlaylist[0]);
+    public Playlist[] getPlaylists() {
+        return dt.mPlaylists.toArray(new Playlist[0]);
     }
 
-    public AbstractPlaylist[] getPlaylists(int sort, boolean desc) {
+    public Playlist[] getPlaylists(int sort, boolean desc) {
         return dt.sortPlaylist(dt.mPlaylists, sort, desc);
     }
 
-    public AbstractPlaylist[] getPagedPlaylists(int sort, boolean desc, int nbItems, int offset) {
+    public Playlist[] getPagedPlaylists(int sort, boolean desc, int nbItems, int offset) {
         return dt.sortPlaylist(dt.secureSublist(dt.mPlaylists, offset, offset + nbItems), sort, desc);
     }
 
@@ -288,21 +288,21 @@ public class StubMedialibrary extends Medialibrary {
 
     public int getPlaylistsCount(String query) {
         int count = 0;
-        for (AbstractPlaylist playlist : dt.mPlaylists) {
+        for (Playlist playlist : dt.mPlaylists) {
             if (Tools.hasSubString(playlist.getTitle(), query)) count++;
         }
         return count;
     }
 
-    public AbstractPlaylist getPlaylist(long playlistId) {
-        for (AbstractPlaylist playlist : dt.mPlaylists) {
+    public Playlist getPlaylist(long playlistId) {
+        for (Playlist playlist : dt.mPlaylists) {
             if (playlist.getId() == playlistId) return playlist;
         }
         return null;
     }
 
-    public AbstractPlaylist createPlaylist(String name) {
-        AbstractPlaylist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID().longValue(), name, 0);
+    public Playlist createPlaylist(String name) {
+        Playlist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID().longValue(), name, 0);
         dt.mPlaylists.add(playlist);
         onPlaylistsAdded();
         return playlist;
@@ -470,7 +470,7 @@ public class StubMedialibrary extends Medialibrary {
         Album[] albums = searchAlbum(query);
         Artist[] artists = searchArtist(query);
         Genre[] genres = searchGenre(query);
-        AbstractPlaylist[] playlists = searchPlaylist(query);
+        Playlist[] playlists = searchPlaylist(query);
         return new SearchAggregate(albums, artists, genres, videos, tracks, playlists);
     }
 
@@ -594,16 +594,16 @@ public class StubMedialibrary extends Medialibrary {
         return dt.sortGenre(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
-    public AbstractPlaylist[] searchPlaylist(String query) {
-        ArrayList<AbstractPlaylist> results = new ArrayList<>();
-        for (AbstractPlaylist playlist : dt.mPlaylists) {
+    public Playlist[] searchPlaylist(String query) {
+        ArrayList<Playlist> results = new ArrayList<>();
+        for (Playlist playlist : dt.mPlaylists) {
             if (Tools.hasSubString(playlist.getTitle(), query)) results.add(playlist);
         }
-        return results.toArray(new AbstractPlaylist[0]);
+        return results.toArray(new Playlist[0]);
     }
 
-    public AbstractPlaylist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractPlaylist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query)));
+    public Playlist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<Playlist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query)));
         return dt.sortPlaylist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 

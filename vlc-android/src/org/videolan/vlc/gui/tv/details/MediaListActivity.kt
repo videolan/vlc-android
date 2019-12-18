@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ActivityMediaListTvBinding
@@ -107,7 +107,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
 
         if (requestCode == REQUEST_DELETE_PLAYLIST) {
             if (resultCode == ConfirmationTvActivity.ACTION_ID_POSITIVE) {
-                (viewModel.playlist as AbstractPlaylist).delete()
+                (viewModel.playlist as Playlist).delete()
                 finish()
             }
         }
@@ -141,15 +141,15 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
 
     override fun onClickMoveUp(v: View, position: Int) {
 
-        (viewModel.playlist as AbstractPlaylist).move(position, position - 1)
+        (viewModel.playlist as Playlist).move(position, position - 1)
     }
 
     override fun onClickMoveDown(v: View, position: Int) {
-        (viewModel.playlist as AbstractPlaylist).move(position, position + 1)
+        (viewModel.playlist as Playlist).move(position, position + 1)
     }
 
     override fun onClickRemove(v: View, position: Int) {
-        (viewModel.playlist as AbstractPlaylist).remove(position)
+        (viewModel.playlist as Playlist).remove(position)
     }
 
     override fun onFocusChanged(item: MediaLibraryItem) {

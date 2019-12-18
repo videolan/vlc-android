@@ -59,13 +59,13 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
             is Artist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is Album -> parent.getPagedTracks(sort, desc, loadSize, startposition)
             is Genre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
-            is AbstractPlaylist -> parent.getPagedTracks(loadSize, startposition)
+            is Playlist -> parent.getPagedTracks(loadSize, startposition)
             else -> medialibrary.getPagedAudio(sort, desc, loadSize, startposition)
         } else when(parent) {
             is Artist -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             is Album -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             is Genre -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
-            is AbstractPlaylist -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
+            is Playlist -> parent.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             else -> medialibrary.searchAudio(model.filterQuery, sort, desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
@@ -73,7 +73,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
 
     override fun getTotalCount() = if (model.filterQuery == null) when (parent) {
         is Album -> parent.realTracksCount
-        is AbstractPlaylist -> parent.realTracksCount
+        is Playlist -> parent.realTracksCount
         is Artist,
         is Genre -> parent.tracksCount
         else -> medialibrary.audioCount
@@ -81,7 +81,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
         is Artist -> parent.searchTracksCount(model.filterQuery)
         is Album -> parent.searchTracksCount(model.filterQuery)
         is Genre -> parent.searchTracksCount(model.filterQuery)
-        is AbstractPlaylist -> parent.searchTracksCount(model.filterQuery)
+        is Playlist -> parent.searchTracksCount(model.filterQuery)
         else ->medialibrary.getAudioCount(model.filterQuery)
     }
 }

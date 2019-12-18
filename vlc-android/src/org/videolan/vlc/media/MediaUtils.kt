@@ -462,7 +462,7 @@ object MediaUtils {
     } catch (ignored: SecurityException) {
     }
 
-    fun deletePlaylist(playlist: AbstractPlaylist) = AppScope.launch(Dispatchers.IO) { playlist.delete() }
+    fun deletePlaylist(playlist: Playlist) = AppScope.launch(Dispatchers.IO) { playlist.delete() }
     fun openMediaNoUiFromTvContent(context: Context, data: Uri?) {
         AppScope.launch {
             data?.lastPathSegment?.let { id ->

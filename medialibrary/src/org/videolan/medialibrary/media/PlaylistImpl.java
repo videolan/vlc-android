@@ -4,24 +4,24 @@ import android.os.Parcel;
 
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.Playlist;
 
 import java.util.List;
 
 @SuppressWarnings("JniMissingFunction")
-public class Playlist extends AbstractPlaylist {
+public class PlaylistImpl extends Playlist {
 
-    public Playlist(long id, String name, int trackCount) {
+    public PlaylistImpl(long id, String name, int trackCount) {
         super(id, name, trackCount);
     }
 
-    public Playlist(Parcel in) {
+    public PlaylistImpl(Parcel in) {
         super(in);
     }
 
     @Override
     public MediaWrapper[] getTracks() {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetTracks(ml, mId) : Medialibrary.EMPTY_COLLECTION;
     }
 
@@ -31,22 +31,22 @@ public class Playlist extends AbstractPlaylist {
     }
 
     public int getRealTracksCount() {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
     }
 
     public boolean append(long mediaId) {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() && nativePlaylistAppend(ml, mId, mediaId);
     }
 
     public boolean append(long[] mediaIds) {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() && nativePlaylistAppendGroup(ml, mId, mediaIds);
     }
 
     public boolean append(List<Long> mediaIds) {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         if (ml == null || !ml.isInitiated())
             return false;
         long[] ids = new long[mediaIds.size()];
@@ -56,22 +56,22 @@ public class Playlist extends AbstractPlaylist {
     }
 
     public boolean add(long mediaId, int position) {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() && nativePlaylistAdd(ml, mId, mediaId, position);
     }
 
     public boolean move(int oldPosition, int newPosition) {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() && nativePlaylistMove(ml, mId, oldPosition, newPosition);
     }
 
     public boolean remove(int position) {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() && nativePlaylistRemove(ml, mId, position);
     }
 
     public boolean delete() {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() && nativePlaylistDelete(ml, mId);
     }
 

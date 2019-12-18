@@ -8,11 +8,11 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.util.List;
 
-public abstract class AbstractPlaylist extends MediaLibraryItem {
+public abstract class Playlist extends MediaLibraryItem {
 
     protected int mTracksCount;
 
-    protected AbstractPlaylist(long id, String name, int trackCount) {
+    protected Playlist(long id, String name, int trackCount) {
         super(id, name);
         mTracksCount = trackCount;
     }
@@ -40,17 +40,16 @@ public abstract class AbstractPlaylist extends MediaLibraryItem {
         return TYPE_PLAYLIST;
     }
 
-
-    public static Parcelable.Creator<AbstractPlaylist> CREATOR
-            = new Parcelable.Creator<AbstractPlaylist>() {
+    public static Parcelable.Creator<Playlist> CREATOR
+            = new Parcelable.Creator<Playlist>() {
         @Override
-        public AbstractPlaylist createFromParcel(Parcel in) {
+        public Playlist createFromParcel(Parcel in) {
             return MLServiceLocator.getAbstractPlaylist(in);
         }
 
         @Override
-        public AbstractPlaylist[] newArray(int size) {
-            return new AbstractPlaylist[size];
+        public Playlist[] newArray(int size) {
+            return new Playlist[size];
         }
     };
 
@@ -60,9 +59,8 @@ public abstract class AbstractPlaylist extends MediaLibraryItem {
         parcel.writeInt(mTracksCount);
     }
 
-    public AbstractPlaylist(Parcel in) {
+    public Playlist(Parcel in) {
         super(in);
         this.mTracksCount = in.readInt();
     }
-
 }

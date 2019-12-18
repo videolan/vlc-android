@@ -11,14 +11,14 @@ import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
-import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
+import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.AlbumImpl;
 import org.videolan.medialibrary.media.ArtistImpl;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.GenreImpl;
 import org.videolan.medialibrary.media.MediaWrapperImpl;
-import org.videolan.medialibrary.media.Playlist;
+import org.videolan.medialibrary.media.PlaylistImpl;
 import org.videolan.medialibrary.media.VideoGroup;
 import org.videolan.medialibrary.stubs.StubAlbum;
 import org.videolan.medialibrary.stubs.StubArtist;
@@ -196,17 +196,17 @@ public class MLServiceLocator {
     }
 
     //Playlist
-    public static AbstractPlaylist getAbstractPlaylist(long id, String name, int trackCount) {
+    public static Playlist getAbstractPlaylist(long id, String name, int trackCount) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Playlist(id, name, trackCount);
+            return new PlaylistImpl(id, name, trackCount);
         } else {
             return new StubPlaylist(id, name, trackCount);
         }
     }
 
-    public static AbstractPlaylist getAbstractPlaylist(Parcel in) {
+    public static Playlist getAbstractPlaylist(Parcel in) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Playlist(in);
+            return new PlaylistImpl(in);
         } else {
             return new StubPlaylist(in);
         }
