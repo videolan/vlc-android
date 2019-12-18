@@ -4,7 +4,7 @@ import android.os.Parcel;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
@@ -76,11 +76,11 @@ public class StubGenre extends AbstractGenre {
         return results.size();
     }
 
-    public AbstractArtist[] getArtists(int sort, boolean desc) {
-        ArrayList<AbstractArtist> results = new ArrayList<>();
+    public Artist[] getArtists(int sort, boolean desc) {
+        ArrayList<Artist> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) {
-                for (AbstractArtist artist : dt.mArtists) {
+                for (Artist artist : dt.mArtists) {
                     if ((artist.getTitle().equals(media.getArtist()) ||
                             artist.getTitle().equals(media.getAlbumArtist())) &&
                             !results.contains(artist)) {

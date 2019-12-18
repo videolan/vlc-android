@@ -44,7 +44,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.media.AbstractArtist
+import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
 import org.videolan.tools.MultiSelectAdapter
@@ -131,7 +131,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         if (position >= itemCount) return
         val item = getItem(position)
         holder.setItem(item)
-        if (item is AbstractArtist) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
+        if (item is Artist) item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
         val isSelected = multiSelectHelper.isSelected(position)
         holder.setCoverlay(isSelected)
         holder.selectView(isSelected)

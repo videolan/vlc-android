@@ -24,7 +24,7 @@ import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum
-import org.videolan.medialibrary.interfaces.media.AbstractArtist
+import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.AbstractGenre
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.Settings
@@ -39,23 +39,23 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, model: So
     override fun canSortByReleaseDate() = true
 
     init {
-        sort = Settings.getInstance(context).getInt(sortKey, if (parent is AbstractArtist) Medialibrary.SORT_RELEASEDATE else Medialibrary.SORT_DEFAULT)
+        sort = Settings.getInstance(context).getInt(sortKey, if (parent is Artist) Medialibrary.SORT_RELEASEDATE else Medialibrary.SORT_DEFAULT)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
     }
 
     override fun getAll() : Array<AbstractAlbum> = when (parent) {
-        is AbstractArtist -> parent.getAlbums(sort, desc)
+        is Artist -> parent.getAlbums(sort, desc)
         is AbstractGenre -> parent.getAlbums(sort, desc)
         else -> medialibrary.getAlbums(sort, desc)
     }
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<AbstractAlbum> {
         val list = if (model.filterQuery == null) when(parent) {
-            is AbstractArtist -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
+            is Artist -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
             is AbstractGenre -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
             else -> medialibrary.getPagedAlbums(sort, desc, loadSize, startposition)
         } else when(parent) {
-            is AbstractArtist -> parent.searchAlbums(model.filterQuery, sort, desc, loadSize, startposition)
+            is Artist -> parent.searchAlbums(model.filterQuery, sort, desc, loadSize, startposition)
             is AbstractGenre -> parent.searchAlbums(model.filterQuery, sort, desc, loadSize, startposition)
             else -> medialibrary.searchAlbum(model.filterQuery, sort, desc, loadSize, startposition)
         }
@@ -63,11 +63,11 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, model: So
     }
 
     override fun getTotalCount() = if (model.filterQuery == null) when(parent) {
-        is AbstractArtist -> parent.albumsCount
+        is Artist -> parent.albumsCount
         is AbstractGenre -> parent.albumsCount
         else -> medialibrary.albumsCount
     } else when (parent) {
-        is AbstractArtist -> parent.searchAlbumsCount(model.filterQuery)
+        is Artist -> parent.searchAlbumsCount(model.filterQuery)
         is AbstractGenre -> parent.searchAlbumsCount(model.filterQuery)
         else -> medialibrary.getAlbumsCount(model.filterQuery)
     }

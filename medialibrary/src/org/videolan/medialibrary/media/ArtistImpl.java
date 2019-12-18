@@ -2,21 +2,21 @@ package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
 
-import org.videolan.medialibrary.interfaces.Medialibrary;
-import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
-import org.videolan.medialibrary.interfaces.media.MediaWrapper;
-
 import androidx.annotation.NonNull;
 
-@SuppressWarnings("JniMissingFunction")
-public class Artist extends AbstractArtist {
+import org.videolan.medialibrary.interfaces.Medialibrary;
+import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
+import org.videolan.medialibrary.interfaces.media.Artist;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
-    public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
+@SuppressWarnings("JniMissingFunction")
+public class ArtistImpl extends Artist {
+
+    public ArtistImpl(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
         super(id, name, shortBio, artworkMrl, musicBrainzId);
     }
 
-    public Artist(Parcel in) {
+    public ArtistImpl(Parcel in) {
         super(in);
     }
 
@@ -52,7 +52,7 @@ public class Artist extends AbstractArtist {
     }
 
     public int getAlbumsCount() {
-        Medialibrary ml = Medialibrary.getInstance();
+        final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetAlbumsCount(ml, mId) : 0;
     }
 

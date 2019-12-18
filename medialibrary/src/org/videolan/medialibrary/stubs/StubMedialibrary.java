@@ -10,7 +10,7 @@ import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
@@ -179,12 +179,12 @@ public class StubMedialibrary extends Medialibrary {
         return null;
     }
 
-    public AbstractArtist[] getArtists(boolean all) {
+    public Artist[] getArtists(boolean all) {
         return getArtists(all, SORT_DEFAULT, false);
     }
 
-    private boolean checkForArtist(ArrayList<AbstractArtist> list, AbstractArtist newArtist) {
-        for (AbstractArtist artist : list ) {
+    private boolean checkForArtist(ArrayList<Artist> list, Artist newArtist) {
+        for (Artist artist : list ) {
             if (artist.getTitle().equals(newArtist.getTitle())) {
                 return true;
             }
@@ -192,26 +192,26 @@ public class StubMedialibrary extends Medialibrary {
         return false;
     }
 
-    private AbstractArtist[] getAlbumArtists() {
-        ArrayList<AbstractArtist> results = new ArrayList<>();
+    private Artist[] getAlbumArtists() {
+        ArrayList<Artist> results = new ArrayList<>();
         for (AbstractAlbum album : dt.mAlbums) {
-            AbstractArtist artist = album.getAlbumArtist();
+            Artist artist = album.getAlbumArtist();
             if (!checkForArtist(results, artist)) {
                 results.add(artist);
             }
         }
-        return results.toArray(new AbstractArtist[0]);
+        return results.toArray(new Artist[0]);
     }
 
-    public AbstractArtist[] getArtists(boolean all, int sort, boolean desc) {
-        ArrayList<AbstractArtist> results;
+    public Artist[] getArtists(boolean all, int sort, boolean desc) {
+        ArrayList<Artist> results;
         if (all) results = dt.mArtists;
         else results = new ArrayList<>(Arrays.asList(getAlbumArtists()));
         return dt.sortArtist(results, sort, desc);
     }
 
-    public AbstractArtist[] getPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractArtist> results;
+    public Artist[] getPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<Artist> results;
         if (all) results = dt.mArtists;
         else results = new ArrayList<>(Arrays.asList(getAlbumArtists()));
         return dt.sortArtist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
@@ -226,14 +226,14 @@ public class StubMedialibrary extends Medialibrary {
 
     public int getArtistsCount(String query) {
         int count = 0;
-        for (AbstractArtist artist : dt.mArtists) {
+        for (Artist artist : dt.mArtists) {
             if (Tools.hasSubString(artist.getTitle(), query)) count++;
         }
         return count;
     }
 
-    public AbstractArtist getArtist(long artistId) {
-        for (AbstractArtist artist : dt.mArtists) {
+    public Artist getArtist(long artistId) {
+        for (Artist artist : dt.mArtists) {
             if (artist.getId() == artistId) return artist;
         }
         return null;
@@ -468,7 +468,7 @@ public class StubMedialibrary extends Medialibrary {
         MediaWrapper[] videos = searchVideo(query);
         MediaWrapper[] tracks = searchAudio(query);
         AbstractAlbum[] albums = searchAlbum(query);
-        AbstractArtist[] artists = searchArtist(query);
+        Artist[] artists = searchArtist(query);
         AbstractGenre[] genres = searchGenre(query);
         AbstractPlaylist[] playlists = searchPlaylist(query);
         return new SearchAggregate(albums, artists, genres, videos, tracks, playlists);
@@ -555,16 +555,16 @@ public class StubMedialibrary extends Medialibrary {
         return count;
     }
 
-    public AbstractArtist[] searchArtist(String query) {
-        ArrayList<AbstractArtist> results = new ArrayList<>();
-        for (AbstractArtist artist : dt.mArtists) {
+    public Artist[] searchArtist(String query) {
+        ArrayList<Artist> results = new ArrayList<>();
+        for (Artist artist : dt.mArtists) {
             if (Tools.hasSubString(artist.getTitle(), query)) results.add(artist);
         }
-        return results.toArray(new AbstractArtist[0]);
+        return results.toArray(new Artist[0]);
     }
 
-    public AbstractArtist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractArtist> results = new ArrayList<>(Arrays.asList(searchArtist(query)));
+    public Artist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<Artist> results = new ArrayList<>(Arrays.asList(searchArtist(query)));
         return dt.sortArtist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 

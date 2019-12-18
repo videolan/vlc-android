@@ -5,7 +5,7 @@ import android.os.Parcel;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class StubAlbum extends AbstractAlbum {
         return count;
     }
 
-    public AbstractArtist getAlbumArtist() {
+    public Artist getAlbumArtist() {
         Medialibrary ml = Medialibrary.getInstance();
         return ml.getArtist(this.albumArtistId);
     }

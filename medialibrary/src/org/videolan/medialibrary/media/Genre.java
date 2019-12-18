@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
@@ -29,9 +29,9 @@ public class Genre extends AbstractGenre {
         return ml.isInitiated() ? nativeGetPagedAlbums(ml, mId, sort, desc, nbItems, offset) : new AbstractAlbum[0];
     }
 
-    public AbstractArtist[] getArtists(int sort, boolean desc) {
+    public Artist[] getArtists(int sort, boolean desc) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetArtists(ml, mId, sort, desc) : new AbstractArtist[0];
+        return ml.isInitiated() ? nativeGetArtists(ml, mId, sort, desc) : new Artist[0];
     }
 
     public MediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc) {
@@ -76,11 +76,11 @@ public class Genre extends AbstractGenre {
     }
 
     private native AbstractAlbum[] nativeGetAlbums(Medialibrary ml, long mId, int sort, boolean desc);
-    private native AbstractArtist[] nativeGetArtists(Medialibrary ml, long mId, int sort, boolean desc);
+    private native Artist[] nativeGetArtists(Medialibrary ml, long mId, int sort, boolean desc);
     private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long mId, boolean withThumbnail, int sort, boolean desc);
 
     private native AbstractAlbum[] nativeGetPagedAlbums(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
-    private native AbstractArtist[] nativeGetPagedArtists(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
+    private native Artist[] nativeGetPagedArtists(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
     private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long mId, boolean withThumbnail, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetTracksCount(Medialibrary ml, long id);
     private native int nativeGetAlbumsCount(Medialibrary ml, long mId);

@@ -4,13 +4,13 @@ import android.os.Parcel;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StubArtist extends AbstractArtist {
+public class StubArtist extends Artist {
 
     private StubDataSource dt = StubDataSource.getInstance();
 

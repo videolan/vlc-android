@@ -32,9 +32,9 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
         this.duration = duration;
         if (TextUtils.isEmpty(title)) mTitle = SpecialRes.UNKNOWN_ALBUM;
         if (albumArtistId == 1L) {
-            this.albumArtist = AbstractArtist.SpecialRes.UNKNOWN_ARTIST;
+            this.albumArtist = Artist.SpecialRes.UNKNOWN_ARTIST;
         } else if (albumArtistId == 2L) {
-            this.albumArtist = AbstractArtist.SpecialRes.VARIOUS_ARTISTS;
+            this.albumArtist = Artist.SpecialRes.VARIOUS_ARTISTS;
         }
     }
 
@@ -53,7 +53,7 @@ public abstract class AbstractAlbum extends MediaLibraryItem {
     abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
     abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
-    abstract public AbstractArtist getAlbumArtist();
+    abstract public Artist getAlbumArtist();
 
     @Override
     public long getId() {

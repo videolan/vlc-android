@@ -14,7 +14,7 @@ public abstract class AbstractGenre extends MediaLibraryItem {
 
     abstract public AbstractAlbum[] getAlbums(int sort, boolean desc);
     abstract public AbstractAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
-    abstract public AbstractArtist[] getArtists(int sort, boolean desc);
+    abstract public Artist[] getArtists(int sort, boolean desc);
     abstract public MediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc);
     abstract public MediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, int nbItems, int offset);
     abstract public int getTracksCount();
@@ -35,7 +35,7 @@ public abstract class AbstractGenre extends MediaLibraryItem {
     public AbstractAlbum[] getAlbums() {
         return getAlbums(Medialibrary.SORT_DEFAULT, false);
     }
-    public AbstractArtist[] getArtists() {
+    public Artist[] getArtists() {
         return getArtists(Medialibrary.SORT_DEFAULT, false);
     }
     public MediaWrapper[] getTracks() {

@@ -4,7 +4,7 @@ import android.os.Parcel;
 
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 @SuppressWarnings("JniMissingFunction")
@@ -44,7 +44,7 @@ public class Album extends AbstractAlbum {
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
 
-    public AbstractArtist getAlbumArtist() {
+    public Artist getAlbumArtist() {
         //TODO
         return null;
     }

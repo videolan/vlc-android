@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
@@ -41,7 +41,7 @@ public class StubDataSource {
     ArrayList<MediaWrapper> mStreamMediaWrappers = new ArrayList<>();
     ArrayList<MediaWrapper> mHistory = new ArrayList<>();
     ArrayList<AbstractAlbum> mAlbums = new ArrayList<>();
-    ArrayList<AbstractArtist> mArtists = new ArrayList<>();
+    ArrayList<Artist> mArtists = new ArrayList<>();
     ArrayList<AbstractGenre> mGenres = new ArrayList<>();
     ArrayList<AbstractPlaylist> mPlaylists = new ArrayList<>();
     ArrayList<String> mBannedFolders = new ArrayList<>();
@@ -80,7 +80,7 @@ public class StubDataSource {
     }
 
     public void init() {
-        AbstractArtist artist = MLServiceLocator.getAbstractArtist(1L, "", "", "", "");
+        Artist artist = MLServiceLocator.getAbstractArtist(1L, "", "", "", "");
         addArtistSecure(artist);
         artist = MLServiceLocator.getAbstractArtist(2L, "", "", "", "");
         addArtistSecure(artist);
@@ -95,24 +95,24 @@ public class StubDataSource {
     }
 
     int compareArtistStr(String a1, String a2) {
-        if ((a1.equals(AbstractArtist.SpecialRes.UNKNOWN_ARTIST) ||
-                a1.equals(AbstractArtist.SpecialRes.VARIOUS_ARTISTS)) &&
-                (a2.equals(AbstractArtist.SpecialRes.UNKNOWN_ARTIST) ||
-                        a2.equals(AbstractArtist.SpecialRes.VARIOUS_ARTISTS))) {
+        if ((a1.equals(Artist.SpecialRes.UNKNOWN_ARTIST) ||
+                a1.equals(Artist.SpecialRes.VARIOUS_ARTISTS)) &&
+                (a2.equals(Artist.SpecialRes.UNKNOWN_ARTIST) ||
+                        a2.equals(Artist.SpecialRes.VARIOUS_ARTISTS))) {
             return 0;
         }
-        else if (a1.equals(AbstractArtist.SpecialRes.UNKNOWN_ARTIST)||
-                a1.equals(AbstractArtist.SpecialRes.VARIOUS_ARTISTS)) {
+        else if (a1.equals(Artist.SpecialRes.UNKNOWN_ARTIST)||
+                a1.equals(Artist.SpecialRes.VARIOUS_ARTISTS)) {
             return -1;
-        } else if (a2.equals(AbstractArtist.SpecialRes.UNKNOWN_ARTIST)||
-                a2.equals(AbstractArtist.SpecialRes.VARIOUS_ARTISTS)) {
+        } else if (a2.equals(Artist.SpecialRes.UNKNOWN_ARTIST)||
+                a2.equals(Artist.SpecialRes.VARIOUS_ARTISTS)) {
             return 1;
         } else {
             return a1.compareTo(a2);
         }
     }
 
-    int compareArtist(AbstractArtist a1, AbstractArtist a2) {
+    int compareArtist(Artist a1, Artist a2) {
         return compareArtistStr(a1.getTitle(), a2.getTitle());
     }
 
@@ -162,12 +162,12 @@ public class StubDataSource {
         }
     }
 
-    class ArtistComparator implements Comparator<AbstractArtist> {
+    class ArtistComparator implements Comparator<Artist> {
         private int sort;
         ArtistComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(AbstractArtist o1, AbstractArtist o2) {
+        public int compare(Artist o1, Artist o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ARTIST: return compareArtist(o1, o2);
@@ -252,12 +252,12 @@ public class StubDataSource {
         return array.toArray(new AbstractAlbum[0]);
     }
 
-    AbstractArtist[] sortArtist(List<AbstractArtist> arrayList, int sort, boolean desc) {
-        List<AbstractArtist> array = new ArrayList<>(arrayList);
+    Artist[] sortArtist(List<Artist> arrayList, int sort, boolean desc) {
+        List<Artist> array = new ArrayList<>(arrayList);
         Collections.sort(array, new ArtistComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AbstractArtist[0]);
+        return array.toArray(new Artist[0]);
     }
 
     AbstractGenre[] sortGenre(List<AbstractGenre> arrayList, int sort, boolean desc) {
@@ -343,10 +343,10 @@ public class StubDataSource {
         }
     }
 
-    private void addArtistSecure(AbstractArtist newArtist) {
+    private void addArtistSecure(Artist newArtist) {
         if (newArtist.getTitle().isEmpty())
             return;
-        for (AbstractArtist artist : mArtists) {
+        for (Artist artist : mArtists) {
             if (artist.getTitle().equals(newArtist.getTitle()))
                 return;
         }
@@ -374,10 +374,10 @@ public class StubDataSource {
         mAlbums.add(newAlbum);
     }
 
-    private AbstractArtist getArtistFromName(String name) {
+    private Artist getArtistFromName(String name) {
         if (name.isEmpty())
             return null;
-        for (AbstractArtist artist : mArtists) {
+        for (Artist artist : mArtists) {
             if (artist.getTitle().equals(name))
                 return artist;
         }
@@ -398,7 +398,7 @@ public class StubDataSource {
     private void raiseAlbumDuration(AbstractAlbum album, long duration) {
         for (int i = 0 ; i < mAlbums.size() ; i++) {
             AbstractAlbum item = mAlbums.get(i);
-            AbstractArtist artist = item.getAlbumArtist();
+            Artist artist = item.getAlbumArtist();
             if (item.getTitle().equals(album.getTitle()) &&
                     item.getAlbumArtist().getTitle().equals(artist.getTitle())) {
                 mAlbums.set(i, MLServiceLocator.getAbstractAlbum(
@@ -417,7 +417,7 @@ public class StubDataSource {
 
     private String getArtistName(String albumArtist, String artist) {
         if ((albumArtist == null || artist == null) || albumArtist.isEmpty() && artist.isEmpty())
-            return AbstractArtist.SpecialRes.UNKNOWN_ARTIST;
+            return Artist.SpecialRes.UNKNOWN_ARTIST;
         if (!albumArtist.isEmpty())
             return albumArtist;
         return artist;
@@ -433,7 +433,7 @@ public class StubDataSource {
     private void addAudio(MediaWrapper media, String shortBio, int releaseYear, int trackTotal, String mrl) {
         addFolders(media);
         String albumArtistName = getArtistName(media.getAlbumArtist(), media.getArtist());
-        AbstractArtist albumArtist = getArtistFromName(albumArtistName);
+        Artist albumArtist = getArtistFromName(albumArtistName);
         if (albumArtist == null) {
             albumArtist = MLServiceLocator.getAbstractArtist(getUUID().longValue(), albumArtistName,
                     "", media.getArtworkMrl(), "");
@@ -442,7 +442,7 @@ public class StubDataSource {
         if (media.getArtist().isEmpty()) {
             media.setArtist(albumArtistName);
         } else if (!media.getArtist().equals(albumArtistName)) {
-            AbstractArtist artist = getArtistFromName(media.getArtist());
+            Artist artist = getArtistFromName(media.getArtist());
             if (artist == null) {
                 artist = MLServiceLocator.getAbstractArtist(getUUID().longValue(), media.getArtist(),
                         "", media.getArtworkMrl(), "");

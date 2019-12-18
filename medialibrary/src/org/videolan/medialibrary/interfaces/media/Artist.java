@@ -9,7 +9,7 @@ import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
-abstract public class AbstractArtist extends MediaLibraryItem {
+abstract public class Artist extends MediaLibraryItem {
 
     private String shortBio;
     private String artworkMrl;
@@ -20,7 +20,7 @@ abstract public class AbstractArtist extends MediaLibraryItem {
         public static String VARIOUS_ARTISTS = Medialibrary.getContext().getString(R.string.various_artists);
     }
 
-    public AbstractArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
+    public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
         super(id, name);
         this.shortBio = shortBio;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
@@ -86,20 +86,20 @@ abstract public class AbstractArtist extends MediaLibraryItem {
         parcel.writeString(musicBrainzId);
     }
 
-    public static Parcelable.Creator<AbstractArtist> CREATOR
-            = new Parcelable.Creator<AbstractArtist>() {
+    public static Parcelable.Creator<Artist> CREATOR
+            = new Parcelable.Creator<Artist>() {
         @Override
-        public AbstractArtist createFromParcel(Parcel in) {
+        public Artist createFromParcel(Parcel in) {
             return MLServiceLocator.getAbstractArtist(in);
         }
 
         @Override
-        public AbstractArtist[] newArray(int size) {
-            return new AbstractArtist[size];
+        public Artist[] newArray(int size) {
+            return new Artist[size];
         }
     };
 
-    public AbstractArtist(Parcel in) {
+    public Artist(Parcel in) {
         super(in);
         this.shortBio = in.readString();
         this.artworkMrl = in.readString();

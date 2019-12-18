@@ -28,7 +28,7 @@ import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.Extensions
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractArtist
+import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -163,7 +163,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
                 } else binding.ariane.visibility = View.GONE
             }
             item.itemType == MediaLibraryItem.TYPE_ARTIST -> {
-                val albums = (item as AbstractArtist).albums
+                val albums = (item as Artist).albums
                 val nbAlbums = albums?.size ?: 0
                 binding.sizeTitleText = getString(R.string.albums)
                 binding.sizeValueText = nbAlbums.toString()

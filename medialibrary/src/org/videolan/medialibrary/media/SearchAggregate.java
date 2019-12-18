@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
@@ -13,7 +13,7 @@ public class SearchAggregate {
     private static final String TAG = "VLC/SearchAggregate";
 
     private final AbstractAlbum[] albums;
-    private final AbstractArtist[] artists;
+    private final Artist[] artists;
     private final AbstractGenre[] genres;
     private final MediaWrapper[] videos;
     private final MediaWrapper[] tracks;
@@ -28,7 +28,7 @@ public class SearchAggregate {
         this.playlists = null;
     }
 
-    public SearchAggregate(AbstractAlbum[] albums, AbstractArtist[] artists, AbstractGenre[] genres, MediaWrapper[] videos, MediaWrapper[] tracks, AbstractPlaylist[] playlists) {
+    public SearchAggregate(AbstractAlbum[] albums, Artist[] artists, AbstractGenre[] genres, MediaWrapper[] videos, MediaWrapper[] tracks, AbstractPlaylist[] playlists) {
         this.albums = albums;
         this.artists = artists;
         this.genres = genres;
@@ -43,7 +43,7 @@ public class SearchAggregate {
     }
 
     @Nullable
-    public AbstractArtist[] getArtists() {
+    public Artist[] getArtists() {
         return artists;
     }
 
@@ -81,7 +81,7 @@ public class SearchAggregate {
         }
         if (!Tools.isArrayEmpty(artists)) {
             sb.append("Artists:\n");
-            for (AbstractArtist artist : artists)
+            for (Artist artist : artists)
                 sb.append(artist.getTitle()).append("\n");
         }
         if (!Tools.isArrayEmpty(genres)) {

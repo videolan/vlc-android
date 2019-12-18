@@ -7,14 +7,14 @@ import android.os.Parcel;
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.AbstractPlaylist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.Album;
-import org.videolan.medialibrary.media.Artist;
+import org.videolan.medialibrary.media.ArtistImpl;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaWrapperImpl;
@@ -116,17 +116,17 @@ public class MLServiceLocator {
     }
 
     //Artist
-    public static AbstractArtist getAbstractArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
+    public static Artist getAbstractArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Artist(id, name, shortBio, artworkMrl, musicBrainzId);
+            return new ArtistImpl(id, name, shortBio, artworkMrl, musicBrainzId);
         } else {
             return new StubArtist(id, name, shortBio, artworkMrl, musicBrainzId);
         }
     }
 
-    public static AbstractArtist getAbstractArtist(Parcel in) {
+    public static Artist getAbstractArtist(Parcel in) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Artist(in);
+            return new ArtistImpl(in);
         } else {
             return new StubArtist(in);
         }

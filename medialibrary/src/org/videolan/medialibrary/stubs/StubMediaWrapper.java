@@ -7,7 +7,7 @@ import android.util.SparseArray;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
@@ -22,8 +22,8 @@ public class StubMediaWrapper extends MediaWrapper {
                 seen, isThumbnailGenerated, releaseDate);
         final StringBuilder sb = new StringBuilder();
         if (type == TYPE_AUDIO) {
-            boolean hasArtistMeta = !artist.equals(AbstractArtist.SpecialRes.VARIOUS_ARTISTS) &&
-                    !artist.equals(AbstractArtist.SpecialRes.UNKNOWN_ARTIST) && !artist.isEmpty();
+            boolean hasArtistMeta = !artist.equals(Artist.SpecialRes.VARIOUS_ARTISTS) &&
+                    !artist.equals(Artist.SpecialRes.UNKNOWN_ARTIST) && !artist.isEmpty();
             boolean hasAlbumMeta = !album.equals(AbstractAlbum.SpecialRes.UNKNOWN_ALBUM) &&
                     !artist.isEmpty();
             if (hasArtistMeta) {

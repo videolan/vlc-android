@@ -32,7 +32,7 @@ import androidx.annotation.WorkerThread;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
-import org.videolan.medialibrary.interfaces.media.AbstractArtist;
+import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.medialibrary.interfaces.media.AbstractFolder;
 import org.videolan.medialibrary.interfaces.media.AbstractGenre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
@@ -258,18 +258,18 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     @WorkerThread
-    public AbstractArtist[] getArtists(boolean all) {
+    public Artist[] getArtists(boolean all) {
         return getArtists(all, Medialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
-    public AbstractArtist[] getArtists(boolean all, int sort, boolean desc) {
-        return mIsInitiated ? nativeGetArtists(all, sort, desc) : new AbstractArtist[0];
+    public Artist[] getArtists(boolean all, int sort, boolean desc) {
+        return mIsInitiated ? nativeGetArtists(all, sort, desc) : new Artist[0];
     }
 
     @WorkerThread
-    public AbstractArtist[] getPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetPagedArtists(all, sort, desc, nbItems, offset) : new AbstractArtist[0];
+    public Artist[] getPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetPagedArtists(all, sort, desc, nbItems, offset) : new Artist[0];
     }
 
     public int getArtistsCount(boolean all) {
@@ -280,7 +280,7 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeGetArtistsSearchCount(query) : 0;
     }
 
-    public AbstractArtist getArtist(long artistId) {
+    public Artist getArtist(long artistId) {
         return mIsInitiated ? nativeGetArtist(artistId) : null;
     }
 
@@ -494,12 +494,12 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeGetSearchVideoCount(query) : 0;
     }
 
-    public AbstractArtist[] searchArtist(String query) {
+    public Artist[] searchArtist(String query) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchArtist(query) : null;
     }
 
-    public AbstractArtist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedArtist(query, sort, desc, nbItems, offset) : new AbstractArtist[0];
+    public Artist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedArtist(query, sort, desc, nbItems, offset) : new Artist[0];
     }
 
     public AbstractAlbum[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset) {
@@ -566,10 +566,10 @@ public class MedialibraryImpl extends Medialibrary {
     private native AbstractAlbum[] nativeGetPagedAlbums(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetAlbumsCount();
     private native AbstractAlbum nativeGetAlbum(long albumtId);
-    private native AbstractArtist[] nativeGetArtists(boolean all, int sort, boolean desc);
-    private native AbstractArtist[] nativeGetPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset);
+    private native Artist[] nativeGetArtists(boolean all, int sort, boolean desc);
+    private native Artist[] nativeGetPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetArtistsCount(boolean all);
-    private native AbstractArtist nativeGetArtist(long artistId);
+    private native Artist nativeGetArtist(long artistId);
     private native AbstractGenre[] nativeGetGenres(int sort, boolean desc);
     private native AbstractGenre[] nativeGetPagedGenres(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetGenresCount();
@@ -598,8 +598,8 @@ public class MedialibraryImpl extends Medialibrary {
     private native int nativeGetSearchAudioCount(String query);
     private native MediaWrapper[] nativeSearchPagedVideo(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetSearchVideoCount(String query);
-    private native AbstractArtist[] nativeSearchArtist(String query);
-    private native AbstractArtist[] nativeSearchPagedArtist(String query, int sort, boolean desc, int nbItems, int offset);
+    private native Artist[] nativeSearchArtist(String query);
+    private native Artist[] nativeSearchPagedArtist(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetArtistsSearchCount(String query);
     private native AbstractAlbum[] nativeSearchAlbum(String query);
     private native AbstractAlbum[] nativeSearchPagedAlbum(String query, int sort, boolean desc, int nbItems, int offset);

@@ -495,7 +495,7 @@ object MediaUtils {
                             when (it) {
                                 is MediaWrapper -> openMediaNoUi(it.uri)
                                 is AbstractAlbum -> playAlbum(context, it)
-                                is AbstractArtist -> playArtist(context, it)
+                                is Artist -> playArtist(context, it)
                                 else -> {
                                 }
                             }
@@ -516,7 +516,7 @@ object MediaUtils {
         }
     }
 
-    private fun playArtist(context: Context?, artist: AbstractArtist) {
+    private fun playArtist(context: Context?, artist: Artist) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             artist.tracks?.takeIf { it.isNotEmpty() }?.let { list ->
