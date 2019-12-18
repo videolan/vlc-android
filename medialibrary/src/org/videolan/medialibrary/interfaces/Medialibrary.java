@@ -38,7 +38,7 @@ import org.videolan.medialibrary.SingleEvent;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
-import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.Playlist;
@@ -756,7 +756,7 @@ abstract public class Medialibrary {
     abstract public MediaWrapper addMedia(String mrl);
     abstract public boolean removeExternalMedia(long id);
     abstract public MediaWrapper addStream(String mrl, String title);
-    abstract public AbstractFolder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset);
+    abstract public Folder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset);
     abstract public int getFoldersCount(int type);
     abstract public boolean increasePlayCount(long mediaId);
     abstract public SearchAggregate search(String query);

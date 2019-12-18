@@ -33,7 +33,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
-import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.Playlist;
@@ -428,8 +428,8 @@ public class MedialibraryImpl extends Medialibrary {
 
     @NonNull
     @WorkerThread
-    public AbstractFolder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetFolders(type, sort, desc, nbItems, offset) : new AbstractFolder[0];
+    public Folder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetFolders(type, sort, desc, nbItems, offset) : new Folder[0];
     }
 
     @WorkerThread
@@ -579,7 +579,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native int nativeGetPlaylistsCount();
     private native Playlist nativeGetPlaylist(long playlistId);
     private native Playlist nativePlaylistCreate(String name);
-    private native AbstractFolder[] nativeGetFolders(int type, int sort, boolean desc, int nbItems, int offset);
+    private native Folder[] nativeGetFolders(int type, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetFoldersCount(int type);
     private native void nativePauseBackgroundOperations();
     private native void nativeResumeBackgroundOperations();

@@ -5,7 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
@@ -20,7 +20,7 @@ class VideosViewModelTest : BaseTest() {
         StubDataSource.getInstance().resetData()
     }
 
-    private fun setupViewModel(folder: AbstractFolder?) {
+    private fun setupViewModel(folder: Folder?) {
         videosViewModel = VideosViewModel(context, VideoGroupingType.NONE, folder, null)
     }
 

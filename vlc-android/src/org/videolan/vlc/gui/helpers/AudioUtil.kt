@@ -235,7 +235,7 @@ object AudioUtil {
         val folder = f.parentFile ?: return null
 
         val imageExt = arrayOf(".png", ".jpeg", ".jpg")
-        val coverImages = arrayOf("Folder.jpg", /* Windows */
+        val coverImages = arrayOf("FolderImpl.jpg", /* Windows */
                 "AlbumArtSmall.jpg", /* Windows */
                 "AlbumArt.jpg", /* Windows */
                 "Album.jpg", ".folder.png", /* KDE?    */

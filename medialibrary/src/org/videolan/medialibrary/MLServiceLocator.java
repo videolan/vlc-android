@@ -8,14 +8,14 @@ import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
-import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.Playlist;
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
 import org.videolan.medialibrary.media.AlbumImpl;
 import org.videolan.medialibrary.media.ArtistImpl;
-import org.videolan.medialibrary.media.Folder;
+import org.videolan.medialibrary.media.FolderImpl;
 import org.videolan.medialibrary.media.GenreImpl;
 import org.videolan.medialibrary.media.MediaWrapperImpl;
 import org.videolan.medialibrary.media.PlaylistImpl;
@@ -170,18 +170,18 @@ public class MLServiceLocator {
         }
     }
 
-    //Folder
-    public static AbstractFolder getAbstractFolder(long id, String name, String mrl) {
+    //FolderImpl
+    public static Folder getAbstractFolder(long id, String name, String mrl) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Folder(id, name, mrl);
+            return new FolderImpl(id, name, mrl);
         } else {
             return new StubFolder(id, name, mrl);
         }
     }
 
-    public static AbstractFolder getAbstractFolder(Parcel in) {
+    public static Folder getAbstractFolder(Parcel in) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new Folder(in);
+            return new FolderImpl(in);
         } else {
             return new StubFolder(in);
         }

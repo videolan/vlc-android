@@ -22,7 +22,7 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.vlc.media.getAll
@@ -30,29 +30,29 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class VideosProvider(val folder : AbstractFolder?, val group: AbstractVideoGroup?, context: Context, model: SortableModel) : MedialibraryProvider<MediaWrapper>(context, model){
+class VideosProvider(val folder : Folder?, val group: AbstractVideoGroup?, context: Context, model: SortableModel) : MedialibraryProvider<MediaWrapper>(context, model){
 
     override fun canSortByFileNameName() = true
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = folder == null
 
     override fun getTotalCount() = if (model.filterQuery == null) when {
-        folder !== null -> folder.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO)
+        folder !== null -> folder.mediaCount(Folder.TYPE_FOLDER_VIDEO)
         group !== null -> group.mediaCount()
         else -> medialibrary.videoCount
     } else when {
-        folder !== null -> folder.searchTracksCount(model.filterQuery, AbstractFolder.TYPE_FOLDER_VIDEO)
+        folder !== null -> folder.searchTracksCount(model.filterQuery, Folder.TYPE_FOLDER_VIDEO)
         group !== null -> group.searchTracksCount(model.filterQuery)
         else -> medialibrary.getVideoCount(model.filterQuery)
     }
 
     override fun getPage(loadSize: Int, startposition: Int): Array<MediaWrapper> {
         val list = if (model.filterQuery == null) when {
-            folder !== null -> folder.media(AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
+            folder !== null -> folder.media(Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
             group !== null -> group.media(sort, desc, loadSize, startposition)
             else -> medialibrary.getPagedVideos(sort, desc, loadSize, startposition)
         } else when {
-            folder !== null -> folder.searchTracks(model.filterQuery, AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
+            folder !== null -> folder.searchTracks(model.filterQuery, Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
             group !== null -> group.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             else -> medialibrary.searchVideo(model.filterQuery, sort, desc, loadSize, startposition)
         }
@@ -60,7 +60,7 @@ class VideosProvider(val folder : AbstractFolder?, val group: AbstractVideoGroup
     }
 
     override fun getAll(): Array<MediaWrapper> = when {
-        folder !== null -> folder.getAll(AbstractFolder.TYPE_FOLDER_VIDEO, sort, desc).toTypedArray()
+        folder !== null -> folder.getAll(Folder.TYPE_FOLDER_VIDEO, sort, desc).toTypedArray()
         group !== null -> group.getAll(sort, desc).toTypedArray()
         else -> medialibrary.getVideos(sort, desc)
     }

@@ -42,7 +42,7 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -138,8 +138,8 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 
     private fun fillView(holder: ViewHolder, item: MediaLibraryItem) {
         when (item) {
-            is AbstractFolder -> holder.job = holder.itemView.scope.launch(start = CoroutineStart.UNDISPATCHED) {
-                val count = withContext(Dispatchers.IO) { item.mediaCount(AbstractFolder.TYPE_FOLDER_VIDEO) }
+            is Folder -> holder.job = holder.itemView.scope.launch(start = CoroutineStart.UNDISPATCHED) {
+                val count = withContext(Dispatchers.IO) { item.mediaCount(Folder.TYPE_FOLDER_VIDEO) }
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.title.text = item.title
                 if (!isListMode) holder.binding.setVariable(BR.resolution, null)
@@ -249,7 +249,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 oldItem === newItem || (oldItem.displayTime == newItem.displayTime
                         && TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl)
                         && oldItem.seen == newItem.seen)
-            } //else if (oldItem is Folder && newItem is Folder) return oldItem === newItem || (oldItem.title == newItem.title && oldItem.artworkMrl == newItem.artworkMrl)
+            } //else if (oldItem is FolderImpl && newItem is FolderImpl) return oldItem === newItem || (oldItem.title == newItem.title && oldItem.artworkMrl == newItem.artworkMrl)
             else oldItem.itemType == MediaLibraryItem.TYPE_FOLDER || oldItem.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
         }
 

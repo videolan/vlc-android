@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
-public abstract class AbstractFolder extends MediaLibraryItem {
+public abstract class Folder extends MediaLibraryItem {
     public static int TYPE_FOLDER_UNKNOWN = 0;
     public static int TYPE_FOLDER_VIDEO = 1;
     public static int TYPE_FOLDER_AUDIO = 2;
@@ -15,14 +15,14 @@ public abstract class AbstractFolder extends MediaLibraryItem {
 
     public String mMrl;
 
-    public AbstractFolder(long id, String name, String mrl) {
+    public Folder(long id, String name, String mrl) {
         super(id, name);
         mMrl = mrl;
     }
 
     abstract public MediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset);
     abstract public int mediaCount(int type);
-    abstract public AbstractFolder[] subfolders(int sort, boolean desc, int nbItems, int offset);
+    abstract public Folder[] subfolders(int sort, boolean desc, int nbItems, int offset);
     abstract public int subfoldersCount(int type);
     abstract public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query, int mediaType);
@@ -52,36 +52,36 @@ public abstract class AbstractFolder extends MediaLibraryItem {
         parcel.writeString(mMrl);
     }
 
-    public static Parcelable.Creator<AbstractFolder> CREATOR = new Parcelable.Creator<AbstractFolder>() {
+    public static Parcelable.Creator<Folder> CREATOR = new Parcelable.Creator<Folder>() {
         @Override
-        public AbstractFolder createFromParcel(Parcel in) {
+        public Folder createFromParcel(Parcel in) {
             return MLServiceLocator.getAbstractFolder(in);
         }
 
         @Override
-        public AbstractFolder[] newArray(int size) {
-            return new AbstractFolder[size];
+        public Folder[] newArray(int size) {
+            return new Folder[size];
         }
     };
 
-    public AbstractFolder(Parcel in) {
+    public Folder(Parcel in) {
         super(in);
         this.mMrl = in.readString();
     }
 
-    public boolean equals(AbstractFolder other) {
+    public boolean equals(Folder other) {
         return mId == other.getId();
     }
 
     @Override
     public boolean equals(MediaLibraryItem other) {
-        if (other instanceof AbstractFolder) return equals((AbstractFolder)other);
+        if (other instanceof Folder) return equals((Folder)other);
         return super.equals(other);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof AbstractFolder) return equals((AbstractFolder)obj);
+        if (obj instanceof Folder) return equals((Folder)obj);
         return super.equals(obj);
     }
 }

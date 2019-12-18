@@ -35,10 +35,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.medialibrary.interfaces.media.AbstractFolder
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
-import org.videolan.medialibrary.media.Folder
+import org.videolan.medialibrary.media.FolderImpl
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
@@ -79,7 +79,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private fun FragmentActivity.open(item: MediaLibraryItem) {
         val i = Intent(activity, SecondaryActivity::class.java)
         i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
-        if (item is AbstractFolder) i.putExtra(KEY_FOLDER, item)
+        if (item is Folder) i.putExtra(KEY_FOLDER, item)
         else if (item is AbstractVideoGroup) i.putExtra(KEY_GROUP, item)
         startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
     }
@@ -91,7 +91,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter( seenMarkVisible)
             multiSelectHelper = videoListAdapter.multiSelectHelper
-            val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<AbstractFolder>(KEY_FOLDER)
+            val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
             val group = if (savedInstanceState != null) savedInstanceState.getParcelable<AbstractVideoGroup>(KEY_GROUP)
             else arguments?.getParcelable(KEY_GROUP)
@@ -348,9 +348,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 }
             }
             VideoGroupingType.FOLDER -> {
-                val selection = ArrayList<AbstractFolder>()
+                val selection = ArrayList<Folder>()
                 for (mediaLibraryItem in multiSelectHelper.getSelection()) {
-                    selection.add(mediaLibraryItem as Folder)
+                    selection.add(mediaLibraryItem as FolderImpl)
                 }
                 when (item.itemId) {
                     R.id.action_folder_play -> viewModel.playFoldersSelection(selection)
@@ -401,7 +401,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_FIND_METADATA -> startActivity(Intent(requireActivity(), MoviepediaActivity::class.java).apply { putExtra(MoviepediaActivity.MEDIA, media) })
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media) }
             }
-            is AbstractFolder -> when (option) {
+            is Folder -> when (option) {
                 CTX_PLAY -> lifecycleScope.launch { viewModel.play(position) }
                 CTX_APPEND -> lifecycleScope.launch { viewModel.append(position) }
                 CTX_ADD_TO_PLAYLIST -> viewModel.addToPlaylist(requireActivity(), position)
@@ -436,7 +436,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                             viewModel.playVideo(activity, item, position)
                         }
                     }
-                    is AbstractFolder -> {
+                    is Folder -> {
                         if (actionMode != null) {
                             multiSelectHelper.toggleSelection(position)
                             invalidateActionMode()
@@ -458,7 +458,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             }
             is VideoCtxClick -> {
                 when (item) {
-                    is AbstractFolder, is AbstractVideoGroup -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS)
+                    is Folder, is AbstractVideoGroup -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS)
                     is MediaWrapper -> {
                         val group = item.type == MediaWrapper.TYPE_GROUP
                         var flags = if (group) CTX_VIDEO_GOUP_FLAGS else CTX_VIDEO_FLAGS

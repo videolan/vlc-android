@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
-import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.Playlist;
@@ -45,7 +45,7 @@ public class StubDataSource {
     ArrayList<Genre> mGenres = new ArrayList<>();
     ArrayList<Playlist> mPlaylists = new ArrayList<>();
     ArrayList<String> mBannedFolders = new ArrayList<>();
-    ArrayList<AbstractFolder> mFolders = new ArrayList<>();
+    ArrayList<Folder> mFolders = new ArrayList<>();
     ArrayList<String> mDevices = new ArrayList<>();
 
     private static String baseMrl = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
@@ -222,12 +222,12 @@ public class StubDataSource {
         }
     }
 
-    class FolderComparator implements Comparator<AbstractFolder> {
+    class FolderComparator implements Comparator<Folder> {
         private int sort;
         FolderComparator(int sort) { this.sort = sort; }
 
         @Override
-        public int compare(AbstractFolder o1, AbstractFolder o2) {
+        public int compare(Folder o1, Folder o2) {
             switch (sort) {
                 case SORT_DEFAULT:
                 case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
@@ -276,12 +276,12 @@ public class StubDataSource {
         return array.toArray(new Playlist[0]);
     }
 
-    AbstractFolder[] sortFolder(List<AbstractFolder> arrayList, int sort, boolean desc) {
-        List<AbstractFolder> array = new ArrayList<>(arrayList);
+    Folder[] sortFolder(List<Folder> arrayList, int sort, boolean desc) {
+        List<Folder> array = new ArrayList<>(arrayList);
         Collections.sort(array, new FolderComparator(sort));
         if (desc)
             Collections.reverse(array);
-        return array.toArray(new AbstractFolder[0]);
+        return array.toArray(new Folder[0]);
     }
 
     AtomicLong getUUID() {
@@ -509,7 +509,7 @@ public class StubDataSource {
 
     private String[] getFoldersString() {
         ArrayList<String> results = new ArrayList<>();
-        for (AbstractFolder folder : mFolders) { results.add(folder.getTitle()); }
+        for (Folder folder : mFolders) { results.add(folder.getTitle()); }
         return results.toArray(new String[0]);
     }
 

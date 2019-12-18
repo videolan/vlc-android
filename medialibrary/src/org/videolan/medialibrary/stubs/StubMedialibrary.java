@@ -11,7 +11,7 @@ import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
-import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.Playlist;
@@ -81,7 +81,7 @@ public class StubMedialibrary extends Medialibrary {
 
     public String[] getFoldersList() {
         ArrayList<String> results = new ArrayList<>();
-        for (AbstractFolder folder : dt.mFolders) {
+        for (Folder folder : dt.mFolders) {
             results.add(folder.getTitle());
         }
         return results.toArray(new String[0]);
@@ -427,10 +427,10 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     // TODO: Fix sorting, offset etc
-    public AbstractFolder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset) {
-        List<AbstractFolder> folders = new ArrayList<>();
-        if (type == AbstractFolder.TYPE_FOLDER_VIDEO) {
-            for (AbstractFolder folder : dt.mFolders) {
+    public Folder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset) {
+        List<Folder> folders = new ArrayList<>();
+        if (type == Folder.TYPE_FOLDER_VIDEO) {
+            for (Folder folder : dt.mFolders) {
                 if (folders.contains(folder)) continue;
                 String path = folder.mMrl;
                 if (path.isEmpty()) continue;
@@ -444,7 +444,7 @@ public class StubMedialibrary extends Medialibrary {
                 }
             }
         }
-        return folders.toArray(new AbstractFolder[0]);
+        return folders.toArray(new Folder[0]);
     }
 
     public int getFoldersCount(int type) {

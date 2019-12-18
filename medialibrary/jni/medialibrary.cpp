@@ -1945,7 +1945,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetPagedPlaylists", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPagedPlaylists },
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylist },
-    {"nativeGetFolders", "(IIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractFolder;", (void*)folders },
+    {"nativeGetFolders", "(IIZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)folders },
     {"nativeGetFoldersCount", "(I)I", (void*)foldersCount },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
@@ -2012,7 +2012,7 @@ static JNINativeMethod genre_methods[] = {
 
 static JNINativeMethod folder_methods[] = {
     {"nativeMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)mediaFromFolder },
-    {"nativeSubfolders", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractFolder;", (void*)subFolders },
+    {"nativeSubfolders", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)subFolders },
     {"nativeMediaCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JI)I", (void*)mediaFromFolderCount },
     {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JI)I", (void*)subFoldersCount },
     {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchMediaFromFolder },
@@ -2117,9 +2117,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.Album.clazz,
            "<init>", "(JLjava/lang/String;ILjava/lang/String;Ljava/lang/String;JIJ)V");
 
-    GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/Folder", true);
+    GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/FolderImpl", true);
     if (env->RegisterNatives(ml_fields.Folder.clazz, folder_methods, sizeof(folder_methods) / sizeof(folder_methods[0])) < 0) {
-        LOGE("RegisterNatives failed for org/videolan/medialibrary/media/Folder");
+        LOGE("RegisterNatives failed for org/videolan/medialibrary/media/FolderImpl");
         return -1;
     }
     GET_ID(GetMethodID,
@@ -2174,9 +2174,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.SearchAggregate.clazz,
            "<init>", "([Lorg/videolan/medialibrary/interfaces/media/Album;[Lorg/videolan/medialibrary/interfaces/media/Artist;[Lorg/videolan/medialibrary/interfaces/media/Genre;[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;[Lorg/videolan/medialibrary/interfaces/media/Playlist;)V");
 
-    GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/Folder", true);
+    GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/FolderImpl", true);
     if (env->RegisterNatives(ml_fields.Folder.clazz, folder_methods, sizeof(folder_methods) / sizeof(folder_methods[0])) < 0) {
-        LOGE("RegisterNatives failed for org/videolan/medialibrary/media/Folder");
+        LOGE("RegisterNatives failed for org/videolan/medialibrary/media/FolderImpl");
         return -1;
     }
     GET_ID(GetMethodID,

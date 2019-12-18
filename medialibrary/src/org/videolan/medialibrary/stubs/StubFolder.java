@@ -3,14 +3,14 @@ package org.videolan.medialibrary.stubs;
 import android.os.Parcel;
 
 import org.videolan.medialibrary.Tools;
-import org.videolan.medialibrary.interfaces.media.AbstractFolder;
+import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StubFolder extends AbstractFolder {
+public class StubFolder extends Folder {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
@@ -55,18 +55,18 @@ public class StubFolder extends AbstractFolder {
         return count;
     }
 
-    public AbstractFolder[] subfolders(int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<AbstractFolder> results = new ArrayList<>();
-        for (AbstractFolder folder : dt.mFolders) {
+    public Folder[] subfolders(int sort, boolean desc, int nbItems, int offset) {
+        ArrayList<Folder> results = new ArrayList<>();
+        for (Folder folder : dt.mFolders) {
             if (isParentFolder(this.mMrl, folder.mMrl)) results.add(folder);
         }
         results = new ArrayList<>(Arrays.asList(dt.sortFolder(results, sort, desc)));
-        return dt.secureSublist(results, offset, offset + nbItems).toArray(new AbstractFolder[0]);
+        return dt.secureSublist(results, offset, offset + nbItems).toArray(new Folder[0]);
     }
 
     public int subfoldersCount(int type) {
         int count = 0;
-        for (AbstractFolder folder : dt.mFolders) {
+        for (Folder folder : dt.mFolders) {
             if (isParentFolder(this.mMrl, folder.mMrl)) count++;
         }
         return count;
@@ -104,8 +104,8 @@ public class StubFolder extends AbstractFolder {
     @Override
     public boolean equals(Object obj) {
         boolean result = super.equals(obj);
-        if (!result && obj instanceof AbstractFolder) {
-            AbstractFolder other = ((AbstractFolder) obj);
+        if (!result && obj instanceof Folder) {
+            Folder other = ((Folder) obj);
             return other.mMrl.equals(this.mMrl);
         }
         return result;
