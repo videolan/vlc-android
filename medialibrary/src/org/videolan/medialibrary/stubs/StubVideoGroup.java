@@ -3,9 +3,9 @@ package org.videolan.medialibrary.stubs;
 import android.os.Parcel;
 
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
-import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
+import org.videolan.medialibrary.interfaces.media.VideoGroup;
 
-public class StubVideoGroup extends AbstractVideoGroup {
+public class StubVideoGroup extends VideoGroup {
     public StubVideoGroup(String name, int count) {
         super(name, count);
     }

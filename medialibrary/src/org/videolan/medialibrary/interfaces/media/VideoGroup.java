@@ -8,11 +8,11 @@ import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 
-public abstract class AbstractVideoGroup extends MediaLibraryItem {
+public abstract class VideoGroup extends MediaLibraryItem {
 
     public int mCount;
 
-    public AbstractVideoGroup(String name, int count) {
+    public VideoGroup(String name, int count) {
         super(0L, name);
         mCount = count;
     }
@@ -50,36 +50,36 @@ public abstract class AbstractVideoGroup extends MediaLibraryItem {
         parcel.writeInt(mCount);
     }
 
-    public static Parcelable.Creator<AbstractVideoGroup> CREATOR = new Parcelable.Creator<AbstractVideoGroup>() {
+    public static Parcelable.Creator<VideoGroup> CREATOR = new Parcelable.Creator<VideoGroup>() {
         @Override
-        public AbstractVideoGroup createFromParcel(Parcel in) {
+        public VideoGroup createFromParcel(Parcel in) {
             return MLServiceLocator.getAbstractVideoGroup(in);
         }
 
         @Override
-        public AbstractVideoGroup[] newArray(int size) {
-            return new AbstractVideoGroup[size];
+        public VideoGroup[] newArray(int size) {
+            return new VideoGroup[size];
         }
     };
 
-    public AbstractVideoGroup(Parcel in) {
+    public VideoGroup(Parcel in) {
         super(in);
         this.mCount = in.readInt();
     }
 
-    public boolean equals(AbstractVideoGroup other) {
+    public boolean equals(VideoGroup other) {
         return TextUtils.equals(mTitle, other.getTitle());
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof AbstractVideoGroup) return equals((AbstractVideoGroup)obj);
+        if (obj instanceof VideoGroup) return equals((VideoGroup)obj);
         return super.equals(obj);
     }
 
     @Override
     public boolean equals(MediaLibraryItem other) {
-        if (other instanceof AbstractVideoGroup) return equals((AbstractVideoGroup)other);
+        if (other instanceof VideoGroup) return equals((VideoGroup)other);
         return super.equals(other);
     }
 }

@@ -37,7 +37,7 @@ import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.Playlist;
-import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
+import org.videolan.medialibrary.interfaces.media.VideoGroup;
 import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.io.File;
@@ -211,8 +211,8 @@ public class MedialibraryImpl extends Medialibrary {
 
     @Override
     @WorkerThread
-    public AbstractVideoGroup[] getVideoGroups(int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetVideoGroups(sort, desc, nbItems, offset) : new AbstractVideoGroup[0];
+    public VideoGroup[] getVideoGroups(int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetVideoGroups(sort, desc, nbItems, offset) : new VideoGroup[0];
     }
 
     @Override
@@ -559,7 +559,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native MediaWrapper[] nativeGetRecentAudio();
     private native int nativeGetVideoCount();
     private native int nativeGetAudioCount();
-    private native AbstractVideoGroup[] nativeGetVideoGroups(int sort, boolean desc, int nbItems, int offset);
+    private native VideoGroup[] nativeGetVideoGroups(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetVideoGroupsCount();
     private native void nativeSetVideoGroupsPrefixLength(int length);
     private native Album[] nativeGetAlbums(int sort, boolean desc);

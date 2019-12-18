@@ -6,16 +6,16 @@ import androidx.annotation.WorkerThread;
 
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
-import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
+import org.videolan.medialibrary.interfaces.media.VideoGroup;
 
 
-public class VideoGroup extends AbstractVideoGroup {
+public class VideoGroupImpl extends VideoGroup {
 
-    VideoGroup(String name, int count) {
+    VideoGroupImpl(String name, int count) {
         super(name, count);
     }
 
-    public VideoGroup(Parcel in) {
+    public VideoGroupImpl(Parcel in) {
         super(in);
     }
 

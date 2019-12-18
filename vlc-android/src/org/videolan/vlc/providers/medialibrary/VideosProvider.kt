@@ -24,13 +24,13 @@ import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class VideosProvider(val folder : Folder?, val group: AbstractVideoGroup?, context: Context, model: SortableModel) : MedialibraryProvider<MediaWrapper>(context, model){
+class VideosProvider(val folder : Folder?, val group: VideoGroup?, context: Context, model: SortableModel) : MedialibraryProvider<MediaWrapper>(context, model){
 
     override fun canSortByFileNameName() = true
     override fun canSortByDuration() = true

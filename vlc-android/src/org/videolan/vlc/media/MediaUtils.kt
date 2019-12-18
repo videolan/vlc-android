@@ -541,7 +541,7 @@ fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary
 }
 
 @WorkerThread
-fun AbstractVideoGroup.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false): List<MediaWrapper> {
+fun VideoGroup.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false): List<MediaWrapper> {
     var index = 0
     val count = mediaCount()
     val all = mutableListOf<MediaWrapper>()
@@ -556,7 +556,7 @@ fun AbstractVideoGroup.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boole
 
 fun List<MediaLibraryItem>.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) = flatMap {
     when (it) {
-        is AbstractVideoGroup -> it.getAll(sort, desc)
+        is VideoGroup -> it.getAll(sort, desc)
         is MediaWrapper -> listOf(it)
         else -> listOf()
     }
@@ -567,7 +567,7 @@ fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medial
 }
 
 private fun Array<MediaLibraryItem>.toList() = flatMap {
-    if (it is AbstractVideoGroup) {
+    if (it is VideoGroup) {
         it.media(Medialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
     } else listOf(this as MediaWrapper)
 }

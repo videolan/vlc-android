@@ -30,7 +30,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
 import org.videolan.vlc.gui.helpers.UiTools
@@ -47,7 +47,7 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Folder?, val group: AbstractVideoGroup?) : MedialibraryViewModel(context) {
+class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Folder?, val group: VideoGroup?) : MedialibraryViewModel(context) {
 
     var groupingType = type
         private set
@@ -74,7 +74,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         watchMedia()
     }
 
-    class Factory(val context: Context, private val groupingType: VideoGroupingType, val folder: Folder? = null, val group: AbstractVideoGroup? = null) : ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, private val groupingType: VideoGroupingType, val folder: Folder? = null, val group: VideoGroup? = null) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return VideosViewModel(context.applicationContext, groupingType, folder, group) as T
@@ -87,7 +87,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         withContext(Dispatchers.IO) {
             when (item) {
                 is Folder -> item.getAll()
-                is AbstractVideoGroup -> item.getAll()
+                is VideoGroup -> item.getAll()
                 else -> null
             }
         }?.let { MediaUtils.openList(context, it, 0) }
@@ -98,7 +98,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         withContext(Dispatchers.IO) {
             when (item) {
                 is Folder -> item.getAll()
-                is AbstractVideoGroup -> item.getAll()
+                is VideoGroup -> item.getAll()
                 else -> null
             }
         }?.let { MediaUtils.appendMedia(context, it) }
@@ -114,7 +114,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         withContext(Dispatchers.IO) {
             when (item) {
                 is Folder -> item.getAll()
-                is AbstractVideoGroup -> item.getAll()
+                is VideoGroup -> item.getAll()
                 else -> null
             }
         }?.let {if (activity.isStarted()) UiTools.addToPlaylist(activity, it) }
@@ -158,5 +158,5 @@ enum class VideoGroupingType {
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-internal fun VideoGridFragment.getViewModel(type: VideoGroupingType = VideoGroupingType.NONE, folder: Folder?, group: AbstractVideoGroup?) = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), type, folder, group)).get(VideosViewModel::class.java)
+internal fun VideoGridFragment.getViewModel(type: VideoGroupingType = VideoGroupingType.NONE, folder: Folder?, group: VideoGroup?) = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), type, folder, group)).get(VideosViewModel::class.java)
 

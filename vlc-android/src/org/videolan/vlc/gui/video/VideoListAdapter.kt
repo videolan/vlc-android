@@ -44,7 +44,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
@@ -147,7 +147,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.max, 0)
                 holder.job = null
             }
-            is AbstractVideoGroup -> holder.itemView.scope.launch {
+            is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
                 holder.binding.setVariable(BR.time, if (count < 2) null else holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
                 holder.title.text = item.title

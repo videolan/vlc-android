@@ -12,14 +12,14 @@ import org.videolan.medialibrary.interfaces.media.Folder;
 import org.videolan.medialibrary.interfaces.media.Genre;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.interfaces.media.Playlist;
-import org.videolan.medialibrary.interfaces.media.AbstractVideoGroup;
+import org.videolan.medialibrary.interfaces.media.VideoGroup;
 import org.videolan.medialibrary.media.AlbumImpl;
 import org.videolan.medialibrary.media.ArtistImpl;
 import org.videolan.medialibrary.media.FolderImpl;
 import org.videolan.medialibrary.media.GenreImpl;
 import org.videolan.medialibrary.media.MediaWrapperImpl;
 import org.videolan.medialibrary.media.PlaylistImpl;
-import org.videolan.medialibrary.media.VideoGroup;
+import org.videolan.medialibrary.media.VideoGroupImpl;
 import org.videolan.medialibrary.stubs.StubAlbum;
 import org.videolan.medialibrary.stubs.StubArtist;
 import org.videolan.medialibrary.stubs.StubFolder;
@@ -187,9 +187,9 @@ public class MLServiceLocator {
         }
     }
 
-    public static AbstractVideoGroup getAbstractVideoGroup(Parcel in) {
+    public static VideoGroup getAbstractVideoGroup(Parcel in) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new VideoGroup(in);
+            return new VideoGroupImpl(in);
         } else {
             return new StubVideoGroup(in);
         }

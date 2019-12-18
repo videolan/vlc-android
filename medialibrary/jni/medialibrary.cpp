@@ -1957,7 +1957,7 @@ static JNINativeMethod methods[] = {
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
     {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)playlistCreate },
-    {"nativeGetVideoGroups", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/AbstractVideoGroup;", (void*)videoGroups },
+    {"nativeGetVideoGroups", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)videoGroups },
     {"nativeGetVideoGroupsCount", "()I", (void*)videoGroupsCount },
 
 };
@@ -2021,7 +2021,6 @@ static JNINativeMethod folder_methods[] = {
 
 static JNINativeMethod videogroup_methods[] = {
     {"nativeMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromvideoGroup },
-//    {"nativeMediaCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JI)I", (void*)getvideoGroupMediaCount },
     {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;Ljava/lang/String;Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromvideoGroup },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;Ljava/lang/String;Ljava/lang/String;)I", (void*)getSearchFromvideoGroupCount },
 };
@@ -2184,9 +2183,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.Folder.clazz,
            "<init>", "(JLjava/lang/String;Ljava/lang/String;)V");
 
-    GET_CLASS(ml_fields.VideoGroup.clazz, "org/videolan/medialibrary/media/VideoGroup", true);
+    GET_CLASS(ml_fields.VideoGroup.clazz, "org/videolan/medialibrary/media/VideoGroupImpl", true);
     if (env->RegisterNatives(ml_fields.VideoGroup.clazz, videogroup_methods, sizeof(videogroup_methods) / sizeof(videogroup_methods[0])) < 0) {
-        LOGE("RegisterNatives failed for 'org/videolan/medialibrary/media/VideoGroup");
+        LOGE("RegisterNatives failed for 'org/videolan/medialibrary/media/VideoGroupImpl");
         return -1;
     }
     GET_ID(GetMethodID,
