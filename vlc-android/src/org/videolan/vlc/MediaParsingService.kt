@@ -429,6 +429,10 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
                 medialibrary.discover(action.path)
             }
             is Init -> {
+                if (medialibrary.isInitiated) {
+                    exitCommand()
+                    return@actor
+                }
                 val context = this@MediaParsingService
                 var shouldInit = !dbExists()
                 val initCode = medialibrary.init(context)
