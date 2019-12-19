@@ -439,7 +439,7 @@
     <string name="dump_media_db">Dump media database</string>
     <string name="dump_media_db_summary">Copy database to internal storage root</string>
     <string name="clear_media_db">Clear media database</string>
-    <string name="clear_media_db_summary">Access Android VLC info to clear data</string>
+    <string name="clear_media_database_summary">Clears the database to start over</string>
     <string name="clear_history">Clear history</string>
     <string name="media_db_cleared">Media database cleared!</string>
     <string name="set_locale">Set locale</string>
@@ -742,4 +742,5 @@
     <string name="video_group_size_summary">Group by %s first letters</string>
     <string name="video_group_size">Group videos by name</string>
     <string name="url_copied_to_clipboard">Url copied to clipboard</string>
+    <string name="clear_media_db_warning">You will lose your progresses and the playlists you created.\n%s</string>
 </resources>

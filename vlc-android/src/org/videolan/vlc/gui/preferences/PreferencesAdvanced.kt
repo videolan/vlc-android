@@ -92,7 +92,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "clear_media_db" -> {
                 AlertDialog.Builder(requireContext())
                         .setTitle(R.string.clear_media_db)
-                        .setMessage(R.string.validation)
+                        .setMessage(getString(R.string.clear_media_db_warning, getString(R.string.validation)))
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
                             AbstractMedialibrary.getInstance().clearDatabase(true)
