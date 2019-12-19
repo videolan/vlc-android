@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.audio
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.TextUtils
@@ -341,7 +342,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), CoroutineScope by Main
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 //Perform Code
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Enter pressed")
-                save(input, oldName, temporarySet, onPause, displayedByUser, positionToSave, saveEqualizer)
+                save(saveEqualizer.context, input, oldName, temporarySet, onPause, displayedByUser, positionToSave, saveEqualizer)
                 return@OnKeyListener true
             }
             false
@@ -353,14 +354,13 @@ class EqualizerFragment : VLCBottomSheetDialogFragment(), CoroutineScope by Main
         saveEqualizer.setOnShowListener { dialog ->
             val positiveButton = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
             positiveButton.setOnClickListener {
-                save(input, oldName, temporarySet, onPause, displayedByUser, positionToSave, saveEqualizer)
+                save(saveEqualizer.context, input, oldName, temporarySet, onPause, displayedByUser, positionToSave, saveEqualizer)
             }
         }
         saveEqualizer.show()
     }
 
-    private fun save(input: EditText, oldName: String, temporarySet: MediaPlayer.Equalizer, onPause: Boolean, displayedByUser: Boolean, positionToSave: Int, saveEqualizer: AlertDialog) {
-        val ctx = activity ?: return
+    private fun save(ctx: Context, input: EditText, oldName: String, temporarySet: MediaPlayer.Equalizer, onPause: Boolean, displayedByUser: Boolean, positionToSave: Int, saveEqualizer: AlertDialog) {
         val newName = input.text.toString()
         if (newName.contains("_") || TextUtils.equals(newName, newPresetName)) {
             Toast.makeText(ctx, VLCApplication.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
