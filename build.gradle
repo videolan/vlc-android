@@ -27,8 +27,8 @@ allprojects {
 }
 
 ext {
-    versionName = '3.2.4'
-    versionCode = 3020400
+    versionName = '3.2.5'
+    versionCode = 3020500
     libvlcVersion = '3.2.3'
     medialibraryVersion = '0.6.3'
     minSdkVersion = 17
