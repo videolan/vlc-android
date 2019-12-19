@@ -27,10 +27,7 @@ import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.databinding.ViewDataBinding
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -97,17 +94,16 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
     fun updateMediaDirs(context: Context) {
         mediaDirsLocation.clear()
 
-        val folders = if (!AbstractMedialibrary.getInstance().isInitiated) {
-            MediaParsingService.preselectedStorages.toTypedArray()
-        } else {
-            AbstractMedialibrary.getInstance().foldersList
-        }
-
-        folders.forEach {
-            mediaDirsLocation.add(Uri.decode(if (it.startsWith("file://")) it.substring(7) else it))
-        }
-
         updateJob = launch {
+            val folders = if (!AbstractMedialibrary.getInstance().isInitiated) {
+                MediaParsingService.preselectedStorages.toTypedArray()
+            } else {
+                withContext(Dispatchers.IO) { AbstractMedialibrary.getInstance().foldersList }
+            }
+
+            folders.forEach {
+                mediaDirsLocation.add(Uri.decode(if (it.startsWith("file://")) it.substring(7) else it))
+            }
             customDirsLocation = DirectoryRepository.getInstance(context).getCustomDirectories().map { it.path }
         }
     }
