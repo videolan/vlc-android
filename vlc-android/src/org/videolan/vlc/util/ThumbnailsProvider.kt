@@ -61,23 +61,25 @@ object ThumbnailsProvider {
             readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
 
-    fun getMediaCacheKey(isMedia: Boolean, item: MediaLibraryItem, width: String = ""): String? {
+    private fun getMediaThumbnailPath(isMedia: Boolean, item: MediaLibraryItem): String? {
         if (isMedia && (item as AbstractMediaWrapper).type == AbstractMediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) {
             if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + MEDIALIB_FOLDER_NAME
             return if (hasCache) StringBuilder(cacheDir!!).append('/').append(item.fileName).append(".jpg").toString() else null
         }
-        return "${item.artworkMrl}_$width"
+        return item.artworkMrl
     }
+
+    fun getMediaCacheKey(isMedia: Boolean, item: MediaLibraryItem, width: String = "") = if (width.isEmpty()) getMediaThumbnailPath(isMedia, item) else "${getMediaThumbnailPath(isMedia, item)}_$width"
 
     @WorkerThread
     fun getVideoThumbnail(media: AbstractMediaWrapper, width: Int): Bitmap? {
         val filePath = media.uri.path ?: return null
         if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
         val hasCache = appDir?.exists() == true
-        val thumbPath = getMediaCacheKey(true, media) ?: return null
-        val cacheBM = if (hasCache) BitmapCache.getBitmapFromMemCache(thumbPath) else null
+        val thumbPath = getMediaThumbnailPath(true, media) ?: return null
+        val cacheBM = if (hasCache) BitmapCache.getBitmapFromMemCache(getMediaCacheKey(true, media)) else null
         if (cacheBM != null) return cacheBM
         if (hasCache && File(thumbPath).exists()) return readCoverBitmap(thumbPath, width)
         if (media.isThumbnailGenerated) return null
