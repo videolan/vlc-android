@@ -46,6 +46,8 @@
     <string name="insert_next">Insertar siguiente</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Añadir todo</string>
+    <string name="resume_playback_short_title">Continuar reproducción</string>
+    <string name="resume_playback_long_title">Continuar reproducción de la última lista de reproducción</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Quitar</string>
     <string name="set_song">Establecer como tono de llamada</string>
@@ -91,6 +93,14 @@
     <plurals name="videos_quantity">
         <item quantity="one">1 vídeo</item>
         <item quantity="other">%d vídeos</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 película</item>
+        <item quantity="other">%d películas</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 programa de TV</item>
+        <item quantity="other">%d programas de TV</item>
     </plurals>
 
     <string name="internal_memory">Memoria interna</string>
@@ -412,7 +422,7 @@
     <string name="dump_media_db">Volvar base de datos de medios</string>
     <string name="dump_media_db_summary">Copiar base de datos a almacenamiento interno root</string>
     <string name="clear_media_db">Limpiar base de datos de medios</string>
-    <string name="clear_media_db_summary">Acceder a información de Android VLC para limpiar datos</string>
+    <string name="clear_media_database_summary">Limpiar la base de datos para comenzar de nuevo</string>
     <string name="clear_history">Limpiar historial</string>
     <string name="media_db_cleared">¡Base de datos de medios limpiada!</string>
     <string name="set_locale">Establecer idioma</string>
@@ -672,7 +682,7 @@
     <string name="popup_force_legacy_title">Usar modo vídeo sobre vídeo personalizado</string>
     <string name="popup_force_legacy_summary">Usar ventana emergente escalable en modo vídeo sobre vídeo personalizado</string>
     <string name="device_default">Dispositivo por defecto</string>
-    <string name="track_number">%s pistas</string>
+    <string name="track_number">%d pistas</string>
     <string name="jump_to">Saltar a</string>
     <string name="show_video_thumbnails_summary">Mostrar previsualización de vídeos en listas</string>
     <string name="show_video_thumbnails">Previsualización de vídeo</string>
@@ -716,4 +726,33 @@
     <string name="video_group_size_summary">Agrupar por las primeras %s letras</string>
     <string name="video_group_size">Agrupar vídeos por nombre</string>
     <string name="url_copied_to_clipboard">URL copiada al portapapeles</string>
+    <string name="share">Compartir</string>
+    <string name="invalid_file">Archivo inválido. No se puede compartir.</string>
+    <string name="share_file">Compartir %s</string>
+    <string name="share_message">Aquí está %s</string>
+    <string name="find_metadata">Buscar metadatos</string>
+    <string name="moviepedia_hint">Buscar metadados</string>
+    <string name="moviepedia_result">Resultados de vídeo</string>
+    <string name="release_date">Publicada:</string>
+    <string name="synopsis">Sinopsis</string>
+    <string name="directed_by">Dirigida por</string>
+    <string name="casting">Reparto</string>
+    <string name="produced_by">Producida por</string>
+    <string name="written_by">Escrita por</string>
+    <string name="music_by">Música por</string>
+    <string name="posters">Carteles</string>
+    <string name="backdrops">Fondos</string>
+    <string name="header_tvshows">Programas de TV</string>
+    <string name="all_movies">Todas las películas</string>
+    <string name="movie_count">%s película(s)</string>
+    <string name="header_movies">Películas</string>
+    <string name="season_number">Temporada %s</string>
+    <string name="resume_episode">Resumen (%s)</string>
+    <string name="start_over">Empezar de nuevo</string>
+    <string name="next_episode">Siguiente episodio</string>
+    <string name="open_network_settings">¿Abrir preferencias de red?</string>
+    <string name="recently_played">Reproducido recientemente</string>
+    <string name="recently_added">Añadido recientemente</string>
+    <string name="playback_multiple_errors">No se pueden reproducir múltiples medios</string>
+    <string name="clear_media_db_warning">Perderá su progreso y las listas de reproducción creadas.\n%s</string>
 </resources>
