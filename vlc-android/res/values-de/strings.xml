@@ -46,6 +46,8 @@
     <string name="insert_next">Als nächsten einfügen</string>
     <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
+    <string name="resume_playback_short_title">Letzte Wiedergabe</string>
+    <string name="resume_playback_long_title">Fortsetzen</string>
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
@@ -91,6 +93,14 @@
     <plurals name="videos_quantity">
         <item quantity="one">1 Video</item>
         <item quantity="other">%d Videos</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 Film</item>
+        <item quantity="other">%d Filme</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV-Sendung</item>
+        <item quantity="other">%d TV-Sendungen</item>
     </plurals>
 
     <string name="internal_memory">Interner Speicher</string>
@@ -285,9 +295,9 @@
     <string name="interface_prefs_screen">Schnittstelle</string>
     <string name="interface_gui">Anzeige</string>
     <string name="interface_secondary_display_category_title">Zweiter Bildschirm</string>
-    <string name="interface_secondary_display_category_summary">Einstellungen für verbundenen zweiten Bildschirm (HDMI/Chromecast).</string>
+    <string name="interface_secondary_display_category_summary">Einstellungen für verbundenen zweiten Bildschirm (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Klonen bevorzugen</string>
-    <string name="enable_clone_mode_summary">Gerätebildschirm wird ohne Fernbedienungsmöglichkeit geklont.</string>
+    <string name="enable_clone_mode_summary">Gerätebildschirm wird ohne Fernbedienungsmöglichkeit geklont</string>
     <string name="interface_other_category">Schnittstelle - Andere</string>
 
     <string name="video_prefs_category">Video</string>
@@ -391,17 +401,17 @@
 
     <string name="performance_prefs_category">Leistung</string>
     <string name="chroma_format">Farbsättigung erzwingen</string>
-    <string name="chroma_format_summary">RGB 32-Bit: Standardfarbsättigung\nRGB 16-bit: Bessere Leistung aber schlechtere Qualität\nYUV: Beste Leistung, funktioniert aber nicht auf allen Geräten. Nur für Android 2.3 und später.</string>
+    <string name="chroma_format_summary">RGB 32-Bit: Standardfarbsättigung\nRGB 16-bit: Bessere Leistung aber schlechtere Qualität\nYUV: Beste Leistung, funktioniert aber nicht auf allen Geräten (nur Android 2.3 und später)</string>
     <string name="deblocking">Anti-Klötzchen-Filtereinstellungen</string>
-    <string name="deblocking_summary">Einstellungen des Anti-Klötzchenfilter ändern. Verbessert möglicherweise die Videoqualität.\nNur für fortgeschrittene Anwender.</string>
+    <string name="deblocking_summary">Das Ändern der Einstellungen des Anti-Klötzchenfilters kann die Videoqualität verbessern\n(nur für fortgeschrittene Anwender)</string>
     <string name="deblocking_always">Vollständiges Klötzchen entfernen (am langsamsten)</string>
     <string name="deblocking_nonref">Mittleres Klötzchen entfernen</string>
     <string name="deblocking_nonkey">Niedriges Klötzchen entfernen</string>
     <string name="deblocking_all">Kein Klötzchen entfernen (am schnellsten)</string>
     <string name="enable_frame_skip">Bildsprung</string>
-    <string name="enable_frame_skip_summary">Beschleunigt das Dekodieren, führt aber zu niedriger Videoqualität.</string>
+    <string name="enable_frame_skip_summary">Beschleunigt das Dekodieren, könnte jedoch die Videoqualität verringern</string>
     <string name="enable_time_stretching_audio">Audio-Zeitdehnung</string>
-    <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt den Ton, ohne dabei die Tonhöhe zu verändern (erfordert ein schnelles Gerät).</string>
+    <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt den Ton, ohne dabei die Tonhöhe zu verändern (erfordert ein schnelles Gerät)</string>
 
     <string name="advanced_prefs_category">Erweitert</string>
     <string name="save_video_none">Geschwindigkeit nicht speichern</string>
@@ -412,14 +422,14 @@
     <string name="dump_media_db">Mediendatenbank erstellen</string>
     <string name="dump_media_db_summary">Datenbank in den internen Speicherstammordner kopieren</string>
     <string name="clear_media_db">Mediendatenbank leeren</string>
-    <string name="clear_media_db_summary">Android-VLC-Informationen zum Löschen der Daten öffnen</string>
+    <string name="clear_media_database_summary">Löscht die Datenbank zum Neustart</string>
     <string name="clear_history">Verlauf löschen</string>
     <string name="media_db_cleared">Mediendatenbank geleert!</string>
     <string name="set_locale">Sprache ändern</string>
     <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
     <string name="set_locale_popup">VLC beenden und zurücksetzen, damit die Änderungen wirksam werden.</string>
     <string name="network_caching">Zwischenspeicher-Wert im Netzwerk</string>
-    <string name="network_caching_summary">Der Zeitwert, um das Netzwerkmedium zu puffern (in ms). Funktioniert nicht in Verbindung mit Hardware-Dekodierung. Zum Zurückzusetzen leer lassen.</string>
+    <string name="network_caching_summary">Der Zeitwert (in ms), um das Netzwerkmedium zu puffern. Funktioniert nicht in Verbindung mit Hardware-Dekodierung. Zum Zurückzusetzen leer lassen.</string>
     <string name="resume_playback_title">Wiedergabe nach Anruf fortsetzen</string>
     <string name="resume_playback_summary">Andernfalls im Pausieren verbleiben</string>
     <string name="blurred_cover_background_title">Unscharfes Hintergrundbild</string>
@@ -507,13 +517,13 @@
     <string name="widget_name_w">VLC weißes Widget</string>
     <string name="widget_name_b">VLC dunkles Widget</string>
     <string name="allow_storage_access_title">VLC Zugriff auf Video- und Audio-Dateien erlauben</string>
-    <string name="allow_storage_access_description">VLC benötigt von Ihnen die Genehmigung zum Zugriff auf die Mediendateien auf diesem Gerät.</string>
+    <string name="allow_storage_access_description">VLC benötigt diese Berechtigung, um auf die Mediendateien auf diesem Gerät zugreifen zu können.</string>
     <string name="allow_settings_access_ringtone_title">VLC das Einstellen des Klingeltons erlauben</string>
-    <string name="allow_settings_access_ringtone_description">VLC benötigt von Ihnen die Genehmigung zum Einstellen dieses Liedes als Klingelton.</string>
+    <string name="allow_settings_access_ringtone_description">VLC benötigt diese Berechtigung um, dieses Lied als Klingelton einzurichten.</string>
     <string name="allow_settings_access_brightness_title">VLC das Einstellen des Helligkeitsmodus erlauben</string>
-    <string name="allow_settings_access_brightness_description">VLC benötigt von Ihnen die Genehmigung zum Einstellen des Helligkeitsmodus.</string>
-    <string name="allow_draw_overlays_title">VLC-Player das Einblenden über andere Apps erlauben</string>
-    <string name="allow_sdraw_overlays_description">VLC benötigt von Ihnen die Genehmigung zum Einblenden Ihres Videos über andere Anwendungen.</string>
+    <string name="allow_settings_access_brightness_description">VLC benötigt diese Berechtigung, um den Helligkeitsmodus zu ändern.</string>
+    <string name="allow_draw_overlays_title">Popup-Fenster über anderen Anwendungen zulassen</string>
+    <string name="allow_sdraw_overlays_description">VLC benötigt diese Berechtigung, um Ihr Video in einem Popup-Fenster über anderen Anwendungen anzuzeigen.</string>
     <string name="permission_ask_again">Genehmigung erteilen</string>
     <string name="exit_app">VLC schließen</string>
     <string name="exit_app_msg">Möchten Sie VLC wirklich verlassen?</string>
@@ -528,7 +538,7 @@
     <string name="extension_empty">Kein Element zum Anzeigen, gehen Sie in die Erweiterungseinstellungen um einige zu erhalten.</string>
 
     <string name="opengl_title">OpenGL ES2-Nutzung</string>
-    <string name="opengl_summary">Standardmäßig wird OpenGL ES2, wenn benötigt (z.B. 360°Videos), bei der Software-Dekodierung und Hardware-Dekodierung verwendet.</string>
+    <string name="opengl_summary">Standardmäßig wird OpenGL ES2 bei Bedarf zum Dekodieren von Software und Hardware verwendet (360°-Videos)</string>
     <string name="opengl_automatic">Automatisch</string>
     <string name="opengl_on">Ein erzwingen</string>
     <string name="opengl_off">Aus erzwingen</string>
@@ -653,7 +663,7 @@
     <string name="removed_from_playlist_anonymous">Element(e) wurden aus der Wiedergabeliste entfernt</string>
     <string name="welcome_title">Herzlich Willkommen beim VLC!</string>
     <string name="welcome_subtitle">Der freie und quelloffene Multimedia-Abspieler</string>
-    <string name="permission_media">VLC benötigt Ihre Erlaubnis, um auf die Mediendateien auf diesem Gerät zuzugreifen.</string>
+    <string name="permission_media">VLC benötigt Ihre Erlaubnis, um auf die Mediendateien auf diesem Gerät zuzugreifen</string>
     <string name="medialibrary_scan_explanation">VLC kann Ihr Gerät automatisch durchsuchen, um Ihre Mediensammlung zu verwalten.</string>
     <string name="onboarding_theme_title">Fühlen Sie sich wie zu Hause</string>
     <string name="done">Fertig</string>
@@ -672,7 +682,7 @@
     <string name="popup_force_legacy_title">Benutzerdefiniertes Bild-in-Bild</string>
     <string name="popup_force_legacy_summary">Ein benutzerdefiniertes Bild-in-Bild im größenveränderbaren Fenster verwenden</string>
     <string name="device_default">Systemsprache</string>
-    <string name="track_number">%s Titel</string>
+    <string name="track_number">%d Titel</string>
     <string name="jump_to">Springe zu</string>
     <string name="show_video_thumbnails_summary">Video-Vorschau in Listen anzeigen</string>
     <string name="show_video_thumbnails">Video-Vorschau</string>
@@ -713,7 +723,38 @@
     <string name="directory_not_scanned">Dieser Ordner wurde noch nicht durchsucht</string>
     <string name="scanned_directory_added">%s wurde zu den durchsuchten Ordnern hinzugefügt</string>
     <string name="video_group_size_dialog_text">Anzahl an Zeichen die zur Namensgruppierung verwendet werden</string>
-    <string name="video_group_size_summary">Gruppierung entsprechend der %s ersten Zeichen</string>
-    <string name="video_group_size">Videos nach Name gruppe</string>
+    <string name="video_group_size_summary">Gruppiere nach den ersten %s Buchstaben</string>
+    <string name="video_group_size">Videos nach Namen gruppieren</string>
     <string name="url_copied_to_clipboard">URL in die Zwischenablage kopiert</string>
+    <string name="share">Teilen</string>
+    <string name="invalid_file">Ungültige Datei, kann nicht geteilt werden.</string>
+    <string name="share_file">%s teilen</string>
+    <string name="share_message">Hier ist %s</string>
+    <string name="find_metadata">Metadaten finden</string>
+    <string name="moviepedia_hint">Metadaten suchen</string>
+    <string name="moviepedia_result">Video-Ergebnisse</string>
+    <string name="release_date">Veröffentlicht:</string>
+    <string name="synopsis">Zusammenfassung</string>
+    <string name="directed_by">Unter der Regie von</string>
+    <string name="casting">Besetzung</string>
+    <string name="produced_by">Produziert von</string>
+    <string name="written_by">Verfasst von</string>
+    <string name="music_by">Musik von</string>
+    <string name="posters">Poster</string>
+    <string name="backdrops">Kulissen</string>
+    <string name="header_tvshows">TV-Sendungen</string>
+    <string name="all_movies">Alle Filme</string>
+    <string name="movie_count">%s Film(e)</string>
+    <string name="header_movies">Filme</string>
+    <string name="season_number">Staffel %s</string>
+    <string name="resume_episode">Fortsetzen (%s)</string>
+    <string name="start_over"> Von vorn beginnen</string>
+    <string name="next_episode">Nächste Episode</string>
+    <string name="open_network_settings">Netzwerk-Einstellungen öffnen?</string>
+    <string name="recently_played">Zuletzt wiedergegeben</string>
+    <string name="recently_added">Zuletzt hinzugefügt</string>
+    <string name="playback_multiple_errors">Mehrere Medien können nicht abgespielt werden</string>
+    <string name="clear_media_db_warning">Sie verlieren Ihren Verlauf und die von Ihnen erstellten Wiedergabelisten.\n%s</string>
+    <string name="abrepeat_add_first_marker">Anfangspunkt setzen</string>
+    <string name="abrepeat_add_second_marker">Endpunkt setzen</string>
 </resources>
