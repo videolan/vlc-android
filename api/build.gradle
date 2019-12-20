@@ -56,4 +56,4 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
 }
 
-apply from: '../publish.gradle'
+apply from: '../buildsystem/publish.gradle'

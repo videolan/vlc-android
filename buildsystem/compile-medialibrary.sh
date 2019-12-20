@@ -24,7 +24,7 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-AVLC_SOURCED=1 . ./compile-libvlc.sh
+AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
 avlc_make_toolchain
 
 ################

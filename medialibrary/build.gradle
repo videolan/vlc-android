@@ -103,4 +103,4 @@ dependencies {
 
 }
 
-apply from: '../publish.gradle'
+apply from: '../buildsystem/publish.gradle'

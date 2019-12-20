@@ -1,6 +1,7 @@
 #! /bin/sh
 set -e
 
+
 #############
 # FUNCTIONS #
 #############
@@ -309,7 +310,7 @@ compile() {
     mkdir -p $OUT_DBG_DIR
 
     if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$1" ]; then
-        AVLC_SOURCED=1 . ./compile-libvlc.sh
+        AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
         avlc_build
 
         $NDK_BUILD -C libvlc \
@@ -332,7 +333,7 @@ compile() {
     fi
 
     if [ "$NO_ML" != 1 ]; then
-        ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE ./compile-medialibrary.sh
+        ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE buildsystem/compile-medialibrary.sh
         if [ "$copy_tmp" = "--copy-tmp=medialibrary" ];then
             cp -r medialibrary/jni/libs/${ANDROID_ABI} build/tmp
         fi
