@@ -46,6 +46,8 @@
     <string name="insert_next">Kölägg nästa</string>
     <string name="play_all">Spela upp alla</string>
     <string name="append_all">Kölägg alla</string>
+    <string name="resume_playback_short_title">Återuppta uppspelning</string>
+    <string name="resume_playback_long_title">Återuppta uppspelning av senaste spellista</string>
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
     <string name="set_song">Ange som ringsignal</string>
@@ -91,6 +93,14 @@
     <plurals name="videos_quantity">
         <item quantity="one">1 video</item>
         <item quantity="other">%d videor</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d filmer</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV-program</item>
+        <item quantity="other">%d TV-program</item>
     </plurals>
 
     <string name="internal_memory">Internt minne</string>
@@ -412,7 +422,7 @@
     <string name="dump_media_db">Säkerhetskopiera mediadatabas</string>
     <string name="dump_media_db_summary">Kopiera databasen till den interna lagringens hemkatalog</string>
     <string name="clear_media_db">Rensa mediadatabas</string>
-    <string name="clear_media_db_summary">Gå till VLCs programinformation för att rensa data</string>
+    <string name="clear_media_database_summary">Rensar databasen för att börja om</string>
     <string name="clear_history">Rensa historik</string>
     <string name="media_db_cleared">Mediadatabas rensad!</string>
     <string name="set_locale">Ändra språk</string>
@@ -672,7 +682,7 @@
     <string name="popup_force_legacy_title">Använd anpassad popupp för bild-i-bild</string>
     <string name="popup_force_legacy_summary">Använd anpassad popupp för bild-i-bild som kan storleksändras</string>
     <string name="device_default">Enhetsstandard</string>
-    <string name="track_number">%s spår</string>
+    <string name="track_number">%d spår</string>
     <string name="jump_to">Hoppa till</string>
     <string name="show_video_thumbnails_summary">Visa videominiatyrer i listor</string>
     <string name="show_video_thumbnails">Videominiatyrer</string>
@@ -716,4 +726,35 @@
     <string name="video_group_size_summary">Gruppera efter de %s första bokstäverna</string>
     <string name="video_group_size">Gruppera videor efter namn</string>
     <string name="url_copied_to_clipboard">Webbadressen kopierades till urklipp</string>
+    <string name="share">Dela</string>
+    <string name="invalid_file">Ogiltig fil. Kan inte delas.</string>
+    <string name="share_file">Dela %s</string>
+    <string name="share_message">Här är %s</string>
+    <string name="find_metadata">Hitta metadata</string>
+    <string name="moviepedia_hint">Sök metadata</string>
+    <string name="moviepedia_result">Videoresultat</string>
+    <string name="release_date">Utgiven:</string>
+    <string name="synopsis">Handling</string>
+    <string name="directed_by">Regissör</string>
+    <string name="casting">Rollsättare</string>
+    <string name="produced_by">Producerad av</string>
+    <string name="written_by">Skriven av</string>
+    <string name="music_by">Musik av</string>
+    <string name="posters">Affischer</string>
+    <string name="backdrops">Bakgrunder</string>
+    <string name="header_tvshows">TV-program</string>
+    <string name="all_movies">Alla filmer</string>
+    <string name="movie_count">%s film(er)</string>
+    <string name="header_movies">Filmer</string>
+    <string name="season_number">Säsong %s</string>
+    <string name="resume_episode">Återuppta (%s)</string>
+    <string name="start_over">Börja om</string>
+    <string name="next_episode">Nästa avsnitt</string>
+    <string name="open_network_settings">Öppna nätverksinställningar?</string>
+    <string name="recently_played">Senast uppspelade</string>
+    <string name="recently_added">Senast tillagda</string>
+    <string name="playback_multiple_errors">Flera mediafiler kan inte spelas upp</string>
+    <string name="clear_media_db_warning">Du kommer att förlora dina framsteg och spellistorna du har skapat:\n%s</string>
+    <string name="abrepeat_add_first_marker">Ange startpunkt</string>
+    <string name="abrepeat_add_second_marker">Ange slutpunkt</string>
 </resources>
