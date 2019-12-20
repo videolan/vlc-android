@@ -1566,6 +1566,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         observeDownloadedSubtitles()
         optionsDelegate?.setup()
         settings.edit().remove(VIDEO_PAUSED).apply()
+        if (isInPictureInPictureMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack ?: return
+            val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
+            setPictureInPictureParams(PictureInPictureParams.Builder().setAspectRatio(ar).build())
+        }
     }
 
     private fun encounteredError() {
