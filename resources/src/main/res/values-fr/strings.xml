@@ -46,15 +46,15 @@
     <string name="insert_next">Ajouter juste après</string>
     <string name="play_all">Lire tout</string>
     <string name="append_all">Lire tout à la suite</string>
-    <string name="last_playlist">Dernière liste de lecture</string>
-    <string name="last_playlist_shortcut">Reprendre la lecture</string>
+    <string name="resume_playback_short_title">Reprendre la lecture</string>
+    <string name="resume_playback_long_title">Reprendre la lecture de la dernière liste de lecture</string>
     <string name="delete">Supprimer</string>
     <string name="remove">Retirer</string>
     <string name="set_song">Définir comme sonnerie</string>
     <string name="set_song_question">Définir « %1$s » comme sonnerie ?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Supprimer le fichier  « %1$s » ?</string>
-    <string name="confirm_delete_several_media">Supprimer ces %1$dmédias ?</string>
+    <string name="confirm_delete_several_media">Supprimer ces %1$d médias ?</string>
     <string name="confirm_delete_folder">Supprimer le dossier « %1$s » ainsi que son contenu ?</string>
     <string name="confirm_delete_playlist">Supprimer la liste de lecture « %1$s » ?</string>
     <string name="confirm_remove_from_playlist">Retirer « %1$s » de la liste de lecture ?</string>
@@ -94,7 +94,10 @@
         <item quantity="one">1 vidéo</item>
         <item quantity="other">%d vidéos</item>
     </plurals>
-
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d films</item>
+    </plurals>
     <string name="internal_memory">Mémoire interne</string>
     <string name="parent_folder">Vers le dossier parent</string>
     <string name="audio">Audio</string>
@@ -293,10 +296,10 @@
     <string name="interface_other_category">Interface - Autres</string>
 
     <string name="video_prefs_category">Vidéo</string>
-    <string name="video_min_group_length_title">Regrouper les vidéos</string>
-    <string name="video_min_group_length_summary">Les vidéos sont regroupées si la première lettre de leur titre est la même.</string>
-    <string name="video_min_group_length_disable">Désactiver</string>
+    <string name="video_min_group_length_title">Grouper les vidéos</string>
+    <string name="video_min_group_length_disable">Ne pas grouper les vidéos</string>
     <string name="video_min_group_length_folder">Grouper par dossier</string>
+    <string name="video_min_group_length_name">Grouper par nom</string>
     <string name="video_min_group_length_first">Première lettre seulement</string>
     <string name="video_min_group_length_short">Courte suite de lettre (6)</string>
     <string name="video_min_group_length_long">Longue suite de lettres (9)</string>
@@ -306,8 +309,6 @@
     <string name="video_transition_summary">Afficher le titre de la nouvelle vidéo en transition</string>
     <string name="media_seen">Afficher le marqueur de vidéo vue</string>
     <string name="media_seen_summary">Marquer une vidéo comme vue lorsque vous la regardez jusqu\'à la fin</string>
-    <string name="force_list_portrait">Pas de grille en mode portrait</string>
-    <string name="force_list_portrait_summary">Afficher les vidéos par liste plutôt que par grille en mode portrait</string>
     <string name="force_play_all_summary">Jouer toutes les vidéos en commençant par celle sélectionnée</string>
     <string name="force_play_all_title">Mode liste de lecture vidéo</string>
     <string name="save_brightness_summary">Mémorise le niveau de rétroéclairage du lecteur vidéo</string>
@@ -325,7 +326,6 @@
     <string name="popup_keepscreen_title">Maintenir l\'écran allumé en mode Pop-Up</string>
     <string name="popup_keepscreen_summary">Maintenir l\'écran allumé en mode Pop-Up, y compris lorsque la vidéo est en pause</string>
     <string name="browser_show_hidden_files_title">Afficher les fichiers cachés</string>
-    <string name="browser_show_hidden_files_summary">Affiche les fichiers cachés dans les navigateurs</string>
 
     <string name="subtitles_prefs_category">Sous-titres</string>
     <string name="subtitles_size_title">Taille des sous-titres</string>
@@ -349,14 +349,12 @@
     <string name="lockscreen_cover_summary">Si disponible, la pochette de l\'album sera affichée comme fond d\'écran lorsque l\'appareil est verrouillé</string>
     <string name="playlist_animate_scroll_title">Animer le défilement automatique de la liste de lecture en cours</string>
     <string name="playlist_animate_scroll_summary">Animer le défilement au changement de piste</string>
-    <string name="audio_title_alignment">Alignement des titres audio</string>
-    <string name="audio_title_alignment_default">Prédéfini(e)</string>
-    <string name="audio_title_alignment_left">Gauche</string>
-    <string name="audio_title_alignment_centre">Centre</string>
-    <string name="audio_title_alignment_right">Droite</string>
-    <string name="audio_title_alignment_marquee">Texte</string>
-    <string name="audio_save_repeat_title">Enregistrer le mode de répétition</string>
-    <string name="audio_save_repeat_summary">Restaurer le mode de répétition au chargement de listes de lecture audio</string>
+    <string name="list_title_ellipsize">Contraction des titres sur une ligne dans les listes</string>
+    <string name="list_title_ellipsize_default">Par défaut</string>
+    <string name="list_title_ellipsize_left">Gauche</string>
+    <string name="list_title_ellipsize_right">Droite</string>
+    <string name="list_title_ellipsize_middle">Centre</string>
+    <string name="list_title_ellipsize_marquee">Défilant</string>
     <string name="audio_boost_title">Boost audio</string>
     <string name="audio_boost_summary">Autoriser le volume jusqu’à 200 %</string>
     <string name="headset_prefs_category">Casque</string>
@@ -385,7 +383,6 @@
     <string name="cast_performance_warning">Diffuser cette vidéo requiert une conversion. Cette conversion risque d\'utiliser toute la puissance disponible et rapidement vider votre batterie.</string>
     <string name="casting_connected_renderer">Connecté à l\'appareil \'%1$s\'</string>
     <string name="artists_show_all_title">Montrer tous les artistes</string>
-    <string name="artists_show_all_summary">Montrer tous les artistes dans la liste des artistes, pas seulement les artistes de l\'album</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_enable_category">Choisissez les extensions à activer</string>
@@ -420,7 +417,6 @@
     <string name="dump_media_db">Exporter la base de données de médias</string>
     <string name="dump_media_db_summary">Copie la base de données à la racine du stockage interne</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
-    <string name="clear_media_db_summary">Accédez aux informations d\'Android VLC pour effacer les données</string>
     <string name="clear_history">Vider l\'historique de lecture</string>
     <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
     <string name="set_locale">Définir la langue</string>
@@ -437,8 +433,7 @@
     <string name="restart_message">Les changements ne seront pris en compte qu’après le redémarrage de l’application.\n\nRedémarrer maintenant ?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Plus tard</string>
-    <string name="browser_show_all_title">Afficher tous les fichiers dans le navigateur</string>
-    <string name="browser_show_all_summary">Afficher les fichiers qui ne sont pas reconnus comme audio ou vidéo dans les navigateurs</string>
+    <string name="browser_show_all_title">Afficher tous les fichiers</string>
 
     <string name="developer_prefs_category">Développeur</string>
     <string name="enable_verbose_mode">Verbosité</string>
@@ -482,7 +477,7 @@
     <string name="audio_delay">Décalage audio</string>
     <string name="spu_delay">Décalage du sous-titrage</string>
     <string name="sleep_time_not_set">non défini</string>
-    <string name="network_shares_discovery">Recherche de partages réseau…</string>
+    <string name="network_shares_discovery">Recherche de partages réseau</string>
     <string name="network_empty">Ce dossier est vide.</string>
     <string name="network_connection_needed">Pas de connexion au réseau local.</string>
     <string name="search_hint">Recherche de média</string>
@@ -496,8 +491,7 @@
     <string name="chapter">Chapitre</string>
     <string name="resume_from_position">Reprendre depuis la dernière position</string>
     <string name="confirm_resume">Reprendre depuis la dernière position ?</string>
-    <string name="confirm_resume_title">Demander la confirmation pour reprendre le lecture depuis la dernière position</string>
-    <string name="confirm_resume_summary">Si activé, il vous sera demandé si vous souhaitez reprendre la lecture de la vidéo depuis la dernière position</string>
+    <string name="confirm_resume_title">Reprendre les vidéos lues</string>
     <string name="directory_empty">Le répertoire est vide</string>
     <string name="tv_ui_title">Interface Android TV</string>
     <string name="tv_ui_summary">Basculer sur l\'interface Android TV</string>
@@ -618,6 +612,8 @@
     <string name="audio_digital_title">Sortie audio (passthrough)</string>
     <string name="audio_task_cleared_title">Arrêter lors d\'un balayage de l\'application</string>
     <string name="audio_task_cleared_summary">Arrêter la lecture lorsque l\'application est fermée</string>
+    <string name="audio_resume_card_title">Afficher une alerte dernière liste de lecture</string>
+    <string name="audio_resume_card_summary">Affiche une alerte vous permettant de reprendre la lecture audio au lancement de l’application</string>
     <string name="playback_rewind">Retour</string>
     <string name="playback_forward">Avance rapide</string>
     <string name="ml_wizard_title">Sélection de la médiathèque de VLC</string>
@@ -653,11 +649,12 @@
     <string name="device_dialog_title">Périphérique externe inséré</string>
     <string name="device_dialog_message">Vous venez de brancher un nouveau périphérique de stockage à votre box TV, voulez-vous l\'ouvrir avec VLC ?</string>
     <string name="videos_folders_title">Vidéos par dossiers</string>
+    <string name="videos_groups_title">Groupes vidéo</string>
     <string name="video_save_remote_setting">Activer automatiquement le mode commande à distance ?</string>
     <string name="video_save_clone_mode">Activer automatiquement le mode clone ?</string>
     <string name="video_remote_enable">Passer en mode commande à distance</string>
     <string name="video_remote_disable">Dupliquer l’écran</string>
-    <string name="removed_from_playlist_anonymous">élément(s) supprimé(s) de la liste de lecture</string>
+    <string name="removed_from_playlist_anonymous">Élément(s) supprimé(s) de la liste de lecture</string>
     <string name="welcome_title">Bienvenue dans VLC !</string>
     <string name="welcome_subtitle">Le lecteur multimédia gratuit et libre</string>
     <string name="permission_media">VLC a besoin de votre permission pour accéder aux médias sur votre appareil</string>
@@ -679,7 +676,7 @@
     <string name="popup_force_legacy_title">Utiliser une fenêtre personnalisée de Picture-in-Picture</string>
     <string name="popup_force_legacy_summary">Utiliser une fenêtre personnalisée de Picture-in-Picture redimensionnable</string>
     <string name="device_default">Périphérique prédéfini</string>
-    <string name="track_number">%s pistes</string>
+    <string name="track_number">%d pistes</string>
     <string name="jump_to">Aller à</string>
     <string name="show_video_thumbnails_summary">Afficher des miniatures des vidéos dans les listes</string>
     <string name="show_video_thumbnails">Miniatures des vidéos</string>
@@ -693,4 +690,57 @@
     <string name="remove_current">Supprimer l\'élément actuel</string>
     <string name="validation_delete_playlist">Êtes-vous certain(e) de vouloir supprimer cette liste de lecture ?</string>
     <string name="validation_delete_playlist_text">Cette action ne peut pas être annulée.</string>
+    <string name="display_in_list">Afficher en liste</string>
+    <string name="display_in_grid">Afficher en grille</string>
+    <string name="dump_db_succes">Base de données exportée à la racine du stockage interne</string>
+    <string name="dump_db_failure">Échec lors de l’export de la base de données</string>
+    <string name="send_crash_title">Rapporteur de plantage VLC</string>
+    <string name="send_crash_description">En envoyant votre rapport de plantage, vous allez nous aider à améliorer la stabilité de VLC.</string>
+    <string name="send_crash_warning">Assurez-vous d\'avoir bien supprimé toutes les données sensibles que vous ne voulez pas envoyer.</string>
+    <string name="dont_ask_again">Ne pas redemander</string>
+    <string name="include_medialib">Inclure votre base de données</string>
+    <string name="vlc_reporter">Rapporteur VLC</string>
+    <string name="welcome_beta_title">Beta VLC</string>
+    <string name="welcome_beta_description">Bienvenue dans le programme bêta de VLC.\nVeuillez noter que cette version peut contenir quelques bogues.</string>
+    <string name="welcome_beta_description_bugs">Si vous constatez un bogue, veuillez nous le signaler via notre forum ou via notre gestionnaire de bogues.</string>
+    <string name="welcome_beta_description_crashes">Si vous rencontrez un problème, veuillez utiliser l’icône Rapporteur VLC dans votre lanceur d’applications pour nous l’envoyer.</string>
+    <string name="send">Envoyer</string>
+    <string name="send_crash_action_title">Que voulez vous faire ?</string>
+    <string name="report_a_bug">Signaler un bogue</string>
+    <string name="report_a_crash">Signaler un plantage</string>
+    <string name="describe_crash">Veuillez décrire comment le problème s’est produit</string>
+    <string name="favorite">Favoris</string>
+    <string name="always">Toujours</string>
+    <string name="never">Jamais</string>
+    <string name="ask_confirmation">Demander confirmation</string>
+    <string name="add_to_scanned">Analyser ce dossier</string>
+    <string name="directory_not_scanned">Ce répertoire n’est pas analysé</string>
+    <string name="scanned_directory_added">%s ajouté à vos répertoires analysés</string>
+    <string name="video_group_size_dialog_text">Nombre de caractères utilisés pour grouper par nom</string>
+    <string name="video_group_size_summary">Grouper par les %s premières lettres</string>
+    <string name="video_group_size">Grouper les vidéos par nom</string>
+    <string name="url_copied_to_clipboard">URL copiée dans le presse-papier</string>
+    <string name="share">Partager</string>
+    <string name="invalid_file">Fichier non valide. Ne peut être partagé.</string>
+    <string name="share_file">Partager %s</string>
+    <string name="share_message">Voici %s</string>
+    <string name="release_date">Sortie :</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="directed_by">Réalisé par</string>
+    <string name="casting">Distribution</string>
+    <string name="produced_by">Produit par</string>
+    <string name="written_by">Écrit par</string>
+    <string name="music_by">Musique de</string>
+    <string name="backdrops">Décors</string>
+    <string name="all_movies">Tous les films</string>
+    <string name="movie_count">%s film(s)</string>
+    <string name="header_movies">Films</string>
+    <string name="season_number">Saison %s</string>
+    <string name="resume_episode">Reprendre (%s)</string>
+    <string name="start_over">Recommencer</string>
+    <string name="next_episode">Épisode suivant</string>
+    <string name="open_network_settings">Ouvrir les paramètres réseau ?</string>
+    <string name="recently_played">Lu récemment</string>
+    <string name="recently_added">Ajouté récemment</string>
+    <string name="playback_multiple_errors">Plusieurs médias ne peuvent être lus</string>
 </resources>
