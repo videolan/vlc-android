@@ -179,4 +179,4 @@ $NDK_BUILD -C medialibrary \
     MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
     NDK_DEBUG=${NDK_DEBUG}
 
-avlc_checkfail "nkd-build medialibrary failed"
+avlc_checkfail "ndk-build medialibrary failed"
