@@ -86,6 +86,12 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d video</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">%d cereka</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">%d Rancangan TV</item>
+    </plurals>
 
     <string name="internal_memory">Ingatan dalaman</string>
     <string name="parent_folder">Naik ke folder induk</string>
@@ -405,7 +411,6 @@
     <string name="dump_media_db">Longgok pangkalan data media</string>
     <string name="dump_media_db_summary">Salin pangkalan data ke dalam root storan dalaman</string>
     <string name="clear_media_db">Kosongkan pangkalan data media</string>
-    <string name="clear_media_db_summary">Capai maklumat VLC Android untuk kosongkan data</string>
     <string name="clear_history">Kosongkan sejarah</string>
     <string name="media_db_cleared">Pangkalan data media dikosongkan!</string>
     <string name="set_locale">Tetapkan lokaliti</string>
@@ -665,7 +670,7 @@
     <string name="popup_force_legacy_title">Guna tetingkap timbul Gambar-dalam-Gambar suai</string>
     <string name="popup_force_legacy_summary">Guna tetingkap timbul boleh saiz semua Gambar-dalam-Gambar suai</string>
     <string name="device_default">Lalai peranti</string>
-    <string name="track_number">%s trek</string>
+    <string name="track_number">%d trek</string>
     <string name="jump_to">Lompat ke</string>
     <string name="show_video_thumbnails_summary">Tunjuk lakaran kenit video dalam senarai</string>
     <string name="show_video_thumbnails">Lakaran kenit video</string>
@@ -709,4 +714,32 @@
     <string name="video_group_size_summary">Kelompok mengikut %s abjad pertama</string>
     <string name="video_group_size">Kelompok video mengikut nama</string>
     <string name="url_copied_to_clipboard">Url disalin ke dalam papan keratan</string>
+    <string name="share">Kongsi</string>
+    <string name="invalid_file">Fail tidak sah. Tidak dapat dikongsikan.</string>
+    <string name="share_file">Kongsi %s</string>
+    <string name="share_message">Di sini ialah %s</string>
+    <string name="find_metadata">Cari data meta</string>
+    <string name="moviepedia_hint">Gelintar data meta</string>
+    <string name="moviepedia_result">Keputusan video</string>
+    <string name="release_date">Dikeluarkan:</string>
+    <string name="synopsis">Sinopsis</string>
+    <string name="directed_by">Diarah oleh</string>
+    <string name="casting">Lakonan</string>
+    <string name="produced_by">Dihasilkan oleh</string>
+    <string name="written_by">Ditulis oleh</string>
+    <string name="music_by">Muzik oleh</string>
+    <string name="posters">Poster</string>
+    <string name="backdrops">Balik Tabir</string>
+    <string name="header_tvshows">Rancangan TV</string>
+    <string name="all_movies">Semua cereka</string>
+    <string name="movie_count">%s cereka(s)</string>
+    <string name="header_movies">Cereka</string>
+    <string name="season_number">Musim %s</string>
+    <string name="resume_episode">Sambung semula (%s)</string>
+    <string name="start_over">Mula dari awal</string>
+    <string name="next_episode">Episod berikutnya</string>
+    <string name="open_network_settings">Buka tetapan rangkaian?</string>
+    <string name="recently_played">Baru-Baru ini dimainkan</string>
+    <string name="recently_added">Baru-baru Ini ditambah</string>
+    <string name="playback_multiple_errors">Media berbilang tidak dapat dimainkan</string>
 </resources>
