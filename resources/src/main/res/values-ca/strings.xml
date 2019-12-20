@@ -44,14 +44,13 @@
     <string name="insert_next">Inserir següent</string>
     <string name="play_all">Reprodueix-ho tot</string>
     <string name="append_all">Afegeix-ho tot</string>
-    <string name="last_playlist">Darrera llista de reproducció</string>
-    <string name="last_playlist_shortcut">Continuar reproducció</string>
     <string name="delete">Suprimeix</string>
     <string name="remove">Suprimeix</string>
     <string name="set_song">Estableix com a so del telèfon</string>
     <string name="set_song_question">Configura \'%1$s\' com a to de trucada?</string>
     <string name="info">Informació</string>
     <string name="confirm_delete">Voleu suprimir el fitxer «%1$s»?</string>
+    <string name="confirm_delete_several_media">Esborra aquests %1$d multimèdia?</string>
     <string name="confirm_delete_folder">Voleu suprimir la carpeta «%1$s» i tot el seu contingut?</string>
     <string name="confirm_delete_playlist">Esborra la llista de reproducció \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Elimina \'%1$s\' de llista de reproducció?</string>
@@ -91,7 +90,6 @@
         <item quantity="one">1 vídeo</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
-
     <string name="internal_memory">Memòria interna</string>
     <string name="parent_folder">Amunt a la carpeta pare</string>
     <string name="audio">Àudio</string>
@@ -118,6 +116,7 @@
     <string name="validation">Esteu segur?</string>
 
     <string name="cover_art">Art de la portada</string>
+    <string name="shuffle_all_title">Aleatori a tot</string>
     <string name="shuffle_title">Mode aleatori</string>
     <string name="shuffle">Apaga aleatori</string>
     <string name="shuffle_on">Engega aleatori</string>
@@ -154,6 +153,7 @@
     <string name="advanced">opcions avançades</string>
     <string name="audio_boost_warning">Torna a llisca cap a dalt per superar 100%</string>
     <string name="locked_in_portrait_mode">Bloquejat a mode retrat\n(Deixa apretat el botó per cancel·lar)</string>
+    <string name="locked_in_landscape_mode">Bloquejat a mode paisatge\n(Deixa apretat per cancel·lar)</string>
     <string name="reset_orientation">Restableix l\'orientació</string>
 
     <plurals name="track_channels_info_quantity">
@@ -199,7 +199,9 @@
     <string name="open_mrl_dialog_msg">Introdueix l\'adreça: p. ex. http://, mms:// o rtsp://</string>
     <string name="error_not_compatible">El vostre dispositiu no és compatible amb aquesta versió del VLC per a l\'Android™.</string>
     <string name="error_problem">S\'ha produït un error en carregar el VLC i s\'ha tancat.</string>
+    <string name="error_message_is">El missatge d\'error és (comenteu això quan informeu):\n</string>
     <string name="encountered_error_title">Error de reproducció</string>
+    <string name="encountered_error_message">VLC ha trobat un error en aquest suport.\nSi us plau, refresca la biblioteca multimèdia.</string>
     <string name="invalid_location">No es pot reproduir la ruta %1$s.</string>
 
     <string name="search">Cerca</string>
@@ -242,6 +244,7 @@
     <string name="about_text">VLC per a l\'Android™ és una versió portada del reproductor multimèdia VLC. La versió per l\'Android™ permet llegir la gran majoria de fitxers i fluxos de xarxa.</string>
     <string name="vlc_authors">i autors del VLC</string>
     <string name="compiled_by">Aquesta versió del VLC s\'ha compilat per:</string>
+    <string name="feedback_forum">Fòrum de feedback</string>
 
     <!-- Preferences -->
     <string name="preferences">Configuració</string>
@@ -283,8 +286,6 @@
 
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupa els vídeos</string>
-    <string name="video_min_group_length_summary">Els vídeos s\'agrupen si coincideixen les primeres lletres.</string>
-    <string name="video_min_group_length_disable">Inhabilita</string>
     <string name="video_min_group_length_folder">Agrupa per carpeta</string>
     <string name="video_min_group_length_first">Només la primera lletra</string>
     <string name="video_min_group_length_short">Poques lletres (6)</string>
@@ -295,7 +296,6 @@
     <string name="video_transition_summary">Mostra el títol del nou vídeo a la transició</string>
     <string name="media_seen">Mostra el marcador de vídeo vist</string>
     <string name="media_seen_summary">Marca el vídeo com a vist quan reprodueixes fins al final</string>
-    <string name="force_list_portrait">Sense graella a mode retrat</string>
     <string name="force_play_all_summary">Reprodueix tots els vídeos, començant pel que has clickat</string>
     <string name="force_play_all_title">Mode de llista de reproducció de vídeo</string>
     <string name="save_brightness_title">Desa el nivell de brillantor del vídeo</string>
@@ -307,6 +307,7 @@
     <string name="enable_volume_gesture_summary">Controla el volum mitjançant gestos durant la reproducció</string>
     <string name="enable_seek_buttons">Botons de cerca</string>
     <string name="browser_show_hidden_files_title">Mostra els fitxers ocults</string>
+
     <string name="subtitles_prefs_category">Subtítols</string>
     <string name="subtitles_size_title">Mida dels subtítols</string>
     <string name="subtitles_size_small">Petita</string>
@@ -325,11 +326,7 @@
     <string name="subtitles_autoload_title">Carrega els subtítols automàticament</string>
 
     <string name="audio_prefs_category">Àudio</string>
-    <string name="audio_title_alignment_default">Per defecte</string>
-    <string name="audio_title_alignment_left">Esquerra</string>
-    <string name="audio_title_alignment_centre">Centre</string>
-    <string name="audio_title_alignment_right">Dreta</string>
-    <string name="audio_title_alignment_marquee">Marquesina</string>
+    <string name="list_title_ellipsize_default">Per defecte</string>
     <string name="enable_headset_detection">Detecta els auriculars</string>
     <string name="enable_steal_remote_control">Control remot exclusiu dels auriculars</string>
     <string name="enable_steal_remote_control_summary">Evita els conflictes prenent el control remot d\'altres aplicacions. Això impedeix marcar quan es fa doble clic als telèfons HTC.</string>
@@ -340,6 +337,7 @@
     <string name="casting_quality_low">Baixa</string>
     <string name="casting_quality_lowcpu">La més baixa</string>
     <string name="artists_show_all_title">Mostra tots els artistes</string>
+
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_enable_category">Trieu les extensions que voleu habilitar</string>
     <string name="extensions_empty">No s\'ha detectat cap extensió</string>
@@ -371,6 +369,7 @@
     <string name="network_caching">Valor de memòria cau de la xarxa</string>
     <string name="network_caching_summary">La quantitat de temps que s\'emmagetzemarà l\'element multimèdia en xarxa (en ms). No funciona amb decodificació per maquinari. Deixeu-ho en blanc per reiniciar.</string>
     <string name="quit">Tanca i reinicia l\'aplicació</string>
+    <string name="restart_message_OK">D\'acord</string>
     <string name="developer_prefs_category">Desenvolupador</string>
     <string name="enable_verbose_mode">Detallat</string>
     <string name="enable_verbose_mode_summary">Incrementa la verbositat (logcat)</string>
