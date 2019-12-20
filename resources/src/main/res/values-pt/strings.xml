@@ -92,7 +92,6 @@
         <item quantity="one">1 vídeo</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
-
     <string name="internal_memory">Memória interna</string>
     <string name="parent_folder">Ir para a pasta original</string>
     <string name="audio">Áudio</string>
@@ -412,7 +411,6 @@
     <string name="dump_media_db">Limpar base de dados multimédia</string>
     <string name="dump_media_db_summary">Copiar base de dados para raiz do armazenamento interno</string>
     <string name="clear_media_db">Limpar base de dados de multimédia</string>
-    <string name="clear_media_db_summary">Aceda à info do VLC para limpar os dados</string>
     <string name="clear_history">Limpar histórico</string>
     <string name="media_db_cleared">A base de dados multimédia foi limpa!</string>
     <string name="set_locale">Definir idioma</string>
@@ -672,7 +670,6 @@
     <string name="popup_force_legacy_title">Usar popup personalizado de \'imagem na imagem\' </string>
     <string name="popup_force_legacy_summary">Usar popup personalizado redimensionável de \'imagem na imagem\' </string>
     <string name="device_default">Predefinido do dispositivo</string>
-    <string name="track_number">%s faixas</string>
     <string name="jump_to">Saltar para</string>
     <string name="show_video_thumbnails_summary">Mostrar miniaturas dos vídeos nas listas</string>
     <string name="show_video_thumbnails">Miniaturas dos vídeos</string>
@@ -716,4 +713,8 @@
     <string name="video_group_size_summary">Agrupar por %s letras iniciais</string>
     <string name="video_group_size">Grupo de vídeos por nome</string>
     <string name="url_copied_to_clipboard">Url copiado para a área de transferência</string>
+    <string name="share">Partilhar</string>
+    <string name="invalid_file">Ficheiro inválido. Não pode ser partilhado.</string>
+    <string name="share_file">Partilhar %s</string>
+    <string name="share_message">Aqui está %s</string>
 </resources>
