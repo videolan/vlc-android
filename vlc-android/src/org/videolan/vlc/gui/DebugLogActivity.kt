@@ -58,9 +58,9 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
     }
 
     private val clearClickListener = View.OnClickListener {
-        client.clear()
+        if (::client.isInitialized) client.clear()
         logList.clear()
-        logAdapter.notifyDataSetChanged()
+        if (::logAdapter.isInitialized) logAdapter.notifyDataSetChanged()
         setOptionsButtonsEnabled(false)
     }
 
