@@ -1,0 +1,411 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 30,
+    "identityHash": "3b170ae1c09bebcc78be89a53f7e6403",
+    "entities": [
+      {
+        "tableName": "external_subtitles_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idSubtitle` TEXT NOT NULL, `subtitlePath` TEXT NOT NULL, `mediaPath` TEXT NOT NULL, `subLanguageID` TEXT NOT NULL, `movieReleaseName` TEXT NOT NULL, PRIMARY KEY(`mediaPath`, `idSubtitle`))",
+        "fields": [
+          {
+            "fieldPath": "idSubtitle",
+            "columnName": "idSubtitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subtitlePath",
+            "columnName": "subtitlePath",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mediaPath",
+            "columnName": "mediaPath",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subLanguageID",
+            "columnName": "subLanguageID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "movieReleaseName",
+            "columnName": "movieReleaseName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "mediaPath",
+            "idSubtitle"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "SLAVES_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`slave_media_mrl` TEXT NOT NULL, `slave_type` INTEGER NOT NULL, `slave_priority` INTEGER NOT NULL, `slave_uri` TEXT NOT NULL, PRIMARY KEY(`slave_media_mrl`))",
+        "fields": [
+          {
+            "fieldPath": "mediaPath",
+            "columnName": "slave_media_mrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "slave_type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "priority",
+            "columnName": "slave_priority",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "slave_uri",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "slave_media_mrl"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "fav_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uri` TEXT NOT NULL, `type` INTEGER NOT NULL, `title` TEXT NOT NULL, `icon_url` TEXT, PRIMARY KEY(`uri`))",
+        "fields": [
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconUrl",
+            "columnName": "icon_url",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uri"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "CustomDirectory",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`path` TEXT NOT NULL, PRIMARY KEY(`path`))",
+        "fields": [
+          {
+            "fieldPath": "path",
+            "columnName": "path",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "path"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "media_metadata",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`moviepedia_id` TEXT NOT NULL, `ml_id` INTEGER, `type` INTEGER NOT NULL, `title` TEXT NOT NULL, `summary` TEXT NOT NULL, `genres` TEXT NOT NULL, `releaseDate` INTEGER, `countries` TEXT NOT NULL, `season` INTEGER, `episode` INTEGER, `current_poster` TEXT NOT NULL, `current_backdrop` TEXT NOT NULL, `show_id` TEXT, `has_cast` INTEGER NOT NULL, `insertDate` INTEGER NOT NULL, PRIMARY KEY(`moviepedia_id`), FOREIGN KEY(`show_id`) REFERENCES `media_metadata`(`moviepedia_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "moviepediaId",
+            "columnName": "moviepedia_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mlId",
+            "columnName": "ml_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summary",
+            "columnName": "summary",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "genres",
+            "columnName": "genres",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "releaseDate",
+            "columnName": "releaseDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "countries",
+            "columnName": "countries",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "season",
+            "columnName": "season",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "episode",
+            "columnName": "episode",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currentPoster",
+            "columnName": "current_poster",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentBackdrop",
+            "columnName": "current_backdrop",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showId",
+            "columnName": "show_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hasCast",
+            "columnName": "has_cast",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "insertDate",
+            "columnName": "insertDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "moviepedia_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "media_metadata",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "show_id"
+            ],
+            "referencedColumns": [
+              "moviepedia_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "media_metadata_person",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`moviepedia_id` TEXT NOT NULL, `name` TEXT NOT NULL, `image` TEXT, PRIMARY KEY(`moviepedia_id`))",
+        "fields": [
+          {
+            "fieldPath": "moviepediaId",
+            "columnName": "moviepedia_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "moviepedia_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "media_person_join",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mediaId` TEXT NOT NULL, `personId` TEXT NOT NULL, `type` INTEGER NOT NULL, PRIMARY KEY(`mediaId`, `personId`, `type`), FOREIGN KEY(`mediaId`) REFERENCES `media_metadata`(`moviepedia_id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`personId`) REFERENCES `media_metadata_person`(`moviepedia_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "mediaId",
+            "columnName": "mediaId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "personId",
+            "columnName": "personId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "mediaId",
+            "personId",
+            "type"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "media_metadata",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "mediaId"
+            ],
+            "referencedColumns": [
+              "moviepedia_id"
+            ]
+          },
+          {
+            "table": "media_metadata_person",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "personId"
+            ],
+            "referencedColumns": [
+              "moviepedia_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "media_metadata_image",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url` TEXT NOT NULL, `media_id` TEXT NOT NULL, `image_type` INTEGER NOT NULL, `image_language` TEXT NOT NULL, PRIMARY KEY(`url`, `media_id`), FOREIGN KEY(`media_id`) REFERENCES `media_metadata`(`moviepedia_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mediaId",
+            "columnName": "media_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageType",
+            "columnName": "image_type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "language",
+            "columnName": "image_language",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "url",
+            "media_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "media_metadata",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "media_id"
+            ],
+            "referencedColumns": [
+              "moviepedia_id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3b170ae1c09bebcc78be89a53f7e6403')"
+    ]
+  }
+}
