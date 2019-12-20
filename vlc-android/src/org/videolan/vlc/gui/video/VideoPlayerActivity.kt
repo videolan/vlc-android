@@ -98,6 +98,7 @@ import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.PlaylistModel
+import java.lang.Runnable
 
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
@@ -1486,10 +1487,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 }
                 MediaPlayer.Event.ESAdded -> {
                     if (menuIdx == -1) {
-                        val media = medialibrary.findMedia(service.currentMediaWrapper) ?: return
+                        val mw = service.currentMediaWrapper ?: return
                         if (event.esChangedType == Media.Track.Type.Audio) {
                             setESTrackLists()
                             runIO(Runnable {
+                                val media = medialibrary.findMedia(mw)
                                 val audioTrack = media.getMetaLong(AbstractMediaWrapper.META_AUDIOTRACK).toInt()
                                 if (audioTrack != 0 || currentAudioTrack != -2)
                                     service.setAudioTrack(if (media.id == 0L) currentAudioTrack else audioTrack)
@@ -1497,6 +1499,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         } else if (event.esChangedType == Media.Track.Type.Text) {
                             setESTrackLists()
                             runIO(Runnable {
+                                val media = medialibrary.findMedia(mw)
                                 val spuTrack = media.getMetaLong(AbstractMediaWrapper.META_SUBTITLE_TRACK).toInt()
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
