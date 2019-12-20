@@ -48,6 +48,8 @@
     <string name="insert_next">Wstaw jako następny</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
+    <string name="resume_playback_short_title">Wznów odtwarzanie</string>
+    <string name="resume_playback_long_title">Wznów</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
@@ -103,6 +105,18 @@
         <item quantity="few">%d filmy</item>
         <item quantity="many">%d filmów</item>
         <item quantity="other">%d filmów</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="few">%d filmy</item>
+        <item quantity="many">%d filmów</item>
+        <item quantity="other">%d filmy</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 serial</item>
+        <item quantity="few">%d seriale</item>
+        <item quantity="many">%d serialów</item>
+        <item quantity="other">%d seriale</item>
     </plurals>
 
     <string name="internal_memory">Pamięć wewnętrzna</string>
@@ -299,9 +313,9 @@
     <string name="interface_prefs_screen">Interfejs</string>
     <string name="interface_gui">Wyświetlacz</string>
     <string name="interface_secondary_display_category_title">Drugi wyświetlacz</string>
-    <string name="interface_secondary_display_category_summary">Ustawienia w przypadku połączonego drugiego wyświetlacza (HDMI/Chromecast).</string>
+    <string name="interface_secondary_display_category_summary">Ustawienia w przypadku połączonego drugiego wyświetlacza (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Włącz powielanie</string>
-    <string name="enable_clone_mode_summary">Powiel wyświetlacz urządzenia bez pilota.</string>
+    <string name="enable_clone_mode_summary">Powiel wyświetlacz urządzenia bez pilota</string>
     <string name="interface_other_category">Interfejs - inne</string>
 
     <string name="video_prefs_category">Obraz</string>
@@ -322,7 +336,7 @@
     <string name="force_play_all_title">Tryb odtwarzania listy filmów</string>
     <string name="save_brightness_summary">Zapamiętaj ustawiony poziom jasności w odtwarzaczu</string>
     <string name="save_brightness_title">Zapisz poziom jasności</string>
-    <string name="save_audiodelay_summary">Zapisz indywidualne opóźnienie dźwięku dla każdego filmu</string>
+    <string name="save_audiodelay_summary">Zapamiętaj indywidualne opóźnienie dźwięku dla każdego filmu</string>
     <string name="save_audiodelay_title">Zapisz opóźnienie dźwięku</string>
     <string name="enable_brightness_gesture_title">Gesty jasności</string>
     <string name="enable_brightness_gesture_summary">Regulacja jasności gestem podczas odtwarzania wideo</string>
@@ -376,13 +390,13 @@
     <string name="enable_steal_remote_control">Ekskluzywny pilot słuchawek</string>
     <string name="enable_steal_remote_control_summary">Unikanie konfliktów poprzez zapożyczenie pilota z innych aplikacji. Zapobiega to wybieraniu numeru przy podwójnym kliknięciu na telefonach firmy HTC.</string>
     <string name="aout">Wyjście dźwiękowe</string>
-    <string name="aout_summary">Zmiana metody, której VLC używa do wyjścia dźwięku.</string>
+    <string name="aout_summary">Zmiana metody używaną przez VLC do generowania dźwięku</string>
     <string name="audio_ducking_title">Głośność VLC przy powiadomieniach</string>
     <string name="audio_ducking_summary">Zmniejsza głośność VLC, aby lepiej usłyszeć powiadomienia dźwiękowe, instrukcje nawigacyjne lub mowę asystenta</string>
     <string name="casting_category">Transmisja</string>
     <string name="casting_switch_title">Bezprzewodowa transmisja</string>
     <string name="casting_passthrough_title">Przekazywanie dźwięku</string>
-    <string name="casting_passthrough_summary">Zezwól swojemu telewizorowi zarządzać renderowaniem dźwięku</string>
+    <string name="casting_passthrough_summary">Zezwól telewizorowi zarządzać renderowaniem dźwięku</string>
     <string name="casting_conversion_quality_title">Jakość konwersji</string>
     <string name="casting_conversion_quality_summary">Wybierz jakość konwersji podczas transmisji na ekranie zdalnym</string>
     <string name="casting_quality_high">Wysoka</string>
@@ -405,17 +419,17 @@
 
     <string name="performance_prefs_category">Wydajność</string>
     <string name="chroma_format">Wymuś chromę</string>
-    <string name="chroma_format_summary">RGB 32-bit: domyślna chroma\nRGB 16-bit: lepsza wydajność, ale niższa jakość\nYUV: najlepsza wydajność, ale nie działa na wszystkich urządzeniach. Tylko dla Androida 2.3 i nowszych.</string>
-    <string name="deblocking">Ustawienia filtru usuwania bloków</string>
-    <string name="deblocking_summary">Zmiana ustawienia filtru usuwania bloków. Może poprawić jakość obrazu. Tylko dla zaawansowanych użytkowników.</string>
-    <string name="deblocking_always">Pełny filtr usuwania bloków (najwolniej)</string>
-    <string name="deblocking_nonref">Średni filtr usuwania bloków</string>
-    <string name="deblocking_nonkey">Niski filtr usuwania bloków</string>
+    <string name="chroma_format_summary">RGB 32-bit: domyślna chroma\nRGB 16-bit: lepsza wydajność, ale niższa jakość\nYUV: najlepsza wydajność, ale nie działa na wszystkich urządzeniach (tylko Android 2.3 i nowsze)</string>
+    <string name="deblocking">Ustawienia filtra usuwania bloków</string>
+    <string name="deblocking_summary">Zmiana ustawienia filtra usuwania bloków może poprawić jakość obrazu\n(tylko dla zaawansowanych użytkowników)</string>
+    <string name="deblocking_always">Pełne usuwanie bloków (najwolniej)</string>
+    <string name="deblocking_nonref">Średnie usuwanie bloków</string>
+    <string name="deblocking_nonkey">Niskie usuwanie bloków</string>
     <string name="deblocking_all">Usuwanie bloków wyłączone (najszybciej)</string>
     <string name="enable_frame_skip">Pominięcie klatek</string>
-    <string name="enable_frame_skip_summary">Przyspiesza dekodowanie, ale może pogorszyć jakość obrazu.</string>
+    <string name="enable_frame_skip_summary">Przyspiesza dekodowanie, ale może obniżyć jakość obrazu</string>
     <string name="enable_time_stretching_audio">Rozciąganie czasu dźwięku</string>
-    <string name="enable_time_stretching_audio_summary">Przyspieszenie i spowolnienie dźwięku bez zmiany tonacji (wymaga szybkiego urządzenia).</string>
+    <string name="enable_time_stretching_audio_summary">Przyspieszenie i spowolnienie dźwięku bez zmiany tonacji (wymaga szybkiego urządzenia)</string>
 
     <string name="advanced_prefs_category">Zaawansowane</string>
     <string name="save_video_none">Nie zapisuj prędkości</string>
@@ -426,14 +440,14 @@
     <string name="dump_media_db">Zrób zrzut bazy danych mediów</string>
     <string name="dump_media_db_summary">Kopiuj bazę danych do katalogu głównego pamięci wewnętrznej</string>
     <string name="clear_media_db">Wyczyść bazę danych mediów</string>
-    <string name="clear_media_db_summary">Otwórz systemowe informacje VLC w celu usunięcia danych</string>
+    <string name="clear_media_database_summary">Czyści bazę danych, aby zacząć od nowa</string>
     <string name="clear_history">Wyczyść historię</string>
     <string name="media_db_cleared">Baza danych mediów została wyczyszczona!</string>
     <string name="set_locale">Ustaw język</string>
     <string name="set_locale_detail">Pozostaw puste, aby zresetować</string>
     <string name="set_locale_popup">Zamknij i uruchom ponowne VLC, aby zastosować zmiany.</string>
     <string name="network_caching">Wartość buforowania sieci</string>
-    <string name="network_caching_summary">Ilość czasu, dla buforowania pliku sieciowego (w milisekundach). Nie działa ze sprzętowym dekodowaniem. Pozostaw puste, aby zresetować.</string>
+    <string name="network_caching_summary">Ilość czasu (w milisekundach), dla buforowania pliku sieciowego. Nie działa ze sprzętowym dekodowaniem. Pozostaw puste, aby zresetować.</string>
     <string name="resume_playback_title">Wznów odtwarzanie po połączeniu</string>
     <string name="resume_playback_summary">Lub pozostań w pauzie po zakończeniu połączenia</string>
     <string name="blurred_cover_background_title">Niewyraźna okładka w tle</string>
@@ -542,7 +556,7 @@
     <string name="extension_empty">Brak elementu do wyświetlenia, przejdź do ustawień rozszerzeń, aby je pobrać.</string>
 
     <string name="opengl_title">Zastosowanie OpenGL ES2</string>
-    <string name="opengl_summary">Domyślnie OpenGL ES2, w razie potrzeby (na przykład w wideach 360°) stosowany jest w dekodowaniu oprogramowania i dekodowaniu sprzętowym.</string>
+    <string name="opengl_summary">W razie potrzeby, OpenGL ES2 jest domyślnie używany do dekodowania programowego i sprzętowego (filmy 360°)</string>
     <string name="opengl_automatic">Automatycznie</string>
     <string name="opengl_on">Wymuś włączenie</string>
     <string name="opengl_off">Wymuś wyłączenie</string>
@@ -621,7 +635,7 @@
     <string name="audio_digital_output_disabled">Wyjście dźwięku cyfrowego (przejściówka) wyłączone</string>
     <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe</string>
     <string name="audio_task_cleared_title">Zatrzymaj po zamknięciu aplikacji</string>
-    <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po usunięciu VLC z listy ostatnich aplikacji</string>
+    <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po usunięciu VLC z listy ostatnich używanych aplikacji</string>
     <string name="audio_resume_card_title">Wskazówka ostatnio odtwarzane</string>
     <string name="audio_resume_card_summary">Wyświetla wskazówkę pomagającą wznowić odtwarzanie dźwięku po uruchomieniu aplikacji</string>
     <string name="playback_rewind">Przewijanie do tyłu</string>
@@ -661,7 +675,7 @@
     <string name="videos_folders_title">Filmy grupowane według folderów</string>
     <string name="videos_groups_title">Grupy wideo</string>
     <string name="video_save_remote_setting">Czy automatycznie włączyć tryb zdalnego sterowania?</string>
-    <string name="video_save_clone_mode">Czy automatycznie włączyć tryb klonowania?</string>
+    <string name="video_save_clone_mode">Czy automatycznie włączyć tryb powielania?</string>
     <string name="video_remote_enable">Przełącz na tryb zdalnego sterowania</string>
     <string name="video_remote_disable">Powiel ekran</string>
     <string name="removed_from_playlist_anonymous">Element(y) usunięte z listy odtwarzania</string>
@@ -686,7 +700,7 @@
     <string name="popup_force_legacy_title">Wyskakujące okno \"Obraz w obrazie\"</string>
     <string name="popup_force_legacy_summary">Użyj własnego, z możliwością zmiany rozmiaru, wyskakującego okna \"Obraz w obrazie\"</string>
     <string name="device_default">Systemowy</string>
-    <string name="track_number">%s utwory</string>
+    <string name="track_number">%d utwory</string>
     <string name="jump_to">Przejdź do</string>
     <string name="show_video_thumbnails_summary">Pokaż miniaturki wideo w listach</string>
     <string name="show_video_thumbnails">Miniaturki wideo</string>
@@ -727,7 +741,38 @@
     <string name="directory_not_scanned">Ten katalog nie jest zeskanowany</string>
     <string name="scanned_directory_added">%s dodany do zeskanowanych katalogów</string>
     <string name="video_group_size_dialog_text">Liczba znaków używanych do grupowania według nazwy</string>
-    <string name="video_group_size_summary">Grupuj według %s pierwszych liter</string>
+    <string name="video_group_size_summary">Grupuj według pierwszych %s liter</string>
     <string name="video_group_size">Grupuj filmy według nazwy</string>
     <string name="url_copied_to_clipboard">Adres URL skopiowany do schowka</string>
+    <string name="share">Udostępnij</string>
+    <string name="invalid_file">Niepoprawny plik. Nie można udostępnić.</string>
+    <string name="share_file">Udostępnij %s</string>
+    <string name="share_message">Tutaj jest %s</string>
+    <string name="find_metadata">Znajdź metadane</string>
+    <string name="moviepedia_hint">Wyszukaj metadane</string>
+    <string name="moviepedia_result">Wyniki wideo</string>
+    <string name="release_date">Data wydania:</string>
+    <string name="synopsis">Streszczenie:</string>
+    <string name="directed_by">Reżyseria:</string>
+    <string name="casting">Obsada:</string>
+    <string name="produced_by">Produkcja:</string>
+    <string name="written_by">Scenariusz:</string>
+    <string name="music_by">Muzyka:</string>
+    <string name="posters">Plakaty</string>
+    <string name="backdrops">Tła</string>
+    <string name="header_tvshows">Seriale</string>
+    <string name="all_movies">Wszystkie filmy</string>
+    <string name="movie_count">%s filmy(ów)</string>
+    <string name="header_movies">Filmy</string>
+    <string name="season_number">Sezon %s</string>
+    <string name="resume_episode">Wznów (%s)</string>
+    <string name="start_over">Zacznij od początku</string>
+    <string name="next_episode">Następny epizod</string>
+    <string name="open_network_settings">Czy otworzyć ustawienia sieciowe?</string>
+    <string name="recently_played">Ostatnio odtwarzane</string>
+    <string name="recently_added">Ostatnio dodane</string>
+    <string name="playback_multiple_errors">Nie można odtwarzać kilku multimediów</string>
+    <string name="clear_media_db_warning">Utracisz historię i utworzone listy odtwarzania.\n%s</string>
+    <string name="abrepeat_add_first_marker">Ustaw punkt startowy</string>
+    <string name="abrepeat_add_second_marker">Ustaw punkt końcowy</string>
 </resources>
