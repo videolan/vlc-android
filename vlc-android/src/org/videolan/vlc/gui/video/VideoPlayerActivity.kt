@@ -69,10 +69,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.interfaces.IMedia
@@ -104,6 +101,7 @@ import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
+import java.lang.Runnable
 
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
@@ -1491,17 +1489,19 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 }
                 MediaPlayer.Event.ESAdded -> {
                     if (menuIdx == -1) {
-                        val media = medialibrary.findMedia(service.currentMediaWrapper) ?: return
+                        val mw = service.currentMediaWrapper ?: return
                         if (event.esChangedType == IMedia.Track.Type.Audio) {
                             setESTrackLists()
-                            runIO(Runnable {
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                val media = medialibrary.findMedia(mw)
                                 val audioTrack = media.getMetaLong(MediaWrapper.META_AUDIOTRACK).toInt()
                                 if (audioTrack != 0 || currentAudioTrack != -2)
                                     service.setAudioTrack(if (media.id == 0L) currentAudioTrack else audioTrack)
-                            })
+                            }
                         } else if (event.esChangedType == IMedia.Track.Type.Text) {
                             setESTrackLists()
-                            runIO(Runnable {
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                val media = medialibrary.findMedia(mw)
                                 val spuTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
@@ -1510,7 +1510,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                                 } else if (spuTrack != 0 || currentSpuTrack != -2) {
                                     service.setSpuTrack(if (media.id == 0L) currentSpuTrack else spuTrack)
                                 }
-                            })
+                            }
                         }
                     }
                     if (menuIdx == -1 && event.esChangedType == IMedia.Track.Type.Video) {
