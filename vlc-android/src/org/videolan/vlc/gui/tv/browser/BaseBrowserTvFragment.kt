@@ -92,6 +92,8 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
     private lateinit var backgroundManager: BackgroundManager
     internal lateinit var animationDelegate: MediaBrowserAnimatorDelegate
     private var setFocus = true
+    protected var restarted = false
+        private set
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = SongBrowserBinding.inflate(inflater, container, false)
@@ -200,6 +202,11 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         clearBackground(requireContext(), backgroundManager)
         super.onStart()
         setFocus = true
+    }
+
+    override fun onStop() {
+        super.onStop()
+        restarted = true
     }
 
     private fun calculateNbColumns() {

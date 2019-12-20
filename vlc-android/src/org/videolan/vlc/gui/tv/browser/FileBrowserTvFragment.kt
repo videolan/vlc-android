@@ -73,8 +73,12 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
         viewModel.currentItem = item
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
+    }
 
-        (viewModel.provider as BrowserProvider).dataset.observe(this, Observer { items ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        (viewModel.provider as BrowserProvider).dataset.observe(viewLifecycleOwner, Observer { items ->
             val lm = binding.list.layoutManager as LinearLayoutManager
             val selectedItem = lm.focusedChild
             submitList(items)
@@ -95,23 +99,21 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             headerAdapter.sortType = (viewModel as BrowserModel).sort
             val headerItems = ArrayList<String>()
             viewModel.provider.headers.run {
-                for (i in 0 until size()) {
-                    headerItems.add(valueAt(i))
-                }
+                for (i in 0 until size()) headerItems.add(valueAt(i))
             }
             headerAdapter.items = headerItems
             headerAdapter.notifyDataSetChanged()
         })
 
-        (viewModel.provider as BrowserProvider).loading.observe(this, Observer {
+        (viewModel.provider as BrowserProvider).loading.observe(viewLifecycleOwner, Observer {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
         })
 
-        (viewModel as BrowserModel).provider.liveHeaders.observe(this, Observer {
+        (viewModel as BrowserModel).provider.liveHeaders.observe(viewLifecycleOwner, Observer {
             headerAdapter.notifyDataSetChanged()
         })
 
-        (viewModel as BrowserModel).getDescriptionUpdate().observe(this, Observer { pair ->
+        (viewModel as BrowserModel).getDescriptionUpdate().observe(viewLifecycleOwner, Observer { pair ->
             if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first, pair.second)
         })
     }
@@ -185,26 +187,10 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
             favExists = withContext(Dispatchers.IO) {
-                (item as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) }
-                        ?: false
+                (item as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
             }
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
-        }
-        val favoriteClickListener: (View) -> Unit = {
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    val mw = (item as MediaWrapper)
-                    when {
-                        browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
-                        mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
-                        else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
-                    }
-                    favExists = !favExists
-                }
-                if (!isRootLevel) binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
-                binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
-            }
         }
         if (!isRootLevel) binding.favoriteButton.setOnClickListener(favoriteClickListener)
         binding.imageButtonFavorite.setOnClickListener(favoriteClickListener)
@@ -214,7 +200,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun onResume() {
         super.onResume()
         if (item == null) (viewModel.provider as BrowserProvider).browseRoot()
-        else refresh()
+        else if (restarted) refresh()
         (viewModel as IPathOperationDelegate).getAndRemoveDestination()?.let {
             browse(it, true)
         }
@@ -251,6 +237,22 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                 ?: FileUtils.getFileNameFromPath(mrl))
         ft.replace(R.id.tv_fragment_placeholder, next, media.title)
         ft.commit()
+    }
+
+    private val favoriteClickListener: (View) -> Unit = {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val mw = (item as MediaWrapper)
+                when {
+                    browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
+                    mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
+                    else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
+                }
+                favExists = !favExists
+            }
+            if (!isRootLevel) binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
+            binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv_normal else R.drawable.ic_menu_not_fav_tv_normal)
+        }
     }
 
     companion object {
