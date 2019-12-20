@@ -77,18 +77,17 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     private lateinit var shuffleBinding: PlayerOptionItemBinding
     private lateinit var sleepBinding: PlayerOptionItemBinding
 
-    private val abrObs = Observer<ABRepeat> { abr ->
+    private val abrObs = Observer<Boolean> { abr ->
         if (abr == null || !this::abrBinding.isInitialized) return@Observer
         val resid = when {
-            abr.start == -1L -> R.attr.ic_abrepeat_seta
-            abr.stop == -1L -> R.attr.ic_abrepeat_setb
-            else -> R.attr.ic_abrepeat_reset
+            abr -> R.attr.ic_abrepeat_reset
+            else -> R.attr.ic_abrepeat
         }
         abrBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, resid))
     }
 
     init {
-        service.playlistManager.abRepeat.observe(activity, abrObs)
+        service.playlistManager.abRepeatOn.observe(activity, abrObs)
     }
 
     fun setup() {
@@ -164,7 +163,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun release() {
-        service.playlistManager.abRepeat.removeObserver(abrObs)
+        service.playlistManager.abRepeatOn.removeObserver(abrObs)
     }
 
     fun onClick(option: PlayerOption) {
@@ -188,7 +187,10 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                         setShuffle()
                     }
                     ID_PASSTHROUGH -> togglePassthrough()
-                    ID_ABREPEAT -> service.playlistManager.toggleABRepeat()
+                    ID_ABREPEAT -> {
+                        hide()
+                        service.playlistManager.toggleABRepeat()
+                    }
                     else -> showFragment(option.id)
                 }
             }

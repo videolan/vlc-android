@@ -39,6 +39,7 @@
     <color name="grey900">#212121</color>
 
     <color name="playerbackground">#c0141414</color>
+    <color name="playerbackground_invert">#c0ebebeb</color>
     <color name="black_more_transparent">#88000000</color>
     <color name="status_bar_transparency">#66000000</color>
 

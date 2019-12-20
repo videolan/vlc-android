@@ -33,6 +33,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresPermission
@@ -91,6 +92,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private lateinit var pauseToPlaySmall: AnimatedVectorDrawableCompat
     private lateinit var playToPauseSmall: AnimatedVectorDrawableCompat
 
+    private lateinit var abRepeatAddMarker: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,6 +153,25 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playToPauseSmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause)!!
         pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
         onSlide(0f)
+        abRepeatAddMarker = binding.abRepeatContainer.findViewById<Button>(R.id.ab_repeat_add_marker)
+        playlistModel.service?.playlistManager?.abRepeat?.observe(this, Observer { abvalues ->
+            binding.abRepeatA = if (abvalues.start == -1L) -1F else abvalues.start / playlistModel.service!!.playlistManager.player.getLength().toFloat()
+            binding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / playlistModel.service!!.playlistManager.player.getLength().toFloat()
+            binding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
+            binding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
+            manageAbRepeatStep()
+        })
+        playlistModel.service?.playlistManager?.abRepeatOn?.observe(this, Observer {
+            binding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
+
+            manageAbRepeatStep()
+        })
+
+        abRepeatAddMarker.setOnClickListener {
+            playlistModel.service?.playlistManager?.setABRepeatValue(binding.timeline.progress.toLong())
+        }
+
+
     }
 
     override fun onResume() {
@@ -270,7 +291,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val displayTime = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else progress.timeText
             binding.headerTime.text = displayTime
             binding.time.text = displayTime
-            binding.timeline.progress = progress.time.toInt()
+            binding.timeline.progress = getTime(progress.time)
             binding.progressBar.progress = progress.time.toInt()
         }
     }
@@ -358,6 +379,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS)
     }
 
+    fun onABRepeatStopClick(v: View) {
+        playlistModel.service?.playlistManager?.clearABRepeat()
+    }
+
+    fun onABRepeatResetClick(v: View) {
+        playlistModel.service?.playlistManager?.resetABRepeatValues()
+    }
+
     override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}
 
     fun backPressed(): Boolean {
@@ -397,7 +426,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     override fun afterTextChanged(editable: Editable) {}
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -547,5 +575,53 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             hideSearchField()
             playlistModel.filter(null)
         }
+    }
+
+    private fun manageAbRepeatStep() {
+        when {
+            playlistModel.service?.playlistManager?.abRepeatOn?.value != true -> binding.abRepeatContainer.visibility = View.GONE
+            playlistModel.service?.playlistManager?.abRepeat?.value?.start != -1L && playlistModel.service?.playlistManager?.abRepeat?.value?.stop != -1L -> {
+                binding.abRepeatReset.visibility = View.VISIBLE
+                binding.abRepeatStop.visibility = View.VISIBLE
+                binding.abRepeatContainer.visibility = View.GONE
+            }
+            playlistModel.service?.playlistManager?.abRepeat?.value?.start == -1L && playlistModel.service?.playlistManager?.abRepeat?.value?.stop == -1L -> {
+                binding.abRepeatContainer.visibility = View.VISIBLE
+                abRepeatAddMarker.text = getString(R.string.abrepeat_add_first_marker)
+                binding.abRepeatReset.visibility = View.GONE
+                binding.abRepeatStop.visibility = View.GONE
+            }
+            playlistModel.service?.playlistManager?.abRepeat?.value?.start == -1L || playlistModel.service?.playlistManager?.abRepeat?.value?.stop == -1L -> {
+                abRepeatAddMarker.text = getString(R.string.abrepeat_add_second_marker)
+                binding.abRepeatContainer.visibility = View.VISIBLE
+                binding.abRepeatReset.visibility = View.GONE
+                binding.abRepeatStop.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun getTime(realTime: Long): Int {
+        playlistModel.service?.let { service ->
+            service.playlistManager.abRepeat.value?.let {
+                if (it.start != -1L && it.stop != -1L) return when {
+                    service.playlistManager.abRepeatOn.value!! -> {
+                        val start = it.start
+                        val end = it.stop
+                        when {
+                            start != -1L && realTime < start -> {
+                                start.toInt()
+                            }
+                            end != -1L && realTime > it.stop -> {
+                                end.toInt()
+                            }
+                            else -> realTime.toInt()
+                        }
+                    }
+                    else -> realTime.toInt()
+                }
+            }
+
+        }
+        return realTime.toInt()
     }
 }

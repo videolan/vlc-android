@@ -5,15 +5,23 @@
 
     <data>
 
-        <import type="org.videolan.medialibrary.Tools"/>
+        <import type="org.videolan.medialibrary.Tools" />
 
         <variable
                 name="progress"
-                type="androidx.lifecycle.LiveData&lt;org.videolan.vlc.media.Progress>"/>
+                type="androidx.lifecycle.LiveData&lt;org.videolan.vlc.media.Progress>" />
+
+        <variable
+                name="ab_repeat_a"
+                type="Float" />
+
+        <variable
+                name="ab_repeat_b"
+                type="Float" />
 
         <variable
                 name="player"
-                type="org.videolan.vlc.gui.video.VideoPlayerActivity"/>
+                type="org.videolan.vlc.gui.video.VideoPlayerActivity" />
     </data>
 
 
@@ -21,256 +29,326 @@
             android:id="@+id/progress_overlay"
             android:layout_width="800dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corners"
             android:paddingTop="@dimen/overlay_padding_top"
             android:paddingBottom="@dimen/overlay_padding_bottom"
             android:visibility="invisible"
             tools:theme="@style/Theme.VLC.TV"
             tools:visibility="visible">
 
-        <FrameLayout
-                android:id="@+id/player_overlay_time_container"
+        <include
+                layout="@layout/ab_repeat_controls"
+                android:id="@+id/ab_repeat_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                vlc:layout_constraintHorizontal_chainStyle="spread_inside"
-                vlc:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
-                vlc:layout_constraintTop_toTopOf="parent">
+                android:layout_marginTop="16dp"
+                vlc:layout_constraintStart_toStartOf="@+id/constraintLayout2" />
 
-            <TextView
-                    android:id="@+id/player_overlay_time"
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_corners"
+                android:paddingTop="@dimen/overlay_padding_top"
+                android:paddingBottom="@dimen/overlay_padding_bottom"
+                tools:theme="@style/Theme.VLC.TV"
+                tools:visibility="visible"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toBottomOf="@+id/ab_repeat_container">
+
+            <FrameLayout
+                    android:id="@+id/player_overlay_time_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    vlc:layout_constraintHorizontal_chainStyle="spread_inside"
+                    vlc:layout_constraintStart_toStartOf="parent"
+                    vlc:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                        android:id="@+id/player_overlay_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:nextFocusUp="@+id/ab_repeat_add_marker"
+                        android:onClick="@{(v) -> player.toggleTimeDisplay()}"
+                        android:text="@{Tools.millisToString(progress.time)}"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+                        android:textColor="@color/orange500"
+                        android:textSize="16sp"
+                        tools:text="0:32" />
+            </FrameLayout>
+
+            <FrameLayout
+                    android:id="@+id/player_overlay_length_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    vlc:layout_constraintEnd_toEndOf="parent"
+                    vlc:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                        android:id="@+id/player_overlay_length"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:nextFocusUp="@+id/ab_repeat_add_marker"
+                        android:onClick="@{(v) -> player.toggleTimeDisplay()}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+                        android:textSize="16sp"
+                        tools:text="56:37"
+                        vlc:length="@{progress.length}"
+                        vlc:time="@{progress.time}" />
+            </FrameLayout>
+
+            <SeekBar
+                    android:id="@+id/player_overlay_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/seek_margin_sides"
+                    android:layout_marginEnd="@dimen/seek_margin_sides"
+                    android:focusable="true"
+                    android:layoutDirection="ltr"
+                    android:maxHeight="@dimen/seekbar_height"
+                    android:minHeight="@dimen/seekbar_height"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:progress="@{player.getTime(progress.time)}"
+                    android:progressDrawable="@drawable/po_seekbar_video"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/seekbar_thumb"
+                    vlc:layout_constraintEnd_toEndOf="parent"
+                    vlc:layout_constraintStart_toStartOf="parent"
+                    vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_time_container"
+                    vlc:mediamax="@{(int)progress.length}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ab_repeat_marker_guideline_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_seekbar"
+                    vlc:layout_constraintEnd_toEndOf="@+id/player_overlay_seekbar"
+                    vlc:layout_constraintStart_toStartOf="@+id/player_overlay_seekbar">
+
+                <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/ab_repeat_marker_guideline_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        vlc:constraintPercent="@{ab_repeat_a}" />
+
+                <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/ab_repeat_marker_guideline_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        vlc:constraintPercent="@{ab_repeat_b}" />
+
+                <ImageView
+                        android:id="@+id/ab_repeat_marker_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        vlc:layout_constraintLeft_toLeftOf="@+id/ab_repeat_marker_guideline_a"
+                        vlc:layout_constraintRight_toRightOf="@+id/ab_repeat_marker_guideline_a"
+                        vlc:layout_constraintTop_toTopOf="parent"
+                        vlc:srcCompat="@drawable/ic_abrepeat_marker" />
+
+                <ImageView
+                        android:id="@+id/ab_repeat_marker_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        vlc:layout_constraintLeft_toLeftOf="@+id/ab_repeat_marker_guideline_b"
+                        vlc:layout_constraintRight_toRightOf="@+id/ab_repeat_marker_guideline_b"
+                        vlc:layout_constraintTop_toTopOf="parent"
+                        vlc:srcCompat="@drawable/ic_abrepeat_marker" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                    android:id="@+id/lock_overlay_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/lock"
+                    android:focusable="true"
+                    android:onClick="@{(v) -> player.toggleLock()}"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    tools:visibility="visible"
+                    vlc:layout_constraintBottom_toBottomOf="parent"
+                    vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_tracks"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toStartOf="parent"
+                    vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_seekbar"
+                    vlc:srcCompat="@drawable/ic_lock_player" />
+
+            <ImageView
+                    android:id="@+id/player_overlay_tracks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="@{(v) -> player.toggleTimeDisplay()}"
-                    android:text="@{Tools.millisToString(progress.time)}"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
-                    android:textColor="@color/orange500"
-                    android:textSize="16sp"
-                    tools:text="0:32"/>
-        </FrameLayout>
+                    android:clickable="true"
+                    android:contentDescription="@string/tracks"
+                    android:focusable="true"
+                    android:onClick="@{player::onAudioSubClick}"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    tools:visibility="visible"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/lock_overlay_button"
+                    vlc:layout_constraintEnd_toStartOf="@+id/playlist_previous"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toEndOf="@+id/lock_overlay_button"
+                    vlc:layout_constraintTop_toTopOf="@+id/lock_overlay_button"
+                    vlc:srcCompat="@drawable/ic_audiotrack_player" />
 
-        <FrameLayout
-                android:id="@+id/player_overlay_length_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                vlc:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="16dp"
-                vlc:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                    android:id="@+id/player_overlay_length"
+            <ImageView
+                    android:id="@+id/playlist_previous"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:onClick="@{(v) -> player.toggleTimeDisplay()}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
-                    android:textSize="16sp"
-                    tools:text="56:37"
-                    vlc:length="@{progress.length}"
-                    vlc:time="@{progress.time}"/>
-        </FrameLayout>
+                    android:clickable="true"
+                    android:contentDescription="@string/previous"
+                    android:focusable="true"
+                    android:longClickable="true"
+                    android:onClick="@{(v) -> player.previous()}"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_tracks"
+                    vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_rewind"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toEndOf="@+id/player_overlay_tracks"
+                    vlc:layout_constraintTop_toTopOf="@+id/player_overlay_tracks"
+                    vlc:srcCompat="@drawable/ic_previous_player" />
 
-        <SeekBar
-                android:id="@+id/player_overlay_seekbar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/seek_margin_sides"
-                android:layout_marginEnd="@dimen/seek_margin_sides"
-                android:focusable="true"
-                android:layoutDirection="ltr"
-                android:maxHeight="@dimen/seekbar_height"
-                android:minHeight="@dimen/seekbar_height"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:progress="@{(int)progress.time}"
-                android:progressDrawable="@drawable/po_seekbar_video"
-                android:splitTrack="false"
-                android:thumb="@drawable/seekbar_thumb"
-                vlc:layout_constraintEnd_toEndOf="parent"
-                vlc:layout_constraintStart_toStartOf="parent"
-                vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_time_container"
-                vlc:mediamax="@{(int)progress.length}"
-                />
+            <ImageView
+                    android:id="@+id/player_overlay_rewind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/playback_rewind"
+                    android:focusable="true"
+                    android:longClickable="true"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/playlist_previous"
+                    vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_play"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toEndOf="@+id/playlist_previous"
+                    vlc:layout_constraintTop_toTopOf="@+id/playlist_previous"
+                    vlc:srcCompat="@drawable/ic_rewind_player" />
 
-        <ImageView
-                android:id="@+id/lock_overlay_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/lock"
-                android:focusable="true"
-                android:onClick="@{(v) -> player.toggleLock()}"
-                android:padding="2dp"
-                android:scaleType="center"
-                tools:visibility="visible"
-                vlc:srcCompat="@drawable/ic_lock_player"
-                vlc:layout_constraintStart_toStartOf="parent"
-                vlc:layout_constraintHorizontal_bias="0.5"
-                vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_tracks"
-                android:layout_marginTop="4dp"
-                vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_seekbar"
-                android:layout_marginBottom="4dp"
-                vlc:layout_constraintBottom_toBottomOf="parent"/>
+            <ImageView
+                    android:id="@+id/player_overlay_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/play"
+                    android:focusable="true"
+                    android:onClick="@{(v) -> player.doPlayPause()}"
+                    android:onLongClick="@{player::toggleLoop}"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    tools:visibility="visible"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_rewind"
+                    vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_forward"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toEndOf="@+id/player_overlay_rewind"
+                    vlc:layout_constraintTop_toTopOf="@+id/player_overlay_rewind"
+                    vlc:srcCompat="@drawable/ic_pause_player" />
 
-        <ImageView
-                android:id="@+id/player_overlay_tracks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:contentDescription="@string/tracks"
-                android:focusable="true"
-                android:onClick="@{player::onAudioSubClick}"
-                android:padding="2dp"
-                android:scaleType="center"
-                tools:visibility="visible"
-                vlc:srcCompat="@drawable/ic_audiotrack_player"
-                vlc:layout_constraintStart_toEndOf="@+id/lock_overlay_button"
-                vlc:layout_constraintHorizontal_bias="0.5"
-                vlc:layout_constraintEnd_toStartOf="@+id/playlist_previous"
-                vlc:layout_constraintTop_toTopOf="@+id/lock_overlay_button"
-                vlc:layout_constraintBottom_toBottomOf="@+id/lock_overlay_button"/>
+            <ImageView
+                    android:id="@+id/player_overlay_forward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/playback_forward"
+                    android:focusable="true"
+                    android:longClickable="true"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_play"
+                    vlc:layout_constraintEnd_toStartOf="@+id/playlist_next"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toEndOf="@+id/player_overlay_play"
+                    vlc:layout_constraintTop_toTopOf="@+id/player_overlay_play"
+                    vlc:srcCompat="@drawable/ic_forward_player" />
 
-        <ImageView
-                android:id="@+id/playlist_previous"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:contentDescription="@string/previous"
-                android:focusable="true"
-                android:longClickable="true"
-                android:onClick="@{(v) -> player.previous()}"
-                android:padding="2dp"
-                android:scaleType="center"
-                android:visibility="gone"
-                tools:visibility="visible"
-                vlc:srcCompat="@drawable/ic_previous_player"
-                vlc:layout_constraintStart_toEndOf="@+id/player_overlay_tracks"
-                vlc:layout_constraintHorizontal_bias="0.5"
-                vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_rewind"
-                vlc:layout_constraintTop_toTopOf="@+id/player_overlay_tracks"
-                vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_tracks"/>
+            <ImageView
+                    android:id="@+id/playlist_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/next"
+                    android:focusable="true"
+                    android:longClickable="true"
+                    android:onClick="@{(v) -> player.next()}"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_forward"
+                    vlc:layout_constraintEnd_toStartOf="@+id/orientation_toggle"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toEndOf="@+id/player_overlay_forward"
+                    vlc:layout_constraintTop_toTopOf="@+id/player_overlay_forward"
+                    vlc:srcCompat="@drawable/ic_next_player" />
 
-        <ImageView
-                android:id="@+id/player_overlay_rewind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:contentDescription="@string/playback_rewind"
-                android:focusable="true"
-                android:longClickable="true"
-                android:padding="2dp"
-                android:scaleType="center"
-                android:visibility="gone"
-                tools:visibility="visible"
-                vlc:srcCompat="@drawable/ic_rewind_player"
-                vlc:layout_constraintStart_toEndOf="@+id/playlist_previous"
-                vlc:layout_constraintHorizontal_bias="0.5"
-                vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_play"
-                vlc:layout_constraintTop_toTopOf="@+id/playlist_previous"
-                vlc:layout_constraintBottom_toBottomOf="@+id/playlist_previous"/>
+            <ImageView
+                    android:id="@+id/orientation_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:focusable="true"
+                    android:padding="2dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/playlist_next"
+                    vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_adv_function"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toEndOf="@+id/playlist_next"
+                    vlc:layout_constraintTop_toTopOf="@+id/playlist_next"
+                    vlc:srcCompat="@drawable/ic_rotate_player" />
 
-        <ImageView
-                android:id="@+id/player_overlay_play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:contentDescription="@string/play"
-                android:focusable="true"
-                android:onClick="@{(v) -> player.doPlayPause()}"
-                android:onLongClick="@{player::toggleLoop}"
-                android:padding="2dp"
-                android:scaleType="fitCenter"
-                tools:visibility="visible"
-                vlc:srcCompat="@drawable/ic_pause_player"
-                vlc:layout_constraintStart_toEndOf="@+id/player_overlay_rewind"
-                vlc:layout_constraintHorizontal_bias="0.5"
-                vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_forward"
-                vlc:layout_constraintTop_toTopOf="@+id/player_overlay_rewind"
-                vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_rewind"/>
+            <ImageView
+                    android:id="@+id/player_overlay_adv_function"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:contentDescription="@string/advanced"
+                    android:focusable="true"
+                    android:onClick="@{(v) -> player.showAdvancedOptions()}"
+                    android:padding="2dp"
+                    android:scaleType="center"
+                    tools:visibility="visible"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/orientation_toggle"
+                    vlc:layout_constraintEnd_toEndOf="parent"
+                    vlc:layout_constraintHorizontal_bias="0.5"
+                    vlc:layout_constraintStart_toEndOf="@+id/orientation_toggle"
+                    vlc:layout_constraintTop_toTopOf="@+id/orientation_toggle"
+                    vlc:srcCompat="@drawable/ic_advanced_player" />
 
-        <ImageView
-                android:id="@+id/player_overlay_forward"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:contentDescription="@string/playback_forward"
-                android:focusable="true"
-                android:longClickable="true"
-                android:padding="2dp"
-                android:scaleType="center"
-                android:visibility="gone"
-                tools:visibility="visible"
-                vlc:srcCompat="@drawable/ic_forward_player"
-                vlc:layout_constraintStart_toEndOf="@+id/player_overlay_play"
-                vlc:layout_constraintHorizontal_bias="0.5"
-                vlc:layout_constraintEnd_toStartOf="@+id/playlist_next"
-                vlc:layout_constraintTop_toTopOf="@+id/player_overlay_play"
-                vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_play"/>
-
-        <ImageView
-                android:id="@+id/playlist_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:contentDescription="@string/next"
-                android:focusable="true"
-                android:longClickable="true"
-                android:onClick="@{(v) -> player.next()}"
-                android:padding="2dp"
-                android:scaleType="center"
-                android:visibility="gone"
-                tools:visibility="visible"
-                vlc:srcCompat="@drawable/ic_next_player"
-                vlc:layout_constraintStart_toEndOf="@+id/player_overlay_forward"
-                vlc:layout_constraintHorizontal_bias="0.5"
-                vlc:layout_constraintEnd_toStartOf="@+id/orientation_toggle"
-                vlc:layout_constraintTop_toTopOf="@+id/player_overlay_forward"
-                vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_forward"/>
-
-        <ImageView
-                android:id="@+id/orientation_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:focusable="true"
-                android:visibility="gone"
-                tools:visibility="visible"
-                vlc:srcCompat="@drawable/ic_rotate_player"
-                android:padding="2dp"
-                vlc:layout_constraintStart_toEndOf="@+id/playlist_next"
-                vlc:layout_constraintHorizontal_bias="0.5"
-                vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_adv_function"
-                vlc:layout_constraintTop_toTopOf="@+id/playlist_next"
-                vlc:layout_constraintBottom_toBottomOf="@+id/playlist_next"/>
-
-        <ImageView
-                android:id="@+id/player_overlay_adv_function"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:contentDescription="@string/advanced"
-                android:focusable="true"
-                android:onClick="@{(v) -> player.showAdvancedOptions()}"
-                android:scaleType="center"
-                tools:visibility="visible"
-                android:padding="2dp"
-                vlc:srcCompat="@drawable/ic_advanced_player"
-                vlc:layout_constraintStart_toEndOf="@+id/orientation_toggle"
-                vlc:layout_constraintHorizontal_bias="0.5"
-                vlc:layout_constraintEnd_toEndOf="parent"
-                vlc:layout_constraintTop_toTopOf="@+id/orientation_toggle"
-                vlc:layout_constraintBottom_toBottomOf="@+id/orientation_toggle"/>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Media control buttons -->

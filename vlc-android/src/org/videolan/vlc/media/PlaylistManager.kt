@@ -68,6 +68,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var expanding = false
     private var entryUrl : String? = null
     val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
+    val abRepeatOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
@@ -693,16 +694,27 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMediaList(): List<MediaWrapper> = mediaList.copy
 
-    fun toggleABRepeat() {
-        val time = player.getCurrentTime()
+    fun setABRepeatValue(time: Long) {
         val value = abRepeat.value ?: ABRepeat()
         when {
-            abRepeat.value?.start == -1L -> abRepeat.value = value.apply { start = time }
-            abRepeat.value?.stop == -1L && time > abRepeat.value?.start ?: 0L -> {
-                abRepeat.value = value.apply { stop = time }
-                player.seek(abRepeat.value!!.start)
+            value.start == -1L -> value.start = time
+            value.start > time -> {
+                value.stop = value.start
+                value.start = time
             }
-            else -> clearABRepeat()
+            else -> value.stop = time
+        }
+        abRepeat.value = value
+    }
+
+    fun resetABRepeatValues() {
+        abRepeat.value = ABRepeat()
+    }
+
+    fun toggleABRepeat() {
+        abRepeatOn.value = !abRepeatOn.value!!
+        if (abRepeatOn.value == false) {
+            abRepeat.value = ABRepeat()
         }
     }
 
@@ -711,6 +723,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             start = -1L
             stop = -1L
         }
+        abRepeatOn.value = false
     }
 
     override fun onEvent(event: IMedia.Event) {

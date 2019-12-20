@@ -778,4 +778,6 @@
     <string name="recently_added">Recently added</string>
     <string name="playback_multiple_errors">Multiple media cannot be played</string>
     <string name="clear_media_db_warning">You will lose your progresses and the playlists you created.\n%s</string>
+    <string name="abrepeat_add_first_marker">Set start point</string>
+    <string name="abrepeat_add_second_marker">Set end point</string>
 </resources>

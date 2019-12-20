@@ -7,6 +7,14 @@
         <variable
             name="fragment"
             type="org.videolan.vlc.gui.audio.AudioPlayer" />
+
+        <variable
+                name="ab_repeat_a"
+                type="Float" />
+
+        <variable
+                name="ab_repeat_b"
+                type="Float" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_layout"
@@ -118,18 +126,48 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
-                android:id="@+id/playlist_search"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                app:layout_constraintEnd_toStartOf="@+id/playlist_switch"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="8dp"
-                android:focusable="true"
-                android:scaleType="fitXY"
-                android:onClick="@{fragment::onSearchClick}"
-                android:contentDescription="@string/search"
-                android:src="?attr/ic_menu_search" />
+                    android:id="@+id/ab_repeat_reset"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:layout_constraintEnd_toStartOf="@+id/ab_repeat_stop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:focusable="true"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"
+                    android:onClick="@{fragment::onABRepeatResetClick}"
+                    android:contentDescription="@string/search"
+                    app:srcCompat="@drawable/ic_abrepeat_reset_marker" />
+
+            <ImageView
+                    android:id="@+id/ab_repeat_stop"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:layout_constraintEnd_toStartOf="@+id/playlist_search"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:focusable="true"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"
+                    android:onClick="@{fragment::onABRepeatStopClick}"
+                    android:contentDescription="@string/search"
+                    app:srcCompat="@drawable/ic_abrepeat_reset" />
+
+            <ImageView
+                    android:id="@+id/playlist_search"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:layout_constraintEnd_toStartOf="@+id/playlist_switch"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:focusable="true"
+                    android:scaleType="fitXY"
+                    android:onClick="@{fragment::onSearchClick}"
+                    android:contentDescription="@string/search"
+                    android:src="?attr/ic_menu_search" />
 
             <ImageView
                 android:id="@+id/playlist_switch"
@@ -189,11 +227,11 @@
                     android:id="@+id/barrier"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:barrierDirection="start"
-                    app:constraint_referenced_ids="header_time,playlist_search"
-                    tools:layout_editor_absoluteX="609dp"/>
+                    app:constraint_referenced_ids="header_time,playlist_search,ab_repeat_stop,ab_repeat_reset"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="609dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -353,5 +391,61 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout="@layout/player_options" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ab_repeat_marker_guideline_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/timeline"
+                app:layout_constraintEnd_toEndOf="@+id/timeline"
+                app:layout_constraintStart_toStartOf="@+id/timeline">
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/ab_repeat_marker_guideline_a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:constraintPercent="@{ab_repeat_a}" />
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/ab_repeat_marker_guideline_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:constraintPercent="@{ab_repeat_b}" />
+
+            <ImageView
+                    android:id="@+id/ab_repeat_marker_a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="@+id/ab_repeat_marker_guideline_a"
+                    app:layout_constraintRight_toRightOf="@+id/ab_repeat_marker_guideline_a"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_abrepeat_marker" />
+
+            <ImageView
+                    android:id="@+id/ab_repeat_marker_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="@+id/ab_repeat_marker_guideline_b"
+                    app:layout_constraintRight_toRightOf="@+id/ab_repeat_marker_guideline_b"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_abrepeat_marker" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+                android:id="@+id/ab_repeat_container"
+                layout="@layout/ab_repeat_controls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/play_pause"
+                app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

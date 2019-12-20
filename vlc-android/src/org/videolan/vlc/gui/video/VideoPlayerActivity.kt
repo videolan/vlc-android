@@ -53,6 +53,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.ViewStubCompat
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.constraintlayout.widget.Guideline
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -122,6 +125,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private lateinit var playlistSearchText: TextInputLayout
     private lateinit var playlistAdapter: PlaylistAdapter
     private var playlistModel: PlaylistModel? = null
+    private lateinit var abRepeatAddMarker: Button
 
     private lateinit var settings: SharedPreferences
 
@@ -547,6 +551,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             hudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(if (enabled) seekListener else null)
             hudBinding.orientationToggle.setOnClickListener(if (enabled) this else null)
             hudBinding.orientationToggle.setOnLongClickListener(if (enabled) this else null)
+            abRepeatAddMarker.setOnClickListener(this)
+        }
+        if (::hudRightBinding.isInitialized) {
+            hudRightBinding.abRepeatReset.setOnClickListener(this)
+            hudRightBinding.abRepeatStop.setOnClickListener(this)
         }
         UiTools.setViewOnClickListener(rendererBtn, if (enabled) this else null)
     }
@@ -1747,6 +1756,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             R.id.playlist_toggle -> togglePlaylist()
             R.id.player_overlay_forward -> touchDelegate?.seekDelta(10000)
             R.id.player_overlay_rewind -> touchDelegate?.seekDelta(-10000)
+            R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(hudBinding.playerOverlaySeekbar.progress.toLong())
+            R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues()
+            R.id.ab_repeat_stop -> service?.playlistManager?.clearABRepeat()
             R.id.player_overlay_navmenu -> showNavMenu()
             R.id.player_overlay_length, R.id.player_overlay_time -> toggleTimeDisplay()
             R.id.player_delay_minus -> if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO)
@@ -2087,6 +2099,24 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 hudBinding = DataBindingUtil.bind(findViewById(R.id.progress_overlay)) ?: return
                 hudBinding.player = this
                 hudBinding.progress = service.playlistManager.player.progress
+                abRepeatAddMarker = hudBinding.abRepeatContainer.findViewById<Button>(R.id.ab_repeat_add_marker)
+                service.playlistManager.abRepeat.observe(this, Observer { abvalues ->
+                    hudBinding.abRepeatA = if (abvalues.start == -1L) -1F else abvalues.start / service.playlistManager.player.getLength().toFloat()
+                    hudBinding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / service.playlistManager.player.getLength().toFloat()
+                    hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
+                    hudBinding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
+                    manageAbRepeatStep()
+                })
+                service.playlistManager.abRepeatOn.observe(this, Observer {
+                    hudBinding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
+                    if (it) showOverlay(true)
+                    if (it) {
+                        hudBinding.playerOverlayLength.nextFocusUpId = R.id.ab_repeat_add_marker
+                        hudBinding.playerOverlayTime.nextFocusUpId = R.id.ab_repeat_add_marker
+                    }
+
+                    manageAbRepeatStep()
+                })
                 hudBinding.lifecycleOwner = this
                 val layoutParams = hudBinding.progressOverlay.layoutParams as RelativeLayout.LayoutParams
                 if (AndroidDevices.isPhone || !AndroidDevices.hasNavBar)
@@ -2130,6 +2160,54 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 hudBinding.lifecycleOwner = this
             }
         }
+    }
+
+    private fun manageAbRepeatStep() {
+        when {
+            service?.playlistManager?.abRepeatOn?.value != true -> hudBinding.abRepeatContainer.visibility = View.GONE
+            service?.playlistManager?.abRepeat?.value?.start != -1L && service?.playlistManager?.abRepeat?.value?.stop != -1L -> {
+                hudRightBinding.abRepeatReset.visibility = View.VISIBLE
+                hudRightBinding.abRepeatStop.visibility = View.VISIBLE
+                hudBinding.abRepeatContainer.visibility = View.GONE
+            }
+            service?.playlistManager?.abRepeat?.value?.start == -1L && service?.playlistManager?.abRepeat?.value?.stop == -1L -> {
+                hudBinding.abRepeatContainer.visibility = View.VISIBLE
+                abRepeatAddMarker.text = getString(R.string.abrepeat_add_first_marker)
+                hudRightBinding.abRepeatReset.visibility = View.GONE
+                hudRightBinding.abRepeatStop.visibility = View.GONE
+            }
+            service?.playlistManager?.abRepeat?.value?.start == -1L || service?.playlistManager?.abRepeat?.value?.stop == -1L -> {
+                abRepeatAddMarker.text = getString(R.string.abrepeat_add_second_marker)
+                hudBinding.abRepeatContainer.visibility = View.VISIBLE
+                hudRightBinding.abRepeatReset.visibility = View.GONE
+                hudRightBinding.abRepeatStop.visibility = View.GONE
+            }
+        }
+    }
+
+    fun getTime(realTime: Long): Int {
+        service?.let { service ->
+            service.playlistManager.abRepeat.value?.let {
+                if (it.start != -1L && it.stop != -1L) return when {
+                    service.playlistManager.abRepeatOn.value!! -> {
+                        val start = it.start
+                        val end = it.stop
+                        when {
+                            start != -1L && realTime < start -> {
+                                start.toInt()
+                            }
+                            end != -1L && realTime > it.stop -> {
+                                end.toInt()
+                            }
+                            else -> realTime.toInt()
+                        }
+                    }
+                    else -> realTime.toInt()
+                }
+            }
+
+        }
+        return realTime.toInt()
     }
 
     /**
@@ -2798,6 +2876,16 @@ fun setPlaybackTime(view: TextView, length: Long, time: Long) {
     else
         Tools.millisToString(length)
 }
+
+@BindingAdapter("constraintPercent")
+fun setConstraintPercent(view: Guideline, percent: Float) {
+    val constraintLayout = view.parent as ConstraintLayout
+    val constraintSet = ConstraintSet()
+    constraintSet.clone(constraintLayout)
+    constraintSet.setGuidelinePercent(view.id, percent)
+    constraintSet.applyTo(constraintLayout)
+}
+
 
 @BindingAdapter("mediamax")
 fun setProgressMax(view: SeekBar, length: Long) {

@@ -52,6 +52,7 @@
         <item name="font_default">@color/grey900</item>
         <item name="font_light">@color/grey700</item>
         <item name="font_audio_light">@color/grey700</item>
+        <item name="rounded_background">@drawable/rounded_corners_white</item>
         <item name="font_actionbar">@color/orange200</item>
         <item name="font_actionbar_selected">@color/grey50</item>
         <item name="navigationview_item_color">@color/navigationview_color</item>
@@ -90,8 +91,6 @@
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
-        <item name="ic_abrepeat_seta">@drawable/ic_abrepeat_seta</item>
-        <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial</item>
         <item name="progress_background">@color/grey400</item>
@@ -171,6 +170,7 @@
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
         <item name="font_audio_light">@color/grey400</item>
+        <item name="rounded_background">@drawable/rounded_corners</item>
         <item name="font_actionbar">@color/grey600</item>
         <item name="font_actionbar_selected">@color/grey200</item>
         <item name="navigationview_item_color">@color/navigationview_color_dark</item>
@@ -208,10 +208,8 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
-        <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
-        <item name="ic_abrepeat_seta">@drawable/ic_abrepeat_seta_w</item>
-        <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb_w</item>
-        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset_w</item>
+        <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
+        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="progress_indeterminate_tint">@color/orange500</item>
         <item name="progress_background">@color/grey700</item>
@@ -392,15 +390,14 @@
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
         <item name="font_audio_light">@color/grey600</item>
+        <item name="rounded_background">@drawable/rounded_corners</item>
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/white</item>
         <item name="progress_background">@color/grey200</item>
-        <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
-        <item name="ic_abrepeat_seta">@drawable/ic_abrepeat_seta_w</item>
-        <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb_w</item>
-        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset_w</item>
+        <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
+        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="ic_crop_player">@drawable/ic_crop_player</item>
         <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500</item>

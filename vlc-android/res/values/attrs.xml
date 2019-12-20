@@ -76,6 +76,7 @@
     <attr name="ic_dial" format="reference" />
     <attr name="player_icon_color" format="reference" />
     <attr name="dialog_circle_background" format="reference"/>
+    <attr name="rounded_background" format="reference" />
 
     <attr name="shadow_top_9patch" format="reference"/>
     <attr name="shadow_bottom_9patch" format="reference"/>
