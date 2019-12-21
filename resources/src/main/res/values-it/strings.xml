@@ -46,8 +46,8 @@
     <string name="insert_next">Inserisci dopo</string>
     <string name="play_all">Riproduci tutto</string>
     <string name="append_all">Aggiungi tutto</string>
-    <string name="last_playlist">Ultima scaletta</string>
-    <string name="last_playlist_shortcut">Riprendi riproduzione</string>
+    <string name="resume_playback_short_title">Riprendi riproduzione</string>
+    <string name="resume_playback_long_title">Riprendi la riproduzione dell\'ultima scaletta</string>
     <string name="delete">Elimina</string>
     <string name="remove">Rimuovi</string>
     <string name="set_song">Imposta come suoneria</string>
@@ -93,6 +93,14 @@
     <plurals name="videos_quantity">
         <item quantity="one">1 video</item>
         <item quantity="other">%d video</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d film</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 programma televisivo</item>
+        <item quantity="other">%d programmi televisivi</item>
     </plurals>
 
     <string name="internal_memory">Memoria interna</string>
@@ -294,9 +302,9 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Raggruppa video</string>
-    <string name="video_min_group_length_summary">I video sono raggruppati se la prima lettera è la stessa.</string>
-    <string name="video_min_group_length_disable">Disabilita</string>
+    <string name="video_min_group_length_disable">Non raggruppare i video</string>
     <string name="video_min_group_length_folder">Raggruppa per cartella</string>
+    <string name="video_min_group_length_name">Raggruppa per nome</string>
     <string name="video_min_group_length_first">Solo la prima lettera</string>
     <string name="video_min_group_length_short">Numero ridotto di lettere (6)</string>
     <string name="video_min_group_length_long">Numero esteso di lettere (9)</string>
@@ -306,8 +314,6 @@
     <string name="video_transition_summary">Mostra il titolo del nuovo video nella transizione</string>
     <string name="media_seen">Mostra marcatore del video visto</string>
     <string name="media_seen_summary">Marca un video come visto quando lo riproduci fino alla fine</string>
-    <string name="force_list_portrait">Nessuna griglia in modalità verticale</string>
-    <string name="force_list_portrait_summary">Mostra un elenco di video invece della griglia in modalità verticale</string>
     <string name="force_play_all_summary">Riproduci tutti i video, iniziando con quello su che hai toccato</string>
     <string name="force_play_all_title">Modalità scaletta video</string>
     <string name="save_brightness_summary">Ricorda il livello di luminosità nel lettore video</string>
@@ -325,7 +331,6 @@
     <string name="popup_keepscreen_title">Mantieni lo schermo attivo in modalità con finestra a comparsa</string>
     <string name="popup_keepscreen_summary">Mantieni lo schermo sempre attivo quando la finestra a comparsa è visualizzata, anche se il video è in pausa.</string>
     <string name="browser_show_hidden_files_title">Mostra file nascosti</string>
-    <string name="browser_show_hidden_files_summary">Mostra file nascosti nei browser</string>
 
     <string name="subtitles_prefs_category">Sottotitoli</string>
     <string name="subtitles_size_title">Dimensione sottotitoli</string>
@@ -349,14 +354,12 @@
     <string name="lockscreen_cover_summary">Se disponibili, imposta la copertina del media corrente come sfondo del salvaschermo</string>
     <string name="playlist_animate_scroll_title">Anima lo scorrimento automatico della scaletta attuale</string>
     <string name="playlist_animate_scroll_summary">Anima lo scorrimento al cambio di media</string>
-    <string name="audio_title_alignment">Allineamento titolo audio</string>
-    <string name="audio_title_alignment_default">Predefinito</string>
-    <string name="audio_title_alignment_left">Sinistra</string>
-    <string name="audio_title_alignment_centre">Centrato</string>
-    <string name="audio_title_alignment_right">Destra</string>
-    <string name="audio_title_alignment_marquee">Testo in sovraimpressione</string>
-    <string name="audio_save_repeat_title">Salva modalità di ripetizione</string>
-    <string name="audio_save_repeat_summary">Ricorda la modalità di ripetizione quando carichi le scalette audio</string>
+    <string name="list_title_ellipsize">Titolo elenchi a riga singola con punti di sospensione </string>
+    <string name="list_title_ellipsize_default">Predefinito</string>
+    <string name="list_title_ellipsize_left">Sinistra</string>
+    <string name="list_title_ellipsize_right">Destra</string>
+    <string name="list_title_ellipsize_middle">Centro</string>
+    <string name="list_title_ellipsize_marquee">Testo in sovrimpressione</string>
     <string name="audio_boost_title">Incremento audio</string>
     <string name="audio_boost_summary">Consenti volume fino al 200%</string>
     <string name="headset_prefs_category">Cuffie</string>
@@ -385,7 +388,6 @@
     <string name="cast_performance_warning">La trasmissione di questo video richiede la conversione. Questa conversione può utilizzare tutta la potenza disponibile e scaricare rapidamente la batteria.</string>
     <string name="casting_connected_renderer">Connesso al renderer \'%1$s\'</string>
     <string name="artists_show_all_title">Mostra tutti gli artisti</string>
-    <string name="artists_show_all_summary">Mostra tutti gli artisti nell\'elenco Artisti, non solo gli artisti dell\'album</string>
 
     <string name="extensions_prefs_category">Estensioni</string>
     <string name="extensions_enable_category">Scegli le estensioni da abilitare</string>
@@ -420,7 +422,7 @@
     <string name="dump_media_db">Estrai il database multimediale</string>
     <string name="dump_media_db_summary">Copia il database nella radice dell\'archiviazione interna.</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
-    <string name="clear_media_db_summary">Accedi alle informazioni di Android VLC per cancellare i dati</string>
+    <string name="clear_media_database_summary">Cancella il database per ricominciare</string>
     <string name="clear_history">Cancella cronologia</string>
     <string name="media_db_cleared">Database multimediale cancellato!</string>
     <string name="set_locale">Imposta locale</string>
@@ -437,8 +439,7 @@
     <string name="restart_message">Le modifiche avranno effetto solo dopo il riavvio dell\'applicazione.\n\nVuoi riavviare ora?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Più tardi</string>
-    <string name="browser_show_all_title">Mostra tutti i file nel browser</string>
-    <string name="browser_show_all_summary">Visualizza i file che non sono riconosciuti come audio o video nei browser</string>
+    <string name="browser_show_all_title">Mostra tutti i file</string>
 
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verboso</string>
@@ -482,7 +483,7 @@
     <string name="audio_delay">Ritardo audio</string>
     <string name="spu_delay">Ritardo dei sottotitoli</string>
     <string name="sleep_time_not_set">non impostato</string>
-    <string name="network_shares_discovery">Ricerca condivisioni di rete in corso…</string>
+    <string name="network_shares_discovery">Ricerca condivisioni di rete</string>
     <string name="network_empty">Questa cartella è vuota.</string>
     <string name="network_connection_needed">Nessuna connessione alla rete locale.</string>
     <string name="search_hint">Cerca media</string>
@@ -496,8 +497,7 @@
     <string name="chapter">Capitolo</string>
     <string name="resume_from_position">Riprendi dall\'ultima posizione</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
-    <string name="confirm_resume_title">Chiedi conferma per riprendere</string>
-    <string name="confirm_resume_summary">Se attivata, ti sarà richiesta una conferma quando un video può essere ripreso dall\'ultima posizione</string>
+    <string name="confirm_resume_title">Riprendi video riprodotti</string>
     <string name="directory_empty">La cartella è vuota</string>
     <string name="tv_ui_title">Interfaccia Android TV</string>
     <string name="tv_ui_summary">Cambia interfaccia a tema adattato alla TV</string>
@@ -655,6 +655,7 @@
     <string name="device_dialog_title">Dispositivo esterno inserito</string>
     <string name="device_dialog_message">Hia appena collegato un nuovo dispositivo di archiviazione al tuo box TV, vuoi aprirlo con VLC?</string>
     <string name="videos_folders_title">Video per cartelle</string>
+    <string name="videos_groups_title">Gruppi video</string>
     <string name="video_save_remote_setting">Vuoi attivare automaticamente la modalità telecomando?</string>
     <string name="video_save_clone_mode">Vuoi attivare automaticamente la modalità clone?</string>
     <string name="video_remote_enable">Passa alla modalità telecomando</string>
@@ -681,7 +682,7 @@
     <string name="popup_force_legacy_title">Utilizza finestra Picture-in-Picture personalizzata</string>
     <string name="popup_force_legacy_summary">Utilizza finestra ridimensionabile Picture-in-Picture personalizzata</string>
     <string name="device_default">Predefinito del dispositivo</string>
-    <string name="track_number">%s tracce</string>
+    <string name="track_number">%d tracce</string>
     <string name="jump_to">Salta a</string>
     <string name="show_video_thumbnails_summary">Mostra le miniature dei video nell\'elenco</string>
     <string name="show_video_thumbnails">Miniature dei video</string>
@@ -696,4 +697,63 @@
     <string name="validation_delete_playlist_text">Questa azione non può essere annullata.</string>
     <string name="display_in_list">Visualizza in elenco</string>
     <string name="display_in_grid">Visualizza in griglia</string>
+    <string name="dump_db_succes">Database salvato nella radice dell\'archiviazione interna</string>
+    <string name="dump_db_failure">Salvataggio del database non riuscito</string>
+    <string name="send_crash_title">Strumento di segnalazione errori di VLC</string>
+    <string name="send_crash_description">Inviando la tua chiusura inattesa, ci aiuterai a migliorare la stabilità di VLC.</string>
+    <string name="send_crash_warning">Assicurati di rimuovere i dati sensibili che non vuoi inviare.</string>
+    <string name="dont_ask_again">Non chiedere ancora</string>
+    <string name="include_medialib">Includi il tuo database</string>
+    <string name="vlc_reporter">Strumento di segnalazione di VLC</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Benvenuto nel programma VLC beta.\nNota che questa versione potrebbe presentare dei bug.</string>
+    <string name="welcome_beta_description_bugs">Se noti un bug, segnalalo nel nostro forum o utilizzando il sistema di tracciamento dei bug.</string>
+    <string name="welcome_beta_description_crashes">Se riscontri una chiusura inattesa, utilizza l\'icona dello strumento di segnalazione di VLC per inviarcelo.</string>
+    <string name="send">Invia</string>
+    <string name="send_crash_action_title">Cosa vuoi fare?</string>
+    <string name="report_a_bug">Segnala un bug</string>
+    <string name="report_a_crash">Segnala una chiusura inattesa</string>
+    <string name="describe_crash">Descrivi come questa chiusura inattesa si è verificata</string>
+    <string name="favorite">Preferito</string>
+    <string name="always">Sempre</string>
+    <string name="never">Mai</string>
+    <string name="ask_confirmation">Chiedi conferma</string>
+    <string name="add_to_scanned">Analizza questa cartella</string>
+    <string name="directory_not_scanned">Questa cartella non è analizzata</string>
+    <string name="scanned_directory_added">%s aggiunta alle tue cartelle analizzate</string>
+    <string name="video_group_size_dialog_text">Numero di caratteri utilizzati per raggruppare per nome</string>
+    <string name="video_group_size_summary">Raggruppa con le prime %s lettere</string>
+    <string name="video_group_size">Raggruppa i video per nome</string>
+    <string name="url_copied_to_clipboard">URL copiato negli appunti</string>
+    <string name="share">Condividi</string>
+    <string name="invalid_file">File non valido. Non può essere condiviso.</string>
+    <string name="share_file">Condividi %s</string>
+    <string name="share_message">Ecco %s</string>
+    <string name="find_metadata">Trova metadati</string>
+    <string name="moviepedia_hint">Cerca metadati</string>
+    <string name="moviepedia_result">Risultati video</string>
+    <string name="release_date">Uscita:</string>
+    <string name="synopsis">Sinossi</string>
+    <string name="directed_by">Diretto da</string>
+    <string name="casting">Cast</string>
+    <string name="produced_by">Prodotto da</string>
+    <string name="written_by">Scritto da</string>
+    <string name="music_by">Musica di</string>
+    <string name="posters">Locandine</string>
+    <string name="backdrops">Fondali</string>
+    <string name="header_tvshows">Programmi televisivi</string>
+    <string name="all_movies">Tutti i film</string>
+    <string name="movie_count">%s film</string>
+    <string name="header_movies">Film</string>
+    <string name="season_number">Stagione %s</string>
+    <string name="resume_episode">Riprendi (%s)</string>
+    <string name="start_over">Ricomincia</string>
+    <string name="next_episode">Episodio successivo</string>
+    <string name="open_network_settings">Aprire le impostazioni di rete?</string>
+    <string name="recently_played">Riprodotti di recente</string>
+    <string name="recently_added">Aggiunti di recente</string>
+    <string name="playback_multiple_errors">Più media non possono essere riprodotti</string>
+    <string name="clear_media_db_warning">Perderai i tuoi progressi e le scalette create.\n%s</string>
+    <string name="abrepeat_add_first_marker">Imposta il punto iniziale</string>
+    <string name="abrepeat_add_second_marker">Imposta il punto finale</string>
 </resources>
