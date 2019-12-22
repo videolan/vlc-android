@@ -45,6 +45,8 @@
     <string name="insert_next">次に挿入</string>
     <string name="play_all">すべて再生</string>
     <string name="append_all">すべて追加</string>
+    <string name="resume_playback_short_title">再生を再開</string>
+    <string name="resume_playback_long_title">直近のプレイリストの再生を再開</string>
     <string name="delete">削除</string>
     <string name="remove">削除</string>
     <string name="set_song">着信音に設定</string>
@@ -85,6 +87,12 @@
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="other">%d ビデオ</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">%d 映画</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">%d TVショー</item>
     </plurals>
 
     <string name="internal_memory">内部メモリ</string>
@@ -405,7 +413,7 @@
     <string name="dump_media_db">メディアデータベースをダンプ</string>
     <string name="dump_media_db_summary">データベースを内部ストレージのrootへコピー</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
-    <string name="clear_media_db_summary">データをクリアするために、Android VLCのInfoにアクセス</string>
+    <string name="clear_media_database_summary">やり直すためにデータベースをクリアします</string>
     <string name="clear_history">履歴をクリア</string>
     <string name="media_db_cleared">メディアデータベースはクリアされました!</string>
     <string name="set_locale">ロケールの設定</string>
@@ -665,7 +673,7 @@
     <string name="popup_force_legacy_title">カスタマイズされたピクチャーインピクチャーポップアップを使用</string>
     <string name="popup_force_legacy_summary">サイズ変更可能なカスタマイズされたピクチャーインピクチャーポップアップを使用</string>
     <string name="device_default">デバイスのデフォルト</string>
-    <string name="track_number">%s トラック</string>
+    <string name="track_number">%d トラック</string>
     <string name="jump_to">ジャンプ先</string>
     <string name="show_video_thumbnails_summary">リストにビデオのサムネイルを表示</string>
     <string name="show_video_thumbnails">ビデオサムネイル</string>
@@ -709,4 +717,35 @@
     <string name="video_group_size_summary">最初の %s 文字でグループ化</string>
     <string name="video_group_size">名前でビデオをグループ化</string>
     <string name="url_copied_to_clipboard">クリップボードにURLがコピーされました</string>
+    <string name="share">共有</string>
+    <string name="invalid_file">ファイルが無効です。共有できません。</string>
+    <string name="share_file">%sを共有</string>
+    <string name="share_message">%sはここに</string>
+    <string name="find_metadata">メタデータの検索</string>
+    <string name="moviepedia_hint">メタデータを検索</string>
+    <string name="moviepedia_result">ビデオの検索結果</string>
+    <string name="release_date">リリース:</string>
+    <string name="synopsis">あらすじ</string>
+    <string name="directed_by">監督</string>
+    <string name="casting">キャスティング</string>
+    <string name="produced_by">プロデューサー</string>
+    <string name="written_by">原作</string>
+    <string name="music_by">音楽</string>
+    <string name="posters">ポスター</string>
+    <string name="backdrops">背景</string>
+    <string name="header_tvshows">TVショー</string>
+    <string name="all_movies">すべての映画</string>
+    <string name="movie_count">%s 映画</string>
+    <string name="header_movies">映画</string>
+    <string name="season_number">シーズン %s</string>
+    <string name="resume_episode">再開 (%s)</string>
+    <string name="start_over">やり直し</string>
+    <string name="next_episode">次のエピソード</string>
+    <string name="open_network_settings">ネットワーク設定を開きますか?</string>
+    <string name="recently_played">最近再生されたもの</string>
+    <string name="recently_added">最近追加されたもの</string>
+    <string name="playback_multiple_errors">複数のメディアは再生できません</string>
+    <string name="clear_media_db_warning">作成したプレイリストと進捗が失われます。\n%s</string>
+    <string name="abrepeat_add_first_marker">開始点を設定</string>
+    <string name="abrepeat_add_second_marker">終了点を設定</string>
 </resources>
