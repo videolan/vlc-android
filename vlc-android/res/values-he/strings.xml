@@ -48,6 +48,8 @@
     <string name="insert_next">להכניס כבא בתור</string>
     <string name="play_all">נגינת הכול</string>
     <string name="append_all">הוספת הכול</string>
+    <string name="resume_playback_short_title">להמשיך בנגינה</string>
+    <string name="resume_playback_long_title">להמשיך בנגינה של מה שהתנגן קודם</string>
     <string name="delete">מחיקה</string>
     <string name="remove">הסרה</string>
     <string name="set_song">הגדרה כצלצול</string>
@@ -103,6 +105,18 @@
         <item quantity="two">%d סרטונים</item>
         <item quantity="many">%d סרטונים</item>
         <item quantity="other">%d סרטונים</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">סרט אחד</item>
+        <item quantity="two">%d סרטים</item>
+        <item quantity="many">%d סרטים</item>
+        <item quantity="other">%d סרטים</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">סדרת טלוויזיה אחת</item>
+        <item quantity="two">%d סדרות טלוויזיה</item>
+        <item quantity="many">%d סדרות טלוויזיה</item>
+        <item quantity="other">%d סדרות טלוויזיה</item>
     </plurals>
 
     <string name="internal_memory">זיכרון פנימי</string>
@@ -426,7 +440,7 @@
     <string name="dump_media_db">ייצוא מסד נתוני המדיה</string>
     <string name="dump_media_db_summary">העתקת מסד הנתונים לשורש האחסון הפנימי</string>
     <string name="clear_media_db">מחיקת מסד נתוני המדיה</string>
-    <string name="clear_media_db_summary">יש לגשת לפרטים של Android VLC כדי לנקות נתונים</string>
+    <string name="clear_media_database_summary">מסד הנתונים יימחק כדי להתחיל מאפס</string>
     <string name="clear_history">פינוי ההיסטוריה</string>
     <string name="media_db_cleared">מסד נתוני המדיה פונה!</string>
     <string name="set_locale">הגדרת המיקום והשפה</string>
@@ -686,7 +700,7 @@
     <string name="popup_force_legacy_title">להשתמש בחלונית צפה מותאמת לתמונה בתוך תמונה</string>
     <string name="popup_force_legacy_summary">להשתמש בחלונית צפה גמישה מותאמת לתמונה בתוך תמונה</string>
     <string name="device_default">בררת המחדל של המכשיר</string>
-    <string name="track_number">%s רצועות</string>
+    <string name="track_number">%d רצועות</string>
     <string name="jump_to">קפיצה אל</string>
     <string name="show_video_thumbnails_summary">הצגת תמונות ייצוגיות של הסרטונים ברשימות</string>
     <string name="show_video_thumbnails">תמונות ייצוגיות של סרטונים</string>
@@ -730,4 +744,35 @@
     <string name="video_group_size_summary">קיבוץ לפי %s אותיות ראשונות</string>
     <string name="video_group_size">קיבוץ סרטונים לפי שם</string>
     <string name="url_copied_to_clipboard">הכתובת הועתקה ללוח הגזירים</string>
+    <string name="share">שיתוף</string>
+    <string name="invalid_file">קובץ פגום. לא ניתן לשתף</string>
+    <string name="share_file">שיתוף %s</string>
+    <string name="share_message">הנה %s</string>
+    <string name="find_metadata">איתור נתוני על</string>
+    <string name="moviepedia_hint">חיפוש נתוני על</string>
+    <string name="moviepedia_result">תוצאות וידאו</string>
+    <string name="release_date">הוצאה לאור:</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="directed_by">בוים על ידי</string>
+    <string name="casting">ליהוק</string>
+    <string name="produced_by">הופק על ידי</string>
+    <string name="written_by">נכתב על ידי</string>
+    <string name="music_by">מוזיקה על ידי</string>
+    <string name="posters">כרזות</string>
+    <string name="backdrops">תפאורות</string>
+    <string name="header_tvshows">סדרות טלוויזיה</string>
+    <string name="all_movies">כל הסרטים</string>
+    <string name="movie_count">%s סרט/ים</string>
+    <string name="header_movies">סרטים</string>
+    <string name="season_number">עונה %s</string>
+    <string name="resume_episode">להמשיך (%s)</string>
+    <string name="start_over">להתחיל מההתחלה</string>
+    <string name="next_episode">הפרק הבא</string>
+    <string name="open_network_settings">לפתוח הגדרות רשת?</string>
+    <string name="recently_played">התנגנו לאחרונה</string>
+    <string name="recently_added">נוספו לאחרונה</string>
+    <string name="playback_multiple_errors">לא ניתן לנגן מגוון פריטי מדיה יחדיו</string>
+    <string name="clear_media_db_warning">המיקומים בהם הפסקת לשמוע פרטי מדיה מסוימים ורשימות נגינה שיצרת יאבדו.\n%s</string>
+    <string name="abrepeat_add_first_marker">הגדרת נקודת התחלה</string>
+    <string name="abrepeat_add_second_marker">הגדרת נקודת סיום</string>
 </resources>
