@@ -431,16 +431,16 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
             is Init -> {
                 if (medialibrary.isInitiated) {
                     exitCommand()
-                    return@actor
+                } else {
+                    val context = this@MediaParsingService
+                    var shouldInit = !dbExists()
+                    val initCode = medialibrary.init(context)
+                    if (initCode != Medialibrary.ML_INIT_ALREADY_INITIALIZED) {
+                        shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET) or (initCode == Medialibrary.ML_INIT_DB_CORRUPTED)
+                        if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
+                        else exitCommand()
+                    } else exitCommand()
                 }
-                val context = this@MediaParsingService
-                var shouldInit = !dbExists()
-                val initCode = medialibrary.init(context)
-                if (initCode != Medialibrary.ML_INIT_ALREADY_INITIALIZED) {
-                    shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET) or (initCode == Medialibrary.ML_INIT_DB_CORRUPTED)
-                    if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
-                    else exitCommand()
-                } else exitCommand()
             }
             is StartScan -> {
                 scanActivated = true
