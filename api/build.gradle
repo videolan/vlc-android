@@ -51,7 +51,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     api "androidx.appcompat:appcompat:$rootProject.ext.androidxAppcompatVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
 }

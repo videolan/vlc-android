@@ -252,6 +252,7 @@ dependencies {
     signedReleaseImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
     implementation project(':api')
     implementation project(':tools')
+    implementation project(':resources')
 
     // AppCompat
     implementation "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"

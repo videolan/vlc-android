@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="org.videolan.vlc"
-          android:installLocation="auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.videolan.vlc"
+    android:installLocation="auto">
 
     <uses-sdk tools:overrideLibrary="android.support.media.tv, androidx.tvprovider"/>
 
     <uses-permission
-            android:name="android.permission.READ_LOGS"
-            android:maxSdkVersion="18"/> <!-- android:maxSdkVersion="15" -->
+        android:name="android.permission.READ_LOGS"
+        android:maxSdkVersion="18"/> <!-- android:maxSdkVersion="15" -->
     <!-- vibration on audioplayer buttons long press -->
     <uses-permission android:name="android.permission.VIBRATE"/> <!-- used for setting ringtone -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/> <!-- STORAGE -->
@@ -28,24 +28,24 @@
 
     <!-- Custom permissions for our content provider -->
     <permission
-            android:name="${applicationId}.MEDIA"
-            android:protectionLevel="signature" />
+        android:name="${applicationId}.MEDIA"
+        android:protectionLevel="signature" />
 
     <!-- Declare permissions used by our app -->
     <uses-permission android:name="${applicationId}.MEDIA" />
 
     <uses-feature
-            android:name="android.software.leanback"
-            android:required="false"/>
+        android:name="android.software.leanback"
+        android:required="false"/>
     <uses-feature
-            android:name="android.hardware.touchscreen"
-            android:required="false"/>
+        android:name="android.hardware.touchscreen"
+        android:required="false"/>
     <uses-feature
-            android:name="android.hardware.microphone"
-            android:required="false"/>
+        android:name="android.hardware.microphone"
+        android:required="false"/>
     <uses-feature
-            android:name="android.hardware.bluetooth"
-            android:required="false"/>
+        android:name="android.hardware.bluetooth"
+        android:required="false"/>
 
     <application
         android:name=".VLCApplication"
@@ -67,29 +67,29 @@
 
         <!-- Enable VLC in Samsung multiwindow mode -->
         <meta-data
-                android:name="com.samsung.android.sdk.multiwindow.enable"
-                android:value="true"/>
+            android:name="com.samsung.android.sdk.multiwindow.enable"
+            android:value="true"/>
         <!-- Enable VLC in LG split window mode -->
         <meta-data
-                android:name="com.lge.support.SPLIT_WINDOW"
-                android:value="true"/>
+            android:name="com.lge.support.SPLIT_WINDOW"
+            android:value="true"/>
         <!-- Android auto -->
         <meta-data
-                android:name="com.google.android.gms.car.application"
-                android:resource="@xml/automotive_app_desc"/>
+            android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc"/>
         <meta-data
-                android:name="com.google.android.gms.car.notification.SmallIcon"
-                android:resource="@drawable/icon"/>
+            android:name="com.google.android.gms.car.notification.SmallIcon"
+            android:resource="@drawable/icon"/>
         <meta-data
-                android:name="android.max_aspect"
-                android:value="3"/>
+            android:name="android.max_aspect"
+            android:value="3"/>
         <meta-data
             android:name="android.allow_multiple_resumed_activities"
             android:value="true" />
 
         <activity
-                android:name=".StartActivity"
-                android:theme="@style/Theme.VLC.Transparent.NoUI">
+            android:name=".StartActivity"
+            android:theme="@style/Theme.VLC.Transparent.NoUI">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -98,8 +98,8 @@
             </intent-filter>
 
             <meta-data
-                    android:name="android.app.shortcuts"
-                    android:resource="@xml/shortcuts"/>
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"/>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -108,8 +108,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <data
-                        android:host="${applicationId}"
-                        android:scheme="vlclauncher"/>
+                    android:host="${applicationId}"
+                    android:scheme="vlclauncher"/>
             </intent-filter>
 
             <!-- This filter captures protocols without type info -->
@@ -458,8 +458,8 @@
             </intent-filter>
 
             <meta-data
-                    android:name="android.app.searchable"
-                    android:resource="@xml/searchable"/>
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
 
             <intent-filter>
                 <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH"/>
@@ -468,43 +468,43 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".gui.MainActivity"
-                android:icon="@drawable/icon"
-                android:label="@string/app_name"
-                android:launchMode="singleTask"
-                android:theme="@style/Theme.VLC"
-                android:windowSoftInputMode="adjustPan">
+            android:name=".gui.MainActivity"
+            android:icon="@drawable/icon"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.VLC"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
-                    android:name="android.app.searchable"
-                    android:resource="@xml/searchable"/>
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
         </activity>
         <activity
-                android:name=".gui.onboarding.OnboardingActivity"
-                android:theme="@style/Theme.VLC.Onboarding"/>
+            android:name=".gui.onboarding.OnboardingActivity"
+            android:theme="@style/Theme.VLC.Onboarding"/>
         <activity
-                android:name=".gui.SecondaryActivity"
-                android:theme="@style/Theme.VLC"
-                android:windowSoftInputMode="adjustPan"/>
+            android:name=".gui.SecondaryActivity"
+            android:theme="@style/Theme.VLC"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
-                android:name=".gui.PlaylistActivity"
-                android:theme="@style/Theme.VLC"/>
+            android:name=".gui.PlaylistActivity"
+            android:theme="@style/Theme.VLC"/>
         <activity
-                android:name=".gui.InfoActivity"
-                android:theme="@style/Theme.VLC.Info"/>
+            android:name=".gui.InfoActivity"
+            android:theme="@style/Theme.VLC.Info"/>
         <activity
-                android:name=".gui.SearchActivity"
-                android:theme="@style/Theme.VLC"/>
+            android:name=".gui.SearchActivity"
+            android:theme="@style/Theme.VLC"/>
         <activity
-                android:name=".gui.MoviepediaActivity"
-                android:theme="@style/Theme.VLC" />
+            android:name=".gui.MoviepediaActivity"
+            android:theme="@style/Theme.VLC" />
         <activity
-                android:name=".gui.SendCrashActivity"
-                android:label="@string/vlc_reporter"
-                android:theme="@style/Theme.VLC.SendCrashDialog"
-                android:icon="@mipmap/ic_launcher_reporter"
-                android:launchMode="singleTask"
-                android:excludeFromRecents="true"
-                android:enabled="false">
+            android:name=".gui.SendCrashActivity"
+            android:label="@string/vlc_reporter"
+            android:theme="@style/Theme.VLC.SendCrashDialog"
+            android:icon="@mipmap/ic_launcher_reporter"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -512,29 +512,29 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".gui.BetaWelcomeActivity"
-                android:theme="@style/Theme.VLC.SendCrashDialog"/>
+            android:name=".gui.BetaWelcomeActivity"
+            android:theme="@style/Theme.VLC.SendCrashDialog"/>
         <activity
-                android:name=".gui.browser.FilePickerActivity"
-                android:theme="@style/Theme.VLC.PickerDialog"/>
+            android:name=".gui.browser.FilePickerActivity"
+            android:theme="@style/Theme.VLC.PickerDialog"/>
         <activity android:name=".gui.CompatErrorActivity"/>
         <activity
-                android:name=".gui.preferences.PreferencesActivity"
-                android:theme="@style/Theme.VLC"/>
+            android:name=".gui.preferences.PreferencesActivity"
+            android:theme="@style/Theme.VLC"/>
         <activity
-                android:name=".gui.video.VideoPlayerActivity"
-                android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode|keyboard|keyboardHidden|navigation"
-                android:exported="true"
-                android:finishOnTaskLaunch="true"
-                android:launchMode="singleTask"
-                android:resizeableActivity="true"
-                android:supportsPictureInPicture="true"
-                android:theme="@style/Theme.VLC.Player"/>
+            android:name=".gui.video.VideoPlayerActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode|keyboard|keyboardHidden|navigation"
+            android:exported="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleTask"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
+            android:theme="@style/Theme.VLC.Player"/>
         <activity
-                android:name=".gui.DialogActivity"
-                android:configChanges="orientation|screenSize"
-                android:theme="@style/VLCTransparentTheme"
-                android:label="" />
+            android:name=".gui.DialogActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/VLCTransparentTheme"
+            android:label="" />
 
         <service android:name=".extensions.ExtensionManagerService"/>
         <service android:name=".PlaybackService">
@@ -545,9 +545,9 @@
         <service android:name=".MediaParsingService"/>
 
         <receiver
-                android:name=".widget.VLCAppWidgetProviderWhite"
-                android:exported="false"
-                android:label="@string/widget_name_w">
+            android:name=".widget.VLCAppWidgetProviderWhite"
+            android:exported="false"
+            android:label="@string/widget_name_w">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="${applicationId}.widget.INIT"/>
@@ -557,13 +557,13 @@
             </intent-filter>
 
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/widget_provider_w"/>
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider_w"/>
         </receiver>
         <receiver
-                android:name=".widget.VLCAppWidgetProviderBlack"
-                android:exported="false"
-                android:label="@string/widget_name_b">
+            android:name=".widget.VLCAppWidgetProviderBlack"
+            android:exported="false"
+            android:label="@string/widget_name_b">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="${applicationId}.widget.INIT"/>
@@ -573,8 +573,8 @@
             </intent-filter>
 
             <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/widget_provider_b"/>
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider_b"/>
         </receiver>
         <receiver android:name="androidx.media.session.MediaButtonReceiver">
             <intent-filter>
@@ -583,85 +583,99 @@
         </receiver>
 
         <activity
-                android:name=".gui.video.benchmark.BenchActivity"
-                android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
-                android:exported="true"
-                android:launchMode="singleInstance"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.Player"/> <!-- TV components -->
+            android:name=".gui.video.benchmark.BenchActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.Player"
+            tools:ignore="LockedOrientationActivity" /> <!-- TV components -->
         <activity
-                android:name=".gui.tv.MainTvActivity"
-                android:label="@string/app_name"
-                android:launchMode="singleInstance"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"/>
+            android:name=".gui.tv.MainTvActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
-                android:name=".gui.tv.dialogs.ConfirmationTvActivity"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"/>
+            android:name=".gui.tv.dialogs.ConfirmationTvActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
-                android:name=".gui.tv.DetailsActivity"
-                android:exported="true"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.Leanback.Details"/>
+            android:name=".gui.tv.DetailsActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Leanback.Details"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".gui.tv.MoviepediaTvshowDetailsActivity"
-                android:exported="true"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.Leanback.Details" />
+            android:name=".gui.tv.MoviepediaTvshowDetailsActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Leanback.Details"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".gui.tv.browser.VerticalGridActivity"
-                android:exported="true"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"/>
+            android:name=".gui.tv.browser.VerticalGridActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".gui.tv.details.MediaListActivity"
-                android:exported="true"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"/>
+            android:name=".gui.tv.details.MediaListActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".gui.tv.browser.TVActivity"
-                android:exported="true"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.Black"/>
+            android:name=".gui.tv.browser.TVActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.Black"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".gui.tv.MoviepediaTvActivity"
-                android:exported="true"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV" />
+            android:name=".gui.tv.MoviepediaTvActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".gui.tv.SearchActivity"
-                android:exported="true"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"/>
+            android:name=".gui.tv.SearchActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
-                android:name=".gui.tv.audioplayer.AudioPlayerActivity"
-                android:allowTaskReparenting="true"
-                android:exported="true"
-                android:launchMode="singleTask"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"/>
+            android:name=".gui.tv.audioplayer.AudioPlayerActivity"
+            android:allowTaskReparenting="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".gui.tv.preferences.PreferencesActivity"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.Leanback.Preferences"/>
+            android:name=".gui.tv.preferences.PreferencesActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.Leanback.Preferences"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".gui.tv.AboutActivity"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"/>
+            android:name=".gui.tv.AboutActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name=".gui.tv.LicenceActivity"
-                android:screenOrientation="landscape"
-                android:theme="@style/Theme.VLC.TV"/>
+            android:name=".gui.tv.LicenceActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
 
         <service
-                android:name=".RecommendationsService"
-                android:exported="false"/>
+            android:name=".RecommendationsService"
+            android:exported="false"/>
 
         <receiver
-                android:name=".TvReceiver"
-                android:enabled="true"
-                android:exported="true">
+            android:name=".TvReceiver"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.media.tv.action.PREVIEW_PROGRAM_ADDED_TO_WATCH_NEXT"/>
@@ -673,9 +687,9 @@
             </intent-filter>
         </receiver>
         <receiver
-                android:name=".StoragesMonitor"
-                android:enabled="false"
-                android:exported="true">
+            android:name=".StoragesMonitor"
+            android:enabled="false"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_MOUNTED"/>
                 <action android:name="android.intent.action.MEDIA_REMOVED"/>
@@ -687,38 +701,38 @@
         </receiver>
 
         <provider
-                android:name=".FileProvider"
-                android:authorities="${applicationId}.thumbprovider"
-                android:exported="true"/>
+            android:name=".FileProvider"
+            android:authorities="${applicationId}.thumbprovider"
+            android:exported="true"/>
         <provider
-                android:name="androidx.core.content.FileProvider"
-                android:authorities="${applicationId}.provider"
-                android:exported="false"
-                android:grantUriPermissions="true">
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
-                    android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/provider_paths"/>
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
         </provider>
         <!-- Provides search suggestions for keywords against video meta data. -->
         <provider
-                android:name=".TVSearchProvider"
-                android:authorities="@string/tv_provider_authority"
-                android:exported="true">
+            android:name=".TVSearchProvider"
+            android:authorities="@string/tv_provider_authority"
+            android:exported="true">
             <path-permission
-                    android:pathPrefix="/search"
-                    android:readPermission="android.permission.GLOBAL_SEARCH" />
+                android:pathPrefix="/search"
+                android:readPermission="android.permission.GLOBAL_SEARCH" />
         </provider>
 
         <service
-                android:name=".PreviewVideoInputService"
-                android:permission="android.permission.BIND_TV_INPUT">
+            android:name=".PreviewVideoInputService"
+            android:permission="android.permission.BIND_TV_INPUT">
             <intent-filter>
                 <action android:name="android.media.tv.TvInputService"/>
             </intent-filter>
 
             <meta-data
-                    android:name="android.media.tv.input"
-                    android:resource="@xml/previewinputservice"/>
+                android:name="android.media.tv.input"
+                android:resource="@xml/previewinputservice"/>
         </service>
     </application>
 
