@@ -1,4 +1,11 @@
-Changes between 3.2.3 and 3.2.4:
+Changes between 3.2.5 and 3.2.6:
+------------------
+
+Application:
+ * Fix crash at startup
+ * Fix PiP aspect ratio on video change
+
+Changes between 3.2.4 and 3.2.5:
 ------------------
 
 Application:
@@ -6,6 +13,15 @@ Application:
  * Fix video groups thumbnail not loading
  * Crash & ANR fixes
 
+Changes between 3.2.3 and 3.2.4:
+------------------
+
+Application:
+ * Fix double tap timing issue
+ * Streams: Open RTSP streams with video player
+
+TV:
+ * Do not show protocol in files browser
 
 Changes between 3.2.2 and 3.2.3:
 ------------------
