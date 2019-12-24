@@ -1613,6 +1613,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         return AndroidUtil.isNougatOrLater && super.isInPictureInPictureMode()
     }
 
+    override fun setPictureInPictureParams(params: PictureInPictureParams) {
+        try {
+            super.setPictureInPictureParams(params)
+        } catch (e: IllegalArgumentException) {
+            if (BuildConfig.DEBUG) throw e
+        }
+    }
+
     override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode)
         service?.mediaplayer?.updateVideoSurfaces()
