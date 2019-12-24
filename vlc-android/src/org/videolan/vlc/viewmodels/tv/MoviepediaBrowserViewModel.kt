@@ -32,8 +32,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.vlc.database.models.MediaMetadataType
-import org.videolan.vlc.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.database.models.MediaMetadataType
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.vlc.providers.MoviepediaMovieProvider
 import org.videolan.vlc.util.HEADER_TV_SHOW
 import org.videolan.vlc.viewmodels.CallBackDelegate

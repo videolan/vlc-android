@@ -43,16 +43,11 @@ private const val EXTERNAL_SUBTITLES_TABLE_NAME = "external_subtitles_table"
 private const val SLAVES_TABLE_NAME = "SLAVES_table"
 private const val FAV_TABLE_NAME = "fav_table"
 private const val CUSTOM_DIRECTORY_TABLE_NAME = "CustomDirectory"
-private const val MEDIA_METADATA_TABLE_NAME = "media_metadata"
-private const val MEDIA_METADATA_IMAGE_TABLE_NAME = "media_metadata_image"
-private const val MEDIA_METADATA_PERSON_TABLE_NAME = "media_metadata_person"
-private const val MEDIA_METADATA_PERSON_JOIN_TABLE_NAME = "media_person_join"
 
 fun dropUnnecessaryTables(database: SupportSQLiteDatabase) {
     database.execSQL("DROP TABLE IF EXISTS $DIR_TABLE_NAME;")
     database.execSQL("DROP TABLE IF EXISTS $MEDIA_TABLE_NAME;")
     database.execSQL("DROP TABLE IF EXISTS $PLAYLIST_MEDIA_TABLE_NAME;")
-    database.execSQL("DROP TABLE IF EXISTS $PLAYLIST_TABLE_NAME;")
     database.execSQL("DROP TABLE IF EXISTS $PLAYLIST_TABLE_NAME;")
     database.execSQL("DROP TABLE IF EXISTS $SEARCHHISTORY_TABLE_NAME;")
     database.execSQL("DROP TABLE IF EXISTS $MRL_TABLE_NAME;")
@@ -204,16 +199,6 @@ val migration_28_29 = object:Migration(28, 29) {
         // Drop old External Subtitle Table
         database.execSQL("DROP TABLE IF EXISTS $EXTERNAL_SUBTITLES_TABLE_NAME;")
         database.execSQL("CREATE TABLE IF NOT EXISTS `${EXTERNAL_SUBTITLES_TABLE_NAME}` (`idSubtitle` TEXT NOT NULL, `subtitlePath` TEXT NOT NULL, `mediaPath` TEXT NOT NULL, `subLanguageID` TEXT NOT NULL, `movieReleaseName` TEXT NOT NULL, PRIMARY KEY(`mediaPath`, `idSubtitle`))")
-    }
-}
-
-val migration_29_30 = object : Migration(29, 30) {
-    override fun migrate(database: SupportSQLiteDatabase) {
-        // Drop old External Subtitle Table
-        database.execSQL("CREATE TABLE `${MEDIA_METADATA_TABLE_NAME}` (`moviepedia_id` TEXT NOT NULL, `ml_id` INTEGER, `type` INTEGER NOT NULL, `title` TEXT NOT NULL, `summary` TEXT NOT NULL, `genres` TEXT NOT NULL, `releaseDate` INTEGER, `countries` TEXT NOT NULL, `season` INTEGER, `episode` INTEGER, `current_poster` TEXT NOT NULL, `current_backdrop` TEXT NOT NULL, `show_id` TEXT, `has_cast` INTEGER NOT NULL, `insertDate` INTEGER NOT NULL, PRIMARY KEY(`moviepedia_id`), FOREIGN KEY(`show_id`) REFERENCES `media_metadata`(`moviepedia_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )")
-        database.execSQL("CREATE TABLE `${MEDIA_METADATA_IMAGE_TABLE_NAME}` (`url` TEXT NOT NULL, `media_id` TEXT NOT NULL, `image_type` INTEGER NOT NULL, `image_language` TEXT NOT NULL, PRIMARY KEY(`url`, `media_id`), FOREIGN KEY(`media_id`) REFERENCES `media_metadata`(`moviepedia_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )")
-        database.execSQL("CREATE TABLE `${MEDIA_METADATA_PERSON_TABLE_NAME}` (`moviepedia_id` TEXT NOT NULL, `name` TEXT NOT NULL, `image` TEXT, PRIMARY KEY(`moviepedia_id`))")
-        database.execSQL("CREATE TABLE `${MEDIA_METADATA_PERSON_JOIN_TABLE_NAME}` (`mediaId` TEXT NOT NULL, `personId` TEXT NOT NULL, `type` INTEGER NOT NULL, PRIMARY KEY(`mediaId`, `personId`, `type`), FOREIGN KEY(`mediaId`) REFERENCES `media_metadata`(`moviepedia_id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`personId`) REFERENCES `media_metadata_person`(`moviepedia_id`) ON UPDATE NO ACTION ON DELETE NO ACTION )")
     }
 }
 

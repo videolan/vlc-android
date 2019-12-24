@@ -38,7 +38,7 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.vlc.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
@@ -48,7 +48,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.repository.MediaMetadataRepository
+import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.vlc.util.*
 
 private const val NUM_ITEMS_PREVIEW = 5

@@ -27,8 +27,8 @@ package org.videolan.vlc.providers
 import android.content.Context
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.vlc.database.models.MediaMetadataWithImages
-import org.videolan.vlc.repository.MediaMetadataRepository
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.vlc.util.getFromMl
 import org.videolan.vlc.viewmodels.Season
 

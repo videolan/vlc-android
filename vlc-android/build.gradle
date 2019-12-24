@@ -55,7 +55,6 @@ android {
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
         resValue 'string', 'tv_provider_authority', "${applicationId}.tv"
-        resValue 'string', 'moviepedia_api_url', getNextApiUrl(project)
 
         testInstrumentationRunner "org.videolan.vlc.MultidexTestRunner"
         // The following argument makes the Android Test Orchestrator run its
@@ -287,7 +286,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
     implementation "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
-    implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
 
     // Tests
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
@@ -308,12 +306,10 @@ dependencies {
     testImplementation "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
     testImplementation "org.robolectric:robolectric:$rootProject.ext.robolectric"
     androidTestImplementation 'androidx.test:rules:1.3.0-alpha01'
+    implementation project(path: ':moviepedia')
 }
 
 
-static def getNextApiUrl(project) {
-    if (project.hasProperty('moviepedia_api_url')) return project.properties['moviepedia_api_url'] else return  "https://localhost/"
-}
 static def buildTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }

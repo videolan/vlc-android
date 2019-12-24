@@ -30,9 +30,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.videolan.vlc.moviepedia.models.identify.IdentifyResult
-import org.videolan.vlc.moviepedia.models.identify.Media
-import org.videolan.vlc.repository.MoviepediaApiRepository
+import org.videolan.moviepedia.models.identify.IdentifyResult
+import org.videolan.moviepedia.models.identify.Media
+import org.videolan.moviepedia.repository.MoviepediaApiRepository
 import videolan.org.commontools.LiveEvent
 
 class MoviepediaModel : ViewModel() {

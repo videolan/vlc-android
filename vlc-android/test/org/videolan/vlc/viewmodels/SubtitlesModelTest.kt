@@ -12,6 +12,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import org.videolan.tools.FileUtils
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.R
 import org.videolan.vlc.api.NoConnectivityException
@@ -20,7 +21,6 @@ import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.OpenSubtitleRepository
-import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.TestUtil
 import org.videolan.vlc.util.applyMock

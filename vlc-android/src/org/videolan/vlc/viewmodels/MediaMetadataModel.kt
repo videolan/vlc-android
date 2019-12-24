@@ -32,11 +32,11 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import org.videolan.vlc.database.models.*
-import org.videolan.vlc.moviepedia.MoviepediaIndexer
+import org.videolan.moviepedia.MoviepediaIndexer
+import org.videolan.moviepedia.database.models.*
 import org.videolan.vlc.providers.MoviepediaTvshowProvider
-import org.videolan.vlc.repository.MediaMetadataRepository
-import org.videolan.vlc.repository.MediaPersonRepository
+import org.videolan.moviepedia.repository.MediaMetadataRepository
+import org.videolan.moviepedia.repository.MediaPersonRepository
 import org.videolan.vlc.util.getFromMl
 
 class MediaMetadataModel(private val context: Context, mlId: Long? = null, moviepediaId: String? = null) : ViewModel(), CoroutineScope by MainScope() {

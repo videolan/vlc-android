@@ -35,8 +35,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.R
-import org.videolan.vlc.database.models.MediaMetadataType
-import org.videolan.vlc.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.database.models.MediaMetadataType
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler

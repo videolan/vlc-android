@@ -45,6 +45,7 @@ import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.tools.isStarted
+import org.videolan.tools.wrap
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapCache
@@ -85,7 +86,6 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
             packageManager.setComponentEnabledSetting(ComponentName(this, SendCrashActivity::class.java),
                     if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
             SettingsMigration.migrateSettings(this)
-            moviepediaApiUrl = getString(R.string.moviepedia_api_url)
         }).start()
         if (AndroidUtil.isOOrLater)
             NotificationHelper.createNotificationChannels(this@VLCApplication)
@@ -114,7 +114,6 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
     }
 
     companion object {
-        lateinit var moviepediaApiUrl: String
         private const val TAG = "VLC/VLCApplication"
 
         const val ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication"

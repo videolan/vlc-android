@@ -40,8 +40,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MoviepediaActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
-import org.videolan.vlc.moviepedia.models.identify.Media
-import org.videolan.vlc.moviepedia.models.identify.getAllResults
+import org.videolan.moviepedia.models.identify.Media
+import org.videolan.moviepedia.models.identify.getAllResults
 import org.videolan.vlc.viewmodels.MoviepediaModel
 
 open class MoviepediaActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionListener {

@@ -26,7 +26,7 @@ android {
 dependencies {
     api "androidx.appcompat:appcompat:$rootProject.ext.androidxAppcompatVersion"
     api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"

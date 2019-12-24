@@ -14,8 +14,8 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.database.models.MediaMetadata
-import org.videolan.vlc.database.models.getYear
+import org.videolan.moviepedia.database.models.MediaMetadata
+import org.videolan.moviepedia.database.models.getYear
 import kotlin.math.floor
 
 private const val LENGTH_WEEK = 7 * 24 * 60 * 60

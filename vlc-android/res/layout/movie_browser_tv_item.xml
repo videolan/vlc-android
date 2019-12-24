@@ -33,7 +33,7 @@
 
         <import type="android.text.TextUtils" />
 
-        <import type="org.videolan.vlc.database.models.MediaMetadataWithImages" />
+        <import type="org.videolan.moviepedia.database.models.MediaMetadataWithImages" />
 
 
         <variable

@@ -30,7 +30,7 @@
 
         <variable
                 name="item"
-                type="org.videolan.vlc.database.models.MediaMetadata" />
+                type="org.videolan.moviepedia.database.models.MediaMetadata" />
 
 
     </data>

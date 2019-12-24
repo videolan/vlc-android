@@ -45,7 +45,7 @@
 package org.videolan.vlc.gui.tv
 
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter
-import org.videolan.vlc.database.models.getYear
+import org.videolan.moviepedia.database.models.getYear
 import org.videolan.vlc.viewmodels.MediaMetadataFull
 
 class TvShowDescriptionPresenter : AbstractDetailsDescriptionPresenter() {

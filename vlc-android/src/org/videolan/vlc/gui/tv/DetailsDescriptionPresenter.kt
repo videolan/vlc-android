@@ -22,9 +22,8 @@ package org.videolan.vlc.gui.tv
 
 import android.net.Uri
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter
-import org.videolan.vlc.database.models.MediaMetadata
-import org.videolan.vlc.database.models.MediaMetadataWithImages
-import org.videolan.vlc.database.models.subtitle
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.database.models.subtitle
 
 class DetailsDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
 

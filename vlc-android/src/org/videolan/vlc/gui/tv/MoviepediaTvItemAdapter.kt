@@ -43,7 +43,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.vlc.databinding.MovieBrowserTvItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMoviepediaIconDrawable

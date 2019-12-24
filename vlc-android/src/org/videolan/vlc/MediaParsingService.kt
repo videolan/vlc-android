@@ -49,7 +49,7 @@ import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.medialibrary.stubs.StubMedialibrary
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.moviepedia.MoviepediaIndexer
+import org.videolan.moviepedia.MoviepediaIndexer
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.Util.readAsset

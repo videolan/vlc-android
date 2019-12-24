@@ -34,12 +34,12 @@ import android.provider.BaseColumns
 import android.util.Log
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.vlc.database.models.MediaMetadataType
-import org.videolan.vlc.database.models.getYear
-import org.videolan.vlc.database.models.subtitle
-import org.videolan.vlc.database.models.tvEpisodeSubtitle
+import org.videolan.moviepedia.database.models.MediaMetadataType
+import org.videolan.moviepedia.database.models.getYear
+import org.videolan.moviepedia.database.models.subtitle
+import org.videolan.moviepedia.database.models.tvEpisodeSubtitle
+import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.vlc.providers.MoviepediaTvshowProvider
-import org.videolan.vlc.repository.MediaMetadataRepository
 import org.videolan.vlc.util.ThumbnailsProvider
 
 class TVSearchProvider : ContentProvider() {

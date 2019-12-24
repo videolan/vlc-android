@@ -47,9 +47,10 @@ import org.videolan.tools.dp
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.*
-import org.videolan.vlc.moviepedia.models.identify.Media
-import org.videolan.vlc.moviepedia.models.identify.getCardSubtitle
-import org.videolan.vlc.moviepedia.models.identify.getImageUri
+import org.videolan.moviepedia.models.identify.Media
+import org.videolan.moviepedia.models.identify.getCardSubtitle
+import org.videolan.moviepedia.models.identify.getImageUri
+import org.videolan.tools.getLocaleLanguages
 import org.videolan.vlc.util.*
 
 @ObsoleteCoroutinesApi

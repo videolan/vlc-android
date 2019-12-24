@@ -29,7 +29,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.vlc.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.Settings
 

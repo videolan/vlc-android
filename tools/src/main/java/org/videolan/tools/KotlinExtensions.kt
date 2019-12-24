@@ -1,15 +1,19 @@
 package org.videolan.tools
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.res.Resources
+import android.net.ConnectivityManager
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.CancellationException
@@ -24,6 +28,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.yield
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
+
 
 fun <T> List<T>.getposition(target: T): Int {
     for ((index, item) in withIndex()) if (item == target) return index
@@ -109,4 +114,8 @@ fun <E> SendChannel<E>.safeOffer(value: E) = !isClosedForSend && try {
     offer(value)
 } catch (e: CancellationException) {
     false
+}
+@SuppressLint("MissingPermission")
+fun Context.isConnected(): Boolean {
+    return (getSystemService(CONNECTIVITY_SERVICE) as? ConnectivityManager?)?.activeNetworkInfo?.isConnected == true
 }

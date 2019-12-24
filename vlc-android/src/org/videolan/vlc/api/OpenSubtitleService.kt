@@ -4,6 +4,8 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import org.videolan.tools.ConnectivityInterceptor
+import org.videolan.vlc.VLCApplication
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
@@ -18,7 +20,7 @@ private fun buildClient() =
                 .baseUrl(BASE_URL)
                 .client(OkHttpClient.Builder()
                         .addInterceptor(UserAgentInterceptor(USER_AGENT))
-                        .addInterceptor(ConnectivityInterceptor())
+                        .addInterceptor(ConnectivityInterceptor(VLCApplication.appContext))
                         .readTimeout(10, TimeUnit.SECONDS)
                         .connectTimeout(5, TimeUnit.SECONDS)
                         .build())
@@ -35,16 +37,6 @@ private class UserAgentInterceptor(val userAgent: String): Interceptor {
     }
 }
 
-
-
-
-class NoConnectivityException : IOException() {
-
-    override val message: String?
-        get() = "No connectivity exception"
-}
-
 interface OpenSubtitleClient {
-
     companion object { val instance: IOpenSubtitleService by lazy { buildClient() } }
 }

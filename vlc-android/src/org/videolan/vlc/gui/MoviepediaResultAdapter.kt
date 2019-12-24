@@ -31,12 +31,12 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.moviepedia.models.identify.Media
+import org.videolan.moviepedia.models.identify.getImageUri
+import org.videolan.moviepedia.models.identify.getYear
+import org.videolan.tools.getLocaleLanguages
 import org.videolan.vlc.databinding.MoviepediaItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.vlc.moviepedia.models.identify.Media
-import org.videolan.vlc.moviepedia.models.identify.getImageUri
-import org.videolan.vlc.moviepedia.models.identify.getYear
-import org.videolan.vlc.util.getLocaleLanguages
 
 class MoviepediaResultAdapter internal constructor(private val layoutInflater: LayoutInflater) : RecyclerView.Adapter<MoviepediaResultAdapter.ViewHolder>() {
 

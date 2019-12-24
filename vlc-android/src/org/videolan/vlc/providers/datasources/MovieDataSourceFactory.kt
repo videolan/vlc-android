@@ -28,9 +28,9 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.vlc.database.models.MediaMetadataType
-import org.videolan.vlc.database.models.MediaMetadataWithImages
-import org.videolan.vlc.repository.MediaMetadataRepository
+import org.videolan.moviepedia.database.models.MediaMetadataType
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.repository.MediaMetadataRepository
 
 class MovieDataSourceFactory(private val context: Context, private val sort: Pair<Int, Boolean>, private val metadataType: MediaMetadataType) : DataSource.Factory<Int, MediaMetadataWithImages>() {
     private val dataSource = MutableLiveData<DataSource<Int, MediaMetadataWithImages>>()

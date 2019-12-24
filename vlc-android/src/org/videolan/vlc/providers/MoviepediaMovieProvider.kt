@@ -29,8 +29,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations.switchMap
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import org.videolan.vlc.database.models.MediaMetadataType
-import org.videolan.vlc.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.database.models.MediaMetadataType
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.vlc.providers.datasources.MovieDataSourceFactory
 
 class MoviepediaMovieProvider(private val context: Context, private val mediaType: MediaMetadataType) : MoviepediaProvider(context) {

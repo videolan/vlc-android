@@ -61,9 +61,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.dp
 import org.videolan.vlc.R
-import org.videolan.vlc.database.models.MediaImage
-import org.videolan.vlc.database.models.MediaImageType
-import org.videolan.vlc.database.models.Person
+import org.videolan.moviepedia.database.models.MediaImage
+import org.videolan.moviepedia.database.models.MediaImageType
+import org.videolan.moviepedia.database.models.Person
 import org.videolan.vlc.gui.helpers.downloadIcon
 
 @ObsoleteCoroutinesApi

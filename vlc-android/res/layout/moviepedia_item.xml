@@ -32,7 +32,7 @@
 
         <variable
                 name="item"
-                type="org.videolan.vlc.moviepedia.models.identify.Media" />
+                type="org.videolan.moviepedia.models.identify.Media" />
 
         <variable
                 name="handler"

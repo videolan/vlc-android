@@ -59,9 +59,9 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.NetworkObserver
 import org.videolan.vlc.R
-import org.videolan.vlc.moviepedia.MoviepediaIndexer
-import org.videolan.vlc.moviepedia.models.identify.Media
-import org.videolan.vlc.moviepedia.models.identify.getAllResults
+import org.videolan.moviepedia.MoviepediaIndexer
+import org.videolan.moviepedia.models.identify.Media
+import org.videolan.moviepedia.models.identify.getAllResults
 import org.videolan.vlc.util.manageHttpException
 import org.videolan.vlc.viewmodels.MoviepediaModel
 

@@ -60,9 +60,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.dp
 import org.videolan.vlc.R
-import org.videolan.vlc.database.models.MediaMetadataWithImages
-import org.videolan.vlc.database.models.Person
-import org.videolan.vlc.database.models.tvEpisodeSubtitle
+import org.videolan.moviepedia.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.database.models.Person
+import org.videolan.moviepedia.database.models.tvEpisodeSubtitle
 import org.videolan.vlc.gui.helpers.downloadIcon
 import org.videolan.vlc.util.generateResolutionClass
 

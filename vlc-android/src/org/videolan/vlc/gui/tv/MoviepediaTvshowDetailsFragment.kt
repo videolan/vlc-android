@@ -55,8 +55,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
+import org.videolan.moviepedia.database.models.*
 import org.videolan.vlc.R
-import org.videolan.vlc.database.models.*
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.HttpImageLoader
