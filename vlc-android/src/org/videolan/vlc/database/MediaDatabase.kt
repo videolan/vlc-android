@@ -36,7 +36,7 @@ import org.videolan.vlc.util.AndroidDevices
 
 private const val DB_NAME = "vlc_database"
 
-@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class], version = 30)
+@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class], version = 29)
 @TypeConverters(Converters::class)
 abstract class MediaDatabase: RoomDatabase() {
     abstract fun externalSubDao(): ExternalSubDao
