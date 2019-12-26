@@ -213,7 +213,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         showContext(activity, ctxReceiver, position, item?.title ?: "", flags)
     }
 
-    private fun doUpdate() {
+    private suspend fun doUpdate() {
         if (activity === null || (isVisible && playlistModel.switchToVideo())) return
         binding.playlistPlayasaudioOff.visibility = if (playlistModel.videoTrackCount > 0) View.VISIBLE else View.GONE
         binding.audioMediaSwitcher.updateMedia(this, playlistModel.service)
@@ -291,28 +291,26 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private fun updateBackground() {
+    private suspend fun updateBackground() {
         if (settings.getBoolean("blurred_cover_background", true)) {
-            launch {
-                val mw = playlistModel.currentMediaWrapper
-                if (!isStarted() || mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
-                currentCoverArt = mw.artworkMrl
-                if (TextUtils.isEmpty(mw.artworkMrl)) {
-                    setDefaultBackground()
-                } else {
-                    val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else activity?.getScreenWidth()
-                            ?: return@launch
-                    val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
-                    if (!isStarted()) return@launch
-                    if (blurredCover !== null) {
-                        val activity = activity as? AudioPlayerContainerActivity ?: return@launch
-                        binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
-                        binding.backgroundView.setImageBitmap(blurredCover)
-                        binding.backgroundView.visibility = View.VISIBLE
-                        binding.songsList.setBackgroundResource(0)
-                        binding.header.setBackgroundColor(UiTools.getColorFromAttribute(requireContext(), R.attr.audio_player_transparent))
-                    } else setDefaultBackground()
-                }
+            val mw = playlistModel.currentMediaWrapper
+            if (!isStarted() || mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return
+            currentCoverArt = mw.artworkMrl
+            if (TextUtils.isEmpty(mw.artworkMrl)) {
+                setDefaultBackground()
+            } else {
+                val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else activity?.getScreenWidth()
+                        ?: return
+                val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
+                if (!isStarted()) return
+                if (blurredCover !== null) {
+                    val activity = activity as? AudioPlayerContainerActivity ?: return
+                    binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
+                    binding.backgroundView.setImageBitmap(blurredCover)
+                    binding.backgroundView.visibility = View.VISIBLE
+                    binding.songsList.setBackgroundResource(0)
+                    binding.header.setBackgroundColor(UiTools.getColorFromAttribute(requireContext(), R.attr.audio_player_transparent))
+                } else setDefaultBackground()
             }
         }
     }
@@ -383,7 +381,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                     it.uri, playlistModel.currentMediaPosition)
             else if (hasMedia()) {
                 it.removeFlags(AbstractMediaWrapper.MEDIA_FORCE_AUDIO)
-                playlistModel.switchToVideo()
+                launch(start = CoroutineStart.UNDISPATCHED) { playlistModel.switchToVideo() }
             }
         }
     }

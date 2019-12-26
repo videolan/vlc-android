@@ -109,21 +109,20 @@ class AudioPlayerActivity : BaseTvActivity() {
 
         wasPlaying = state.playing
 
-        val mw = model.currentMediaWrapper
-        if (mw != null && !mw.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
-            model.switchToVideo()
-            finish()
-            return
-        }
         binding.mediaTitle.text = state.title
         binding.mediaArtist.text = state.artist
         binding.buttonShuffle.setImageResource(if (shuffling)
             R.drawable.ic_shuffle_on
         else
             R.drawable.ic_shuffle)
+        val mw = model.currentMediaWrapper
         if (mw == null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return
         currentCoverArt = mw.artworkMrl
-        updateBackground()
+        launch {
+            if (model.switchToVideo()) finish()
+            else updateBackground()
+        }
+
     }
 
     private fun updateBackground() = launch {
