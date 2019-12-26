@@ -355,7 +355,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     it.uri, playlistModel.currentMediaPosition)
             else if (hasMedia()) {
                 it.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                playlistModel.switchToVideo()
+                lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) { playlistModel.switchToVideo() }
             }
         }
     }

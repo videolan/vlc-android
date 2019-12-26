@@ -23,9 +23,11 @@ package org.videolan.vlc.viewmodels
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
@@ -182,7 +184,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback,
 
     fun load(medialist: List<MediaWrapper>, position: Int) = service?.load(medialist, position)
 
-    fun switchToVideo() : Boolean {
+    suspend fun switchToVideo() : Boolean {
         service?.apply {
             if (PlaylistManager.hasMedia() && !isVideoPlaying && !hasRenderer()) {
                 currentMediaWrapper?.run {
@@ -196,7 +198,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback,
         return false
     }
 
-    fun canSwitchToVideo() = service?.playlistManager?.player?.canSwitchToVideo() ?: false
+    suspend fun canSwitchToVideo() = withContext(Dispatchers.IO) { service?.playlistManager?.player?.canSwitchToVideo() ?: false }
 
     fun toggleABRepeat() = service?.playlistManager?.toggleABRepeat()
 

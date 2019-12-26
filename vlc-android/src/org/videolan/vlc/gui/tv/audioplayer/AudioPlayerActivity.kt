@@ -38,10 +38,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.TvAudioPlayerBinding
@@ -113,20 +110,21 @@ class AudioPlayerActivity : BaseTvActivity() {
         wasPlaying = state.playing
 
         val mw = model.currentMediaWrapper
-        if (mw != null && !mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
-            model.switchToVideo()
-            finish()
-            return
+        lifecycleScope.launch {
+            if (model.switchToVideo()) {
+                finish()
+                return@launch
+            }
+            binding.mediaTitle.text = state.title
+            binding.mediaArtist.text = state.artist
+            binding.buttonShuffle.setImageResource(if (shuffling)
+                R.drawable.ic_shuffle_on
+            else
+                R.drawable.ic_shuffle)
+            if (mw == null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
+            currentCoverArt = mw.artworkMrl
+            updateBackground()
         }
-        binding.mediaTitle.text = state.title
-        binding.mediaArtist.text = state.artist
-        binding.buttonShuffle.setImageResource(if (shuffling)
-            R.drawable.ic_shuffle_on
-        else
-            R.drawable.ic_shuffle)
-        if (mw == null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return
-        currentCoverArt = mw.artworkMrl
-        updateBackground()
     }
 
     private fun updateBackground() = lifecycleScope.launchWhenStarted {
