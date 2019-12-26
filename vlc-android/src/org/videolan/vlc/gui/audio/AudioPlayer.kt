@@ -26,6 +26,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -66,7 +67,9 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.PREF_PLAYLIST_TIPS_SHOWN
+import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
 
@@ -267,11 +270,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         val repeatType = playlistModel.repeatType
         if (previousRepeatType == repeatType) return
         when (repeatType) {
-            REPEAT_ONE -> {
+            PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 binding.repeat.setImageResource(R.drawable.ic_repeat_one)
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_single)
             }
-            REPEAT_ALL -> {
+            PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 binding.repeat.setImageResource(R.drawable.ic_repeat_all)
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_all)
             }
@@ -331,10 +334,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onRepeatClick(view: View) {
-        when (playlistModel.repeatType) {
-            REPEAT_NONE -> playlistModel.repeatType = REPEAT_ALL
-            REPEAT_ALL -> playlistModel.repeatType = REPEAT_ONE
-            else -> playlistModel.repeatType = REPEAT_NONE
+        playlistModel.repeatType = when (playlistModel.repeatType) {
+            PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
+            PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE
+            else -> PlaybackStateCompat.REPEAT_MODE_NONE
         }
         updateRepeatMode()
     }

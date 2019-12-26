@@ -27,7 +27,6 @@ android {
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.media:media:$rootProject.ext.androidxMediaVersion"
 }
 repositories {
     mavenCentral()

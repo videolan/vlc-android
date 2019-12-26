@@ -26,6 +26,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.media.session.PlaybackStateCompat
 import android.text.TextUtils
 import android.view.InputDevice
 import android.view.KeyEvent
@@ -40,9 +41,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.REPEAT_ALL
-import org.videolan.resources.REPEAT_NONE
-import org.videolan.resources.REPEAT_ONE
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.TvAudioPlayerBinding
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -50,7 +48,9 @@ import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
@@ -243,16 +243,16 @@ class AudioPlayerActivity : BaseTvActivity() {
 
     private fun updateRepeatMode() {
         when (model.repeatType) {
-            REPEAT_NONE -> {
-                model.repeatType = REPEAT_ALL
+            PlaybackStateCompat.REPEAT_MODE_NONE -> {
+                model.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all)
             }
-            REPEAT_ALL -> {
-                model.repeatType = REPEAT_ONE
+            PlaybackStateCompat.REPEAT_MODE_ALL -> {
+                model.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one)
             }
-            REPEAT_ONE -> {
-                model.repeatType = REPEAT_NONE
+            PlaybackStateCompat.REPEAT_MODE_ONE -> {
+                model.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
                 binding.buttonRepeat.setImageResource(R.drawable.ic_repeat)
             }
         }

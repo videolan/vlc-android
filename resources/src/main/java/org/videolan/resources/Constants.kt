@@ -21,8 +21,6 @@
 @file:JvmName("Constants")
 package org.videolan.resources
 
-import android.support.v4.media.session.PlaybackStateCompat
-
 // StartActivity
 const val PREF_FIRST_RUN = "first_run"
 const val EXTRA_FIRST_RUN = "extra_first_run"
@@ -60,9 +58,6 @@ val ACTION_REMOTE_GENERIC = "remote.".buildPkgString()
 const val ACTION_CAR_MODE_EXIT = "android.app.action.EXIT_CAR_MODE"
 const val PLAYLIST_TYPE_AUDIO = 0
 const val PLAYLIST_TYPE_VIDEO = 1
-const val REPEAT_NONE = PlaybackStateCompat.REPEAT_MODE_NONE
-const val REPEAT_ONE = PlaybackStateCompat.REPEAT_MODE_ONE
-const val REPEAT_ALL = PlaybackStateCompat.REPEAT_MODE_ALL
 const val MEDIALIBRARY_PAGE_SIZE = 500
 
 // MediaParsingService

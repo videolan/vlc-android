@@ -262,20 +262,20 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
 
     private fun setRepeatMode() {
         when (service.repeatType) {
-            REPEAT_NONE -> {
+            PlaybackStateCompat.REPEAT_MODE_NONE -> {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_one)
-                service.repeatType = REPEAT_ONE
+                service.repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
             }
-            REPEAT_ONE -> if (service.hasPlaylist()) {
+            PlaybackStateCompat.REPEAT_MODE_ONE -> if (service.hasPlaylist()) {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat_all)
-                service.repeatType = REPEAT_ALL
+                service.repeatType = PlaybackStateCompat.REPEAT_MODE_ALL
             } else {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
-                service.repeatType = REPEAT_NONE
+                service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
             }
-            REPEAT_ALL -> {
+            PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 repeatBinding.optionIcon.setImageResource(R.drawable.ic_repeat)
-                service.repeatType = REPEAT_NONE
+                service.repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
             }
         }
     }
@@ -358,8 +358,8 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         repeatBinding = binding
         AppScope.launch(Dispatchers.Main) {
             repeatBinding.optionIcon.setImageResource(when (service.repeatType) {
-                REPEAT_ONE -> R.drawable.ic_repeat_one
-                REPEAT_ALL -> R.drawable.ic_repeat_all
+                PlaybackStateCompat.REPEAT_MODE_ONE -> R.drawable.ic_repeat_one
+                PlaybackStateCompat.REPEAT_MODE_ALL -> R.drawable.ic_repeat_all
                 else -> R.drawable.ic_repeat
             })
         }

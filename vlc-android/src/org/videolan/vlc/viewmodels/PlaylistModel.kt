@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
@@ -35,7 +36,6 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.PlaylistFilterDelegate
-import org.videolan.resources.REPEAT_NONE
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -166,7 +166,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback,
         get() = service?.canShuffle() ?: false
 
     var repeatType : Int
-        get() = service?.repeatType ?: REPEAT_NONE
+        get() = service?.repeatType ?: PlaybackStateCompat.REPEAT_MODE_NONE
         set(value) {
             service?.repeatType = value
         }

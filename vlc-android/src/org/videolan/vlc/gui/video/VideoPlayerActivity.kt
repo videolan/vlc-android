@@ -33,6 +33,7 @@ import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
+import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -1817,11 +1818,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     fun toggleLoop(v: View) = service?.run {
-        if (repeatType == REPEAT_ONE) {
+        if (repeatType == PlaybackStateCompat.REPEAT_MODE_ONE) {
             showInfo(getString(R.string.repeat), 1000)
-            repeatType = REPEAT_NONE
+            repeatType = PlaybackStateCompat.REPEAT_MODE_NONE
         } else {
-            repeatType = REPEAT_ONE
+            repeatType = PlaybackStateCompat.REPEAT_MODE_ONE
             showInfo(getString(R.string.repeat_single), 1000)
         }
         true

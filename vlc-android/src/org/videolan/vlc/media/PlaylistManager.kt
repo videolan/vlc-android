@@ -21,7 +21,9 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.*
+import org.videolan.resources.EXIT_PLAYER
+import org.videolan.resources.PLAYLIST_TYPE_AUDIO
+import org.videolan.resources.PLAY_FROM_SERVICE
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -55,7 +57,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var prevIndex = -1
     private var previous = Stack<Int>()
     var stopAfter = -1
-    var repeating = REPEAT_NONE
+    var repeating = PlaybackStateCompat.REPEAT_MODE_NONE
     var shuffling = false
     var videoBackground = false
         private set
@@ -82,7 +84,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun isValidPosition(position: Int) = position in 0 until mediaList.size()
 
     init {
-        repeating = settings.getInt(PLAYLIST_REPEAT_MODE_KEY, REPEAT_NONE)
+        repeating = settings.getInt(PLAYLIST_REPEAT_MODE_KEY, PlaybackStateCompat.REPEAT_MODE_NONE)
     }
 
     /**
@@ -195,7 +197,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     fun next(force : Boolean = false) {
         val size = mediaList.size()
-        if (force || repeating != REPEAT_ONE) {
+        if (force || repeating != PlaybackStateCompat.REPEAT_MODE_ONE) {
             previous.push(currentIndex)
             currentIndex = nextIndex
             if (size == 0 || currentIndex < 0 || currentIndex >= size) {
@@ -537,7 +539,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 // If we've played all songs already in shuffle, then either
                 // reshuffle or stop (depending on RepeatType).
                 if (previous.size + 1 == size) {
-                    if (repeating == REPEAT_NONE) {
+                    if (repeating == PlaybackStateCompat.REPEAT_MODE_NONE) {
                         nextIndex = -1
                         return
                     } else {
@@ -555,7 +557,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 if (currentIndex > 0) prevIndex = currentIndex - 1
                 nextIndex = when {
                     currentIndex + 1 < size -> currentIndex + 1
-                    repeating == REPEAT_NONE -> -1
+                    repeating == PlaybackStateCompat.REPEAT_MODE_NONE -> -1
                     else -> 0
                 }
             }

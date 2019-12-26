@@ -872,9 +872,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
         pscb.setState(state, time, playlistManager.player.getRate())
         val repeatType = playlistManager.repeating
-        if (repeatType != REPEAT_NONE || hasNext())
+        if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasNext())
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-        if (repeatType != REPEAT_NONE || hasPrevious() || isSeekable)
+        if (repeatType != PlaybackStateCompat.REPEAT_MODE_NONE || hasPrevious() || isSeekable)
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
         if (isSeekable)
             actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
@@ -884,7 +884,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         pscb.setActions(actions)
         mediaSession.setRepeatMode(repeatType)
         mediaSession.setShuffleMode(if (isShuffling) PlaybackStateCompat.SHUFFLE_MODE_ALL else PlaybackStateCompat.SHUFFLE_MODE_NONE)
-        val repeatResId = if (repeatType == REPEAT_ALL) R.drawable.ic_auto_repeat_pressed else if (repeatType == REPEAT_ONE) R.drawable.ic_auto_repeat_one_pressed else R.drawable.ic_auto_repeat_normal
+        val repeatResId = if (repeatType == PlaybackStateCompat.REPEAT_MODE_ALL) R.drawable.ic_auto_repeat_pressed else if (repeatType == PlaybackStateCompat.REPEAT_MODE_ONE) R.drawable.ic_auto_repeat_one_pressed else R.drawable.ic_auto_repeat_normal
         if (playlistManager.hasPlaylist())
             pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), if (isShuffling) R.drawable.ic_auto_shuffle_pressed else R.drawable.ic_auto_shuffle_normal)
         pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId)

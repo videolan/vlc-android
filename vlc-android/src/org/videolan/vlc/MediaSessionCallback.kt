@@ -10,12 +10,12 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
-import org.videolan.resources.REPEAT_ALL
-import org.videolan.resources.REPEAT_NONE
-import org.videolan.resources.REPEAT_ONE
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.MediaSessionBrowser
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.VoiceSearchParams
+import org.videolan.vlc.util.awaitMedialibraryStarted
+import org.videolan.vlc.util.getFromMl
 import java.util.*
 import kotlin.math.min
 
@@ -47,10 +47,10 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         when (action) {
             "shuffle" -> playbackService.shuffle()
             "repeat" -> playbackService.repeatType = when (playbackService.repeatType) {
-                REPEAT_NONE -> REPEAT_ALL
-                REPEAT_ALL -> REPEAT_ONE
-                REPEAT_ONE -> REPEAT_NONE
-                else -> REPEAT_NONE
+                PlaybackStateCompat.REPEAT_MODE_NONE -> PlaybackStateCompat.REPEAT_MODE_ALL
+                PlaybackStateCompat.REPEAT_MODE_ALL -> PlaybackStateCompat.REPEAT_MODE_ONE
+                PlaybackStateCompat.REPEAT_MODE_ONE -> PlaybackStateCompat.REPEAT_MODE_NONE
+                else -> PlaybackStateCompat.REPEAT_MODE_NONE
             }
         }
     }
