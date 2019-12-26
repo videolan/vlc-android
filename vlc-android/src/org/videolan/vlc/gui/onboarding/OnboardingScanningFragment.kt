@@ -8,10 +8,10 @@ import android.widget.CheckBox
 import android.widget.Switch
 import androidx.fragment.app.Fragment
 import org.videolan.vlc.R
-import org.videolan.vlc.util.KEY_MEDIALIBRARY_SCAN
-import org.videolan.vlc.util.ML_SCAN_OFF
-import org.videolan.vlc.util.ML_SCAN_ON
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
+import org.videolan.tools.ML_SCAN_OFF
+import org.videolan.tools.ML_SCAN_ON
+import org.videolan.tools.Settings
 
 class OnboardingScanningFragment : Fragment() {
     private lateinit var scanningFolderCheckbox: CheckBox

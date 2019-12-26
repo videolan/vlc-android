@@ -44,6 +44,7 @@ import androidx.annotation.WorkerThread;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.tools.SettingsKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
@@ -52,8 +53,7 @@ import org.videolan.vlc.extensions.ExtensionsManager;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.util.Settings;
-import org.videolan.vlc.util.SettingsKt;
+import org.videolan.tools.Settings;
 
 import java.util.ArrayList;
 import java.util.List;

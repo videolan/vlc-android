@@ -36,6 +36,8 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.KEY_FOLDER
 import org.videolan.resources.KEY_GROUP
+import org.videolan.tools.RESULT_RESCAN
+import org.videolan.tools.RESULT_RESTART
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment

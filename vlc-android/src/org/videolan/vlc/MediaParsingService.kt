@@ -51,6 +51,10 @@ import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.moviepedia.MoviepediaIndexer
 import org.videolan.resources.*
+import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
+import org.videolan.tools.ML_SCAN_OFF
+import org.videolan.tools.ML_SCAN_ON
+import org.videolan.tools.Settings
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.Util.readAsset

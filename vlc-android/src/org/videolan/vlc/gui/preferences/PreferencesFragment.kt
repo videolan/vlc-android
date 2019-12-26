@@ -37,9 +37,9 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.PLAYBACK_HISTORY
+import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.RESULT_RESTART
+import org.videolan.tools.RESULT_RESTART
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

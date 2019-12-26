@@ -27,7 +27,7 @@ import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 

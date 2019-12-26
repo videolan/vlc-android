@@ -24,7 +24,7 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.resources.EXTRA_TARGET
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi

@@ -46,7 +46,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.SearchActivity
 import org.videolan.vlc.gui.tv.dialogs.ConfirmationTvActivity
 import org.videolan.vlc.gui.tv.registerTimeView
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.vlc.util.getContextWithLocale
 
 private const val TAG = "VLC/BaseTvActivity"

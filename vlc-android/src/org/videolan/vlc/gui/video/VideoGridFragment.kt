@@ -42,6 +42,8 @@ import org.videolan.medialibrary.media.FolderImpl
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding

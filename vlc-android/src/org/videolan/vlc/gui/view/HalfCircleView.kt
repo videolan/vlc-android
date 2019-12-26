@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import org.videolan.vlc.R
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 
 class HalfCircleView : View {
     private var isLeft: Boolean = true

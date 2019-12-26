@@ -37,8 +37,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VlcLoginDialogBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.LOGIN_STORE
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.LOGIN_STORE
+import org.videolan.tools.Settings
 
 class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), View.OnFocusChangeListener {
 

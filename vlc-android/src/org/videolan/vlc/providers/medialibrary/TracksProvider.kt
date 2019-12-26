@@ -25,7 +25,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 

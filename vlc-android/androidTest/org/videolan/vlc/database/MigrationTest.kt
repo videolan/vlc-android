@@ -40,7 +40,7 @@ import org.videolan.vlc.database.helpers.*
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.models.Slave
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.resources.TYPE_NETWORK_FAV
 import org.videolan.vlc.util.TestUtil
 import org.videolan.vlc.util.getValue

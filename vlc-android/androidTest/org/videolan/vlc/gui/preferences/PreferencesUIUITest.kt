@@ -8,6 +8,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.equalTo
 import org.junit.Rule
 import org.junit.Test
+import org.videolan.tools.*
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools

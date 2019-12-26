@@ -50,6 +50,8 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.resources.*
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.Settings
 import org.videolan.vlc.util.*
 
 private const val NUM_ITEMS_PREVIEW = 5

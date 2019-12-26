@@ -47,7 +47,7 @@ import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.vlc.util.getScreenWidth
 import kotlin.math.max
 import kotlin.math.min

@@ -52,7 +52,7 @@ import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.resources.UPDATE_SELECTION
 import java.util.*
 

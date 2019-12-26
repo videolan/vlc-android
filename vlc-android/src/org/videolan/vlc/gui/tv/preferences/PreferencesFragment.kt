@@ -33,6 +33,9 @@ import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.tools.KEY_VIDEO_APP_SWITCH
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.SCREEN_ORIENTATION
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.util.*

@@ -44,6 +44,7 @@ import org.videolan.libvlc.MediaFactory
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.tools.wrap
 import org.videolan.vlc.gui.SendCrashActivity

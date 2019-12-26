@@ -28,6 +28,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
+import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
+import org.videolan.tools.Settings
 
 private const val CURRENT_VERSION = 1
 

@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.tools.FileUtils
 import org.videolan.tools.NoConnectivityException
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.api.OpenSubtitle
 import org.videolan.vlc.gui.dialogs.State
@@ -19,7 +20,6 @@ import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.OpenSubtitleRepository
 import org.videolan.vlc.util.CoroutineContextProvider
-import org.videolan.vlc.util.Settings
 import java.io.File
 import java.util.*
 

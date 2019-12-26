@@ -33,8 +33,8 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.vlc.R
-import org.videolan.vlc.util.AUDIO_DUCKING
-import org.videolan.vlc.util.RESUME_PLAYBACK
+import org.videolan.tools.AUDIO_DUCKING
+import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.vlc.util.VLCInstance
 
 @ExperimentalCoroutinesApi

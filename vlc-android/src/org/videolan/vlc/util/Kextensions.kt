@@ -33,13 +33,12 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_ALL
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_VIDEO
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.NoConnectivityException
-import org.videolan.tools.isStarted
+import org.videolan.tools.*
+import org.videolan.tools.Settings.showTvUi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.browser.REQUEST_CODE_NO_CONNECTION
 import org.videolan.vlc.gui.tv.dialogs.ConfirmationTvActivity
 import org.videolan.vlc.startMedialibrary
-import org.videolan.vlc.util.Settings.showTvUi
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException

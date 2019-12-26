@@ -31,11 +31,11 @@ import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.Settings
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.LiveDataset
-import org.videolan.vlc.util.Settings
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

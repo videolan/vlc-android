@@ -259,7 +259,6 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxRecyclerviewVersion"
     implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
     implementation "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
-    implementation "androidx.preference:preference:$androidxPreferencesVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archVersion"

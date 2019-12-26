@@ -43,7 +43,7 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi

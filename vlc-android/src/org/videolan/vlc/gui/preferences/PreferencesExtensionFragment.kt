@@ -14,7 +14,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionListing
 import org.videolan.vlc.extensions.ExtensionsManager
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import java.util.*
 
 @ObsoleteCoroutinesApi

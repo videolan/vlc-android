@@ -62,7 +62,7 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.resources.UPDATE_SELECTION
 
 private const val SHOW_IN_LIST = -1

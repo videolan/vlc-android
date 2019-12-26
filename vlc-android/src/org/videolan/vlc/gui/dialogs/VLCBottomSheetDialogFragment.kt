@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.videolan.vlc.R
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 
 abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
 

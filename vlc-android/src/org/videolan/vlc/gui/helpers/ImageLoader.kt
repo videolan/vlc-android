@@ -30,6 +30,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
+import org.videolan.tools.Settings
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication

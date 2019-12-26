@@ -17,9 +17,9 @@ import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.onPreferenceRow
-import org.videolan.vlc.util.KEY_VIDEO_APP_SWITCH
-import org.videolan.vlc.util.PLAYBACK_HISTORY
-import org.videolan.vlc.util.SCREEN_ORIENTATION
+import org.videolan.tools.KEY_VIDEO_APP_SWITCH
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.SCREEN_ORIENTATION
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

@@ -9,7 +9,7 @@ import org.videolan.tools.KeyHelper
 import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.IDialogHandler
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.vlc.util.getContextWithLocale
 
 abstract class BaseActivity : AppCompatActivity(), IDialogHandler {

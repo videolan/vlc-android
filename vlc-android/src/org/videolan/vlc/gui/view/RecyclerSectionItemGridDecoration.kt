@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.providers.HeaderProvider
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import kotlin.math.floor
 
 private const val TAG = "RecyclerSectionItemDecoration"

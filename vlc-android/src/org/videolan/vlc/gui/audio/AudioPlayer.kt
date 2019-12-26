@@ -67,8 +67,8 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
-import org.videolan.vlc.util.PREF_PLAYLIST_TIPS_SHOWN
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.PREF_PLAYLIST_TIPS_SHOWN
+import org.videolan.tools.Settings
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel

@@ -13,7 +13,7 @@ import org.videolan.vlc.BaseUITest
 import org.videolan.vlc.PreferenceMatchers
 import org.videolan.vlc.R
 import org.videolan.vlc.onPreferenceRow
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 
 abstract class BasePreferenceUITest : BaseUITest() {
     val settings: SharedPreferences = Settings.getInstance(context)

@@ -42,6 +42,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import org.videolan.resources.*
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R

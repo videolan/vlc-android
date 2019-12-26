@@ -43,6 +43,9 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
 import org.videolan.resources.ACTION_REMOTE_STOP
 import org.videolan.resources.ACTION_REMOTE_SWITCH_VIDEO
+import org.videolan.tools.POPUP_KEEPSCREEN
+import org.videolan.tools.Settings
+import org.videolan.tools.VIDEO_RESUME_TIME
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.PopupLayout

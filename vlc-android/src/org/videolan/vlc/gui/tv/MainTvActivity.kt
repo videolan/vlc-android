@@ -31,6 +31,9 @@ import android.widget.ProgressBar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.tools.RESULT_RESCAN
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.vlc.R
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity

@@ -31,9 +31,9 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
-import org.videolan.vlc.util.RESULT_RESTART
-import org.videolan.vlc.util.RESULT_RESTART_APP
-import org.videolan.vlc.util.RESULT_UPDATE_ARTISTS
+import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.RESULT_RESTART_APP
+import org.videolan.tools.RESULT_UPDATE_ARTISTS
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi

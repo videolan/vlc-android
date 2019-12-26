@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 
 private const val DIR_TABLE_NAME = "directories_table"
 private const val MEDIA_TABLE_NAME = "media_table"

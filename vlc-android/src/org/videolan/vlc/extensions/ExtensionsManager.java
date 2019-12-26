@@ -18,7 +18,7 @@ import android.view.MenuItem;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.util.Settings;
+import org.videolan.tools.Settings;
 
 import java.util.ArrayList;
 import java.util.Arrays;

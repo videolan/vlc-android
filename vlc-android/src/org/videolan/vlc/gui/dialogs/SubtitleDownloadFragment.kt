@@ -17,7 +17,7 @@ import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
 import org.videolan.vlc.gui.OnItemSelectListener
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
 class SubtitleDownloadFragment : Fragment() {

@@ -30,8 +30,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
+import org.videolan.tools.Settings
 import org.videolan.vlc.util.ModelsHelper
-import org.videolan.vlc.util.Settings
 
 abstract class MoviepediaProvider(private val context: Context) : HeaderProvider() {
 

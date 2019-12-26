@@ -18,7 +18,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.Settings
 
 
 class WriteExternalDelegate : BaseHeadlessFragment() {

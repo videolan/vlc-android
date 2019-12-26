@@ -33,9 +33,9 @@ import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.GenresProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
-import org.videolan.vlc.util.KEY_ARTISTS_SHOW_ALL
 import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
-import org.videolan.vlc.util.Settings
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
+import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 

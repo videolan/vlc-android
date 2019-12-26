@@ -11,8 +11,8 @@ import org.junit.Test
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.onPreferenceRow
-import org.videolan.vlc.util.KEY_PLAYBACK_SPEED_PERSIST
-import org.videolan.vlc.util.RESUME_PLAYBACK
+import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
+import org.videolan.tools.RESUME_PLAYBACK
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

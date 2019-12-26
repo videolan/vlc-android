@@ -28,8 +28,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
-import org.videolan.vlc.util.POPUP_FORCE_LEGACY
-import org.videolan.vlc.util.POPUP_KEEPSCREEN
+import org.videolan.tools.POPUP_FORCE_LEGACY
+import org.videolan.tools.POPUP_KEEPSCREEN
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
