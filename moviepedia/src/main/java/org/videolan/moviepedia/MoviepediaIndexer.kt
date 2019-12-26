@@ -43,36 +43,34 @@ import org.videolan.tools.getLocaleLanguages
 
 object MoviepediaIndexer : CoroutineScope by MainScope() {
 
-    fun indexMedialib(context: Context) {
-        launch(Dispatchers.IO) {
-            val medias = Medialibrary.getInstance().getPagedVideos(Medialibrary.SORT_DEFAULT, false, 1000, 0)
+    fun indexMedialib(context: Context) = launch(Dispatchers.IO) {
+        val medias = Medialibrary.getInstance().getPagedVideos(Medialibrary.SORT_DEFAULT, false, 1000, 0)
 
-            val filesToIndex = HashMap<Long, Uri>()
-            medias.forEach {
-                if (it.getMetaLong(MediaWrapper.META_METADATA_RETRIEVED) != 1L)
-                    filesToIndex[it.id] = it.uri
-            }
-            val repo = MoviepediaApiRepository.getInstance()
-            val results = try {
-                repo.searchMediaBatch(filesToIndex)
-            } catch (e: Exception) {
-                return@launch
-            }
-            medias.forEach { media ->
-                media?.setLongMeta(MediaWrapper.META_METADATA_RETRIEVED, 1L)
-            }
-            results.forEach { result ->
-                result.lucky?.let {
-                    val media = medias.find { it.id == result.id.toLong() }
-                    try {
-                        saveMediaMetadata(context, media, it, retrieveCast = false, removePersonOrphans = false)
-                    } catch (e: Exception) {
-                        media?.setLongMeta(251, 0L)
-                    }
+        val filesToIndex = HashMap<Long, Uri>()
+        medias.forEach {
+            if (it.getMetaLong(MediaWrapper.META_METADATA_RETRIEVED) != 1L)
+                filesToIndex[it.id] = it.uri
+        }
+        val repo = MoviepediaApiRepository.getInstance()
+        val results = try {
+            repo.searchMediaBatch(filesToIndex)
+        } catch (e: Exception) {
+            return@launch
+        }
+        medias.forEach { media ->
+            media?.setLongMeta(MediaWrapper.META_METADATA_RETRIEVED, 1L)
+        }
+        results.forEach { result ->
+            result.lucky?.let {
+                val media = medias.find { it.id == result.id.toLong() }
+                try {
+                    saveMediaMetadata(context, media, it, retrieveCast = false, removePersonOrphans = false)
+                } catch (e: Exception) {
+                    media?.setLongMeta(251, 0L)
                 }
             }
-            removePersonOrphans(context)
         }
+        removePersonOrphans(context)
     }
 
     private fun removePersonOrphans(context: Context) {

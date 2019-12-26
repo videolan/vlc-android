@@ -63,7 +63,7 @@ import org.videolan.moviepedia.MoviepediaIndexer
 import org.videolan.moviepedia.models.identify.Media
 import org.videolan.moviepedia.models.identify.getAllResults
 import org.videolan.vlc.util.manageHttpException
-import org.videolan.vlc.viewmodels.MoviepediaModel
+import org.videolan.moviepedia.viewmodel.MoviepediaModel
 
 private const val TAG = "SearchFragment"
 private const val REQUEST_SPEECH = 1

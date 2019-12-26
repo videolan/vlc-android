@@ -25,6 +25,7 @@ android {
 
 dependencies {
     api "androidx.appcompat:appcompat:$rootProject.ext.androidxAppcompatVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archVersion"
     api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

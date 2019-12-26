@@ -22,7 +22,7 @@
  *
  */
 
-package org.videolan.vlc.viewmodels
+package org.videolan.moviepedia.viewmodel
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData

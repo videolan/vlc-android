@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit
 
 private const val USER_AGENT = "VLC-Android"
 
-private fun buildClient() =
+private fun buildClient(): IMoviepediaApiService =
         Retrofit.Builder()
                 .baseUrl(BuildConfig.MOVIEPEDIA_API_URL)
                 .client(OkHttpClient.Builder()

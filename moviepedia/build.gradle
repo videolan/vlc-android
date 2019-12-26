@@ -34,6 +34,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
     implementation "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycleVersion"
 
     //Room
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
