@@ -595,16 +595,17 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         /* Stop the earliest possible to avoid vout error */
 
-        if (!isInPictureInPictureMode) {
-            if (finishing || (AndroidUtil.isNougatOrLater && !AndroidUtil.isOOrLater //Video on background on Nougat Android TVs
+        if (!isInPictureInPictureMode
+                && (finishing || (AndroidUtil.isNougatOrLater && !AndroidUtil.isOOrLater //Video on background on Nougat Android TVs
+                                  && AndroidDevices.isAndroidTv && !requestVisibleBehind(true))))
+            stopPlayback()
+    }
 
-                            && AndroidDevices.isAndroidTv && !requestVisibleBehind(true)))
-                stopPlayback()
-            else if (displayManager.isPrimary && !isShowingDialog && "2" == settings.getString(KEY_VIDEO_APP_SWITCH, "0")
-                    && isInteractive && service?.hasRenderer() == false) {
-                switchToPopup()
-            }
-        }
+    @TargetApi(Build.VERSION_CODES.O)
+    override fun onUserLeaveHint() {
+        if (!isInPictureInPictureMode && displayManager.isPrimary && !isShowingDialog &&
+                "2" == settings.getString(KEY_VIDEO_APP_SWITCH, "0") && isInteractive && service?.hasRenderer() == false)
+            switchToPopup()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
