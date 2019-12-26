@@ -49,6 +49,10 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.CTX_ADD_TO_PLAYLIST
+import org.videolan.resources.CTX_APPEND
+import org.videolan.resources.CTX_COPY
+import org.videolan.resources.CTX_RENAME
 import org.videolan.tools.copy
 import org.videolan.tools.isValidUrl
 import org.videolan.vlc.R

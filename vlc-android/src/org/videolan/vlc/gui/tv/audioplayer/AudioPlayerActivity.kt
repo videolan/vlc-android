@@ -40,6 +40,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.REPEAT_ALL
+import org.videolan.resources.REPEAT_NONE
+import org.videolan.resources.REPEAT_ONE
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.TvAudioPlayerBinding
 import org.videolan.vlc.gui.helpers.AudioUtil

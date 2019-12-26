@@ -50,6 +50,7 @@ import org.videolan.vlc.gui.helpers.*
 import org.videolan.moviepedia.models.identify.Media
 import org.videolan.moviepedia.models.identify.getCardSubtitle
 import org.videolan.moviepedia.models.identify.getImageUri
+import org.videolan.resources.*
 import org.videolan.tools.getLocaleLanguages
 import org.videolan.vlc.util.*
 

@@ -46,6 +46,10 @@ import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.UPDATE_SEEN
+import org.videolan.resources.UPDATE_SELECTION
+import org.videolan.resources.UPDATE_THUMB
+import org.videolan.resources.UPDATE_TIME
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.safeOffer

@@ -24,6 +24,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
+import org.videolan.resources.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOptionItemBinding
@@ -32,7 +33,6 @@ import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
-import org.videolan.vlc.media.ABRepeat
 import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.util.*
 import java.util.*

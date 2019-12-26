@@ -6,6 +6,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.ACTION_DISCOVER
+import org.videolan.resources.ACTION_DISCOVER_DEVICE
+import org.videolan.resources.EXTRA_PATH
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.*

@@ -54,7 +54,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.moviepedia.repository.MediaPersonRepository
-import org.videolan.vlc.util.ACTION_REMOTE_STOP
+import org.videolan.resources.ACTION_REMOTE_STOP
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.getScreenWidth

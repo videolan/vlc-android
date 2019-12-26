@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.medialibrary.*
-import org.videolan.vlc.util.CATEGORY_ALBUMS
-import org.videolan.vlc.util.CATEGORY_ARTISTS
-import org.videolan.vlc.util.CATEGORY_GENRES
-import org.videolan.vlc.util.CATEGORY_VIDEOS
+import org.videolan.resources.CATEGORY_ALBUMS
+import org.videolan.resources.CATEGORY_ARTISTS
+import org.videolan.resources.CATEGORY_GENRES
+import org.videolan.resources.CATEGORY_VIDEOS
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 

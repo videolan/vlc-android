@@ -17,6 +17,10 @@ import kotlinx.android.synthetic.main.activity_onboarding.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
+import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.resources.EXTRA_FIRST_RUN
+import org.videolan.resources.EXTRA_UPGRADE
+import org.videolan.resources.PREF_FIRST_RUN
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R

@@ -19,7 +19,7 @@
  */
 
 @file:JvmName("Constants")
-package org.videolan.vlc.util
+package org.videolan.resources
 
 import android.support.v4.media.session.PlaybackStateCompat
 
@@ -195,4 +195,5 @@ const val CRASH_ML_CTX = "crash_ml_ctx"
 const val CRASH_ML_MSG = "crash_ml_msg"
 
 
+private fun String.buildPkgString() = "${BuildConfig.APP_ID}.$this"
 

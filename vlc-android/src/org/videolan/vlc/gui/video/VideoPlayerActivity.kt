@@ -80,8 +80,11 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.*
 import org.videolan.tools.*
 import org.videolan.vlc.*
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding

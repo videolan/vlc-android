@@ -49,7 +49,7 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMoviepediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
-import org.videolan.vlc.util.UPDATE_PAYLOAD
+import org.videolan.resources.UPDATE_PAYLOAD
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.generateResolutionClass
 

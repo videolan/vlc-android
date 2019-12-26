@@ -22,7 +22,7 @@ import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.getMediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
-import org.videolan.vlc.util.UPDATE_PAYLOAD
+import org.videolan.resources.UPDATE_PAYLOAD
 import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi

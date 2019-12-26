@@ -36,7 +36,7 @@ import androidx.annotation.StringRes
 import kotlinx.android.synthetic.main.view_empty_loading.view.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.vlc.util.ACTIVITY_RESULT_PREFERENCES
+import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 
 class EmptyLoadingStateView : FrameLayout {
 

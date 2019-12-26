@@ -37,6 +37,10 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.R
 import org.videolan.moviepedia.database.models.MediaMetadataType
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
+import org.videolan.resources.CATEGORY
+import org.videolan.resources.CATEGORY_VIDEOS
+import org.videolan.resources.HEADER_MOVIES
+import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler

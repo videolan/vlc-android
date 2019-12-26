@@ -9,7 +9,6 @@ import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.*
 import androidx.test.espresso.contrib.RecyclerViewActions.*
-import androidx.test.espresso.matcher.RootMatchers.isFocusable
 import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
@@ -24,7 +23,7 @@ import org.videolan.vlc.*
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.vlc.util.EXTRA_TARGET
+import org.videolan.resources.EXTRA_TARGET
 import org.videolan.vlc.util.Settings
 
 @ObsoleteCoroutinesApi

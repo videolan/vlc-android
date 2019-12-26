@@ -9,6 +9,10 @@ import android.view.KeyEvent
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.REPEAT_ALL
+import org.videolan.resources.REPEAT_NONE
+import org.videolan.resources.REPEAT_ONE
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.*

@@ -29,7 +29,7 @@ import org.videolan.vlc.gui.tv.dialogs.ConfirmationTvActivity.Companion.CONFIRMA
 import org.videolan.vlc.gui.tv.updateBackground
 import org.videolan.vlc.interfaces.ITVEventsHandler
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.ITEM
+import org.videolan.resources.ITEM
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 
 @ExperimentalCoroutinesApi

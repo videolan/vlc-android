@@ -34,7 +34,7 @@ import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.databinding.HistoryItemBinding
 import org.videolan.vlc.gui.helpers.*
-import org.videolan.vlc.util.UPDATE_SELECTION
+import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi

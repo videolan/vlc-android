@@ -40,6 +40,9 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
+import org.videolan.resources.ACTION_REMOTE_STOP
+import org.videolan.resources.ACTION_REMOTE_SWITCH_VIDEO
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.PopupLayout

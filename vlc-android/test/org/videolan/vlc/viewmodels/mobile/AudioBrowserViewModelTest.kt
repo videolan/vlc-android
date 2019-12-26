@@ -9,7 +9,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.util.KEY_ARTISTS_SHOW_ALL
-import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.vlc.util.Settings
 
 @ExperimentalCoroutinesApi

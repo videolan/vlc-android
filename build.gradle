@@ -27,6 +27,7 @@ allprojects {
 }
 
 ext {
+    appId = "org.videolan.vlc"
     versionName = '3.3.0-dev'
     versionCode = 3030000
     libvlcVersion = '3.3.0-eap02'
@@ -44,6 +45,7 @@ ext {
     androidxAnnotationVersion = '1.1.0'
     androidxAppcompatVersion = '1.1.0'
     androidxRecyclerviewVersion = '1.1.0'
+    androidxMediaVersion = '1.1.0'
     androidxLeanbackVersion = '1.0.0'
     androidxMaterialVersion = '1.1.0-rc01'
     constraintLayoutVersion = '1.1.3'

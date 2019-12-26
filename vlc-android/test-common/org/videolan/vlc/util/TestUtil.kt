@@ -21,8 +21,9 @@
 package org.videolan.vlc.util
 
 import android.net.Uri
-import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.resources.TYPE_LOCAL_FAV
+import org.videolan.resources.TYPE_NETWORK_FAV
 import org.videolan.vlc.api.OpenSubtitle
 import org.videolan.vlc.api.QueryParameters
 import org.videolan.vlc.database.models.BrowserFav

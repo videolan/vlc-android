@@ -49,6 +49,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.moviepedia.repository.MediaMetadataRepository
+import org.videolan.resources.*
 import org.videolan.vlc.util.*
 
 private const val NUM_ITEMS_PREVIEW = 5

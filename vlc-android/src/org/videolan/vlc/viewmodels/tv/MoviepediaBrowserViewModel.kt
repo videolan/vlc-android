@@ -35,7 +35,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.moviepedia.database.models.MediaMetadataType
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.vlc.providers.MoviepediaMovieProvider
-import org.videolan.vlc.util.HEADER_TV_SHOW
+import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.vlc.viewmodels.CallBackDelegate
 import org.videolan.vlc.viewmodels.ICallBackHandler
 import org.videolan.vlc.viewmodels.SortableModel

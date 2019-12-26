@@ -43,6 +43,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.getposition
 import org.videolan.vlc.R
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
+import org.videolan.resources.*
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil

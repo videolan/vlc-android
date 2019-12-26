@@ -12,6 +12,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.MediaTvItemAdapter
 import org.videolan.vlc.gui.tv.TvItemAdapter

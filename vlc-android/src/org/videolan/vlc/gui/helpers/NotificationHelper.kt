@@ -33,6 +33,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.media.session.MediaButtonReceiver
+import org.videolan.resources.ACTION_PAUSE_SCAN
+import org.videolan.resources.ACTION_RESUME_SCAN
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.*

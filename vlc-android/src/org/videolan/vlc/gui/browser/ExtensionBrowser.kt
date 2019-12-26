@@ -15,6 +15,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.CTX_APPEND
+import org.videolan.resources.CTX_ITEM_DL
+import org.videolan.resources.CTX_PLAY_ALL
+import org.videolan.resources.CTX_PLAY_AS_AUDIO
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.Utils

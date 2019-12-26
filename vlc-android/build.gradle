@@ -49,7 +49,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "org.videolan.vlc"
+        applicationId rootProject.ext.appId
 
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()

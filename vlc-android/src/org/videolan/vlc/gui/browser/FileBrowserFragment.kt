@@ -45,7 +45,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.CTX_FAV_ADD
+import org.videolan.resources.CTX_FAV_ADD
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.removeFileProtocole
 import org.videolan.vlc.viewmodels.browser.BrowserModel

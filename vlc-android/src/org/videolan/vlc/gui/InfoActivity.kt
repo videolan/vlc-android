@@ -31,6 +31,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.TAG_ITEM
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.InfoActivityBinding
 import org.videolan.vlc.gui.browser.PathAdapter

@@ -31,9 +31,9 @@ import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.CATEGORY
+import org.videolan.resources.CATEGORY
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.ITEM
+import org.videolan.resources.ITEM
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.*
 

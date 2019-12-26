@@ -8,7 +8,7 @@ import org.junit.Test
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.stubs.StubDataSource
 import org.videolan.vlc.BaseTest
-import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi

@@ -13,7 +13,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.databinding.DialogExtDeviceBinding
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
-import org.videolan.vlc.util.EXTRA_PATH
+import org.videolan.resources.EXTRA_PATH
 
 private const val TAG = "VLC/DeviceDialog"
 

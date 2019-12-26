@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.tv.MainTvActivity
-import org.videolan.vlc.util.HEADER_STREAM
+import org.videolan.resources.HEADER_STREAM
 
 class TVActivity : AppCompatActivity() {
 

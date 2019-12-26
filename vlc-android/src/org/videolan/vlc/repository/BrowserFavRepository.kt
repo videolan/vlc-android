@@ -33,8 +33,8 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.vlc.util.TYPE_LOCAL_FAV
-import org.videolan.vlc.util.TYPE_NETWORK_FAV
+import org.videolan.resources.TYPE_LOCAL_FAV
+import org.videolan.resources.TYPE_NETWORK_FAV
 import org.videolan.vlc.util.convertFavorites
 import java.util.*
 

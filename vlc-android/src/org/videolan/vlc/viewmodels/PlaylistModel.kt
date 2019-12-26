@@ -35,7 +35,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.PlaylistFilterDelegate
-import org.videolan.vlc.util.REPEAT_NONE
+import org.videolan.resources.REPEAT_NONE
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

@@ -58,7 +58,7 @@ import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.TAG_ITEM
+import org.videolan.resources.TAG_ITEM
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel

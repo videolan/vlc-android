@@ -33,13 +33,13 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.MainTvActivity
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment
 import org.videolan.vlc.interfaces.Sortable
-import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 
