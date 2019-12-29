@@ -12,7 +12,7 @@ cache:
         - android
     stage: build
     script:
-        - ./compile.sh ${EXTRA_BUILD_PARAM} -a ${ARCH}
+        - ./buildsystem/compile.sh ${EXTRA_BUILD_PARAM} -a ${ARCH}
     variables:
         MAKEFLAGS: -j8
 
@@ -42,10 +42,7 @@ cache:
             - merge_requests
         changes:
             - medialibrary/**/*
-            - compile.sh
-            - build-common
-            - compile-libvlc.sh
-            - compile-medialibrary.sh
+            - buildsystem/**/*
     except:
         - schedules
     variables:
@@ -55,7 +52,7 @@ cache:
 continuous-app-build:
     extends: .build-all-base
     script:
-        - ./compile.sh --init
+        - ./buildsystem/compile.sh --init
         - ./gradlew assembleDebug
     only:
         refs:
@@ -63,16 +60,13 @@ continuous-app-build:
             - merge_requests
         changes:
             - vlc-android/**/*
-            - assets/**/*
-            - .gitlab-ci.yml
+            - resources/assets/**/*
+            - ./buildsystem/gitlab/gitlab-ci.yml
     except:
         refs:
             - schedules
         changes:
-            - build-common
-            - compile-libvlc.sh
-            - compile-medialibrary.sh
-            - compile.sh
+            - buildsystem/**/*
             - libvlc/**/*
             - medialibrary/**/*
 
