@@ -46,6 +46,8 @@
     <string name="insert_next">Als volgende invoegen</string>
     <string name="play_all">Alles afspelen</string>
     <string name="append_all">Alles toevoegen</string>
+    <string name="resume_playback_short_title">Afspelen hervatten</string>
+    <string name="resume_playback_long_title">Afspelen van laatste afspeellijst hervatten</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijderen</string>
     <string name="set_song">Als beltoon instellen</string>
@@ -91,6 +93,14 @@
     <plurals name="videos_quantity">
         <item quantity="one">1 video</item>
         <item quantity="other">%d video\'s</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="other">%d films</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 serie</item>
+        <item quantity="other">%d series</item>
     </plurals>
 
     <string name="internal_memory">Intern geheugen</string>
@@ -412,7 +422,7 @@
     <string name="dump_media_db">Media-database wegschrijven</string>
     <string name="dump_media_db_summary">Database naar interne opslagboom kopiëren</string>
     <string name="clear_media_db">Media-database wissen</string>
-    <string name="clear_media_db_summary">Ga naar Android VLC-info om data te wissen</string>
+    <string name="clear_media_database_summary">Wist de database om opnieuw te beginnen</string>
     <string name="clear_history">Geschiedenis wissen</string>
     <string name="media_db_cleared">Media-database gewist!</string>
     <string name="set_locale">Taal instellen</string>
@@ -672,7 +682,7 @@
     <string name="popup_force_legacy_title">Aangepaste beeld-in-beeld popup gebruiken</string>
     <string name="popup_force_legacy_summary">Aangepaste grootte-instelbare beeld-in-beeld popup gebruiken</string>
     <string name="device_default">Standaard van apparaat</string>
-    <string name="track_number">%s tracks</string>
+    <string name="track_number">%d tracks</string>
     <string name="jump_to">Springen naar</string>
     <string name="show_video_thumbnails_summary">Video-miniaturen weergeven in lijsten</string>
     <string name="show_video_thumbnails">Video-miniaturen</string>
@@ -716,4 +726,35 @@
     <string name="video_group_size_summary">Groeperen op eerste %s letters</string>
     <string name="video_group_size">Video\'s groeperen op naam</string>
     <string name="url_copied_to_clipboard">URL naar klembord gekopieerd</string>
+    <string name="share">Delen</string>
+    <string name="invalid_file">Ongeldig bestand. Kan niet gedeeld worden.</string>
+    <string name="share_file">%s delen</string>
+    <string name="share_message">Hier is %s</string>
+    <string name="find_metadata">Metadata zoeken</string>
+    <string name="moviepedia_hint">Metadata doorzoeken</string>
+    <string name="moviepedia_result">Videoresultaten</string>
+    <string name="release_date">Verschenen:</string>
+    <string name="synopsis">Samenvatting</string>
+    <string name="directed_by">Geregisseerd door</string>
+    <string name="casting">Casting</string>
+    <string name="produced_by">Geproduceerd door</string>
+    <string name="written_by">Geschreven door</string>
+    <string name="music_by">Muziek door</string>
+    <string name="posters">Posters</string>
+    <string name="backdrops">Achtergrond</string>
+    <string name="header_tvshows">Series</string>
+    <string name="all_movies">Alle films</string>
+    <string name="movie_count">%s film(s)</string>
+    <string name="header_movies">Films</string>
+    <string name="season_number">Seizoen %s</string>
+    <string name="resume_episode">Hervatten (%s)</string>
+    <string name="start_over">Opnieuw beginnen</string>
+    <string name="next_episode">Volgende aflevering</string>
+    <string name="open_network_settings">Netwerkinstellingen openen?</string>
+    <string name="recently_played">Recent afgespeeld</string>
+    <string name="recently_added">Recent toegevoegd</string>
+    <string name="playback_multiple_errors">Meerdere media kunnen niet afgespeeld worden</string>
+    <string name="clear_media_db_warning">U zult uw voortgangen en de afspeellijsten die u aanmaakte, verliezen.\n%s</string>
+    <string name="abrepeat_add_first_marker">Beginpunt instellen</string>
+    <string name="abrepeat_add_second_marker">Eindpunt instellen</string>
 </resources>
