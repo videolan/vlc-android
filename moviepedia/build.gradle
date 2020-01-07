@@ -22,13 +22,21 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            jniDebuggable true
+        }
+        dev {
+            initWith debug
+            matchingFallbacks = ['debug']
+        }
     }
 
 }
 
 dependencies {
     implementation project(':tools')
-    implementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    debugImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    devImplementation project(':medialibrary')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
