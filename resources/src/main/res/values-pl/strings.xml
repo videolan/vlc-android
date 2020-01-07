@@ -48,8 +48,8 @@
     <string name="insert_next">Wstaw jako następny</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
-    <string name="resume_playback_short_title">Wznów odtwarzanie</string>
-    <string name="resume_playback_long_title">Wznów</string>
+    <string name="resume_playback_short_title">Wznów</string>
+    <string name="resume_playback_long_title">Wznów odtwarzanie</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
