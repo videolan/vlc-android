@@ -44,16 +44,16 @@ import androidx.annotation.WorkerThread;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.resources.VLCCommonApplication;
+import org.videolan.tools.Settings;
 import org.videolan.tools.SettingsKt;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.ExtensionsManager;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.tools.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +116,7 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                 sExtensionManagerService.connectService(index);
             } else {
                 //case sub-directory
-                String stringId = parentId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(index) + "_", "");
+                String stringId = parentId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + index + "_", "");
                 sExtensionManagerService.browse(stringId);
             }
             try {
@@ -136,7 +136,7 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                         ExtensionListing extension = extensions.get(i);
                         if (extension.androidAutoEnabled()
                                 && Settings.INSTANCE.getInstance(context).getBoolean(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName() + "_" + ExtensionsManager.ANDROID_AUTO_SUFFIX, false)) {
-                            item.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(i))
+                            item.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + i)
                                     .setTitle(extension.title());
 
                             int iconRes = extension.menuIcon();
@@ -311,17 +311,17 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
             mediaItem = new MediaDescriptionCompat.Builder();
             Uri coverUri = extensionItem.getImageUri();
             if (coverUri == null)
-                mediaItem.setIconBitmap(UiTools.INSTANCE.getDefaultAudioDrawable(VLCApplication.Companion.getAppContext()).getBitmap());
+                mediaItem.setIconBitmap(UiTools.INSTANCE.getDefaultAudioDrawable(VLCCommonApplication.Companion.getAppContext()).getBitmap());
             else
                 mediaItem.setIconUri(coverUri);
             mediaItem.setTitle(extensionItem.getTitle());
             mediaItem.setSubtitle(extensionItem.getSubTitle());
             boolean playable = extensionItem.getType() == VLCExtensionItem.TYPE_AUDIO;
             if (playable) {
-                mediaItem.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(extensionId) + "_" + extensionItem.getLink());
+                mediaItem.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + extensionId + "_" + extensionItem.getLink());
                 extensionItems.add(new MediaBrowserCompat.MediaItem(mediaItem.build(), MediaBrowserCompat.MediaItem.FLAG_PLAYABLE));
             } else {
-                mediaItem.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(extensionId) + "_" + extensionItem.stringId);
+                mediaItem.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + extensionId + "_" + extensionItem.stringId);
                 extensionItems.add(new MediaBrowserCompat.MediaItem(mediaItem.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
             }
             if (i == MAX_EXTENSION_SIZE-1)

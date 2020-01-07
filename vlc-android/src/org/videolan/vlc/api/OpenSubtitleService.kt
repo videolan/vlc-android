@@ -4,11 +4,10 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.ConnectivityInterceptor
-import org.videolan.vlc.VLCApplication
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
@@ -20,7 +19,7 @@ private fun buildClient() =
                 .baseUrl(BASE_URL)
                 .client(OkHttpClient.Builder()
                         .addInterceptor(UserAgentInterceptor(USER_AGENT))
-                        .addInterceptor(ConnectivityInterceptor(VLCApplication.appContext))
+                        .addInterceptor(ConnectivityInterceptor(VLCCommonApplication.appContext))
                         .readTimeout(10, TimeUnit.SECONDS)
                         .connectTimeout(5, TimeUnit.SECONDS)
                         .build())

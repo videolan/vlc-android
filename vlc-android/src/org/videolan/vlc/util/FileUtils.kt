@@ -42,15 +42,12 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.media.MediaUtils
 import java.io.*
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.nio.channels.FileChannel
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -94,7 +91,7 @@ object FileUtils {
         var cursor: Cursor? = null
         try {
             val proj = arrayOf(MediaStore.Images.Media.DATA)
-            cursor = VLCApplication.appContext.contentResolver.query(contentUri, proj, null, null, null)
+            cursor = VLCCommonApplication.appContext.contentResolver.query(contentUri, proj, null, null, null)
             if (cursor == null || cursor.count == 0)
                 return ""
             val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
@@ -154,7 +151,7 @@ object FileUtils {
             `in` = assetManager.open(fromAssetPath)
             destFile.createNewFile()
             out = FileOutputStream(toPath)
-            copyFile(`in`!!, out)
+            copyFile(`in`, out)
             out.flush()
             return true
         } catch (e: Exception) {
@@ -234,7 +231,7 @@ object FileUtils {
             for (child in file.listFiles()) deleted = deleted and deleteFile(child)
             if (deleted) deleted = deleted and file.delete()
         } else {
-            val cr = VLCApplication.appContext.contentResolver
+            val cr = VLCCommonApplication.appContext.contentResolver
             try {
                 deleted = cr.delete(MediaStore.Files.getContentUri("external"),
                         MediaStore.Files.FileColumns.DATA + "=?", arrayOf(file.path)) > 0
@@ -311,7 +308,7 @@ object FileUtils {
     @WorkerThread
     fun findFile(uri: Uri): DocumentFile? {
         uri.path?.let { path ->
-            val context = (VLCApplication.appContext as Context?) ?: return null
+            val context = (VLCCommonApplication.appContext as Context?) ?: return null
             val treePref = getMediaStorage(uri)?.let { Settings.getInstance(context).getString("tree_uri_$it", null) } ?: return null
             val treeUri = Uri.parse(treePref)
             var documentFile = DocumentFile.fromTreeUri(context, treeUri)
@@ -331,7 +328,7 @@ object FileUtils {
     @WorkerThread
     fun getUri(data: Uri?): Uri? {
         var uri = data
-        val ctx = VLCApplication.appContext
+        val ctx = VLCCommonApplication.appContext
         if (data != null && ctx != null && TextUtils.equals(data.scheme, "content")) {
             // Mail-based apps - download the stream to a temporary file and play it
             if ("com.fsck.k9.attachmentprovider" == data.host || "gmail-ls" == data.host) {
@@ -413,7 +410,7 @@ object FileUtils {
         if (!AndroidUtil.isMarshMallowOrLater) return null
         var volumeDescription: String? = null
         try {
-            val storageManager = VLCApplication.appContext.getSystemService(StorageManager::class.java)
+            val storageManager = VLCCommonApplication.appContext.getSystemService(StorageManager::class.java)
             val classType = storageManager.javaClass
             val findVolumeByUuid = classType.getDeclaredMethod("findVolumeByUuid", uuid.javaClass)
             findVolumeByUuid.isAccessible = true

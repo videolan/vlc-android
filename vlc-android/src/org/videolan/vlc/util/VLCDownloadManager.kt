@@ -15,16 +15,16 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.gui.helpers.hf.getExtWritePermission
 import org.videolan.vlc.repository.ExternalSubRepository
 
 
 object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
-    private val downloadManager = VLCApplication.appContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    private val downloadManager = VLCCommonApplication.appContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     private var dlDeferred : CompletableDeferred<SubDlResult>? = null
     private lateinit var defaultSubsDirectory : String
 
@@ -48,18 +48,18 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun register() {
-        VLCApplication.appContext.applicationContext.registerReceiver(this, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        VLCCommonApplication.appContext.applicationContext.registerReceiver(this, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun unRegister() {
-        ExternalSubRepository.getInstance(VLCApplication.appContext).downloadingSubtitles.observeForever {
+        ExternalSubRepository.getInstance(VLCCommonApplication.appContext).downloadingSubtitles.observeForever {
             it?.keys?.forEach {
                 downloadManager.remove(it)
             }
         }
 
-        VLCApplication.appContext.applicationContext.unregisterReceiver(this)
+        VLCCommonApplication.appContext.applicationContext.unregisterReceiver(this)
     }
 
     suspend fun download(context: FragmentActivity, subtitleItem: SubtitleItem) {

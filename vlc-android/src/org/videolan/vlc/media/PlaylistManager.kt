@@ -24,6 +24,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.EXIT_PLAYER
 import org.videolan.resources.PLAYLIST_TYPE_AUDIO
 import org.videolan.resources.PLAY_FROM_SERVICE
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -354,7 +355,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     VideoPlayerActivity.getIntent(PLAY_FROM_SERVICE,
                             media, false, currentIndex))
         } else if (!player.switchToVideo) { //Start the video player
-            VideoPlayerActivity.startOpened(VLCApplication.appContext, media.uri, currentIndex)
+            VideoPlayerActivity.startOpened(VLCCommonApplication.appContext, media.uri, currentIndex)
             if (!hasRenderer) player.switchToVideo = true
         }
         return true

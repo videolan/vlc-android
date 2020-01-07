@@ -19,11 +19,8 @@
  */
 package org.videolan.vlc
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.app.Application
 import android.content.ComponentName
-import android.content.Context
 import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -32,7 +29,6 @@ import android.os.Build
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.multidex.MultiDexApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -44,6 +40,7 @@ import org.videolan.libvlc.MediaFactory
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.tools.wrap
@@ -51,15 +48,16 @@ import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapCache
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.util.*
-import java.lang.reflect.InvocationTargetException
+import org.videolan.vlc.util.AppScope
+import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.SettingsMigration
+import org.videolan.vlc.util.VLCInstance
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate {
+class VLCApplication : VLCCommonApplication(), Dialog.Callbacks by DialogDelegate {
 
     init {
-        instance = this
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         FactoryManager.registerFactory(IMediaFactory.factoryId, MediaFactory())
@@ -72,9 +70,9 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         Thread(Runnable {
-            locale = Settings.getInstance(instance).getString("set_locale", "")
+            locale = Settings.getInstance(appContext).getString("set_locale", "")
             locale.takeIf { !it.isNullOrEmpty() }?.let {
-                instance = ContextWrapper(this).wrap(locale!!)
+                updateAppContext(ContextWrapper(this).wrap(locale!!))
             }
 
             AppScope.launch(Dispatchers.IO) {
@@ -82,7 +80,7 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
                 AudioUtil.prepareCacheFolder(appContext)
 
                 if (!VLCInstance.testCompatibleCPU(appContext)) return@launch
-                Dialog.setCallbacks(VLCInstance[instance], DialogDelegate)
+                Dialog.setCallbacks(VLCInstance[appContext], DialogDelegate)
             }
             packageManager.setComponentEnabledSetting(ComponentName(this, SendCrashActivity::class.java),
                     if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
@@ -95,7 +93,7 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         locale.takeIf { !it.isNullOrEmpty() }?.let {
-            instance = ContextWrapper(this).wrap(locale!!)
+            updateAppContext(ContextWrapper(this).wrap(locale!!))
         }
     }
 
@@ -119,34 +117,11 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
 
         const val ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication"
 
-        @SuppressLint("StaticFieldLeak")
-        @Volatile
-        private lateinit var instance: Context
 
         // Property to get the new locale only on restart to prevent change the locale partially on runtime
         var locale: String? = ""
             private set
 
-        /**
-         * @return the main context of the Application
-         */
-        val appContext: Context
-            @SuppressLint("PrivateApi")
-            get() {
-                return if (::instance.isInitialized)
-                    instance
-                else {
-                    try {
-                        instance = Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication").invoke(null) as Application
-                    } catch (ignored: IllegalAccessException) {
-                    } catch (ignored: InvocationTargetException) {
-                    } catch (ignored: NoSuchMethodException) {
-                    } catch (ignored: ClassNotFoundException) {
-                    } catch (ignored: ClassCastException) {
-                    }
-                    instance
-                }
-            }
 
         /**
          * @return the main resources from the Application

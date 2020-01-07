@@ -30,17 +30,20 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.Settings
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.ActivityMediaListTvBinding
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.tv.TvUtil
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AppScope
+import org.videolan.vlc.util.HttpImageLoader
+import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
+import org.videolan.vlc.util.scope
 
 private val sMedialibrary = Medialibrary.getInstance()
 @Volatile
@@ -269,7 +272,7 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
         val tracks = withContext(Dispatchers.IO) { item.tracks.toList() }
         ThumbnailsProvider.getPlaylistImage("playlist:${item.id}_$width", tracks, width)
     } else null
-    if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(VLCApplication.appContext).bitmap
+    if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(VLCCommonApplication.appContext).bitmap
     if (!bindChanged) updateImageView(playlistImage, v, binding)
 
     binding?.removeOnRebindCallback(rebindCallbacks!!)

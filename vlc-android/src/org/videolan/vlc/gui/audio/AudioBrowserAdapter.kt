@@ -47,10 +47,12 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
+import org.videolan.resources.UPDATE_SELECTION
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
 import org.videolan.vlc.gui.helpers.MarqueeViewHolder
@@ -62,8 +64,6 @@ import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
-import org.videolan.tools.Settings
-import org.videolan.resources.UPDATE_SELECTION
 
 private const val SHOW_IN_LIST = -1
 
@@ -95,7 +95,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         val ctx = when (eventsHandler) {
             is Context -> eventsHandler
             is Fragment -> eventsHandler.requireContext()
-            else -> VLCApplication.appContext
+            else -> VLCCommonApplication.appContext
         }
         listImageWidth = ctx.resources.getDimension(R.dimen.audio_browser_item_size).toInt()
         defaultCover = getAudioIconDrawable(ctx, type, false)

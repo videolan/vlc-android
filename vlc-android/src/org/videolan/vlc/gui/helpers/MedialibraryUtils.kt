@@ -9,9 +9,10 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_DISCOVER
 import org.videolan.resources.ACTION_DISCOVER_DEVICE
 import org.videolan.resources.EXTRA_PATH
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.vlc.MediaParsingService
-import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.runIO
+import org.videolan.vlc.util.stripTrailingSlash
 
 object MedialibraryUtils {
 
@@ -20,7 +21,7 @@ object MedialibraryUtils {
     }
 
     @JvmOverloads
-    fun addDir(path: String, context: Context = VLCApplication.appContext) {
+    fun addDir(path: String, context: Context = VLCCommonApplication.appContext) {
         val intent = Intent(ACTION_DISCOVER, null, context, MediaParsingService::class.java)
         intent.putExtra(EXTRA_PATH, path)
         ContextCompat.startForegroundService(context, intent)

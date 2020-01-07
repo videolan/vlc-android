@@ -31,6 +31,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
@@ -114,7 +115,7 @@ object Util {
             dialog.dismiss()
             return true
         } else if ("Performance warning" == dialog.title) {
-            Toast.makeText(VLCApplication.appContext, R.string.cast_performance_warning, Toast.LENGTH_LONG).show()
+            Toast.makeText(VLCCommonApplication.appContext, R.string.cast_performance_warning, Toast.LENGTH_LONG).show()
             dialog.postAction(1)
             dialog.dismiss()
             return true

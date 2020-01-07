@@ -34,7 +34,7 @@ import android.view.MotionEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.vlc.VLCApplication
+import org.videolan.resources.VLCCommonApplication
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -122,8 +122,8 @@ object AndroidDevices {
         devicesWithoutNavBar.add("HTC One X")
         devicesWithoutNavBar.add("HTC One XL")
         hasNavBar = !devicesWithoutNavBar.contains(android.os.Build.MODEL)
-        val ctx = VLCApplication.appContext
-        val pm = ctx?.packageManager
+        val ctx = VLCCommonApplication.appContext
+        val pm = ctx.packageManager
         hasTsp = pm == null || pm.hasSystemFeature("android.hardware.touchscreen")
         isAndroidTv = pm != null && pm.hasSystemFeature("android.software.leanback")
         watchDevices = isAndroidTv && Build.MODEL.startsWith("Bouygtel")

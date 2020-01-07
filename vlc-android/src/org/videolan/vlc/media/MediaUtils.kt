@@ -26,9 +26,9 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.VLCCommonApplication
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.providers.MoviepediaTvshowProvider
@@ -130,7 +130,7 @@ object MediaUtils {
         openMediaNoUi(ctx, media)
     }
 
-    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCApplication.appContext, MLServiceLocator.getAbstractMediaWrapper(uri))
+    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCCommonApplication.appContext, MLServiceLocator.getAbstractMediaWrapper(uri))
 
     fun openMediaNoUi(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
@@ -322,7 +322,7 @@ object MediaUtils {
             ?: FileUtils.getFileNameFromPath(mediaWrapper.location)
 
     fun getContentMediaUri(data: Uri) = try {
-        VLCApplication.appContext.contentResolver.query(data,
+        VLCCommonApplication.appContext.contentResolver.query(data,
                 arrayOf(MediaStore.Video.Media.DATA), null, null, null)?.use {
             val columnIndex = it.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
             if (it.moveToFirst()) AndroidUtil.PathToUri(it.getString(columnIndex)) ?: data else data
@@ -449,7 +449,7 @@ object MediaUtils {
     }
 
     fun retrieveMediaTitle(mw: MediaWrapper) = try {
-        VLCApplication.appContext.contentResolver.query(mw.uri, null, null, null, null)?.use {
+        VLCCommonApplication.appContext.contentResolver.query(mw.uri, null, null, null, null)?.use {
             val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             if (nameIndex > -1 && it.count > 0) {
                 it.moveToFirst()
