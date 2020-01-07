@@ -59,9 +59,8 @@ continuous-app-build:
             - master
             - merge_requests
         changes:
-            - vlc-android/**/*
-            - resources/assets/**/*
-            - ./buildsystem/gitlab/.gitlab-ci.yml
+            - "**/*"
+            - buildsystem/gitlab/.gitlab-ci.yml
     except:
         refs:
             - schedules
