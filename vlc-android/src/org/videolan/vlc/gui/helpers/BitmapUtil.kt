@@ -24,7 +24,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.AppInstance
 import org.videolan.vlc.R
 
 object BitmapUtil {
@@ -52,7 +52,7 @@ object BitmapUtil {
 
     private fun readCoverBitmap(path: String?): Bitmap? {
         if (path == null) return null
-        val ctx = VLCCommonApplication.appContext
+        val ctx = AppInstance.context
         val res = ctx.resources
         var uri = Uri.decode(path)
         if (uri.startsWith("file://")) uri = uri.substring(7)

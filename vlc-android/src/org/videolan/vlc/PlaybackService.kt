@@ -675,7 +675,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                         currentToast?.cancel()
                         nbErrors++
                     }
-                    currentToast = Toast.makeText(VLCCommonApplication.appContext, text, duration)
+                    currentToast = Toast.makeText(AppInstance.context, text, duration)
                     currentToast?.show()
                 }
                 END_MEDIASESSION -> if (service::mediaSession.isInitialized) service.mediaSession.isActive = false

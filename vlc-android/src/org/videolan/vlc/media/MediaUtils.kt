@@ -25,8 +25,8 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AppInstance
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
-import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.AppScope
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -131,7 +131,7 @@ object MediaUtils {
         openMediaNoUi(ctx, media)
     }
 
-    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCCommonApplication.appContext, MLServiceLocator.getAbstractMediaWrapper(uri))
+    fun openMediaNoUi(uri: Uri) = openMediaNoUi(AppInstance.context, MLServiceLocator.getAbstractMediaWrapper(uri))
 
     fun openMediaNoUi(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
@@ -323,7 +323,7 @@ object MediaUtils {
             ?: FileUtils.getFileNameFromPath(mediaWrapper.location)
 
     fun getContentMediaUri(data: Uri) = try {
-        VLCCommonApplication.appContext.contentResolver.query(data,
+        AppInstance.context.contentResolver.query(data,
                 arrayOf(MediaStore.Video.Media.DATA), null, null, null)?.use {
             val columnIndex = it.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
             if (it.moveToFirst()) AndroidUtil.PathToUri(it.getString(columnIndex)) ?: data else data
@@ -450,7 +450,7 @@ object MediaUtils {
     }
 
     fun retrieveMediaTitle(mw: MediaWrapper) = try {
-        VLCCommonApplication.appContext.contentResolver.query(mw.uri, null, null, null, null)?.use {
+        AppInstance.context.contentResolver.query(mw.uri, null, null, null, null)?.use {
             val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             if (nameIndex > -1 && it.count > 0) {
                 it.moveToFirst()

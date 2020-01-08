@@ -27,8 +27,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppInstance
 import org.videolan.resources.TYPE_LOCAL_FAV
-import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.Settings
 
 private const val DIR_TABLE_NAME = "directories_table"
@@ -182,7 +182,7 @@ val migration_26_27 = object:Migration(26, 27) {
 
 val migration_27_28 = object:Migration(27, 28) {
     override fun migrate(database: SupportSQLiteDatabase) {
-        val preferences = Settings.getInstance(VLCCommonApplication.appContext)
+        val preferences = Settings.getInstance(AppInstance.context)
         val customPaths = preferences.getString("custom_paths", "")
         var oldPaths : List<String>? = null
         if (!customPaths.isNullOrEmpty()) oldPaths = customPaths.split(":")

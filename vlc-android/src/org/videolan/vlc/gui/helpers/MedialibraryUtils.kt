@@ -17,7 +17,7 @@ object MedialibraryUtils {
     }
 
     @JvmOverloads
-    fun addDir(path: String, context: Context = VLCCommonApplication.appContext) {
+    fun addDir(path: String, context: Context = AppInstance.context) {
         val intent = Intent(ACTION_DISCOVER, null, context, MediaParsingService::class.java)
         intent.putExtra(EXTRA_PATH, path)
         ContextCompat.startForegroundService(context, intent)

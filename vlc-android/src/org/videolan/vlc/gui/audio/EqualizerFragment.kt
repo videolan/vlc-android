@@ -38,7 +38,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.*
 import org.videolan.libvlc.MediaPlayer
-import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.AppInstance
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -333,11 +333,11 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
                 .setPositiveButton(R.string.save, null)
                 .setNegativeButton(R.string.do_not_save) { _, _ ->
                     if (onPause)
-                        VLCOptions.saveEqualizerInSettings(VLCCommonApplication.appContext, equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
+                        VLCOptions.saveEqualizerInSettings(AppInstance.context, equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
                 }
                 .setOnCancelListener {
                     if (onPause)
-                        VLCOptions.saveEqualizerInSettings(VLCCommonApplication.appContext, equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
+                        VLCOptions.saveEqualizerInSettings(AppInstance.context, equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
                 }
                 .create()
         input.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
@@ -365,9 +365,9 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
     private fun save(ctx: Context, input: EditText, oldName: String, temporarySet: MediaPlayer.Equalizer, onPause: Boolean, displayedByUser: Boolean, positionToSave: Int, saveEqualizer: AlertDialog) {
         val newName = input.text.toString()
         if (newName.contains("_") || TextUtils.equals(newName, newPresetName)) {
-            Toast.makeText(ctx, VLCCommonApplication.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
+            Toast.makeText(ctx, AppInstance.context.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
         } else if (allSets.contains(newName) && !TextUtils.equals(newName, oldName)) {
-            Toast.makeText(ctx, VLCCommonApplication.appContext.resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
+            Toast.makeText(ctx, AppInstance.context.resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
         } else {
             VLCOptions.saveCustomSet(ctx, temporarySet, newName)
             if (onPause) {

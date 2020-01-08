@@ -30,7 +30,7 @@ import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.interfaces.ILibVLC
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.util.VLCUtil
-import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.AppInstance
 import org.videolan.vlc.VLCCrashHandler
 import org.videolan.vlc.gui.CompatErrorActivity
 
@@ -67,7 +67,7 @@ object VLCInstance {
     fun restart() {
         if (sLibVLC != null) {
             sLibVLC!!.release()
-            sLibVLC = libVLCFactory.getFromOptions(VLCCommonApplication.appContext, VLCOptions.libOptions)
+            sLibVLC = libVLCFactory.getFromOptions(AppInstance.context, VLCOptions.libOptions)
         }
     }
 

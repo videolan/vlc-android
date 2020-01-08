@@ -118,7 +118,7 @@ object AndroidDevices {
         devicesWithoutNavBar.add("HTC One X")
         devicesWithoutNavBar.add("HTC One XL")
         hasNavBar = !devicesWithoutNavBar.contains(Build.MODEL)
-        val ctx = VLCCommonApplication.appContext
+        val ctx = AppInstance.context
         val pm = ctx.packageManager
         hasTsp = pm == null || pm.hasSystemFeature("android.hardware.touchscreen")
         isAndroidTv = pm != null && pm.hasSystemFeature("android.software.leanback")

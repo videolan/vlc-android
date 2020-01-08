@@ -42,9 +42,9 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.AppInstance
 import org.videolan.resources.CRASH_ML_CTX
 import org.videolan.resources.CRASH_ML_MSG
-import org.videolan.resources.VLCCommonApplication
 import org.videolan.resources.readableFileSize
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.DebugLogService
@@ -90,7 +90,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
             val emailIntent = withContext(Dispatchers.IO) {
                 client.stop()
                 if (!::logcatZipPath.isInitialized) {
-                    val path = VLCCommonApplication.appContext.getExternalFilesDir(null)?.absolutePath
+                    val path = AppInstance.context.getExternalFilesDir(null)?.absolutePath
                             ?: return@withContext null
                     logcatZipPath =  "$path/logcat.zip"
                 }
@@ -103,7 +103,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 if (binding.includeMedialibSwitch.isChecked) {
                     if (getStoragePermission(true)) {
                         if (!::dbPath.isInitialized) {
-                            val path = VLCCommonApplication.appContext.getExternalFilesDir(null)?.absolutePath
+                            val path = AppInstance.context.getExternalFilesDir(null)?.absolutePath
                                     ?: return@withContext null
                             dbPath = "$path/${Medialibrary.VLC_MEDIA_DB_NAME}"
                             dbZipPath = "$path/db.zip"

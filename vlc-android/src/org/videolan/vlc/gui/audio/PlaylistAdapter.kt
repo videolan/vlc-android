@@ -43,7 +43,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.AppInstance
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlaylistItemBinding
@@ -71,7 +71,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         val ctx = when (player) {
             is Context -> player
             is Fragment -> player.requireContext()
-            else -> VLCCommonApplication.appContext
+            else -> AppInstance.context
         }
 
         defaultCoverAudio = BitmapDrawable(ctx.resources, getBitmapFromDrawable(ctx, R.drawable.ic_no_song_background))
@@ -169,7 +169,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
             val cancelAction = Runnable { model?.run { insertMedia(position, media) } }
             UiTools.snackerWithCancel(v!!, message, null, cancelAction)
         } else if (player is Context) {
-            Toast.makeText(VLCCommonApplication.appContext, message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(AppInstance.context, message, Toast.LENGTH_SHORT).show()
         }
         remove(position)
     }

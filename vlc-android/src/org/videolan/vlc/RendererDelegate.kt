@@ -22,9 +22,9 @@ package org.videolan.vlc
 import kotlinx.coroutines.*
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
-import org.videolan.resources.VLCCommonApplication
-import org.videolan.tools.retry
+import org.videolan.resources.AppInstance
 import org.videolan.tools.AppScope
+import org.videolan.tools.retry
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.isAppStarted
@@ -46,7 +46,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
 
     suspend fun start() {
         if (started) return
-        val libVlc = VLCCommonApplication.appContext.let {
+        val libVlc = AppInstance.context.let {
             withContext(Dispatchers.IO) { VLCInstance.get(it) }
         }
         started = true

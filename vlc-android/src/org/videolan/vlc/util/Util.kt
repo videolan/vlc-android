@@ -32,7 +32,7 @@ import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.AppInstance
 import org.videolan.tools.runBackground
 import org.videolan.tools.runOnMainThread
 import org.videolan.vlc.R
@@ -118,7 +118,7 @@ object Util {
             dialog.dismiss()
             return true
         } else if ("Performance warning" == dialog.title) {
-            Toast.makeText(VLCCommonApplication.appContext, R.string.cast_performance_warning, Toast.LENGTH_LONG).show()
+            Toast.makeText(AppInstance.context, R.string.cast_performance_warning, Toast.LENGTH_LONG).show()
             dialog.postAction(1)
             dialog.dismiss()
             return true

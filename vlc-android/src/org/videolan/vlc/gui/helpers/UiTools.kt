@@ -69,8 +69,8 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.ACTION_DISCOVER_DEVICE
+import org.videolan.resources.AppInstance
 import org.videolan.resources.EXTRA_PATH
-import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
@@ -363,7 +363,7 @@ object UiTools {
             val outBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
 
             //Instantiate a new Renderscript
-            val rs = RenderScript.create(VLCCommonApplication.appContext)
+            val rs = RenderScript.create(AppInstance.context)
 
             //Create an Intrinsic Blur Script using the Renderscript
             val blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))

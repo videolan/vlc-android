@@ -29,6 +29,7 @@ import android.os.Build
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.multidex.MultiDexApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -40,7 +41,8 @@ import org.videolan.libvlc.MediaFactory
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.AppInstance
+import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.tools.wrap
@@ -48,16 +50,16 @@ import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapCache
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.tools.AppScope
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.SettingsMigration
 import org.videolan.vlc.util.VLCInstance
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VLCApplication : VLCCommonApplication(), Dialog.Callbacks by DialogDelegate {
+class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate {
 
     init {
+        AppInstance.context = this
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         FactoryManager.registerFactory(IMediaFactory.factoryId, MediaFactory())
@@ -70,17 +72,17 @@ class VLCApplication : VLCCommonApplication(), Dialog.Callbacks by DialogDelegat
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         Thread(Runnable {
-            locale = Settings.getInstance(appContext).getString("set_locale", "")
+            locale = Settings.getInstance(this).getString("set_locale", "")
             locale.takeIf { !it.isNullOrEmpty() }?.let {
-                updateAppContext(ContextWrapper(this).wrap(locale!!))
+                AppInstance.context = ContextWrapper(this).wrap(locale!!)
             }
 
             AppScope.launch(Dispatchers.IO) {
                 // Prepare cache folder constants
-                AudioUtil.prepareCacheFolder(appContext)
+                AudioUtil.prepareCacheFolder(AppInstance.context)
 
-                if (!VLCInstance.testCompatibleCPU(appContext)) return@launch
-                Dialog.setCallbacks(VLCInstance[appContext], DialogDelegate)
+                if (!VLCInstance.testCompatibleCPU(AppInstance.context)) return@launch
+                Dialog.setCallbacks(VLCInstance[AppInstance.context], DialogDelegate)
             }
             packageManager.setComponentEnabledSetting(ComponentName(this, SendCrashActivity::class.java),
                     if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
@@ -93,7 +95,7 @@ class VLCApplication : VLCCommonApplication(), Dialog.Callbacks by DialogDelegat
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         locale.takeIf { !it.isNullOrEmpty() }?.let {
-            updateAppContext(ContextWrapper(this).wrap(locale!!))
+            AppInstance.context = ContextWrapper(this).wrap(locale!!)
         }
     }
 
@@ -127,7 +129,7 @@ class VLCApplication : VLCCommonApplication(), Dialog.Callbacks by DialogDelegat
          * @return the main resources from the Application
          */
         val appResources: Resources
-            get() = appContext.resources
+            get() = AppInstance.context.resources
 
         /**
          * Check if application is currently displayed
