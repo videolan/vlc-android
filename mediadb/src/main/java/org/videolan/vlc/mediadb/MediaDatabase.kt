@@ -1,3 +1,27 @@
+/*
+ * ************************************************************************
+ *  MediaDatabase.kt
+ * *************************************************************************
+ * Copyright © 2020 VLC authors and VideoLAN
+ * Author: Nicolas POMEPUY
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ * **************************************************************************
+ *
+ *
+ */
+
 /*******************************************************************************
  *  MediaDatabase.kt
  * ****************************************************************************
@@ -26,13 +50,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import org.videolan.moviepedia.database.Converters
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.SingletonHolder
-import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.vlc.database.models.CustomDirectory
-import org.videolan.vlc.database.models.ExternalSub
-import org.videolan.vlc.database.models.Slave
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.mediadb.Converters
+import org.videolan.vlc.mediadb.models.BrowserFav
+import org.videolan.vlc.mediadb.models.CustomDirectory
+import org.videolan.vlc.mediadb.models.ExternalSub
+import org.videolan.vlc.mediadb.models.Slave
 
 private const val DB_NAME = "vlc_database"
 

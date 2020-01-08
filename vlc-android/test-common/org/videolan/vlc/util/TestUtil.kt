@@ -26,10 +26,10 @@ import org.videolan.resources.TYPE_LOCAL_FAV
 import org.videolan.resources.TYPE_NETWORK_FAV
 import org.videolan.vlc.api.OpenSubtitle
 import org.videolan.vlc.api.QueryParameters
-import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.vlc.database.models.CustomDirectory
-import org.videolan.vlc.database.models.ExternalSub
-import org.videolan.vlc.database.models.Slave
+import org.videolan.vlc.mediadb.models.BrowserFav
+import org.videolan.vlc.mediadb.models.CustomDirectory
+import org.videolan.vlc.mediadb.models.ExternalSub
+import org.videolan.vlc.mediadb.models.Slave
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 
@@ -38,8 +38,8 @@ object TestUtil {
     private const val fakeSubUri: String = "/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/subs/"
     private const val fakeMediaUri: String = "/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/media/"
 
-    fun createLocalFav(uri: Uri, title: String, iconUrl: String?): BrowserFav {
-        return BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl)
+    fun createLocalFav(uri: Uri, title: String, iconUrl: String?): org.videolan.vlc.mediadb.models.BrowserFav {
+        return org.videolan.vlc.mediadb.models.BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl)
     }
 
     fun createLocalUris(count: Int): List<String> {
@@ -48,21 +48,21 @@ object TestUtil {
         }
     }
 
-    fun createLocalFavs(count: Int): List<BrowserFav> {
+    fun createLocalFavs(count: Int): List<org.videolan.vlc.mediadb.models.BrowserFav> {
         return (0 until count).map {
             createLocalFav(Uri.parse("${fakeMediaUri}_$it.mp4"), "local$it", null)
         }
     }
 
-    fun createNetworkFav(uri: Uri, title: String, iconUrl: String?): BrowserFav {
-        return BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl)
+    fun createNetworkFav(uri: Uri, title: String, iconUrl: String?): org.videolan.vlc.mediadb.models.BrowserFav {
+        return org.videolan.vlc.mediadb.models.BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl)
     }
 
     fun createNetworkUris(count: Int): List<String> {
         return (0 until count).map { "${fakeUri}_network$it.mp4" }
     }
 
-    fun createNetworkFavs(count: Int): List<BrowserFav> {
+    fun createNetworkFavs(count: Int): List<org.videolan.vlc.mediadb.models.BrowserFav> {
         return (0 until count).map {
             createNetworkFav(
                     Uri.parse(fakeUri + "network" + it),
@@ -77,31 +77,31 @@ object TestUtil {
             subtitlePath: String,
             mediaPath: String,
             subLanguageID: String,
-            movieReleaseName: String): ExternalSub {
-        return ExternalSub(idSubtitle, subtitlePath, mediaPath, subLanguageID, movieReleaseName)
+            movieReleaseName: String): org.videolan.vlc.mediadb.models.ExternalSub {
+        return org.videolan.vlc.mediadb.models.ExternalSub(idSubtitle, subtitlePath, mediaPath, subLanguageID, movieReleaseName)
     }
 
-    fun createExternalSubsForMedia(mediaPath: String, mediaName: String, count: Int): List<ExternalSub> {
+    fun createExternalSubsForMedia(mediaPath: String, mediaName: String, count: Int): List<org.videolan.vlc.mediadb.models.ExternalSub> {
         return (0 until count).map {
-            ExternalSub(it.toString(), "${fakeSubUri}$mediaName$it", mediaPath, "en", mediaName)
+            org.videolan.vlc.mediadb.models.ExternalSub(it.toString(), "${fakeSubUri}$mediaName$it", mediaPath, "en", mediaName)
         }
     }
 
-    fun createSubtitleSlave(mediaPath: String, uri: String): Slave {
-        return Slave(mediaPath, IMedia.Slave.Type.Subtitle, 2, uri)
+    fun createSubtitleSlave(mediaPath: String, uri: String): org.videolan.vlc.mediadb.models.Slave {
+        return org.videolan.vlc.mediadb.models.Slave(mediaPath, IMedia.Slave.Type.Subtitle, 2, uri)
     }
 
-    fun createSubtitleSlavesForMedia(mediaName: String, count: Int): List<Slave> {
+    fun createSubtitleSlavesForMedia(mediaName: String, count: Int): List<org.videolan.vlc.mediadb.models.Slave> {
         return (0 until count).map {
             createSubtitleSlave("$fakeMediaUri$mediaName", "$fakeSubUri$mediaName$it.srt")
         }
     }
 
-    fun createCustomDirectory(path: String): CustomDirectory {
-        return CustomDirectory(path)
+    fun createCustomDirectory(path: String): org.videolan.vlc.mediadb.models.CustomDirectory {
+        return org.videolan.vlc.mediadb.models.CustomDirectory(path)
     }
 
-    fun createCustomDirectories(count: Int): List<CustomDirectory> {
+    fun createCustomDirectories(count: Int): List<org.videolan.vlc.mediadb.models.CustomDirectory> {
         val directory = "/sdcard/foo"
         return (0 until count).map {
             createCustomDirectory("$directory$it")

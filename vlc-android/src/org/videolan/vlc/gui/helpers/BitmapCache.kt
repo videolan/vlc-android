@@ -20,15 +20,13 @@
 
 package org.videolan.vlc.gui.helpers
 
-import android.annotation.TargetApi
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Build
 import android.util.Log
 import androidx.collection.LruCache
+import org.videolan.resources.readableSize
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.util.readableSize
 
 object BitmapCache {
     private val mMemCache: LruCache<String, Bitmap>

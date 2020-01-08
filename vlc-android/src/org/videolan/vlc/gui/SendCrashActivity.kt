@@ -45,13 +45,15 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.CRASH_ML_CTX
 import org.videolan.resources.CRASH_ML_MSG
 import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.readableFileSize
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SendCrashActivityBinding
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AppUtils
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
 import java.io.File
 import java.lang.Runnable
 

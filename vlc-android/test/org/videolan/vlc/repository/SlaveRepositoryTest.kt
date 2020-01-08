@@ -37,7 +37,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.SlaveDao
-import org.videolan.vlc.database.models.Slave
+import org.videolan.vlc.mediadb.models.Slave
 import org.videolan.vlc.util.TestUtil
 import org.videolan.vlc.util.argumentCaptor
 import org.videolan.vlc.util.mock
@@ -64,7 +64,7 @@ class SlaveRepositoryTest {
         val fakeSlave = TestUtil.createSubtitleSlavesForMedia("foo.mkv", 1)[0]
         slaveRepository.saveSlave(fakeSlave.mediaPath, fakeSlave.type, fakeSlave.priority, fakeSlave.uri)
 
-        val inserted = argumentCaptor<Slave>()
+        val inserted = argumentCaptor<org.videolan.vlc.mediadb.models.Slave>()
         verify(slaveDao).insert(inserted.capture() ?: uninitialized())
         assertThat(inserted.value, `is`(fakeSlave))
 

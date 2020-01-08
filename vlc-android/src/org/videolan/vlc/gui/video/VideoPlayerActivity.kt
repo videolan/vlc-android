@@ -86,7 +86,6 @@ import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.MainActivity
@@ -221,8 +220,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     protected var isBenchmark = false
 
-    private val addedExternalSubs = ArrayList<ExternalSub>()
-    private var downloadedSubtitleLiveData: LiveData<List<ExternalSub>>? = null
+    private val addedExternalSubs = ArrayList<org.videolan.vlc.mediadb.models.ExternalSub>()
+    private var downloadedSubtitleLiveData: LiveData<List<org.videolan.vlc.mediadb.models.ExternalSub>>? = null
     private var previousMediaPath: String? = null
 
     private val isInteractive: Boolean
@@ -345,7 +344,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private var enableSubs = true
 
-    private val downloadedSubtitleObserver = Observer<List<ExternalSub>> { externalSubs ->
+    private val downloadedSubtitleObserver = Observer<List<org.videolan.vlc.mediadb.models.ExternalSub>> { externalSubs ->
         for (externalSub in externalSubs!!) {
             if (!addedExternalSubs.contains(externalSub)) {
                 service?.addSubtitleTrack(externalSub.subtitlePath, currentSpuTrack == -2)

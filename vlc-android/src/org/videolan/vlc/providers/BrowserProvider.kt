@@ -40,6 +40,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
+import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.util.*

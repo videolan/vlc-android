@@ -41,6 +41,7 @@ import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.BETA_WELCOME
 import org.videolan.tools.Settings
 import org.videolan.tools.awaitAppIsForegroung

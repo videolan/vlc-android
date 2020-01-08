@@ -9,7 +9,7 @@
 
         <import type="android.text.TextUtils"/>
 
-        <import type="org.videolan.vlc.util.Strings"/>
+        <import type="org.videolan.resources.Strings" />
 
         <variable
                 name="holder"

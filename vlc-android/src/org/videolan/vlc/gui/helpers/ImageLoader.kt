@@ -39,7 +39,7 @@ import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.tv.TvUtil
-import org.videolan.vlc.util.AppScope
+import org.videolan.tools.AppScope
 import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap

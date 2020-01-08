@@ -68,7 +68,9 @@ import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.WeakHandler
+import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
 

@@ -48,7 +48,7 @@ import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapCache
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.util.AppScope
+import org.videolan.tools.AppScope
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.SettingsMigration
 import org.videolan.vlc.util.VLCInstance

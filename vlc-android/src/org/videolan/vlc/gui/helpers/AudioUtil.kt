@@ -38,9 +38,11 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.AndroidDevices
+import org.videolan.tools.runIO
+import org.videolan.tools.runOnMainThread
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
 import java.io.*

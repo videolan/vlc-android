@@ -44,20 +44,17 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.stubs.StubMedialibrary
-import org.videolan.vlc.gui.SendCrashActivity
-import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.moviepedia.MoviepediaIndexer
 import org.videolan.resources.*
-import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
-import org.videolan.tools.ML_SCAN_OFF
-import org.videolan.tools.ML_SCAN_ON
-import org.videolan.tools.Settings
+import org.videolan.tools.*
+import org.videolan.vlc.gui.SendCrashActivity
+import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
-import org.videolan.vlc.util.Util.readAsset
+import org.videolan.vlc.util.FileUtils
 import java.io.File
 
 private const val TAG = "VLC/MediaParsingService"
@@ -268,7 +265,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     private fun startScan(shouldInit: Boolean, upgrade: Boolean) {
         scanActivated = true
         if (MLServiceLocator.getLocatorMode() == MLServiceLocator.LocatorMode.TESTS) {
-            (medialibrary as StubMedialibrary).loadJsonData(readAsset("basic_stub.json", ""))
+            (medialibrary as StubMedialibrary).loadJsonData(Util.readAsset("basic_stub.json", ""))
         }
         when {
             shouldInit -> {

@@ -22,12 +22,29 @@ android {
         debug {
             buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
         }
+        dev {
+            initWith debug
+            matchingFallbacks = ['debug']
+        }
+
     }
 
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.multidex:multidex:2.0.1'
+
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
+
+    devImplementation project(':libvlc')
+    devImplementation project(':medialibrary')
+    debugImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    debugImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+
+    api project(':tools')
+
 }
 repositories {
     mavenCentral()

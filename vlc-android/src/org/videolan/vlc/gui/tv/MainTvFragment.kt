@@ -38,6 +38,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.RecommendationsService
@@ -46,7 +47,6 @@ import org.videolan.vlc.gui.tv.TvUtil.metadataDiffCallback
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.tv.MainTvModel
 import org.videolan.vlc.viewmodels.tv.MainTvModel.Companion.getMainTvModel
 

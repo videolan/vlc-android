@@ -31,10 +31,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
-import org.videolan.vlc.util.*
 
 const val CTX_TITLE_KEY = "CTX_TITLE_KEY"
 const val CTX_POSITION_KEY = "CTX_POSITION_KEY"

@@ -21,15 +21,11 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.EXIT_PLAYER
-import org.videolan.resources.PLAYLIST_TYPE_AUDIO
-import org.videolan.resources.PLAY_FROM_SERVICE
-import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.*
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils

@@ -57,6 +57,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.gui.helpers.AudioUtil

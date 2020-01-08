@@ -189,6 +189,5 @@ const val TYPE_LOCAL_FAV = 1
 const val CRASH_ML_CTX = "crash_ml_ctx"
 const val CRASH_ML_MSG = "crash_ml_msg"
 
-
-private fun String.buildPkgString() = "${BuildConfig.APP_ID}.$this"
+fun String.buildPkgString() = "${BuildConfig.APP_ID}.$this"
 

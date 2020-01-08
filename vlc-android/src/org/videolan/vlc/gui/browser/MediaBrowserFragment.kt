@@ -56,9 +56,9 @@ import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getW
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.FileUtils
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.TAG_ITEM
+import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel

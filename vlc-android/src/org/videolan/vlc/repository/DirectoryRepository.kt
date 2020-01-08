@@ -13,27 +13,26 @@ import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.R
 import org.videolan.vlc.database.CustomDirectoryDao
 import org.videolan.vlc.database.MediaDatabase
-import org.videolan.vlc.database.models.CustomDirectory
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 
 class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) : IOScopedObject() {
 
     fun addCustomDirectory(path: String): Job = launch {
-            customDirectoryDao.insert(CustomDirectory(path))
+        customDirectoryDao.insert(org.videolan.vlc.mediadb.models.CustomDirectory(path))
     }
 
     suspend fun getCustomDirectories() = withContext(coroutineContext) {
         try {
             customDirectoryDao.getAll()
         } catch (e: Exception) {
-            emptyList<CustomDirectory>()
+            emptyList<org.videolan.vlc.mediadb.models.CustomDirectory>()
         }
     }
 
-    fun deleteCustomDirectory(path: String) = launch { customDirectoryDao.delete(CustomDirectory(path)) }
+    fun deleteCustomDirectory(path: String) = launch { customDirectoryDao.delete(org.videolan.vlc.mediadb.models.CustomDirectory(path)) }
 
     suspend fun customDirectoryExists(path: String) = withContext(coroutineContext) { customDirectoryDao.get(path).isNotEmpty() }
 

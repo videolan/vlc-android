@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  ExternalSubDao.kt
+ *  SlaveDao.kt
  * ****************************************************************************
  * Copyright © 2018 VLC authors and VideoLAN
  *
@@ -20,19 +20,20 @@
 
 package org.videolan.vlc.database
 
-import androidx.lifecycle.LiveData
-import androidx.room.*
-import org.videolan.vlc.database.models.ExternalSub
-
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import org.videolan.vlc.mediadb.models.Slave
 
 @Dao
-interface ExternalSubDao {
+interface SlaveDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(externalSub: ExternalSub)
+    fun insert(slave: Slave)
 
-    @Query("DELETE FROM external_subtitles_table WHERE idSubtitle = :idSubtitle and mediaPath = :mediaPath")
-    fun delete(mediaPath: String, idSubtitle: String)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(slaves: Array<Slave>)
 
-    @Query("SELECT * from external_subtitles_table where mediaPath = :mediaPath")
-    fun get(mediaPath: String): LiveData<List<ExternalSub>>
+    @Query("SELECT * from SLAVES_table where slave_media_mrl = :mrl")
+    fun get(mrl: String): List<Slave>
 }

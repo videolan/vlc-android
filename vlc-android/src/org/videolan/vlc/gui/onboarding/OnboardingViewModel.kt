@@ -5,10 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 
-
-class OnboardingViewModel() : ViewModel() {
+class OnboardingViewModel : ViewModel() {
     var scanStorages = true
     var customizeMediaFolders = false
     var permissionGranted = false

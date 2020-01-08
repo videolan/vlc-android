@@ -11,8 +11,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.tools.AppScope
 import org.videolan.vlc.gui.DialogActivity
-import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.getFromMl
 import org.videolan.vlc.util.isAppStarted
 import org.videolan.vlc.util.scanAllowed

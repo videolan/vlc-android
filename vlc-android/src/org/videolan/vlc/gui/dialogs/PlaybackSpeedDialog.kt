@@ -33,10 +33,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.resources.formatRateString
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.OnRepeatListener
-import org.videolan.vlc.util.formatRateString
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi

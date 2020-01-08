@@ -12,7 +12,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.MediaSessionBrowser
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import org.videolan.vlc.util.getFromMl

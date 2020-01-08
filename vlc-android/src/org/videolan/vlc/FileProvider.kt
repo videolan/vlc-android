@@ -5,7 +5,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import android.os.ParcelFileDescriptor
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 import java.io.File
 import java.io.FileNotFoundException
 

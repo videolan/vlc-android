@@ -1,7 +1,7 @@
 package org.videolan.vlc.database
 
 import androidx.room.*
-import org.videolan.vlc.database.models.CustomDirectory
+import org.videolan.vlc.mediadb.models.CustomDirectory
 
 @Dao
 interface CustomDirectoryDao {

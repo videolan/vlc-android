@@ -25,18 +25,15 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import org.videolan.libvlc.Dialog
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VlcLoginDialogBinding
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.LOGIN_STORE
 import org.videolan.tools.Settings
 

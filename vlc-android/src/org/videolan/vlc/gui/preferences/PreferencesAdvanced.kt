@@ -35,12 +35,12 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
-import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.VLCInstance
 import java.io.File

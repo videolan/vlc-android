@@ -48,7 +48,7 @@ import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.PlayerState

@@ -30,7 +30,7 @@ import android.media.tv.TvContract
 import android.os.Build
 import android.util.Log
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.launchChannelUpdate
 import org.videolan.vlc.util.setChannel
 

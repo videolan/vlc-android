@@ -26,10 +26,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.TYPE_LOCAL_FAV
 import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.Settings
-import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.AndroidDevices
 
 private const val DIR_TABLE_NAME = "directories_table"
 private const val MEDIA_TABLE_NAME = "media_table"
@@ -203,11 +203,13 @@ val migration_28_29 = object:Migration(28, 29) {
 }
 
 fun populateDB(context: Context) = GlobalScope.launch(Dispatchers.IO) {
-    val favRepo = BrowserFavRepository.getInstance(context)
     val uris = listOf(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI,
             AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI)
-    for (uri in uris) favRepo.addLocalFavItem(uri, uri.lastPathSegment ?: "")
+    val browserFavDao = MediaDatabase.getInstance(context).browserFavDao()
+
+    for (uri in uris) browserFavDao.insert(org.videolan.vlc.mediadb.models.BrowserFav(uri, TYPE_LOCAL_FAV, uri.lastPathSegment
+            ?: "", null))
 }

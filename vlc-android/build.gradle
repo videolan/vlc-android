@@ -252,6 +252,7 @@ dependencies {
     implementation project(':api')
     implementation project(':tools')
     implementation project(':resources')
+    implementation project(':mediadb')
 
     // AppCompat
     implementation "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"

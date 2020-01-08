@@ -19,9 +19,9 @@
  */
 
 @file:JvmName("Strings")
-package org.videolan.vlc.util
 
-import org.videolan.vlc.BuildConfig
+package org.videolan.resources
+
 import java.text.DecimalFormat
 
 private const val TAG = "VLC/UiTools/Strings"
@@ -62,4 +62,4 @@ fun String.removeFileProtocole(): String {
         this
 }
 
-fun String.buildPkgString() = "${BuildConfig.APPLICATION_ID}.$this"
+fun String.getFileNameFromPath() = substringBeforeLast('/')

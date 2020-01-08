@@ -33,14 +33,14 @@ import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.SlaveDao
-import org.videolan.vlc.database.models.Slave
+import org.videolan.vlc.mediadb.models.Slave
 
 
 class SlaveRepository(private val slaveDao:SlaveDao) : IOScopedObject() {
 
     fun saveSlave(mediaPath: String, type: Int, priority: Int, uriString: String): Job {
         return launch {
-            slaveDao.insert(Slave(mediaPath, type, priority, uriString))
+            slaveDao.insert(org.videolan.vlc.mediadb.models.Slave(mediaPath, type, priority, uriString))
         }
     }
 
@@ -55,7 +55,7 @@ class SlaveRepository(private val slaveDao:SlaveDao) : IOScopedObject() {
             val slaves = try {
                 slaveDao.get(mrl)
             } catch (e: SQLiteException) {
-                emptyList<Slave>()
+                emptyList<org.videolan.vlc.mediadb.models.Slave>()
             }
             val mediaSlaves = slaves.map {
                 var uri = it.uri

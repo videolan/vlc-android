@@ -34,16 +34,15 @@ import android.view.View
 import android.widget.RemoteViews
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.resources.ACTION_REMOTE_BACKWARD
-import org.videolan.resources.ACTION_REMOTE_FORWARD
-import org.videolan.resources.ACTION_REMOTE_PLAYPAUSE
-import org.videolan.resources.ACTION_REMOTE_STOP
+import org.videolan.resources.*
+import org.videolan.tools.runIO
+import org.videolan.tools.runOnMainThread
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.getPendingIntent
 import java.util.*
 
 @ObsoleteCoroutinesApi

@@ -6,13 +6,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.ACTION_DISCOVER
-import org.videolan.resources.ACTION_DISCOVER_DEVICE
-import org.videolan.resources.EXTRA_PATH
-import org.videolan.resources.VLCCommonApplication
+import org.videolan.resources.*
+import org.videolan.tools.runIO
 import org.videolan.vlc.MediaParsingService
-import org.videolan.vlc.util.runIO
-import org.videolan.vlc.util.stripTrailingSlash
 
 object MedialibraryUtils {
 

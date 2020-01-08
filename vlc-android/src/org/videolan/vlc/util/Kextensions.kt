@@ -33,6 +33,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_ALL
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_VIDEO
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.*
 import org.videolan.tools.Settings.showTvUi
 import org.videolan.vlc.R

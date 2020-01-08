@@ -21,7 +21,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.database.BrowserFavDao
-import org.videolan.vlc.database.models.BrowserFav
+import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.CoroutineContextProvider
@@ -88,9 +88,9 @@ class FileBrowserModelTest : BaseTest() {
         file.listFiles().sorted().mapIndexed(this::addFileToProvider)
     }
 
-    private fun getFakeBrowserFav(index: Int): BrowserFav {
+    private fun getFakeBrowserFav(index: Int): org.videolan.vlc.mediadb.models.BrowserFav {
         val t = temporaryFolder.newFile("fake_media$index")
-        return BrowserFav(Uri.parse(t.path), 0, "vid_$index", null)
+        return org.videolan.vlc.mediadb.models.BrowserFav(Uri.parse(t.path), 0, "vid_$index", null)
     }
 
     @Test
@@ -146,7 +146,7 @@ class FileBrowserModelTest : BaseTest() {
 
     @Test
     fun whenAtRootAndHasLocalFavorite_checkDataSetContainsIt() {
-        val liveFavorites: MutableLiveData<List<BrowserFav>> = MutableLiveData()
+        val liveFavorites: MutableLiveData<List<org.videolan.vlc.mediadb.models.BrowserFav>> = MutableLiveData()
         every { mockedFavoritesRepo.localFavorites } returns liveFavorites
 
         initBrowserModel(null, showHiddenFiles = false)

@@ -28,9 +28,9 @@ import android.os.Bundle
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.*
 import org.videolan.vlc.R
-import org.videolan.vlc.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

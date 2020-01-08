@@ -34,7 +34,7 @@ import androidx.core.content.ContextCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.Logcat
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.getContextWithLocale

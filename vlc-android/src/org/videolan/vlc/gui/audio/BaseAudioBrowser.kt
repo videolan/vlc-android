@@ -41,6 +41,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig

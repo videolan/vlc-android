@@ -22,7 +22,7 @@ import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.R
 import org.videolan.vlc.database.CustomDirectoryDao
-import org.videolan.vlc.database.models.CustomDirectory
+import org.videolan.vlc.mediadb.models.CustomDirectory
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.CoroutineContextProvider
@@ -115,10 +115,10 @@ class StorageModelTest : BaseTest() {
 
     @Test
     fun whenAtRootAndTwoCustomDirectoriesWithOneChildOfInternalStorage_checkTwoResultsAreObtained() {
-        val customDir = CustomDirectory(temporaryFolder.newFile("custom1").path)
+        val customDir = org.videolan.vlc.mediadb.models.CustomDirectory(temporaryFolder.newFile("custom1").path)
         val newDirInsideInternalStorage = File("${Environment.getExternalStorageDirectory().path}/custom2")
         newDirInsideInternalStorage.mkdir()
-        val customDirInsideInternalStorage = CustomDirectory(newDirInsideInternalStorage.path)
+        val customDirInsideInternalStorage = org.videolan.vlc.mediadb.models.CustomDirectory(newDirInsideInternalStorage.path)
         coEvery { mockedDirectoryRepo.getCustomDirectories() } returns listOf(customDir, customDirInsideInternalStorage)
         initBrowserModel(false, null)
 
@@ -133,7 +133,7 @@ class StorageModelTest : BaseTest() {
 
     @Test
     fun whenAtCustomDirAndHiddenDirectoryPresentWithHideHiddenFiles_checkResultHasCorrectDirectoriesAndFlagIsNotShowHiddenFiles() {
-        val customDir = CustomDirectory(temporaryFolder.root.path)
+        val customDir = org.videolan.vlc.mediadb.models.CustomDirectory(temporaryFolder.root.path)
         coEvery { mockedDirectoryRepo.getCustomDirectories() } returns listOf(customDir)
 
         initBrowserModel(false, customDir.path)
@@ -148,7 +148,7 @@ class StorageModelTest : BaseTest() {
 
     @Test
     fun whenAtCustomDirAndHiddenDirectoryPresentWithShowHiddenFiles_checkResultHasHiddenDirectoriesAndFlagIsShowHiddenFiles() {
-        val customDir = CustomDirectory(temporaryFolder.root.path)
+        val customDir = org.videolan.vlc.mediadb.models.CustomDirectory(temporaryFolder.root.path)
         coEvery { mockedDirectoryRepo.getCustomDirectories() } returns listOf(customDir)
 
         initBrowserModel(true, customDir.path)

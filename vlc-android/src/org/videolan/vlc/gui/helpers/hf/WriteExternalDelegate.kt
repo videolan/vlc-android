@@ -14,12 +14,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.vlc.R
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.AppScope
-import org.videolan.vlc.util.FileUtils
+import org.videolan.resources.AndroidDevices
+import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
-
+import org.videolan.vlc.R
+import org.videolan.vlc.util.FileUtils
 
 class WriteExternalDelegate : BaseHeadlessFragment() {
     private var storage : String? = null

@@ -12,11 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
 import org.videolan.vlc.gui.OnItemSelectListener
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SubtitlesModel
 

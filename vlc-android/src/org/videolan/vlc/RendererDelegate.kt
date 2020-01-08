@@ -24,7 +24,7 @@ import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
 import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.retry
-import org.videolan.vlc.util.AppScope
+import org.videolan.tools.AppScope
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.isAppStarted

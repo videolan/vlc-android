@@ -37,12 +37,11 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
-import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.convertFavorites
@@ -64,7 +63,8 @@ open class FileBrowserProvider(
     private val showFavorites = url == null && !filePicker && this !is StorageProvider
     private val favorites = if (url == null && !filePicker) BrowserFavRepository.getInstance(context).localFavorites else null
 
-    private val favoritesObserver by lazy { Observer<List<BrowserFav>> {
+    private val favoritesObserver by lazy {
+        Observer<List<org.videolan.vlc.mediadb.models.BrowserFav>> {
         val favs = convertFavorites(it)
         val data = dataset.value.toMutableList()
         if (data.size > 1) {

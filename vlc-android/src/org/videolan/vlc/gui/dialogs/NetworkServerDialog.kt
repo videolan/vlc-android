@@ -21,7 +21,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.runIO
+import org.videolan.tools.runIO
 
 class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener, TextWatcher, View.OnClickListener {
 

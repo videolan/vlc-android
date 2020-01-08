@@ -17,7 +17,7 @@ import org.videolan.vlc.BaseTest
 import org.videolan.vlc.R
 import org.videolan.vlc.api.NoConnectivityException
 import org.videolan.vlc.database.ExternalSubDao
-import org.videolan.vlc.database.models.ExternalSub
+import org.videolan.vlc.mediadb.models.ExternalSub
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.OpenSubtitleRepository
@@ -38,7 +38,7 @@ class SubtitlesModelTest : BaseTest() {
 
     private val mockedDao: ExternalSubDao = mockk()
     private lateinit var mediaPath: String
-    private val downloadedLiveData = MutableLiveData<List<ExternalSub>>()
+    private val downloadedLiveData = MutableLiveData<List<org.videolan.vlc.mediadb.models.ExternalSub>>()
 
     private lateinit var subtitlesModel: SubtitlesModel
 

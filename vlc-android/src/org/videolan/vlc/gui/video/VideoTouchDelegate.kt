@@ -27,8 +27,8 @@ import org.videolan.medialibrary.Tools
 import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.AndroidDevices.isTv
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AndroidDevices.isTv
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.roundToInt

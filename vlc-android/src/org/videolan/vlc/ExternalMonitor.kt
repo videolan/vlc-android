@@ -46,9 +46,8 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_CHECK_STORAGES
 import org.videolan.resources.VLCCommonApplication
-import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
-import org.videolan.tools.ML_SCAN_ON
-import org.videolan.tools.Settings
+import org.videolan.resources.removeFileProtocole
+import org.videolan.tools.*
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
 import org.videolan.vlc.util.*

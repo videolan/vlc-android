@@ -40,14 +40,14 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.CTX_FAV_ADD
+import org.videolan.resources.removeFileProtocole
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.resources.CTX_FAV_ADD
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.removeFileProtocole
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 

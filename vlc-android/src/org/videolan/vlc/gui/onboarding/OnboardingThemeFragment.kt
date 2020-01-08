@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.onboarding_theme.*
 import org.videolan.vlc.R
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.resources.AndroidDevices
 
 class OnboardingThemeFragment : Fragment(), CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 

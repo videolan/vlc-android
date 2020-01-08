@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  Slave.kt
+ *  BrowserFavDao.kt
  * ****************************************************************************
  * Copyright © 2018 VLC authors and VideoLAN
  *
@@ -18,22 +18,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  ******************************************************************************/
 
-package org.videolan.vlc.database.models
+package org.videolan.vlc.database
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import android.net.Uri
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import org.videolan.vlc.mediadb.models.BrowserFav
 
-@Entity(tableName = "SLAVES_table")
-data class Slave (
-    @PrimaryKey
-    @ColumnInfo(name = "slave_media_mrl")
-    val mediaPath: String,
-    @ColumnInfo(name = "slave_type")
-    val type: Int,
-    @ColumnInfo(name = "slave_priority")
-    val priority:Int,
-    @ColumnInfo(name = "slave_uri")
-    val uri: String
-)
+@Dao
+interface BrowserFavDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(browserFav: BrowserFav)
 
+    @Query("SELECT * FROM fav_table where uri = :uri")
+    fun get(uri: Uri): List<BrowserFav>
+
+    @Query("SELECT * from fav_table")
+    fun getAll(): LiveData<List<BrowserFav>>
+
+    @Query("SELECT * from fav_table where type = 0")
+    fun getAllNetwrokFavs(): LiveData<List<BrowserFav>>
+
+    @Query("SELECT * from fav_table where type = 1")
+    fun getAllLocalFavs(): LiveData<List<BrowserFav>>
+
+    @Query("DELETE from fav_table where uri = :uri")
+    fun delete(uri: Uri)
+
+}

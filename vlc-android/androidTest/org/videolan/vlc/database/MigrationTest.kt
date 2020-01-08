@@ -37,9 +37,9 @@ import org.junit.runner.RunWith
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.database.helpers.*
-import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.vlc.database.models.ExternalSub
-import org.videolan.vlc.database.models.Slave
+import org.videolan.vlc.mediadb.models.BrowserFav
+import org.videolan.vlc.mediadb.models.ExternalSub
+import org.videolan.vlc.mediadb.models.Slave
 import org.videolan.tools.Settings
 import org.videolan.resources.TYPE_NETWORK_FAV
 import org.videolan.vlc.util.TestUtil
@@ -84,9 +84,9 @@ class MigrationTest {
 
         val migratedDb = getMigratedRoomDatabase(migration_26_27, migration_27_28, migration_28_29)
 
-        val slave: Slave = migratedDb.slaveDao().get(slaveMedia1Path)[0]
-        val exSub: List<ExternalSub> = getValue(migratedDb.externalSubDao().get(exSubMedia1Name))
-        val fav: BrowserFav = migratedDb.browserFavDao().get(favUri)[0]
+        val slave: org.videolan.vlc.mediadb.models.Slave = migratedDb.slaveDao().get(slaveMedia1Path)[0]
+        val exSub: List<org.videolan.vlc.mediadb.models.ExternalSub> = getValue(migratedDb.externalSubDao().get(exSubMedia1Name))
+        val fav: org.videolan.vlc.mediadb.models.BrowserFav = migratedDb.browserFavDao().get(favUri)[0]
 
         assertEquals(slave.mediaPath, slaveMedia1Path)
         assertEquals(slave.type, IMedia.Slave.Type.Subtitle)
@@ -126,7 +126,7 @@ class MigrationTest {
                 .build()
 
         // close the database and release any stream resources when the test finishes
-        migrationTestHelper.closeWhenFinished(database);
+        migrationTestHelper.closeWhenFinished(database)
         return database
     }
 }

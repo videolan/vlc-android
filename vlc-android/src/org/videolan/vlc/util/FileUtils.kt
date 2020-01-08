@@ -42,8 +42,10 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCCommonApplication
 import org.videolan.tools.Settings
+import org.videolan.tools.runIO
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaUtils

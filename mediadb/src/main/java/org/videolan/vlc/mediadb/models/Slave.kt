@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  BrowserFav.kt
+ *  Slave.kt
  * ****************************************************************************
  * Copyright © 2018 VLC authors and VideoLAN
  *
@@ -18,22 +18,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  ******************************************************************************/
 
-package org.videolan.vlc.database.models
+package org.videolan.vlc.mediadb.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import android.net.Uri
 
-@Entity(tableName = "fav_table")
-data class BrowserFav (
+@Entity(tableName = "SLAVES_table")
+data class Slave (
     @PrimaryKey
-    @ColumnInfo(name = "uri")
-    val uri: Uri,
-    @ColumnInfo(name = "type")
+    @ColumnInfo(name = "slave_media_mrl")
+    val mediaPath: String,
+    @ColumnInfo(name = "slave_type")
     val type: Int,
-    @ColumnInfo(name = "title")
-    val title: String,
-    @ColumnInfo(name = "icon_url")
-    val iconUrl: String?
+    @ColumnInfo(name = "slave_priority")
+    val priority:Int,
+    @ColumnInfo(name = "slave_uri")
+    val uri: String
 )
+

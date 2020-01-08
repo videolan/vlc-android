@@ -36,6 +36,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.KEY_FOLDER
 import org.videolan.resources.KEY_GROUP
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.RESULT_RESCAN
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.vlc.R
@@ -46,7 +47,6 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

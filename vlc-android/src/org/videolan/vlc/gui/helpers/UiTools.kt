@@ -77,13 +77,13 @@ import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.LocalePair
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.component1

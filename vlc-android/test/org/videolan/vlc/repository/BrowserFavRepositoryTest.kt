@@ -93,7 +93,7 @@ class BrowserFavRepositoryTest {
             TestUtil.createNetworkFav(parsedUri, "network$index", null)
         }
 
-        val inserted = argumentCaptor<BrowserFav>()
+        val inserted = argumentCaptor<org.videolan.vlc.mediadb.models.BrowserFav>()
         verify(browserFavDao, times(4)).insert(
                 inserted.capture() ?: /*Just to prevent must not null in kotlin*/uninitialized()
         )
@@ -103,7 +103,7 @@ class BrowserFavRepositoryTest {
         assertThat(inserted.allValues[2], `is`(fakeNetworkFavs[0]))
         assertThat(inserted.allValues[3], `is`(fakeNetworkFavs[1]))
 
-        val dbData = MutableLiveData<List<BrowserFav>>()
+        val dbData = MutableLiveData<List<org.videolan.vlc.mediadb.models.BrowserFav>>()
         dbData.value = fakeLocalFavs + fakeNetworkFavs
         `when`(browserFavDao.getAll()).thenReturn(dbData)
         val browserFavorites = getValue(browserFavRepository.browserFavorites)
@@ -146,7 +146,7 @@ class BrowserFavRepositoryTest {
             TestUtil.createNetworkFav(parsedUri, "network$index", null)
         }
 
-        val inserted = argumentCaptor<BrowserFav>()
+        val inserted = argumentCaptor<org.videolan.vlc.mediadb.models.BrowserFav>()
         verify(browserFavDao, times(4)).insert(
                 inserted.capture() ?: /*Just to prevent must not null in kotlin*/uninitialized()
         )
@@ -156,7 +156,7 @@ class BrowserFavRepositoryTest {
         assertThat(inserted.allValues[2], `is`(fakeNetworkFavs[0]))
         assertThat(inserted.allValues[3], `is`(fakeNetworkFavs[1]))
 
-        val dbData = MutableLiveData<List<BrowserFav>>()
+        val dbData = MutableLiveData<List<org.videolan.vlc.mediadb.models.BrowserFav>>()
         dbData.value = fakeLocalFavs
         `when`(browserFavDao.getAllLocalFavs()).thenReturn(dbData)
         val localFavorites = getValue(browserFavRepository.localFavorites)

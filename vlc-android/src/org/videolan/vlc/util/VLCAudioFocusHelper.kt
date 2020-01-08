@@ -34,6 +34,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.tools.AUDIO_DUCKING
+import org.videolan.resources.AndroidDevices
 import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService

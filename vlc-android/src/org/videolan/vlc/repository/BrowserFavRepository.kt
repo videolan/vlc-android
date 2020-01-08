@@ -20,21 +20,20 @@
 
 package org.videolan.vlc.repository
 
-import androidx.lifecycle.MediatorLiveData
 import android.content.Context
 import android.net.Uri
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.MediatorLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.TYPE_LOCAL_FAV
+import org.videolan.resources.TYPE_NETWORK_FAV
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.database.MediaDatabase
-import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.resources.TYPE_LOCAL_FAV
-import org.videolan.resources.TYPE_NETWORK_FAV
 import org.videolan.vlc.util.convertFavorites
 import java.util.*
 
@@ -48,11 +47,11 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
     val localFavorites by lazy { browserFavDao.getAllLocalFavs() }
 
     fun addNetworkFavItem(uri: Uri, title: String, iconUrl: String?) = launch {
-        browserFavDao.insert(BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl))
+        browserFavDao.insert(org.videolan.vlc.mediadb.models.BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl))
     }
 
     fun addLocalFavItem(uri: Uri, title: String, iconUrl: String? = null) = launch {
-        browserFavDao.insert(BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl))
+        browserFavDao.insert(org.videolan.vlc.mediadb.models.BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl))
     }
 
     val networkFavorites by lazy {

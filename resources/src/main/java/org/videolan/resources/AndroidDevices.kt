@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  */
 
-package org.videolan.vlc.util
+package org.videolan.resources
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -34,11 +34,7 @@ import android.view.MotionEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.resources.VLCCommonApplication
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileReader
-import java.io.IOException
+import java.io.*
 import java.util.*
 
 @ObsoleteCoroutinesApi
@@ -92,7 +88,7 @@ object AndroidDevices {
                         continue
                     }
                     if (startsWith(deviceWL, device) && (typeWL.contains(type) || startsWith(mountWL, mountpoint))) {
-                        val position = containsName(list, FileUtils.getFileNameFromPath(mountpoint))
+                        val position = containsName(list, mountpoint.getFileNameFromPath())
                         if (position > -1) list.removeAt(position)
                         list.add(mountpoint)
                     }
@@ -100,7 +96,7 @@ object AndroidDevices {
                 }
             } catch (ignored: IOException) {
             } finally {
-                Util.close(bufReader)
+                close(bufReader)
             }
             list.remove(EXTERNAL_PUBLIC_DIRECTORY)
             return list
@@ -121,7 +117,7 @@ object AndroidDevices {
         devicesWithoutNavBar.add("HTC One S")
         devicesWithoutNavBar.add("HTC One X")
         devicesWithoutNavBar.add("HTC One XL")
-        hasNavBar = !devicesWithoutNavBar.contains(android.os.Build.MODEL)
+        hasNavBar = !devicesWithoutNavBar.contains(Build.MODEL)
         val ctx = VLCCommonApplication.appContext
         val pm = ctx.packageManager
         hasTsp = pm == null || pm.hasSystemFeature("android.hardware.touchscreen")
@@ -215,5 +211,16 @@ object AndroidDevices {
             }
 
         }
+    }
+
+    fun close(closeable: Closeable?): Boolean {
+        if (closeable != null)
+            try {
+                closeable.close()
+                return true
+            } catch (e: IOException) {
+            }
+
+        return false
     }
 }

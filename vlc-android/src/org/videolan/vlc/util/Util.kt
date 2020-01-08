@@ -31,7 +31,10 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCCommonApplication
+import org.videolan.tools.runBackground
+import org.videolan.tools.runOnMainThread
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate

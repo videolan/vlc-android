@@ -47,7 +47,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.util.AppScope
+import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.vlc.util.VLCInstance
 import java.io.*
