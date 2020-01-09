@@ -57,8 +57,8 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
-import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
@@ -450,11 +450,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale())
+        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale()
+        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
     }
 
     override fun onCreate() {

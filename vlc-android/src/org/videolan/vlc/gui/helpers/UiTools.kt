@@ -74,7 +74,6 @@ import org.videolan.resources.EXTRA_PATH
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
@@ -83,12 +82,6 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.LocalePair
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -530,86 +523,7 @@ object UiTools {
                 .show()
     }
 
-    fun getLocalesUsedInProject(context: Context): LocalePair {
-        val localesEntryValues = BuildConfig.TRANSLATION_ARRAY
 
-
-        val localesEntry = arrayOfNulls<String>(localesEntryValues.size)
-        for (i in localesEntryValues.indices) {
-
-            val localesEntryValue = localesEntryValues[i]
-
-            val locale = getLocaleFromString(localesEntryValue)
-
-            val displayLanguage = locale.getDisplayLanguage(locale)
-            val displayCountry = locale.getDisplayCountry(locale)
-            if (displayCountry.isEmpty()) {
-                localesEntry[i] = firstLetterUpper(displayLanguage)
-            } else {
-                localesEntry[i] = firstLetterUpper(displayLanguage) + " - " + firstLetterUpper(displayCountry)
-            }
-        }
-
-        //sort
-        val localeTreeMap = TreeMap<String, String>()
-        for (i in localesEntryValues.indices) {
-            localeTreeMap[localesEntry[i]!!] = localesEntryValues[i]
-        }
-
-
-        val finalLocaleEntries = ArrayList<String>(localeTreeMap.size + 1).apply { add(0, context.getString(R.string.device_default)) }
-        val finalLocaleEntryValues = ArrayList<String>(localeTreeMap.size + 1).apply { add(0, "") }
-
-        var i = 1
-        for ((key, value) in localeTreeMap) {
-            finalLocaleEntries.add(i, key)
-            finalLocaleEntryValues.add(i, value)
-            i++
-        }
-
-        return LocalePair(finalLocaleEntries.toTypedArray(), finalLocaleEntryValues.toTypedArray())
-    }
-
-
-    private fun getLocaleFromString(string: String): Locale {
-
-        /**
-         * See [android.content.res.AssetManager.getLocales]
-         */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return Locale.forLanguageTag(string)
-        }
-
-        //Best effort on determining the locale
-
-        val separators = arrayOf("_", "-")
-
-        for (separator in separators) {
-            //see if there is a language and a country
-            if (string.contains(separator)) {
-                val splittedLocale = string.split(separator.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                if (splittedLocale.size == 2) {
-                    return Locale(splittedLocale[0], splittedLocale[1])
-                }
-            }
-        }
-
-
-        return Locale(string)
-    }
-
-    private fun firstLetterUpper(string: String?): String? {
-        if (string == null) {
-            return null
-        }
-        if (string.isEmpty()) {
-            return ""
-        }
-        return if (string.length == 1) {
-            string.toUpperCase(Locale.getDefault())
-        } else Character.toUpperCase(string[0]) + string.substring(1).toLowerCase(Locale.getDefault())
-
-    }
 
     fun deleteSubtitleDialog(context: Context, positiveListener: DialogInterface.OnClickListener, negativeListener: DialogInterface.OnClickListener) {
         AlertDialog.Builder(context)

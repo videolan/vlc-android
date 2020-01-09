@@ -34,6 +34,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.*
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 
@@ -95,7 +96,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
     }
 
     private fun prepareLocaleList() {
-        val localePair = UiTools.getLocalesUsedInProject(activity)
+        val localePair = LocaleUtils.getLocalesUsedInProject(activity, BuildConfig.TRANSLATION_ARRAY, getString(R.string.device_default))
         val lp = findPreference<ListPreference>("set_locale")
         lp?.entries = localePair.localeEntries
         lp?.entryValues = localePair.localeEntryValues

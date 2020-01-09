@@ -41,13 +41,13 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.tools.KeyHelper
+import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.SearchActivity
 import org.videolan.vlc.gui.tv.dialogs.ConfirmationTvActivity
 import org.videolan.vlc.gui.tv.registerTimeView
-import org.videolan.tools.Settings
-import org.videolan.vlc.util.getContextWithLocale
 
 private const val TAG = "VLC/BaseTvActivity"
 const val REQUEST_CODE_NO_CONNECTION = 100
@@ -63,11 +63,11 @@ abstract class BaseTvActivity : FragmentActivity() {
     private var currentlyVisible = false
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale())
+        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale()
+        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

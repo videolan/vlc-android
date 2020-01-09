@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import org.videolan.tools.KeyHelper
+import org.videolan.tools.Settings
+import org.videolan.tools.getContextWithLocale
+import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.IDialogHandler
-import org.videolan.tools.Settings
-import org.videolan.vlc.util.getContextWithLocale
 
 abstract class BaseActivity : AppCompatActivity(), IDialogHandler {
 
@@ -25,11 +26,11 @@ abstract class BaseActivity : AppCompatActivity(), IDialogHandler {
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale())
+        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale()
+        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {

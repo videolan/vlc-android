@@ -401,11 +401,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale())
+        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale()
+        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

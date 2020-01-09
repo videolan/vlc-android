@@ -41,10 +41,10 @@ import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.resources.*
-import org.videolan.resources.AndroidDevices
 import org.videolan.tools.BETA_WELCOME
 import org.videolan.tools.Settings
 import org.videolan.tools.awaitAppIsForegroung
+import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.BetaWelcomeActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SearchActivity
@@ -54,7 +54,8 @@ import org.videolan.vlc.gui.onboarding.startOnboarding
 import org.videolan.vlc.gui.tv.MainTvActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
 import videolan.org.commontools.TV_CHANNEL_PATH_APP
 import videolan.org.commontools.TV_CHANNEL_PATH_VIDEO
 import videolan.org.commontools.TV_CHANNEL_QUERY_VIDEO_ID
@@ -86,11 +87,11 @@ class StartActivity : FragmentActivity() {
         }
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale())
+        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale()
+        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

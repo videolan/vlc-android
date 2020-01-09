@@ -53,8 +53,10 @@ import org.videolan.tools.*
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.scanAllowed
 import java.io.File
 
 private const val TAG = "VLC/MediaParsingService"
@@ -118,11 +120,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     } else null
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale())
+        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale()
+        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
     }
 
     @TargetApi(Build.VERSION_CODES.O)
