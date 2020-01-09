@@ -1,4 +1,4 @@
-package org.videolan.vlc.util
+package org.videolan.tools
 
 /**
  *  Checks if the specified (sanitized) path is contained in this collection (of sanitized pathes)

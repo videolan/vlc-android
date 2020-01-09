@@ -25,7 +25,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import org.videolan.resources.AppInstance
 import org.videolan.tools.CloseableUtils
-import org.videolan.vlc.util.Logcat
+import org.videolan.tools.Logcat
 import java.io.*
 import java.lang.Thread.UncaughtExceptionHandler
 

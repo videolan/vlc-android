@@ -27,9 +27,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.annotation.TargetApi
 import android.content.Context
-import android.os.Build
 import android.os.Message
 import android.util.AttributeSet
 import android.util.Log
@@ -53,7 +51,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.providers.HeadersIndex
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.util.WeakHandler
+import org.videolan.tools.WeakHandler
 import org.videolan.vlc.util.scope
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.max

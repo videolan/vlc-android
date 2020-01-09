@@ -37,7 +37,7 @@ import org.videolan.tools.CloseableUtils
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.util.Logcat
+import org.videolan.tools.Logcat
 import java.io.*
 import java.util.*
 

@@ -19,6 +19,7 @@ import org.videolan.resources.CTX_APPEND
 import org.videolan.resources.CTX_ITEM_DL
 import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.resources.CTX_PLAY_AS_AUDIO
+import org.videolan.tools.WeakHandler
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.Utils
@@ -27,7 +28,6 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.*
 import java.util.*
 
 @ExperimentalCoroutinesApi

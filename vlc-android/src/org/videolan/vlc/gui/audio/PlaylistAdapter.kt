@@ -54,7 +54,7 @@ import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.MediaItemDiffCallback
-import org.videolan.vlc.util.WeakHandler
+import org.videolan.tools.WeakHandler
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.util.*
 

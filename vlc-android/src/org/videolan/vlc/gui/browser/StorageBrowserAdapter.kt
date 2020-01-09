@@ -36,7 +36,7 @@ import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.containsPath
+import org.videolan.tools.containsPath
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi

@@ -52,6 +52,7 @@ import kotlinx.coroutines.delay
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.tools.PREF_AUDIOPLAYER_TIPS_SHOWN
 import org.videolan.tools.Settings
+import org.videolan.tools.WeakHandler
 import org.videolan.tools.setVisibility
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer

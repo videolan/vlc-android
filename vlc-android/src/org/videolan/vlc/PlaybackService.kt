@@ -58,6 +58,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.tools.Settings
+import org.videolan.tools.WeakHandler
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.gui.helpers.AudioUtil

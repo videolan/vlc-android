@@ -43,7 +43,7 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.MurmurHash
+import org.videolan.tools.MurmurHash
 import org.videolan.vlc.util.Permissions
 import java.io.*
 import java.math.BigInteger

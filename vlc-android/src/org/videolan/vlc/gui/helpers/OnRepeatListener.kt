@@ -27,7 +27,7 @@ import android.os.Message
 import android.view.MotionEvent
 import android.view.View
 
-import org.videolan.vlc.util.WeakHandler
+import org.videolan.tools.WeakHandler
 
 /**
  *
@@ -49,7 +49,7 @@ class OnRepeatListener(private val initialInterval: Int, private val normalInter
      *
      * @param clickListener The OnClickListener to trigger
      */
-    constructor(clickListener: View.OnClickListener) : this(DEFAULT_INITIAL_DELAY, DEFAULT_NORMAL_DELAY, clickListener) {}
+    constructor(clickListener: View.OnClickListener) : this(DEFAULT_INITIAL_DELAY, DEFAULT_NORMAL_DELAY, clickListener)
 
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {

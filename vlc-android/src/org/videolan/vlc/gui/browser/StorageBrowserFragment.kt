@@ -54,6 +54,7 @@ import org.videolan.resources.CTX_CUSTOM_REMOVE
 import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
 import org.videolan.tools.ML_SCAN_ON
 import org.videolan.tools.Settings
+import org.videolan.tools.sanitizePath
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
@@ -63,7 +64,6 @@ import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.onboarding.OnboardingActivity
-import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
 import java.io.File
