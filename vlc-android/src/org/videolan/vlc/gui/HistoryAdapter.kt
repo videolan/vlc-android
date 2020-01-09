@@ -29,13 +29,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.databinding.HistoryItemBinding
 import org.videolan.vlc.gui.helpers.*
-import org.videolan.resources.UPDATE_SELECTION
-import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -80,7 +79,7 @@ class HistoryAdapter : DiffUtilAdapter<MediaWrapper, HistoryAdapter.ViewHolder>(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
-        if (Util.isListEmpty(payloads))
+        if (payloads.isNullOrEmpty())
             super.onBindViewHolder(holder, position, payloads)
         else
             holder.selectView(multiSelectHelper.isSelected(position))

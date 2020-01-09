@@ -59,7 +59,7 @@ private suspend fun updatePrograms(context: Context, channelId: Long) {
     if (channelId == -1L) return
     val videoList = context.getFromMl { recentVideos }
     val programs = withContext(Dispatchers.IO) { existingPrograms(context, channelId) }
-    if (Util.isArrayEmpty(videoList)) return
+    if (videoList.isNullOrEmpty()) return
     val cn = ComponentName(context, PreviewVideoInputService::class.java)
     for ((count, mw) in videoList.withIndex()) {
         if (mw == null) continue

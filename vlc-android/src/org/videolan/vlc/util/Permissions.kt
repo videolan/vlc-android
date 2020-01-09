@@ -43,10 +43,13 @@ import androidx.lifecycle.OnLifecycleEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppInstance
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
+import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -242,5 +245,21 @@ object Permissions {
 
     private fun FragmentActivity.requestStoragePermission(write: Boolean = false, callback: Runnable? = null) {
         askStoragePermission(write, callback)
+    }
+
+    fun checkWritePermission(activity: FragmentActivity, media: MediaWrapper, callback: Runnable): Boolean {
+        val uri = media.uri
+        if ("file" != uri.scheme) return false
+        if (uri.path!!.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
+            //Check write permission starting Oreo
+            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) {
+                askWriteStoragePermission(activity, false, callback)
+                return false
+            }
+        } else if (AndroidUtil.isLolliPopOrLater && WriteExternalDelegate.needsWritePermission(uri)) {
+            WriteExternalDelegate.askForExtWrite(activity, uri, callback)
+            return false
+        }
+        return true
     }
 }

@@ -41,7 +41,6 @@ import org.videolan.resources.PLAY_FROM_VIDEOGRID
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.getAppSystemService
 
 private const val TAG = "VLC/RecommendationsService"
@@ -102,7 +101,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
     private fun doRecommendations() = launch {
         mNotificationManager.cancelAll()
         val videoList = withContext(Dispatchers.IO) { Medialibrary.getInstance().recentVideos }
-        if (Util.isArrayEmpty(videoList)) return@launch
+        if (videoList.isNullOrEmpty()) return@launch
         for ((id, mediaWrapper) in videoList.withIndex()) {
             buildRecommendation(mediaWrapper, id, NotificationManagerCompat.IMPORTANCE_DEFAULT)
             if (id == MAX_RECOMMENDATIONS) break

@@ -31,7 +31,6 @@ import org.videolan.vlc.databinding.TvPlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.view.MiniVisualizer
-import org.videolan.vlc.util.Util
 import org.videolan.vlc.viewmodels.PlaylistModel
 
 @ExperimentalCoroutinesApi
@@ -70,7 +69,7 @@ internal constructor(private val audioPlayerActivity: AudioPlayerActivity, val m
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
-        if (Util.isListEmpty(payloads))
+        if (payloads.isNullOrEmpty())
             super.onBindViewHolder(holder, position, payloads)
         else {
             val isCurrent = payloads[0] as Boolean

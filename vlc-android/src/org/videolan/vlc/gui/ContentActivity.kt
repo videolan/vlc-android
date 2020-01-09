@@ -35,6 +35,8 @@ import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.RendererItem
+import org.videolan.resources.AndroidDevices
+import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.RendererDelegate
@@ -42,9 +44,6 @@ import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.Filterable
-import org.videolan.resources.AndroidDevices
-import org.videolan.tools.Settings
-import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -52,7 +51,7 @@ import org.videolan.vlc.util.Util
 open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
     private lateinit var searchView: SearchView
-    private var showRenderers = !AndroidDevices.isChromeBook && !Util.isListEmpty(RendererDelegate.renderers.value)
+    private var showRenderers = !AndroidDevices.isChromeBook && !RendererDelegate.renderers.value.isNullOrEmpty()
     private val searchHiddenMenuItem = ArrayList<MenuItem>()
 
 
@@ -66,7 +65,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
                 item.setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer_normal_w else R.drawable.ic_am_renderer_on_w)
             })
             RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems ->
-                showRenderers = !Util.isListEmpty(rendererItems)
+                showRenderers = !rendererItems.isNullOrEmpty()
                 val item = toolbar.menu.findItem(R.id.ml_menu_renderers)
                 if (item != null) item.isVisible = showRenderers
             })

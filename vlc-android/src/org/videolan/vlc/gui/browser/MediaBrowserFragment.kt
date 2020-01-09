@@ -42,6 +42,8 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.TAG_ITEM
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
@@ -56,10 +58,8 @@ import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getW
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.TAG_ITEM
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel
 import java.lang.Runnable
@@ -195,7 +195,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
                     if (isStarted()) lifecycleScope.launch { deleteMedia(item, false, null) }
                 }
                 val resid = if ((item as MediaWrapper).type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-                UiTools.snackerConfirm(view, getString(resid, item.getTitle()), Runnable { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
+                snackerConfirm(view, getString(resid, item.getTitle()), Runnable { if (Permissions.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
             }
             else -> return false
         }

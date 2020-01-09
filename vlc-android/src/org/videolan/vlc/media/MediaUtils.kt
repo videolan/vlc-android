@@ -36,7 +36,9 @@ import org.videolan.vlc.providers.MoviepediaTvshowProvider
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.getFromMl
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.min
@@ -269,7 +271,7 @@ object MediaUtils {
 
     @JvmOverloads
     fun openList(context: Context?, list: List<MediaWrapper>, position: Int, shuffle: Boolean = false) {
-        if (Util.isListEmpty(list) || context == null) return
+        if (list.isNullOrEmpty() || context == null) return
         DialogCallback(context, object : DialogCallback.Runnable {
             override fun run(service: PlaybackService) {
                 service.load(list, position)

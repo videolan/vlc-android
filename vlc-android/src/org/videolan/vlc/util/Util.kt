@@ -24,27 +24,17 @@ import android.app.Activity
 import android.app.Service
 import android.content.Context
 import android.text.TextUtils
-import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.libvlc.Dialog
-import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.AppInstance
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.runBackground
 import org.videolan.tools.runOnMainThread
-import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -77,24 +67,6 @@ object Util {
         }
     }
 
-
-
-    fun <T> isArrayEmpty(array: Array<T>?): Boolean {
-        return array == null || array.isEmpty()
-    }
-
-    fun isListEmpty(collection: Collection<*>?): Boolean {
-        return collection == null || collection.isEmpty()
-    }
-
-
-    fun <T> arrayToArrayList(array: Array<T>): ArrayList<T> {
-        val list = ArrayList<T>(array.size)
-        Collections.addAll(list, *array)
-        return list
-    }
-
-
     fun getMediaDescription(artist: String, album: String): String {
         val hasArtist = !TextUtils.isEmpty(artist)
         val hasAlbum = !TextUtils.isEmpty(album)
@@ -103,22 +75,6 @@ object Util {
         if (hasArtist && hasAlbum) contentBuilder.append(" - ")
         if (hasAlbum) contentBuilder.append(album)
         return contentBuilder.toString()
-    }
-
-    fun byPassChromecastDialog(dialog: Dialog.QuestionDialog): Boolean {
-        if ("Insecure site" == dialog.title) {
-            if ("View certificate" == dialog.action1Text)
-                dialog.postAction(1)
-            else if ("Accept permanently" == dialog.action2Text) dialog.postAction(2)
-            dialog.dismiss()
-            return true
-        } else if ("Performance warning" == dialog.title) {
-            Toast.makeText(AppInstance.context, R.string.cast_performance_warning, Toast.LENGTH_LONG).show()
-            dialog.postAction(1)
-            dialog.dismiss()
-            return true
-        }
-        return false
     }
 
     fun checkCpuCompatibility(ctx: Context) {
@@ -134,19 +90,4 @@ object Util {
         })
     }
 
-    fun checkWritePermission(activity: FragmentActivity, media: MediaWrapper, callback: Runnable): Boolean {
-        val uri = media.uri
-        if ("file" != uri.scheme) return false
-        if (uri.path!!.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
-            //Check write permission starting Oreo
-            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) {
-                Permissions.askWriteStoragePermission(activity, false, callback)
-                return false
-            }
-        } else if (AndroidUtil.isLolliPopOrLater && WriteExternalDelegate.needsWritePermission(uri)) {
-            WriteExternalDelegate.askForExtWrite(activity, uri, callback)
-            return false
-        }
-        return true
-    }
 }

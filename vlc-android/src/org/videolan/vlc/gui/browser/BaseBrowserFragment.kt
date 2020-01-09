@@ -71,6 +71,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Util
 import org.videolan.tools.WeakHandler
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
@@ -335,7 +336,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
         }
         val resId = if (mw.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-        UiTools.snackerConfirm(view, getString(resId, mw.title), Runnable { if (Util.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run() })
+        UiTools.snackerConfirm(view, getString(resId, mw.title), Runnable { if (Permissions.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run() })
         return true
     }
 
@@ -375,7 +376,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val fileBrowser = this is FileBrowserFragment
         val single = fileBrowser && count == 1
         val selection = if (single) adapter.multiSelectHelper.getSelection() else null
-        val type = if (!Util.isListEmpty(selection)) (selection!![0] as MediaWrapper).type else -1
+        val type = if (!selection.isNullOrEmpty()) (selection[0] as MediaWrapper).type else -1
         menu.findItem(R.id.action_mode_file_info).isVisible = single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO)
         menu.findItem(R.id.action_mode_file_append).isVisible = PlaylistManager.hasMedia()
         menu.findItem(R.id.action_mode_file_delete).isVisible = fileBrowser

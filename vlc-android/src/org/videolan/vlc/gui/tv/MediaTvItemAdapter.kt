@@ -19,13 +19,12 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.UPDATE_PAYLOAD
 import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
-import org.videolan.resources.UPDATE_PAYLOAD
-import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
@@ -63,7 +62,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
     }
 
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
-        if (Util.isListEmpty(payloads))
+        if (payloads.isNullOrEmpty())
             onBindViewHolder(holder, position)
         else {
             val payload = payloads[0]

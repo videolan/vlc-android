@@ -44,13 +44,12 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
+import org.videolan.resources.UPDATE_PAYLOAD
 import org.videolan.vlc.databinding.MovieBrowserTvItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMoviepediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
-import org.videolan.resources.UPDATE_PAYLOAD
-import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
@@ -88,7 +87,7 @@ class MoviepediaTvItemAdapter(type: Long, private val eventsHandler: IEventsHand
     }
 
     override fun onBindViewHolder(holder: AbstractMoviepediaItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
-        if (Util.isListEmpty(payloads))
+        if (payloads.isNullOrEmpty())
             onBindViewHolder(holder, position)
         else {
             val payload = payloads[0]

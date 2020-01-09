@@ -101,8 +101,9 @@ import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
-import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.Util
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
 
@@ -1509,7 +1510,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                                 val spuTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
-                                    if (!Util.isArrayEmpty(tracks as Array<MediaPlayer.TrackDescription>)) service.setSpuTrack(tracks[tracks.size - 1].id)
+                                    if (!(tracks as Array<MediaPlayer.TrackDescription>).isNullOrEmpty()) service.setSpuTrack(tracks[tracks.size - 1].id)
                                     addNextTrack = false
                                 } else if (spuTrack != 0 || currentSpuTrack != -2) {
                                     service.setSpuTrack(if (media.id == 0L) currentSpuTrack else spuTrack)
@@ -2147,7 +2148,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         && Settings.getInstance(this).getBoolean("enable_casting", true)) {
                     rendererBtn = findViewById(R.id.video_renderer)
                     PlaybackService.renderer.observe(this, Observer { rendererItem -> rendererBtn?.setImageDrawable(AppCompatResources.getDrawable(this, if (rendererItem == null) R.drawable.ic_renderer_circle_player else R.drawable.ic_renderer_on_circle_player)) })
-                    RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> rendererBtn.setVisibility(if (Util.isListEmpty(rendererItems)) View.GONE else View.VISIBLE) })
+                    RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> rendererBtn.setVisibility(if (rendererItems.isNullOrEmpty()) View.GONE else View.VISIBLE) })
                 }
 
                 hudRightBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title

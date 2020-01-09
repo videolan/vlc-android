@@ -46,12 +46,11 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_CHECK_STORAGES
 import org.videolan.resources.AppInstance
-import org.videolan.tools.removeFileProtocole
 import org.videolan.tools.*
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.getFromMl
 import videolan.org.commontools.LiveEvent
 import java.lang.ref.WeakReference
 import java.net.NetworkInterface
@@ -251,7 +250,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 }
 
 fun containsDevice(devices: Array<String>, device: String): Boolean {
-    if (Util.isArrayEmpty(devices)) return false
+    if (devices.isNullOrEmpty()) return false
     for (dev in devices) if (device.startsWith(dev.removeFileProtocole())) return true
     return false
 }
