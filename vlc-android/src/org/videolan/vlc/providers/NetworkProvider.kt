@@ -35,7 +35,7 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.LiveDataset
+import org.videolan.tools.livedata.LiveDataset
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

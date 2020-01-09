@@ -39,12 +39,12 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppInstance
-import org.videolan.tools.runIO
-import org.videolan.tools.runOnMainThread
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.MurmurHash
+import org.videolan.vlc.util.Permissions
 import java.io.*
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -356,7 +356,7 @@ object AudioUtil {
         } catch (e: Exception) {
             Log.e(TAG, "writeBitmap failed : " + e.message)
         } finally {
-            Util.close(out)
+            CloseableUtils.close(out)
         }
     }
 

@@ -29,7 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.tools.CoroutineContextProvider
 
 
 class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<MediaWrapper>(context, coroutineContextProvider) {
@@ -45,7 +45,7 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
     }
 
     fun rename(position: Int, name: String) {
-        val media = dataset.value[position] ?: return
+        val media = dataset.value[position]
         viewModelScope.launch(Dispatchers.IO) { media.rename(name) }
         refresh()
     }

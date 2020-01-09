@@ -20,7 +20,7 @@
 
 @file:JvmName("Strings")
 
-package org.videolan.resources
+package org.videolan.tools
 
 import java.text.DecimalFormat
 

@@ -21,7 +21,7 @@ import org.junit.Test
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
-import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.tools.CoroutineContextProvider
 import org.videolan.resources.EXTRA_TARGET
 import org.videolan.vlc.util.TestCoroutineContextProvider
 

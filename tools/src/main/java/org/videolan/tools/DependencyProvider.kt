@@ -1,4 +1,4 @@
-package org.videolan.vlc.util
+package org.videolan.tools
 
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap

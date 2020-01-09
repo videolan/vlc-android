@@ -17,7 +17,7 @@ import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.providers.BrowserProvider
-import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.tools.CoroutineContextProvider
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import java.io.File
 

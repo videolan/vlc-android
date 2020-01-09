@@ -44,6 +44,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppInstance
+import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Settings
 import org.videolan.tools.runIO
 import org.videolan.vlc.BuildConfig
@@ -160,8 +161,8 @@ object FileUtils {
             e.printStackTrace()
             return false
         } finally {
-            Util.close(`in`)
-            Util.close(out)
+            CloseableUtils.close(`in`)
+            CloseableUtils.close(out)
         }
     }
 
@@ -201,8 +202,8 @@ object FileUtils {
                 return true
             } catch (ignored: IOException) {
             } finally {
-                Util.close(inputStream)
-                Util.close(out)
+                CloseableUtils.close(inputStream)
+                CloseableUtils.close(out)
             }
             return false
         }
@@ -358,9 +359,9 @@ object FileUtils {
                     Log.e(TAG, "Couldn't download file from mail URI")
                     return null
                 } finally {
-                    Util.close(inputStream)
-                    Util.close(os)
-                    Util.close(cursor)
+                    CloseableUtils.close(inputStream)
+                    CloseableUtils.close(os)
+                    CloseableUtils.close(cursor)
                 }
             } else if (TextUtils.equals(data.authority, "media")) {
                 uri = MediaUtils.getContentMediaUri(data)

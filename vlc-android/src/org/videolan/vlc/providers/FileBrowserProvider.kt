@@ -43,7 +43,7 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.LiveDataset
+import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.util.convertFavorites
 import java.io.File
 

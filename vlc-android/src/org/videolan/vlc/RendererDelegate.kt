@@ -25,7 +25,7 @@ import org.videolan.libvlc.RendererItem
 import org.videolan.resources.AppInstance
 import org.videolan.tools.AppScope
 import org.videolan.tools.retry
-import org.videolan.vlc.util.LiveDataset
+import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.isAppStarted
 import java.util.*

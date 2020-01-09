@@ -1,4 +1,4 @@
-package org.videolan.vlc.util
+package org.videolan.tools
 
 import android.content.Context
 import android.os.Build

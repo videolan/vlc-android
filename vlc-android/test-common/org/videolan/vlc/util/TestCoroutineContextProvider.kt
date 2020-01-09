@@ -1,6 +1,7 @@
 package org.videolan.vlc.util
 
 import kotlinx.coroutines.Dispatchers
+import org.videolan.tools.CoroutineContextProvider
 
 class TestCoroutineContextProvider : CoroutineContextProvider() {
     override val Default by lazy { Dispatchers.Unconfined }

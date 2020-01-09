@@ -45,8 +45,8 @@ import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SimpleAdapter
-import org.videolan.vlc.util.CoroutineContextProvider
-import org.videolan.vlc.util.DependencyProvider
+import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.DependencyProvider
 import java.util.*
 
 class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,

@@ -35,7 +35,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.*
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.tools.CoroutineContextProvider
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 

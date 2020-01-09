@@ -34,6 +34,9 @@ import android.view.MotionEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.tools.containsName
+import org.videolan.tools.getFileNameFromPath
+import org.videolan.tools.startsWith
 import java.io.*
 import java.util.*
 

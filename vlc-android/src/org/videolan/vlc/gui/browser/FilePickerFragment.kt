@@ -37,7 +37,7 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.removeFileProtocole
+import org.videolan.tools.removeFileProtocole
 import org.videolan.vlc.R
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.FileUtils

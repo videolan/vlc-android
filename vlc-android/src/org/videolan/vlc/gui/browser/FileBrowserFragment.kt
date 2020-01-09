@@ -42,7 +42,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.CTX_FAV_ADD
-import org.videolan.resources.removeFileProtocole
+import org.videolan.tools.removeFileProtocole
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MedialibraryUtils

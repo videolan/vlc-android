@@ -24,18 +24,16 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.ExternalSubDao
 import org.videolan.vlc.database.MediaDatabase
-import org.videolan.vlc.mediadb.models.ExternalSub
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
-import org.videolan.vlc.util.CoroutineContextProvider
-import org.videolan.vlc.util.LiveDataMap
+import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.livedata.LiveDataMap
 import java.io.File
 
 class ExternalSubRepository(private val externalSubDao: ExternalSubDao, private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) {

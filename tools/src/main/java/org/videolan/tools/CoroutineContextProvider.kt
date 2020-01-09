@@ -1,4 +1,4 @@
-package org.videolan.vlc.util
+package org.videolan.tools
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

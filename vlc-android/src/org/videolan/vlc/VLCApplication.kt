@@ -48,7 +48,7 @@ import org.videolan.tools.isStarted
 import org.videolan.tools.wrap
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
-import org.videolan.vlc.gui.helpers.BitmapCache
+import org.videolan.tools.BitmapCache
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.SettingsMigration

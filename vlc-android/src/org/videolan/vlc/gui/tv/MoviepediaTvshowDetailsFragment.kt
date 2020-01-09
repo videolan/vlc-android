@@ -59,7 +59,7 @@ import org.videolan.moviepedia.database.models.*
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.HttpImageLoader
+import org.videolan.tools.HttpImageLoader
 import org.videolan.vlc.util.getFromMl
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.MediaMetadataFull

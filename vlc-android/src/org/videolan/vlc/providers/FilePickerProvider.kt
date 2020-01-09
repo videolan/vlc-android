@@ -26,7 +26,7 @@ import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.LiveDataset
+import org.videolan.tools.livedata.LiveDataset
 
 class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showDummyCategory: Boolean = false) : FileBrowserProvider(context, dataset, url, true, false, showDummyCategory) {
 

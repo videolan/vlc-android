@@ -25,7 +25,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.videolan.vlc.ExternalMonitor
-import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.tools.CoroutineContextProvider
 
 class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles, true, coroutineContextProvider) {
 

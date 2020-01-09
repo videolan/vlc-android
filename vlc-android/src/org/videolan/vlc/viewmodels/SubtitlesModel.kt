@@ -19,7 +19,7 @@ import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.OpenSubtitleRepository
-import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.tools.CoroutineContextProvider
 import java.io.File
 import java.util.*
 

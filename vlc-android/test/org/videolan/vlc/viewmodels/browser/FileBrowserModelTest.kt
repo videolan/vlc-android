@@ -21,10 +21,9 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.database.BrowserFavDao
-import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.tools.CoroutineContextProvider
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.applyMock
 import java.io.File

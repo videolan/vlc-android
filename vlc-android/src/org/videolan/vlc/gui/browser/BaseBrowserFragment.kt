@@ -48,6 +48,7 @@ import org.videolan.resources.*
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
+import org.videolan.tools.removeFileProtocole
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding

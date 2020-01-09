@@ -24,8 +24,8 @@ import android.os.Environment
 import android.text.format.DateFormat
 import android.util.Log
 import org.videolan.resources.AppInstance
+import org.videolan.tools.CloseableUtils
 import org.videolan.vlc.util.Logcat
-import org.videolan.vlc.util.Util
 import java.io.*
 import java.lang.Thread.UncaughtExceptionHandler
 
@@ -83,8 +83,8 @@ class VLCCrashHandler : UncaughtExceptionHandler {
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
-            Util.close(bw)
-            Util.close(output)
+            CloseableUtils.close(bw)
+            CloseableUtils.close(output)
         }
     }
 

@@ -26,13 +26,12 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.mediadb.models.BrowserFav
 
-
 fun isSchemeSupported(scheme: String?) = when(scheme) {
     "file", "smb", "ssh", "nfs", "content" -> true
     else -> false
 }
 
-fun convertFavorites(browserFavs: List<org.videolan.vlc.mediadb.models.BrowserFav>?) = browserFavs?.map { (uri, _, title, iconUrl) ->
+fun convertFavorites(browserFavs: List<BrowserFav>?) = browserFavs?.map { (uri, _, title, iconUrl) ->
     MLServiceLocator.getAbstractMediaWrapper(uri).apply {
         setDisplayTitle(Uri.decode(title))
         type = MediaWrapper.TYPE_DIR

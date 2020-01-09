@@ -25,6 +25,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppInstance
+import org.videolan.tools.BitmapCache
 import org.videolan.vlc.R
 
 object BitmapUtil {

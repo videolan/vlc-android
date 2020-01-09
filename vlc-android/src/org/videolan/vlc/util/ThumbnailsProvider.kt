@@ -20,8 +20,9 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppInstance
+import org.videolan.tools.BitmapCache
+import org.videolan.tools.CloseableUtils
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
-import org.videolan.vlc.gui.helpers.BitmapCache
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.UiTools
 import java.io.ByteArrayOutputStream
@@ -269,8 +270,8 @@ object ThumbnailsProvider {
         } catch (e: java.io.IOException) {
             e.printStackTrace()
         } finally {
-            Util.close(fos)
-            Util.close(stream)
+            CloseableUtils.close(fos)
+            CloseableUtils.close(stream)
         }
     }
 }

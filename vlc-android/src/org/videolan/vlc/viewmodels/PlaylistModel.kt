@@ -34,7 +34,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
-import org.videolan.vlc.util.LiveDataset
+import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.util.PlaylistFilterDelegate
 
 @ExperimentalCoroutinesApi

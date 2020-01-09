@@ -29,7 +29,7 @@ import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.resources.AndroidDevices
-import org.videolan.vlc.util.LiveDataset
+import org.videolan.tools.livedata.LiveDataset
 import java.io.File
 import java.util.*
 

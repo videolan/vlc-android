@@ -32,11 +32,11 @@ import android.text.format.DateFormat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.resources.AndroidDevices
+import org.videolan.tools.CloseableUtils
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.Logcat
-import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.getContextWithLocale
 import java.io.*
 import java.util.*
@@ -186,9 +186,9 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         } catch (ioe: IOException) {
             saved = false
         } finally {
-            saved = saved and Util.close(bw)
-            saved = saved and Util.close(output)
-            saved = saved and Util.close(fos)
+            saved = saved and CloseableUtils.close(bw)
+            saved = saved and CloseableUtils.close(output)
+            saved = saved and CloseableUtils.close(fos)
         }
         synchronized(this) {
             saveThread = null

@@ -28,6 +28,7 @@ import org.videolan.resources.*
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
+import org.videolan.tools.formatRateString
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOptionItemBinding

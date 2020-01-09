@@ -22,10 +22,9 @@ import org.videolan.medialibrary.stubs.StubMediaWrapper
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.R
 import org.videolan.vlc.database.CustomDirectoryDao
-import org.videolan.vlc.mediadb.models.CustomDirectory
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.tools.CoroutineContextProvider
 import org.videolan.vlc.util.TestCoroutineContextProvider
 import org.videolan.vlc.util.applyMock
 import java.io.File

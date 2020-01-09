@@ -28,7 +28,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.interfaces.IMedia
-import org.videolan.resources.readableSize
+import org.videolan.tools.readableSize
 import org.videolan.vlc.R
 
 class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {

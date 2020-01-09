@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.util
 
+import org.videolan.tools.CloseableUtils
 import java.io.*
 
 class Logcat : Runnable {
@@ -54,8 +55,8 @@ class Logcat : Runnable {
 
         } catch (e: IOException) {
         } finally {
-            Util.close(input)
-            Util.close(br)
+            CloseableUtils.close(input)
+            CloseableUtils.close(br)
         }
     }
 
@@ -131,10 +132,10 @@ class Logcat : Runnable {
                 }
             } catch (e: Exception) {
             } finally {
-                Util.close(bw)
-                Util.close(output)
-                Util.close(br)
-                Util.close(input)
+                CloseableUtils.close(bw)
+                CloseableUtils.close(output)
+                CloseableUtils.close(br)
+                CloseableUtils.close(input)
             }
         }
 
@@ -161,8 +162,8 @@ class Logcat : Runnable {
                     line = br.readLine()
                 }
 
-                Util.close(br)
-                Util.close(input)
+                CloseableUtils.close(br)
+                CloseableUtils.close(input)
 
                 return log.toString()
             }

@@ -25,7 +25,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.CoroutineContextProvider
+import org.videolan.tools.CoroutineContextProvider
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi

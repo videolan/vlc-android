@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.*
 import org.videolan.tools.runIO
+import org.videolan.tools.stripTrailingSlash
 import org.videolan.vlc.MediaParsingService
 
 object MedialibraryUtils {

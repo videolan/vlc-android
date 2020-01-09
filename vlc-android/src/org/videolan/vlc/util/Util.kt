@@ -33,13 +33,17 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppInstance
+import org.videolan.tools.CloseableUtils
 import org.videolan.tools.runBackground
 import org.videolan.tools.runOnMainThread
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import java.io.*
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
 import java.util.*
 
 @ExperimentalCoroutinesApi
@@ -68,21 +72,12 @@ object Util {
         } catch (e: IOException) {
             return defaultS
         } finally {
-            close(inputStream)
-            close(r)
+            CloseableUtils.close(inputStream)
+            CloseableUtils.close(r)
         }
     }
 
-    fun close(closeable: Closeable?): Boolean {
-        if (closeable != null)
-            try {
-                closeable.close()
-                return true
-            } catch (e: IOException) {
-            }
 
-        return false
-    }
 
     fun <T> isArrayEmpty(array: Array<T>?): Boolean {
         return array == null || array.isEmpty()
