@@ -15,7 +15,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.SubtitleItem
@@ -24,7 +24,7 @@ import org.videolan.vlc.repository.ExternalSubRepository
 
 
 object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
-    private val downloadManager = AppInstance.context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    private val downloadManager = AppContextProvider.appContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     private var dlDeferred : CompletableDeferred<SubDlResult>? = null
     private lateinit var defaultSubsDirectory : String
 
@@ -48,18 +48,18 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun register() {
-        AppInstance.context.applicationContext.registerReceiver(this, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        AppContextProvider.appContext.applicationContext.registerReceiver(this, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun unRegister() {
-        ExternalSubRepository.getInstance(AppInstance.context).downloadingSubtitles.observeForever {
+        ExternalSubRepository.getInstance(AppContextProvider.appContext).downloadingSubtitles.observeForever {
             it?.keys?.forEach {
                 downloadManager.remove(it)
             }
         }
 
-        AppInstance.context.applicationContext.unregisterReceiver(this)
+        AppContextProvider.appContext.applicationContext.unregisterReceiver(this)
     }
 
     suspend fun download(context: FragmentActivity, subtitleItem: SubtitleItem) {

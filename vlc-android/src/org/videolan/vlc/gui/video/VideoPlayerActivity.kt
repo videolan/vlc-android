@@ -2861,7 +2861,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
 
         fun getIntent(action: String, mw: MediaWrapper, fromStart: Boolean, openedPosition: Int): Intent {
-            return getIntent(action, AppInstance.context, mw.uri, mw.title, fromStart, openedPosition)
+            return getIntent(action, AppContextProvider.appContext, mw.uri, mw.title, fromStart, openedPosition)
         }
 
         fun getIntent(context: Context, uri: Uri, title: String?, fromStart: Boolean, openedPosition: Int): Intent {

@@ -38,7 +38,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -209,8 +209,8 @@ object AudioUtil {
 
             /* Parse decoded attachment */
             if (mArtist.isEmpty() || mAlbum.isEmpty() ||
-                    mArtist == AppInstance.context.getString(R.string.unknown_artist) ||
-                    mAlbum == AppInstance.context.getString(R.string.unknown_album)) {
+                    mArtist == AppContextProvider.appContext.getString(R.string.unknown_artist) ||
+                    mAlbum == AppContextProvider.appContext.getString(R.string.unknown_album)) {
                 /* If artist or album are missing, it was cached by title MD5 hash */
                 val md = MessageDigest.getInstance("MD5")
                 val binHash = md.digest((artworkURL + media.title).toByteArray(charset("UTF-8")))

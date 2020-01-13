@@ -23,7 +23,7 @@ package org.videolan.vlc
 import android.os.Environment
 import android.text.format.DateFormat
 import android.util.Log
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Logcat
 import java.io.*
@@ -54,8 +54,8 @@ class VLCCrashHandler : UncaughtExceptionHandler {
 
         // Save the log on SD card if available
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
-            writeLog(stacktrace, AppInstance.context.getExternalFilesDir(null)!!.absolutePath + "/vlc_crash")
-            writeLogcat(AppInstance.context.getExternalFilesDir(null)!!.absolutePath + "/vlc_logcat")
+            writeLog(stacktrace, AppContextProvider.appContext.getExternalFilesDir(null)!!.absolutePath + "/vlc_crash")
+            writeLogcat(AppContextProvider.appContext.getExternalFilesDir(null)!!.absolutePath + "/vlc_logcat")
         }
 
         defaultUEH.uncaughtException(thread, ex)

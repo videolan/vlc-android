@@ -43,9 +43,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
+import org.videolan.tools.WeakHandler
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.UiTools
@@ -54,7 +54,6 @@ import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.MediaItemDiffCallback
-import org.videolan.tools.WeakHandler
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.util.*
 
@@ -71,7 +70,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         val ctx = when (player) {
             is Context -> player
             is Fragment -> player.requireContext()
-            else -> AppInstance.context
+            else -> AppContextProvider.appContext
         }
 
         defaultCoverAudio = BitmapDrawable(ctx.resources, getBitmapFromDrawable(ctx, R.drawable.ic_no_song_background))
@@ -163,13 +162,13 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
     override fun onItemDismiss(position: Int) {
         val media = getItem(position)
-        val message = String.format(VLCApplication.appResources.getString(R.string.remove_playlist_item), media.title)
+        val message = String.format(AppContextProvider.appResources.getString(R.string.remove_playlist_item), media.title)
         if (player is Fragment) {
             val v = (player as Fragment).view
             val cancelAction = Runnable { model?.run { insertMedia(position, media) } }
             UiTools.snackerWithCancel(v!!, message, null, cancelAction)
         } else if (player is Context) {
-            Toast.makeText(AppInstance.context, message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(AppContextProvider.appContext, message, Toast.LENGTH_SHORT).show()
         }
         remove(position)
     }

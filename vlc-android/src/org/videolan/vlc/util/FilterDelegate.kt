@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
 import org.videolan.vlc.media.MediaUtils
 
 open class FilterDelegate<T : MediaLibraryItem>(protected val dataset: MutableLiveData<out List<T>>) {
@@ -54,10 +54,10 @@ class PlaylistFilterDelegate(dataset: MutableLiveData<out List<MediaWrapper>>) :
                 for (media in list) {
                     val title = MediaUtils.getMediaTitle(media).toLowerCase()
                     val location = media.location.toLowerCase()
-                    val artist = MediaUtils.getMediaArtist(AppInstance.context, media).toLowerCase()
-                    val albumArtist = MediaUtils.getMediaAlbumArtist(AppInstance.context, media).toLowerCase()
-                    val album = MediaUtils.getMediaAlbum(AppInstance.context, media).toLowerCase()
-                    val genre = MediaUtils.getMediaGenre(AppInstance.context, media).toLowerCase()
+                    val artist = MediaUtils.getMediaArtist(AppContextProvider.appContext, media).toLowerCase()
+                    val albumArtist = MediaUtils.getMediaAlbumArtist(AppContextProvider.appContext, media).toLowerCase()
+                    val album = MediaUtils.getMediaAlbum(AppContextProvider.appContext, media).toLowerCase()
+                    val genre = MediaUtils.getMediaGenre(AppContextProvider.appContext, media).toLowerCase()
                     for (queryString in queryStrings) {
                         if (title.contains(queryString) ||
                                 location.contains(queryString) ||

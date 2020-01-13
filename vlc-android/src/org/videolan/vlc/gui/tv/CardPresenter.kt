@@ -43,17 +43,15 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.dp
-import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.gui.helpers.*
 import org.videolan.moviepedia.models.identify.Media
 import org.videolan.moviepedia.models.identify.getCardSubtitle
 import org.videolan.moviepedia.models.identify.getImageUri
 import org.videolan.resources.*
 import org.videolan.tools.Settings
+import org.videolan.tools.dp
 import org.videolan.tools.getLocaleLanguages
-import org.videolan.vlc.util.*
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -226,8 +224,8 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
     companion object {
 
         private const val TAG = "CardPresenter"
-        private val CARD_WIDTH = VLCApplication.appResources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width)
-        private val CARD_HEIGHT = VLCApplication.appResources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height)
+        private val CARD_WIDTH = AppContextProvider.appResources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width)
+        private val CARD_HEIGHT = AppContextProvider.appResources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height)
 
         private val CARD_WIDTH_POSTER = 190.dp
         private val CARD_HEIGHT_POSTER = 285.dp

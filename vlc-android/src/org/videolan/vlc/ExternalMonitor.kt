@@ -45,7 +45,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_CHECK_STORAGES
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.*
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.gui.helpers.UiTools
@@ -164,7 +164,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun register() {
         if (registered) return
-        val ctx = AppInstance.context
+        val ctx = AppContextProvider.appContext
         val networkFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         val storageFilter = IntentFilter(Intent.ACTION_MEDIA_MOUNTED)
         val otgFilter = IntentFilter(UsbManager.ACTION_USB_DEVICE_ATTACHED)
@@ -194,7 +194,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     internal fun unregister() {
-        val ctx = AppInstance.context
+        val ctx = AppContextProvider.appContext
         if (registered) try {
             ctx.unregisterReceiver(this)
         } catch (iae: IllegalArgumentException) {}

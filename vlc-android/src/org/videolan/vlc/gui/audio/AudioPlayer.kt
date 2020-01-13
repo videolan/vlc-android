@@ -56,7 +56,6 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.InfoActivity
@@ -446,7 +445,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         internal var seekRunnable: Runnable = object : Runnable {
             override fun run() {
                 if (!vibrated) {
-                    (AppInstance.context.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator)
+                    (AppContextProvider.appContext.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator)
                             .vibrate(80)
                     vibrated = true
                 }

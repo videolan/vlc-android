@@ -45,7 +45,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
@@ -86,7 +86,7 @@ object Permissions {
     }
 
     @JvmOverloads
-    fun canWriteStorage(context: Context = AppInstance.context): Boolean {
+    fun canWriteStorage(context: Context = AppContextProvider.appContext): Boolean {
         return ContextCompat.checkSelfPermission(context,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
@@ -194,7 +194,7 @@ object Permissions {
         val i = Intent()
         i.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
         i.addCategory(Intent.CATEGORY_DEFAULT)
-        i.data = Uri.parse("package:" + AppInstance.context.packageName)
+        i.data = Uri.parse("package:" + AppContextProvider.appContext.packageName)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
             activity.startActivity(i)

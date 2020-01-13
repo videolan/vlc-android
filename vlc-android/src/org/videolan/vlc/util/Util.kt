@@ -26,10 +26,10 @@ import android.content.Context
 import android.text.TextUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.runBackground
 import org.videolan.tools.runOnMainThread
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import java.io.BufferedReader
 import java.io.IOException
@@ -45,7 +45,7 @@ object Util {
         var inputStream: InputStream? = null
         var r: BufferedReader? = null
         try {
-            inputStream = VLCApplication.appResources.assets.open(assetName)
+            inputStream = AppContextProvider.appResources.assets.open(assetName)
             r = BufferedReader(InputStreamReader(inputStream, "UTF8"))
             val sb = StringBuilder()
             var line: String? = r.readLine()

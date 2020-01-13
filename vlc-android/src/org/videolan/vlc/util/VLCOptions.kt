@@ -33,7 +33,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.libvlc.util.VLCUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.Preferences
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
@@ -60,7 +60,7 @@ object VLCOptions {
     /* generate an audio session id so as to share audio output with external equalizer *//* CPU intensive plugin, setting for slow devices *//* XXX: why can't the default be fine ? #7792 *//* Configure keystore *///Chromecast
     val libOptions: ArrayList<String>
         get() {
-            val context = AppInstance.context
+            val context = AppContextProvider.appContext
             val pref = Settings.getInstance(context)
             if (context != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && audiotrackSessionId == 0) {
                 val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager

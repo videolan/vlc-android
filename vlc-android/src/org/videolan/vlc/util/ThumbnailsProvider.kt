@@ -19,7 +19,7 @@ import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.CloseableUtils
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
@@ -64,7 +64,7 @@ object ThumbnailsProvider {
 
     private fun getMediaThumbnailPath(isMedia: Boolean, item: MediaLibraryItem): String? {
         if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) {
-            if (appDir == null) appDir = AppInstance.context.getExternalFilesDir(null)
+            if (appDir == null) appDir = AppContextProvider.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + MEDIALIB_FOLDER_NAME
             return if (hasCache) StringBuilder(cacheDir!!).append('/').append(item.fileName).append(".jpg").toString() else null
@@ -77,7 +77,7 @@ object ThumbnailsProvider {
     @WorkerThread
     fun getVideoThumbnail(media: MediaWrapper, width: Int): Bitmap? {
         val filePath = media.uri.path ?: return null
-        if (appDir == null) appDir = AppInstance.context.getExternalFilesDir(null)
+        if (appDir == null) appDir = AppContextProvider.appContext.getExternalFilesDir(null)
         val hasCache = appDir?.exists() == true
         val thumbPath = getMediaThumbnailPath(true, media) ?: return null
         val cacheBM = if (hasCache) BitmapCache.getBitmapFromMemCache(getMediaCacheKey(true, media)) else null
@@ -156,7 +156,7 @@ object ThumbnailsProvider {
 
         for (i in 0..3) {
             if (images.size < i + 1) {
-                images.add(UiTools.getDefaultAudioDrawable(AppInstance.context).bitmap)
+                images.add(UiTools.getDefaultAudioDrawable(AppContextProvider.appContext).bitmap)
             }
         }
 

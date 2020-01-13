@@ -44,7 +44,7 @@ import androidx.annotation.WorkerThread;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
-import org.videolan.resources.AppInstance;
+import org.videolan.resources.AppContextProvider;
 import org.videolan.tools.Settings;
 import org.videolan.tools.SettingsKt;
 import org.videolan.vlc.R;
@@ -311,7 +311,7 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
             mediaItem = new MediaDescriptionCompat.Builder();
             Uri coverUri = extensionItem.getImageUri();
             if (coverUri == null)
-                mediaItem.setIconBitmap(UiTools.INSTANCE.getDefaultAudioDrawable(AppInstance.context).getBitmap());
+                mediaItem.setIconBitmap(UiTools.INSTANCE.getDefaultAudioDrawable(AppContextProvider.INSTANCE.getAppContext()).getBitmap());
             else
                 mediaItem.setIconUri(coverUri);
             mediaItem.setTitle(extensionItem.getTitle());

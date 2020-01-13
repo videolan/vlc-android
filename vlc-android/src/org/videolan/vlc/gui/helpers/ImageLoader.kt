@@ -28,7 +28,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppInstance
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.tools.Settings
@@ -273,7 +273,7 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
         val tracks = withContext(Dispatchers.IO) { item.tracks.toList() }
         ThumbnailsProvider.getPlaylistImage("playlist:${item.id}_$width", tracks, width)
     } else null
-    if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(AppInstance.context).bitmap
+    if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(AppContextProvider.appContext).bitmap
     if (!bindChanged) updateImageView(playlistImage, v, binding)
 
     binding?.removeOnRebindCallback(rebindCallbacks!!)
