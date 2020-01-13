@@ -193,6 +193,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     internal var fov: Float = 0.toFloat()
     private var touchDelegate: VideoTouchDelegate? = null
+    private var statsDelegate: VideoStatsDelegate? = null
     private var isTv: Boolean = false
 
     // Tracks & Subtitles
@@ -496,6 +497,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         val xRange = Math.max(dm.widthPixels, dm.heightPixels)
         val sc = ScreenConfig(dm, xRange, yRange, currentScreenOrientation)
         touchDelegate = VideoTouchDelegate(this, touch, sc, isTv)
+        statsDelegate = VideoStatsDelegate(this)
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
@@ -736,6 +738,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         previousMediaPath = null
         addedExternalSubs.clear()
         medialibrary.resumeBackgroundOperations()
+        statsDelegate?.stop()
     }
 
     private fun saveBrightness() {
@@ -2135,6 +2138,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
                     manageAbRepeatStep()
                 })
+                service.playlistManager.videoStatsOn.observe(this, Observer {
+                    if (it) showOverlay(true)
+                    statsDelegate?.container = hudBinding.statsContainer
+                    statsDelegate?.initPlotView(hudBinding.plotView)
+                    if (it) statsDelegate?.start() else statsDelegate?.stop()
+                })
+
                 hudBinding.lifecycleOwner = this
                 val layoutParams = hudBinding.progressOverlay.layoutParams as RelativeLayout.LayoutParams
                 if (AndroidDevices.isPhone || !AndroidDevices.hasNavBar)

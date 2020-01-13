@@ -35,13 +35,45 @@
             tools:theme="@style/Theme.VLC.TV"
             tools:visibility="visible">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/stats_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corners"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:padding="8dp"
+                vlc:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+                vlc:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+                vlc:layout_constraintTop_toTopOf="parent">
+
+            <org.videolan.liveplotgraph.PlotView
+                    android:id="@+id/plotView"
+                    android:layout_width="250dp"
+                    android:layout_height="140dp"
+                    vlc:layout_constraintBottom_toBottomOf="parent"
+                    vlc:layout_constraintStart_toStartOf="parent"
+                    vlc:lpg_color="@color/white" />
+
+            <org.videolan.liveplotgraph.LegendView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    vlc:layout_constraintBottom_toBottomOf="@+id/plotView"
+                    vlc:layout_constraintStart_toEndOf="@+id/plotView"
+                    vlc:layout_constraintTop_toTopOf="@+id/plotView"
+                    vlc:lpg_plot_view="@+id/plotView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <include
                 layout="@layout/ab_repeat_controls"
                 android:id="@+id/ab_repeat_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                vlc:layout_constraintStart_toStartOf="@+id/constraintLayout2" />
+                vlc:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+                vlc:layout_constraintTop_toBottomOf="@id/stats_container" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"

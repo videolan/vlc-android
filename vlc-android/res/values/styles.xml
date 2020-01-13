@@ -92,6 +92,7 @@
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
+        <item name="ic_video_stats">@drawable/ic_video_stats</item>
         <item name="ic_dial">@drawable/ic_dial</item>
         <item name="progress_background">@color/grey400</item>
         <item name="ariane_text_color">@color/grey50</item>
@@ -210,6 +211,7 @@
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
+        <item name="ic_video_stats">@drawable/ic_video_stats</item>
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="progress_indeterminate_tint">@color/orange500</item>
         <item name="progress_background">@color/grey700</item>
@@ -398,6 +400,7 @@
         <item name="progress_background">@color/grey200</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
+        <item name="ic_video_stats">@drawable/ic_video_stats</item>
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="ic_crop_player">@drawable/ic_crop_player</item>
         <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500</item>

@@ -71,6 +71,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var entryUrl : String? = null
     val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
     val abRepeatOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
+    val videoStatsOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
@@ -718,6 +719,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (abRepeatOn.value == false) {
             abRepeat.value = ABRepeat()
         }
+    }
+
+    fun toggleStats() {
+        videoStatsOn.value = !videoStatsOn.value!!
     }
 
     fun clearABRepeat() {

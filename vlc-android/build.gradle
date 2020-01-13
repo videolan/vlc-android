@@ -253,6 +253,7 @@ dependencies {
     implementation project(':tools')
     implementation project(':resources')
     implementation project(':mediadb')
+    implementation project(':live-plot-graph')
 
     // AppCompat
     implementation "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"

@@ -74,4 +74,6 @@
     <!--<color name="tv_card_content">#396375</color>-->
     <color name="onboarding_grey_dark">#1c313a</color>
     <color name="onboarding_grey">#455a64</color>
+    <color name="material_blue">#2196f3</color>
+    <color name="material_pink">#e91e63</color>
 </resources>
