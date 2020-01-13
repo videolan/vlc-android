@@ -59,32 +59,28 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
-
+open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
 
     protected val TAG = "VLC/BaseBrowserAdapter"
 
-    lateinit var multiSelectHelper: MultiSelectHelper<MediaLibraryItem>
+    val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
 
-    private lateinit var folderDrawable: BitmapDrawable
-    private lateinit var audioDrawable: BitmapDrawable
-    private lateinit var videoDrawable: BitmapDrawable
-    private lateinit var subtitleDrawable: BitmapDrawable
-    private lateinit var unknownDrawable: BitmapDrawable
-    private lateinit var qaMoviesDrawable: BitmapDrawable
-    private lateinit var qaMusicDrawable: BitmapDrawable
-    private lateinit var qaPodcastsDrawable: BitmapDrawable
-    private lateinit var qaDownloadDrawable: BitmapDrawable
+    private val folderDrawable: BitmapDrawable
+    private val audioDrawable: BitmapDrawable
+    private val videoDrawable: BitmapDrawable
+    private val subtitleDrawable: BitmapDrawable
+    private val unknownDrawable: BitmapDrawable
+    private val qaMoviesDrawable: BitmapDrawable
+    private val qaMusicDrawable: BitmapDrawable
+    private val qaPodcastsDrawable: BitmapDrawable
+    private val qaDownloadDrawable: BitmapDrawable
 
-    protected lateinit var fragment: BaseBrowserFragment
-    var mediaCount = 0
+    internal var mediaCount = 0
     private var networkRoot = false
     private var specialIcons = false
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
-    constructor(fragment: BaseBrowserFragment) : this() {
-        this.fragment = fragment
-        multiSelectHelper = MultiSelectHelper(this, UPDATE_SELECTION)
+    init {
         val root = fragment.isRootDirectory
         val fileBrowser = fragment is FileBrowserFragment
         val filesRoot = root && fileBrowser
@@ -190,11 +186,13 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
 
         init {
             binding.holder = this
-            if (AndroidUtil.isMarshMallowOrLater)
-                itemView.setOnContextClickListener { v ->
-                    onMoreClick(v)
-                    true
-                }
+            if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener { v ->
+                onMoreClick(v)
+                true
+            }
+            if (this@BaseBrowserAdapter is FilePickerAdapter) {
+                binding.itemIcon.isFocusable = false
+            }
         }
 
 
