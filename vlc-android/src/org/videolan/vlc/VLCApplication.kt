@@ -54,7 +54,7 @@ import org.videolan.vlc.util.VLCInstance
 class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate {
 
     init {
-        AppContextProvider._appContext = this
+        AppContextProvider.init(this)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         FactoryManager.registerFactory(IMediaFactory.factoryId, MediaFactory())
@@ -69,7 +69,7 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
         Thread(Runnable {
             locale = Settings.getInstance(this).getString("set_locale", "")
             locale.takeIf { !it.isNullOrEmpty() }?.let {
-                AppContextProvider._appContext = ContextWrapper(this).wrap(locale!!)
+                AppContextProvider.init(ContextWrapper(this).wrap(it))
             }
 
             AppScope.launch(Dispatchers.IO) {
@@ -90,7 +90,7 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         locale.takeIf { !it.isNullOrEmpty() }?.let {
-            AppContextProvider._appContext = ContextWrapper(this).wrap(locale!!)
+            AppContextProvider.init(ContextWrapper(this).wrap(it))
         }
     }
 

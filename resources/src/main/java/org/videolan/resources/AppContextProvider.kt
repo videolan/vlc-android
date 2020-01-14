@@ -30,24 +30,26 @@ import android.content.res.Resources
 import java.lang.reflect.InvocationTargetException
 
 object AppContextProvider {
-    lateinit var _appContext: Context
+    private lateinit var context: Context
 
     val appContext: Context
         get() {
-            return if (::_appContext.isInitialized)
-                _appContext
+            return if (::context.isInitialized) context
             else {
                 try {
-                    _appContext = Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication").invoke(null) as Application
+                    context = Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication").invoke(null) as Application
                 } catch (ignored: IllegalAccessException) {
                 } catch (ignored: InvocationTargetException) {
                 } catch (ignored: NoSuchMethodException) {
                 } catch (ignored: ClassNotFoundException) {
-                } catch (ignored: ClassCastException) {
-                }
-                _appContext
+                } catch (ignored: ClassCastException) {}
+                context
             }
         }
+
+    fun init(context: Context) {
+        this.context = context
+    }
 
     /**
      * @return the main resources from the Application
