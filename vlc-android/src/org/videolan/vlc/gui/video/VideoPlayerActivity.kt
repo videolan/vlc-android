@@ -88,7 +88,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding
-import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
@@ -96,7 +95,6 @@ import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
-import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.ExternalSubRepository
@@ -403,11 +401,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
+        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
+        return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -1612,7 +1610,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         switchingView = true
         // Show the MainActivity if it is not in background.
         if (showUI) {
-            val i = Intent(this, if (isTv) AudioPlayerActivity::class.java else MainActivity::class.java)
+            val i = Intent().apply {
+                setClassName(applicationContext, if (isTv) "org.videolan.television.ui.audioplayer.AudioPlayerActivity" else "org.videolan.vlc.gui.MainActivity")
+            }
             startActivity(i)
         }
         exitOK()

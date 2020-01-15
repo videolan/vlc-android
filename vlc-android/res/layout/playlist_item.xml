@@ -69,6 +69,7 @@
                 app:layout_constraintDimensionRatio="1"
                 android:layout_marginStart="8dp"
                 app:media="@{media}"
+                app:card="@{true}"
                 android:scaleType="@{scaleType}"
                 android:src="@{cover}"
                 app:layout_constraintTop_toTopOf="parent"

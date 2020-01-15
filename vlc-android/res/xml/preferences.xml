@@ -53,19 +53,19 @@
         <Preference
                 android:title="@string/interface_prefs_screen"
                 android:key="ui_category"
-                android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesUi"/>
+                android:fragment="org.videolan.television.ui.preferences.PreferencesUi"/>
         <Preference
                 android:title="@string/video_prefs_category"
                 android:key="video_category"
-                android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesVideo"/>
+                android:fragment="org.videolan.television.ui.preferences.PreferencesVideo"/>
         <Preference
                 android:title="@string/subtitles_prefs_category"
                 android:key="subtitles_category"
-                android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesSubtitles"/>
+                android:fragment="org.videolan.television.ui.preferences.PreferencesSubtitles"/>
         <Preference
                 android:title="@string/audio_prefs_category"
                 android:key="audio_category"
-                android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesAudio"/>
+                android:fragment="org.videolan.television.ui.preferences.PreferencesAudio"/>
         <Preference
                 android:title="@string/casting_category"
                 android:key="casting_category"/>
@@ -75,7 +75,7 @@
         <Preference
                 android:title="@string/advanced_prefs_category"
                 android:key="adv_category"
-                android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesAdvanced"/>
+                android:fragment="org.videolan.television.ui.preferences.PreferencesAdvanced"/>
 
     </PreferenceCategory>
 

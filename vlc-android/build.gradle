@@ -149,73 +149,72 @@ task buildTranslationArray {
 preBuild.dependsOn buildTranslationArray
 
 dependencies {
-    devImplementation project(':libvlc')
-    devImplementation project(':medialibrary')
-    debugImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
-    debugImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
-    releaseImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
-    releaseImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
-    signedReleaseImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
-    signedReleaseImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
-    implementation project(':api')
-    implementation project(':tools')
-    implementation project(':resources')
-    implementation project(':mediadb')
-    implementation project(':live-plot-graph')
+    devApi project(':libvlc')
+    devApi project(':medialibrary')
+    debugApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    debugApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    releaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    releaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    signedReleaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    signedReleaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    api project(':api')
+    api project(':tools')
+    api project(':resources')
+    api project(':mediadb')
+    api project(':live-plot-graph')
 
     // AppCompat
-    implementation "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"
-    implementation "androidx.fragment:fragment-ktx:$rootProject.ext.androidxFragmentVersion"
-    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxRecyclerviewVersion"
-    implementation "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
-    implementation "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.lifecycleVersion"
+    api "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"
+    api "androidx.fragment:fragment-ktx:$rootProject.ext.androidxFragmentVersion"
+    api "androidx.recyclerview:recyclerview:$rootProject.ext.androidxRecyclerviewVersion"
+    api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
+    api "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
+    api "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
+    api 'androidx.multidex:multidex:2.0.1'
+    api "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.lifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.lifecycleVersion"
-    implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
+    api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
-    implementation "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
+    api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
 
     //TV
-    implementation "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
-    implementation "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
-    implementation "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
+    api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
+    api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
+    api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
-    implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
-    implementation "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
+    api "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
+    api "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
+    api "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
 
     // Tests
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    androidTestImplementation "androidx.room:room-testing:$rootProject.ext.roomVersion"
-    testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    androidTestApi "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestApi "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestApi "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    testApi "junit:junit:$rootProject.ext.junitVersion"
+    androidTestApi "androidx.room:room-testing:$rootProject.ext.roomVersion"
+    testApi "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestApi "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestApi "androidx.test.ext:junit:$rootProject.ext.supportTest"
     androidTestUtil "androidx.test:orchestrator:$rootProject.ext.supportTest"
-    testImplementation "androidx.test:core:$rootProject.ext.supportTest"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"
-    testImplementation "org.mockito:mockito-core:$rootProject.ext.mockito"
-    testImplementation "io.mockk:mockk:$rootProject.ext.mockk"
-    testImplementation "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
-    testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
-    testImplementation "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
-    testImplementation "org.robolectric:robolectric:$rootProject.ext.robolectric"
-    androidTestImplementation 'androidx.test:rules:1.3.0-alpha01'
-    implementation project(path: ':moviepedia')
+    testApi "androidx.test:core:$rootProject.ext.supportTest"
+    testApi "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"
+    testApi "org.mockito:mockito-core:$rootProject.ext.mockito"
+    testApi "io.mockk:mockk:$rootProject.ext.mockk"
+    testApi "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
+    testApi "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
+    testApi "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
+    testApi "org.robolectric:robolectric:$rootProject.ext.robolectric"
+    androidTestApi 'androidx.test:rules:1.3.0-alpha01'
 }
 
 

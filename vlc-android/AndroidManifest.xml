@@ -479,9 +479,6 @@
             android:name=".gui.SearchActivity"
             android:theme="@style/Theme.VLC"/>
         <activity
-            android:name=".gui.MoviepediaActivity"
-            android:theme="@style/Theme.VLC" />
-        <activity
             android:name=".gui.SendCrashActivity"
             android:label="@string/vlc_reporter"
             android:theme="@style/Theme.VLC.SendCrashDialog"
@@ -574,83 +571,6 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.Player"
             tools:ignore="LockedOrientationActivity" /> <!-- TV components -->
-        <activity
-            android:name=".gui.tv.MainTvActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleInstance"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity"/>
-        <activity
-            android:name=".gui.tv.dialogs.ConfirmationTvActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity"/>
-        <activity
-            android:name=".gui.tv.DetailsActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.Leanback.Details"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".gui.tv.MoviepediaTvshowDetailsActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.Leanback.Details"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".gui.tv.browser.VerticalGridActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".gui.tv.details.MediaListActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".gui.tv.browser.TVActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.Black"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".gui.tv.MoviepediaTvActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".gui.tv.SearchActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity"/>
-        <activity
-            android:name=".gui.tv.audioplayer.AudioPlayerActivity"
-            android:allowTaskReparenting="true"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".gui.tv.preferences.PreferencesActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.Leanback.Preferences"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".gui.tv.AboutActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".gui.tv.LicenceActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
-            tools:ignore="LockedOrientationActivity" />
 
         <service
             android:name=".RecommendationsService"
@@ -696,15 +616,6 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
-        </provider>
-        <!-- Provides search suggestions for keywords against video meta data. -->
-        <provider
-            android:name=".TVSearchProvider"
-            android:authorities="@string/tv_provider_authority"
-            android:exported="true">
-            <path-permission
-                android:pathPrefix="/search"
-                android:readPermission="android.permission.GLOBAL_SEARCH" />
         </provider>
 
         <service

@@ -41,7 +41,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.EXTRA_FIRST_RUN
 import org.videolan.resources.EXTRA_UPGRADE
-import org.videolan.vlc.startMedialibrary
+import org.videolan.resources.util.startMedialibrary
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Permissions.canReadStorage

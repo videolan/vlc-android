@@ -41,17 +41,15 @@ import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.resources.*
+import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.BETA_WELCOME
 import org.videolan.tools.Settings
 import org.videolan.tools.awaitAppIsForegroung
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.BetaWelcomeActivity
-import org.videolan.vlc.gui.MainActivity
-import org.videolan.vlc.gui.SearchActivity
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
 import org.videolan.vlc.gui.onboarding.startOnboarding
-import org.videolan.vlc.gui.tv.MainTvActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
@@ -87,11 +85,11 @@ class StartActivity : FragmentActivity() {
         }
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
+        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
+        return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,7 +148,8 @@ class StartActivity : FragmentActivity() {
         if (upgrade && (tv || !firstRun)) settings.edit().putInt(PREF_FIRST_RUN, currentVersionNumber).apply()
         // Route search query
         if (Intent.ACTION_SEARCH == action || "com.google.android.gms.actions.SEARCH_ACTION" == action) {
-            startActivity(intent.setClass(this, if (tv) org.videolan.vlc.gui.tv.SearchActivity::class.java else SearchActivity::class.java))
+            intent.setClassName(applicationContext, if (tv) "org.videolan.television.ui.SearchActivity" else "org.videolan.vlc.gui.SearchActivity")
+            startActivity(intent)
             finish()
             return
         } else if (MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH == action) {
@@ -195,7 +194,7 @@ class StartActivity : FragmentActivity() {
                 this@StartActivity.startMedialibrary(firstRun, upgrade, true)
                 if (onboarding)  settings.edit().putBoolean(ONBOARDING_DONE_KEY, true).apply()
             }.start()
-            val intent = Intent(this@StartActivity, if (tv) MainTvActivity::class.java else MainActivity::class.java)
+            val intent = Intent().apply { setClassName(applicationContext, if (tv) "org.videolan.television.ui.MainTvActivity" else "org.videolan.vlc.gui.MainActivity") }
                     .putExtra(EXTRA_FIRST_RUN, firstRun)
                     .putExtra(EXTRA_UPGRADE, upgrade)
             if (tv && getIntent().hasExtra(EXTRA_PATH)) intent.putExtra(EXTRA_PATH, getIntent().getStringExtra(EXTRA_PATH))

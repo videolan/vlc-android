@@ -6,6 +6,10 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -35,8 +39,7 @@ android {
 
 dependencies {
     implementation project(':tools')
-    debugImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
-    devImplementation project(':medialibrary')
+    implementation project(':vlc-android')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"

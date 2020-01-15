@@ -26,9 +26,7 @@ package org.videolan.moviepedia
 
 import android.content.Context
 import android.net.Uri
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -39,11 +37,14 @@ import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.moviepedia.repository.MediaPersonRepository
 import org.videolan.moviepedia.repository.MoviepediaApiRepository
 import org.videolan.moviepedia.repository.PersonRepository
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.interfaces.IndexingListener
+import org.videolan.tools.AppScope
 import org.videolan.tools.getLocaleLanguages
 
-object MoviepediaIndexer : CoroutineScope by MainScope() {
+object MoviepediaIndexer {
 
-    fun indexMedialib(context: Context) = launch(Dispatchers.IO) {
+    fun indexMedialib(context: Context) = AppScope.launch(Dispatchers.IO) {
         val medias = Medialibrary.getInstance().getPagedVideos(Medialibrary.SORT_DEFAULT, false, 1000, 0)
 
         val filesToIndex = HashMap<Long, Uri>()
@@ -183,4 +184,10 @@ object MoviepediaIndexer : CoroutineScope by MainScope() {
         mediaMetadata.hasCast = true
         MediaMetadataRepository.getInstance(context).addMetadataImmediate(mediaMetadata)
     }
+
+    val indexListener = object : IndexingListener {
+            override fun onIndexingDone() {
+                indexMedialib(AppContextProvider.appContext)
+            }
+        }
 }

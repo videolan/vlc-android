@@ -36,10 +36,10 @@ import androidx.media.session.MediaButtonReceiver
 import org.videolan.resources.ACTION_PAUSE_SCAN
 import org.videolan.resources.ACTION_RESUME_SCAN
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.Util
 
 object NotificationHelper {
@@ -117,7 +117,7 @@ object NotificationHelper {
         scanCompatBuilder.setContentText(progressText)
 
         notificationIntent.action = if (paused) ACTION_RESUME_SCAN else ACTION_PAUSE_SCAN
-        val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(VLCApplication.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val playpause = if (paused)
             NotificationCompat.Action(R.drawable.ic_play, ctx.getString(R.string.resume), pi)
         else

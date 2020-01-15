@@ -68,9 +68,7 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.ACTION_DISCOVER_DEVICE
-import org.videolan.resources.AppContextProvider
-import org.videolan.resources.EXTRA_PATH
+import org.videolan.resources.*
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
@@ -625,4 +623,38 @@ fun BaseActivity.applyTheme() {
         return
     }
     AppCompatDelegate.setDefaultNightMode(Integer.valueOf(settings.getString(KEY_APP_THEME, "-1")!!))
+}
+
+fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.itemType) {
+    MediaLibraryItem.TYPE_ALBUM -> R.drawable.ic_album_big
+    MediaLibraryItem.TYPE_ARTIST -> R.drawable.ic_artist_big
+    MediaLibraryItem.TYPE_GENRE -> R.drawable.ic_genre_big
+    MediaLibraryItem.TYPE_MEDIA -> {
+        val mw = mediaLibraryItem as MediaWrapper
+        when (mw.type) {
+            MediaWrapper.TYPE_VIDEO -> R.drawable.ic_browser_video_big_normal
+            MediaWrapper.TYPE_DIR -> if (mw.uri.scheme == "file") R.drawable.ic_menu_folder_big else R.drawable.ic_menu_network_big
+            else -> R.drawable.ic_song_big
+        }
+    }
+    MediaLibraryItem.TYPE_DUMMY -> {
+        when (mediaLibraryItem.id) {
+            HEADER_VIDEO -> R.drawable.ic_video_collection_big
+            HEADER_DIRECTORIES -> R.drawable.ic_menu_folder_big
+            HEADER_NETWORK -> R.drawable.ic_menu_network_big
+            HEADER_SERVER -> R.drawable.ic_menu_network_add_big
+            HEADER_STREAM -> R.drawable.ic_menu_stream_big
+            HEADER_PLAYLISTS -> R.drawable.ic_menu_playlist_big
+            HEADER_MOVIES -> R.drawable.ic_browser_movie_big
+            HEADER_TV_SHOW -> R.drawable.ic_browser_tvshow_big
+            ID_SETTINGS -> R.drawable.ic_menu_preferences_big
+            ID_ABOUT_TV, ID_LICENCE -> R.drawable.ic_default_cone
+            CATEGORY_ARTISTS -> R.drawable.ic_artist_big
+            CATEGORY_ALBUMS -> R.drawable.ic_album_big
+            CATEGORY_GENRES -> R.drawable.ic_genre_big
+            CATEGORY_SONGS, CATEGORY_NOW_PLAYING -> R.drawable.ic_song_big
+            else -> R.drawable.ic_browser_unknown_big_normal
+        }
+    }
+    else -> R.drawable.ic_browser_unknown_big_normal
 }

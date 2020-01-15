@@ -38,7 +38,6 @@ import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -47,17 +46,16 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.stubs.StubMedialibrary
-import org.videolan.moviepedia.MoviepediaIndexer
 import org.videolan.resources.*
+import org.videolan.resources.interfaces.IndexingListener
+import org.videolan.resources.util.dbExists
 import org.videolan.tools.*
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.scanAllowed
-import java.io.File
 
 private const val TAG = "VLC/MediaParsingService"
 private const val NOTIFICATION_DELAY = 1000L
@@ -68,7 +66,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
 
     private val dispatcher = ServiceLifecycleDispatcher(this)
     private lateinit var wakeLock: PowerManager.WakeLock
-    private lateinit var localBroadcastManager: LocalBroadcastManager
 
     private val binder = LocalBinder()
     private lateinit var medialibrary: Medialibrary
@@ -88,6 +85,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     @Volatile
     private var discoverTriggered = false
     internal val sb = StringBuilder()
+    val indexingListeners : List<IndexingListener> = AppContextProvider.indexingListeners
 
     private val notificationActor by lazy {
         lifecycleScope.actor<Notification>(capacity = Channel.UNLIMITED) {
@@ -120,11 +118,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     } else null
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
+        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
+        return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -133,7 +131,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(applicationContext)
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
-        localBroadcastManager = LocalBroadcastManager.getInstance(this)
         medialibrary = Medialibrary.getInstance()
         medialibrary.addDeviceDiscoveryCb(this@MediaParsingService)
         val filter = IntentFilter()
@@ -246,7 +243,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         addDevices(context, parse)
         if (upgrade) medialibrary.forceParserRetry()
         medialibrary.start()
-        localBroadcastManager.sendBroadcast(Intent(VLCApplication.ACTION_MEDIALIBRARY_READY))
         if (parse) startScan(shouldInit, upgrade)
         else exitCommand()
     }
@@ -392,7 +388,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
             lastNotificationTime = 0L
             //todo reenable entry point when ready
             if (BuildConfig.DEBUG) try {
-                MoviepediaIndexer.indexMedialib(applicationContext)
+                indexingListeners.forEach { it.onIndexingDone() }
             } catch (e: Exception) {
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "${e.cause}")
             }
@@ -405,7 +401,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         notificationActor.offer(Hide)
         medialibrary.removeDeviceDiscoveryCb(this)
         unregisterReceiver(receiver)
-        localBroadcastManager.unregisterReceiver(receiver)
         if (wakeLock.isHeld) wakeLock.release()
         medialibrary.exceptionHandler = null
         super.onDestroy()
@@ -499,24 +494,6 @@ fun Context.reloadLibrary() {
 
 fun Context.rescan() {
     ContextCompat.startForegroundService(this, Intent(ACTION_FORCE_RELOAD, null, this, MediaParsingService::class.java))
-}
-
-fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = AppScope.launch {
-    if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
-    val prefs = withContext(coroutineContextProvider.IO) { Settings.getInstance(this@startMedialibrary) }
-    val scanOpt = if (Settings.showTvUi) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
-    if (parse && scanOpt == -1) {
-        if (dbExists(coroutineContextProvider)) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
-    }
-    val intent = Intent(ACTION_INIT, null, this@startMedialibrary, MediaParsingService::class.java)
-    ContextCompat.startForegroundService(this@startMedialibrary, intent
-            .putExtra(EXTRA_FIRST_RUN, firstRun)
-            .putExtra(EXTRA_UPGRADE, upgrade)
-            .putExtra(EXTRA_PARSE, parse && scanOpt != ML_SCAN_OFF))
-}
-
-private suspend fun Context.dbExists(coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = withContext(coroutineContextProvider.IO) {
-    File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 
 private sealed class MLAction

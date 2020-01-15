@@ -27,7 +27,7 @@ import org.videolan.vlc.gui.helpers.hf.PermissionViewmodel
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.resumePermissionRequest
 import org.videolan.vlc.gui.view.NonSwipeableViewPager
-import org.videolan.vlc.startMedialibrary
+import org.videolan.resources.util.startMedialibrary
 import org.videolan.vlc.util.*
 
 const val ONBOARDING_DONE_KEY = "app_onboarding_done"

@@ -1,6 +1,6 @@
 package org.videolan.vlc.viewmodels.tv
 
-import org.videolan.vlc.providers.HeaderProvider
+import org.videolan.resources.util.HeaderProvider
 
 interface TvBrowserModel<T> {
     fun isEmpty() : Boolean

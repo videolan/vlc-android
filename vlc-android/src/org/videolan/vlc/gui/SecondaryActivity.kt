@@ -34,9 +34,10 @@ import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.KEY_FOLDER
 import org.videolan.resources.KEY_GROUP
-import org.videolan.resources.AndroidDevices
+import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.RESULT_RESCAN
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.vlc.R
@@ -44,7 +45,6 @@ import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
 
@@ -63,7 +63,7 @@ class SecondaryActivity : ContentActivity() {
         val params = fph.layoutParams as CoordinatorLayout.LayoutParams
 
         if (AndroidDevices.isTv) {
-            TvUtil.applyOverscanMargin(this)
+            applyOverscanMargin(this)
             params.topMargin = resources.getDimensionPixelSize(UiTools.getResourceFromAttribute(this, R.attr.actionBarSize))
         } else
             params.behavior = AppBarLayout.ScrollingViewBehavior()

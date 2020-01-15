@@ -181,6 +181,9 @@ const val CTX_PLAYLIST_ITEM_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_ADD_TO_PL
 const val CTX_VIDEO_GOUP_FLAGS = CTX_APPEND or CTX_PLAY_GROUP
 const val CTX_FOLDER_FLAGS = CTX_PLAY or CTX_APPEND or CTX_ADD_TO_PLAYLIST
 
+//Moviepedia
+const val MOVIEPEDIA_MEDIA: String = "moviepedia_media"
+
 // Database
 const val TYPE_NETWORK_FAV = 0
 const val TYPE_LOCAL_FAV = 1

@@ -34,20 +34,15 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_ALL
 import org.videolan.medialibrary.interfaces.media.MediaWrapper.TYPE_VIDEO
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
-import org.videolan.tools.*
-import org.videolan.tools.Settings.showTvUi
+import org.videolan.resources.util.getFromMl
+import org.videolan.tools.AppScope
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.tv.browser.REQUEST_CODE_NO_CONNECTION
-import org.videolan.vlc.gui.tv.dialogs.ConfirmationTvActivity
-import org.videolan.vlc.startMedialibrary
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
-import kotlin.coroutines.resume
 
-
-//object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManager.getDefaultSharedPreferences(it) })
 
 fun String.validateLocation(): Boolean {
     var location = this
@@ -96,31 +91,6 @@ fun MediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == Media
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
 fun Long.random() = (Random().nextFloat() * this).toLong()
-
-@ExperimentalCoroutinesApi
-suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(Dispatchers.IO) {
-    val ml = Medialibrary.getInstance()
-    if (ml.isStarted) block.invoke(ml)
-    else {
-        val scan = Settings.getInstance(this@getFromMl).getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON) == ML_SCAN_ON
-        suspendCancellableCoroutine { continuation ->
-            val listener = object : Medialibrary.OnMedialibraryReadyListener {
-                override fun onMedialibraryReady() {
-                    val cb = this
-                    if (!continuation.isCompleted) launch(start = CoroutineStart.UNDISPATCHED) {
-                        continuation.resume(block.invoke(ml))
-                        yield()
-                        ml.removeOnMedialibraryReadyListener(cb)
-                    }
-                }
-                override fun onMedialibraryIdle() {}
-            }
-            continuation.invokeOnCancellation { ml.removeOnMedialibraryReadyListener(listener) }
-            ml.addOnMedialibraryReadyListener(listener)
-            startMedialibrary(false, false, scan)
-        }
-    }
-}
 
 suspend fun Context.awaitMedialibraryStarted() = getFromMl { isStarted }
 
@@ -223,21 +193,6 @@ val View.scope : CoroutineScope
         is LifecycleOwner -> ctx.lifecycleScope
         else -> AppScope
     }
-
-fun Activity.manageHttpException(e: Exception) {
-    when (e) {
-        is NoConnectivityException -> {
-            if (showTvUi) {
-                val intent = Intent(this, ConfirmationTvActivity::class.java)
-                intent.putExtra(ConfirmationTvActivity.CONFIRMATION_DIALOG_TITLE, getString(R.string.no_internet_connection))
-                intent.putExtra(ConfirmationTvActivity.CONFIRMATION_DIALOG_TEXT, getString(R.string.open_network_settings))
-                startActivityForResult(intent, REQUEST_CODE_NO_CONNECTION)
-            } else {
-                Snackbar.make(findViewById<View>(android.R.id.content), R.string.no_internet_connection, Snackbar.LENGTH_LONG).show()
-            }
-        }
-    }
-}
 
 fun <T> Flow<T>.launchWhenStarted(scope: LifecycleCoroutineScope): Job = scope.launchWhenStarted {
     collect() // tail-call

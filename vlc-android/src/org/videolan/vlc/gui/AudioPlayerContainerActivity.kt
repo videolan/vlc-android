@@ -50,6 +50,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.resources.util.getFromMl
+import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.PREF_AUDIOPLAYER_TIPS_SHOWN
 import org.videolan.tools.Settings
 import org.videolan.tools.WeakHandler

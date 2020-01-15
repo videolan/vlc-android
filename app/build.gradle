@@ -130,4 +130,5 @@ android {
 
 dependencies {
     implementation project(':vlc-android')
+    implementation project(':television')
 }

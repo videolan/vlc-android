@@ -64,10 +64,9 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.StreamsModel
 
 const val TAG = "VLC/MrlPanelFragment"

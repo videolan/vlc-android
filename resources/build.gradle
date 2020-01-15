@@ -6,7 +6,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        rootProject.ext.minSdkVersion
+        minSdkVersion rootProject.ext.minSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -31,17 +31,19 @@ android {
 
 }
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.multidex:multidex:2.0.1'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api 'androidx.multidex:multidex:2.0.1'
 
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
 
-    devImplementation project(':libvlc')
-    devImplementation project(':medialibrary')
-    debugImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
-    debugImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    devApi project(':libvlc')
+    devApi project(':medialibrary')
+    debugApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    debugApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    releaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    releaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
 
     api project(':tools')
 

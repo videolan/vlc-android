@@ -31,17 +31,12 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
-import org.videolan.tools.Settings
-import org.videolan.vlc.BR
-import org.videolan.vlc.R
-import org.videolan.vlc.databinding.ActivityMediaListTvBinding
-import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
-import org.videolan.vlc.databinding.MediaBrowserTvItemBinding
-import org.videolan.vlc.databinding.PlaylistItemBinding
-import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.tools.AppScope
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.HttpImageLoader
+import org.videolan.tools.Settings
+import org.videolan.vlc.BR
+import org.videolan.vlc.R
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
 import org.videolan.vlc.util.scope
@@ -55,8 +50,8 @@ private const val TAG = "ImageLoader"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @MainThread
-@BindingAdapter(value = ["media", "imageWidth"], requireAll = false)
-fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
+@BindingAdapter(value = ["media", "imageWidth", "tv", "card"], requireAll = false)
+fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean = false, card: Boolean = false) {
     if (item === null) return
 
     if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
@@ -67,12 +62,12 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
     }
 
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
-    if (item.itemType == MediaLibraryItem.TYPE_GENRE && !isForTV(binding)) {
+    if (item.itemType == MediaLibraryItem.TYPE_GENRE && !tv) {
         return
     }
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
     if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && !Settings.showVideoThumbs) {
-        updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding)
+        updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding, tv = tv, card = card)
         return
     }
     val isGroup = isMedia && item.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
@@ -83,9 +78,9 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0) {
         else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item, imageWidth.toString())
     }
     val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
-    if (bitmap !== null) updateImageView(bitmap, v, binding)
+    if (bitmap !== null) updateImageView(bitmap, v, binding, tv = tv, card = card)
     else {
-        v.scope.launch { getImage(v, findInLibrary(item, isMedia), binding, imageWidth) }
+        v.scope.launch { getImage(v, findInLibrary(item, isMedia), binding, imageWidth, tv = tv, card = card) }
     }
 }
 
@@ -158,8 +153,6 @@ fun placeHolderView(v: View, item: Any?) {
     }
 }
 
-fun isForTV(binding: ViewDataBinding?) = (binding is MediaBrowserTvItemBinding) || binding is MediaBrowserTvItemBinding || binding is ActivityMediaListTvBinding || binding == null
-
 @MainThread
 @BindingAdapter("placeholderImage")
 fun placeHolderImageView(v: View, item: MediaLibraryItem?) {
@@ -184,30 +177,30 @@ fun imageCardViewContent(v: View, content: String?) {
     }
 }
 
-@BindingAdapter("imageUri")
-fun downloadIcon(v: View, imageUri: Uri?) {
+@BindingAdapter(value = ["imageUri", "tv" ], requireAll = false)
+fun downloadIcon(v: View, imageUri: Uri?, tv: Boolean = true) {
     if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
         v.scope.launch {
             val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
-            updateImageView(image, v, DataBindingUtil.findBinding(v))
+            updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)
         }
     }
 }
 
-@BindingAdapter("imageUrl")
-fun downloadIcon(v: View, imageUrl: String?) {
+@BindingAdapter(value = ["imageUrl", "tv" ], requireAll = false)
+fun downloadIcon(v: View, imageUrl: String?, tv: Boolean = true) {
     if (imageUrl.isNullOrEmpty()) return
     val imageUri = Uri.parse(imageUrl)
     if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
         val scope = (v.context as? CoroutineScope) ?: AppScope
         scope.launch {
             val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
-            updateImageView(image, v, DataBindingUtil.findBinding(v))
+            updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)
         }
     }
 }
 
-private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, imageWidth: Int = 0) {
+private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, imageWidth: Int = 0, tv: Boolean = false, card: Boolean = false) {
     var bindChanged = false
     val rebindCallbacks = if (binding !== null) object : OnRebindCallback<ViewDataBinding>() {
         override fun onPreBind(binding: ViewDataBinding): Boolean {
@@ -220,7 +213,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
         binding.addOnRebindCallback(rebindCallbacks!!)
     }
     val width = when {
-        isForTV(binding) -> {
+        tv -> {
             if (defaultImageWidthTV == 0) {
                 defaultImageWidthTV = v.context.resources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width)
             }
@@ -235,10 +228,10 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
         }
     }
     val image = if (!bindChanged) obtainBitmap(item, width) else null
-    if (image == null && isForTV(binding)) {
-        val imageTV = BitmapFactory.decodeResource(v.resources, TvUtil.getIconRes(item))
+    if (image == null && tv) {
+        val imageTV = BitmapFactory.decodeResource(v.resources, getTvIconRes(item))
         // binding is set to null to be sure to set the src and not the cover (background)
-        if (!bindChanged) updateImageView(imageTV, v, null, false)
+        if (!bindChanged) updateImageView(bitmap = imageTV, target = v, vdb = null, updateScaleType = false, tv = tv, card = card)
         binding?.removeOnRebindCallback(rebindCallbacks!!)
         return
     }
@@ -250,11 +243,9 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
         return
     }
 
-    if (!bindChanged) updateImageView(image, v, binding)
+    if (!bindChanged) updateImageView(image, v, binding, tv = tv, card = card)
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
-
-private fun isCard(binding: ViewDataBinding?) = binding is AudioBrowserCardItemBinding || binding is PlaylistItemBinding
 
 private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, width: Int) {
     var bindChanged = false
@@ -280,15 +271,15 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
 }
 
 @MainThread
-fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, updateScaleType: Boolean = true) {
+fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, updateScaleType: Boolean = true, tv : Boolean = false, card: Boolean = false) {
     if (bitmap === null || bitmap.width <= 1 || bitmap.height <= 1) return
-    if (vdb !== null && !isForTV(vdb)) {
-        vdb.setVariable(BR.scaleType, if (isCard(vdb)) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER)
+    if (vdb !== null && !tv) {
+        vdb.setVariable(BR.scaleType, if (card) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER)
         vdb.setVariable(BR.cover, BitmapDrawable(target.resources, bitmap))
         vdb.setVariable(BR.protocol, null)
     } else when (target) {
         is ImageView -> {
-            if (updateScaleType) target.scaleType = if (isForTV(vdb)) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
+            if (updateScaleType) target.scaleType = if (tv) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
             target.setImageBitmap(bitmap)
             target.visibility = View.VISIBLE
         }

@@ -14,11 +14,12 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMediaFactory
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.getFromMl
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.media.MediaPlayerEventListener
 import org.videolan.vlc.media.PlayerController
 import org.videolan.vlc.util.VLCInstance
-import org.videolan.vlc.util.getFromMl
 import org.videolan.vlc.util.random
 import java.io.IOException
 
@@ -36,11 +37,11 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope()
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
+        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
+        return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
 
     private inner class PreviewSession(context: Context

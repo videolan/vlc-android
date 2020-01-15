@@ -48,7 +48,6 @@ import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
 import org.videolan.vlc.gui.ContentActivity
-import org.videolan.vlc.gui.MoviepediaActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -401,7 +400,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
                 CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
                 CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-                CTX_FIND_METADATA -> startActivity(Intent(requireActivity(), MoviepediaActivity::class.java).apply { putExtra(MoviepediaActivity.MEDIA, media) })
+                CTX_FIND_METADATA -> {
+                    val intent = Intent().apply {
+                        setClassName(requireContext().applicationContext, "org.videolan.moviepedia.ui.MoviepediaActivity")
+                        apply { putExtra(MOVIEPEDIA_MEDIA, media) }
+                    }
+                    startActivity(intent)
+                }
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media) }
             }
             is Folder -> when (option) {

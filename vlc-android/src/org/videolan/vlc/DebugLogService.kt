@@ -33,11 +33,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.CloseableUtils
+import org.videolan.tools.Logcat
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.tools.Logcat
 import java.io.*
 import java.util.*
 
@@ -50,11 +51,11 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
     private val binder = DebugLogServiceStub(this)
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
+        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
+        return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
 
     override fun onBind(intent: Intent): IBinder? {

@@ -15,7 +15,7 @@ import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
-import org.videolan.vlc.util.getFromMl
+import org.videolan.resources.util.getFromMl
 import java.util.*
 import kotlin.math.min
 

@@ -34,10 +34,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.PLAY_EXTRA_FROM_START
-import org.videolan.resources.PLAY_EXTRA_ITEM_LOCATION
-import org.videolan.resources.PLAY_EXTRA_ITEM_TITLE
-import org.videolan.resources.PLAY_FROM_VIDEOGRID
+import org.videolan.resources.*
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -52,11 +49,11 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
     private lateinit var mNotificationManager: NotificationManager
 
     override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase?.getContextWithLocale(VLCApplication.locale))
+        super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
     }
 
     override fun getApplicationContext(): Context {
-        return super.getApplicationContext().getContextWithLocale(VLCApplication.locale)
+        return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
 
     override fun onCreate() {

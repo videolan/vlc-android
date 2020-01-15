@@ -49,6 +49,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.UPDATE_SELECTION
+import org.videolan.resources.interfaces.FocusListener
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.Settings
@@ -59,7 +60,6 @@ import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.gui.helpers.getAudioIconDrawable
-import org.videolan.vlc.gui.tv.FocusableRecyclerView
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
@@ -84,7 +84,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     private val defaultCover: BitmapDrawable?
     private val defaultCoverCard: BitmapDrawable?
     private var focusNext = -1
-    private var focusListener: FocusableRecyclerView.FocusListener? = null
+    private var focusListener: FocusListener? = null
     private lateinit var inflater: LayoutInflater
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
@@ -213,7 +213,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
 
-    fun setOnFocusChangeListener(focusListener: FocusableRecyclerView.FocusListener?) {
+    fun setOnFocusChangeListener(focusListener: FocusListener?) {
         this.focusListener = focusListener
     }
 

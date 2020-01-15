@@ -50,7 +50,7 @@ import org.videolan.tools.*
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
-import org.videolan.vlc.util.getFromMl
+import org.videolan.resources.util.getFromMl
 import videolan.org.commontools.LiveEvent
 import java.lang.ref.WeakReference
 import java.net.NetworkInterface

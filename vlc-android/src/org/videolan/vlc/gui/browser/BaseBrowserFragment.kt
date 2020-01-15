@@ -45,17 +45,13 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
-import org.videolan.tools.MultiSelectHelper
-import org.videolan.tools.Settings
-import org.videolan.tools.isStarted
-import org.videolan.tools.removeFileProtocole
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.MainActivity
-import org.videolan.vlc.gui.MoviepediaActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
@@ -69,8 +65,6 @@ import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.Util
-import org.videolan.tools.WeakHandler
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -537,7 +531,13 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
             CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
             CTX_ADD_SCANNED -> addToScannedFolders(mw)
-            CTX_FIND_METADATA -> startActivity(Intent(requireActivity(), MoviepediaActivity::class.java).apply { putExtra(MoviepediaActivity.MEDIA, mw) })
+            CTX_FIND_METADATA -> {
+                val intent = Intent().apply {
+                    setClassName(requireContext().applicationContext, "org.videolan.moviepedia.ui.MoviepediaActivity")
+                    putExtra(MOVIEPEDIA_MEDIA, mw)
+                }
+                startActivity(intent)
+            }
         }
     }
 

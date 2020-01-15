@@ -1,10 +1,8 @@
 package org.videolan.vlc.gui
 
 import android.app.SearchManager
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -17,16 +15,13 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.SearchAggregate
+import org.videolan.resources.util.getFromMl
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SearchActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
@@ -51,12 +46,9 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
             initializeLists()
             if (!TextUtils.isEmpty(query)) {
                 window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-                if (medialibrary.isInitiated) {
-                    binding.searchEditText.setText(query)
-                    binding.searchEditText.setSelection(query.length)
-                    performSearh(query)
-                } else
-                    setupMediaLibraryReceiver(query)
+                binding.searchEditText.setText(query)
+                binding.searchEditText.setSelection(query.length)
+                performSearh(query)
             }
         }
         binding.searchEditText.addTextChangedListener(this)
@@ -65,15 +57,15 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
 
     private fun performSearh(query: String?) {
         if (query != null && query.length > 2) lifecycleScope.launchWhenStarted {
-            val searchAggregate = withContext(Dispatchers.IO) { medialibrary.search(query) }
+            val searchAggregate = getFromMl { search(query) }
             binding.searchAggregate = searchAggregate
-            if (searchAggregate != null) {
-                searchAggregate.albums?.filterNotNull()?.let { (binding.albumsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
-                searchAggregate.artists?.filterNotNull()?.let { (binding.artistsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
-                searchAggregate.genres?.filterNotNull()?.let { (binding.genresResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
-                searchAggregate.playlists?.filterNotNull()?.let { (binding.playlistsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
-                searchAggregate.videos?.filterNotNull()?.let { (binding.othersResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
-                searchAggregate.tracks?.filterNotNull()?.let { (binding.songsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+            searchAggregate?.let { result ->
+                result.albums?.filterNotNull()?.let { (binding.albumsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                result.artists?.filterNotNull()?.let { (binding.artistsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                result.genres?.filterNotNull()?.let { (binding.genresResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                result.playlists?.filterNotNull()?.let { (binding.playlistsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                result.videos?.filterNotNull()?.let { (binding.othersResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
+                result.tracks?.filterNotNull()?.let { (binding.songsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }
             }
         }
     }
@@ -123,15 +115,6 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
     }
 
     private fun setupMediaLibraryReceiver(query: String) {
-        val libraryReadyReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                LocalBroadcastManager.getInstance(this@SearchActivity).unregisterReceiver(this)
-                binding.searchEditText.setText(query)
-                binding.searchEditText.setSelection(query.length)
-                performSearh(query)
-            }
-        }
-        LocalBroadcastManager.getInstance(this).registerReceiver(libraryReadyReceiver, IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY))
     }
 
     companion object {

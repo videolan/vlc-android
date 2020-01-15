@@ -13,6 +13,7 @@ import android.provider.OpenableColumns
 import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
+import androidx.collection.SimpleArrayMap
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
@@ -27,23 +28,26 @@ import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.interfaces.IMediaContentResolver
+import org.videolan.resources.interfaces.ResumableList
+import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
-import org.videolan.vlc.providers.MoviepediaTvshowProvider
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.getFromMl
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
+
+private typealias MediaContentResolver = SimpleArrayMap<String, IMediaContentResolver>
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -59,9 +63,7 @@ object MediaUtils {
         }
     }
 
-    fun getSubs(activity: FragmentActivity, media: MediaWrapper) {
-        getSubs(activity, listOf(media))
-    }
+    fun getSubs(activity: FragmentActivity, media: MediaWrapper) = getSubs(activity, listOf(media))
 
     fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaUris: List<Uri>) {
         val callBack = java.lang.Runnable {
@@ -339,13 +341,13 @@ object MediaUtils {
     }
 
     private fun getMediaString(ctx: Context?, id: Int): String {
-        return if (ctx != null) ctx.resources.getString(id)
-        else when (id) {
-            R.string.unknown_artist -> "Unknown Artist"
-            R.string.unknown_album -> "Unknown Album"
-            R.string.unknown_genre -> "Unknown Genre"
-            else -> ""
-        }
+        return ctx?.resources?.getString(id)
+                ?: when (id) {
+                    R.string.unknown_artist -> "Unknown Artist"
+                    R.string.unknown_album -> "Unknown Album"
+                    R.string.unknown_genre -> "Unknown Genre"
+                    else -> ""
+                }
     }
 
     @Suppress("LeakingThis")
@@ -463,50 +465,30 @@ object MediaUtils {
     } catch (ignored: IllegalArgumentException) {
     } catch (ignored: NullPointerException) {
     } catch (ignored: IllegalStateException) {
-    } catch (ignored: SecurityException) {
-    }
+    } catch (ignored: SecurityException) {}
 
     fun deletePlaylist(playlist: Playlist) = AppScope.launch(Dispatchers.IO) { playlist.delete() }
-    fun openMediaNoUiFromTvContent(context: Context, data: Uri?) {
-        AppScope.launch {
-            data?.lastPathSegment?.let { id ->
-                when {
-                    //Resume TV show from moviepedia
-                    id.startsWith("resume_") -> {
-                        val provider = MoviepediaTvshowProvider(context)
-                        val resumableEpisodes = withContext(Dispatchers.IO) { provider.getResumeMediasById(id.substringAfter("_")) }
-                        openList(context, resumableEpisodes, 0, false)
-                    }
-                    id.startsWith("episode_") -> {
-                        val provider = MoviepediaTvshowProvider(context)
-                        val moviepediaId = id.substringAfter("_")
-                        val resumableEpisodes = withContext(Dispatchers.IO) { provider.getShowIdForEpisode(moviepediaId)?.let { provider.getAllEpisodesForShow(it) } }
-                        resumableEpisodes?.let { openList(context, it.mapNotNull { episode -> episode.media }, it.indexOfFirst { it.metadata.moviepediaId == moviepediaId }, false) }
-                    }
-                    //Media from medialib
-                    else -> {
-                        val mw = context.getFromMl {
-                            val longId = id.substringAfter("_").toLong()
-                            when {
-                                id.startsWith("album_") -> {
-                                    getAlbum(longId)
-                                }
-                                id.startsWith("artist_") -> getArtist(longId)
-                                else -> getMedia(longId)
-                            }
-                        }
-                        mw?.let {
-                            when (it) {
-                                is MediaWrapper -> openMediaNoUi(it.uri)
-                                is Album -> playAlbum(context, it)
-                                is Artist -> playArtist(context, it)
-                                else -> {
-                                }
-                            }
-                        }
-                    }
-                }
 
+    fun openMediaNoUiFromTvContent(context: Context, data: Uri?) = AppScope.launch {
+        val id = data?.lastPathSegment ?: return@launch
+        when {
+            AppContextProvider.mediaContentResolvers.canHandle(id) -> AppContextProvider.mediaContentResolvers.getList(context, id)?.let {
+                openList(context, it.first, it.second, false)
+            }
+            else -> { //Media from medialib
+                val mw = context.getFromMl {
+                    val longId = id.substringAfter("_").toLong()
+                    when {
+                        id.startsWith("album_") -> getAlbum(longId)
+                        id.startsWith("artist_") -> getArtist(longId)
+                        else -> getMedia(longId)
+                    }
+                } ?: return@launch
+                when (mw) {
+                    is MediaWrapper -> openMediaNoUi(mw.uri)
+                    is Album -> playAlbum(context, mw)
+                    is Artist -> playArtist(context, mw)
+                }
             }
         }
     }
@@ -574,6 +556,16 @@ private fun Array<MediaLibraryItem>.toList() = flatMap {
     if (it is VideoGroup) {
         it.media(Medialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
     } else listOf(this as MediaWrapper)
+}
+
+fun MediaContentResolver.canHandle(id: String) : Boolean {
+    for (i in 0 until size()) if (id.startsWith(keyAt(i))) return true
+    return false
+}
+
+suspend fun MediaContentResolver.getList(context: Context, id: String) : ResumableList {
+    for ( i in 0 until size()) if (id.startsWith(keyAt(i))) return valueAt(i).getList(context, id)
+    return null
 }
 
 private val Context.scope: CoroutineScope

@@ -73,7 +73,8 @@
                     vlc:layout_constraintEnd_toEndOf="parent"
                     vlc:layout_constraintStart_toStartOf="parent"
                     vlc:layout_constraintTop_toTopOf="parent"
-                    vlc:media="@{item}"/>
+                    vlc:media="@{item}"
+                    vlc:card="@{true}"/>
 
 
             <!-- TextView must be set to singleLine

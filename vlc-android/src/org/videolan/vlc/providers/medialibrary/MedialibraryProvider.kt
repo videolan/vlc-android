@@ -29,7 +29,7 @@ import androidx.paging.toLiveData
 import kotlinx.coroutines.CompletableDeferred
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.providers.HeaderProvider
+import org.videolan.resources.util.HeaderProvider
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.tools.Settings
 import org.videolan.vlc.util.ModelsHelper

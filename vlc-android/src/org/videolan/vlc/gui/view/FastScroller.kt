@@ -49,7 +49,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.providers.HeadersIndex
+import org.videolan.resources.util.HeadersIndex
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.tools.WeakHandler
 import org.videolan.vlc.util.scope

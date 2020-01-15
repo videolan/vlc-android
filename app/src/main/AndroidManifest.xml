@@ -3,7 +3,7 @@
     package="org.videolan.mobile.app">
 
     <application
-        android:name="org.videolan.vlc.VLCApplication"
+        android:name=".VLCApplication"
         android:allowBackup="true"
         android:appCategory="video"
         android:banner="@drawable/banner"

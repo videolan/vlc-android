@@ -7,6 +7,7 @@ import androidx.test.runner.AndroidJUnit4
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
+import org.videolan.resources.util.startMedialibrary
 import org.videolan.vlc.util.TestCoroutineContextProvider
 
 

@@ -1,3 +1,3 @@
-include ':libvlc', ':api', ':medialibrary', ':tools', ':resources', ':mediadb', ':app', ':live-plot-graph'
+include ':libvlc', ':api', ':medialibrary', ':tools', ':resources', ':mediadb', ':app', ':live-plot-graph', ':television'
 include ':vlc-android'
 include ':moviepedia'
