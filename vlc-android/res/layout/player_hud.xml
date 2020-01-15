@@ -28,7 +28,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/progress_overlay"
             android:layout_width="800dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingTop="@dimen/overlay_padding_top"
             android:paddingBottom="@dimen/overlay_padding_bottom"
             android:visibility="invisible"
@@ -38,31 +38,94 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/stats_container"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:background="@drawable/rounded_corners"
                 android:visibility="gone"
                 tools:visibility="visible"
-                android:padding="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="24dp"
                 vlc:layout_constraintStart_toStartOf="@+id/constraintLayout2"
                 vlc:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
-                vlc:layout_constraintTop_toTopOf="parent">
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_constraintBottom_toTopOf="@+id/constraintLayout2">
 
-            <org.videolan.liveplotgraph.PlotView
-                    android:id="@+id/plotView"
-                    android:layout_width="250dp"
-                    android:layout_height="140dp"
-                    vlc:layout_constraintBottom_toBottomOf="parent"
-                    vlc:layout_constraintStart_toStartOf="parent"
-                    vlc:lpg_color="@color/white" />
-
-            <org.videolan.liveplotgraph.LegendView
-                    android:layout_width="wrap_content"
+            <androidx.core.widget.NestedScrollView
+                    android:id="@+id/stats_scrollview"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="8dp"
-                    vlc:layout_constraintBottom_toBottomOf="@+id/plotView"
-                    vlc:layout_constraintStart_toEndOf="@+id/plotView"
-                    vlc:layout_constraintTop_toTopOf="@+id/plotView"
-                    vlc:lpg_plot_view="@+id/plotView" />
+                    vlc:layout_constraintStart_toStartOf="parent"
+                    vlc:layout_constraintEnd_toEndOf="parent"
+                    vlc:layout_constraintBottom_toBottomOf="parent"
+                    vlc:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/stats_scrollview_content">
+
+                    <LinearLayout
+                            android:id="@+id/info_grids"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            vlc:layout_constraintEnd_toEndOf="parent"
+                            vlc:layout_constraintStart_toStartOf="parent"
+                            vlc:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/stats_graphs"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            vlc:layout_constraintEnd_toEndOf="parent"
+                            vlc:layout_constraintStart_toStartOf="parent"
+                            vlc:layout_constraintTop_toBottomOf="@+id/info_grids">
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/video_stats_title"
+                                android:textColor="@color/orange500"
+                                vlc:layout_constraintTop_toTopOf="parent"
+                                vlc:layout_constraintStart_toStartOf="parent"
+                                vlc:layout_constraintEnd_toEndOf="parent"
+                                android:text="@string/video_stats" />
+
+                        <org.videolan.liveplotgraph.PlotView
+                                android:id="@+id/plotView"
+                                android:layout_width="250dp"
+                                android:layout_height="140dp"
+                                android:layout_marginTop="16dp"
+                                vlc:layout_constraintStart_toStartOf="parent"
+                                vlc:layout_constraintTop_toBottomOf="@+id/video_stats_title"
+                                vlc:lpg_color="@color/white" />
+
+                        <org.videolan.liveplotgraph.LegendView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                vlc:layout_constraintStart_toStartOf="@+id/plotView"
+                                vlc:layout_constraintTop_toBottomOf="@+id/plotView"
+                                vlc:lpg_plot_view="@+id/plotView" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <ImageView
+                    android:id="@+id/stats_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    vlc:layout_constraintEnd_toEndOf="parent"
+                    vlc:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    vlc:srcCompat="@drawable/ic_close_small" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -71,9 +134,9 @@
                 android:id="@+id/ab_repeat_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 vlc:layout_constraintStart_toStartOf="@+id/constraintLayout2"
-                vlc:layout_constraintTop_toBottomOf="@id/stats_container" />
+                android:layout_marginBottom="8dp"
+                vlc:layout_constraintBottom_toTopOf="@+id/constraintLayout2" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"
@@ -87,8 +150,7 @@
                 tools:visibility="visible"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
-                vlc:layout_constraintStart_toStartOf="parent"
-                vlc:layout_constraintTop_toBottomOf="@+id/ab_repeat_container">
+                vlc:layout_constraintStart_toStartOf="parent">
 
             <FrameLayout
                     android:id="@+id/player_overlay_time_container"

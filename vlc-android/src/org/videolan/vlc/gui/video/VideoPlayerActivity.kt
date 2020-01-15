@@ -497,7 +497,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         val xRange = Math.max(dm.widthPixels, dm.heightPixels)
         val sc = ScreenConfig(dm, xRange, yRange, currentScreenOrientation)
         touchDelegate = VideoTouchDelegate(this, touch, sc, isTv)
-        statsDelegate = VideoStatsDelegate(this)
+        statsDelegate = VideoStatsDelegate(this, { showOverlayTimeout(OVERLAY_INFINITE) }, { showOverlay(true) })
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
@@ -679,6 +679,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
         resetHudLayout()
         showControls(isShowing)
+        statsDelegate?.onConfigurationChanged()
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -738,7 +739,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         previousMediaPath = null
         addedExternalSubs.clear()
         medialibrary.resumeBackgroundOperations()
-        statsDelegate?.stop()
+        service?.playlistManager?.videoStatsOn?.postValue(false)
     }
 
     private fun saveBrightness() {
@@ -2141,9 +2142,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 service.playlistManager.videoStatsOn.observe(this, Observer {
                     if (it) showOverlay(true)
                     statsDelegate?.container = hudBinding.statsContainer
-                    statsDelegate?.initPlotView(hudBinding.plotView)
+                    statsDelegate?.initPlotView(hudBinding)
                     if (it) statsDelegate?.start() else statsDelegate?.stop()
                 })
+                hudBinding.statsClose.setOnClickListener { service.playlistManager.videoStatsOn.postValue(false) }
 
                 hudBinding.lifecycleOwner = this
                 val layoutParams = hudBinding.progressOverlay.layoutParams as RelativeLayout.LayoutParams
