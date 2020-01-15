@@ -1,35 +1,16 @@
-import com.android.build.OutputFile
-
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    packagingOptions {
-        exclude 'META-INF/main.kotlin_module'
-        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
-        pickFirst 'lib/armeabi/libc++_shared.so'
-        pickFirst 'lib/arm64-v8a/libc++_shared.so'
-        pickFirst 'lib/x86/libc++_shared.so'
-        pickFirst 'lib/x86_64/libc++_shared.so'
-    }
-
-    dexOptions {
-        maxProcessCount 8
-        javaMaxHeapSize "4g"
-        preDexLibraries true
-    }
 
     kotlinOptions.jvmTarget = "1.8"
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    flavorDimensions "abi"
-
-    lintOptions {
-        abortOnError false
-        disable 'MissingTranslation', 'ExtraTranslation'
+    dataBinding {
+        enabled = true
     }
 
     task luaPlaylistCopy(type: Copy) {
@@ -44,12 +25,7 @@ android {
         exclude '**/*.txt'
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     defaultConfig {
-        applicationId rootProject.ext.appId
 
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()
@@ -98,84 +74,22 @@ android {
         }
     }
 
-    signingConfigs {
-        release {
-            /*
-            To set this properties, create file gradle.properties with these 3 props.
-            e.g.
-            keyStoreFile=/home/<username>/.android/debug.keystore
-            storealias=androiddebugkey
-            storepwd=android
-             */
-            if (project.hasProperty('keyStoreFile')) {
-                storeFile file(project.findProperty('keyStoreFile'))
-                keyAlias project.findProperty('storealias')
-                if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()) {
-                    storePassword = System.getenv('PASSWORD_KEYSTORE')
-                    keyPassword = System.getenv('PASSWORD_KEYSTORE')
-                } else {
-                    storePassword project.findProperty('storepwd')
-                    keyPassword project.findProperty('storepwd')
-                }
-            }
-        }
-    }
 
     buildTypes {
         release {
-            signingConfig null
-            minifyEnabled true
-            shrinkResources false
             proguardFile 'proguard.cfg'
-            kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
             buildConfigField "boolean", "BETA", isBeta()
+        }
+        debug {
+            buildConfigField "boolean", "BETA", "false"
         }
         signedRelease {
             initWith release
-            signingConfig = signingConfigs.release
             matchingFallbacks = ['release']
-        }
-        debug {
-            applicationIdSuffix ".debug"
-            jniDebuggable true
-            multiDexEnabled true
-            buildConfigField "boolean", "BETA", "false"
         }
         dev {
             initWith debug
             matchingFallbacks = ['debug']
-        }
-    }
-
-    splits {
-        abi {
-            def isReleaseBuild = false
-            gradle.startParameter.taskNames.find {
-                // Enable split for release builds in different build flavors
-                // (assemblePaidRelease, assembleFreeRelease, etc.).
-                if (it.toLowerCase() ==~ /assemble.*Release/.toLowerCase()) {
-                    isReleaseBuild = true
-                    return true // break
-                }
-                return false // continue
-            }
-            enable isReleaseBuild
-            reset()
-            include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
-//            universalApk !isReleaseBuild
-        }
-    }
-
-    def abiCodes = ['x86': 5, 'x86_64': 8, 'armeabi-v7a': 4, 'arm64-v8a': 7]
-    // make per-variant version code
-    applicationVariants.all { variant ->
-        //Custom APK name and versionCode
-        variant.outputs.each { output ->
-            def abiName = output.getFilter(OutputFile.ABI) ?: System.getenv('GRADLE_ABI')?.toLowerCase() ?: "all"
-            output.versionCodeOverride = 10000000 + defaultConfig.versionCode + abiCodes.get(abiName, 0)
-            def outputName = "VLC-Android-"
-            outputName += variant.versionName + "-" + abiName + ".apk"
-            output.outputFileName = outputName
         }
     }
 
@@ -187,12 +101,6 @@ android {
         renderscript.srcDirs = ['src']
         res.srcDirs = ['res']
         assets.srcDirs = ['assets']
-    }
-    sourceSets.release {
-        manifest.srcFile 'flavors/release/AndroidManifest.xml'
-    }
-    sourceSets.signedRelease {
-        manifest.srcFile 'flavors/release/AndroidManifest.xml'
     }
     sourceSets.debug {
         res.srcDirs = ['flavors/debug/res']
