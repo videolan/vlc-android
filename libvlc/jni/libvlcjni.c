@@ -450,6 +450,11 @@ jstring Java_org_videolan_libvlc_LibVLC_version(JNIEnv* env, jobject thiz)
     return (*env)->NewStringUTF(env, libvlc_get_version());
 }
 
+jint Java_org_videolan_libvlc_LibVLC_majorVersion(JNIEnv* env, jobject thiz)
+{
+    return atoi(libvlc_get_version());
+}
+
 jstring Java_org_videolan_libvlc_LibVLC_compiler(JNIEnv* env, jobject thiz)
 {
     return (*env)->NewStringUTF(env, libvlc_get_compiler());

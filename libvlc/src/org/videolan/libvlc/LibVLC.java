@@ -98,6 +98,13 @@ public class LibVLC extends VLCObject<ILibVLC.Event> implements ILibVLC {
     public static native String version();
 
     /**
+     * Get the libVLC major version
+     *
+     * @return the libVLC major version, always >= 3
+     */
+    public static native int majorVersion();
+
+    /**
      * Get the libVLC compiler
      *
      * @return the libVLC compiler string
