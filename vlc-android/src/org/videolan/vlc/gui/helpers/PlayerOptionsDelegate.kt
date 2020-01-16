@@ -117,7 +117,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                     if (service.canShuffle()) options.add(PlayerOption(playerOptionType, ID_SHUFFLE, R.drawable.ic_shuffle, res.getString(R.string.shuffle_title)))
                     val chaptersCount = service.getChapters(-1)?.size ?: 0
                     if (chaptersCount > 1) options.add(PlayerOption(playerOptionType, ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
-                    options.add(PlayerOption(playerOptionType, ID_VIDEO_STATS, R.attr.ic_video_stats, res.getString(R.string.video_stats)))
+                    options.add(PlayerOption(playerOptionType, ID_VIDEO_STATS, R.attr.ic_video_stats, res.getString(R.string.video_information)))
                 }
                 options.add(PlayerOption(playerOptionType, ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
                 options.add(PlayerOption(playerOptionType, ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))

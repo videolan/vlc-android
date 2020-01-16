@@ -91,7 +91,7 @@
                                 vlc:layout_constraintTop_toTopOf="parent"
                                 vlc:layout_constraintStart_toStartOf="parent"
                                 vlc:layout_constraintEnd_toEndOf="parent"
-                                android:text="@string/video_stats" />
+                                android:text="@string/video_information" />
 
                         <org.videolan.liveplotgraph.PlotView
                                 android:id="@+id/plotView"

@@ -1,33 +1,16 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_video_stats.xml
-  ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
         android:width="36dp"
         android:height="36dp"
-        android:viewportWidth="24.0"
-        android:viewportHeight="24.0">
+        android:viewportWidth="36"
+        android:viewportHeight="36">
     <path
-            android:fillColor="?attr/player_icon_color"
-            android:pathData="M16,6l2.29,2.29 -4.88,4.88 -4,-4L2,16.59 3.41,18l6,-6 4,4 6.3,-6.29L22,12V6z" />
+            android:fillAlpha="1"
+            android:fillColor="#fafafa"
+            android:fillType="nonZero"
+            android:pathData="m18,6c-6.6274,0 -12,5.3726 -12,12 0,6.6275 5.3726,12 12,12 6.6274,0 12,-5.3725 12,-12 0,-6.6274 -5.3726,-12 -12,-12zM18,9c4.9706,0 9,4.0295 9,9 0,4.9706 -4.0294,9 -9,9 -4.9706,0 -9,-4.0294 -9,-9 0,-4.9705 4.0294,-9 9,-9zM16.5,12v3h3v-3zM16.5,16.5v7.5h3v-7.5z"
+            android:strokeWidth="15"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
 </vector>
