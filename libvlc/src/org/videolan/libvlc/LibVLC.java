@@ -95,21 +95,21 @@ public class LibVLC extends VLCObject<ILibVLC.Event> implements ILibVLC {
      *
      * @return the libVLC version string
      */
-    public native String version();
+    public static native String version();
 
     /**
      * Get the libVLC compiler
      *
      * @return the libVLC compiler string
      */
-    public native String compiler();
+    public static native String compiler();
 
     /**
      * Get the libVLC changeset
      *
      * @return the libVLC changeset string
      */
-    public native String changeset();
+    public static native String changeset();
 
     @Override
     protected ILibVLC.Event onEventNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
