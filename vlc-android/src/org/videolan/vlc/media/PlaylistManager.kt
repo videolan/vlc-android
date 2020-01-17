@@ -300,11 +300,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
                 || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-            val uri = withContext(Dispatchers.IO) { FileUtils.getUri(mw.uri) }
+            var uri = withContext(Dispatchers.IO) { FileUtils.getUri(mw.uri) }
             if (uri == null) {
                 skipMedia()
                 return
             }
+            val title = mw.getMetaLong(MediaWrapper.META_TITLE)
+            if (title > 0) uri = Uri.parse("$uri#$title")
+            val chapter = mw.getMetaLong(MediaWrapper.META_CHAPTER)
+            if (chapter > 0) uri = Uri.parse("$uri:$chapter")
             val start = getStartTime(mw)
             val media = mediaFactory.getFromUri(VLCInstance.get(service), uri)
             media.addOption(":start-time=${start/1000L}")
@@ -417,6 +421,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val rate = player.getRate()
         val media = withContext(Dispatchers.IO) { medialibrary.findMedia(currentMedia) }
         if (media === null || media.id == 0L) return@launch
+        val titleIdx = player.getTitleIdx()
+        if (titleIdx > 0) launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong()) }
+        val chapterIdx = player.getChapterIdx()
+        if (chapterIdx > 0) launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_CHAPTER, chapterIdx.toLong()) }
         if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
             var progress = time / length.toFloat()
             if (progress > 0.95f || length - time < 10000) {
