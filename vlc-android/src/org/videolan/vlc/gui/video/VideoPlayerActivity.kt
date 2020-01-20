@@ -2513,6 +2513,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 /* prepare playback */
                 val medialoaded = media != null
                 if (!medialoaded) media = if (hasMedia) currentMedia else MLServiceLocator.getAbstractMediaWrapper(videoUri!!)
+                itemTitle?.let { media?.title = Uri.decode(it) }
                 if (wasPaused)
                     media!!.addFlags(MediaWrapper.MEDIA_PAUSED)
                 if (intent.hasExtra(PLAY_DISABLE_HARDWARE))
@@ -2534,10 +2535,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         onPlaying()
                     } else
                         service.playIndex(positionInPlaylist)
-                } else if (medialoaded)
-                    service.load(media)
-                else
-                    service.loadUri(videoUri)
+                } else service.load(media)
 
                 // Get the title
                 if (itemTitle == null && !TextUtils.equals(videoUri!!.scheme, "content"))
