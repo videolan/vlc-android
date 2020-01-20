@@ -177,6 +177,7 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
     }
 
     private fun setupLayout() {
+        if (!::constraintSetLarge.isInitialized) return
         if (player.getScreenWidth() > 600.dp) {
             constraintSetLarge.applyTo(binding.statsScrollviewContent)
         } else {
