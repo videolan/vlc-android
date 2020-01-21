@@ -41,10 +41,16 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.util.HeaderProvider
-import org.videolan.tools.*
+import org.videolan.tools.AppScope
+import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.DependencyProvider
+import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.ModelsHelper
+import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.util.isBrowserMedia
+import org.videolan.vlc.util.isMedia
 import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
@@ -240,9 +246,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     private val sb = StringBuilder()
-    private fun getDescription(folderCount: Int, mediaFileCount: Int): String {
+    open fun getDescription(folderCount: Int, mediaFileCount: Int): String {
         val res = context.resources
-        sb.setLength(0)
+        sb.clear()
         if (folderCount > 0) {
             sb.append(res.getQuantityString(R.plurals.subfolders_quantity, folderCount, folderCount))
             if (mediaFileCount > 0) sb.append(", ")

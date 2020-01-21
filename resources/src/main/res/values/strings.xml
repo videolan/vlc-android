@@ -124,7 +124,7 @@
     <string name="noplaylist">No playlist found.</string>
     <string name="mediafiles">Media files</string>
     <string name="notavailable">not available</string>
-    <string name="nosubdirectory">No subdirectories.</string>
+    <string name="nosubfolder">No subfolder</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
     <string name="nohistory">You have no playback history yet.</string>
     <string name="validation">Are you sure?</string>

@@ -26,10 +26,10 @@ import android.text.TextUtils
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
-import org.videolan.vlc.R
-import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.livedata.LiveDataset
+import org.videolan.vlc.R
+import org.videolan.vlc.repository.DirectoryRepository
 import java.io.File
 import java.util.*
 
@@ -57,6 +57,16 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
             storagesList.add(storage)
         }
         dataset.value = storagesList
+    }
+
+    private val sb = StringBuilder()
+    override fun getDescription(folderCount: Int, mediaFileCount: Int): String {
+        val res = context.resources
+        sb.clear()
+        if (folderCount > 0) {
+            sb.append(res.getQuantityString(R.plurals.subfolders_quantity, folderCount, folderCount))
+        } else sb.append(res.getString(R.string.nosubfolder))
+        return sb.toString()
     }
 
     override suspend fun findMedia(media: IMedia) = media.takeIf { it.isStorage() }?.let { Storage(it.uri) }
