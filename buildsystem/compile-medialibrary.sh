@@ -25,7 +25,6 @@ while [ $# -gt 0 ]; do
 done
 
 AVLC_SOURCED=1 . buildsystem/compile-libvlc.sh
-avlc_make_toolchain
 
 ################
 # MEDIALIBRARY #
@@ -71,8 +70,8 @@ if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
     --disable-shared \
     CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
     CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
-    CC="clang" \
-    CXX="clang++"
+    CC="${CROSS_CLANG}" \
+    CXX="${CROSS_CLANG}++"
 fi
 
 make $MAKEFLAGS
@@ -136,8 +135,8 @@ if [ ! -e ./config.h -o "$RELEASE" = "1" ]; then
     ${MEDIALIBRARY_MODE} \
     CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
     CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
-    CC="clang" \
-    CXX="clang++" \
+    CC="${CROSS_CLANG}" \
+    CXX="${CROSS_CLANG}++" \
     NM="${CROSS_TOOLS}nm" \
     STRIP="${CROSS_TOOLS}strip" \
     RANLIB="${CROSS_TOOLS}ranlib" \

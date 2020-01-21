@@ -66,18 +66,22 @@ fi
 # Set up ABI variables
 if [ "${ANDROID_ABI}" = "x86" ] ; then
     TARGET_TUPLE="i686-linux-android"
+    CLANG_PREFIX=${TARGET_TUPLE}
     PLATFORM_SHORT_ARCH="x86"
 elif [ "${ANDROID_ABI}" = "x86_64" ] ; then
     TARGET_TUPLE="x86_64-linux-android"
+    CLANG_PREFIX=${TARGET_TUPLE}
     PLATFORM_SHORT_ARCH="x86_64"
     HAVE_64=1
 elif [ "${ANDROID_ABI}" = "arm64-v8a" ] ; then
     TARGET_TUPLE="aarch64-linux-android"
+    CLANG_PREFIX=${TARGET_TUPLE}
     HAVE_ARM=1
     HAVE_64=1
     PLATFORM_SHORT_ARCH="arm64"
 elif [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
     TARGET_TUPLE="arm-linux-androideabi"
+    CLANG_PREFIX="armv7a-linux-androideabi"
     HAVE_ARM=1
     PLATFORM_SHORT_ARCH="arm"
 else
@@ -92,14 +96,14 @@ fi
 # try to detect NDK version
 REL=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
 
-if [ "$REL" -eq 18 ]; then
+if [ "$REL" -eq 21 ]; then
     if [ "${HAVE_64}" = 1 ]; then
         ANDROID_API=21
     else
         ANDROID_API=17
     fi
 else
-    echo "NDK v18 needed, cf. https://developer.android.com/ndk/downloads/"
+    echo "NDK v21 needed, cf. https://developer.android.com/ndk/downloads/"
     exit 1
 fi
 
@@ -124,11 +128,19 @@ VLC_OUT_LDLIBS="-L$VLC_OUT_PATH/libs/${ANDROID_ABI} -lvlc"
 #################
 # NDK TOOLCHAIN #
 #################
-NDK_TOOLCHAIN_DIR=${VLC_OUT_PATH}/toolchains
+host_tag=""
+case $(uname | tr '[:upper:]' '[:lower:]') in
+  linux*)   host_tag="linux" ;;
+  darwin*)  host_tag="darwin" ;;
+  msys*)    host_tag="windows" ;;
+  *)        echo "host OS not handled"; exit 1 ;;
+esac
+NDK_TOOLCHAIN_DIR=${ANDROID_NDK}/toolchains/llvm/prebuilt/${host_tag}-x86_64
 NDK_TOOLCHAIN_PATH=${NDK_TOOLCHAIN_DIR}/bin
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
 CROSS_TOOLS=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
+CROSS_CLANG=${NDK_TOOLCHAIN_PATH}/${CLANG_PREFIX}${ANDROID_API}-clang
 
 export PATH="${NDK_TOOLCHAIN_PATH}:${PATH}"
 NDK_BUILD=$ANDROID_NDK/ndk-build
@@ -231,34 +243,6 @@ avlc_checkfail()
     fi
 }
 
-avlc_make_toolchain()
-{
-NDK_TOOLCHAIN_PROPS=${NDK_TOOLCHAIN_DIR}/source.properties
-NDK_FORCE_ARG=
-if [ "`cat \"${NDK_TOOLCHAIN_PROPS}\" 2>/dev/null`" != "`cat \"${ANDROID_NDK}/source.properties\"`" ];then
-     echo "NDK changed, making new toolchain"
-     NDK_FORCE_ARG="--force"
-fi
-
-if [ ! -d ${NDK_TOOLCHAIN_DIR} ]; then
-    $ANDROID_NDK/build/tools/make_standalone_toolchain.py \
-        --arch ${PLATFORM_SHORT_ARCH} \
-        --api ${ANDROID_API} \
-        --stl libc++ \
-        ${NDK_FORCE_ARG} \
-        --install-dir ${NDK_TOOLCHAIN_DIR}
-fi
-if [ ! -d ${NDK_TOOLCHAIN_PATH} ];
-then
-    echo "make_standalone_toolchain.py failed"
-    exit 1
-fi
-
-if [ ! -z "${NDK_FORCE_ARG}" ];then
-    cp "$ANDROID_NDK/source.properties" "${NDK_TOOLCHAIN_PROPS}"
-fi
-} # avlc_make_toolchain()
-
 avlc_find_modules()
 {
     echo "$(find $1 -name 'lib*plugin.a' | grep -vE "lib(${blacklist_regexp})_plugin.a" | tr '\n' ' ')"
@@ -281,8 +265,6 @@ Cflags:" > contrib/${TARGET_TUPLE}/lib/pkgconfig/$(echo $1|tr 'A-Z' 'a-z').pc
 
 avlc_build()
 {
-avlc_make_toolchain
-
 ###########################
 # VLC BOOTSTRAP ARGUMENTS #
 ###########################
@@ -501,6 +483,10 @@ avlc_gen_pc_file GLESv2 2
 
 cd contrib/contrib-android-${TARGET_TUPLE}
 
+# TODO: VLC 4.0 won't rm config.mak after each call to bootstrap. Move it just
+# before ">> config.make" when switching to VLC 4.0
+rm -f config.mak
+
 export USE_FFMPEG=1
 ANDROID_ABI=${ANDROID_ABI} ANDROID_API=${ANDROID_API} \
     ../bootstrap --host=${TARGET_TUPLE} ${VLC_BOOTSTRAP_ARGS}
@@ -524,11 +510,12 @@ else
     echo "EXTRA_CFLAGS=${EXTRA_CFLAGS}" >> config.mak
     echo "EXTRA_CXXFLAGS=${EXTRA_CXXFLAGS}" >> config.mak
     echo "EXTRA_LDFLAGS=${EXTRA_LDFLAGS}" >> config.mak
-    echo "CC=${NDK_TOOLCHAIN_PATH}/clang" >> config.mak
-    echo "CXX=${NDK_TOOLCHAIN_PATH}/clang++" >> config.mak
-    echo "AR=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ar" >> config.mak
-    echo "RANLIB=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ranlib" >> config.mak
-    echo "LD=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ld" >> config.mak
+    echo "CC=${CROSS_CLANG}" >> config.mak
+    echo "CXX=${CROSS_CLANG}++" >> config.mak
+    echo "AR=${CROSS_TOOLS}ar" >> config.mak
+    echo "AS=${CROSS_TOOLS}as" >> config.mak
+    echo "RANLIB=${CROSS_TOOLS}ranlib" >> config.mak
+    echo "LD=${CROSS_TOOLS}ld" >> config.mak
 
     # fix modplug endianess check (narrowing error)
     export ac_cv_c_bigendian=no
@@ -589,12 +576,13 @@ if [ ! -e ./config.h -o "$AVLC_RELEASE" = 1 ]; then
 
     CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
     CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
-    CC="${CROSS_TOOLS}clang" \
-    CXX="${CROSS_TOOLS}clang++" \
+    CC="${CROSS_CLANG}" \
+    CXX="${CROSS_CLANG}++" \
     NM="${CROSS_TOOLS}nm" \
     STRIP="${CROSS_TOOLS}strip" \
     RANLIB="${CROSS_TOOLS}ranlib" \
     AR="${CROSS_TOOLS}ar" \
+    AS="${CROSS_TOOLS}as" \
     PKG_CONFIG_LIBDIR=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
     PKG_CONFIG_PATH=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
     PATH=../contrib/bin:$PATH \
