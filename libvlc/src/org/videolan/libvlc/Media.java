@@ -449,6 +449,8 @@ public class Media extends VLCObject<IMedia.Event> implements IMedia {
      * @param force force hw acceleration even for unknown devices
      */
     public void setHWDecoderEnabled(boolean enabled, boolean force) {
+
+        if (LibVLC.majorVersion() == 3) {
             HWDecoderUtil.Decoder decoder = enabled ?
                     HWDecoderUtil.getDecoderFromDevice() :
                     HWDecoderUtil.Decoder.NONE;
@@ -484,12 +486,16 @@ public class Media extends VLCObject<IMedia.Event> implements IMedia {
             sb.append("all");
 
             addOption(sb.toString());
+        }
+        else if (!enabled) /* LibVLC >= 4.0 */
+            addOption(":no-decoder-hw");
     }
 
     /**
      * Enable HWDecoder options if not already set
      */
     public void setDefaultMediaPlayerOptions() {
+        if (LibVLC.majorVersion() == 3) {
             boolean codecOptionSet;
             synchronized (this) {
                 codecOptionSet = mCodecOptionSet;
@@ -497,6 +503,7 @@ public class Media extends VLCObject<IMedia.Event> implements IMedia {
             }
             if (!codecOptionSet)
                 setHWDecoderEnabled(true, false);
+        }
 
         /* dvdnav need to be explicitly forced for network playbacks */
         if (mUri != null && mUri.getScheme() != null && !mUri.getScheme().equalsIgnoreCase("file") &&
