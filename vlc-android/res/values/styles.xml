@@ -393,6 +393,7 @@
         <item name="font_light">@color/grey600</item>
         <item name="font_audio_light">@color/grey600</item>
         <item name="rounded_background">@drawable/rounded_corners</item>
+        <item name="dialog_circle_background">@color/dialog_circle_background_dark</item>
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
