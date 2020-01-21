@@ -131,7 +131,7 @@ task buildTranslationArray {
         def foundLocales = new StringBuilder()
         foundLocales.append("new String[]{")
 
-        fileTree("res").visit { FileVisitDetails details ->
+        fileTree("../resources/src/main/res").visit { FileVisitDetails details ->
             println 'details: ' + details
             if (details.file.path.endsWith("strings.xml")) {
                 def languageCode = details.file.parentFile.name.replaceAll('values-', '').replaceAll('-r', '-')
