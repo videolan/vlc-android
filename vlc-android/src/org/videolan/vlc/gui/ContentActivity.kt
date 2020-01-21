@@ -91,7 +91,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
             val filterable = current as Filterable?
             val searchItem = menu.findItem(R.id.ml_menu_filter)
             searchView = searchItem.actionView as SearchView
-            searchView.queryHint = getString(R.string.search_list_hint)
+            searchView.queryHint = getString(R.string.search_in_list_hint)
             searchView.setOnQueryTextListener(this)
             val query = filterable?.getFilterQuery()
             if (!query.isNullOrEmpty()) {

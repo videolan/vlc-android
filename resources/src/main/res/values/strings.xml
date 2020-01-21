@@ -508,7 +508,7 @@
     <string name="network_empty">This directory is empty.</string>
     <string name="network_connection_needed">No connection to local network.</string>
     <string name="search_hint">Search media</string>
-    <string name="search_list_hint">Search media in current list</string>
+    <string name="search_in_list_hint">Search in current list</string>
     <string name="search_global">Search in all media library</string>
     <string name="directory_show_medialib">Show in MediaLib</string>
     <string name="directory_hide_medialib">Hide from MediaLib</string>
