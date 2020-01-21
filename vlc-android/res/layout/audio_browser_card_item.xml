@@ -106,7 +106,7 @@
                     vlc:layout_constraintEnd_toStartOf="@+id/item_more"
                     vlc:layout_constraintStart_toStartOf="parent"
                     vlc:layout_constraintTop_toBottomOf="@id/media_cover"
-                    vlc:placeholder="@{item}"/>
+                    vlc:placeholder="@{item}" />
 
             <TextView
                 android:id="@+id/subtitle"

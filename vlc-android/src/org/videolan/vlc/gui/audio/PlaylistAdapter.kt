@@ -28,6 +28,7 @@ import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
+import android.os.Handler
 import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
@@ -44,11 +45,14 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
+import org.videolan.tools.Settings
 import org.videolan.tools.WeakHandler
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
+import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.view.MiniVisualizer
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
@@ -65,6 +69,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     private var defaultCoverAudio: BitmapDrawable
     private var model: PlaylistModel? = null
     private var currentPlayingVisu: MiniVisualizer? = null
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
     init {
         val ctx = when (player) {
@@ -137,6 +142,11 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         currentPlayingVisu = null
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+    }
+
     override fun getItemCount() = dataset.size
 
     @MainThread
@@ -178,8 +188,9 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     }
 
     inner class ViewHolder @TargetApi(Build.VERSION_CODES.M)
-    constructor(v: View) : RecyclerView.ViewHolder(v) {
+    constructor(v: View) : RecyclerView.ViewHolder(v), MarqueeViewHolder {
         var binding: PlaylistItemBinding = DataBindingUtil.bind(v)!!
+        override val titleView = binding.audioItemTitle
 
         init {
             binding.holder = this
