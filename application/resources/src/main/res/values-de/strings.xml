@@ -123,7 +123,7 @@
     <string name="noplaylist">Keine Wiedergabeliste gefunden</string>
     <string name="mediafiles">Mediendateien</string>
     <string name="notavailable">nicht verfügbar</string>
-    <string name="nosubdirectory">Keine Unterverzeichnisse</string>
+    <string name="nosubfolder">Keine Unterordner</string>
     <string name="directorynotfound">Der Verzeichnispfad \'%1$s\' wurde nicht gefunden.</string>
     <string name="nohistory">Sie haben noch keinen Wiedergabeverlauf.</string>
     <string name="validation">Sind Sie sicher?</string>
@@ -487,8 +487,8 @@
     <string name="network_empty">Das Verzeichnis ist leer.</string>
     <string name="network_connection_needed">Keine Verbindung zum lokalen Netzwerk.</string>
     <string name="search_hint">Medien suchen</string>
-    <string name="search_list_hint">In aktueller Liste suchen</string>
-    <string name="search_global">In allen Medienbibliotheken suchen</string>
+    <string name="search_in_list_hint">Suche in aktueller Liste</string>
+    <string name="search_global">Suche in allen Medienbibliotheken</string>
     <string name="directory_show_medialib">In Medienbibliothek anzeigen</string>
     <string name="directory_hide_medialib">In Medienbibliothek ausblenden</string>
     <string name="playlist_save">Wiedergabeliste speichern</string>
@@ -757,4 +757,21 @@
     <string name="clear_media_db_warning">Sie verlieren Ihren Verlauf und die von Ihnen erstellten Wiedergabelisten.\n%s</string>
     <string name="abrepeat_add_first_marker">Anfangspunkt setzen</string>
     <string name="abrepeat_add_second_marker">Endpunkt setzen</string>
+    <string name="demux_bitrate">Demux-Bitrate</string>
+    <string name="input_bitrate">Eingabebitrate</string>
+    <string name="video_information">Video-Information</string>
+
+    <string name="channels">Kanäle</string>
+    <string name="resolution">Auflösung</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Framerate</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Sprache</string>
+    <string name="track_samplerate">Abtastrate</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="codec">Codec</string>
+    <string name="text">Text</string>
+    <string name="unknown">Unbekannt</string>
 </resources>
