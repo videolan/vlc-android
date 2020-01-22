@@ -123,7 +123,7 @@
     <string name="noplaylist">Ingen spellista hittades.</string>
     <string name="mediafiles">Mediafiler</string>
     <string name="notavailable">inte tillgänglig</string>
-    <string name="nosubdirectory">Inga underkataloger.</string>
+    <string name="nosubfolder">Ingen undermapp</string>
     <string name="directorynotfound">Sökvägen \"%1$s\" hittades inte.</string>
     <string name="nohistory">Du har ännu ingen uppspelningshistorik.</string>
     <string name="validation">Är du säker?</string>
@@ -487,7 +487,7 @@
     <string name="network_empty">Denna filkatalog är tom.</string>
     <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
     <string name="search_hint">Sök media</string>
-    <string name="search_list_hint">Sök media i aktuell lista</string>
+    <string name="search_in_list_hint">Sök i nuvarande lista</string>
     <string name="search_global">Sök i alla mediabibliotek</string>
     <string name="directory_show_medialib">Visa i mediabiblioteket</string>
     <string name="directory_hide_medialib">Dölj från mediabiblioteket</string>
@@ -757,4 +757,21 @@
     <string name="clear_media_db_warning">Du kommer att förlora dina framsteg och spellistorna du har skapat:\n%s</string>
     <string name="abrepeat_add_first_marker">Ange startpunkt</string>
     <string name="abrepeat_add_second_marker">Ange slutpunkt</string>
+    <string name="demux_bitrate">Bitfrekvens för demux</string>
+    <string name="input_bitrate">Bitfrekvens för inmatning</string>
+    <string name="video_information">Videoinformation</string>
+
+    <string name="channels">Kanaler</string>
+    <string name="resolution">Upplösning</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Bildfrekvens</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Språk</string>
+    <string name="track_samplerate">Samplingsfrekvens</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bitfrekvens</string>
+    <string name="codec">Kodek</string>
+    <string name="text">Text</string>
+    <string name="unknown">Okänd</string>
 </resources>
