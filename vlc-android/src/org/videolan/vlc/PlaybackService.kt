@@ -536,7 +536,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {
-        if (settings.getBoolean("audio_task_removed", false)) stopSelf()
+        if (settings.getBoolean("audio_task_removed", false)) stopService(Intent(applicationContext, PlaybackService::class.java))
     }
 
     override fun onDestroy() {
@@ -952,7 +952,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     private fun loadLastAudioPlaylist() {
         if (AndroidDevices.isAndroidTv) return
-        runOnceReady(Runnable { if (!playlistManager.loadLastPlaylist()) stopSelf() })
+        runOnceReady(Runnable { if (!playlistManager.loadLastPlaylist()) stopService(Intent(applicationContext, PlaybackService::class.java)) })
     }
 
     fun loadLastPlaylist(type: Int) {

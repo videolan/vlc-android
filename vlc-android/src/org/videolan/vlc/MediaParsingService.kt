@@ -136,7 +136,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsigService")
         wakeLock.acquire()
 
-        if (lastNotificationTime == 5L) stopSelf()
+        if (lastNotificationTime == 5L) stopService(Intent(applicationContext, MediaParsingService::class.java))
         AbstractMedialibrary.getState().observe(this, Observer<Boolean> { running ->
             if (!running && !scanPaused) {
                 exitCommand()
@@ -384,13 +384,14 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     private fun exitCommand() = launch {
         if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
-            stopSelf()
+            stopForeground(true)
+            notificationActor.offer(Hide)
+            stopService(Intent(applicationContext, MediaParsingService::class.java))
         }
     }
 
     override fun onDestroy() {
         dispatcher.onServicePreSuperOnDestroy()
-        notificationActor.offer(Hide)
         medialibrary.removeDeviceDiscoveryCb(this)
         unregisterReceiver(receiver)
         localBroadcastManager.unregisterReceiver(receiver)
