@@ -154,56 +154,21 @@ fi
 # CFLAGS #
 ##########
 
-VLC_CFLAGS="-std=gnu11"
-VLC_CXXFLAGS="-std=gnu++11"
 if [ "$NO_OPTIM" = "1" ];
 then
-     VLC_CFLAGS="${VLC_CFLAGS} -g -O0"
-     VLC_CXXFLAGS="${VLC_CXXFLAGS} -g -O0"
+     VLC_CFLAGS="-g -O0"
 else
-     VLC_CFLAGS="${VLC_CFLAGS} -g -O2"
-     VLC_CXXFLAGS="${VLC_CXXFLAGS} -g -O2"
+     VLC_CFLAGS="-g -O2"
 fi
 
-VLC_CFLAGS="${VLC_CFLAGS} -fstrict-aliasing -funsafe-math-optimizations"
-VLC_CXXFLAGS="${VLC_CXXFLAGS} -fstrict-aliasing -funsafe-math-optimizations"
-
-# Setup CFLAGS per ABI
-if [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
-    EXTRA_CFLAGS="-march=armv7-a -mfpu=neon -mcpu=cortex-a8"
-    EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
-elif [ "${ANDROID_ABI}" = "x86" ] ; then
-    EXTRA_CFLAGS="-mtune=atom -msse3 -mfpmath=sse -m32"
-fi
-
-EXTRA_CFLAGS="${EXTRA_CFLAGS} -MMD -MP -fpic -ffunction-sections -funwind-tables \
--fstack-protector-strong -Wno-invalid-command-line-argument -Wno-unused-command-line-argument \
--no-canonical-prefixes -fno-integrated-as"
-EXTRA_CXXFLAGS="${EXTRA_CXXFLAGS} -fexceptions -frtti"
-EXTRA_CXXFLAGS="${EXTRA_CXXFLAGS} -D__STDC_FORMAT_MACROS=1 -D__STDC_CONSTANT_MACROS=1 -D__STDC_LIMIT_MACROS=1"
-
-#################
-# Setup LDFLAGS #
-#################
-
-EXTRA_LDFLAGS="${VLC_LDFLAGS}"
-if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
-        EXTRA_PARAMS=" --enable-neon"
-        EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -Wl,--fix-cortex-a8"
-fi
-NDK_LIB_DIR="${NDK_TOOLCHAIN_DIR}/${TARGET_TUPLE}/lib"
-if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" ];then
-    NDK_LIB_DIR="${NDK_LIB_DIR}64"
-elif [ "${PLATFORM_SHORT_ARCH}" = "arm" ]; then
-    NDK_LIB_DIR="${NDK_LIB_DIR}/armv7-a"
-fi
-
-EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi"
-VLC_LDFLAGS="${EXTRA_LDFLAGS}"
+# cf. GLOBAL_CFLAGS from ${ANDROID_NDK}/build/core/default-build-commands.mk
+VLC_CFLAGS="${VLC_CFLAGS} -fPIC -fdata-sections -ffunction-sections -funwind-tables \
+ -fstack-protector-strong -no-canonical-prefixes"
+VLC_CXXFLAGS="-fexceptions -frtti"
 
 # Release or not?
 if [ "$AVLC_RELEASE" = 1 ]; then
-    EXTRA_CFLAGS="${EXTRA_CFLAGS} -DNDEBUG "
+    VLC_CFLAGS="${VLC_CFLAGS} -DNDEBUG "
     NDK_DEBUG=0
 else
     NDK_DEBUG=1
@@ -216,8 +181,6 @@ fi
 echo "ABI:        $ANDROID_ABI"
 echo "API:        $ANDROID_API"
 echo "PATH:       $PATH"
-
-echo "EXTRA_CFLAGS:      ${EXTRA_CFLAGS}"
 echo "VLC_CFLAGS:        ${VLC_CFLAGS}"
 echo "VLC_CXXFLAGS:      ${VLC_CXXFLAGS}"
 
@@ -507,9 +470,8 @@ else
     # We append -marm to the CFLAGS of these libs to disable thumb mode
     [ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
 
-    echo "EXTRA_CFLAGS=${EXTRA_CFLAGS}" >> config.mak
-    echo "EXTRA_CXXFLAGS=${EXTRA_CXXFLAGS}" >> config.mak
-    echo "EXTRA_LDFLAGS=${EXTRA_LDFLAGS}" >> config.mak
+    echo "EXTRA_CFLAGS=${VLC_CFLAGS}" >> config.mak
+    echo "EXTRA_CXXFLAGS=${VLC_CXXFLAGS}" >> config.mak
     echo "CC=${CROSS_CLANG}" >> config.mak
     echo "CXX=${CROSS_CLANG}++" >> config.mak
     echo "AR=${CROSS_TOOLS}ar" >> config.mak
@@ -555,12 +517,7 @@ if [ ${ANDROID_API} -lt "21" ] ; then
     # force uselocale using libandroid_support since it's present in libc++
     export ac_cv_func_uselocale=yes
 
-    # -l order is important here
-    VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -landroid_support"
-    if [ "${ANDROID_ABI}" = "armeabi-v7a" ]; then
-        VLC_LDFLAGS="${VLC_LDFLAGS} -lunwind"
-    fi
-    VLC_LDFLAGS="${VLC_LDFLAGS} -latomic -lgcc"
+    VLC_LDFLAGS="-landroid_support"
 fi
 
 # always use fixups for search.h and tdestroy
@@ -574,8 +531,8 @@ if [ ! -e ./config.h -o "$AVLC_RELEASE" = 1 ]; then
         VLC_CONFIGURE_DEBUG="--enable-debug"
     fi
 
-    CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
-    CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
+    CFLAGS="${VLC_CFLAGS}" \
+    CXXFLAGS="${VLC_CFLAGS} ${VLC_CXXFLAGS}" \
     CC="${CROSS_CLANG}" \
     CXX="${CROSS_CLANG}++" \
     NM="${CROSS_TOOLS}nm" \

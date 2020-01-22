@@ -68,8 +68,8 @@ if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
 ../configure \
     --host=$TARGET_TUPLE \
     --disable-shared \
-    CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
-    CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
+    CFLAGS="${VLC_CFLAGS}" \
+    CXXFLAGS="${VLC_CFLAGS} ${VLC_CXXFLAGS}" \
     CC="${CROSS_CLANG}" \
     CXX="${CROSS_CLANG}++"
 fi
@@ -105,8 +105,6 @@ if [ "$RELEASE" = "1" ]; then
     git cherry-pick bfb2ad6e8b34a62c482e3064e6e13751482b903f
 fi
 cd ${SRC_DIR}
-echo -e "\e[1m\e[36mCFLAGS:            ${CFLAGS}\e[0m"
-echo -e "\e[1m\e[36mEXTRA_CFLAGS:      ${EXTRA_CFLAGS}\e[0m"
 
 #################
 # Setup folders #
@@ -133,8 +131,8 @@ if [ ! -e ./config.h -o "$RELEASE" = "1" ]; then
     --host=$TARGET_TUPLE \
     --disable-shared \
     ${MEDIALIBRARY_MODE} \
-    CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
-    CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
+    CFLAGS="${VLC_CFLAGS}" \
+    CXXFLAGS="${VLC_CFLAGS}" \
     CC="${CROSS_CLANG}" \
     CXX="${CROSS_CLANG}++" \
     NM="${CROSS_TOOLS}nm" \
