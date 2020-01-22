@@ -139,7 +139,7 @@
     <string name="noplaylist">Nie znaleziono listy odtwarzania.</string>
     <string name="mediafiles">Pliki multimedialne</string>
     <string name="notavailable">niedostępne</string>
-    <string name="nosubdirectory">Brak podkatalogów.</string>
+    <string name="nosubfolder">Brak podfolderów</string>
     <string name="directorynotfound">Nie znaleziono ścieżki katalogu \'%1$s\'.</string>
     <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
     <string name="validation">Czy jesteś pewny?</string>
@@ -505,7 +505,7 @@
     <string name="network_empty">Ten katalog jest pusty.</string>
     <string name="network_connection_needed">Brak połączenia z siecią lokalną.</string>
     <string name="search_hint">Szukaj mediów</string>
-    <string name="search_list_hint">Szukaj w bieżącej liście</string>
+    <string name="search_in_list_hint">Szukaj w bieżącej liście</string>
     <string name="search_global">Szukaj we wszystkich bibliotekach multimediów</string>
     <string name="directory_show_medialib">Pokaż w MediaLib</string>
     <string name="directory_hide_medialib">Ukryj w MediaLib</string>
@@ -775,4 +775,21 @@
     <string name="clear_media_db_warning">Utracisz historię i utworzone listy odtwarzania.\n%s</string>
     <string name="abrepeat_add_first_marker">Ustaw punkt startowy</string>
     <string name="abrepeat_add_second_marker">Ustaw punkt końcowy</string>
+    <string name="demux_bitrate">Bitrate demultipleksera</string>
+    <string name="input_bitrate">Bitrate wejściowy</string>
+    <string name="video_information">Informacje o filmie</string>
+
+    <string name="channels">Kanały</string>
+    <string name="resolution">Rozdzielczość</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Liczba klatek</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Język</string>
+    <string name="track_samplerate">Częstotliwość próbkowania</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="codec">Kodek</string>
+    <string name="text">Tekst</string>
+    <string name="unknown">Nieznany</string>
 </resources>
