@@ -38,6 +38,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.MainThread
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
@@ -458,11 +459,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         return super.getApplicationContext().getContextWithLocale(AppContextProvider.locale)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
-        if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(applicationContext)
         dispatcher.onServicePreSuperOnCreate()
-        setupScope()
         super.onCreate()
+        setupScope()
+        NotificationHelper.createNotificationChannels(applicationContext)
         settings = Settings.getInstance(this)
         playlistManager = PlaylistManager(this)
         Util.checkCpuCompatibility(this)

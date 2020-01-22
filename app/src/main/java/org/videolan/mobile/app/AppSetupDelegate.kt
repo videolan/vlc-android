@@ -32,7 +32,6 @@ import org.videolan.libvlc.LibVLCFactory
 import org.videolan.libvlc.MediaFactory
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.interfaces.IMediaFactory
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.moviepedia.MoviepediaIndexer
 import org.videolan.moviepedia.provider.MoviepediaTvshowProvider
 import org.videolan.resources.AppContextProvider
@@ -58,8 +57,8 @@ class AppSetupDelegate : AppDelegate {
 
     @TargetApi(Build.VERSION_CODES.O)
     override fun Context.setupApplication() {
-        if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(this)
         appContextProvider.init(this)
+        NotificationHelper.createNotificationChannels(this)
 
         // Service loaders
         FactoryManager.registerFactory(IMediaFactory.factoryId, MediaFactory())

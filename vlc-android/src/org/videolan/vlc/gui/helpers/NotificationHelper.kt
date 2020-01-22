@@ -33,6 +33,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.media.session.MediaButtonReceiver
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.ACTION_PAUSE_SCAN
 import org.videolan.resources.ACTION_RESUME_SCAN
 import org.videolan.resources.AndroidDevices
@@ -41,6 +42,11 @@ import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.Util
+
+private const val MEDIALIBRRARY_CHANNEL_ID = "vlc_medialibrary"
+private const val PLAYBACK_SERVICE_CHANNEL_ID = "vlc_playback"
+const val MISC_CHANNEL_ID = "misc"
+private const val RECOMMENDATION_CHANNEL_ID = "vlc_recommendations"
 
 object NotificationHelper {
     const val TAG = "VLC/NotificationHelper"
@@ -56,7 +62,7 @@ object NotificationHelper {
                                    spi: PendingIntent): Notification {
 
         val piStop = MediaButtonReceiver.buildMediaButtonPendingIntent(ctx, PlaybackStateCompat.ACTION_STOP)
-        val builder = NotificationCompat.Builder(ctx, "vlc_playback")
+        val builder = NotificationCompat.Builder(ctx, PLAYBACK_SERVICE_CHANNEL_ID)
         sb.setLength(0)
         sb.append(title).append(" - ").append(artist)
         builder.setSmallIcon(if (video) R.drawable.ic_notif_video else R.drawable.ic_notif_audio)
@@ -75,13 +81,11 @@ object NotificationHelper {
                         MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
                                 PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)))
         if (pausable) {
-            if (playing)
-                builder.addAction(NotificationCompat.Action(
+            if (playing) builder.addAction(NotificationCompat.Action(
                         R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause),
                         MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
                                 PlaybackStateCompat.ACTION_PLAY_PAUSE)))
-            else
-                builder.addAction(NotificationCompat.Action(
+            else builder.addAction(NotificationCompat.Action(
                         R.drawable.ic_widget_play_w, ctx.getString(R.string.play),
                         MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
                                 PlaybackStateCompat.ACTION_PLAY_PAUSE)))
@@ -90,8 +94,7 @@ object NotificationHelper {
                 R.drawable.ic_widget_next_w, ctx.getString(R.string.next),
                 MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
                         PlaybackStateCompat.ACTION_SKIP_TO_NEXT)))
-        if (!pausable)
-            builder.addAction(NotificationCompat.Action(
+        if (!pausable) builder.addAction(NotificationCompat.Action(
                     R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop))
 
         if (AndroidDevices.showMediaStyle) {
@@ -106,7 +109,7 @@ object NotificationHelper {
     }
 
     fun createScanNotification(ctx: Context, progressText: String, paused: Boolean): Notification {
-        val scanCompatBuilder = NotificationCompat.Builder(ctx, "vlc_medialibrary")
+        val scanCompatBuilder = NotificationCompat.Builder(ctx, MEDIALIBRRARY_CHANNEL_ID)
                 .setContentIntent(PendingIntent.getActivity(ctx, 0, Intent(ctx, StartActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT))
                 .setSmallIcon(R.drawable.ic_notif_scan)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -128,37 +131,46 @@ object NotificationHelper {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun createNotificationChannels(appCtx: Context) {
+        if (!AndroidUtil.isOOrLater) return
         val notificationManager = appCtx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val channels = mutableListOf<NotificationChannel>()
         // Playback channel
-        var name: CharSequence = appCtx.getString(R.string.playback)
-        var description = appCtx.getString(R.string.playback_controls)
-        var channel = NotificationChannel("vlc_playback", name, NotificationManager.IMPORTANCE_LOW)
-        channel.description = description
-        channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-        notificationManager.createNotificationChannel(channel)
-        // Scan channel
-        name = appCtx.getString(R.string.medialibrary_scan)
-        description = appCtx.getString(R.string.Medialibrary_progress)
-        channel = NotificationChannel("vlc_medialibrary", name, NotificationManager.IMPORTANCE_LOW)
-        channel.description = description
-        channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-        notificationManager.createNotificationChannel(channel)
-
-        // Misc channel
-        name = appCtx.getString(R.string.misc)
-        channel = NotificationChannel("misc", name, NotificationManager.IMPORTANCE_LOW)
-        channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-        notificationManager.createNotificationChannel(channel)
-
-        // Recommendations channel
-        if (AndroidDevices.isAndroidTv) {
-            name = appCtx.getString(R.string.recommendations)
-            description = appCtx.getString(R.string.recommendations_desc)
-            channel = NotificationChannel("vlc_recommendations", name, NotificationManager.IMPORTANCE_LOW)
+        if (notificationManager.getNotificationChannel(PLAYBACK_SERVICE_CHANNEL_ID) == null ) {
+            val name: CharSequence = appCtx.getString(R.string.playback)
+            val description = appCtx.getString(R.string.playback_controls)
+            val channel = NotificationChannel(PLAYBACK_SERVICE_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            notificationManager.createNotificationChannel(channel)
+            channels.add(channel)
         }
+        // Scan channel
+        if (notificationManager.getNotificationChannel(MEDIALIBRRARY_CHANNEL_ID) == null ) {
+            val name = appCtx.getString(R.string.medialibrary_scan)
+            val description = appCtx.getString(R.string.Medialibrary_progress)
+            val channel = NotificationChannel(MEDIALIBRRARY_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
+            channel.description = description
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            channels.add(channel)
+        }
+
+        // Misc channel
+        if (notificationManager.getNotificationChannel(MISC_CHANNEL_ID) == null ) {
+            val name = appCtx.getString(R.string.misc)
+            val channel = NotificationChannel(MISC_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            channels.add(channel)
+        }
+
+        // Recommendations channel
+        if (AndroidDevices.isAndroidTv && notificationManager.getNotificationChannel(RECOMMENDATION_CHANNEL_ID) == null) {
+            val name = appCtx.getString(R.string.recommendations)
+            val description = appCtx.getString(R.string.recommendations_desc)
+            val channel = NotificationChannel(RECOMMENDATION_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
+            channel.description = description
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            channels.add(channel)
+        }
+        if (channels.isNotEmpty()) notificationManager.createNotificationChannels(channels)
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

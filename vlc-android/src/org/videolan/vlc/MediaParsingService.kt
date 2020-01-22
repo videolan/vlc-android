@@ -126,9 +126,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     @TargetApi(Build.VERSION_CODES.O)
     @SuppressLint("WakelockTimeout")
     override fun onCreate() {
-        if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(applicationContext)
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
+        NotificationHelper.createNotificationChannels(applicationContext)
         medialibrary = Medialibrary.getInstance()
         medialibrary.addDeviceDiscoveryCb(this@MediaParsingService)
         val filter = IntentFilter()

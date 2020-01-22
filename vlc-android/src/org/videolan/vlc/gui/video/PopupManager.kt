@@ -48,18 +48,19 @@ import org.videolan.tools.Settings
 import org.videolan.tools.VIDEO_RESUME_TIME
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.MISC_CHANNEL_ID
 import org.videolan.vlc.gui.view.PopupLayout
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.getPendingIntent
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PopupManager constructor(private val mService: PlaybackService) : PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
+class PopupManager constructor(private val service: PlaybackService) : PlaybackService.Callback, GestureDetector.OnDoubleTapListener, View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
 
     private var rootView: PopupLayout? = null
     private lateinit var expandButton: ImageView
     private lateinit var closeButton: ImageView
     private lateinit var playPauseButton: ImageView
-    private val alwaysOn: Boolean = Settings.getInstance(mService).getBoolean(POPUP_KEEPSCREEN, false)
+    private val alwaysOn: Boolean = Settings.getInstance(service).getBoolean(POPUP_KEEPSCREEN, false)
 
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
@@ -73,16 +74,16 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
     fun removePopup() {
         hideNotification()
         if (rootView == null) return
-        mService.removeCallback(this)
-        val vlcVout = mService.vout
+        service.removeCallback(this)
+        val vlcVout = service.vout
         vlcVout?.detachViews()
         rootView!!.close()
         rootView = null
     }
 
     fun showPopup() {
-        mService.addCallback(this)
-        val li = mService.applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        service.addCallback(this)
+        val li = service.applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 ?: return
         rootView = li.inflate(R.layout.video_popup, null) as PopupLayout
         if (alwaysOn) rootView!!.keepScreenOn = true
@@ -93,11 +94,11 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
         closeButton.setOnClickListener(this)
         expandButton.setOnClickListener(this)
 
-        val gestureDetector = GestureDetectorCompat(mService, this)
+        val gestureDetector = GestureDetectorCompat(service, this)
         gestureDetector.setOnDoubleTapListener(this)
         rootView!!.setGestureDetector(gestureDetector)
 
-        val vlcVout = mService.vout ?: return
+        val vlcVout = service.vout ?: return
         vlcVout.setVideoView(rootView!!.findViewById<View>(R.id.player_surface) as SurfaceView)
         vlcVout.addCallback(this)
         vlcVout.attachViews(this)
@@ -213,11 +214,11 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.video_play_pause -> if (mService.hasMedia()) {
-                if (mService.isPlaying)
-                    mService.pause()
+            R.id.video_play_pause -> if (service.hasMedia()) {
+                if (service.isPlaying)
+                    service.pause()
                 else
-                    mService.play()
+                    service.play()
             }
             R.id.popup_close -> stopPlayback()
             R.id.popup_expand -> expandToVideoPlayer()
@@ -226,64 +227,64 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
 
     private fun expandToVideoPlayer() {
         removePopup()
-        if (mService.hasMedia() && !mService.isPlaying)
-            mService.currentMediaWrapper!!.flags = MediaWrapper.MEDIA_PAUSED
-        mService.switchToVideo()
+        if (service.hasMedia() && !service.isPlaying)
+            service.currentMediaWrapper!!.flags = MediaWrapper.MEDIA_PAUSED
+        service.switchToVideo()
     }
 
     private fun stopPlayback() {
-        var time = mService.time
+        var time = service.time
         if (time != -1L) {
             // remove saved position if in the last 5 seconds
             // else, go back 2 seconds, to compensate loading time
-            time = (if (mService.length - time < 5000) 0 else 2000).toLong()
+            time = (if (service.length - time < 5000) 0 else 2000).toLong()
             // Save position
-            if (mService.isSeekable)
-                Settings.getInstance(mService).edit()
+            if (service.isSeekable)
+                Settings.getInstance(service).edit()
                         .putLong(VIDEO_RESUME_TIME, time).apply()
         }
-        mService.stop()
+        service.stop()
     }
 
     private fun showNotification() {
-        val piStop = mService.getPendingIntent(Intent(ACTION_REMOTE_STOP))
-        val builder = NotificationCompat.Builder(mService, "misc")
+        val piStop = service.getPendingIntent(Intent(ACTION_REMOTE_STOP))
+        val builder = NotificationCompat.Builder(service, MISC_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notif_video)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(mService.title)
-                .setContentText(mService.getString(R.string.popup_playback))
+                .setContentTitle(service.title)
+                .setContentText(service.getString(R.string.popup_playback))
                 .setAutoCancel(false)
                 .setOngoing(true)
-                .setContentIntent(mService.sessionPendingIntent)
+                .setContentIntent(service.sessionPendingIntent)
                 .setDeleteIntent(piStop)
 
         //Switch
         val notificationIntent = Intent(ACTION_REMOTE_SWITCH_VIDEO)
-        val piExpand = mService.getPendingIntent(notificationIntent)
+        val piExpand = service.getPendingIntent(notificationIntent)
         //PLay Pause
-        val piPlay = mService.getPendingIntent(Intent(ACTION_REMOTE_PLAYPAUSE))
+        val piPlay = service.getPendingIntent(Intent(ACTION_REMOTE_PLAYPAUSE))
 
-        if (mService.isPlaying)
-            builder.addAction(R.drawable.ic_popup_pause, mService.getString(R.string.pause), piPlay)
+        if (service.isPlaying)
+            builder.addAction(R.drawable.ic_popup_pause, service.getString(R.string.pause), piPlay)
         else
-            builder.addAction(R.drawable.ic_popup_play, mService.getString(R.string.play), piPlay)
-        builder.addAction(R.drawable.ic_popup_expand_w, mService.getString(R.string.popup_expand), piExpand)
-        mService.startForeground(42, builder.build())
+            builder.addAction(R.drawable.ic_popup_play, service.getString(R.string.play), piPlay)
+        builder.addAction(R.drawable.ic_popup_expand_w, service.getString(R.string.popup_expand), piExpand)
+        service.startForeground(42, builder.build())
     }
 
     private fun hideNotification() {
-        mService.stopForeground(true)
+        service.stopForeground(true)
     }
 
     override fun onSurfacesCreated(vlcVout: IVLCVout) {
-        mService.setVideoAspectRatio(null)
-        mService.setVideoScale(0f)
-        mService.setVideoTrackEnabled(true)
-        if (mService.hasMedia()) {
-            mService.flush()
-            playPauseButton!!.setImageResource(if (mService.isPlaying) R.drawable.ic_popup_pause else R.drawable.ic_popup_play)
+        service.setVideoAspectRatio(null)
+        service.setVideoScale(0f)
+        service.setVideoTrackEnabled(true)
+        if (service.hasMedia()) {
+            service.flush()
+            playPauseButton!!.setImageResource(if (service.isPlaying) R.drawable.ic_popup_pause else R.drawable.ic_popup_play)
         } else
-            mService.playIndex(mService.currentMediaPosition)
+            service.playIndex(service.currentMediaPosition)
         showNotification()
     }
 
