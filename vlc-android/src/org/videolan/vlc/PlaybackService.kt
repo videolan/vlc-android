@@ -562,7 +562,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {
-        if (settings.getBoolean("audio_task_removed", false)) stopSelf()
+        if (settings.getBoolean("audio_task_removed", false)) stopService(Intent(applicationContext, PlaybackService.javaClass))
     }
 
     override fun onDestroy() {
@@ -997,7 +997,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         if (AndroidDevices.isAndroidTv) return
         scope.launch {
             awaitMedialibraryStarted()
-            if (!playlistManager.loadLastPlaylist()) stopSelf()
+            if (!playlistManager.loadLastPlaylist()) stopService(Intent(applicationContext, PlaybackService.javaClass))
         }
     }
 
