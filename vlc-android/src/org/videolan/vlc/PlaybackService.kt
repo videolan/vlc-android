@@ -679,7 +679,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                         cover = BitmapFactory.decodeResource(ctx.resources, R.drawable.ic_no_media)
 
                     notification = NotificationHelper.createPlaybackNotification(ctx,
-                            mw.hasFlag(AbstractMediaWrapper.MEDIA_FORCE_AUDIO), title, artist, album,
+                            canSwitchToVideo(), title, artist, album,
                             cover, playing, isPausable, sessionToken, sessionPendingIntent)
                     if (isPlayingPopup) return@launch
                     if (!AndroidUtil.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
