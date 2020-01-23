@@ -115,7 +115,7 @@
     <string name="noplaylist">プレイリストが見つかりません。</string>
     <string name="mediafiles">メディアファイル</string>
     <string name="notavailable">利用できません</string>
-    <string name="nosubdirectory">サブディレクトリ無し</string>
+    <string name="nosubfolder">サブフォルダがありません</string>
     <string name="directorynotfound">ディレクトリのパス \'%1$s\' がみつかりません。</string>
     <string name="nohistory">再生履歴がありません。</string>
     <string name="validation">本当に実行しますか?</string>
@@ -478,7 +478,7 @@
     <string name="network_empty">このディレクトリは空です。</string>
     <string name="network_connection_needed">ローカルネットワークへの接続がありません。</string>
     <string name="search_hint">メディアの検索</string>
-    <string name="search_list_hint">現在のリストからメディアを検索</string>
+    <string name="search_in_list_hint">現在のリストから検索</string>
     <string name="search_global">すべてのメディアライブラリから検索</string>
     <string name="directory_show_medialib">メディアライブラリで表示</string>
     <string name="directory_hide_medialib">メディアライブラリで非表示</string>
@@ -748,4 +748,21 @@
     <string name="clear_media_db_warning">作成したプレイリストと進捗が失われます。\n%s</string>
     <string name="abrepeat_add_first_marker">開始点を設定</string>
     <string name="abrepeat_add_second_marker">終了点を設定</string>
+    <string name="demux_bitrate">デマルチプレクサービットレート</string>
+    <string name="input_bitrate">入力ビットレート</string>
+    <string name="video_information">ビデオ情報</string>
+
+    <string name="channels">チャンネル</string>
+    <string name="resolution">解像度</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">フレームレート</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">言語</string>
+    <string name="track_samplerate">サンプリングレート</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">ビットレート</string>
+    <string name="codec">コーデック</string>
+    <string name="text">テキスト</string>
+    <string name="unknown">不明</string>
 </resources>
