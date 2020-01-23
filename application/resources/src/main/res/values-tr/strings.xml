@@ -123,7 +123,7 @@
     <string name="noplaylist">Herhangi bir oynatma listesi bulunamadı.</string>
     <string name="mediafiles">Ortam dosyaları</string>
     <string name="notavailable">kullanılamaz</string>
-    <string name="nosubdirectory">Herhangi bir alt klasör bulunamadı.</string>
+    <string name="nosubfolder">Alt klasör yok</string>
     <string name="directorynotfound">\'%1$s\' klasör yolu bulunamadı.</string>
     <string name="nohistory">Henüz bir oynatma geçmişiniz yok.</string>
     <string name="validation">Emin misiniz?</string>
@@ -487,7 +487,7 @@
     <string name="network_empty">Bu klasör boş.</string>
     <string name="network_connection_needed">Yerel ağ bağlantısı yok.</string>
     <string name="search_hint">Ortam arama</string>
-    <string name="search_list_hint">Geçerli listede ara</string>
+    <string name="search_in_list_hint">Geçerli listede ara</string>
     <string name="search_global">Tüm ortam kitaplığında ara</string>
     <string name="directory_show_medialib">Ortam Kitaplığında Görüntüle</string>
     <string name="directory_hide_medialib">Ortam Kitaplığında Gizle</string>
@@ -757,4 +757,21 @@
     <string name="clear_media_db_warning">Oluşturduğunuz işlemler ve oynatma listelerini kaybedeceksiniz.\n%s</string>
     <string name="abrepeat_add_first_marker">Başlangıç noktasını ayarla</string>
     <string name="abrepeat_add_second_marker">Bitiş noktasını ayarla</string>
+    <string name="demux_bitrate">Tekleme bit hızı</string>
+    <string name="input_bitrate">Giriş bit hızı</string>
+    <string name="video_information">Görüntü bilgileri</string>
+
+    <string name="channels">Kanallar</string>
+    <string name="resolution">Çözünürlük</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Kare hızı</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Dil</string>
+    <string name="track_samplerate">Örnekleme hız</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bir hızı</string>
+    <string name="codec">Kodlayıcı/Çözücü</string>
+    <string name="text">Metin</string>
+    <string name="unknown">Bilinmiyor</string>
 </resources>
