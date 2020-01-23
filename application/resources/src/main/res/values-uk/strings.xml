@@ -139,7 +139,7 @@
     <string name="noplaylist">Не знайдено список відтворення.</string>
     <string name="mediafiles">Медіафайли</string>
     <string name="notavailable">недоступно</string>
-    <string name="nosubdirectory">Немає підкаталогів.</string>
+    <string name="nosubfolder">Без підтек</string>
     <string name="directorynotfound">Не знайдено шлях до каталогу \'%1$s\'.</string>
     <string name="nohistory">У вас ще немає історії відтворення.</string>
     <string name="validation">Ви впевнені?</string>
@@ -505,7 +505,7 @@
     <string name="network_empty">Цей каталог - порожній.</string>
     <string name="network_connection_needed">Немає з\'єднання із локальною мережею.</string>
     <string name="search_hint">Пошук медіа</string>
-    <string name="search_list_hint">Пошук медіа у поточному списку</string>
+    <string name="search_in_list_hint">Шукати у поточному списку</string>
     <string name="search_global">Пошук у всіх бібліотеках</string>
     <string name="directory_show_medialib">Показати у медіабібліотеці</string>
     <string name="directory_hide_medialib">Приховати у медіабібліотеці</string>
@@ -775,4 +775,21 @@
     <string name="clear_media_db_warning">Ви втратите свій поступ та списки відтворення, створені вамиu.\n%s</string>
     <string name="abrepeat_add_first_marker">Задати точку початку... </string>
     <string name="abrepeat_add_second_marker">Задати точку кінця... </string>
+    <string name="demux_bitrate">Бітрейт демультиплексора</string>
+    <string name="input_bitrate">Бітрейт вхідного потоку</string>
+    <string name="video_information">Інформація про відео</string>
+
+    <string name="channels">Канали</string>
+    <string name="resolution">Роздільна здатність</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Частота кадрів</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/с</string>
+    <string name="language">Мова</string>
+    <string name="track_samplerate">Частота дискретизації</string>
+    <string name="track_samplerate_value">%1$d Гц\n</string>
+    <string name="bitrate">Бітрейт</string>
+    <string name="codec">Кодек</string>
+    <string name="text">Текст</string>
+    <string name="unknown">Невідомо</string>
 </resources>
