@@ -139,7 +139,7 @@
     <string name="noplaylist">Nenašiel sa žiadny playlist.</string>
     <string name="mediafiles">Súbory médií</string>
     <string name="notavailable">nedostupné</string>
-    <string name="nosubdirectory">Žiadne podpriečinky.</string>
+    <string name="nosubfolder">Žiadny podpriečinok</string>
     <string name="directorynotfound">Cesta k priečinku \'%1$s\' sa nenašla.</string>
     <string name="nohistory">Ešte nie je dostupná žiadna história prehrávania.</string>
     <string name="validation">Naozaj?</string>
@@ -505,7 +505,7 @@
     <string name="network_empty">Tento priečinok je prázdny.</string>
     <string name="network_connection_needed">Bez pripojenia k lokálnej sieti.</string>
     <string name="search_hint">Vyhľadávanie média</string>
-    <string name="search_list_hint">Vyhľadať médium v aktuálnom zozname</string>
+    <string name="search_in_list_hint">Vyhľadať v aktuálnom zozname</string>
     <string name="search_global">Hľadať v celej knižnici médií</string>
     <string name="directory_show_medialib">Zobraziť v knižnici multimédií</string>
     <string name="directory_hide_medialib">Skryť v knižnici multimédií</string>
@@ -776,4 +776,21 @@
 %s</string>
     <string name="abrepeat_add_first_marker">Nastaviť počiatočný bod</string>
     <string name="abrepeat_add_second_marker">Nastaviť koncový bod</string>
+    <string name="demux_bitrate">Dátový tok demultiplexovania</string>
+    <string name="input_bitrate">Dátový tok na vstupe</string>
+    <string name="video_information">Informácia o videu</string>
+
+    <string name="channels">Kanály</string>
+    <string name="resolution">Rozlíšenie</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Frekvencia snímok</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Jazyk</string>
+    <string name="track_samplerate">Vzorkovacia frekvencia</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Dátový tok</string>
+    <string name="codec">Kodek</string>
+    <string name="text">Text</string>
+    <string name="unknown">Neznáme</string>
 </resources>
