@@ -123,7 +123,7 @@
     <string name="noplaylist">Não foi possível encontrar uma lista de reprodução.</string>
     <string name="mediafiles">Arquivos de mídia</string>
     <string name="notavailable">Não disponível</string>
-    <string name="nosubdirectory">Nenhuma sub pasta.</string>
+    <string name="nosubfolder">Nenhuma sub pasta</string>
     <string name="directorynotfound">O caminho da pasta \'%1$s\' não foi encontrado.</string>
     <string name="nohistory">Você não possui histórico de reprodução.</string>
     <string name="validation">Tem certeza?</string>
@@ -487,7 +487,7 @@
     <string name="network_empty">A pasta está vazia.</string>
     <string name="network_connection_needed">Não há conexões à rede local.</string>
     <string name="search_hint">Procurar mídia</string>
-    <string name="search_list_hint">Procurar mídia na lista atual</string>
+    <string name="search_in_list_hint">Procurar na lista atual</string>
     <string name="search_global">Procurar em toda a biblioteca de mídias</string>
     <string name="directory_show_medialib">Exibir no MediaLib</string>
     <string name="directory_hide_medialib">Ocultar do MediaLib</string>
@@ -757,4 +757,21 @@
     <string name="clear_media_db_warning">Você perderá seus progressos e as listas de reprodução que criou.\n%s</string>
     <string name="abrepeat_add_first_marker">Definir ponto de início</string>
     <string name="abrepeat_add_second_marker">Definir ponto de finalização</string>
+    <string name="demux_bitrate">Taxa de bits de descombinação</string>
+    <string name="input_bitrate">Taxa de bits de entrada</string>
+    <string name="video_information">informações de vídeo</string>
+
+    <string name="channels">Canais</string>
+    <string name="resolution">Resolução</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Taxa de quadros</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Idioma</string>
+    <string name="track_samplerate">Taxa de amostragem</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Taxa de bits</string>
+    <string name="codec">Codificador</string>
+    <string name="text">Texto</string>
+    <string name="unknown">Desconhecido</string>
 </resources>
