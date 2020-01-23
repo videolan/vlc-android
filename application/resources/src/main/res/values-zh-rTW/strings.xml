@@ -115,7 +115,7 @@
     <string name="noplaylist">找不到播放清單。</string>
     <string name="mediafiles">媒體檔案</string>
     <string name="notavailable">無法使用</string>
-    <string name="nosubdirectory">沒有子目錄。</string>
+    <string name="nosubfolder">無子資料夾</string>
     <string name="directorynotfound">目錄路徑「%1$s」不存在。</string>
     <string name="nohistory">目前並無播放記錄。</string>
     <string name="validation">你確定嗎？</string>
@@ -478,7 +478,7 @@
     <string name="network_empty">這個資料夾是空的。</string>
     <string name="network_connection_needed">無區域網路連線。</string>
     <string name="search_hint">搜尋媒體</string>
-    <string name="search_list_hint">在目前清單中搜尋媒體</string>
+    <string name="search_in_list_hint">在目前的清單中搜尋</string>
     <string name="search_global">在所有媒體櫃中搜尋</string>
     <string name="directory_show_medialib">在媒體櫃顯示</string>
     <string name="directory_hide_medialib">在媒體櫃隱藏</string>
@@ -748,4 +748,21 @@
     <string name="clear_media_db_warning">您將會失去播放進度與您所建立的播放清單。\n%s</string>
     <string name="abrepeat_add_first_marker">設定起點</string>
     <string name="abrepeat_add_second_marker">設定終點</string>
+    <string name="demux_bitrate">解多工位元率</string>
+    <string name="input_bitrate">輸入位元率</string>
+    <string name="video_information">影片資訊</string>
+
+    <string name="channels">聲道數</string>
+    <string name="resolution">解析度</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">畫面速率</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">語言</string>
+    <string name="track_samplerate">取樣率</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">位元率</string>
+    <string name="codec">編解碼器</string>
+    <string name="text">文字</string>
+    <string name="unknown">未知</string>
 </resources>
