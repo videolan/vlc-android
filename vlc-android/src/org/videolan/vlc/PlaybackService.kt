@@ -999,7 +999,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         if (AndroidDevices.isAndroidTv) return
         scope.launch {
             awaitMedialibraryStarted()
-            if (!playlistManager.loadLastPlaylist()) stopService(Intent(applicationContext, PlaybackService.javaClass))
+            if (!playlistManager.loadLastPlaylist()) stopService(Intent(applicationContext, PlaybackService::class.java))
         }
     }
 
