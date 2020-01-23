@@ -35,7 +35,6 @@ import android.os.IBinder
 import android.os.PowerManager
 import android.text.TextUtils
 import android.util.Log
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
@@ -73,7 +72,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     private var reload = 0
     private var currentDiscovery: String? = null
     @Volatile private var lastNotificationTime = 0L
-    private var notificationJob: Job? = null
     @Volatile private var scanActivated = false
 
     private val settings by lazy { Settings.getInstance(this) }
@@ -139,7 +137,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         registerReceiver(receiver, filter)
         val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsigService")
-        wakeLock.acquire()
 
         if (lastNotificationTime == 5L) stopService(Intent(applicationContext, MediaParsingService.javaClass))
         Medialibrary.getState().observe(this, Observer<Boolean> { running ->
@@ -160,7 +157,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         // Set 1s delay before displaying scan icon
         // Except for Android 8+ which expects startForeground immediately
         if (AndroidUtil.isOOrLater) forceForeground()
-        else if (lastNotificationTime <= 0L) lastNotificationTime = System.currentTimeMillis()
+        if (lastNotificationTime <= 0L) lastNotificationTime = if (AndroidUtil.isOOrLater) 0L else System.currentTimeMillis()
         super.onStartCommand(intent, flags, startId)
         dispatcher.onServicePreSuperOnStart()
         when (intent.action) {
@@ -179,6 +176,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
                 return START_NOT_STICKY
             }
         }
+        if (!wakeLock.isHeld) wakeLock.acquire()
         return START_NOT_STICKY
     }
 
@@ -333,9 +331,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
             }
             val progressText = sb.toString()
             if (!isActive) return@withContext ""
-            val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused)
             if (lastNotificationTime != -1L) {
                 try {
+                    val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused)
                     startForeground(43, notification)
                 } catch (ignored: IllegalArgumentException) {}
                 progressText
@@ -344,10 +342,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         showProgress(parsing, discovery)
     }
 
-    private suspend fun hideNotification() {
-        notificationJob?.cancelAndJoin()
+    private fun hideNotification() {
         lastNotificationTime = -1L
-        NotificationManagerCompat.from(this@MediaParsingService).cancel(43)
+        stopForeground(true)
         showProgress(-1, "")
     }
 
@@ -386,14 +383,15 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     private fun exitCommand() {
         if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
+            if (wakeLock.isHeld) wakeLock.release()
             //todo reenable entry point when ready
             if (BuildConfig.DEBUG) try {
                 indexingListeners.forEach { it.onIndexingDone() }
             } catch (e: Exception) {
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "${e.cause}")
             }
-            stopForeground(true)
             notificationActor.offer(Hide)
+            stopForeground(true)
             stopService(Intent(applicationContext, MediaParsingService.javaClass))
         }
     }
@@ -402,7 +400,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         dispatcher.onServicePreSuperOnDestroy()
         medialibrary.removeDeviceDiscoveryCb(this)
         unregisterReceiver(receiver)
-        if (wakeLock.isHeld) wakeLock.release()
         medialibrary.exceptionHandler = null
         super.onDestroy()
     }
