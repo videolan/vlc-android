@@ -412,6 +412,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun saveMediaMeta() = launch(start = CoroutineStart.UNDISPATCHED) {
+        val titleIdx = player.getTitleIdx()
+        val chapterIdx = player.getChapterIdx()
         val currentMedia = getCurrentMedia() ?: return@launch
         if (currentMedia.uri.scheme == "fd") return@launch
         //Save progress
@@ -421,9 +423,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val rate = player.getRate()
         val media = withContext(Dispatchers.IO) { medialibrary.findMedia(currentMedia) }
         if (media === null || media.id == 0L) return@launch
-        val titleIdx = player.getTitleIdx()
         if (titleIdx > 0) launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong()) }
-        val chapterIdx = player.getChapterIdx()
         if (chapterIdx > 0) launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_CHAPTER, chapterIdx.toLong()) }
         if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
             var progress = time / length.toFloat()
