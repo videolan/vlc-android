@@ -123,7 +123,7 @@
     <string name="noplaylist">Nessuna scaletta trovata.</string>
     <string name="mediafiles">File multimediali</string>
     <string name="notavailable">non disponibile</string>
-    <string name="nosubdirectory">Nessuna sottocartella.</string>
+    <string name="nosubfolder">Nessuna sottocartella</string>
     <string name="directorynotfound">Il percorso della cartella \'%1$s\' non è stato trovato.</string>
     <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
     <string name="validation">Sei sicuro?</string>
@@ -487,7 +487,7 @@
     <string name="network_empty">Questa cartella è vuota.</string>
     <string name="network_connection_needed">Nessuna connessione alla rete locale.</string>
     <string name="search_hint">Cerca media</string>
-    <string name="search_list_hint">Cerca media nell\'elenco corrente</string>
+    <string name="search_in_list_hint">Cerca nell\'elenco attuale</string>
     <string name="search_global">Cerca in tutta la raccolta multimediale</string>
     <string name="directory_show_medialib">Mostra nella raccolta multimediale</string>
     <string name="directory_hide_medialib">Nascondi dalla raccolta multimediale</string>
@@ -686,6 +686,7 @@
     <string name="jump_to">Salta a</string>
     <string name="show_video_thumbnails_summary">Mostra le miniature dei video nell\'elenco</string>
     <string name="show_video_thumbnails">Miniature dei video</string>
+    <string name="eq_snap_bands">Bande a scatto</string>
     <string name="enable_equalizer">Abilita</string>
     <string name="preamp">Preamplificazione</string>
     <string name="presets">Preimpostazioni</string>
@@ -756,4 +757,21 @@
     <string name="clear_media_db_warning">Perderai i tuoi progressi e le scalette create.\n%s</string>
     <string name="abrepeat_add_first_marker">Imposta il punto iniziale</string>
     <string name="abrepeat_add_second_marker">Imposta il punto finale</string>
+    <string name="demux_bitrate">Velocità di demultiplazione</string>
+    <string name="input_bitrate">Bitrate ingresso</string>
+    <string name="video_information">Informazioni video</string>
+
+    <string name="channels">Canali</string>
+    <string name="resolution">Risoluzione</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Velocità fotogrammi</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Lingua</string>
+    <string name="track_samplerate">Campionamento</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Velocità</string>
+    <string name="codec">Codificatore</string>
+    <string name="text">Testo</string>
+    <string name="unknown">Sconosciuto</string>
 </resources>
