@@ -158,10 +158,10 @@ dependencies {
     signedReleaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     signedReleaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
     api project(':api')
-    api project(':tools')
-    api project(':resources')
-    api project(':mediadb')
-    api project(':live-plot-graph')
+    api project(':application:tools')
+    api project(':application:resources')
+    api project(':application:mediadb')
+    api project(':application:live-plot-graph')
 
     // AppCompat
     api "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"

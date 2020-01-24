@@ -129,6 +129,6 @@ android {
 }
 
 dependencies {
-    implementation project(':vlc-android')
-    implementation project(':television')
+    implementation project(':application:vlc-android')
+    implementation project(':application:television')
 }

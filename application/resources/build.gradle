@@ -45,7 +45,7 @@ dependencies {
     releaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     releaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
 
-    api project(':tools')
+    api project(':application:tools')
 
 }
 repositories {

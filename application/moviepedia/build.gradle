@@ -38,8 +38,8 @@ android {
 }
 
 dependencies {
-    implementation project(':tools')
-    implementation project(':vlc-android')
+    implementation project(':application:tools')
+    implementation project(':application:vlc-android')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
