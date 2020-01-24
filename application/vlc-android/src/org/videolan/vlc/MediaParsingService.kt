@@ -153,13 +153,17 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         return binder
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // Set 1s delay before displaying scan icon
         // Except for Android 8+ which expects startForeground immediately
         if (AndroidUtil.isOOrLater) forceForeground()
         if (lastNotificationTime <= 0L) lastNotificationTime = if (AndroidUtil.isOOrLater) 0L else System.currentTimeMillis()
         super.onStartCommand(intent, flags, startId)
         dispatcher.onServicePreSuperOnStart()
+        if (intent == null) {
+            exitCommand()
+            return START_NOT_STICKY
+        }
         when (intent.action) {
             ACTION_INIT -> {
                 val upgrade = intent.getBooleanExtra(EXTRA_UPGRADE, false)
