@@ -6,9 +6,9 @@
     <string name="cancel">Отмена</string>
     <string name="other">Другое</string>
     <string name="sortby">Сортировка…</string>
-    <string name="sortby_name">По имени</string>
+    <string name="sortby_name">По наименованию</string>
     <string name="sortby_name_desc">Название (по убыв.)</string>
-    <string name="sortby_filename">Имя файла</string>
+    <string name="sortby_filename">По имени файла</string>
     <string name="sortby_filename_desc">Имя файла (по убыв.)</string>
     <string name="sortby_artist_name">Имя исполнителя</string>
     <string name="sortby_artist_name_desc">Имя исполнителя (по убыв.)</string>
@@ -48,14 +48,15 @@
     <string name="insert_next">Вставить следующим пунктом</string>
     <string name="play_all">Воспроизвести всё</string>
     <string name="append_all">Добавить всё</string>
-    <string name="last_playlist">Последний плейлист</string>
-    <string name="last_playlist_shortcut">Продолжить воспроизведение</string>
+    <string name="resume_playback_short_title">Возобновить воспроизведение</string>
+    <string name="resume_playback_long_title">Возобновить воспроизведение последнего плейлиста</string>
     <string name="delete">Удалить</string>
     <string name="remove">Удалить</string>
     <string name="set_song">Сделать мелодией звонка</string>
     <string name="set_song_question">Сделать \'%1$s\' мелодией звонка?</string>
     <string name="info">Информация</string>
     <string name="confirm_delete">Удалить файл \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Удалить эти файлы (%1$d)?</string>
     <string name="confirm_delete_folder">Удалить папку \'%1$s\' и всё её содержимое?</string>
     <string name="confirm_delete_playlist">Удалить плейлист \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Убрать \'%1$s\' из плейлиста?</string>
@@ -105,6 +106,18 @@
         <item quantity="many">%d видео</item>
         <item quantity="other">%d видео</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 видео</item>
+        <item quantity="few">%dвидео</item>
+        <item quantity="many">%d видео</item>
+        <item quantity="other">%d видео</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 ТВ-шоу</item>
+        <item quantity="few">%d ТВ-шоу</item>
+        <item quantity="many">%d ТВ-шоу</item>
+        <item quantity="other">%d ТВ-сериал(а)</item>
+    </plurals>
 
     <string name="internal_memory">Внутренняя память</string>
     <string name="parent_folder">Предыдущий уровень</string>
@@ -126,7 +139,7 @@
     <string name="noplaylist">Плейлисты не найдены.</string>
     <string name="mediafiles">Медиафайлы</string>
     <string name="notavailable">недоступно</string>
-    <string name="nosubdirectory">Нет подкаталогов.</string>
+    <string name="nosubfolder">Нет вложенной папки</string>
     <string name="directorynotfound">Каталог \'%1$s\' не найден.</string>
     <string name="nohistory">История воспроизведения пуста.</string>
     <string name="validation">Вы уверены?</string>
@@ -249,7 +262,7 @@
     <string name="rearrange_order">Изменение порядка</string>
     <string name="hold_to_seek">Удержание — переход</string>
 
-    <string name="audio_player_tips">Подсказки для аудиоплеера:</string>
+    <string name="audio_player_tips">Подсказки для аудиоплеера</string>
     <string name="previous_next_song">Пред./след. композиция</string>
     <string name="show_playlist">Показать плейлист</string>
     <string name="hold_to_stop">Удержание — останов</string>
@@ -307,9 +320,9 @@
 
     <string name="video_prefs_category">Видео</string>
     <string name="video_min_group_length_title">Группировка видео</string>
-    <string name="video_min_group_length_summary">Видео будут группироваться при совпадении первых букв.</string>
-    <string name="video_min_group_length_disable">Отключить</string>
+    <string name="video_min_group_length_disable">Не группировать видео</string>
     <string name="video_min_group_length_folder">По папке</string>
+    <string name="video_min_group_length_name">Группировать по названию</string>
     <string name="video_min_group_length_first">Только по первой букве</string>
     <string name="video_min_group_length_short">По короткому началу (6 букв)</string>
     <string name="video_min_group_length_long">По длинному началу (9 букв)</string>
@@ -319,8 +332,6 @@
     <string name="video_transition_summary">Показывать название нового видео при смене</string>
     <string name="media_seen">Отмечать просмотренное видео</string>
     <string name="media_seen_summary">Помечать видео как просмотренное, когда оно воспроизводится до конца</string>
-    <string name="force_list_portrait">Не показывать сетку вертикально</string>
-    <string name="force_list_portrait_summary">В книжной ориентации показывать видео в списке, а не в сетке.</string>
     <string name="force_play_all_summary">Воспроизводить все видео, начиная с выбранного</string>
     <string name="force_play_all_title">Режим воспроизведения плейлиста видео</string>
     <string name="save_brightness_summary">Запоминать уровень яркости в видеоплеере</string>
@@ -338,7 +349,6 @@
     <string name="popup_keepscreen_title">Не допускать отключения экрана со всплывающим окном</string>
     <string name="popup_keepscreen_summary">Всегда поддерживать экран включённым, когда отображается всплывающее окно, даже если видео на паузе.</string>
     <string name="browser_show_hidden_files_title">Показывать скрытые файлы</string>
-    <string name="browser_show_hidden_files_summary">Показывать скрытые файлы при обзоре</string>
 
     <string name="subtitles_prefs_category">Субтитры</string>
     <string name="subtitles_size_title">Размер субтитров</string>
@@ -362,14 +372,12 @@
     <string name="lockscreen_cover_summary">Если текущий медиаобъект имеет обложку, она будет установлена как фон экрана блокировки</string>
     <string name="playlist_animate_scroll_title">Анимировать автопрокрутку текущего плейлиста</string>
     <string name="playlist_animate_scroll_summary">Анимировать прокрутку при смене позиции</string>
-    <string name="audio_title_alignment">Расположение заголовка аудио</string>
-    <string name="audio_title_alignment_default">по умолчанию</string>
-    <string name="audio_title_alignment_left">слева</string>
-    <string name="audio_title_alignment_centre">по центру</string>
-    <string name="audio_title_alignment_right">справа</string>
-    <string name="audio_title_alignment_marquee">бегущая строка</string>
-    <string name="audio_save_repeat_title">Сохранять режим повтора</string>
-    <string name="audio_save_repeat_summary">Запоминать режим повтора при загрузке плейлистов с аудиозаписями</string>
+    <string name="list_title_ellipsize">Сокращение однострочного заголовка</string>
+    <string name="list_title_ellipsize_default">По умолчанию</string>
+    <string name="list_title_ellipsize_left">Слева</string>
+    <string name="list_title_ellipsize_right">Справа</string>
+    <string name="list_title_ellipsize_middle">Посередине</string>
+    <string name="list_title_ellipsize_marquee">Прокрутка</string>
     <string name="audio_boost_title">Усиление звука</string>
     <string name="audio_boost_summary">Позволить увеличивать громкость до 200%</string>
     <string name="headset_prefs_category">Наушники</string>
@@ -398,7 +406,6 @@
     <string name="cast_performance_warning">Для трансляции этого видео его нужно перекодировать. При перекодировании может использоваться вся доступная мощность и быстро разряжаться батарея.</string>
     <string name="casting_connected_renderer">Подключено к воспроизводителю \'%1$s\'</string>
     <string name="artists_show_all_title">Показывать всех исполнителей</string>
-    <string name="artists_show_all_summary">Показывать всех исполнителей в списке Исполнители, а не только исполнителей альбомов</string>
 
     <string name="extensions_prefs_category">Расширения</string>
     <string name="extensions_enable_category">Выберите расширения для включения</string>
@@ -433,7 +440,8 @@
     <string name="dump_media_db">Скопировать базу данных мультимедиа</string>
     <string name="dump_media_db_summary">Копировать базу данных в корень внутреннего хранилища</string>
     <string name="clear_media_db">Очистить базу метаданных</string>
-    <string name="clear_media_db_summary">Стирать информацию в базе данных Android VLC</string>
+    <string name="clear_media_database_summary">Очистить базу метаданных, чтобы начать сначала</string>
+    <string name="clear_history">Очистить историю</string>
     <string name="media_db_cleared">База метаданных очищена.</string>
     <string name="set_locale">Языковая среда</string>
     <string name="set_locale_detail">Пустая строка подразумевает значение по умолчанию</string>
@@ -449,8 +457,7 @@
     <string name="restart_message">Изменения вступят в силу после перезапуска приложения.\n\nПерезапустить его сейчас?</string>
     <string name="restart_message_OK">ОК</string>
     <string name="restart_message_Later">Позже</string>
-    <string name="browser_show_all_title">Показывать все файлы</string>
-    <string name="browser_show_all_summary">Показывать все файлы, а не только аудио и видео</string>
+    <string name="browser_show_all_title">Показать все файлы</string>
 
     <string name="developer_prefs_category">Для разработчиков</string>
     <string name="enable_verbose_mode">Детализация</string>
@@ -489,14 +496,16 @@
     <string name="network_browsing">Локальная сеть</string>
     <string name="browsing">Обзор</string>
 
+    <string name="file_size">Размер файла</string>
+
     <string name="audio_delay">Задержка звука</string>
     <string name="spu_delay">Задержка субтитров</string>
     <string name="sleep_time_not_set">не задано</string>
-    <string name="network_shares_discovery">Поиск сетевых ресурсов…</string>
+    <string name="network_shares_discovery">Поиск сетевых ресурсов</string>
     <string name="network_empty">Каталог пуст.</string>
     <string name="network_connection_needed">Нет подключения к локальной сети.</string>
     <string name="search_hint">Искать медиафайлы</string>
-    <string name="search_list_hint">Искать в текущем плейлисте</string>
+    <string name="search_in_list_hint">Искать в текущем списке</string>
     <string name="search_global">Искать во всей медиатеке</string>
     <string name="directory_show_medialib">Показать в медиатеке</string>
     <string name="directory_hide_medialib">Убрать из медиатеки</string>
@@ -506,8 +515,7 @@
     <string name="chapter">Глава</string>
     <string name="resume_from_position">Продолжить с последней позиции</string>
     <string name="confirm_resume">Продолжить с последней позиции?</string>
-    <string name="confirm_resume_title">Предлагать продолжить воспроизведение</string>
-    <string name="confirm_resume_summary">Вам будет предлагаться продолжить воспроизведение с последней позиции, если это возможно.</string>
+    <string name="confirm_resume_title">Возобновить воспроизведение видео</string>
     <string name="directory_empty">Каталог пуст</string>
     <string name="tv_ui_title">Интерфейс Android TV</string>
     <string name="tv_ui_summary">Сменить интерфейс на тему для TV</string>
@@ -628,6 +636,8 @@
     <string name="audio_digital_title">Цифровой вывод звука (сквозной)</string>
     <string name="audio_task_cleared_title">Останавливаться при смахивании приложения</string>
     <string name="audio_task_cleared_summary">Прекращать воспроизведение, когда приложение смахивается</string>
+    <string name="audio_resume_card_title">Показать подсказку для последнего плейлиста</string>
+    <string name="audio_resume_card_summary">Показывать подсказку для возобновления аудио при запуске приложения</string>
     <string name="playback_rewind">Перемотка</string>
     <string name="playback_forward">Быстро вперёд</string>
     <string name="ml_wizard_title">Выбор медиатеки VLC</string>
@@ -663,6 +673,7 @@
     <string name="device_dialog_title">Подключено внешнее устройство</string>
     <string name="device_dialog_message">Вы только что подключили к вашему телевизору внешнее хранилище. Хотите просмотреть его в VLC?</string>
     <string name="videos_folders_title">Видео по папкам</string>
+    <string name="videos_groups_title">Группы видео</string>
     <string name="video_save_remote_setting">Автоматически включать режим удалённого управления?</string>
     <string name="video_save_clone_mode">Автоматически включать режим клонирования?</string>
     <string name="video_remote_enable">Переключиться в режим удалённого управления</string>
@@ -689,8 +700,96 @@
     <string name="popup_force_legacy_title">Использовать собственное окно PiP</string>
     <string name="popup_force_legacy_summary">Использовать собственное изменяемое окно Picture-in-Picture</string>
     <string name="device_default">По умолчанию для устройства</string>
-    <string name="track_number">дорожек: %s </string>
+    <string name="track_number">%d дорожки</string>
     <string name="jump_to">Переход к</string>
     <string name="show_video_thumbnails_summary">Показывать в списках видео в миниатюрах</string>
     <string name="show_video_thumbnails">Видео в миниатюрах</string>
+    <string name="eq_snap_bands">Перемещать с соседними</string>
+    <string name="enable_equalizer">Включить</string>
+    <string name="preamp">Предусилитель</string>
+    <string name="presets">Предустановки</string>
+    <string name="reset">Сброс</string>
+    <string name="appended">Дорожка(и) добавлена(ы)</string>
+    <string name="inserted">Дорожка(и) вставлена(ы)</string>
+    <string name="remove_current">Удалить текущий</string>
+    <string name="validation_delete_playlist">Вы уверены, что хотите удалить этот плейлист?</string>
+    <string name="validation_delete_playlist_text">Это действие нельзя отменить.</string>
+    <string name="display_in_list">Список</string>
+    <string name="display_in_grid">Таблица</string>
+    <string name="dump_db_succes">База данных выгружена в корень внутреннего хранилища</string>
+    <string name="dump_db_failure">Не удалось выгрузить базу данных</string>
+    <string name="send_crash_title">Отчёт о сбоях VLC</string>
+    <string name="send_crash_description">Отправив сообщение о сбое, вы поможете нам сделать VLC стабильнее.</string>
+    <string name="send_crash_warning">Убедитесь, что вы удалили все конфиденциальные данные, которые не хотите отправлять.</string>
+    <string name="dont_ask_again">Больше не спрашивать</string>
+    <string name="include_medialib">Включить вашу базу данных</string>
+    <string name="vlc_reporter">VLC reporter</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Добро пожаловать в программу тестирования VLC.\nОбратите внимание, что в этой версии могут присутствовать ошибки.</string>
+    <string name="welcome_beta_description_bugs">Если вы заметили ошибку, пожалуйста, сообщите об этом на нашем форуме или в баг-трекере.</string>
+    <string name="welcome_beta_description_crashes">Если у вас произошёл сбой, пожалуйста, отправьте нам отчёт, воспользовавшись приложением VLC Reporter.</string>
+    <string name="send">Отправить</string>
+    <string name="send_crash_action_title">Что вы хотите сделать?</string>
+    <string name="report_a_bug">Сообщить об ошибке</string>
+    <string name="report_a_crash">Сообщить о сбое</string>
+    <string name="describe_crash">Пожалуйста, опишите, как произошёл этот сбой</string>
+    <string name="favorite">Избранное</string>
+    <string name="always">Всегда</string>
+    <string name="never">Никогда</string>
+    <string name="ask_confirmation">Запрашивать подтверждение</string>
+    <string name="add_to_scanned">Сканировать эту папку</string>
+    <string name="directory_not_scanned">Эта папка не сканировалась</string>
+    <string name="scanned_directory_added">Папка %s добавлена в число просканированных</string>
+    <string name="video_group_size_dialog_text">Количество символов для группировки по имени</string>
+    <string name="video_group_size_summary">Группировать по первым символам (%s)</string>
+    <string name="video_group_size">Группировать видео по названию</string>
+    <string name="url_copied_to_clipboard">URL скопирован в буфер обмена</string>
+    <string name="share">Поделиться</string>
+    <string name="invalid_file">Файл повреждён. Вы не можете им поделиться.</string>
+    <string name="share_file">Поделиться %s</string>
+    <string name="share_message">Здесь %s</string>
+    <string name="find_metadata">Найти метаданные</string>
+    <string name="moviepedia_hint">Поиск метаданных</string>
+    <string name="moviepedia_result">Найденные видео</string>
+    <string name="release_date">Дата выхода:</string>
+    <string name="synopsis">Сюжет</string>
+    <string name="directed_by">Режиссёр</string>
+    <string name="casting">Подбор актёров</string>
+    <string name="produced_by">Производство</string>
+    <string name="written_by">Сценарист</string>
+    <string name="music_by">Композитор</string>
+    <string name="posters">Постеры</string>
+    <string name="backdrops">Фон</string>
+    <string name="header_tvshows">ТВ-сериалы</string>
+    <string name="all_movies">Все фильмы</string>
+    <string name="movie_count">%s фильм(ы)</string>
+    <string name="header_movies">Фильмы</string>
+    <string name="season_number">Сезон %s</string>
+    <string name="resume_episode">Возобновить (%s)</string>
+    <string name="start_over">Начать сначала</string>
+    <string name="next_episode">Следующий эпизод</string>
+    <string name="open_network_settings">Открыть настройки сети?</string>
+    <string name="recently_played">Недавние</string>
+    <string name="recently_added">По дате добавления</string>
+    <string name="playback_multiple_errors">Некоторые медиафайлы не могут быть проиграны</string>
+    <string name="clear_media_db_warning">Вы потеряете свой прогресс и созданные вами плейлисты.\n%s</string>
+    <string name="abrepeat_add_first_marker">Установить начальную точку</string>
+    <string name="abrepeat_add_second_marker">Установить конечную точку</string>
+    <string name="demux_bitrate">Битрейт демультиплексора</string>
+    <string name="input_bitrate">Битрейт входного потока</string>
+    <string name="video_information">Информация о видео</string>
+
+    <string name="channels">Каналы</string>
+    <string name="resolution">Разрешение</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Частота кадров</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Язык</string>
+    <string name="track_samplerate">Частота дискретизации</string>
+    <string name="track_samplerate_value">%1$dГц\n</string>
+    <string name="bitrate">Битрейт</string>
+    <string name="codec">Кодек</string>
+    <string name="text">Текст</string>
+    <string name="unknown">Неизвестно</string>
 </resources>
