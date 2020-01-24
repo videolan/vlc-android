@@ -139,7 +139,7 @@
     <string name="noplaylist">לא נמצאה רשימת נגינה.</string>
     <string name="mediafiles">קובצי מדיה</string>
     <string name="notavailable">אינם זמינים</string>
-    <string name="nosubdirectory">אין תיקיות משנה.</string>
+    <string name="nosubfolder">אין תת־תיקיה</string>
     <string name="directorynotfound">נתיב התיקייה \'%1$s\' לא נמצא.</string>
     <string name="nohistory">אין לך היסטוריית נגינה עדיין.</string>
     <string name="validation">בטוח?</string>
@@ -505,7 +505,7 @@
     <string name="network_empty">התיקייה ריקה.</string>
     <string name="network_connection_needed">אין קישור לרשת המקומית.</string>
     <string name="search_hint">חיפוש במדיה</string>
-    <string name="search_list_hint">חיפוש מדיה ברשימה הנוכחית</string>
+    <string name="search_in_list_hint">חיפוש ברשימה הנוכחית</string>
     <string name="search_global">חיפוש בכל ספריית המדיה</string>
     <string name="directory_show_medialib">הצגה בספריית המדיה</string>
     <string name="directory_hide_medialib">הסתרה מספריית המדיה</string>
@@ -775,4 +775,21 @@
     <string name="clear_media_db_warning">המיקומים בהם הפסקת לשמוע פרטי מדיה מסוימים ורשימות נגינה שיצרת יאבדו.\n%s</string>
     <string name="abrepeat_add_first_marker">הגדרת נקודת התחלה</string>
     <string name="abrepeat_add_second_marker">הגדרת נקודת סיום</string>
+    <string name="demux_bitrate">קצב סיביות פילוג</string>
+    <string name="input_bitrate">קצב סיביות קלט</string>
+    <string name="video_information">פרטי וידאו</string>
+
+    <string name="channels">ערוצים</string>
+    <string name="resolution">רזולוציה</string>
+    <string name="resolution_value">%1$d×%2$d</string>
+    <string name="framerate">קצב תמונות</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s לשנייה</string>
+    <string name="language">שפה</string>
+    <string name="track_samplerate">קצב דגימה</string>
+    <string name="track_samplerate_value">%1$d הרץ\n</string>
+    <string name="bitrate">קצב סיביות</string>
+    <string name="codec">מפענח</string>
+    <string name="text">טקסט</string>
+    <string name="unknown">לא ידוע</string>
 </resources>
