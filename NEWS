@@ -1,4 +1,13 @@
-Changes between 3.2.5 and 3.2.6:
+Changes between 3.2.6 and 3.2.7:
+------------------
+
+Application:
+ * Support Picture-in-Picture on Chrome OS
+ * Fix video as audio playback resume
+ * Video player: Correctly apply extra title
+ * misc. crash fixes
+
+ Changes between 3.2.5 and 3.2.6:
 ------------------
 
 Application:
