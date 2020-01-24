@@ -60,6 +60,7 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
     private val fabHeader = browser.imageButtonHeader
     private val fabFavorite = browser.imageButtonFavorite
     private val fabSort = browser.imageButtonSort
+    private val fabDisplay = browser.imageButtonDisplay
 
     private var currenstate = MediaBrowserState.SCROLLED_UP
         set(value) {
@@ -110,6 +111,7 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
     override fun onFocusChange(v: View, hasFocus: Boolean) {
         //Show action labels when needed
         val view = when (v) {
+            browser.displayButton -> browser.displayDescription
             browser.headerButton -> browser.headerDescription
             browser.sortButton -> browser.sortDescription
             browser.favoriteButton -> browser.favoriteDescription
@@ -123,7 +125,7 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
 
         // FAB has to be expanded / collapsed when its focus changes
         if (currenstate != MediaBrowserState.SCROLLED_UP) {
-            if (!fabSettings.hasFocus() && !fabSort.hasFocus() && !fabHeader.hasFocus() && !fabFavorite.hasFocus() && currenstate != MediaBrowserState.HEADER_VISIBLE) {
+            if (!fabSettings.hasFocus() && !fabSort.hasFocus() && !fabDisplay.hasFocus() && !fabDisplay.hasFocus() && !fabHeader.hasFocus() && !fabFavorite.hasFocus() && currenstate != MediaBrowserState.HEADER_VISIBLE) {
                 collapseExtendedFAB()
             }
             if (v == fabSettings && hasFocus) {
@@ -158,6 +160,8 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
         view.visibility = visibility
     }
 
+    fun isScrolled() = currenstate == MediaBrowserState.SCROLLED_DOWN_FAB_COLLAPSED
+
     init {
 
         // Scrolled up is the state already described in the XML. We clone it to be able to reuse it.
@@ -171,6 +175,10 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
         scrolledDownFABCollapsedConstraintSet.setMargin(R.id.sortButton, ConstraintSet.END, 0)
         scrolledDownFABCollapsedConstraintSet.setMargin(R.id.sortButton, ConstraintSet.TOP, 0)
         scrolledDownFABCollapsedConstraintSet.setMargin(R.id.sortButton, ConstraintSet.BOTTOM, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.displayButton, ConstraintSet.START, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.displayButton, ConstraintSet.END, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.displayButton, ConstraintSet.TOP, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.displayButton, ConstraintSet.BOTTOM, 0)
         scrolledDownFABCollapsedConstraintSet.setMargin(R.id.headerButton, ConstraintSet.START, 0)
         scrolledDownFABCollapsedConstraintSet.setMargin(R.id.headerButton, ConstraintSet.END, 0)
         scrolledDownFABCollapsedConstraintSet.setMargin(R.id.headerButton, ConstraintSet.TOP, 0)
@@ -185,6 +193,11 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
+
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayButton, ConstraintSet.START, R.id.imageButtonSettings, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
 
         scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.START, R.id.imageButtonSettings, ConstraintSet.START)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
@@ -201,6 +214,11 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortDescription, ConstraintSet.END, R.id.imageButtonSort, ConstraintSet.START)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortDescription, ConstraintSet.TOP, R.id.imageButtonSort, ConstraintSet.TOP)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.sortDescription, ConstraintSet.BOTTOM, R.id.imageButtonSort, ConstraintSet.BOTTOM)
+
+        scrolledDownFABCollapsedConstraintSet.clear(R.id.displayDescription, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayDescription, ConstraintSet.END, R.id.imageButtonDisplay, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayDescription, ConstraintSet.TOP, R.id.imageButtonDisplay, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.displayDescription, ConstraintSet.BOTTOM, R.id.imageButtonDisplay, ConstraintSet.BOTTOM)
 
         scrolledDownFABCollapsedConstraintSet.clear(R.id.headerDescription, ConstraintSet.START)
         scrolledDownFABCollapsedConstraintSet.connect(R.id.headerDescription, ConstraintSet.END, R.id.imageButtonHeader, ConstraintSet.START)
@@ -230,11 +248,14 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
         // show the FAB children
         scrolledDownFABExpandedConstraintSet.clear(R.id.imageButtonHeader, ConstraintSet.TOP)
         scrolledDownFABExpandedConstraintSet.clear(R.id.imageButtonSort, ConstraintSet.TOP)
+        scrolledDownFABExpandedConstraintSet.clear(R.id.imageButtonDisplay, ConstraintSet.TOP)
         scrolledDownFABExpandedConstraintSet.clear(R.id.imageButtonFavorite, ConstraintSet.TOP)
         scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonHeader, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.TOP)
         scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonSort, ConstraintSet.BOTTOM, R.id.imageButtonHeader, ConstraintSet.TOP)
         scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonFavorite, ConstraintSet.BOTTOM, R.id.imageButtonSort, ConstraintSet.TOP)
+        scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonDisplay, ConstraintSet.BOTTOM, R.id.imageButtonFavorite, ConstraintSet.TOP)
 
+        scrolledDownFABExpandedConstraintSet.setAlpha(R.id.displayDescription, 1f)
         scrolledDownFABExpandedConstraintSet.setAlpha(R.id.sortDescription, 1f)
         scrolledDownFABExpandedConstraintSet.setAlpha(R.id.headerDescription, 1f)
         scrolledDownFABExpandedConstraintSet.setAlpha(R.id.favoriteDescription, 1f)
@@ -285,9 +306,11 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
 fun BaseBrowserTvFragment<*>.setAnimator(cl: ConstraintLayout) {
     animationDelegate = MediaBrowserAnimatorDelegate(this, cl)
     headerButton.onFocusChangeListener = animationDelegate
+    displayButton.onFocusChangeListener = animationDelegate
     sortButton.onFocusChangeListener = animationDelegate
     favoriteButton.onFocusChangeListener = animationDelegate
     imageButtonSort.onFocusChangeListener = animationDelegate
+    imageButtonDisplay.onFocusChangeListener = animationDelegate
     imageButtonHeader.onFocusChangeListener = animationDelegate
     imageButtonSettings.onFocusChangeListener = animationDelegate
     list.addOnScrollListener(animationDelegate)

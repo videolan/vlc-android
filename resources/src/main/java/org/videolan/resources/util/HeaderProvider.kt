@@ -29,6 +29,11 @@ open class HeaderProvider {
     }
 
     @MainThread
+    fun isLastInSection(position: Int): Boolean {
+        return headers.containsKey(position + 1)
+    }
+
+    @MainThread
     fun getPositionForSection(position: Int): Int {
         for (pos in headers.size() - 1 downTo 0) if (position >= headers.keyAt(pos)) return headers.keyAt(pos)
         return 0

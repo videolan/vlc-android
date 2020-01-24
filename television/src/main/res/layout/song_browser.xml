@@ -51,7 +51,7 @@
                 android:layout_marginEnd="8dp"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                app:layout_constraintEnd_toStartOf="@+id/displayButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Tracks" />
@@ -70,6 +70,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_height="48dp" />
+
+        <ImageButton
+                android:id="@+id/displayButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:background="@color/transparent"
+                android:elevation="6dp"
+                android:src="@drawable/ic_menu_grid_tv"
+                app:layout_constraintEnd_toEndOf="@+id/ariane"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
 
         <ImageButton
                 android:id="@+id/favoriteButton"
@@ -133,9 +145,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:nextFocusRight="@+id/imageButtonSettings"
                 tools:listitem="@layout/media_browser_tv_item">
 
         </org.videolan.television.ui.FocusableRecyclerView>
+
+        <ImageButton
+                android:id="@+id/imageButtonDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/orange_circle"
+                android:elevation="6dp"
+                android:nextFocusDown="@id/imageButtonHeader"
+                android:src="@drawable/ic_menu_grid_tv_normal"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonSort"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSort"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSort"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonSort" />
 
         <ImageButton
                 android:id="@+id/imageButtonSort"
@@ -231,6 +259,23 @@
                 android:text="@string/sortby"
                 app:layout_constraintEnd_toEndOf="@+id/sortButton"
                 app:layout_constraintStart_toStartOf="@+id/sortButton"
+                app:layout_constraintTop_toBottomOf="@+id/sortButton" />
+
+        <TextView
+                android:id="@+id/displayDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0"
+                android:background="@drawable/rounded_corners"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="@string/display_in_grid"
+                app:layout_constraintEnd_toEndOf="@+id/displayButton"
+                app:layout_constraintStart_toStartOf="@+id/displayButton"
                 app:layout_constraintTop_toBottomOf="@+id/sortButton" />
 
         <TextView

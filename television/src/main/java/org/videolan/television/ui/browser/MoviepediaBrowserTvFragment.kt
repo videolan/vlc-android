@@ -34,20 +34,20 @@ import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.vlc.R
 import org.videolan.moviepedia.database.models.MediaMetadataType
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
+import org.videolan.moviepedia.provider.MoviepediaProvider
 import org.videolan.resources.CATEGORY
 import org.videolan.resources.CATEGORY_VIDEOS
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
-import org.videolan.television.ui.*
-import org.videolan.vlc.gui.view.EmptyLoadingState
-import org.videolan.vlc.interfaces.IEventsHandler
-import org.videolan.moviepedia.provider.MoviepediaProvider
 import org.videolan.resources.util.getFromMl
+import org.videolan.television.ui.*
 import org.videolan.television.viewmodel.MoviepediaBrowserViewModel
 import org.videolan.television.viewmodel.getMoviepediaBrowserModel
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.view.EmptyLoadingState
+import org.videolan.vlc.interfaces.IEventsHandler
 import java.util.*
 
 @UseExperimental(ObsoleteCoroutinesApi::class)
@@ -56,6 +56,8 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaMetadataWithImages>, itemSize: Int): TvItemAdapter {
         return MoviepediaTvItemAdapter((viewModel as MoviepediaBrowserViewModel).category, this, itemSize)
     }
+
+    override fun getDisplayPrefId() = "display_tv_moviepedia_${(viewModel as MoviepediaBrowserViewModel).category}"
 
     override lateinit var adapter: TvItemAdapter
 

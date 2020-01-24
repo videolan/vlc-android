@@ -13,17 +13,17 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
-import org.videolan.tools.FORCE_PLAY_ALL
-import org.videolan.tools.Settings
-import org.videolan.vlc.R
 import org.videolan.television.ui.MediaTvItemAdapter
 import org.videolan.television.ui.TvItemAdapter
 import org.videolan.television.ui.TvUtil
+import org.videolan.television.viewmodel.MediaBrowserViewModel
+import org.videolan.television.viewmodel.getMediaBrowserModel
+import org.videolan.tools.FORCE_PLAY_ALL
+import org.videolan.tools.Settings
+import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.television.viewmodel.MediaBrowserViewModel
-import org.videolan.television.viewmodel.getMediaBrowserModel
 import java.util.*
 
 @UseExperimental(ObsoleteCoroutinesApi::class)
@@ -38,6 +38,9 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
             else -> MediaWrapper.TYPE_VIDEO
         }, this, itemSize)
     }
+
+    override fun getDisplayPrefId() = "display_tv_media_${(viewModel as MediaBrowserViewModel).category}"
+
 
     override lateinit var adapter: TvItemAdapter
 

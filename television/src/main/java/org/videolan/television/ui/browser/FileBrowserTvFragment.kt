@@ -20,20 +20,20 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.CATEGORY
+import org.videolan.resources.ITEM
 import org.videolan.television.R
-import org.videolan.vlc.gui.browser.PathAdapter
-import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.television.ui.FileTvItemAdapter
 import org.videolan.television.ui.TvItemAdapter
 import org.videolan.television.ui.TvUtil
+import org.videolan.vlc.gui.browser.PathAdapter
+import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.resources.CATEGORY
 import org.videolan.vlc.util.FileUtils
-import org.videolan.resources.ITEM
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.*
 
@@ -61,6 +61,8 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaLibraryItem>, itemSize: Int): TvItemAdapter {
         return FileTvItemAdapter(this, itemSize, isRootLevel && getCategory() == TYPE_NETWORK)
     }
+
+    override fun getDisplayPrefId() = "display_tv_file_${getCategory()}"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

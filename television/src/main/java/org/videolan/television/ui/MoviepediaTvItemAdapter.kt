@@ -47,6 +47,8 @@ import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.resources.UPDATE_PAYLOAD
 import org.videolan.resources.interfaces.FocusListener
 import org.videolan.television.databinding.MovieBrowserTvItemBinding
+import org.videolan.television.databinding.MovieBrowserTvItemListBinding
+import org.videolan.television.ui.browser.TvAdapterUtils
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMoviepediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
@@ -58,11 +60,16 @@ import org.videolan.vlc.util.generateResolutionClass
 class MoviepediaTvItemAdapter(
         type: Long,
         private val eventsHandler: IEventsHandler<MediaMetadataWithImages>,
-        var itemSize: Int
+        var itemSize: Int,
+        private var inGrid: Boolean = true
 ) : PagedListAdapter<MediaMetadataWithImages, MoviepediaTvItemAdapter.AbstractMoviepediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
         FastScroller.SeparatedAdapter, TvItemAdapter
 {
     override var focusNext = -1
+    override fun displaySwitch(inGrid: Boolean) {
+        this.inGrid = inGrid
+    }
+
     private val defaultCover: BitmapDrawable?
     private var focusListener: FocusListener? = null
 
@@ -77,9 +84,13 @@ class MoviepediaTvItemAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMoviepediaItemViewHolder<ViewDataBinding> {
         val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val binding = MovieBrowserTvItemBinding.inflate(inflater, parent, false)
         @Suppress("UNCHECKED_CAST")
-        return MovieItemTVViewHolder(binding, eventsHandler) as AbstractMoviepediaItemViewHolder<ViewDataBinding>
+        return if (inGrid) MovieItemTVViewHolder(MovieBrowserTvItemBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMoviepediaItemViewHolder<ViewDataBinding>
+        else MovieItemTVListViewHolder(MovieBrowserTvItemListBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMoviepediaItemViewHolder<ViewDataBinding>
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (inGrid) 0 else 1
     }
 
     override fun onBindViewHolder(holder: AbstractMoviepediaItemViewHolder<ViewDataBinding>, position: Int) {
@@ -204,18 +215,86 @@ class MoviepediaTvItemAdapter(
                 }
             binding.container.layoutParams.width = itemSize
             binding.container.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    var newWidth = (itemSize * 1.1).toInt()
-                    if (newWidth % 2 == 1) newWidth--
-                    val scale = newWidth.toFloat() / itemSize
-                    binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
-
+                TvAdapterUtils.itemFocusChange(hasFocus, itemSize, binding.container, false) {
                     eventsHandler.onItemFocused(binding.root, getItem(layoutPosition)!!)
                     if (focusListener != null) {
                         focusListener!!.onFocusChanged(layoutPosition)
                     }
-                } else {
-                    binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
+                }
+            }
+            binding.container.clipToOutline = true
+        }
+
+        override fun recycle() {
+            if (defaultCover != null) binding.cover = defaultCover
+            binding.scaleType = ImageView.ScaleType.FIT_CENTER
+            binding.title.text = ""
+            binding.subtitle.text = ""
+            binding.mediaCover.resetFade()
+        }
+
+        override fun setItem(item: MediaMetadataWithImages?) {
+            binding.item = item
+            var progress = 0
+            var seen = 0L
+            var description = item?.metadata?.summary
+            var resolution = ""
+            item?.media?.let { media ->
+                if (media.type == MediaWrapper.TYPE_VIDEO) {
+                    resolution = generateResolutionClass(media.width, media.height) ?: ""
+                    description = if (media.time == 0L) Tools.millisToString(media.length) else Tools.getProgressText(media)
+                    binding.badge = resolution
+                    seen = media.seen
+                    var max = 0
+
+                    if (media.length > 0) {
+                        val lastTime = media.displayTime
+                        if (lastTime > 0) {
+                            max = (media.length / 1000).toInt()
+                            progress = (lastTime / 1000).toInt()
+                        }
+                    }
+                    binding.max = max
+                }
+            }
+
+            binding.progress = progress
+            binding.isSquare = false
+            binding.seen = seen
+            binding.description = description
+            binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
+            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
+            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
+        }
+
+        @ObsoleteCoroutinesApi
+        override fun setCoverlay(selected: Boolean) {
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    inner class MovieItemTVListViewHolder(
+            binding: MovieBrowserTvItemListBinding,
+            override val eventsHandler: IEventsHandler<MediaMetadataWithImages>
+    ) : AbstractMoviepediaItemViewHolder<MovieBrowserTvItemListBinding>(binding) {
+        override fun getItem(layoutPosition: Int) = this@MoviepediaTvItemAdapter.getItem(layoutPosition)
+
+        init {
+            binding.holder = this
+            if (defaultCover != null) binding.cover = defaultCover
+            binding.scaleType = ImageView.ScaleType.FIT_CENTER
+            if (AndroidUtil.isMarshMallowOrLater)
+                itemView.setOnContextClickListener { v ->
+                    onMoreClick(v)
+                    true
+                }
+            binding.container.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                TvAdapterUtils.itemFocusChange(hasFocus, itemSize, binding.container, true) {
+                    eventsHandler.onItemFocused(binding.root, getItem(layoutPosition)!!)
+                    if (focusListener != null) {
+                        focusListener!!.onFocusChanged(layoutPosition)
+                    }
                 }
             }
             binding.container.clipToOutline = true

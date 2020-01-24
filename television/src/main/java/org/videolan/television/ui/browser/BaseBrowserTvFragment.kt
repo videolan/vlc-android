@@ -56,6 +56,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.television.R
 import org.videolan.television.databinding.SongBrowserBinding
 import org.videolan.television.ui.*
+import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
@@ -81,17 +82,20 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
     abstract fun getCategory(): Long
     abstract fun getColumnNumber(): Int
     abstract fun provideAdapter(eventsHandler: IEventsHandler<T>, itemSize: Int): TvItemAdapter
+    abstract fun getDisplayPrefId(): String
 
+    private lateinit var recyclerSectionItemGridDecoration: RecyclerSectionItemGridDecoration
     lateinit var binding: SongBrowserBinding
     lateinit var viewModel: TvBrowserModel<T>
     private var spacing: Int = 0
     abstract var adapter: TvItemAdapter
     lateinit var headerAdapter: MediaHeaderAdapter
-    private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var gridLayoutManager: LinearLayoutManager
     private var currentArt: String? = null
     private lateinit var backgroundManager: BackgroundManager
     internal lateinit var animationDelegate: MediaBrowserAnimatorDelegate
     private var setFocus = true
+    private var inGrid = true
     protected var restarted = false
         private set
 
@@ -132,6 +136,9 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         } ?: getTitle()
 
         val searchHeaderClick: (View) -> Unit = { animationDelegate.hideFAB() }
+        val displayClick: (View) -> Unit = {
+            changeDisplayMode()
+        }
 
         val sortClick: (View) -> Unit = { v ->
             animationDelegate.setVisibility(headerButton, View.GONE)
@@ -144,42 +151,23 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         sortButton.setOnClickListener(sortClick)
         imageButtonSort.setOnClickListener(sortClick)
 
-        gridLayoutManager = object : GridLayoutManager(requireActivity(), viewModel.nbColumns) {
-            override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean) = false
-
-            override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
-        }
+        displayButton.setOnClickListener(displayClick)
+        imageButtonDisplay.setOnClickListener(displayClick)
 
         spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
+        recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider)
+        inGrid = Settings.getInstance(requireActivity()).getBoolean(getDisplayPrefId(), true)
+        setupDisplayIcon()
+        setupLayoutManager()
+
 
         //size of an item
         val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight, viewModel.nbColumns, spacing)
 
-        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-
-                if (position == (adapter as RecyclerView.Adapter<*>).itemCount - 1) {
-                    return 1
-                }
-                if (viewModel.provider.isFirstInSection(position + 1)) {
-
-                    //calculate how many cell it must take
-                    val firstSection = viewModel.provider.getPositionForSection(position)
-                    val nbItems = position - firstSection
-                    if (BuildConfig.DEBUG)
-                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + (viewModel.nbColumns - nbItems % viewModel.nbColumns))
-
-                    return viewModel.nbColumns - nbItems % viewModel.nbColumns
-                }
-                return 1
-            }
-        }
-
-        list.layoutManager = gridLayoutManager
-
         adapter = provideAdapter(this, itemSize)
+        adapter.displaySwitch(inGrid)
 
-        list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider))
+        list.addItemDecoration(recyclerSectionItemGridDecoration)
 
         //header list
         headerListContainer.visibility = View.GONE
@@ -196,6 +184,53 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         })
         setAnimator(view as ConstraintLayout)
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun setupLayoutManager() {
+        if (inGrid) {
+            gridLayoutManager = object : GridLayoutManager(requireActivity(), viewModel.nbColumns) {
+                override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean) = false
+
+                override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
+            }
+            (gridLayoutManager as? GridLayoutManager)?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+
+                    if (position == (adapter as RecyclerView.Adapter<*>).itemCount - 1) {
+                        return 1
+                    }
+                    if (viewModel.provider.isFirstInSection(position + 1)) {
+
+                        //calculate how many cell it must take
+                        val firstSection = viewModel.provider.getPositionForSection(position)
+                        val nbItems = position - firstSection
+                        if (BuildConfig.DEBUG)
+                            Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + (viewModel.nbColumns - nbItems % viewModel.nbColumns))
+
+                        return viewModel.nbColumns - nbItems % viewModel.nbColumns
+                    }
+                    return 1
+                }
+            }
+        } else {
+            gridLayoutManager = LinearLayoutManager(requireActivity())
+        }
+        recyclerSectionItemGridDecoration.isList = !inGrid
+        list.layoutManager = gridLayoutManager
+    }
+
+    private fun changeDisplayMode() {
+        inGrid = !inGrid
+        Settings.getInstance(requireActivity()).edit().putBoolean(getDisplayPrefId(), inGrid).apply()
+        adapter.displaySwitch(inGrid)
+        setupDisplayIcon()
+        setupLayoutManager()
+    }
+
+    private fun setupDisplayIcon() {
+        binding.imageButtonDisplay.setImageResource(if (inGrid) R.drawable.ic_menu_list_tv_normal else R.drawable.ic_menu_grid_tv_normal)
+        binding.displayButton.setImageResource(if (inGrid) R.drawable.ic_menu_list_tv else R.drawable.ic_menu_grid_tv)
+        binding.displayDescription.setText(if (inGrid) R.string.display_in_list else R.string.display_in_grid)
     }
 
     override fun onStart() {
@@ -217,7 +252,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         super.onConfigurationChanged(newConfig)
 
         calculateNbColumns()
-        gridLayoutManager.spanCount = viewModel.nbColumns
+        (gridLayoutManager as? GridLayoutManager)?.spanCount = viewModel.nbColumns
         if (BuildConfig.DEBUG) Log.d(TAG, "${viewModel.nbColumns}")
         list.layoutManager = gridLayoutManager
     }
@@ -355,6 +390,13 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                 if (BuildConfig.DEBUG) Log.d("keydown", "Keydown propagated")
                 false
             } else true
+        }
+        KEYCODE_DPAD_RIGHT, KEYCODE_DPAD_LEFT -> {
+            if (!inGrid && list.hasFocus() && animationDelegate.isScrolled()) {
+                imageButtonSettings.requestFocusFromTouch()
+                true
+            }
+            false
         }
         else -> false
     }

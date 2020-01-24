@@ -1,5 +1,6 @@
 package org.videolan.vlc.gui.view
 
+import android.annotation.SuppressLint
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.util.Log
@@ -8,21 +9,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.R
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.Settings
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
 
 private const val TAG = "RecyclerSectionItemDecoration"
 
+@SuppressLint("LongLogTag")
 class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private val space: Int, private val sticky: Boolean, private val nbColumns: Int, private val provider: HeaderProvider) : RecyclerView.ItemDecoration() {
 
     private lateinit var headerView: View
     private lateinit var header: TextView
+    var isList = false
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
 
+        if (isList) {
+            val pos = parent.getChildAdapterPosition(view)
+            if (provider.isFirstInSection(pos)) {
+                outRect.top = headerOffset
+            }
+            if (provider.isLastInSection(pos)) {
+                outRect.bottom = space * 2
+            }
+            return
+        }
 
         val pos = parent.getChildAdapterPosition(view)
         val positionForSection = provider.getPositionForSection(pos)
