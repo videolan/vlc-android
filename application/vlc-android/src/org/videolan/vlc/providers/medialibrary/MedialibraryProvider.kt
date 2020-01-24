@@ -29,8 +29,8 @@ import androidx.paging.toLiveData
 import kotlinx.coroutines.CompletableDeferred
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.util.HeaderProvider
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.Settings
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.SortModule
@@ -63,8 +63,8 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
             pageSize = MEDIALIBRARY_PAGE_SIZE,
             prefetchDistance = MEDIALIBRARY_PAGE_SIZE / 5,
             enablePlaceholders = true,
-            initialLoadSizeHint = MEDIALIBRARY_PAGE_SIZE *3,
-            maxSize = MEDIALIBRARY_PAGE_SIZE *3
+            initialLoadSizeHint = MEDIALIBRARY_PAGE_SIZE,
+            maxSize = MEDIALIBRARY_PAGE_SIZE *2
     )
 
     val pagedList = MLDatasourceFactory().toLiveData(pagingConfig)
