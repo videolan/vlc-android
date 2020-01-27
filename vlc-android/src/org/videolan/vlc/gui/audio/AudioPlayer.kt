@@ -227,8 +227,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
 
     private var wasPlaying = true
     private fun updatePlayPause() {
+        val ctx = context ?: return
         val playing = playlistModel.playing
-        val text = getString(if (playing) R.string.pause else R.string.play)
+        val text = ctx.getString(if (playing) R.string.pause else R.string.play)
 
         val drawable = if (playing) playToPause else pauseToPlay
         val drawableSmall = if (playing) playToPauseSmall else pauseToPlaySmall
@@ -247,30 +248,32 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
 
     private var wasShuffling = false
     private fun updateShuffleMode() {
+        val ctx = context ?: return
         binding.shuffle.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE
         val shuffling = playlistModel.shuffling
         if (wasShuffling == shuffling) return
         binding.shuffle.setImageResource(if (shuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
-        binding.shuffle.contentDescription = resources.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
+        binding.shuffle.contentDescription = ctx.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
         wasShuffling = shuffling
     }
 
     private var previousRepeatType = -1
     private fun updateRepeatMode() {
+        val ctx = context ?: return
         val repeatType = playlistModel.repeatType
         if (previousRepeatType == repeatType) return
         when (repeatType) {
             REPEAT_ONE -> {
                 binding.repeat.setImageResource(R.drawable.ic_repeat_one)
-                binding.repeat.contentDescription = resources.getString(R.string.repeat_single)
+                binding.repeat.contentDescription = ctx.getString(R.string.repeat_single)
             }
             REPEAT_ALL -> {
                 binding.repeat.setImageResource(R.drawable.ic_repeat_all)
-                binding.repeat.contentDescription = resources.getString(R.string.repeat_all)
+                binding.repeat.contentDescription = ctx.getString(R.string.repeat_all)
             }
             else -> {
                 binding.repeat.setImageResource(R.drawable.ic_repeat)
-                binding.repeat.contentDescription = resources.getString(R.string.repeat)
+                binding.repeat.contentDescription = ctx.getString(R.string.repeat)
             }
         }
         previousRepeatType = repeatType
