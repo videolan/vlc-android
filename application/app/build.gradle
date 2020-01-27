@@ -118,7 +118,9 @@ android {
     applicationVariants.all { variant ->
         //Custom APK name and versionCode
         variant.outputs.each { output ->
-            def abiName = output.getFilter(com.android.build.OutputFile.ABI) ?: System.getenv('GRADLE_ABI')?.toLowerCase() ?: "all"
+            def outputAbi = output.getFilter(com.android.build.OutputFile.ABI)
+            def abiName = System.getenv('GRADLE_ABI')?.toLowerCase() ?: "all"
+            if (outputAbi != null) abiName = outputAbi
             output.versionCodeOverride = 10000000 + defaultConfig.versionCode + abiCodes.get(abiName, 0)
             def outputName = "VLC-Android-"
             outputName += variant.versionName + "-" + abiName + ".apk"
