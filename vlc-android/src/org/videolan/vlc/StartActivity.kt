@@ -178,12 +178,20 @@ class StartActivity : FragmentActivity(), CoroutineScope by MainScope() {
     private fun startApplication(tv: Boolean, firstRun: Boolean, upgrade: Boolean, target: Int) {
         val settings = Settings.getInstance(this@StartActivity)
         val onboarding = !tv && !settings.getBoolean(ONBOARDING_DONE_KEY, false)
+        val ctx = applicationContext
         // Start Medialibrary from background to workaround Dispatchers.Main causing ANR
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
         if (!onboarding || !firstRun) {
             Thread {
-                this@StartActivity.startMedialibrary(firstRun, upgrade, true)
-                if (onboarding)  settings.edit().putBoolean(ONBOARDING_DONE_KEY, true).apply()
+                AppScope.launch {
+                    // workaround for a Android 9 bug
+                    // https://issuetracker.google.com/issues/113122354
+                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.P && !awaitAppIsForegroung()) {
+                        return@launch
+                    }
+                    ctx.startMedialibrary(firstRun, upgrade, true)
+                    if (onboarding) settings.edit().putBoolean(ONBOARDING_DONE_KEY, true).apply()
+                }
             }.start()
             val intent = Intent(this@StartActivity, if (tv) MainTvActivity::class.java else MainActivity::class.java)
                     .putExtra(EXTRA_FIRST_RUN, firstRun)
