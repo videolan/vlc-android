@@ -54,6 +54,8 @@ import kotlinx.coroutines.flow.conflate
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
+import org.videolan.tools.PREF_PLAYLIST_TIPS_SHOWN
+import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
@@ -66,8 +68,6 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
-import org.videolan.tools.PREF_PLAYLIST_TIPS_SHOWN
-import org.videolan.tools.Settings
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -236,8 +236,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     private var wasPlaying = true
     private fun updatePlayPause() {
+        val ctx = context ?: return
         val playing = playlistModel.playing
-        val text = getString(if (playing) R.string.pause else R.string.play)
+        val text = ctx.getString(if (playing) R.string.pause else R.string.play)
 
         val drawable = if (playing) playToPause else pauseToPlay
         val drawableSmall = if (playing) playToPauseSmall else pauseToPlaySmall
@@ -256,30 +257,32 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     private var wasShuffling = false
     private fun updateShuffleMode() {
+        val ctx = context ?: return
         binding.shuffle.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE
         val shuffling = playlistModel.shuffling
         if (wasShuffling == shuffling) return
         binding.shuffle.setImageResource(if (shuffling) R.drawable.ic_shuffle_on else R.drawable.ic_shuffle)
-        binding.shuffle.contentDescription = resources.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
+        binding.shuffle.contentDescription = ctx.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
         wasShuffling = shuffling
     }
 
     private var previousRepeatType = -1
     private fun updateRepeatMode() {
+        val ctx = context ?: return
         val repeatType = playlistModel.repeatType
         if (previousRepeatType == repeatType) return
         when (repeatType) {
             PlaybackStateCompat.REPEAT_MODE_ONE -> {
                 binding.repeat.setImageResource(R.drawable.ic_repeat_one)
-                binding.repeat.contentDescription = resources.getString(R.string.repeat_single)
+                binding.repeat.contentDescription = ctx.getString(R.string.repeat_single)
             }
             PlaybackStateCompat.REPEAT_MODE_ALL -> {
                 binding.repeat.setImageResource(R.drawable.ic_repeat_all)
-                binding.repeat.contentDescription = resources.getString(R.string.repeat_all)
+                binding.repeat.contentDescription = ctx.getString(R.string.repeat_all)
             }
             else -> {
                 binding.repeat.setImageResource(R.drawable.ic_repeat)
-                binding.repeat.contentDescription = resources.getString(R.string.repeat)
+                binding.repeat.contentDescription = ctx.getString(R.string.repeat)
             }
         }
         previousRepeatType = repeatType
