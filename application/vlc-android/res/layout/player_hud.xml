@@ -211,7 +211,7 @@
                     android:minHeight="@dimen/seekbar_height"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:progress="@{player.getTime(progress.time)}"
+                    android:progress="@{player.service.getTime(progress.time)}"
                     android:progressDrawable="@drawable/po_seekbar_video"
                     android:splitTrack="false"
                     android:thumb="@drawable/seekbar_thumb"

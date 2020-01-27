@@ -2121,13 +2121,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 hudBinding = DataBindingUtil.bind(findViewById(R.id.progress_overlay)) ?: return
                 hudBinding.player = this
                 hudBinding.progress = service.playlistManager.player.progress
-                abRepeatAddMarker = hudBinding.abRepeatContainer.findViewById<Button>(R.id.ab_repeat_add_marker)
+                abRepeatAddMarker = hudBinding.abRepeatContainer.findViewById(R.id.ab_repeat_add_marker)
                 service.playlistManager.abRepeat.observe(this, Observer { abvalues ->
                     hudBinding.abRepeatA = if (abvalues.start == -1L) -1F else abvalues.start / service.playlistManager.player.getLength().toFloat()
                     hudBinding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / service.playlistManager.player.getLength().toFloat()
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
                     hudBinding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
-                    manageAbRepeatStep()
+                    service.manageAbRepeatStep(hudRightBinding.abRepeatReset, hudRightBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                 })
                 service.playlistManager.abRepeatOn.observe(this, Observer {
                     hudBinding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
@@ -2137,7 +2137,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         hudBinding.playerOverlayTime.nextFocusUpId = R.id.ab_repeat_add_marker
                     }
 
-                    manageAbRepeatStep()
+                    service.manageAbRepeatStep(hudRightBinding.abRepeatReset, hudRightBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                 })
                 service.playlistManager.videoStatsOn.observe(this, Observer {
                     if (it) showOverlay(true)
@@ -2190,54 +2190,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 hudBinding.lifecycleOwner = this
             }
         }
-    }
-
-    private fun manageAbRepeatStep() {
-        when {
-            service?.playlistManager?.abRepeatOn?.value != true -> hudBinding.abRepeatContainer.visibility = View.GONE
-            service?.playlistManager?.abRepeat?.value?.start != -1L && service?.playlistManager?.abRepeat?.value?.stop != -1L -> {
-                hudRightBinding.abRepeatReset.visibility = View.VISIBLE
-                hudRightBinding.abRepeatStop.visibility = View.VISIBLE
-                hudBinding.abRepeatContainer.visibility = View.GONE
-            }
-            service?.playlistManager?.abRepeat?.value?.start == -1L && service?.playlistManager?.abRepeat?.value?.stop == -1L -> {
-                hudBinding.abRepeatContainer.visibility = View.VISIBLE
-                abRepeatAddMarker.text = getString(R.string.abrepeat_add_first_marker)
-                hudRightBinding.abRepeatReset.visibility = View.GONE
-                hudRightBinding.abRepeatStop.visibility = View.GONE
-            }
-            service?.playlistManager?.abRepeat?.value?.start == -1L || service?.playlistManager?.abRepeat?.value?.stop == -1L -> {
-                abRepeatAddMarker.text = getString(R.string.abrepeat_add_second_marker)
-                hudBinding.abRepeatContainer.visibility = View.VISIBLE
-                hudRightBinding.abRepeatReset.visibility = View.GONE
-                hudRightBinding.abRepeatStop.visibility = View.GONE
-            }
-        }
-    }
-
-    fun getTime(realTime: Long): Int {
-        service?.let { service ->
-            service.playlistManager.abRepeat.value?.let {
-                if (it.start != -1L && it.stop != -1L) return when {
-                    service.playlistManager.abRepeatOn.value!! -> {
-                        val start = it.start
-                        val end = it.stop
-                        when {
-                            start != -1L && realTime < start -> {
-                                start.toInt()
-                            }
-                            end != -1L && realTime > it.stop -> {
-                                end.toInt()
-                            }
-                            else -> realTime.toInt()
-                        }
-                    }
-                    else -> realTime.toInt()
-                }
-            }
-
-        }
-        return realTime.toInt()
     }
 
     /**

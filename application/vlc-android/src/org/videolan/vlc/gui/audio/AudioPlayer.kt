@@ -67,6 +67,7 @@ import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
+import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.PlaybackProgress
@@ -162,12 +163,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / playlistModel.service!!.playlistManager.player.getLength().toFloat()
             binding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
             binding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
-            manageAbRepeatStep()
+            playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
         })
         playlistModel.service?.playlistManager?.abRepeatOn?.observe(this, Observer {
             binding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
 
-            manageAbRepeatStep()
+            playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
         })
 
         abRepeatAddMarker.setOnClickListener {
@@ -297,13 +298,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val displayTime = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else progress.timeText
             binding.headerTime.text = displayTime
             binding.time.text = displayTime
-            binding.timeline.progress = getTime(progress.time)
+            binding.timeline.progress = playlistModel.service?.getTime(progress.time)
+                    ?: progress.time.toInt()
             binding.progressBar.progress = progress.time.toInt()
         }
     }
 
     override fun onSelectionSet(position: Int) {
-        if (playerState != BottomSheetBehavior.STATE_COLLAPSED && playerState != com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN) {
+        if (playerState != BottomSheetBehavior.STATE_COLLAPSED && playerState != BottomSheetBehavior.STATE_HIDDEN) {
             binding.songsList.scrollToPosition(position)
         }
     }
@@ -328,11 +330,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onNextClick(view: View) {
-        if (!playlistModel.next()) Snackbar.make(binding.root, R.string.lastsong, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show()
+        if (!playlistModel.next()) Snackbar.make(binding.root, R.string.lastsong, Snackbar.LENGTH_SHORT).show()
     }
 
     fun onPreviousClick(view: View) {
-        if (!playlistModel.previous()) Snackbar.make(binding.root, R.string.firstsong, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show()
+        if (!playlistModel.previous()) Snackbar.make(binding.root, R.string.firstsong, Snackbar.LENGTH_SHORT).show()
     }
 
     fun onRepeatClick(view: View) {
@@ -581,53 +583,5 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             hideSearchField()
             playlistModel.filter(null)
         }
-    }
-
-    private fun manageAbRepeatStep() {
-        when {
-            playlistModel.service?.playlistManager?.abRepeatOn?.value != true -> binding.abRepeatContainer.visibility = View.GONE
-            playlistModel.service?.playlistManager?.abRepeat?.value?.start != -1L && playlistModel.service?.playlistManager?.abRepeat?.value?.stop != -1L -> {
-                binding.abRepeatReset.visibility = View.VISIBLE
-                binding.abRepeatStop.visibility = View.VISIBLE
-                binding.abRepeatContainer.visibility = View.GONE
-            }
-            playlistModel.service?.playlistManager?.abRepeat?.value?.start == -1L && playlistModel.service?.playlistManager?.abRepeat?.value?.stop == -1L -> {
-                binding.abRepeatContainer.visibility = View.VISIBLE
-                abRepeatAddMarker.text = getString(R.string.abrepeat_add_first_marker)
-                binding.abRepeatReset.visibility = View.GONE
-                binding.abRepeatStop.visibility = View.GONE
-            }
-            playlistModel.service?.playlistManager?.abRepeat?.value?.start == -1L || playlistModel.service?.playlistManager?.abRepeat?.value?.stop == -1L -> {
-                abRepeatAddMarker.text = getString(R.string.abrepeat_add_second_marker)
-                binding.abRepeatContainer.visibility = View.VISIBLE
-                binding.abRepeatReset.visibility = View.GONE
-                binding.abRepeatStop.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun getTime(realTime: Long): Int {
-        playlistModel.service?.let { service ->
-            service.playlistManager.abRepeat.value?.let {
-                if (it.start != -1L && it.stop != -1L) return when {
-                    service.playlistManager.abRepeatOn.value!! -> {
-                        val start = it.start
-                        val end = it.stop
-                        when {
-                            start != -1L && realTime < start -> {
-                                start.toInt()
-                            }
-                            end != -1L && realTime > it.stop -> {
-                                end.toInt()
-                            }
-                            else -> realTime.toInt()
-                        }
-                    }
-                    else -> realTime.toInt()
-                }
-            }
-
-        }
-        return realTime.toInt()
     }
 }

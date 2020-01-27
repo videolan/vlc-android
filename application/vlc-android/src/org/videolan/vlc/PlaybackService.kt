@@ -36,6 +36,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
@@ -1352,6 +1354,29 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 or PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID or PlaybackStateCompat.ACTION_PLAY_FROM_URI
                 or PlaybackStateCompat.ACTION_PLAY_PAUSE)
     }
+
+    fun getTime(realTime: Long): Int {
+        playlistManager.abRepeat.value?.let {
+            if (it.start != -1L && it.stop != -1L) return when {
+                playlistManager.abRepeatOn.value!! -> {
+                    val start = it.start
+                    val end = it.stop
+                    when {
+                        start != -1L && realTime < start -> {
+                            start.toInt()
+                        }
+                        end != -1L && realTime > it.stop -> {
+                            end.toInt()
+                        }
+                        else -> realTime.toInt()
+                    }
+                }
+                else -> realTime.toInt()
+            }
+        }
+
+        return realTime.toInt()
+    }
 }
 
 // Actor actions sealed classes
@@ -1365,3 +1390,27 @@ private class CbRemove(val cb: PlaybackService.Callback) : CbAction()
 private object ShowNotification : CbAction()
 private class HideNotification(val remove: Boolean) : CbAction()
 private object UpdateMeta : CbAction()
+
+fun PlaybackService.manageAbRepeatStep(abRepeatReset: View, abRepeatStop: View, abRepeatContainer: View, abRepeatAddMarker: TextView) {
+    when {
+        playlistManager.abRepeatOn.value != true -> abRepeatContainer.visibility = View.GONE
+        playlistManager.abRepeat.value?.start != -1L && playlistManager.abRepeat.value?.stop != -1L -> {
+            abRepeatReset.visibility = View.VISIBLE
+            abRepeatStop.visibility = View.VISIBLE
+            abRepeatContainer.visibility = View.GONE
+        }
+        playlistManager.abRepeat.value?.start == -1L && playlistManager.abRepeat.value?.stop == -1L -> {
+            abRepeatContainer.visibility = View.VISIBLE
+            abRepeatAddMarker.text = getString(R.string.abrepeat_add_first_marker)
+            abRepeatReset.visibility = View.GONE
+            abRepeatStop.visibility = View.GONE
+        }
+        playlistManager.abRepeat.value?.start == -1L || playlistManager.abRepeat.value?.stop == -1L -> {
+            abRepeatAddMarker.text = getString(R.string.abrepeat_add_second_marker)
+            abRepeatContainer.visibility = View.VISIBLE
+            abRepeatReset.visibility = View.GONE
+            abRepeatStop.visibility = View.GONE
+        }
+    }
+}
+
