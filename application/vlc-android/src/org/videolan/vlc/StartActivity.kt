@@ -42,10 +42,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.resources.*
 import org.videolan.resources.util.startMedialibrary
-import org.videolan.tools.BETA_WELCOME
-import org.videolan.tools.Settings
-import org.videolan.tools.awaitAppIsForegroung
-import org.videolan.tools.getContextWithLocale
+import org.videolan.tools.*
 import org.videolan.vlc.gui.BetaWelcomeActivity
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.gui.onboarding.ONBOARDING_DONE_KEY
@@ -191,8 +188,15 @@ class StartActivity : FragmentActivity() {
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
         if (!onboarding || !firstRun) {
             Thread {
-                this@StartActivity.startMedialibrary(firstRun, upgrade, true)
-                if (onboarding)  settings.edit().putBoolean(ONBOARDING_DONE_KEY, true).apply()
+                AppScope.launch {
+                    // workaround for a Android 9 bug
+                    // https://issuetracker.google.com/issues/113122354
+                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.P && !awaitAppIsForegroung()) {
+                        return@launch
+                    }
+                    this@StartActivity.startMedialibrary(firstRun, upgrade, true)
+                    if (onboarding)  settings.edit().putBoolean(ONBOARDING_DONE_KEY, true).apply()
+                }
             }.start()
             val intent = Intent().apply { setClassName(applicationContext, if (tv) "org.videolan.television.ui.MainTvActivity" else "org.videolan.vlc.gui.MainActivity") }
                     .putExtra(EXTRA_FIRST_RUN, firstRun)
