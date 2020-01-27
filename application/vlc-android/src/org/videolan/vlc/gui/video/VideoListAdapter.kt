@@ -56,7 +56,8 @@ import org.videolan.tools.safeOffer
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.*
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.scope
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
 private const val TAG = "VLC/VideoListAdapter"
@@ -111,10 +112,6 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
         holder.selectView(multiSelectHelper.isSelected(position))
     }
 
-    override fun getItemViewType(position: Int) = when (dataType) {
-        VideoGroupingType.FOLDER -> 1
-        else -> 0
-    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
         if (payloads.isEmpty())
             onBindViewHolder(holder, position)
