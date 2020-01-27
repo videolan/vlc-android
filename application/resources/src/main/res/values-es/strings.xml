@@ -119,11 +119,11 @@
     <string name="directories">Carpetas</string>
     <string name="loading">Cargando</string>
     <string name="please_wait">Espere…</string>
-    <string name="nomedia">No se han encontrador archivos multimedia, transfiera algunos archivos a su dispositivo o ajuste sus preferencias.</string>
+    <string name="nomedia">No se han encontrado archivos multimedia, transfiera algunos archivos a su dispositivo o ajuste sus preferencias.</string>
     <string name="noplaylist">No se ha encontrado lista de reproducción.</string>
     <string name="mediafiles">Archivos multimedia</string>
     <string name="notavailable">no disponible</string>
-    <string name="nosubdirectory">No hay subcarpetas.</string>
+    <string name="nosubfolder">No hay subcarpeta</string>
     <string name="directorynotfound">La ruta de la carpeta «%1$s» no ha sido encontrada.</string>
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
     <string name="validation">¿Está seguro?</string>
@@ -487,7 +487,7 @@
     <string name="network_empty">Esta capeta está vacía.</string>
     <string name="network_connection_needed">Sin conexión a red local.</string>
     <string name="search_hint">Buscar medios</string>
-    <string name="search_list_hint">Buscar medios en la lista actual</string>
+    <string name="search_in_list_hint">Buscar en la lista actual</string>
     <string name="search_global">Buscar en toda la librería de medios</string>
     <string name="directory_show_medialib">Mostrar en MediaLib</string>
     <string name="directory_hide_medialib">Ocultar de MediaLib</string>
@@ -755,4 +755,23 @@
     <string name="recently_added">Añadido recientemente</string>
     <string name="playback_multiple_errors">No se pueden reproducir múltiples medios</string>
     <string name="clear_media_db_warning">Perderá su progreso y las listas de reproducción creadas.\n%s</string>
+    <string name="abrepeat_add_first_marker">Establecer punto de inicio</string>
+    <string name="abrepeat_add_second_marker">Establecer punto de fin</string>
+    <string name="demux_bitrate">Tasa de bits de demux</string>
+    <string name="input_bitrate">Tasa de bits de entrada</string>
+    <string name="video_information">Información de vídeo</string>
+
+    <string name="channels">Canales</string>
+    <string name="resolution">Resolución</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Tasa de fotogramas</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Idioma</string>
+    <string name="track_samplerate">Tasa de muestra</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Tasa de bits</string>
+    <string name="codec">Códec</string>
+    <string name="text">Texto</string>
+    <string name="unknown">Desconocido</string>
 </resources>
