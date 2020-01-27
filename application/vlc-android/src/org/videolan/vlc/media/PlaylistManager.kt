@@ -175,7 +175,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             if (!audio && position < playList.size && settings.getBoolean(VIDEO_PAUSED, false)) {
                 playList[position].addFlags(MediaWrapper.MEDIA_PAUSED)
             }
-            if (audio) playList[position].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+            if (audio && position < playList.size) playList[position].addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             load(playList, position, true)
             loadingLastPlaylist = false
             if (!audio) {
