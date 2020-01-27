@@ -27,10 +27,13 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
+import android.util.DisplayMetrics
 import android.view.View
+import android.view.WindowManager
 import android.widget.RemoteViews
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -112,10 +115,12 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
                 if (!TextUtils.isEmpty(artworkMrl)) {
                     runIO(Runnable {
                         val cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320)
+                        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                        val dm = DisplayMetrics().also { wm.defaultDisplay.getMetrics(it) }
                         runOnMainThread(Runnable {
-                            if (cover != null)
-                                views.setImageViewBitmap(R.id.cover, cover)
-                            else
+                            if (cover != null) {
+                                if (cover.byteSize() < dm.widthPixels * dm.heightPixels * 6) views.setImageViewBitmap(R.id.cover, cover)
+                            } else
                                 views.setImageViewResource(R.id.cover, R.drawable.icon)
                             views.setProgressBar(R.id.timeline, 100, 0, false)
                             applyUpdate(context, views, partial)
@@ -166,4 +171,10 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
         val ACTION_WIDGET_ENABLED = ACTION_WIDGET_PREFIX + "ENABLED"
         val ACTION_WIDGET_DISABLED = ACTION_WIDGET_PREFIX + "DISABLED"
     }
+}
+fun Bitmap.byteSize(): Int {
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+        return allocationByteCount
+    }
+    return rowBytes * height
 }
