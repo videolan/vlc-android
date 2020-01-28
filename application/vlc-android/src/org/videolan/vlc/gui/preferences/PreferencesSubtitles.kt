@@ -27,7 +27,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 import org.videolan.vlc.R
-import org.videolan.vlc.util.VLCInstance
+import org.videolan.resources.VLCInstance
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi

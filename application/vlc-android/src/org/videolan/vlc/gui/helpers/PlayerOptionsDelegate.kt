@@ -38,7 +38,6 @@ import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.PlayerController
-import org.videolan.vlc.util.*
 import java.util.*
 
 private const val ACTION_AUDIO_DELAY = 2

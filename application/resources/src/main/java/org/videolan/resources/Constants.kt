@@ -194,3 +194,5 @@ const val CRASH_ML_MSG = "crash_ml_msg"
 
 fun String.buildPkgString() = "${BuildConfig.APP_ID}.$this"
 
+// Activity names
+const val COMPATERROR_ACTIVITY = "org.videolan.vlc.gui.CompatErrorActivity"

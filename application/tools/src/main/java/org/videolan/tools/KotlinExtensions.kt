@@ -16,6 +16,7 @@ import androidx.annotation.AttrRes
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -34,6 +35,8 @@ fun <T> List<T>.getposition(target: T): Int {
     for ((index, item) in withIndex()) if (item == target) return index
     return -1
 }
+
+fun isAppStarted() = ProcessLifecycleOwner.get().isStarted()
 
 fun LifecycleOwner.isStarted() = lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
 

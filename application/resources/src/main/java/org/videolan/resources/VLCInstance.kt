@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  */
 
-package org.videolan.vlc.util
+package org.videolan.resources
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -30,9 +30,7 @@ import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.interfaces.ILibVLC
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.util.VLCUtil
-import org.videolan.resources.AppContextProvider
-import org.videolan.vlc.VLCCrashHandler
-import org.videolan.vlc.gui.CompatErrorActivity
+import org.videolan.resources.util.VLCCrashHandler
 
 @ObsoleteCoroutinesApi
 object VLCInstance {
@@ -75,7 +73,7 @@ object VLCInstance {
     fun testCompatibleCPU(context: Context): Boolean {
         return if (sLibVLC == null && !VLCUtil.hasCompatibleCPU(context)) {
             if (context is Activity) {
-                val i = Intent(context, CompatErrorActivity::class.java)
+                val i = Intent(Intent.ACTION_VIEW).setClassName(context.applicationContext, COMPATERROR_ACTIVITY)
                 context.startActivity(i)
             }
             false

@@ -49,8 +49,8 @@ import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
-import org.videolan.vlc.util.VLCInstance
-import org.videolan.vlc.util.VLCOptions
+import org.videolan.resources.VLCInstance
+import org.videolan.resources.VLCOptions
 import java.lang.Runnable
 
 @ObsoleteCoroutinesApi

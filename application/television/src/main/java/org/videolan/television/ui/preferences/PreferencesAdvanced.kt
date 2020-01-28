@@ -44,7 +44,7 @@ import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.VLCInstance
+import org.videolan.resources.VLCInstance
 import java.io.File
 
 @ExperimentalCoroutinesApi

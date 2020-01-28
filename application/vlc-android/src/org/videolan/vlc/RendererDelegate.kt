@@ -27,8 +27,8 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.retry
 import org.videolan.tools.livedata.LiveDataset
-import org.videolan.vlc.util.VLCInstance
-import org.videolan.vlc.util.isAppStarted
+import org.videolan.resources.VLCInstance
+import org.videolan.tools.isAppStarted
 import java.util.*
 
 @ObsoleteCoroutinesApi

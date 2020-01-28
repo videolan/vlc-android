@@ -26,7 +26,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.Preference
 import org.videolan.vlc.R
-import org.videolan.vlc.util.VLCInstance
+import org.videolan.resources.VLCInstance
 
 class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 

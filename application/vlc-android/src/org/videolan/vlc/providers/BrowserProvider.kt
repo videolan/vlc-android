@@ -48,7 +48,7 @@ import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
 import org.videolan.vlc.util.ModelsHelper
-import org.videolan.vlc.util.VLCInstance
+import org.videolan.resources.VLCInstance
 import org.videolan.vlc.util.isBrowserMedia
 import org.videolan.vlc.util.isMedia
 import java.util.*

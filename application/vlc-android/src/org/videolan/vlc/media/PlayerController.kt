@@ -14,13 +14,14 @@ import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IMediaList
 import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.VLCInstance
+import org.videolan.resources.VLCOptions
 import org.videolan.tools.KEY_PLAYBACK_RATE
 import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.repository.SlaveRepository
-import org.videolan.vlc.util.*
 import kotlin.math.abs
 
 @ObsoleteCoroutinesApi

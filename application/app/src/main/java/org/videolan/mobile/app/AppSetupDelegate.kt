@@ -43,7 +43,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.SettingsMigration
-import org.videolan.vlc.util.VLCInstance
+import org.videolan.resources.VLCInstance
 
 interface AppDelegate {
     val appContextProvider : AppContextProvider

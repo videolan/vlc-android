@@ -153,8 +153,6 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
     (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
 }
 
-fun isAppStarted() = ProcessLifecycleOwner.get().isStarted()
-
 fun Int.toPixel(): Int {
     val metrics = Resources.getSystem().displayMetrics
     val px = toFloat() * (metrics.densityDpi / 160f)

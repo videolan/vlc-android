@@ -19,7 +19,7 @@ import org.videolan.resources.util.getFromMl
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.media.MediaPlayerEventListener
 import org.videolan.vlc.media.PlayerController
-import org.videolan.vlc.util.VLCInstance
+import org.videolan.resources.VLCInstance
 import org.videolan.vlc.util.random
 import java.io.IOException
 

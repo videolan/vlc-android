@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  */
 
-package org.videolan.vlc
+package org.videolan.resources.util
 
 import android.os.Environment
 import android.text.format.DateFormat
@@ -28,6 +28,8 @@ import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Logcat
 import java.io.*
 import java.lang.Thread.UncaughtExceptionHandler
+
+private const val TAG = "VLC/VlcCrashHandler"
 
 class VLCCrashHandler : UncaughtExceptionHandler {
 
@@ -97,10 +99,5 @@ class VLCCrashHandler : UncaughtExceptionHandler {
             Log.e(TAG, "Cannot write logcat to disk")
         }
 
-    }
-
-    companion object {
-
-        private val TAG = "VLC/VlcCrashHandler"
     }
 }

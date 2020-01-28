@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  */
 
-package org.videolan.vlc.util
+package org.videolan.resources
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -33,14 +33,11 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.libvlc.util.VLCUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.AppContextProvider
+import org.videolan.resources.R.*
 import org.videolan.tools.Preferences
 import org.videolan.tools.Settings
-import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.R
 import java.io.File
 import java.util.*
-
 
 object VLCOptions {
     private val TAG = "VLCConfig"
@@ -69,7 +66,7 @@ object VLCOptions {
 
             val options = ArrayList<String>(50)
 
-            val timeStrechingDefault = context != null && context.resources.getBoolean(R.bool.time_stretching_default)
+            val timeStrechingDefault = context != null && context.resources.getBoolean(bool.time_stretching_default)
             val timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault)
             val subtitlesEncoding = pref.getString("subtitle_text_encoding", "") ?: ""
             val frameSkip = pref.getBoolean("enable_frame_skip", false)
@@ -202,7 +199,7 @@ object VLCOptions {
         return ret
     }
 
-    fun setMediaOptions(media: IMedia, context: Context, flags: Int) {
+    fun setMediaOptions(media: IMedia, context: Context, flags: Int, hasRenderer: Boolean) {
         val noHardwareAcceleration = flags and MediaWrapper.MEDIA_NO_HWACCEL != 0
         val noVideo = flags and MediaWrapper.MEDIA_VIDEO == 0
         val benchmark = flags and MediaWrapper.MEDIA_BENCHMARK != 0
@@ -231,7 +228,7 @@ object VLCOptions {
         if (!prefs.getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none")
         if (!benchmark && prefs.getBoolean("media_fast_seek", true)) media.addOption(":input-fast-seek")
 
-        if (PlaybackService.hasRenderer()) {
+        if (hasRenderer) {
             media.addOption(":sout-chromecast-audio-passthrough=" + prefs.getBoolean("casting_passthrough", true))
             media.addOption(":sout-chromecast-conversion-quality=" + prefs.getString("casting_quality", "2")!!)
         }

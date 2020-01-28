@@ -49,7 +49,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.vlc.PlaybackService
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
-import org.videolan.vlc.util.VLCInstance
+import org.videolan.resources.VLCInstance
 import java.io.*
 
 /**
