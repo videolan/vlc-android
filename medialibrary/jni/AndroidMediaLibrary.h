@@ -2,6 +2,7 @@
 #define ANDROIDMEDIALIBRARY_H
 
 #include <vector>
+#include <set>
 #include <string>
 #include <tuple>
 #include <stdlib.h>
@@ -103,9 +104,9 @@ public:
     // VideoGroups
     medialibrary::Query<medialibrary::IMedia> mediaFromMediaGroup(const std::string& name, const medialibrary::QueryParameters* params );
     medialibrary::Query<medialibrary::IMedia> searchFromMediaGroup( const std::string& name, const std::string& query, const medialibrary::QueryParameters* params );
-    void onMediaGroupAdded( std::vector<medialibrary::MediaGroupPtr> mediaGroups );
-    void onMediaGroupModified( std::vector<int64_t> mediaGroupsIds );
-    void onMediaGroupDeleted( std::vector<int64_t> mediaGroupsIds );
+    void onMediaGroupsAdded( std::vector<medialibrary::MediaGroupPtr> mediaGroups );
+    void onMediaGroupsModified( std::set<int64_t> mediaGroupsIds );
+    void onMediaGroupsDeleted( std::set<int64_t> mediaGroupsIds );
     //Playlists
     bool playlistAppend(int64_t playlistId, int64_t mediaId);
     bool playlistAdd(int64_t playlistId, int64_t mediaId, unsigned int position);
@@ -117,24 +118,24 @@ public:
                            uint32_t desiredHeight, float position );
 
     void onMediaAdded( std::vector<medialibrary::MediaPtr> media );
-    void onMediaModified( std::vector<int64_t> media ) ;
-    void onMediaDeleted( std::vector<int64_t> ids ) ;
+    void onMediaModified( std::set<int64_t> media ) ;
+    void onMediaDeleted( std::set<int64_t> ids ) ;
 
     void onArtistsAdded( std::vector<medialibrary::ArtistPtr> artists ) ;
-    void onArtistsModified( std::vector<int64_t> artist );
-    void onArtistsDeleted( std::vector<int64_t> ids );
+    void onArtistsModified( std::set<int64_t> artist );
+    void onArtistsDeleted( std::set<int64_t> ids );
 
     void onAlbumsAdded( std::vector<medialibrary::AlbumPtr> albums );
-    void onAlbumsModified( std::vector<int64_t> albums );
-    void onAlbumsDeleted( std::vector<int64_t> ids );
+    void onAlbumsModified( std::set<int64_t> albums );
+    void onAlbumsDeleted( std::set<int64_t> ids );
 
     void onPlaylistsAdded( std::vector<medialibrary::PlaylistPtr> playlists );
-    void onPlaylistsModified( std::vector<int64_t> playlist );
-    void onPlaylistsDeleted( std::vector<int64_t> ids );
+    void onPlaylistsModified( std::set<int64_t> playlist );
+    void onPlaylistsDeleted( std::set<int64_t> ids );
 
     void onGenresAdded( std::vector<medialibrary::GenrePtr> );
-    void onGenresModified( std::vector<int64_t> );
-    void onGenresDeleted( std::vector<int64_t> );
+    void onGenresModified( std::set<int64_t> );
+    void onGenresDeleted( std::set<int64_t> );
 
     void onDiscoveryStarted( const std::string& entryPoint );
     void onDiscoveryProgress( const std::string& entryPoint );

@@ -585,7 +585,7 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
     }
 }
 
-void AndroidMediaLibrary::onMediaModified( std::vector<int64_t> mediaIds )
+void AndroidMediaLibrary::onMediaModified( std::set<int64_t> mediaIds )
 {
     if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO || m_mediaUpdatedType & FLAG_MEDIA_UPDATED_VIDEO
             || m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO_EMPTY) {
@@ -599,7 +599,7 @@ void AndroidMediaLibrary::onMediaModified( std::vector<int64_t> mediaIds )
     }
 }
 
-void AndroidMediaLibrary::onMediaDeleted( std::vector<int64_t> ids )
+void AndroidMediaLibrary::onMediaDeleted( std::set<int64_t> ids )
 {
     if (m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO_EMPTY|FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO|FLAG_MEDIA_ADDED_VIDEO_EMPTY))
     {
@@ -618,7 +618,7 @@ void AndroidMediaLibrary::onArtistsAdded( std::vector<medialibrary::ArtistPtr> a
     }
 }
 
-void AndroidMediaLibrary::onArtistsModified( std::vector<int64_t>  artistsIds )
+void AndroidMediaLibrary::onArtistsModified( std::set<int64_t>  artistsIds )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -631,7 +631,7 @@ void AndroidMediaLibrary::onArtistsModified( std::vector<int64_t>  artistsIds )
     }
 }
 
-void AndroidMediaLibrary::onArtistsDeleted( std::vector<int64_t> ids )
+void AndroidMediaLibrary::onArtistsDeleted( std::set<int64_t> ids )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -656,7 +656,7 @@ void AndroidMediaLibrary::onAlbumsAdded( std::vector<medialibrary::AlbumPtr> alb
     }
 }
 
-void AndroidMediaLibrary::onAlbumsModified( std::vector<int64_t> albums )
+void AndroidMediaLibrary::onAlbumsModified( std::set<int64_t> albums )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -683,7 +683,7 @@ void AndroidMediaLibrary::onPlaylistsAdded( std::vector<medialibrary::PlaylistPt
 
 }
 
-void AndroidMediaLibrary::onPlaylistsModified( std::vector<int64_t> playlist )
+void AndroidMediaLibrary::onPlaylistsModified( std::set<int64_t> playlist )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -696,7 +696,7 @@ void AndroidMediaLibrary::onPlaylistsModified( std::vector<int64_t> playlist )
     }
 }
 
-void AndroidMediaLibrary::onPlaylistsDeleted( std::vector<int64_t> ids )
+void AndroidMediaLibrary::onPlaylistsDeleted( std::set<int64_t> ids )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -722,7 +722,7 @@ void AndroidMediaLibrary::onGenresAdded( std::vector<medialibrary::GenrePtr> )
     }
 }
 
-void AndroidMediaLibrary::onGenresModified( std::vector<int64_t> )
+void AndroidMediaLibrary::onGenresModified( std::set<int64_t> )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -735,7 +735,7 @@ void AndroidMediaLibrary::onGenresModified( std::vector<int64_t> )
     }
 }
 
-void AndroidMediaLibrary::onGenresDeleted( std::vector<int64_t> )
+void AndroidMediaLibrary::onGenresDeleted( std::set<int64_t> )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -748,7 +748,7 @@ void AndroidMediaLibrary::onGenresDeleted( std::vector<int64_t> )
     }
 }
 
-void AndroidMediaLibrary::onAlbumsDeleted( std::vector<int64_t> )
+void AndroidMediaLibrary::onAlbumsDeleted( std::set<int64_t> )
 {
     if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
@@ -900,7 +900,7 @@ void AndroidMediaLibrary::onHistoryChanged( medialibrary::HistoryType type)
 }
 
 
-void AndroidMediaLibrary::onMediaGroupAdded( std::vector<medialibrary::MediaGroupPtr> mediaGroups )
+void AndroidMediaLibrary::onMediaGroupsAdded( std::vector<medialibrary::MediaGroupPtr> mediaGroups )
 {
     JNIEnv *env = getEnv();
     if (env != nullptr && weak_thiz)
@@ -909,7 +909,7 @@ void AndroidMediaLibrary::onMediaGroupAdded( std::vector<medialibrary::MediaGrou
     }
 }
 
-void AndroidMediaLibrary::onMediaGroupModified( std::vector<int64_t> mediaGroupsIds )
+void AndroidMediaLibrary::onMediaGroupsModified( std::set<int64_t> mediaGroupsIds )
 {
     JNIEnv *env = getEnv();
     if (env != nullptr && weak_thiz)
@@ -918,7 +918,7 @@ void AndroidMediaLibrary::onMediaGroupModified( std::vector<int64_t> mediaGroups
     }
 }
 
-void AndroidMediaLibrary::onMediaGroupDeleted( std::vector<int64_t> mediaGroupsIds )
+void AndroidMediaLibrary::onMediaGroupsDeleted( std::set<int64_t> mediaGroupsIds )
 {
     JNIEnv *env = getEnv();
     if (env != nullptr && weak_thiz)
