@@ -24,6 +24,7 @@ import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.AppScope
+import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.retry
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.util.VLCInstance
@@ -41,14 +42,12 @@ object RendererDelegate : RendererDiscoverer.EventListener {
     @Volatile private var started = false
 
     init {
-        ExternalMonitor.connected.observeForever { AppScope.launch { if (it == true) start() else stop() } }
+        NetworkMonitor.getInstance(AppContextProvider.appContext).connected.observeForever { AppScope.launch { if (it == true) start() else stop() } }
     }
 
     suspend fun start() {
         if (started) return
-        val libVlc = AppContextProvider.appContext.let {
-            withContext(Dispatchers.IO) { VLCInstance.get(it) }
-        }
+        val libVlc = withContext(Dispatchers.IO) { VLCInstance.get(AppContextProvider.appContext) }
         started = true
         for (discoverer in RendererDiscoverer.list(libVlc)) {
             val rd = RendererDiscoverer(libVlc, discoverer.name)
