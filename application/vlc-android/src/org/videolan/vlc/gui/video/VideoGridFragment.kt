@@ -61,7 +61,8 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -91,7 +92,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (!::videoListAdapter.isInitialized) {
             val preferences = Settings.getInstance(requireContext())
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
-            videoListAdapter = VideoListAdapter( seenMarkVisible)
+            videoListAdapter = VideoListAdapter(seenMarkVisible)
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
@@ -391,7 +392,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val activity = activity ?: return
         when (val media = videoListAdapter.getItem(position)) {
             is MediaWrapper -> when (option) {
-                CTX_PLAY_FROM_START -> viewModel.playVideo(activity, media, position,true)
+                CTX_PLAY_FROM_START -> viewModel.playVideo(activity, media, position, true)
                 CTX_PLAY_AS_AUDIO -> viewModel.playAudio(activity, media)
                 CTX_PLAY_ALL -> MediaUtils.playAll(activity, viewModel.provider as VideosProvider, position, false)
                 CTX_INFORMATION -> showInfoDialog(media)
@@ -435,34 +436,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private suspend fun VideoAction.process() {
         when (this) {
             is VideoClick -> {
-                when (item) {
-                    is MediaWrapper -> {
-                        if (actionMode != null) {
-                            multiSelectHelper.toggleSelection(position)
-                            invalidateActionMode()
-                        } else {
-                            viewModel.playVideo(activity, item, position)
-                        }
-                    }
-                    is Folder -> {
-                        if (actionMode != null) {
-                            multiSelectHelper.toggleSelection(position)
-                            invalidateActionMode()
-                        } else activity?.open(item)
-                    }
-                    is VideoGroup -> when {
-                        actionMode != null -> {
-                            multiSelectHelper.toggleSelection(position)
-                            invalidateActionMode()
-                        }
-                        item.mediaCount() == 1 -> viewModel.play(position)
-                        else -> activity?.open(item)
-                    }
-                }
+                onClick(position, item)
             }
             is VideoLongClick -> {
-                multiSelectHelper.toggleSelection(position, true)
-                if (actionMode == null) startActionMode()
+                onLongClick(position)
             }
             is VideoCtxClick -> {
                 when (item) {
@@ -475,6 +452,45 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     }
                 }
             }
+            is VideoImageClick -> {
+                if (actionMode != null) {
+                    onClick(position, item)
+                } else {
+                    onLongClick(position)
+                }
+            }
+        }
+    }
+
+    private fun onLongClick(position: Int) {
+        multiSelectHelper.toggleSelection(position, true)
+        if (actionMode == null) startActionMode()
+    }
+
+    private suspend fun onClick(position: Int, item: MediaLibraryItem) {
+        when (item) {
+            is MediaWrapper -> {
+                if (actionMode != null) {
+                    multiSelectHelper.toggleSelection(position)
+                    invalidateActionMode()
+                } else {
+                    viewModel.playVideo(activity, item, position)
+                }
+            }
+            is Folder -> {
+                if (actionMode != null) {
+                    multiSelectHelper.toggleSelection(position)
+                    invalidateActionMode()
+                } else activity?.open(item)
+            }
+            is VideoGroup -> when {
+                actionMode != null -> {
+                    multiSelectHelper.toggleSelection(position)
+                    invalidateActionMode()
+                }
+                item.mediaCount() == 1 -> viewModel.play(position)
+                else -> activity?.open(item)
+            }
         }
     }
 }
@@ -483,3 +499,4 @@ sealed class VideoAction
 class VideoClick(val position: Int, val item: MediaLibraryItem) : VideoAction()
 class VideoLongClick(val position: Int, val item: MediaLibraryItem) : VideoAction()
 class VideoCtxClick(val position: Int, val item: MediaLibraryItem) : VideoAction()
+class VideoImageClick(val position: Int, val item: MediaLibraryItem) : VideoAction()

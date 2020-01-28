@@ -212,6 +212,11 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 }
         }
 
+        fun onImageClick(v: View) {
+            val position = layoutPosition
+            if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoImageClick(layoutPosition, it)) }
+        }
+
         fun onClick(v: View) {
             val position = layoutPosition
             if (isPositionValid(position)) getItem(position)?.let { eventsChannel.safeOffer(VideoClick(layoutPosition, it)) }
