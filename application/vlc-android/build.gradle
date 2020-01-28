@@ -31,6 +31,7 @@ android {
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
         resValue 'string', 'tv_provider_authority', "${applicationId}.tv"
+        buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
 
         testInstrumentationRunner "org.videolan.vlc.MultidexTestRunner"
         // The following argument makes the Android Test Orchestrator run its
@@ -82,6 +83,7 @@ android {
         }
         debug {
             buildConfigField "boolean", "BETA", "false"
+            buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
         }
         signedRelease {
             initWith release

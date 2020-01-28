@@ -61,7 +61,7 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
         onReceive(context, Intent(ACTION_WIDGET_INIT))
 
         /* ask a refresh from the service if there is one */
-        context.sendBroadcast(Intent(ACTION_WIDGET_INIT).setPackage(BuildConfig.APPLICATION_ID))
+        context.sendBroadcast(Intent(ACTION_WIDGET_INIT).setPackage(BuildConfig.APP_ID))
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -72,7 +72,7 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
             return
         }
 
-        val views = RemoteViews(BuildConfig.APPLICATION_ID, getlayout())
+        val views = RemoteViews(BuildConfig.APP_ID, getlayout())
         val partial = ACTION_WIDGET_INIT != action
 
         if (!partial) {

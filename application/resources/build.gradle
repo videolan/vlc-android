@@ -11,7 +11,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "APP_ID", "\"rootProject.ext.appId\""
+        buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
     }
 
     buildTypes {
