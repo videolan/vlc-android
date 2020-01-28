@@ -6,7 +6,7 @@ import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import org.videolan.television.ui.browser.REQUEST_CODE_NO_CONNECTION
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
-import org.videolan.tools.NoConnectivityException
+import org.videolan.resources.util.NoConnectivityException
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
 

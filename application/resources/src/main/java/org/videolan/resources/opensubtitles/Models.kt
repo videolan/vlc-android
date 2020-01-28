@@ -1,4 +1,4 @@
-package org.videolan.vlc.api
+package org.videolan.resources.opensubtitles
 import com.squareup.moshi.Json
 
 data class OpenSubtitle(

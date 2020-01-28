@@ -1,4 +1,4 @@
-package org.videolan.vlc.api
+package org.videolan.resources.opensubtitles
 
 import retrofit2.http.GET
 import retrofit2.http.Path

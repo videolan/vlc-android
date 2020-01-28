@@ -1,8 +1,4 @@
-package org.videolan.vlc.repository
-
-import org.videolan.vlc.api.IOpenSubtitleService
-import org.videolan.vlc.api.OpenSubtitle
-import org.videolan.vlc.api.OpenSubtitleClient
+package org.videolan.resources.opensubtitles
 
 class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleService) {
 

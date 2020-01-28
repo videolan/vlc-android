@@ -24,12 +24,8 @@ import android.net.Uri
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.resources.TYPE_LOCAL_FAV
 import org.videolan.resources.TYPE_NETWORK_FAV
-import org.videolan.vlc.api.OpenSubtitle
-import org.videolan.vlc.api.QueryParameters
-import org.videolan.vlc.mediadb.models.BrowserFav
-import org.videolan.vlc.mediadb.models.CustomDirectory
-import org.videolan.vlc.mediadb.models.ExternalSub
-import org.videolan.vlc.mediadb.models.Slave
+import org.videolan.resources.api.OpenSubtitle
+import org.videolan.resources.api.QueryParameters
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 

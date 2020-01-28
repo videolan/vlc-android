@@ -193,11 +193,6 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
 
-    // Retrofit
-    api "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
-    api "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
-    api "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
-
     // Tests
     androidTestApi "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestApi "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"

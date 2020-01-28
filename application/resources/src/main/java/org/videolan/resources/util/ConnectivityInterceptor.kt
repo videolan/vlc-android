@@ -22,11 +22,12 @@
  *
  */
 
-package org.videolan.tools
+package org.videolan.resources.util
 
 import android.content.Context
 import okhttp3.Interceptor
 import okhttp3.Response
+import org.videolan.tools.isConnected
 import java.io.IOException
 
 class ConnectivityInterceptor(private val context: Context) : Interceptor {
