@@ -35,7 +35,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.videolan.libvlc.interfaces.IMedia
-import org.videolan.mobile.app.VLCApplication
+import org.videolan.resources.AppContextProvider
 import org.videolan.vlc.database.helpers.*
 import org.videolan.tools.Settings
 import org.videolan.resources.TYPE_NETWORK_FAV
@@ -102,7 +102,7 @@ class MigrationTest {
 
     @Test fun migrateFrom27() {
         migrationTestHelper.createDatabase(TEST_DB_NAME, 27)
-        val preferences = Settings.getInstance(org.videolan.mobile.app.VLCApplication.appContext).edit()
+        val preferences = Settings.getInstance(AppContextProvider.appContext).edit()
         val fakeCustomDirectories = TestUtil.createCustomDirectories(2)
         // 27_28 migration rule moves the data from prefs to room
         val prefCustomDirectories = fakeCustomDirectories.map { it.path }.reduce{ acc, path -> "$acc:$path" }

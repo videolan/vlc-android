@@ -9,6 +9,7 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Rule
 import org.junit.Test
 import org.videolan.tools.*
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
@@ -66,7 +67,7 @@ class PreferencesUIUITest: BasePreferenceUITest() {
 
     @Test
     fun checkLocaleSetting() {
-        val lp = UiTools.getLocalesUsedInProject(context)
+        val lp = LocaleUtils.getLocalesUsedInProject(context, BuildConfig.TRANSLATION_ARRAY, context.getString(R.string.device_default))
         val lpEntries = lp.localeEntries
         val lpValues = lp.localeEntryValues
 
@@ -110,16 +111,6 @@ class PreferencesUIUITest: BasePreferenceUITest() {
         val key = FORCE_PLAY_ALL
 
         checkToggleWorks(key, settings)
-    }
-
-    @Test
-    fun checkVideoInListOrGridSetting_dueRestart() {
-        val key = FORCE_LIST_PORTRAIT
-
-        checkToggleWorks(key, settings)
-
-        intentsTestRule.finishActivity()
-        assertThat(intentsTestRule.activityResult.resultCode, equalTo(RESULT_RESTART))
     }
 
     @Test

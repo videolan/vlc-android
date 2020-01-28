@@ -4,6 +4,8 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +37,12 @@ import static org.videolan.medialibrary.interfaces.Medialibrary.SORT_RELEASEDATE
 
 public class StubDataSource {
 
+    public static final String STUBBED_VIDEO_TITLE = "Invincible";
+    public static final String STUBBED_AUDIO_TITLE = "Show Me The Way";
+
+    public static final String STUBBED_VIDEO_EXTENSION = ".mp4";
+    public static final String STUBBED_AUDIO_EXTENSION = ".mp3";
+
     private String TAG = this.getClass().getName();
     ArrayList<MediaWrapper> mVideoMediaWrappers = new ArrayList<>();
     ArrayList<MediaWrapper> mAudioMediaWrappers = new ArrayList<>();
@@ -50,7 +58,7 @@ public class StubDataSource {
 
     private static String baseMrl = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
 
-    private static AtomicLong uuid = new AtomicLong(2);
+    public static AtomicLong uuid = new AtomicLong(2);
 
     private static StubDataSource mInstance = null;
 
@@ -77,6 +85,45 @@ public class StubDataSource {
         mGenres.clear();
         mBannedFolders.clear();
         mDevices.clear();
+    }
+
+    public void setVideoByCount(int count, @Nullable String folder) {
+        MediaWrapper media;
+        String fileName;
+
+        for (int i = 0; i < count; i++) {
+            fileName = i + " - " + STUBBED_VIDEO_TITLE + STUBBED_AUDIO_EXTENSION;
+            String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
+            media = MLServiceLocator.getAbstractMediaWrapper(getUUID().longValue(), mrl, 0L, 18820L, MediaWrapper.TYPE_VIDEO,
+                    fileName, fileName, "", "",
+                    "", "", 416, 304, "", 0, -2,
+                    0, 0, 1509466228L, 0L, true, 1970);
+            addVideo(media);
+        }
+    }
+
+    public void setAudioByCount(int count, @Nullable String folder) {
+        mAudioMediaWrappers.clear();
+        String fileName;
+        MediaWrapper media;
+
+        for (int i = 0; i < count; i++) {
+            fileName = i + " - " + STUBBED_AUDIO_TITLE + STUBBED_AUDIO_EXTENSION;
+            String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
+            media = MLServiceLocator.getAbstractMediaWrapper(getUUID().longValue(), mrl, 0L, 280244L, MediaWrapper.TYPE_AUDIO,
+                    i + "-Show Me The Way", fileName, "Peter Frampton", "Rock",
+                    "Shine On CD2", "Peter Frampton",
+                    0, 0, baseMrl + folder + ".jpg",
+                    0, -2, 1, 0,
+                    1547452796L, 0L, true, 1965);
+            addAudio(media, "", 1965, 400, mrl);
+        }
+    }
+
+    public Folder createFolder(String name) {
+        Folder folder = MLServiceLocator.getAbstractFolder(getUUID().longValue(), name, baseMrl + name);
+        mFolders.add(folder);
+        return folder;
     }
 
     public void init() {

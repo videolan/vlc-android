@@ -404,7 +404,7 @@ else
     GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew $TARGET
 
     if [ "$TEST" = 1 ]; then
-        TARGET="vlc-android:install${BUILDTYPE}AndroidTest"
+        TARGET="application:vlc-android:install${BUILDTYPE}AndroidTest"
         GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew $TARGET
 
         echo -e "\n===================================\nRun following for UI tests:"

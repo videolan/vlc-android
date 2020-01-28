@@ -24,6 +24,10 @@ android {
         into 'assets/lua/meta'
         exclude '**/*.txt'
     }
+    
+    packagingOptions {
+        pickFirst '**/*.so'
+    }
 
     defaultConfig {
 
@@ -84,6 +88,7 @@ android {
         debug {
             buildConfigField "boolean", "BETA", "false"
             buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
+            multiDexEnabled true
         }
         signedRelease {
             initWith release
