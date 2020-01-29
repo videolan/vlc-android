@@ -38,16 +38,15 @@
         tools:context="org.videolan.television.ui.details.MediaListActivity"
         tools:theme="@style/Theme.VLC.TV">
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
+        <Space
+            android:id="@+id/spacer"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@color/tv_card_content_darker"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-        </FrameLayout>
+        </Space>
 
         <ImageView
                 android:id="@+id/cover"
@@ -55,7 +54,7 @@
                 android:layout_height="90dp"
                 android:layout_marginStart="@dimen/tv_overscan_horizontal"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+                app:layout_constraintBottom_toBottomOf="@+id/spacer"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:media="@{item}"
@@ -107,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+            app:layout_constraintBottom_toBottomOf="@+id/spacer"
             app:layout_constraintEnd_toEndOf="@+id/media_list"
             app:layout_constraintStart_toEndOf="@+id/barrier2">
 
@@ -180,7 +179,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/spacer" />
 
         <include layout="@layout/tv_time" />
 
