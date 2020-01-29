@@ -16,7 +16,7 @@ done
 rm -rf "$TMP_PATH"
 mkdir -p "$TMP_PATH"
 
-APP_BUILD="$SCRIPT_PATH/../app/build/intermediates"
+APP_BUILD="$SCRIPT_PATH/../application/app/build/intermediates"
 ANDROID_MANIFEST="$APP_BUILD/merged_manifests/dev/AndroidManifest.xml"
 ABI=`ls "$APP_BUILD/stripped_native_libs/dev/out/lib" --sort=time | head -n 1`
 
