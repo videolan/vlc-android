@@ -1,15 +1,11 @@
 package org.videolan.resources.util
 
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.ACTION_INIT
-import org.videolan.resources.EXTRA_FIRST_RUN
-import org.videolan.resources.EXTRA_PARSE
-import org.videolan.resources.EXTRA_UPGRADE
+import org.videolan.resources.*
 import org.videolan.tools.*
 import java.io.File
 import kotlin.coroutines.resume
@@ -47,8 +43,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
     if (parse && scanOpt == -1) {
         if (dbExists(coroutineContextProvider)) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
     }
-    val intent = Intent.makeMainActivity(ComponentName(applicationContext, "org.videolan.vlc.MediaParsingService"))
-    intent.action = ACTION_INIT
+    val intent = Intent(ACTION_INIT).setClassName(applicationContext, MEDIAPARSING_SERVICE)
     ContextCompat.startForegroundService(this@startMedialibrary, intent
             .putExtra(EXTRA_FIRST_RUN, firstRun)
             .putExtra(EXTRA_UPGRADE, upgrade)

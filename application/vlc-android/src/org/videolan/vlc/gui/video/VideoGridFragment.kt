@@ -403,7 +403,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                 CTX_FIND_METADATA -> {
                     val intent = Intent().apply {
-                        setClassName(requireContext().applicationContext, "org.videolan.moviepedia.ui.MoviepediaActivity")
+                        setClassName(requireContext().applicationContext, MOVIEPEDIA_ACTIVITY)
                         apply { putExtra(MOVIEPEDIA_MEDIA, media) }
                     }
                     startActivity(intent)

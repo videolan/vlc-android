@@ -194,5 +194,15 @@ const val CRASH_ML_MSG = "crash_ml_msg"
 
 fun String.buildPkgString() = "${BuildConfig.APP_ID}.$this"
 
-// Activity names
+const val ACTION_VIEW_ARC = "org.chromium.arc.intent.action.VIEW"
+const val ACTION_SEARCH_GMS = "com.google.android.gms.actions.SEARCH_ACTION"
+
+// Class names
 const val COMPATERROR_ACTIVITY = "org.videolan.vlc.gui.CompatErrorActivity"
+const val TV_SEARCH_ACTIVITY = "org.videolan.television.ui.SearchActivity"
+const val MOBILE_SEARCH_ACTIVITY = "org.videolan.vlc.gui.SearchActivity"
+const val TV_MAIN_ACTIVITY = "org.videolan.television.ui.MainTvActivity"
+const val MOBILE_MAIN_ACTIVITY = "org.videolan.vlc.gui.MainActivity"
+const val MOVIEPEDIA_ACTIVITY = "org.videolan.moviepedia.ui.MoviepediaActivity"
+const val TV_AUDIOPLAYER_ACTIVITY = "org.videolan.television.ui.audioplayer.AudioPlayerActivity"
+const val MEDIAPARSING_SERVICE = "org.videolan.vlc.MediaParsingService"

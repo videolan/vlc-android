@@ -533,7 +533,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             CTX_ADD_SCANNED -> addToScannedFolders(mw)
             CTX_FIND_METADATA -> {
                 val intent = Intent().apply {
-                    setClassName(requireContext().applicationContext, "org.videolan.moviepedia.ui.MoviepediaActivity")
+                    setClassName(requireContext().applicationContext, MOVIEPEDIA_ACTIVITY)
                     putExtra(MOVIEPEDIA_MEDIA, mw)
                 }
                 startActivity(intent)

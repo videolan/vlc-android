@@ -108,7 +108,7 @@ class StartActivity : FragmentActivity() {
         val intent = intent
         val action = intent?.action
 
-        if ((Intent.ACTION_VIEW == action || "org.chromium.arc.intent.action.VIEW" == action)
+        if ((Intent.ACTION_VIEW == action || ACTION_VIEW_ARC == action)
                 && TV_CHANNEL_SCHEME != intent.data?.scheme) {
             startPlaybackFromApp(intent)
             return
@@ -144,8 +144,8 @@ class StartActivity : FragmentActivity() {
         val tv = showTvUi()
         if (upgrade && (tv || !firstRun)) settings.edit().putInt(PREF_FIRST_RUN, currentVersionNumber).apply()
         // Route search query
-        if (Intent.ACTION_SEARCH == action || "com.google.android.gms.actions.SEARCH_ACTION" == action) {
-            intent.setClassName(applicationContext, if (tv) "org.videolan.television.ui.SearchActivity" else "org.videolan.vlc.gui.SearchActivity")
+        if (Intent.ACTION_SEARCH == action || ACTION_SEARCH_GMS == action) {
+            intent.setClassName(applicationContext, if (tv) TV_SEARCH_ACTIVITY else MOBILE_SEARCH_ACTIVITY)
             startActivity(intent)
             finish()
             return
@@ -195,15 +195,16 @@ class StartActivity : FragmentActivity() {
                         return@launch
                     }
                     this@StartActivity.startMedialibrary(firstRun, upgrade, true)
-                    if (onboarding)  settings.edit().putBoolean(ONBOARDING_DONE_KEY, true).apply()
+                    if (onboarding) settings.edit().putBoolean(ONBOARDING_DONE_KEY, true).apply()
                 }
             }.start()
-            val intent = Intent().apply { setClassName(applicationContext, if (tv) "org.videolan.television.ui.MainTvActivity" else "org.videolan.vlc.gui.MainActivity") }
+            val mainIntent = Intent(Intent.ACTION_VIEW)
+                    .setClassName(applicationContext, if (tv) TV_MAIN_ACTIVITY else MOBILE_MAIN_ACTIVITY)
                     .putExtra(EXTRA_FIRST_RUN, firstRun)
                     .putExtra(EXTRA_UPGRADE, upgrade)
-            if (tv && getIntent().hasExtra(EXTRA_PATH)) intent.putExtra(EXTRA_PATH, getIntent().getStringExtra(EXTRA_PATH))
-            if (target != 0) intent.putExtra(EXTRA_TARGET, target)
-            startActivity(intent)
+            if (tv && intent.hasExtra(EXTRA_PATH)) mainIntent.putExtra(EXTRA_PATH, intent.getStringExtra(EXTRA_PATH))
+            if (target != 0) mainIntent.putExtra(EXTRA_TARGET, target)
+            startActivity(mainIntent)
         } else {
             startOnboarding()
         }

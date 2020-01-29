@@ -1611,7 +1611,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         // Show the MainActivity if it is not in background.
         if (showUI) {
             val i = Intent().apply {
-                setClassName(applicationContext, if (isTv) "org.videolan.television.ui.audioplayer.AudioPlayerActivity" else "org.videolan.vlc.gui.MainActivity")
+                setClassName(applicationContext, if (isTv) TV_AUDIOPLAYER_ACTIVITY else MOBILE_MAIN_ACTIVITY)
             }
             startActivity(i)
         }
