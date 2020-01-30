@@ -38,6 +38,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -70,7 +71,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
-            multiDexEnabled true
         }
         signedRelease {
             initWith release
@@ -80,7 +80,6 @@ android {
         debug {
             applicationIdSuffix ".debug"
             jniDebuggable true
-            multiDexEnabled true
         }
         dev {
             initWith debug

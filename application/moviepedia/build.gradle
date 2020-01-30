@@ -10,6 +10,10 @@ android {
         enabled = true
     }
 
+    packagingOptions {
+        pickFirst '**/*.so'
+    }
+
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -19,6 +23,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
         buildConfigField "String", "MOVIEPEDIA_API_URL", "\"${getMoviepediaUrl(project)}\""
+        multiDexEnabled true
     }
 
     buildTypes {

@@ -28,6 +28,9 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    packagingOptions {
+        pickFirst '**/*.so'
+    }
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
