@@ -2,13 +2,12 @@ package org.videolan.vlc.util
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.vlc.BaseTest
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.stubs.StubDataSource
+import org.videolan.vlc.BaseTest
 import org.videolan.vlc.util.ModelsHelper.getHeader
 
 @ExperimentalCoroutinesApi

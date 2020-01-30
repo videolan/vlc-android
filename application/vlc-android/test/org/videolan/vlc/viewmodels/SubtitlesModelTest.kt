@@ -15,7 +15,7 @@ import org.junit.rules.TemporaryFolder
 import org.videolan.tools.FileUtils
 import org.videolan.vlc.BaseTest
 import org.videolan.vlc.R
-import org.videolan.resources.api.NoConnectivityException
+import org.videolan.resources.util.NoConnectivityException
 import org.videolan.vlc.database.ExternalSubDao
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.repository.ExternalSubRepository
