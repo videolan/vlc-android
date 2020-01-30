@@ -528,7 +528,7 @@ export ac_cv_func_tfind=no
 if [ ! -e ./config.h -o "$AVLC_RELEASE" = 1 ]; then
     VLC_CONFIGURE_DEBUG=""
     if [ ! "$AVLC_RELEASE" = 1 ]; then
-        VLC_CONFIGURE_DEBUG="--enable-debug"
+        VLC_CONFIGURE_DEBUG="--enable-debug --disable-branch-protection"
     fi
 
     CFLAGS="${VLC_CFLAGS}" \
