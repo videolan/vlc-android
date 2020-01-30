@@ -72,6 +72,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
     val abRepeatOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val videoStatsOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
+    val delayValue by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<DelayValues>().apply { value = DelayValues() } }
 
     private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
@@ -718,6 +719,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         abRepeat.value = value
     }
 
+    fun setDelayValue(time: Long, start: Boolean) {
+        val value = delayValue.value ?: DelayValues()
+        if (start) value.start = time else value.stop = time
+        delayValue.value = value
+    }
+
     fun resetABRepeatValues() {
         abRepeat.value = ABRepeat()
     }
@@ -843,3 +850,4 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 }
 
 class ABRepeat(var start: Long = -1L, var stop: Long = -1L)
+class DelayValues(var start: Long = -1L, var stop: Long = -1L)

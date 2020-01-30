@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
@@ -29,6 +30,7 @@ import android.bluetooth.BluetoothA2dp
 import android.bluetooth.BluetoothHeadset
 import android.content.*
 import android.content.pm.ActivityInfo
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
@@ -57,6 +59,7 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Guideline
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -68,6 +71,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.google.android.material.animation.ArgbEvaluatorCompat
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.*
@@ -96,6 +101,7 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
+import org.videolan.vlc.media.DelayValues
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
@@ -105,6 +111,7 @@ import org.videolan.vlc.util.Util
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
 
+private const val DELAY_DEFAULT_VALUE = 50000L
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -150,6 +157,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var rendererBtn: ImageView? = null
     private var playbackSettingPlus: ImageView? = null
     private var playbackSettingMinus: ImageView? = null
+    private var delayFirstButton: MaterialButton? = null
+    private var delaySecondButton: MaterialButton? = null
+    private var delayInfoContainer: View? = null
+    private var delayInfo: TextView? = null
+    private var delayTitle: TextView? = null
+    private var delayContainer: View? = null
     protected var enableCloneMode: Boolean = false
     private var screenOrientation: Int = 0
     private var screenOrientationLock: Int = 0
@@ -1252,18 +1265,31 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     fun showDelayControls() {
         touchDelegate?.clearTouchAction()
         if (!displayManager.isPrimary) showOverlayTimeout(OVERLAY_INFINITE)
+        info.setInvisible()
         val vsc = findViewById<ViewStubCompat>(R.id.player_overlay_settings_stub)
         if (vsc != null) {
             vsc.inflate()
             playbackSettingPlus = findViewById(R.id.player_delay_plus)
             playbackSettingMinus = findViewById(R.id.player_delay_minus)
+            delayFirstButton = findViewById(R.id.delay_first_button)
+            delaySecondButton = findViewById(R.id.delay_second_button)
+            delayInfoContainer = findViewById(R.id.delay_info_container)
+            delayInfo = findViewById(R.id.delay_textinfo)
+            delayTitle = findViewById(R.id.delay_title)
+            delayContainer = findViewById(R.id.delay_container)
         }
+        delayFirstButton!!.text = if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) getString(R.string.audio_delay_start) else getString(R.string.subtitle_delay_first)
+        delaySecondButton!!.text = if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) getString(R.string.audio_delay_end) else getString(R.string.subtitle_delay_end)
         playbackSettingMinus!!.setOnClickListener(this)
         playbackSettingPlus!!.setOnClickListener(this)
+        delayFirstButton!!.setOnClickListener(this)
+        delaySecondButton!!.setOnClickListener(this)
         playbackSettingMinus!!.setOnTouchListener(OnRepeatListener(this))
         playbackSettingPlus!!.setOnTouchListener(OnRepeatListener(this))
         playbackSettingMinus.setVisible()
         playbackSettingPlus.setVisible()
+        delayFirstButton.setVisible()
+        delaySecondButton.setVisible()
         playbackSettingPlus!!.requestFocus()
         initPlaybackSettingInfo()
     }
@@ -1271,22 +1297,26 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private fun initPlaybackSettingInfo() {
         initInfoOverlay()
         verticalBar.setGone()
-        overlayInfo.setVisible()
+        delayContainer.setVisible()
         var text = ""
-        when (playbackSetting) {
+        val title = when (playbackSetting) {
             IPlaybackSettingsController.DelayState.AUDIO -> {
-                text += getString(R.string.audio_delay) + "\n"
                 text += service!!.audioDelay / 1000L
                 text += " ms"
+                getString(R.string.audio_delay)
             }
             IPlaybackSettingsController.DelayState.SUBS -> {
-                text += getString(R.string.spu_delay) + "\n"
                 text += service!!.spuDelay / 1000L
                 text += " ms"
+                getString(R.string.spu_delay)
             }
-            else -> text += "0"
+            else -> {
+                text += "0"
+                ""
+            }
         }
-        info?.text = text
+        delayTitle?.text = title
+        delayInfo?.text = text
     }
 
     override fun endPlaybackSetting() {
@@ -1302,26 +1332,25 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 sb.show()
             }
             playbackSetting = IPlaybackSettingsController.DelayState.OFF
-            if (playbackSettingMinus != null) {
-                playbackSettingMinus!!.setOnClickListener(null)
-                playbackSettingMinus.setInvisible()
-            }
-            if (playbackSettingPlus != null) {
-                playbackSettingPlus!!.setOnClickListener(null)
-                playbackSettingPlus.setInvisible()
-            }
+            playbackSettingMinus?.setOnClickListener(null)
+            playbackSettingPlus?.setOnClickListener(null)
+            delayFirstButton?.setOnClickListener(null)
+            delaySecondButton?.setOnClickListener(null)
+            delayContainer.setInvisible()
             overlayInfo.setInvisible()
-            info!!.text = ""
+            service.playlistManager.delayValue.value = DelayValues()
             if (::hudBinding.isInitialized) hudBinding.playerOverlayPlay.requestFocus()
         }
     }
 
-    private fun delayAudio(delta: Long) {
+    private fun delayAudio(delta: Long, reset: Boolean = false) {
         service?.let { service ->
+            val realDelta = if (!reset && service.audioDelay % delta != 0L) delta - (service.audioDelay % delta) else delta
             initInfoOverlay()
-            val delay = service.audioDelay + delta
+            val delay = if (reset) realDelta else service.audioDelay + realDelta
             service.setAudioDelay(delay)
-            info?.text = getString(R.string.audio_delay) + "\n" + delay / 1000L + " ms"
+            delayTitle?.text = getString(R.string.audio_delay)
+            delayInfo?.text = "${delay / 1000L} ms"
             audioDelay = delay
             if (!isPlaybackSettingActive) {
                 playbackSetting = IPlaybackSettingsController.DelayState.AUDIO
@@ -1330,12 +1359,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    private fun delaySubs(delta: Long) {
+    private fun delaySubs(delta: Long, reset: Boolean = false) {
         service?.let { service ->
+            val realDelta = if (!reset && service.spuDelay % delta != 0L) delta - (service.spuDelay % delta) else delta
             initInfoOverlay()
-            val delay = service.spuDelay + delta
+            val delay = if (reset) realDelta else service.spuDelay + realDelta
             service.setSpuDelay(delay)
-            info?.text = getString(R.string.spu_delay) + "\n" + delay / 1000L + " ms"
+            delayInfo?.text = "${delay / 1000L} ms"
             spuDelay = delay
             if (!isPlaybackSettingActive) {
                 playbackSetting = IPlaybackSettingsController.DelayState.SUBS
@@ -1428,6 +1458,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         initInfoOverlay()
         verticalBar.setGone()
         overlayInfo.setVisible()
+        info.setVisible()
         info!!.text = text
         handler.removeMessages(FADE_OUT_INFO)
         handler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration.toLong())
@@ -1779,18 +1810,20 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             R.id.player_overlay_forward -> touchDelegate?.seekDelta(10000)
             R.id.player_overlay_rewind -> touchDelegate?.seekDelta(-10000)
             R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(hudBinding.playerOverlaySeekbar.progress.toLong())
+            R.id.delay_first_button -> if (service?.playlistManager?.delayValue?.value?.start ?: -1L == -1L) service?.playlistManager?.setDelayValue(System.currentTimeMillis(), true) else service?.playlistManager?.setDelayValue(-1L, true)
+            R.id.delay_second_button -> if (service?.playlistManager?.delayValue?.value?.stop ?: -1L == -1L) service?.playlistManager?.setDelayValue(System.currentTimeMillis(), false) else service?.playlistManager?.setDelayValue(-1L, false)
             R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues()
             R.id.ab_repeat_stop -> service?.playlistManager?.clearABRepeat()
             R.id.player_overlay_navmenu -> showNavMenu()
             R.id.player_overlay_length, R.id.player_overlay_time -> toggleTimeDisplay()
             R.id.player_delay_minus -> if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO)
-                delayAudio(-50000)
+                delayAudio(-DELAY_DEFAULT_VALUE)
             else if (playbackSetting == IPlaybackSettingsController.DelayState.SUBS)
-                delaySubs(-50000)
+                delaySubs(-DELAY_DEFAULT_VALUE)
             R.id.player_delay_plus -> if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO)
-                delayAudio(50000)
+                delayAudio(DELAY_DEFAULT_VALUE)
             else if (playbackSetting == IPlaybackSettingsController.DelayState.SUBS)
-                delaySubs(50000)
+                delaySubs(DELAY_DEFAULT_VALUE)
             R.id.video_renderer -> if (supportFragmentManager.findFragmentByTag("renderers") == null)
                 RenderersDialog().show(supportFragmentManager, "renderers")
             R.id.video_secondary_display -> {
@@ -2138,6 +2171,37 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     }
 
                     service.manageAbRepeatStep(hudRightBinding.abRepeatReset, hudRightBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
+                })
+                service.playlistManager.delayValue.observe(this, Observer {
+                    var hasChanged = false
+                    if (it.start != -1L && it.stop != -1L) {
+                        if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) {
+                            val oldDelay = service.audioDelay
+                            delayAudio(it.stop * 1000 - it.start * 1000, true)
+                            hasChanged = oldDelay != service.audioDelay
+                        } else {
+                            val oldDelay = service.spuDelay
+                            delaySubs(it.stop * 1000 - it.start * 1000, true)
+                            hasChanged = oldDelay != service.spuDelay
+                        }
+                        service.playlistManager.delayValue.postValue(DelayValues())
+                    }
+                    delayFirstButton?.iconTint = ColorStateList.valueOf(if (it.start == -1L) ContextCompat.getColor(this, R.color.grey400transparent) else ContextCompat.getColor(this, R.color.orange500))
+                    delaySecondButton?.iconTint = ColorStateList.valueOf(if (it.stop == -1L) ContextCompat.getColor(this, R.color.grey400transparent) else ContextCompat.getColor(this, R.color.orange500))
+                    val viewToAnime = if (it.start == -1L && it.stop != -1L) delayFirstButton else if (it.start != -1L && it.stop == -1L) delaySecondButton else if (hasChanged) delayInfoContainer else null
+                    viewToAnime?.let { button ->
+                        val anim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), ContextCompat.getColor(this, R.color.playerbackground), ContextCompat.getColor(this, R.color.orange500focus), ContextCompat.getColor(this, R.color.playerbackground))
+                        anim.addUpdateListener {
+                            button.backgroundTintList = ColorStateList.valueOf(it.animatedValue as Int)
+                            if (viewToAnime == delayInfoContainer) viewToAnime.background = ContextCompat.getDrawable(this, R.drawable.video_list_length_bg_opaque)
+                        }
+                        anim.repeatCount = 1
+                        anim.interpolator = AccelerateDecelerateInterpolator()
+                        anim.duration = 500
+                        anim.startDelay = 500
+                        anim.start()
+
+                    }
                 })
                 service.playlistManager.videoStatsOn.observe(this, Observer {
                     if (it) showOverlay(true)

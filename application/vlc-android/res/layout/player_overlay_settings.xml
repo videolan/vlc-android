@@ -1,29 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/delay_container"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/player_delay_plus"
+    <TextView
+            android:id="@+id/delay_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/video_list_length_bg"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingTop="4dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/orange500"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Audio delay\n0ms" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/delay_info_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/video_list_length_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/delay_title">
+
+        <ImageView
+                android:id="@+id/player_delay_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="0dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/delay_textinfo"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_down_on_circle_player" />
+
+        <TextView
+                android:id="@+id/delay_textinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingTop="4dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/player_delay_plus"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/player_delay_minus"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Audio delay\n0ms" />
+
+        <ImageView
+                android:id="@+id/player_delay_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:padding="0dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/delay_textinfo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_up_on_circle_player" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/delay_second_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/transparent"
-            android:padding="0dp"
-            app:srcCompat="@drawable/ic_up_on_circle_player"
-            android:focusable="true"
-            android:visibility="invisible"/>
+            android:textColor="@color/white"
+            app:backgroundTint="@color/playerbackground"
+            app:iconTint="@color/grey400transparent"
+            app:icon="@drawable/ic_delay_done"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@+id/delay_info_container" />
 
-
-    <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/player_delay_minus"
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/delay_first_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin"
-            app:backgroundTint="@color/transparent"
-            android:padding="0dp"
-            app:srcCompat="@drawable/ic_down_on_circle_player"
-            android:focusable="true"
-            android:visibility="invisible"/>
-</LinearLayout>
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/playerbackground"
+            app:iconTint="@color/grey400transparent"
+            app:icon="@drawable/ic_delay_done"
+            app:layout_constraintEnd_toStartOf="@+id/delay_second_button"
+            app:layout_constraintTop_toBottomOf="@+id/delay_info_container" />
+</androidx.constraintlayout.widget.ConstraintLayout>

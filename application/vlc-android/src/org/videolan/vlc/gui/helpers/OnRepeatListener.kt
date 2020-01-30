@@ -58,11 +58,13 @@ class OnRepeatListener(private val initialInterval: Int, private val normalInter
                 handler.sendEmptyMessageDelayed(ACTION_ONCLICK, initialInterval.toLong())
                 downView = view
                 clickListener.onClick(view)
+                view.isPressed = true
                 return true
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 handler.removeMessages(ACTION_ONCLICK)
                 downView = null
+                view.isPressed = false
                 return true
             }
         }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48" height="48"
+        id="svg4682" version="1.1" inkscape:version="0.92.3 (2405546, 2018-03-11)"
+        sodipodi:docname="ic_down_on_circle_player.svg"
+        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+        inkscape:export-xdpi="90" inkscape:export-ydpi="90">
+    <defs id="defs4684" />
+    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
+            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="11.2"
+            inkscape:cx="18.677019" inkscape:cy="24.532585" inkscape:document-units="px"
+            inkscape:current-layer="layer1" showgrid="true" inkscape:window-width="1920"
+            inkscape:window-height="1080" inkscape:window-x="1920" inkscape:window-y="0"
+            inkscape:window-maximized="1" fit-margin-top="0" fit-margin-left="0"
+            fit-margin-right="0" fit-margin-bottom="0" inkscape:snap-bbox="true"
+            inkscape:bbox-paths="true" inkscape:bbox-nodes="true"
+            inkscape:snap-bbox-edge-midpoints="true" inkscape:snap-bbox-midpoints="true"
+            inkscape:snap-nodes="true" inkscape:snap-intersection-paths="true"
+            inkscape:snap-smooth-nodes="true" inkscape:snap-midpoints="true"
+            inkscape:snap-center="true" inkscape:snap-object-midpoints="true" showguides="true"
+            inkscape:guide-bbox="true">
+        <inkscape:grid type="xygrid" id="grid3956" empspacing="4" visible="true" enabled="true"
+                snapvisiblegridlinesonly="true" originx="-2" originy="-2.0000174" />
+        <sodipodi:guide position="-24.196429,24" orientation="0,1" id="guide859"
+                inkscape:locked="false" inkscape:label="" inkscape:color="rgb(0,0,255)" />
+    </sodipodi:namedview>
+    <metadata id="metadata4687">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title />
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+            transform="translate(-2,-1002.3622)">
+        <path style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;enable-background:accumulate"
+                d="m 19.24985,1026.3626 a 1.5,1.5 0 0 1 0.4395,-1.0605 l 10.4853,-10.4855 0.015,-0.015 a 1.5,1.5 0 0 1 1.0605,-0.4394 1.5,1.5 0 0 1 1.5,1.5 1.5,1.5 0 0 1 -0.4395,1.0606 l -9.4394,9.4395 9.4248,9.4248 a 1.5,1.5 0 0 1 0.4541,1.0752 1.5,1.5 0 0 1 -1.5,1.5 1.5,1.5 0 0 1 -1.0605,-0.4395 l -10.4855,-10.4853 a 1.5,1.5 0 0 1 -0.4543,-1.0749 z"
+                id="path6239" inkscape:connector-curvature="0" />
+    </g>
+</svg>
