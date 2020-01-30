@@ -94,7 +94,7 @@ public class StubDataSource {
         for (int i = 0; i < count; i++) {
             fileName = i + " - " + STUBBED_VIDEO_TITLE + STUBBED_AUDIO_EXTENSION;
             String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
-            media = MLServiceLocator.getAbstractMediaWrapper(getUUID().longValue(), mrl, 0L, 18820L, MediaWrapper.TYPE_VIDEO,
+            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 18820L, MediaWrapper.TYPE_VIDEO,
                     fileName, fileName, "", "",
                     "", "", 416, 304, "", 0, -2,
                     0, 0, 1509466228L, 0L, true, 1970);
@@ -110,7 +110,7 @@ public class StubDataSource {
         for (int i = 0; i < count; i++) {
             fileName = i + " - " + STUBBED_AUDIO_TITLE + STUBBED_AUDIO_EXTENSION;
             String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
-            media = MLServiceLocator.getAbstractMediaWrapper(getUUID().longValue(), mrl, 0L, 280244L, MediaWrapper.TYPE_AUDIO,
+            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 280244L, MediaWrapper.TYPE_AUDIO,
                     i + "-Show Me The Way", fileName, "Peter Frampton", "Rock",
                     "Shine On CD2", "Peter Frampton",
                     0, 0, baseMrl + folder + ".jpg",
@@ -121,7 +121,7 @@ public class StubDataSource {
     }
 
     public Folder createFolder(String name) {
-        Folder folder = MLServiceLocator.getAbstractFolder(getUUID().longValue(), name, baseMrl + name);
+        Folder folder = MLServiceLocator.getAbstractFolder(getUUID(), name, baseMrl + name);
         mFolders.add(folder);
         return folder;
     }
@@ -331,9 +331,8 @@ public class StubDataSource {
         return array.toArray(new Folder[0]);
     }
 
-    AtomicLong getUUID() {
-        uuid.incrementAndGet();
-        return uuid;
+    public long getUUID() {
+        return uuid.incrementAndGet();
     }
 
     void loadJsonData(String jsonContent) {
@@ -352,7 +351,7 @@ public class StubDataSource {
         try {
             int type = jsonObject.getInt("type");
             MediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(
-                    getUUID().longValue(),
+                    getUUID(),
                     jsonObject.getString("mrl"),
                     0L,
                     jsonObject.getLong("length"),
@@ -482,7 +481,7 @@ public class StubDataSource {
         String albumArtistName = getArtistName(media.getAlbumArtist(), media.getArtist());
         Artist albumArtist = getArtistFromName(albumArtistName);
         if (albumArtist == null) {
-            albumArtist = MLServiceLocator.getAbstractArtist(getUUID().longValue(), albumArtistName,
+            albumArtist = MLServiceLocator.getAbstractArtist(getUUID(), albumArtistName,
                     "", media.getArtworkMrl(), "");
             addArtistSecure(albumArtist);
         }
@@ -491,7 +490,7 @@ public class StubDataSource {
         } else if (!media.getArtist().equals(albumArtistName)) {
             Artist artist = getArtistFromName(media.getArtist());
             if (artist == null) {
-                artist = MLServiceLocator.getAbstractArtist(getUUID().longValue(), media.getArtist(),
+                artist = MLServiceLocator.getAbstractArtist(getUUID(), media.getArtist(),
                         "", media.getArtworkMrl(), "");
                 addArtistSecure(artist);
             }
@@ -499,13 +498,13 @@ public class StubDataSource {
         String albumName = getAlbumName(media.getAlbum());
         Album album = getAlbumFromName(albumName, albumArtist.getId());
         if (album == null) {
-            album = MLServiceLocator.getAbstractAlbum(getUUID().longValue(), albumName, releaseYear,
+            album = MLServiceLocator.getAbstractAlbum(getUUID(), albumName, releaseYear,
                         media.getArtworkMrl(), albumArtist.getTitle(),
                         albumArtist.getId(), trackTotal, 0);
             addAlbumSecure(album);
         }
         raiseAlbumDuration(album, (int) media.getLength());
-        Genre genre = MLServiceLocator.getAbstractGenre(getUUID().longValue(), media.getGenre());
+        Genre genre = MLServiceLocator.getAbstractGenre(getUUID(), media.getGenre());
         addGenreSecure(genre);
         MediaWrapper newMedia = MLServiceLocator.getAbstractMediaWrapper(
                 media.getId(),
@@ -540,7 +539,7 @@ public class StubDataSource {
     }
 
     public MediaWrapper addMediaWrapper(String mrl, String title, int type) {
-        MediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(getUUID().longValue(), mrl, 0L, 280224L, type,
+        MediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 280224L, type,
                 title, title, "Artisto", "Jazz", "XYZ CD1", "", 0, 0, baseMrl + title, -2,
                 1, 1, 0, 1547452796L, 0L, true, 0);
         if (type == MediaWrapper.TYPE_ALL) type = media.getType();
@@ -571,7 +570,7 @@ public class StubDataSource {
             ArrayList<String> mlFolders = new ArrayList<>(Arrays.asList(getFoldersString()));
             if (!mlFolders.contains(mrl)) {
                 final String name = folderArray[folderArray.length - 1];
-                mFolders.add(MLServiceLocator.getAbstractFolder(getUUID().longValue(), name, mrl));
+                mFolders.add(MLServiceLocator.getAbstractFolder(getUUID(), name, mrl));
             }
         }
     }
