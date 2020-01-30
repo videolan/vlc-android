@@ -18,14 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  ******************************************************************************/
 
-package org.videolan.moviepedia
+package org.videolan.moviepedia.database
 
 import android.net.Uri
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.videolan.moviepedia.database.Converters
 
 @RunWith(AndroidJUnit4::class)
 class ConvertersTest {
