@@ -68,16 +68,6 @@ object Util {
         }
     }
 
-    fun getMediaDescription(artist: String, album: String): String {
-        val hasArtist = !TextUtils.isEmpty(artist)
-        val hasAlbum = !TextUtils.isEmpty(album)
-        if (!hasAlbum && !hasArtist) return ""
-        val contentBuilder = StringBuilder(if (hasArtist) artist else "")
-        if (hasArtist && hasAlbum) contentBuilder.append(" - ")
-        if (hasAlbum) contentBuilder.append(album)
-        return contentBuilder.toString()
-    }
-
     fun checkCpuCompatibility(ctx: Context) {
         runBackground(Runnable {
             if (!VLCInstance.testCompatibleCPU(ctx))

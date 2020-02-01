@@ -198,6 +198,7 @@ const val ACTION_VIEW_ARC = "org.chromium.arc.intent.action.VIEW"
 const val ACTION_SEARCH_GMS = "com.google.android.gms.actions.SEARCH_ACTION"
 
 // Class names
+const val START_ACTIVITY = "org.videolan.vlc.StartActivity"
 const val COMPATERROR_ACTIVITY = "org.videolan.vlc.gui.CompatErrorActivity"
 const val TV_SEARCH_ACTIVITY = "org.videolan.television.ui.SearchActivity"
 const val MOBILE_SEARCH_ACTIVITY = "org.videolan.vlc.gui.SearchActivity"

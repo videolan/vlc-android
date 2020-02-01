@@ -60,10 +60,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
-import org.videolan.tools.Settings
-import org.videolan.tools.WeakHandler
-import org.videolan.tools.getContextWithLocale
-import org.videolan.tools.safeOffer
+import org.videolan.tools.*
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
@@ -1079,7 +1076,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                     val title: String = media.nowPlaying ?: media.title
                     val builder = MediaDescriptionCompat.Builder()
                     builder.setTitle(title)
-                            .setDescription(Util.getMediaDescription(MediaUtils.getMediaArtist(ctx, media), MediaUtils.getMediaAlbum(ctx, media)))
+                            .setDescription(getMediaDescription(MediaUtils.getMediaArtist(ctx, media), MediaUtils.getMediaAlbum(ctx, media)))
                             .setIconBitmap(BitmapUtil.getPictureFromCache(media))
                             .setMediaUri(media.uri)
                             .setMediaId(MediaSessionBrowser.generateMediaId(media))

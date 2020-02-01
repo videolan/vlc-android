@@ -34,14 +34,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.resources.ACTION_PAUSE_SCAN
-import org.videolan.resources.ACTION_RESUME_SCAN
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.AppContextProvider
+import org.videolan.resources.*
 import org.videolan.tools.getContextWithLocale
+import org.videolan.tools.getMediaDescription
 import org.videolan.vlc.R
-import org.videolan.vlc.StartActivity
-import org.videolan.vlc.util.Util
 
 private const val MEDIALIBRRARY_CHANNEL_ID = "vlc_medialibrary"
 private const val PLAYBACK_SERVICE_CHANNEL_ID = "vlc_playback"
@@ -68,7 +64,7 @@ object NotificationHelper {
         builder.setSmallIcon(if (video) R.drawable.ic_notif_video else R.drawable.ic_notif_audio)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(title)
-                .setContentText(Util.getMediaDescription(artist, album))
+                .setContentText(getMediaDescription(artist, album))
                 .setLargeIcon(cover)
                 .setTicker(sb.toString())
                 .setAutoCancel(!playing)
@@ -109,8 +105,9 @@ object NotificationHelper {
     }
 
     fun createScanNotification(ctx: Context, progressText: String, paused: Boolean): Notification {
+        val intent = Intent(Intent.ACTION_VIEW).setClassName(ctx, START_ACTIVITY)
         val scanCompatBuilder = NotificationCompat.Builder(ctx, MEDIALIBRRARY_CHANNEL_ID)
-                .setContentIntent(PendingIntent.getActivity(ctx, 0, Intent(ctx, StartActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT))
+                .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT))
                 .setSmallIcon(R.drawable.ic_notif_scan)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(ctx.getString(R.string.ml_scanning))
