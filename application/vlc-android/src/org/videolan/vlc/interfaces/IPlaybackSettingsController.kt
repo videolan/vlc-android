@@ -24,7 +24,7 @@ package org.videolan.vlc.interfaces
 
 interface IPlaybackSettingsController {
     enum class DelayState {
-        OFF, AUDIO, SUBS, SPEED
+        OFF, AUDIO, SUBS
     }
 
     fun showAudioDelaySetting()

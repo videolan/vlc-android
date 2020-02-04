@@ -24,11 +24,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AndroidDevices.isTv
 import org.videolan.tools.setVisible
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.AndroidDevices.isTv
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -102,7 +102,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         when {
             player.isPlaybackSettingActive -> {
                 if (event.action == MotionEvent.ACTION_UP) {
-                    player.endPlaybackSetting()
+                    player.delayDelegate?.endPlaybackSetting()
                     touchAction = TOUCH_NONE
                 }
                 return true

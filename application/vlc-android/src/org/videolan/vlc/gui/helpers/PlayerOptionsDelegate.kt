@@ -35,7 +35,6 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.PlayerController
 import java.util.*
 
@@ -259,7 +258,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     }
 
     private fun showValueControls(action: Int) {
-        val controller = activity as? IPlaybackSettingsController ?: return
+        val controller = (activity as? VideoPlayerActivity)?.delayDelegate ?: return
         when (action) {
             ACTION_AUDIO_DELAY -> controller.showAudioDelaySetting()
             ACTION_SPU_DELAY -> controller.showSubsDelaySetting()
