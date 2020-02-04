@@ -34,6 +34,7 @@ import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.database.MediaDatabase
+import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.util.convertFavorites
 import java.util.*
 
@@ -47,11 +48,11 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
     val localFavorites by lazy { browserFavDao.getAllLocalFavs() }
 
     fun addNetworkFavItem(uri: Uri, title: String, iconUrl: String?) = launch {
-        browserFavDao.insert(org.videolan.vlc.mediadb.models.BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl))
+        browserFavDao.insert(BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl))
     }
 
     fun addLocalFavItem(uri: Uri, title: String, iconUrl: String? = null) = launch {
-        browserFavDao.insert(org.videolan.vlc.mediadb.models.BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl))
+        browserFavDao.insert(BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl))
     }
 
     val networkFavorites by lazy {

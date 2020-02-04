@@ -1,8 +1,6 @@
 package org.videolan.vlc.gui.dialogs
 
-import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
@@ -17,17 +15,15 @@ import androidx.appcompat.app.AppCompatDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.runIO
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.tools.runIO
 
 class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener, TextWatcher, View.OnClickListener {
 
-    private lateinit var mBrowserFavRepository: BrowserFavRepository
-
-    private var mActivity: Activity? = null
+    private lateinit var browserFavRepository: BrowserFavRepository
 
     private lateinit var protocols: Array<String>
     private lateinit var editAddressLayout: TextInputLayout
@@ -45,7 +41,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
     private lateinit var networkName: String
 
     //Dummy hack because spinner callback is called right on registration
-    var mIgnoreFirstSpinnerCb = false
+    var ignoreFirstSpinnerCb = false
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -56,29 +52,17 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         dialog.setCancelable(true)
         dialog.setCanceledOnTouchOutside(true)
         return dialog
-
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mActivity = activity
-        if (!::mBrowserFavRepository.isInitialized) mBrowserFavRepository = BrowserFavRepository.getInstance(requireActivity())
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mActivity = null
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        if (mActivity is MainActivity)
-            (mActivity as MainActivity).forceRefresh()
+        (activity as? MainActivity)?.forceRefresh()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
+        if (!::browserFavRepository.isInitialized) browserFavRepository = BrowserFavRepository.getInstance(requireActivity())
         val v = inflater.inflate(R.layout.network_server_dialog, container, false)
 
         editAddressLayout = v.findViewById(R.id.server_domain)
@@ -104,7 +88,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         spinnerProtocol.adapter = spinnerArrayAdapter
 
         if (::networkUri.isInitialized) {
-            mIgnoreFirstSpinnerCb = true
+            ignoreFirstSpinnerCb = true
             editAddress.setText(networkUri.host)
             if (!TextUtils.isEmpty(networkUri.userInfo))
                 editUsername.editText!!.setText(networkUri.userInfo)
@@ -139,9 +123,9 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
             editServername.text.toString()
         val uri = Uri.parse(url.text.toString())
         if (::networkUri.isInitialized) {
-            runIO(Runnable { mBrowserFavRepository.deleteBrowserFav(networkUri) })
+            runIO(Runnable { browserFavRepository.deleteBrowserFav(networkUri) })
         }
-        mBrowserFavRepository.addNetworkFavItem(uri, name, null)
+        browserFavRepository.addNetworkFavItem(uri, name, null)
     }
 
     private fun updateUrl() {
@@ -194,8 +178,8 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-        if (mIgnoreFirstSpinnerCb) {
-            mIgnoreFirstSpinnerCb = false
+        if (ignoreFirstSpinnerCb) {
+            ignoreFirstSpinnerCb = false
             return
         }
         var portEnabled = true
@@ -261,7 +245,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
 
     companion object {
 
-        private val TAG = "VLC/NetworkServerDialog"
+        private const val TAG = "VLC/NetworkServerDialog"
 
         const val FTP_DEFAULT_PORT = "21"
         const val FTPS_DEFAULT_PORT = "990"
