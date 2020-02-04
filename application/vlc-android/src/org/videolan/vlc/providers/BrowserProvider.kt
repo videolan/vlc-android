@@ -40,6 +40,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
+import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.AppScope
 import org.videolan.tools.CoroutineContextProvider
@@ -48,7 +49,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
 import org.videolan.vlc.util.ModelsHelper
-import org.videolan.resources.VLCInstance
 import org.videolan.vlc.util.isBrowserMedia
 import org.videolan.vlc.util.isMedia
 import java.util.*
@@ -94,7 +94,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             when (action) {
                 is Browse -> browseImpl(action.url)
                 BrowseRoot -> browseRootImpl()
-                Refresh -> browseImpl(url)
+                Refresh -> {
+                    if (url != null) refreshImpl()
+                    else browseImpl()
+                }
                 is ParseSubDirectories -> parseSubDirectoriesImpl(action.list)
                 ClearListener -> withContext(coroutineContextProvider.IO) { mediabrowser?.changeEventListener(null) }
                 Release -> withContext(coroutineContextProvider.IO) {
@@ -140,12 +143,19 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         if (url == null) coroutineScope {
             discoveryJob = launch(coroutineContextProvider.Main) { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
         } else {
-            val files = filesFlow(url).mapNotNull { findMedia(it) }.toList()
+            val files = filesFlow(url).mapNotNull { findMedia(it) }.onEach { addMedia(it) }.toList()
             computeHeaders(files)
-            dataset.value = files as MutableList<MediaLibraryItem>
             parseSubDirectories(files)
         }
         if (url != null ) loading.postValue(false)
+    }
+
+    protected open suspend fun refreshImpl() {
+        val files = filesFlow().mapNotNull { findMedia(it) }.toList()
+        dataset.value = files as MutableList<MediaLibraryItem>
+        computeHeaders(files)
+        parseSubDirectories(files)
+        loading.postValue(false)
     }
 
     private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow {
