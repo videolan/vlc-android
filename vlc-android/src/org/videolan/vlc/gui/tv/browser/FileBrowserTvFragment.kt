@@ -34,10 +34,7 @@ import org.videolan.vlc.util.CATEGORY
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.ITEM
 import org.videolan.vlc.util.isSchemeSupported
-import org.videolan.vlc.viewmodels.browser.BrowserModel
-import org.videolan.vlc.viewmodels.browser.NetworkModel
-import org.videolan.vlc.viewmodels.browser.TYPE_FILE
-import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
+import org.videolan.vlc.viewmodels.browser.*
 
 private const val TAG = "FileBrowserTvFragment"
 @UseExperimental(ObsoleteCoroutinesApi::class)
@@ -94,7 +91,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
 
         isRootLevel = arguments?.getBoolean("rootLevel") ?: false
         (item as? MediaWrapper)?.run { mrl = location }
-        viewModel = ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), mrl, false)).get(NetworkModel::class.java)
+        viewModel = getBrowserModel(category = getCategory(), url = mrl, showHiddenFiles = false, showDummyCategory = false)
 
         viewModel.currentItem = item
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
