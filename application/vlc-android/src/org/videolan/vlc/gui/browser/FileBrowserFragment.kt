@@ -50,6 +50,7 @@ import org.videolan.vlc.gui.helpers.hf.OtgAccess
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
+import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -87,10 +88,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     }
 
     protected open fun setupBrowser() {
-        viewModel = if (isRootDirectory)
-            ViewModelProviders.of(requireActivity(), BrowserModel.Factory(requireContext(), null, TYPE_FILE, showHiddenFiles)).get(BrowserModel::class.java)
-        else
-            ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), mrl, TYPE_FILE, showHiddenFiles)).get(BrowserModel::class.java)
+        viewModel = getBrowserModel(category = TYPE_FILE, url = if (!isRootDirectory) mrl else null, showHiddenFiles = showHiddenFiles)
     }
 
     override fun getTitle(): String = if (isRootDirectory)

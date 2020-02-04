@@ -66,6 +66,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.onboarding.OnboardingActivity
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
+import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.io.File
 
 const val KEY_IN_MEDIALIB = "key_in_medialib"
@@ -104,7 +105,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     }
 
     override fun setupBrowser() {
-        viewModel = ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), mrl, TYPE_STORAGE, showHiddenFiles)).get(BrowserModel::class.java)
+        viewModel = getBrowserModel(TYPE_STORAGE, mrl, showHiddenFiles)
     }
 
     override fun onStart() {

@@ -47,6 +47,8 @@ import org.videolan.vlc.gui.dialogs.NetworkServerDialog
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.NetworkModel
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
+import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -66,7 +68,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), mrl, showHiddenFiles)).get(NetworkModel::class.java)
+        viewModel = getBrowserModel(TYPE_NETWORK, mrl, showHiddenFiles)
         if (isRootDirectory) swipeRefreshLayout.isEnabled = false
     }
 
