@@ -9,7 +9,7 @@ cache:
     image: registry.videolan.org:5000/vlc-debian-android:20200123134612
     tags:
         - debian 
-        - android
+        - amd64
     stage: build
     script:
         - ./buildsystem/compile.sh ${EXTRA_BUILD_PARAM} -a ${ARCH}
