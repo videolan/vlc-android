@@ -122,7 +122,7 @@ nightly-arm64:
         ARCH: arm64
     artifacts:
         paths:
-            - vlc-android/build/outputs/apk/dev/VLC-Android-*.apk
+            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
         expire_in: 2 weeks
 
 nightly-armv7:
@@ -133,7 +133,7 @@ nightly-armv7:
         ARCH: arm
     artifacts:
         paths:
-            - vlc-android/build/outputs/apk/dev/VLC-Android-*.apk
+            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
         expire_in: 2 weeks
 
 nightly-x86:
@@ -144,7 +144,7 @@ nightly-x86:
         ARCH: x86
     artifacts:
         paths:
-            - vlc-android/build/outputs/apk/dev/VLC-Android-*.apk
+            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
         expire_in: 2 weeks
 
 nightly-x86_64:
@@ -155,6 +155,6 @@ nightly-x86_64:
         ARCH: x86_64
     artifacts:
         paths:
-            - vlc-android/build/outputs/apk/dev/VLC-Android-*.apk
+            - application/app/build/outputs/apk/dev/VLC-Android-*.apk
         expire_in: 2 weeks
 
