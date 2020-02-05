@@ -102,7 +102,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         when {
             player.isPlaybackSettingActive -> {
                 if (event.action == MotionEvent.ACTION_UP) {
-                    player.delayDelegate?.endPlaybackSetting()
+                    player.delayDelegate.endPlaybackSetting()
                     touchAction = TOUCH_NONE
                 }
                 return true

@@ -191,9 +191,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var warningToast: Toast? = null
 
     internal var fov: Float = 0.toFloat()
-    var touchDelegate: VideoTouchDelegate? = null
-    private var statsDelegate: VideoStatsDelegate? = null
-    var delayDelegate: VideoDelayDelegate? = null
+    lateinit var touchDelegate: VideoTouchDelegate
+    private val statsDelegate: VideoStatsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoStatsDelegate(this, { showOverlayTimeout(OVERLAY_INFINITE) }, { showOverlay(true) }) }
+    val delayDelegate: VideoDelayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoDelayDelegate(this@VideoPlayerActivity) }
     private var isTv: Boolean = false
 
     // Tracks & Subtitles
@@ -241,7 +241,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
 
     internal val isPlaybackSettingActive: Boolean
-        get() = delayDelegate?.playbackSetting != IPlaybackSettingsController.DelayState.OFF
+        get() = delayDelegate.playbackSetting != IPlaybackSettingsController.DelayState.OFF
 
     /**
      * Handle resize of the surface and the overlay
@@ -263,8 +263,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     LOADING_ANIMATION -> startLoading()
                     HIDE_INFO -> hideOverlay(true)
                     SHOW_INFO -> showOverlay()
-                    HIDE_SEEK -> touchDelegate?.hideSeekOverlay()
-                    HIDE_SETTINGS -> delayDelegate?.endPlaybackSetting()
+                    HIDE_SEEK -> touchDelegate.hideSeekOverlay()
+                    HIDE_SETTINGS -> delayDelegate.endPlaybackSetting()
                     else -> {}
                 }
             }
@@ -491,8 +491,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         val xRange = Math.max(dm.widthPixels, dm.heightPixels)
         val sc = ScreenConfig(dm, xRange, yRange, currentScreenOrientation)
         touchDelegate = VideoTouchDelegate(this, touch, sc, isTv)
-        statsDelegate = VideoStatsDelegate(this, { showOverlayTimeout(OVERLAY_INFINITE) }, { showOverlay(true) })
-        delayDelegate = VideoDelayDelegate(this)
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
@@ -670,11 +668,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     Math.max(dm.widthPixels, dm.heightPixels),
                     Math.min(dm.widthPixels, dm.heightPixels),
                     currentScreenOrientation)
-            touchDelegate!!.screenConfig = sc
+            touchDelegate.screenConfig = sc
         }
         resetHudLayout()
         showControls(isShowing)
-        statsDelegate?.onConfigurationChanged()
+        statsDelegate.onConfigurationChanged()
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -935,7 +933,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
-        return !isLoading && touchDelegate != null && touchDelegate!!.dispatchGenericMotionEvent(event)
+        return !isLoading && ::touchDelegate.isInitialized && touchDelegate.dispatchGenericMotionEvent(event)
     }
 
     override fun onBackPressed() {
@@ -948,7 +946,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         } else if (isPlaylistVisible) {
             togglePlaylist()
         } else if (isPlaybackSettingActive) {
-            delayDelegate?.endPlaybackSetting()
+            delayDelegate.endPlaybackSetting()
         } else if (isTv && isShowing && !isLocked) {
             hideOverlay(true)
         } else {
@@ -976,19 +974,19 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             showOverlayTimeout(OVERLAY_TIMEOUT)
         when (keyCode) {
             KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
-                touchDelegate?.seekDelta(10000)
+                touchDelegate.seekDelta(10000)
                 return true
             }
             KeyEvent.KEYCODE_MEDIA_REWIND -> {
-                touchDelegate?.seekDelta(-10000)
+                touchDelegate.seekDelta(-10000)
                 return true
             }
             KeyEvent.KEYCODE_BUTTON_R1 -> {
-                touchDelegate?.seekDelta(60000)
+                touchDelegate.seekDelta(60000)
                 return true
             }
             KeyEvent.KEYCODE_BUTTON_L1 -> {
-                touchDelegate?.seekDelta(-60000)
+                touchDelegate.seekDelta(-60000)
                 return true
             }
             KeyEvent.KEYCODE_BUTTON_A -> {
@@ -1044,11 +1042,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (!isShowing && !playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
-                        touchDelegate?.seekDelta(-300000)
+                        touchDelegate.seekDelta(-300000)
                     } else if (event.isCtrlPressed) {
-                        touchDelegate?.seekDelta(-60000)
+                        touchDelegate.seekDelta(-60000)
                     } else if (fov == 0f)
-                        touchDelegate?.seekDelta(-10000)
+                        touchDelegate.seekDelta(-10000)
                     else
                         service?.updateViewpoint(-5f, 0f, 0f, 0f, false)
                     return true
@@ -1059,11 +1057,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     return navigateDvdMenu(keyCode)
                 else if (!isShowing && !playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
-                        touchDelegate?.seekDelta(300000)
+                        touchDelegate.seekDelta(300000)
                     } else if (event.isCtrlPressed) {
-                        touchDelegate?.seekDelta(60000)
+                        touchDelegate.seekDelta(60000)
                     } else if (fov == 0f)
-                        touchDelegate?.seekDelta(10000)
+                        touchDelegate.seekDelta(10000)
                     else
                         service?.updateViewpoint(5f, 0f, 0f, 0f, false)
                     return true
@@ -1107,19 +1105,19 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             else
                 super.onKeyDown(keyCode, event)
             KeyEvent.KEYCODE_J -> {
-                delayDelegate?.delayAudio(-50000L)
+                delayDelegate.delayAudio(-50000L)
                     handler.removeMessages(HIDE_SETTINGS)
                 handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 return true
             }
             KeyEvent.KEYCODE_K -> {
-                delayDelegate?.delayAudio(50000L)
+                delayDelegate.delayAudio(50000L)
                     handler.removeMessages(HIDE_SETTINGS)
                 handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 return true
             }
             KeyEvent.KEYCODE_G -> {
-                delayDelegate?.delaySubs(-50000L)
+                delayDelegate.delaySubs(-50000L)
                     handler.removeMessages(HIDE_SETTINGS)
                 handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 return true
@@ -1131,7 +1129,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (event.isCtrlPressed) {
                     showOverlay()
                 } else {
-                    delayDelegate?.delaySubs(50000L)
+                    delayDelegate.delaySubs(50000L)
                     handler.removeMessages(HIDE_SETTINGS)
                     handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 }
@@ -1441,7 +1439,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         if (event.buffering == 100f)
                             stopLoading()
                         else if (!handler.hasMessages(LOADING_ANIMATION) && !isLoading
-                                && (touchDelegate == null || !touchDelegate!!.isSeeking()) && !isDragging)
+                                && (touchDelegate == null || !touchDelegate.isSeeking()) && !isDragging)
                             handler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY.toLong())
                     }
                 }
@@ -1542,7 +1540,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return service != null && touchDelegate?.onTouchEvent(event) == true
+        return service != null && touchDelegate.onTouchEvent(event) == true
     }
 
     internal fun updateViewpoint(yaw: Float, pitch: Float, fov: Float): Boolean {
@@ -1672,8 +1670,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         when (v.id) {
             R.id.orientation_toggle -> toggleOrientation()
             R.id.playlist_toggle -> togglePlaylist()
-            R.id.player_overlay_forward -> touchDelegate?.seekDelta(10000)
-            R.id.player_overlay_rewind -> touchDelegate?.seekDelta(-10000)
+            R.id.player_overlay_forward -> touchDelegate.seekDelta(10000)
+            R.id.player_overlay_rewind -> touchDelegate.seekDelta(-10000)
             R.id.ab_repeat_add_marker -> service?.playlistManager?.setABRepeatValue(hudBinding.playerOverlaySeekbar.progress.toLong())
             R.id.ab_repeat_reset -> service?.playlistManager?.resetABRepeatValues()
             R.id.ab_repeat_stop -> service?.playlistManager?.clearABRepeat()
@@ -2028,13 +2026,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     service.manageAbRepeatStep(hudRightBinding.abRepeatReset, hudRightBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                 })
                 service.playlistManager.delayValue.observe(this, Observer {
-                    delayDelegate?.delayChanged(it, service)
+                    delayDelegate.delayChanged(it, service)
                 })
                 service.playlistManager.videoStatsOn.observe(this, Observer {
                     if (it) showOverlay(true)
-                    statsDelegate?.container = hudBinding.statsContainer
-                    statsDelegate?.initPlotView(hudBinding)
-                    if (it) statsDelegate?.start() else statsDelegate?.stop()
+                    statsDelegate.container = hudBinding.statsContainer
+                    statsDelegate.initPlotView(hudBinding)
+                    if (it) statsDelegate.start() else statsDelegate.stop()
                 })
                 hudBinding.statsClose.setOnClickListener { service.playlistManager.videoStatsOn.postValue(false) }
 
