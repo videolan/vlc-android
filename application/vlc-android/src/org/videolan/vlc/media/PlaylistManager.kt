@@ -27,8 +27,10 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.setResumeProgram
+import org.videolan.vlc.util.updateWithMLMeta
+import org.videolan.vlc.util.validateLocation
 import java.util.*
 import kotlin.math.max
 
@@ -723,6 +725,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val value = delayValue.value ?: DelayValues()
         if (start) value.start = time else value.stop = time
         delayValue.value = value
+    }
+
+    fun resetDelayValues() {
+        delayValue.postValue(DelayValues())
     }
 
     fun resetABRepeatValues() {

@@ -34,6 +34,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.ViewStubCompat
+import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.google.android.material.button.MaterialButton
@@ -51,6 +52,11 @@ import org.videolan.vlc.media.DelayValues
 
 private const val DELAY_DEFAULT_VALUE = 50000L
 
+/**
+ * Delegate for delay management.
+ *
+ * @property player the player activity instance the delegate is attached to
+ */
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClickListener, IPlaybackSettingsController {
@@ -63,11 +69,15 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
     private var playbackSettingMinus: ImageView? = null
     private var delayFirstButton: MaterialButton? = null
     private var delaySecondButton: MaterialButton? = null
+    private var delayResetButton: MaterialButton? = null
     private var delayInfoContainer: View? = null
     private var delayInfo: TextView? = null
     private var delayTitle: TextView? = null
     private var delayContainer: View? = null
 
+    /**
+     * Instantiate all the views, set their click listeners and shows the view.
+     */
     @SuppressLint("ClickableViewAccessibility")
     fun showDelayControls() {
         player.touchDelegate?.clearTouchAction()
@@ -80,6 +90,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
             playbackSettingMinus = player.findViewById(R.id.player_delay_minus)
             delayFirstButton = player.findViewById(R.id.delay_first_button)
             delaySecondButton = player.findViewById(R.id.delay_second_button)
+            delayResetButton = player.findViewById(R.id.delay_reset_button)
             delayInfoContainer = player.findViewById(R.id.delay_info_container)
             delayInfo = player.findViewById(R.id.delay_textinfo)
             delayTitle = player.findViewById(R.id.delay_title)
@@ -91,6 +102,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         playbackSettingPlus!!.setOnClickListener(this)
         delayFirstButton!!.setOnClickListener(this)
         delaySecondButton!!.setOnClickListener(this)
+        delayResetButton!!.setOnClickListener(this)
         playbackSettingMinus!!.setOnTouchListener(OnRepeatListener(this))
         playbackSettingPlus!!.setOnTouchListener(OnRepeatListener(this))
         playbackSettingMinus.setVisible()
@@ -101,6 +113,10 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         initPlaybackSettingInfo()
     }
 
+    /**
+     * Initialize the whole delay view state
+     *
+     */
     private fun initPlaybackSettingInfo() {
         player.initInfoOverlay()
         player.verticalBar.setGone()
@@ -126,6 +142,11 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         delayInfo?.text = text
     }
 
+    /**
+     * Click listener for all the views
+     *
+     * @param v the view that has been clicked
+     */
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.player_delay_minus -> if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO)
@@ -136,17 +157,39 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
                 delayAudio(DELAY_DEFAULT_VALUE)
             else if (playbackSetting == IPlaybackSettingsController.DelayState.SUBS)
                 delaySubs(DELAY_DEFAULT_VALUE)
-            R.id.delay_first_button -> if (player.service?.playlistManager?.delayValue?.value?.start ?: -1L == -1L) player.service?.playlistManager?.setDelayValue(System.currentTimeMillis(), true) else player.service?.playlistManager?.setDelayValue(-1L, true)
-            R.id.delay_second_button -> if (player.service?.playlistManager?.delayValue?.value?.stop ?: -1L == -1L) player.service?.playlistManager?.setDelayValue(System.currentTimeMillis(), false) else player.service?.playlistManager?.setDelayValue(-1L, false)
+            R.id.delay_first_button -> if (player.service?.playlistManager?.delayValue?.value?.start ?: -1L == -1L) {
+                player.service?.playlistManager?.setDelayValue(System.currentTimeMillis(), true)
+                if (player.service?.playlistManager?.delayValue?.value?.stop == -1L) delaySecondButton?.requestFocus()
+            } else {
+                player.service?.playlistManager?.setDelayValue(-1L, true)
+            }
+            R.id.delay_second_button -> if (player.service?.playlistManager?.delayValue?.value?.stop ?: -1L == -1L) {
+                player.service?.playlistManager?.setDelayValue(System.currentTimeMillis(), false)
+                if (player.service?.playlistManager?.delayValue?.value?.start == -1L) delayFirstButton?.requestFocus()
+            } else {
+                player.service?.playlistManager?.setDelayValue(-1L, false)
+            }
+            R.id.delay_reset_button -> {
+                if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) player.service?.setAudioDelay(0) else player.service?.setSpuDelay(0)
+                delayInfo?.text = "0 ms"
+                player.service?.playlistManager?.resetDelayValues()
+            }
 
         }
     }
 
-    fun delayAudio(delta: Long, reset: Boolean = false) {
+    /**
+     * Delay audio for the video
+     *
+     * @param delta the delay to set
+     * @param round if true, the delay will be rounded to the delta (useful for plus and minus buttons)
+     * @param reset if true, the delta will erase the old value, if not, the new delta will be added to the old one
+     */
+    fun delayAudio(delta: Long, round: Boolean = false, reset: Boolean = true) {
         player.service?.let { service ->
-            val realDelta = if (!reset && service.audioDelay % delta != 0L) delta - (service.audioDelay % delta) else delta
+            val realDelta = if (!round && service.audioDelay % delta != 0L) delta - (service.audioDelay % delta) else if (reset) delta else delta + service.audioDelay
             player.initInfoOverlay()
-            val delay = if (reset) realDelta else service.audioDelay + realDelta
+            val delay = if (round) realDelta else service.audioDelay + realDelta
             service.setAudioDelay(delay)
             delayTitle?.text = player.getString(R.string.audio_delay)
             delayInfo?.text = "${delay / 1000L} ms"
@@ -158,11 +201,18 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         }
     }
 
-    fun delaySubs(delta: Long, reset: Boolean = false) {
+    /**
+     * Delay subtitles for the video
+     *
+     * @param delta the delay to set
+     * @param round if true, the delay will be rounded to the delta (useful for plus and minus buttons)
+     * @param reset if true, the delta will erase the old value, if not, the new delta will be added to the old one
+     */
+    fun delaySubs(delta: Long, round: Boolean = false, reset: Boolean = true) {
         player.service?.let { service ->
-            val realDelta = if (!reset && service.spuDelay % delta != 0L) delta - (service.spuDelay % delta) else delta
+            val realDelta = if (!round && service.spuDelay % delta != 0L) delta - (service.spuDelay % delta) else if (reset) delta else delta + service.spuDelay
             player.initInfoOverlay()
-            val delay = if (reset) realDelta else service.spuDelay + realDelta
+            val delay = if (round) realDelta else service.spuDelay + realDelta
             service.setSpuDelay(delay)
             delayInfo?.text = "${delay / 1000L} ms"
             spuDelay = delay
@@ -173,16 +223,28 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         }
     }
 
+    /**
+     * Set [playbackSetting] to the right value and shows the view
+     *
+     */
     override fun showAudioDelaySetting() {
         playbackSetting = IPlaybackSettingsController.DelayState.AUDIO
         showDelayControls()
     }
 
+    /**
+     * Set [playbackSetting] to the right value and shows the view
+     *
+     */
     override fun showSubsDelaySetting() {
         playbackSetting = IPlaybackSettingsController.DelayState.SUBS
         showDelayControls()
     }
 
+    /**
+     * Close the view and remove the listeners
+     *
+     */
     override fun endPlaybackSetting() {
         if (playbackSetting == IPlaybackSettingsController.DelayState.OFF) return
         player.service?.let { service ->
@@ -207,31 +269,38 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         }
     }
 
+    /**
+     * Setup the delay values when the livedata has changed
+     *
+     * @param delayValues the new values for the delay
+     * @param service the playback service instance
+     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    fun delayChanged(it: DelayValues, service: PlaybackService) {
+    fun delayChanged(delayValues: DelayValues, service: PlaybackService) {
         var hasChanged = false
-        if (it.start != -1L && it.stop != -1L) {
+        if (delayValues.start != -1L && delayValues.stop != -1L) {
             hasChanged = if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) {
                 val oldDelay = service.audioDelay
-                delayAudio(it.stop * 1000 - it.start * 1000, true)
+                delayAudio(delayValues.stop * 1000 - delayValues.start * 1000, round = true, reset = false)
                 oldDelay != service.audioDelay
             } else {
                 val oldDelay = service.spuDelay
-                delaySubs(it.stop * 1000 - it.start * 1000, true)
+                delaySubs(delayValues.stop * 1000 - delayValues.start * 1000, round = true, reset = false)
                 oldDelay != service.spuDelay
             }
             service.playlistManager.delayValue.postValue(DelayValues())
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            delayFirstButton?.iconTint = ColorStateList.valueOf(if (it.start == -1L) ContextCompat.getColor(player, R.color.grey400transparent) else ContextCompat.getColor(player, R.color.orange500))
-            delaySecondButton?.iconTint = ColorStateList.valueOf(if (it.stop == -1L) ContextCompat.getColor(player, R.color.grey400transparent) else ContextCompat.getColor(player, R.color.orange500))
-            val viewToAnime = if (it.start == -1L && it.stop != -1L) delayFirstButton else if (it.start != -1L && it.stop == -1L) delaySecondButton else if (hasChanged) delayInfoContainer else null
+            delayFirstButton?.iconTint = ColorStateList.valueOf(if (delayValues.start == -1L) ContextCompat.getColor(player, R.color.grey400transparent) else ContextCompat.getColor(player, R.color.orange500))
+            delaySecondButton?.iconTint = ColorStateList.valueOf(if (delayValues.stop == -1L) ContextCompat.getColor(player, R.color.grey400transparent) else ContextCompat.getColor(player, R.color.orange500))
+            val viewToAnime = if (delayValues.start == -1L && delayValues.stop != -1L) delayFirstButton else if (delayValues.start != -1L && delayValues.stop == -1L) delaySecondButton else if (hasChanged) delayInfoContainer else null
             viewToAnime?.let { button ->
                 val anim = ValueAnimator.ofObject(ArgbEvaluatorCompat(), ContextCompat.getColor(player, R.color.playerbackground), ContextCompat.getColor(player, R.color.orange500focus), ContextCompat.getColor(player, R.color.playerbackground))
                 anim.addUpdateListener {
                     button.backgroundTintList = ColorStateList.valueOf(it.animatedValue as Int)
                     if (viewToAnime == delayInfoContainer) viewToAnime.background = ContextCompat.getDrawable(player, R.drawable.video_list_length_bg_opaque)
                 }
+                anim.doOnEnd { button.backgroundTintList = ContextCompat.getColorStateList(player, R.color.player_delay_button_background_tint) }
                 anim.repeatCount = 1
                 anim.interpolator = AccelerateDecelerateInterpolator()
                 anim.duration = 500
