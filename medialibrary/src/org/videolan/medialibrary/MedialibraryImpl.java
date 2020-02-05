@@ -30,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.interfaces.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
@@ -118,7 +119,7 @@ public class MedialibraryImpl extends Medialibrary {
 
     public boolean addDevice(@NonNull String uuid, @NonNull String path, boolean removable) {
         if (!mIsInitiated) return false;
-        final boolean added = nativeAddDevice(Tools.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
+        final boolean added = nativeAddDevice(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
         synchronized (onDeviceChangeListeners) {
             for (OnDeviceChangeListener listener : onDeviceChangeListeners) listener.onDeviceChange();
         }
@@ -146,7 +147,7 @@ public class MedialibraryImpl extends Medialibrary {
 
     public boolean removeDevice(String uuid, String path) {
         if (!mIsInitiated) return false;
-        final boolean removed = !TextUtils.isEmpty(uuid) && !TextUtils.isEmpty(path) && nativeRemoveDevice(Tools.encodeVLCString(uuid), Tools.encodeVLCMrl(path));
+        final boolean removed = !TextUtils.isEmpty(uuid) && !TextUtils.isEmpty(path) && nativeRemoveDevice(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path));
         synchronized (onDeviceChangeListeners) {
             for (OnDeviceChangeListener listener : onDeviceChangeListeners) listener.onDeviceChange();
         }

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
+import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
@@ -133,13 +134,9 @@ public class Tools {
         return sb.toString();
     }
 
-    public static String encodeVLCString(String mrl) {
-        return Uri.encode(Uri.decode(mrl), ".-_~/()&!$*+,;='@:?");
-    }
-
     public static String encodeVLCMrl(String mrl) {
         if (mrl.startsWith("/")) mrl = "file://"+mrl;
-        return encodeVLCString(mrl);
+        return VLCUtil.encodeVLCString(mrl);
     }
 
     /**
