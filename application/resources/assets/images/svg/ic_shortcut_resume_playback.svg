@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48" height="48"
+        id="svg4682" version="1.1" inkscape:version="0.92.3 (2405546, 2018-03-11)"
+        sodipodi:docname="ic_shortcut_resume_playback.svg"
+        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+        inkscape:export-xdpi="90" inkscape:export-ydpi="90">
+    <defs id="defs4684" />
+    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
+            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="7.919596"
+            inkscape:cx="-11.841293" inkscape:cy="18.700847" inkscape:document-units="px"
+            inkscape:current-layer="layer1" showgrid="true" inkscape:window-width="1920"
+            inkscape:window-height="1053" inkscape:window-x="0" inkscape:window-y="27"
+            inkscape:window-maximized="1">
+        <inkscape:grid type="xygrid" id="grid3775" />
+    </sodipodi:namedview>
+    <metadata id="metadata4687">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title></dc:title>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+            transform="translate(0,-1004.3622)">
+        <path inkscape:connector-curvature="0"
+                style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#727272;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.9999578;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+                d="m 23.000012,1008.3627 c -0.254997,0 -0.498194,0.11 -0.679592,0.289 l -5.027336,4.9999 c -0.392595,0.3906 -0.392595,1.0236 0,1.4142 l 5.027336,5 c 0.633594,0.6295 1.71438,0.184 1.714779,-0.7072 v -2.996 c 7.739105,0.02 13.964626,6.2559 13.964626,13.9998 0,7.7557 -6.244122,13.9998 -13.999825,13.9998 -7.755704,0 -13.999825,-6.2441 -13.999825,-13.9998 H 6.0002245 c 0,9.9173 8.0826995,17.9998 17.9997765,17.9998 9.917275,0 17.999774,-8.0825 17.999774,-17.9998 0,-9.9055 -8.063499,-17.9806 -17.964576,-17.9998 v -3.0039 c -0.002,-0.5632 -0.469394,-1.0136 -1.035187,-0.996 z m -2.007774,15.9998 c -0.542993,-0.02 -0.991988,0.4522 -0.992188,1.0312 v 9.9335 c -8.01e-4,0.795 0.80739,1.2949 1.453181,0.8984 l 8.062301,-4.9686 c 0.644991,-0.3976 0.644991,-1.3916 0,-1.7892 l -8.062301,-4.9647 c -0.139997,-0.088 -0.298596,-0.136 -0.460993,-0.14 z"
+                id="path10958" />
+    </g>
+</svg>
