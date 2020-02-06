@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_browser_audio_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="nonZero"
+            android:pathData="m17.7777,4.0002 l-7.8888,3.1666c-0.5897,0.2893 -1,0.8821 -1,1.5834l0,2.361 0,4.4722c-0.1447,-0.029 -0.291,-0.028 -0.4444,-0.028 -1.2273,0 -2.2222,0.9949 -2.2222,2.2222 0,1.2273 0.9949,2.2222 2.2222,2.2222 1.2273,0 2.2222,-0.9949 2.2222,-2.2222l0,-7.3888 5.3332,-2.111 0,5.5276c-0.1447,-0.029 -0.291,-0.027 -0.4444,-0.027 -1.2273,0 -2.2222,0.9949 -2.2222,2.2221 0,1.2273 0.9949,2.2222 2.2222,2.2222 1.2273,0 2.2222,-0.9949 2.2222,-2.2222l0,-8.4443 0,-3.5555z"
+            android:strokeWidth="1"
+            android:strokeColor="#00000000" />
+</vector>

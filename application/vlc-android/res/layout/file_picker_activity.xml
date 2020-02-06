@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="@dimen/default_content_width"
     android:layout_height="@dimen/file_picker_height"
@@ -15,7 +16,7 @@
         android:layout_marginLeft="2dp"
         android:onClick="onHomeClick"
         tools:targetApi="11"
-        android:src="@drawable/ic_browser_home_normal"
+            app:srcCompat="@drawable/ic_browser_home_normal"
         android:scaleType="fitCenter"
         android:focusable="true"
         android:clickable="true"/>

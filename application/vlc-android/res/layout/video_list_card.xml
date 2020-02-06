@@ -79,7 +79,7 @@
             android:id="@+id/ml_item_seen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_seen_normal"
+                vlc:srcCompat="@drawable/ic_seen_normal"
             android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE, default=gone}"
             vlc:layout_constraintRight_toRightOf="@+id/ml_item_thumbnail"
             vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
@@ -110,7 +110,7 @@
             android:contentDescription="@string/more_actions"
             android:onClick="@{holder::onMoreClick}"
             android:scaleType="center"
-            android:src="@drawable/ic_more" />
+                vlc:srcCompat="@drawable/ic_more" />
 
         <TextView
             android:id="@+id/ml_item_time"

@@ -214,7 +214,7 @@
                     android:progress="@{player.service.getTime(progress.time)}"
                     android:progressDrawable="@drawable/po_seekbar_video"
                     android:splitTrack="false"
-                    android:thumb="@drawable/seekbar_thumb"
+                    android:thumb="@drawable/ic_seekbar_thumb"
                     vlc:layout_constraintEnd_toEndOf="parent"
                     vlc:layout_constraintStart_toStartOf="parent"
                     vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_time_container"

@@ -97,7 +97,7 @@
                 tools:visibility="visible"
                 android:onClick="@{fragment::onResumeToVideoClick}"
                 android:contentDescription="@string/play_as_audio"
-                android:src="?attr/ic_playasaudio_off" />
+                    app:srcCompat="?attr/ic_playasaudio_off" />
 
             <org.videolan.vlc.gui.view.HeaderMediaSwitcher
                     android:id="@+id/audio_media_switcher"
@@ -175,7 +175,7 @@
                     android:scaleType="fitXY"
                     android:onClick="@{fragment::onSearchClick}"
                     android:contentDescription="@string/search"
-                    android:src="?attr/ic_menu_search" />
+                    app:srcCompat="?attr/ic_menu_search" />
 
             <ImageView
                 android:id="@+id/playlist_switch"
@@ -188,7 +188,7 @@
                 android:scaleType="fitXY"
                 android:onClick="@{fragment::onPlaylistSwitchClick}"
                 android:contentDescription="@string/show_playlist"
-                android:src="?attr/ic_playlist_on" />
+                    app:srcCompat="?attr/ic_playlist_on" />
 
             <ImageView
                 android:id="@+id/adv_function"
@@ -314,7 +314,7 @@
                 android:paddingEnd="8dp"
                 android:progressDrawable="@drawable/po_seekbar"
                 android:splitTrack="false"
-                android:thumb="@drawable/seekbar_thumb"
+                android:thumb="@drawable/ic_seekbar_thumb"
                 app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
@@ -383,7 +383,7 @@
             android:focusable="true"
             android:scaleType="fitXY"
             android:onClick="@{fragment::onNextClick}"
-            android:src="?attr/ic_next" />
+                app:srcCompat="?attr/ic_next" />
 
         <ImageView
             android:id="@+id/previous"
@@ -397,7 +397,7 @@
             android:focusable="true"
             android:scaleType="fitXY"
             android:onClick="@{fragment::onPreviousClick}"
-            android:src="?attr/ic_previous" />
+                app:srcCompat="?attr/ic_previous" />
 
         <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_options_stub"

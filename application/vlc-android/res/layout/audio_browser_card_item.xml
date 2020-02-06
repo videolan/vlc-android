@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:onClick="@{holder::onMainActionClick}"
-                    android:src="@drawable/ic_play_circle_card"
+                    vlc:srcCompat="@drawable/ic_play_circle_card"
                     vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
                     vlc:layout_constraintRight_toRightOf="@+id/media_cover" />
 
@@ -143,7 +143,7 @@
                     android:contentDescription="@string/more_actions"
                     android:onClick="@{holder::onMoreClick}"
                     android:scaleType="center"
-                    android:src="@drawable/ic_more"
+                    vlc:srcCompat="@drawable/ic_more"
                     vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
                     vlc:layout_constraintEnd_toEndOf="parent"
                     vlc:layout_constraintTop_toTopOf="@+id/title" />

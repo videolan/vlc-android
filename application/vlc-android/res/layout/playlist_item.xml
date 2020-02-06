@@ -145,7 +145,7 @@
                 android:background="@drawable/button_circle_orange_selector"
                 android:scaleType="center"
                 android:layout_marginRight="4dp"
-                app:srcCompat="@drawable/ic_more_player"
+                app:srcCompat="@drawable/ic_more"
                 android:onClick="@{holder::onMoreClick}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

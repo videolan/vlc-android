@@ -166,7 +166,7 @@
                 android:background="@drawable/orange_circle"
                 android:elevation="6dp"
                 android:nextFocusDown="@id/imageButtonHeader"
-                android:src="@drawable/ic_menu_sort_tv_normal"
+                android:src="@drawable/ic_menu_sort_tv"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
@@ -185,7 +185,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonHeader"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonHeader"
                 app:layout_constraintTop_toTopOf="@+id/imageButtonHeader"
-                app:srcCompat="@drawable/ic_menu_fav_tv_normal" />
+                app:srcCompat="@drawable/ic_menu_fav_tv" />
 
         <ImageButton
                 android:id="@+id/imageButtonHeader"

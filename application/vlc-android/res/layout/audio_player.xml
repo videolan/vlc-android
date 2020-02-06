@@ -86,7 +86,7 @@
                     android:focusable="true"
                     android:onClick="@{fragment::onResumeToVideoClick}"
                     android:scaleType="fitXY"
-                    android:src="?attr/ic_playasaudio_off"
+                    app:srcCompat="?attr/ic_playasaudio_off"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -181,7 +181,7 @@
                     android:scaleType="fitXY"
                     android:onClick="@{fragment::onPlaylistSwitchClick}"
                     android:contentDescription="@string/show_playlist"
-                    android:src="?attr/ic_playlist_on"/>
+                    app:srcCompat="?attr/ic_playlist_on" />
 
             <ImageView
                     android:id="@+id/adv_function"
@@ -322,7 +322,7 @@
                 android:padding="0dp"
                 android:progressDrawable="@drawable/po_seekbar"
                 android:splitTrack="false"
-                android:thumb="@drawable/seekbar_thumb"
+                android:thumb="@drawable/ic_seekbar_thumb"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="8dp"
@@ -373,7 +373,7 @@
                 android:focusable="true"
                 android:scaleType="fitXY"
                 android:onClick="@{fragment::onPreviousClick}"
-                android:src="?attr/ic_previous"
+                app:srcCompat="?attr/ic_previous"
                 app:layout_constraintStart_toEndOf="@+id/shuffle"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintEnd_toStartOf="@+id/play_pause"/>
@@ -406,7 +406,7 @@
                 android:focusable="true"
                 android:scaleType="fitXY"
                 android:onClick="@{fragment::onNextClick}"
-                android:src="?attr/ic_next"
+                app:srcCompat="?attr/ic_next"
                 app:layout_constraintStart_toEndOf="@+id/play_pause"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintEnd_toStartOf="@+id/repeat"/>

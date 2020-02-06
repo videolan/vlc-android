@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_browser_music_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="nonZero"
+            android:pathData="m5,5c-1.108,0 -1.8178,0.9071 -2,2v1,9c0,1.108 0.892,2 2,2h14c1.108,0 2,-0.892 2,-2v-8c0,-1.108 -0.892,-2 -2,-2h-7l-2,-2zM18,9.0009v1.7792,4.2208c0,0.6136 -0.4977,1.1113 -1.1113,1.1113 -0.6137,0 -1.1113,-0.4977 -1.1113,-1.1113 0,-0.6137 0.4977,-1.1094 1.1113,-1.1094 0.0767,0 0.1504,-0.0008 0.2227,0.014v-2.7656l-2.666,1.0566v3.6934c0,0.6136 -0.4977,1.1113 -1.1113,1.1113 -0.6137,0 -1.1113,-0.4977 -1.1113,-1.1113 0,-0.6137 0.4977,-1.1094 1.1113,-1.1094 0.0767,0 0.1484,-0.0008 0.2207,0.014v-2.2364,-1.1815c0,-0.3507 0.2051,-0.6465 0.5,-0.791z"
+            android:strokeWidth="1"
+            android:strokeColor="#00000000" />
+</vector>

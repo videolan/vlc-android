@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_browser_audio_big_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="96dp"
+        android:height="96dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="nonZero"
+            android:pathData="m36,6 l-17.7502,7.1251c-1.3269,0.6509 -2.25,1.9847 -2.25,3.5626v5.3125,10.0627c-0.3255,-0.065 -0.6548,-0.063 -1,-0.063 -2.7614,0 -5,2.2385 -5,5 0,2.7616 2.2386,5.0001 5,5.0001 2.7614,0 5,-2.2385 5,-5.0001v-16.6252l12.0001,-4.7499v12.4375c-0.3255,-0.065 -0.6548,-0.061 -1,-0.061 -2.7614,0 -5,2.2385 -5,4.9999 0,2.7615 2.2386,5 5,5 2.7614,0 5,-2.2385 5,-5v-19.0002,-8.0001z"
+            android:strokeWidth="1.125"
+            android:strokeColor="#00000000" />
+</vector>

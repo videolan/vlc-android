@@ -1,7 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_menu_fav_tv_pressed" android:state_focused="true" android:state_pressed="true" />
-    <item android:drawable="@drawable/ic_menu_fav_tv_pressed" android:state_focused="true" />
-    <item android:drawable="@drawable/ic_menu_fav_tv_pressed" android:state_pressed="true" />
-    <item android:drawable="@drawable/ic_menu_fav_tv_normal" />
-</selector>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="40dp"
+        android:height="40dp"
+        android:viewportWidth="40"
+        android:viewportHeight="40">
+    <path
+            android:pathData="m20,8 l8,24L8,17.3334h24l-20,14.6666z"
+            android:strokeWidth="1.33333349"
+            android:fillColor="@color/standard_selection"
+            android:strokeColor="#00000000"
+            android:fillAlpha="1" />
+</vector>

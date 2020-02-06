@@ -72,7 +72,7 @@
             android:layout_margin="16dp"
             vlc:layout_anchor="@+id/appbar"
             vlc:layout_anchorGravity="bottom|right|end"
-            android:src="@drawable/ic_fab_play"
+                vlc:srcCompat="@drawable/ic_fab_play"
             android:tint="@color/grey50" />
 
         <include layout="@layout/audioplayercontainer"/>

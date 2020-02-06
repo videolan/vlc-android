@@ -92,7 +92,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         if (flags and CTX_PLAY_GROUP != 0) add(Simple(CTX_PLAY_GROUP, getString(R.string.play), R.drawable.ic_ctx_play_normal))
         if (flags and CTX_VIDEO_TRACK != 0) add(Simple(CTX_VIDEO_TRACK, getString(R.string.ctx_player_video_track), R.drawable.ic_ctx_information_normal))
         if (flags and CTX_AUDIO_TRACK != 0) add(Simple(CTX_AUDIO_TRACK, getString(R.string.ctx_player_audio_track), R.drawable.ic_audiotrack_normal))
-        if (flags and CTX_SUBS_TRACK != 0) add(Simple(CTX_SUBS_TRACK, getString(R.string.ctx_player_subs_track), R.drawable.ic_subtitle_normal_w))
+        if (flags and CTX_SUBS_TRACK != 0) add(Simple(CTX_SUBS_TRACK, getString(R.string.ctx_player_subs_track), R.drawable.ic_subtitle_w))
         if (flags and CTX_PICK_SUBS != 0) add(Simple(CTX_PICK_SUBS, getString(R.string.subtitle_select), R.drawable.ic_subtitle_open_w))
         if (flags and CTX_APPEND != 0) add(Simple(CTX_APPEND, getString(R.string.append), R.drawable.ic_ctx_append_normal))
         if (flags and CTX_INFORMATION != 0) add(Simple(CTX_INFORMATION, getString(R.string.info), R.drawable.ic_ctx_information_normal))

@@ -78,7 +78,7 @@
             android:progress="100"
             android:progressDrawable="@drawable/po_seekbar"
             android:splitTrack="false"
-            android:thumb="@drawable/seekbar_thumb"
+            android:thumb="@drawable/ic_seekbar_thumb"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/playback_speed_minus"
             app:layout_constraintStart_toStartOf="parent"

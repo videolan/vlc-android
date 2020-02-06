@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_browser_archive_big_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="96dp"
+        android:viewportHeight="48"
+        android:viewportWidth="48"
+        android:width="96dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="nonZero"
+            android:pathData="M10,6C8.8954,6 8,6.8954 8,8v3.002L11,11v18l-3,0.002L8,31.75c0,0.0857 0.0161,0.1668 0.0254,0.25L8,32c0,1.1046 0.8954,2 2,2v-0.0254c0.0832,0.0092 0.1643,0.0255 0.25,0.0254L24,34v3h-7v5h18v-5h-7v-3h7c2.7614,0 5,-2.2386 5,-5h-5v0.002L15,29.002v-18L35,11.002L35,11h5C40,8.2386 37.7614,6 35,6ZM17,13.002v6h19v-6zM17,21.002v6h19v-6z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="2.25006151" />
+</vector>

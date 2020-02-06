@@ -9,11 +9,11 @@
     <item
         android:id="@+id/action_folder_append"
         android:title="@string/append"
-        android:icon="@drawable/ic_am_append_w"
+            android:icon="@drawable/ic_am_append"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_folder_add_playlist"
         android:title="@string/add_to_playlist"
-        android:icon="@drawable/ic_am_addtoplaylist_w"
+            android:icon="@drawable/ic_am_addtoplaylist"
         app:showAsAction="always"/>
 </menu>

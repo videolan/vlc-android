@@ -84,7 +84,7 @@
             android:id="@+id/item_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_more"
+                vlc:srcCompat="@drawable/ic_more"
             android:visibility="@{item.type !=  0 ? View.VISIBLE : View.GONE}"
             android:layout_marginEnd="1dp"
             vlc:layout_constraintRight_toRightOf="parent"

@@ -5,7 +5,7 @@
         android:id="@+id/action_history_info"
         android:visible="false"
         android:title="@string/info"
-        android:icon="@drawable/ic_am_information_w"
+            android:icon="@drawable/ic_am_information"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_history_play"
@@ -15,6 +15,6 @@
     <item
         android:id="@+id/action_history_append"
         android:title="@string/append"
-        android:icon="@drawable/ic_am_append_w"
+            android:icon="@drawable/ic_am_append"
         app:showAsAction="always" />
 </menu>

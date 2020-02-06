@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_menu_preferences_big.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="90dp"
+        android:viewportHeight="48"
+        android:viewportWidth="48"
+        android:width="90dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="@color/white"
+            android:fillType="nonZero"
+            android:pathData="m17.4375,7.192c-0.2414,0.02 -0.4484,0.112 -0.6875,0.25l-1.75,1 -1.75,1c-0.9566,0.5522 -0.9977,1.6292 -0.6875,2.6895l0.8125,2.8105c-1.107,1.292 -1.9824,2.739 -2.5625,4.375L8,20.0045c-1.0732,0.2615 -2,0.8955 -2,2v2,2c0,1.1047 0.9268,1.7387 2,2l2.8125,0.6875c0.5801,1.636 1.4555,3.083 2.5625,4.375l-0.8125,2.8145c-0.3102,1.0601 -0.2691,2.1333 0.6875,2.6855l1.75,1 1.75,1c0.9566,0.5524 1.9245,0.1126 2.6875,-0.6855l2.0625,-2.127c0.8139,0.1472 1.6437,0.25 2.5,0.25 0.8563,0 1.6861,-0.1027 2.5,-0.25l2.0625,2.127c0.763,0.7988 1.7309,1.2379 2.6875,0.6855l1.75,-1 1.75,-1c0.9566,-0.5522 0.9977,-1.6254 0.6875,-2.6855l-0.8125,-2.8145c1.107,-1.292 1.9824,-2.739 2.5625,-4.375L40,28.0045c1.0732,-0.2613 2,-0.8953 2,-2v-2,-2c0,-1.1045 -0.9268,-1.7385 -2,-2l-2.8125,-0.6875c-0.5801,-1.636 -1.4555,-3.083 -2.5625,-4.375l0.8125,-2.8105c0.3102,-1.0603 0.2691,-2.1373 -0.6875,-2.6895l-1.75,-1 -1.75,-1c-0.9566,-0.5524 -1.9245,-0.1088 -2.6875,0.6895l-2.0625,2.123c-0.8139,-0.1472 -1.6437,-0.25 -2.5,-0.25 -0.8563,0 -1.6861,0.1027 -2.5,0.25l-2.0625,-2.123c-0.5723,-0.5991 -1.2759,-0.9985 -2,-0.9395zM24,16.0045c4.4183,0 8,3.5819 8,8 0,4.4183 -3.5817,8 -8,8 -4.4183,0 -8,-3.5817 -8,-8 0,-4.4181 3.5817,-8 8,-8zM24,19.0006a5,5 0,0 0,-5 5,5 5,0 0,0 5,5 5,5 0,0 0,5 -5,5 5,0 0,0 -5,-5z"
+            android:strokeColor="#00000000"
+            android:strokeWidth="1" />
+</vector>

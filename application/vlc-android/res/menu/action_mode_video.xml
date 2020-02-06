@@ -5,7 +5,7 @@
         android:id="@+id/action_video_info"
         android:visible="false"
         android:title="@string/info"
-        android:icon="@drawable/ic_am_information_w"
+            android:icon="@drawable/ic_am_information"
         app:showAsAction="always" />
 
     <item
@@ -16,7 +16,7 @@
     <item
         android:id="@+id/action_video_append"
         android:title="@string/append"
-        android:icon="@drawable/ic_am_append_w"
+            android:icon="@drawable/ic_am_append"
         app:showAsAction="always" />
     <item
             android:id="@+id/action_video_share"
@@ -26,12 +26,12 @@
     <item
             android:id="@+id/action_video_play_audio"
             android:title="@string/play_as_audio"
-            android:icon="@drawable/ic_am_playasaudio_w"
+            android:icon="@drawable/ic_am_playasaudio"
             app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_mode_audio_add_playlist"
         android:title="@string/add_to_playlist"
-        android:icon="@drawable/ic_am_addtoplaylist_w"
+            android:icon="@drawable/ic_am_addtoplaylist"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_video_delete"

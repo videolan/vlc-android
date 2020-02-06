@@ -62,7 +62,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
             PlaybackService.renderer.observe(this, Observer {
                 val item = toolbar.menu.findItem(R.id.ml_menu_renderers) ?: return@Observer
                 item.isVisible = showRenderers
-                item.setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer_normal_w else R.drawable.ic_am_renderer_on_w)
+                item.setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer else R.drawable.ic_am_renderer_on)
             })
             RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems ->
                 showRenderers = !rendererItems.isNullOrEmpty()
@@ -106,7 +106,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         } else
             menu.findItem(R.id.ml_menu_filter).isVisible = false
         menu.findItem(R.id.ml_menu_renderers).isVisible = showRenderers && Settings.getInstance(this).getBoolean("enable_casting", true)
-        menu.findItem(R.id.ml_menu_renderers).setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer_normal_w else R.drawable.ic_am_renderer_on_w)
+        menu.findItem(R.id.ml_menu_renderers).setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer else R.drawable.ic_am_renderer_on)
         return true
     }
 

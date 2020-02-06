@@ -1,0 +1,54 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_no_media.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:aapt="http://schemas.android.com/aapt"
+        android:width="96dp"
+        android:height="96dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <group>
+        <clip-path android:pathData="m24,2c-0.9483,0 -1.5705,0.4214 -2.0862,0.9483 -0.7131,0.7284 -1.3276,2.8448 -1.3276,2.8448l-7.9655,23.8966 -3.2241,0c-1.0086,0 -1.9643,0.8826 -2.2759,1.8966L3.8017,42.9655c-0.4435,1.5205 -0.2845,3.0345 1.8017,3.0345l18.3966,0 18.3966,0c2.0862,-0 2.2452,-1.514 1.8017,-3.0345L40.8793,31.5862c-0.3116,-1.014 -1.2672,-1.8966 -2.2759,-1.8966l-3.2241,0 -7.9655,-23.8966c0,0 -0.6145,-2.1164 -1.3276,-2.8448 -0.5157,-0.5268 -1.1379,-0.9483 -2.0862,-0.9483z M 0,0" />
+        <path
+                android:pathData="m24,2c-0.9483,0 -1.5705,0.4214 -2.0862,0.9483 -0.7131,0.7284 -1.3276,2.8448 -1.3276,2.8448l-7.9655,23.8966 -3.2241,0c-1.0086,0 -1.9643,0.8826 -2.2759,1.8966L3.8017,42.9655c-0.4435,1.5205 -0.2845,3.0345 1.8017,3.0345l18.3966,0 18.3966,0c2.0862,-0 2.2452,-1.514 1.8017,-3.0345L40.8793,31.5862c-0.3116,-1.014 -1.2672,-1.8966 -2.2759,-1.8966l-3.2241,0 -7.9655,-23.8966c0,0 -0.6145,-2.1164 -1.3276,-2.8448 -0.5157,-0.5268 -1.1379,-0.9483 -2.0862,-0.9483z"
+                android:fillColor="#ff8800" />
+        <path
+                android:pathData="m35.3793,29.6897c0,0 0.506,1.517 0.7586,2.2759 0.3666,1.1011 0.5426,1.6547 -0.0054,2.2855C33.1035,37.2758 28.2756,38.4151 24,38.4138 19.7217,38.4126 14.9175,37.2313 11.8621,34.2414l11,11 -19.01,0c0.2833,0.462 0.8285,0.7586 1.7513,0.7586l18.3966,0 18.3966,0c2.0862,-0 2.2452,-1.514 1.8017,-3.0345L40.8793,31.5862c-0.3116,-1.014 -1.2672,-1.8966 -2.2759,-1.8966l-3.2241,0z"
+                android:fillColor="#f46e00"
+                android:fillAlpha="1" />
+        <path
+                android:pathData="m17.1724,16.0345c2.2759,1.7069 4.397,2.5603 6.8276,2.5603 2.4306,0 4.5517,-0.8534 6.8276,-2.5603 4.5517,0 3.0345,-10.2414 -2.6552,-7.9655 -3.1453,1.6591 -5.3103,1.5172 -8.3448,0 -5.6897,-2.2759 -7.2069,7.9655 -2.6552,7.9655zM12.6207,29.6897c0,0 -0.5057,1.5173 -0.7586,2.2759 -0.3795,1.138 -0.5722,1.716 0,2.2759 3.0554,2.9899 7.8596,4.1712 12.1379,4.1724 4.2756,0.0012 9.1034,-1.1379 12.1325,-4.1627C36.6805,33.6202 36.5045,33.0667 36.1379,31.9655c-0.2526,-0.7588 -0.7586,-2.2759 -0.7586,-2.2759 2.6552,0 0,-6.4483 -1.5172,-4.5517 -3.0345,3.0345 -6.3399,3.7931 -9.8621,3.7931 -3.5221,0 -6.8276,-0.7586 -9.8621,-3.7931 -1.5172,-1.5172 -4.1724,4.5517 -1.5172,4.5517z"
+                android:fillColor="#fafafa" />
+        <path
+                android:pathData="m14.1379,29.3104c-1.5803,4.8914 5.0233,5.4379 5.6553,1.8851L24.3793,5.4138c0.4238,-2.3823 -1.4526,-3.3069 -2.2759,-0.7586z"
+                android:strokeAlpha="0.6"
+                android:strokeLineJoin="miter"
+                android:strokeWidth="1"
+                android:fillColor="#ffffff"
+                android:strokeColor="#00000000"
+                android:fillType="evenOdd"
+                android:fillAlpha="0.18823531"
+                android:strokeLineCap="butt" />
+    </group>
+</vector>

@@ -45,6 +45,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/ic_more"/>
+                app:srcCompat="@drawable/ic_more" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

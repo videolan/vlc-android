@@ -4,19 +4,19 @@
     <item
         android:id="@+id/action_mode_audio_playlist_up"
         android:title="@string/info"
-        android:icon="@drawable/ic_am_playlist_up_w"
+            android:icon="@drawable/ic_am_playlist_up"
         android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_audio_playlist_down"
         android:title="@string/info"
-        android:icon="@drawable/ic_am_playlist_down_w"
+            android:icon="@drawable/ic_am_playlist_down"
         android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_audio_info"
         android:title="@string/info"
-        android:icon="@drawable/ic_am_information_w"
+            android:icon="@drawable/ic_am_information"
         app:showAsAction="always"/>
     <item
             android:id="@+id/action_mode_audio_share"
@@ -31,12 +31,12 @@
     <item
         android:id="@+id/action_mode_audio_append"
         android:title="@string/append"
-        android:icon="@drawable/ic_am_append_w"
+            android:icon="@drawable/ic_am_append"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_audio_add_playlist"
         android:title="@string/add_to_playlist"
-        android:icon="@drawable/ic_am_addtoplaylist_w"
+            android:icon="@drawable/ic_am_addtoplaylist"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_mode_audio_delete"
@@ -48,7 +48,7 @@
         <item
             android:id="@+id/action_mode_audio_set_song"
             android:title="@string/set_song"
-            android:icon="@drawable/ic_am_ringtone_w"
+                android:icon="@drawable/ic_am_ringtone"
             android:visible="false"
             app:showAsAction="always" />
     </group>

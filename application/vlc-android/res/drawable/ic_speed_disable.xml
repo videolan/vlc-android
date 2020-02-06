@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_speed_disable.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="48dp"
+        android:viewportHeight="24"
+        android:viewportWidth="24"
+        android:width="48dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#707070"
+            android:fillType="evenOdd"
+            android:pathData="m18,3.999c-1.1046,0 -2,0.8954 -2,2 0,1.1046 0.8954,2 2,2 1.1046,0 2,-0.8954 2,-2 0,-1.1046 -0.8954,-2 -2,-2zM9.1699,5.999 L6.5859,8.585 8,9.999 10,7.999 12,7.999 8,11.999 8,14.999 4,14.999 4,16.999 10,16.999 10,13.999 12,15.999 12,20.001 14,20.001 14,15.001 12,13.001 12.5625,12.4385 13.125,11.876 13.6894,11.3115 14.2519,10.749c1.0059,3.2454 4.7481,3.252 4.7481,3.252l0,-2c-2.9687,0 -3,-3 -3,-3 0,-3 -3,-3 -3,-3l-3.8301,0z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="1" />
+</vector>

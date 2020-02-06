@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_shortcut_resume_playback.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="64dp"
+        android:viewportHeight="48"
+        android:viewportWidth="48"
+        android:width="64dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#727272"
+            android:fillType="nonZero"
+            android:pathData="m23,4.0005c-0.255,0 -0.4982,0.11 -0.6796,0.289l-5.0273,4.9999c-0.3926,0.3906 -0.3926,1.0236 0,1.4142l5.0273,5c0.6336,0.6295 1.7144,0.184 1.7148,-0.7072v-2.996c7.7391,0.02 13.9646,6.2559 13.9646,13.9998 0,7.7557 -6.2441,13.9998 -13.9998,13.9998 -7.7557,0 -13.9998,-6.2441 -13.9998,-13.9998L6.0002,26.0001c0,9.9173 8.0827,17.9998 17.9998,17.9998 9.9173,0 17.9998,-8.0825 17.9998,-17.9998 0,-9.9055 -8.0635,-17.9806 -17.9646,-17.9998v-3.0039c-0.002,-0.5632 -0.4694,-1.0136 -1.0352,-0.996zM20.9922,20.0002c-0.543,-0.02 -0.992,0.4522 -0.9922,1.0312v9.9335c-0.0008,0.795 0.8074,1.2949 1.4532,0.8984l8.0623,-4.9686c0.645,-0.3976 0.645,-1.3916 0,-1.7892l-8.0623,-4.9647c-0.14,-0.088 -0.2986,-0.136 -0.461,-0.14z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="1.9999578" />
+</vector>

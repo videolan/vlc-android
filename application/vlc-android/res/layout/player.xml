@@ -45,7 +45,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:visibility="invisible"
-            android:src="@drawable/ic_cone_o"/>
+                app:srcCompat="@drawable/ic_cone_o" />
 
         <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_info_stub"

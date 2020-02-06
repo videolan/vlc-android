@@ -51,7 +51,7 @@
                 android:layout_marginStart="16dp"
                 android:contentDescription="@string/more_actions"
                 android:scaleType="center"
-                android:src="@drawable/ic_move_media"
+                vlc:srcCompat="@drawable/ic_move_media"
                 android:visibility="@{holder.canBeReordered ? View.VISIBLE : View.GONE, default=gone}"
                 vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
                 vlc:layout_constraintStart_toStartOf="parent"

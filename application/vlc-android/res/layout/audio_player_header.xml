@@ -29,7 +29,7 @@
             android:visibility="gone"
             android:onClick="@{fragment::onResumeToVideoClick}"
             android:contentDescription="@string/play_as_audio"
-            android:src="?attr/ic_playasaudio_off" />
+                app:srcCompat="?attr/ic_playasaudio_off" />
 
         <org.videolan.vlc.gui.view.HeaderMediaSwitcher
             android:id="@+id/audio_media_switcher"
@@ -66,7 +66,7 @@
             android:scaleType="fitXY"
             android:onClick="@{fragment::onSearchClick}"
             android:contentDescription="@string/search"
-            android:src="?attr/ic_menu_search" />
+                app:srcCompat="?attr/ic_menu_search" />
 
         <ImageView
             android:id="@+id/playlist_switch"
@@ -79,7 +79,7 @@
             android:scaleType="fitXY"
             android:onClick="@{fragment::onPlaylistSwitchClick}"
             android:contentDescription="@string/show_playlist"
-            android:src="?attr/ic_playlist_on" />
+                app:srcCompat="?attr/ic_playlist_on" />
 
         <ImageView
             android:id="@+id/adv_function"

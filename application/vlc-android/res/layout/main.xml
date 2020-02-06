@@ -39,7 +39,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_fab_add"
+                app:srcCompat="@drawable/ic_fab_add"
             android:tint="@color/grey50"
             app:borderWidth="0dp"
             app:rippleColor="@color/orange50"

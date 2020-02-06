@@ -5,7 +5,7 @@
     <item
             android:orderInCategory="1"
             android:id="@+id/ml_menu_renderers"
-            android:icon="@drawable/ic_am_renderer_normal_w"
+            android:icon="@drawable/ic_am_renderer"
             android:title="@string/cast_option_title"
             vlc:showAsAction="always|collapseActionView"
             android:visible="false"/>
