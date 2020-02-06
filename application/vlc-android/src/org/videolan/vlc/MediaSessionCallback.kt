@@ -6,16 +6,17 @@ import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AndroidDevices
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.util.getFromMl
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.MediaSessionBrowser
-import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
-import org.videolan.resources.util.getFromMl
 import java.util.*
 import kotlin.math.min
 
@@ -56,7 +57,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
-        playbackService.scope.launch {
+        playbackService.lifecycleScope.launch {
             val context = playbackService.applicationContext
             when {
                 mediaId == MediaSessionBrowser.ID_SHUFFLE_ALL -> {
@@ -93,7 +94,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onPlayFromSearch(query: String?, extras: Bundle?) {
         playbackService.mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.time, 1.0f).build())
-        playbackService.scope.launch(Dispatchers.IO) {
+        playbackService.lifecycleScope.launch(Dispatchers.IO) {
             if (!isActive) return@launch
             playbackService.awaitMedialibraryStarted()
             val vsp = VoiceSearchParams(query ?: "", extras)

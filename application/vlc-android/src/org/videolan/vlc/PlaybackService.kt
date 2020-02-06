@@ -82,7 +82,6 @@ private const val TAG = "VLC/PlaybackService"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
-    internal lateinit var scope : CoroutineScope
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     lateinit var playlistManager: PlaylistManager
@@ -501,9 +500,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     private fun setupScope() {
-        if (::scope.isInitialized && scope.isActive) return
-        scope = MainScope()
-        cbActor = scope.actor(capacity = Channel.UNLIMITED) {
+        cbActor = lifecycleScope.actor(capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {
                 CbUpdate -> for (callback in callbacks) callback.update()
                 is CbMediaEvent -> for (callback in callbacks) callback.onMediaEvent(update.event)
@@ -642,7 +639,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         // We must publish state before resetting mCurrentIndex
         publishState()
         executeUpdate()
-        scope.cancel()
     }
 
     private fun canSwitchToVideo() = playlistManager.player.canSwitchToVideo()
@@ -704,7 +700,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             val sessionToken = mediaSession.sessionToken
             val ctx = this
             val metaData = mediaSession.controller.metadata
-            scope.launch(Dispatchers.Default) {
+            lifecycleScope.launch(Dispatchers.Default) {
                 delay(100)
                 if (isPlayingPopup || !notificationShowing) return@launch
                 try {
@@ -953,7 +949,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             widgetIntent.putExtra("artist", "")
         }
         widgetIntent.putExtra("isplaying", isPlaying)
-        scope.launch(Dispatchers.Default) { sendWidgetBroadcast(widgetIntent) }
+        lifecycleScope.launch(Dispatchers.Default) { sendWidgetBroadcast(widgetIntent) }
     }
 
     private fun updateWidgetCover() {
@@ -961,7 +957,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         val newWidgetCover = mw?.artworkMrl
         if (!TextUtils.equals(currentWidgetCover, newWidgetCover)) {
             currentWidgetCover = newWidgetCover
-            scope.launch(Dispatchers.Default) {
+            lifecycleScope.launch(Dispatchers.Default) {
                 sendWidgetBroadcast(Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
                         .putExtra("artworkMrl", newWidgetCover))
             }
@@ -983,7 +979,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private fun broadcastMetadata() {
         val media = playlistManager.getCurrentMedia()
         if (media == null || isVideoPlaying) return
-        if (scope.isActive) scope.launch(Dispatchers.Default) {
+        if (lifecycleScope.isActive) lifecycleScope.launch(Dispatchers.Default) {
             sendBroadcast(Intent("com.android.music.metachanged")
                     .putExtra("track", media.title)
                     .putExtra("artist", media.artist)
@@ -996,14 +992,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     private fun loadLastAudioPlaylist() {
         if (AndroidDevices.isAndroidTv) return
-        scope.launch {
+        lifecycleScope.launch {
             awaitMedialibraryStarted()
             if (!playlistManager.loadLastPlaylist()) stopService(Intent(applicationContext, PlaybackService::class.java))
         }
     }
 
     fun loadLastPlaylist(type: Int) {
-        scope.launch {
+        lifecycleScope.launch {
             awaitMedialibraryStarted()
             playlistManager.loadLastPlaylist(type)
         }
@@ -1067,7 +1063,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     @MainThread
     fun load(mediaList: List<MediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
 
-    private fun updateMediaQueue() = scope.launch(start = CoroutineStart.UNDISPATCHED) {
+    private fun updateMediaQueue() = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
         val ctx = this@PlaybackService
         val queue = withContext(Dispatchers.Default) {
@@ -1097,7 +1093,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
      * @param flags LibVLC.MEDIA_* flags
      */
     @JvmOverloads
-    fun playIndex(index: Int, flags: Int = 0) = scope.launch { playlistManager.playIndex(index, flags) }
+    fun playIndex(index: Int, flags: Int = 0) {
+        lifecycleScope.launch { playlistManager.playIndex(index, flags) }
+    }
 
     @MainThread
     fun flush() {
@@ -1161,7 +1159,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     fun append(mediaList: Array<MediaWrapper>) = append(mediaList.toList())
 
     @MainThread
-    fun append(mediaList: List<MediaWrapper>) = scope.launch {
+    fun append(mediaList: List<MediaWrapper>) = lifecycleScope.launch {
         playlistManager.append(mediaList)
         onMediaListChanged()
     }
@@ -1305,14 +1303,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
-        scope.launch(start = CoroutineStart.UNDISPATCHED) {
+        lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
             awaitMedialibraryStarted()
             sendResults(result, parentId)
         }
     }
 
     private fun sendResults(result: Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
-        scope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             try {
                 result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))
             } catch (ignored: RuntimeException) {
