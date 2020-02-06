@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -96,7 +95,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             //headers
             val nbColumns = if ((viewModel as BrowserModel).sort == Medialibrary.SORT_ALPHA || (viewModel as BrowserModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
 
-            headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
+            binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as BrowserModel).sort
             val headerItems = ArrayList<String>()
             viewModel.provider.headers.run {

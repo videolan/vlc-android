@@ -24,10 +24,10 @@ import android.annotation.TargetApi
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.tv_vertical_grid.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -35,10 +35,11 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.television.R
+import org.videolan.television.databinding.TvVerticalGridBinding
 import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.browser.interfaces.BrowserActivityInterface
-import org.videolan.vlc.interfaces.BrowserFragmentInterface
 import org.videolan.television.ui.browser.interfaces.DetailsFragment
+import org.videolan.vlc.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
@@ -49,10 +50,12 @@ import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
 
     private lateinit var fragment: BrowserFragmentInterface
+    private lateinit var binding : TvVerticalGridBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.tv_vertical_grid)
+        binding = TvVerticalGridBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
         if (savedInstanceState == null) {
             val type = intent.getLongExtra(MainTvActivity.BROWSER_TYPE, -1)
             if (type == HEADER_VIDEO) {
@@ -107,13 +110,13 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
 
     override fun showProgress(show: Boolean) {
         lifecycleScope.launch {
-            tv_fragment_empty.visibility = View.GONE
-            tv_fragment_progress.visibility = if (show) View.VISIBLE else View.GONE
+            binding.tvFragmentEmpty.visibility = View.GONE
+            binding.tvFragmentProgress.visibility = if (show) View.VISIBLE else View.GONE
         }
     }
 
     override fun updateEmptyView(empty: Boolean) {
-        lifecycleScope.launch { tv_fragment_empty.visibility = if (empty) View.VISIBLE else View.GONE }
+        lifecycleScope.launch { binding.tvFragmentEmpty.visibility = if (empty) View.VISIBLE else View.GONE }
     }
 
     fun sort(v: View) {

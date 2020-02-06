@@ -30,7 +30,6 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -98,7 +97,7 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
                 //headers
                 val nbColumns = if ((viewModel as MoviepediaBrowserViewModel).sort == Medialibrary.SORT_ALPHA || (viewModel as MoviepediaBrowserViewModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
 
-                headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
+                binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
                 headerAdapter.sortType = (viewModel as MoviepediaBrowserViewModel).sort
                 val headerItems = ArrayList<String>()
                 viewModel.provider.headers.run {

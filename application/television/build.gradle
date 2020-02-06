@@ -9,6 +9,10 @@ android {
         pickFirst '**/*.so'
     }
 
+    androidExtensions {
+        features = ["parcelize"]
+    }
+
     kotlinOptions.jvmTarget = "1.8"
 
     android {

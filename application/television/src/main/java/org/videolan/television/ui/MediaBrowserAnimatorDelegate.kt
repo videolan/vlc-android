@@ -33,16 +33,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
-import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.television.R
+import org.videolan.television.databinding.SongBrowserBinding
 import org.videolan.television.ui.browser.BaseBrowserTvFragment
 import org.videolan.vlc.BuildConfig
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*>, private val cl: ConstraintLayout) : RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
+internal class MediaBrowserAnimatorDelegate(val binding: SongBrowserBinding, private val cl: ConstraintLayout) : RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
 
     private val scrolledUpConstraintSet = ConstraintSet()
     private val scrolledDownFABCollapsedConstraintSet = ConstraintSet()
@@ -55,12 +55,12 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
         interpolator = AccelerateDecelerateInterpolator()
         duration = 300
     }
-    private val fakeToolbar = browser.toolbar
-    private val fabSettings = browser.imageButtonSettings
-    private val fabHeader = browser.imageButtonHeader
-    private val fabFavorite = browser.imageButtonFavorite
-    private val fabSort = browser.imageButtonSort
-    private val fabDisplay = browser.imageButtonDisplay
+    private val fakeToolbar = binding.toolbar
+    private val fabSettings = binding.imageButtonSettings
+    private val fabHeader = binding.imageButtonHeader
+    private val fabFavorite = binding.imageButtonFavorite
+    private val fabSort = binding.imageButtonSort
+    private val fabDisplay = binding.imageButtonDisplay
 
     private var currenstate = MediaBrowserState.SCROLLED_UP
         set(value) {
@@ -111,10 +111,10 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
     override fun onFocusChange(v: View, hasFocus: Boolean) {
         //Show action labels when needed
         val view = when (v) {
-            browser.displayButton -> browser.displayDescription
-            browser.headerButton -> browser.headerDescription
-            browser.sortButton -> browser.sortDescription
-            browser.favoriteButton -> browser.favoriteDescription
+            binding.displayButton -> binding.displayDescription
+            binding.headerButton -> binding.headerDescription
+            binding.sortButton -> binding.sortDescription
+            binding.favoriteButton -> binding.favoriteDescription
             else -> null
         }
 
@@ -284,7 +284,7 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
                     fakeToolbar.visibility = View.GONE
                 }
                 if (currenstate == MediaBrowserState.HEADER_VISIBLE) {
-                    browser.headerList.requestFocus()
+                    binding.headerList.requestFocus()
                 }
             }
 
@@ -304,14 +304,14 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment<*
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 fun BaseBrowserTvFragment<*>.setAnimator(cl: ConstraintLayout) {
-    animationDelegate = MediaBrowserAnimatorDelegate(this, cl)
-    headerButton.onFocusChangeListener = animationDelegate
-    displayButton.onFocusChangeListener = animationDelegate
-    sortButton.onFocusChangeListener = animationDelegate
-    favoriteButton.onFocusChangeListener = animationDelegate
-    imageButtonSort.onFocusChangeListener = animationDelegate
-    imageButtonDisplay.onFocusChangeListener = animationDelegate
-    imageButtonHeader.onFocusChangeListener = animationDelegate
-    imageButtonSettings.onFocusChangeListener = animationDelegate
-    list.addOnScrollListener(animationDelegate)
+    animationDelegate = MediaBrowserAnimatorDelegate(binding, cl)
+    binding.headerButton.onFocusChangeListener = animationDelegate
+    binding.displayButton.onFocusChangeListener = animationDelegate
+    binding.sortButton.onFocusChangeListener = animationDelegate
+    binding.favoriteButton.onFocusChangeListener = animationDelegate
+    binding.imageButtonSort.onFocusChangeListener = animationDelegate
+    binding.imageButtonDisplay.onFocusChangeListener = animationDelegate
+    binding.imageButtonHeader.onFocusChangeListener = animationDelegate
+    binding.imageButtonSettings.onFocusChangeListener = animationDelegate
+    binding.list.addOnScrollListener(animationDelegate)
 }
