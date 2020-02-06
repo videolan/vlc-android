@@ -46,7 +46,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.yield
@@ -115,9 +114,9 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         //overscan
         val hp = TvUtil.getOverscanHorizontal(requireContext())
         val vp = TvUtil.getOverscanVertical(requireContext())
-        headerList.setPadding(list.paddingLeft + hp, list.paddingTop + vp, list.paddingRight + hp, list.paddingBottom + vp)
+        binding.headerList.setPadding(binding.list.paddingLeft + hp, binding.list.paddingTop + vp, binding.list.paddingRight + hp, binding.list.paddingBottom + vp)
 
-        val lp = (imageButtonSettings.layoutParams as ConstraintLayout.LayoutParams)
+        val lp = (binding.imageButtonSettings.layoutParams as ConstraintLayout.LayoutParams)
         lp.leftMargin += hp
         lp.rightMargin += hp
         lp.topMargin += vp
@@ -125,7 +124,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
 
         calculateNbColumns()
 
-        title.text = viewModel.currentItem?.let {
+        binding.title.text = viewModel.currentItem?.let {
             when (it) {
                 is MediaLibraryItem -> if (getCategory() == TYPE_NETWORK || getCategory() == TYPE_FILE) {
                     ""
@@ -141,18 +140,18 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         }
 
         val sortClick: (View) -> Unit = { v ->
-            animationDelegate.setVisibility(headerButton, View.GONE)
+            animationDelegate.setVisibility(binding.headerButton, View.GONE)
             sort(v)
         }
 
-        headerButton.setOnClickListener(searchHeaderClick)
-        imageButtonHeader.setOnClickListener(searchHeaderClick)
+        binding.headerButton.setOnClickListener(searchHeaderClick)
+        binding.imageButtonHeader.setOnClickListener(searchHeaderClick)
 
-        sortButton.setOnClickListener(sortClick)
-        imageButtonSort.setOnClickListener(sortClick)
+        binding.sortButton.setOnClickListener(sortClick)
+        binding.imageButtonSort.setOnClickListener(sortClick)
 
-        displayButton.setOnClickListener(displayClick)
-        imageButtonDisplay.setOnClickListener(displayClick)
+        binding.displayButton.setOnClickListener(displayClick)
+        binding.imageButtonDisplay.setOnClickListener(displayClick)
 
         spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
         recyclerSectionItemGridDecoration = RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider)
@@ -162,18 +161,18 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
 
 
         //size of an item
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight, viewModel.nbColumns, spacing)
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - binding.list.paddingLeft - binding.list.paddingRight, viewModel.nbColumns, spacing)
 
         adapter = provideAdapter(this, itemSize)
         adapter.displaySwitch(inGrid)
 
-        list.addItemDecoration(recyclerSectionItemGridDecoration)
+        binding.list.addItemDecoration(recyclerSectionItemGridDecoration)
 
         //header list
-        headerListContainer.visibility = View.GONE
+        binding.headerListContainer.visibility = View.GONE
         headerAdapter = MediaHeaderAdapter(this)
-        headerList.adapter = headerAdapter
-        headerList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+        binding.headerList.adapter = headerAdapter
+        binding.headerList.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 super.getItemOffsets(outRect, view, parent, state)
                 outRect.bottom = 2
@@ -216,7 +215,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             gridLayoutManager = LinearLayoutManager(requireActivity())
         }
         recyclerSectionItemGridDecoration.isList = !inGrid
-        list.layoutManager = gridLayoutManager
+        binding.list.layoutManager = gridLayoutManager
     }
 
     private fun changeDisplayMode() {
@@ -254,11 +253,11 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         calculateNbColumns()
         (gridLayoutManager as? GridLayoutManager)?.spanCount = viewModel.nbColumns
         if (BuildConfig.DEBUG) Log.d(TAG, "${viewModel.nbColumns}")
-        list.layoutManager = gridLayoutManager
+        binding.list.layoutManager = gridLayoutManager
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        list.adapter = adapter as RecyclerView.Adapter<*>
+        binding.list.adapter = adapter as RecyclerView.Adapter<*>
         if (!backgroundManager.isAttached) {
             backgroundManager.attachToView(view)
         }
@@ -349,33 +348,33 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         hideHeaderSelectionScreen()
 
         val positionForSectionByName = viewModel.provider.getPositionForSectionByName(header)
-        val linearLayoutManager: LinearLayoutManager = list.layoutManager as LinearLayoutManager
+        val linearLayoutManager: LinearLayoutManager = binding.list.layoutManager as LinearLayoutManager
 
         val view = linearLayoutManager.findViewByPosition(positionForSectionByName)
 
         if (view == null) {
             adapter.focusNext = positionForSectionByName
         } else {
-            list.getChildAt(positionForSectionByName).requestFocus()
+            binding.list.getChildAt(positionForSectionByName).requestFocus()
         }
-        list.scrollToPosition(positionForSectionByName)
+        binding.list.scrollToPosition(positionForSectionByName)
     }
 
     private fun hideHeaderSelectionScreen() {
-        headerListContainer.visibility = View.GONE
-        list.visibility = View.VISIBLE
+        binding.headerListContainer.visibility = View.GONE
+        binding.list.visibility = View.VISIBLE
         animationDelegate.showFAB()
     }
 
     private var lastDpadEventTime = 0L
     override fun onKeyPressed(keyCode: Int) = when (keyCode) {
         KEYCODE_MENU -> {
-            imageButtonSettings.requestFocusFromTouch()
+            binding.imageButtonSettings.requestFocusFromTouch()
             animationDelegate.expandExtendedFAB()
             true
         }
         KEYCODE_BACK -> {
-            if (headerListContainer != null && headerListContainer.visibility == View.VISIBLE) {
+            if (binding.headerListContainer != null && binding.headerListContainer.visibility == View.VISIBLE) {
                 hideHeaderSelectionScreen()
                 true
             } else false
@@ -392,8 +391,8 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
             } else true
         }
         KEYCODE_DPAD_RIGHT, KEYCODE_DPAD_LEFT -> {
-            if (!inGrid && list.hasFocus() && animationDelegate.isScrolled()) {
-                imageButtonSettings.requestFocusFromTouch()
+            if (!inGrid && binding.list.hasFocus() && animationDelegate.isScrolled()) {
+                binding.imageButtonSettings.requestFocusFromTouch()
                 true
             }
             false
@@ -410,9 +409,9 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                 binding.list.requestFocus()
             }
         }
-        animationDelegate.setVisibility(imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
-        animationDelegate.setVisibility(headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
-        animationDelegate.setVisibility(headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
+        animationDelegate.setVisibility(binding.imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
+        animationDelegate.setVisibility(binding.headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
+        animationDelegate.setVisibility(binding.headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
     }
 }
 
