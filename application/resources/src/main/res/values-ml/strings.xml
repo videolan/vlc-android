@@ -123,7 +123,7 @@
     <string name="noplaylist">പ്ലേലിസ്റ്റ് കണ്ടെത്താന്‍ സാധിച്ചില്ല</string>
     <string name="mediafiles">മീഡിയ ഫയലുകള്‍</string>
     <string name="notavailable">ലഭ്യമല്ല</string>
-    <string name="nosubdirectory">സബ്ഡയറക്‍ട്ടറികള്‍ ഇല്ല</string>
+    <string name="nosubfolder">ഉപഫോൾഡർ ഇല്ല</string>
     <string name="directorynotfound">%1$s  ഫോള്‍ഡറിലേക്കുള്ള വഴി കണ്ടെത്താനായില്ല</string>
     <string name="nohistory">നിങ്ങള്‍ക്ക് ഇതുവരെ പ്ളേബാക്ക് ചരിത്രം ഇല്ല</string>
     <string name="validation">ഉറപ്പാണോ?</string>
@@ -487,7 +487,7 @@
     <string name="network_empty">ഈ ഡയറക്റ്ററി കാലിയാണ് </string>
     <string name="network_connection_needed">പ്രാദേശിക ശ്രിന്ഘലയുമായി ബന്ധമില്ല</string>
     <string name="search_hint">മീഡിയ തിരയുക</string>
-    <string name="search_list_hint">നിലവിലുള്ള പട്ടികയിൽ മീഡിയ തിരയുക</string>
+    <string name="search_in_list_hint">നിലവിലെ പട്ടികയിൽ‌ തിരയുക</string>
     <string name="search_global">എല്ലാ മീഡിയ ലൈബ്രറിയിലും തിരയുക</string>
     <string name="directory_show_medialib">മീഡിയ ലിബ് ൽ കാണിക്കുക</string>
     <string name="directory_hide_medialib">മീഡിയ ലിബ് ൽ നിന്ന് മറയ്ക്കുക </string>
@@ -758,4 +758,25 @@
     <string name="clear_media_db_warning">നിങ്ങളുടെ പുരോഗതിയും നിങ്ങൾ സൃഷ്ടിച്ച പ്ലേലിസ്റ്റുകളും നഷ്‌ടപ്പെടും.\n%s</string>
     <string name="abrepeat_add_first_marker">ആരംഭ പോയിന്റ് സ്ഥാപിക്കുക</string>
     <string name="abrepeat_add_second_marker">അവസാന പോയിന്റ് സ്ഥാപിക്കുക</string>
+    <string name="demux_bitrate">ഡെമക്സ് ബിറ്റ്റേറ്റ്</string>
+    <string name="input_bitrate">ഇൻപുട്ട് ബിറ്റ്റേറ്റ്</string>
+    <string name="video_information">വീഡിയോ വിവരങ്ങൾ</string>
+
+    <string name="channels">ചാനലുകൾ</string>
+    <string name="resolution">റെസലൂഷൻ</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">ഫ്രെയിംറേറ്റ്</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">ഭാഷ</string>
+    <string name="track_samplerate">സാമ്പിൾ റേറ്റ്</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">ബിറ്റ്റേറ്റ്</string>
+    <string name="codec">കോഡെക്</string>
+    <string name="text">ടെക്‌സ്റ്റ്‌</string>
+    <string name="unknown">അജ്ഞാതം</string>
+    <string name="audio_delay_start">ശബ്ദം കേട്ടു</string>
+    <string name="subtitle_delay_first">ശബ്ദം കേട്ടു</string>
+    <string name="audio_delay_end">ശബ്‌ദം കണ്ടെത്തി</string>
+    <string name="subtitle_delay_end">ടെക്‌സ്റ്റ്‌ കണ്ടു</string>
 </resources>
