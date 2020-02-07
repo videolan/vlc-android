@@ -765,4 +765,8 @@
     <string name="codec">編解碼器</string>
     <string name="text">文字</string>
     <string name="unknown">未知</string>
+    <string name="audio_delay_start">聽到聲音</string>
+    <string name="subtitle_delay_first">聽到聲音</string>
+    <string name="audio_delay_end">被發現的聲音</string>
+    <string name="subtitle_delay_end">看到的文字</string>
 </resources>
