@@ -793,4 +793,8 @@
     <string name="codec">Kodek</string>
     <string name="text">Text</string>
     <string name="unknown">Neznáme</string>
+    <string name="audio_delay_start">Počutý zvuk</string>
+    <string name="subtitle_delay_first">Počutý hlas</string>
+    <string name="audio_delay_end">Spozorovaný zvuk</string>
+    <string name="subtitle_delay_end">Videný text</string>
 </resources>
