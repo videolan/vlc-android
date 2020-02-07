@@ -792,4 +792,8 @@
     <string name="codec">מפענח</string>
     <string name="text">טקסט</string>
     <string name="unknown">לא ידוע</string>
+    <string name="audio_delay_start">נשמע צליל</string>
+    <string name="subtitle_delay_first">נשמע קול</string>
+    <string name="audio_delay_end">זוהה קול</string>
+    <string name="subtitle_delay_end">נראה טקסט</string>
 </resources>
