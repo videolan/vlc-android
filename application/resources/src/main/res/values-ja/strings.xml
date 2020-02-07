@@ -765,4 +765,8 @@
     <string name="codec">コーデック</string>
     <string name="text">テキスト</string>
     <string name="unknown">不明</string>
+    <string name="audio_delay_start">聞こえたサウンド</string>
+    <string name="subtitle_delay_first">聞こえた音声</string>
+    <string name="audio_delay_end">途切れ途切れのサウンド</string>
+    <string name="subtitle_delay_end">見えたテキスト</string>
 </resources>
