@@ -792,4 +792,8 @@
     <string name="codec">Кодек</string>
     <string name="text">Текст</string>
     <string name="unknown">Невідомо</string>
+    <string name="audio_delay_start">Звук почули</string>
+    <string name="subtitle_delay_first">Голос почули</string>
+    <string name="audio_delay_end">Звук нерівномірний</string>
+    <string name="subtitle_delay_end">Текст побачили</string>
 </resources>
