@@ -45,6 +45,8 @@
     <string name="insert_next">Sisip berikutnya</string>
     <string name="play_all">Main semua</string>
     <string name="append_all">Tambah semua</string>
+    <string name="resume_playback_short_title">Resume playback</string>
+    <string name="resume_playback_long_title"> Resume playback of last playlist</string>
     <string name="delete">Padam</string>
     <string name="remove">Buang</string>
     <string name="set_song">Tetapkan sebagai nada dering</string>
@@ -113,7 +115,7 @@
     <string name="noplaylist">Tiada senarai main ditemui.</string>
     <string name="mediafiles">Fail media</string>
     <string name="notavailable">tidak tersedia</string>
-    <string name="nosubdirectory">Tiada subdirektori.</string>
+    <string name="nosubfolder">No subfolder</string>
     <string name="directorynotfound">Laluan direktori \'%1$s\' tidak ditemui.</string>
     <string name="nohistory">Anda belum memiliki sejarah mainbalik.</string>
     <string name="validation">Anda pasti?</string>
@@ -411,6 +413,7 @@
     <string name="dump_media_db">Longgok pangkalan data media</string>
     <string name="dump_media_db_summary">Salin pangkalan data ke dalam root storan dalaman</string>
     <string name="clear_media_db">Kosongkan pangkalan data media</string>
+    <string name="clear_media_database_summary">Clears the database to start over</string>
     <string name="clear_history">Kosongkan sejarah</string>
     <string name="media_db_cleared">Pangkalan data media dikosongkan!</string>
     <string name="set_locale">Tetapkan lokaliti</string>
@@ -475,7 +478,7 @@
     <string name="network_empty">Direktori ini kosong.</string>
     <string name="network_connection_needed">Tiada sambungan untuk rangkaian setempat.</string>
     <string name="search_hint">Gelintar media</string>
-    <string name="search_list_hint">Gelintar media dalam senarai semasa</string>
+    <string name="search_in_list_hint">Search in current list</string>
     <string name="search_global">Gelintar dalam semua pustaka media</string>
     <string name="directory_show_medialib">Tunjuk dalam MediaLib</string>
     <string name="directory_hide_medialib">Sembunyi dari MediaLib</string>
@@ -742,4 +745,28 @@
     <string name="recently_played">Baru-Baru ini dimainkan</string>
     <string name="recently_added">Baru-baru Ini ditambah</string>
     <string name="playback_multiple_errors">Media berbilang tidak dapat dimainkan</string>
+    <string name="clear_media_db_warning">You will lose your progresses and the playlists you created.\n%s</string>
+    <string name="abrepeat_add_first_marker">Set start point</string>
+    <string name="abrepeat_add_second_marker">Set end point</string>
+    <string name="demux_bitrate">Demux bitrate</string>
+    <string name="input_bitrate">Input bitrate</string>
+    <string name="video_information">Video information</string>
+
+    <string name="channels">Channels</string>
+    <string name="resolution">Resolution</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Framerate</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Language</string>
+    <string name="track_samplerate">Sample rate</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="codec">Codec</string>
+    <string name="text">Text</string>
+    <string name="unknown">Unknown</string>
+    <string name="audio_delay_start">Bunyi didengari</string>
+    <string name="subtitle_delay_first">Suara didengari</string>
+    <string name="audio_delay_end">Bunyi dikesan</string>
+    <string name="subtitle_delay_end">Teks dilihat</string>
 </resources>
