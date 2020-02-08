@@ -774,4 +774,8 @@
     <string name="codec">Codificatore</string>
     <string name="text">Testo</string>
     <string name="unknown">Sconosciuto</string>
+    <string name="audio_delay_start">Suono ascoltato</string>
+    <string name="subtitle_delay_first">Voce ascoltata</string>
+    <string name="audio_delay_end">Suono individuato</string>
+    <string name="subtitle_delay_end">Testo visto</string>
 </resources>
