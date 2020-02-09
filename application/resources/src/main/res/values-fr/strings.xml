@@ -98,6 +98,11 @@
         <item quantity="one">1 film</item>
         <item quantity="other">%d films</item>
     </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV show</item>
+        <item quantity="other">%d séries TV</item>
+    </plurals>
+
     <string name="internal_memory">Mémoire interne</string>
     <string name="parent_folder">Vers le dossier parent</string>
     <string name="audio">Audio</string>
@@ -118,7 +123,7 @@
     <string name="noplaylist">Aucune liste de lecture trouvée.</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
-    <string name="nosubdirectory">Pas de sous-dossiers</string>
+    <string name="nosubfolder">Aucun sous-dossier</string>
     <string name="directorynotfound">Dossier « %1$s » non trouvé.</string>
     <string name="nohistory">Pas d\'historique de lecture</string>
     <string name="validation">Êtes-vous sûr ?</string>
@@ -417,6 +422,7 @@
     <string name="dump_media_db">Exporter la base de données de médias</string>
     <string name="dump_media_db_summary">Copie la base de données à la racine du stockage interne</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
+    <string name="clear_media_database_summary">Efface la base de données pour recommencer à zéro</string>
     <string name="clear_history">Vider l\'historique de lecture</string>
     <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
     <string name="set_locale">Définir la langue</string>
@@ -481,7 +487,7 @@
     <string name="network_empty">Ce dossier est vide.</string>
     <string name="network_connection_needed">Pas de connexion au réseau local.</string>
     <string name="search_hint">Recherche de média</string>
-    <string name="search_list_hint">Rechercher un média dans la liste actuelle</string>
+    <string name="search_in_list_hint">Rechercher dans la liste actuelle</string>
     <string name="search_global">Rechercher dans toute la médiathèque</string>
     <string name="directory_show_medialib">Afficher dans la bibliothèque multimédia</string>
     <string name="directory_hide_medialib">Cacher de la bibliothèque multimédia</string>
@@ -724,6 +730,9 @@
     <string name="invalid_file">Fichier non valide. Ne peut être partagé.</string>
     <string name="share_file">Partager %s</string>
     <string name="share_message">Voici %s</string>
+    <string name="find_metadata">Trouver les métadonnées</string>
+    <string name="moviepedia_hint">Rechercher les métadonnées</string>
+    <string name="moviepedia_result">Résultats vidéo</string>
     <string name="release_date">Sortie :</string>
     <string name="synopsis">Synopsis</string>
     <string name="directed_by">Réalisé par</string>
@@ -731,7 +740,9 @@
     <string name="produced_by">Produit par</string>
     <string name="written_by">Écrit par</string>
     <string name="music_by">Musique de</string>
+    <string name="posters">Affiches</string>
     <string name="backdrops">Décors</string>
+    <string name="header_tvshows">Séries TV</string>
     <string name="all_movies">Tous les films</string>
     <string name="movie_count">%s film(s)</string>
     <string name="header_movies">Films</string>
@@ -743,4 +754,28 @@
     <string name="recently_played">Lu récemment</string>
     <string name="recently_added">Ajouté récemment</string>
     <string name="playback_multiple_errors">Plusieurs médias ne peuvent être lus</string>
+    <string name="clear_media_db_warning">Vous perdrez vos avancements et les listes de lecture que vous avez créées.\n%s</string>
+    <string name="abrepeat_add_first_marker">Définir le point de début</string>
+    <string name="abrepeat_add_second_marker">Définir le point de fin</string>
+    <string name="demux_bitrate">Débit de démultiplexage</string>
+    <string name="input_bitrate">Débit d’entrée</string>
+    <string name="video_information">Informations sur la vidéo</string>
+
+    <string name="channels">Chaînes</string>
+    <string name="resolution">Résolution</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Fréquence d’images</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Langue</string>
+    <string name="track_samplerate">Fréquence d’échantillonnage</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Débit</string>
+    <string name="codec">Codec</string>
+    <string name="text">Texte</string>
+    <string name="unknown">Inconnu</string>
+    <string name="audio_delay_start">Son entendu</string>
+    <string name="subtitle_delay_first">Voix entendue</string>
+    <string name="audio_delay_end">Son pointé</string>
+    <string name="subtitle_delay_end">Texte vu</string>
 </resources>
