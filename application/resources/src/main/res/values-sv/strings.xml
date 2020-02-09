@@ -774,4 +774,8 @@
     <string name="codec">Kodek</string>
     <string name="text">Text</string>
     <string name="unknown">Okänd</string>
+    <string name="audio_delay_start">Ljud hördes</string>
+    <string name="subtitle_delay_first">Röst hördes</string>
+    <string name="audio_delay_end">Ljud upptäcktes</string>
+    <string name="subtitle_delay_end">Text sågs</string>
 </resources>
