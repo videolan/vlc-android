@@ -34,25 +34,26 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.ExternalMonitor
-import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.R
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
-import org.videolan.vlc.gui.DialogActivity
+import org.videolan.moviepedia.repository.MediaMetadataRepository
+import org.videolan.resources.*
+import org.videolan.resources.util.getFromMl
+import org.videolan.television.ui.NowPlayingDelegate
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.Settings
+import org.videolan.vlc.ExternalMonitor
+import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.moviepedia.repository.MediaMetadataRepository
-import org.videolan.resources.*
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.util.getFromMl
-import org.videolan.tools.PLAYBACK_HISTORY
-import org.videolan.tools.Settings
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.convertFavorites
+import org.videolan.vlc.util.scanAllowed
 
 private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "MainTvModel"
@@ -82,7 +83,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     val recentlyPlayed: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
     val recentlyAdded: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
 
-    private val nowPlayingDelegate = org.videolan.television.ui.NowPlayingDelegate(this)
+    private val nowPlayingDelegate = NowPlayingDelegate(this)
 
     private val updateActor = viewModelScope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (action in channel) updateBrowsers()
@@ -112,7 +113,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         ExternalMonitor.storagePlugged.observeForever(monitorObserver)
         PlaylistManager.showAudioPlayer.observeForever(playerObserver)
         mediaMetadataRepository.getAllLive().observeForever(videoObserver)
-
     }
 
     fun refresh() = viewModelScope.launch {
@@ -176,7 +176,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     fun updateNowPlaying() = viewModelScope.launch {
         val list = mutableListOf<MediaLibraryItem>()
-        PlaybackService.service.value?.run {
+        PlaybackService.instance?.run {
             currentMediaWrapper?.let {
                 DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artist).apply { setArtWork(coverArt) }
             }

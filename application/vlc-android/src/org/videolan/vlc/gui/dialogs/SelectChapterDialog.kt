@@ -26,12 +26,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.Tools
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -40,7 +42,7 @@ import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class SelectChapterDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackService>, IOnChapterSelectedListener {
+class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedListener {
 
     companion object {
 
@@ -66,7 +68,8 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackSer
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PlaybackService.service.observe(this, this)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(lifecycleScope)
+        PlaybackService.instance?.let { onServiceChanged(it) }
     }
 
     private fun initChapterList() {
@@ -99,7 +102,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackSer
 
     }
 
-    override fun onChanged(service: PlaybackService?) {
+    private fun onServiceChanged(service: PlaybackService?) {
         if (service != null) {
             this.service = service
             initChapterList()

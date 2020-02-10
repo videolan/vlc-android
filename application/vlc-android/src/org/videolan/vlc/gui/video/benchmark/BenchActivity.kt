@@ -115,8 +115,8 @@ class BenchActivity : ShallowVideoPlayer() {
     /* File in which vlc will store logs in case of a crash or freeze */
     private var stacktraceFile: String? = null
 
-    override fun onChanged(service: PlaybackService?) {
-        super.onChanged(service)
+    override fun onServiceChanged(service: PlaybackService?) {
+        super.onServiceChanged(service)
         if (mIsHardware && this.service != null) {
             val sharedPref = Settings.getInstance(this)
             mOldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")

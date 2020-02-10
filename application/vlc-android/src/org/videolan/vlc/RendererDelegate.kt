@@ -23,12 +23,12 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
 import org.videolan.tools.NetworkMonitor
-import org.videolan.tools.retry
-import org.videolan.tools.livedata.LiveDataset
-import org.videolan.resources.VLCInstance
 import org.videolan.tools.isAppStarted
+import org.videolan.tools.livedata.LiveDataset
+import org.videolan.tools.retry
 import java.util.*
 
 @ObsoleteCoroutinesApi
@@ -61,7 +61,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
         if (!started) return
         started = false
         for (discoverer in discoverers) discoverer.stop()
-        if (isAppStarted() || PlaybackService.service.value?.run { !isPlaying } != false) {
+        if (isAppStarted() || PlaybackService.instance?.run { !isPlaying } != false) {
             PlaybackService.renderer.value = null
         }
         clear()

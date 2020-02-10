@@ -28,18 +28,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
-import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.util.PlaylistFilterDelegate
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback, Observer<PlaybackService> {
+class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback {
 
     var service: PlaybackService? = null
     val dataset = LiveDataset<MediaWrapper>()
@@ -61,7 +63,8 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback,
     }
 
     init {
-        PlaybackService.service.observeForever(this)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(viewModelScope)
+        PlaybackService.instance?.let { onServiceChanged(it) }
     }
 
     private fun setup(service: PlaybackService) {
@@ -106,7 +109,6 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback,
             removeCallback(this@PlaylistModel)
             progress.removeSource(playlistManager.player.progress)
         }
-        PlaybackService.service.removeObserver(this)
         super.onCleared()
     }
 
@@ -206,7 +208,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback,
         get() = service?.videoTracksCount ?: 0
 
 
-    override fun onChanged(service: PlaybackService?) {
+    private fun onServiceChanged(service: PlaybackService?) {
         if (service != null) {
             this.service = service
             progress.apply {

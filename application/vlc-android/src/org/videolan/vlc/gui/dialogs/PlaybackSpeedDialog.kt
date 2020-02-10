@@ -30,9 +30,11 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.videolan.tools.formatRateString
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -40,7 +42,7 @@ import org.videolan.vlc.gui.helpers.OnRepeatListener
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackService> {
+class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var speedValue: TextView
     private lateinit var seekSpeed: SeekBar
@@ -116,7 +118,8 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackSer
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PlaybackService.service.observe(this, this)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(lifecycleScope)
+        PlaybackService.instance?.let { onServiceChanged(it) }
     }
 
     private fun setRateProgress() {
@@ -149,7 +152,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackSer
 
     }
 
-    override fun onChanged(service: PlaybackService?) {
+    private fun onServiceChanged(service: PlaybackService?) {
         if (service != null) {
             playbackService = service
             setRateProgress()

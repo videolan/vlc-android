@@ -28,16 +28,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickListener, View.OnFocusChangeListener, Observer<PlaybackService> {
+abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickListener, View.OnFocusChangeListener {
 
     private var mTextColor: Int = 0
 
@@ -112,7 +114,8 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        PlaybackService.service.observe(this, this)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(lifecycleScope)
+        PlaybackService.instance?.let { onServiceChanged(it) }
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -188,8 +191,8 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
         tvTimeToJump.text = formatTime
     }
 
-    override fun onChanged(service: PlaybackService) {
-        playbackService = service
+    private fun onServiceChanged(service: PlaybackService?) {
+        if (service != null) playbackService = service
     }
 
     protected abstract fun executeAction()

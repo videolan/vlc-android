@@ -26,19 +26,33 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.television.viewmodel.MainTvModel
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
-import org.videolan.television.viewmodel.MainTvModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callback by EmptyPBSCallback {
     private var service: PlaybackService? = null
 
-    private val playbackServiceObserver = Observer<PlaybackService> { service ->
+    private val nowPlayingObserver = Observer<Boolean> { updateCurrent() }
+
+    init {
+        PlaylistManager.showAudioPlayer.observeForever(nowPlayingObserver)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(model.viewModelScope)
+        PlaybackService.instance?.let { onServiceChanged(it) }
+    }
+
+    fun onClear() {
+        PlaylistManager.showAudioPlayer.removeObserver(nowPlayingObserver)
+    }
+
+    private fun onServiceChanged(service: PlaybackService?) {
         if (service !== null) {
             this.service = service
             service.addCallback(this)
@@ -47,18 +61,6 @@ class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callba
             this.service = null
         }
         updateCurrent()
-    }
-
-    private val nowPlayingObserver = Observer<Boolean> { updateCurrent() }
-
-    init {
-        PlaybackService.service.observeForever(playbackServiceObserver)
-        PlaylistManager.showAudioPlayer.observeForever(nowPlayingObserver)
-    }
-
-    fun onClear() {
-        PlaybackService.service.removeObserver(playbackServiceObserver)
-        PlaylistManager.showAudioPlayer.removeObserver(nowPlayingObserver)
     }
 
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {

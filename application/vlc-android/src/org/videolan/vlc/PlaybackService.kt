@@ -49,9 +49,14 @@ import androidx.lifecycle.Observer
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.flow
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.interfaces.IMedia
@@ -496,7 +501,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         restartPlayer.observe(this, Observer { restartMediaPlayer() })
         headSetDetection.observe(this, Observer { detectHeadset(it) })
         equalizer.observe(this, Observer { setEqualizer(it) })
-        (service as MutableLiveData).value = this
+        instance = this
     }
 
     private fun setupScope() {
@@ -564,7 +569,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     override fun onDestroy() {
-        (service as MutableLiveData).value = null
+        instance = null
         dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
@@ -1315,6 +1320,15 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     companion object {
+        private val instanceChannel = BroadcastChannel<PlaybackService?>(BUFFERED)
+        var instance : PlaybackService? = null
+            private set(value) {
+                field = value
+                instanceChannel.safeOffer(value)
+                (service as MutableLiveData).value = value
+            }
+        val serviceFlow : Flow<PlaybackService?>
+            get() = instanceChannel.openSubscription().consumeAsFlow()
         val service: LiveData<PlaybackService> = object : MutableLiveData<PlaybackService>() {
             override fun onActive() {
                 value?.setupScope()
@@ -1329,7 +1343,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         private const val END_MEDIASESSION = 2
 
         fun start(context: Context) {
-            if (service.value != null) return
+            if (instance != null) return
             val serviceIntent = Intent(context, PlaybackService::class.java)
             ContextCompat.startForegroundService(context, serviceIntent)
         }

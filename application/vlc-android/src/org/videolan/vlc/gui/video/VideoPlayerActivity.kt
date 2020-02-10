@@ -70,6 +70,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.interfaces.IMedia
@@ -107,8 +109,9 @@ import java.lang.Runnable
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, Observer<PlaybackService>, TextWatcher {
+open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher {
 
+    private lateinit var startedScope : CoroutineScope
     private var wasPlaying = true
     var service: PlaybackService? = null
     private lateinit var medialibrary: Medialibrary
@@ -686,8 +689,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     override fun onStart() {
         medialibrary.pauseBackgroundOperations()
         super.onStart()
+        startedScope = MainScope()
         PlaybackService.start(this)
-        PlaybackService.service.observe(this, this)
+        PlaybackService.instance?.let { onServiceChanged(it) }
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(startedScope)
         restoreBrightness()
         val filter = IntentFilter(PLAY_FROM_SERVICE)
         filter.addAction(EXIT_PLAYER)
@@ -702,7 +707,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onStop() {
         super.onStop()
-        PlaybackService.service.removeObservers(this)
+        startedScope.cancel()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(serviceReceiver)
 
         unregisterReceiver(btReceiver)
@@ -1975,7 +1980,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
         }
         if (::hudRightBinding.isInitialized) {
-
             val secondary = displayManager.isSecondary
             if (secondary) hudRightBinding.videoSecondaryDisplay.setImageResource(R.drawable.ic_screenshare_stop_circle_player)
             hudRightBinding.videoSecondaryDisplay.visibility = if (!show) View.GONE else if (UiTools.hasSecondaryDisplay(applicationContext)) View.VISIBLE else View.GONE
@@ -2632,7 +2636,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    override fun onChanged(service: PlaybackService?) {
+    open fun onServiceChanged(service: PlaybackService?) {
         if (service != null) {
             this.service = service
             //We may not have the permission to access files
