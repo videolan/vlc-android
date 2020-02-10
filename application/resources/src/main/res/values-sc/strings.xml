@@ -774,4 +774,8 @@
     <string name="codec">Codificadore</string>
     <string name="text">Testu</string>
     <string name="unknown">Disconnotu</string>
+    <string name="audio_delay_start">Sonu intesu</string>
+    <string name="subtitle_delay_first">Boghe intesa</string>
+    <string name="audio_delay_end">Sonu individuadu</string>
+    <string name="subtitle_delay_end">Testu bidu</string>
 </resources>
