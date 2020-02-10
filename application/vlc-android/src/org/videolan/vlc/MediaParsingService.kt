@@ -38,7 +38,9 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ActorScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
@@ -84,15 +86,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     private var discoverTriggered = false
     internal val sb = StringBuilder()
     val indexingListeners : List<IndexingListener> = AppContextProvider.indexingListeners
-
-    private val notificationActor by lazy {
-        lifecycleScope.actor<Notification>(capacity = Channel.UNLIMITED) {
-            for (update in channel) when (update) {
-                Show -> showNotification()
-                Hide -> hideNotification()
-            }
-        }
-    }
+    private lateinit var actions : SendChannel<MLAction>
+    private lateinit var notificationActor : SendChannel<Notification>
 
     private val exceptionHandler = if (BuildConfig.BETA) Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
         val intent = Intent(applicationContext, SendCrashActivity::class.java).apply {
@@ -145,6 +140,17 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
             }
         })
         medialibrary.exceptionHandler = exceptionHandler
+        setupScope()
+    }
+
+    private fun setupScope() {
+        actions = lifecycleScope.actor(context = Dispatchers.IO, capacity = Channel.UNLIMITED) { processAction() }
+        notificationActor = lifecycleScope.actor(capacity = Channel.UNLIMITED) {
+            for (update in channel) when (update) {
+                Show -> showNotification()
+                Hide -> hideNotification()
+            }
+        }
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -419,7 +425,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
         progress.value = if (status === null) ScanProgress(parsing, discovery) else status.copy(parsing = parsing, discovery = discovery)
     }
 
-    private val actions = lifecycleScope.actor<MLAction>(context = Dispatchers.IO, capacity = Channel.UNLIMITED) {
+    private suspend fun ActorScope<MLAction>.processAction() {
         for (action in channel) when (action) {
             is DiscoverStorage -> {
                 for (folder in Medialibrary.getBlackList()) medialibrary.banFolder(action.path + folder)
