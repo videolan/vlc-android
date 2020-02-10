@@ -792,4 +792,8 @@
     <string name="codec">Kodek</string>
     <string name="text">Tekst</string>
     <string name="unknown">Nieznany</string>
+    <string name="audio_delay_start">Dźwięk słyszalny</string>
+    <string name="subtitle_delay_first">Głos słyszany</string>
+    <string name="audio_delay_end">Dźwięk wykryty</string>
+    <string name="subtitle_delay_end">Tekst widoczny</string>
 </resources>
