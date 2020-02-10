@@ -774,4 +774,8 @@
     <string name="codec">Kodlayıcı/Çözücü</string>
     <string name="text">Metin</string>
     <string name="unknown">Bilinmiyor</string>
+    <string name="audio_delay_start">Ses duyuldu</string>
+    <string name="subtitle_delay_first">Konuşma duyuldu</string>
+    <string name="audio_delay_end">Ses belirlendi</string>
+    <string name="subtitle_delay_end">Metin görüldü</string>
 </resources>
