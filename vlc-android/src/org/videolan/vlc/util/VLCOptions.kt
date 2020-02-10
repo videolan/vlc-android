@@ -140,8 +140,6 @@ object VLCOptions {
                 if (!optionsArray.isNullOrEmpty()) Collections.addAll(options, *optionsArray)
             }
             options.add("--smb-force-v1")
-            // decrease the read size of the prefetch module. This fixes smb2 slowness.
-            options.add("--prefetch-read-size=16384")
             return options
         }
 
