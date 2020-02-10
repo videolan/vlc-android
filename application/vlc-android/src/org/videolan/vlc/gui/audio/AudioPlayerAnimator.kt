@@ -28,7 +28,6 @@ import android.annotation.TargetApi
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
-import android.text.TextUtils
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.annotation.DrawableRes
@@ -36,18 +35,19 @@ import androidx.annotation.MainThread
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.lifecycleScope
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
+import org.videolan.tools.Settings
 import org.videolan.tools.dp
-import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.tools.Settings
 import org.videolan.vlc.util.getScreenWidth
 import kotlin.math.max
 import kotlin.math.min
@@ -124,6 +124,7 @@ internal class AudioPlayerAnimator : IAudioPlayerAnimator, LifecycleObserver {
         hidePlaylistLandscapeConstraint.setMargin(R.id.next, ConstraintSet.END, 8.dp)
         hidePlaylistLandscapeConstraint.setMargin(R.id.previous, ConstraintSet.START, 8.dp)
         hidePlaylistLandscapeConstraint.setMargin(R.id.previous, ConstraintSet.END, 8.dp)
+        hidePlaylistLandscapeConstraint.setVisibility(R.id.audio_play_progress, View.GONE)
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

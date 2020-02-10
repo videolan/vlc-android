@@ -56,6 +56,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.tools.PREF_PLAYLIST_TIPS_SHOWN
 import org.videolan.tools.Settings
+import org.videolan.tools.dp
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
@@ -302,6 +303,25 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                     ?: progress.time.toInt()
             binding.progressBar.progress = progress.time.toInt()
         }
+
+        val totalLength = playlistModel.medias?.map { if (it.length != 0L) it.length else it.time }?.sum()
+                ?: 0L
+        val elapsedTracksTime = playlistModel.medias?.run {
+            subList(0, playlistModel.currentMediaPosition).map {
+                if (it.length != 0L) it.length else it.time
+            }.sum()
+        } ?: 0L
+        val mediaProgress = playlistModel.service?.getTime(progress.time)?.toLong() ?: progress.time
+        val totalTime = elapsedTracksTime + mediaProgress
+
+        val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${playlistModel.medias?.size}")
+        val textProgress = getString(R.string.audio_queue_progress, "${if (totalTime == 0L) "0s" else Tools.millisToString(totalTime, true, false, false)} / ${Tools.millisToString(totalLength, true, false, false)}")
+
+
+        binding.audioPlayProgress.text = "$textTrack • $textProgress"
+        binding.songsList.setPadding(binding.songsList.paddingLeft, binding.songsList.paddingTop, binding.songsList.paddingRight, binding.audioPlayProgress.height + 8.dp)
+
+
     }
 
     override fun onSelectionSet(position: Int) {

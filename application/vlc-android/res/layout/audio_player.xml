@@ -70,6 +70,7 @@
                 android:id="@+id/header"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
+                android:elevation="4dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/progressBar"
@@ -248,7 +249,22 @@
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/background_default"
                 android:paddingBottom="@dimen/listview_bottom_padding"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_bar"/>
+                app:layout_constraintBottom_toTopOf="@+id/bottom_bar" />
+
+        <TextView
+                android:id="@+id/audio_play_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corners_bottom_default_darker"
+                android:elevation="4dp"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         <org.videolan.vlc.gui.view.CoverMediaSwitcher
                 android:id="@+id/cover_media_switcher"
@@ -264,19 +280,12 @@
                 tools:layout_constraintLeft_creator="1"
                 tools:visibility="visible" />
 
-        <include
-                layout="@layout/shadow_top"
-                android:layout_width="0dp"
-                android:layout_height="6dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header"/>
-
 
         <View
                 android:id="@+id/bottom_bar"
                 android:layout_width="0dp"
                 android:layout_height="72dp"
+                android:elevation="4dp"
                 android:background="?attr/background_default_darker"
                 app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -290,6 +299,7 @@
                 android:layout_gravity="center|start"
                 android:layout_marginStart="@dimen/default_margin"
                 android:clickable="true"
+                android:elevation="4dp"
                 android:focusable="true"
                 android:onClick="@{fragment::onTimeLabelClick}"
                 android:textColor="?attr/font_audio_light"
@@ -307,6 +317,7 @@
                 android:maxHeight="1dip"
                 android:minHeight="1dip"
                 android:paddingEnd="0dp"
+                android:elevation="4dp"
                 android:paddingStart="0dp"
                 android:padding="0dp"
                 android:progressDrawable="@drawable/po_seekbar"
@@ -327,6 +338,7 @@
                 android:contentDescription="@string/length"
                 android:textColor="?attr/font_audio_light"
                 android:text="@string/time_0"
+                android:elevation="4dp"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/repeat"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -341,6 +353,7 @@
                 app:layout_constraintTop_toTopOf="@+id/play_pause"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 android:contentDescription="@string/shuffle_title"
+                android:elevation="4dp"
                 android:focusable="true"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_shuffle"
@@ -354,6 +367,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:layout_constraintBottom_toBottomOf="@+id/play_pause"
+                android:elevation="4dp"
                 app:layout_constraintTop_toTopOf="@+id/play_pause"
                 android:contentDescription="@string/previous"
                 android:focusable="true"
@@ -370,6 +384,7 @@
                 android:layout_height="48dp"
                 android:layout_marginBottom="8dp"
                 android:contentDescription="@string/play"
+                android:elevation="4dp"
                 android:focusable="true"
                 android:onClick="@{fragment::onPlayPauseClick}"
                 android:onLongClick="@{fragment::onStopClick}"
@@ -382,6 +397,7 @@
         <ImageView
                 android:id="@+id/next"
                 android:layout_width="40dp"
+                android:elevation="4dp"
                 android:layout_height="40dp"
                 Right_toLeftOf="@+id/repeat"
                 app:layout_constraintBottom_toBottomOf="@+id/play_pause"
@@ -398,6 +414,7 @@
         <ImageView
                 android:id="@+id/repeat"
                 android:layout_width="40dp"
+                android:elevation="4dp"
                 android:layout_height="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/play_pause"
@@ -418,6 +435,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:elevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout="@layout/player_options"/>
 
@@ -427,6 +445,7 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 app:layout_constraintBottom_toTopOf="@+id/timeline"
+                android:elevation="4dp"
                 app:layout_constraintEnd_toEndOf="@+id/timeline"
                 app:layout_constraintStart_toStartOf="@+id/timeline">
 
