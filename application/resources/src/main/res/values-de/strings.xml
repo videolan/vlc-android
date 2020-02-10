@@ -774,4 +774,8 @@
     <string name="codec">Codec</string>
     <string name="text">Text</string>
     <string name="unknown">Unbekannt</string>
+    <string name="audio_delay_start">Ton gehört</string>
+    <string name="subtitle_delay_first">Stimme gehört</string>
+    <string name="audio_delay_end">Ton erkannt</string>
+    <string name="subtitle_delay_end">Text gesehen</string>
 </resources>
