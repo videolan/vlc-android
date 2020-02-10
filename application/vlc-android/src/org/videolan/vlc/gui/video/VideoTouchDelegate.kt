@@ -194,10 +194,18 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         if (touchAction == TOUCH_IGNORE) touchAction = TOUCH_NONE
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch)
-                        // Seek
-                        if (touchAction == TOUCH_SEEK) doSeekTouch(deltaY.roundToInt(), xgesturesize, true)
                         touchX = -1f
                         touchY = -1f
+                        // Seek
+                        if (touchAction == TOUCH_SEEK) {
+                            doSeekTouch(deltaY.roundToInt(), xgesturesize, true)
+                            return true
+                        }
+                        // Vertical actions
+                        if (touchAction == TOUCH_VOLUME || touchAction == TOUCH_BRIGHTNESS) {
+                            doVerticalTouchAction(yChanged)
+                            return true
+                        }
 
                         handler.removeCallbacksAndMessages(null)
 
@@ -224,7 +232,6 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                                 player.doPlayPause()
                             } else {
                                 val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
-
                                 when {
                                     event.x < range / 4f -> seekDelta(-10000)
                                     event.x > range * 0.75 -> seekDelta(10000)
