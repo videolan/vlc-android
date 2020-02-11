@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.flow.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
@@ -32,6 +33,7 @@ import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
+import org.videolan.tools.safeOffer
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
@@ -408,27 +410,31 @@ object MediaUtils {
     }
 
     @ObsoleteCoroutinesApi
-    private class SuspendDialogCallback(context: Context, private val task: suspend (service: PlaybackService) -> Unit) : BaseCallBack() {
+    private class SuspendDialogCallback(context: Context, private val task: suspend (service: PlaybackService) -> Unit) {
         private lateinit var dialog: ProgressDialog
         var job: Job = Job()
-        val actor = context.scope.actor<Action>(capacity = Channel.UNLIMITED) {
+        val scope = context.scope
+        val actor = scope.actor<Action>(capacity = Channel.UNLIMITED) {
             for (action in channel) when (action) {
                 Connect -> {
-                    PlaybackService.service.observeForever(this@SuspendDialogCallback)
-                    PlaybackService.start(context)
+                    val service = PlaybackService.instance
+                    if (service != null) channel.offer(Task(service, task))
+                    else {
+                        PlaybackService.start(context)
+                        PlaybackService.serviceFlow.first()?.let { channel.offer(Task(it, task)) }
+                    }
                 }
-                Disconnect -> disconnect()
+                Disconnect -> dismiss()
                 is Task -> {
                     action.task.invoke(action.service)
                     job.cancel()
                     dismiss()
-                    disconnect()
                 }
             }
         }
 
         init {
-            job = context.scope.launch {
+            job = scope.launch {
                 delay(300)
                 dialog = ProgressDialog.show(
                         context,
@@ -437,19 +443,13 @@ object MediaUtils {
                 dialog.setCancelable(true)
                 dialog.setOnCancelListener { actor.offer(Disconnect) }
             }
-            actor.offer(Connect)
-        }
-
-        override fun onChanged(service: PlaybackService?) {
-            service?.let { actor.offer(Task(it, task)) }
-            dismiss()
+            actor.safeOffer(Connect)
         }
 
         private fun dismiss() {
             try {
                 if (this::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
-            } catch (ignored: IllegalArgumentException) {
-            }
+            } catch (ignored: IllegalArgumentException) {}
         }
     }
 
