@@ -80,7 +80,7 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean
     val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding, tv = tv, card = card)
     else {
-        v.scope.launch { getImage(v, findInLibrary(item, isMedia), binding, imageWidth, tv = tv, card = card) }
+        v.scope.takeIf { it.isActive }?.launch { getImage(v, findInLibrary(item, isMedia), binding, imageWidth, tv = tv, card = card) }
     }
 }
 
@@ -88,7 +88,7 @@ fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth
     if (imageWidth == 0) return
     if (item == null) return
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
-    v.scope.launch { getPlaylistImage(v, item, binding, imageWidth) }
+    v.scope.takeIf { it.isActive }?.launch { getPlaylistImage(v, item, binding, imageWidth) }
 }
 
 fun getAudioIconDrawable(context: Context?, type: Int, big: Boolean = false): BitmapDrawable? = context?.let {
@@ -180,7 +180,7 @@ fun imageCardViewContent(v: View, content: String?) {
 @BindingAdapter(value = ["imageUri", "tv" ], requireAll = false)
 fun downloadIcon(v: View, imageUri: Uri?, tv: Boolean = true) {
     if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
-        v.scope.launch {
+        v.scope.takeIf { it.isActive }?.launch {
             val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
             updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)
         }
@@ -192,8 +192,7 @@ fun downloadIcon(v: View, imageUrl: String?, tv: Boolean = true) {
     if (imageUrl.isNullOrEmpty()) return
     val imageUri = Uri.parse(imageUrl)
     if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
-        val scope = (v.context as? CoroutineScope) ?: AppScope
-        scope.launch {
+        v.scope.takeIf { it.isActive }?.launch {
             val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
             updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)
         }
