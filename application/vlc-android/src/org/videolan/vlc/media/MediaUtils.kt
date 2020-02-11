@@ -77,25 +77,19 @@ object MediaUtils {
 
     fun loadlastPlaylist(context: Context?, type: Int) {
         if (context == null) return
-        DialogCallback(context, object : DialogCallback.Runnable {
-            override fun run(service: PlaybackService) {
-                service.loadLastPlaylist(type)
-            }
-        })
+        SuspendDialogCallback(context) { service -> service.loadLastPlaylist(type) }
     }
 
     fun appendMedia(context: Context?, media: List<MediaWrapper>?) {
         if (media == null || media.isEmpty() || context == null) return
-        DialogCallback(context, object : DialogCallback.Runnable {
-            override fun run(service: PlaybackService) {
-                service.append(media)
-                context.let {
-                    if (it is Activity) {
-                        Snackbar.make(it.findViewById(android.R.id.content), R.string.appended, Snackbar.LENGTH_LONG).show()
-                    }
+        SuspendDialogCallback(context) { service ->
+            service.append(media)
+            context.let {
+                if (it is Activity) {
+                    Snackbar.make(it.findViewById(android.R.id.content), R.string.appended, Snackbar.LENGTH_LONG).show()
                 }
             }
-        })
+        }
     }
 
     fun appendMedia(context: Context?, media: MediaWrapper?) {
@@ -106,16 +100,14 @@ object MediaUtils {
 
     fun insertNext(context: Context?, media: Array<MediaWrapper>?) {
         if (media == null || context == null) return
-        DialogCallback(context, object : DialogCallback.Runnable {
-            override fun run(service: PlaybackService) {
-                service.insertNext(media)
-                context.let {
-                    if (it is Activity) {
-                        Snackbar.make(it.findViewById(android.R.id.content), R.string.inserted, Snackbar.LENGTH_LONG).show()
-                    }
+        SuspendDialogCallback(context) { service ->
+            service.insertNext(media)
+            context.let {
+                if (it is Activity) {
+                    Snackbar.make(it.findViewById(android.R.id.content), R.string.inserted, Snackbar.LENGTH_LONG).show()
                 }
             }
-        })
+        }
     }
 
     fun insertNext(context: Context?, media: MediaWrapper?) {
@@ -125,11 +117,7 @@ object MediaUtils {
 
     fun openMedia(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
-        DialogCallback(context, object : DialogCallback.Runnable {
-            override fun run(service: PlaybackService) {
-                service.load(media)
-            }
-        })
+        SuspendDialogCallback(context) { service -> service.load(media) }
     }
 
     fun openMediaNoUi(ctx: Context, id: Long) = AppScope.launch {
@@ -276,30 +264,24 @@ object MediaUtils {
     @JvmOverloads
     fun openList(context: Context?, list: List<MediaWrapper>, position: Int, shuffle: Boolean = false) {
         if (list.isNullOrEmpty() || context == null) return
-        DialogCallback(context, object : DialogCallback.Runnable {
-            override fun run(service: PlaybackService) {
-                service.load(list, position)
-                if (shuffle && !service.isShuffling) service.shuffle()
-            }
-        })
+        SuspendDialogCallback(context) { service ->
+            service.load(list, position)
+            if (shuffle && !service.isShuffling) service.shuffle()
+        }
     }
 
     fun openUri(context: Context?, uri: Uri?) {
         if (uri == null || context == null) return
-        DialogCallback(context, object : DialogCallback.Runnable {
-            override fun run(service: PlaybackService) {
-                service.loadUri(uri)
-            }
-        })
+        SuspendDialogCallback(context) { service ->
+            service.loadUri(uri)
+        }
     }
 
     fun openStream(context: Context?, uri: String?) {
         if (uri == null || context == null) return
-        DialogCallback(context, object : DialogCallback.Runnable {
-            override fun run(service: PlaybackService) {
-                service.loadLocation(uri)
-            }
-        })
+        SuspendDialogCallback(context) { service ->
+            service.loadLocation(uri)
+        }
     }
 
     fun getMediaArtist(ctx: Context, media: MediaWrapper?) = media?.artist
@@ -364,48 +346,6 @@ object MediaUtils {
 
         fun disconnect() {
             PlaybackService.service.removeObserver(this)
-        }
-    }
-
-    private class DialogCallback(context: Context, private val runnable: Runnable) : BaseCallBack() {
-        private lateinit var dialog: ProgressDialog
-        private val handler = Handler(Looper.getMainLooper())
-
-        internal interface Runnable {
-            fun run(service: PlaybackService)
-        }
-
-        init {
-            handler.postDelayed({
-                dialog = ProgressDialog.show(
-                        context,
-                        "${context.applicationContext.getString(R.string.loading)} … ",
-                        context.applicationContext.getString(R.string.please_wait),
-                        true)
-                dialog.setCancelable(true)
-                dialog.setOnCancelListener(object : DialogInterface.OnCancelListener {
-                    override fun onCancel(dialog: DialogInterface) {
-                        synchronized(this) {
-                            disconnect()
-                        }
-                    }
-                })
-            }, 300)
-            synchronized(this) {
-                PlaybackService.service.observeForever(this)
-                PlaybackService.start(context)
-            }
-        }
-
-        override fun onChanged(service: PlaybackService?) {
-            if (service != null) {
-                synchronized(this) {
-                    runnable.run(service)
-                    disconnect()
-                }
-                handler.removeCallbacksAndMessages(null)
-                if (this::dialog.isInitialized) dialog.cancel()
-            } else if (this::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
         }
     }
 
