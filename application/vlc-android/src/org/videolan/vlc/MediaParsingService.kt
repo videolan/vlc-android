@@ -176,11 +176,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
                 val parse = intent.getBooleanExtra(EXTRA_PARSE, true)
                 setupMedialibrary(upgrade, parse)
             }
-            ACTION_RELOAD -> actions.offer(Reload(intent.getStringExtra(EXTRA_PATH)))
-            ACTION_FORCE_RELOAD -> actions.offer(ForceReload)
+            ACTION_RELOAD -> actions.safeOffer(Reload(intent.getStringExtra(EXTRA_PATH)))
+            ACTION_FORCE_RELOAD -> actions.safeOffer(ForceReload)
             ACTION_DISCOVER -> discover(intent.getStringExtra(EXTRA_PATH))
             ACTION_DISCOVER_DEVICE -> discoverStorage(intent.getStringExtra(EXTRA_PATH))
-            ACTION_CHECK_STORAGES -> if (settings.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_OFF) actions.offer(UpdateStorages) else exitCommand()
+            ACTION_CHECK_STORAGES -> if (settings.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_OFF) actions.safeOffer(UpdateStorages) else exitCommand()
             else -> {
                 exitCommand()
                 return START_NOT_STICKY
@@ -202,7 +202,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
             return
         }
         discoverTriggered = true
-        actions.offer(DiscoverStorage(path))
+        actions.safeOffer(DiscoverStorage(path))
     }
 
     private fun discover(path: String) {
@@ -210,7 +210,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
             exitCommand()
             return
         }
-        actions.offer(DiscoverFolder(path))
+        actions.safeOffer(DiscoverFolder(path))
     }
 
     private fun addDeviceIfNeeded(path: String) {
@@ -243,8 +243,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     private fun setupMedialibrary(upgrade: Boolean, parse: Boolean) {
         if (medialibrary.isInitiated) {
             medialibrary.resumeBackgroundOperations()
-            if (parse && !scanActivated) actions.offer(StartScan(upgrade))
-        } else actions.offer(Init(upgrade, parse))
+            if (parse && !scanActivated) actions.safeOffer(StartScan(upgrade))
+        } else actions.safeOffer(Init(upgrade, parse))
     }
 
     private suspend fun initMedialib(parse: Boolean, context: Context, shouldInit: Boolean, upgrade: Boolean) {
@@ -366,7 +366,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     override fun onDiscoveryProgress(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onDiscoveryProgress: $entryPoint")
         currentDiscovery = entryPoint
-        notificationActor.offer(Show)
+        notificationActor.safeOffer(Show)
     }
 
     override fun onDiscoveryCompleted(entryPoint: String) {
@@ -376,7 +376,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
     override fun onParsingStatsUpdated(percent: Int) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onParsingStatsUpdated: $percent")
         parsing = percent
-        if (parsing != 100) notificationActor.offer(Show)
+        if (parsing != 100) notificationActor.safeOffer(Show)
     }
 
     override fun onReloadStarted(entryPoint: String) {
@@ -400,7 +400,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwn
             } catch (e: Exception) {
                 if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "${e.cause}")
             }
-            notificationActor.offer(Hide)
+            notificationActor.safeOffer(Hide)
             stopForeground(true)
             stopService(Intent(applicationContext, MediaParsingService::class.java))
         }
