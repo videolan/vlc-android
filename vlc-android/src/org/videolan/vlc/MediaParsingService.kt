@@ -58,7 +58,7 @@ private const val NOTIFICATION_DELAY = 1000L
 @ExperimentalCoroutinesApi
 class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, LifecycleOwner {
 
-    override val coroutineContext = Dispatchers.Main.immediate
+    override val coroutineContext = Dispatchers.Main
     private val dispatcher = ServiceLifecycleDispatcher(this)
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var localBroadcastManager: LocalBroadcastManager
