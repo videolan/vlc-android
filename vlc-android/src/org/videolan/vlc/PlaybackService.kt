@@ -75,7 +75,7 @@ private const val TAG = "VLC/PlaybackService"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOwner {
-    override val coroutineContext = Dispatchers.Main.immediate
+    override val coroutineContext = Dispatchers.Main
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     lateinit var playlistManager: PlaylistManager
@@ -536,7 +536,9 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {
-        if (settings.getBoolean("audio_task_removed", false)) stopService(Intent(applicationContext, PlaybackService::class.java))
+        if (settings.getBoolean("audio_task_removed", false)) launch {
+            stopService(Intent(applicationContext, PlaybackService::class.java))
+        }
     }
 
     override fun onDestroy() {
@@ -952,7 +954,12 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     private fun loadLastAudioPlaylist() {
         if (AndroidDevices.isAndroidTv) return
-        runOnceReady(Runnable { if (!playlistManager.loadLastPlaylist()) stopService(Intent(applicationContext, PlaybackService::class.java)) })
+        launch {
+            getFromMl { isStarted }
+            if (!playlistManager.loadLastPlaylist()) {
+                stopService(Intent(applicationContext, PlaybackService::class.java))
+            }
+        }
     }
 
     fun loadLastPlaylist(type: Int) {
@@ -1016,7 +1023,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     @MainThread
     fun load(mediaList: List<AbstractMediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
 
-    private fun updateMediaQueue() = launch {
+    private fun updateMediaQueue() = launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
         val ctx = this@PlaybackService
         val queue = withContext(Dispatchers.Default) {
@@ -1046,7 +1053,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
      * @param flags LibVLC.MEDIA_* flags
      */
     @JvmOverloads
-    fun playIndex(index: Int, flags: Int = 0) = launch { playlistManager.playIndex(index, flags) }
+    fun playIndex(index: Int, flags: Int = 0) = launch(start = CoroutineStart.UNDISPATCHED) { playlistManager.playIndex(index, flags) }
 
     @MainThread
     fun flush() {
@@ -1110,7 +1117,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     fun append(mediaList: Array<AbstractMediaWrapper>) = append(mediaList.toList())
 
     @MainThread
-    fun append(mediaList: List<AbstractMediaWrapper>) = launch {
+    fun append(mediaList: List<AbstractMediaWrapper>) = launch(start = CoroutineStart.UNDISPATCHED) {
         playlistManager.append(mediaList)
         onMediaListChanged()
     }
@@ -1255,7 +1262,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     override fun onLoadChildren(parentId: String, result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
-        launch {
+        launch(start = CoroutineStart.UNDISPATCHED) {
             getFromMl { isStarted }
             sendResults(result, parentId)
         }
