@@ -130,7 +130,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open suspend fun refreshImpl() {
-        val files = filesFlow(url, false).mapNotNull { findMedia(it) }.toList()
+        val files = filesFlow(url, true).mapNotNull { findMedia(it) }.toList()
         dataset.value = files as MutableList<MediaLibraryItem>
         computeHeaders(files)
         parseSubDirectories(files)
