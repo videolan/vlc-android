@@ -256,6 +256,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         }
 
         override fun recycle() {
+            handler.removeCallbacksAndMessages(null)
             binding.cover = if (cardSize == SHOW_IN_LIST && defaultCover != null) defaultCover else null
             binding.mediaCover.resetFade()
             binding.title.isSelected = false
