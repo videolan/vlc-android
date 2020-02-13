@@ -33,10 +33,10 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
+import org.videolan.tools.containsPath
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.tools.containsPath
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -68,8 +68,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
                 hasDiscoveredChildren(storagePath) -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
                 else -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
             }
-            vh.binding.checkEnabled = !(fragment as StorageBrowserFragment).scannedDirectory
-            vh.job = null
+            vh.binding.checkEnabled = !fragment.scannedDirectory
         }
     }
 

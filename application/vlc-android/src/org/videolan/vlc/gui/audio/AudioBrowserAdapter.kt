@@ -123,7 +123,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        handler.removeCallbacksAndMessages(null)
+        if (Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
@@ -162,6 +162,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
     }
 
     override fun onViewRecycled(h: AbstractMediaItemViewHolder<ViewDataBinding>) {
+        if (Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
         h.recycle()
         super.onViewRecycled(h)
     }
@@ -309,8 +310,8 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         }
     }
 
-    abstract inner class AbstractMediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: T) : SelectorViewHolder<T>(binding), MarqueeViewHolder {
+    @TargetApi(Build.VERSION_CODES.M)
+    abstract inner class AbstractMediaItemViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding), MarqueeViewHolder {
 
         val canBeReordered: Boolean
             get() = reorder
@@ -336,9 +337,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         }
 
 
-        override fun isSelected(): Boolean {
-            return multiSelectHelper.isSelected(layoutPosition)
-        }
+        override fun isSelected() = multiSelectHelper.isSelected(layoutPosition)
 
         abstract fun setItem(item: MediaLibraryItem?)
 

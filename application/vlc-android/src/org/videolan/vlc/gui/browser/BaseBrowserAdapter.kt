@@ -42,8 +42,11 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA
 import org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE
 import org.videolan.medialibrary.media.Storage
+import org.videolan.resources.AndroidDevices
+import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding
@@ -51,9 +54,6 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
-import org.videolan.resources.AndroidDevices
-import org.videolan.tools.Settings
-import org.videolan.resources.UPDATE_SELECTION
 import java.util.*
 
 
@@ -114,7 +114,7 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        handler.removeCallbacksAndMessages(null)
+        if (Settings.listTitleEllipsize == 0 || Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
@@ -155,6 +155,7 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
     }
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
+        if (Settings.listTitleEllipsize == 0 || Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
         super.onViewRecycled(holder)
         holder.titleView?.isSelected = false
     }
