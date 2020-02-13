@@ -63,7 +63,7 @@ private const val NOTIFICATION_DELAY = 1000L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MediaParsingService : LifecycleService(), DevicesDiscoveryCb, LifecycleOwner {
+class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private val dispatcher = ServiceLifecycleDispatcher(this)
     private lateinit var wakeLock: PowerManager.WakeLock

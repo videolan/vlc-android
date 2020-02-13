@@ -991,17 +991,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     private fun loadLastAudioPlaylist() {
-        if (AndroidDevices.isAndroidTv) return
-        lifecycleScope.launch {
-            awaitMedialibraryStarted()
-            if (!playlistManager.loadLastPlaylist()) stopService(Intent(applicationContext, PlaybackService::class.java))
-        }
+        if (!AndroidDevices.isAndroidTv) loadLastPlaylist(PLAYLIST_TYPE_AUDIO)
     }
 
     fun loadLastPlaylist(type: Int) {
         lifecycleScope.launch {
             awaitMedialibraryStarted()
-            playlistManager.loadLastPlaylist(type)
+            if (!playlistManager.loadLastPlaylist(type)) stopService(Intent(applicationContext, PlaybackService::class.java))
         }
     }
 
@@ -1094,7 +1090,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
      */
     @JvmOverloads
     fun playIndex(index: Int, flags: Int = 0) {
-        lifecycleScope.launch { playlistManager.playIndex(index, flags) }
+        lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) { playlistManager.playIndex(index, flags) }
     }
 
     @MainThread
@@ -1159,7 +1155,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     fun append(mediaList: Array<MediaWrapper>) = append(mediaList.toList())
 
     @MainThread
-    fun append(mediaList: List<MediaWrapper>) = lifecycleScope.launch {
+    fun append(mediaList: List<MediaWrapper>) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         playlistManager.append(mediaList)
         onMediaListChanged()
     }
