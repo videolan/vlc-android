@@ -114,7 +114,7 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        handler.removeCallbacksAndMessages(null)
+        if (Settings.listTitleEllipsize == 0 || Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
