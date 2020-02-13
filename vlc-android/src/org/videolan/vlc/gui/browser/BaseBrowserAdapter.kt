@@ -53,7 +53,6 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.Settings.init
 import org.videolan.vlc.util.UPDATE_SELECTION
 import java.util.*
 
@@ -157,6 +156,7 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
 
     override fun onViewRecycled(holder: ViewHolder<ViewDataBinding>) {
         super.onViewRecycled(holder)
+        if (Settings.listTitleEllipsize == 0 || Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
         holder.titleView?.isSelected = false
     }
 
