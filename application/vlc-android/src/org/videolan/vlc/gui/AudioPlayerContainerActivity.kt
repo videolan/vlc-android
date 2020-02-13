@@ -63,7 +63,6 @@ import org.videolan.vlc.gui.helpers.BottomSheetBehavior
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.util.FileUtils
 
 private const val TAG = "VLC/APCActivity"
 
@@ -369,9 +368,8 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         delay(1000L)
         if (PlaylistManager.showAudioPlayer.value == true) return@launchWhenStarted
         val song = settings.getString("current_song", null) ?: return@launchWhenStarted
-        val media = getFromMl { getMedia(Uri.parse(song)) }
-        val title = media?.title
-                ?: Uri.decode(FileUtils.getFileNameFromPath(song)).substringBeforeLast('.')
+        val media = getFromMl { getMedia(Uri.parse(song)) } ?: return@launchWhenStarted
+        val title = media.title
         resumeCard = Snackbar.make(appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
                 .setAction(R.string.play) { PlaybackService.loadLastAudio(it.context) }
         resumeCard.show()
