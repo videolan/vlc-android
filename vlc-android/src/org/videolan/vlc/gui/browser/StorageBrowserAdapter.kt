@@ -67,8 +67,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
                 hasDiscoveredChildren(storagePath) -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
                 else -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
             }
-            vh.binding.checkEnabled = !(fragment as StorageBrowserFragment).scannedDirectory
-            vh.job = null
+            vh.binding.checkEnabled = !fragment.scannedDirectory
         }
     }
 
