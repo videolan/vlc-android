@@ -96,7 +96,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
         initAudioPlayerContainerActivity()
         fragmentContainer = binding.songs
-        originalBottomPadding = fragmentContainer!!.paddingBottom
+        originalBottomPadding = fragmentContainer.paddingBottom
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val playlist = if (savedInstanceState != null)
