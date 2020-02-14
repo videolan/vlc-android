@@ -555,10 +555,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         return
                     } else {
                         previous.clear()
-                        random = Random(System.currentTimeMillis())
+                        random.setSeed(System.currentTimeMillis())
                     }
                 }
-                random = Random(System.currentTimeMillis())
                 // Find a new index not in previous.
                 do {
                     nextIndex = random.nextInt(size)
@@ -613,7 +612,18 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                 }
             }
-            ret = index
+            if (shuffling && ml.count > 1 && !previous.isEmpty()) {
+                for (i in 0 until previous.size) {
+                    if (previous[i] > index) {
+                        previous[i] += ml.count - 1
+                    }
+                }
+            }
+            if (shuffling && ml.count > 1) {
+                ret = index + random.nextInt(ml.count)
+            } else {
+                ret = index
+            }
         }
         ml?.release()
         return ret
