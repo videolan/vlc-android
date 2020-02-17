@@ -776,7 +776,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val vlcVout = vout
             if (vlcVout != null && vlcVout.areViewsAttached()) {
                 if (isPlayingPopup) {
-                    stop()
+                    stop(video = true)
                 } else
                     vlcVout.detachViews()
             }
@@ -860,7 +860,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             playbackStarted = false
 
             handler.removeCallbacksAndMessages(null)
-            mediaplayer.detachViews()
             if (hasMedia() && switchingView) {
                 if (BuildConfig.DEBUG) Log.d(TAG, "mLocation = \"$videoUri\"")
                 if (switchToPopup)
@@ -881,7 +880,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 else
                     savedTime -= 2000 // go back 2 seconds, to compensate loading time
             }
-            stop()
+            stop(video = true)
         }
     }
 
