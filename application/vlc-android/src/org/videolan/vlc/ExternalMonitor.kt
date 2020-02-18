@@ -24,7 +24,6 @@
 package org.videolan.vlc
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -32,32 +31,31 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.net.Uri
-import android.os.Build
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
+import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_CHECK_STORAGES
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
-import org.videolan.resources.util.getFromMl
 import videolan.org.commontools.LiveEvent
 import java.lang.ref.WeakReference
-import java.net.NetworkInterface
-import java.net.SocketException
 
 private const val TAG = "VLC/ExternalMonitor"
 
@@ -80,7 +78,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             is MediaUnmounted -> {
                 delay(100L)
                 Medialibrary.getInstance().removeDevice(action.uuid, action.path)
-                storageActions.safeOffer(action)
+                storageChannel.safeOffer(action)
             }
         }
     }
@@ -113,9 +111,9 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         }
     }
 
-    private val storageActions = ConflatedBroadcastChannel<DeviceAction>()
-    val storageEvent : Flow<DeviceAction>
-        get() = storageActions.openSubscription().consumeAsFlow()
+    private val storageChannel = BroadcastChannel<DeviceAction>(BUFFERED)
+    val storageEvents : Flow<DeviceAction>
+        get() = storageChannel.openSubscription().consumeAsFlow()
     private var storageObserver: WeakReference<Activity>? = null
 
     var devices = LiveDataset<UsbDevice>()
@@ -163,7 +161,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     private fun notifyNewStorage(mediaMounted: MediaMounted) {
         val activity = storageObserver?.get() ?: return
         UiTools.newStorageDetected(activity, mediaMounted.path)
-        storageActions.safeOffer(mediaMounted)
+        storageChannel.safeOffer(mediaMounted)
     }
 
     @Synchronized

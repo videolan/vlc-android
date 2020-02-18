@@ -112,7 +112,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         medialibrary.addOnDeviceChangeListener(this)
         favorites.observeForever(favObserver)
         networkMonitor.connectionFlow.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
-        ExternalMonitor.storageEvent.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
+        ExternalMonitor.storageEvents.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
         PlaylistManager.showAudioPlayer.observeForever(playerObserver)
         mediaMetadataRepository.getAllLive().observeForever(videoObserver)
     }
