@@ -64,7 +64,6 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
 
     init {
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(viewModelScope)
-        PlaybackService.instance?.let { onServiceChanged(it) }
     }
 
     private fun setup(service: PlaybackService) {
@@ -200,7 +199,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         return false
     }
 
-    suspend fun canSwitchToVideo() = withContext(Dispatchers.IO) { service?.playlistManager?.player?.canSwitchToVideo() ?: false }
+    private suspend fun canSwitchToVideo() = withContext(Dispatchers.IO) { service?.playlistManager?.player?.canSwitchToVideo() ?: false }
 
     fun toggleABRepeat() = service?.playlistManager?.toggleABRepeat()
 
@@ -209,6 +208,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
 
 
     private fun onServiceChanged(service: PlaybackService?) {
+        if (this.service == service) return
         if (service != null) {
             this.service = service
             progress.apply {

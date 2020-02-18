@@ -38,6 +38,7 @@ import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.resources.*
 import org.videolan.resources.util.getFromMl
+import org.videolan.television.ui.MainTvActivity
 import org.videolan.television.ui.NowPlayingDelegate
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
@@ -253,7 +254,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
             is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.putExtra(FAVORITE_TITLE, item.title)
                     intent.data = item.uri
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -269,14 +270,14 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
             is DummyItem -> when {
                 item.id == HEADER_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }
                 item.id == HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 else -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, item.id)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                     activity.startActivity(intent)
                 }
             }

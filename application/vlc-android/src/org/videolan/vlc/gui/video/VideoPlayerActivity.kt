@@ -691,7 +691,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         super.onStart()
         startedScope = MainScope()
         PlaybackService.start(this)
-        PlaybackService.instance?.let { onServiceChanged(it) }
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(startedScope)
         restoreBrightness()
         val filter = IntentFilter(PLAY_FROM_SERVICE)

@@ -119,7 +119,6 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(lifecycleScope)
-        PlaybackService.instance?.let { onServiceChanged(it) }
     }
 
     private fun setRateProgress() {

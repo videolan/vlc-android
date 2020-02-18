@@ -45,7 +45,6 @@ class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callba
     init {
         PlaylistManager.showAudioPlayer.observeForever(nowPlayingObserver)
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(model.viewModelScope)
-        PlaybackService.instance?.let { onServiceChanged(it) }
     }
 
     fun onClear() {

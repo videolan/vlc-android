@@ -49,11 +49,8 @@ import androidx.lifecycle.Observer
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
-import kotlinx.coroutines.channels.SendChannel
-import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flow
@@ -501,7 +498,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         restartPlayer.observe(this, Observer { restartMediaPlayer() })
         headSetDetection.observe(this, Observer { detectHeadset(it) })
         equalizer.observe(this, Observer { setEqualizer(it) })
-        instance = this
+        instanceChannel.safeOffer(this)
     }
 
     private fun setupScope() {
@@ -569,7 +566,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     override fun onDestroy() {
-        instance = null
+        instanceChannel.safeOffer(null)
         dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
@@ -1320,20 +1317,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     companion object {
-        private val instanceChannel = BroadcastChannel<PlaybackService?>(BUFFERED)
-        var instance : PlaybackService? = null
-            private set(value) {
-                field = value
-                instanceChannel.safeOffer(value)
-                (service as MutableLiveData).value = value
-            }
+        private val instanceChannel = ConflatedBroadcastChannel<PlaybackService?>(null)
+        val instance : PlaybackService?
+            get() = instanceChannel.value
         val serviceFlow : Flow<PlaybackService?>
             get() = instanceChannel.openSubscription().consumeAsFlow()
-        val service: LiveData<PlaybackService> = object : MutableLiveData<PlaybackService>() {
-            override fun onActive() {
-                value?.setupScope()
-            }
-        }
+
         val renderer = RendererLiveData()
         val restartPlayer = LiveEvent<Boolean>()
         val headSetDetection = LiveEvent<Boolean>()

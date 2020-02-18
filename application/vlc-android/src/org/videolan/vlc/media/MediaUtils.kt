@@ -130,11 +130,8 @@ object MediaUtils {
     fun openMediaNoUi(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
         object : BaseCallBack(context) {
-            override fun onChanged(service: PlaybackService?) {
-                if (service != null) {
-                    service.load(media)
-                    disconnect()
-                }
+            override fun onServiceReady(service: PlaybackService) {
+                service.load(media)
             }
         }
     }
@@ -335,18 +332,16 @@ object MediaUtils {
     }
 
     @Suppress("LeakingThis")
-    private abstract class BaseCallBack : androidx.lifecycle.Observer<PlaybackService> {
+    private abstract class BaseCallBack(context: Context) {
 
-        internal constructor(context: Context) {
-            PlaybackService.service.observeForever(this)
+        init {
+            AppScope.launch {
+                onServiceReady(PlaybackService.serviceFlow.filterNotNull().first())
+            }
             PlaybackService.start(context)
         }
 
-        protected constructor()
-
-        fun disconnect() {
-            PlaybackService.service.removeObserver(this)
-        }
+        abstract fun onServiceReady(service: PlaybackService)
     }
 
     @ObsoleteCoroutinesApi
@@ -361,7 +356,9 @@ object MediaUtils {
                     if (service != null) channel.offer(Task(service, task))
                     else {
                         PlaybackService.start(context)
-                        PlaybackService.serviceFlow.first()?.let { channel.offer(Task(it, task)) }
+                        PlaybackService.serviceFlow.filterNotNull().first().let {
+                            channel.offer(Task(it, task))
+                        }
                     }
                 }
                 Disconnect -> dismiss()
