@@ -10,29 +10,25 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.*
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
 import java.lang.ref.WeakReference
 import java.net.NetworkInterface
 import java.net.SocketException
 
-interface NetworkObserver {
-    fun onNetworkChanged()
-}
-
 class NetworkMonitor(private val context: Context) : LifecycleObserver {
     private var registered = false
     private val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val connected = MutableLiveData<Boolean>()
-    @Volatile
-    var isMobile = true
-        private set
-    @Volatile
-    var isVPN = false
-        private set
-    private var networkObservers: MutableList<WeakReference<NetworkObserver>> = mutableListOf()
+    val connection = ConflatedBroadcastChannel(Connection(connected = false, mobile = true, vpn = false))
+    val connectionFlow : Flow<Connection>
+        get() = connection.openSubscription().consumeAsFlow()
+    val connected : Boolean
+        get() = connection.value.connected
+    val isLan : Boolean
+        get() = connection.value.run { connected && !mobile }
+    val lanAllowed : Boolean
+        get() = connection.value.run { connected && (!mobile || vpn) }
 
     init {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this@NetworkMonitor)
@@ -82,18 +78,16 @@ class NetworkMonitor(private val context: Context) : LifecycleObserver {
                 ConnectivityManager.CONNECTIVITY_ACTION -> {
                     val networkInfo = cm.activeNetworkInfo
                     val isConnected = networkInfo != null && networkInfo.isConnected
-                    isMobile = isConnected && networkInfo!!.type == ConnectivityManager.TYPE_MOBILE
-                    isVPN = isConnected && updateVPNStatus()
-                    if (connected.value == null || isConnected != connected.value) {
-                        connected.value = isConnected
-                    }
-                    networkObservers.forEach { it.get()?.onNetworkChanged() }
+                    val isMobile = isConnected && networkInfo!!.type == ConnectivityManager.TYPE_MOBILE
+                    val isVPN = isConnected && updateVPNStatus()
+                    val conn = Connection(isConnected, isMobile, isVPN)
+                    if (connection.value != conn) connection.offer(conn)
                 }
 
             }
         }
-
     }
-
-    companion object : SingletonHolder<NetworkMonitor, Context>({ NetworkMonitor(it) })
+    companion object : SingletonHolder<NetworkMonitor, Context>({ NetworkMonitor(it.applicationContext) })
 }
+
+class Connection(val connected: Boolean, val mobile: Boolean, val vpn: Boolean)

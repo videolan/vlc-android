@@ -20,6 +20,8 @@
 package org.videolan.vlc
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
 import org.videolan.resources.AppContextProvider
@@ -42,7 +44,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
     @Volatile private var started = false
 
     init {
-        NetworkMonitor.getInstance(AppContextProvider.appContext).connected.observeForever { AppScope.launch { if (it == true) start() else stop() } }
+        NetworkMonitor.getInstance(AppContextProvider.appContext).connectionFlow.onEach { if (it.connected) start() else stop() }.launchIn(AppScope)
     }
 
     suspend fun start() {

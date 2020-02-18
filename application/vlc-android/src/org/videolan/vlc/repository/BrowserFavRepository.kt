@@ -24,12 +24,15 @@ import android.content.Context
 import android.net.Uri
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.TYPE_LOCAL_FAV
 import org.videolan.resources.TYPE_NETWORK_FAV
 import org.videolan.tools.IOScopedObject
+import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
@@ -40,6 +43,8 @@ import java.util.*
 
 
 class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedObject() {
+
+    private val networkMonitor = NetworkMonitor.getInstance(AppContextProvider.appContext)
 
     private val networkFavs by lazy { browserFavDao.getAllNetwrokFavs() }
 
@@ -58,11 +63,9 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
     val networkFavorites by lazy {
         MediatorLiveData<List<MediaWrapper>>().apply {
             addSource(networkFavs) { value = convertFavorites(it).filterNetworkFavs() }
-            addSource(ExternalMonitor.connected) {
-                launch(Dispatchers.Main.immediate) {
-                    val favList = convertFavorites(networkFavs.value)
-                    if (favList.isNotEmpty()) value = if (it == true) favList.filterNetworkFavs() else emptyList()
-                }
+            addSource(networkMonitor.connectionFlow.asLiveData()) {
+                val favList = convertFavorites(networkFavs.value)
+                if (favList.isNotEmpty()) value = if (it.connected) favList.filterNetworkFavs() else emptyList()
             }
         }
     }
@@ -75,7 +78,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
     private fun List<MediaWrapper>.filterNetworkFavs() : List<MediaWrapper> {
         return when {
             isEmpty() -> this
-            !ExternalMonitor.isConnected -> emptyList()
+            !networkMonitor.connected -> emptyList()
             !ExternalMonitor.allowLan() -> {
                 val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
                 mutableListOf<MediaWrapper>().apply { this@filterNetworkFavs.filterTo(this) { schemes.contains(it.uri.scheme) } }
