@@ -117,7 +117,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
                 val title = getString(R.string.otg_device_title)
                 val otgRoot = OtgAccess.otgRoot
                 val rootUri = otgRoot.value
-                if (rootUri != null && ExternalMonitor.devices.value.size == 1) {
+                if (rootUri != null && ExternalMonitor.devices.size == 1) {
                     browseOtgDevice(rootUri, title)
                 } else {
                     otgRoot.observeForever(object : Observer<Uri> {

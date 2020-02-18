@@ -41,7 +41,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_CHECK_STORAGES
@@ -71,13 +74,13 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             is MediaMounted -> {
                 if (TextUtils.isEmpty(action.uuid)) return@actor
                 if (ctx.getFromMl { addDevice(action.uuid, action.path, true) }) {
-                    notifyNewStorage(action.uri, action.path)
+                    notifyNewStorage(action)
                 }
             }
             is MediaUnmounted -> {
                 delay(100L)
                 Medialibrary.getInstance().removeDevice(action.uuid, action.path)
-                if (storageUnplugged.hasActiveObservers()) storageUnplugged.postValue(action.uri)
+                storageActions.safeOffer(action)
             }
         }
     }
@@ -110,8 +113,9 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         }
     }
 
-    val storageUnplugged = LiveEvent<Uri>()
-    val storagePlugged = LiveEvent<Uri>()
+    private val storageActions = ConflatedBroadcastChannel<DeviceAction>()
+    val storageEvent : Flow<DeviceAction>
+        get() = storageActions.openSubscription().consumeAsFlow()
     private var storageObserver: WeakReference<Activity>? = null
 
     var devices = LiveDataset<UsbDevice>()
@@ -156,10 +160,10 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     }
 
     @Synchronized
-    private fun notifyNewStorage(uri: Uri, path: String) {
+    private fun notifyNewStorage(mediaMounted: MediaMounted) {
         val activity = storageObserver?.get() ?: return
-        UiTools.newStorageDetected(activity, path)
-        if (storagePlugged.hasActiveObservers()) storagePlugged.postValue(uri)
+        UiTools.newStorageDetected(activity, mediaMounted.path)
+        storageActions.safeOffer(mediaMounted)
     }
 
     @Synchronized
@@ -169,8 +173,8 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     @Synchronized
     fun unsubscribeStorageCb(observer: Activity) {
-        if (storageObserver != null && storageObserver!!.get() === observer) {
-            storageObserver!!.clear()
+        if (storageObserver?.get() === observer) {
+            storageObserver?.clear()
             storageObserver = null
         }
     }
@@ -182,6 +186,6 @@ fun containsDevice(devices: Array<String>, device: String): Boolean {
     return false
 }
 
-private sealed class DeviceAction
-private class MediaMounted(val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : DeviceAction()
-private class MediaUnmounted(val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : DeviceAction()
+sealed class DeviceAction
+class MediaMounted(val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : DeviceAction()
+class MediaUnmounted(val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : DeviceAction()

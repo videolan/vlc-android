@@ -103,8 +103,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         if (!updateActor.isClosedForSend) updateActor.offer(Unit)
     }
 
-    private val monitorObserver = Observer<Any> { updateActor.offer(Unit) }
-
     private val playerObserver = Observer<Boolean> { updateAudioCategories() }
 
     private val videoObserver = Observer<Any> { updateVideos() }
@@ -114,8 +112,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         medialibrary.addOnDeviceChangeListener(this)
         favorites.observeForever(favObserver)
         networkMonitor.connectionFlow.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
-        ExternalMonitor.storageUnplugged.observeForever(monitorObserver)
-        ExternalMonitor.storagePlugged.observeForever(monitorObserver)
+        ExternalMonitor.storageEvent.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
         PlaylistManager.showAudioPlayer.observeForever(playerObserver)
         mediaMetadataRepository.getAllLive().observeForever(videoObserver)
     }
@@ -246,8 +243,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         medialibrary.removeOnMedialibraryReadyListener(this)
         medialibrary.removeOnDeviceChangeListener(this)
         favorites.removeObserver(favObserver)
-        ExternalMonitor.storageUnplugged.removeObserver(monitorObserver)
-        ExternalMonitor.storagePlugged.removeObserver(monitorObserver)
         PlaylistManager.showAudioPlayer.removeObserver(playerObserver)
         nowPlayingDelegate.onClear()
     }
