@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.video
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
@@ -30,7 +29,6 @@ import android.bluetooth.BluetoothA2dp
 import android.bluetooth.BluetoothHeadset
 import android.content.*
 import android.content.pm.ActivityInfo
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.Uri
@@ -59,7 +57,6 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Guideline
-import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
@@ -71,9 +68,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import com.google.android.material.animation.ArgbEvaluatorCompat
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.*
 import org.videolan.libvlc.MediaPlayer
@@ -101,7 +95,6 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
-import org.videolan.vlc.media.DelayValues
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
@@ -494,7 +487,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
-            videoUri = savedInstanceState.getParcelable<Parcelable>(KEY_URI) as Uri?
+            val list = savedInstanceState.getBoolean(KEY_LIST, false)
+            if (list) {
+                intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
+            } else {
+                videoUri = savedInstanceState.getParcelable<Parcelable>(KEY_URI) as Uri?
+            }
         }
 
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
@@ -615,11 +613,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (videoUri != null && "content" != videoUri!!.scheme) {
+        if (videoUri != null && "content" != videoUri?.scheme) {
             outState.putLong(KEY_TIME, savedTime)
             if (playlistModel == null) outState.putParcelable(KEY_URI, videoUri)
         }
         videoUri = null
+        outState.putBoolean(KEY_LIST, hasPlaylist)
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -795,7 +794,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     private fun initPlaylistUi() {
         if (service?.hasPlaylist() == true) {
-            hasPlaylist = true
             if (!::playlistAdapter.isInitialized) {
                 playlistAdapter = PlaylistAdapter(this)
                 val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -1449,6 +1447,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private fun onPlaying() {
         val mw = service?.currentMediaWrapper ?: return
         isPlaying = true
+        hasPlaylist = service?.hasPlaylist() == true
         setPlaybackParameters()
         stopLoading()
         updateOverlayPausePlay()
@@ -2267,8 +2266,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 Log.d(TAG, "Video was previously paused, resuming in paused mode")
             if (intent.data != null) videoUri = intent.data
             if (extras != null) {
-                if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
+                if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
                     videoUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION)
+                    intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
+                }
                 fromStart = fromStart or extras.getBoolean(PLAY_EXTRA_FROM_START, false)
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
@@ -2665,6 +2666,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private const val RESULT_VIDEO_TRACK_LOST = Activity.RESULT_FIRST_USER + 3
         internal const val DEFAULT_FOV = 80f
         private const val KEY_TIME = "saved_time"
+        private const val KEY_LIST = "saved_list"
         private const val KEY_URI = "saved_uri"
         private const val OVERLAY_TIMEOUT = 4000
         const val OVERLAY_INFINITE = -1
