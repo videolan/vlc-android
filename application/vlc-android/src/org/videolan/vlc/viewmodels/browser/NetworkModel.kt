@@ -24,21 +24,19 @@ import android.content.Context
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.NetworkMonitor
 
 class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles, true, coroutineContextProvider) {
 
-    private val networkObs = Observer<Boolean> { if (it == true) refresh() }
-
     init {
-        ExternalMonitor.connected.observeForever(networkObs)
+        NetworkMonitor.getInstance(context).connectionFlow.onEach { if (it.connected) refresh() }.launchIn(viewModelScope)
     }
 
-    override fun onCleared() {
-        ExternalMonitor.connected.removeObserver(networkObs)
-        super.onCleared()
-    }
     class Factory(val context: Context, val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")

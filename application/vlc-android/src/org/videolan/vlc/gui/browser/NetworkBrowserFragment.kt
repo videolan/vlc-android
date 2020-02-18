@@ -40,6 +40,7 @@ import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.CTX_FAV_ADD
 import org.videolan.resources.CTX_FAV_EDIT
+import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.isStarted
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
@@ -55,6 +56,7 @@ import org.videolan.vlc.viewmodels.browser.getBrowserModel
 class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
 
     private val dialogsDelegate = DialogDelegate()
+    private lateinit var networkMonitor : NetworkMonitor
 
     override fun createFragment() = NetworkBrowserFragment()
 
@@ -64,6 +66,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         dialogsDelegate.observeDialogs(this, this)
+        networkMonitor = NetworkMonitor.getInstance(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,7 +101,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
     }
 
     override fun refresh() {
-        if (ExternalMonitor.isConnected)
+        if (networkMonitor.connected)
             super.refresh()
         else {
             updateEmptyView()
@@ -131,20 +134,18 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
 
     override fun browseRoot() {}
 
-    private fun allowLAN() = ExternalMonitor.isLan || ExternalMonitor.isVPN
-
     /**
      * Update views visibility and emptiness info
      */
     override fun updateEmptyView() {
-        if (ExternalMonitor.isConnected) {
+        if (networkMonitor.connected) {
             if (viewModel.isEmpty()) {
                 if (swipeRefreshLayout.isRefreshing) {
                     binding.emptyLoading.state = EmptyLoadingState.LOADING
                     binding.networkList.visibility = View.GONE
                 } else {
                     if (isRootDirectory) {
-                        if (allowLAN()) {
+                        if (networkMonitor.lanAllowed) {
                             binding.emptyLoading.state = EmptyLoadingState.LOADING
                             binding.emptyLoading.loadingText = R.string.network_shares_discovery
                         } else {

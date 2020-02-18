@@ -79,7 +79,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
         return when {
             isEmpty() -> this
             !networkMonitor.connected -> emptyList()
-            !ExternalMonitor.allowLan() -> {
+            !NetworkMonitor.getInstance(AppContextProvider.appContext).lanAllowed -> {
                 val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
                 mutableListOf<MediaWrapper>().apply { this@filterNetworkFavs.filterTo(this) { schemes.contains(it.uri.scheme) } }
             }

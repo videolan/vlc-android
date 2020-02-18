@@ -54,7 +54,12 @@ import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.coroutines.*
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.moviepedia.MoviepediaIndexer
 import org.videolan.moviepedia.models.identify.Media
@@ -62,15 +67,14 @@ import org.videolan.moviepedia.models.identify.getAllResults
 import org.videolan.moviepedia.viewmodel.MoviepediaModel
 import org.videolan.television.R
 import org.videolan.television.util.manageHttpException
-import org.videolan.vlc.ExternalMonitor
-import org.videolan.vlc.NetworkObserver
+import org.videolan.tools.NetworkMonitor
 
 private const val TAG = "SearchFragment"
 private const val REQUEST_SPEECH = 1
 
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider, CoroutineScope by MainScope(), NetworkObserver {
+class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider {
 
     private lateinit var viewModel: MoviepediaModel
     lateinit var media: MediaWrapper
@@ -79,7 +83,7 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
     private val defaultItemClickedListener: OnItemViewClickedListener
         get() = OnItemViewClickedListener { _, item, _, row ->
             if (item is Media) {
-                launch {
+                lifecycleScope.launch {
                     withContext(Dispatchers.IO) {
                         try {
                             MoviepediaIndexer.saveMediaMetadata(requireActivity(), media, item)
@@ -106,7 +110,7 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
 
         viewModel = ViewModelProviders.of(this).get(media.uri.path
                 ?: "", MoviepediaModel::class.java)
-        val cp = org.videolan.television.ui.CardPresenter(requireActivity(), true)
+        val cp = CardPresenter(requireActivity(), true)
         val videoAdapter = ArrayObjectAdapter(cp)
         viewModel.apiResult.observe(this, Observer {
             val medias = it.getAllResults()
@@ -118,16 +122,14 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
         viewModel.exceptionLiveData.observe(this, Observer { e ->
             e?.let {
                 requireActivity().manageHttpException(it)
-                ExternalMonitor.subscribeNetworkCb(this)
+                lifecycleScope.launch {
+                    NetworkMonitor.getInstance(requireContext()).connectionFlow.first { it.connected }
+                    refresh()
+                }
             }
         })
         setSearchQuery(media.title, false)
         viewModel.search(media.uri)
-    }
-
-    override fun onDestroy() {
-        ExternalMonitor.unsubscribeNetworkCb(this)
-        super.onDestroy()
     }
 
     override fun getResultsAdapter() = rowsAdapter
@@ -146,7 +148,7 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
     }
 
     private fun updateEmptyView(empty: Boolean) {
-        (activity as? org.videolan.television.ui.SearchActivity)?.updateEmptyView(empty)
+        (activity as? SearchActivity)?.updateEmptyView(empty)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -155,10 +157,6 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
 
     fun refresh() {
         viewModel.search(media.uri)
-    }
-
-    override fun onNetworkChanged() {
-        refresh()
     }
 }
 

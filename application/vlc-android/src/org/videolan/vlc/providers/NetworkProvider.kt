@@ -31,6 +31,7 @@ import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.Settings
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
@@ -52,7 +53,7 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         dataset.value = mutableListOf<MediaLibraryItem>().apply {
             getFavoritesList(favorites?.value)?.let { addAll(it) }
         }
-        if (ExternalMonitor.allowLan()) browse()
+        if (NetworkMonitor.getInstance(context).lanAllowed) browse()
     }
 
     override fun fetch() {}

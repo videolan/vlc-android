@@ -30,6 +30,8 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
@@ -43,6 +45,7 @@ import org.videolan.television.ui.NowPlayingDelegate
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.TVActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
+import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.Settings
 import org.videolan.vlc.ExternalMonitor
@@ -66,6 +69,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     val context = getApplication<Application>().baseContext!!
     private val medialibrary = Medialibrary.getInstance()
+    private val networkMonitor = NetworkMonitor.getInstance(context)
     val settings = Settings.getInstance(context)
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
@@ -109,7 +113,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         medialibrary.addOnMedialibraryReadyListener(this)
         medialibrary.addOnDeviceChangeListener(this)
         favorites.observeForever(favObserver)
-        ExternalMonitor.connected.observeForever(monitorObserver)
+        networkMonitor.connectionFlow.onEach { updateActor.offer(Unit) }.launchIn(viewModelScope)
         ExternalMonitor.storageUnplugged.observeForever(monitorObserver)
         ExternalMonitor.storagePlugged.observeForever(monitorObserver)
         PlaylistManager.showAudioPlayer.observeForever(playerObserver)
@@ -212,7 +216,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         if (!showInternalStorage && directories.isNotEmpty()) directories.removeAt(0)
         directories.forEach { if (it.location.scanAllowed()) list.add(it) }
 
-        if (ExternalMonitor.isLan) {
+        if (networkMonitor.isLan) {
             list.add(DummyItem(HEADER_NETWORK, context.getString(R.string.network_browsing), null))
             list.add(DummyItem(HEADER_STREAM, context.getString(R.string.open_mrl), null))
             list.add(DummyItem(HEADER_SERVER, context.getString(R.string.server_add_title), null))
@@ -242,7 +246,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         medialibrary.removeOnMedialibraryReadyListener(this)
         medialibrary.removeOnDeviceChangeListener(this)
         favorites.removeObserver(favObserver)
-        ExternalMonitor.connected.removeObserver(monitorObserver)
         ExternalMonitor.storageUnplugged.removeObserver(monitorObserver)
         ExternalMonitor.storagePlugged.removeObserver(monitorObserver)
         PlaylistManager.showAudioPlayer.removeObserver(playerObserver)

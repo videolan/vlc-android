@@ -61,10 +61,8 @@ private const val TAG = "VLC/ExternalMonitor"
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @SuppressLint("StaticFieldLeak")
-object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope {
-    override val coroutineContext = Dispatchers.Main + SupervisorJob()
+object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope by MainScope() {
 
-    private lateinit var cm: ConnectivityManager
     private lateinit var ctx: Context
     private var registered = false
 
@@ -93,19 +91,6 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     override fun onReceive(context: Context, intent: Intent) {
         if (!this::ctx.isInitialized) ctx = context.applicationContext
         when (intent.action) {
-            ConnectivityManager.CONNECTIVITY_ACTION -> {
-                if (!this::cm.isInitialized)
-                    cm = context.applicationContext.getSystemService(
-                            Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                val networkInfo = cm.activeNetworkInfo
-                val isConnected = networkInfo != null && networkInfo.isConnected
-                isMobile = isConnected && networkInfo!!.type == ConnectivityManager.TYPE_MOBILE
-                isVPN = isConnected && updateVPNStatus()
-                if (connected.value == null || isConnected != connected.value) {
-                    connected.value = isConnected
-                }
-                networkObservers.forEach { it.get()?.onNetworkChanged() }
-            }
             Intent.ACTION_MEDIA_MOUNTED -> intent.data?.let { actor.offer(MediaMounted(it)) }
             Intent.ACTION_MEDIA_UNMOUNTED,
             Intent.ACTION_MEDIA_EJECT -> intent.data?.let {
@@ -125,39 +110,9 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun updateVPNStatus(): Boolean {
-        if (AndroidUtil.isLolliPopOrLater) {
-            for (network in cm.allNetworks) {
-                val nc = cm.getNetworkCapabilities(network) ?: return false
-                if (nc.hasTransport(NetworkCapabilities.TRANSPORT_VPN)) return true
-            }
-            return false
-        } else {
-            try {
-                val networkInterfaces = NetworkInterface.getNetworkInterfaces()
-                while (networkInterfaces.hasMoreElements()) {
-                    val networkInterface = networkInterfaces.nextElement()
-                    val name = networkInterface.displayName
-                    if (name.startsWith("ppp") || name.startsWith("tun") || name.startsWith("tap"))
-                        return true
-                }
-            } catch (ignored: SocketException) {}
-            return false
-        }
-    }
-
-    val connected = MutableLiveData<Boolean>()
     val storageUnplugged = LiveEvent<Uri>()
     val storagePlugged = LiveEvent<Uri>()
-    @Volatile
-    var isMobile = true
-        private set
-    @Volatile
-    var isVPN = false
-        private set
     private var storageObserver: WeakReference<Activity>? = null
-    private var networkObservers: ArrayList<WeakReference<NetworkObserver>> = ArrayList()
 
     var devices = LiveDataset<UsbDevice>()
 
@@ -165,14 +120,12 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     fun register() {
         if (registered) return
         val ctx = AppContextProvider.appContext
-        val networkFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         val storageFilter = IntentFilter(Intent.ACTION_MEDIA_MOUNTED)
         val otgFilter = IntentFilter(UsbManager.ACTION_USB_DEVICE_ATTACHED)
         storageFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED)
         storageFilter.addAction(Intent.ACTION_MEDIA_EJECT)
         otgFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
         storageFilter.addDataScheme("file")
-        ctx.registerReceiver(this, networkFilter)
         ctx.registerReceiver(this, storageFilter)
         ctx.registerReceiver(this, otgFilter)
         registered = true
@@ -199,7 +152,6 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             ctx.unregisterReceiver(this)
         } catch (iae: IllegalArgumentException) {}
         registered = false
-        connected.value = false
         devices.clear()
     }
 
@@ -209,19 +161,6 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         UiTools.newStorageDetected(activity, path)
         if (storagePlugged.hasActiveObservers()) storagePlugged.postValue(uri)
     }
-
-    val isConnected: Boolean
-        get() {
-            return connected.value ?: false
-        }
-
-    val isLan: Boolean
-        get() {
-            val status = connected.value
-            return status != null && status && !isMobile
-        }
-
-    fun allowLan() = isLan || isVPN
 
     @Synchronized
     fun subscribeStorageCb(observer: Activity) {
@@ -235,18 +174,6 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             storageObserver = null
         }
     }
-
-    @Synchronized
-    fun subscribeNetworkCb(observer: NetworkObserver) {
-        networkObservers.add(WeakReference(observer))
-    }
-
-    @Synchronized
-    fun unsubscribeNetworkCb(observer: NetworkObserver) {
-        networkObservers.remove(WeakReference(observer))
-    }
-
-
 }
 
 fun containsDevice(devices: Array<String>, device: String): Boolean {
@@ -258,6 +185,3 @@ fun containsDevice(devices: Array<String>, device: String): Boolean {
 private sealed class DeviceAction
 private class MediaMounted(val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : DeviceAction()
 private class MediaUnmounted(val uri : Uri, val path : String = uri.path!!, val uuid : String = uri.lastPathSegment!!) : DeviceAction()
-interface NetworkObserver {
-    fun onNetworkChanged()
-}
