@@ -57,7 +57,7 @@ fun createOrUpdateChannel(prefs: SharedPreferences, context: Context, name: Stri
             .setDisplayName(name)
             .setAppLinkIntentUri(createUri(appId))
     if (channelId == -1L) {
-        val channelUri = context.contentResolver.insert(TvContractCompat.Channels.CONTENT_URI, builder.build().toContentValues())
+        val channelUri = context.contentResolver.insert(TvContractCompat.Channels.CONTENT_URI, builder.build().toContentValues()) ?: return -1L
         channelId = ContentUris.parseId(channelUri)
         prefs.edit().putLong(KEY_TV_CHANNEL_ID, channelId).apply()
         TvContractCompat.requestChannelBrowsable(context, channelId)
