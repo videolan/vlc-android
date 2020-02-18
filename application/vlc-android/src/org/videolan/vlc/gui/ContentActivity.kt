@@ -117,7 +117,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
                 return true
             }
             R.id.ml_menu_renderers -> {
-                if (!PlaybackService.hasRenderer() && RendererDelegate.renderers.value.size == 1) {
+                if (!PlaybackService.hasRenderer() && RendererDelegate.renderers.size == 1) {
                     val renderer = RendererDelegate.renderers.value[0]
                     PlaybackService.renderer.value = renderer
                     val v = findViewById<View>(R.id.audio_player_container)

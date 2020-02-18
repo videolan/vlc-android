@@ -128,7 +128,7 @@ open class FileBrowserProvider(
             StoragePermissionsDelegate.storageAccessGranted.observeForever(storageObserver)
         }
         if (!storageAccess) return // For first launch, storage access may not already be granted
-        if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.value.isEmpty()) {
+        if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.isEmpty()) {
             val otg = MLServiceLocator.getAbstractMediaWrapper(Uri.parse("otg://")).apply {
                 title = context.getString(R.string.otg_device_title)
                 type = MediaWrapper.TYPE_DIR

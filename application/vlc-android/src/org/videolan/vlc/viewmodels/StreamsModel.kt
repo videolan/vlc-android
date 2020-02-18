@@ -45,7 +45,7 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
     }
 
     fun rename(position: Int, name: String) {
-        val media = dataset.value[position]
+        val media = dataset.get(position)
         viewModelScope.launch(Dispatchers.IO) { media.rename(name) }
         refresh()
     }

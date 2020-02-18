@@ -35,16 +35,9 @@ class HistoryModel(context: Context, coroutineContextProvider: CoroutineContextP
         dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastMediaPlayed().toMutableList() }
     }
 
-    fun moveUp(media: MediaWrapper) {
-        dataset.value = dataset.value.apply {
-            remove(media)
-            add(0, media)
-        }
-    }
+    fun moveUp(media: MediaWrapper) = dataset.move(media, 0)
 
-    fun clearHistory() {
-        dataset.value = mutableListOf()
-    }
+    fun clearHistory() = dataset.clear()
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

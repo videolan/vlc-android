@@ -40,11 +40,13 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
         super.setValue(value)
     }
 
-    override fun getValue() = super.getValue() ?: emptyList
+    override fun getValue() = internalList
 
     fun get(position: Int) = internalList[position]
 
     fun getList() = internalList.toList()
+
+    val size = internalList.size
 
     fun clear() {
         value = internalList.apply { clear() }
@@ -68,5 +70,13 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
 
     fun remove(position: Int) {
         value = internalList.apply { removeAt(position) }
+    }
+
+    fun move(from: Int, to: Int) {
+        value = internalList.apply { move(from, to) }
+    }
+
+    fun move (item: T, position: Int) {
+        value = internalList.apply { move(item, position) }
     }
 }
