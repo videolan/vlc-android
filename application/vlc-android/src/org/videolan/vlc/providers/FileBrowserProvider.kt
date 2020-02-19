@@ -35,15 +35,15 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AndroidDevices
+import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.FileUtils
-import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.util.convertFavorites
 import java.io.File
 
@@ -179,7 +179,7 @@ open class FileBrowserProvider(
     }
 
     override fun onChanged(list: MutableList<UsbDevice>?) {
-        if (!list.isNullOrEmpty()) {
+        if (list.isNullOrEmpty()) {
             if (otgPosition != -1) {
                 dataset.remove(otgPosition)
                 otgPosition = -1
