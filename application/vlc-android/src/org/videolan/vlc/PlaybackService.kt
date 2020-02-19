@@ -1319,7 +1319,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     companion object {
         private val instanceChannel = ConflatedBroadcastChannel<PlaybackService?>(null)
         val instance : PlaybackService?
-            get() = instanceChannel.value
+            get() = instanceChannel.valueOrNull
         val serviceFlow : Flow<PlaybackService?>
             get() = instanceChannel.openSubscription().consumeAsFlow()
 
