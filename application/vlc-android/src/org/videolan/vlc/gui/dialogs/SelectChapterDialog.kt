@@ -38,6 +38,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ChapterListItemBinding
+import org.videolan.vlc.util.launchWhenStarted
 import java.util.*
 
 @ObsoleteCoroutinesApi
@@ -68,7 +69,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), IOnChapterSelectedLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(lifecycleScope)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchWhenStarted(lifecycleScope)
     }
 
     private fun initChapterList() {

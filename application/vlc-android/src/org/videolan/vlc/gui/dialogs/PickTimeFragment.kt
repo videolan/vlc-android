@@ -33,10 +33,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.util.launchWhenStarted
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -115,7 +115,7 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        PlaybackService.serviceFlow.filterNotNull().onEach { playbackService = it }.launchIn(lifecycleScope)
+        PlaybackService.serviceFlow.filterNotNull().onEach { playbackService = it }.launchWhenStarted(lifecycleScope)
         super.onViewCreated(view, savedInstanceState)
     }
 

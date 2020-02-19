@@ -122,7 +122,7 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
         viewModel.exceptionLiveData.observe(this, Observer { e ->
             e?.let {
                 requireActivity().manageHttpException(it)
-                lifecycleScope.launch {
+                lifecycleScope.launchWhenStarted {
                     NetworkMonitor.getInstance(requireContext()).connectionFlow.first { it.connected }
                     refresh()
                 }

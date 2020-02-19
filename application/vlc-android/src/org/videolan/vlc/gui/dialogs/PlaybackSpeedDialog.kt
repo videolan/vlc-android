@@ -33,12 +33,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.videolan.tools.formatRateString
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.OnRepeatListener
+import org.videolan.vlc.util.launchWhenStarted
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -118,7 +118,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(lifecycleScope)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchWhenStarted(lifecycleScope)
     }
 
     private fun setRateProgress() {
