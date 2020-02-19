@@ -30,12 +30,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -47,8 +48,8 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
+import org.videolan.vlc.gui.helpers.hf.requestOtgRoot
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
@@ -115,18 +116,16 @@ open class FileBrowserFragment : BaseBrowserFragment() {
             val mw = item as MediaWrapper
             if ("otg://" == mw.location) {
                 val title = getString(R.string.otg_device_title)
-                val otgRoot = OtgAccess.otgRoot
-                val rootUri = otgRoot.value
+                val rootUri = OtgAccess.otgRoot.value
                 if (rootUri != null && ExternalMonitor.devices.size == 1) {
                     browseOtgDevice(rootUri, title)
                 } else {
-                    otgRoot.observeForever(object : Observer<Uri> {
-                        override fun onChanged(uri: Uri?) {
-                            OtgAccess.otgRoot.removeObserver(this)
-                            if (uri != null) browseOtgDevice(uri, title)
-                        }
-                    })
-                    OtgAccess.requestOtgRoot(requireActivity())
+                    lifecycleScope.launchWhenStarted {
+                        val otgRoot = OtgAccess.otgRoot.openSubscription().consumeAsFlow()
+                        val uri = otgRoot.filterNotNull().first()
+                        browseOtgDevice(uri, title)
+                    }
+                    requireActivity().requestOtgRoot()
                 }
                 return
             }

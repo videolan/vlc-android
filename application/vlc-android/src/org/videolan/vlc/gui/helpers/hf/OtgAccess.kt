@@ -31,10 +31,10 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import videolan.org.commontools.LiveEvent
+import org.videolan.tools.safeOffer
 
 const val SAF_REQUEST = 85
 const val TAG = "OtgAccess"
@@ -47,31 +47,34 @@ class OtgAccess : BaseHeadlessFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val safIntent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-        try {
-            startActivityForResult(safIntent, SAF_REQUEST)
-        } catch (e: ActivityNotFoundException) {
-            exit()
+        if (savedInstanceState == null) {
+            val safIntent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+            try {
+                startActivityForResult(safIntent, SAF_REQUEST)
+            } catch (e: ActivityNotFoundException) {
+                exit()
+            }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (intent != null && requestCode == SAF_REQUEST) (otgRoot as LiveEvent).value = intent.data
+        if (intent != null && requestCode == SAF_REQUEST) otgRoot.safeOffer(intent.data)
         else super.onActivityResult(requestCode, resultCode, intent)
         exit()
     }
 
     companion object {
-        fun requestOtgRoot(activity: FragmentActivity?) {
-            activity?.supportFragmentManager?.beginTransaction()?.add(OtgAccess(), TAG)?.commitAllowingStateLoss()
-        }
-        var otgRoot : LiveData<Uri> = LiveEvent()
+        val otgRoot = ConflatedBroadcastChannel<Uri?>(null)
     }
+}
+
+fun FragmentActivity.requestOtgRoot() {
+    supportFragmentManager.beginTransaction().add(OtgAccess(), TAG).commitAllowingStateLoss()
 }
 
 @WorkerThread
 fun getDocumentFiles(context: Context, path: String) : List<MediaWrapper>? {
-    val rootUri = OtgAccess.otgRoot.value ?: return null
+    val rootUri = OtgAccess.otgRoot.valueOrNull ?: return null
 //    else Uri.Builder().scheme("content")
 //            .authority(OTG_CONTENT_AUTHORITY)
 //            .path(path.substringBefore(':'))
