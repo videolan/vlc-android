@@ -28,6 +28,7 @@ import android.util.SparseBooleanArray
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +36,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
@@ -78,6 +80,10 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     var actionMode: ActionMode? = null
     var fabPlay: FloatingActionButton? = null
     private var savedSelection = SparseBooleanArray()
+    private val transition = ChangeBounds().apply {
+        interpolator = AccelerateDecelerateInterpolator()
+        duration = 300
+    }
 
     open lateinit var viewModel: T
         protected set
@@ -349,7 +355,8 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             val cs = ConstraintSet()
             cs.clone(cl)
             cs.setVisibility(R.id.searchButton, if (visible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            TransitionManager.beginDelayedTransition(cl)
+            transition.excludeChildren(RecyclerView::class.java, true)
+            TransitionManager.beginDelayedTransition(cl, transition)
             cs.applyTo(cl)
         } else
             searchButtonView.visibility = if (visible) View.VISIBLE else View.GONE
