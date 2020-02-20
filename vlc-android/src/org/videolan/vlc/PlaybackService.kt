@@ -548,7 +548,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         handler.removeCallbacksAndMessages(null)
         if (this::mediaSession.isInitialized) mediaSession.release()
         //Call it once mediaSession is null, to not publish playback state
-        stop(true)
+        stop(systemExit = true)
 
         unregisterReceiver(receiver)
         playlistManager.onServiceDestroyed()
@@ -747,8 +747,8 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     @MainThread
     @JvmOverloads
-    fun stop(systemExit: Boolean = false) {
-        playlistManager.stop(systemExit)
+    fun stop(systemExit: Boolean = false, video: Boolean = false) {
+        playlistManager.stop(systemExit = systemExit, video = video)
     }
 
     private fun initMediaSession() {

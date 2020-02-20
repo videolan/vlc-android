@@ -236,7 +236,7 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
                 Settings.getInstance(mService).edit()
                         .putLong(VIDEO_RESUME_TIME, time).apply()
         }
-        mService.stop()
+        mService.stop(video = true)
     }
 
     private fun showNotification() {

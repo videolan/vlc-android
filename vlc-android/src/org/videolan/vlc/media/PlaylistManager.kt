@@ -204,12 +204,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         launch { playIndex(currentIndex) }
     }
 
-    fun stop(systemExit: Boolean = false) {
+    fun stop(systemExit: Boolean = false, video: Boolean = false) {
         clearABRepeat()
         stopAfter = -1
         videoBackground = false
         getCurrentMedia()?.let {
-            savePosition()
+            savePosition(video = video)
             val audio = isAudioList() // check before dispatching in saveMediaMeta()
             launch(start = CoroutineStart.UNDISPATCHED) {
                 saveMediaMeta().join()
@@ -321,7 +321,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     private fun skipMedia() {
         if (currentIndex != nextIndex) next()
-        else stop(false)
+        else stop(systemExit = false)
     }
 
     fun onServiceDestroyed() {
@@ -630,10 +630,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @Synchronized
-    private fun savePosition(reset: Boolean = false) {
+    private fun savePosition(reset: Boolean = false, video: Boolean = false) {
         if (!hasMedia()) return
         val editor = settings.edit()
-        val audio = isAudioList()
+        val audio = !video && isAudioList()
         editor.putBoolean(if (audio) "audio_shuffling" else "media_shuffling", shuffling)
         editor.putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
         editor.putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getCurrentTime())
@@ -748,7 +748,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (newMedia) {
                         loadMediaMeta(mw)
                         saveMediaList()
-                        savePosition(true)
+                        savePosition(reset = true)
                         saveCurrentMedia()
                         newMedia = false
                         if (player.hasRenderer || !player.isVideoPlaying()) showAudioPlayer.value = true
@@ -760,7 +760,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (currentIndex != nextIndex) {
                         saveMediaMeta()
                         if (isBenchmark) player.setPreviousStats()
-                        if (nextIndex == -1) savePosition(true)
+                        if (nextIndex == -1) savePosition(reset = true)
                     }
                     if (stopAfter == currentIndex) {
                         stop()

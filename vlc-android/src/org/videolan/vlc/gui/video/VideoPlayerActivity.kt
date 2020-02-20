@@ -771,7 +771,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             val vlcVout = vout
             if (vlcVout != null && vlcVout.areViewsAttached()) {
                 if (isPlayingPopup) {
-                    stop()
+                    stop(video = true)
                 } else
                     vlcVout.detachViews()
             }
@@ -877,7 +877,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 else
                     savedTime -= 2000 // go back 2 seconds, to compensate loading time
             }
-            stop()
+            stop(video = true)
         }
     }
 
