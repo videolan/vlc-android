@@ -495,7 +495,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
             savedTime = savedInstanceState.getLong(KEY_TIME)
-            videoUri = savedInstanceState.getParcelable<Parcelable>(KEY_URI) as Uri?
+            val list = savedInstanceState.getBoolean(KEY_LIST, false)
+            if (list) {
+                intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
+            } else {
+                videoUri = savedInstanceState.getParcelable<Parcelable>(KEY_URI) as Uri?
+            }
+
         }
 
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
@@ -610,11 +616,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (videoUri != null && "content" != videoUri!!.scheme) {
+        if (videoUri != null && "content" != videoUri?.scheme) {
             outState.putLong(KEY_TIME, savedTime)
             if (playlistModel == null) outState.putParcelable(KEY_URI, videoUri)
         }
         videoUri = null
+        outState.putBoolean(KEY_LIST, hasPlaylist)
     }
 
     @TargetApi(Build.VERSION_CODES.O)
@@ -790,7 +797,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private fun initPlaylistUi() {
         if (service?.hasPlaylist() == true) {
-            hasPlaylist = true
             if (!::playlistAdapter.isInitialized) {
                 playlistAdapter = PlaylistAdapter(this)
                 val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -1548,6 +1554,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private fun onPlaying() {
         val mw = service?.currentMediaWrapper ?: return
         isPlaying = true
+        hasPlaylist = service?.hasPlaylist() == true
         setPlaybackParameters()
         stopLoading()
         updateOverlayPausePlay()
@@ -2341,8 +2348,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 Log.d(TAG, "Video was previously paused, resuming in paused mode")
             if (intent.data != null) videoUri = intent.data
             if (extras != null) {
-                if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
+                if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
                     videoUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION)
+                    intent.removeExtra(PLAY_EXTRA_ITEM_LOCATION)
+                }
                 fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, false)
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
@@ -2742,6 +2751,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         private const val RESULT_VIDEO_TRACK_LOST = Activity.RESULT_FIRST_USER + 3
         internal const val DEFAULT_FOV = 80f
         private const val KEY_TIME = "saved_time"
+        private const val KEY_LIST = "saved_list"
         private const val KEY_URI = "saved_uri"
         private const val OVERLAY_TIMEOUT = 4000
         private const val OVERLAY_INFINITE = -1
