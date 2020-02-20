@@ -9,11 +9,13 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
-import java.lang.ref.WeakReference
 import java.net.NetworkInterface
 import java.net.SocketException
 
@@ -44,8 +46,13 @@ class NetworkMonitor(private val context: Context) : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun stop() {
+        if (!registered) return
         registered = false
         context.unregisterReceiver(receiver)
+    }
+
+    protected fun finalize() {
+        stop()
     }
 
     @SuppressLint("MissingPermission")
