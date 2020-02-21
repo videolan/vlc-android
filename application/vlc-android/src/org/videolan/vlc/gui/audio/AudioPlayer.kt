@@ -303,11 +303,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             binding.progressBar.progress = progress.time.toInt()
         }
 
-        val elapsedTracksTime = playlistModel.medias?.run {
-            subList(0, playlistModel.currentMediaPosition).map {
-                if (it.length != 0L) it.length else it.time
-            }.sum()
-        } ?: 0L
+        val elapsedTracksTime = playlistModel.medias?.asSequence()
+                ?.take(playlistModel.currentMediaPosition)
+                ?.map { if (it.length != 0L) it.length else it.time }
+                ?.sum() ?: 0L
         val totalTime = elapsedTracksTime + progress.time
         val currentProgressText = if (totalTime == 0L) "0s" else Tools.millisToString(totalTime, true, false, false)
 

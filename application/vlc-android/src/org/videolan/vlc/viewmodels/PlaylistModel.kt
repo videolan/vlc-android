@@ -226,7 +226,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     }
 
     private fun updateTotalTime() = viewModelScope.launch{
-        val totalLength = medias?.map {
+        val totalLength = medias?.asSequence()?.map {
             if (it.length != 0L) it.length else it.time
         }?.sum() ?: 0L
         totalTime = Tools.millisToString(totalLength, true, false, false)
