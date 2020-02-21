@@ -49,8 +49,8 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
@@ -70,6 +70,7 @@ import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
+import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -110,13 +111,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistModel = PlaylistModel.get(this)
         playlistModel.progress.observe(this@AudioPlayer, Observer { it?.let { updateProgress(it) } })
         playlistAdapter.setModel(playlistModel)
-        lifecycleScope.launchWhenStarted {
-            playlistModel.dataset.asFlow().conflate().collect {
-                doUpdate()
-                playlistAdapter.update(it)
-                delay(50L)
-            }
-        }
+        playlistModel.dataset.asFlow().conflate().onEach {
+            doUpdate()
+            playlistAdapter.update(it)
+            delay(50L)
+        }.launchWhenStarted(lifecycleScope)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -291,6 +290,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     private fun updateProgress(progress: PlaybackProgress) {
+        if (playlistModel.currentMediaPosition == -1) return
         binding.length.text = progress.lengthText
         binding.timeline.max = progress.length.toInt()
         binding.progressBar.max = progress.length.toInt()
@@ -299,29 +299,23 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val displayTime = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else progress.timeText
             binding.headerTime.text = displayTime
             binding.time.text = displayTime
-            binding.timeline.progress = playlistModel.service?.getTime(progress.time)
-                    ?: progress.time.toInt()
+            binding.timeline.progress = progress.time.toInt()
             binding.progressBar.progress = progress.time.toInt()
         }
 
-        val totalLength = playlistModel.medias?.map { if (it.length != 0L) it.length else it.time }?.sum()
-                ?: 0L
         val elapsedTracksTime = playlistModel.medias?.run {
             subList(0, playlistModel.currentMediaPosition).map {
                 if (it.length != 0L) it.length else it.time
             }.sum()
         } ?: 0L
-        val mediaProgress = playlistModel.service?.getTime(progress.time)?.toLong() ?: progress.time
-        val totalTime = elapsedTracksTime + mediaProgress
+        val totalTime = elapsedTracksTime + progress.time
+        val currentProgressText = if (totalTime == 0L) "0s" else Tools.millisToString(totalTime, true, false, false)
 
         val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${playlistModel.medias?.size}")
-        val textProgress = getString(R.string.audio_queue_progress, "${if (totalTime == 0L) "0s" else Tools.millisToString(totalTime, true, false, false)} / ${Tools.millisToString(totalLength, true, false, false)}")
-
+        val textProgress = getString(R.string.audio_queue_progress, "$currentProgressText / ${playlistModel.totalTime}")
 
         binding.audioPlayProgress.text = "$textTrack • $textProgress"
         binding.songsList.setPadding(binding.songsList.paddingLeft, binding.songsList.paddingTop, binding.songsList.paddingRight, binding.audioPlayProgress.height + 8.dp)
-
-
     }
 
     override fun onSelectionSet(position: Int) {

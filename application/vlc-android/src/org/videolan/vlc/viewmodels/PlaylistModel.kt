@@ -24,13 +24,10 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.livedata.LiveDataset
@@ -51,6 +48,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     private var filtering = false
     val progress = MediatorLiveData<PlaybackProgress>()
     val playerState = MutableLiveData<PlayerState>()
+    var totalTime = ""
     val connected : Boolean
         get() = service !== null
 
@@ -72,6 +70,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     }
 
     override fun update() {
+        updateTotalTime()
         service?.run {
             dataset.value = media.toMutableList()
             playerState.value = PlayerState(isPlaying, title, artist)
@@ -155,7 +154,7 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         }
 
     val length : Long
-            get() = service?.length ?: 0L
+        get() = service?.length ?: 0L
 
     val playing : Boolean
         get() = service?.isPlaying ?: false
@@ -224,6 +223,13 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
             }
             this.service = null
         }
+    }
+
+    private fun updateTotalTime() = viewModelScope.launch{
+        val totalLength = medias?.map {
+            if (it.length != 0L) it.length else it.time
+        }?.sum() ?: 0L
+        totalTime = Tools.millisToString(totalLength, true, false, false)
     }
 
     companion object {
