@@ -797,4 +797,6 @@
     <string name="subtitle_delay_first">Počutý hlas</string>
     <string name="audio_delay_end">Spozorovaný zvuk</string>
     <string name="subtitle_delay_end">Videný text</string>
+    <string name="track_index">Stopa: %s</string>
+    <string name="audio_queue_progress">Postup: %s</string>
 </resources>
