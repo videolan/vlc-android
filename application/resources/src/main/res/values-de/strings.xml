@@ -778,4 +778,6 @@
     <string name="subtitle_delay_first">Stimme gehört</string>
     <string name="audio_delay_end">Ton erkannt</string>
     <string name="subtitle_delay_end">Text gesehen</string>
+    <string name="track_index">Titel: %s</string>
+    <string name="audio_queue_progress">Fortschritt: %s</string>
 </resources>
