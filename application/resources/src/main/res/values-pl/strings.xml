@@ -796,4 +796,6 @@
     <string name="subtitle_delay_first">Głos słyszany</string>
     <string name="audio_delay_end">Dźwięk wykryty</string>
     <string name="subtitle_delay_end">Tekst widoczny</string>
+    <string name="track_index">Utwór: %s</string>
+    <string name="audio_queue_progress">Postęp: %s</string>
 </resources>
