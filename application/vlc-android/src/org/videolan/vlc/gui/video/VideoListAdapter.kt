@@ -129,8 +129,6 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 
     override fun onViewRecycled(holder: ViewHolder) {
         holder.binding.setVariable(BR.cover, UiTools.getDefaultVideoDrawable(holder.itemView.context))
-        holder.job?.cancel()
-        holder.job = null
     }
 
     override fun getItem(position: Int) = if (isPositionValid(position)) super.getItem(position) else null
@@ -139,14 +137,13 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
 
     private fun fillView(holder: ViewHolder, item: MediaLibraryItem) {
         when (item) {
-            is Folder -> holder.job = holder.itemView.scope.launch(start = CoroutineStart.UNDISPATCHED) {
-                val count = withContext(Dispatchers.IO) { item.mediaCount(Folder.TYPE_FOLDER_VIDEO) }
-                holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
+            is Folder -> {
                 holder.title.text = item.title
                 if (!isListMode) holder.binding.setVariable(BR.resolution, null)
                 holder.binding.setVariable(BR.seen, 0L)
                 holder.binding.setVariable(BR.max, 0)
-                holder.job = null
+                val count = item.mediaCount(Folder.TYPE_FOLDER_VIDEO)
+                holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
             }
             is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
@@ -200,7 +197,6 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
     inner class ViewHolder(binding: ViewDataBinding) : SelectorViewHolder<ViewDataBinding>(binding) {
         val overlay: ImageView = itemView.findViewById(R.id.ml_item_overlay)
         val title : TextView = itemView.findViewById(R.id.ml_item_title)
-        var job: Job? = null
 
         init {
             binding.setVariable(BR.holder, this)
