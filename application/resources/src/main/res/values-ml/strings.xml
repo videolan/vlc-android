@@ -779,4 +779,6 @@
     <string name="subtitle_delay_first">ശബ്ദം കേട്ടു</string>
     <string name="audio_delay_end">ശബ്‌ദം കണ്ടെത്തി</string>
     <string name="subtitle_delay_end">ടെക്‌സ്റ്റ്‌ കണ്ടു</string>
+    <string name="track_index">ട്രാക്ക്: %s</string>
+    <string name="audio_queue_progress">പുരോഗതി: %s</string>
 </resources>
