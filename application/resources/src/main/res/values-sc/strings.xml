@@ -778,4 +778,6 @@
     <string name="subtitle_delay_first">Boghe intesa</string>
     <string name="audio_delay_end">Sonu individuadu</string>
     <string name="subtitle_delay_end">Testu bidu</string>
+    <string name="track_index">Rasta: %s</string>
+    <string name="audio_queue_progress">Progressu: %s</string>
 </resources>
