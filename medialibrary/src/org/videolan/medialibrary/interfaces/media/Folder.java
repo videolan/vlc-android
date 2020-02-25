@@ -14,10 +14,12 @@ public abstract class Folder extends MediaLibraryItem {
     public static int TYPE_FOLDER_STREAM = 4;
 
     public String mMrl;
+    protected int mMediaCount;
 
-    public Folder(long id, String name, String mrl) {
+    public Folder(long id, String name, String mrl, int count) {
         super(id, name);
         mMrl = mrl;
+        mMediaCount = count;
     }
 
     abstract public MediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset);
@@ -50,6 +52,7 @@ public abstract class Folder extends MediaLibraryItem {
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
         parcel.writeString(mMrl);
+        parcel.writeInt(mMediaCount);
     }
 
     public static Parcelable.Creator<Folder> CREATOR = new Parcelable.Creator<Folder>() {
@@ -67,6 +70,7 @@ public abstract class Folder extends MediaLibraryItem {
     public Folder(Parcel in) {
         super(in);
         this.mMrl = in.readString();
+        this.mMediaCount = in.readInt();
     }
 
     public boolean equals(Folder other) {

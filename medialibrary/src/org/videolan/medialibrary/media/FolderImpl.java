@@ -9,8 +9,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 @SuppressWarnings("JniMissingFunction")
 public class FolderImpl extends Folder {
 
-    public FolderImpl(long id, String name, String mrl) {
-        super(id, name, mrl);
+    public FolderImpl(long id, String name, String mrl, int count) {
+        super(id, name, mrl, count);
     }
 
     public FolderImpl(Parcel in) {
@@ -23,6 +23,7 @@ public class FolderImpl extends Folder {
     }
 
     public int mediaCount(int type) {
+        if (type == TYPE_FOLDER_VIDEO) return mMediaCount;
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeMediaCount(ml, mId, type) : 0;
     }

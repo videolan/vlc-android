@@ -171,11 +171,11 @@ public class MLServiceLocator {
     }
 
     //FolderImpl
-    public static Folder getAbstractFolder(long id, String name, String mrl) {
+    public static Folder getAbstractFolder(long id, String name, String mrl, int count) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new FolderImpl(id, name, mrl);
+            return new FolderImpl(id, name, mrl, count);
         } else {
-            return new StubFolder(id, name, mrl);
+            return new StubFolder(id, name, mrl, count);
         }
     }
 

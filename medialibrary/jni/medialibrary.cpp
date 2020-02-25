@@ -1717,7 +1717,10 @@ subFolders(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sorti
     jobjectArray foldersRefs = (jobjectArray) env->NewObjectArray(foldersList.size(), ml_fields.Folder.clazz, NULL);
     int index = -1;
     for(medialibrary::FolderPtr const& folder : foldersList) {
-        jobject item = convertFolderObject(env, &ml_fields, folder);
+        const auto query = aml->mediaFromFolder(folder->id(), medialibrary::IMedia::Type::Video);
+        int count = (query != nullptr ? query->count() : 0);
+
+        jobject item = convertFolderObject(env, &ml_fields, folder, count);
         env->SetObjectArrayElement(foldersRefs, ++index, item);
         env->DeleteLocalRef(item);
     }
@@ -1745,7 +1748,10 @@ folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean des
     for(medialibrary::FolderPtr const& folder : foldersList) {
         try
         {
-            jobject item = convertFolderObject(env, &ml_fields, folder);
+            const auto query = aml->mediaFromFolder(folder->id(), (medialibrary::IMedia::Type)type);
+            int count = (query != nullptr ? query->count() : 0);
+
+            jobject item = convertFolderObject(env, &ml_fields, folder, count);
             env->SetObjectArrayElement(foldersRefs, ++index, item);
             env->DeleteLocalRef(item);
         }
@@ -2124,7 +2130,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Folder.initID,
            ml_fields.Folder.clazz,
-           "<init>", "(JLjava/lang/String;Ljava/lang/String;)V");
+           "<init>", "(JLjava/lang/String;Ljava/lang/String;I)V");
 
     GET_CLASS(ml_fields.Genre.clazz, "org/videolan/medialibrary/media/GenreImpl", true);
     if (env->RegisterNatives(ml_fields.Genre.clazz, genre_methods, sizeof(genre_methods) / sizeof(genre_methods[0])) < 0) {
@@ -2181,7 +2187,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Folder.initID,
            ml_fields.Folder.clazz,
-           "<init>", "(JLjava/lang/String;Ljava/lang/String;)V");
+           "<init>", "(JLjava/lang/String;Ljava/lang/String;I)V");
 
     GET_CLASS(ml_fields.VideoGroup.clazz, "org/videolan/medialibrary/media/VideoGroupImpl", true);
     if (env->RegisterNatives(ml_fields.VideoGroup.clazz, videogroup_methods, sizeof(videogroup_methods) / sizeof(videogroup_methods[0])) < 0) {

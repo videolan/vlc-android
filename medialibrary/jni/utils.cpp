@@ -148,12 +148,12 @@ convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr con
 }
 
 jobject
-convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr)
+convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count)
 {
     jstring name = env->NewStringUTF(folderPtr->name().c_str());
     jstring mrl = env->NewStringUTF(folderPtr->mrl().c_str());
     jobject item = env->NewObject(fields->Folder.clazz, fields->Folder.initID,
-                          (jlong) folderPtr->id(), name, mrl);
+                          (jlong) folderPtr->id(), name, mrl, (jint) count);
     env->DeleteLocalRef(name);
     env->DeleteLocalRef(mrl);
     return item;
