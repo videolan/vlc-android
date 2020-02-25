@@ -796,4 +796,6 @@
     <string name="subtitle_delay_first">Голос почули</string>
     <string name="audio_delay_end">Звук нерівномірний</string>
     <string name="subtitle_delay_end">Текст побачили</string>
+    <string name="track_index">Доріжка: %s</string>
+    <string name="audio_queue_progress">Поступ: %s</string>
 </resources>
