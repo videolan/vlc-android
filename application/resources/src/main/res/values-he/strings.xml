@@ -796,4 +796,6 @@
     <string name="subtitle_delay_first">נשמע קול</string>
     <string name="audio_delay_end">זוהה קול</string>
     <string name="subtitle_delay_end">נראה טקסט</string>
+    <string name="track_index">רצועה: %s</string>
+    <string name="audio_queue_progress">התקדמות: %s</string>
 </resources>
