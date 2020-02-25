@@ -429,22 +429,24 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val length = player.getLength()
         val canSwitchToVideo = player.canSwitchToVideo()
         val rate = player.getRate()
-        val media = withContext(Dispatchers.IO) { medialibrary.findMedia(currentMedia) }
-        if (media === null || media.id == 0L) return@launch
-        if (titleIdx > 0) launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong()) }
-        if (chapterIdx > 0) launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_CHAPTER, chapterIdx.toLong()) }
-        if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
-            var progress = time / length.toFloat()
-            if (progress > 0.95f || length - time < 10000) {
-                //increase seen counter if more than 95% of the media have been seen
-                //and reset progress to 0
-                launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_SEEN, media.seen+1) }
-                progress = 0f
+        launch(Dispatchers.IO) {
+            val media = medialibrary.findMedia(currentMedia) ?: return@launch
+            if (media.id == 0L) return@launch
+            if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
+            if (chapterIdx > 0) media.setLongMeta(MediaWrapper.META_CHAPTER, chapterIdx.toLong())
+            if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
+                var progress = time / length.toFloat()
+                if (progress > 0.95f || length - time < 10000) {
+                    //increase seen counter if more than 95% of the media have been seen
+                    //and reset progress to 0
+                    media.setLongMeta(MediaWrapper.META_SEEN, media.seen+1)
+                    progress = 0f
+                }
+                media.time = if (progress == 0f) 0L else time
+                media.setLongMeta(MediaWrapper.META_PROGRESS, media.time)
             }
-            media.time = if (progress == 0f) 0L else time
-            launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_PROGRESS, media.time) }
+            media.setStringMeta(MediaWrapper.META_SPEED, rate.toString())
         }
-        launch(Dispatchers.IO) { media.setStringMeta(MediaWrapper.META_SPEED, rate.toString()) }
     }
 
     fun setSpuTrack(index: Int) {
@@ -505,23 +507,20 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     override fun onItemMoved(indexBefore: Int, indexAfter: Int, mrl: String) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemMoved")
-        if (currentIndex == indexBefore) {
-            currentIndex = indexAfter
-            if (indexAfter > indexBefore)
-                --currentIndex
-        } else if (currentIndex in indexAfter..(indexBefore - 1))
-            ++currentIndex
-        else if (currentIndex in (indexBefore + 1)..(indexAfter - 1))
-            --currentIndex
+        when (currentIndex) {
+            indexBefore -> {
+                currentIndex = indexAfter
+                if (indexAfter > indexBefore)
+                    --currentIndex
+            }
+            in indexAfter until indexBefore -> ++currentIndex
+            in (indexBefore + 1) until indexAfter -> --currentIndex
+        }
 
         // If we are in random mode, we completely reset the stored previous track
         // as their indices changed.
         previous.clear()
-        launch {
-            determinePrevAndNextIndices()
-            executeUpdate()
-            saveMediaList()
-        }
+        addUpdateActor.safeOffer(Unit)
     }
 
     private suspend fun determinePrevAndNextIndices(expand: Boolean = false) {
