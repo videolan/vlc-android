@@ -161,14 +161,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             loadingLastPlaylist = false
             return false
         }
-        val locations = settings.getString(if (audio) "audio_list" else "media_list", null)?.split(" ".toRegex())?.dropLastWhile({ it.isEmpty() })?.toTypedArray()
+        val locations = settings.getString(if (audio) "audio_list" else "media_list", null)
+                ?.split(" ".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
         if (locations?.isNotEmpty() != true) {
             loadingLastPlaylist = false
             return false
         }
         launch {
             val playList = withContext(Dispatchers.Default) {
-                locations.asSequence().map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) {
+                locations.asSequence().mapTo(ArrayList(locations.size)) {
                     MLServiceLocator.getAbstractMediaWrapper(Uri.parse(it))
                 }
             }
@@ -491,7 +492,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val locations = StringBuilder()
         withContext(Dispatchers.Default) {
             val list = mediaList.copy.takeIf { it.isNotEmpty() } ?: return@withContext
-            for (mw in list) locations.append(" ").append(Uri.encode(Uri.decode(mw.uri.toString())))
+            for (mw in list) locations.append(" ").append(mw.uri.toString())
             //We save a concatenated String because putStringSet is APIv11.
             settings.edit()
                     .putString(if (isAudioList()) "audio_list" else "media_list", locations.toString().trim())
