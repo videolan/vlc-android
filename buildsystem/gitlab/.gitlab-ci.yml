@@ -159,3 +159,37 @@ nightly-x86_64:
             - application/app/build/outputs/apk/dev/VLC-Android-*.apk
         expire_in: 2 weeks
 
+publish_libs:
+    extends: .build-all-base
+    only:
+        - /^libvlc-.*$/
+    except:
+        - branches
+    variables:
+        ARCH: all
+    script:
+        - ./buildsystem/compile.sh -l -a ${ARCH} release
+        - GRADLE_ABI=ALL ./gradlew -p libvlc bintrayupload
+        - ./buildsystem/compile.sh -ml -a ${ARCH} release
+        - GRADLE_ABI=ALL ./gradlew -p medialibrary bintrayupload
+    artifacts:
+        name: "${CI_COMMIT_TAG}.dbg"
+        paths:
+            - .dbg/
+        expire_in: 2 weeks
+
+release:
+    extends: .build-all-base
+    only:
+        - /^(\d+\.)?(\d+\.)?(\*|\d+)$/
+    except:
+        - branches
+    script:
+        - ./gradlew assembleRelease
+    artifacts:
+        name: "${CI_COMMIT_TAG}"
+        paths:
+            - application/app/build/outputs/apk/release/VLC-Android-*.apk
+#            - application/app/build/outputs/mapping/release/mapping.txt
+        expire_in: 2 weeks
+
