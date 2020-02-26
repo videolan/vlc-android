@@ -68,8 +68,8 @@ apply plugin: 'com.jfrog.bintray'
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    user = System.getenv('K8S_SECRET_BINTRAY_USER') ?: properties.getProperty("bintray.user")
+    key = System.getenv('K8S_SECRET_BINTRAY_KEY') ?: properties.getProperty("bintray.apikey")
     configurations = ['archives']
     pkg {
         repo = repoName
@@ -87,5 +87,5 @@ bintray {
             desc = libraryDescription
         }
     }
-//    publish = true
+    publish = true
 }
