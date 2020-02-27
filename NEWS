@@ -1,4 +1,11 @@
-Changes between 3.2.8 and 3.2.8.1:
+Changes between 3.2.8-1 and 3.2.9:
+------------------
+
+Application:
+ * Fix podcast playback sometimes not saved
+ * Fix crashes
+
+Changes between 3.2.8 and 3.2.8-1:
 ------------------
 
 Application:
