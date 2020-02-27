@@ -38,13 +38,13 @@ import androidx.preference.Preference
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.VLCInstance
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.util.FileUtils
-import org.videolan.resources.VLCInstance
 import java.io.File
 
 @ExperimentalCoroutinesApi
@@ -89,7 +89,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 AlertDialog.Builder(ctx)
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_warning)
                         .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
                             Medialibrary.getInstance().clearHistory()
                         }}
@@ -101,7 +101,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 AlertDialog.Builder(ctx)
                         .setTitle(R.string.clear_media_db)
                         .setMessage(R.string.validation)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_warning)
                         .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) { Medialibrary.getInstance().clearDatabase(true)
                         }}
                         .setNegativeButton(R.string.cancel, null)

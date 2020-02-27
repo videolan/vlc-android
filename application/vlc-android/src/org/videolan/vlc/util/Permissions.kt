@@ -138,7 +138,7 @@ object Permissions {
         val dialogBuilder = android.app.AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.ic_warning)
                 .setCancelable(false)
                 .setPositiveButton(activity.getString(R.string.permission_ask_again)) { _, _ ->
                     val settings = Settings.getInstance(activity)
@@ -162,7 +162,7 @@ object Permissions {
         val dialogBuilder = AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.ic_warning)
                 .setCancelable(false)
                 .setPositiveButton(activity.getString(R.string.permission_ask_again)) { _, _ ->
                     val settings = Settings.getInstance(activity)
@@ -226,7 +226,7 @@ object Permissions {
         val dialogBuilder = AlertDialog.Builder(activity)
                 .setTitle(activity.getString(titleId))
                 .setMessage(activity.getString(textId))
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.ic_warning)
                 .setPositiveButton(activity.getString(R.string.permission_ask_again)) { _, _ ->
                     val settings = Settings.getInstance(activity)
                     val i = Intent(finalAction)
