@@ -188,7 +188,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun pause() {
-        if (player.pause()) savePosition()
+        if (player.pause()) {
+            savePosition()
+            if (getCurrentMedia()?.isPodcast == true) saveMediaMeta()
+        }
     }
 
     @MainThread
