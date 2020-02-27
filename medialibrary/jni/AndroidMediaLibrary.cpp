@@ -519,17 +519,23 @@ AndroidMediaLibrary::videoGroups( const medialibrary::QueryParameters* params )
     return p_ml->mediaGroups(params);
 }
 
-medialibrary::Query<medialibrary::IMedia>
-AndroidMediaLibrary::mediaFromMediaGroup(const std::string& name, const medialibrary::QueryParameters* params )
+medialibrary::MediaGroupPtr
+AndroidMediaLibrary::videoGroup( const int64_t groupId )
 {
-    medialibrary::MediaGroupPtr group = p_ml->mediaGroup(name);
+    return p_ml->mediaGroup(groupId);
+}
+
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::mediaFromMediaGroup(const int64_t groupId, const medialibrary::QueryParameters* params )
+{
+    medialibrary::MediaGroupPtr group = p_ml->mediaGroup(groupId);
     return group != nullptr ? group->media(medialibrary::IMedia::Type::Video, params) : nullptr;
 }
 
 medialibrary::Query<medialibrary::IMedia>
-AndroidMediaLibrary::searchFromMediaGroup( const std::string& name, const std::string& query, const medialibrary::QueryParameters* params )
+AndroidMediaLibrary::searchFromMediaGroup( const int64_t groupId, const std::string& query, const medialibrary::QueryParameters* params )
 {
-    auto group = p_ml->mediaGroup(name);
+    auto group = p_ml->mediaGroup(groupId);
     return group == nullptr ? nullptr : group->searchMedia(query, medialibrary::IMedia::Type::Video, params);
 }
 

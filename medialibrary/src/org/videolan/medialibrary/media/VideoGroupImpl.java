@@ -11,6 +11,7 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup;
 
 public class VideoGroupImpl extends VideoGroup {
 
+    @SuppressWarnings("unused") /* Used from JNI */
     VideoGroupImpl(String name, int count) {
         super(name, count);
     }
@@ -23,24 +24,24 @@ public class VideoGroupImpl extends VideoGroup {
     @WorkerThread
     public MediaWrapper[] media(int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeMedia(ml, mTitle, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeMedia(ml, mId, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
     @WorkerThread
     public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeSearch(ml, mTitle, query, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
     @WorkerThread
     public int searchTracksCount(String query) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetSearchCount(ml, mTitle, query) : 0;
+        return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
 
-    private native MediaWrapper[] nativeMedia(Medialibrary ml, String name, int sort, boolean desc, int nbItems, int offset);
-    private native MediaWrapper[] nativeSearch(Medialibrary ml, String name, String query, int sort, boolean desc, int nbItems, int offset);
-    private native int nativeGetSearchCount(Medialibrary ml, String name, String query);
+    private native MediaWrapper[] nativeMedia(Medialibrary ml, long id, int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeSearch(Medialibrary ml, long id, String query, int sort, boolean desc, int nbItems, int offset);
+    private native int nativeGetSearchCount(Medialibrary ml, long id, String query);
 }

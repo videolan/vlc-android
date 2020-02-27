@@ -102,9 +102,10 @@ public:
     medialibrary::Query<medialibrary::IFolder> folders(const medialibrary::QueryParameters* params = nullptr, medialibrary::IMedia::Type type = medialibrary::IMedia::Type::Unknown );
     medialibrary::Query<medialibrary::IFolder> subFolders(int64_t folderId, const medialibrary::QueryParameters* params = nullptr );
     // VideoGroups
-    medialibrary::Query<medialibrary::IMedia> mediaFromMediaGroup(const std::string& name, const medialibrary::QueryParameters* params );
-    medialibrary::Query<medialibrary::IMedia> searchFromMediaGroup( const std::string& name, const std::string& query, const medialibrary::QueryParameters* params );
-    void onMediaGroupsAdded( std::vector<medialibrary::MediaGroupPtr> mediaGroups );
+    medialibrary::Query<medialibrary::IMedia> mediaFromMediaGroup(const int64_t groupId, const medialibrary::QueryParameters* params );
+    medialibrary::Query<medialibrary::IMedia> searchFromMediaGroup(const int64_t groupId, const std::string& query, const medialibrary::QueryParameters* params );
+    void onMediaGroupsAdded(std::vector<medialibrary::MediaGroupPtr> mediaGroups );
+    medialibrary::MediaGroupPtr videoGroup(const int64_t groupId );
     void onMediaGroupsModified( std::set<int64_t> mediaGroupsIds );
     void onMediaGroupsDeleted( std::set<int64_t> mediaGroupsIds );
     //Playlists
