@@ -355,7 +355,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     override fun onDiscoveryProgress(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onDiscoveryProgress: $entryPoint")
         currentDiscovery = entryPoint
-        notificationActor.offer(Show)
+        if (!notificationActor.isClosedForSend) notificationActor.offer(Show)
     }
 
     override fun onDiscoveryCompleted(entryPoint: String) {
@@ -365,7 +365,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     override fun onParsingStatsUpdated(percent: Int) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onParsingStatsUpdated: $percent")
         parsing = percent
-        if (parsing != 100) notificationActor.offer(Show)
+        if (parsing != 100 && !notificationActor.isClosedForSend) notificationActor.offer(Show)
     }
 
     override fun onReloadStarted(entryPoint: String) {
@@ -383,9 +383,13 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
         if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
             if (wakeLock.isHeld) wakeLock.release()
-            stopForeground(true)
-            notificationActor.offer(Hide)
-            stopService(Intent(applicationContext, MediaParsingService::class.java))
+            if (!notificationActor.isClosedForSend) notificationActor.offer(Hide)
+            // Delay service stop to ensure service goes foreground.
+            // Otherwise, we get some RemoteServiceException: Context.startForegroundService() did not then call Service.startForeground()
+            launch {
+                delay(100L)
+                stopService(Intent(applicationContext, MediaParsingService::class.java))
+            }
         }
     }
 
