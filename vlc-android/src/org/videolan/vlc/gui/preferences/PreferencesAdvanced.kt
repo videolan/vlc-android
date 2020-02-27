@@ -81,7 +81,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 AlertDialog.Builder(requireContext())
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_warning)
                         .setPositiveButton(R.string.yes) { _, _ ->
                             launch(Dispatchers.IO) { AbstractMedialibrary.getInstance().clearHistory() }
                         }
@@ -93,7 +93,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 AlertDialog.Builder(requireContext())
                         .setTitle(R.string.clear_media_db)
                         .setMessage(getString(R.string.clear_media_db_warning, getString(R.string.validation)))
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_warning)
                         .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
                             AbstractMedialibrary.getInstance().clearDatabase(true)
                         }}

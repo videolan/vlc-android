@@ -80,7 +80,7 @@ CoroutineScope by MainScope() {
                 AlertDialog.Builder(ctx)
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_warning)
                         .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
                             AbstractMedialibrary.getInstance().clearHistory()
                         }}
@@ -92,7 +92,7 @@ CoroutineScope by MainScope() {
                 AlertDialog.Builder(ctx)
                         .setTitle(R.string.clear_media_db)
                         .setMessage(R.string.validation)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.ic_warning)
                         .setPositiveButton(R.string.yes) { _, _ -> launch(Dispatchers.IO) {
                             (AbstractMedialibrary.getInstance() as Medialibrary).clearDatabase(true)
                         }}
