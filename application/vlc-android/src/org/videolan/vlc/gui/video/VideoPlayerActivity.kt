@@ -59,6 +59,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Guideline
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -84,9 +85,10 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.tools.*
-import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.audio.EqualizerFragment
@@ -97,6 +99,7 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
+import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
@@ -626,30 +629,33 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     @TargetApi(Build.VERSION_CODES.O)
     fun switchToPopup() {
-        if (!isBenchmark) {
-            val mw = service?.currentMediaWrapper
-            if (mw == null || !AndroidDevices.pipAllowed || !isStarted()) return
+        if (isBenchmark) return
+        optionsDelegate?.hide()
+        //look for dialogs and close them
+        supportFragmentManager.fragments.forEach { (it as? DialogFragment)?.dismiss() }
+        val mw = service?.currentMediaWrapper
+        if (mw == null || !AndroidDevices.pipAllowed || !isStarted()) return
 
-            val forceLegacy = Settings.getInstance(this).getBoolean(POPUP_FORCE_LEGACY, false)
-            if (AndroidDevices.hasPiP && !forceLegacy) {
-                if (AndroidUtil.isOOrLater)
-                    try {
-                        val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack ?: return
-                        val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
-                        enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(ar).build())
-                    } catch (e: IllegalArgumentException) { // Fallback with default parameters
-                        enterPictureInPictureMode()
-                    }
-                else enterPictureInPictureMode()
-            } else {
-                if (Permissions.canDrawOverlays(this)) {
-                    switchingView = true
-                    switchToPopup = true
-                    if (service?.isPlaying != true) mw.addFlags(MediaWrapper.MEDIA_PAUSED)
-                    cleanUI()
-                    exitOK()
-                } else Permissions.checkDrawOverlaysPermission(this)
-            }
+        val forceLegacy = Settings.getInstance(this).getBoolean(POPUP_FORCE_LEGACY, false)
+        if (AndroidDevices.hasPiP && !forceLegacy) {
+            if (AndroidUtil.isOOrLater)
+                try {
+                    val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack
+                            ?: return
+                    val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
+                    enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(ar).build())
+                } catch (e: IllegalArgumentException) { // Fallback with default parameters
+                    enterPictureInPictureMode()
+                }
+            else enterPictureInPictureMode()
+        } else {
+            if (Permissions.canDrawOverlays(this)) {
+                switchingView = true
+                switchToPopup = true
+                if (service?.isPlaying != true) mw.addFlags(MediaWrapper.MEDIA_PAUSED)
+                cleanUI()
+                exitOK()
+            } else Permissions.checkDrawOverlaysPermission(this)
         }
     }
 
