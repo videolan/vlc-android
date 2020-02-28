@@ -24,6 +24,8 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
+import android.content.res.AssetManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
@@ -90,6 +92,12 @@ class SecondaryActivity : ContentActivity() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_placeholder, fragment!!)
                 .commit()
+    }
+
+    //workaround for Error inflating class android.webkit.WebView
+    override fun getAssets(): AssetManager {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1 && intent.getStringExtra(KEY_FRAGMENT) == ABOUT) return resources.assets
+        return super.getAssets()
     }
 
     override fun onResume() {
