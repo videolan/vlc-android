@@ -28,15 +28,10 @@ import android.app.Application
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Resources
-import androidx.collection.SimpleArrayMap
-import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.tools.wrap
 import java.lang.reflect.InvocationTargetException
 
 object AppContextProvider {
-
-    //Store dependency inversion related instances to avoid GC
-    val mediaContentResolvers = SimpleArrayMap<String, IMediaContentResolver>()
 
     private lateinit var context: Context
     // Property to get the new locale only on restart to prevent change the locale partially on runtime

@@ -32,6 +32,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.moviepedia.viewmodel.Season
+import org.videolan.resources.CONTENT_PREFIX
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.util.getFromMl
 
@@ -165,22 +166,24 @@ class MediaScrapingTvshowProvider(private val context: Context) {
     }
 
     companion object {
-        fun getProviders() : List<Pair<String, IMediaContentResolver>> = mutableListOf<Pair<String, IMediaContentResolver>>().apply {
-            add(Pair("resume_", object : IMediaContentResolver {
+        fun getProviders() : List<IMediaContentResolver> = mutableListOf<IMediaContentResolver>().apply {
+            add(object : IMediaContentResolver {
+                override val prefix = "${CONTENT_PREFIX}resume_"
                 override suspend fun getList(context: Context, id: String): Pair<List<MediaWrapper>, Int>? {
                     val provider = MediaScrapingTvshowProvider(context)
-                    return withContext(Dispatchers.IO) { Pair(provider.getResumeMediasById(id.substringAfter("_")), 0) }
+                    return withContext(Dispatchers.IO) { Pair(provider.getResumeMediasById(id.substringAfter(prefix)), 0) }
                 }
-            }))
-            add(Pair("episode_", object : IMediaContentResolver {
+            })
+            add(object : IMediaContentResolver {
+                override val prefix = "${CONTENT_PREFIX}episode_"
                 override suspend fun getList(context: Context, id: String): Pair<List<MediaWrapper>, Int>? {
                     val provider = MediaScrapingTvshowProvider(context)
-                    val moviepediaId = id.substringAfter("_")
+                    val moviepediaId = id.substringAfter(prefix)
                     return withContext(Dispatchers.IO) { provider.getShowIdForEpisode(moviepediaId)?.let { provider.getAllEpisodesForShow(it) } }?.let {
                         Pair(it.mapNotNull { episode -> episode.media }, it.indexOfFirst { it.metadata.moviepediaId == moviepediaId })
                     }
                 }
-            }))
+            })
         }
 
     }

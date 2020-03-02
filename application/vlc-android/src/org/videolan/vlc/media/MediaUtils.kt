@@ -25,12 +25,12 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppContextProvider
-import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.resources.*
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
+import org.videolan.tools.localBroadcastManager
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -407,8 +407,9 @@ object MediaUtils {
     fun openMediaNoUiFromTvContent(context: Context, data: Uri?) = AppScope.launch {
         val id = data?.lastPathSegment ?: return@launch
         when {
-            AppContextProvider.mediaContentResolvers.canHandle(id) -> AppContextProvider.mediaContentResolvers.getList(context, id)?.let {
-                openList(context, it.first, it.second, false)
+            id.startsWith(CONTENT_PREFIX) -> {
+                val intent = Intent(ACTION_OPEN_CONTENT).putExtra(EXTRA_CONTENT_ID, id)
+                context.localBroadcastManager.sendBroadcast(intent)
             }
             else -> { //Media from medialib
                 val mw = context.getFromMl {

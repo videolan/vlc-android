@@ -37,7 +37,6 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ActorScope
 import kotlinx.coroutines.channels.Channel
@@ -393,7 +392,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
             if (wakeLock.isHeld) wakeLock.release()
-            LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(ACTION_CONTENT_INDEXING))
+            localBroadcastManager.sendBroadcast(Intent(ACTION_CONTENT_INDEXING))
             //todo reenable entry point when ready
             if (::notificationActor.isInitialized) notificationActor.safeOffer(Hide)
             //Delay service stop to ensure service goes foreground.

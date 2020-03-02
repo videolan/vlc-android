@@ -20,7 +20,8 @@
 package org.videolan.mobile.app
 
 import android.annotation.TargetApi
-import android.content.*
+import android.content.ComponentName
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import kotlinx.coroutines.Dispatchers
@@ -31,14 +32,14 @@ import org.videolan.libvlc.LibVLCFactory
 import org.videolan.libvlc.MediaFactory
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.interfaces.IMediaFactory
-import org.videolan.moviepedia.MediaScraper
-import org.videolan.moviepedia.provider.MediaScrapingTvshowProvider
-import org.videolan.resources.ACTION_CONTENT_INDEXING
+import org.videolan.mobile.app.delegates.IIndexersDelegate
+import org.videolan.mobile.app.delegates.IMediaContentDelegate
+import org.videolan.mobile.app.delegates.IndexersDelegate
+import org.videolan.mobile.app.delegates.MediaContentDelegate
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
-import org.videolan.tools.localBroadcastManager
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -51,7 +52,9 @@ interface AppDelegate {
     fun Context.setupApplication()
 }
 
-class AppSetupDelegate : AppDelegate {
+class AppSetupDelegate : AppDelegate,
+        IMediaContentDelegate by MediaContentDelegate(),
+        IIndexersDelegate by IndexersDelegate() {
 
     // Store AppContextProvider to prevent GC
     override val appContextProvider = AppContextProvider
@@ -65,13 +68,13 @@ class AppSetupDelegate : AppDelegate {
         FactoryManager.registerFactory(IMediaFactory.factoryId, MediaFactory())
         FactoryManager.registerFactory(ILibVLCFactory.factoryId, LibVLCFactory())
 
-        // Register movipedia to resume tv shows/movies
-        MediaScrapingTvshowProvider.getProviders().forEach {
-            appContextProvider.mediaContentResolvers.put(it.first, it.second)
-        }
+        if (BuildConfig.DEBUG) {
+            // Register movipedia to resume tv shows/movies
+            setupContentResolvers()
 
-        // Setup Moviepedia indexing after Medialibrary scan
-        localBroadcastManager.registerReceiver(indexingReceiver, IntentFilter(ACTION_CONTENT_INDEXING))
+            // Setup Moviepedia indexing after Medialibrary scan
+            setupIndexers()
+        }
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         backgroundInit()
@@ -93,14 +96,5 @@ class AppSetupDelegate : AppDelegate {
                     if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
             SettingsMigration.migrateSettings(this)
         }).start()
-    }
-
-    private val indexingReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            AppScope.launch {
-                MediaScraper.indexListener.onIndexingDone()
-            }
-        }
-
     }
 }
