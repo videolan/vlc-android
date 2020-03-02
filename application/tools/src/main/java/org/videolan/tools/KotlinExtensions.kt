@@ -13,10 +13,10 @@ import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -122,3 +122,6 @@ fun <E> SendChannel<E>.safeOffer(value: E) = !isClosedForSend && try {
 fun Context.isConnected(): Boolean {
     return (getSystemService(CONNECTIVITY_SERVICE) as? ConnectivityManager?)?.activeNetworkInfo?.isConnected == true
 }
+
+val Context.localBroadcastManager: LocalBroadcastManager
+    get() = LocalBroadcastManager.getInstance(this)

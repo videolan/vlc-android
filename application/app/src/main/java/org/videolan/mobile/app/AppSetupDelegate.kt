@@ -20,8 +20,7 @@
 package org.videolan.mobile.app
 
 import android.annotation.TargetApi
-import android.content.ComponentName
-import android.content.Context
+import android.content.*
 import android.content.pm.PackageManager
 import android.os.Build
 import kotlinx.coroutines.Dispatchers
@@ -34,16 +33,18 @@ import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.moviepedia.MediaScraper
 import org.videolan.moviepedia.provider.MediaScrapingTvshowProvider
+import org.videolan.resources.ACTION_CONTENT_INDEXING
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
+import org.videolan.tools.localBroadcastManager
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.SettingsMigration
-import org.videolan.resources.VLCInstance
 
 interface AppDelegate {
     val appContextProvider : AppContextProvider
@@ -70,7 +71,7 @@ class AppSetupDelegate : AppDelegate {
         }
 
         // Setup Moviepedia indexing after Medialibrary scan
-        (AppContextProvider.indexingListeners as MutableList).add(MediaScraper.indexListener)
+        localBroadcastManager.registerReceiver(indexingReceiver, IntentFilter(ACTION_CONTENT_INDEXING))
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         backgroundInit()
@@ -92,5 +93,14 @@ class AppSetupDelegate : AppDelegate {
                     if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
             SettingsMigration.migrateSettings(this)
         }).start()
+    }
+
+    private val indexingReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            AppScope.launch {
+                MediaScraper.indexListener.onIndexingDone()
+            }
+        }
+
     }
 }

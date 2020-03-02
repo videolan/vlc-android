@@ -30,14 +30,12 @@ import android.content.ContextWrapper
 import android.content.res.Resources
 import androidx.collection.SimpleArrayMap
 import org.videolan.resources.interfaces.IMediaContentResolver
-import org.videolan.resources.interfaces.IndexingListener
 import org.videolan.tools.wrap
 import java.lang.reflect.InvocationTargetException
 
 object AppContextProvider {
 
     //Store dependency inversion related instances to avoid GC
-    val indexingListeners : List<IndexingListener> = mutableListOf()
     val mediaContentResolvers = SimpleArrayMap<String, IMediaContentResolver>()
 
     private lateinit var context: Context

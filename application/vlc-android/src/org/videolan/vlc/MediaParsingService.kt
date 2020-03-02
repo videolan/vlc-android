@@ -37,6 +37,7 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ActorScope
 import kotlinx.coroutines.channels.Channel
@@ -48,7 +49,6 @@ import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.stubs.StubMedialibrary
 import org.videolan.resources.*
-import org.videolan.resources.interfaces.IndexingListener
 import org.videolan.resources.util.dbExists
 import org.videolan.tools.*
 import org.videolan.vlc.gui.SendCrashActivity
@@ -85,7 +85,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     @Volatile
     private var discoverTriggered = false
     internal val sb = StringBuilder()
-    val indexingListeners : List<IndexingListener> = AppContextProvider.indexingListeners
     private lateinit var actions : SendChannel<MLAction>
     private lateinit var notificationActor : SendChannel<Notification>
 
@@ -394,12 +393,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
             if (wakeLock.isHeld) wakeLock.release()
+            LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(ACTION_CONTENT_INDEXING))
             //todo reenable entry point when ready
-            if (BuildConfig.DEBUG) try {
-                indexingListeners.forEach { it.onIndexingDone() }
-            } catch (e: Exception) {
-                if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "${e.cause}")
-            }
             if (::notificationActor.isInitialized) notificationActor.safeOffer(Hide)
             //Delay service stop to ensure service goes foreground.
             // Otherwise, we get some RemoteServiceException: Context.startForegroundService() did not then call Service.startForeground()
