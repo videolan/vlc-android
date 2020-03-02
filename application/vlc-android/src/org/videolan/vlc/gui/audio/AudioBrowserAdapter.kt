@@ -265,7 +265,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         override fun setCoverlay(selected: Boolean) {
             val resId = if (selected) R.drawable.ic_action_mode_select else 0
             if (resId != coverlayResource) {
-                binding.mediaCover.setImageResource(if (selected) R.drawable.ic_action_mode_select else 0)
+                binding.selectorImage.setImageResource(if (selected) R.drawable.ic_action_mode_select else 0)
                 coverlayResource = resId
             }
         }
@@ -304,7 +304,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
         override fun setCoverlay(selected: Boolean) {
             val resId = if (selected) R.drawable.ic_action_mode_select else 0
             if (resId != coverlayResource) {
-                binding.mediaCover.setImageResource(if (selected) R.drawable.ic_action_mode_select else 0)
+                binding.selectorImage.setImageResource(if (selected) R.drawable.ic_action_mode_select else 0)
                 coverlayResource = resId
             }
         }
