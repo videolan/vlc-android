@@ -34,7 +34,7 @@ import org.videolan.moviepedia.getHeaderMoviepedia
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.Settings
 
-abstract class MoviepediaProvider(private val context: Context) : HeaderProvider() {
+abstract class MediaScrapingProvider(private val context: Context) : HeaderProvider() {
 
     abstract var pagedList: LiveData<PagedList<MediaMetadataWithImages>>
     val loading = MutableLiveData<Boolean>().apply { value = true }

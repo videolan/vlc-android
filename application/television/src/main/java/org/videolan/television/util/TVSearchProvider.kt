@@ -74,7 +74,7 @@ class TVSearchProvider : ContentProvider() {
                             matrixCursor.addRow(arrayOf(media.id, "media_${media.id}", mediaMetadataWithImages.metadata.title, mediaMetadataWithImages.subtitle(), thumbnail, mediaMetadataWithImages.metadata.getYear(), media.length))
                         }
                                 ?: if (mediaMetadataWithImages.metadata.type == MediaMetadataType.TV_SHOW) {
-                                    val provider = org.videolan.moviepedia.provider.MoviepediaTvshowProvider(context)
+                                    val provider = org.videolan.moviepedia.provider.MediaScrapingTvshowProvider(context)
                                     if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Looking for episodes for ${mediaMetadataWithImages.metadata.title}")
                                     val mediaMetadataEpisodes = mediaMetadataRepository.getTvShowEpisodes(mediaMetadataWithImages.metadata.moviepediaId)
 

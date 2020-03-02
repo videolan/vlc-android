@@ -61,10 +61,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.moviepedia.MoviepediaIndexer
-import org.videolan.moviepedia.models.identify.Media
-import org.videolan.moviepedia.models.identify.getAllResults
-import org.videolan.moviepedia.viewmodel.MoviepediaModel
+import org.videolan.moviepedia.MediaScraper
+import org.videolan.moviepedia.models.identify.MoviepediaMedia
+import org.videolan.moviepedia.viewmodel.MediaScrapingModel
 import org.videolan.television.R
 import org.videolan.television.util.manageHttpException
 import org.videolan.tools.NetworkMonitor
@@ -74,19 +73,19 @@ private const val REQUEST_SPEECH = 1
 
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider {
+class MediaScrapingTvFragment : SearchSupportFragment(), SearchSupportFragment.SearchResultProvider {
 
-    private lateinit var viewModel: MoviepediaModel
+    private lateinit var viewModel: MediaScrapingModel
     lateinit var media: MediaWrapper
 
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private val defaultItemClickedListener: OnItemViewClickedListener
         get() = OnItemViewClickedListener { _, item, _, row ->
-            if (item is Media) {
+            if (item is MoviepediaMedia) {
                 lifecycleScope.launch {
                     withContext(Dispatchers.IO) {
                         try {
-                            MoviepediaIndexer.saveMediaMetadata(requireActivity(), media, item)
+                            MediaScraper.saveMediaMetadata(requireActivity(), media, item)
                         } catch (e: Exception) {
                             requireActivity().manageHttpException(e)
                         }
@@ -106,10 +105,10 @@ class MoviepediaTvFragment : SearchSupportFragment(), SearchSupportFragment.Sear
             onQueryTextSubmit(intent.getStringExtra(SearchManager.QUERY))
 
         val extras = requireActivity().intent.extras ?: savedInstanceState ?: return
-        media = extras.getParcelable(MoviepediaTvActivity.MEDIA) ?: return
+        media = extras.getParcelable(MediaScrapingTvActivity.MEDIA) ?: return
 
         viewModel = ViewModelProviders.of(this).get(media.uri.path
-                ?: "", MoviepediaModel::class.java)
+                ?: "", MediaScrapingModel::class.java)
         val cp = CardPresenter(requireActivity(), true)
         val videoAdapter = ArrayObjectAdapter(cp)
         viewModel.apiResult.observe(this, Observer {

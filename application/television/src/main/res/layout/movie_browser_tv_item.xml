@@ -78,7 +78,7 @@
 
         <variable
                 name="holder"
-                type="org.videolan.television.ui.MoviepediaTvItemAdapter.MovieItemTVViewHolder" />
+                type="org.videolan.television.ui.MediaScrapingTvItemAdapter.MovieItemTVViewHolder" />
 
     </data>
 

@@ -26,16 +26,24 @@ package org.videolan.moviepedia.models.identify
 
 import android.net.Uri
 import com.squareup.moshi.Json
+import org.videolan.moviepedia.models.resolver.ResolverImage
+import org.videolan.moviepedia.models.resolver.ResolverMedia
+import org.videolan.moviepedia.models.resolver.ResolverMediaType
+import org.videolan.moviepedia.models.resolver.ResolverResult
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.Comparator
 
 data class IdentifyResult(
         @field:Json(name = "lucky")
-        val lucky: Media?,
+        val lucky: MoviepediaMedia?,
         @field:Json(name = "results")
-        val results: List<Media>
-)
+        val results: List<MoviepediaMedia>
+) : ResolverResult() {
+    override fun lucky() = lucky
+
+    override fun results() = results
+}
 
 fun IdentifyResult.getAllResults() = mutableListOf(lucky).apply { addAll(results) }.distinctBy { media -> media?.mediaId }.filterNotNull()
 
@@ -46,7 +54,10 @@ data class Backdrop(
         val path: String,
         @field:Json(name = "ratio")
         val ratio: Double
-)
+) : ResolverImage() {
+    override fun language() = language
+    override fun path() = path
+}
 
 data class Externalids(
         @field:Json(name = "imdb")
@@ -62,7 +73,7 @@ data class Images(
         val posters: List<Poster>
 )
 
-data class Media(
+data class MoviepediaMedia(
         @field:Json(name = "adult")
         val adult: Boolean,
         @field:Json(name = "budget")
@@ -117,44 +128,65 @@ data class Media(
         val showId: String,
         @field:Json(name = "wished")
         val wished: Any
-)
+) : ResolverMedia() {
+    override fun mediaType() = mediaType.toResolverClass()
+    override fun showId() = showId
+    override fun mediaId() = mediaId
+    override fun title() = title
+    override fun summary() = summary ?: ""
+    override fun genres() = genre?.joinToString { genre -> genre } ?: ""
+    override fun date() = date
+    override fun countries() = country?.joinToString { genre -> genre } ?: ""
+    override fun season() = season
+    override fun episode() = episode
+    override fun year() = SimpleDateFormat("yyyy", Locale.getDefault()).format(date)
+
+    override fun imageUri(languages: List<String>) = retrieveImageUri(languages)
+    override fun backdropUri(languages: List<String>) = getBackdropUri(languages)
+    override fun getBackdrops(languages: List<String>) = retrieveBackdrops(languages)
+    override fun getPosters(languages: List<String>) = retrievePosters(languages)
+    override fun getImageUriFromPath(path: String) = retrieveImageUriFromPath(path)
+    override fun getCardSubtitle() = if (mediaType == MediaType.TV_EPISODE) getShow() else year()
+}
 
 enum class MediaType {
-        @Json(name = "tvshow")
-        TV_SHOW,
-        @Json(name = "tvseason")
-        TV_SEASON,
-        @Json(name = "tvepisode")
-        TV_EPISODE,
-        @Json(name = "movie")
-        MOVIE
+    @Json(name = "tvshow")
+    TV_SHOW,
+    @Json(name = "tvseason")
+    TV_SEASON,
+    @Json(name = "tvepisode")
+    TV_EPISODE,
+    @Json(name = "movie")
+    MOVIE
 }
 
-fun Media.getCardSubtitle() = if (mediaType == MediaType.TV_EPISODE) getShow() else getYear()
-
-fun Media.getShow() = "$showTitle · S${season.toString().padStart(2, '0')}E${episode.toString().padStart(2, '0')}"
-
-fun Media.getYear() = date?.let {
-        SimpleDateFormat("yyyy", Locale.getDefault()).format(date)
+fun MediaType.toResolverClass(): ResolverMediaType = when (this) {
+    MediaType.MOVIE -> ResolverMediaType.MOVIE
+    MediaType.TV_EPISODE -> ResolverMediaType.TV_EPISODE
+    MediaType.TV_SHOW -> ResolverMediaType.TV_SHOW
+    else -> ResolverMediaType.TV_SEASON
 }
 
-fun Media.getPosters(languages: List<String>) = images?.posters?.sortedWith(Comparator { p0, p1 ->
-        -(languages.indexOf(p0.language) - languages.indexOf(p1.language))
+
+fun MoviepediaMedia.getShow() = "$showTitle · S${season.toString().padStart(2, '0')}E${episode.toString().padStart(2, '0')}"
+
+fun MoviepediaMedia.retrievePosters(languages: List<String>) = images?.posters?.sortedWith(Comparator { p0, p1 ->
+    -(languages.indexOf(p0.language) - languages.indexOf(p1.language))
 })
 
-fun Media.getImageUri(languages: List<String>) = getPosters(languages)?.firstOrNull()?.let {
-        Uri.parse(imageEndpoint + "img" + it.path)
+fun MoviepediaMedia.retrieveImageUri(languages: List<String>) = getPosters(languages)?.firstOrNull()?.let {
+    Uri.parse(imageEndpoint + "img" + it.path())
 }
 
-fun Media.getBackdrops(languages: List<String>) = images?.backdrops?.sortedWith(Comparator { p0, p1 ->
-        -(languages.indexOf(p0.language) - languages.indexOf(p1.language))
+fun MoviepediaMedia.retrieveBackdrops(languages: List<String>) = images?.backdrops?.sortedWith(Comparator { p0, p1 ->
+    -(languages.indexOf(p0.language) - languages.indexOf(p1.language))
 })
 
-fun Media.getBackdropUri(languages: List<String>) = getBackdrops(languages)?.firstOrNull()?.let {
-        Uri.parse(imageEndpoint + "img" + it.path)
+fun MoviepediaMedia.getBackdropUri(languages: List<String>) = getBackdrops(languages)?.firstOrNull()?.let {
+    Uri.parse(imageEndpoint + "img" + it.path())
 }
 
-fun Media.getImageUriFromPath(path: String) = imageEndpoint + "img" + path
+fun MoviepediaMedia.retrieveImageUriFromPath(path: String) = imageEndpoint + "img" + path
 
 data class Poster(
         @field:Json(name = "language")
@@ -163,7 +195,10 @@ data class Poster(
         val path: String,
         @field:Json(name = "ratio")
         val ratio: Double
-)
+) : ResolverImage() {
+    override fun language() = language
+    override fun path() = path
+}
 
 data class Video(
         @field:Json(name = "language")

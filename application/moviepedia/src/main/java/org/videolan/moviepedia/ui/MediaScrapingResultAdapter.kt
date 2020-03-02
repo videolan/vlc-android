@@ -32,16 +32,14 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.moviepedia.databinding.MoviepediaItemBinding
-import org.videolan.moviepedia.models.identify.Media
-import org.videolan.moviepedia.models.identify.getImageUri
-import org.videolan.moviepedia.models.identify.getYear
+import org.videolan.moviepedia.models.resolver.ResolverMedia
 import org.videolan.tools.getLocaleLanguages
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 
-class MoviepediaResultAdapter internal constructor(private val layoutInflater: LayoutInflater) : RecyclerView.Adapter<MoviepediaResultAdapter.ViewHolder>() {
+class MediaScrapingResultAdapter internal constructor(private val layoutInflater: LayoutInflater) : RecyclerView.Adapter<MediaScrapingResultAdapter.ViewHolder>() {
 
-    private var dataList: List<Media>? = null
-    internal lateinit var clickHandler: MoviepediaActivity.ClickHandler
+    private var dataList: List<ResolverMedia>? = null
+    internal lateinit var clickHandler: MediaScrapingActivity.ClickHandler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(MoviepediaItemBinding.inflate(layoutInflater, parent, false))
@@ -51,10 +49,10 @@ class MoviepediaResultAdapter internal constructor(private val layoutInflater: L
 
         val mediaResult = dataList!![position]
         holder.binding.item = mediaResult
-        holder.binding.imageUrl = mediaResult.getImageUri(layoutInflater.context.getLocaleLanguages())
+        holder.binding.imageUrl = mediaResult.imageUri(layoutInflater.context.getLocaleLanguages())
     }
 
-    fun setItems(newList: List<Media>) {
+    fun setItems(newList: List<ResolverMedia>) {
         dataList = newList
         notifyDataSetChanged()
     }
@@ -74,6 +72,6 @@ class MoviepediaResultAdapter internal constructor(private val layoutInflater: L
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @BindingAdapter("year")
-fun showYear(view: TextView, item: Media) {
-    view.text = item.getYear()
+fun showYear(view: TextView, item: ResolverMedia) {
+    view.text = item.year()
 }

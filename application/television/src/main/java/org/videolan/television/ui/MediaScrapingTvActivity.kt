@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  MoviepediaTvshowDetailsActivity.kt
+ *  NextTvActivity.kt
  * *************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
@@ -23,10 +23,10 @@
  */
 
 /*****************************************************************************
- * MoviepediaTvshowDetailsActivity.java
+ * SearchActivity.java
  *
  * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
- * Author: Nicolas POMEPUY
+ * Author: Geoffrey Métais
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,22 +44,51 @@
  */
 package org.videolan.television.ui
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
 
 @ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
-class MoviepediaTvshowDetailsActivity : BaseTvActivity() {
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+class MediaScrapingTvActivity : BaseTvActivity() {
+
+    private lateinit var fragment: MediaScrapingTvFragment
+    private lateinit var emptyView: TextView
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.moviepedia_tvshow_details)
+        setContentView(R.layout.tv_next)
+
+        fragment = MediaScrapingTvFragment().apply { arguments = Bundle().apply { putParcelable(MEDIA, intent.getParcelableExtra<MediaWrapper>(MEDIA)) } }
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_placeholder, fragment)
+                .commit()
+
+
+        emptyView = findViewById(R.id.empty)
     }
 
-    override fun refresh() {}
-}
+    override fun refresh() {
+        fragment.refresh()
+    }
 
-const val TV_SHOW_ID = "TV_SHOW_ID"
+    fun updateEmptyView(empty: Boolean) {
+        emptyView.visibility = if (empty) View.VISIBLE else View.GONE
+    }
+
+    override fun onSearchRequested(): Boolean {
+        fragment.startRecognition()
+        return true
+    }
+
+    companion object {
+        const val MEDIA: String = "MEDIA"
+        private val TAG = "VLC/SearchActivity"
+    }
+}

@@ -1,8 +1,8 @@
 /*
  * ************************************************************************
- *  IdentifyBatch.kt
+ *  MediaResolverApi.kt
  * *************************************************************************
- * Copyright © 2019 VLC authors and VideoLAN
+ * Copyright © 2020 VLC authors and VideoLAN
  * Author: Nicolas POMEPUY
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,19 +22,19 @@
  *
  */
 
-package org.videolan.moviepedia.models.identify
+package org.videolan.moviepedia.repository
 
-import com.squareup.moshi.Json
+import android.net.Uri
 import org.videolan.moviepedia.models.resolver.ResolverBatchResult
+import org.videolan.moviepedia.models.resolver.ResolverCasting
+import org.videolan.moviepedia.models.resolver.ResolverMedia
+import org.videolan.moviepedia.models.resolver.ResolverResult
+import java.util.*
 
-data class IdentifyBatchResult(
-        @Json(name = "id")
-        val id: String,
-        @Json(name = "lucky")
-        val lucky: MoviepediaMedia?
-) : ResolverBatchResult() {
-    override fun getId(): Long = id.toLong()
-
-    override fun getMedia() = lucky
+abstract class MediaResolverApi {
+    abstract suspend fun searchMediaBatch(filesToIndex: HashMap<Long, Uri>): List<ResolverBatchResult>
+    abstract suspend fun getMedia(showId: String): ResolverMedia
+    abstract suspend fun searchTitle(query: String): ResolverResult
+    abstract suspend fun getMediaCast(resolverId: String): ResolverCasting
+    abstract suspend fun searchMedia(uri: Uri): ResolverResult
 }
-

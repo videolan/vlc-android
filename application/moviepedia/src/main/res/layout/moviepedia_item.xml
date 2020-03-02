@@ -32,11 +32,11 @@
 
         <variable
                 name="item"
-                type="org.videolan.moviepedia.models.identify.Media" />
+                type="org.videolan.moviepedia.models.resolver.ResolverMedia" />
 
         <variable
                 name="handler"
-                type="org.videolan.moviepedia.ui.MoviepediaActivity.ClickHandler" />
+                type="org.videolan.moviepedia.ui.MediaScrapingActivity.ClickHandler" />
 
         <variable
                 name="bgColor"
@@ -88,7 +88,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="@{item.title}"
+                    android:text="@{item.title()}"
                     android:textColor="?attr/list_title"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -2,7 +2,7 @@
     package="org.videolan.moviepedia" >
 <application>
     <activity
-        android:name="org.videolan.moviepedia.ui.MoviepediaActivity"
+            android:name="org.videolan.moviepedia.ui.MediaScrapingActivity"
         android:theme="@style/Theme.VLC" />
 </application>
 </manifest>

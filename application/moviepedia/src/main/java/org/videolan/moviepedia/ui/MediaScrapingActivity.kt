@@ -38,19 +38,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.moviepedia.R
 import org.videolan.moviepedia.databinding.MoviepediaActivityBinding
-import org.videolan.moviepedia.models.identify.Media
-import org.videolan.moviepedia.models.identify.getAllResults
-import org.videolan.moviepedia.viewmodel.MoviepediaModel
+import org.videolan.moviepedia.models.resolver.ResolverMedia
+import org.videolan.moviepedia.viewmodel.MediaScrapingModel
 import org.videolan.resources.MOVIEPEDIA_MEDIA
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
 
-open class MoviepediaActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionListener {
+open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionListener {
 
-    private lateinit var moviepediaResultAdapter: MoviepediaResultAdapter
+    private lateinit var mediaScrapingResultAdapter: MediaScrapingResultAdapter
 
-    private lateinit var viewModel: MoviepediaModel
+    private lateinit var viewModel: MediaScrapingModel
     private lateinit var media: MediaWrapper
     private lateinit var binding: MoviepediaActivityBinding
     private val clickHandler = ClickHandler()
@@ -62,9 +61,9 @@ open class MoviepediaActivity : BaseActivity(), TextWatcher, TextView.OnEditorAc
         binding = DataBindingUtil.setContentView(this, R.layout.moviepedia_activity)
         binding.handler = clickHandler
 
-        moviepediaResultAdapter = MoviepediaResultAdapter(layoutInflater)
-        moviepediaResultAdapter.clickHandler = clickHandler
-        binding.nextResults.adapter = moviepediaResultAdapter
+        mediaScrapingResultAdapter = MediaScrapingResultAdapter(layoutInflater)
+        mediaScrapingResultAdapter.clickHandler = clickHandler
+        binding.nextResults.adapter = mediaScrapingResultAdapter
         binding.nextResults.layoutManager = GridLayoutManager(this, 2)
 
         media = intent.getParcelableExtra(MOVIEPEDIA_MEDIA)
@@ -72,9 +71,9 @@ open class MoviepediaActivity : BaseActivity(), TextWatcher, TextView.OnEditorAc
         binding.searchEditText.addTextChangedListener(this)
         binding.searchEditText.setOnEditorActionListener(this)
         viewModel = ViewModelProviders.of(this).get(media.uri.path
-                ?: "", MoviepediaModel::class.java)
+                ?: "", MediaScrapingModel::class.java)
         viewModel.apiResult.observe(this, Observer {
-            moviepediaResultAdapter.setItems(it.getAllResults())
+            mediaScrapingResultAdapter.setItems(it.getAllResults())
         })
         viewModel.search(media.uri)
         binding.searchEditText.setText(media.title)
@@ -105,7 +104,7 @@ open class MoviepediaActivity : BaseActivity(), TextWatcher, TextView.OnEditorAc
             finish()
         }
 
-        fun onItemClick(item: Media) {
+        fun onItemClick(item: ResolverMedia) {
             //todo
             finish()
         }

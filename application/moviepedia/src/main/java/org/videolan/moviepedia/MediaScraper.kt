@@ -31,18 +31,18 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.moviepedia.database.models.*
-import org.videolan.moviepedia.models.identify.*
-import org.videolan.moviepedia.models.media.cast.image
-import org.videolan.moviepedia.repository.MediaMetadataRepository
-import org.videolan.moviepedia.repository.MediaPersonRepository
-import org.videolan.moviepedia.repository.MoviepediaApiRepository
-import org.videolan.moviepedia.repository.PersonRepository
+import org.videolan.moviepedia.models.resolver.ResolverMedia
+import org.videolan.moviepedia.models.resolver.ResolverMediaType
+import org.videolan.moviepedia.repository.*
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.interfaces.IndexingListener
 import org.videolan.tools.AppScope
 import org.videolan.tools.getLocaleLanguages
 
-object MoviepediaIndexer {
+object MediaScraper {
+    val mediaResolverApi: MediaResolverApi by lazy {
+        MoviepediaApiRepository.getInstance()
+    }
 
     fun indexMedialib(context: Context) = AppScope.launch(Dispatchers.IO) {
         val medias = Medialibrary.getInstance().getPagedVideos(Medialibrary.SORT_DEFAULT, false, 1000, 0)
@@ -52,9 +52,8 @@ object MoviepediaIndexer {
             if (it.getMetaLong(MediaWrapper.META_METADATA_RETRIEVED) != 1L)
                 filesToIndex[it.id] = it.uri
         }
-        val repo = MoviepediaApiRepository.getInstance()
         val results = try {
-            repo.searchMediaBatch(filesToIndex)
+            mediaResolverApi.searchMediaBatch(filesToIndex)
         } catch (e: Exception) {
             return@launch
         }
@@ -62,8 +61,8 @@ object MoviepediaIndexer {
             media?.setLongMeta(MediaWrapper.META_METADATA_RETRIEVED, 1L)
         }
         results.forEach { result ->
-            result.lucky?.let {
-                val media = medias.find { it.id == result.id.toLong() }
+            result.getMedia()?.let {
+                val media = medias.find { it.id == result.getId() }
                 try {
                     saveMediaMetadata(context, media, it, retrieveCast = false, removePersonOrphans = false)
                 } catch (e: Exception) {
@@ -82,25 +81,24 @@ object MoviepediaIndexer {
         PersonRepository.getInstance(context).deleteAll(personsToRemove)
     }
 
-    suspend fun saveMediaMetadata(context: Context, media: MediaWrapper?, item: Media, retrieveCast: Boolean = true, removePersonOrphans: Boolean = true) {
-        val repo = MoviepediaApiRepository.getInstance()
-        val type = when (item.mediaType) {
-            MediaType.TV_EPISODE -> MediaMetadataType.TV_EPISODE
-            MediaType.MOVIE -> MediaMetadataType.MOVIE
+    suspend fun saveMediaMetadata(context: Context, media: MediaWrapper?, item: ResolverMedia, retrieveCast: Boolean = true, removePersonOrphans: Boolean = true) {
+        val type = when (item.mediaType()) {
+            ResolverMediaType.TV_EPISODE -> MediaMetadataType.TV_EPISODE
+            ResolverMediaType.MOVIE -> MediaMetadataType.MOVIE
             else -> MediaMetadataType.TV_SHOW
         }
 
         val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
 
-        val show: String? = when (item.mediaType) {
-            MediaType.TV_EPISODE -> {
+        val show: String? = when (item.mediaType()) {
+            ResolverMediaType.TV_EPISODE -> {
                 //check if show already exists
-                var moviepediaId = mediaMetadataRepository.getTvshow(item.showId)?.metadata?.moviepediaId
+                var moviepediaId = mediaMetadataRepository.getTvshow(item.showId())?.metadata?.moviepediaId
                 if (moviepediaId == null) {
                     //show doesn't exist, let's retrieve it
-                    val tvShowResult = repo.getMedia(item.showId)
+                    val tvShowResult = mediaResolverApi.getMedia(item.showId())
                     saveMediaMetadata(context, null, tvShowResult, retrieveCast, removePersonOrphans)
-                    moviepediaId = item.showId
+                    moviepediaId = item.showId()
                 }
                 moviepediaId
             }
@@ -109,15 +107,14 @@ object MoviepediaIndexer {
 
         val languages = context.getLocaleLanguages()
         val mediaMetadata = MediaMetadata(
-                item.mediaId,
+                item.mediaId(),
                 media?.id,
                 type,
-                item.title,
-                item.summary ?: "",
-                item.genre?.joinToString { genre -> genre } ?: "",
-                item.date,
-                item.country?.joinToString { genre -> genre }
-                        ?: "", item.season, item.episode, item.getImageUri(languages).toString(), item.getBackdropUri(languages).toString(), show, false)
+                item.title(),
+                item.summary(),
+                item.genres(),
+                item.date(),
+                item.countries(), item.season(), item.episode(), item.imageUri(languages).toString(), item.backdropUri(languages).toString(), show, false)
 
         val oldMediaMetadata = if (media != null) mediaMetadataRepository.getMetadata(media.id) else null
         val oldImages = oldMediaMetadata?.images
@@ -126,10 +123,10 @@ object MoviepediaIndexer {
 
         val images = ArrayList<MediaImage>()
         item.getBackdrops(languages)?.forEach {
-            images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.moviepediaId, MediaImageType.BACKDROP, it.language))
+            images.add(MediaImage(item.getImageUriFromPath(it.path()), mediaMetadata.moviepediaId, MediaImageType.BACKDROP, it.language()))
         }
         item.getPosters(languages)?.forEach {
-            images.add(MediaImage(item.getImageUriFromPath(it.path), mediaMetadata.moviepediaId, MediaImageType.POSTER, it.language))
+            images.add(MediaImage(item.getImageUriFromPath(it.path()), mediaMetadata.moviepediaId, MediaImageType.POSTER, it.language()))
         }
         //delete old images
         oldImages?.let {
@@ -146,35 +143,34 @@ object MoviepediaIndexer {
 
     suspend fun retrieveCasting(context: Context, mediaMetadata: MediaMetadata) {
         val personRepo = PersonRepository.getInstance(context)
-        val repo = MoviepediaApiRepository.getInstance()
         val personsToAdd = ArrayList<MediaPersonJoin>()
 
-        val castResult = repo.getMediaCast(mediaMetadata.moviepediaId)
-        castResult.actor?.forEach { actor ->
-            val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
+        val castResult = mediaResolverApi.getMediaCast(mediaMetadata.moviepediaId)
+        castResult.actors().forEach { person ->
+            val actorEntity = Person(person.personId(), person.name(), person.image())
             personRepo.addPersonImmediate(actorEntity)
             personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.ACTOR))
 
         }
-        castResult.director?.forEach { actor ->
-            val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
+        castResult.directors().forEach { person ->
+            val actorEntity = Person(person.personId(), person.name(), person.image())
             personRepo.addPersonImmediate(actorEntity)
             personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.DIRECTOR))
 
         }
-        castResult.writer?.forEach { actor ->
-            val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
+        castResult.writers().forEach { person ->
+            val actorEntity = Person(person.personId(), person.name(), person.image())
             personRepo.addPersonImmediate(actorEntity)
             personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.WRITER))
         }
-        castResult.musician?.forEach { actor ->
-            val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
+        castResult.musicians().forEach { person ->
+            val actorEntity = Person(person.personId(), person.name(), person.image())
             personRepo.addPersonImmediate(actorEntity)
             personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.MUSICIAN))
 
         }
-        castResult.producer?.forEach { actor ->
-            val actorEntity = Person(actor.person.personId, actor.person.name, actor.person.image())
+        castResult.producers().forEach { person ->
+            val actorEntity = Person(person.personId(), person.name(), person.image())
             personRepo.addPersonImmediate(actorEntity)
             personsToAdd.add(MediaPersonJoin(mediaMetadata.moviepediaId, actorEntity.moviepediaId, PersonType.PRODUCER))
 

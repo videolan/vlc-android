@@ -31,22 +31,20 @@ import org.videolan.moviepedia.IMoviepediaApiService
 import org.videolan.moviepedia.MoviepediaApiClient
 import org.videolan.moviepedia.models.body.ScrobbleBody
 import org.videolan.moviepedia.models.body.ScrobbleBodyBatch
-import org.videolan.moviepedia.models.identify.IdentifyBatchResult
-import org.videolan.moviepedia.models.identify.IdentifyResult
+import org.videolan.moviepedia.models.resolver.ResolverBatchResult
+import org.videolan.moviepedia.models.resolver.ResolverResult
 import org.videolan.tools.FileUtils
 import java.io.File
 
-class MoviepediaApiRepository(private val moviepediaApiService: IMoviepediaApiService) {
+class MoviepediaApiRepository(private val moviepediaApiService: IMoviepediaApiService) : MediaResolverApi() {
 
-    suspend fun search(query: String) = moviepediaApiService.search(query = query)
-
-    suspend fun searchMedia(uri: Uri): IdentifyResult {
+    override suspend fun searchMedia(uri: Uri): ResolverResult {
         val hash = withContext(Dispatchers.IO){ FileUtils.computeHash(File(uri.path)) }
         val scrobbleBody = ScrobbleBody(filename = uri.lastPathSegment, osdbhash = hash)
         return moviepediaApiService.searchMedia(scrobbleBody)
     }
 
-    suspend fun searchMediaBatch(uris: HashMap<Long, Uri>): List<IdentifyBatchResult> {
+    override suspend fun searchMediaBatch(uris: HashMap<Long, Uri>): List<ResolverBatchResult> {
         val body = ArrayList<ScrobbleBodyBatch>()
         uris.forEach { uri ->
             val hash = withContext(Dispatchers.IO) { FileUtils.computeHash(File(uri.value.path)) }
@@ -59,13 +57,11 @@ class MoviepediaApiRepository(private val moviepediaApiService: IMoviepediaApiSe
         return moviepediaApiService.searchMediaBatch(body)
     }
 
-    suspend fun searchTitle(title: String) = moviepediaApiService.searchMedia(ScrobbleBody(title = title, filename = title))
+    override suspend fun searchTitle(query: String) = moviepediaApiService.searchMedia(ScrobbleBody(title = query, filename = query))
 
-    suspend fun searchMedia(query: ScrobbleBody) = moviepediaApiService.searchMedia(query)
+    override suspend fun getMedia(showId: String) = moviepediaApiService.getMedia(showId)
 
-    suspend fun getMedia(mediaId: String) = moviepediaApiService.getMedia(mediaId)
-
-    suspend fun getMediaCast(mediaId: String) =  moviepediaApiService.getMediaCast(mediaId)
+    override suspend fun getMediaCast(resolverId: String) = moviepediaApiService.getMediaCast(resolverId)
 
     companion object {
         private val instance = MoviepediaApiRepository(MoviepediaApiClient.instance)

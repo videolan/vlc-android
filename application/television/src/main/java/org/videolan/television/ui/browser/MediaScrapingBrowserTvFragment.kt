@@ -35,14 +35,14 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.moviepedia.database.models.MediaMetadataType
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
-import org.videolan.moviepedia.provider.MoviepediaProvider
+import org.videolan.moviepedia.provider.MediaScrapingProvider
 import org.videolan.resources.CATEGORY
 import org.videolan.resources.CATEGORY_VIDEOS
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.resources.util.getFromMl
 import org.videolan.television.ui.*
-import org.videolan.television.viewmodel.MoviepediaBrowserViewModel
+import org.videolan.television.viewmodel.MediaScrapingBrowserViewModel
 import org.videolan.television.viewmodel.getMoviepediaBrowserModel
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
@@ -51,31 +51,31 @@ import java.util.*
 
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
-class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImages>() {
+class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImages>() {
     override fun provideAdapter(eventsHandler: IEventsHandler<MediaMetadataWithImages>, itemSize: Int): TvItemAdapter {
-        return MoviepediaTvItemAdapter((viewModel as MoviepediaBrowserViewModel).category, this, itemSize)
+        return MediaScrapingTvItemAdapter((viewModel as MediaScrapingBrowserViewModel).category, this, itemSize)
     }
 
-    override fun getDisplayPrefId() = "display_tv_moviepedia_${(viewModel as MoviepediaBrowserViewModel).category}"
+    override fun getDisplayPrefId() = "display_tv_moviepedia_${(viewModel as MediaScrapingBrowserViewModel).category}"
 
     override lateinit var adapter: TvItemAdapter
 
-    override fun getTitle() = when ((viewModel as MoviepediaBrowserViewModel).category) {
+    override fun getTitle() = when ((viewModel as MediaScrapingBrowserViewModel).category) {
         HEADER_TV_SHOW -> getString(R.string.header_tvshows)
         HEADER_MOVIES -> getString(R.string.header_movies)
         else -> getString(R.string.video)
     }
 
-    override fun getCategory(): Long = (viewModel as MoviepediaBrowserViewModel).category
+    override fun getCategory(): Long = (viewModel as MediaScrapingBrowserViewModel).category
 
-    override fun getColumnNumber() = when ((viewModel as MoviepediaBrowserViewModel).category) {
+    override fun getColumnNumber() = when ((viewModel as MediaScrapingBrowserViewModel).category) {
         CATEGORY_VIDEOS -> resources.getInteger(R.integer.tv_videos_col_count)
         else -> resources.getInteger(R.integer.tv_songs_col_count)
     }
 
     companion object {
         fun newInstance(type: Long) =
-                MoviepediaBrowserTvFragment().apply {
+                MediaScrapingBrowserTvFragment().apply {
                     arguments = Bundle().apply {
                         this.putLong(CATEGORY, type)
                     }
@@ -88,17 +88,17 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
         viewModel = getMoviepediaBrowserModel(arguments?.getLong(CATEGORY, HEADER_MOVIES)
                 ?: HEADER_MOVIES)
 
-        (viewModel.provider as MoviepediaProvider).pagedList.observe(this, Observer { items ->
+        (viewModel.provider as MediaScrapingProvider).pagedList.observe(this, Observer { items ->
             binding.emptyLoading.post {
                 submitList(items)
 
                 binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
 
                 //headers
-                val nbColumns = if ((viewModel as MoviepediaBrowserViewModel).sort == Medialibrary.SORT_ALPHA || (viewModel as MoviepediaBrowserViewModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
+                val nbColumns = if ((viewModel as MediaScrapingBrowserViewModel).sort == Medialibrary.SORT_ALPHA || (viewModel as MediaScrapingBrowserViewModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
 
                 binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
-                headerAdapter.sortType = (viewModel as MoviepediaBrowserViewModel).sort
+                headerAdapter.sortType = (viewModel as MediaScrapingBrowserViewModel).sort
                 val headerItems = ArrayList<String>()
                 viewModel.provider.headers.run {
                     for (i in 0 until size()) {
@@ -109,10 +109,10 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
                 headerAdapter.notifyDataSetChanged()
             }
         })
-        (viewModel.provider as MoviepediaProvider).loading.observe(this, Observer {
+        (viewModel.provider as MediaScrapingProvider).loading.observe(this, Observer {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
         })
-        (viewModel.provider as MoviepediaProvider).liveHeaders.observe(this, Observer {
+        (viewModel.provider as MediaScrapingProvider).liveHeaders.observe(this, Observer {
             headerAdapter.notifyDataSetChanged()
         })
     }
@@ -120,7 +120,7 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
     override fun onClick(v: View, position: Int, item: MediaMetadataWithImages) {
         when (item.metadata.type) {
             MediaMetadataType.TV_SHOW -> {
-                val intent = Intent(activity, MoviepediaTvshowDetailsActivity::class.java)
+                val intent = Intent(activity, MediaScrapingTvshowDetailsActivity::class.java)
                 intent.putExtra(TV_SHOW_ID, item.metadata.moviepediaId)
                 requireActivity().startActivity(intent)
             }
@@ -138,7 +138,7 @@ class MoviepediaBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithImage
     override fun onLongClick(v: View, position: Int, item: MediaMetadataWithImages): Boolean {
         when (item.metadata.type) {
             MediaMetadataType.TV_SHOW -> {
-                val intent = Intent(activity, MoviepediaTvshowDetailsActivity::class.java)
+                val intent = Intent(activity, MediaScrapingTvshowDetailsActivity::class.java)
                 intent.putExtra(TV_SHOW_ID, item.metadata.moviepediaId)
                 requireActivity().startActivity(intent)
             }

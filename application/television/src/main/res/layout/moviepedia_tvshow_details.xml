@@ -28,7 +28,7 @@
 
     <fragment
             android:id="@+id/details_fragment"
-            android:name="org.videolan.television.ui.MoviepediaTvshowDetailsFragment"
+            android:name="org.videolan.television.ui.MediaScrapingTvshowDetailsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

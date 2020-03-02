@@ -32,9 +32,9 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import org.videolan.moviepedia.MoviepediaIndexer
+import org.videolan.moviepedia.MediaScraper
 import org.videolan.moviepedia.database.models.*
-import org.videolan.moviepedia.provider.MoviepediaTvshowProvider
+import org.videolan.moviepedia.provider.MediaScrapingTvshowProvider
 import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.moviepedia.repository.MediaPersonRepository
 import org.videolan.resources.util.getFromMl
@@ -43,7 +43,7 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
 
     val updateLiveData: MediatorLiveData<MediaMetadataFull> = MediatorLiveData()
     val nextEpisode: MutableLiveData<MediaMetadataWithImages> = MutableLiveData()
-    val provider = MoviepediaTvshowProvider(context)
+    val provider = MediaScrapingTvshowProvider(context)
     private val updateActor = actor<MediaMetadataFull>(capacity = Channel.CONFLATED) {
         for (entry in channel) {
             updateLiveData.value = entry
@@ -78,7 +78,7 @@ class MediaMetadataModel(private val context: Context, mlId: Long? = null, movie
                 mediaMetadataWithImages?.metadata?.let {
                     launch {
                         if (!it.hasCast && it.mlId != null) {
-                            withContext(Dispatchers.IO) { MoviepediaIndexer.retrieveCasting(context, it) }
+                            withContext(Dispatchers.IO) { MediaScraper.retrieveCasting(context, it) }
                         }
                         updateLiveData.addSource(MediaPersonRepository.getInstance(context).getPersonsByType(it.moviepediaId, PersonType.ACTOR)) { persons ->
                             mediaMetadataFull.actors = persons

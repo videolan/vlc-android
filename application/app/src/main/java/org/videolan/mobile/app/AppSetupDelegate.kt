@@ -32,8 +32,8 @@ import org.videolan.libvlc.LibVLCFactory
 import org.videolan.libvlc.MediaFactory
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.interfaces.IMediaFactory
-import org.videolan.moviepedia.MoviepediaIndexer
-import org.videolan.moviepedia.provider.MoviepediaTvshowProvider
+import org.videolan.moviepedia.MediaScraper
+import org.videolan.moviepedia.provider.MediaScrapingTvshowProvider
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
@@ -65,12 +65,12 @@ class AppSetupDelegate : AppDelegate {
         FactoryManager.registerFactory(ILibVLCFactory.factoryId, LibVLCFactory())
 
         // Register movipedia to resume tv shows/movies
-        MoviepediaTvshowProvider.getProviders().forEach {
+        MediaScrapingTvshowProvider.getProviders().forEach {
             appContextProvider.mediaContentResolvers.put(it.first, it.second)
         }
 
         // Setup Moviepedia indexing after Medialibrary scan
-        (AppContextProvider.indexingListeners as MutableList).add(MoviepediaIndexer.indexListener)
+        (AppContextProvider.indexingListeners as MutableList).add(MediaScraper.indexListener)
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         backgroundInit()

@@ -30,16 +30,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.videolan.moviepedia.models.identify.IdentifyResult
-import org.videolan.moviepedia.models.identify.Media
-import org.videolan.moviepedia.repository.MoviepediaApiRepository
+import org.videolan.moviepedia.MediaScraper
+import org.videolan.moviepedia.models.resolver.ResolverMedia
+import org.videolan.moviepedia.models.resolver.ResolverResult
 import videolan.org.commontools.LiveEvent
 
-class MoviepediaModel : ViewModel() {
+class MediaScrapingModel : ViewModel() {
 
-    val apiResult: MutableLiveData<IdentifyResult> = MutableLiveData()
-    private val mediaResult: MutableLiveData<Media> = MutableLiveData()
-    private val repo = MoviepediaApiRepository.getInstance()
+    val apiResult: MutableLiveData<ResolverResult> = MutableLiveData()
+    private val mediaResult: MutableLiveData<ResolverMedia> = MutableLiveData()
+    private val repo = MediaScraper.mediaResolverApi
     val exceptionLiveData = LiveEvent<Exception?>()
 
     private var searchJob: Job? = null
@@ -56,7 +56,7 @@ class MoviepediaModel : ViewModel() {
     fun search(query: String) {
         searchJob = viewModelScope.launch {
             try {
-                apiResult.value = repo.searchTitle(query)
+                apiResult.value = MediaScraper.mediaResolverApi.searchTitle(query)
             } catch (e: Exception) {
                 exceptionLiveData.value = e
             }
@@ -66,7 +66,7 @@ class MoviepediaModel : ViewModel() {
     fun search(uri: Uri) {
         searchJob = viewModelScope.launch {
             try {
-                apiResult.value = repo.searchMedia(uri)
+                apiResult.value = MediaScraper.mediaResolverApi.searchMedia(uri)
             } catch (e: Exception) {
                 exceptionLiveData.value = e
             }

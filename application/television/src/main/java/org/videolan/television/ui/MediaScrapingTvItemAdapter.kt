@@ -57,12 +57,12 @@ import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MoviepediaTvItemAdapter(
+class MediaScrapingTvItemAdapter(
         type: Long,
         private val eventsHandler: IEventsHandler<MediaMetadataWithImages>,
         var itemSize: Int,
         private var inGrid: Boolean = true
-) : PagedListAdapter<MediaMetadataWithImages, MoviepediaTvItemAdapter.AbstractMoviepediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
+) : PagedListAdapter<MediaMetadataWithImages, MediaScrapingTvItemAdapter.AbstractMediaScrapingItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK),
         FastScroller.SeparatedAdapter, TvItemAdapter
 {
     override var focusNext = -1
@@ -82,18 +82,18 @@ class MoviepediaTvItemAdapter(
         defaultCover = ctx?.let { getMoviepediaIconDrawable(it, type, true) }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMoviepediaItemViewHolder<ViewDataBinding> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaScrapingItemViewHolder<ViewDataBinding> {
         val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         @Suppress("UNCHECKED_CAST")
-        return if (inGrid) MovieItemTVViewHolder(MovieBrowserTvItemBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMoviepediaItemViewHolder<ViewDataBinding>
-        else MovieItemTVListViewHolder(MovieBrowserTvItemListBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMoviepediaItemViewHolder<ViewDataBinding>
+        return if (inGrid) MovieItemTVViewHolder(MovieBrowserTvItemBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMediaScrapingItemViewHolder<ViewDataBinding>
+        else MovieItemTVListViewHolder(MovieBrowserTvItemListBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMediaScrapingItemViewHolder<ViewDataBinding>
     }
 
     override fun getItemViewType(position: Int): Int {
         return if (inGrid) 0 else 1
     }
 
-    override fun onBindViewHolder(holder: AbstractMoviepediaItemViewHolder<ViewDataBinding>, position: Int) {
+    override fun onBindViewHolder(holder: AbstractMediaScrapingItemViewHolder<ViewDataBinding>, position: Int) {
         if (position >= itemCount) return
         val item = getItem(position)
         holder.setItem(item)
@@ -104,7 +104,7 @@ class MoviepediaTvItemAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: AbstractMoviepediaItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
+    override fun onBindViewHolder(holder: AbstractMediaScrapingItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
         if (payloads.isNullOrEmpty())
             onBindViewHolder(holder, position)
         else {
@@ -117,7 +117,7 @@ class MoviepediaTvItemAdapter(
         }
     }
 
-    override fun onViewRecycled(holder: AbstractMoviepediaItemViewHolder<ViewDataBinding>) {
+    override fun onViewRecycled(holder: AbstractMediaScrapingItemViewHolder<ViewDataBinding>) {
         super.onViewRecycled(holder)
         holder.recycle()
     }
@@ -163,7 +163,7 @@ class MoviepediaTvItemAdapter(
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    abstract class AbstractMoviepediaItemViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding) {
+    abstract class AbstractMediaScrapingItemViewHolder<T : ViewDataBinding>(binding: T) : SelectorViewHolder<T>(binding) {
 
         fun onClick(v: View) {
             getItem(layoutPosition)?.let { eventsHandler.onClick(v, layoutPosition, it) }
@@ -201,8 +201,8 @@ class MoviepediaTvItemAdapter(
     inner class MovieItemTVViewHolder(
             binding: MovieBrowserTvItemBinding,
             override val eventsHandler: IEventsHandler<MediaMetadataWithImages>
-    ) : AbstractMoviepediaItemViewHolder<MovieBrowserTvItemBinding>(binding) {
-        override fun getItem(layoutPosition: Int) = this@MoviepediaTvItemAdapter.getItem(layoutPosition)
+    ) : AbstractMediaScrapingItemViewHolder<MovieBrowserTvItemBinding>(binding) {
+        override fun getItem(layoutPosition: Int) = this@MediaScrapingTvItemAdapter.getItem(layoutPosition)
 
         init {
             binding.holder = this
@@ -277,8 +277,8 @@ class MoviepediaTvItemAdapter(
     inner class MovieItemTVListViewHolder(
             binding: MovieBrowserTvItemListBinding,
             override val eventsHandler: IEventsHandler<MediaMetadataWithImages>
-    ) : AbstractMoviepediaItemViewHolder<MovieBrowserTvItemListBinding>(binding) {
-        override fun getItem(layoutPosition: Int) = this@MoviepediaTvItemAdapter.getItem(layoutPosition)
+    ) : AbstractMediaScrapingItemViewHolder<MovieBrowserTvItemListBinding>(binding) {
+        override fun getItem(layoutPosition: Int) = this@MediaScrapingTvItemAdapter.getItem(layoutPosition)
 
         init {
             binding.holder = this

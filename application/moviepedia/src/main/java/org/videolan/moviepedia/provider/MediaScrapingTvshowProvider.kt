@@ -35,7 +35,7 @@ import org.videolan.moviepedia.viewmodel.Season
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.util.getFromMl
 
-class MoviepediaTvshowProvider(private val context: Context) {
+class MediaScrapingTvshowProvider(private val context: Context) {
 
     fun getFirstResumableEpisode(medialibrary: Medialibrary, mediaMetadataEpisodes: List<MediaMetadataWithImages>): MediaMetadataWithImages? {
         val seasons = ArrayList<Season>()
@@ -168,13 +168,13 @@ class MoviepediaTvshowProvider(private val context: Context) {
         fun getProviders() : List<Pair<String, IMediaContentResolver>> = mutableListOf<Pair<String, IMediaContentResolver>>().apply {
             add(Pair("resume_", object : IMediaContentResolver {
                 override suspend fun getList(context: Context, id: String): Pair<List<MediaWrapper>, Int>? {
-                    val provider = MoviepediaTvshowProvider(context)
+                    val provider = MediaScrapingTvshowProvider(context)
                     return withContext(Dispatchers.IO) { Pair(provider.getResumeMediasById(id.substringAfter("_")), 0) }
                 }
             }))
             add(Pair("episode_", object : IMediaContentResolver {
                 override suspend fun getList(context: Context, id: String): Pair<List<MediaWrapper>, Int>? {
-                    val provider = MoviepediaTvshowProvider(context)
+                    val provider = MediaScrapingTvshowProvider(context)
                     val moviepediaId = id.substringAfter("_")
                     return withContext(Dispatchers.IO) { provider.getShowIdForEpisode(moviepediaId)?.let { provider.getAllEpisodesForShow(it) } }?.let {
                         Pair(it.mapNotNull { episode -> episode.media }, it.indexOfFirst { it.metadata.moviepediaId == moviepediaId })

@@ -43,9 +43,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.moviepedia.models.identify.Media
-import org.videolan.moviepedia.models.identify.getCardSubtitle
-import org.videolan.moviepedia.models.identify.getImageUri
+import org.videolan.moviepedia.models.resolver.ResolverMedia
 import org.videolan.resources.*
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
@@ -155,11 +153,11 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                     true
                 }
             }
-            is Media -> {
-                holder.cardView.titleText = item.title
+            is ResolverMedia -> {
+                holder.cardView.titleText = item.title()
                 holder.cardView.contentText = item.getCardSubtitle()
 
-                holder.updateCardViewImage(item.getImageUri(context.getLocaleLanguages()))
+                holder.updateCardViewImage(item.imageUri(context.getLocaleLanguages()))
             }
             is MediaLibraryItem -> {
                 holder.cardView.titleText = item.title

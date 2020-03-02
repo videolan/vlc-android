@@ -25,6 +25,8 @@
 package org.videolan.moviepedia.models.media.cast
 
 import com.squareup.moshi.Json
+import org.videolan.moviepedia.models.resolver.ResolverCasting
+import org.videolan.moviepedia.models.resolver.ResolverPerson
 
 data class CastResult(
         @field:Json(name = "actor")
@@ -37,7 +39,17 @@ data class CastResult(
         val producer: List<Producer>?,
         @field:Json(name = "writer")
         val writer: List<Writer>?
-)
+) : ResolverCasting() {
+        override fun actors() = actor?.map { it.person } ?: listOf()
+
+        override fun directors() = director?.map { it.person } ?: listOf()
+
+        override fun writers() = writer?.map { it.person } ?: listOf()
+
+        override fun musicians() = musician?.map { it.person } ?: listOf()
+
+        override fun producers() = producer?.map { it.person } ?: listOf()
+}
 
 data class Actor(
         @field:Json(name = "characters")
@@ -76,13 +88,18 @@ data class Person(
         val name: String,
         @field:Json(name = "personId")
         val personId: String
-)
+) : ResolverPerson() {
 
-fun Person.image(): String? {
-        if (images?.profiles?.isEmpty() != false) {
-                return null
+        override fun name() = name
+
+        override fun image(): String? {
+                if (images?.profiles?.isEmpty() != false) {
+                        return null
+                }
+                return "${imageEndpoint}img${images.profiles[0].path}"
         }
-        return "${imageEndpoint}img${images.profiles[0].path}"
+
+        override fun personId() = personId
 }
 
 data class Producer(

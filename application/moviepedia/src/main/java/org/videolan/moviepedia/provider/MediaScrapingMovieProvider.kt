@@ -33,7 +33,7 @@ import org.videolan.moviepedia.database.models.MediaMetadataType
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.moviepedia.provider.datasources.MovieDataSourceFactory
 
-class MoviepediaMovieProvider(private val context: Context, private val mediaType: MediaMetadataType) : MoviepediaProvider(context) {
+class MediaScrapingMovieProvider(private val context: Context, private val mediaType: MediaMetadataType) : MediaScrapingProvider(context) {
 
     override var pagedList: LiveData<PagedList<MediaMetadataWithImages>> = switchMap(sortQuery) { input ->
         val movieDataSourceFactory = MovieDataSourceFactory(context, input, mediaType)

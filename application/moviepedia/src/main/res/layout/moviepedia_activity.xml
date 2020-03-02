@@ -33,7 +33,7 @@
 
         <variable
                 name="handler"
-                type="org.videolan.moviepedia.ui.MoviepediaActivity.ClickHandler" />
+                type="org.videolan.moviepedia.ui.MediaScrapingActivity.ClickHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

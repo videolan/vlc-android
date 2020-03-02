@@ -34,7 +34,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.moviepedia.database.models.MediaMetadataType
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
-import org.videolan.moviepedia.provider.MoviepediaMovieProvider
+import org.videolan.moviepedia.provider.MediaScrapingMovieProvider
 import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.vlc.viewmodels.CallBackDelegate
 import org.videolan.vlc.viewmodels.ICallBackHandler
@@ -42,7 +42,7 @@ import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
 @ExperimentalCoroutinesApi
-class MoviepediaBrowserViewModel(context: Context, val category: Long) : SortableModel(context), TvBrowserModel<MediaMetadataWithImages>,
+class MediaScrapingBrowserViewModel(context: Context, val category: Long) : SortableModel(context), TvBrowserModel<MediaMetadataWithImages>,
         ICallBackHandler by CallBackDelegate() {
 
     init {
@@ -66,7 +66,7 @@ class MoviepediaBrowserViewModel(context: Context, val category: Long) : Sortabl
 
     override var nbColumns = 0
 
-    override val provider = MoviepediaMovieProvider(context, if (category == HEADER_TV_SHOW) MediaMetadataType.TV_SHOW else MediaMetadataType.MOVIE)
+    override val provider = MediaScrapingMovieProvider(context, if (category == HEADER_TV_SHOW) MediaMetadataType.TV_SHOW else MediaMetadataType.MOVIE)
 
     override fun sort(sort: Int) {
         provider.sort(sort)
@@ -78,10 +78,10 @@ class MoviepediaBrowserViewModel(context: Context, val category: Long) : Sortabl
     class Factory(private val context: Context, private val category: Long) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return MoviepediaBrowserViewModel(context.applicationContext, category) as T
+            return MediaScrapingBrowserViewModel(context.applicationContext, category) as T
         }
     }
 }
 
 @ExperimentalCoroutinesApi
-fun Fragment.getMoviepediaBrowserModel(category: Long) = ViewModelProviders.of(requireActivity(), MoviepediaBrowserViewModel.Factory(requireContext(), category)).get(MoviepediaBrowserViewModel::class.java)
+fun Fragment.getMoviepediaBrowserModel(category: Long) = ViewModelProviders.of(requireActivity(), MediaScrapingBrowserViewModel.Factory(requireContext(), category)).get(MediaScrapingBrowserViewModel::class.java)

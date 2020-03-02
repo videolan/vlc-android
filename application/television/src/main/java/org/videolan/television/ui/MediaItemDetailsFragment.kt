@@ -325,7 +325,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     VideoPlayerActivity.start(requireActivity(), viewModel.media.uri, true)
                     activity.finish()
                 }
-                ID_GET_INFO -> startActivity(Intent(requireActivity(), MoviepediaTvActivity::class.java).apply { putExtra(MoviepediaTvActivity.MEDIA, viewModel.media) })
+                ID_GET_INFO -> startActivity(Intent(requireActivity(), MediaScrapingTvActivity::class.java).apply { putExtra(MediaScrapingTvActivity.MEDIA, viewModel.media) })
                 ID_NEXT_EPISODE -> mediaMetadataModel.nextEpisode.value?.media?.let {
                     TvUtil.showMediaDetail(requireActivity(), it)
                     requireActivity().finish()
