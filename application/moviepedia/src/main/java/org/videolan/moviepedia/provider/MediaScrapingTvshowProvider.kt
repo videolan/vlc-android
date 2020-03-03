@@ -25,6 +25,7 @@
 package org.videolan.moviepedia.provider
 
 import android.content.Context
+import androidx.annotation.MainThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -33,41 +34,27 @@ import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.moviepedia.viewmodel.Season
 import org.videolan.resources.CONTENT_EPISODE
-import org.videolan.resources.CONTENT_PREFIX
 import org.videolan.resources.CONTENT_RESUME
 import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.util.getFromMl
 
 class MediaScrapingTvshowProvider(private val context: Context) {
 
+    @MainThread
     fun getFirstResumableEpisode(medialibrary: Medialibrary, mediaMetadataEpisodes: List<MediaMetadataWithImages>): MediaMetadataWithImages? {
         val seasons = ArrayList<Season>()
         mediaMetadataEpisodes.forEach { episode ->
-            val existingSeason = seasons.firstOrNull { it.seasonNumber == episode.metadata.season }
-            val season = if (existingSeason == null) {
-                val newSeason = Season(episode.metadata.season ?: 0)
-                seasons.add(newSeason)
-                newSeason
-            } else existingSeason
+            val season = seasons.firstOrNull { it.seasonNumber == episode.metadata.season }
+                    ?: Season(episode.metadata.season ?: 0).also { seasons.add(it) }
             season.episodes.add(episode)
         }
-        seasons.forEach { season ->
+        return seasons.asSequence().mapNotNull { season ->
             season.episodes.sortBy { episode -> episode.metadata.episode }
-            //retrieve ML media
-            season.episodes.forEach { episode ->
-                if (episode.media == null) {
-                    episode.metadata.mlId?.let {
-                        val fromMl = medialibrary.getMedia(it)
-                        episode.media = fromMl
-                    }
-                }
+            season.episodes.asSequence().firstOrNull { episode ->
+                if (episode.media == null) episode.media = episode.metadata.mlId?.let { medialibrary.getMedia(it) }
+                episode.media?.let { media -> media.seen < 1 } == true
             }
-        }
-
-        return seasons.flatMap { it.episodes }
-                .firstOrNull {
-                    it.media?.let { media -> media.seen < 1 } ?: false
-                }
+        }.firstOrNull()
     }
 
     suspend fun getAllSeasons(tvShow: MediaMetadataWithImages): List<Season> {
