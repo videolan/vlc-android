@@ -199,6 +199,8 @@ const val ACTION_VIEW_ARC = "org.chromium.arc.intent.action.VIEW"
 const val ACTION_SEARCH_GMS = "com.google.android.gms.actions.SEARCH_ACTION"
 
 const val CONTENT_PREFIX = "content_"
+const val CONTENT_RESUME = "${CONTENT_PREFIX}resume_"
+const val CONTENT_EPISODE = "${CONTENT_PREFIX}episode_"
 const val ACTION_OPEN_CONTENT = "action_open_content"
 const val EXTRA_CONTENT_ID = "extra_content_id"
 

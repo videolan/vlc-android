@@ -39,6 +39,8 @@ import org.videolan.moviepedia.database.models.getYear
 import org.videolan.moviepedia.database.models.subtitle
 import org.videolan.moviepedia.database.models.tvEpisodeSubtitle
 import org.videolan.moviepedia.repository.MediaMetadataRepository
+import org.videolan.resources.CONTENT_EPISODE
+import org.videolan.resources.CONTENT_RESUME
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.getFileUri
@@ -81,7 +83,7 @@ class TVSearchProvider : ContentProvider() {
                                     provider.getFirstResumableEpisode(medialibrary, mediaMetadataEpisodes)?.let { firstResumableEpisode ->
                                         val media = medialibrary.getMedia(firstResumableEpisode.metadata.mlId!!)
                                         val thumbnail = mediaMetadataWithImages.metadata.currentBackdrop
-                                        matrixCursor.addRow(arrayOf(media.id, "resume_${mediaMetadataWithImages.metadata.moviepediaId}", mediaMetadataWithImages.metadata.title, context.getString(R.string.resume_episode, firstResumableEpisode.tvEpisodeSubtitle()), thumbnail, firstResumableEpisode.metadata.getYear(), media.length))
+                                        matrixCursor.addRow(arrayOf(media.id, "${CONTENT_RESUME}${mediaMetadataWithImages.metadata.moviepediaId}", mediaMetadataWithImages.metadata.title, context.getString(R.string.resume_episode, firstResumableEpisode.tvEpisodeSubtitle()), thumbnail, firstResumableEpisode.metadata.getYear(), media.length))
                                     }
 
 
@@ -92,7 +94,7 @@ class TVSearchProvider : ContentProvider() {
                                             mlIds.add(mlId)
                                             val media = medialibrary.getMedia(mlId)
                                             val thumbnail = mediaMetadataWithImages.metadata.currentBackdrop
-                                            matrixCursor.addRow(arrayOf(media.id, "episode_${mediaMetadataWithImages.metadata.moviepediaId}", mediaMetadataWithImages.metadata.title, mediaMetadataWithImages.subtitle(), thumbnail, mediaMetadataWithImages.metadata.getYear(), media.length))
+                                            matrixCursor.addRow(arrayOf(media.id, "${CONTENT_EPISODE}${mediaMetadataWithImages.metadata.moviepediaId}", mediaMetadataWithImages.metadata.title, mediaMetadataWithImages.subtitle(), thumbnail, mediaMetadataWithImages.metadata.getYear(), media.length))
                                         }
                                     }
                                 }
