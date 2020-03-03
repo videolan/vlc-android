@@ -105,14 +105,7 @@ object ModelsHelper {
 
     private fun MediaLibraryItem.getDiscNumber(): String? = if (this is MediaWrapper && this.discNumber != 0) "Disc ${this.discNumber}" else null
 
-    fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?, forceByDiscs: Boolean = false) = if (context !== null && item != null) if (forceByDiscs) {
-        val disc = item.getDiscNumber()
-        if (aboveItem == null) disc
-        else {
-            val previousDisc = aboveItem.getDiscNumber()
-            disc.takeIf { it != previousDisc }
-        }
-    } else when (sort) {
+    fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?) = if (context !== null && item != null) when (sort) {
         SORT_DEFAULT,
         SORT_FILENAME,
         SORT_ALPHA -> {
@@ -121,6 +114,14 @@ object ModelsHelper {
             else {
                 val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0]) || aboveItem.isSpecialItem()) "#" else aboveItem.title.substring(0, 1).toUpperCase()
                 letter.takeIf { it != previous }
+            }
+        }
+        TrackId -> {
+            val disc = item.getDiscNumber()
+            if (aboveItem == null) disc
+            else {
+                val previousDisc = aboveItem.getDiscNumber()
+                disc.takeIf { it != previousDisc }
             }
         }
         SORT_DURATION -> {
@@ -208,6 +209,7 @@ interface SortModule {
     fun canSortByArtist() = false
     fun canSortByAlbum ()= false
     fun canSortByPlayCount() = false
+    fun canSortByTrackId() = false
     fun canSortBy(sort: Int) = when (sort) {
         SORT_DEFAULT -> true
         SORT_ALPHA -> canSortByName()
@@ -220,6 +222,7 @@ interface SortModule {
         SORT_ARTIST -> canSortByArtist()
         SORT_ALBUM -> canSortByAlbum()
         SORT_PLAYCOUNT -> canSortByPlayCount()
+        TrackId -> canSortByTrackId()
         else -> false
     }
 }

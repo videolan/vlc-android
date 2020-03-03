@@ -33,21 +33,20 @@ import org.videolan.vlc.viewmodels.SortableModel
 class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: SortableModel) : MedialibraryProvider<MediaWrapper>(context, model) {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
-    override fun canSortByDuration() = true
-    override fun canSortByAlbum() = parent !== null
-    override fun canSortByLastModified() = true
-    override fun canSortByReleaseDate() = true
-
-    override fun isByDisc(): Boolean {
-        return parent is Album
-    }
+    override fun canSortByDuration() = parent !is Playlist
+    override fun canSortByAlbum() = parent !== null && parent !is Album && parent !is Playlist
+    override fun canSortByLastModified() = parent !is Playlist
+    override fun canSortByReleaseDate() = parent !is Playlist
+    override fun canSortByName() = parent !is Playlist
+    override fun canSortByFileNameName() = parent is Album
+    override fun canSortByTrackId() = parent is Album
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_DEFAULT)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", parent is Artist)
         if (sort == Medialibrary.SORT_DEFAULT) sort = when (parent) {
             is Artist -> Medialibrary.SORT_ALBUM
-            is Album -> Medialibrary.SORT_DEFAULT
+            is Album -> Medialibrary.TrackId
             else -> Medialibrary.SORT_ALPHA
         }
     }

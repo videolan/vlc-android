@@ -113,6 +113,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         viewModel.tracksProvider.pagedList.observe(this, Observer { tracks ->
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { audioBrowserAdapter.submitList(it) }
+            menu.let { UiTools.updateSortTitles(it, viewModel.tracksProvider) }
         })
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
         if (isPlaylist) {
@@ -168,6 +169,54 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         outState.putParcelable(AudioBrowserFragment.TAG_ITEM, viewModel.playlist)
         outState.putBoolean(TAG_FAB_VISIBILITY, binding.fab.visibility == View.VISIBLE)
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.playlist_option, menu)
+        if (!isPlaylist) menu.findItem(R.id.ml_menu_sortby).isVisible = true
+        menu.findItem(R.id.ml_menu_sortby).isVisible = viewModel.canSortByName()
+        menu.findItem(R.id.ml_menu_sortby_filename).isVisible = viewModel.canSortByFileNameName()
+        menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = viewModel.canSortByArtist()
+        menu.findItem(R.id.ml_menu_sortby_album_name).isVisible = viewModel.canSortByAlbum()
+        menu.findItem(R.id.ml_menu_sortby_length).isVisible = viewModel.canSortByDuration()
+        menu.findItem(R.id.ml_menu_sortby_date).isVisible = viewModel.canSortByReleaseDate()
+        menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = viewModel.canSortByLastModified()
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.ml_menu_sortby_track -> {
+                viewModel.sort(Medialibrary.TrackId)
+                return true
+            }
+            R.id.ml_menu_sortby_filename -> {
+                viewModel.sort(Medialibrary.SORT_FILENAME)
+                return true
+            }
+            R.id.ml_menu_sortby_length -> {
+                viewModel.sort(Medialibrary.SORT_DURATION)
+                return true
+            }
+            R.id.ml_menu_sortby_date -> {
+                viewModel.sort(Medialibrary.SORT_RELEASEDATE)
+                return true
+            }
+            R.id.ml_menu_sortby_last_modified -> {
+                viewModel.sort(Medialibrary.SORT_LASTMODIFICATIONDATE)
+                return true
+            }
+            R.id.ml_menu_sortby_artist_name -> {
+                viewModel.sort(Medialibrary.SORT_ARTIST)
+                return true
+            }
+            R.id.ml_menu_sortby_album_name -> {
+                viewModel.sort(Medialibrary.SORT_ALBUM)
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
