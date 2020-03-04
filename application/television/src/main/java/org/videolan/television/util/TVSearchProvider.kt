@@ -160,10 +160,10 @@ private fun MediaWrapper.getThumb(): Uri {
         ThumbnailsProvider.getVideoThumbnail(this@getThumb, 512)
     }
     val mrl = artworkMrl
-            ?: return Uri.parse("android.resource://${BuildConfig.APPLICATION_ID}/${R.drawable.ic_browser_video_big_normal}")
+            ?: return Uri.parse("android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_browser_video_big_normal}")
     return try {
         getFileUri(mrl)
     } catch (ex: IllegalArgumentException) {
-        Uri.parse("android.resource://${BuildConfig.APPLICATION_ID}/${R.drawable.ic_browser_video_big_normal}")
+        Uri.parse("android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_browser_video_big_normal}")
     }
 }

@@ -43,7 +43,6 @@ import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.tools.MurmurHash
 import org.videolan.vlc.util.Permissions
 import java.io.*
 import java.math.BigInteger
@@ -139,11 +138,11 @@ object AudioUtil {
             if (AndroidDevices.hasExternalStorage() && context.externalCacheDir != null)
                 CACHE_DIR = context.externalCacheDir!!.path
             else
-                CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache"
+                CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APP_ID + "/cache"
         } catch (e: Exception) { // catch NPE thrown by getExternalCacheDir()
-            CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache"
+            CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APP_ID + "/cache"
         } catch (e: ExceptionInInitializerError) {
-            CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache"
+            CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APP_ID + "/cache"
         }
 
         ART_DIR.set(CACHE_DIR!! + "/art/")

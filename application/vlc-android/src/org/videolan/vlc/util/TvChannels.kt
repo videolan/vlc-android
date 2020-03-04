@@ -51,7 +51,7 @@ fun setChannel(context: Context) = GlobalScope.launch(start = CoroutineStart.UND
     val channelId = withContext(Dispatchers.IO) {
         val prefs = Settings.getInstance(context)
         val name = context.getString(R.string.tv_my_new_videos)
-        createOrUpdateChannel(prefs, context, name, R.drawable.ic_channel_icon, BuildConfig.APPLICATION_ID)
+        createOrUpdateChannel(prefs, context, name, R.drawable.ic_channel_icon, BuildConfig.APP_ID)
     }
     if (Permissions.canReadStorage(context)) updatePrograms(context, channelId)
 }
