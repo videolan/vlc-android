@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VLC.Transparent"
         android:usesCleartextTraffic="true"
+        android:extractNativeLibs="false"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="q" />
 </manifest>
