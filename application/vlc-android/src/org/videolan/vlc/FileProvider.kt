@@ -10,7 +10,7 @@ import java.io.File
 import java.io.FileNotFoundException
 
 private const val TAG = "VLC/FileProvider"
-private const val THUMB_PROVIDER_AUTHORITY = "${BuildConfig.APPLICATION_ID}.thumbprovider"
+private const val THUMB_PROVIDER_AUTHORITY = "${BuildConfig.APP_ID}.thumbprovider"
 
 class FileProvider : ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?) = Uri.EMPTY!!

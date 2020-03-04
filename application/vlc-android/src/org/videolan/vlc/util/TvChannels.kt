@@ -77,7 +77,7 @@ private suspend fun updatePrograms(context: Context, channelId: Long) {
         }
         val desc = ProgramDesc(channelId, mw.id, mw.title, mw.description,
                 mw.artUri(), mw.length.toInt(), mw.time.toInt(),
-                mw.width, mw.height, BuildConfig.APPLICATION_ID)
+                mw.width, mw.height, BuildConfig.APP_ID)
         val program = buildProgram(cn, desc)
         GlobalScope.launch(Dispatchers.IO) {
             context.contentResolver.insert(TvContractCompat.PreviewPrograms.CONTENT_URI, program.toContentValues())
@@ -124,7 +124,7 @@ suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
         if (!isProgramPresent && mw.time != 0L) {
             val desc = ProgramDesc(0L, mw.id, mw.title, mw.description,
                     mw.artUri(), mw.length.toInt(), mw.time.toInt(),
-                    mw.width, mw.height, BuildConfig.APPLICATION_ID)
+                    mw.width, mw.height, BuildConfig.APP_ID)
             val cn = ComponentName(context, PreviewVideoInputService::class.java)
             val program = buildWatchNextProgram(cn, desc)
             val watchNextProgramUri = context.contentResolver.insert(TvContractCompat.WatchNextPrograms.CONTENT_URI, program.toContentValues())
@@ -140,10 +140,11 @@ private suspend fun MediaWrapper.artUri() : Uri {
     if (!isThumbnailGenerated) {
         withContext(Dispatchers.IO) { ThumbnailsProvider.getVideoThumbnail(this@artUri, 512) }
     }
-    val mrl = artworkMrl ?: return Uri.parse("android.resource://${BuildConfig.APPLICATION_ID}/${R.drawable.ic_browser_video_big_normal}")
+    val mrl = artworkMrl
+            ?: return Uri.parse("android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_browser_video_big_normal}")
     return try {
         getFileUri(mrl)
     } catch (ex: IllegalArgumentException) {
-        Uri.parse("android.resource://${BuildConfig.APPLICATION_ID}/${R.drawable.ic_browser_video_big_normal}")
+        Uri.parse("android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_browser_video_big_normal}")
     }
 }
