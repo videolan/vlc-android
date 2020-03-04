@@ -35,6 +35,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
@@ -311,6 +312,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         menu.findItem(R.id.action_mode_audio_info).isVisible = isSong
         menu.findItem(R.id.action_mode_audio_append).isVisible = PlaylistManager.hasMedia()
         menu.findItem(R.id.action_mode_audio_delete).isVisible = true
+        menu.findItem(R.id.action_mode_audio_share).isVisible = isSong
         return true
     }
 
@@ -339,6 +341,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             R.id.action_mode_audio_append -> MediaUtils.appendMedia(this, tracks)
             R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(this, tracks)
             R.id.action_mode_audio_info -> showInfoDialog(list[0] as MediaWrapper)
+            R.id.action_mode_audio_share -> lifecycleScope.launch { share(list.map { it as MediaWrapper }) }
             R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, this)
             R.id.action_mode_audio_delete -> if (isPlaylist) removeFromPlaylist(tracks, indexes) else removeItems(tracks)
             else -> return false

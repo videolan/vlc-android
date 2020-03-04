@@ -42,7 +42,7 @@ import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
-
+import kotlin.collections.ArrayList
 
 fun String.validateLocation(): Boolean {
     var location = this
@@ -78,7 +78,27 @@ suspend fun AppCompatActivity.share(media: MediaWrapper) {
     if (isStarted())
         if (validFile) {
             intentShareFile.type = if (media.type == TYPE_VIDEO) "video/*" else "audio/*"
-            intentShareFile.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, packageName + ".provider", fileWithinMyDir))
+            intentShareFile.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, "$packageName.provider", fileWithinMyDir))
+            intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
+            intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message))
+            startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file, title)))
+        } else Snackbar.make(findViewById(android.R.id.content), R.string.invalid_file, Snackbar.LENGTH_LONG).show()
+}
+
+fun FragmentActivity.share(medias: List<MediaWrapper>) = lifecycleScope.launch {
+    val intentShareFile = Intent(Intent.ACTION_SEND_MULTIPLE)
+    val uris = arrayListOf<Uri>()
+    withContext(Dispatchers.IO) {
+        medias.filter { it.uri.path != null && File(it.uri.path!!).exists() }.forEach {
+            val file = File(it.uri.path!!)
+            uris.add(FileProvider.getUriForFile(this@share, "$packageName.provider", file))
+        }
+    }
+
+    if (isStarted())
+        if (uris.isNotEmpty()) {
+            intentShareFile.type = "*/*"
+            intentShareFile.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
             intentShareFile.putExtra(Intent.EXTRA_SUBJECT, title)
             intentShareFile.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message))
             startActivity(Intent.createChooser(intentShareFile, getString(R.string.share_file, title)))

@@ -331,6 +331,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     when (item.itemId) {
                         R.id.action_video_play -> MediaUtils.openList(activity, list, 0)
                         R.id.action_video_append -> MediaUtils.appendMedia(activity, list)
+                        R.id.action_video_share -> requireActivity().share(list)
                         R.id.action_video_info -> showInfoDialog(list[0])
                         //            case R.id.action_video_delete:
                         //                for (int position : rowsAdapter.getSelectedPositions())

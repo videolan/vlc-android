@@ -19,6 +19,11 @@
         android:icon="@drawable/ic_am_information_w"
         app:showAsAction="always"/>
     <item
+            android:id="@+id/action_mode_audio_share"
+            android:title="@string/share"
+            android:icon="@drawable/ic_am_share_normal"
+            app:showAsAction="always" />
+    <item
         android:id="@+id/action_mode_audio_play"
         android:title="@string/play"
         android:icon="@drawable/ic_play_w"

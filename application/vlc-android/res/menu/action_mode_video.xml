@@ -19,10 +19,15 @@
         android:icon="@drawable/ic_am_append_w"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_video_play_audio"
-        android:title="@string/play_as_audio"
-        android:icon="@drawable/ic_am_playasaudio_w"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/action_video_share"
+            android:title="@string/share"
+            android:icon="@drawable/ic_am_share_normal"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_video_play_audio"
+            android:title="@string/play_as_audio"
+            android:icon="@drawable/ic_am_playasaudio_w"
+            app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_mode_audio_add_playlist"
         android:title="@string/add_to_playlist"

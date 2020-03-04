@@ -41,7 +41,6 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
-import org.videolan.resources.AndroidDevices
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -58,7 +57,7 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import java.util.*
 
@@ -216,6 +215,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         menu.findItem(R.id.action_mode_audio_info).isVisible = count == 1
         menu.findItem(R.id.action_mode_audio_append).isVisible = PlaylistManager.hasMedia()
         menu.findItem(R.id.action_mode_audio_delete).isVisible = isMedia
+        menu.findItem(R.id.action_mode_audio_share).isVisible = isMedia
         return true
     }
 
@@ -229,6 +229,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                 R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, list.getTracks())
                 R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list.getTracks())
                 R.id.action_mode_audio_info -> showInfoDialog(list[0])
+                R.id.action_mode_audio_share -> requireActivity().share(list as List<MediaWrapper>)
                 R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
                 R.id.action_mode_audio_delete -> removeItems(list)
             }
