@@ -101,7 +101,7 @@ class TVSearchProvider : ContentProvider() {
                     }
                 }
 
-                val searchAggregate = medialibrary.search(sanitizedQuery + "lol")
+                val searchAggregate = medialibrary.search(sanitizedQuery)
                         ?: return null
                 searchAggregate.artists?.filterNotNull()?.let {
                     it.forEach { media ->
