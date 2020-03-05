@@ -67,7 +67,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
             maxSize = MEDIALIBRARY_PAGE_SIZE *2
     )
 
-    val pagedList = MLDatasourceFactory().toLiveData(pagingConfig)
+    val pagedList by lazy(LazyThreadSafetyMode.NONE) { MLDatasourceFactory().toLiveData(pagingConfig) }
 
     abstract fun getTotalCount(): Int
     abstract fun getPage(loadSize: Int, startposition: Int): Array<T>

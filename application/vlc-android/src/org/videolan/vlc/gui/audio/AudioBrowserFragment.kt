@@ -40,6 +40,8 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.audio_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
@@ -86,11 +88,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         spacing = requireActivity().resources.getDimension(R.dimen.kl_small).toInt()
 
         if (!::settings.isInitialized) settings = Settings.getInstance(requireContext())
-        if (!::songsAdapter.isInitialized) setupModels()
-        if (viewModel.showResumeCard) {
-            (requireActivity() as AudioPlayerContainerActivity).proposeCard()
-            viewModel.showResumeCard = false
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -108,50 +105,54 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewPager.let { viewPager ->
-            val views = ArrayList<View>(MODE_TOTAL)
-            for (i in 0 until MODE_TOTAL) {
-                viewPager.getChildAt(i).let {
-                    views.add(it)
-                    lists.add(it.findViewById(R.id.audio_list))
-                }
+        val views = ArrayList<View>(MODE_TOTAL)
+        for (i in 0 until MODE_TOTAL) {
+            viewPager.getChildAt(i).let {
+                views.add(it)
+                lists.add(it.findViewById(R.id.audio_list))
             }
-            val titles = arrayOf(getString(R.string.artists), getString(R.string.albums), getString(R.string.tracks), getString(R.string.genres))
-            viewPager.offscreenPageLimit = MODE_TOTAL - 1
-            val audioPagerAdapter = AudioPagerAdapter(views.toTypedArray(), titles)
-            @Suppress("UNCHECKED_CAST")
-            viewPager.adapter = audioPagerAdapter
-            currentTab = viewModel.currentTab
-            savedInstanceState?.getIntegerArrayList(KEY_LISTS_POSITIONS)?.withIndex()?.forEach {
-                restorePositions.put(it.index, it.value)
-            }
-            for (i in 0 until MODE_TOTAL) {
-                setupLayoutManager(i)
-                (lists[i].layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
-                val list = lists[i]
-                list.adapter = adapters[i]
-                list.addOnScrollListener(scrollListener)
-                if (viewModel.providersInCard[i]) {
-                    val lp = list.layoutParams
-                    lp.width = ViewGroup.LayoutParams.MATCH_PARENT
-                    list.layoutParams = lp
-                }
-            }
-            viewPager.setOnTouchListener(swipeFilter)
-            swipeRefreshLayout.setOnRefreshListener {
-                (requireActivity() as ContentActivity).closeSearchView()
-                viewModel.refresh()
-            }
-            viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                override fun onPageScrollStateChanged(state: Int) {}
-
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
-                override fun onPageSelected(position: Int) {
-                    activity?.invalidateOptionsMenu()
-                }
-            })
         }
+        val titles = arrayOf(getString(R.string.artists), getString(R.string.albums), getString(R.string.tracks), getString(R.string.genres))
+        viewPager.offscreenPageLimit = MODE_TOTAL - 1
+        val audioPagerAdapter = AudioPagerAdapter(views.toTypedArray(), titles)
+        @Suppress("UNCHECKED_CAST")
+        viewPager.adapter = audioPagerAdapter
+        savedInstanceState?.getIntegerArrayList(KEY_LISTS_POSITIONS)?.withIndex()?.forEach {
+            restorePositions.put(it.index, it.value)
+        }
+
+        if (!::songsAdapter.isInitialized) setupModels()
+        if (viewModel.showResumeCard) {
+            (requireActivity() as AudioPlayerContainerActivity).proposeCard()
+            viewModel.showResumeCard = false
+        }
+
+        for (i in 0 until MODE_TOTAL) {
+            setupLayoutManager(i)
+            (lists[i].layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
+            val list = lists[i]
+            list.adapter = adapters[i]
+            list.addOnScrollListener(scrollListener)
+            if (viewModel.providersInCard[i]) {
+                val lp = list.layoutParams
+                lp.width = ViewGroup.LayoutParams.MATCH_PARENT
+                list.layoutParams = lp
+            }
+        }
+        viewPager.setOnTouchListener(swipeFilter)
+        swipeRefreshLayout.setOnRefreshListener {
+            (requireActivity() as ContentActivity).closeSearchView()
+            viewModel.refresh()
+        }
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                activity?.invalidateOptionsMenu()
+            }
+        })
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -196,6 +197,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     private fun setupModels() {
         viewModel = getViewModel()
+        currentTab = viewModel.currentTab
 
         val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
 
@@ -204,26 +206,31 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, cardSize = if (viewModel.providersInCard[2]) itemSize else -1)
         genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this)
         adapters = arrayOf(artistsAdapter, albumsAdapter, songsAdapter, genresAdapter)
-        for ((index, provider) in viewModel.providers.withIndex()) {
-            provider.pagedList.observe(this, Observer { items ->
-                @Suppress("UNCHECKED_CAST")
-                if (items != null) adapters[index].submitList(items as PagedList<MediaLibraryItem>?)
-                updateEmptyView()
-                restorePositions.get(index)?.let {
-                    lists[index].scrollToPosition(it)
-                    restorePositions.delete(index)
-                }
-            })
-            provider.loading.observe(this, Observer { loading ->
-                if (loading == null || currentTab != index) return@Observer
-                setRefreshing(loading)
-                if (loading) empty_loading.state = EmptyLoadingState.LOADING
-                else {
-                    swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-                    songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
-                }
-            })
-        }
+        setupProvider(viewModel.providers[currentTab], currentTab)
+            for ((index, provider) in viewModel.providers.withIndex()) {
+                if (index != currentTab) setupProvider(provider, index)
+            }
+    }
+
+    private fun setupProvider(provider: MedialibraryProvider<out MediaLibraryItem>, index: Int) {
+        provider.pagedList.observe(viewLifecycleOwner, Observer { items ->
+            @Suppress("UNCHECKED_CAST")
+            if (items != null) adapters[index].submitList(items as PagedList<MediaLibraryItem>?)
+            updateEmptyView()
+            restorePositions.get(index)?.let {
+                lists[index].scrollToPosition(it)
+                restorePositions.delete(index)
+            }
+        })
+        provider.loading.observe(this, Observer { loading ->
+            if (loading == null || currentTab != index) return@Observer
+            setRefreshing(loading)
+            if (loading) empty_loading.state = EmptyLoadingState.LOADING
+            else {
+                swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
+                songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+            }
+        })
     }
 
     override fun onStart() {
