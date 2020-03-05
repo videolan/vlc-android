@@ -40,8 +40,6 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.audio_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.CTX_PLAY_ALL
@@ -50,13 +48,16 @@ import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.*
+import org.videolan.vlc.gui.AudioPlayerContainerActivity
+import org.videolan.vlc.gui.ContentActivity
+import org.videolan.vlc.gui.PlaylistActivity
+import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 
@@ -206,13 +207,12 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, cardSize = if (viewModel.providersInCard[2]) itemSize else -1)
         genresAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this)
         adapters = arrayOf(artistsAdapter, albumsAdapter, songsAdapter, genresAdapter)
-        setupProvider(viewModel.providers[currentTab], currentTab)
-            for ((index, provider) in viewModel.providers.withIndex()) {
-                if (index != currentTab) setupProvider(provider, index)
-            }
+        setupProvider()
     }
 
-    private fun setupProvider(provider: MedialibraryProvider<out MediaLibraryItem>, index: Int) {
+    private fun setupProvider(index: Int = viewModel.currentTab) {
+        val provider = viewModel.providers[index]
+        if (provider.loading.hasObservers()) return
         provider.pagedList.observe(viewLifecycleOwner, Observer { items ->
             @Suppress("UNCHECKED_CAST")
             if (items != null) adapters[index].submitList(items as PagedList<MediaLibraryItem>?)
@@ -222,7 +222,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 restorePositions.delete(index)
             }
         })
-        provider.loading.observe(this, Observer { loading ->
+        provider.loading.observe(viewLifecycleOwner, Observer { loading ->
             if (loading == null || currentTab != index) return@Observer
             setRefreshing(loading)
             if (loading) empty_loading.state = EmptyLoadingState.LOADING
@@ -309,6 +309,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     override fun onTabSelected(tab: TabLayout.Tab) {
         adapter = adapters[tab.position]
         viewModel.currentTab = tab.position
+        setupProvider()
         super.onTabSelected(tab)
         songs_fast_scroller?.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
         settings.edit().putInt(KEY_AUDIO_CURRENT_TAB, tab.position).apply()

@@ -38,7 +38,6 @@ import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
-
 @ExperimentalCoroutinesApi
 class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
 
@@ -73,7 +72,7 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
         viewModelScope.launch {
             providers[currentTab].let { if (!it.isRefreshing) it.awaitRefresh() }
             for ((index, provider) in providers.withIndex()) {
-                if (index != currentTab && !provider.isRefreshing) provider.awaitRefresh()
+                if (index != currentTab && provider.loading.hasObservers() && !provider.isRefreshing) provider.awaitRefresh()
             }
         }
     }
