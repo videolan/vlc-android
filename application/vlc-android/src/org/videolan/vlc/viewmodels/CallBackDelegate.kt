@@ -25,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.SendChannel
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.tools.conflatedActor
+import org.videolan.tools.safeOffer
 
 interface ICallBackHandler {
     val medialibrary : Medialibrary
@@ -47,7 +48,10 @@ class CallBackDelegate : ICallBackHandler,
         Medialibrary.ArtistsCb,
         Medialibrary.AlbumsCb,
         Medialibrary.GenresCb,
-        Medialibrary.PlaylistsCb, Medialibrary.HistoryCb, Medialibrary.MediaGroupCb {
+        Medialibrary.PlaylistsCb,
+        Medialibrary.HistoryCb,
+        Medialibrary.MediaGroupCb
+{
 
     override val medialibrary = Medialibrary.getInstance()
     private lateinit var refreshActor: SendChannel<Unit>
@@ -114,47 +118,47 @@ class CallBackDelegate : ICallBackHandler,
         refreshActor.close()
     }
 
-    override fun onMedialibraryReady() { refreshActor.offer(Unit) }
+    override fun onMedialibraryReady() { refreshActor.safeOffer(Unit) }
 
-    override fun onMedialibraryIdle() { refreshActor.offer(Unit) }
+    override fun onMedialibraryIdle() { refreshActor.safeOffer(Unit) }
 
-    override fun onDeviceChange() { refreshActor.offer(Unit) }
+    override fun onDeviceChange() { refreshActor.safeOffer(Unit) }
 
-    override fun onMediaAdded() { refreshActor.offer(Unit) }
+    override fun onMediaAdded() { refreshActor.safeOffer(Unit) }
 
-    override fun onMediaModified() { refreshActor.offer(Unit) }
+    override fun onMediaModified() { refreshActor.safeOffer(Unit) }
 
-    override fun onMediaDeleted() { refreshActor.offer(Unit) }
+    override fun onMediaDeleted() { refreshActor.safeOffer(Unit) }
 
-    override fun onArtistsAdded() { refreshActor.offer(Unit) }
+    override fun onArtistsAdded() { refreshActor.safeOffer(Unit) }
 
-    override fun onArtistsModified() { refreshActor.offer(Unit) }
+    override fun onArtistsModified() { refreshActor.safeOffer(Unit) }
 
-    override fun onArtistsDeleted() { refreshActor.offer(Unit) }
+    override fun onArtistsDeleted() { refreshActor.safeOffer(Unit) }
 
-    override fun onAlbumsAdded() { refreshActor.offer(Unit) }
+    override fun onAlbumsAdded() { refreshActor.safeOffer(Unit) }
 
-    override fun onAlbumsModified() { refreshActor.offer(Unit) }
+    override fun onAlbumsModified() { refreshActor.safeOffer(Unit) }
 
-    override fun onAlbumsDeleted() { refreshActor.offer(Unit) }
+    override fun onAlbumsDeleted() { refreshActor.safeOffer(Unit) }
 
-    override fun onGenresAdded() { refreshActor.offer(Unit) }
+    override fun onGenresAdded() { refreshActor.safeOffer(Unit) }
 
-    override fun onGenresModified() { refreshActor.offer(Unit) }
+    override fun onGenresModified() { refreshActor.safeOffer(Unit) }
 
-    override fun onGenresDeleted() { refreshActor.offer(Unit) }
+    override fun onGenresDeleted() { refreshActor.safeOffer(Unit) }
 
-    override fun onPlaylistsAdded() { refreshActor.offer(Unit) }
+    override fun onPlaylistsAdded() { refreshActor.safeOffer(Unit) }
 
-    override fun onPlaylistsModified() { refreshActor.offer(Unit) }
+    override fun onPlaylistsModified() { refreshActor.safeOffer(Unit) }
 
-    override fun onPlaylistsDeleted() { refreshActor.offer(Unit) }
+    override fun onPlaylistsDeleted() { refreshActor.safeOffer(Unit) }
 
-    override fun onHistoryModified() { refreshActor.offer(Unit) }
+    override fun onHistoryModified() { refreshActor.safeOffer(Unit) }
 
-    override fun onMediaGroupsAdded() { refreshActor.offer(Unit) }
+    override fun onMediaGroupsAdded() { refreshActor.safeOffer(Unit) }
 
-    override fun onMediaGroupsModified() { refreshActor.offer(Unit) }
+    override fun onMediaGroupsModified() { refreshActor.safeOffer(Unit) }
 
-    override fun onMediaGroupsDeleted() { refreshActor.offer(Unit) }
+    override fun onMediaGroupsDeleted() { refreshActor.safeOffer(Unit) }
 }
