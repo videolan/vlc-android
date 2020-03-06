@@ -22,6 +22,7 @@
  */
 package org.videolan.vlc.gui.browser
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -58,17 +59,20 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
+import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 private const val TAG = "VLC/BaseBrowserFragment"
 
@@ -120,6 +124,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.ml_menu_filter)?.isVisible = enableSearchOption()
         menu.findItem(R.id.ml_menu_sortby)?.isVisible = !isRootDirectory
+        menu.findItem(R.id.ml_menu_add_playlist)?.isVisible = !isRootDirectory
         val browserShowAllFiles = menu.findItem(R.id.browser_show_all_files)
         browserShowAllFiles.isVisible = true
         browserShowAllFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", true)
@@ -426,6 +431,22 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 currentMedia?.let { media ->
                     addToScannedFolders(media)
                     item.isVisible = false
+                }
+                true
+            }
+            R.id.folder_add_playlist -> {
+                val medias = viewModel.dataset.value.asSequence().map { it as MediaWrapper }.filter { it.type != MediaWrapper.TYPE_DIR }.toList().toTypedArray()
+                UiTools.addToPlaylist(requireActivity(), medias, SavePlaylistDialog.KEY_NEW_TRACKS)
+                true
+            }
+            R.id.subfolders_add_playlist -> {
+                currentMedia?.let {
+                    lifecycleScope.launchWhenStarted {
+                        val medias = withContext(Dispatchers.IO) {
+                            (viewModel.provider as FileBrowserProvider).browseByUrl(it.uri.toString())
+                        }
+                        UiTools.addToPlaylist(requireActivity(), medias, SavePlaylistDialog.KEY_NEW_TRACKS)
+                    }
                 }
                 true
             }

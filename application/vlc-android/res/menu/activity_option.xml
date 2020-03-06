@@ -117,6 +117,23 @@
     </item>
     <item
             android:orderInCategory="3"
+            android:title="@string/add_to_playlist"
+            android:id="@+id/ml_menu_add_playlist"
+            vlc:showAsAction="never"
+            android:visible="false">
+        <menu>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/folder_add_playlist"
+                    android:title="@string/this_folder" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/subfolders_add_playlist"
+                    android:title="@string/all_subfolders" />
+        </menu>
+    </item>
+    <item
+            android:orderInCategory="4"
             android:id="@+id/ml_menu_refresh"
             android:icon="@drawable/ic_menu_refresh"
             vlc:showAsAction="never"

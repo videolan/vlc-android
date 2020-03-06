@@ -51,7 +51,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.isBrowserMedia
 import org.videolan.vlc.util.isMedia
-import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
 
@@ -104,6 +103,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                     mediabrowser?.release()
                     mediabrowser = null
                 }
+                is BrowseUrl -> action.deferred.complete(browseUrlImpl(action.url))
             }
         }
     }
@@ -150,6 +150,28 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         if (url != null ) loading.postValue(false)
     }
 
+    suspend fun browseUrl(url: String): List<MediaLibraryItem> {
+        val deferred = CompletableDeferred<List<MediaLibraryItem>>()
+        browserActor.post(BrowseUrl(url, deferred))
+        return deferred.await()
+    }
+
+    suspend fun browseUrlImpl(url: String): List<MediaLibraryItem> {
+        val children = filesFlow(url).toList()
+        val medias = ArrayList<MediaLibraryItem>()
+        val directories = ArrayList<MediaWrapper>()
+        children.map { MLServiceLocator.getAbstractMediaWrapper(it) }.forEach {
+            when (it.type) {
+                MediaWrapper.TYPE_AUDIO, MediaWrapper.TYPE_VIDEO -> medias.add(it)
+                MediaWrapper.TYPE_DIR -> directories.add(it)
+            }
+        }
+        directories.forEach {
+            medias.addAll(browseUrlImpl(it.uri.toString()))
+        }
+        return medias.toList()
+    }
+
     protected open suspend fun refreshImpl() {
         val files = filesFlow().mapNotNull { findMedia(it) }.toList()
         dataset.value = files as MutableList<MediaLibraryItem>
@@ -171,7 +193,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             override fun onMediaRemoved(index: Int, media: IMedia) {}
         }
         requestBrowsing(url, listener, interact)
-        awaitClose { if (url != null) browserActor.post(ClearListener) }
+        awaitClose {
+            if (url != null) browserActor.post(ClearListener)
+        }
     }.buffer(Channel.UNLIMITED)
 
     open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
@@ -345,3 +369,4 @@ private object Refresh : BrowserAction()
 private class ParseSubDirectories(val list : List<MediaLibraryItem>? = null) : BrowserAction()
 private object ClearListener : BrowserAction()
 private object Release : BrowserAction()
+private class BrowseUrl(val url: String, val deferred: CompletableDeferred<List<MediaLibraryItem>>) : BrowserAction()

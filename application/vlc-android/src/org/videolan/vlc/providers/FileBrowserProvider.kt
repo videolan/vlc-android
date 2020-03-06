@@ -167,6 +167,29 @@ open class FileBrowserProvider(
         }
     }
 
+    suspend fun browseByUrl(url: String): Array<MediaWrapper> {
+        return when {
+            url == "otg://" || url.startsWith("content:") -> {
+                val result = ArrayList<MediaWrapper>()
+                launch {
+                    val files = withContext(coroutineContextProvider.IO) {
+                        @Suppress("UNCHECKED_CAST")
+                        getDocumentFiles(context, Uri.parse(url).path?.substringAfterLast(':')
+                                ?: "") as? MutableList<MediaLibraryItem> ?: mutableListOf()
+                    }.map { it as MediaWrapper }
+
+                    result.addAll(files.filter { it.itemType == MediaWrapper.TYPE_MEDIA })
+                    files.filter { it.itemType == MediaWrapper.TYPE_DIR }.forEach {
+                        result.addAll(browseByUrl(it.uri.toString()))
+                    }
+                }
+                result.toList().toTypedArray()
+            }
+
+            else -> super.browseUrl(url).toList().map { it as MediaWrapper }.toTypedArray()
+        }
+    }
+
     override fun release() {
         if (url == null) {
             ExternalMonitor.devices.removeObserver(this)
