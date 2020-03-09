@@ -1,6 +1,7 @@
 package org.videolan.television.ui.browser
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
@@ -13,7 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
+import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -24,6 +27,8 @@ import org.videolan.television.R
 import org.videolan.television.ui.FileTvItemAdapter
 import org.videolan.television.ui.TvItemAdapter
 import org.videolan.television.ui.TvUtil
+import org.videolan.tools.isStarted
+import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.browser.PathAdapter
 import org.videolan.vlc.gui.browser.PathAdapterListener
 import org.videolan.vlc.gui.view.EmptyLoadingState
@@ -31,20 +36,20 @@ import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.isSchemeSupported
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.*
 
 private const val TAG = "FileBrowserTvFragment"
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
-class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAdapterListener {
+class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAdapterListener, IDialogManager {
 
     private var favExists: Boolean = false
     private var isRootLevel = false
     private lateinit var browserFavRepository: BrowserFavRepository
     private var item: MediaLibraryItem? = null
     override lateinit var adapter: TvItemAdapter
+    private val dialogsDelegate by lazy(LazyThreadSafetyMode.NONE) { DialogDelegate() }
 
     var mrl: String? = null
 
@@ -69,10 +74,15 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
         isRootLevel = arguments?.getBoolean("rootLevel") ?: false
         (item as? MediaWrapper)?.run { mrl = location }
-        viewModel = getBrowserModel(category = getCategory(), url = mrl, showHiddenFiles = false)
+        val category = arguments?.getLong(CATEGORY, TYPE_FILE) ?: TYPE_FILE
+        viewModel = getBrowserModel(category = category, url = mrl, showHiddenFiles = false)
 
         viewModel.currentItem = item
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
+
+        if (getCategory() == TYPE_NETWORK) {
+            dialogsDelegate.observeDialogs(this, this)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -217,7 +227,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         (viewModel as BrowserModel).stop()
     }
 
-    override fun getCategory() = arguments?.getLong(CATEGORY, TYPE_FILE) ?: TYPE_FILE
+    override fun getCategory() = (viewModel as BrowserModel).type
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         val mediaWrapper = item as MediaWrapper
@@ -264,5 +274,30 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                         this.putBoolean("rootLevel", root)
                     }
                 }
+    }
+
+    override fun fireDialog(dialog: Dialog) {
+        DialogActivity.dialog = dialog
+        startActivity(Intent(DialogActivity.KEY_DIALOG, null, activity, DialogActivity::class.java))
+    }
+
+    override fun dialogCanceled(dialog: Dialog?) {
+        when(dialog) {
+            is Dialog.LoginDialog -> goBack()
+            is Dialog.ErrorMessage -> {
+               view?.let { Snackbar.make(it, "${dialog.title}: ${dialog.text}", Snackbar.LENGTH_LONG).show() }
+               goBack()
+            }
+        }
+    }
+
+    private fun goBack() {
+        val activity = activity
+        if (activity?.isStarted() != true) return
+        if (tag == "root") {
+            activity.finish()
+        } else if  (!activity.isFinishing && !activity.isDestroyed) {
+            activity.supportFragmentManager.popBackStack()
+        }
     }
 }

@@ -32,6 +32,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import org.videolan.libvlc.Dialog
 import org.videolan.vlc.BR
+import org.videolan.vlc.gui.DialogActivity
 
 abstract class VlcDialog<T : Dialog, B : ViewDataBinding> : DialogFragment() {
 
@@ -61,6 +62,7 @@ abstract class VlcDialog<T : Dialog, B : ViewDataBinding> : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         if (::vlcDialog.isInitialized) vlcDialog.dismiss()
+        (activity as? DialogActivity)?.finish()
     }
 
     open fun onCancel(v: View) {

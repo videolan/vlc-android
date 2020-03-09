@@ -13,10 +13,9 @@ import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.IDialogHandler
 
-abstract class BaseActivity : AppCompatActivity(), IDialogHandler {
+abstract class BaseActivity : AppCompatActivity() {
 
     lateinit var settings: SharedPreferences
-    private val dialogDelegate = DialogDelegate()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         settings = Settings.getInstance(this)

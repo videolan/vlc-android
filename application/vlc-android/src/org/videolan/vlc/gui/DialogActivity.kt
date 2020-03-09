@@ -27,10 +27,12 @@ import android.os.Bundle
 import android.text.TextUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.showVlcDialog
 
 @ExperimentalCoroutinesApi
 class DialogActivity : BaseActivity() {
@@ -39,14 +41,21 @@ class DialogActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.transparent)
         val key = intent.action
-        if (TextUtils.isEmpty(key)) {
+        if (key.isNullOrEmpty()) {
             finish()
             return
         }
-        when {
-            KEY_SERVER == key -> setupServerDialog()
-            KEY_SUBS_DL == key -> setupSubsDialog()
-            KEY_DEVICE == key -> setupDeviceDialog()
+        when (key) {
+            KEY_SERVER -> setupServerDialog()
+            KEY_SUBS_DL -> setupSubsDialog()
+            KEY_DEVICE -> setupDeviceDialog()
+            KEY_DIALOG -> {
+                dialog?.run {
+                    showVlcDialog(this)
+                    dialog = null
+                } ?: finish()
+            }
+            else -> finish()
         }
     }
 
@@ -74,9 +83,11 @@ class DialogActivity : BaseActivity() {
 
     companion object {
 
+        var dialog : Dialog? = null
         const val KEY_SERVER = "serverDialog"
         const val KEY_SUBS_DL = "subsdlDialog"
         const val KEY_DEVICE = "deviceDialog"
+        const val KEY_DIALOG = "vlcDialog"
 
         const val EXTRA_MEDIALIST = "extra_media"
         const val EXTRA_PATH = "extra_path"
