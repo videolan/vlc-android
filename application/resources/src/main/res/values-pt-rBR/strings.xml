@@ -780,4 +780,5 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Trilha: %s</string>
     <string name="audio_queue_progress">Progresso: %s</string>
+    <string name="sortby_track">Trilha</string>
 </resources>

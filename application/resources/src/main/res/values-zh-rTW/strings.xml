@@ -771,4 +771,5 @@
     <string name="subtitle_delay_end">看到的文字</string>
     <string name="track_index">軌道：%s</string>
     <string name="audio_queue_progress">進度：%s</string>
+    <string name="sortby_track">軌道</string>
 </resources>

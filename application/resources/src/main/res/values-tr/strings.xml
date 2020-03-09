@@ -529,7 +529,7 @@
     <string name="exit_app_msg">VLC uygulamasından çıkmak istediğinize emin misiniz?</string>
 
     <!-- fast scroller -->
-    <string name="fastscroller_track">HızlıKaydırıcı izi</string>
+    <string name="fastscroller_track">Kayıt HızlıKaydırıcı</string>
     <string name="fastscroller_handle">HızlıKaydırıcı tutmacı</string>
 
     <!-- Plugins -->
@@ -778,4 +778,7 @@
     <string name="subtitle_delay_first">Konuşma duyuldu</string>
     <string name="audio_delay_end">Ses belirlendi</string>
     <string name="subtitle_delay_end">Metin görüldü</string>
+    <string name="track_index">Kayıt: %s</string>
+    <string name="audio_queue_progress">İlerleme: %s</string>
+    <string name="sortby_track">Kayıt</string>
 </resources>

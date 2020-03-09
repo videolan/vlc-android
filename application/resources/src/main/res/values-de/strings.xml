@@ -722,7 +722,7 @@
     <string name="add_to_scanned">Diesen Ordner durchsuchen</string>
     <string name="directory_not_scanned">Dieser Ordner wurde noch nicht durchsucht</string>
     <string name="scanned_directory_added">%s wurde zu den durchsuchten Ordnern hinzugefügt</string>
-    <string name="video_group_size_dialog_text">Anzahl an Zeichen die zur Namensgruppierung verwendet werden</string>
+    <string name="video_group_size_dialog_text">Anzahl der verwendeten Zeichen zur Namensgruppierung</string>
     <string name="video_group_size_summary">Gruppiere nach den ersten %s Buchstaben</string>
     <string name="video_group_size">Videos nach Namen gruppieren</string>
     <string name="url_copied_to_clipboard">URL in die Zwischenablage kopiert</string>
@@ -780,4 +780,5 @@
     <string name="subtitle_delay_end">Text gesehen</string>
     <string name="track_index">Titel: %s</string>
     <string name="audio_queue_progress">Fortschritt: %s</string>
+    <string name="sortby_track">Titel</string>
 </resources>

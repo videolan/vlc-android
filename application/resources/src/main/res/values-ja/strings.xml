@@ -769,4 +769,7 @@
     <string name="subtitle_delay_first">聞こえた音声</string>
     <string name="audio_delay_end">途切れ途切れのサウンド</string>
     <string name="subtitle_delay_end">見えたテキスト</string>
+    <string name="track_index">トラック: %s</string>
+    <string name="audio_queue_progress">進捗: %s</string>
+    <string name="sortby_track">トラック</string>
 </resources>

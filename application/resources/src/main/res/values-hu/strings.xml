@@ -123,7 +123,7 @@
     <string name="noplaylist">Nem található lejátszólista.</string>
     <string name="mediafiles">Médiafájlok</string>
     <string name="notavailable">nem érhető el</string>
-    <string name="nosubdirectory">Nincsenek alkönyvtárak.</string>
+    <string name="nosubfolder">Nincs almappa</string>
     <string name="directorynotfound">A(z) „%1$s” könyvtárútvonal nem található.</string>
     <string name="nohistory">Még nincsenek lejátszási előzmények.</string>
     <string name="validation">Biztos benne?</string>
@@ -487,7 +487,7 @@
     <string name="network_empty">Ez a könyvtár üres.</string>
     <string name="network_connection_needed">Nincs kapcsolat a helyi hálózathoz.</string>
     <string name="search_hint">Média keresése</string>
-    <string name="search_list_hint">Média keresése a jelenlegi listában</string>
+    <string name="search_in_list_hint">Keresés a jelenlegi listában</string>
     <string name="search_global">Keresés a médiatárban</string>
     <string name="directory_show_medialib">Megjelenítés a médiatárban</string>
     <string name="directory_hide_medialib">Elrejtés a médiatárban</string>
@@ -757,4 +757,28 @@
     <string name="clear_media_db_warning">El fogja veszíteni az előrehaladásokat és a létrehozott lejátszólistákat.\n%s</string>
     <string name="abrepeat_add_first_marker">Kezdési pont beállítása</string>
     <string name="abrepeat_add_second_marker">Befejezési pont beállítása</string>
+    <string name="demux_bitrate">Demux bitsebesség</string>
+    <string name="input_bitrate">Bemeneti bitsebesség</string>
+    <string name="video_information">Videóinformációk</string>
+
+    <string name="channels">Csatornák</string>
+    <string name="resolution">Felbontás</string>
+    <string name="resolution_value">%1$d×%2$d</string>
+    <string name="framerate">Képkockasebesség</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Nyelv</string>
+    <string name="track_samplerate">Mintavételezési gyakoriság</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bitsebesség</string>
+    <string name="codec">Kodek</string>
+    <string name="text">Szöveg</string>
+    <string name="unknown">Ismeretlen</string>
+    <string name="audio_delay_start">Hang meghallva</string>
+    <string name="subtitle_delay_first">Beszéd meghallva</string>
+    <string name="audio_delay_end">Hang észlelve</string>
+    <string name="subtitle_delay_end">Szöveg látva</string>
+    <string name="track_index">Szám: %s</string>
+    <string name="audio_queue_progress">Előrehaladás: %s</string>
+    <string name="sortby_track">Szám</string>
 </resources>

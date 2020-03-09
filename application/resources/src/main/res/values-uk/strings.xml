@@ -798,4 +798,5 @@
     <string name="subtitle_delay_end">Текст побачили</string>
     <string name="track_index">Доріжка: %s</string>
     <string name="audio_queue_progress">Поступ: %s</string>
+    <string name="sortby_track">Доріжка</string>
 </resources>

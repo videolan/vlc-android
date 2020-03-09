@@ -798,4 +798,5 @@
     <string name="subtitle_delay_end">Tekst widoczny</string>
     <string name="track_index">Utwór: %s</string>
     <string name="audio_queue_progress">Postęp: %s</string>
+    <string name="sortby_track">Utworu</string>
 </resources>

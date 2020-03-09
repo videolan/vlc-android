@@ -799,4 +799,5 @@
     <string name="subtitle_delay_end">Videný text</string>
     <string name="track_index">Stopa: %s</string>
     <string name="audio_queue_progress">Postup: %s</string>
+    <string name="sortby_track">Stopa</string>
 </resources>

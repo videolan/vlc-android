@@ -778,4 +778,7 @@
     <string name="subtitle_delay_first">Voce ascoltata</string>
     <string name="audio_delay_end">Suono individuato</string>
     <string name="subtitle_delay_end">Testo visto</string>
+    <string name="track_index">Traccia: %s</string>
+    <string name="audio_queue_progress">Avanzamento: %s</string>
+    <string name="sortby_track">Traccia</string>
 </resources>

@@ -778,4 +778,7 @@
     <string name="subtitle_delay_first">Röst hördes</string>
     <string name="audio_delay_end">Ljud upptäcktes</string>
     <string name="subtitle_delay_end">Text sågs</string>
+    <string name="track_index">Spår: %s</string>
+    <string name="audio_queue_progress">Förlopp: %s</string>
+    <string name="sortby_track">Spår</string>
 </resources>

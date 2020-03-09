@@ -780,4 +780,5 @@
     <string name="subtitle_delay_end">Testu bidu</string>
     <string name="track_index">Rasta: %s</string>
     <string name="audio_queue_progress">Progressu: %s</string>
+    <string name="sortby_track">Rasta</string>
 </resources>

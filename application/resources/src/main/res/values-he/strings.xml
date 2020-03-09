@@ -798,4 +798,5 @@
     <string name="subtitle_delay_end">נראה טקסט</string>
     <string name="track_index">רצועה: %s</string>
     <string name="audio_queue_progress">התקדמות: %s</string>
+    <string name="sortby_track">רצועה</string>
 </resources>
