@@ -187,4 +187,4 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 }
 
-fun Medialibrary.getPlaylistByName(name: String): Playlist? = playlists.filter { it.title == name }.getOrNull(0)
+fun Medialibrary.getPlaylistByName(name: String)= playlists.firstOrNull { it.title == name }
