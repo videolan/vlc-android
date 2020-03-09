@@ -804,6 +804,6 @@
     <string name="track_index">Track: %s</string>
     <string name="audio_queue_progress">Progress: %s</string>
     <string name="sortby_track">Track</string>
-    <string name="this_folder">This folder</string>
-    <string name="all_subfolders">This folder and subfolders</string>
+    <string name="this_folder">Add this folder</string>
+    <string name="all_subfolders">Add this folder and subfolders</string>
 </resources>

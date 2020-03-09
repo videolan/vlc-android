@@ -156,7 +156,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         return deferred.await()
     }
 
-    suspend fun browseUrlImpl(url: String): List<MediaLibraryItem> {
+    private suspend fun browseUrlImpl(url: String): List<MediaLibraryItem> {
         val children = filesFlow(url).toList()
         val medias = ArrayList<MediaLibraryItem>()
         val directories = ArrayList<MediaWrapper>()
@@ -193,9 +193,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             override fun onMediaRemoved(index: Int, media: IMedia) {}
         }
         requestBrowsing(url, listener, interact)
-        awaitClose {
-            if (url != null) browserActor.post(ClearListener)
-        }
+        awaitClose { if (url != null) mediabrowser?.changeEventListener(null) }
     }.buffer(Channel.UNLIMITED)
 
     open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
@@ -278,6 +276,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         }
         parsingJob = null
     }
+
+    fun hasSubfolders(media: MediaWrapper): Boolean = foldersContentMap.get(media)?.map { it as MediaWrapper }?.filter { it.type == MediaWrapper.TYPE_DIR }?.size ?: 0 > 0
+    fun hasMedias(media: MediaWrapper): Boolean = foldersContentMap.get(media)?.map { it as MediaWrapper }?.filter { it.type != MediaWrapper.TYPE_DIR }?.size ?: 0 > 0
 
     private val sb = StringBuilder()
     open fun getDescription(folderCount: Int, mediaFileCount: Int): String {

@@ -22,7 +22,6 @@
  */
 package org.videolan.vlc.gui.browser
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -59,20 +58,17 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
-import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.providers.FileBrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 private const val TAG = "VLC/BaseBrowserFragment"
 
@@ -86,6 +82,7 @@ private const val MSG_REFRESH = 3
 @ExperimentalCoroutinesApi
 abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener {
 
+    private lateinit var addPlaylistFolderOnly: MenuItem
     protected val handler = BrowserFragmentHandler(this)
     private lateinit var layoutManager: LinearLayoutManager
     var mrl: String? = null
@@ -125,6 +122,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         menu.findItem(R.id.ml_menu_filter)?.isVisible = enableSearchOption()
         menu.findItem(R.id.ml_menu_sortby)?.isVisible = !isRootDirectory
         menu.findItem(R.id.ml_menu_add_playlist)?.isVisible = !isRootDirectory
+        addPlaylistFolderOnly = menu.findItem(R.id.folder_add_playlist)
+        addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
         val browserShowAllFiles = menu.findItem(R.id.browser_show_all_files)
         browserShowAllFiles.isVisible = true
         browserShowAllFiles.isChecked = Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", true)
@@ -148,9 +147,12 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         binding.networkList.layoutManager = layoutManager
         binding.networkList.adapter = adapter
         registerSwiperRefreshlayout()
-        viewModel.dataset.observe(this, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems -> adapter.update(mediaLibraryItems!!) })
-        viewModel.getDescriptionUpdate().observe(this, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
-        viewModel.loading.observe(this, Observer {
+        viewModel.dataset.observe(viewLifecycleOwner, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems ->
+            adapter.update(mediaLibraryItems!!)
+            if (::addPlaylistFolderOnly.isInitialized) addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
+        })
+        viewModel.getDescriptionUpdate().observe(viewLifecycleOwner, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
             (activity as? MainActivity)?.refreshing = it
         })
     }
@@ -435,19 +437,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 true
             }
             R.id.folder_add_playlist -> {
-                val medias = viewModel.dataset.value.asSequence().map { it as MediaWrapper }.filter { it.type != MediaWrapper.TYPE_DIR }.toList().toTypedArray()
-                UiTools.addToPlaylist(requireActivity(), medias, SavePlaylistDialog.KEY_NEW_TRACKS)
+                currentMedia?.let { UiTools.addToPlaylistAsync(requireActivity(), it.uri.toString()) }
                 true
             }
             R.id.subfolders_add_playlist -> {
-                currentMedia?.let {
-                    lifecycleScope.launchWhenStarted {
-                        val medias = withContext(Dispatchers.IO) {
-                            (viewModel.provider as FileBrowserProvider).browseByUrl(it.uri.toString())
-                        }
-                        UiTools.addToPlaylist(requireActivity(), medias, SavePlaylistDialog.KEY_NEW_TRACKS)
-                    }
-                }
+                currentMedia?.let { UiTools.addToPlaylistAsync(requireActivity(), it.uri.toString(), true) }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -520,6 +514,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 if (isFileBrowser && !isRootDirectory && !MedialibraryUtils.isScanned(item.uri.toString())) {
                     flags = flags or CTX_ADD_SCANNED
                 }
+                if (isFileBrowser) {
+                    if (viewModel.provider.hasMedias(mw)) flags = flags or CTX_ADD_FOLDER_PLAYLIST
+                    if (viewModel.provider.hasSubfolders(mw)) flags = flags or CTX_ADD_FOLDER_AND_SUB_PLAYLIST
+                }
             } else {
                 val isVideo = mw.type == MediaWrapper.TYPE_VIDEO
                 val isAudio = mw.type == MediaWrapper.TYPE_AUDIO
@@ -558,6 +556,12 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                     putExtra(MOVIEPEDIA_MEDIA, mw)
                 }
                 startActivity(intent)
+            }
+            CTX_ADD_FOLDER_PLAYLIST -> {
+                UiTools.addToPlaylistAsync(requireActivity(), mw.uri.toString(), false)
+            }
+            CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> {
+                UiTools.addToPlaylistAsync(requireActivity(), mw.uri.toString(), true)
             }
         }
     }

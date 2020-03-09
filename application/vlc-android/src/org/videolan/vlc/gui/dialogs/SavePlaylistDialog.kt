@@ -29,45 +29,54 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.R
-import org.videolan.vlc.gui.SimpleAdapter
+import org.videolan.tools.AppScope
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.DependencyProvider
+import org.videolan.vlc.R
+import org.videolan.vlc.databinding.DialogPlaylistBinding
+import org.videolan.vlc.gui.SimpleAdapter
+import org.videolan.vlc.providers.FileBrowserProvider
+import org.videolan.vlc.viewmodels.browser.TYPE_FILE
+import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.util.*
 
 class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
-        TextView.OnEditorActionListener, SimpleAdapter.ClickHandler  {
+        TextView.OnEditorActionListener, SimpleAdapter.ClickHandler {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
     override fun needToManageOrientation(): Boolean = false
 
-    private var editText: EditText? = null
-    private lateinit var listView: RecyclerView
-    private lateinit var emptyView: TextView
-    private lateinit var saveButton: Button
+    private var isLoading: Boolean = false
+        set(value) {
+            field = value
+            if (::binding.isInitialized) binding.isLoading = value
+        }
+    private var filesText: String = ""
+        set(value) {
+            field = value
+            if (::binding.isInitialized) binding.filesText = value
+        }
+    private lateinit var binding: DialogPlaylistBinding
     private lateinit var adapter: SimpleAdapter
-    private lateinit var tracks: Array<MediaWrapper>
     private lateinit var newTrack: Array<MediaWrapper>
     private lateinit var medialibrary: Medialibrary
     private var currentPLaylist: Playlist? = null
 
     private val coroutineContextProvider: CoroutineContextProvider
 
-    override fun initialFocusedView(): View = listView
+    override fun initialFocusedView(): View = binding.list
 
     init {
         SavePlaylistDialog.registerCreator { CoroutineContextProvider() }
@@ -78,45 +87,60 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         super.onCreate(savedInstanceState)
         medialibrary = Medialibrary.getInstance()
         adapter = SimpleAdapter(this)
-        tracks = try {
-            @Suppress("UNCHECKED_CAST")
-            arguments!!.getParcelableArray(KEY_TRACKS) as Array<MediaWrapper>
-        } catch (e: Exception) {
-            emptyArray()
-        }
         newTrack = try {
             @Suppress("UNCHECKED_CAST")
-            arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<MediaWrapper>
+            val tracks = arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<MediaWrapper>
+            filesText = resources.getQuantityString(R.plurals.mediafiles_quantity, tracks.size, tracks.size)
+            tracks
         } catch (e: Exception) {
-            emptyArray()
+            try {
+                arguments!!.getString(KEY_FOLDER)?.let { folder ->
+
+                    isLoading = true
+                    val viewModel = getBrowserModel(category = TYPE_FILE, url = folder, showHiddenFiles = false)
+                    if (arguments!!.getBoolean(KEY_SUB_FOLDERS, false)) lifecycleScope.launchWhenStarted {
+                        withContext(Dispatchers.IO) {
+                            newTrack = (viewModel.provider as FileBrowserProvider).browseByUrl(folder).toTypedArray()
+                            isLoading = false
+                            filesText = resources.getQuantityString(R.plurals.mediafiles_quantity, newTrack.size, newTrack.size)
+                        }
+                    } else {
+                        viewModel.dataset.observe(this, androidx.lifecycle.Observer { mediaLibraryItems ->
+                            newTrack = mediaLibraryItems.asSequence().map { it as MediaWrapper }.filter { it.type != MediaWrapper.TYPE_DIR }.toList().toTypedArray()
+                            isLoading = false
+                            filesText = resources.getQuantityString(R.plurals.mediafiles_quantity, newTrack.size, newTrack.size)
+                        })
+                    }
+                }
+                emptyArray()
+            } catch (e: Exception) {
+                emptyArray()
+            }
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflate(inflater, container, R.layout.dialog_playlist)
+        binding = DialogPlaylistBinding.inflate(layoutInflater, container, false)
+        binding.isLoading = isLoading
+        binding.filesText = filesText
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        listView = view.findViewById(android.R.id.list)
-        saveButton = view.findViewById(R.id.dialog_playlist_save)
-        emptyView = view.findViewById(android.R.id.empty)
-        val mLayout = view.findViewById<TextInputLayout>(R.id.dialog_playlist_name)
-        editText = mLayout.editText
-        saveButton.setOnClickListener(this)
+        binding.dialogPlaylistSave.setOnClickListener(this)
 
-        editText!!.setOnEditorActionListener(this)
-        listView.layoutManager = LinearLayoutManager(view.context)
-        listView.adapter = adapter
+        binding.dialogPlaylistName.editText!!.setOnEditorActionListener(this)
+        binding.list.layoutManager = LinearLayoutManager(view.context)
+        binding.list.adapter = adapter
         adapter.submitList(listOf<MediaLibraryItem>(*medialibrary.playlists))
-        if (!Tools.isArrayEmpty(newTrack)) saveButton.setText(R.string.save)
+        if (!Tools.isArrayEmpty(newTrack)) binding.dialogPlaylistSave.setText(R.string.save)
         updateEmptyView()
-
     }
 
     private fun updateEmptyView() {
-        emptyView.visibility = if (adapter.isEmpty()) View.VISIBLE else View.GONE
+        binding.empty.visibility = if (adapter.isEmpty()) View.VISIBLE else View.GONE
     }
 
     override fun onClick(v: View) {
@@ -128,27 +152,20 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         return false
     }
 
-    private fun savePlaylist() = lifecycleScope.launchWhenStarted {
-        withContext(coroutineContextProvider.IO) {
-            val name = editText?.text?.toString()?.trim { it <= ' ' } ?: return@withContext
-            val addTracks = !Tools.isArrayEmpty(newTrack)
+    private fun savePlaylist() {
+        val name = binding.dialogPlaylistName.editText?.text?.toString()?.trim { it <= ' ' }
+                ?: return
+        val playlistId = currentPLaylist?.id ?: return
+        AppScope.launch(coroutineContextProvider.IO) {
             var playlist = if (currentPLaylist?.title == name) {
-                medialibrary.getPlaylist(currentPLaylist!!.id)
+                medialibrary.getPlaylist(playlistId)
             } else {
-                medialibrary.getPlaylistByName(name) ?: medialibrary.createPlaylist(name) ?: return@withContext
+                medialibrary.getPlaylistByName(name) ?: medialibrary.createPlaylist(name)
+                ?: return@launch
             }
-            val playlistTracks: Array<MediaWrapper>?
-            playlistTracks = if (addTracks) {
-                newTrack
-            } else {//Save a playlist
-                for (index in 0 until playlist.tracks.size) {
-                    playlist.remove(index)
-                }
-                tracks
-            }
-            if (playlistTracks.isEmpty()) return@withContext
+            if (newTrack.isEmpty()) return@launch
             val ids = LinkedList<Long>()
-            for (mw in playlistTracks) {
+            for (mw in newTrack) {
                 val id = mw.id
                 if (id == 0L) {
                     var media = medialibrary.getMedia(mw.uri)
@@ -161,13 +178,6 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 } else
                     ids.add(id)
             }
-
-            if (!addTracks) {
-                for (i in 0 until playlist.tracks.size) {
-                    playlist.remove(0)
-                }
-            }
-
             playlist.append(ids)
         }
         dismiss()
@@ -175,15 +185,16 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     override fun onClick(item: MediaLibraryItem) {
         currentPLaylist = item as Playlist
-        editText?.setText(item.title)
+        binding.dialogPlaylistName.editText?.setText(item.title)
     }
 
-    companion object: DependencyProvider<Any>() {
+    companion object : DependencyProvider<Any>() {
 
         val TAG = "VLC/SavePlaylistDialog"
 
-        const val KEY_TRACKS = "PLAYLIST_TRACKS"
         const val KEY_NEW_TRACKS = "PLAYLIST_NEW_TRACKS"
+        const val KEY_FOLDER = "PLAYLIST_FROM_FOLDER"
+        const val KEY_SUB_FOLDERS = "PLAYLIST_FOLDER_ADD_SUBFOLDERS"
     }
 }
 

@@ -167,7 +167,7 @@ open class FileBrowserProvider(
         }
     }
 
-    suspend fun browseByUrl(url: String): Array<MediaWrapper> {
+    suspend fun browseByUrl(url: String): List<MediaWrapper> {
         return when {
             url == "otg://" || url.startsWith("content:") -> {
                 val result = ArrayList<MediaWrapper>()
@@ -183,10 +183,10 @@ open class FileBrowserProvider(
                         result.addAll(browseByUrl(it.uri.toString()))
                     }
                 }
-                result.toList().toTypedArray()
+                result.toList()
             }
 
-            else -> super.browseUrl(url).toList().map { it as MediaWrapper }.toTypedArray()
+            else -> super.browseUrl(url).toList().map { it as MediaWrapper }
         }
     }
 

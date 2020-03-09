@@ -316,8 +316,14 @@ object UiTools {
         }
     }
 
-    fun savePlaylist(activity: FragmentActivity, list: List<MediaWrapper>) {
-        addToPlaylist(activity, list.toTypedArray(), SavePlaylistDialog.KEY_TRACKS)
+    fun addToPlaylistAsync(activity: FragmentActivity, parent: String, includeSubfolders: Boolean = false) {
+        if (!activity.isStarted()) return
+        val savePlaylistDialog = SavePlaylistDialog()
+        val args = Bundle()
+        args.putString(SavePlaylistDialog.KEY_FOLDER, parent)
+        args.putBoolean(SavePlaylistDialog.KEY_SUB_FOLDERS, includeSubfolders)
+        savePlaylistDialog.arguments = args
+        savePlaylistDialog.show(activity.supportFragmentManager, "fragment_add_to_playlist")
     }
 
     fun addToPlaylist(activity: FragmentActivity, list: List<MediaWrapper>) {
