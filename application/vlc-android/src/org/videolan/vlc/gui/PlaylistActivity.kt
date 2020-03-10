@@ -65,6 +65,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
@@ -339,7 +340,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         when (item.itemId) {
             R.id.action_mode_audio_play -> MediaUtils.openList(this, tracks, 0)
             R.id.action_mode_audio_append -> MediaUtils.appendMedia(this, tracks)
-            R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(this, tracks)
+            R.id.action_mode_audio_add_playlist -> addToPlaylist(tracks)
             R.id.action_mode_audio_info -> showInfoDialog(list[0] as MediaWrapper)
             R.id.action_mode_audio_share -> lifecycleScope.launch { share(list.map { it as MediaWrapper }) }
             R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, this)
@@ -368,7 +369,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             CTX_DELETE -> removeItem(position, media)
             CTX_APPEND -> MediaUtils.appendMedia(this, media.tracks)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(this, media.tracks)
-            CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(this, media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            CTX_ADD_TO_PLAYLIST -> addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_SET_RINGTONE -> AudioUtil.setRingtone(media, this)
             CTX_SHARE -> lifecycleScope.launch { share(media) }
         }

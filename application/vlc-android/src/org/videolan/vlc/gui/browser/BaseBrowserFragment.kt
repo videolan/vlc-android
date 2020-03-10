@@ -57,6 +57,8 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylistAsync
 import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
@@ -392,7 +394,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             when (item.itemId) {
                 R.id.action_mode_file_play -> MediaUtils.openList(activity, list, 0)
                 R.id.action_mode_file_append -> MediaUtils.appendMedia(activity, list)
-                R.id.action_mode_file_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
+                R.id.action_mode_file_add_playlist -> requireActivity().addToPlaylist(list)
                 R.id.action_mode_file_info -> showMediaInfo(list[0])
                 R.id.action_mode_file_delete -> removeItems(list)
                 else -> {
@@ -437,11 +439,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 true
             }
             R.id.folder_add_playlist -> {
-                currentMedia?.let { UiTools.addToPlaylistAsync(requireActivity(), it.uri.toString()) }
+                currentMedia?.let { requireActivity().addToPlaylistAsync(it.uri.toString()) }
                 true
             }
             R.id.subfolders_add_playlist -> {
-                currentMedia?.let { UiTools.addToPlaylistAsync(requireActivity(), it.uri.toString(), true) }
+                currentMedia?.let { requireActivity().addToPlaylistAsync(it.uri.toString(), true) }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -546,7 +548,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 MediaUtils.openMedia(activity, mw)
             }
-            CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
             CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
             CTX_ADD_SCANNED -> addToScannedFolders(mw)
@@ -558,10 +560,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 startActivity(intent)
             }
             CTX_ADD_FOLDER_PLAYLIST -> {
-                UiTools.addToPlaylistAsync(requireActivity(), mw.uri.toString(), false)
+                requireActivity().addToPlaylistAsync(mw.uri.toString(), false)
             }
             CTX_ADD_FOLDER_AND_SUB_PLAYLIST -> {
-                UiTools.addToPlaylistAsync(requireActivity(), mw.uri.toString(), true)
+                requireActivity().addToPlaylistAsync(mw.uri.toString(), true)
             }
         }
     }

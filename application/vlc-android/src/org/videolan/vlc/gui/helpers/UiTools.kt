@@ -316,27 +316,27 @@ object UiTools {
         }
     }
 
-    fun addToPlaylistAsync(activity: FragmentActivity, parent: String, includeSubfolders: Boolean = false) {
-        if (!activity.isStarted()) return
+    fun FragmentActivity.addToPlaylistAsync(parent: String, includeSubfolders: Boolean = false) {
+        if (!isStarted()) return
         val savePlaylistDialog = SavePlaylistDialog()
         val args = Bundle()
         args.putString(SavePlaylistDialog.KEY_FOLDER, parent)
         args.putBoolean(SavePlaylistDialog.KEY_SUB_FOLDERS, includeSubfolders)
         savePlaylistDialog.arguments = args
-        savePlaylistDialog.show(activity.supportFragmentManager, "fragment_add_to_playlist")
+        savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
     }
 
-    fun addToPlaylist(activity: FragmentActivity, list: List<MediaWrapper>) {
-        addToPlaylist(activity, list.toTypedArray(), SavePlaylistDialog.KEY_NEW_TRACKS)
+    fun FragmentActivity.addToPlaylist(list: List<MediaWrapper>) {
+        addToPlaylist(list.toTypedArray(), SavePlaylistDialog.KEY_NEW_TRACKS)
     }
 
-    fun addToPlaylist(activity: FragmentActivity, tracks: Array<MediaWrapper>, key: String) {
-        if (!activity.isStarted()) return
+    fun FragmentActivity.addToPlaylist(tracks: Array<MediaWrapper>, key: String) {
+        if (!isStarted()) return
         val savePlaylistDialog = SavePlaylistDialog()
         val args = Bundle()
         args.putParcelableArray(key, tracks)
         savePlaylistDialog.arguments = args
-        savePlaylistDialog.show(activity.supportFragmentManager, "fragment_add_to_playlist")
+        savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
     }
 
 

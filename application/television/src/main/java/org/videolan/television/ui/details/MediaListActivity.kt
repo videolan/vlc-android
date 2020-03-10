@@ -31,6 +31,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.ITVEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -81,7 +82,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
         binding.play.setOnClickListener { TvUtil.playMedia(this, item.tracks.toMutableList()) }
         binding.append.setOnClickListener { MediaUtils.appendMedia(this, item.tracks) }
         binding.insertNext.setOnClickListener { MediaUtils.insertNext(this, item.tracks) }
-        binding.addPlaylist.setOnClickListener { UiTools.addToPlaylist(this, item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS) }
+        binding.addPlaylist.setOnClickListener { addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS) }
         binding.delete.setOnClickListener {
             val intent = Intent(this, ConfirmationTvActivity::class.java)
             intent.putExtra(CONFIRMATION_DIALOG_TITLE, getString(R.string.validation_delete_playlist))
@@ -136,7 +137,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
     }
 
     override fun onClickAddToPlaylist(v: View, position: Int) {
-        UiTools.addToPlaylist(this, arrayOf(item.tracks[position]), SavePlaylistDialog.KEY_NEW_TRACKS)
+        addToPlaylist(arrayOf(item.tracks[position]), SavePlaylistDialog.KEY_NEW_TRACKS)
     }
 
     override fun onClickMoveUp(v: View, position: Int) {

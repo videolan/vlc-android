@@ -52,6 +52,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
@@ -227,7 +228,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             if (isStarted()) when (item.itemId) {
                 R.id.action_mode_audio_play -> MediaUtils.openList(activity, list.getTracks(), 0)
                 R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, list.getTracks())
-                R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list.getTracks())
+                R.id.action_mode_audio_add_playlist -> requireActivity().addToPlaylist(list.getTracks())
                 R.id.action_mode_audio_info -> showInfoDialog(list[0])
                 R.id.action_mode_audio_share -> requireActivity().share(list as List<MediaWrapper>)
                 R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
@@ -313,14 +314,14 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_DELETE -> removeItem(media)
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
-            CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_SET_RINGTONE -> AudioUtil.setRingtone(media as MediaWrapper, requireActivity())
             CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as MediaWrapper) }
         }
     }
 
-    protected val empty : Boolean
-            get() = viewModel.isEmpty() && getCurrentAdapter()?.isEmpty == false
+    protected val empty: Boolean
+        get() = viewModel.isEmpty() && getCurrentAdapter()?.isEmpty == false
 
     override fun getMultiHelper(): MultiSelectHelper<T>? = getCurrentAdapter()?.multiSelectHelper as? MultiSelectHelper<T>
 }

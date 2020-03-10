@@ -35,7 +35,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.FORCE_PLAY_ALL
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
@@ -109,7 +109,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         MediaUtils.openList(context, list, 0)
     }
 
-    internal fun addToPlaylist(activity: FragmentActivity, position: Int) = viewModelScope.launch {
+    internal fun addItemToPlaylist(activity: FragmentActivity, position: Int) = viewModelScope.launch {
         val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
             when (item) {
@@ -117,7 +117,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
                 is VideoGroup -> item.getAll()
                 else -> null
             }
-        }?.let {if (activity.isStarted()) UiTools.addToPlaylist(activity, it) }
+        }?.let { if (activity.isStarted()) activity.addToPlaylist(it) }
     }
 
     internal fun appendFoldersSelection(selection: List<Folder>) = viewModelScope.launch {

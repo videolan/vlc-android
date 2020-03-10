@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
@@ -342,7 +343,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                             for (media in list) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                             MediaUtils.openList(activity, list, 0)
                         }
-                        R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
+                        R.id.action_mode_audio_add_playlist -> requireActivity().addToPlaylist(list)
                         R.id.action_video_delete -> removeItems(list)
                         else -> {
                             stopActionMode()
@@ -359,7 +360,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 when (item.itemId) {
                     R.id.action_folder_play -> viewModel.playFoldersSelection(selection)
                     R.id.action_folder_append -> viewModel.appendFoldersSelection(selection)
-                    R.id.action_folder_add_playlist -> lifecycleScope.launch { UiTools.addToPlaylist(requireActivity(), withContext(Dispatchers.Default) { selection.getAll() }) }
+                    R.id.action_folder_add_playlist -> lifecycleScope.launch { requireActivity().addToPlaylist(withContext(Dispatchers.Default) { selection.getAll() }) }
                     else -> return false
                 }
             }
@@ -368,7 +369,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 when (item.itemId) {
                     R.id.action_videogroup_play -> MediaUtils.openList(activity, selection.getAll(), 0)
                     R.id.action_videogroup_append -> MediaUtils.appendMedia(activity, selection.getAll())
-                    R.id.action_videogroup_add_playlist -> lifecycleScope.launch { UiTools.addToPlaylist(requireActivity(), withContext(Dispatchers.Default) { selection.getAll() }) }
+                    R.id.action_videogroup_add_playlist -> lifecycleScope.launch { requireActivity().addToPlaylist(withContext(Dispatchers.Default) { selection.getAll() }) }
                     else -> return false
                 }
             }
@@ -401,7 +402,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_APPEND -> MediaUtils.appendMedia(activity, media)
                 CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
                 CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
-                CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+                CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
                 CTX_FIND_METADATA -> {
                     val intent = Intent().apply {
                         setClassName(requireContext().applicationContext, MOVIEPEDIA_ACTIVITY)
@@ -414,12 +415,12 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             is Folder -> when (option) {
                 CTX_PLAY -> lifecycleScope.launch { viewModel.play(position) }
                 CTX_APPEND -> lifecycleScope.launch { viewModel.append(position) }
-                CTX_ADD_TO_PLAYLIST -> viewModel.addToPlaylist(requireActivity(), position)
+                CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
             }
             is VideoGroup -> when (option) {
                 CTX_PLAY -> lifecycleScope.launch { viewModel.play(position) }
                 CTX_APPEND -> lifecycleScope.launch { viewModel.append(position) }
-                CTX_ADD_TO_PLAYLIST -> viewModel.addToPlaylist(requireActivity(), position)
+                CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
             }
         }
     }

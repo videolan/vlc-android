@@ -40,6 +40,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
@@ -195,7 +196,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 CTX_SET_RINGTONE -> AudioUtil.setRingtone(playlistAdapter.getItem(position), requireActivity())
                 CTX_ADD_TO_PLAYLIST -> {
                     val mw = playlistAdapter.getItem(position)
-                    UiTools.addToPlaylist(requireActivity(), listOf(mw))
+                    requireActivity().addToPlaylist(listOf(mw))
                 }
                 CTX_REMOVE_FROM_PLAYLIST -> view?.let {
                     val mw = playlistAdapter.getItem(position)

@@ -60,6 +60,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 
 private const val TAG = "MediaItemDetailsFragment"
 private const val ID_PLAY = 1
@@ -298,7 +299,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     TvUtil.playMedia(activity, viewModel.media)
                     activity.finish()
                 }
-                ID_PLAYLIST -> UiTools.addToPlaylist(activity, arrayListOf(viewModel.media))
+                ID_PLAYLIST -> requireActivity().addToPlaylist(arrayListOf(viewModel.media))
                 ID_FAVORITE_ADD -> {
                     val uri = Uri.parse(viewModel.mediaItemDetails.location)
                     val local = "file" == uri.scheme

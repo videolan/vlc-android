@@ -34,6 +34,7 @@ import org.videolan.vlc.databinding.PlayerOptionItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.PlayerController
 import java.util.*
@@ -245,7 +246,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 tag = "equalizer"
             }
             ID_SAVE_PLAYLIST -> {
-                UiTools.addToPlaylist(activity, service.media)
+                activity.addToPlaylist(service.media)
                 hide()
                 return
             }

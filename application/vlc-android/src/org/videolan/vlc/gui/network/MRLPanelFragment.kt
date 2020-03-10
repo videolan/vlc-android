@@ -64,6 +64,7 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.media.MediaUtils
@@ -187,7 +188,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
             }
             CTX_ADD_TO_PLAYLIST -> {
                 val media = viewModel.dataset.get(position)
-                UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+                requireActivity().addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             }
             CTX_COPY -> {
                 val media = viewModel.dataset.get(position)
