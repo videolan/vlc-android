@@ -39,6 +39,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
@@ -114,7 +115,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             }
             "dump_media_db" -> {
                 if (Medialibrary.getInstance().isWorking)
-                    UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
+                    activity?.let { Toast.makeText(it, R.string.settings_ml_block_scan, Toast.LENGTH_LONG).show() }
                 else {
                     val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)
                     launch {
@@ -144,15 +145,25 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                     editor.putInt("network_caching_value", 0)
                     val networkCachingPref = findPreference<EditTextPreference>(key)
                     networkCachingPref?.text = ""
-                    Toast.makeText(activity, R.string.network_caching_popup, Toast.LENGTH_SHORT).show()
+                    activity?.let { Toast.makeText(it, R.string.network_caching_popup, Toast.LENGTH_SHORT).show() }
                 }
 
                 editor.apply()
                 VLCInstance.restart()
                 (activity as? PreferencesActivity)?.restartMediaPlayer()
             }
+            "custom_libvlc_options" -> {
+                try {
+                    VLCInstance.restart()
+                } catch (e: IllegalStateException){
+                    activity?.let { Toast.makeText(it, R.string.custom_libvlc_options_invalid, Toast.LENGTH_LONG).show() }
+                    sharedPreferences.putSingle("custom_libvlc_options", "")
+                } finally {
+                    (activity as? PreferencesActivity)?.restartMediaPlayer()
+                }
+            }
             // No break because need VLCInstance.restart();
-            "opengl", "chroma_format", "custom_libvlc_options", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
+            "opengl", "chroma_format", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
                 VLCInstance.restart()
                 (activity as? PreferencesActivity)?.restartMediaPlayer()
             }

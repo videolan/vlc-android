@@ -37,6 +37,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
@@ -141,14 +142,23 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                     networkCachingPref?.text = ""
                     UiTools.snacker(view!!, R.string.network_caching_popup)
                 }
-
                 editor.apply()
                 VLCInstance.restart()
-                if (activity != null)
-                    (activity as PreferencesActivity).restartMediaPlayer()
+                (activity as? PreferencesActivity)?.restartMediaPlayer()
             }
             // No break because need VLCInstance.restart();
-            "opengl", "chroma_format", "custom_libvlc_options", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
+            "custom_libvlc_options" -> {
+                try {
+                    VLCInstance.restart()
+                } catch (e: IllegalStateException){
+                    view?.let { UiTools.snacker(it, R.string.custom_libvlc_options_invalid) }
+                    sharedPreferences.putSingle("custom_libvlc_options", "")
+                } finally {
+                    (activity as? PreferencesActivity)?.restartMediaPlayer()
+                }
+
+            }
+            "opengl", "chroma_format", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
                 VLCInstance.restart()
                 (activity as? PreferencesActivity)?.restartMediaPlayer()
             }

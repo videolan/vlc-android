@@ -481,6 +481,7 @@
     <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
     <string name="dump_logcat_failure">Failed to dump logcat.</string>
     <string name="custom_libvlc_options">Custom libVLC options</string>
+    <string name="custom_libvlc_options_invalid">Invalid libVLC options!</string>
 
     <string name="serious_crash">Unfortunately, a serious error has occurred and VLC had to close.</string>
     <string name="help_us_send_log">Help us improving VLC by sending the following crash log:</string>
