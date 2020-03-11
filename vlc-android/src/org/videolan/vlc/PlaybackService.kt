@@ -161,14 +161,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                 publishState()
                 audioFocusHelper.changeAudioFocus(true)
                 if (!wakeLock.isHeld) wakeLock.acquire()
-                if (!keyguardManager.isKeyguardLocked
-                        && !playlistManager.videoBackground
-                        && !hasRenderer()
-                        && playlistManager.switchToVideo()) {
-                    hideNotification(true)
-                } else {
-                    showNotification()
-                }
+                showNotification()
             }
             MediaPlayer.Event.Paused -> {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Paused")
@@ -568,14 +561,12 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     private fun forceForeground() {
         val ctx = this@PlaybackService
         NotificationHelper.createNotificationChannels(ctx.applicationContext)
-        val stopped = playlistManager.player.playbackState == PlaybackStateCompat.STATE_STOPPED
-        val notification = if (this::notification.isInitialized && !stopped) notification
+        val notification = if (this::notification.isInitialized) notification
         else NotificationHelper.createPlaybackNotification(ctx, false,
                 ctx.resources.getString(R.string.loading), "", "", null,
                 false, true, mediaSession.sessionToken, sessionPendingIntent)
         startForeground(3, notification)
         isForeground = true
-        if (isVideoPlaying || Settings.showTvUi || stopped) hideNotification(true)
     }
 
     private fun sendStartSessionIdIntent() {
