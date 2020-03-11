@@ -54,6 +54,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VLC.Transparent"
         android:usesCleartextTraffic="true"
+        android:extractNativeLibs="false"
         tools:targetApi="o">
 
         <!-- Enable VLC in Samsung multiwindow mode -->
