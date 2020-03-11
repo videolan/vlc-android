@@ -61,6 +61,9 @@ import org.videolan.vlc.util.MediaItemDiffCallback
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.util.*
 
+private const val ACTION_MOVE = 0
+private const val ACTION_MOVED = 1
+
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder>(), SwipeDragHelperAdapter {
@@ -164,7 +167,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         Collections.swap(dataset, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
-        mHandler.obtainMessage(PlaylistHandler.ACTION_MOVE, fromPosition, toPosition).sendToTarget()
+        mHandler.obtainMessage(ACTION_MOVE, fromPosition, toPosition).sendToTarget()
     }
 
     override fun onItemMoved(dragFrom: Int, dragTo: Int) {
@@ -227,19 +230,12 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
                 }
                 ACTION_MOVED -> {
                     val model = owner?.model ?: return
-                    if (from != -1 && to != -1) return
                     if (to > from) ++to
                     model.move(from, to)
                     to = -1
                     from = to
                 }
             }
-        }
-
-        companion object {
-
-            const val ACTION_MOVE = 0
-            const val ACTION_MOVED = 1
         }
     }
 
