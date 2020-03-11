@@ -168,14 +168,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 publishState()
                 audioFocusHelper.changeAudioFocus(true)
                 if (!wakeLock.isHeld) wakeLock.acquire()
-                if (!keyguardManager.isKeyguardLocked
-                        && !playlistManager.videoBackground
-                        && !hasRenderer()
-                        && playlistManager.switchToVideo()) {
-                    hideNotification(true)
-                } else {
-                    showNotification()
-                }
+                showNotification()
                 handler.nbErrors = 0
             }
             MediaPlayer.Event.Paused -> {
@@ -598,7 +591,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 false, true, mediaSession.sessionToken, sessionPendingIntent)
         startForeground(3, notification)
         isForeground = true
-        if (isVideoPlaying || Settings.showTvUi || stopped) hideNotification(true)
+        if (stopped) lifecycleScope.launch { hideNotification(true) }
     }
 
     private fun sendStartSessionIdIntent() {
