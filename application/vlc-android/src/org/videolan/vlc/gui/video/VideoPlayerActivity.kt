@@ -108,6 +108,7 @@ import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
+import kotlin.math.roundToInt
 
 @Suppress("DEPRECATION")
 @ObsoleteCoroutinesApi
@@ -310,8 +311,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     val currentScaleType: MediaPlayer.ScaleType
         get() = service?.mediaplayer?.videoScale ?: MediaPlayer.ScaleType.SURFACE_BEST_FIT
 
-    val isOptionsListShowing: Boolean
-        get() = optionsDelegate != null && optionsDelegate!!.isShowing()
+    private val isOptionsListShowing: Boolean
+        get() = optionsDelegate?.isShowing() == true
 
     /* XXX: After a seek, playbackService.getTime can return the position before or after
              * the seek position. Therefore we return forcedTime in order to avoid the seekBar
@@ -346,7 +347,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var enableSubs = true
 
     private val downloadedSubtitleObserver = Observer<List<org.videolan.vlc.mediadb.models.ExternalSub>> { externalSubs ->
-        for (externalSub in externalSubs!!) {
+        for (externalSub in externalSubs) {
             if (!addedExternalSubs.contains(externalSub)) {
                 service?.addSubtitleTrack(externalSub.subtitlePath, currentSpuTrack == -2)
                 addedExternalSubs.add(externalSub)
@@ -388,10 +389,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     private val serviceReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (TextUtils.equals(intent.action, PLAY_FROM_SERVICE))
-                onNewIntent(intent)
-            else if (TextUtils.equals(intent.action, EXIT_PLAYER))
-                exitOK()
+            if (intent.action == PLAY_FROM_SERVICE) onNewIntent(intent)
+            else if (intent.action == EXIT_PLAYER) exitOK()
         }
     }
 
@@ -416,7 +415,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         audioMax = audiomanager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         isAudioBoostEnabled = settings.getBoolean("audio_boost", true)
 
-        enableCloneMode = if (clone != null) clone!! else settings.getBoolean("enable_clone_mode", false)
+        enableCloneMode = clone ?: settings.getBoolean("enable_clone_mode", false)
         displayManager = DisplayManager(this, PlaybackService.renderer, false, enableCloneMode, isBenchmark)
         setContentView(if (displayManager.isPrimary) R.layout.player else R.layout.player_remote_control)
 
@@ -547,7 +546,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     private fun setListeners(enabled: Boolean) {
-        if (navMenu != null) navMenu!!.setOnClickListener(if (enabled) this else null)
+        navMenu?.setOnClickListener(if (enabled) this else null)
         if (::hudBinding.isInitialized) {
             hudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(if (enabled) seekListener else null)
             hudBinding.orientationToggle.setOnClickListener(if (enabled) this else null)
@@ -568,12 +567,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (::hudBinding.isInitialized) {
                 hudRightBinding.playerOverlayTitle.text = currentMediaWrapper?.title ?: return@run
             }
-            var uri: Uri? = if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
-                intent.extras!!.getParcelable<Parcelable>(PLAY_EXTRA_ITEM_LOCATION) as Uri?
-            else
-                intent.data
-            if (uri == null || uri == videoUri)
-                return
+            var uri: Uri? = if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
+                intent.extras?.getParcelable<Parcelable>(PLAY_EXTRA_ITEM_LOCATION) as Uri?
+            } else intent.data
+            if (uri == null || uri == videoUri) return
             if (TextUtils.equals("file", uri.scheme) && uri.path?.startsWith("/sdcard") == true) {
                 val convertedUri = FileUtils.convertLocalUri(uri)
                 if (convertedUri == videoUri) return
@@ -790,8 +787,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     vlcVout.detachViews()
             }
             val mediaPlayer = mediaplayer
-            if (!displayManager.isOnRenderer && videoLayout != null) {
-                mediaPlayer.attachViews(videoLayout!!, displayManager, true, false)
+            if (!displayManager.isOnRenderer) videoLayout?.let {
+                mediaPlayer.attachViews(it, displayManager, true, false)
                 val size = if (isBenchmark) MediaPlayer.ScaleType.SURFACE_FILL else MediaPlayer.ScaleType.values()[settings.getInt(VIDEO_RATIO, MediaPlayer.ScaleType.SURFACE_BEST_FIT.ordinal)]
                 mediaPlayer.videoScale = size
             }
@@ -873,7 +870,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (switchToPopup)
                     switchToPopup(currentMediaPosition)
                 else {
-                    currentMediaWrapper!!.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                    currentMediaWrapper?.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                     showWithoutParse(currentMediaPosition)
                 }
                 return
@@ -903,6 +900,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (data == null) return
 
         if (data.hasExtra(EXTRA_MRL)) {
@@ -917,16 +915,18 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     open fun exit(resultCode: Int) {
         if (isFinishing) return
         val resultIntent = Intent(ACTION_RESULT)
-        if (videoUri != null) service?.run {
-            if (AndroidUtil.isNougatOrLater)
-                resultIntent.putExtra(EXTRA_URI, videoUri!!.toString())
-            else
-                resultIntent.data = videoUri
-            resultIntent.putExtra(EXTRA_POSITION, time)
-            resultIntent.putExtra(EXTRA_DURATION, length)
+        videoUri?.let { uri ->
+            service?.run {
+                if (AndroidUtil.isNougatOrLater)
+                    resultIntent.putExtra(EXTRA_URI, uri.toString())
+                else
+                    resultIntent.data = videoUri
+                resultIntent.putExtra(EXTRA_POSITION, time)
+                resultIntent.putExtra(EXTRA_DURATION, length)
+            }
+            setResult(resultCode, resultIntent)
+            finish()
         }
-        setResult(resultCode, resultIntent)
-        finish()
     }
 
     private fun exitOK() {
@@ -944,8 +944,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun onBackPressed() {
-        if (optionsDelegate != null && optionsDelegate!!.isShowing()) {
-            optionsDelegate!!.hide()
+        if (optionsDelegate?.isShowing() == true) {
+            optionsDelegate?.hide()
         } else if (lockBackButton) {
             lockBackButton = false
             handler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000)
@@ -1329,7 +1329,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         verticalBar.setGone()
         overlayInfo.setVisible()
         info.setVisible()
-        info!!.text = text
+        info?.text = text
         handler.removeMessages(FADE_OUT_INFO)
         handler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration.toLong())
     }
@@ -1360,8 +1360,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     private fun fadeOutInfo() {
-        if (overlayInfo != null && overlayInfo!!.visibility == View.VISIBLE) {
-            overlayInfo!!.startAnimation(AnimationUtils.loadAnimation(
+        if (overlayInfo?.visibility == View.VISIBLE) {
+            overlayInfo?.startAnimation(AnimationUtils.loadAnimation(
                     this@VideoPlayerActivity, android.R.anim.fade_out))
             overlayInfo.setInvisible()
         }
@@ -1540,9 +1540,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     internal fun sendMouseEvent(action: Int, x: Int, y: Int) {
-        if (service == null) return
-        val vlcVout = service!!.vout
-        vlcVout!!.sendMouseEvent(action, 0, x, y)
+        service?.vout?.sendMouseEvent(action, 0, x, y)
     }
 
     /**
@@ -1550,7 +1548,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return service != null && touchDelegate.onTouchEvent(event) == true
+        return service != null && touchDelegate.onTouchEvent(event)
     }
 
     internal fun updateViewpoint(yaw: Float, pitch: Float, fov: Float): Boolean {
@@ -1573,9 +1571,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     //Toast that appears only once
     fun displayWarningToast() {
-        if (warningToast != null) warningToast!!.cancel()
-        warningToast = Toast.makeText(application, R.string.audio_boost_warning, Toast.LENGTH_SHORT)
-        warningToast!!.show()
+        warningToast?.cancel()
+        warningToast = Toast.makeText(application, R.string.audio_boost_warning, Toast.LENGTH_SHORT).apply { show() }
     }
 
     internal fun setAudioVolume(vol: Int) {
@@ -1625,10 +1622,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     internal fun changeBrightness(delta: Float) {
         // Estimate and adjust Brightness
         val lp = window.attributes
-        var brightness = Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1f)
+        var brightness = (lp.screenBrightness + delta).coerceIn(0.01f, 1f)
         setWindowBrightness(brightness)
-        brightness = Math.round(brightness * 100).toFloat()
-        showInfoWithVerticalBar(getString(R.string.brightness) + "\n" + brightness.toInt() + '%'.toString(), 1000, brightness.toInt(), 100)
+        brightness = (brightness * 100).roundToInt().toFloat()
+        showInfoWithVerticalBar("${getString(R.string.brightness)}\n${brightness.toInt()}%", 1000, brightness.toInt(), 100)
     }
 
     private fun setWindowBrightness(brightness: Float) {
@@ -1650,8 +1647,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (service.spuTracksCount > 0) flags = flags or CTX_SUBS_TRACK
 
             if (optionsDelegate == null) optionsDelegate = PlayerOptionsDelegate(this, service)
-            optionsDelegate!!.flags = flags
-            optionsDelegate!!.show(PlayerOptionType.MEDIA_TRACKS)
+            optionsDelegate?.flags = flags
+            optionsDelegate?.show(PlayerOptionType.MEDIA_TRACKS)
             hideOverlay(false)
         }
     }
@@ -1733,7 +1730,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     fun hideOptions() {
-        if (optionsDelegate != null) optionsDelegate!!.hide()
+        optionsDelegate?.hide()
     }
 
     private interface TrackSelectedListener {
@@ -2001,9 +1998,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         service?.let { service ->
             val vscRight = findViewById<ViewStubCompat>(R.id.player_hud_right_stub)
             vscRight?.let {
-                it.inflate()
-                hudRightBinding = DataBindingUtil.bind(findViewById(R.id.hud_right_overlay))
-                        ?: return
+                it.setVisible()
+                hudRightBinding = DataBindingUtil.bind(findViewById(R.id.hud_right_overlay)) ?: return
                 if (!isBenchmark && enableCloneMode && !settings.contains("enable_clone_mode")) {
                     UiTools.snackerConfirm(hudRightBinding.videoSecondaryDisplay, getString(R.string.video_save_clone_mode), Runnable { settings.edit().putBoolean("enable_clone_mode", true).apply() })
                 }
@@ -2012,7 +2008,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val vsc = findViewById<ViewStubCompat>(R.id.player_hud_stub)
             if (vsc != null) {
                 seekButtons = settings.getBoolean(ENABLE_SEEK_BUTTONS, false)
-                vsc.inflate()
+                vsc.setVisible()
                 hudBinding = DataBindingUtil.bind(findViewById(R.id.progress_overlay)) ?: return
                 hudBinding.player = this
                 hudBinding.progress = service.playlistManager.player.progress
@@ -2107,7 +2103,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             showControls(false)
             isShowing = false
             dimStatusBar(true)
-            playlistSearchText.editText!!.setText("")
+            playlistSearchText.editText?.setText("")
         } else if (!fromUser) {
             /*
              * Try to hide the Nav Bar again.
@@ -2197,6 +2193,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun setESTrackLists() {
         service?.let { service ->
             if (audioTracksList == null && service.audioTracksCount > 0)
@@ -2293,12 +2290,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1)
 
                 val path = extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION)
-                if (!TextUtils.isEmpty(path)) service.addSubtitleTrack(path!!, true)
+                if (!path.isNullOrEmpty()) service.addSubtitleTrack(path, true)
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
                     itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE)
             }
             if (startTime == 0L && savedTime > 0L) startTime = savedTime
-            val restorePlayback = hasMedia && currentMedia!!.uri == videoUri
+            val restorePlayback = hasMedia && currentMedia?.uri == videoUri
 
             var openedMedia: MediaWrapper? = null
             val resumePlaylist = service.isValidIndex(positionInPlaylist)
@@ -2307,29 +2304,26 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 // Provided externally from AudioService
                 if (BuildConfig.DEBUG) Log.d(TAG, "Continuing playback from PlaybackService at index $positionInPlaylist")
                 openedMedia = service.media[positionInPlaylist]
-//            if (openedMedia == null) {
-//                encounteredError()
-//                return
-//            }
                 itemTitle = openedMedia.title
                 updateSeekable(service.isSeekable)
                 updatePausable(service.isPausable)
             }
             if (videoUri != null) {
+                var uri = videoUri ?:return
                 var media: MediaWrapper? = null
                 if (!continueplayback) {
                     if (!resumePlaylist) {
                         // restore last position
-                        media = medialibrary.getMedia(videoUri!!)
-                        if (media == null && TextUtils.equals(videoUri!!.scheme, "file") &&
-                                videoUri!!.path != null && videoUri!!.path!!.startsWith("/sdcard")) {
-                            videoUri = FileUtils.convertLocalUri(videoUri!!)
-                            media = medialibrary.getMedia(videoUri!!)
+                        media = medialibrary.getMedia(uri)
+                        if (media == null && TextUtils.equals(uri.scheme, "file") &&
+                                uri.path?.startsWith("/sdcard") == true) {
+                            uri = FileUtils.convertLocalUri(uri)
+                            videoUri = uri
+                            media = medialibrary.getMedia(uri)
                         }
                         if (media != null && media.id != 0L && media.time == 0L)
                             media.time = media.getMetaLong(MediaWrapper.META_PROGRESS)
-                    } else
-                        media = openedMedia
+                    } else media = openedMedia
                     if (media != null) {
                         // in media library
                         if (askResume && !fromStart && positionInPlaylist <= 0 && media.time > 0) {
@@ -2364,12 +2358,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 // Start playback & seek
                 /* prepare playback */
                 val medialoaded = media != null
-                if (!medialoaded) media = if (hasMedia) currentMedia else MLServiceLocator.getAbstractMediaWrapper(videoUri!!)
+                if (!medialoaded) media = if (hasMedia) currentMedia else MLServiceLocator.getAbstractMediaWrapper(uri)
                 itemTitle?.let { media?.title = Uri.decode(it) }
-                if (wasPaused)
-                    media!!.addFlags(MediaWrapper.MEDIA_PAUSED)
-                if (intent.hasExtra(PLAY_DISABLE_HARDWARE))
-                    media!!.addFlags(MediaWrapper.MEDIA_NO_HWACCEL)
+                if (wasPaused) media?.addFlags(MediaWrapper.MEDIA_PAUSED)
+                if (intent.hasExtra(PLAY_DISABLE_HARDWARE)) media?.addFlags(MediaWrapper.MEDIA_NO_HWACCEL)
                 media!!.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 media.addFlags(MediaWrapper.MEDIA_VIDEO)
                 if (fromStart) media.addFlags(MediaWrapper.MEDIA_FROM_START)
@@ -2385,13 +2377,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     if (continueplayback) {
                         if (displayManager.isPrimary) service.flush()
                         onPlaying()
-                    } else
-                        service.playIndex(positionInPlaylist)
+                    } else service.playIndex(positionInPlaylist)
                 } else service.load(media)
 
                 // Get the title
-                if (itemTitle == null && !TextUtils.equals(videoUri!!.scheme, "content"))
-                    title = videoUri!!.lastPathSegment
+                if (itemTitle == null && "content" != uri.scheme) title = uri.lastPathSegment
             } else if (service.hasMedia() && !displayManager.isPrimary) {
                 onPlaying()
             } else {
@@ -2413,9 +2403,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     private fun enableSubs() {
-        if (videoUri != null) {
-            val lastPath = videoUri!!.lastPathSegment
-            enableSubs = (!TextUtils.isEmpty(lastPath) && !lastPath!!.endsWith(".ts") && !lastPath.endsWith(".m2ts")
+        videoUri?.let {
+            val lastPath = it.lastPathSegment ?: return
+            enableSubs = (!TextUtils.isEmpty(lastPath) && !lastPath.endsWith(".ts") && !lastPath.endsWith(".m2ts")
                     && !lastPath.endsWith(".TS") && !lastPath.endsWith(".M2TS"))
         }
     }
@@ -2588,7 +2578,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         rotate.repeatCount = RotateAnimation.INFINITE
         anim.addAnimation(rotate)
         loadingImageView.setVisible()
-        loadingImageView!!.startAnimation(anim)
+        loadingImageView?.startAnimation(anim)
     }
 
     /**
@@ -2602,11 +2592,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         loadingImageView?.clearAnimation()
     }
 
-    fun onClickOverlayTips(v: View) {
+    fun onClickOverlayTips(@Suppress("UNUSED_PARAMETER") v: View) {
         overlayTips.setGone()
     }
 
-    fun onClickDismissTips(v: View) {
+    fun onClickDismissTips(@Suppress("UNUSED_PARAMETER") v: View) {
         overlayTips.setGone()
         settings.edit().putBoolean(PREF_TIPS_SHOWN, true).apply()
     }
