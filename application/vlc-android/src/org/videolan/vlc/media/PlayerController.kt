@@ -332,7 +332,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 //        }
 //    }
     companion object {
-        @Volatile var playbackState = PlaybackStateCompat.STATE_STOPPED
+        @Volatile var playbackState = PlaybackStateCompat.STATE_NONE
             private set
     }
 }
