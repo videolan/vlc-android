@@ -754,7 +754,7 @@
     <string name="recently_played">Zuletzt wiedergegeben</string>
     <string name="recently_added">Zuletzt hinzugefügt</string>
     <string name="playback_multiple_errors">Mehrere Medien können nicht abgespielt werden</string>
-    <string name="clear_media_db_warning">Sie verlieren Ihren Verlauf und die von Ihnen erstellten Wiedergabelisten.\n%s</string>
+    <string name="clear_media_db_warning">Sie verlieren Ihren Verlauf und die von Ihnen erstellten Wiedergabelisten!\n%s</string>
     <string name="abrepeat_add_first_marker">Anfangspunkt setzen</string>
     <string name="abrepeat_add_second_marker">Endpunkt setzen</string>
     <string name="demux_bitrate">Demux-Bitrate</string>
@@ -781,4 +781,6 @@
     <string name="track_index">Titel: %s</string>
     <string name="audio_queue_progress">Fortschritt: %s</string>
     <string name="sortby_track">Titel</string>
+    <string name="this_folder">Diesen Ordner hinzufügen</string>
+    <string name="all_subfolders">Diesen Ordner mit Unterordnern hinzufügen</string>
 </resources>

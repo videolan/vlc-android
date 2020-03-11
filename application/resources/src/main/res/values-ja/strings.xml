@@ -772,4 +772,6 @@
     <string name="track_index">トラック: %s</string>
     <string name="audio_queue_progress">進捗: %s</string>
     <string name="sortby_track">トラック</string>
+    <string name="this_folder">このフォルダーを追加</string>
+    <string name="all_subfolders">このフォルダーとサブフォルダーを追加</string>
 </resources>

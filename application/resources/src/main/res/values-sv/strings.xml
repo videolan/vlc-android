@@ -781,4 +781,6 @@
     <string name="track_index">Spår: %s</string>
     <string name="audio_queue_progress">Förlopp: %s</string>
     <string name="sortby_track">Spår</string>
+    <string name="this_folder">Lägg till denna mapp</string>
+    <string name="all_subfolders">Lägg till denna mapp och undermappar</string>
 </resources>

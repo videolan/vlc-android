@@ -772,7 +772,7 @@
     <string name="recently_played">Ostatnio odtwarzane</string>
     <string name="recently_added">Ostatnio dodane</string>
     <string name="playback_multiple_errors">Nie można odtwarzać kilku multimediów</string>
-    <string name="clear_media_db_warning">Utracisz historię i utworzone listy odtwarzania.\n%s</string>
+    <string name="clear_media_db_warning">Utracisz historię i utworzone listy odtwarzania!\n%s</string>
     <string name="abrepeat_add_first_marker">Ustaw punkt startowy</string>
     <string name="abrepeat_add_second_marker">Ustaw punkt końcowy</string>
     <string name="demux_bitrate">Bitrate demultipleksera</string>
@@ -799,4 +799,6 @@
     <string name="track_index">Utwór: %s</string>
     <string name="audio_queue_progress">Postęp: %s</string>
     <string name="sortby_track">Utworu</string>
+    <string name="this_folder">Dodaj ten folder</string>
+    <string name="all_subfolders">Dodaj ten folder z podfolderami</string>
 </resources>
