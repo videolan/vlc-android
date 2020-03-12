@@ -1,3 +1,11 @@
+Changes between 3.2.9 and 3.2.10:
+------------------
+
+Application:
+ * Reduce installation size on Anroid 6+
+ * Do not show controls overlay on seek gestures
+ * Fix crashes
+
 Changes between 3.2.8-1 and 3.2.9:
 ------------------
 
