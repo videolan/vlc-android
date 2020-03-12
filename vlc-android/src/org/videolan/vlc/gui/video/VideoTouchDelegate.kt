@@ -195,11 +195,15 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch)
                         // Seek
-                        if (touchAction == TOUCH_SEEK) doSeekTouch(deltaY.roundToInt(), xgesturesize, true)
                         touchX = -1f
                         touchY = -1f
 
                         handler.removeCallbacksAndMessages(null)
+
+                        if (touchAction == TOUCH_SEEK) {
+                            doSeekTouch(deltaY.roundToInt(), xgesturesize, true)
+                            return true
+                        }
 
                         if (now - touchDownMs > ViewConfiguration.getDoubleTapTimeout()) {
                             //it was not a tap
