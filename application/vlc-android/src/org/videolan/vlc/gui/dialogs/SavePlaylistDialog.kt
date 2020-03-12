@@ -72,7 +72,6 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var adapter: SimpleAdapter
     private lateinit var newTrack: Array<MediaWrapper>
     private lateinit var medialibrary: Medialibrary
-    private var currentPLaylist: Playlist? = null
 
     private val coroutineContextProvider: CoroutineContextProvider
 
@@ -144,24 +143,29 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 
     override fun onClick(v: View) {
-        savePlaylist()
+        addToNewPlaylist()
     }
 
     override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
-        if (actionId == EditorInfo.IME_ACTION_SEND) savePlaylist()
+        if (actionId == EditorInfo.IME_ACTION_SEND) addToNewPlaylist()
         return false
     }
 
-    private fun savePlaylist() {
+    private fun addToNewPlaylist() {
         val name = binding.dialogPlaylistName.editText?.text?.toString()?.trim { it <= ' ' }
                 ?: return
-        AppScope.launch(coroutineContextProvider.IO) {
-            var playlist = if (currentPLaylist?.title == name) {
-                medialibrary.getPlaylist(currentPLaylist?.id ?: return@launch)
-            } else {
-                medialibrary.getPlaylistByName(name) ?: medialibrary.createPlaylist(name)
-                ?: return@launch
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) { medialibrary.getPlaylistByName(name) }?.let {
+                binding.dialogPlaylistName.error = getString(R.string.playlist_existing, it.title)
+                return@launch
             }
+            dismiss()
+            savePlaylist(medialibrary.createPlaylist(name) ?: return@launch)
+        }
+    }
+
+    private fun savePlaylist(playlist: Playlist) {
+        AppScope.launch(coroutineContextProvider.IO) {
             if (newTrack.isEmpty()) return@launch
             val ids = LinkedList<Long>()
             for (mw in newTrack) {
@@ -183,8 +187,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 
     override fun onClick(item: MediaLibraryItem) {
-        currentPLaylist = item as Playlist
-        binding.dialogPlaylistName.editText?.setText(item.title)
+        savePlaylist(item as Playlist)
     }
 
     companion object : DependencyProvider<Any>() {
@@ -197,4 +200,4 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     }
 }
 
-fun Medialibrary.getPlaylistByName(name: String)= playlists.firstOrNull { it.title == name }
+fun Medialibrary.getPlaylistByName(name: String) = playlists.firstOrNull { it.title == name }

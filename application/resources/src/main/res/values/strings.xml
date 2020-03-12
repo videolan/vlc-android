@@ -810,4 +810,5 @@
     <string name="sortby_track">Track</string>
     <string name="this_folder">Add this folder</string>
     <string name="all_subfolders">Add this folder and subfolders</string>
+    <string name="playlist_existing">Playlist %s already exists</string>
 </resources>

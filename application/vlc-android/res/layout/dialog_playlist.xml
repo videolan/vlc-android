@@ -115,7 +115,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/dialog_playlist_save"
                     app:layout_constraintStart_toStartOf="parent"
@@ -138,9 +138,9 @@
                     android:layout_below="@+id/dialog_playlist_name"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="8dp"
-                    android:text="@string/add"
                     android:enabled="@{!isLoading}"
-                    app:layout_constraintBottom_toBottomOf="@+id/dialog_playlist_name"
+                    android:text="@string/add"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/dialog_playlist_name"
                     app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
