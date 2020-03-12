@@ -1,11 +1,12 @@
 package org.videolan.vlc.gui
 
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.dp
 import org.videolan.vlc.databinding.SimpleItemBinding
 
 private val cb = object : DiffUtil.ItemCallback<MediaLibraryItem>() {
@@ -28,6 +29,7 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.item = getItem(position)
+        holder.binding.imageWidth = 48.dp
     }
 
     fun isEmpty() = itemCount == 0

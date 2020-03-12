@@ -90,7 +90,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         newTrack = try {
             @Suppress("UNCHECKED_CAST")
             val tracks = arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<MediaWrapper>
-            filesText = resources.getQuantityString(R.plurals.mediafiles_quantity, tracks.size, tracks.size)
+            filesText = resources.getQuantityString(R.plurals.media_quantity, tracks.size, tracks.size)
             tracks
         } catch (e: Exception) {
             try {
@@ -102,13 +102,13 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                         withContext(Dispatchers.IO) {
                             newTrack = (viewModel.provider as FileBrowserProvider).browseByUrl(folder).toTypedArray()
                             isLoading = false
-                            filesText = resources.getQuantityString(R.plurals.mediafiles_quantity, newTrack.size, newTrack.size)
+                            filesText = resources.getQuantityString(R.plurals.media_quantity, newTrack.size, newTrack.size)
                         }
                     } else {
                         viewModel.dataset.observe(this, androidx.lifecycle.Observer { mediaLibraryItems ->
                             newTrack = mediaLibraryItems.asSequence().map { it as MediaWrapper }.filter { it.type != MediaWrapper.TYPE_DIR }.toList().toTypedArray()
                             isLoading = false
-                            filesText = resources.getQuantityString(R.plurals.mediafiles_quantity, newTrack.size, newTrack.size)
+                            filesText = resources.getQuantityString(R.plurals.media_quantity, newTrack.size, newTrack.size)
                         })
                     }
                 }
@@ -134,7 +134,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         binding.dialogPlaylistName.editText!!.setOnEditorActionListener(this)
         binding.list.layoutManager = LinearLayoutManager(view.context)
         binding.list.adapter = adapter
-        adapter.submitList(listOf<MediaLibraryItem>(*medialibrary.playlists))
+        adapter.submitList(listOf<MediaLibraryItem>(*medialibrary.playlists.apply { forEach { it.description = resources.getQuantityString(R.plurals.media_quantity, it.tracksCount, it.tracksCount) } }))
         if (!Tools.isArrayEmpty(newTrack)) binding.dialogPlaylistSave.setText(R.string.save)
         updateEmptyView()
     }

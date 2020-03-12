@@ -87,6 +87,10 @@
         <item quantity="one">1 subfolder</item>
         <item quantity="other">%d subfolders</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 media</item>
+        <item quantity="other">%d media</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 media file</item>
         <item quantity="other">%d media files</item>
