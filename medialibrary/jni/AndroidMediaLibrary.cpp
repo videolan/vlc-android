@@ -933,6 +933,18 @@ void AndroidMediaLibrary::onMediaGroupsDeleted( std::set<int64_t> mediaGroupsIds
     }
 }
 
+void AndroidMediaLibrary::onBookmarksAdded( std::vector<medialibrary::BookmarkPtr> )
+{
+}
+
+void AndroidMediaLibrary::onBookmarksModified( std::set<int64_t> )
+{
+}
+
+void AndroidMediaLibrary::onBookmarksDeleted( std::set<int64_t> )
+{
+}
+
 void AndroidMediaLibrary::onRescanStarted()
 {
 }

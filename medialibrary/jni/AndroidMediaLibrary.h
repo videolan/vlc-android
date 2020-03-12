@@ -108,6 +108,9 @@ public:
     medialibrary::MediaGroupPtr videoGroup(const int64_t groupId );
     void onMediaGroupsModified( std::set<int64_t> mediaGroupsIds );
     void onMediaGroupsDeleted( std::set<int64_t> mediaGroupsIds );
+    void onBookmarksAdded( std::vector<medialibrary::BookmarkPtr> );
+    void onBookmarksModified( std::set<int64_t> );
+    void onBookmarksDeleted( std::set<int64_t> );
     //Playlists
     bool playlistAppend(int64_t playlistId, int64_t mediaId);
     bool playlistAdd(int64_t playlistId, int64_t mediaId, unsigned int position);
