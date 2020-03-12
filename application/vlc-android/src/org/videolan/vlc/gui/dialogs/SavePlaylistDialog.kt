@@ -155,10 +155,9 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private fun savePlaylist() {
         val name = binding.dialogPlaylistName.editText?.text?.toString()?.trim { it <= ' ' }
                 ?: return
-        val playlistId = currentPLaylist?.id ?: return
         AppScope.launch(coroutineContextProvider.IO) {
             var playlist = if (currentPLaylist?.title == name) {
-                medialibrary.getPlaylist(playlistId)
+                medialibrary.getPlaylist(currentPLaylist?.id ?: return@launch)
             } else {
                 medialibrary.getPlaylistByName(name) ?: medialibrary.createPlaylist(name)
                 ?: return@launch
