@@ -46,6 +46,8 @@
     <string name="insert_next">Εισαγάγετε το επόμενο</string>
     <string name="play_all">Αναπαραγωγή όλων</string>
     <string name="append_all">Προσθήκη όλων</string>
+    <string name="resume_playback_short_title">Συνέχιση αναπαραγωγής</string>
+    <string name="resume_playback_long_title">Συνέχιση αναπαραγωγής της τελευταίας λίστας αναπαραγωγής</string>
     <string name="delete">Διαγραφή</string>
     <string name="remove">Αφαίρεση</string>
     <string name="set_song">Ορισμός ως ήχος κλήσης</string>
@@ -121,7 +123,7 @@
     <string name="noplaylist">Δεν βρέθηκε καμία λίστα αναπαραγωγής.</string>
     <string name="mediafiles">Αρχεία μέσων</string>
     <string name="notavailable">μη διαθέσιμο</string>
-    <string name="nosubdirectory">Κανένας υποκατάλογος</string>
+    <string name="nosubfolder">Κανένας υποφάκελος</string>
     <string name="directorynotfound">Η διαδρομή του φακέλου \'%1$s\' δεν βρέθηκε.</string>
     <string name="nohistory">Δεν έχετε ιστορικό αναπαραγωγής ακόμα.</string>
     <string name="validation">Είστε σίγουρος;</string>
@@ -386,6 +388,7 @@
     <string name="extensions_enable_category">Επιλογή επεκτάσεων για ενεργοποίηση</string>
     <string name="extensions_empty">Δεν βρέθηκε προσθήκη</string>
     <string name="extension_permission_title">Ενεργοποίηση νέας προσθήκης \"%1$s\";</string>
+    <string name="extension_permission_checkbox_title">Εμφάνιση εντός %1$s</string>
     <string name="extension_prefs_activation_title">Ενεργοποίηση</string>
     <string name="android_auto">Android Auto</string>
 
@@ -478,7 +481,7 @@
     <string name="network_empty">Ο κατάλογος είναι άδειος</string>
     <string name="network_connection_needed">Καμία σύνδεση στο τοπικό δίκτυο</string>
     <string name="search_hint">Αναζήτηση μέσων</string>
-    <string name="search_list_hint">Εύρεση πολυμέσων στην τρέχουσα λίστα</string>
+    <string name="search_in_list_hint">Αναζήτηση στη τρέχουσα λίστα</string>
     <string name="search_global">Εύρεση σε όλη τη βιβλιοθήκη πολυμέσων</string>
     <string name="directory_show_medialib">Εμφάνιση στο MediaLib</string>
     <string name="directory_hide_medialib">Απόκρυψη από το MediaLib</string>
@@ -651,7 +654,9 @@
     <string name="light_theme">Ανοιχτό θέμα</string>
     <string name="add">Προσθήκη</string>
     <string name="add_to_new_playlist">Προσθήκη σε νέα λίστα αναπαραγωγής</string>
+    <string name="resume_card_message">Συνέχιση αναπαραγωγής του %1$s;</string>
     <string name="misc">Διάφορα</string>
+    <string name="device_default">Συσκευή προεπιλεγμένη</string>
     <string name="track_number">%d κομμάτια</string>
     <string name="jump_to">Μεταπήδηση στο</string>
     <string name="show_video_thumbnails_summary">Εμφάνιση μικρογραφιών βίντεο στις λίστες</string>
@@ -660,6 +665,10 @@
     <string name="preamp">Προενίσχυση</string>
     <string name="presets">Προρυθμίσεις</string>
     <string name="reset">Επαναφορά</string>
+    <string name="remove_current">Αφαίρεση τρέχοντος</string>
+    <string name="validation_delete_playlist_text">Αυτή η ενέργεια δε μπορεί να αναιρεθεί.</string>
+    <string name="display_in_list">Εμφάνιση στη λίστα</string>
+    <string name="display_in_grid">Εμφάνιση στο πλέγμα</string>
     <string name="send_crash_description">Με το να στείλεις την κατάρρευση, μας βοηθάς να βελτιώσουμε την σταθερότητα του VLC.</string>
     <string name="dont_ask_again">Να μην ερωτηθώ ξανά</string>
     <string name="welcome_beta_title">VLC Beta</string>
@@ -676,6 +685,9 @@
     <string name="video_group_size_dialog_text">Αριθμός χαρακτήρων που χρησιμοποιούνται για την ομαδοποίηση κατά όνομα</string>
     <string name="video_group_size_summary">Ομαδοποίηση κατά %s πρώτα γράμματα</string>
     <string name="video_group_size">Ομαδοποίηση βίντεο κατά όνομα</string>
+    <string name="share">Μοίρασμα</string>
+    <string name="invalid_file">Μη έγκυρο αρχείο. Δεν μπορεί να μοιραστεί.</string>
+    <string name="moviepedia_hint">Αναζήτηση μεταδεδομένων</string>
     <string name="moviepedia_result">Αποτελέσματα βίντεο</string>
     <string name="release_date">Κυκλοφόρησε:</string>
     <string name="synopsis">Σύνοψη</string>
@@ -697,4 +709,16 @@
     <string name="open_network_settings">Άνοιγμα ρυθμίσεων δικτύου;</string>
     <string name="recently_played">Πρόσφατη αναπαραγωγή</string>
     <string name="recently_added">Προστέθηκαν πρόσφατα</string>
+    <string name="playback_multiple_errors">Πολλαπλά μέσα δεν μπορούν να παιχτούν</string>
+    <string name="video_information">Πληροφορίες βίντεο</string>
+
+    <string name="channels">Κανάλια</string>
+    <string name="resolution">Ανάλυση</string>
+    <string name="framerate">Ρυθμός καρέ</string>
+    <string name="language">Γλώσσα</string>
+    <string name="track_samplerate">Ρυθμός δειγματοληψίας</string>
+    <string name="bitrate">Ρυθμός μετάδοσης δεδομένων</string>
+    <string name="codec">Κωδικοποιητής</string>
+    <string name="text">Κείμενο</string>
+    <string name="unknown">Άγνωστο</string>
 </resources>
