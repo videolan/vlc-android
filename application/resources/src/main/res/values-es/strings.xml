@@ -774,4 +774,10 @@
     <string name="codec">Códec</string>
     <string name="text">Texto</string>
     <string name="unknown">Desconocido</string>
+    <string name="audio_delay_start">Sonido escuchado</string>
+    <string name="subtitle_delay_first">Voz escuchada</string>
+    <string name="audio_delay_end">Sonido detectado</string>
+    <string name="subtitle_delay_end">Texto visto</string>
+    <string name="track_index">Pista: %s</string>
+    <string name="audio_queue_progress">Progreso: %s</string>
 </resources>
