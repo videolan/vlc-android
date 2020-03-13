@@ -46,6 +46,8 @@
     <string name="insert_next">Inserir seguinte</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="append_all">Acrescentar tudo</string>
+    <string name="resume_playback_short_title">Retomar reprodução</string>
+    <string name="resume_playback_long_title">Retomar reprodução da última lista de reprodução</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque de chamada</string>
@@ -92,6 +94,10 @@
         <item quantity="one">1 vídeo</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 filme</item>
+        <item quantity="other">%d filmes</item>
+    </plurals>
     <string name="internal_memory">Memória interna</string>
     <string name="parent_folder">Ir para a pasta original</string>
     <string name="audio">Áudio</string>
@@ -112,7 +118,6 @@
     <string name="noplaylist">Não foi encontrada qualquer lista de reprodução.</string>
     <string name="mediafiles">Ficheiros de média</string>
     <string name="notavailable">não disponível</string>
-    <string name="nosubdirectory">Sem subdiretorias.</string>
     <string name="directorynotfound">O caminho da pasta \'%1$s\' não foi encontrado.</string>
     <string name="nohistory">Ainda não tem um histórico de reprodução.</string>
     <string name="validation">Tem a certeza?</string>
@@ -475,7 +480,6 @@
     <string name="network_empty">Esta pasta está vazia.</string>
     <string name="network_connection_needed">Sem ligação à rede local</string>
     <string name="search_hint">Pesquisa multimédia</string>
-    <string name="search_list_hint">Pesquisar na lista atual</string>
     <string name="search_global">Pesquisar em toda a mediateca</string>
     <string name="directory_show_medialib">Mostrar na Mediateca</string>
     <string name="directory_hide_medialib">Ocultar da Mediateca</string>
