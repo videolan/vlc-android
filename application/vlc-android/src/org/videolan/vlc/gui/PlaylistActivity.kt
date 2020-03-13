@@ -28,14 +28,12 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
@@ -62,6 +60,7 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
@@ -343,7 +342,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             R.id.action_mode_audio_add_playlist -> addToPlaylist(tracks)
             R.id.action_mode_audio_info -> showInfoDialog(list[0] as MediaWrapper)
             R.id.action_mode_audio_share -> lifecycleScope.launch { share(list.map { it as MediaWrapper }) }
-            R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, this)
+            R.id.action_mode_audio_set_song -> setRingtone(list[0] as MediaWrapper)
             R.id.action_mode_audio_delete -> if (isPlaylist) removeFromPlaylist(tracks, indexes) else removeItems(tracks)
             else -> return false
         }
@@ -370,7 +369,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             CTX_APPEND -> MediaUtils.appendMedia(this, media.tracks)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(this, media.tracks)
             CTX_ADD_TO_PLAYLIST -> addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-            CTX_SET_RINGTONE -> AudioUtil.setRingtone(media, this)
+            CTX_SET_RINGTONE -> setRingtone(media)
             CTX_SHARE -> lifecycleScope.launch { share(media) }
         }
 

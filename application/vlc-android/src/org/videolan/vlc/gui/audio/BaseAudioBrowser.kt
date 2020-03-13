@@ -51,6 +51,7 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
@@ -231,7 +232,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
                 R.id.action_mode_audio_add_playlist -> requireActivity().addToPlaylist(list.getTracks())
                 R.id.action_mode_audio_info -> showInfoDialog(list[0])
                 R.id.action_mode_audio_share -> requireActivity().share(list as List<MediaWrapper>)
-                R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
+                R.id.action_mode_audio_set_song -> activity?.setRingtone(list[0] as MediaWrapper)
                 R.id.action_mode_audio_delete -> removeItems(list)
             }
         }
@@ -315,7 +316,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)
             CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
             CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-            CTX_SET_RINGTONE -> AudioUtil.setRingtone(media as MediaWrapper, requireActivity())
+            CTX_SET_RINGTONE -> activity?.setRingtone(media as MediaWrapper)
             CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media as MediaWrapper) }
         }
     }

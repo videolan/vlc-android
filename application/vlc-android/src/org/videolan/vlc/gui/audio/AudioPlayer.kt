@@ -40,7 +40,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
@@ -65,7 +64,12 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.showContext
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
+import org.videolan.vlc.gui.helpers.PlayerOptionType
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
+import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
+import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
@@ -159,14 +163,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
         onSlide(0f)
         abRepeatAddMarker = binding.abRepeatContainer.findViewById<Button>(R.id.ab_repeat_add_marker)
-        playlistModel.service?.playlistManager?.abRepeat?.observe(this, Observer { abvalues ->
+        playlistModel.service?.playlistManager?.abRepeat?.observe(viewLifecycleOwner, Observer { abvalues ->
             binding.abRepeatA = if (abvalues.start == -1L) -1F else abvalues.start / playlistModel.service!!.playlistManager.player.getLength().toFloat()
             binding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / playlistModel.service!!.playlistManager.player.getLength().toFloat()
             binding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
             binding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
             playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
         })
-        playlistModel.service?.playlistManager?.abRepeatOn?.observe(this, Observer {
+        playlistModel.service?.playlistManager?.abRepeatOn?.observe(viewLifecycleOwner, Observer {
             binding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
 
             playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
@@ -193,7 +197,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     private val ctxReceiver: CtxActionReceiver = object : CtxActionReceiver {
         override fun onCtxAction(position: Int, option: Int) {
             if (position in 0 until playlistAdapter.itemCount) when (option) {
-                CTX_SET_RINGTONE -> AudioUtil.setRingtone(playlistAdapter.getItem(position), requireActivity())
+                CTX_SET_RINGTONE -> activity?.setRingtone(playlistAdapter.getItem(position))
                 CTX_ADD_TO_PLAYLIST -> {
                     val mw = playlistAdapter.getItem(position)
                     requireActivity().addToPlaylist(listOf(mw))
