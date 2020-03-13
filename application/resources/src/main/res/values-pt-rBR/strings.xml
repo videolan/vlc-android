@@ -86,6 +86,10 @@
         <item quantity="one">1 sub pasta</item>
         <item quantity="other">%d sub pastas</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 mídia</item>
+        <item quantity="other">%d mídias</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">$d arquivo de mídia</item>
         <item quantity="other">%d arquivos de mídia</item>
@@ -781,4 +785,7 @@
     <string name="track_index">Trilha: %s</string>
     <string name="audio_queue_progress">Progresso: %s</string>
     <string name="sortby_track">Trilha</string>
+    <string name="this_folder">Adicionar esta pasta</string>
+    <string name="all_subfolders">Adicionar esta pasta e suas subpastas</string>
+    <string name="playlist_existing">A lsta de reprodução %s já existe</string>
 </resources>
