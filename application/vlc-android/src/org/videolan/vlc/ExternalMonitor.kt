@@ -44,7 +44,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.asFlow
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_CHECK_STORAGES
 import org.videolan.resources.AppContextProvider
@@ -111,7 +111,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     private val storageChannel = BroadcastChannel<DeviceAction>(BUFFERED)
     val storageEvents : Flow<DeviceAction>
-        get() = storageChannel.openSubscription().consumeAsFlow()
+        get() = storageChannel.asFlow()
     private var storageObserver: WeakReference<Activity>? = null
 
     var devices = LiveDataset<UsbDevice>()

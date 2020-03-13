@@ -15,7 +15,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.asFlow
 import java.net.NetworkInterface
 import java.net.SocketException
 
@@ -24,7 +24,7 @@ class NetworkMonitor(private val context: Context) : LifecycleObserver {
     private val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val connection = ConflatedBroadcastChannel(Connection(connected = false, mobile = true, vpn = false))
     val connectionFlow : Flow<Connection>
-        get() = connection.openSubscription().consumeAsFlow()
+        get() = connection.asFlow()
     val connected : Boolean
         get() = connection.value.connected
     val isLan : Boolean

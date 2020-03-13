@@ -34,6 +34,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -121,7 +122,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
                     browseOtgDevice(rootUri, title)
                 } else {
                     lifecycleScope.launchWhenStarted {
-                        val otgRoot = OtgAccess.otgRoot.openSubscription().consumeAsFlow()
+                        val otgRoot = OtgAccess.otgRoot.asFlow()
                         val uri = otgRoot.filterNotNull().first()
                         browseOtgDevice(uri, title)
                     }
