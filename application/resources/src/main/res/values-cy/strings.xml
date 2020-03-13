@@ -48,6 +48,8 @@
     <string name="insert_next">Mewnosod y nesaf</string>
     <string name="play_all">Chwarae pob un</string>
     <string name="append_all">Atodi\'r cwbl</string>
+    <string name="resume_playback_short_title">Parhau i chwarae</string>
+    <string name="resume_playback_long_title">Parhau i chwarae\'r rhestr chwarae diwethaf</string>
     <string name="delete">Dileu</string>
     <string name="remove">Tynnu</string>
     <string name="set_song">Gosod fel sain canu</string>
@@ -124,7 +126,7 @@
     <string name="noplaylist">Ni chanfuwyd rhestr chwarae.</string>
     <string name="mediafiles">Ffeiliau cyfryngau</string>
     <string name="notavailable">ddim ar gael</string>
-    <string name="nosubdirectory">Dim is-gyfeiriaduron.</string>
+    <string name="nosubfolder">Dim is-ffolder</string>
     <string name="directorynotfound">Methwyd dod o hyd i\'r cyfeiriadur \'%1$s\'.</string>
     <string name="nohistory">Does dim hanes chwarae eto.</string>
     <string name="validation">Wyt yn sicr?</string>
@@ -305,6 +307,7 @@
 
     <string name="video_prefs_category">Fideo</string>
     <string name="video_min_group_length_title">Grwpio fideos</string>
+    <string name="video_min_group_length_disable">Peidio â grwpio fideos</string>
     <string name="video_min_group_length_folder">Grwpio fesul ffolder</string>
     <string name="video_min_group_length_name">Grwpio yn ôl enw</string>
     <string name="video_min_group_length_first">Llythyren cyntaf yn unig</string>
@@ -484,7 +487,7 @@
     <string name="network_empty">Mae\'r cyfeiriadur hwn yn wag.</string>
     <string name="network_connection_needed">Dim cysylltiad i\'r rhwydwaith lleol</string>
     <string name="search_hint">Chwilio cyfryngau</string>
-    <string name="search_list_hint">Chwilio\'r cyfryngau yn y rhestr bresennol</string>
+    <string name="search_in_list_hint">Chwilio yn y rhestr hon</string>
     <string name="search_global">Chwili\'r holl gyfryngau yn y llyfrgell</string>
     <string name="directory_show_medialib">Dangos yn MediaLib</string>
     <string name="directory_hide_medialib">Cuddio o MediaLib</string>
@@ -644,6 +647,7 @@
     <string name="device_dialog_title">Gosodwyd dyfais allanol</string>
     <string name="device_dialog_message">Rwyt newydd gysylltu dyfais storfa newydd i dy flwch teledu. Wyt ti am ei agor gyda VLC?</string>
     <string name="videos_folders_title">Fideos fesul ffolder</string>
+    <string name="videos_groups_title">Grwpiau fideos</string>
     <string name="video_remote_disable">Dyblygu\'r sgrin</string>
     <string name="removed_from_playlist_anonymous">Tynnwyd yr eitem(au) o\'r rhestr chwarae</string>
     <string name="welcome_title">Croeso i VLC!</string>
@@ -702,4 +706,45 @@
     <string name="video_group_size_summary">Grwpio yn ôl y %s llythyren cyntaf</string>
     <string name="video_group_size">Grwpio fideos yn ôl enwau</string>
     <string name="url_copied_to_clipboard">Copïwyd yr URL i\'r clipfwrdd</string>
+    <string name="share">Rhannu</string>
+    <string name="invalid_file">Ffeil annilys. Ni ellir ei rhannu.</string>
+    <string name="share_file">Rhannu %s</string>
+    <string name="share_message">Dyma %s</string>
+    <string name="find_metadata">Canfod metaddata</string>
+    <string name="moviepedia_hint">Chwilio metaddata</string>
+    <string name="moviepedia_result">Canlyniadau fideos</string>
+    <string name="release_date">Rhyddhawyd:</string>
+    <string name="directed_by">Cyfarwyddwyd gan</string>
+    <string name="casting">Castio</string>
+    <string name="produced_by">Cynhyrchwyd gan</string>
+    <string name="written_by">Ysgrifenwyd gan</string>
+    <string name="music_by">Cerddoriaeth gan</string>
+    <string name="posters">Posteri</string>
+    <string name="header_tvshows">Rhaglenni teledu</string>
+    <string name="all_movies">Pob ffilm</string>
+    <string name="header_movies">Ffilmiau</string>
+    <string name="season_number">Cyfres %s</string>
+    <string name="resume_episode">Parhau (%s)</string>
+    <string name="start_over">Dechrau o\'r dechrau</string>
+    <string name="next_episode">Pennod nesaf</string>
+    <string name="open_network_settings">Agor gosodiadau rhwydwaith?</string>
+    <string name="recently_played">Chwaraewyd yn ddiweddar</string>
+    <string name="recently_added">Ychwanegwyd yn ddiweddar</string>
+    <string name="abrepeat_add_first_marker">Gosod pwynt dechrau</string>
+    <string name="abrepeat_add_second_marker">Gosod pwynt gorffen</string>
+    <string name="input_bitrate">Didradd mewnbwn</string>
+    <string name="video_information">Gwybodaeth fideo</string>
+
+    <string name="channels">Sianeli</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Cyflymdra fframiau</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/e</string>
+    <string name="language">Iaith</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Didradd</string>
+    <string name="codec">Codec</string>
+    <string name="text">Testun</string>
+    <string name="unknown">Anhysbys</string>
+    <string name="track_index">Trac: %s</string>
 </resources>
