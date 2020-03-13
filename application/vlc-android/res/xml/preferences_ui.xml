@@ -56,15 +56,6 @@
                 android:key="show_video_thumbnails"
                 android:summary="@string/show_video_thumbnails_summary"
                 android:title="@string/show_video_thumbnails"/>
-
-        <EditTextPreference
-                app:singleLineTitle="false"
-                android:defaultValue="true"
-                android:key="video_group_size"
-                app:defaultValue="6"
-                android:title="@string/video_group_size"
-                android:dialogTitle="@string/video_group_size_dialog_text" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
