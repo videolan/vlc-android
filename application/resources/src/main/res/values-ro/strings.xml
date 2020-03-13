@@ -47,6 +47,8 @@
     <string name="insert_next">Introduceți următorul</string>
     <string name="play_all">Redați toate</string>
     <string name="append_all">Adăugați toate</string>
+    <string name="resume_playback_short_title">Reluați redarea</string>
+    <string name="resume_playback_long_title">Reluați redarea ultimei liste de redare</string>
     <string name="delete">Ștergere</string>
     <string name="remove">Eliminare</string>
     <string name="set_song">Stabilire ca ton de apel</string>
@@ -118,7 +120,6 @@
     <string name="noplaylist">Nu a fost găsit nici un playlist.</string>
     <string name="mediafiles">Fișiere media</string>
     <string name="notavailable">indisponibil</string>
-    <string name="nosubdirectory">Nici-un subdosar.</string>
     <string name="directorynotfound">Calea directorului \'%1$s\' nu a fost găsită.</string>
     <string name="nohistory">Nu aveţi încă un istoric al redărilor.</string>
     <string name="validation">Confirmaţi?</string>
@@ -296,6 +297,7 @@
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Grupuri video</string>
     <string name="video_min_group_length_folder">Grupați după dosar</string>
+    <string name="video_min_group_length_name">Grupate după nume</string>
     <string name="video_min_group_length_first">Doar prima litera</string>
     <string name="video_min_group_length_short">Număr mic de litere (6)</string>
     <string name="video_min_group_length_long">Număr mare de litere (9)</string>
@@ -345,6 +347,10 @@
     <string name="lockscreen_cover_summary">Când este disponibilă, setați coperta curentă a suportului media ca tapet de fundal</string>
     <string name="playlist_animate_scroll_title">Animați derularea automată a listei  de redare</string>
     <string name="playlist_animate_scroll_summary">Animați derularea la tranziția la alt fișier media</string>
+    <string name="list_title_ellipsize_default">Implicit</string>
+    <string name="list_title_ellipsize_left">Stânga</string>
+    <string name="list_title_ellipsize_right">Dreapta</string>
+    <string name="list_title_ellipsize_middle">Mijloc</string>
     <string name="audio_boost_title">Îmbunătățire audio</string>
     <string name="audio_boost_summary">Permite volumul până la 200%</string>
     <string name="headset_prefs_category">Setul cu casca</string>
@@ -420,6 +426,8 @@
     <string name="restart_message">Modificările vor intra în vigoare după repornirea aplicației. \n \nReporniți acum?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Mai târziu</string>
+    <string name="browser_show_all_title">Afișați toate fișierele</string>
+
     <string name="developer_prefs_category">Dezvoltator</string>
     <string name="enable_verbose_mode">Detaliat</string>
     <string name="enable_verbose_mode_summary">Mărește nivelul detalierii (logcat)</string>
@@ -457,13 +465,15 @@
     <string name="network_browsing">Rețea locală</string>
     <string name="browsing">Răsfoire</string>
 
+    <string name="file_size">Mărime fișier</string>
+
     <string name="audio_delay">Întârziere audio</string>
     <string name="spu_delay">Întârzierea subtitrării</string>
     <string name="sleep_time_not_set">nicio setare</string>
     <string name="network_empty">Acest director este gol.</string>
     <string name="network_connection_needed">Nu există nicio conexiune la rețeaua locală.</string>
     <string name="search_hint">Cautare media</string>
-    <string name="search_list_hint">Caută conținut media în lista curentă</string>
+    <string name="search_in_list_hint">Căutare în lista curentă</string>
     <string name="search_global">Caută în toate bibliotecile media</string>
     <string name="directory_show_medialib">Afișează în MediaLib</string>
     <string name="directory_hide_medialib">Ascunde în MediaLib</string>
@@ -652,9 +662,34 @@
     <string name="send_crash_description">Prin trimiterea erorii care a survenit, ne veți ajuta să îmbunătățim stabilitatea VLC.</string>
     <string name="send_crash_warning">Asigurați-vă că eliminați datele sensibile pe care nu doriți să le trimiteți.</string>
     <string name="dont_ask_again">Nu mai întreba</string>
+    <string name="welcome_beta_title">VLC Beta</string>
     <string name="welcome_beta_description">Bine ați venit la programul VLC beta.\nVă rugăm să rețineți că această versiune poate avea unele erori.</string>
     <string name="welcome_beta_description_bugs">Dacă observați o eroare, vă rugăm să o raportați în forumul nostru sau în urmăritorul de erori.</string>
     <string name="welcome_beta_description_crashes">Dacă apare o eroare, utilizați pictograma VLC Reporter din programul dvs. pentru a ne-o trimite.</string>
     <string name="send">Trimite</string>
     <string name="send_crash_action_title">Ce doriți să faceți?</string>
+    <string name="favorite">Favorite</string>
+    <string name="always">Totdeauna</string>
+    <string name="never">Niciodată</string>
+    <string name="add_to_scanned">Scanează acest folder</string>
+    <string name="directory_not_scanned">Acest director nu este scanat</string>
+    <string name="video_group_size_dialog_text">Numărul de caractere folosite pentru a grupa după nume</string>
+    <string name="url_copied_to_clipboard">Url copiat în clipboard</string>
+    <string name="moviepedia_result">Rezultate video</string>
+    <string name="synopsis">Rezumat</string>
+    <string name="produced_by">Produs de</string>
+    <string name="written_by">Scris de </string>
+    <string name="all_movies">Toate filmele</string>
+    <string name="header_movies">Filme</string>
+    <string name="next_episode">Următorul episod</string>
+    <string name="recently_played">Recent redate</string>
+    <string name="recently_added">Recent adăugate</string>
+    <string name="video_information">Informații video</string>
+
+    <string name="channels">Canale</string>
+    <string name="resolution">Rezoluție</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Limbă</string>
+    <string name="codec">Codec</string>
 </resources>
