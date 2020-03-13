@@ -85,10 +85,9 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.tools.*
+import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.audio.EqualizerFragment
@@ -99,7 +98,6 @@ import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
-import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
@@ -1112,20 +1110,20 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             else
                 super.onKeyDown(keyCode, event)
             KeyEvent.KEYCODE_J -> {
-                delayDelegate.delayAudio(-50000L)
-                    handler.removeMessages(HIDE_SETTINGS)
+                delayDelegate.delayAudioOrSpu(delta = -50000L, delayState = IPlaybackSettingsController.DelayState.AUDIO)
+                handler.removeMessages(HIDE_SETTINGS)
                 handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 return true
             }
             KeyEvent.KEYCODE_K -> {
-                delayDelegate.delayAudio(50000L)
-                    handler.removeMessages(HIDE_SETTINGS)
+                delayDelegate.delayAudioOrSpu(delta = 50000L, delayState = IPlaybackSettingsController.DelayState.AUDIO)
+                handler.removeMessages(HIDE_SETTINGS)
                 handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 return true
             }
             KeyEvent.KEYCODE_G -> {
-                delayDelegate.delaySubs(-50000L)
-                    handler.removeMessages(HIDE_SETTINGS)
+                delayDelegate.delayAudioOrSpu(delta = -50000L, delayState = IPlaybackSettingsController.DelayState.SUBS)
+                handler.removeMessages(HIDE_SETTINGS)
                 handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 return true
             }
@@ -1136,7 +1134,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (event.isCtrlPressed) {
                     showOverlay()
                 } else {
-                    delayDelegate.delaySubs(50000L)
+                    delayDelegate.delayAudioOrSpu(delta = 50000L, delayState = IPlaybackSettingsController.DelayState.SUBS)
                     handler.removeMessages(HIDE_SETTINGS)
                     handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
                 }

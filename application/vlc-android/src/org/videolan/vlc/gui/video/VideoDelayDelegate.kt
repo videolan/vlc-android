@@ -147,14 +147,8 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
      */
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.player_delay_minus -> if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO)
-                delayAudio(-DELAY_DEFAULT_VALUE)
-            else if (playbackSetting == IPlaybackSettingsController.DelayState.SUBS)
-                delaySubs(-DELAY_DEFAULT_VALUE)
-            R.id.player_delay_plus -> if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO)
-                delayAudio(DELAY_DEFAULT_VALUE)
-            else if (playbackSetting == IPlaybackSettingsController.DelayState.SUBS)
-                delaySubs(DELAY_DEFAULT_VALUE)
+            R.id.player_delay_minus -> delayAudioOrSpu(-DELAY_DEFAULT_VALUE, delayState = playbackSetting)
+            R.id.player_delay_plus -> delayAudioOrSpu(DELAY_DEFAULT_VALUE, delayState = playbackSetting)
             R.id.delay_first_button -> if (player.service?.playlistManager?.delayValue?.value?.start ?: -1L == -1L) {
                 player.service?.playlistManager?.setDelayValue(System.currentTimeMillis(), true)
                 if (player.service?.playlistManager?.delayValue?.value?.stop == -1L) delaySecondButton.requestFocus()
@@ -177,57 +171,32 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
     }
 
     /**
-     * Delay audio for the video
+     * Delay audio or spu for the video
      *
      * @param delta the delay to set
-     * @param round if true, the delay will be rounded to the delta (useful for plus and minus buttons)
-     * @param reset if true, the delta will erase the old value, if not, the new delta will be added to the old one
+     * @param fromCustom does the delay change come from the custom buttons? If so, the delay should always be added to the previous one
      */
-    fun delayAudio(delta: Long, round: Boolean = false, reset: Boolean = true) {
+    fun delayAudioOrSpu(delta: Long, fromCustom: Boolean = false, delayState: IPlaybackSettingsController.DelayState) {
+        if (delayState == IPlaybackSettingsController.DelayState.OFF) return
         player.service?.let { service ->
-            val realDelta = when {
-                !round && service.audioDelay % delta != 0L -> delta - (service.audioDelay % delta)
-                reset -> delta
-                else -> delta + service.audioDelay
+            val currentDelay = if (delayState == IPlaybackSettingsController.DelayState.SUBS) service.spuDelay else service.audioDelay
+            val delay = currentDelay + when {
+                // Comes from plus or minus buttons. We try to round it if needed
+                !fromCustom && currentDelay % delta != 0L -> delta - (currentDelay % delta)
+                else -> delta
             }
             player.initInfoOverlay()
-            val delay = if (round) realDelta else service.audioDelay + realDelta
-            service.setAudioDelay(delay)
-            delayTitle.text = player.getString(R.string.audio_delay)
+            if (delayState == IPlaybackSettingsController.DelayState.SUBS) service.setSpuDelay(delay) else service.setAudioDelay(delay)
+            delayTitle.text = player.getString(if (delayState == IPlaybackSettingsController.DelayState.SUBS) R.string.spu_delay else R.string.audio_delay)
             delayInfo.text = "${delay / 1000L} ms"
-            audioDelay = delay
+            if (delayState == IPlaybackSettingsController.DelayState.SUBS) spuDelay = delay else audioDelay = delay
             if (!player.isPlaybackSettingActive) {
-                playbackSetting = IPlaybackSettingsController.DelayState.AUDIO
+                playbackSetting = delayState
                 initPlaybackSettingInfo()
             }
         }
     }
 
-    /**
-     * Delay subtitles for the video
-     *
-     * @param delta the delay to set
-     * @param round if true, the delay will be rounded to the delta (useful for plus and minus buttons)
-     * @param reset if true, the delta will erase the old value, if not, the new delta will be added to the old one
-     */
-    fun delaySubs(delta: Long, round: Boolean = false, reset: Boolean = true) {
-        player.service?.let { service ->
-            val realDelta = when {
-                !round && service.spuDelay % delta != 0L -> delta - (service.spuDelay % delta)
-                reset -> delta
-                else -> delta + service.spuDelay
-            }
-            player.initInfoOverlay()
-            val delay = if (round) realDelta else service.spuDelay + realDelta
-            service.setSpuDelay(delay)
-            delayInfo.text = "${delay / 1000L} ms"
-            spuDelay = delay
-            if (!player.isPlaybackSettingActive) {
-                playbackSetting = IPlaybackSettingsController.DelayState.SUBS
-                initPlaybackSettingInfo()
-            }
-        }
-    }
 
     /**
      * Set [playbackSetting] to the right value and shows the view
@@ -283,15 +252,9 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
     fun delayChanged(delayValues: DelayValues, service: PlaybackService) {
         var hasChanged = false
         if (delayValues.start != -1L && delayValues.stop != -1L) {
-            hasChanged = if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO) {
-                val oldDelay = service.audioDelay
-                delayAudio(delayValues.stop * 1000 - delayValues.start * 1000, round = true, reset = false)
-                oldDelay != service.audioDelay
-            } else {
-                val oldDelay = service.spuDelay
-                delaySubs(delayValues.stop * 1000 - delayValues.start * 1000, round = true, reset = false)
-                oldDelay != service.spuDelay
-            }
+            val oldDelay = if (playbackSetting == IPlaybackSettingsController.DelayState.SUBS) service.spuDelay else service.audioDelay
+            delayAudioOrSpu(delayValues.stop * 1000 - delayValues.start * 1000, fromCustom = true, delayState = playbackSetting)
+            hasChanged = oldDelay != if (playbackSetting == IPlaybackSettingsController.DelayState.SUBS) service.spuDelay else service.audioDelay
             service.playlistManager.delayValue.postValue(DelayValues())
         }
         if (!::delayFirstButton.isInitialized) return
