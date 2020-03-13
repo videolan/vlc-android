@@ -181,7 +181,7 @@ fun imageCardViewContent(v: View, content: String?) {
 fun downloadIcon(v: View, imageUri: Uri?, tv: Boolean = true) {
     if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
         v.scope.takeIf { it.isActive }?.launch {
-            val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
+            val image = HttpImageLoader.downloadBitmap(imageUri.toString())
             updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)
         }
     }
@@ -193,7 +193,7 @@ fun downloadIcon(v: View, imageUrl: String?, tv: Boolean = true) {
     val imageUri = Uri.parse(imageUrl)
     if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
         v.scope.takeIf { it.isActive }?.launch {
-            val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
+            val image = HttpImageLoader.downloadBitmap(imageUri.toString())
             updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)
         }
     }

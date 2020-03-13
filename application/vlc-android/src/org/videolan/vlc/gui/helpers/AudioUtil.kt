@@ -33,8 +33,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.WorkerThread
 import androidx.fragment.app.FragmentActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
@@ -359,10 +361,13 @@ object AudioUtil {
         }
     }
 
+    //TODO Make it a suspend function to get rid of runBlocking {... }
     @WorkerThread
     fun readCoverBitmap(path: String?, width: Int): Bitmap? {
-        var path: String? = path ?: return null
-        if (path!!.startsWith("http")) return HttpImageLoader.downloadBitmap(path)
+        var path = path ?: return null
+        if (path.startsWith("http")) return runBlocking(Dispatchers.Main) {
+            HttpImageLoader.downloadBitmap(path)
+        }
         if (path.startsWith("file")) path = path.substring(7)
         var cover: Bitmap? = null
         val options = BitmapFactory.Options()

@@ -152,7 +152,7 @@ class MediaScrapingTvshowDetailsFragment : DetailsSupportFragment(), CoroutineSc
     private fun loadBackdrop(url: String? = null) {
         lifecycleScope.launchWhenStarted {
             when {
-                !url.isNullOrEmpty() -> withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(url) }
+                !url.isNullOrEmpty() -> HttpImageLoader.downloadBitmap(url)
                 else -> null
             }?.let { backgroundManager.setBitmap(it) }
         }
@@ -165,7 +165,7 @@ class MediaScrapingTvshowDetailsFragment : DetailsSupportFragment(), CoroutineSc
             backdropLoaded = true
             lifecycleScope.launchWhenStarted {
                 if (!tvshow.metadata?.metadata?.currentPoster.isNullOrEmpty()) {
-                    detailsOverview.setImageBitmap(requireActivity(), withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(tvshow.metadata?.metadata?.currentPoster!!) })
+                    detailsOverview.setImageBitmap(requireActivity(), HttpImageLoader.downloadBitmap(tvshow.metadata?.metadata?.currentPoster!!))
                 }
             }
             title = tvshow.metadata?.metadata?.title

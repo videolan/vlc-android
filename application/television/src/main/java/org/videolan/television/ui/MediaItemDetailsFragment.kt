@@ -175,7 +175,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
     private fun loadBackdrop(url: String? = null) {
         lifecycleScope.launchWhenStarted {
             when {
-                !url.isNullOrEmpty() -> withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(url) }
+                !url.isNullOrEmpty() -> HttpImageLoader.downloadBitmap(url)
                 viewModel.media.type == MediaWrapper.TYPE_AUDIO || viewModel.media.type == MediaWrapper.TYPE_VIDEO -> {
                     withContext(Dispatchers.IO) {
                         AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512)?.let { UiTools.blurBitmap(it) }
@@ -196,7 +196,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             }
             lifecycleScope.launchWhenStarted {
                 if (!mediaMetadata.metadata?.metadata?.currentPoster.isNullOrEmpty()) {
-                    detailsOverview.setImageBitmap(requireActivity(), withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(mediaMetadata.metadata?.metadata?.currentPoster!!) })
+                    detailsOverview.setImageBitmap(requireActivity(), HttpImageLoader.downloadBitmap(mediaMetadata.metadata?.metadata?.currentPoster!!))
                 }
             }
             title = mediaMetadata.metadata?.metadata?.title
