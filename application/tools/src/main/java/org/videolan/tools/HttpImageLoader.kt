@@ -24,16 +24,17 @@
 
 package org.videolan.tools
 
+
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-
-
 import java.io.BufferedInputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlin.math.floor
+import kotlin.math.max
 
 object HttpImageLoader {
 
@@ -46,7 +47,21 @@ object HttpImageLoader {
             val url = URL(imageUrl)
             urlConnection = url.openConnection() as HttpURLConnection
             inputStream = BufferedInputStream(urlConnection.inputStream)
-            icon = BitmapFactory.decodeStream(inputStream)
+
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = true
+            BitmapFactory.decodeStream(inputStream, null, options)
+            options.inJustDecodeBounds = false
+
+            //limit image to 150dp for the larger size
+            val ratio: Float = max(options.outHeight, options.outWidth).toFloat() / 150.dp.toFloat()
+            if (ratio > 1) {
+                options.inSampleSize = floor(ratio).toInt()
+            }
+
+            urlConnection = url.openConnection() as HttpURLConnection
+            inputStream = BufferedInputStream(urlConnection.inputStream)
+            icon = BitmapFactory.decodeStream(inputStream, null, options)
             BitmapCache.addBitmapToMemCache(imageUrl, icon)
         } catch (ignored: IOException) {
             Log.e("", ignored.message, ignored)
