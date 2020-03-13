@@ -46,6 +46,8 @@
     <string name="insert_next">Indsæt næste</string>
     <string name="play_all">Afspil alle</string>
     <string name="append_all">Tilføj alle</string>
+    <string name="resume_playback_short_title">Genoptag afspilning</string>
+    <string name="resume_playback_long_title">Genoptag afspilning af sidste afspilningsliste</string>
     <string name="delete">Slet</string>
     <string name="remove">Fjern</string>
     <string name="set_song">Anvend som ringetone</string>
@@ -121,7 +123,7 @@
     <string name="noplaylist">Ingen spilleliste fundet.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">ikke tilgængelig</string>
-    <string name="nosubdirectory">Ingen undermapper.</string>
+    <string name="nosubfolder">Ingen undermappe</string>
     <string name="directorynotfound">Mappestien \"%1$s\" blev ikke fundet.</string>
     <string name="nohistory">Du har endnu ikke en afspilningshistorik.</string>
     <string name="validation">Er du sikker?</string>
@@ -420,6 +422,7 @@
     <string name="dump_media_db">Dump medie-database</string>
     <string name="dump_media_db_summary">Kopiér database til roden af internt lager</string>
     <string name="clear_media_db">Ryd medie-database</string>
+    <string name="clear_media_database_summary">Rydder databasen for at starte forfra</string>
     <string name="clear_history">Ryd historik</string>
     <string name="media_db_cleared">Medie-database er ryddet!</string>
     <string name="set_locale">Angiv lokalitet</string>
@@ -484,7 +487,7 @@
     <string name="network_empty">Denne mappe er tom.</string>
     <string name="network_connection_needed">Ingen forbindelse til lokalt netværk.</string>
     <string name="search_hint">Søger efter medie</string>
-    <string name="search_list_hint">Søg efter medie i aktuel liste</string>
+    <string name="search_in_list_hint">Søg i den nuværende liste</string>
     <string name="search_global">Søg i alle mediebiblioteker</string>
     <string name="directory_show_medialib">Vis i MediaLib</string>
     <string name="directory_hide_medialib">Skjul i MediaLib</string>
@@ -751,4 +754,28 @@
     <string name="recently_played">Afspillet for nylig</string>
     <string name="recently_added">Tilføjet for nylig</string>
     <string name="playback_multiple_errors">Flere medier kan ikke afspilles</string>
+    <string name="clear_media_db_warning">Du mister fremgangen og de afspilningslister du har oprettet.\n%s</string>
+    <string name="abrepeat_add_first_marker">Indstil startpunkt</string>
+    <string name="abrepeat_add_second_marker">Indstil slutpunkt</string>
+    <string name="demux_bitrate">Demux-bithastighed</string>
+    <string name="input_bitrate">Input-bithastighed</string>
+    <string name="video_information">Videoinformation</string>
+
+    <string name="channels">Kanaler</string>
+    <string name="resolution">Opløsning</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Billedfrekvens</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Sprog</string>
+    <string name="track_samplerate">Samplinghastighed</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bithastighed</string>
+    <string name="codec">Codec</string>
+    <string name="text">Tekst</string>
+    <string name="unknown">Ukendt</string>
+    <string name="audio_delay_start">Lyd hørt</string>
+    <string name="subtitle_delay_first">Stemme hørt</string>
+    <string name="audio_delay_end">Lyd opdaget</string>
+    <string name="subtitle_delay_end">Tekst set</string>
 </resources>
