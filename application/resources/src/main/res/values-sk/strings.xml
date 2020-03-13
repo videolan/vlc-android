@@ -94,6 +94,12 @@
         <item quantity="many">Počet podpriečinkov: %d</item>
         <item quantity="other">Počet podpriečinkov: %d</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 médium</item>
+        <item quantity="few">médiá: %d</item>
+        <item quantity="many">médií: %d</item>
+        <item quantity="other">médií: %d</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 súbor s médiom</item>
         <item quantity="few">Počet súborov s médiami: %d</item>
@@ -800,4 +806,7 @@
     <string name="track_index">Stopa: %s</string>
     <string name="audio_queue_progress">Postup: %s</string>
     <string name="sortby_track">Stopa</string>
+    <string name="this_folder">Pridať tento priečinok</string>
+    <string name="all_subfolders">Pridať tento priečinok a podpriečinky</string>
+    <string name="playlist_existing">Playlist %s už existuje</string>
 </resources>
