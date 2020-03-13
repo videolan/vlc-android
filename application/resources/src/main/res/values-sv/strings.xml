@@ -86,6 +86,10 @@
         <item quantity="one">1 undermapp</item>
         <item quantity="other">%d undermappar</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 mediafil</item>
+        <item quantity="other">%d mediafiler</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 mediafil</item>
         <item quantity="other">%d mediafiler</item>
@@ -783,4 +787,5 @@
     <string name="sortby_track">Spår</string>
     <string name="this_folder">Lägg till denna mapp</string>
     <string name="all_subfolders">Lägg till denna mapp och undermappar</string>
+    <string name="playlist_existing">Spellistan %s finns redan</string>
 </resources>
