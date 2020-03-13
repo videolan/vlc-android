@@ -33,7 +33,6 @@
     <string name="append">जोडा</string>
     <string name="play_all">सर्व प्ले करा</string>
     <string name="append_all">सर्व जोडा</string>
-    <string name="last_playlist">मागील प्लेलिस्ट</string>
     <string name="delete">काढून टाका</string>
     <string name="remove">काढून टाका</string>
     <string name="set_song">रिंगटोन साठी सेट करा</string>
@@ -69,7 +68,6 @@
         <item quantity="one">1 चित्रफीत</item>
         <item quantity="other">%d चित्रफिती</item>
     </plurals>
-
     <string name="internal_memory">अंतर्गत मेमरी</string>
     <string name="parent_folder">वरच्या फोल्डरला जा</string>
     <string name="audio">ध्वनी</string>
@@ -89,7 +87,6 @@
     <string name="nomedia">मीडिया फायली नाही आढळल्या, आपल्या उपकरणावर काही फायली स्थानांतरीत करा किंवा आपली प्राधान्ये समायोजित करा.</string>
     <string name="mediafiles">मीडिया फाईल</string>
     <string name="notavailable">उपलब्ध नाही</string>
-    <string name="nosubdirectory">उपनिर्देशिका नाहीत.</string>
     <string name="directorynotfound">\'%1$s\' निर्देशिकाचा मार्ग नाही सापडला</string>
     <string name="nohistory">आपल्याकडे आतापर्यंत प्लेबॅक इतिहास नाही.</string>
     <string name="validation">आपली खात्री आहे?</string>
@@ -195,12 +192,6 @@
     <string name="interface_other_category">इंटरफेस - इतर</string>
 
     <string name="enable_brightness_gesture_summary">चित्रफीत प्लेबॅकच्या वेळी जेस्चरने तेजस्वीपणा नियंत्रित करा</string>
-    <string name="audio_title_alignment">ऑडिओ शीर्षक संरेखन</string>
-    <string name="audio_title_alignment_default">डीफॉल्ट</string>
-    <string name="audio_title_alignment_left">डाव्या बाजूला</string>
-    <string name="audio_title_alignment_centre">मध्यम बाजूला</string>
-    <string name="audio_title_alignment_right">उजव्या बाजूला</string>
-    <string name="audio_title_alignment_marquee">चिन्ह</string>
     <string name="enable_headset_detection">हेडसेट शोधा</string>
     <string name="enable_steal_remote_control">विशिष्ट हेडसेट दूरस्थ नियंत्रण</string>
     <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा. हे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
