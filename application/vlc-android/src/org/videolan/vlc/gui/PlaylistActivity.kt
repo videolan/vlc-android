@@ -131,8 +131,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
         lifecycleScope.launch {
             val cover = withContext(Dispatchers.IO) {
-                if (!TextUtils.isEmpty(playlist.artworkMrl)) {
-                    AudioUtil.readCoverBitmap(Uri.decode(playlist.artworkMrl), getScreenWidth())
+                if (!playlist.artworkMrl.isNullOrEmpty()) {
+                    AudioUtil.fetchCoverBitmap(Uri.decode(playlist.artworkMrl), getScreenWidth())
                 } else {
                     ThumbnailsProvider.getPlaylistImage("playlist:${playlist.id}", playlist.tracks.toList(), getScreenWidth())
                 }

@@ -240,7 +240,7 @@ class InfoModel : ViewModel() {
     internal val mMediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
     internal fun getCover(mrl: String?, width: Int) = viewModelScope.launch {
-        cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(it), width) } }
+        cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.fetchCoverBitmap(Uri.decode(it), width) } }
     }
 
     internal fun parseTracks(context: Context, mw: MediaWrapper) = viewModelScope.launch {

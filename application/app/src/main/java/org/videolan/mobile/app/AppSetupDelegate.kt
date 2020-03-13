@@ -86,8 +86,6 @@ class AppSetupDelegate : AppDelegate,
             AppContextProvider.setLocale(Settings.getInstance(this).getString("set_locale", ""))
 
             AppScope.launch(Dispatchers.IO) {
-                // Prepare cache folder constants
-                AudioUtil.prepareCacheFolder(this@backgroundInit)
 
                 if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@launch
                 Dialog.setCallbacks(VLCInstance[this@backgroundInit], DialogDelegate)

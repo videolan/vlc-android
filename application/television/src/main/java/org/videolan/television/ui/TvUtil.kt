@@ -327,11 +327,11 @@ fun CoroutineScope.updateBackground(activity: Activity, bm: BackgroundManager?, 
     val screenRatio: Float = activity.getScreenWidth().toFloat() / activity.getScreenHeight()
     if (item is MediaLibraryItem) launch {
         val artworkMrl = item.artworkMrl
-        if (!TextUtils.isEmpty(artworkMrl)) {
+        if (!artworkMrl.isNullOrEmpty()) {
             val blurred = withContext(Dispatchers.IO) {
-                var cover: Bitmap? = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
+                var cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
                         ?: return@withContext null
-                if (cover != null) cover = BitmapUtil.centerCrop(cover, cover.width, (cover.width / screenRatio).toInt())
+                cover = BitmapUtil.centerCrop(cover, cover.width, (cover.width / screenRatio).toInt())
                 UiTools.blurBitmap(cover, 10f)
             }
             if (!isActive) return@launch

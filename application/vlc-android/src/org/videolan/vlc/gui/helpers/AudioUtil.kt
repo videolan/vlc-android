@@ -19,7 +19,6 @@
  */
 package org.videolan.vlc.gui.helpers
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
@@ -28,7 +27,6 @@ import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.net.Uri
 import android.provider.MediaStore
-import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.WorkerThread
@@ -39,41 +37,15 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.AndroidDevices
-import org.videolan.resources.AppContextProvider
 import org.videolan.tools.*
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.Permissions
 import java.io.*
-import java.math.BigInteger
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.util.*
-import java.util.concurrent.atomic.AtomicReference
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 object AudioUtil {
-    val TAG = "VLC/AudioUtil"
-
-    /**
-     * Cache directory (/sdcard/Android/data/...)
-     */
-    private var CACHE_DIR: String? = null
-    /**
-     * VLC embedded art storage location
-     */
-    private val ART_DIR = AtomicReference<String>()
-    /**
-     * Cover caching directory
-     */
-    private val COVER_DIR = AtomicReference<String>()
-    //    /**
-    //     * User-defined playlist storage directory
-    //     */
-    //    public static AtomicReference<String> PLAYLIST_DIR = new AtomicReference<>();
+    const val TAG = "VLC/AudioUtil"
 
     fun setRingtone(song: MediaWrapper, context: FragmentActivity) {
         if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage(context)) {
@@ -124,57 +96,13 @@ object AudioUtil {
 
                 runOnMainThread(Runnable {
                     Toast.makeText(
-                            context.applicationContext,
-                            context.getString(R.string.ringtone_set, song.title),
-                            Toast.LENGTH_SHORT)
+                                    context.applicationContext,
+                                    context.getString(R.string.ringtone_set, song.title),
+                                    Toast.LENGTH_SHORT)
                             .show()
                 })
             })
         })
-    }
-
-    @SuppressLint("NewApi")
-    @WorkerThread
-    fun prepareCacheFolder(context: Context) {
-        try {
-            if (AndroidDevices.hasExternalStorage() && context.externalCacheDir != null)
-                CACHE_DIR = context.externalCacheDir!!.path
-            else
-                CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APP_ID + "/cache"
-        } catch (e: Exception) { // catch NPE thrown by getExternalCacheDir()
-            CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APP_ID + "/cache"
-        } catch (e: ExceptionInInitializerError) {
-            CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APP_ID + "/cache"
-        }
-
-        ART_DIR.set(CACHE_DIR!! + "/art/")
-        COVER_DIR.set(CACHE_DIR!! + "/covers/")
-        for (path in Arrays.asList(ART_DIR.get(), COVER_DIR.get())) {
-            val file = File(path)
-            if (!file.exists())
-                file.mkdirs()
-        }
-    }
-
-    fun clearCacheFolders() {
-        for (path in Arrays.asList(ART_DIR.get(), COVER_DIR.get())) {
-            val file = File(path)
-            if (file.exists())
-                deleteContent(file, false)
-        }
-    }
-
-    private fun deleteContent(dir: File, deleteDir: Boolean) {
-        if (dir.isDirectory) {
-            val files = dir.listFiles()
-            if (files != null && files.size > 0) {
-                for (file in files) {
-                    deleteContent(file, true)
-                }
-            }
-        }
-        if (deleteDir)
-            dir.delete()
     }
 
     private fun getCoverFromMediaStore(context: Context, media: MediaWrapper): String? {
@@ -198,153 +126,6 @@ object AudioUtil {
         return null
     }
 
-    @Throws(NoSuchAlgorithmException::class, UnsupportedEncodingException::class)
-    private fun getCoverFromVlc(context: Context, media: MediaWrapper): String? {
-        var artworkURL: String? = media.artworkURL
-        if (artworkURL != null && artworkURL.startsWith("file://")) {
-            return Uri.decode(artworkURL).replace("file://", "")
-        } else if (artworkURL != null && artworkURL.startsWith("attachment://")) {
-            // Decode if the album art is embedded in the file
-            val mArtist = MediaUtils.getMediaArtist(context, media)
-            val mAlbum = MediaUtils.getMediaAlbum(context, media)
-
-            /* Parse decoded attachment */
-            if (mArtist.isEmpty() || mAlbum.isEmpty() ||
-                    mArtist == AppContextProvider.appContext.getString(R.string.unknown_artist) ||
-                    mAlbum == AppContextProvider.appContext.getString(R.string.unknown_album)) {
-                /* If artist or album are missing, it was cached by title MD5 hash */
-                val md = MessageDigest.getInstance("MD5")
-                val binHash = md.digest((artworkURL + media.title).toByteArray(charset("UTF-8")))
-                /* Convert binary hash to normal hash */
-                val hash = BigInteger(1, binHash)
-                var titleHash = hash.toString(16)
-                while (titleHash.length < 32) {
-                    titleHash = "0$titleHash"
-                }
-                /* Use generated hash to find art */
-                artworkURL = ART_DIR.get() + "/arturl/" + titleHash + "/art.png"
-            } else {
-                /* Otherwise, it was cached by artist and album */
-                artworkURL = ART_DIR.get() + "/artistalbum/" + mArtist + "/" + mAlbum + "/art.png"
-            }
-
-            return artworkURL
-        }
-        return null
-    }
-
-    private fun getCoverFromFolder(media: MediaWrapper): String? {
-        val f = AndroidUtil.UriToFile(media.uri) ?: return null
-
-        val folder = f.parentFile ?: return null
-
-        val imageExt = arrayOf(".png", ".jpeg", ".jpg")
-        val coverImages = arrayOf("FolderImpl.jpg", /* Windows */
-                "AlbumArtSmall.jpg", /* Windows */
-                "AlbumArt.jpg", /* Windows */
-                "Album.jpg", ".folder.png", /* KDE?    */
-                "cover.jpg", /* rockbox */
-                "thumb.jpg")
-
-        /* Find the path without the extension  */
-        val index = f.name.lastIndexOf('.')
-        if (index > 0) {
-            val name = f.name.substring(0, index)
-            val ext = f.name.substring(index)
-            val files = folder.listFiles { _, filename -> filename.startsWith(name) && Arrays.asList(*imageExt).contains(ext) }
-            if (files != null && files.isNotEmpty())
-                return files[0].absolutePath
-        }
-
-        /* Find the classic cover Images */
-        if (folder.listFiles() != null) {
-            for (file in folder.listFiles()) {
-                for (str in coverImages) {
-                    if (file.absolutePath.endsWith(str))
-                        return file.absolutePath
-                }
-            }
-        }
-        return null
-    }
-
-    private fun getCoverCachePath(context: Context, media: MediaWrapper, width: Int): String {
-        val hash = MurmurHash.hash32(MediaUtils.getMediaArtist(context, media) + MediaUtils.getMediaAlbum(context, media))
-        return COVER_DIR.get() + (if (hash >= 0) "" + hash else "m" + -hash) + "_" + width
-    }
-
-    private fun getCoverFromMemCache(context: Context, media: MediaWrapper?, width: Int): Bitmap? {
-        var cover: Bitmap? = null
-        if (media != null && media.artist != null && media.album != null) {
-            cover = BitmapCache.getBitmapFromMemCache(getCoverCachePath(context, media, width))
-        }
-        if (cover == null && media != null && !TextUtils.isEmpty(media.artworkURL) && media.artworkURL.startsWith("http")) {
-            cover = BitmapCache.getBitmapFromMemCache(media.artworkURL)
-        }
-        return cover
-    }
-
-    @SuppressLint("NewApi")
-    @Synchronized
-    fun getCover(context: Context, media: MediaWrapper, width: Int): Bitmap? {
-        var coverPath: String? = null
-        var cover: Bitmap? = null
-        var cachePath: String? = null
-        var cacheFile: File? = null
-
-        if (width <= 0) {
-            Log.e(TAG, "Invalid cover width requested")
-            return null
-        }
-
-        // if external storage is not available, skip covers to prevent slow audio browsing
-        if (!AndroidDevices.hasExternalStorage())
-            return null
-
-        try {
-            // try to load from cache
-            if (media.artist != null && media.album != null) {
-                cachePath = getCoverCachePath(context, media, width)
-
-                // try to get the cover from the LRUCache first
-                cover = BitmapCache.getBitmapFromMemCache(cachePath)
-                if (cover != null)
-                    return cover
-
-                // try to get the cover from the storage cache
-                cacheFile = File(cachePath)
-                if (cacheFile.exists()) {
-                    if (cacheFile.length() > 0)
-                        coverPath = cachePath
-                }
-            }
-            // try to get it from VLC
-            if (coverPath == null || !cacheFile!!.exists())
-                coverPath = getCoverFromVlc(context, media)
-
-            // try to get the cover from android MediaStore
-            if (coverPath == null || !File(coverPath).exists())
-                coverPath = getCoverFromMediaStore(context, media)
-
-            // no found yet, looking in folder
-            if (coverPath == null || !File(coverPath).exists())
-                coverPath = getCoverFromFolder(media)
-
-            // read (and scale?) the bitmap
-            cover = readCoverBitmap(coverPath, width)
-
-            // store cover into both cache
-            if (cachePath != null) {
-                writeBitmap(cover, cachePath)
-                BitmapCache.addBitmapToMemCache(cachePath, cover)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return cover
-    }
-
     @Throws(IOException::class)
     private fun writeBitmap(bitmap: Bitmap?, path: String) {
         var out: OutputStream? = null
@@ -364,11 +145,16 @@ object AudioUtil {
     //TODO Make it a suspend function to get rid of runBlocking {... }
     @WorkerThread
     fun readCoverBitmap(path: String?, width: Int): Bitmap? {
-        var path = path ?: return null
+        val path = path ?: return null
         if (path.startsWith("http")) return runBlocking(Dispatchers.Main) {
             HttpImageLoader.downloadBitmap(path)
         }
-        if (path.startsWith("file")) path = path.substring(7)
+        return BitmapCache.getBitmapFromMemCache(path.substringAfter("file://")) ?: fetchCoverBitmap(path, width)
+    }
+
+    @WorkerThread
+    fun fetchCoverBitmap(path: String, width: Int): Bitmap? {
+        val path = path.substringAfter("file://")
         var cover: Bitmap? = null
         val options = BitmapFactory.Options()
 
@@ -391,29 +177,5 @@ object AudioUtil {
             BitmapCache.addBitmapToMemCache(path, cover)
         }
         return cover
-    }
-
-    @JvmOverloads
-    fun getCover(context: Context, list: List<MediaWrapper>, width: Int, fromMemCache: Boolean = false): Bitmap? {
-        var cover: Bitmap? = null
-        val testedAlbums = LinkedList<String>()
-        for (media in list) {
-            /* No list cover is artist or album are null */
-            if (media.album == null || media.artist == null)
-                continue
-            if (testedAlbums.contains(media.album))
-                continue
-
-            cover = if (fromMemCache) getCoverFromMemCache(context, media, width) else getCover(context, media, width)
-            if (cover != null)
-                break
-            else if (media.album != null)
-                testedAlbums.add(media.album)
-        }
-        return cover
-    }
-
-    fun getCoverFromMemCache(context: Context, list: List<MediaWrapper>, width: Int): Bitmap? {
-        return getCover(context, list, width, true)
     }
 }
