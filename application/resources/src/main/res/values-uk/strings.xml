@@ -94,6 +94,12 @@
         <item quantity="many">%d підтек</item>
         <item quantity="other">%d підтек</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 медіа</item>
+        <item quantity="few">%d медіа</item>
+        <item quantity="many">%d медіа</item>
+        <item quantity="other">%d медіа</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">%d медіа файл</item>
         <item quantity="few">%d медіа файли</item>
@@ -801,4 +807,5 @@
     <string name="sortby_track">Доріжка</string>
     <string name="this_folder">Додати цю теку</string>
     <string name="all_subfolders">Додати цю теку і підтеки</string>
+    <string name="playlist_existing">Список відтворення %s вже існує</string>
 </resources>
