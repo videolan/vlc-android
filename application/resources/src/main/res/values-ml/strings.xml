@@ -86,6 +86,10 @@
         <item quantity="one">൧ സബ്ഫോള്‍ഡര്‍</item>
         <item quantity="other">%d സബ്ഫോള്‍ഡറുകള്‍</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 മീഡിയ</item>
+        <item quantity="other">%d മീഡിയ</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">൧ മീഡിയ ഫയല്‍</item>
         <item quantity="other">%d മീഡിയ ഫയലുകള്‍</item>
@@ -782,4 +786,7 @@
     <string name="track_index">ട്രാക്ക്: %s</string>
     <string name="audio_queue_progress">പുരോഗതി: %s</string>
     <string name="sortby_track">ട്രാക്ക്</string>
+    <string name="this_folder">ഈ ഫോൾഡർ ചേർക്കുക</string>
+    <string name="all_subfolders">ഈ ഫോൾഡറും സബ്ഫോൾഡറുകളും ചേർക്കുക</string>
+    <string name="playlist_existing">%s പ്ലേലിസ്റ്റ് ഇതിനകം നിലവിലുണ്ട്</string>
 </resources>
