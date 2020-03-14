@@ -86,6 +86,10 @@
         <item quantity="one">Una sutacartella</item>
         <item quantity="other">%d sutacartellas</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 cuntenutu multimediale</item>
+        <item quantity="other">%d cuntenutos multimediales</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 documentu multimediale</item>
         <item quantity="other">%d documentos multimediales</item>
@@ -781,4 +785,7 @@
     <string name="track_index">Rasta: %s</string>
     <string name="audio_queue_progress">Progressu: %s</string>
     <string name="sortby_track">Rasta</string>
+    <string name="this_folder">Annanghe custa cartella</string>
+    <string name="all_subfolders">Annanghe custa cartella e sas suta-cartellas</string>
+    <string name="playlist_existing">S\'iscalita %s esistit giai</string>
 </resources>
