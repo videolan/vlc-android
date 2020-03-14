@@ -86,6 +86,10 @@
         <item quantity="one">1 sous-dossier</item>
         <item quantity="other">%d sous-dossiers</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 fichier multimédia</item>
+        <item quantity="other">%d fichiers multimédia</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 fichier multimédia</item>
         <item quantity="other">%d fichiers multimédia</item>
@@ -781,4 +785,7 @@
     <string name="track_index">Piste : %s</string>
     <string name="audio_queue_progress">Progression : %s</string>
     <string name="sortby_track">Piste</string>
+    <string name="this_folder">Ajouter ce dossier</string>
+    <string name="all_subfolders">Ajouter ce dossier avec ces sous-dossiers</string>
+    <string name="playlist_existing">La liste de lecture %s existe déjà</string>
 </resources>
