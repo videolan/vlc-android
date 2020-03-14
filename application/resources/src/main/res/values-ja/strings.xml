@@ -82,6 +82,9 @@
     <plurals name="subfolders_quantity">
         <item quantity="other">%d サブフォルダー</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">%d メディア</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="other">%d メディアファイル</item>
     </plurals>
@@ -774,4 +777,5 @@
     <string name="sortby_track">トラック</string>
     <string name="this_folder">このフォルダーを追加</string>
     <string name="all_subfolders">このフォルダーとサブフォルダーを追加</string>
+    <string name="playlist_existing">プレイリスト %s は既に存在します</string>
 </resources>
