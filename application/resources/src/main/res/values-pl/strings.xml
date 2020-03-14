@@ -94,6 +94,12 @@
         <item quantity="many">%d podfolderów</item>
         <item quantity="other">%d podfolderów</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 plik multimedialny</item>
+        <item quantity="few">%d pliki multimedialne</item>
+        <item quantity="many">%d plików multimedialnych</item>
+        <item quantity="other">%d plików multimedialnych</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 plik multimedialny</item>
         <item quantity="few">%d pliki multimedialne</item>
@@ -801,4 +807,5 @@
     <string name="sortby_track">Utworu</string>
     <string name="this_folder">Dodaj ten folder</string>
     <string name="all_subfolders">Dodaj ten folder z podfolderami</string>
+    <string name="playlist_existing">Lista odtwarzania %s już istnieje</string>
 </resources>
