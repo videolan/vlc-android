@@ -86,6 +86,10 @@
         <item quantity="one">Una sottocartella</item>
         <item quantity="other">%d sottocartelle</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 media</item>
+        <item quantity="other">%d media</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 file multimediale</item>
         <item quantity="other">%d file multimediali</item>
@@ -781,4 +785,7 @@
     <string name="track_index">Traccia: %s</string>
     <string name="audio_queue_progress">Avanzamento: %s</string>
     <string name="sortby_track">Traccia</string>
+    <string name="this_folder">Aggiungi questa cartella</string>
+    <string name="all_subfolders">Aggiungi questa cartella e le sottocartelle</string>
+    <string name="playlist_existing">La scaletta %s esiste già</string>
 </resources>
