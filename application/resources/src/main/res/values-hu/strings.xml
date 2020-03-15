@@ -86,6 +86,10 @@
         <item quantity="one">1 almappa</item>
         <item quantity="other">%d almappa</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 média</item>
+        <item quantity="other">%d média</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 médiafájl</item>
         <item quantity="other">%d médiafájl</item>
@@ -781,4 +785,7 @@
     <string name="track_index">Szám: %s</string>
     <string name="audio_queue_progress">Előrehaladás: %s</string>
     <string name="sortby_track">Szám</string>
+    <string name="this_folder">Ezen mappa hozzáadása</string>
+    <string name="all_subfolders">Ezen mappa és almappa hozzáadása</string>
+    <string name="playlist_existing">A(z) %s lejátszólista már létezik</string>
 </resources>
