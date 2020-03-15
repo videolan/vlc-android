@@ -112,7 +112,6 @@
     <string name="noplaylist">Non se atopou ningunha lista de reprodución.</string>
     <string name="mediafiles">Ficheiros multimedia</string>
     <string name="notavailable">non está dispoñíbel</string>
-    <string name="nosubdirectory">Non hai subdirectorios.</string>
     <string name="directorynotfound">Non foi posíbel localizar o camiño \'%1$s\'.</string>
     <string name="nohistory">Aínda non existe un historial de reprodución.</string>
     <string name="validation">Está seguro?</string>
@@ -464,7 +463,6 @@
     <string name="network_empty">Este directorio está baleiro</string>
     <string name="network_connection_needed">Non hai conexión coa rede local.</string>
     <string name="search_hint">Buscar multimedia</string>
-    <string name="search_list_hint">Buscar multimedia na lista actual</string>
     <string name="search_global">Buscar na biblioteca multimedia global</string>
     <string name="directory_show_medialib">Mostrar en MediaLib</string>
     <string name="directory_hide_medialib">Agochar de MediaLib</string>

@@ -44,7 +44,6 @@
     <string name="insert_next">அடுத்ததை நுழைக்க</string>
     <string name="play_all">அனைத்தையும் இயக்கு</string>
     <string name="append_all">அனைத்தையும் சேர்</string>
-    <string name="last_playlist">கடைசிப் பட்டியல்</string>
     <string name="delete">அழி</string>
     <string name="remove">நீக்கு</string>
     <string name="set_song">அழைப்போசையாக அமை</string>
@@ -88,7 +87,6 @@
         <item quantity="one">1 காணொளி</item>
         <item quantity="other">%d காணொளிகள்</item>
     </plurals>
-
     <string name="internal_memory">உள்ளாரந்த சேமிப்பகம்</string>
     <string name="parent_folder">மூல அடைவுக்குச் செல்</string>
     <string name="audio">ஒலி</string>
@@ -109,7 +107,6 @@
     <string name="noplaylist">இயக்க பட்டியல் கண்டறியப்பட்டது.</string>
     <string name="mediafiles">ஊடகக் கோப்புகள்</string>
     <string name="notavailable">இல்லை</string>
-    <string name="nosubdirectory">கிளை அடைவுகள் இல்லை.</string>
     <string name="directorynotfound">\'%1$s\' அடைவுப் பாதைக் காணப்படவில்லை.</string>
     <string name="nohistory">வரலாறு ஏதுமில்லை.</string>
     <string name="validation">கண்டிப்பாக?</string>
@@ -262,9 +259,7 @@
 
     <string name="video_prefs_category">காணொளி</string>
     <string name="video_min_group_length_title">குழு காணொளிகள்</string>
-    <string name="video_min_group_length_disable">முடக்கு</string>
     <string name="video_min_group_length_first">முதல் எழுத்து மட்டும்</string>
-    <string name="force_list_portrait">உருவப்படம் முறையில் கட்டம் தேவையில்லை</string>
     <string name="enable_brightness_gesture_title">வெளிச்ச சைகை</string>
     <string name="enable_brightness_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் வெளிச்சத்தை கட்டுப்படுத்து</string>
     <string name="enable_volume_gesture_title">ஒலிச்சத்தம் சைகை</string>
@@ -285,12 +280,6 @@
     <string name="subtitles_background_title">துணைஉரை பின்னணி</string>
     <string name="subtitles_bold_title">போல்ட் வசனவரிகள்</string>
     <string name="audio_prefs_category">ஒலி</string>
-    <string name="audio_title_alignment">ஒலி தலைப்பை வரிசைப்படுத்து</string>
-    <string name="audio_title_alignment_default">முன்னிருப்பு</string>
-    <string name="audio_title_alignment_left">இடது</string>
-    <string name="audio_title_alignment_centre">நடுவில்</string>
-    <string name="audio_title_alignment_right">வலது</string>
-    <string name="audio_title_alignment_marquee">மார்க்யூ</string>
     <string name="enable_headset_detection">தலைப்பொறி கண்டறியப்பட்டது</string>
     <string name="enable_steal_remote_control">பிரத்தியேக தலைப்பொறி தொலைநிலை கட்டுப்பாடு</string>
     <string name="enable_steal_remote_control_summary">தொலைநிலை கட்டுப்பாட்டை பிற பயன்பாடுகள் திருடுவதை தடுப்பதன் மூலம் மோதல்களை தவிர்க்கலாம். இது HTC பேசிகளில் இரட்டை சொடுக்கல் மூலம் எண்கள் அழைத்தலை தடுக்க முடியும்.</string>
@@ -358,7 +347,6 @@
     <string name="audio_delay">ஒலி தாமதம்</string>
     <string name="spu_delay">துணை உரை தாமதம்</string>
     <string name="sleep_time_not_set">ஒன்றுமில்லை</string>
-    <string name="network_shares_discovery">பிணைய பங்குகள் தேட…</string>
     <string name="network_empty">இந்த அடைவு வெறுமையாக உள்ளது</string>
     <string name="network_connection_needed">சாதனம் உள்ளே இணைய இணைப்பு இல்லை.</string>
     <string name="search_hint">ஊடகத்தை தேடு</string>

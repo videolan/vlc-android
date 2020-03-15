@@ -43,7 +43,6 @@
     <string name="insert_next">Umetni sljedeće</string>
     <string name="play_all">Reproduciraj sve</string>
     <string name="append_all">Dodaj sve</string>
-    <string name="last_playlist">Posljednji popis izvođenja</string>
     <string name="delete">Obriši</string>
     <string name="remove">Ukloni</string>
     <string name="set_song">Postavi kao melodiju zvona</string>
@@ -91,7 +90,6 @@
         <item quantity="few">%d video snimke</item>
         <item quantity="other">%d video snimki</item>
     </plurals>
-
     <string name="internal_memory">Unutarnja memorija</string>
     <string name="parent_folder">Idi u nadređenu mapu</string>
     <string name="audio">Glazba</string>
@@ -112,7 +110,6 @@
     <string name="noplaylist">Nema pronađenih popisa izvođenja</string>
     <string name="mediafiles">Medijske datoteke</string>
     <string name="notavailable">nisu dostupne</string>
-    <string name="nosubdirectory">Nema poddirektorija.</string>
     <string name="directorynotfound">Putanja direktorija \'%1$s\' nije pronađena.</string>
     <string name="nohistory">Još nemate povijest reprodukcije.</string>
     <string name="validation">Jeste li sigurni?</string>
@@ -281,15 +278,11 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Grupiraj video snimke</string>
-    <string name="video_min_group_length_summary">Video snimke su grupirane ako su njihova prva slova jednaka.</string>
-    <string name="video_min_group_length_disable">Onemogući</string>
     <string name="video_min_group_length_first">Samo prvo slovo</string>
     <string name="video_min_group_length_short">Manji broj slova (6)</string>
     <string name="video_min_group_length_long">Veći broj slova (9)</string>
     <string name="media_seen">Prikaži označivača odgledane vido snimke</string>
     <string name="media_seen_summary">Označi video snimke kao odgledane kada reprodukcija stigne do kraja</string>
-    <string name="force_list_portrait">Bez mreže u uspravnom načinu</string>
-    <string name="force_list_portrait_summary">Prikaži video snimke u popisu umjesto u mreži kada je u uspravnom načinu</string>
     <string name="force_play_all_summary">Reproduciraj sve video snimke, počevši od one na koju ste kliknuli</string>
     <string name="force_play_all_title">Način rada video popisa izvođenja</string>
     <string name="save_brightness_summary">Zapamti razinu svjetline u video reproduktoru</string>
@@ -306,7 +299,6 @@
     <string name="popup_keepscreen_title">Drži zaslon uključenim u skočnom načinu rada</string>
     <string name="popup_keepscreen_summary">Uvijek drži zaslon uključenim kada se skočni prozor pojavi, čak iako je video reprodukcija pauzirana.</string>
     <string name="browser_show_hidden_files_title">Prikaži skrivene datoteke</string>
-    <string name="browser_show_hidden_files_summary">Prikaži skrivene datoteke u pregledniku</string>
 
     <string name="subtitles_prefs_category">Podnaslovi</string>
     <string name="subtitles_size_title">Veličina podnaslova</string>
@@ -330,14 +322,6 @@
     <string name="lockscreen_cover_summary">Kada je dostupno, postavi trenutni omot albuma kao pozadinu zaključanog zaslona</string>
     <string name="playlist_animate_scroll_title">Animiraj trenutno automatsko pomicanje popisa izvođenja</string>
     <string name="playlist_animate_scroll_summary">Animiraj pomicanje pri prijelazu medija</string>
-    <string name="audio_title_alignment">Poravnjanje zapisa zvuka</string>
-    <string name="audio_title_alignment_default">Zadano</string>
-    <string name="audio_title_alignment_left">Lijevo</string>
-    <string name="audio_title_alignment_centre">Sredina</string>
-    <string name="audio_title_alignment_right">Desno</string>
-    <string name="audio_title_alignment_marquee">Pomično</string>
-    <string name="audio_save_repeat_title">Spremi način ponavljanja</string>
-    <string name="audio_save_repeat_summary">Zapamti način ponavljanja pri učitavanju glazbenih popisa izvođenja</string>
     <string name="audio_boost_title">Zvučno pojačanje</string>
     <string name="headset_prefs_category">Slušalice</string>
     <string name="enable_headset_detection">Otkrij slušalice</string>
@@ -364,7 +348,6 @@
     <string name="cast_performance_warning">Emitiranje ove video snimke zahtijeva pretvorbu. Pretvorbe može koristiti svu dostupnu energiju i brzo isprazniti vašu bateriju.</string>
     <string name="casting_connected_renderer">Povezano s prikazivačem \'%1$s\'</string>
     <string name="artists_show_all_title">Prikaži sve izvođače</string>
-    <string name="artists_show_all_summary">Prikaži sve izvođače u popisu izvođača, a ne samo izvođače albuma</string>
 
     <string name="extensions_prefs_category">Proširenja</string>
     <string name="extensions_enable_category">Odaberite proširenja za omogućavanje</string>
@@ -398,7 +381,6 @@
     <string name="dump_media_db">Kopiraj medijsku bazu podataka</string>
     <string name="dump_media_db_summary">Kopiraj bazu podataka na unutrašnju korijensku pohranu</string>
     <string name="clear_media_db">Obriši medijsku bazu podataka</string>
-    <string name="clear_media_db_summary">Pristupi Android VLC informacijama za brisanje podataka</string>
     <string name="media_db_cleared">Baza medijskih podataka je obrisana!</string>
     <string name="set_locale">Postavi lokalizaciju</string>
     <string name="set_locale_detail">Ostavite prazno za zadano sustavom</string>
@@ -437,11 +419,9 @@
     <string name="audio_delay">Kašnjenje zvuka</string>
     <string name="spu_delay">Kašnjenje podnaslova</string>
     <string name="sleep_time_not_set">Ništa postavljeno</string>
-    <string name="network_shares_discovery">Pretraživanje mrežnih dijeljenja…</string>
     <string name="network_empty">Direktorij je prazan.</string>
     <string name="network_connection_needed">Nema povezivanjiva s lokalnom mrežom.</string>
     <string name="search_hint">Pretraži medij</string>
-    <string name="search_list_hint">Pretraži medije u trenutnom popisu</string>
     <string name="search_global">Pretraži u svim medijskim zbirkama</string>
     <string name="directory_show_medialib">Prikaži u medijskoj zbirci</string>
     <string name="directory_hide_medialib">Sakrij u medijskoj zbirci</string>
@@ -450,8 +430,6 @@
     <string name="chapter">Poglavlje</string>
     <string name="resume_from_position">Nastavi s posljednjeg položaja</string>
     <string name="confirm_resume">Nastavi s posljednjeg položaja?</string>
-    <string name="confirm_resume_title">Zatraži potvrdu za nastavak</string>
-    <string name="confirm_resume_summary">Ako je aktivirano biti ćete upitani za potvrdu kada će se video snimka nastaviti reproducirati s posljednjeg položaja</string>
     <string name="directory_empty">Direktorij je prazan</string>
     <string name="tv_ui_title">Android TV sučelje</string>
     <string name="tv_ui_summary">Promijeni sučelje na TV prilagođenu temu</string>

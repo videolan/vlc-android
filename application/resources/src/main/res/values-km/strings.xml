@@ -43,7 +43,6 @@
     <string name="insert_next">បញ្ចូលបន្ទាប់</string>
     <string name="play_all">ចាក់​ទាំងអស់</string>
     <string name="append_all">បន្ថែម​ទៅ​ចុង​ទាំងអស់</string>
-    <string name="last_playlist">បញ្ជី​ចាក់​ចុង​ក្រោយ</string>
     <string name="delete">លុប</string>
     <string name="remove">លុបចេញ</string>
     <string name="set_song">កំណត់​ជា​សំឡេង​រោទ៍</string>
@@ -81,7 +80,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d វីដេអូ</item>
     </plurals>
-
     <string name="internal_memory">អង្គ​ចងចាំ​ខាង​ក្នុង</string>
     <string name="parent_folder">ទៅ​ថត​មេ</string>
     <string name="audio">អូឌីយ៉ូ</string>
@@ -102,7 +100,6 @@
     <string name="noplaylist">រកមិនឃើញបញ្ជីចាក់</string>
     <string name="mediafiles">ឯកសារ​មេឌៀ</string>
     <string name="notavailable">មិន​អាច​ប្រើ​បាន</string>
-    <string name="nosubdirectory">គ្មាន​ថត​រង។</string>
     <string name="directorynotfound">រកមិនឃើញផ្លូវរបស់ថត \'%1$s\' ។</string>
     <string name="nohistory">អ្នក​មិន​មាន​ប្រវត្តិ​ចាក់​ឡើងវិញ​នៅ​ឡើយ​ទេ។</string>
     <string name="validation">តើ​អ្នក​ប្រាកដ​ឬ?</string>
@@ -223,10 +220,6 @@
     <string name="subtitles_color_yellow">លឿង</string>
     <string name="subtitles_color_green">បៃតង</string>
     <string name="audio_prefs_category">សម្លេង</string>
-    <string name="audio_title_alignment_default">ទូទៅ</string>
-    <string name="audio_title_alignment_left">ឆ្វេង</string>
-    <string name="audio_title_alignment_centre">កណ្ដាល</string>
-    <string name="audio_title_alignment_right">ស្ដាំ</string>
     <string name="headset_prefs_category">កាស</string>
     <string name="enable_headset_detection">រក​កាស</string>
     <string name="enable_steal_remote_control">មិន​បញ្ចូល​ការ​បញ្ហា​កាស​ពី​ចម្ងាយ</string>

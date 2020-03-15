@@ -155,7 +155,6 @@
     <string name="noplaylist">لم توجد أية قوائم تشغيل.</string>
     <string name="mediafiles">ملفات الوسائط</string>
     <string name="notavailable">غير متوفر</string>
-    <string name="nosubdirectory">لا أدلة فرعية.</string>
     <string name="directorynotfound">لم يوجد مسار الدليل ”%1$s“.</string>
     <string name="nohistory">من من شيء شغّلته في التأريخ.</string>
     <string name="validation">أمتأكّد؟</string>
@@ -499,7 +498,6 @@
     <string name="network_empty">هذا المجلد فارغ</string>
     <string name="network_connection_needed">لا يوجد اتصال مع الشبكة المحلية.</string>
     <string name="search_hint">بحث عن الوسائط</string>
-    <string name="search_list_hint">ابحث عن الوسيط في القائمة الحالية</string>
     <string name="search_global">ابحث في كل مكتبات الوسائط</string>
     <string name="directory_show_medialib">اظهر في ماسح الوسائط </string>
     <string name="directory_hide_medialib">إخفاء من ماسح الوسائط </string>

@@ -88,7 +88,6 @@
     <string name="please_wait">Fan le do thoil…</string>
     <string name="mediafiles">Comhaid mheán</string>
     <string name="notavailable">níl sé ar fáil</string>
-    <string name="nosubdirectory">Níl aon fhochomhadlann ann.</string>
     <string name="directorynotfound">Níor aimsíodh an cosán comhadlainne \'%1$s\'.</string>
     <string name="validation">An bhfuil tú cinnte?</string>
 
@@ -226,7 +225,6 @@
     <string name="interface_other_category">Comhéadan - Eile</string>
 
     <string name="video_prefs_category">Físeán</string>
-    <string name="video_min_group_length_disable">Díchumasaigh</string>
     <string name="video_min_group_length_first">An chéad litir amháin</string>
     <string name="video_min_group_length_short">Líon beag de litreacha (6)</string>
     <string name="video_min_group_length_long">Líon mór de litreacha (9)</string>
@@ -240,7 +238,6 @@
     <string name="enable_seek_buttons_summary">Taispeáin cnaipí siar agus ar aghaidh ar an gcomhéadan.</string>
     <string name="enable_double_tap_seek_title">Brúigh faoi dhó chun cuardach</string>
     <string name="browser_show_hidden_files_title">Taispeáin comhaid i bhfolach</string>
-    <string name="browser_show_hidden_files_summary">Taispeáin comhaid i bhfolach i líonléitheoirí</string>
 
     <string name="subtitles_prefs_category">Fotheidi</string>
     <string name="subtitles_size_title">Méid na bhfotheideal</string>
@@ -259,11 +256,6 @@
     <string name="subtitles_bold_title">Fotheidil troma</string>
     <string name="audio_prefs_category">Fuaim</string>
     <string name="lockscreen_cover_title">Clúdach meáin ar an nglasáil scáileáin</string>
-    <string name="audio_title_alignment_default">An réamhshocrú</string>
-    <string name="audio_title_alignment_left">Clé</string>
-    <string name="audio_title_alignment_centre">Lár</string>
-    <string name="audio_title_alignment_right">Deas</string>
-    <string name="audio_title_alignment_marquee">Puball mór</string>
     <string name="headset_prefs_category">Gléas cinn</string>
     <string name="enable_headset_detection">Braith má tá cluasáin ann</string>
     <string name="enable_headset_actions_title">Aicearraí Cianrialtáin</string>
@@ -276,6 +268,7 @@
     <string name="casting_quality_low">Íseal</string>
     <string name="casting_quality_lowcpu">Is ísle</string>
     <string name="artists_show_all_title">Taispeáin gach ealaíontóir</string>
+
     <string name="extensions_prefs_category">Breiseáin</string>
     <string name="extensions_enable_category">Roghnaigh breiseáin atá le cumasú</string>
     <string name="extensions_empty">Níor aimsíodh aon bhreiseán</string>
@@ -299,7 +292,6 @@
     <string name="quit">Scoir agus atosaigh an feidhmchláirín</string>
     <string name="restart_message_OK">Tá go maith</string>
     <string name="restart_message_Later">Níos déanaí</string>
-    <string name="browser_show_all_title">Taispeáin gach comhad sa líonléitheoir</string>
     <string name="developer_prefs_category">Forbróir</string>
     <string name="enable_verbose_mode">Foclach</string>
     <string name="clear_log">Glan an t-oireas</string>
@@ -331,8 +323,6 @@
     <string name="chapter">Caibidil</string>
     <string name="resume_from_position">Atosaigh ón áit dheireanach</string>
     <string name="confirm_resume">Atosaigh ón áit dheireanach?</string>
-    <string name="confirm_resume_title">Iarr orm sula atosaítear</string>
-    <string name="confirm_resume_summary">má chuirtear seo i ngníomh, iarrfar ort a dheimhniú cathain ar féidir le físeán atosú ón suíomh deireanach</string>
     <string name="directory_empty">Tá an chomhadlann folamh</string>
     <string name="tv_ui_title">Comhéadan Android TV</string>
     <string name="medialibrary">Leabharlann Meán</string>

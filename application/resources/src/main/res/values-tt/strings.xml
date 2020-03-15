@@ -41,7 +41,6 @@
     <string name="insert_next">Киләсене куегыз</string>
     <string name="play_all">Барысын уйнату</string>
     <string name="append_all">Барысын өстәү</string>
-    <string name="last_playlist">Соңгы уйнату бите</string>
     <string name="delete">Бетерү…</string>
     <string name="remove">Бетерү…</string>
     <string name="set_song">Кыңгырау көе итү</string>
@@ -77,7 +76,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d видео</item>
     </plurals>
-
     <string name="internal_memory">Эчке хәтер</string>
     <string name="parent_folder">Алдагы дәрәҗә</string>
     <string name="audio">Аудио</string>
@@ -98,7 +96,6 @@
     <string name="noplaylist">Уйнату бите табылмады.</string>
     <string name="mediafiles">Медиафайллар</string>
     <string name="notavailable">Мөмкин түгел</string>
-    <string name="nosubdirectory">Аскаталоглар юк.</string>
     <string name="directorynotfound">\'%1$s\' папкасы табылмады.</string>
     <string name="nohistory">Уйнату тарихы буш.</string>
     <string name="validation">Шикләнмисезме?</string>
@@ -265,15 +262,11 @@
 
     <string name="video_prefs_category">Видео</string>
     <string name="video_min_group_length_title">Видеоларны төркемләү</string>
-    <string name="video_min_group_length_summary">Видео беренче хәрефләре туры килү белән төркемләнәчәк.</string>
-    <string name="video_min_group_length_disable">Сүндерү</string>
     <string name="video_min_group_length_first">Беренче хәрефкә генә</string>
     <string name="video_min_group_length_short">Әз хәреф саны (6)</string>
     <string name="video_min_group_length_long">Күп хәреф саны (9)</string>
     <string name="media_seen">Каралган видеоларны билгеләргә</string>
     <string name="media_seen_summary">Видео ахырына кадәр уйнатылганда аны каралган дип билгеләргә</string>
-    <string name="force_list_portrait">Челтәрне вертикаль күрсәтмәскә</string>
-    <string name="force_list_portrait_summary">Вертикаль режимда видеоны челтәрдә түгел, ә исемлектә күрсәтү</string>
     <string name="force_play_all_summary">Сайланганнан алып бөтен видеоларны уйнату</string>
     <string name="force_play_all_title">Видео уйнату бите режимы</string>
     <string name="save_brightness_summary">Видео уйнаткычта яктылык дәрәҗәсен саклау</string>
@@ -288,7 +281,6 @@
     <string name="enable_double_tap_seek_title">Чорнау өчен ике тапкыр басыгыз</string>
     <string name="enable_double_tap_seek_summary">10 секундка чорнау өчен экран кырыена ике тапкыр басыгыз</string>
     <string name="browser_show_hidden_files_title">Яшерен файлларны күрсәтергә</string>
-    <string name="browser_show_hidden_files_summary">Яшерелгән файлларны браузерда күрсәтү</string>
 
     <string name="subtitles_prefs_category">Субтитрлар</string>
     <string name="subtitles_size_title">Субтитрлар зурлыгы</string>
@@ -310,13 +302,6 @@
     <string name="audio_prefs_category">Аудио</string>
     <string name="lockscreen_cover_title">Бикләү экранында медиа тышлыгы</string>
     <string name="lockscreen_cover_summary">Әгәр дә гамәлдәге медианың тышлыгы блса, ул бикләү экранына фон буларак урнаштырылачак</string>
-    <string name="audio_title_alignment">Аудио исеменең тигезләнүе</string>
-    <string name="audio_title_alignment_default">Гадәттәгечә</string>
-    <string name="audio_title_alignment_left">Сулда</string>
-    <string name="audio_title_alignment_centre">Уртада</string>
-    <string name="audio_title_alignment_right">Уңда</string>
-    <string name="audio_title_alignment_marquee">Йөгерек юл</string>
-    <string name="audio_save_repeat_title">Кабатлау режимын саклау</string>
     <string name="audio_boost_title">Тавышны көчәйтү</string>
     <string name="headset_prefs_category">Колакчын</string>
     <string name="enable_headset_detection">Гарнитураны күзәтү</string>
@@ -361,7 +346,6 @@
     <string name="auto_rescan">Үзе кабат сканерлау</string>
     <string name="auto_rescan_summary">Кушымтаны кабызганда җайланманы яңа яисә бетерелгән медиафайлларга автоматик рәвештә тикшерү</string>
     <string name="clear_media_db">Мета мәгълүмат нигезен чистарту</string>
-    <string name="clear_media_db_summary">Android VLC базасыннан мәгълүматларны бетерү</string>
     <string name="media_db_cleared">Мета мәгълүмат нигезе чистартылды.</string>
     <string name="set_locale">Тел мохите</string>
     <string name="set_locale_detail">Буш юл килешү буенча мәгънәне аңлата</string>
@@ -400,11 +384,9 @@
     <string name="audio_delay">Аудио соңаруы</string>
     <string name="spu_delay">Субтитрлар соңаруы</string>
     <string name="sleep_time_not_set">бирелмәгән</string>
-    <string name="network_shares_discovery">Уртак челтәрләрне карау…</string>
     <string name="network_empty">Бу папка буш.</string>
     <string name="network_connection_needed">Локаль челтәргә тоташу юк.</string>
     <string name="search_hint">Медианы эзләү</string>
-    <string name="search_list_hint">Хәзерге уйнату битендә эзләү</string>
     <string name="search_global">Бөтен медиаханәдә эзләү</string>
     <string name="directory_show_medialib">Медиаханәдә күрсәтү</string>
     <string name="directory_hide_medialib">Медиаханәдән бетерү</string>
@@ -413,8 +395,6 @@
     <string name="chapter">Бүлек</string>
     <string name="resume_from_position">Соңгы урыннан дәвам итү</string>
     <string name="confirm_resume">Соңгы урыннан дәвам итәргәме?</string>
-    <string name="confirm_resume_title">Уйнатуны дәвам итүне тәкъдим итү</string>
-    <string name="confirm_resume_summary">Мөмкин булса, сезгә уйнатуны соңгы урыннан дәвам итү тәкъдим ителәчәк</string>
     <string name="directory_empty">Каталог буш</string>
     <string name="tv_ui_title">Android TV күренеше</string>
     <string name="tv_ui_summary">Күренешне TV өчен темага алыштыру</string>

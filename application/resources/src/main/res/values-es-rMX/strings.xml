@@ -112,7 +112,6 @@
     <string name="noplaylist">Lista no encontrada.</string>
     <string name="mediafiles">Archivos multimedia</string>
     <string name="notavailable">No disponible</string>
-    <string name="nosubdirectory">No hay subcarpetas</string>
     <string name="directorynotfound">La ruta del directorio \'%1$s\' no ha sido encontrada</string>
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
     <string name="validation">¿Está seguro?</string>
@@ -475,7 +474,6 @@
     <string name="network_empty">Esta carpeta está vacía.</string>
     <string name="network_connection_needed">No hay conección a red local.</string>
     <string name="search_hint">Buscar medios</string>
-    <string name="search_list_hint">Buscar medios en lista actual</string>
     <string name="search_global">Buscar en todas las biblioteca de medios</string>
     <string name="directory_show_medialib">Mostrar en MediaLib</string>
     <string name="directory_hide_medialib">Ocultar en MediaLib</string>

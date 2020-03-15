@@ -110,7 +110,6 @@
     <string name="noplaylist">No s\'ha trobat cap llista de reproducció.</string>
     <string name="mediafiles">Fitxers multimèdia</string>
     <string name="notavailable">no disponible</string>
-    <string name="nosubdirectory">No hi ha cap subdirectori.</string>
     <string name="directorynotfound">El directori \'%1$s\' no s\'ha trobat.</string>
     <string name="nohistory">Encara no teniu historial de reproducció</string>
     <string name="validation">Esteu segur?</string>

@@ -121,7 +121,6 @@
     <string name="noplaylist">Enginn spilunarlisti fannst.</string>
     <string name="mediafiles">Margmiðlunarskrár</string>
     <string name="notavailable">Ekki tiltækt</string>
-    <string name="nosubdirectory">Engar undirmöppur.</string>
     <string name="directorynotfound">Skráaslóðin \'%1$s\' fannst ekki.</string>
     <string name="nohistory">Enginn afspilunarferill er til staðar.</string>
     <string name="validation">Ertu viss?</string>
@@ -484,7 +483,6 @@
     <string name="network_empty">Þessi mappa er tóm.</string>
     <string name="network_connection_needed">Engin tenging við staðarnet.</string>
     <string name="search_hint">Leita á miðlum</string>
-    <string name="search_list_hint">Leita að margmiðlunarefni í núverandi lista</string>
     <string name="search_global">Leita í öllum miðlasöfnum</string>
     <string name="directory_show_medialib">Birta í MediaLib</string>
     <string name="directory_hide_medialib">Fela úr MediaLib</string>

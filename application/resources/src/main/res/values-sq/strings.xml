@@ -46,8 +46,6 @@
     <string name="insert_next">Vendos tjetër</string>
     <string name="play_all">Luaj t\'gjithë</string>
     <string name="append_all">Shto t\'gjithë</string>
-    <string name="last_playlist">Lista e fundit</string>
-    <string name="last_playlist_shortcut">Vazhdo ridëgjimin</string>
     <string name="delete">Fshij</string>
     <string name="remove">Hiq</string>
     <string name="set_song">Vendos si zile</string>
@@ -93,7 +91,6 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d videos</item>
     </plurals>
-
     <string name="internal_memory">Memoria e brendshme</string>
     <string name="parent_folder">Deri në dosjen kryesore</string>
     <string name="audio">Zëri</string>
@@ -114,7 +111,6 @@
     <string name="noplaylist">Asnjë listë e gjetur</string>
     <string name="mediafiles">Skedarë media</string>
     <string name="notavailable">i padisponueshëm </string>
-    <string name="nosubdirectory">Ska nëndosje.</string>
     <string name="directorynotfound">Rruga e dosjes \'%1$s\' nuk u gjet.</string>
     <string name="nohistory">Ju nuk keni një histori ridëgjimi akoma.</string>
     <string name="validation">Jeni të sigurtë ?</string>
@@ -286,8 +282,6 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Grup videos</string>
-    <string name="video_min_group_length_summary">Videot grupohen nëse shkronja e tyre e para është e njëjta.</string>
-    <string name="video_min_group_length_disable">Gjymto</string>
     <string name="video_min_group_length_folder">Grupo nga dosja</string>
     <string name="video_min_group_length_first">Vetëm shkronja e parë</string>
     <string name="subtitles_prefs_category">Titra</string>

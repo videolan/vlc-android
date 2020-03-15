@@ -48,8 +48,6 @@
     <string name="insert_next">Vstavi naslednjega</string>
     <string name="play_all">Predvajaj vse</string>
     <string name="append_all">Dodaj vse</string>
-    <string name="last_playlist">Zadnji seznam predvajanja</string>
-    <string name="last_playlist_shortcut">Nadaljuj predvajanje</string>
     <string name="delete">Izbriši</string>
     <string name="remove">Odstrani</string>
     <string name="set_song">Nastavi kot zvok zvonjenja</string>
@@ -104,7 +102,6 @@
         <item quantity="few">%d videi</item>
         <item quantity="other">%d videov</item>
     </plurals>
-
     <string name="internal_memory">Notranji pomnilnik</string>
     <string name="parent_folder">V nadrejeno mapo</string>
     <string name="audio">Zvok</string>
@@ -125,7 +122,6 @@
     <string name="noplaylist">Seznama predvajanja ni mogoče najti.</string>
     <string name="mediafiles">Predstavne datoteke</string>
     <string name="notavailable">ni na voljo</string>
-    <string name="nosubdirectory">Ni podmap.</string>
     <string name="directorynotfound">Mape »%1$s« ni mogoče najti.</string>
     <string name="nohistory">Trenutno ni zgodovine predvajanja.</string>
     <string name="validation">Ali ste prepričani?</string>
@@ -299,16 +295,12 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Združuj posnetke v skupine</string>
-    <string name="video_min_group_length_summary">Posnetki so združeni v skupino po prvem znaku naslova.</string>
-    <string name="video_min_group_length_disable">Onemogoči</string>
     <string name="video_min_group_length_first">Upoštevaj le prvo črko</string>
     <string name="video_min_group_length_short">Majhno število črk (6)</string>
     <string name="video_min_group_length_long">Veliko število črk (9)</string>
     <string name="media_fast_seek">Hitro iskanje</string>
     <string name="media_seen">Pokaži oznako že videne vsebine</string>
     <string name="media_seen_summary">Označi posnetek kot že ogledan, kadar je predvajan do konca posnetka.</string>
-    <string name="force_list_portrait">V pokončnem načinu pokaži vsebino kot seznam</string>
-    <string name="force_list_portrait_summary">V pokončnem načinu pokaži posnetke v seznamskem načinu in ne v mrežnem</string>
     <string name="force_play_all_summary">Program predvaja vse posnetke, začne s tistim, ki je prvi izbran</string>
     <string name="force_play_all_title">Predvajaj po seznamu</string>
     <string name="save_brightness_summary">Zapomni si raven svetlosti v predvajalniku videa</string>
@@ -325,7 +317,6 @@
     <string name="popup_keepscreen_title">Ohrani okno predvajalnika v pojavnem načinu</string>
     <string name="popup_keepscreen_summary">Ohrani okno predvajalnika v pojavnem načinu odprto tudi, če je predvajanje v premoru.</string>
     <string name="browser_show_hidden_files_title">Pokaži skrite datoteke</string>
-    <string name="browser_show_hidden_files_summary">Pokaže skrite datoteke v brskalnikih</string>
 
     <string name="subtitles_prefs_category">Podnapisi</string>
     <string name="subtitles_size_title">Velikost podnapisov</string>
@@ -349,14 +340,6 @@
     <string name="lockscreen_cover_summary">Naslovnico posnetka pokaže kot ozadje zaklenjenega zaslona, če je na voljo.</string>
     <string name="playlist_animate_scroll_title">Animiraj samodejno drsenje trenutnega seznama predvajanja</string>
     <string name="playlist_animate_scroll_summary">Animiraj drsenje med prehodi posnetkov</string>
-    <string name="audio_title_alignment">Poravnava naslova zvoka</string>
-    <string name="audio_title_alignment_default">Privzeto</string>
-    <string name="audio_title_alignment_left">Levo</string>
-    <string name="audio_title_alignment_centre">Sredinsko</string>
-    <string name="audio_title_alignment_right">Desno</string>
-    <string name="audio_title_alignment_marquee">Markiza</string>
-    <string name="audio_save_repeat_title">Shrani način ponavljanja</string>
-    <string name="audio_save_repeat_summary">Program si zapomni izbiro načina ponavljanja med nalaganjem seznamov predvajanja.</string>
     <string name="audio_boost_title">Povečaj glasnost čez omejitev</string>
     <string name="audio_boost_summary">Dovoli glasnost do 200 %.</string>
     <string name="headset_prefs_category">Slušalke</string>
@@ -379,6 +362,7 @@
     <string name="casting_quality_lowcpu">Najnižja</string>
     <string name="casting_connected_renderer">Vzpostavljena je povezava z izrisovalnikom »%1$s«.</string>
     <string name="artists_show_all_title">Pokaži vse izvajalce</string>
+
     <string name="extensions_prefs_category">Razširitve</string>
     <string name="extensions_enable_category">Izbor razširitev za uporabo</string>
     <string name="extensions_empty">Ni najdenih programskih razširitev</string>
@@ -409,7 +393,6 @@
     <string name="auto_rescan">Samodejno iskanje</string>
     <string name="auto_rescan_summary">Ob zagonu programa samodejno preišči mape za novo oziroma odstranjeno predstavno vsebino</string>
     <string name="clear_media_db">Počisti podatkovno zbirko predstavnih vsebin</string>
-    <string name="clear_media_db_summary">Možnost brisanja zgodovine je med podrobnostmi VLC</string>
     <string name="media_db_cleared">Podatkovna zbirka predstavnih vsebin je počiščena!</string>
     <string name="set_locale">Nastavitev jezikovnega področja</string>
     <string name="set_locale_detail">Prazno polje ponastavi na privzete vrednosti</string>
@@ -422,7 +405,6 @@
     <string name="quit">Končaj in ponovno zaženi program</string>
     <string name="restart_message_OK">V redu</string>
     <string name="restart_message_Later">Pozneje</string>
-    <string name="browser_show_all_title">Prikaži vse datoteke v brskalniku</string>
     <string name="developer_prefs_category">Razvijalec</string>
     <string name="enable_verbose_mode">Podrobno</string>
     <string name="enable_verbose_mode_summary">Povečaj podrobnost izpisa (logcat)</string>
@@ -463,11 +445,9 @@
     <string name="audio_delay">Zamik zvoka</string>
     <string name="spu_delay">Zamik podnapisov</string>
     <string name="sleep_time_not_set">ni nastavljeno</string>
-    <string name="network_shares_discovery">Iskanje omrežnih mest …</string>
     <string name="network_empty">Mapa je prazna.</string>
     <string name="network_connection_needed">Ni povezave s krajevnim omrežjem.</string>
     <string name="search_hint">Poišči vsebino</string>
-    <string name="search_list_hint">Poišči predstavne datoteke na trenutnem seznamu</string>
     <string name="search_global">Poišči predstavne datoteke v celotni zbirki</string>
     <string name="directory_show_medialib">Prikaži v knjižnici MediaLib</string>
     <string name="directory_hide_medialib">Skrij pred knjižnico MediaLib</string>
@@ -477,8 +457,6 @@
     <string name="chapter">Poglavje</string>
     <string name="resume_from_position">Nadaljuj pri nazadnje ustavljenem mestu</string>
     <string name="confirm_resume">Ali želite nadaljevati pri nazadnje ustavljenem mestu?</string>
-    <string name="confirm_resume_title">Zahtevaj potrditev za nadaljevanje</string>
-    <string name="confirm_resume_summary">Če je možnost omogočena, bo program pred začetkom predvajanja zahteval potrditev za nadaljevanje pri nazadnje ustavljenem mestu.</string>
     <string name="directory_empty">Mapa je prazna</string>
     <string name="tv_ui_title">Vmesnik Android TV</string>
     <string name="tv_ui_summary">Spremeni vmesnik na temo Android TV</string>

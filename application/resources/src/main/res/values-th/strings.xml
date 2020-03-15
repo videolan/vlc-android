@@ -41,7 +41,6 @@
     <string name="insert_next">แทรกถัดไป</string>
     <string name="play_all">เล่นทั้งหมด</string>
     <string name="append_all">ผนวกทั้งหมด</string>
-    <string name="last_playlist">เพลย์ลิสต์ที่เพิ่งเล่นไป</string>
     <string name="delete">ลบ</string>
     <string name="remove">ลบออก</string>
     <string name="set_song">ใช้เป็นเสียงเรียกเข้า</string>
@@ -77,7 +76,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d วิดีโอ</item>
     </plurals>
-
     <string name="internal_memory">หน่วยความจำภายใน</string>
     <string name="parent_folder">กลับไปยังโฟลเดอร์ก่อนหน้านี้</string>
     <string name="audio">เสียง</string>
@@ -98,7 +96,6 @@
     <string name="noplaylist">ไม่พบเพลย์ลิสต์</string>
     <string name="mediafiles">ไฟล์สื่อ</string>
     <string name="notavailable">ไม่สามารถใช้ได้</string>
-    <string name="nosubdirectory">ไม่มีไดเรกทอรีย่อย</string>
     <string name="directorynotfound">ไม่พบเส้นทางไดเรกทอรี \'%1$s\'</string>
     <string name="nohistory">ยังไม่มีประวัติการเล่นของคุณ</string>
     <string name="validation">คุณแน่ใจหรือไม่</string>
@@ -265,15 +262,11 @@
 
     <string name="video_prefs_category">วิดีโอ</string>
     <string name="video_min_group_length_title">จัดกลุ่มวิดีโอ</string>
-    <string name="video_min_group_length_summary">วิดีโอจะถูกจัดกลุ่มหากตัวอักษรตัวแรกเหมือนกัน</string>
-    <string name="video_min_group_length_disable">ปิดใช้งาน</string>
     <string name="video_min_group_length_first">ตัวอักษรตัวแรกเท่านั้น</string>
     <string name="video_min_group_length_short">จำนวนตัวอักษรน้อย (6)</string>
     <string name="video_min_group_length_long">จำนวนตัวอักษรมาก (9)</string>
     <string name="media_seen">แสดงเครื่องหมายว่าวิดีโอนี้ดูแล้ว</string>
     <string name="media_seen_summary">ทำเครื่องหมายวิดีโอว่าดูแล้วเมื่อคุณเปิดเล่นวิดีโอจนจบ</string>
-    <string name="force_list_portrait">ไม่แสดงในรูปแบบตารางกริดในโหมดการแสดงผลแนวนอน</string>
-    <string name="force_list_portrait_summary">แสดงวิดีโอในรูปแบบรายการแทนรูปแบบตารางกริดเมื่ออยู่ในโหมดการแสดงผลแบบแนวนอน</string>
     <string name="force_play_all_summary">เล่นวิดีโอทั้งหมด โดยเริ่มจากวิดีโอที่คุณคลิกเลือก</string>
     <string name="force_play_all_title">โหมดเพลย์ลิสต์วิดีโอ</string>
     <string name="save_brightness_summary">จดจำระดับความสว่างในโปรแกรมเล่นวิดีโอ</string>
@@ -290,7 +283,6 @@
     <string name="popup_keepscreen_title">คงหน้าจอให้เปิดไว้ในโหมดป๊อปอัพ</string>
     <string name="popup_keepscreen_summary">คงหน้าจอให้เปิดไว้เสมอเมื่อแสดงป๊อปอัพ แม้ว่าจะพักวิดีโออยู่ก็ตาม</string>
     <string name="browser_show_hidden_files_title">แสดงไฟล์ที่ซ่อนอยู่</string>
-    <string name="browser_show_hidden_files_summary">แสดงไฟล์ที่ซ่อนอยู่ในเบราว์เซอร์</string>
 
     <string name="subtitles_prefs_category">คำบรรยาย</string>
     <string name="subtitles_size_title">ขนาดคำบรรยาย</string>
@@ -314,14 +306,6 @@
     <string name="lockscreen_cover_summary">เมื่อพร้อมใช้งาน ให้ตั้งปกอัลบั้มสื่อปัจจุบันเป็นภาพพื้นหลังของหน้าจอล็อก</string>
     <string name="playlist_animate_scroll_title">แสดงภาพเคลื่อนไหวการเลื่อนเพลย์ลิสต์ปัจจุบันอัตโนมัติ</string>
     <string name="playlist_animate_scroll_summary">แสดงภาพเคลื่อนไหวเมื่อเปลี่ยนสื่อ</string>
-    <string name="audio_title_alignment">การจัดวางชื่อเสียง</string>
-    <string name="audio_title_alignment_default">ค่าเริ่มต้น</string>
-    <string name="audio_title_alignment_left">ซ้าย</string>
-    <string name="audio_title_alignment_centre">กึ่งกลาง</string>
-    <string name="audio_title_alignment_right">ขวา</string>
-    <string name="audio_title_alignment_marquee">ตัวอักษรวิ่ง</string>
-    <string name="audio_save_repeat_title">บันทึกโหมดเล่นซ้ำ</string>
-    <string name="audio_save_repeat_summary">จดจำโหมดเล่นซ้ำเมื่อโหลดเพลย์ลิสต์เสียง</string>
     <string name="audio_boost_title">การเพิ่มเสียง</string>
     <string name="headset_prefs_category">ชุดหูฟัง</string>
     <string name="enable_headset_detection">ตรวจหาชุดหูฟัง</string>
@@ -348,7 +332,6 @@
     <string name="cast_performance_warning">จำเป็นต้องแปลงก่อนแคสต์วิดีโอนี้ การแปลงอาจใช้พลังงานที่มีอยู่ทั้งหมดและอาจทำให้พบังงานแบตเตอรี่ลดน้อยลงอย่างรวดเร็วได้</string>
     <string name="casting_connected_renderer">เชื่อมต่อตัวแสดง \'%1$s\' แล้ว</string>
     <string name="artists_show_all_title">แสดงศิลปินทั้งหมด</string>
-    <string name="artists_show_all_summary">แสดงศิลปินทั้งหมดในรายการ \"ศิลปิน\" โดยไม่แสดงเฉพาะศิลปินอัลบั้ม</string>
 
     <string name="extensions_prefs_category">ส่วนขยาย</string>
     <string name="extensions_enable_category">เลือกส่วนขยายที่จะเปิดใช้งาน</string>
@@ -380,7 +363,6 @@
     <string name="auto_rescan">สแกนใหม่อัตโนมัติ</string>
     <string name="auto_rescan_summary">สแกนอุปกรณ์ว่ามีสื่อใดเพิ่มหรือถูกลบออกไปโดยอัตโนมัติเมื่อเปิดแอปพลิเคชัน</string>
     <string name="clear_media_db">ล้างฐานข้อมูลสื่อ</string>
-    <string name="clear_media_db_summary">เข้าถึงข้อมูลของ Android VLC เพื่อล้างข้อมูล</string>
     <string name="media_db_cleared">ล้างฐานข้อมูลสื่อเรียบร้อยแล้ว</string>
     <string name="set_locale">ตั้งภาษา</string>
     <string name="set_locale_detail">ปล่อยว่างไว้เพื่อรีเซ็ต</string>
@@ -419,11 +401,9 @@
     <string name="audio_delay">หน่วงเวลาเสียง</string>
     <string name="spu_delay">หน่วงเวลาคำบรรยาย</string>
     <string name="sleep_time_not_set">ไม่ได้ตั้งค่าไว้</string>
-    <string name="network_shares_discovery">กำลังมองหาการแชร์ทางเครือข่าย…</string>
     <string name="network_empty">ไดเรกทอรีนี้ว่างเปล่า</string>
     <string name="network_connection_needed">ไม่มีการเชื่อมต่อเครือข่ายเฉพาะที่</string>
     <string name="search_hint">ค้นหาสื่อ</string>
-    <string name="search_list_hint">ค้นหาสื่อในรายการปัจจุบัน</string>
     <string name="search_global">ค้นหาในคลังสื่อทั้งหมด</string>
     <string name="directory_show_medialib">แสดงในคลังสื่อ</string>
     <string name="directory_hide_medialib">ซ่อนจากคลังสื่อ</string>
@@ -432,8 +412,6 @@
     <string name="chapter">ตอน</string>
     <string name="resume_from_position">เล่นต่อจากตำแหน่งที่เล่นล่าสุด</string>
     <string name="confirm_resume">เล่นต่อจากตำแหน่งล่าสุดหรือไม่</string>
-    <string name="confirm_resume_title">ถามก่อนเล่นต่อ</string>
-    <string name="confirm_resume_summary">หากเปิดใช้งาน คุณจะถูกถามว่าต้องการเล่นวิดีโอจากตำแหน่งล่าสุดหรือไม่</string>
     <string name="directory_empty">ไดเรกทอรีว่างเปล่า</string>
     <string name="tv_ui_title">อินเทอร์เฟซสำหรับ Android TV</string>
     <string name="tv_ui_summary">เปลี่ยนธีมอินเทอร์เฟซเป็นแบบเดียวกับค่าเริ่มต้นของทีวี</string>

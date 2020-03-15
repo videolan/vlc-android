@@ -25,7 +25,6 @@
     <string name="append">Дадаць</string>
     <string name="play_all">Граць усё</string>
     <string name="append_all">Дадаць усё</string>
-    <string name="last_playlist">Апошні плэйліст</string>
     <string name="delete">Выдаліць</string>
     <string name="remove">Выдаліць</string>
     <string name="set_song">Паставіць рынгтонам</string>
@@ -71,7 +70,6 @@
         <item quantity="many">%d відэа</item>
         <item quantity="other">%d відэа</item>
     </plurals>
-
     <string name="internal_memory">Унутраная памяць</string>
     <string name="parent_folder">Да бацькоўскай папкі</string>
     <string name="audio">Аўдыё</string>
@@ -91,7 +89,6 @@
     <string name="nomedia">Медыяфайлы не знойдзены. Перадайце файлы на прыладу альбо скарэктуйце настаўленні.</string>
     <string name="mediafiles">Медыяфайлы</string>
     <string name="notavailable">недаступны</string>
-    <string name="nosubdirectory">Няма падкаталогаў.</string>
     <string name="directorynotfound">Каталог «%1$s» не знойдзены.</string>
     <string name="nohistory">Няма гісторыі прайгравання.</string>
     <string name="validation">Упэўнены?</string>
@@ -198,12 +195,6 @@
     <string name="interface_other_category">Інтэрфейс - Іншае</string>
 
     <string name="enable_brightness_gesture_summary">Кантраляваць яркасць жэстам у часе прайгравання відэа.</string>
-    <string name="audio_title_alignment">Выраўнанне аўдыё-субтытраў</string>
-    <string name="audio_title_alignment_default">стандартна</string>
-    <string name="audio_title_alignment_left">злева</string>
-    <string name="audio_title_alignment_centre">па-цэнтры</string>
-    <string name="audio_title_alignment_right">справа</string>
-    <string name="audio_title_alignment_marquee">бягучым радком</string>
     <string name="enable_headset_detection">Вызначаць навушнікі</string>
     <string name="enable_steal_remote_control">Кантроль толькі з навушнікаў</string>
     <string name="enable_steal_remote_control_summary">Пазбегнуць канфліктаў, скраўшы аддалены кантроль у іншых праграм. Гэта дазваляе не пачынаць тэлефанаваць пры падвойным шчаўшчку на тэлефонах HTC.</string>

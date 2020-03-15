@@ -23,7 +23,6 @@
     <string name="append">Ískoyt</string>
     <string name="play_all">Spæl alt</string>
     <string name="append_all">Ískoyt alt</string>
-    <string name="last_playlist">Seinasti spælilisti</string>
     <string name="delete">Strika</string>
     <string name="remove">Tak burtur</string>
     <string name="set_song">Sum sum ringitóni</string>
@@ -59,7 +58,6 @@
         <item quantity="one">1 sjónband</item>
         <item quantity="other">%d sjónbond</item>
     </plurals>
-
     <string name="internal_memory">Innara minni</string>
     <string name="parent_folder">Upp til foreldramappu</string>
     <string name="audio">Ljóð</string>
@@ -79,7 +77,6 @@
     <string name="nomedia">Eingin miðlafíla funnin, vinaliga flyt onkrar fílur inn á eina eind ella broyt stillingarnar.</string>
     <string name="mediafiles">Miðlafílur</string>
     <string name="notavailable">ikki tøkt</string>
-    <string name="nosubdirectory">Ongar undirskráir</string>
     <string name="directorynotfound">Fíluskráin á leiðini \'%1$s\' var ikki funnin.</string>
     <string name="nohistory">Tú hevur onga avspælingarsøgu enn.</string>
     <string name="validation">Ert tú vis/ur?</string>
@@ -184,12 +181,6 @@
     <string name="interface_other_category">Takførisflati - Annað</string>
 
     <string name="enable_brightness_gesture_summary">Stýr ljósstyrki við keipum, tá ið sjónbond verða spæld.</string>
-    <string name="audio_title_alignment">Stilling fyri heiti á ljóði</string>
-    <string name="audio_title_alignment_default">Vanliga</string>
-    <string name="audio_title_alignment_left">Vinstra</string>
-    <string name="audio_title_alignment_centre">Miðja</string>
-    <string name="audio_title_alignment_right">Høgra</string>
-    <string name="audio_title_alignment_marquee">Tjald</string>
     <string name="enable_headset_detection">Finn høvuðsett</string>
     <string name="enable_steal_remote_control">Serlig fjarstýring til høvuðsett</string>
     <string name="enable_steal_remote_control_summary">Ansa eftir, at fjarstýringin ikki órógvar onnur forrit. Vandi er í, at tú kemur til at ringja við dupultum klikki á HTC-telefonum.</string>

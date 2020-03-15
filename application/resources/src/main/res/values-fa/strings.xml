@@ -114,7 +114,6 @@
     <string name="noplaylist">هیچ سیاههٔ پخشی یافت نشد.</string>
     <string name="mediafiles">فایل های رسانه‌ای</string>
     <string name="notavailable">در دسترس نیست</string>
-    <string name="nosubdirectory">هیچ زیر شاخه ای نیست.</string>
     <string name="directorynotfound">مسیر پوشه \'%1$s\' یافت نشد.</string>
     <string name="nohistory">هنوز هیچ سابقه پخشی نداری.</string>
     <string name="validation">آیا اطمینان داری؟</string>
@@ -378,7 +377,6 @@
     <string name="drawer_close">بستن کشو ناوبری</string>
     <string name="network_browsing">شبکه محلی</string>
     <string name="search_hint">جستجوی رسانه</string>
-    <string name="search_list_hint">جستجوی محتوا در لیست فعلی</string>
     <string name="search_global">جستجو در تمام کتابخانه</string>
     <string name="directory_show_medialib">نمایش در MediaLib</string>
     <string name="directory_hide_medialib">پنهان‌سازی از MediaLib</string>

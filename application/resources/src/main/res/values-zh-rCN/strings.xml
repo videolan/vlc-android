@@ -45,8 +45,6 @@
     <string name="insert_next">作为下一曲</string>
     <string name="play_all">播放全部</string>
     <string name="append_all">追加全部</string>
-    <string name="last_playlist">上次使用时的播放列表</string>
-    <string name="last_playlist_shortcut">继续播放</string>
     <string name="delete">删除</string>
     <string name="remove">移除</string>
     <string name="set_song">设为铃声</string>
@@ -88,7 +86,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d 个视频</item>
     </plurals>
-
     <string name="internal_memory">内部存储</string>
     <string name="parent_folder">转到上级目录</string>
     <string name="audio">音频</string>
@@ -109,7 +106,6 @@
     <string name="noplaylist">未找到播放列表。</string>
     <string name="mediafiles">媒体文件</string>
     <string name="notavailable">不可用</string>
-    <string name="nosubdirectory">无子目录。</string>
     <string name="directorynotfound">目录路径「%1$s」不存在。</string>
     <string name="nohistory">尚无播放历史记录。</string>
     <string name="validation">是否确定?</string>
@@ -287,8 +283,6 @@
 
     <string name="video_prefs_category">视频</string>
     <string name="video_min_group_length_title">视频分组</string>
-    <string name="video_min_group_length_summary">若视频的首字母相同，则将其分组。</string>
-    <string name="video_min_group_length_disable">禁用</string>
     <string name="video_min_group_length_folder">按文件夹分组</string>
     <string name="video_min_group_length_first">仅首个字母相同</string>
     <string name="video_min_group_length_short">少量字母相同 (6)</string>
@@ -299,8 +293,6 @@
     <string name="video_transition_summary">切换时显示新视频标题</string>
     <string name="media_seen">显示视频已看过标记</string>
     <string name="media_seen_summary">当视频播放到底时标记为已经看过</string>
-    <string name="force_list_portrait">竖屏模式不以网格形式显示</string>
-    <string name="force_list_portrait_summary">竖屏模式下，以列表形式而不是网格形式显示视频</string>
     <string name="force_play_all_summary">播放所有视频，从您点击的那个视频开始</string>
     <string name="force_play_all_title">视频播放列表模式</string>
     <string name="save_brightness_summary">记住使用视频播放器时的亮度级别</string>
@@ -318,7 +310,6 @@
     <string name="popup_keepscreen_title">浮层模式保持屏幕常亮</string>
     <string name="popup_keepscreen_summary">浮层模式显示时总保持屏幕常亮，即使视频已暂停。</string>
     <string name="browser_show_hidden_files_title">显示隐藏文件</string>
-    <string name="browser_show_hidden_files_summary">浏览器中显示隐藏文件</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
@@ -342,14 +333,6 @@
     <string name="lockscreen_cover_summary">可用时，将当前媒体的专辑封面设为锁屏桌面</string>
     <string name="playlist_animate_scroll_title">当前播放列表自动滚动的动画效果</string>
     <string name="playlist_animate_scroll_summary">媒体切换时的滚动动画效果</string>
-    <string name="audio_title_alignment">音频标题对齐</string>
-    <string name="audio_title_alignment_default">默认</string>
-    <string name="audio_title_alignment_left">居左</string>
-    <string name="audio_title_alignment_centre">居中</string>
-    <string name="audio_title_alignment_right">居右</string>
-    <string name="audio_title_alignment_marquee">滚动</string>
-    <string name="audio_save_repeat_title">保存重复模式</string>
-    <string name="audio_save_repeat_summary">加载音频播放列表时记住重复模式</string>
     <string name="audio_boost_title">音频增强</string>
     <string name="audio_boost_summary">允许音量放大到 200%</string>
     <string name="headset_prefs_category">耳机</string>
@@ -378,7 +361,6 @@
     <string name="cast_performance_warning">此视频投屏需要进行格式转换。此类转换将令处理器全速运转，可能会迅速耗尽您的电池。</string>
     <string name="casting_connected_renderer">已连接到渲染器「%1$s」</string>
     <string name="artists_show_all_title">显示所有艺术家</string>
-    <string name="artists_show_all_summary">在「艺术家」列表显示所有艺术家，而不是只显示专辑艺术家</string>
 
     <string name="extensions_prefs_category">扩展</string>
     <string name="extensions_enable_category">选择要启用的扩展</string>
@@ -413,7 +395,6 @@
     <string name="dump_media_db">转储媒体数据库</string>
     <string name="dump_media_db_summary">将数据库复制到内部存储根目录</string>
     <string name="clear_media_db">清除媒体数据库</string>
-    <string name="clear_media_db_summary">前往 Android 系统的 VLC 属性页面，清空数据</string>
     <string name="clear_history">清除历史</string>
     <string name="media_db_cleared">媒体数据库已清除!</string>
     <string name="set_locale">设置区域变量</string>
@@ -430,9 +411,6 @@
     <string name="restart_message">改动将在应用重新启动后生效。\n\n是否现在重启?</string>
     <string name="restart_message_OK">确定</string>
     <string name="restart_message_Later">稍后</string>
-    <string name="browser_show_all_title">浏览器中显示所有文件</string>
-    <string name="browser_show_all_summary">在浏览器中显示未被识别为音视频的文件</string>
-
     <string name="developer_prefs_category">开发人员</string>
     <string name="enable_verbose_mode">详尽模式</string>
     <string name="enable_verbose_mode_summary">增加详尽程度 (logcat)</string>
@@ -475,11 +453,9 @@
     <string name="audio_delay">音频延迟</string>
     <string name="spu_delay">字幕延迟</string>
     <string name="sleep_time_not_set">未设置</string>
-    <string name="network_shares_discovery">正在查找网络共享…</string>
     <string name="network_empty">该目录为空。</string>
     <string name="network_connection_needed">本地网络无连接。</string>
     <string name="search_hint">搜索媒体</string>
-    <string name="search_list_hint">在当前列表中搜索媒体</string>
     <string name="search_global">在所有媒体库中搜索媒体</string>
     <string name="directory_show_medialib">在媒体库中显示</string>
     <string name="directory_hide_medialib">从媒体库中隐藏</string>
@@ -489,8 +465,6 @@
     <string name="chapter">章节</string>
     <string name="resume_from_position">从上次播放到的位置继续</string>
     <string name="confirm_resume">是否从上次播放到的位置继续播放？</string>
-    <string name="confirm_resume_title">确认是否继续播放</string>
-    <string name="confirm_resume_summary">若启用，在视频可以从上次播放到的位置继续播放时，将会征求您的意见</string>
     <string name="directory_empty">目录为空</string>
     <string name="tv_ui_title">Android TV 界面</string>
     <string name="tv_ui_summary">将 UI 改为适应 TV 的主题</string>
@@ -674,7 +648,6 @@
     <string name="popup_force_legacy_title">使用自定义画中画弹窗</string>
     <string name="popup_force_legacy_summary">使用大小可调整的自定义画中画弹出窗口</string>
     <string name="device_default">设备默认</string>
-    <string name="track_number">%s 条轨道</string>
     <string name="jump_to">跳转到</string>
     <string name="show_video_thumbnails_summary">在列表中显示视频缩略图</string>
     <string name="show_video_thumbnails">视频缩略图</string>

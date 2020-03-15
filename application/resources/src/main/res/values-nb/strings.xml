@@ -111,7 +111,6 @@
     <string name="noplaylist">Ingen spillelister funnet.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">Ikke tilgjengelig</string>
-    <string name="nosubdirectory">Ingen undermapper.</string>
     <string name="directorynotfound">Mappestien «%1$s» finnes ikke.</string>
     <string name="nohistory">Du har ingen avspillingshistorie enda.</string>
     <string name="validation">Er du sikker?</string>
@@ -473,7 +472,6 @@
     <string name="network_empty">Denne mappen er tom.</string>
     <string name="network_connection_needed">Ingen tilkobling til lokalt nettverk.</string>
     <string name="search_hint">Søk i medier</string>
-    <string name="search_list_hint">Søk etter medier i den nåværende listen</string>
     <string name="search_global">Søk i hele mediebiblioteket</string>
     <string name="directory_show_medialib">Vis i MediaLib</string>
     <string name="directory_hide_medialib">Skjul fra MediaLib</string>

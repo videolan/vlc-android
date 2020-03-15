@@ -23,7 +23,6 @@
     <string name="append">Append</string>
     <string name="play_all">Play all</string>
     <string name="append_all">Append all</string>
-    <string name="last_playlist">Last playlist</string>
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
     <string name="set_song">Set as ringtone</string>
@@ -59,7 +58,6 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d videos</item>
     </plurals>
-
     <string name="internal_memory">Internal memory</string>
     <string name="parent_folder">Up to parent folder</string>
     <string name="audio">Audio</string>
@@ -79,7 +77,6 @@
     <string name="nomedia">No media files found, please transfer some files to your device or adjust your preferences.</string>
     <string name="mediafiles">Media files</string>
     <string name="notavailable">not available</string>
-    <string name="nosubdirectory">No subdirectories.</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
     <string name="nohistory">You have no playback history yet.</string>
     <string name="validation">Are you sure?</string>
@@ -184,12 +181,6 @@
     <string name="interface_other_category">Interface - Other</string>
 
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
-    <string name="audio_title_alignment">Audio title alignment</string>
-    <string name="audio_title_alignment_default">Default</string>
-    <string name="audio_title_alignment_left">Left</string>
-    <string name="audio_title_alignment_centre">Centre</string>
-    <string name="audio_title_alignment_right">Right</string>
-    <string name="audio_title_alignment_marquee">Marquee</string>
     <string name="enable_headset_detection">Detect headset</string>
     <string name="enable_steal_remote_control">Exclusive headset remote control</string>
     <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>

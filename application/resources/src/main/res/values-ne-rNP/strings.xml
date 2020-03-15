@@ -41,11 +41,10 @@
     <string name="play_as_audio_background">भिडियोहरू पृष्ठभूमिमा बजाउनुहोस्</string>
     <string name="append">थप्नुहोस</string>
     <string name="insert_next">अर्को घुसाउनुहोस्</string>
-    <string name="play_all">सबै बजाउनुहोस</string>
-    <string name="append_all">सबै थप्नुहोस</string>
-    <string name="last_playlist">अंतिम प्लेलिस्ट</string>
-    <string name="delete">रद्द गर्नुहोस</string>
-    <string name="remove">रद्द गर्नुहोस</string>
+    <string name="play_all">सबै बजाउनुहोस्</string>
+    <string name="append_all">सबै थप्नुहोस्</string>
+    <string name="delete">रद्द गर्नुहोस्</string>
+    <string name="remove">रद्द गर्नुहोस्</string>
     <string name="set_song">रिङटोनको रुपमा राख्ने</string>
     <string name="info">जानकारी</string>
     <string name="confirm_delete">\'%1$s\' फाइल  रद्द गर्न चाहनुहुन्छ ?</string>
@@ -86,15 +85,14 @@
         <item quantity="one">1 वीडियो</item>
         <item quantity="other">%d वीडियो</item>
     </plurals>
-
     <string name="internal_memory">आन्तरिक भन्डारण</string>
     <string name="parent_folder">प्यारेन्ट फोल्डरमा जानुहोस</string>
     <string name="audio">अडियो</string>
     <string name="video">भिडियो</string>
     <string name="bookmarks">पुस्तकचिनो</string>
     <string name="equalizer">इक्वालाइजर</string>
-    <string name="all_albums">सबै एलबमहरु</string>
-    <string name="genres">शैलीहरु</string>
+    <string name="all_albums">सबै एलबमहरू</string>
+    <string name="genres">शैलीहरू</string>
     <string name="playlists">प्लेलिस्टहरु</string>
     <string name="title">शिर्षक</string>
     <string name="artist">कलाकार</string>
@@ -107,7 +105,6 @@
     <string name="noplaylist">कुनै पनि बजाउने भेटिएन।</string>
     <string name="mediafiles">मेडिया फाईलहरु</string>
     <string name="notavailable">उपलब्ध हुन् सकेन</string>
-    <string name="nosubdirectory">उपनिर्देशिका</string>
     <string name="directorynotfound">डाइरेक्टरी पाथ \'%1$s\' भेटिएन।</string>
     <string name="nohistory">अहिले सम्म तपाईँसँग बजाएको इतिहास छैन ।</string>
     <string name="validation">तपाई पक्का हुनुहुन्छ?</string>
@@ -234,7 +231,6 @@
     <string name="interface_other_category">इन्टरफेस-अन्य</string>
 
     <string name="video_prefs_category">भिडियो</string>
-    <string name="video_min_group_length_disable">निस्क्रिय पार्नुहोस्</string>
     <string name="video_min_group_length_first">पहिलो अक्षर मात्र</string>
     <string name="subtitles_size_small">सानो</string>
     <string name="subtitles_size_normal">सामान्य</string>
@@ -247,10 +243,6 @@
     <string name="subtitles_color_yellow">पहेँलो</string>
     <string name="subtitles_color_green">हरियो</string>
     <string name="audio_prefs_category">अडियो</string>
-    <string name="audio_title_alignment_default">पूर्वनिर्धारित</string>
-    <string name="audio_title_alignment_left">देब्रे</string>
-    <string name="audio_title_alignment_centre">केन्द्र</string>
-    <string name="audio_title_alignment_right">दाहिने</string>
     <string name="headset_prefs_category">हेडसेट</string>
     <string name="enable_headset_detection">हेडसेट पत्तालगानुहोस</string>
     <string name="extensions_prefs_category">एक्सटेन्सन</string>

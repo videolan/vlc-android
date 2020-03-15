@@ -24,7 +24,6 @@
     <string name="append">Prisvoji</string>
     <string name="play_all">Produciraj sve</string>
     <string name="append_all">Prisvoji sve</string>
-    <string name="last_playlist">Posljednja lista izvođenja</string>
     <string name="delete">Izbriši</string>
     <string name="remove">Izbriši</string>
     <string name="set_song">Postavi kao zvono</string>
@@ -65,7 +64,6 @@
         <item quantity="few">%d videa</item>
         <item quantity="other">%d  videi</item>
     </plurals>
-
     <string name="internal_memory">Interna memorija</string>
     <string name="parent_folder">Do nadređene mape</string>
     <string name="audio">Zvuk</string>
@@ -85,7 +83,6 @@
     <string name="nomedia">Medijske datoteke nisu pronađene, molimo prenesite neke datoteke na svoj uređaj ili podesite svoje postavke.</string>
     <string name="mediafiles">Medijske datoteke</string>
     <string name="notavailable">nije dostupno</string>
-    <string name="nosubdirectory">Nema poddirektorija.</string>
     <string name="directorynotfound">Putanja direktorija \'%1$s\' nije pronađena.</string>
     <string name="nohistory">Nemate historiju reproduciranja.</string>
     <string name="validation">Da li ste sigurni?</string>
@@ -191,12 +188,6 @@
     <string name="interface_other_category">Interfejs - Drugo</string>
 
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
-    <string name="audio_title_alignment">Poravnanje naslova zvuka</string>
-    <string name="audio_title_alignment_default">Zadano</string>
-    <string name="audio_title_alignment_left">Lijevo</string>
-    <string name="audio_title_alignment_centre">Centar</string>
-    <string name="audio_title_alignment_right">Desno</string>
-    <string name="audio_title_alignment_marquee">Pokretni tekst</string>
     <string name="enable_headset_detection">Pronađi slušalice</string>
     <string name="enable_steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
     <string name="enable_steal_remote_control_summary">Izbjegavaj konflikt preuzimanja daljinskog upravljanja od drugih aplikacija. Ovo sprječava pozivanje na dupli klik kod HTC telefona.</string>

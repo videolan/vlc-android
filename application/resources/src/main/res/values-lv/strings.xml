@@ -35,7 +35,6 @@
     <string name="append">Pievienot</string>
     <string name="play_all">Atskaņot visu</string>
     <string name="append_all">Pievienot visu</string>
-    <string name="last_playlist">Pēdējais atskaņošanas saraksts</string>
     <string name="delete">Izdzēst</string>
     <string name="remove">Noņemt</string>
     <string name="set_song">Iestatīt kā zvana signālu</string>
@@ -76,7 +75,6 @@
         <item quantity="one">1 videos</item>
         <item quantity="other">%d video</item>
     </plurals>
-
     <string name="internal_memory">iekšējā atmiņa</string>
     <string name="parent_folder">Līdz mātes mapei</string>
     <string name="audio">Audio</string>
@@ -95,7 +93,6 @@
     <string name="please_wait">Lūdzu uzgaidiet …</string>
     <string name="mediafiles">Multivides faili</string>
     <string name="notavailable">Nav pieejams</string>
-    <string name="nosubdirectory">Nav apakšdirektorijas.</string>
     <string name="directorynotfound">Direktorijas ceļš \'%1$s\' netika atrasts.</string>
     <string name="nohistory">Jums nav atskaņošanas vēstures vēl.</string>
     <string name="validation">Vai esat pārliecināts?</string>
@@ -178,10 +175,6 @@
     <string name="interface_other_category">Interfeiss - Cits</string>
 
     <string name="enable_brightness_gesture_summary">Kontrolējiet spilgtumu ar žestu video atskaņošanas laikā</string>
-    <string name="audio_title_alignment_default">Noklusējuma</string>
-    <string name="audio_title_alignment_left">Kreisais</string>
-    <string name="audio_title_alignment_centre">Centrs</string>
-    <string name="audio_title_alignment_right">Labais</string>
     <string name="enable_headset_detection">Atklāt austiņas</string>
     <string name="enable_steal_remote_control">Ekskluzīvs austiņu tālvadības pults</string>
     <string name="enable_steal_remote_control_summary">Izvairīties no konfliktiem nozogot tālvadības pulti no citām lietojumprogrammām. Tas novērš Zvanu dubultklikšķi uz HTC telefoniem.</string>

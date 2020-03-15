@@ -25,7 +25,6 @@
     <string name="append">Tambahkan</string>
     <string name="play_all">Mainkan semua</string>
     <string name="append_all">Tambahkan semua</string>
-    <string name="last_playlist">Daftar putar terakhir</string>
     <string name="delete">Hapus</string>
     <string name="remove">Buang</string>
     <string name="set_song">Atur sebagai nada dering</string>
@@ -59,7 +58,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d video</item>
     </plurals>
-
     <string name="internal_memory">Memori internal</string>
     <string name="parent_folder">Naik ke folder utama</string>
     <string name="audio">Audio</string>
@@ -79,7 +77,6 @@
     <string name="nomedia">Berkas tidak ditemukan, silakan transfer berkas ke perangkat Anda atau ubah preferensi Anda</string>
     <string name="mediafiles">Berkas media</string>
     <string name="notavailable">tidak tersedia</string>
-    <string name="nosubdirectory">Tidak mempunyai subdirektori</string>
     <string name="nohistory">Anda belum memiliki riwayat pemutaran.</string>
     <string name="validation">Anda yakin?</string>
 
@@ -207,10 +204,6 @@
     <string name="subtitles_autoload_title">Muat otomatis terjemahan</string>
 
     <string name="audio_prefs_category">Audio</string>
-    <string name="audio_title_alignment_default">Default</string>
-    <string name="audio_title_alignment_left">Kiri</string>
-    <string name="audio_title_alignment_centre">Tengah</string>
-    <string name="audio_title_alignment_right">Kanan</string>
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Deteksi headset</string>
     <string name="enable_steal_remote_control">Remot kontrol headset ekslusif</string>
@@ -222,6 +215,7 @@
     <string name="casting_quality_low">Rendah</string>
     <string name="casting_quality_lowcpu">Paling rendah</string>
     <string name="artists_show_all_title">Tampilkan semua artis</string>
+
     <string name="extensions_prefs_category">Ekstensi</string>
     <string name="extensions_empty">Tidak ada ekstensi yang terdeteksi</string>
     <string name="performance_prefs_category">Performa</string>

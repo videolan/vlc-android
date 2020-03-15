@@ -22,7 +22,6 @@
     <string name="append">Qo‘shish</string>
     <string name="play_all">Barchasini ijro etish</string>
     <string name="append_all">Barchasini qo‘shish</string>
-    <string name="last_playlist">So‘nggi ijro ro‘yxati</string>
     <string name="delete">O‘chirish</string>
     <string name="remove">Oʻchirish</string>
     <string name="set_song">Rington sifatida oʻrnatish</string>
@@ -53,7 +52,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d ta video</item>
     </plurals>
-
     <string name="internal_memory">Ichki xotira</string>
     <string name="parent_folder">Asosiy jildga qaytish</string>
     <string name="audio">Audio</string>
@@ -73,7 +71,6 @@
     <string name="nomedia">Hech qanday media fayl topilmadi. Qurilmangizga fayllarni o‘tkazing yoki sozlamalarni o‘zgartiring.</string>
     <string name="mediafiles">Media fayllar</string>
     <string name="notavailable">mavjud emas</string>
-    <string name="nosubdirectory">Hech qanday tagkatalog mavjud emas.</string>
     <string name="directorynotfound">\'%1$s\' jildi topilmadi.</string>
     <string name="nohistory">Ijro tarixi bo‘m-bo‘sh.</string>
     <string name="validation">Ishonchingiz komilmi?</string>
@@ -177,12 +174,6 @@
     <string name="interface_other_category">Interfeys – Boshqa</string>
 
     <string name="enable_brightness_gesture_summary">Video ijrosi davomidagi harakatlarga tegishli yoqrinlikni boshqarish</string>
-    <string name="audio_title_alignment">Audio sarlavhani to\'g\'irlash</string>
-    <string name="audio_title_alignment_default">Birlamchi</string>
-    <string name="audio_title_alignment_left">Chap</string>
-    <string name="audio_title_alignment_centre">Markaz</string>
-    <string name="audio_title_alignment_right">O\'ng</string>
-    <string name="audio_title_alignment_marquee">Suzuvchi</string>
     <string name="enable_headset_detection">Quloqlikni aniqlash</string>
     <string name="enable_steal_remote_control">Ekskluziv masofadagi quloqlik orqali boshqarish</string>
     <string name="enable_steal_remote_control_summary">Boshqa ilova dasturlardagi masofadan boshqarish ziddiyatlaridan qoching. Bu HTC telefonlarda 2 marta chertish orqali amalga oshiriladi.</string>

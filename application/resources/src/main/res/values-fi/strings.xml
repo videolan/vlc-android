@@ -42,7 +42,6 @@
     <string name="insert_next">Lisää seuraava</string>
     <string name="play_all">Toista kaikki</string>
     <string name="append_all">Lisää kaikki loppuun</string>
-    <string name="last_playlist">Edellinen soittolista</string>
     <string name="delete">Poista</string>
     <string name="remove">Irroita</string>
     <string name="set_song">Aseta soittoääneksi</string>
@@ -86,7 +85,6 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d videot</item>
     </plurals>
-
     <string name="internal_memory">Sisäinen muisti</string>
     <string name="parent_folder">Ylempään hakemistoon</string>
     <string name="audio">Ääni</string>
@@ -107,7 +105,6 @@
     <string name="noplaylist">Soittolistaa ei löytynyt.</string>
     <string name="mediafiles">Mediatiedostot</string>
     <string name="notavailable">ei saatavilla</string>
-    <string name="nosubdirectory">Ei alihakemistoja.</string>
     <string name="directorynotfound">Hakemiston polkua \'%1$s\' ei löytynyt.</string>
     <string name="nohistory">Sinulla ei ole vielä toistohistoriaa.</string>
     <string name="validation">Oletko varma?</string>
@@ -272,8 +269,6 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Ryhmitä videot</string>
-    <string name="video_min_group_length_summary">Videot ryhmitetään jos niiden alkukirjain on sama</string>
-    <string name="video_min_group_length_disable">Pois käytöstä</string>
     <string name="video_min_group_length_first">Ensimmäinen kirjain vain</string>
     <string name="media_fast_seek">Nopea haku</string>
     <string name="force_play_all_summary">Toista kaikki videot, aloittaen siitä minkä käynnistit</string>
@@ -297,12 +292,6 @@
     <string name="subtitles_autoload_title">Automaattisesti lataa tekstit</string>
 
     <string name="audio_prefs_category">Audio</string>
-    <string name="audio_title_alignment">Äänen otsikon tasaus</string>
-    <string name="audio_title_alignment_default">Oletus</string>
-    <string name="audio_title_alignment_left">Vasemmalla</string>
-    <string name="audio_title_alignment_centre">Keskellä</string>
-    <string name="audio_title_alignment_right">Oikealla</string>
-    <string name="audio_title_alignment_marquee">Valintatyökalu</string>
     <string name="enable_headset_detection">Tunnista kuulokkeet</string>
     <string name="enable_steal_remote_control">Hieno kuulokkeiden etähallinta</string>
     <string name="enable_steal_remote_control_summary">Vältä konflikteja kaappaamalla etähallintakyky muilta ohjelmilta. Tämä estää soittamisen tuplanapautuksella HTC:n puhelimissa.</string>

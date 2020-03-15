@@ -45,8 +45,6 @@
     <string name="insert_next">다음을 넣으세요</string>
     <string name="play_all">모두 재생</string>
     <string name="append_all">모두 추가</string>
-    <string name="last_playlist">마지막 재생목록</string>
-    <string name="last_playlist_shortcut">재생하기</string>
     <string name="delete">삭제</string>
     <string name="remove">제거하기</string>
     <string name="set_song">벨소리로 설정하기</string>
@@ -87,7 +85,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d 비디오</item>
     </plurals>
-
     <string name="internal_memory">내부 메모리</string>
     <string name="parent_folder">상위 폴더로 이동하기</string>
     <string name="audio">오디오</string>
@@ -108,7 +105,6 @@
     <string name="noplaylist">재생목록이 없습니다.</string>
     <string name="mediafiles">미디어 파일</string>
     <string name="notavailable">이용 불가</string>
-    <string name="nosubdirectory">하위 폴더가 없습니다.</string>
     <string name="directorynotfound">\'%1$s\' 폴더 경로를 찾을 수 없습니다.</string>
     <string name="nohistory">아직 재생 히스토리가 없습니다.</string>
     <string name="validation">확실한가요?</string>
@@ -286,8 +282,6 @@
 
     <string name="video_prefs_category">비디오</string>
     <string name="video_min_group_length_title">비디오 분류</string>
-    <string name="video_min_group_length_summary">첫 글자가 같은 비디오를 그룹으로 묶어 분류합니다</string>
-    <string name="video_min_group_length_disable">비활성화</string>
     <string name="video_min_group_length_folder">폴더로 분류하기</string>
     <string name="video_min_group_length_first">첫 글자만</string>
     <string name="video_min_group_length_short">짧은 글자수 (6)</string>
@@ -298,8 +292,6 @@
     <string name="video_transition_summary">이행 시 새로운 비디오를 표시하기</string>
     <string name="media_seen">시청한 비디오에 마커 표시하기</string>
     <string name="media_seen_summary">끝까지 재생한 비디오를 본 것으로 표시합니다</string>
-    <string name="force_list_portrait">세로 화면에서 격자선 표시하지 않기</string>
-    <string name="force_list_portrait_summary">세로 모드에서 격자선(grid) 대신 목록에 비디오를 보여줍니다</string>
     <string name="force_play_all_summary">클릭한 항목과 그 이후의 모든 비디오를 재생합니다</string>
     <string name="force_play_all_title">비디오 재생목록 모드</string>
     <string name="save_brightness_summary">비디오 재생기에서 밝기 단계를 기억합니다</string>
@@ -317,7 +309,6 @@
     <string name="popup_keepscreen_title">팝업 모드에서 화면 켜짐 유지</string>
     <string name="popup_keepscreen_summary">팝업으로 표시하는 중에는 비디오가 일시중지여도 화면 켜짐을 유지합니다</string>
     <string name="browser_show_hidden_files_title">숨김 파일 보기</string>
-    <string name="browser_show_hidden_files_summary">숨김 파일을 브라우저에서 보여줍니다</string>
 
     <string name="subtitles_prefs_category">자막</string>
     <string name="subtitles_size_title">자막 크기</string>
@@ -341,14 +332,6 @@
     <string name="lockscreen_cover_summary">이용 가능할 때 현재 미디어의 커버 아트를 잠금 화면의 배경으로 설정합니다</string>
     <string name="playlist_animate_scroll_title">현재 재생목록 자동 스크롤 애니메이션</string>
     <string name="playlist_animate_scroll_summary">미디어 바뀔 때 스크롤 애니메이션</string>
-    <string name="audio_title_alignment">오디오 제목 정렬</string>
-    <string name="audio_title_alignment_default">기본</string>
-    <string name="audio_title_alignment_left">왼쪽</string>
-    <string name="audio_title_alignment_centre">가운데</string>
-    <string name="audio_title_alignment_right">오른쪽</string>
-    <string name="audio_title_alignment_marquee">마키 (Marquee)</string>
-    <string name="audio_save_repeat_title">반복 모드 저장</string>
-    <string name="audio_save_repeat_summary">오디오 재생 목록을 불러올 때 반복 모드를 기억합니다</string>
     <string name="audio_boost_title">오디오 증폭</string>
     <string name="audio_boost_summary">200%까지 볼륨 허용하기</string>
     <string name="headset_prefs_category">헤드셋</string>
@@ -377,7 +360,6 @@
     <string name="cast_performance_warning">이 비디오는 변환해야 캐스팅할 수 있습니다. 이 변환은 이용 가능한 모든 자원을 사용하며 배터리를 빨리 소모할 수 있습니다.</string>
     <string name="casting_connected_renderer">\'%1$s\' 렌더러에 연결되었습니다</string>
     <string name="artists_show_all_title">모든 아티스트 보이기</string>
-    <string name="artists_show_all_summary">아티스트 목록에 앨범 아티스트뿐만 아니라 모든 아티스트를 보여줍니다</string>
 
     <string name="extensions_prefs_category">확장 프로그램</string>
     <string name="extensions_enable_category">사용할 확장 프로그램을 선택합니다</string>
@@ -412,7 +394,6 @@
     <string name="dump_media_db">미디어 데이터베이스 덤프</string>
     <string name="dump_media_db_summary">내부 저장소 루트에 데이터베이스 복사하기</string>
     <string name="clear_media_db">미디어 데이터베이스 지우기</string>
-    <string name="clear_media_db_summary">데이터를 비우기 위해 안드로이드 VLC 정보에 접근합니다</string>
     <string name="media_db_cleared">미디어 데이터베이스 지워짐!</string>
     <string name="set_locale">언어 설정</string>
     <string name="set_locale_detail">재설정하려면 비워 두세요</string>
@@ -428,9 +409,6 @@
     <string name="restart_message">어플리케이션 재시작후 변경사항이 적용됩니다.\n\n지금 재시작 할까요?</string>
     <string name="restart_message_OK">Ok</string>
     <string name="restart_message_Later">나중에</string>
-    <string name="browser_show_all_title">Browser에서 모든 파일 보기</string>
-    <string name="browser_show_all_summary">오디오 또는 비디오로 인식되지 않은 파일들 보기</string>
-
     <string name="developer_prefs_category">개발자</string>
     <string name="enable_verbose_mode">상세 설명</string>
     <string name="enable_verbose_mode_summary">더 자세히 설명을 기록합니다 (logcat)</string>
@@ -471,11 +449,9 @@
     <string name="audio_delay">음성 지연</string>
     <string name="spu_delay">자막 지연</string>
     <string name="sleep_time_not_set">아무 설정 않음</string>
-    <string name="network_shares_discovery">네트워크 공유 검색 중…</string>
     <string name="network_empty">폴더가 비었습니다.</string>
     <string name="network_connection_needed">로컬 네트워크에 연결되어 있지 않습니다.</string>
     <string name="search_hint">미디어 검색하기</string>
-    <string name="search_list_hint">현재 목록에서 미디어 찾기</string>
     <string name="search_global">모든 미디어 라이브러리에서 찾기</string>
     <string name="directory_show_medialib">MediaLib에서 보기</string>
     <string name="directory_hide_medialib">MediaLib에서 감추기</string>
@@ -485,8 +461,6 @@
     <string name="chapter">챕터</string>
     <string name="resume_from_position">마지막 위치에서 재생 시작하기</string>
     <string name="confirm_resume">마지막 위치에서 재생을 시작할까요?</string>
-    <string name="confirm_resume_title">이어서 재생할 때 확인하기</string>
-    <string name="confirm_resume_summary">이 옵션 사용시 마지막 위치에서 비디오 재생을 시작할 것인지 확인합니다</string>
     <string name="directory_empty">폴더가 비었습니다</string>
     <string name="tv_ui_title">안드로이드 TV 인터페이스 사용하기</string>
     <string name="tv_ui_summary">UI를 TV에 맞춘 테마로 바꿉니다</string>
@@ -668,7 +642,6 @@
     <string name="popup_force_legacy_title">맞춤식 PIP 팝업을 사용하기</string>
     <string name="popup_force_legacy_summary">맞출 수 있는 맞춤식 PIP 팝업을 사용하기</string>
     <string name="device_default">기기의 디폴트</string>
-    <string name="track_number">%s트랙 </string>
     <string name="jump_to">...에 건너뛰기</string>
     <string name="show_video_thumbnails_summary">목록으로 비디오 섬네일을 표시하기</string>
     <string name="show_video_thumbnails">비디오 섬네일</string>

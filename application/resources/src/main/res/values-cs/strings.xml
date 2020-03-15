@@ -48,8 +48,6 @@
     <string name="insert_next">Vložit další</string>
     <string name="play_all">Přehrát vše</string>
     <string name="append_all">Připojit vše</string>
-    <string name="last_playlist">Poslední seznam skladeb</string>
-    <string name="last_playlist_shortcut">Obnovit přehrávání</string>
     <string name="delete">Smazat</string>
     <string name="remove">Odstranit</string>
     <string name="set_song">Nastavit jako vyzváněcí melodii</string>
@@ -105,7 +103,6 @@
         <item quantity="many">%d videí</item>
         <item quantity="other">%d videí</item>
     </plurals>
-
     <string name="internal_memory">Vnitřní paměť</string>
     <string name="parent_folder">Vzhůru do nadřazené složky</string>
     <string name="audio">Zvuk</string>
@@ -126,7 +123,6 @@
     <string name="noplaylist">Nebyl nalezen žádný seznam sladeb.</string>
     <string name="mediafiles">Mediální soubory</string>
     <string name="notavailable">nedostupné</string>
-    <string name="nosubdirectory">Žádné podadresáře.</string>
     <string name="directorynotfound">Adresář \'%1$s\' nebyl nalezen.</string>
     <string name="nohistory">Nemáte zatím žádnou historii přehraných položek.</string>
     <string name="validation">Jste si jisti?</string>
@@ -306,8 +302,6 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Skupinová videa</string>
-    <string name="video_min_group_length_summary">Videa jsou seskupena, pokud začínají stejným prvním písmenem.</string>
-    <string name="video_min_group_length_disable">Zakázat</string>
     <string name="video_min_group_length_folder">Seskupit dle složky</string>
     <string name="video_min_group_length_first">Pouze první písmeno</string>
     <string name="video_min_group_length_short">Krátký počet písmen (6)</string>
@@ -318,8 +312,6 @@
     <string name="video_transition_summary">Při přechodu zobrazovat název nového videa</string>
     <string name="media_seen">Zobrazit značku videa \'zhlédnuto\'</string>
     <string name="media_seen_summary">Označit video jako zhlédnuté pokud jej přehrajete až do konce</string>
-    <string name="force_list_portrait">Bez mřížky v režimu na výšku</string>
-    <string name="force_list_portrait_summary">Zobrazit videa jako seznamu namísto mřížky v režimu na výšku</string>
     <string name="force_play_all_summary">Přehrát všechna videa, počínaje videem na které jste klikli</string>
     <string name="force_play_all_title">Režim seznamu skladeb videa</string>
     <string name="save_brightness_summary">Zapamatovat úroveň jasu v přehrávači videa</string>
@@ -337,7 +329,6 @@
     <string name="popup_keepscreen_title">Ponechat obrazovku zapnutou v režimu Pop-Up</string>
     <string name="popup_keepscreen_summary">Vždy ponechat obrazovku zapnutou v režimu Pop-Up, i pokud je video pozastaveno.</string>
     <string name="browser_show_hidden_files_title">Zobrazit skryté soubory</string>
-    <string name="browser_show_hidden_files_summary">Zobrazovat skryté soubory v prohlížeči</string>
 
     <string name="subtitles_prefs_category">Titulky</string>
     <string name="subtitles_size_title">Velikost titulků</string>
@@ -361,14 +352,6 @@
     <string name="lockscreen_cover_summary">Pokud dostupný, nastaví obal aktuálního média jako pozadí zámku obrazovky</string>
     <string name="playlist_animate_scroll_title">Animovat automatický posun aktuálního seznamu skladeb</string>
     <string name="playlist_animate_scroll_summary">Animovat posun při změně skladby</string>
-    <string name="audio_title_alignment">Zarovnání titulku hudby</string>
-    <string name="audio_title_alignment_default">Výchozí</string>
-    <string name="audio_title_alignment_left">Vlevo</string>
-    <string name="audio_title_alignment_centre">Uprostřed</string>
-    <string name="audio_title_alignment_right">Vpravo</string>
-    <string name="audio_title_alignment_marquee">Rolující</string>
-    <string name="audio_save_repeat_title">Uložit režim opakování</string>
-    <string name="audio_save_repeat_summary">Pamatovat režim opakování při načítání seznamu skladeb</string>
     <string name="audio_boost_title">Zesíléní-zvuku</string>
     <string name="audio_boost_summary">Povolit hlasitost až do 200%</string>
     <string name="headset_prefs_category">Sluchátka</string>
@@ -397,7 +380,6 @@
     <string name="cast_performance_warning">Vysílání videa vyžaduje převod. Ten může využívat veškerý dostupný výkon a rychle vybíjet baterii.</string>
     <string name="casting_connected_renderer">Připojeno k interpreteru \'%1$s\'</string>
     <string name="artists_show_all_title">Zobrazit všechny umělce</string>
-    <string name="artists_show_all_summary">Zobrazit všechny umělce v seznamu interpretů, nejen umělce alba</string>
 
     <string name="extensions_prefs_category">Rozšíření</string>
     <string name="extensions_enable_category">Vyberte rozšíření, která chcete povolit</string>
@@ -432,7 +414,6 @@
     <string name="dump_media_db">Vysypat databázi médií</string>
     <string name="dump_media_db_summary">Kopírovat databázi do kořene interního úložiště</string>
     <string name="clear_media_db">Vyčistit databázi médií</string>
-    <string name="clear_media_db_summary">Chcete-li vymazat data, přejděte na informace o VLC systému Android</string>
     <string name="media_db_cleared">Databáze médií vyčištěna</string>
     <string name="set_locale">Nastavit jazyk</string>
     <string name="set_locale_detail">Ponechte prázdné pro výchozí</string>
@@ -448,9 +429,6 @@
     <string name="restart_message">Změny se projeví po restartu aplikace\n\nRestartovat nyní?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Později</string>
-    <string name="browser_show_all_title">Zobrazovat všechny soubory v prohlížeči</string>
-    <string name="browser_show_all_summary">Zobrazí v prohlížeči soubory, které nejsou rozpoznány jako soubory videa, nebo zvuku</string>
-
     <string name="developer_prefs_category">Pro vývojáře</string>
     <string name="enable_verbose_mode">Podrobné</string>
     <string name="enable_verbose_mode_summary">Zvýšit podrobnosti v záznamu (logcat)</string>
@@ -493,11 +471,9 @@
     <string name="audio_delay">Zpoždění zvuku</string>
     <string name="spu_delay">Zpoždění titulků</string>
     <string name="sleep_time_not_set">nenastaveno</string>
-    <string name="network_shares_discovery">Hledám síťové disky…</string>
     <string name="network_empty">Adresář je prázdný.</string>
     <string name="network_connection_needed">Žádné spojení s místní sítí.</string>
     <string name="search_hint">Hledat média</string>
-    <string name="search_list_hint">Prohledat položky v aktuálním seznamu</string>
     <string name="search_global">Prohledat v celé knihovně médií</string>
     <string name="directory_show_medialib">Zobrazit v knihovně médií</string>
     <string name="directory_hide_medialib">Nezobrazovat v knihovně médií</string>
@@ -507,8 +483,6 @@
     <string name="chapter">Kapitola</string>
     <string name="resume_from_position">Obnovit z poslední pozice</string>
     <string name="confirm_resume">Obnovit z poslední pozice?</string>
-    <string name="confirm_resume_title">Ptát se při obnovení na poizici</string>
-    <string name="confirm_resume_summary">Při zapnutí budete dotázáni zda si přejete pokračovat na původní pozici videa, nebo spustit přehrávaní od začátku</string>
     <string name="directory_empty">Adresář je prázdný</string>
     <string name="tv_ui_title">Rozhraní Android TV</string>
     <string name="tv_ui_summary">Změnit uživatelské rozhraní na motiv upravený pro TV</string>
@@ -683,7 +657,6 @@
     <string name="theme_follow_system_mode">Dle nastavení systému</string>
     <string name="resume_card_message">Obnovit přehrávání %1$s</string>
     <string name="misc">Různé</string>
-    <string name="track_number">%s stop</string>
     <string name="jump_to">Přejít na</string>
     <string name="enable_equalizer">Povolit</string>
     <string name="preamp">Předzesílení</string>

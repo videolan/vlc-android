@@ -25,8 +25,6 @@
     <string name="append">Додај</string>
     <string name="play_all">Пусти све</string>
     <string name="append_all">Додај све</string>
-    <string name="last_playlist">Последња плејлиста</string>
-    <string name="last_playlist_shortcut">Настави репродукцију</string>
     <string name="delete">Обриши</string>
     <string name="remove">Уклони</string>
     <string name="set_song">Постави као мелодију звона</string>
@@ -67,7 +65,6 @@
         <item quantity="few">%d видео</item>
         <item quantity="other">%d видео</item>
     </plurals>
-
     <string name="internal_memory">Унутрашња меморија</string>
     <string name="parent_folder">Претходни ниво</string>
     <string name="audio">Аудио</string>
@@ -87,7 +84,6 @@
     <string name="nomedia">Нема медијских датотека. Пребаците их на уређај или прилагодите поставке.</string>
     <string name="mediafiles">Медијске датотеке</string>
     <string name="notavailable">недоступно</string>
-    <string name="nosubdirectory">Нема потфасцикли.</string>
     <string name="nohistory">Још нисте репродуковали ниједну датотеку.</string>
     <string name="validation">Јесте ли сигурни?</string>
 
@@ -182,11 +178,6 @@
     <string name="interface_other_category">Интерфејс – друго</string>
 
     <string name="enable_brightness_gesture_summary">Управљајте осветљењем покретима током репродукције</string>
-    <string name="audio_title_alignment_default">Подразумевано</string>
-    <string name="audio_title_alignment_left">Лево</string>
-    <string name="audio_title_alignment_centre">Центар</string>
-    <string name="audio_title_alignment_right">Десно</string>
-    <string name="audio_title_alignment_marquee">Натпис</string>
     <string name="enable_headset_detection">Откриј слушалице</string>
     <string name="enable_steal_remote_control">Искључиво даљинско управљање слушалицама</string>
     <string name="enable_steal_remote_control_summary">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Овим ћете спречити позивање двоструким додиром на HTC телефонима.</string>

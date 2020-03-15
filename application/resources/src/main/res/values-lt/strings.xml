@@ -124,7 +124,6 @@
     <string name="noplaylist">Grojaraščių neradome.</string>
     <string name="mediafiles">Kūriniai</string>
     <string name="notavailable">neprieinama</string>
-    <string name="nosubdirectory">Pakatalogių nėra.</string>
     <string name="directorynotfound">„%1$s“ aplanko neradome.</string>
     <string name="nohistory">Kol kas grojimo žurnalas tuščias.</string>
     <string name="validation">Tikrai?</string>
@@ -450,7 +449,6 @@
     <string name="network_empty">Katalogas tuščias</string>
     <string name="network_connection_needed">Nėra ryšio su vietiniu tinklu.</string>
     <string name="search_hint">Ieškoti kūrinio</string>
-    <string name="search_list_hint">Ieškoti kūrinio dabartiniame grojaraštyje</string>
     <string name="search_global">Ieškoti kūrinio visoje fonotekoje</string>
     <string name="directory_show_medialib">Rodyti fonotekoje</string>
     <string name="directory_hide_medialib">Nerodyti fonotekoje</string>

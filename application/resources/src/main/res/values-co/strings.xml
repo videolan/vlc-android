@@ -46,8 +46,6 @@
     <string name="insert_next">Framette seguente</string>
     <string name="play_all">Sunà tutti</string>
     <string name="append_all">Aghjunghje tutti</string>
-    <string name="last_playlist">Ultima lista di lettura</string>
-    <string name="last_playlist_shortcut">Ripiglià a ripruduzzione</string>
     <string name="delete">Squassà</string>
     <string name="remove">Caccià</string>
     <string name="set_song">Definisce cum’è suneria</string>
@@ -94,7 +92,6 @@
         <item quantity="one">Una video</item>
         <item quantity="other">%d video</item>
     </plurals>
-
     <string name="internal_memory">Memoria interna</string>
     <string name="parent_folder">Livellu superiore</string>
     <string name="audio">Audio</string>
@@ -115,7 +112,6 @@
     <string name="noplaylist">Alcuna lista di lettura trova.</string>
     <string name="mediafiles">Schedarii media</string>
     <string name="notavailable">micca dispunibule</string>
-    <string name="nosubdirectory">Alcunu sottu-cartulare.</string>
     <string name="directorynotfound">U passeghju di u cartulare \'%1$s\' ùn si trova micca.</string>
     <string name="nohistory">Ùn ci hè manc’una crunulogia di ripruduzzione.</string>
     <string name="validation">Site sicuru ?</string>
@@ -294,8 +290,6 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Gruppà e video</string>
-    <string name="video_min_group_length_summary">E video sò gruppate s’è a prima lettera di u so titulu hè listessa.</string>
-    <string name="video_min_group_length_disable">Disattivà</string>
     <string name="video_min_group_length_folder">Gruppà da cartulare</string>
     <string name="video_min_group_length_first">Prima lettera solu</string>
     <string name="video_min_group_length_short">Numeru cortu di lettere (6)</string>
@@ -306,8 +300,6 @@
     <string name="video_transition_summary">Affissà u titulu di a nova video durante a transizione</string>
     <string name="media_seen">Affissà a marca di video vista</string>
     <string name="media_seen_summary">Marcà a video cum’è vista quandu hè sunata sine à a fine</string>
-    <string name="force_list_portrait">Senza quadrittera in modu verticale</string>
-    <string name="force_list_portrait_summary">Affissa e video in una lista piutostu chì una quadrittera in modu verticale</string>
     <string name="force_play_all_summary">Sunà tutte e video, principiendu cù quella chì hè selezziunata</string>
     <string name="force_play_all_title">Modu di lista di lettura video</string>
     <string name="save_brightness_summary">Arricurdassi di u livellu di lucidezza in u lettore di video</string>
@@ -325,7 +317,6 @@
     <string name="popup_keepscreen_title">Cunservà u screnu attivu in una finestra Pop-Up</string>
     <string name="popup_keepscreen_summary">Cunservà u screnu sempre attivu cù una finestra Pop-Up, ancu s’è a video hè in pausa.</string>
     <string name="browser_show_hidden_files_title">Affissà i schedarii piattati</string>
-    <string name="browser_show_hidden_files_summary">Affissà i schedarii piattati nant’à i navigatori</string>
 
     <string name="subtitles_prefs_category">Sottutituli</string>
     <string name="subtitles_size_title">Dimensione di i sottutituli</string>
@@ -349,14 +340,6 @@
     <string name="lockscreen_cover_summary">S’ellu hè dispunibule, definisce a cuprendula attuale cum’è tappizzeria di screnu quandu l’urdinatore hè bluccatu</string>
     <string name="playlist_animate_scroll_title">Animà a sfilarata autumatica di a lista di lettura attuale</string>
     <string name="playlist_animate_scroll_summary">Animà a sfilarata à u cambiu di media</string>
-    <string name="audio_title_alignment">Aliniamentu di i tituli audio</string>
-    <string name="audio_title_alignment_default">Predefinitu</string>
-    <string name="audio_title_alignment_left">Manca</string>
-    <string name="audio_title_alignment_centre">Centru</string>
-    <string name="audio_title_alignment_right">Diritta</string>
-    <string name="audio_title_alignment_marquee">Testu inquadratu</string>
-    <string name="audio_save_repeat_title">Arregistrà u modu di ripetizione</string>
-    <string name="audio_save_repeat_summary">Arricurdassi di u modu di ripetizione quandu si caricheghja e liste di lettura audio</string>
     <string name="audio_boost_title">Aizzu-Auto</string>
     <string name="audio_boost_summary">Permette d’accresce u vulume sin’à 200%</string>
     <string name="headset_prefs_category">Cascu</string>
@@ -385,7 +368,6 @@
     <string name="cast_performance_warning">A trasmissione di sta video rechiede una cunversione. Quessa pò impiegà tutta a putenza dispunibule è pò viutà in furia a vostra batteria.</string>
     <string name="casting_connected_renderer">Cunnettu à u trasfurmatore \'%1$s\'</string>
     <string name="artists_show_all_title">Affissà tutti l’artisti</string>
-    <string name="artists_show_all_summary">Affissà tutti l’artisti in a lista Artisti, micca solu l’artisti di l’albumu</string>
 
     <string name="extensions_prefs_category">Stinzioni</string>
     <string name="extensions_enable_category">Sceglie l’estensioni à attivà</string>
@@ -420,7 +402,6 @@
     <string name="dump_media_db">Estrae a banca di dati media</string>
     <string name="dump_media_db_summary">Cupià a banca di dati ver di a radica di u magazinu internu</string>
     <string name="clear_media_db">Viutà a banca di dati media</string>
-    <string name="clear_media_db_summary">Accede à l’infurmazione d’Android VLC per viutà i dati</string>
     <string name="media_db_cleared">A banca di dati media hè stata viutata !</string>
     <string name="set_locale">Definisce a lingua</string>
     <string name="set_locale_detail">Lascià viotu per rimette à zeru</string>
@@ -436,9 +417,6 @@
     <string name="restart_message">I cambiamenti seranu pigliati in contu quandu l’appiecazione serà rilanciata.\n\nRilancialla avà ?</string>
     <string name="restart_message_OK">Vai</string>
     <string name="restart_message_Later">Dopu</string>
-    <string name="browser_show_all_title">Affissà tutti i schedarii in u navigatore</string>
-    <string name="browser_show_all_summary">Affissà i schedarii chì ùn sò micca ricunnisciuti cum’è audio o video in i navigatori</string>
-
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verbosu</string>
     <string name="enable_verbose_mode_summary">Aummentà a verbusità (logcat)</string>
@@ -481,11 +459,9 @@
     <string name="audio_delay">Cumportu audio</string>
     <string name="spu_delay">Cumportu sottutitulu</string>
     <string name="sleep_time_not_set">micca definitu</string>
-    <string name="network_shares_discovery">Ricerca di spartimenti di reta…</string>
     <string name="network_empty">Stu cartulare hè viotu.</string>
     <string name="network_connection_needed">Alcuna cunnessione à a reta lucale.</string>
     <string name="search_hint">Circà u media</string>
-    <string name="search_list_hint">Circà u media in a lista attuale</string>
     <string name="search_global">Circà in tutte e bibliuteche di media</string>
     <string name="directory_show_medialib">Affissà in BibMedia</string>
     <string name="directory_hide_medialib">Piattà da BibMedia</string>
@@ -495,8 +471,6 @@
     <string name="chapter">Capitulu</string>
     <string name="resume_from_position">Riprincipià da l’ultima pusizione</string>
     <string name="confirm_resume">Vulete riprincipià da l’ultima pusizione ?</string>
-    <string name="confirm_resume_title">Dumandà a cunfirmazione per riprincipià</string>
-    <string name="confirm_resume_summary">s’è attivatu, vi serà dumandatu di cunfirmà quandu una video po esse riprincipiata da l’ultima pusizione</string>
     <string name="directory_empty">U cartulare hè viotu</string>
     <string name="tv_ui_title">Interfaccia Android TV</string>
     <string name="tv_ui_summary">Cambia l’interfaccia ver di u temu adattatu à a TV</string>
@@ -678,7 +652,6 @@
     <string name="popup_force_legacy_title">Impiegà una finestra persunalizata fiura-nant’à-fiura (PIP)</string>
     <string name="popup_force_legacy_summary">Impiegà una finestra persunalizata dimensionevule fiura-nant’à-fiura (PIP)</string>
     <string name="device_default">Predefinizione d’apparechju</string>
-    <string name="track_number">%s traccie</string>
     <string name="jump_to">Saltà à</string>
     <string name="show_video_thumbnails_summary">Affissà l’imaghjinuccie video in liste</string>
     <string name="show_video_thumbnails">Imaghjinuccie video</string>
