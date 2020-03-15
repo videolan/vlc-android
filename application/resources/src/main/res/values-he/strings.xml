@@ -94,6 +94,12 @@
         <item quantity="many">%d תת־תיקיות</item>
         <item quantity="other">%d תת־תיקיות</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">מדיה אחת</item>
+        <item quantity="two">%d מדיה</item>
+        <item quantity="many">%d מדיה</item>
+        <item quantity="other">%d מדיה</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">קובץ מדיה אחד</item>
         <item quantity="two">%d קובצי מדיה</item>
@@ -799,4 +805,7 @@
     <string name="track_index">רצועה: %s</string>
     <string name="audio_queue_progress">התקדמות: %s</string>
     <string name="sortby_track">רצועה</string>
+    <string name="this_folder">הוספת התיקייה הזו</string>
+    <string name="all_subfolders">הוספת התיקייה הזו על תת־תיקיותיה</string>
+    <string name="playlist_existing">רשימת הנגינה %s כבר קיימת</string>
 </resources>
