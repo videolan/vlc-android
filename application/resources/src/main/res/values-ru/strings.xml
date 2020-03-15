@@ -94,6 +94,12 @@
         <item quantity="many">Подпапок: %d</item>
         <item quantity="other">Подпапок: %d</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 медиафайл</item>
+        <item quantity="few">Медиафайлов: %d</item>
+        <item quantity="many">Медиафайлов: %d</item>
+        <item quantity="other">Медиафайлов: %d</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">Медиафайлов: 1</item>
         <item quantity="few">Медиафайлов: %d</item>
@@ -372,7 +378,7 @@
     <string name="lockscreen_cover_summary">Если текущий медиаобъект имеет обложку, она будет установлена как фон экрана блокировки</string>
     <string name="playlist_animate_scroll_title">Анимировать автопрокрутку текущего плейлиста</string>
     <string name="playlist_animate_scroll_summary">Анимировать прокрутку при смене позиции</string>
-    <string name="list_title_ellipsize">Сокращение однострочного заголовка</string>
+    <string name="list_title_ellipsize">Сокращение заголовка в строке</string>
     <string name="list_title_ellipsize_default">По умолчанию</string>
     <string name="list_title_ellipsize_left">Слева</string>
     <string name="list_title_ellipsize_right">Справа</string>
@@ -792,4 +798,14 @@
     <string name="codec">Кодек</string>
     <string name="text">Текст</string>
     <string name="unknown">Неизвестно</string>
+    <string name="audio_delay_start">Звук раздался</string>
+    <string name="subtitle_delay_first">Прозвучал голос</string>
+    <string name="audio_delay_end">Звук ожидается</string>
+    <string name="subtitle_delay_end">Появился текст</string>
+    <string name="track_index">Дорожка: %s</string>
+    <string name="audio_queue_progress">Прогресс: %s</string>
+    <string name="sortby_track">Дорожка</string>
+    <string name="this_folder">Добавить эту папку</string>
+    <string name="all_subfolders">Добавить эту папку и подпапки</string>
+    <string name="playlist_existing">Плейлист %s уже существует</string>
 </resources>
