@@ -322,7 +322,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     protected val empty: Boolean
-        get() = viewModel.isEmpty() && getCurrentAdapter()?.isEmpty == false
+        get() = viewModel.isEmpty() && getCurrentAdapter()?.isEmpty != false
 
     override fun getMultiHelper(): MultiSelectHelper<T>? = getCurrentAdapter()?.multiSelectHelper as? MultiSelectHelper<T>
 }
