@@ -312,7 +312,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         mWidth = width;
         mHeight = height;
 
-        mTitle = title != null ? Uri.decode(title.trim()) : null;
+        mTitle = title != null ? title.trim() : null;
         mArtist = artist != null ? artist.trim() : null;
         mGenre = genre != null ? genre.trim() : null;
         mAlbum = album != null ? album.trim() : null;
