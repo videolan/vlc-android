@@ -15,13 +15,9 @@ android {
 
     kotlinOptions.jvmTarget = "1.8"
 
-    android {
-        viewBinding.enabled = true
-    }
+    viewBinding.enabled = true
 
-    dataBinding {
-        enabled = true
-    }
+    dataBinding.enabled = true
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
