@@ -69,11 +69,14 @@ class AppSetupDelegate : AppDelegate,
         FactoryManager.registerFactory(ILibVLCFactory.factoryId, LibVLCFactory())
 
         if (BuildConfig.DEBUG) {
-            // Register movipedia to resume tv shows/movies
-            setupContentResolvers()
+            Settings.getInstance(this)
+            if (Settings.showTvUi) {
+                // Register movipedia to resume tv shows/movies
+                setupContentResolvers()
 
-            // Setup Moviepedia indexing after Medialibrary scan
-            setupIndexers()
+                // Setup Moviepedia indexing after Medialibrary scan
+                setupIndexers()
+            }
         }
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
