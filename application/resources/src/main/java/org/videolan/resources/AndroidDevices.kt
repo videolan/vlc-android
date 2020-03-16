@@ -166,7 +166,7 @@ object AndroidDevices {
     }
 
     fun canUseSystemNightMode(): Boolean {
-        return Build.VERSION.SDK_INT > Build.VERSION_CODES.P || Build.VERSION.SDK_INT == Build.VERSION_CODES.P && "samsung" == Build.MANUFACTURER.toLowerCase()
+        return Build.VERSION.SDK_INT > VERSION_CODES.P || Build.VERSION.SDK_INT == VERSION_CODES.P && "samsung" == Build.MANUFACTURER.toLowerCase(Locale.US)
     }
 
     private fun hasPlayServices(pm: PackageManager): Boolean {

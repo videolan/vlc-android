@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.onboarding_theme.*
 import org.videolan.vlc.R
 import org.videolan.resources.AndroidDevices
 
-class OnboardingThemeFragment : Fragment(), CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+class OnboardingThemeFragment : Fragment(), View.OnClickListener {
 
     private lateinit var viewModel: OnboardingViewModel
 
@@ -29,19 +29,10 @@ class OnboardingThemeFragment : Fragment(), CompoundButton.OnCheckedChangeListen
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) follow_system_switch.visibility = View.VISIBLE
-
+        themeDescription.setText(if (AndroidDevices.canUseSystemNightMode())R.string.daynight_system_explanation else R.string.daynight_legacy_explanation)
         lightTheme.setOnClickListener(this)
         darkTheme.setOnClickListener(this)
         dayNightTheme.setOnClickListener(this)
-        follow_system_switch.isChecked = AndroidDevices.canUseSystemNightMode()
-        follow_system_switch.setOnCheckedChangeListener(this)
-    }
-
-    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
-        when (buttonView) {
-            follow_system_switch -> viewModel.theme = if (isChecked) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO
-        }
     }
 
     override fun onClick(view: View) {
@@ -52,21 +43,18 @@ class OnboardingThemeFragment : Fragment(), CompoundButton.OnCheckedChangeListen
                 dayNightTheme.background = null
                 viewModel.theme = AppCompatDelegate.MODE_NIGHT_NO
                 themeDescription.setText(R.string.light_theme)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) follow_system_switch.visibility = View.GONE
             }
             darkTheme -> {
                 themeDescription.setText(R.string.enable_black_theme)
                 lightTheme.background = null
                 dayNightTheme.background = null
                 viewModel.theme = AppCompatDelegate.MODE_NIGHT_YES
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) follow_system_switch.visibility = View.GONE
             }
             dayNightTheme -> {
-                themeDescription.setText(R.string.daynight_explanation)
+                themeDescription.setText(if (AndroidDevices.canUseSystemNightMode())R.string.daynight_system_explanation else R.string.daynight_legacy_explanation)
                 lightTheme.background = null
                 darkTheme.background = null
-                viewModel.theme = AppCompatDelegate.MODE_NIGHT_AUTO
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) follow_system_switch.visibility = View.VISIBLE
+                viewModel.theme = if (AndroidDevices.canUseSystemNightMode()) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO
             }
         }
     }

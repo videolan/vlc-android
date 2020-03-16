@@ -695,7 +695,8 @@
     <string name="onboarding_theme_title">Make yourself at home</string>
     <string name="done">Done</string>
     <string name="onboarding_scan_title">Auto-discover your media</string>
-    <string name="daynight_explanation">VLC will automatically switch to night mode at appropriate time</string>
+    <string name="daynight_system_explanation">VLC will automatically switch to dark mode accordingly with system setting</string>
+    <string name="daynight_legacy_explanation">VLC will automatically switch to night mode at appropriate time</string>
     <string name="onboarding_scanning_enable">Let VLC scan my device for media content</string>
     <string name="onboarding_scan_whole">VLC will scan my whole SDCard</string>
     <string name="onboarding_scan_customize">Let me choose which folders VLC will scan</string>
