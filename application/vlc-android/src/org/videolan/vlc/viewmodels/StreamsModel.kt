@@ -29,11 +29,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.util.getFromMl
 import org.videolan.tools.CoroutineContextProvider
 
 
 class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<MediaWrapper>(context, coroutineContextProvider) {
-     val observableSearchText = ObservableField<String>()
+    var deletingMedia: MediaWrapper? = null
+    val observableSearchText = ObservableField<String>()
 
     init {
         if (medialibrary.isStarted) refresh()
@@ -41,7 +43,7 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
 
 
     override suspend fun updateList() {
-        dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastStreamsPlayed().toMutableList() }
+        dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastStreamsPlayed().toMutableList().also { deletingMedia?.let { remove(it) } } }
     }
 
     fun rename(position: Int, name: String) {
@@ -50,6 +52,12 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
         refresh()
     }
 
+    fun delete() {
+        deletingMedia?.let { media ->
+            viewModelScope.launch(Dispatchers.IO) { context.getFromMl { removeExternalMedia(media.id) } }
+            refresh()
+        }
+    }
     class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")

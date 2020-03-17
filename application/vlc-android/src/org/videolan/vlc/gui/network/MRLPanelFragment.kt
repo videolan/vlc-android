@@ -49,10 +49,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.CTX_ADD_TO_PLAYLIST
-import org.videolan.resources.CTX_APPEND
-import org.videolan.resources.CTX_COPY
-import org.videolan.resources.CTX_RENAME
+import org.videolan.resources.*
 import org.videolan.tools.Settings
 import org.videolan.tools.copy
 import org.videolan.tools.isValidUrl
@@ -174,7 +171,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
     }
 
     private fun showContext(position: Int) {
-        val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_COPY
+        val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_COPY or CTX_DELETE
         val media = viewModel.dataset.get(position)
         showContext(requireActivity(), this, position, media.title, flags)
     }
@@ -194,6 +191,15 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
                 val media = viewModel.dataset.get(position)
                 requireContext().copy(media.title, media.location)
                 Snackbar.make(requireActivity().window.decorView.findViewById<View>(android.R.id.content), R.string.url_copied_to_clipboard, Snackbar.LENGTH_LONG).show()
+            }
+            CTX_DELETE -> {
+                val media = viewModel.dataset.get(position)
+                viewModel.deletingMedia = media
+                UiTools.snackerWithCancel(editText, getString(R.string.stream_deleted), Runnable { viewModel.delete() }, Runnable {
+                    viewModel.deletingMedia = null
+                    viewModel.refresh()
+                })
+                viewModel.refresh()
             }
         }
     }

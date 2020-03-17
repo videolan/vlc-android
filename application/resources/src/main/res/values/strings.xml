@@ -536,6 +536,7 @@
     <string name="back_quit_lock">Press Back again to quit video</string>
     <string name="playlist_deleted">Playlist deleted</string>
     <string name="file_deleted">File deleted</string>
+    <string name="stream_deleted">Stream deleted</string>
     <string name="no_subs_found">No subtitles in this directory</string>
     <string name="music_now_playing">Now Playing</string>
 
