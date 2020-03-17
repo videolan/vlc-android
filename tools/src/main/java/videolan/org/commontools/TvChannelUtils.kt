@@ -27,10 +27,10 @@ import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
 import androidx.tvprovider.media.tv.*
-import android.util.Log
 
 typealias ProgramsList = MutableList<TvPreviewProgram>
 
@@ -58,6 +58,7 @@ fun createOrUpdateChannel(prefs: SharedPreferences, context: Context, name: Stri
             .setAppLinkIntentUri(createUri(appId))
     if (channelId == -1L) {
         val channelUri = context.contentResolver.insert(TvContractCompat.Channels.CONTENT_URI, builder.build().toContentValues())
+                ?: return -1L
         channelId = ContentUris.parseId(channelUri)
         prefs.edit().putLong(KEY_TV_CHANNEL_ID, channelId).apply()
         TvContractCompat.requestChannelBrowsable(context, channelId)
