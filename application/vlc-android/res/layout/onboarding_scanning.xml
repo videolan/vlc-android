@@ -46,44 +46,50 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Switch
-        android:id="@+id/scanningEnableSwitch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:checked="true"
-        android:text="@string/onboarding_scanning_enable"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/autoScanningCheckbox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_chainStyle="packed" />
+            android:id="@+id/scanningEnableSwitch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"
+            android:text="@string/onboarding_scanning_enable"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/autoScanningCheckbox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_constraintVertical_chainStyle="packed" />
 
     <CheckBox
-        android:id="@+id/autoScanningCheckbox"
-        android:checked="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/auto_rescan_summary"
-        app:layout_constraintTop_toBottomOf="@+id/scanningEnableSwitch"
-        app:layout_constraintBottom_toTopOf="@+id/scanningFolderCheckbox"
-        tools:layout_editor_absoluteX="8dp" />
+            android:id="@+id/autoScanningCheckbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:checked="true"
+            android:text="@string/auto_rescan_summary"
+            app:layout_constraintBottom_toTopOf="@+id/scanningFolderCheckbox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scanningEnableSwitch" />
 
     <CheckBox
-        android:id="@+id/scanningFolderCheckbox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/onboarding_scan_customize"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autoScanningCheckbox"
-        tools:layout_editor_absoluteX="8dp" />
+            android:id="@+id/scanningFolderCheckbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/onboarding_scan_customize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/autoScanningCheckbox" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
