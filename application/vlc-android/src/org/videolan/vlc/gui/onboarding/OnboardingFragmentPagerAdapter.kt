@@ -7,46 +7,29 @@ import androidx.viewpager.widget.PagerAdapter
 
 class OnboardingFragmentPagerAdapter(private val fragmentManager: FragmentManager, private var count: Int) : FragmentStatePagerAdapter(fragmentManager) {
 
-
     private var fragments = ArrayList<Fragment>()
     private var folderFragment: OnboardingFoldersFragment = OnboardingFoldersFragment.newInstance()
 
     init {
         fragments.add(OnboardingWelcomeFragment.newInstance())
-        val onboardingScanningFragment = OnboardingScanningFragment.newInstance()
-        fragments.add(onboardingScanningFragment)
+        fragments.add(OnboardingScanningFragment.newInstance())
         fragments.add(OnboardingThemeFragment.newInstance())
-
-
     }
 
     fun onCustomizedChanged(customizeEnabled: Boolean) {
-        if (customizeEnabled) {
+        count = if (customizeEnabled) {
             fragments.add(2, folderFragment)
-            count = 4
+            4
         } else {
             fragments.remove(folderFragment)
-            count = 3
+            3
         }
-
         notifyDataSetChanged()
-
-
     }
 
+    override fun getItemPosition(obj: Any)= PagerAdapter.POSITION_NONE
 
-    override fun getItemPosition(obj: Any): Int {
-        return PagerAdapter.POSITION_NONE
-    }
+    override fun getItem(position: Int) = fragments[position]
 
-
-    override fun getItem(position: Int): Fragment {
-        return fragments[position]
-    }
-
-    override fun getCount(): Int {
-        return count
-    }
-
-
+    override fun getCount() = count
 }
