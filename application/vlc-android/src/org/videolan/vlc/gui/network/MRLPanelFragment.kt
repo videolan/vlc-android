@@ -31,9 +31,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -58,6 +56,7 @@ import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
@@ -205,16 +204,9 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
     }
 
     private fun renameStream(position: Int) {
-        val media = viewModel.dataset.get(position)
-        val edit = EditText(requireActivity())
-        AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.rename_media, media.title))
-                .setView(edit)
-                .setPositiveButton(R.string.ok) { _, _ ->
-                    viewModel.rename(position, edit.text.toString())
-                }
-                .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-                .show()
+        RenameDialog.newInstance(viewModel.dataset.get(position)) { newName ->
+            viewModel.rename(position, newName)
+        }.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
     }
 
     override fun refresh() {
