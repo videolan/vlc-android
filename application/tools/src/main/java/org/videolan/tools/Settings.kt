@@ -20,7 +20,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it) }) {
     var listTitleEllipsize = 0
     var overrideTvUI = false
     lateinit var device : DeviceInfo
-    private set
+        private set
 
     fun init(context: Context) : SharedPreferences{
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -104,4 +104,15 @@ class DeviceInfo(context: Context) {
     val hasPiP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
             || Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isAndroidTv
     val pipAllowed = hasPiP || hasTsp && Build.VERSION.SDK_INT < Build.VERSION_CODES.O
+}
+
+fun SharedPreferences.putSingle(key: String, value: Any) {
+    when(value) {
+        is Boolean -> edit().putBoolean(key, value).apply()
+        is Int -> edit().putInt(key, value).apply()
+        is Float -> edit().putFloat(key, value).apply()
+        is Long -> edit().putLong(key, value).apply()
+        is String -> edit().putString(key, value).apply()
+        else -> throw IllegalArgumentException("value class is invalid!")
+    }
 }

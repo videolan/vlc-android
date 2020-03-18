@@ -421,13 +421,13 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
             R.id.browser_show_all_files -> {
                 item.isChecked = !Settings.getInstance(requireActivity()).getBoolean("browser_show_all_files", true)
-                Settings.getInstance(requireActivity()).edit().putBoolean("browser_show_all_files", item.isChecked).apply()
+                Settings.getInstance(requireActivity()).putSingle("browser_show_all_files", item.isChecked)
                 viewModel.updateShowAllFiles(item.isChecked)
                 true
             }
             R.id.browser_show_hidden_files -> {
                 item.isChecked = !Settings.getInstance(requireActivity()).getBoolean("browser_show_hidden_files", true)
-                Settings.getInstance(requireActivity()).edit().putBoolean("browser_show_hidden_files", item.isChecked).apply()
+                Settings.getInstance(requireActivity()).putSingle("browser_show_hidden_files", item.isChecked)
                 viewModel.updateShowHiddenFiles(item.isChecked)
                 true
             }

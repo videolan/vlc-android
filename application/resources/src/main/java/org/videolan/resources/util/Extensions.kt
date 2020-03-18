@@ -41,7 +41,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
     val prefs = withContext(coroutineContextProvider.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (Settings.showTvUi) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
-        if (dbExists(coroutineContextProvider)) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
+        if (dbExists(coroutineContextProvider)) prefs.putSingle(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON)
     }
     val intent = Intent(ACTION_INIT).setClassName(applicationContext, MEDIAPARSING_SERVICE)
     ContextCompat.startForegroundService(this@startMedialibrary, intent

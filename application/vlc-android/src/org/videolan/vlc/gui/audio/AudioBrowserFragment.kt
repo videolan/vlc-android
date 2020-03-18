@@ -47,6 +47,7 @@ import org.videolan.resources.KEY_AUDIO_CURRENT_TAB
 import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
@@ -266,12 +267,12 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 setupLayoutManager(currentTab)
                 lists[currentTab].adapter = adapters[currentTab]
                 activity?.invalidateOptionsMenu()
-                Settings.getInstance(requireActivity()).edit().putBoolean(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid).apply()
+                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid)
                 true
             }
             R.id.artists_show_all_title -> {
                 item.isChecked = !Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, true)
-                Settings.getInstance(requireActivity()).edit().putBoolean(KEY_ARTISTS_SHOW_ALL, item.isChecked).apply()
+                Settings.getInstance(requireActivity()).putSingle(KEY_ARTISTS_SHOW_ALL, item.isChecked)
                 viewModel.artistsProvider.showAll = item.isChecked
                 viewModel.refresh()
                 true
@@ -312,7 +313,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         setupProvider()
         super.onTabSelected(tab)
         songs_fast_scroller?.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
-        settings.edit().putInt(KEY_AUDIO_CURRENT_TAB, tab.position).apply()
+        settings.putSingle(KEY_AUDIO_CURRENT_TAB, tab.position)
         setRefreshing(viewModel.providers[currentTab].isRefreshing)
         activity?.invalidateOptionsMenu()
     }

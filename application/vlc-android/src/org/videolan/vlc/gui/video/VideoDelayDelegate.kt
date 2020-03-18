@@ -41,12 +41,14 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.tools.putSingle
 import org.videolan.tools.setGone
 import org.videolan.tools.setInvisible
 import org.videolan.tools.setVisible
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.OnRepeatListener
+import org.videolan.vlc.gui.video.VideoPlayerActivity.Companion.KEY_BLUETOOTH_DELAY
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.DelayValues
 
@@ -281,8 +283,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
 
     private val btSaveListener = View.OnClickListener {
         player.service?.run {
-            settings.edit().putLong(VideoPlayerActivity.KEY_BLUETOOTH_DELAY, player.service?.audioDelay
-                    ?: 0L).apply()
+            settings.putSingle(KEY_BLUETOOTH_DELAY, player.service?.audioDelay ?: 0L)
         }
     }
 }

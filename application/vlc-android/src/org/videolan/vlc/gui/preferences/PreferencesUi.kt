@@ -83,7 +83,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 else
                     AppCompatDelegate.MODE_NIGHT_NO
             }
-            prefs.edit().putString(KEY_APP_THEME, theme.toString()).apply()
+            prefs.putSingle(KEY_APP_THEME, theme.toString())
         }
     }
 

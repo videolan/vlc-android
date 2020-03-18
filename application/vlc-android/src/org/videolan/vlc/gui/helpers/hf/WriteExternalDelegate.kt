@@ -17,6 +17,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.util.FileUtils
 
@@ -61,9 +62,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val context = context ?: return
                 val treeUri = data.data ?: return
-                Settings.getInstance(context).edit()
-                        .putString("tree_uri_$storage", treeUri.toString())
-                        .apply()
+                Settings.getInstance(context).putSingle("tree_uri_$storage", treeUri.toString())
                 val treeFile = DocumentFile.fromTreeUri(context, treeUri)
                 val contentResolver = context.contentResolver
 

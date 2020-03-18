@@ -31,6 +31,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.WorkerThread
 import androidx.tvprovider.media.tv.*
 import android.util.Log
+import org.videolan.tools.putSingle
 
 typealias ProgramsList = MutableList<TvPreviewProgram>
 
@@ -59,7 +60,7 @@ fun createOrUpdateChannel(prefs: SharedPreferences, context: Context, name: Stri
     if (channelId == -1L) {
         val channelUri = context.contentResolver.insert(TvContractCompat.Channels.CONTENT_URI, builder.build().toContentValues()) ?: return -1L
         channelId = ContentUris.parseId(channelUri)
-        prefs.edit().putLong(KEY_TV_CHANNEL_ID, channelId).apply()
+        prefs.putSingle(KEY_TV_CHANNEL_ID, channelId)
         TvContractCompat.requestChannelBrowsable(context, channelId)
         val uri = Uri.parse("android.resource://$appId/$icon")
         ChannelLogoUtils.storeChannelLogo(context, channelId, uri)

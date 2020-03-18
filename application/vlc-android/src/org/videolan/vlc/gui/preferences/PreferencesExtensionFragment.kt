@@ -15,6 +15,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionListing
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import java.util.*
 
 @ObsoleteCoroutinesApi
@@ -26,7 +27,7 @@ class PreferencesExtensionFragment : BasePreferenceFragment() {
     private var extensionTitle: String? = null
     private var extensionKey: String? = null
     private var extensionPackageName: String? = null
-    private var settings: SharedPreferences? = null
+    private lateinit var settings: SharedPreferences
     // private var preferenceScreen: PreferenceScreen? = null
     private var androidAutoAvailable = false
     private val preferences = ArrayList<Preference>()
@@ -82,7 +83,7 @@ class PreferencesExtensionFragment : BasePreferenceFragment() {
         val switchPreference = SwitchPreferenceCompat(preferenceScreen!!.context)
         switchPreference.title = preferenceScreen!!.context.getString(R.string.extension_prefs_activation_title).toUpperCase()
         switchPreference.key = extensionKey
-        switchPreference.isChecked = settings!!.getBoolean(extensionKey, false)
+        switchPreference.isChecked = settings.getBoolean(extensionKey, false)
         switchPreference.onPreferenceChangeListener = null
         preferenceScreen!!.addPreference(switchPreference)
 
@@ -92,7 +93,7 @@ class PreferencesExtensionFragment : BasePreferenceFragment() {
             checkbox.setTitle(R.string.android_auto)
             val key = extensionKey + "_" + ExtensionsManager.ANDROID_AUTO_SUFFIX
             checkbox.key = key
-            checkbox.isChecked = switchPreference.isChecked && settings!!.getBoolean(key, false)
+            checkbox.isChecked = switchPreference.isChecked && settings.getBoolean(key, false)
             checkbox.isEnabled = switchPreference.isChecked
             preferences.add(checkbox)
             preferenceScreen!!.addPreference(checkbox)
@@ -106,21 +107,19 @@ class PreferencesExtensionFragment : BasePreferenceFragment() {
 
         if (key == extensionKey) {
             val switchPreference = preference as CheckBoxPreference
-            settings!!.edit().putBoolean(key, switchPreference.isChecked).apply()
+            settings.putSingle(key, switchPreference.isChecked)
             if (switchPreference.isChecked) {
                 for (checkbox in preferences)
                     checkbox.isEnabled = true
             } else {
                 for (checkbox in preferences) {
                     (checkbox as CheckBoxPreference).isChecked = false
-                    settings!!.edit().putBoolean(checkbox.getKey(), false).apply()
+                    settings.putSingle(checkbox.getKey(), false)
                     checkbox.setEnabled(false)
                 }
             }
         } else if (key.endsWith("_" + ExtensionsManager.ANDROID_AUTO_SUFFIX)) {
-            settings!!.edit()
-                    .putBoolean(preference.key, (preference as TwoStatePreference).isChecked)
-                    .apply()
+            settings.putSingle(preference.key, (preference as TwoStatePreference).isChecked)
         }
         return super.onPreferenceTreeClick(preference)
     }

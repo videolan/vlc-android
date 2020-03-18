@@ -50,6 +50,7 @@ import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -131,7 +132,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
                 setupLayoutManager()
                 playlists.adapter = adapter
                 activity?.invalidateOptionsMenu()
-                Settings.getInstance(requireActivity()).edit().putBoolean(viewModel.displayModeKey, item.itemId == R.id.ml_menu_display_grid).apply()
+                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKey, item.itemId == R.id.ml_menu_display_grid)
                 true
             }
             else -> super.onOptionsItemSelected(item)

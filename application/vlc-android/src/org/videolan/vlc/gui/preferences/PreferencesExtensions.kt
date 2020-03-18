@@ -17,6 +17,7 @@ import org.videolan.vlc.extensions.ExtensionListing
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.gui.view.ClickableSwitchPreference
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import java.util.*
 
 @ObsoleteCoroutinesApi
@@ -24,13 +25,13 @@ import java.util.*
 class PreferencesExtensions : BasePreferenceFragment() {
 
     private var extensions: List<ExtensionListing> = ArrayList()
-    private var settings: SharedPreferences? = null
+    private lateinit var settings: SharedPreferences
     private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         settings = Settings.getInstance(requireContext())
-        extensions = ExtensionsManager.getInstance().getExtensions(activity!!.application, false)
+        extensions = ExtensionsManager.getInstance().getExtensions(requireActivity().applicationContext, false)
         preferenceScreen = this.preferenceScreen
     }
 
@@ -54,7 +55,7 @@ class PreferencesExtensions : BasePreferenceFragment() {
     }
 
     private fun createCheckboxes() {
-        val pm = activity!!.applicationContext.packageManager
+        val pm = requireActivity().applicationContext.packageManager
         for (i in extensions.indices) {
             val extension = extensions[i]
             val switchPreference = ClickableSwitchPreference(preferenceScreen!!.context)
@@ -80,16 +81,16 @@ class PreferencesExtensions : BasePreferenceFragment() {
                     switchPreference.setIcon(R.drawable.icon)
                 }
 
-            val checked = settings!!.getBoolean(key, false)
+            val checked = settings.getBoolean(key, false)
             switchPreference.isChecked = checked
             preferenceScreen!!.addPreference(switchPreference)
             switchPreference.setOnSwitchClickListener(View.OnClickListener {
                 if ((view as SwitchCompat).isChecked)
-                    settings!!.edit().putBoolean(key, true).apply()
+                    settings.putSingle(key, true)
                 else
-                    for ((key1) in settings!!.all)
+                    for ((key1) in settings.all)
                         if (key1.startsWith(ExtensionsManager.EXTENSION_PREFIX + "_"))
-                            settings!!.edit().putBoolean(key1, false).apply()
+                            settings.putSingle(key1, false)
             })
             count++
         }

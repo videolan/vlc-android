@@ -47,6 +47,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.resources.CTX_PLAY_ALL
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -205,7 +206,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 setupLayoutManager(currentTab)
                 lists[currentTab].adapter = adapters[currentTab]
                 activity?.invalidateOptionsMenu()
-                Settings.getInstance(requireActivity()).edit().putBoolean(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid).apply()
+                Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid)
                 true
             }
             else -> super.onOptionsItemSelected(item)

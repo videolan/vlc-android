@@ -52,10 +52,7 @@ import kotlinx.coroutines.delay
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.startMedialibrary
-import org.videolan.tools.PREF_AUDIOPLAYER_TIPS_SHOWN
-import org.videolan.tools.Settings
-import org.videolan.tools.WeakHandler
-import org.videolan.tools.setVisibility
+import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
@@ -222,9 +219,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             val okGotIt = v.findViewById<TextView>(R.id.okgotit_button)
             okGotIt.setOnClickListener {
                 removeTipViewIfDisplayed()
-                val editor = settings.edit()
-                editor.putBoolean(settingKey, true)
-                editor.apply()
+                settings.putSingle(settingKey, true)
             }
         }
     }

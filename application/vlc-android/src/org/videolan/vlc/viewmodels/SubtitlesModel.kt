@@ -20,6 +20,7 @@ import org.videolan.vlc.gui.dialogs.SubtitleItem
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.putSingle
 import java.io.File
 import java.util.*
 
@@ -180,7 +181,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, va
         return Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGES, setOf(language))?.map { it.getCompliantLanguageID() } ?: emptyList()
     }
 
-    fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).edit().putStringSet(LAST_USED_LANGUAGES, lastUsedLanguages.toSet()).apply()
+    fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).putSingle(LAST_USED_LANGUAGES, lastUsedLanguages.toSet())
 
     class Factory(private val context: Context, private val mediaUri: Uri): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

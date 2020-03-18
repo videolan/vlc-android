@@ -35,6 +35,7 @@ import org.videolan.libvlc.util.VLCUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.Preferences
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import java.io.File
 import java.util.*
 
@@ -146,9 +147,7 @@ object VLCOptions {
     }
 
     fun setAudioDigitalOutputEnabled(pref: SharedPreferences, enabled: Boolean) {
-        val editor = pref.edit()
-        editor.putBoolean("audio_digital_output", enabled)
-        editor.apply()
+        pref.putSingle("audio_digital_output", enabled)
     }
 
     fun getAout(pref: SharedPreferences): String? {

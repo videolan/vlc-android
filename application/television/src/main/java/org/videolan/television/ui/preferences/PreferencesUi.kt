@@ -49,7 +49,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Settings.getInstance(activity).run {
-            if (!contains(FORCE_PLAY_ALL)) edit().putBoolean(FORCE_PLAY_ALL, true).apply()
+            if (!contains(FORCE_PLAY_ALL)) putSingle(FORCE_PLAY_ALL, true)
         }
         super.onCreate(savedInstanceState)
         findPreference<Preference>("ui_audio_category")?.isVisible = false

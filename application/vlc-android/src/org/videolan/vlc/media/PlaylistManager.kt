@@ -274,7 +274,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     fun setRepeatType(repeatType: Int) {
         repeating = repeatType
-        settings.edit().putInt(PLAYLIST_REPEAT_MODE_KEY, repeating).apply()
+        settings.putSingle(PLAYLIST_REPEAT_MODE_KEY, repeating)
         savePosition()
         launch { determinePrevAndNextIndices() }
     }
@@ -487,9 +487,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private fun saveCurrentMedia() {
         val media = getCurrentMedia() ?: return
         val isAudio = isAudioList()
-        settings.edit()
-                .putString(if (isAudio) "current_song" else "current_media", media.location)
-                .apply()
+        settings.putSingle(if (isAudio) "current_song" else "current_media", media.location)
     }
 
     private suspend fun saveMediaList() {
@@ -499,9 +497,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val list = mediaList.copy.takeIf { it.isNotEmpty() } ?: return@withContext
             for (mw in list) locations.append(" ").append(mw.uri.toString())
             //We save a concatenated String because putStringSet is APIv11.
-            settings.edit()
-                    .putString(if (isAudioList()) "audio_list" else "media_list", locations.toString().trim())
-                    .apply()
+            settings.putSingle(if (isAudioList()) "audio_list" else "media_list", locations.toString().trim())
         }
     }
 

@@ -47,6 +47,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.askStoragePermission
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate
@@ -147,9 +148,7 @@ object Permissions {
                     else {
                         showAppSettingsPage(activity)
                     }
-                    settings.edit()
-                            .putBoolean("user_declined_storage_access", true)
-                            .apply()
+                    settings.putSingle("user_declined_storage_access", true)
                 }
         if (exit) {
             dialogBuilder.setNegativeButton(activity.getString(R.string.exit_app)) { _, _ -> activity.finish() }
@@ -171,9 +170,7 @@ object Permissions {
                     else {
                         showAppSettingsPage(activity)
                     }
-                    settings.edit()
-                            .putBoolean("user_declined_storage_access", true)
-                            .apply()
+                    settings.putSingle("user_declined_storage_access", true)
                 }
         if (exit) {
             dialogBuilder.setNegativeButton(activity.getString(R.string.exit_app)) { _, _ -> activity.finish() }

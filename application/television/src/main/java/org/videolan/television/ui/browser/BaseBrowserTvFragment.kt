@@ -56,6 +56,7 @@ import org.videolan.television.R
 import org.videolan.television.databinding.SongBrowserBinding
 import org.videolan.television.ui.*
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
@@ -220,7 +221,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
 
     private fun changeDisplayMode() {
         inGrid = !inGrid
-        Settings.getInstance(requireActivity()).edit().putBoolean(getDisplayPrefId(), inGrid).apply()
+        Settings.getInstance(requireActivity()).putSingle(getDisplayPrefId(), inGrid)
         adapter.displaySwitch(inGrid)
         setupDisplayIcon()
         setupLayoutManager()

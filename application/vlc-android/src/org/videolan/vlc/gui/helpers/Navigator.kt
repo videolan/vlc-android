@@ -45,6 +45,7 @@ import org.videolan.resources.*
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
+import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
@@ -139,10 +140,10 @@ class Navigator: NavigationView.OnNavigationItemSelectedListener, LifecycleObser
             activity.unbindService(extensionServiceConnection!!)
             extensionServiceConnection = null
         }
-        if (currentIdIsExtension())
-            settings.edit()
-                    .putString("current_extension_name", extensionsManager.getExtensions(activity.application, false)[currentFragmentId].componentName().packageName)
-                    .apply()
+        if (currentIdIsExtension()) {
+            val name = extensionsManager.getExtensions(activity.application, false)[currentFragmentId].componentName().packageName
+            settings.putSingle("current_extension_name", name)
+        }
     }
 
     private fun getNewFragment(id: Int): Fragment {

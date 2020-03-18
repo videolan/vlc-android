@@ -57,6 +57,7 @@ import org.videolan.resources.*
 import org.videolan.tools.PREF_PLAYLIST_TIPS_SHOWN
 import org.videolan.tools.Settings
 import org.videolan.tools.dp
+import org.videolan.tools.putSingle
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
@@ -371,7 +372,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     fun onPlaylistSwitchClick(view: View) {
         switchShowCover()
-        settings.edit().putBoolean("audio_player_show_cover", isShowingCover()).apply()
+        settings.putSingle("audio_player_show_cover", isShowingCover())
         binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (isShowingCover()) R.attr.ic_playlist else R.attr.ic_playlist_on))
     }
 

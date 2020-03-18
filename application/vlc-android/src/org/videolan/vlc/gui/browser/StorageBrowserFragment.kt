@@ -51,10 +51,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.CTX_CUSTOM_REMOVE
-import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
-import org.videolan.tools.ML_SCAN_ON
-import org.videolan.tools.Settings
-import org.videolan.tools.sanitizePath
+import org.videolan.tools.*
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
@@ -196,7 +193,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
             if (checked) {
                 MedialibraryUtils.addDir(mrl, v.context.applicationContext)
                 val prefs = Settings.getInstance(v.getContext())
-                if (prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_ON) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
+                if (prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_ON) prefs.putSingle(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON)
             } else
                 MedialibraryUtils.removeDir(mrl)
             processEvent(v as CheckBox, mrl)

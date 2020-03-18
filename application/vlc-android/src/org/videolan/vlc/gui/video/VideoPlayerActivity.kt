@@ -445,11 +445,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         sDisplayRemainingTime = settings.getBoolean(KEY_REMAINING_TIME_DISPLAY, false)
         // Clear the resume time, since it is only used for resumes in external
         // videos.
-        val editor = settings.edit()
-        editor.putLong(VIDEO_RESUME_TIME, -1)
+        settings.putSingle(VIDEO_RESUME_TIME, -1)
         // Paused flag - per session too, like the subs list.
-        editor.apply()
-
         this.volumeControlStream = AudioManager.STREAM_MUSIC
 
         // 100 is the value for screen_orientation_start_lock
@@ -720,10 +717,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         cleanUI()
         stopPlayback()
 
-        val editor = settings.edit()
-        if (savedTime != -1L) editor.putLong(VIDEO_RESUME_TIME, savedTime)
-
-        editor.apply()
+        if (savedTime != -1L) settings.putSingle(VIDEO_RESUME_TIME, savedTime)
 
         saveBrightness()
 
@@ -743,11 +737,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         // Save brightness if user wants to
         if (settings.getBoolean(SAVE_BRIGHTNESS, false)) {
             val brightness = window.attributes.screenBrightness
-            if (brightness != -1f) {
-                val editor = settings.edit()
-                editor.putFloat(BRIGHTNESS_VALUE, brightness)
-                editor.apply()
-            }
+            if (brightness != -1f) settings.putSingle(BRIGHTNESS_VALUE, brightness)
         }
     }
 
@@ -851,7 +841,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val tv = Settings.showTvUi
             val interactive = isInteractive
             wasPaused = !isPlaying || (!tv && !interactive)
-            if (wasPaused) settings.edit().putBoolean(VIDEO_PAUSED, true).apply()
+            if (wasPaused) settings.putSingle(VIDEO_PAUSED, true)
             if (!isFinishing) {
                 currentAudioTrack = audioTrack
                 currentSpuTrack = spuTrack
@@ -1702,7 +1692,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     fun toggleTimeDisplay() {
         sDisplayRemainingTime = !sDisplayRemainingTime
         showOverlay()
-        settings.edit().putBoolean(KEY_REMAINING_TIME_DISPLAY, sDisplayRemainingTime).apply()
+        settings.putSingle(KEY_REMAINING_TIME_DISPLAY, sDisplayRemainingTime)
     }
 
     fun toggleLock() {
@@ -1916,9 +1906,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             MediaPlayer.ScaleType.SURFACE_4_3 -> showInfo("4:3", 1000)
             MediaPlayer.ScaleType.SURFACE_ORIGINAL -> showInfo(R.string.surface_original, 1000)
         }
-        settings.edit()
-                .putInt(VIDEO_RATIO, scale.ordinal)
-                .apply()
+        settings.putSingle(VIDEO_RATIO, scale.ordinal)
     }
 
     /**
@@ -1999,7 +1987,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 it.setVisible()
                 hudRightBinding = DataBindingUtil.bind(findViewById(R.id.hud_right_overlay)) ?: return
                 if (!isBenchmark && enableCloneMode && !settings.contains("enable_clone_mode")) {
-                    UiTools.snackerConfirm(hudRightBinding.videoSecondaryDisplay, getString(R.string.video_save_clone_mode), Runnable { settings.edit().putBoolean("enable_clone_mode", true).apply() })
+                    UiTools.snackerConfirm(hudRightBinding.videoSecondaryDisplay, getString(R.string.video_save_clone_mode), Runnable { settings.putSingle("enable_clone_mode", true) })
                 }
             }
 
@@ -2343,9 +2331,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                     showConfirmResumeDialog()
                                     return
                                 } else {
-                                    settings.edit()
-                                            .putLong(VIDEO_RESUME_TIME, -1)
-                                            .apply()
+                                    settings.putSingle(VIDEO_RESUME_TIME, -1)
                                     startTime = rTime
                                 }
                             }
@@ -2596,7 +2582,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     fun onClickDismissTips(@Suppress("UNUSED_PARAMETER") v: View) {
         overlayTips.setGone()
-        settings.edit().putBoolean(PREF_TIPS_SHOWN, true).apply()
+        settings.putSingle(PREF_TIPS_SHOWN, true)
     }
 
     private fun updateNavStatus() {

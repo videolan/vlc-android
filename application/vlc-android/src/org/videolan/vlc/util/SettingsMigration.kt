@@ -28,10 +28,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
-import org.videolan.tools.KEY_APP_THEME
-import org.videolan.tools.KEY_CURRENT_SETTINGS_VERSION
-import org.videolan.tools.KEY_VIDEO_CONFIRM_RESUME
-import org.videolan.tools.Settings
+import org.videolan.tools.*
 
 private const val CURRENT_VERSION = 1
 
@@ -43,7 +40,7 @@ object SettingsMigration {
         if (lastVersion < 1) {
             migrateToVersion1(settings)
         }
-        settings.edit().putInt(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION).apply()
+        settings.putSingle(KEY_CURRENT_SETTINGS_VERSION, CURRENT_VERSION)
     }
 
     private fun migrateToVersion1(settings: SharedPreferences) {
