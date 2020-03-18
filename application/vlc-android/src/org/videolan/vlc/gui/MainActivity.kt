@@ -90,7 +90,7 @@ class MainActivity : ContentActivity(),
         /* Set up the action bar */
         prepareActionBar()
         /* Reload the latest preferences */
-        scanNeeded = savedInstanceState == null && settings.getBoolean("auto_rescan", true)
+        scanNeeded = savedInstanceState == null && settings.getBoolean(KEY_MEDIALIBRARY_AUTO_RESCAN, true)
         if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
         mediaLibrary = Medialibrary.getInstance()
 

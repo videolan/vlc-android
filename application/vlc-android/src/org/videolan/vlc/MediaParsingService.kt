@@ -289,7 +289,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                 medialibrary.unbanFolder("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/WhatsApp/")
                 medialibrary.banFolder("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/WhatsApp/Media/WhatsApp Animated Gifs/")
             }
-            settings.getBoolean("auto_rescan", true) -> reload(null)
+            settings.getBoolean(KEY_MEDIALIBRARY_AUTO_RESCAN, true) -> reload(null)
             else -> exitCommand()
         }
     }

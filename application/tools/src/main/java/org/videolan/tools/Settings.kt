@@ -44,6 +44,7 @@ const val KEY_BLACK_THEME = "enable_black_theme"
 const val KEY_DAYNIGHT = "daynight"
 const val SHOW_VIDEO_THUMBNAILS = "show_video_thumbnails"
 const val KEY_VIDEO_CONFIRM_RESUME = "video_confirm_resume"
+const val KEY_MEDIALIBRARY_AUTO_RESCAN = "auto_rescan"
 
 //UI
 const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
@@ -103,5 +104,4 @@ class DeviceInfo(context: Context) {
     val hasPiP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && pm.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
             || Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isAndroidTv
     val pipAllowed = hasPiP || hasTsp && Build.VERSION.SDK_INT < Build.VERSION_CODES.O
-
 }

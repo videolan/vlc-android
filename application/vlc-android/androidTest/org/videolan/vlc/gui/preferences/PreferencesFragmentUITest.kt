@@ -13,6 +13,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
+import org.videolan.tools.KEY_MEDIALIBRARY_AUTO_RESCAN
 import org.videolan.vlc.PreferenceMatchers.withKey
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
@@ -48,9 +49,7 @@ class PreferencesFragmentUITest: BasePreferenceUITest() {
 
     @Test
     fun clickOnToggleRescan_keyToggled() {
-        val key = "auto_rescan"
-
-        checkToggleWorks(key, settings)
+        checkToggleWorks(KEY_MEDIALIBRARY_AUTO_RESCAN, settings)
     }
 
     @Test

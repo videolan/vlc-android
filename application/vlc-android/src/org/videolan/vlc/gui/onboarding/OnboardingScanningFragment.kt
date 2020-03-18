@@ -7,16 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import kotlinx.android.synthetic.main.onboarding_scanning.*
-import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
-import org.videolan.tools.ML_SCAN_OFF
-import org.videolan.tools.ML_SCAN_ON
-import org.videolan.tools.Settings
+import org.videolan.tools.*
 import org.videolan.vlc.R
 
 class OnboardingScanningFragment : Fragment() {
-    lateinit var onScanningCustomizeChangedListener: IOnScanningCustomizeChangedListener
+    private val onScanningCustomizeChangedListener by lazy(LazyThreadSafetyMode.NONE) { requireActivity() as IOnScanningCustomizeChangedListener }
     private val viewModel: OnboardingViewModel by activityViewModels()
-    private val preferences by lazy { Settings.getInstance(requireActivity()) }
+    private val preferences by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(requireActivity()) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.onboarding_scanning, container, false)
@@ -34,27 +31,19 @@ class OnboardingScanningFragment : Fragment() {
         }
 
         autoScanningCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            preferences.edit().putBoolean("auto_rescan", isChecked).apply()
+            preferences.edit().putBoolean(KEY_MEDIALIBRARY_AUTO_RESCAN, isChecked).apply()
         }
-
-        onScanningCustomizeChangedListener = requireActivity() as IOnScanningCustomizeChangedListener
 
         scanningFolderCheckbox.isChecked = viewModel.customizeMediaFolders
 
         scanningFolderCheckbox.setOnCheckedChangeListener { _, isChecked ->
-
             viewModel.customizeMediaFolders = isChecked
-
-            if (::onScanningCustomizeChangedListener.isInitialized) {
-                onScanningCustomizeChangedListener.onCustomizedChanged(isChecked)
-            }
+            onScanningCustomizeChangedListener.onCustomizedChanged(isChecked)
         }
     }
 
     companion object {
-        fun newInstance(): OnboardingScanningFragment {
-            return OnboardingScanningFragment()
-        }
+        fun newInstance() = OnboardingScanningFragment()
     }
 }
 
