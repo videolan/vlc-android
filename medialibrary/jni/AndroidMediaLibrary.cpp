@@ -49,14 +49,14 @@ AndroidMediaLibrary::~AndroidMediaLibrary()
 medialibrary::InitializeResult
 AndroidMediaLibrary::initML(const std::string& dbPath, const std::string& thumbsPath)
 {
-    p_DeviceListerCb = p_ml->setDeviceLister(p_lister);
+    p_ml->registerDeviceLister(p_lister, "file://");
     return p_ml->initialize(dbPath, thumbsPath, this);
 }
 
 void
 AndroidMediaLibrary::start()
 {
-    p_ml->start();
+//    p_ml->start();
     m_started = true;
 }
 
@@ -69,8 +69,7 @@ AndroidMediaLibrary::clearDatabase(bool restorePlaylists) {
 bool
 AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
 {
-    p_lister->addDevice(uuid, path, removable);
-    return p_DeviceListerCb != nullptr && (p_DeviceListerCb->onDeviceMounted(uuid, path));
+    return p_lister->addDevice(uuid, path, removable);
 }
 
 std::vector<std::tuple<std::string, std::string, bool>>
@@ -82,10 +81,7 @@ AndroidMediaLibrary::devices()
 bool
 AndroidMediaLibrary::removeDevice(const std::string& uuid, const std::string& path)
 {
-    bool removed = p_lister->removeDevice(uuid);
-    if (removed && p_DeviceListerCb != nullptr)
-        p_DeviceListerCb->onDeviceUnmounted(uuid, path);
-    return removed;
+    return p_lister->removeDevice(uuid, path);
 }
 
 void
