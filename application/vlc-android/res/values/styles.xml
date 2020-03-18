@@ -578,7 +578,8 @@
 
     </style>
 
-    <style name="AppModalStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+    <!--    fixme : We'll have to revert to Widget.MaterialComponents.BottomSheet.Modal when this issue is fixed: https://github.com/material-components/material-components-android/issues/1086-->
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
     </style>
 
     <style name="Theme.VLC.BottomSheetTitle">
