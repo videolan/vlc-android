@@ -226,9 +226,8 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     }
     val image = if (!bindChanged) obtainBitmap(item, width) else null
     if (image == null && tv) {
-        val imageTV = v.context.getBitmapFromDrawable(getTvIconRes(item))
         // binding is set to null to be sure to set the src and not the cover (background)
-        if (!bindChanged) updateImageView(bitmap = imageTV, target = v, vdb = null, updateScaleType = false, tv = tv, card = card)
+        if (!bindChanged) updateImageViewTv(getTvIconRes(item), v)
         binding?.removeOnRebindCallback(rebindCallbacks!!)
         return
     }
@@ -268,7 +267,22 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
 }
 
 @MainThread
-fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, updateScaleType: Boolean = true, tv : Boolean = false, card: Boolean = false) {
+fun updateImageViewTv(@DrawableRes res: Int, target: View) {
+    when (target) {
+        is ImageView -> {
+            target.scaleType = ImageView.ScaleType.CENTER_CROP
+            target.setImageResource(res)
+            target.visibility = View.VISIBLE
+        }
+        is ImageCardView -> {
+            target.mainImageView.scaleType = ImageView.ScaleType.CENTER_CROP
+            target.mainImageView.setImageResource(res)
+        }
+    }
+}
+
+@MainThread
+fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?, updateScaleType: Boolean = true, tv: Boolean = false, card: Boolean = false) {
     if (bitmap === null || bitmap.width <= 1 || bitmap.height <= 1) return
     if (vdb !== null && !tv) {
         vdb.setVariable(BR.scaleType, if (card) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER)

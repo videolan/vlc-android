@@ -30,6 +30,7 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.IBinder
@@ -164,7 +165,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                     try {
                                         extensionRes = context.packageManager
                                                 .getResourcesForApplication(extension.componentName().packageName)
-                                        b = context.getBitmapFromDrawable(iconRes)
+                                        b = BitmapFactory.decodeResource(extensionRes, iconRes)
                                     } catch (ignored: PackageManager.NameNotFoundException) {
                                     }
                                 }

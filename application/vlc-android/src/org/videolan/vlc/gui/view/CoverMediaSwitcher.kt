@@ -28,20 +28,15 @@ import android.widget.ImageView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class CoverMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwitcher(context, attrs) {
 
     override fun addMediaView(inflater: LayoutInflater, title: String?, artist: String?, cover: Bitmap?) {
-        var cover = cover
-
-        if (cover == null) cover = context.getBitmapFromDrawable(R.drawable.icon)
-
         val imageView = ImageView(context)
         imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-        imageView.setImageBitmap(cover)
+        if (cover == null) imageView.setImageResource(R.drawable.icon) else imageView.setImageBitmap(cover)
         addView(imageView)
     }
 }
