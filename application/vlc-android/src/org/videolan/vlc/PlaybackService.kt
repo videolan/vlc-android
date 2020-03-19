@@ -23,7 +23,6 @@ import android.annotation.TargetApi
 import android.app.*
 import android.appwidget.AppWidgetManager
 import android.content.*
-import android.graphics.BitmapFactory
 import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.net.Uri
@@ -70,6 +69,7 @@ import org.videolan.tools.*
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaSessionBrowser
@@ -711,7 +711,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                     else
                         AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), 256)
                     if (cover == null || cover.isRecycled)
-                        cover = BitmapFactory.decodeResource(ctx.resources, R.drawable.ic_no_media)
+                        cover = ctx.getBitmapFromDrawable(R.drawable.ic_no_media)
 
                     notification = NotificationHelper.createPlaybackNotification(ctx,
                             canSwitchToVideo(), title, artist, album,

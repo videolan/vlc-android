@@ -23,7 +23,6 @@ package org.videolan.television.ui
 import android.annotation.TargetApi
 import android.app.Activity
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -106,9 +105,9 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             val res = cardView.resources
             picture = if (mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (mediaLibraryItem as MediaWrapper).type == MediaWrapper.TYPE_DIR) {
                 if (TextUtils.equals(mediaLibraryItem.uri.scheme, "file"))
-                    BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big)
+                    context.getBitmapFromDrawable(R.drawable.ic_menu_folder_big)
                 else
-                    BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big)
+                    context.getBitmapFromDrawable(R.drawable.ic_menu_network_big)
             } else
                 AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.artworkMrl), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width))
             if (picture == null) picture = getBitmapFromDrawable(context, getTvIconRes(mediaLibraryItem))

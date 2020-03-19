@@ -23,7 +23,6 @@
 package org.videolan.vlc.gui.browser
 
 import android.annotation.TargetApi
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Handler
@@ -54,6 +53,7 @@ import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import java.util.*
 
 
@@ -89,15 +89,15 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
         specialIcons = filesRoot || fileBrowser && mrl != null && mrl.endsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
         // Setup resources
         val res = fragment.requireContext().resources
-        folderDrawable = BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder))
-        audioDrawable = BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_audio_normal))
-        videoDrawable = BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_video_normal))
-        subtitleDrawable = BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_subtitle_normal))
-        unknownDrawable = BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_unknown_normal))
-        qaMoviesDrawable = BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_movies_normal))
-        qaMusicDrawable = BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_music_normal))
-        qaPodcastsDrawable = BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_podcasts_normal))
-        qaDownloadDrawable = BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_download_normal))
+        folderDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_menu_folder))
+        audioDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_audio_normal))
+        videoDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_video_normal))
+        subtitleDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_subtitle_normal))
+        unknownDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_unknown_normal))
+        qaMoviesDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_movies_normal))
+        qaMusicDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_music_normal))
+        qaPodcastsDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_podcasts_normal))
+        qaDownloadDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_download_normal))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ViewDataBinding> {

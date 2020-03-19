@@ -3,7 +3,6 @@ package org.videolan.vlc.gui.helpers
 import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -31,7 +30,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
-import org.videolan.tools.AppScope
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.Settings
@@ -228,7 +226,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     }
     val image = if (!bindChanged) obtainBitmap(item, width) else null
     if (image == null && tv) {
-        val imageTV = BitmapFactory.decodeResource(v.resources, getTvIconRes(item))
+        val imageTV = v.context.getBitmapFromDrawable(getTvIconRes(item))
         // binding is set to null to be sure to set the src and not the cover (background)
         if (!bindChanged) updateImageView(bitmap = imageTV, target = v, vdb = null, updateScaleType = false, tv = tv, card = card)
         binding?.removeOnRebindCallback(rebindCallbacks!!)

@@ -20,9 +20,19 @@
 
 package org.videolan.vlc.gui.helpers
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.VectorDrawable
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.BitmapCache
@@ -102,5 +112,23 @@ object BitmapUtil {
             srcBmp
         }
 
+    }
+}
+
+fun Context.getBitmapFromDrawable(@DrawableRes drawableId: Int): Bitmap? {
+    var drawable: Drawable = ContextCompat.getDrawable(this, drawableId) ?: return null
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        drawable = DrawableCompat.wrap(drawable).mutate()
+    }
+    return when (drawable) {
+        is BitmapDrawable -> drawable.bitmap
+        is VectorDrawableCompat, is VectorDrawable -> {
+            val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, canvas.width, canvas.height)
+            drawable.draw(canvas)
+            bitmap
+        }
+        else -> BitmapFactory.decodeResource(this.resources, drawableId)
     }
 }

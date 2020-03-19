@@ -30,7 +30,6 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.IBinder
@@ -50,6 +49,7 @@ import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
 import org.videolan.vlc.gui.helpers.UiTools.getDefaultAudioDrawable
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaUtils.getMediaSubtitle
 import java.util.*
 import java.util.concurrent.Semaphore
@@ -164,7 +164,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                     try {
                                         extensionRes = context.packageManager
                                                 .getResourcesForApplication(extension.componentName().packageName)
-                                        b = BitmapFactory.decodeResource(extensionRes, iconRes)
+                                        b = context.getBitmapFromDrawable(iconRes)
                                     } catch (ignored: PackageManager.NameNotFoundException) {
                                     }
                                 }
@@ -172,7 +172,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                                     b = (context.packageManager.getApplicationIcon(extension.componentName().packageName) as BitmapDrawable).bitmap
                                     item.setIconBitmap(b)
                                 } catch (e: PackageManager.NameNotFoundException) {
-                                    b = BitmapFactory.decodeResource(res, R.drawable.icon)
+                                    b = context.getBitmapFromDrawable(R.drawable.icon)
                                     item.setIconBitmap(b)
                                 }
                                 results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))

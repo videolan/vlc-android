@@ -44,9 +44,7 @@
 
 package org.videolan.tools
 
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.collection.LruCache
 import videolan.org.commontools.BuildConfig
@@ -100,14 +98,5 @@ object BitmapCache {
     @Synchronized
     fun clear() {
         mMemCache.evictAll()
-    }
-
-    fun getFromResource(res: Resources, resId: Int): Bitmap? {
-        var bitmap = getBitmapFromMemCache(resId)
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(res, resId)
-            addBitmapToMemCache(resId, bitmap)
-        }
-        return bitmap
     }
 }
