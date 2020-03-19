@@ -50,6 +50,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
+import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect

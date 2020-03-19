@@ -49,6 +49,7 @@ import org.videolan.vlc.extensions.ExtensionManagerService.ExtensionManagerActiv
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
+import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.UiTools.getDefaultAudioDrawable
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaUtils.getMediaSubtitle
