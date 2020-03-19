@@ -158,7 +158,6 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         mw.type = MediaWrapper.TYPE_STREAM
         if (mw.uri.scheme?.startsWith("rtsp") == true) VideoPlayerActivity.start(requireContext(), mw.uri)
         else MediaUtils.openMedia(activity, mw)
-        viewModel.refresh()
         activity?.invalidateOptionsMenu()
         UiTools.setKeyboardVisibility(editText, false)
     }

@@ -26,21 +26,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.util.EmptyPBSCallback
 
 
 class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<MediaWrapper>(context, coroutineContextProvider) {
     var deletingMedia: MediaWrapper? = null
     val observableSearchText = ObservableField<String>()
+    var service: PlaybackService? = null
 
     init {
         if (medialibrary.isStarted) refresh()
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(viewModelScope)
     }
-
 
     override suspend fun updateList() {
         dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastStreamsPlayed().toMutableList().also { deletingMedia?.let { remove(it) } } }
@@ -62,6 +69,24 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
             }
         }
     }
+
+    private fun onServiceChanged(service: PlaybackService?) {
+        if (this.service == service) return
+        if (service != null) {
+            service.addCallback(serviceCb)
+            this.service = service
+        } else {
+            this.service?.apply { removeCallback(serviceCb) }
+            this.service = null
+        }
+    }
+
+    private val serviceCb = object : PlaybackService.Callback by EmptyPBSCallback {
+        override fun update() {
+            refresh()
+        }
+    }
+
     class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
