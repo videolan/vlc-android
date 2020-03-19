@@ -72,8 +72,6 @@
         <item name="ic_save">@drawable/ic_save</item>
         <item name="ic_trash">@drawable/ic_trash</item>
         <item name="ic_reset">@drawable/ic_reset</item>
-        <item name="shadow_top_9patch">@drawable/shadow_top</item>
-        <item name="shadow_bottom_9patch">@drawable/shadow_bottom</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
         <item name="advanced_options_style">@style/Theme.MaterialComponents.Light.Dialog</item>
@@ -191,8 +189,6 @@
         <item name="ic_save">@drawable/ic_save_w</item>
         <item name="ic_trash">@drawable/ic_trash_w</item>
         <item name="ic_reset">@drawable/ic_reset_w</item>
-        <item name="shadow_top_9patch">@drawable/shadow_top_dark</item>
-        <item name="shadow_bottom_9patch">@drawable/shadow_bottom_dark</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_dark</item>
         <item name="advanced_options_style">@style/Theme.MaterialComponents.Dialog</item>
