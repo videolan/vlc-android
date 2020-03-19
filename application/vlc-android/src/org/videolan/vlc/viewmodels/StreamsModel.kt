@@ -48,14 +48,18 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
 
     fun rename(position: Int, name: String) {
         val media = dataset.get(position)
-        viewModelScope.launch(Dispatchers.IO) { media.rename(name) }
-        refresh()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) { media.rename(name) }
+            refresh()
+        }
     }
 
     fun delete() {
         deletingMedia?.let { media ->
-            viewModelScope.launch(Dispatchers.IO) { context.getFromMl { removeExternalMedia(media.id) } }
-            refresh()
+            viewModelScope.launch {
+                context.getFromMl { removeExternalMedia(media.id) }
+                refresh()
+            }
         }
     }
     class Factory(private val context: Context) : ViewModelProvider.Factory {
