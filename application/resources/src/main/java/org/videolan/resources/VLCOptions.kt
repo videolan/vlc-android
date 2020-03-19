@@ -33,7 +33,6 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.libvlc.util.VLCUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.resources.R.*
 import org.videolan.tools.Preferences
 import org.videolan.tools.Settings
 import java.io.File
@@ -66,7 +65,7 @@ object VLCOptions {
 
             val options = ArrayList<String>(50)
 
-            val timeStrechingDefault = context != null && context.resources.getBoolean(bool.time_stretching_default)
+            val timeStrechingDefault = context != null && context.resources.getBoolean(R.bool.time_stretching_default)
             val timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault)
             val subtitlesEncoding = pref.getString("subtitle_text_encoding", "") ?: ""
             val frameSkip = pref.getBoolean("enable_frame_skip", false)
