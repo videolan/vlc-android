@@ -30,12 +30,9 @@ import kotlinx.coroutines.channels.SendChannel
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlItemBinding
+import org.videolan.vlc.gui.DiffUtilAdapter
 
-internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
-    private var dataset: List<MediaWrapper>? = null
-
-    val isEmpty: Boolean
-        get() = itemCount == 0
+internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : DiffUtilAdapter<MediaWrapper, MRLAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MRLAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -44,23 +41,20 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : Recy
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = dataset?.get(position)
-        holder.binding.mrlItemUri.text = Uri.decode(item?.location)
-        holder.binding.mrlItemTitle.text = Uri.decode(item?.title)
+        val item = dataset.get(position)
+        holder.binding.mrlItemUri.text = Uri.decode(item.location)
+        holder.binding.mrlItemTitle.text = Uri.decode(item.title)
     }
 
-    fun setList(list: List<MediaWrapper>?) {
-        dataset = list
-        notifyDataSetChanged()
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isNullOrEmpty()) {
+            onBindViewHolder(holder, position)
+            return
+        }
+        for (payload in payloads) {
+            if (payload is String) holder.binding.mrlItemTitle.text = payload
+        }
     }
-
-    fun getItem(position: Int): MediaWrapper? = when {
-        position >= itemCount -> null
-        position < 0 -> null
-        else -> dataset?.get(position)
-    }
-
-    override fun getItemCount() = dataset?.size ?: 0
 
     inner class ViewHolder(val binding: MrlItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
@@ -71,8 +65,17 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : Recy
         }
 
         override fun onClick(v: View) {
-            dataset?.get(layoutPosition)?.let { eventActor.offer(Playmedia(it)) }
+            dataset.get(layoutPosition).let { eventActor.offer(Playmedia(it)) }
         }
+    }
+
+    override fun createCB() = object : DiffCallback<MediaWrapper>() {
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
+                    && oldList[oldItemPosition].title == newList[newItemPosition].title
+        }
+
+        override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int) = newList[newItemPosition].title
     }
 }
 

@@ -122,7 +122,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.dataset.observe(requireActivity(), Observer { adapter.setList(it as List<MediaWrapper>) })
+        viewModel.dataset.observe(requireActivity(), Observer { adapter.update(it) })
         viewModel.loading.observe(requireActivity(), Observer { (activity as? MainActivity)?.refreshing = it })
     }
 
