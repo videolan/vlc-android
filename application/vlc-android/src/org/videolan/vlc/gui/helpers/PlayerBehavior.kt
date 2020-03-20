@@ -8,10 +8,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
-
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class BottomSheetBehavior<V : View> : com.google.android.material.bottomsheet.BottomSheetBehavior<V> {
+class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomSheetBehavior<V> {
     private var lock = false
 
     constructor() {

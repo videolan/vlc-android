@@ -28,6 +28,7 @@
                 vlc:contentScrim="?attr/background_actionbar"
                 vlc:expandedTitleMarginEnd="64dp"
                 vlc:expandedTitleMarginStart="48dp"
+                    vlc:expandedTitleTextAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded.Shadow"
                 vlc:layout_scrollFlags="scroll|exitUntilCollapsed"
                 android:keyboardNavigationCluster="true"
                 tools:targetApi="O">

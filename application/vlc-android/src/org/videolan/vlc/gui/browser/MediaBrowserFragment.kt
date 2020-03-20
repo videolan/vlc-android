@@ -153,7 +153,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     private fun updateActionBar() {
         val activity = activity as? AppCompatActivity ?: return
         activity.supportActionBar?.let {
-            it.title = getTitle()
+            if (requireActivity() !is ContentActivity || (requireActivity() as ContentActivity).displayTitle) requireActivity().title = getTitle()
             it.subtitle = subTitle
             activity.invalidateOptionsMenu()
         }

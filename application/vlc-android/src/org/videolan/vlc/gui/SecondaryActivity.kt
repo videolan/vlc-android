@@ -53,6 +53,7 @@ import org.videolan.vlc.reloadLibrary
 class SecondaryActivity : ContentActivity() {
 
     private var fragment: Fragment? = null
+    override val displayTitle = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -37,10 +37,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.ACTIVITY_RESULT_OPEN
-import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
-import org.videolan.resources.ACTIVITY_RESULT_SECONDARY
-import org.videolan.resources.EXTRA_TARGET
+import org.videolan.resources.*
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -101,16 +98,12 @@ class MainActivity : ContentActivity(),
         mainLoadingProgress.indeterminateDrawable.setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN)
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState()
-    }
 
     private fun prepareActionBar() {
         supportActionBar?.run {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeButtonEnabled(true)
+            setDisplayHomeAsUpEnabled(false)
+            setHomeButtonEnabled(false)
+            setDisplayShowTitleEnabled(!AndroidDevices.isPhone)
         }
     }
 
@@ -145,11 +138,7 @@ class MainActivity : ContentActivity(),
 
     @TargetApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
-        /* Close the menu first */
-        if (drawerLayout.isDrawerOpen(navigationView)) {
-            closeDrawer()
-            return
-        }
+
 
         /* Close playlist search if open or Slide down the audio player if it is shown entirely. */
         if (isAudioPlayerReady && (audioPlayer.backPressed() || slideDownAudioPlayer()))
@@ -179,8 +168,7 @@ class MainActivity : ContentActivity(),
      * Handle onClick form menu buttons
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        closeDrawer()
-        if (item.itemId != R.id.ml_menu_filter) UiTools.setKeyboardVisibility(drawerLayout, false)
+        if (item.itemId != R.id.ml_menu_filter) UiTools.setKeyboardVisibility(appBarLayout, false)
 
         // Handle item selection
         return when (item.itemId) {
@@ -191,7 +179,7 @@ class MainActivity : ContentActivity(),
             }
             android.R.id.home ->
                 // Slide down the audio player or toggle the sidebar
-                slideDownAudioPlayer() || drawerToggle.onOptionsItemSelected(item)
+                slideDownAudioPlayer()
             else -> super.onOptionsItemSelected(item)
         }
     }

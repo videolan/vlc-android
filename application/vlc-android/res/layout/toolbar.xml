@@ -19,8 +19,28 @@
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:popupTheme="?attr/toolbar_popup_style"
             app:theme="@style/Toolbar.VLC"
+            app:titleTextColor="@color/orange500"
             app:titleMarginStart="@dimen/default_margin"
-            tools:targetApi="o" />
+            tools:targetApi="o">
+
+        <ImageView
+                android:id="@+id/toolbar_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                app:srcCompat="@drawable/icon" />
+
+        <TextView
+                android:id="@+id/toolbar_vlc_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAppearance="@style/ToolbarTitleText"
+                android:text="@string/app_name" />
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ariane"

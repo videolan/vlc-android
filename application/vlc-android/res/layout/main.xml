@@ -1,79 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.videolan.vlc.gui.view.HackyDrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:nextFocusLeft="@+id/ml_menu_search"
-    android:nextFocusRight="@+id/ml_menu_search"
-    android:nextFocusUp="@+id/ml_menu_search"
-    android:nextFocusDown="@+id/ml_menu_search"
-    android:nextFocusForward="@+id/ml_menu_search" >
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar"/>
+    <include
+            layout="@layout/toolbar"
+            android:nextFocusLeft="@+id/ml_menu_search"
+            android:nextFocusRight="@+id/ml_menu_search"
+            android:nextFocusUp="@+id/ml_menu_search"
+            android:nextFocusDown="@+id/ml_menu_search"
+            android:nextFocusForward="@+id/ml_menu_search" />
 
-        <androidx.fragment.app.FragmentContainerView
+    <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:keyboardNavigationCluster="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:targetApi="o" />
 
-        <androidx.appcompat.widget.ViewStubCompat
+    <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/scan_viewstub"
             android:layout_width="match_parent"
             android:layout_height="@dimen/progress_layout_height"
             android:layout_gravity="bottom"
-            android:layout="@layout/scan_progress"/>
+            android:layout="@layout/scan_progress" />
 
-        <include layout="@layout/audioplayercontainer"/>
+    <include layout="@layout/audioplayercontainer" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
                 app:srcCompat="@drawable/ic_fab_add"
             android:tint="@color/grey50"
+            android:visibility="invisible"
             app:borderWidth="0dp"
-            app:rippleColor="@color/orange50"
             app:layout_anchor="@+id/fragment_placeholder"
             app:layout_anchorGravity="bottom|end"
             app:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
-            android:visibility="invisible"
-            android:layout_margin="@dimen/default_margin"/>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            app:rippleColor="@color/orange50" />
 
-    <!-- The navigation drawer -->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/navigation"
-
-            app:headerLayout="@layout/nav_drawer_header"
-        app:itemTextColor="?attr/navigationview_item_color"
-        app:itemIconTint="?attr/navigationview_item_color"
-        android:keyboardNavigationCluster="true"
-        tools:targetApi="o" />
-
-    <androidx.appcompat.widget.ViewStubCompat
-        android:id="@+id/audio_playlist_tips"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout="@layout/audio_playlist_tips"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?attr/background_default"
+            app:elevation="8dp"
+            app:itemIconTint="@color/bottom_navigation_selector"
+            app:itemTextColor="@color/bottom_navigation_selector"
+            app:labelVisibilityMode="labeled"
+            app:itemRippleColor="@color/orange500focus"
+            app:layout_behavior="org.videolan.vlc.gui.helpers.BottomNavigationBehavior"
+            app:layout_insetEdge="bottom"
+            app:menu="@menu/bottom_navigation" />
 
     <androidx.appcompat.widget.ViewStubCompat
-        android:id="@+id/audio_player_tips"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout="@layout/audio_player_tips"/>
+            android:id="@+id/audio_playlist_tips"
+            android:layout="@layout/audio_playlist_tips"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
 
-</org.videolan.vlc.gui.view.HackyDrawerLayout>
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/audio_player_tips"
+            android:layout="@layout/audio_player_tips"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+

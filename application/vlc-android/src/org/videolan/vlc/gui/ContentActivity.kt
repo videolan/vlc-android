@@ -37,6 +37,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.RendererItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
+import org.videolan.tools.setGone
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.RendererDelegate
@@ -53,6 +54,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
     private lateinit var searchView: SearchView
     private var showRenderers = !AndroidDevices.isChromeBook && !RendererDelegate.renderers.value.isNullOrEmpty()
     private val searchHiddenMenuItem = ArrayList<MenuItem>()
+    open val displayTitle = false
 
 
     override fun initAudioPlayerContainerActivity() {
@@ -75,6 +77,10 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         UiTools.setOnDragListener(this)
+        if (displayTitle) {
+            findViewById<View>(R.id.toolbar_icon).setGone()
+            findViewById<View>(R.id.toolbar_vlc_title).setGone()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -39,6 +39,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.removeFileProtocole
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -71,7 +72,7 @@ class FilePickerFragment : FileBrowserFragment() {
 
     override fun onStart() {
         super.onStart()
-        activity?.title = getTitle()
+        if (activity !is ContentActivity || (activity as ContentActivity).displayTitle) activity?.title = getTitle()
         swipeRefreshLayout.isEnabled = false
     }
 
