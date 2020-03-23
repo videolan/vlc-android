@@ -72,11 +72,18 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
         value = internalList.apply { removeAt(position) }
     }
 
-    fun move(from: Int, to: Int) {
-        value = internalList.apply { move(from, to) }
+    fun move(item: T, newIndex: Int) {
+        move(internalList.indexOf(item), newIndex)
     }
 
-    fun move (item: T, position: Int) {
-        value = internalList.apply { move(item, position) }
+    fun move(from: Int, to: Int) {
+        value = internalList.apply {
+            val item = this[from]
+            removeAt(from)
+            if (from > to)
+                add(to, item)
+            else
+                add(to - 1, item)
+        }
     }
 }
