@@ -480,6 +480,7 @@
     <string name="dump_logcat_success">ה־Logcat נשמר בהצלחה אל %1$s!</string>
     <string name="dump_logcat_failure">שמירת ה־logcat נכשלה.</string>
     <string name="custom_libvlc_options">אפשרויות מיוחדות ל־libVLC</string>
+    <string name="custom_libvlc_options_invalid">אפשרויות libVLC שגויות!</string>
 
     <string name="serious_crash">אתרע מזלך והתרחשה תקלה איומה, לפיכך נכפה על VLC להיסגר.</string>
     <string name="help_us_send_log">ניתן לסייע לנו לשפר את VLC ע״י שליחת דוח הקריסה הבא:</string>
@@ -534,6 +535,7 @@
     <string name="back_quit_lock">יש ללחוץ על אחורה פעם נוספת כדי לצאת מהסרטון</string>
     <string name="playlist_deleted">רשימת הנגינה נמחקה</string>
     <string name="file_deleted">הקובץ נמחק</string>
+    <string name="stream_deleted">התזרים נמחק</string>
     <string name="no_subs_found">אין כתוביות בתיקייה זו</string>
     <string name="music_now_playing">מתנגן כעת</string>
 
@@ -692,7 +694,8 @@
     <string name="onboarding_theme_title">להרגיש כמו בבית</string>
     <string name="done">סיום</string>
     <string name="onboarding_scan_title">זיהוי אוטומטי של המדיה שלך</string>
-    <string name="daynight_explanation">VLC יעבור למצב לילה בשעה המתאימה</string>
+    <string name="daynight_system_explanation">VLC יעבור למצב כהה בהתאם להגדרות המערכת</string>
+    <string name="daynight_legacy_explanation">VLC יעבור אוטומטית למצב לילה בזמן המתאים</string>
     <string name="onboarding_scanning_enable">לאפשר ל־VLC לסרוק את המכשיר שלי לאיתור תוכן מדיה</string>
     <string name="onboarding_scan_whole">VLC יסרוק את כל כרטיס ה־SD שלי</string>
     <string name="onboarding_scan_customize">לאפשר לי לבחור אילו תיקיות VLC יסרוק</string>
@@ -808,4 +811,5 @@
     <string name="this_folder">הוספת התיקייה הזו</string>
     <string name="all_subfolders">הוספת התיקייה הזו על תת־תיקיותיה</string>
     <string name="playlist_existing">רשימת הנגינה %s כבר קיימת</string>
+    <string name="new_title">כותרת חדשה</string>
 </resources>
