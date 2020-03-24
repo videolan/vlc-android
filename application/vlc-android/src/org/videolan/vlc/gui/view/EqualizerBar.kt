@@ -36,8 +36,9 @@ import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 
 class EqualizerBar : LinearLayout {
 
+    private lateinit var bandValueTextView: TextView
     private lateinit var verticalSeekBar: VerticalSeekBar
-    private var bandTextView: TextView? = null
+    private lateinit var bandTextView: TextView
     private var listener: OnEqualizerBarChangeListener? = null
 
     override fun setNextFocusLeftId(nextFocusLeftId: Int) {
@@ -63,6 +64,7 @@ class EqualizerBar : LinearLayout {
             //          fromUser will always be false
             //          So use custom getFromUser() instead of fromUser
             listener?.onProgressChanged(value, isFromUser())
+            updateValueText()
         }
     }
 
@@ -88,14 +90,22 @@ class EqualizerBar : LinearLayout {
         verticalSeekBar.progress = RANGE
         verticalSeekBar.setOnSeekBarChangeListener(seekListener)
         bandTextView = findViewById(R.id.equalizer_band)
-        bandTextView!!.text = if (band < 999.5f)
+        bandValueTextView = findViewById(R.id.band_value)
+        bandTextView.text = if (band < 999.5f)
             (band + 0.5f).toInt().toString() + "Hz"
         else
             (band / 1000.0f + 0.5f).toInt().toString() + "kHz"
+        updateValueText()
+    }
+
+    private fun updateValueText() {
+        val newValue = (verticalSeekBar.progress / 10) - 20
+        bandValueTextView.text = if (newValue > 0) "+${newValue}dB" else "${newValue}dB"
     }
 
     fun setValue(value: Float) {
         verticalSeekBar.progress = (value * PRECISION + RANGE).toInt()
+        updateValueText()
     }
 
     fun setListener(listener: OnEqualizerBarChangeListener?) {
@@ -104,6 +114,7 @@ class EqualizerBar : LinearLayout {
 
     fun setProgress(fl: Int) {
         verticalSeekBar.progress = fl
+        updateValueText()
     }
 
     fun getProgress(): Int = verticalSeekBar.progress
