@@ -480,6 +480,7 @@
     <string name="dump_logcat_success">Dziennik zdarzeń pomyślnie zrzucony do %1$s!</string>
     <string name="dump_logcat_failure">Nie udało się zrzucić dziennika zdarzeń.</string>
     <string name="custom_libvlc_options">Własne opcje libVLC</string>
+    <string name="custom_libvlc_options_invalid">Nieprawidłowe opcje libVLC!</string>
 
     <string name="serious_crash">Niestety, wystąpił poważny błąd i aplikacja VLC została zamknięta.</string>
     <string name="help_us_send_log">Pomóż nam ulepszyć VLC przez wysłanie dziennika awarii:</string>
@@ -534,6 +535,7 @@
     <string name="back_quit_lock">Naciśnij ponownie z powrotem, aby wyjść z widea</string>
     <string name="playlist_deleted">Lista odtwarzania została usunięta</string>
     <string name="file_deleted">Plik został usunięty</string>
+    <string name="stream_deleted">Strumień został usunięty</string>
     <string name="no_subs_found">Brak napisów w tym katalogu</string>
     <string name="music_now_playing">Teraz odtwarzane</string>
 
@@ -692,7 +694,8 @@
     <string name="onboarding_theme_title">Rozgość się</string>
     <string name="done">Gotowe</string>
     <string name="onboarding_scan_title">Automatyczne wykrywanie multimediów</string>
-    <string name="daynight_explanation">VLC automatycznie przełączy się na tryb nocny w odpowiednim czasie</string>
+    <string name="daynight_system_explanation">VLC automatycznie przełączy się w tryb ciemny odpowiednio do ustawień systemu</string>
+    <string name="daynight_legacy_explanation">VLC automatycznie przełączy się w tryb nocny w odpowiednim czasie</string>
     <string name="onboarding_scanning_enable">Pozwól VLC przeskanować moje urządzenie w poszukiwaniu treści multimedialnych</string>
     <string name="onboarding_scan_whole">VLC przeszuka całą moją kartę SDCard</string>
     <string name="onboarding_scan_customize">Pozwól mi wybrać foldery, które VLC będzie skanować</string>
@@ -808,4 +811,5 @@
     <string name="this_folder">Dodaj ten folder</string>
     <string name="all_subfolders">Dodaj ten folder z podfolderami</string>
     <string name="playlist_existing">Lista odtwarzania %s już istnieje</string>
+    <string name="new_title">Nowy tytuł</string>
 </resources>
