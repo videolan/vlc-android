@@ -469,7 +469,6 @@
     <string name="dump_logcat_success">طُرح Logcat بنجاح في %1$s !</string>
     <string name="dump_logcat_failure">فشل طرْح logcat.</string>
     <string name="custom_libvlc_options">خيارات مخصصة للـlibVLC</string>
-
     <string name="serious_crash">مع الأسف، حدث خطأ جسيم ويجب على VLC أن يُغلَق.</string>
     <string name="help_us_send_log">ساعدنا في تحسين VLC عبر إرسال تقرير الخطأ هذا :</string>
     <string name="restart_vlc">أعد تشغيل VLC</string>
@@ -555,6 +554,7 @@
     <string name="service_unavailable">الخدمة غير متاحة</string>
     <string name="subs_dl_lang_fail">فشل تعيين لغة الترجمات، حاول تعيينها في إعدادات التطبيق</string>
     <string name="downloading_subtitles">يتم الآن تنزيل التّرجمات</string>
+    <string name="browse_folder">تصفح المجلد</string>
     <string name="listen">استمع</string>
     <string name="subtitles_download_title">تنزيل الترجمات</string>
     <string name="connecting">الاتصال جارٍ…</string>
@@ -562,12 +562,14 @@
     <string name="movies">أفلام</string>
     <string name="videos">الفيديوهات</string>
     <string name="videos_all">كل الفيديوهات</string>
+    <string name="clear_playback_history">امسح تاريخ التشغيل</string>
     <string name="various_artists">عدّة فنانين</string>
     <string name="ml_scanning">مسح من أجل العثور على ملفات الوسائط</string>
     <string name="ml_parse_media">جارٍ جلب الوسائط</string>
     <string name="ml_discovering">الاستكشاف جارٍ</string>
     <string name="resume">استئناف</string>
     <string name="length">المُدّة</string>
+    <string name="tv_settings_hint">اضغط مطولاً على زر \"OK\" لتحديد/إلغاء الدليل</string>
     <string name="ml_external_storage_title">اكتشف جهاز تخزين خارجي</string>
     <string name="ml_external_storage_msg">هل تريد من VLC إضافة الجهاز %1$s إلى ماسح الوسائط؟</string>
     <string name="ml_external_storage_accept">نعم</string>
@@ -591,15 +593,22 @@
     <string name="equalizer_new_preset_name">جديد</string>
     <string name="settings_ml_block_scan">يقوم ماسح الوسائط  بمسح الجهاز اﻵن</string>
     <string name="recommendations">التوصيات</string>
+    <string name="recommendations_desc">بطاقة التوصيات عند التشغيل</string>
     <string name="browser_quick_access">الوصول السريع</string>
     <string name="browser_storages">مساحات التخزين</string>
     <string name="msg_delete_failed">فشِل في حذف الوسائط %1$s</string>
     <string name="renderer_list_title">واجهات العرض</string>
+    <string name="sdcard_permission_dialog_title">يجب السماح للبرنامج الوصول والكاتبة على الذاكرة</string>
     <string name="renderers_disconnect">قطع الاتصال</string>
+    <string name="playback_rewind">أعد التشغيل</string>
+    <string name="playback_forward">تقديم للأمام</string>
     <string name="ml_wizard_title">أختيار ماسح الوسائط لVLC</string>
     <string name="ml_wizard_scan_checkbox">امسح الجهاز من أجل العثور على محتوى للوسائط</string>
     <string name="tv_my_new_videos">فيديوهاتي الجديدة </string>
+    <string name="otg_device_title">وصلة خارجية</string>
     <string name="browser">متصفح</string>
+    <string name="stop_after_this">إيقاف التشغيل بعد هذه الوصلة</string>
+    <string name="time_category_new">وسائط جديدة</string>
     <string name="time_category_current_month">هذا الشهر</string>
     <string name="time_category_current_year">هذا العام</string>
     <string name="time_category_last_year">السنة الماضية</string>
@@ -623,7 +632,6 @@
     <string name="onboarding_theme_title">اشعر وكأنك في بيتك</string>
     <string name="done">تمّ</string>
     <string name="onboarding_scan_title">استكشف تلقائيا وسائطك</string>
-    <string name="daynight_explanation">سينتقل VLC تلقائيًا إلى الوضع الليلي في الوقت المحدّد</string>
     <string name="onboarding_scanning_enable">دع VLC يتفحّص الجهاز بحثًا عن محتوى للوسائط</string>
     <string name="onboarding_scan_customize">دعني أختار المجلدات التي سيفحصها VLC</string>
     <string name="light_theme">سمة فاتحة</string>
