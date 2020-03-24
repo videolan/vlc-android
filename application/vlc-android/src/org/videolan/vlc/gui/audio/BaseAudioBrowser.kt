@@ -291,12 +291,6 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         MediaUtils.openList(activity, listOf(*item.tracks), 0)
     }
 
-    override fun sortMenuTitles() {
-        val model = viewModel
-        if (model is MedialibraryViewModel) menu?.let { UiTools.updateSortTitles(it, model.providers[currentTab]) }
-        else super.sortMenuTitles()
-    }
-
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         sortMenuTitles()
         if (adapter == getCurrentAdapter()) {

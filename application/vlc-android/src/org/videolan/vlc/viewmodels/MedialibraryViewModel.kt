@@ -1,8 +1,11 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import android.view.Menu
 import androidx.lifecycle.viewModelScope
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 
 
@@ -48,4 +51,19 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
     override fun canSortByArtist() = providers.any { it.canSortByArtist() }
     override fun canSortByAlbum () = providers.any { it.canSortByAlbum () }
     override fun canSortByPlayCount() = providers.any { it.canSortByPlayCount() }
+}
+
+fun MedialibraryViewModel.prepareOptionsMenu(menu: Menu) {
+    menu.findItem(R.id.ml_menu_sortby).isVisible = canSortByName()
+    menu.findItem(R.id.ml_menu_sortby_filename).isVisible = canSortByFileNameName()
+    menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = canSortByArtist()
+    menu.findItem(R.id.ml_menu_sortby_album_name).isVisible = canSortByAlbum()
+    menu.findItem(R.id.ml_menu_sortby_length).isVisible = canSortByDuration()
+    menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
+    menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
+    menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
+}
+
+fun MedialibraryViewModel.sortMenuTitles(menu: Menu, index : Int) {
+    UiTools.updateSortTitles(menu, providers[index])
 }
