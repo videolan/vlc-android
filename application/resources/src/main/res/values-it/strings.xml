@@ -460,6 +460,7 @@
     <string name="dump_logcat_success">Logcat salvato correttamente su %1$s!</string>
     <string name="dump_logcat_failure">Salvataggio logcat non riuscito.</string>
     <string name="custom_libvlc_options">Opzioni personalizzate libVLC</string>
+    <string name="custom_libvlc_options_invalid">Opzioni libVLC non valide!</string>
 
     <string name="serious_crash">Sfortunatamente, si è verificato un errore grave e VLC è stato chiuso.</string>
     <string name="help_us_send_log">Aiutaci a migliorare VLC inviando il seguente registro del crash:</string>
@@ -514,6 +515,7 @@
     <string name="back_quit_lock">Premi nuovamente Indietro per chiudere il video</string>
     <string name="playlist_deleted">Scaletta eliminata</string>
     <string name="file_deleted">File eliminato</string>
+    <string name="stream_deleted">Flusso eliminato</string>
     <string name="no_subs_found">Nessun sottotitolo in questa cartella</string>
     <string name="music_now_playing">In riproduzione</string>
 
@@ -672,7 +674,8 @@
     <string name="onboarding_theme_title">Sentiti come a casa</string>
     <string name="done">Completato</string>
     <string name="onboarding_scan_title">Rilevamento automatico dei tuoi supporti</string>
-    <string name="daynight_explanation">VLC passerà automaticamente alla modalità notturna all\'ora appropriata</string>
+    <string name="daynight_system_explanation">VLC passerà automaticamente alla modalità scura in base alle impostazioni di sistema</string>
+    <string name="daynight_legacy_explanation">VLC passerà automaticamente alla modalità notturna all\'ora appropriata</string>
     <string name="onboarding_scanning_enable">Lascia che VLC analizzi il mio dispositivo alla ricerca di contenuti multimediali</string>
     <string name="onboarding_scan_whole">VLC analizzerà l\'intera scheda SD</string>
     <string name="onboarding_scan_customize">Consentimi di scegliere le cartelle che VLC analizzerà</string>
@@ -788,4 +791,5 @@
     <string name="this_folder">Aggiungi questa cartella</string>
     <string name="all_subfolders">Aggiungi questa cartella e le sottocartelle</string>
     <string name="playlist_existing">La scaletta %s esiste già</string>
+    <string name="new_title">Nuovo titolo</string>
 </resources>
