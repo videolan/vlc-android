@@ -449,7 +449,6 @@
     <string name="dump_logcat_success">O ficheiro de registos foi enviado com sucesso para %1$s!</string>
     <string name="dump_logcat_failure">Não foi possível enviar o ficheiro de registos.</string>
     <string name="custom_libvlc_options">Opções personalizadas libVLC</string>
-
     <string name="serious_crash">Infelizmente, ocorreu um erro sério e o VLC teve de fechar.</string>
     <string name="help_us_send_log">Ajude-nos a melhorar o VLC enviando-nos o seguinte registo de erro:</string>
     <string name="restart_vlc">Reiniciar VLC</string>
@@ -660,7 +659,6 @@
     <string name="onboarding_theme_title">Sinta-se em casa</string>
     <string name="done">Feito</string>
     <string name="onboarding_scan_title">Descobrir automaticamente ficheiros multimédia</string>
-    <string name="daynight_explanation">O VLC irá mudar para o modo noturno automaticamente na altura certa</string>
     <string name="onboarding_scanning_enable">Deixar o VLC procurar por ficheiros multimédia no meu dispositivo</string>
     <string name="onboarding_scan_whole">O VLC irá procurar em todo o meu cartão SD</string>
     <string name="onboarding_scan_customize">Deixar-me decidir em que pastas o VLC irá procurar</string>
