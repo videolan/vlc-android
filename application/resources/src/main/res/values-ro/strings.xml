@@ -443,7 +443,6 @@
     <string name="dump_logcat_success">Logcat a fost colectat cu succes în %1$s!</string>
     <string name="dump_logcat_failure">Colectarea logcat a eșuat.</string>
     <string name="custom_libvlc_options">Opțiuni personalizate libVLC</string>
-
     <string name="serious_crash">Din păcate, o eroare gravă a apărut și VLC-ul trebuie închis.</string>
     <string name="help_us_send_log">Ajutați-ne să îmbunătățim VLC -ul prin trimiterea următorului jurnal de eroare:</string>
     <string name="restart_vlc">Repornește VLC</string>
@@ -640,7 +639,6 @@
     <string name="onboarding_theme_title">Simțiți-vă ca acasă</string>
     <string name="done">Terminat</string>
     <string name="onboarding_scan_title">Descoperiți automat fișierele dvs. media</string>
-    <string name="daynight_explanation">VLC va comuta automat la modul de noapte la ora corespunzătoare</string>
     <string name="onboarding_scanning_enable">Permit ca VLC să caute în dispozitivul meu fișierele media</string>
     <string name="onboarding_scan_whole">VLC va scana toate fișierele de pe SDCard</string>
     <string name="onboarding_scan_customize">Permiteți-mi să aleg ce foldere va scana VLC</string>
