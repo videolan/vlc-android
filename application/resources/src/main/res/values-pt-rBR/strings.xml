@@ -460,6 +460,7 @@
     <string name="dump_logcat_success">O logcat despejou os registros com sucesso em %1$s!</string>
     <string name="dump_logcat_failure">Falha ao despejar os registros do logcat.</string>
     <string name="custom_libvlc_options">Opções personalizadas do libVLC</string>
+    <string name="custom_libvlc_options_invalid">Opções inválidas do libVLC!</string>
 
     <string name="serious_crash">Infelizmente ocorreu um erro severo e o VLC precisou ser fechado.</string>
     <string name="help_us_send_log">Ajude-nos a melhorar o VLC enviando o seguinte registro de problemas:</string>
@@ -514,6 +515,7 @@
     <string name="back_quit_lock">Pressione Voltar novamente para fechar o vídeo</string>
     <string name="playlist_deleted">Lista de reprodução excluída</string>
     <string name="file_deleted">Arquivo excluído</string>
+    <string name="stream_deleted">Fluxo excluído</string>
     <string name="no_subs_found">Nenhuma legenda nesta pasta</string>
     <string name="music_now_playing">Reproduzindo</string>
 
@@ -672,7 +674,8 @@
     <string name="onboarding_theme_title">Faça você mesmo em casa</string>
     <string name="done">Concluído</string>
     <string name="onboarding_scan_title">Descobrir automaticamente sua mídia</string>
-    <string name="daynight_explanation">O VLC alternará para o modo noturno no momento adequado</string>
+    <string name="daynight_system_explanation">O VLC alternará para o modo noturno de acordo com a configuração do sistema</string>
+    <string name="daynight_legacy_explanation">O VLC alternará para o modo noturno no momento adequado</string>
     <string name="onboarding_scanning_enable">Deixar o VLC procurar mídias em meu dispositivo</string>
     <string name="onboarding_scan_whole">O VLC vai procurar em todo o Cartão SD</string>
     <string name="onboarding_scan_customize">Escolher em que pastas o VLC procurará</string>
@@ -788,4 +791,5 @@
     <string name="this_folder">Adicionar esta pasta</string>
     <string name="all_subfolders">Adicionar esta pasta e suas subpastas</string>
     <string name="playlist_existing">A lsta de reprodução %s já existe</string>
+    <string name="new_title">Novo título</string>
 </resources>
