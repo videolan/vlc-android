@@ -441,7 +441,6 @@
     <string name="dump_logcat_success">Vellykket logcat-dump til %1$s!</string>
     <string name="dump_logcat_failure">Klarte ikke å utføre logcat-dump.</string>
     <string name="custom_libvlc_options">Tilpassede libVLC-innstillinger</string>
-
     <string name="serious_crash">En alvorlig feil har dessverre skjedd, og VLC måtte avslutte.</string>
     <string name="help_us_send_log">Hjelp oss å forbedre VLC ved å sende inn følgende kjæsj-logg:</string>
     <string name="restart_vlc">Start VLC på nytt</string>
@@ -651,7 +650,6 @@
     <string name="onboarding_theme_title">Føl deg som hjemme</string>
     <string name="done">Ferdig</string>
     <string name="onboarding_scan_title">Oppdag medier automatisk</string>
-    <string name="daynight_explanation">VLC vil automatisk skifte til nattmodus når det passer</string>
     <string name="onboarding_scanning_enable">La VLC skanne enheten etter medier</string>
     <string name="onboarding_scan_whole">VLC vil skanne hele SD-kortet</string>
     <string name="onboarding_scan_customize">La meg velge hvilke mapper VLC skal skanne</string>
