@@ -823,5 +823,5 @@
     <string name="playlist_existing">Playlist %s already exists</string>
     <string name="new_title">New title</string>
     <string name="browse">Browse</string>
-    <string name="library">Library</string>
+    <string name="more">More</string>
 </resources>

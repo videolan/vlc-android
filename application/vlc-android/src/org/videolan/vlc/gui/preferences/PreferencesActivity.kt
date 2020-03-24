@@ -28,18 +28,19 @@ import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.R
-import org.videolan.vlc.gui.BaseActivity
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.RESULT_RESTART_APP
 import org.videolan.tools.RESULT_UPDATE_ARTISTS
+import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.BaseActivity
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PreferencesActivity : BaseActivity() {
 
     private var mAppBarLayout: AppBarLayout? = null
+    override val displayTitle = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

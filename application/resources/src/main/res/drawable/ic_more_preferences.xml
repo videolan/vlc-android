@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_more_preferences.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="32dp"
+        android:viewportHeight="24"
+        android:viewportWidth="24"
+        android:width="32dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="nonZero"
+            android:pathData="M8.7188,3.5938C8.5981,3.6036 8.4946,3.6497 8.375,3.7188L7.5,4.2188L6.625,4.7188C6.1467,4.9949 6.1262,5.5324 6.2813,6.0625L6.6875,7.4688C6.134,8.1148 5.6963,8.8383 5.4063,9.6563L4,10C3.4634,10.1307 3,10.4477 3,11L3,12L3,13C3,13.5523 3.4634,13.8693 4,14L5.4063,14.3438C5.6963,15.1617 6.134,15.8852 6.6875,16.5313L6.2813,17.9375C6.1262,18.4676 6.1467,19.0051 6.625,19.2813L7.5,19.7813L8.375,20.2813C8.8533,20.5574 9.3372,20.3365 9.7188,19.9375L10.75,18.875C11.1569,18.9486 11.5718,19 12,19C12.4282,19 12.8431,18.9486 13.25,18.875L14.2813,19.9375C14.6628,20.3369 15.1467,20.5574 15.625,20.2813L16.5,19.7813L17.375,19.2813C17.8533,19.0051 17.8738,18.4676 17.7188,17.9375L17.3125,16.5313C17.866,15.8852 18.3037,15.1617 18.5938,14.3438L20,14C20.5366,13.8693 21,13.5523 21,13L21,12L21,11C21,10.4477 20.5366,10.1307 20,10L18.5938,9.6563C18.3037,8.8383 17.866,8.1148 17.3125,7.4688L17.7188,6.0625C17.8738,5.5324 17.8533,4.9949 17.375,4.7188L16.5,4.2188L15.625,3.7188C15.1467,3.4425 14.6627,3.6635 14.2813,4.0625L13.25,5.125C12.8431,5.0514 12.4282,5 12,5C11.5718,5 11.1569,5.0514 10.75,5.125L9.7188,4.0625C9.4326,3.763 9.0808,3.5643 8.7188,3.5938zM12,8C14.2091,8 16,9.7909 16,12C16,14.2091 14.2091,16 12,16C9.7909,16 8,14.2091 8,12C8,9.7909 9.7909,8 12,8z"
+            android:strokeColor="#00000000"
+            android:strokeWidth="1" />
+</vector>

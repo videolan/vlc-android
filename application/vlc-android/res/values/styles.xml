@@ -611,6 +611,12 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="Theme.VLC.HorizontalListTitle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?attr/font_default</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="ToolbarTitleText" parent="@style/TextAppearance.MaterialComponents.Headline6">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?attr/colorControlNormal</item>

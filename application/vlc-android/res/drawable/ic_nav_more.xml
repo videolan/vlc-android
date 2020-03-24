@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <!--
   ~ *************************************************************************
-  ~  bottom_navigation.xml
+  ~  ic_nav_more.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -24,30 +22,13 @@
   ~
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-    <item
-            android:id="@+id/nav_video"
-            android:title="@string/video"
-            android:icon="@drawable/ic_menu_video" />
-    <item
-            android:id="@+id/nav_audio"
-            android:title="@string/audio"
-            android:icon="@drawable/ic_menu_audio" />
-    <item
-            android:id="@+id/nav_playlists"
-            android:title="@string/playlists"
-            android:icon="@drawable/ic_menu_playlist" />
-
-    <item
-            android:id="@+id/nav_directories"
-            android:title="@string/browse"
-            android:icon="@drawable/ic_menu_folder" />
-
-    <item
-            android:id="@+id/nav_more"
-            android:title="@string/more"
-            android:icon="@drawable/ic_nav_more" />
-
-</menu>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="32"
+        android:viewportHeight="32">
+    <path
+            android:pathData="m21.3333,16c-0,1.4667 1.2,2.6667 2.6667,2.6667 1.4667,0 2.6667,-1.2 2.6667,-2.6667 -0,-1.4667 -1.2,-2.6667 -2.6667,-2.6667 -1.4667,0 -2.6667,1.2 -2.6667,2.6667zM18.6667,16c-0,-1.4667 -1.2,-2.6667 -2.6667,-2.6667 -1.4667,0 -2.6667,1.2 -2.6667,2.6667 -0,1.4667 1.2,2.6667 2.6667,2.6667 1.4667,0 2.6667,-1.2 2.6667,-2.6667zM10.6667,16c-0,-1.4667 -1.2,-2.6667 -2.6667,-2.6667 -1.4667,0 -2.6667,1.2 -2.6667,2.6667 -0,1.4667 1.2,2.6667 2.6667,2.6667 1.4667,0 2.6667,-1.2 2.6667,-2.6667z"
+            android:fillColor="#757575"
+            android:fillAlpha="1" />
+</vector>

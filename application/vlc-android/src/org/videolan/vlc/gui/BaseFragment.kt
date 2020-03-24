@@ -54,7 +54,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     override fun onStart() {
         super.onStart()
         updateActionBar()
-        setFabPlayVisibility(true)
+        setFabPlayVisibility(hasFAB())
         fabPlay?.setOnClickListener { v -> onFabPlayClick(v) }
     }
 
@@ -103,7 +103,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         }
     }
 
-    protected fun stopActionMode() {
+    fun stopActionMode() {
         actionMode?.let {
             it.finish()
             setFabPlayVisibility(true)

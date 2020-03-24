@@ -44,16 +44,12 @@ import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.extensions.api.VLCExtensionItem
-import org.videolan.vlc.gui.HistoryFragment
-import org.videolan.vlc.gui.MainActivity
-import org.videolan.vlc.gui.PlaylistFragment
-import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.browser.FileBrowserFragment
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment
-import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
@@ -114,9 +110,8 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
             R.id.nav_audio -> AudioBrowserFragment()
             R.id.nav_directories -> FileBrowserFragment()
             R.id.nav_playlists -> PlaylistFragment()
-            R.id.nav_history -> HistoryFragment()
             R.id.nav_network -> NetworkBrowserFragment()
-            R.id.nav_mrl -> MRLPanelFragment()
+            R.id.nav_more -> MoreFragment()
             else -> {
                 val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "-1")!!)
                 when {
@@ -206,6 +201,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
             if (current == null) {
                 return false
             }
+            if (current is BaseFragment && current.actionMode != null) current.stopActionMode()
 
             if (currentFragmentId == id) { /* Already selected */
                 // Go back at root level of current mProvider
