@@ -424,7 +424,6 @@
     <string name="dump_logcat_success">Logcat이 %1$s에 성공적으로 덤프했습니다!</string>
     <string name="dump_logcat_failure">Logcat 덤프에 실패했습니다.</string>
     <string name="custom_libvlc_options">커스텀 libVLC 옵션</string>
-
     <string name="serious_crash">VLC에 심각한 오류가 발생해서 종료되었습니다.</string>
     <string name="help_us_send_log">다음의 충돌 로그를 보내서 VLC를 개선하도록 도와주세요:</string>
     <string name="restart_vlc">VLC 재시작하기</string>
@@ -628,7 +627,6 @@
     <string name="onboarding_theme_title">편하게 계십시오</string>
     <string name="done">완료</string>
     <string name="onboarding_scan_title">미디어를 자동적으로 발견하기</string>
-    <string name="daynight_explanation">옳은 시간에 VLC가 자동적으로 야간 모드로 전환하기</string>
     <string name="onboarding_scanning_enable">나의 기기에서 미디어 콘텐츠를 검색하기</string>
     <string name="onboarding_scan_whole">SC 카드를 전반적에서 검색하기</string>
     <string name="onboarding_scan_customize">VLC가 스캔할 폴더를 내가 선택하기</string>
