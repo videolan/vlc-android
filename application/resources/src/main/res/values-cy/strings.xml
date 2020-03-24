@@ -457,7 +457,6 @@
     <string name="dump_logcat_success">Dympiwyd logcat i %1$s!</string>
     <string name="dump_logcat_failure">Methwyd dympio logcat.</string>
     <string name="custom_libvlc_options">Dewisiadau libVLC dy hun</string>
-
     <string name="serious_crash">Yn anffodus, bu gwall difrifol ac roedd rhaid cae VLC.</string>
     <string name="help_us_send_log">Helpwch ni wella VLC gan anfon y log canlynol o\'r broblem:</string>
     <string name="restart_vlc">Ail-ddechrau VLC</string>
@@ -657,7 +656,6 @@
     <string name="onboarding_theme_title">Gwna dy hun yn gartrefol</string>
     <string name="done">Iawn</string>
     <string name="onboarding_scan_title">Awto-ganfod dy gyfryngau</string>
-    <string name="daynight_explanation">Bydd VLC yn troi yn awtomatig i fodd nos am amser priodol</string>
     <string name="onboarding_scanning_enable">Gadael i VLC sganio fy nyfais am gynnwys cyfryngau</string>
     <string name="onboarding_scan_whole">Bydd VLC yn sganio fy ngherdyn SD cyfan</string>
     <string name="onboarding_scan_customize">Gadael i mi ddewis pa ffolderi bydd VLC yn eu sganio</string>
