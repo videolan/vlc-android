@@ -443,7 +443,6 @@
     <string name="dump_logcat_success">Logcat tirado satisfactoriamente a %1$s!</string>
     <string name="dump_logcat_failure">Fallo al tirar logcat.</string>
     <string name="custom_libvlc_options">Personalizar opciones libVLC</string>
-
     <string name="serious_crash">Desafortunadamente, un serio error a ocurrido y VLC a tuvo que cerrar.</string>
     <string name="help_us_send_log">Ayudanos a mejorar VLC enviando el siguiente registro de error:</string>
     <string name="restart_vlc">Reiniciar VLC</string>
@@ -654,7 +653,6 @@
     <string name="onboarding_theme_title">Siéntete como en casa</string>
     <string name="done">Listo</string>
     <string name="onboarding_scan_title">Auto encontrar medios</string>
-    <string name="daynight_explanation">Cambiar modo noche a la hora apropiada</string>
     <string name="onboarding_scanning_enable">Permitir a VLC buscar medios en el dispositivo</string>
     <string name="onboarding_scan_whole">VLC escaneará toda mi SD</string>
     <string name="onboarding_scan_customize">Elegir que carpetas escaneará VLC</string>
