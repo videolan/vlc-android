@@ -460,6 +460,7 @@
     <string name="dump_logcat_success">Logcat sarvadu currettamente in %1$s!</string>
     <string name="dump_logcat_failure">Sarvatàgiu logcat fallidu.</string>
     <string name="custom_libvlc_options">Optziones libVLC personalizadas</string>
+    <string name="custom_libvlc_options_invalid">Optziones libVLC non vàlidas!</string>
 
     <string name="serious_crash">Isfortunatamente b\'est istadu un\'errore grave e VLC est istadu serradu.</string>
     <string name="help_us_send_log">Agiuda·nos a megiorare VLC imbiende custu registru de errore:</string>
@@ -514,6 +515,7 @@
     <string name="back_quit_lock">Incarca torra In segus pro serrare su vìdeu</string>
     <string name="playlist_deleted">Iscalita iscantzellada</string>
     <string name="file_deleted">Documentu iscantzelladu</string>
+    <string name="stream_deleted">Flussu iscantzelladu</string>
     <string name="no_subs_found">Perunu sutatìtulu in custa cartella</string>
     <string name="music_now_playing">In riprodutzione</string>
 
@@ -672,7 +674,8 @@
     <string name="onboarding_theme_title">Pone·ti còmodu</string>
     <string name="done">Fatu</string>
     <string name="onboarding_scan_title">Iscoberi automaticamente sos documentos multimediales tuos</string>
-    <string name="daynight_explanation">VLC at a colare automaticamente a sa modalidade noturna a s\'ora giusta</string>
+    <string name="daynight_system_explanation">VLC at a colare automaticamente a sa modalidade noturna sighende sas impostatziones de sistema</string>
+    <string name="daynight_legacy_explanation">VLC at a colare automaticamente a sa modalidade noturna a s\'ora giusta</string>
     <string name="onboarding_scanning_enable">Permiti a VLC de iscansire su dispositivu meu pro agatare documentos multimediales</string>
     <string name="onboarding_scan_whole">VLC at a iscansire totu s\'ischeda SD mea</string>
     <string name="onboarding_scan_customize">Lassa·mi isseberare sas cartellas chi VLC at a iscansire</string>
@@ -788,4 +791,5 @@
     <string name="this_folder">Annanghe custa cartella</string>
     <string name="all_subfolders">Annanghe custa cartella e sas suta-cartellas</string>
     <string name="playlist_existing">S\'iscalita %s esistit giai</string>
+    <string name="new_title">Tìtulu nou</string>
 </resources>
