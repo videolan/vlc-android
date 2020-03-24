@@ -460,6 +460,7 @@
     <string name="dump_logcat_success">Logcat-Auszug wurde erfolgreich unter %1$s erstellt!</string>
     <string name="dump_logcat_failure">Erstellen des Logcat-Auszugs fehlgeschlagen.</string>
     <string name="custom_libvlc_options">Benutzerdefinierte libVLC-Optionen</string>
+    <string name="custom_libvlc_options_invalid">Ungültige libVLC-Optionen!</string>
 
     <string name="serious_crash">Leider ist ein schwerwiegender Fehler aufgetreten und VLC musste geschlossen werden.</string>
     <string name="help_us_send_log">Helfen Sie uns bei der Verbesserung des VLC, durch das Übersenden des folgenden Fehlerberichtes:</string>
@@ -514,6 +515,7 @@
     <string name="back_quit_lock">Zum Verlassen des Videos Zurück nochmals drücken</string>
     <string name="playlist_deleted">Wiedergabeliste gelöscht</string>
     <string name="file_deleted">Datei gelöscht</string>
+    <string name="stream_deleted">Stream gelöscht</string>
     <string name="no_subs_found">Keine Untertitel in diesem Verzeichnis</string>
     <string name="music_now_playing">Gerade läuft</string>
 
@@ -672,7 +674,8 @@
     <string name="onboarding_theme_title">Fühlen Sie sich wie zu Hause</string>
     <string name="done">Fertig</string>
     <string name="onboarding_scan_title">Automatische Erkennung Ihrer Medien</string>
-    <string name="daynight_explanation">VLC wechselt zur passenden Zeit automatisch in den Nachtmodus</string>
+    <string name="daynight_system_explanation">VLC wechselt entsprechend der Systemeinstellung automatisch in den Dunkelmodus</string>
+    <string name="daynight_legacy_explanation">VLC wechselt zur passenden Zeit automatisch in den Nachtmodus</string>
     <string name="onboarding_scanning_enable">VLC mein Gerät nach neuen Medieninhalten durchsuchen lassen</string>
     <string name="onboarding_scan_whole">VLC soll meine gesamte SD-Karte durchsuchen</string>
     <string name="onboarding_scan_customize">Mich entscheiden lassen, welche Verzeichnisse VLC durchsuchen soll</string>
@@ -788,4 +791,5 @@
     <string name="this_folder">Diesen Ordner hinzufügen</string>
     <string name="all_subfolders">Alle Unterordner hinzufügen</string>
     <string name="playlist_existing">Wiedergabeliste %s existiert bereits</string>
+    <string name="new_title">Neuer Titel</string>
 </resources>
