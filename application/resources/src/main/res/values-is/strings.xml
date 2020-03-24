@@ -452,7 +452,6 @@
     <string name="dump_logcat_success">Tókst að demba logcat í %1$s!</string>
     <string name="dump_logcat_failure">Mistókst að demba logcat.</string>
     <string name="custom_libvlc_options">Sérsniðnir libVLC valkostir</string>
-
     <string name="serious_crash">Því miður kom upp alvarleg villa og loka varð VLC.</string>
     <string name="help_us_send_log">Hjálpaðu okkur við að bæta VLC með því að senda inn eftirfarandi hrunskýrslu:</string>
     <string name="restart_vlc">Endurræsa VLC</string>
@@ -663,7 +662,6 @@
     <string name="onboarding_theme_title">Gerðu þig heimakominn</string>
     <string name="done">Búið</string>
     <string name="onboarding_scan_title">Finndu margmiðlunargögnin þín sjálfvirkt</string>
-    <string name="daynight_explanation">VLC mun skipta sjálfvirkt í næturham á viðeigandi tíma</string>
     <string name="onboarding_scanning_enable">Láta VLC leita að margmiðlunarskrám á tækinu</string>
     <string name="onboarding_scan_whole">VLC mun skanna allt SD-minniskortið</string>
     <string name="onboarding_scan_customize">Leyfðu mér að velja hvaða möppur VLC mun skanna</string>
