@@ -303,18 +303,20 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 ID_FAVORITE_ADD -> {
                     val uri = Uri.parse(viewModel.mediaItemDetails.location)
                     val local = "file" == uri.scheme
-                    if (local)
-                        browserFavRepository.addLocalFavItem(uri, viewModel.mediaItemDetails.title
-                                ?: "", viewModel.mediaItemDetails.artworkUrl)
-                    else
-                        browserFavRepository.addNetworkFavItem(uri, viewModel.mediaItemDetails.title
-                                ?: "", viewModel.mediaItemDetails.artworkUrl)
+                    lifecycleScope.launch {
+                        if (local)
+                            browserFavRepository.addLocalFavItem(uri, viewModel.mediaItemDetails.title
+                                    ?: "", viewModel.mediaItemDetails.artworkUrl)
+                        else
+                            browserFavRepository.addNetworkFavItem(uri, viewModel.mediaItemDetails.title
+                                    ?: "", viewModel.mediaItemDetails.artworkUrl)
+                    }
                     actionsAdapter.set(ID_FAVORITE, actionDelete)
                     rowsAdapter.notifyArrayItemRangeChanged(0, rowsAdapter.size())
                     Toast.makeText(activity, R.string.favorite_added, Toast.LENGTH_SHORT).show()
                 }
                 ID_FAVORITE_DELETE -> {
-                    browserFavRepository.deleteBrowserFav(Uri.parse(viewModel.mediaItemDetails.location))
+                    lifecycleScope.launch { browserFavRepository.deleteBrowserFav(Uri.parse(viewModel.mediaItemDetails.location)) }
                     actionsAdapter.set(ID_FAVORITE, actionAdd)
                     rowsAdapter.notifyArrayItemRangeChanged(0, rowsAdapter.size())
                     Toast.makeText(activity, R.string.favorite_removed, Toast.LENGTH_SHORT).show()
@@ -342,7 +344,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             val cover = if (viewModel.media.type == MediaWrapper.TYPE_AUDIO || viewModel.media.type == MediaWrapper.TYPE_VIDEO)
                 withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512) }
             else null
-            val browserFavExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(Uri.parse(viewModel.mediaItemDetails.location)) }
+            val browserFavExists = browserFavRepository.browserFavExists(Uri.parse(viewModel.mediaItemDetails.location))
             val isDir = viewModel.media.type == MediaWrapper.TYPE_DIR
             val canSave = isDir && withContext(Dispatchers.IO) { FileUtils.canSave(viewModel.media) }
             if (activity.isFinishing) return@launchWhenStarted

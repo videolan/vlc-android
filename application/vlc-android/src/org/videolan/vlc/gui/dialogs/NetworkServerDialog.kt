@@ -125,9 +125,10 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         else
             editServername.text.toString()
         val uri = Uri.parse(url.text.toString())
-        AppScope.launch(Dispatchers.IO) {
+        AppScope.launch {
             if (::networkUri.isInitialized) browserFavRepository.deleteBrowserFav(networkUri)
             browserFavRepository.addNetworkFavItem(uri, name, null)
+            dismiss()
         }
     }
 
@@ -229,7 +230,6 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         when (v.id) {
             R.id.server_save -> {
                 saveServer()
-                dismiss()
             }
             R.id.server_cancel -> dismiss()
         }

@@ -457,12 +457,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     private fun toggleFavorite() = lifecycleScope.launch {
         val mw = currentMedia ?: return@launch
-        withContext(Dispatchers.IO) {
-            when {
-                browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
-                mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
-                else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
-            }
+        when {
+            browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
+            mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
+            else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
         }
         activity?.invalidateOptionsMenu()
     }
@@ -507,7 +505,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 val isFileBrowser = this@BaseBrowserFragment is FileBrowserFragment && item.uri.scheme == "file"
                 val isNetworkBrowser = this@BaseBrowserFragment is NetworkBrowserFragment
                 if (isFileBrowser || isNetworkBrowser) {
-                    val favExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(mw.uri) }
+                    val favExists = browserFavRepository.browserFavExists(mw.uri)
                     flags = if (favExists) {
                         if (isNetworkBrowser) flags or CTX_FAV_EDIT or CTX_FAV_REMOVE
                         else flags or CTX_FAV_REMOVE

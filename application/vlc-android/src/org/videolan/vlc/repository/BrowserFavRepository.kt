@@ -27,6 +27,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.TYPE_LOCAL_FAV
@@ -42,7 +43,7 @@ import org.videolan.vlc.util.convertFavorites
 import java.util.*
 
 
-class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedObject() {
+class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
 
     private val networkMonitor = NetworkMonitor.getInstance(AppContextProvider.appContext)
 
@@ -52,11 +53,11 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
 
     val localFavorites by lazy { browserFavDao.getAllLocalFavs() }
 
-    fun addNetworkFavItem(uri: Uri, title: String, iconUrl: String?) = launch {
+    suspend fun addNetworkFavItem(uri: Uri, title: String, iconUrl: String?) = withContext(Dispatchers.IO) {
         browserFavDao.insert(BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl))
     }
 
-    fun addLocalFavItem(uri: Uri, title: String, iconUrl: String? = null) = launch {
+    suspend fun addLocalFavItem(uri: Uri, title: String, iconUrl: String? = null) = withContext(Dispatchers.IO) {
         browserFavDao.insert(BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl))
     }
 
@@ -71,9 +72,9 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
     }
 
     @WorkerThread
-    fun browserFavExists(uri: Uri): Boolean = browserFavDao.get(uri).isNotEmpty()
+    suspend fun browserFavExists(uri: Uri): Boolean = withContext(Dispatchers.IO) { browserFavDao.get(uri).isNotEmpty() }
 
-    fun deleteBrowserFav(uri: Uri) = launch { browserFavDao.delete(uri) }
+    suspend fun deleteBrowserFav(uri: Uri) = withContext(Dispatchers.IO) { browserFavDao.delete(uri) }
 
     private fun List<MediaWrapper>.filterNetworkFavs() : List<MediaWrapper> {
         return when {

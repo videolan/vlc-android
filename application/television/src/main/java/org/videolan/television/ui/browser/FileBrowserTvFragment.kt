@@ -196,9 +196,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             animationDelegate.setVisibility(binding.favoriteButton, if (isRootLevel) View.GONE else View.VISIBLE)
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
-            favExists = withContext(Dispatchers.IO) {
-                (item as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
-            }
+            favExists = (item as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
         }
@@ -251,15 +249,13 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
     private val favoriteClickListener: (View) -> Unit = {
         lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val mw = (item as MediaWrapper)
-                when {
-                    browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
-                    mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
-                    else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
-                }
-                favExists = !favExists
+            val mw = (item as MediaWrapper)
+            when {
+                browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
+                mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
+                else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
             }
+            favExists = !favExists
             if (!isRootLevel) binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_menu_fav_tv else R.drawable.ic_menu_not_fav_tv)
         }
@@ -285,8 +281,8 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         when(dialog) {
             is Dialog.LoginDialog -> goBack()
             is Dialog.ErrorMessage -> {
-               view?.let { Snackbar.make(it, "${dialog.title}: ${dialog.text}", Snackbar.LENGTH_LONG).show() }
-               goBack()
+                view?.let { Snackbar.make(it, "${dialog.title}: ${dialog.text}", Snackbar.LENGTH_LONG).show() }
+                goBack()
             }
         }
     }

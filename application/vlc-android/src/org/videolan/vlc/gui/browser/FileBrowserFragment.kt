@@ -31,14 +31,11 @@ import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -137,7 +134,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     override fun onCtxAction(position: Int, option: Int) {
         val mw = this.adapter.getItem(position) as MediaWrapper?
         when (option) {
-            CTX_FAV_ADD -> browserFavRepository.addLocalFavItem(mw!!.uri, mw.title, mw.artworkURL)
+            CTX_FAV_ADD -> lifecycleScope.launch { browserFavRepository.addLocalFavItem(mw!!.uri, mw.title, mw.artworkURL) }
             else -> super.onCtxAction(position, option)
         }
     }
@@ -159,7 +156,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
                 val isScanned = withContext(Dispatchers.IO) { MedialibraryUtils.isScanned(it) }
                 menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && it.startsWith("file") && !isScanned
             }
-            val isFavorite = mrl != null && withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(Uri.parse(mrl)) }
+            val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))
             item.setIcon(if (isFavorite)
                 R.drawable.ic_menu_bookmark_w
             else
