@@ -14,7 +14,10 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.AppScope
 import org.videolan.tools.runIO
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
@@ -122,10 +125,10 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         else
             editServername.text.toString()
         val uri = Uri.parse(url.text.toString())
-        if (::networkUri.isInitialized) {
-            runIO(Runnable { browserFavRepository.deleteBrowserFav(networkUri) })
+        AppScope.launch(Dispatchers.IO) {
+            if (::networkUri.isInitialized) browserFavRepository.deleteBrowserFav(networkUri)
+            browserFavRepository.addNetworkFavItem(uri, name, null)
         }
-        browserFavRepository.addNetworkFavItem(uri, name, null)
     }
 
     private fun updateUrl() {
