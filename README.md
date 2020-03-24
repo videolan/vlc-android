@@ -43,11 +43,9 @@ You can help improving translations too by joining the [transifex vlc project](h
 You can use our LibVLC module to power your own Android media player.
 Have a look at our  [sample codes](https://code.videolan.org/videolan/libvlc-android-samples).
 
-## support
+## Support
 
 - Android mailing list: android@videolan.org
 - bugtracker: https://code.videolan.org/videolan/vlc-android/issues
 - IRC: *#videolan* channel on [freenode](http://freenode.net/)
 - VideoLAN forum: https://forum.videolan.org/
-- G+ community: https://plus.google.com/u/0/communities/113615952107012455563
-
