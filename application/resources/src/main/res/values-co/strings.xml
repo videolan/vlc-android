@@ -432,7 +432,6 @@
     <string name="dump_logcat_success">Logcat arregistratu bè ver di %1$s !</string>
     <string name="dump_logcat_failure">Fiascu à l’arregistramentu di logcat.</string>
     <string name="custom_libvlc_options">Ozzioni libVLC persunalizate</string>
-
     <string name="serious_crash">Per disgrazia, un sbagliu seriu hè accadutu è VLC hè statu chjosu.</string>
     <string name="help_us_send_log">Aiutatecci à megliurà VLC mandenduci stu ghjurnale di fiascu :</string>
     <string name="restart_vlc">Rilancià VLC</string>
@@ -638,7 +637,6 @@
     <string name="onboarding_theme_title">Fatelu dapervoi in casa vostra</string>
     <string name="done">Fattu</string>
     <string name="onboarding_scan_title">Scopre autumaticamente u vostru media</string>
-    <string name="daynight_explanation">VLC pò cambià autumaticamente à u mumentu cunvitu ver di u modu nutturnu</string>
     <string name="onboarding_scanning_enable">Lascià VLC analizà u mo apparechju è truvà i media</string>
     <string name="onboarding_scan_whole">VLC analizerà a mo carta SD sana</string>
     <string name="onboarding_scan_customize">Lasciammi sceglie quelli cartulari chì VLC analizerà</string>
