@@ -450,7 +450,6 @@
     <string name="dump_logcat_success">Επιτυχής κατεκτύπωση logcat στο %1$s!</string>
     <string name="dump_logcat_failure">Αποτυχία κατεκτύπωσης logcat.</string>
     <string name="custom_libvlc_options">Προσαρμοσμένες libVLC επιλογές</string>
-
     <string name="serious_crash">Δυστυχώς, ένα σοβαρό σφάλμα ανάγκασε το VLC να κλείσει.</string>
     <string name="help_us_send_log">Βοηθήστε μας να βελτιώσουμε το VLC αποστέλλοντας το ακόλουθο αρχείο καταγραφής:</string>
     <string name="restart_vlc">Επανεκκίνηση του VLC</string>
@@ -647,7 +646,6 @@
     <string name="onboarding_theme_title">Σαν στο σπίτι σας</string>
     <string name="done">Έτοιμο</string>
     <string name="onboarding_scan_title">Αυτόματη-ανίχνευση των μέσων σας</string>
-    <string name="daynight_explanation">Το VLC θα αλλάξει σε λειτουργία νύχτας την κατάλληλη ώρα</string>
     <string name="onboarding_scanning_enable">Επίτρεψε στο VLC να σαρώνει την συσκευή μου για περιεχόμενο μέσων</string>
     <string name="onboarding_scan_whole">Το VLC θα σαρώνει όλη την SD Card μου</string>
     <string name="onboarding_scan_customize">Επίτρεψέ μου να επιλέξω ποιους φακέλους θα σαρώνει το VLC</string>
