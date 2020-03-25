@@ -450,6 +450,7 @@
     <string name="dump_logcat_success">Logcatが %1$s にログをダンプしました!</string>
     <string name="dump_logcat_failure">logcatがダンプに失敗しました。</string>
     <string name="custom_libvlc_options">libVLCのカスタムオプション</string>
+    <string name="custom_libvlc_options_invalid">libVLCのオプションが不正です!</string>
 
     <string name="serious_crash">深刻なエラーが発生したため、VLCを終了しました。</string>
     <string name="help_us_send_log">以下のクラッシュログを送信することでVLCの改善に協力してください:</string>
@@ -504,6 +505,7 @@
     <string name="back_quit_lock">もう一度Backボタンを押すとビデオを終了します</string>
     <string name="playlist_deleted">プレイリストが削除されました</string>
     <string name="file_deleted">ファイルが削除されました</string>
+    <string name="stream_deleted">ストリームが検出されました</string>
     <string name="no_subs_found">ディレクトリに字幕がありません</string>
     <string name="music_now_playing">再生中</string>
 
@@ -662,7 +664,8 @@
     <string name="onboarding_theme_title">ご家庭での個人的な利用</string>
     <string name="done">完了</string>
     <string name="onboarding_scan_title">メディアの自動検索</string>
-    <string name="daynight_explanation">時間によって自動的に夜間モードに切り替える</string>
+    <string name="daynight_system_explanation">システム設定に従ってダークモードに自動的に切り替える</string>
+    <string name="daynight_legacy_explanation">時間によって自動的に夜間モードに切り替える</string>
     <string name="onboarding_scanning_enable">デバイスのメディアコンテンツを検索</string>
     <string name="onboarding_scan_whole">SDカードをすべて検索</string>
     <string name="onboarding_scan_customize">VLCが検索するフォルダを選択</string>
@@ -778,4 +781,5 @@
     <string name="this_folder">このフォルダーを追加</string>
     <string name="all_subfolders">このフォルダーとサブフォルダーを追加</string>
     <string name="playlist_existing">プレイリスト %s は既に存在します</string>
+    <string name="new_title">新しいタイトル</string>
 </resources>
