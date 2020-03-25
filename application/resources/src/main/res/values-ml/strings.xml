@@ -460,6 +460,7 @@
     <string name="dump_logcat_success">ലോഗ്കാറ്റ് വിജയകരമായി ഇവിടേക്ക് %1$s ഡംപ് ചെയ്തിരിക്കുന്നു !</string>
     <string name="dump_logcat_failure">ലോഗ്കാറ്റ് ഡംപ് ചെയ്യൽ പരാജയപ്പെട്ടു </string>
     <string name="custom_libvlc_options">കസ്റ്റമ് libVLC ഓപ്ഷനുകൾ</string>
+    <string name="custom_libvlc_options_invalid">അസാധുവായ libVLC ഓപ്ഷനുകൾ!</string>
 
     <string name="serious_crash">നിർഭാഗ്യവശാൽ ഒരു ഗുരുതര പിഴവ് സംഭവിച്ചിരിക്കുന്നു, വിഎൽസി നിർത്തുകയാണ് </string>
     <string name="help_us_send_log">ഈ ക്റാഷ് ലോഗ് നൽകി വിഎൽസി യെ മെച്ചപെടുത്താൻ സഹായിക്കുക </string>
@@ -514,6 +515,7 @@
     <string name="back_quit_lock">വീഡിയോ ഉപേക്ഷിക്കുന്നതിന് ബാക്ക് ബട്ടൺ വീണ്ടും അമർത്തുക</string>
     <string name="playlist_deleted">പ്ളേ ലിസ്റ്റ് നീക്കം ചെയ്തു </string>
     <string name="file_deleted">ഫയൽ നീക്കം ചെയ്തു </string>
+    <string name="stream_deleted">സ്ട്രീം ഇല്ലാതാക്കി</string>
     <string name="no_subs_found">ഈ ഡയറക്ടറിയിൽ സബ്ടൈറ്റിലുകൾ ഒന്നുമില്ല </string>
     <string name="music_now_playing">ഇപ്പോള്‍ പ്ലേ ചെയ്യുന്നവ</string>
 
@@ -673,7 +675,8 @@
     <string name="onboarding_theme_title">ഇവിടം നിങ്ങളുടെ വീട് പോലെ കരുതുക </string>
     <string name="done">കഴിഞ്ഞു </string>
     <string name="onboarding_scan_title">നിങ്ങളുടെ മീഡിയ തനിയെ കണ്ടെത്തുക </string>
-    <string name="daynight_explanation">സമയവുമാവുമ്പോൾ വിഎൽസി താനേ രാത്രി മോഡിലേക്ക് മാറുന്നതായിരിക്കും </string>
+    <string name="daynight_system_explanation">സിസ്റ്റം ക്രമീകരണത്തിനനുസരിച്ച് വി‌എൽ‌സി സ്വപ്രേരിതമായി ഡാർക്ക് മോഡിലേക്ക് മാറും</string>
+    <string name="daynight_legacy_explanation">ഉചിതമായ സമയത്ത് വി‌എൽ‌സി സ്വപ്രേരിതമായി രാത്രി മോഡിലേക്ക് മാറും</string>
     <string name="onboarding_scanning_enable">മീഡിയ ഉള്ളടക്കത്തിനായി വി‌എൽ‌സി എന്റെ ഉപകരണം സ്കാൻ ചെയ്യാൻ അനുവദിക്കുക</string>
     <string name="onboarding_scan_whole">വിഎൽസി എന്റെ മുഴുവൻ എസ്ഡി കാർഡും സ്കാൻ ചെയ്യും</string>
     <string name="onboarding_scan_customize">വിഎൽസി ഏത് ഫോൾഡറുകൾ സ്കാൻ ചെയ്യണം എന്ന് തീരുമാനിക്കാൻ എന്നെ അനുവദിക്കുക </string>
@@ -789,4 +792,5 @@
     <string name="this_folder">ഈ ഫോൾഡർ ചേർക്കുക</string>
     <string name="all_subfolders">ഈ ഫോൾഡറും സബ്ഫോൾഡറുകളും ചേർക്കുക</string>
     <string name="playlist_existing">%s പ്ലേലിസ്റ്റ് ഇതിനകം നിലവിലുണ്ട്</string>
+    <string name="new_title">പുതിയ ശീർഷകം</string>
 </resources>
