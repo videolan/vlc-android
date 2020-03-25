@@ -460,6 +460,7 @@
     <string name="dump_logcat_success">Logcat sparades till %1$s!</string>
     <string name="dump_logcat_failure">Misslyckades att spara logcat.</string>
     <string name="custom_libvlc_options">Anpassade libVLC-alternativ</string>
+    <string name="custom_libvlc_options_invalid">Ogiltiga libVLC-alternativ!</string>
 
     <string name="serious_crash">Tyvärr uppstod ett allvarligt fel och VLC blev tvungen att stängas ned.</string>
     <string name="help_us_send_log">Hjälp oss att förbättra VLC genom att skicka följande kraschlogg:</string>
@@ -514,6 +515,7 @@
     <string name="back_quit_lock">Tryck på tillbaka igen för att avsluta videon</string>
     <string name="playlist_deleted">Spellistan raderades</string>
     <string name="file_deleted">Filen raderades</string>
+    <string name="stream_deleted">Ström raderades</string>
     <string name="no_subs_found">Inga undertexter i denna katalog</string>
     <string name="music_now_playing">Spelar nu</string>
 
@@ -672,7 +674,8 @@
     <string name="onboarding_theme_title">Känn dig som hemma</string>
     <string name="done">Färdig</string>
     <string name="onboarding_scan_title">Upptäck din media automatiskt</string>
-    <string name="daynight_explanation">VLC kommer automatiskt byta till nattläge vid lämplig tidpunkt</string>
+    <string name="daynight_system_explanation">VLC kommer automatisk byta till mörkt läge enligt systeminställningarna</string>
+    <string name="daynight_legacy_explanation">VLC kommer automatisk byta till nattläge vid lämplig tid</string>
     <string name="onboarding_scanning_enable">Låt VLC söka igenom min enhet efter mediainnehåll</string>
     <string name="onboarding_scan_whole">VLC ska söka igenom hela SD-kortet</string>
     <string name="onboarding_scan_customize">Låt mig välja vilka mappar VLC ska söka igenom</string>
@@ -788,4 +791,5 @@
     <string name="this_folder">Lägg till denna mapp</string>
     <string name="all_subfolders">Lägg till denna mapp och undermappar</string>
     <string name="playlist_existing">Spellistan %s finns redan</string>
+    <string name="new_title">Ny titel</string>
 </resources>
