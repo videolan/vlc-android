@@ -480,6 +480,7 @@
     <string name="dump_logcat_success">Záznam logcat bol úspešne analyzovaný a uložený do %1$s!</string>
     <string name="dump_logcat_failure">Nepodarilo sa analyzovať záznam logcat.</string>
     <string name="custom_libvlc_options">Používateľské nastavenia libVLC</string>
+    <string name="custom_libvlc_options_invalid">Neplatné nastavenia libVLC!</string>
 
     <string name="serious_crash">Bohužiaľ nastala závažná chyba a VLC bolo nutné ukončiť.</string>
     <string name="help_us_send_log">Pomôžte nám zlepšiť aplikáciu VLC zaslaním nasledujúceho záznamu o zlyhaní:</string>
@@ -534,6 +535,7 @@
     <string name="back_quit_lock">Video prerušíte opätovným stlačením tlačidla pre návrat</string>
     <string name="playlist_deleted">Playlist bol vymazaný</string>
     <string name="file_deleted">Súbor bol vymazaný</string>
+    <string name="stream_deleted">Stream vymazaný</string>
     <string name="no_subs_found">V tomto priečinku nie sú žiadne titulky</string>
     <string name="music_now_playing">Práve sa prehráva</string>
 
@@ -692,7 +694,8 @@
     <string name="onboarding_theme_title">Cíťte sa tu ako doma</string>
     <string name="done">Hotovo</string>
     <string name="onboarding_scan_title">Autom. vyhľadanie médií</string>
-    <string name="daynight_explanation">VLC sa automaticky prepne do nočného režimu v adekvátnom čase</string>
+    <string name="daynight_system_explanation">VLC sa automaticky prepne do tmavého režimu, v súlade s nastaveniami systému</string>
+    <string name="daynight_legacy_explanation">VLC sa automaticky prepne do nočného režimu vo vhodnom čase</string>
     <string name="onboarding_scanning_enable">Umožniť VLC vyhľadanie mediálneho obsahu v zariadení</string>
     <string name="onboarding_scan_whole">VLC prehľadá celú moju kartu SD</string>
     <string name="onboarding_scan_customize">Umožniť výber prehľadávaných priečinkov</string>
@@ -809,4 +812,5 @@
     <string name="this_folder">Pridať tento priečinok</string>
     <string name="all_subfolders">Pridať tento priečinok a podpriečinky</string>
     <string name="playlist_existing">Playlist %s už existuje</string>
+    <string name="new_title">Nový názov</string>
 </resources>
