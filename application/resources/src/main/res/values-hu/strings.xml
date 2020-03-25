@@ -460,6 +460,7 @@
     <string name="dump_logcat_success">Logcat sikeresen kimentve ide: %1$s!</string>
     <string name="dump_logcat_failure">Logcat mentése sikertelen.</string>
     <string name="custom_libvlc_options">Egyéni libVLC beállítások</string>
+    <string name="custom_libvlc_options_invalid">Érvénytelen libVLC beállítások.</string>
 
     <string name="serious_crash">Sajnos egy komoly hiba történt és a VLC-nek be kellett záródnia.</string>
     <string name="help_us_send_log">Segítsen a VLC tökéletesítésében a következő hibanapló elküldésével:</string>
@@ -514,6 +515,7 @@
     <string name="back_quit_lock">Nyomja meg a visszát még egyszer a videóból kilépéshez</string>
     <string name="playlist_deleted">Lejátszólista törölve</string>
     <string name="file_deleted">Fájl törölve</string>
+    <string name="stream_deleted">Folyam törölve</string>
     <string name="no_subs_found">Nincs felirat ebben a könyvtárban</string>
     <string name="music_now_playing">Most játszott</string>
 
@@ -672,7 +674,8 @@
     <string name="onboarding_theme_title">Érezze magát otthon</string>
     <string name="done">Kész</string>
     <string name="onboarding_scan_title">A médiafájljai automatikus felfedezése</string>
-    <string name="daynight_explanation">A VLC automatikusan éjszakai módba vált a megfelelő időben</string>
+    <string name="daynight_system_explanation">A VLC automatikusan sötét módra vált, a rendszer beállításainak megfelelően</string>
+    <string name="daynight_legacy_explanation">A VLC automatikusan éjszakai módba vált a megfelelő időben</string>
     <string name="onboarding_scanning_enable">A VLC vizsgálja át az eszközömet, médiatartalmakat keresve</string>
     <string name="onboarding_scan_whole">A VLC vizsgálja át a teljes SD-kártyát</string>
     <string name="onboarding_scan_customize">Kiválasztom, hogy mely mappákat vizsgálja át a VLC</string>
@@ -788,4 +791,5 @@
     <string name="this_folder">Ezen mappa hozzáadása</string>
     <string name="all_subfolders">Ezen mappa és almappa hozzáadása</string>
     <string name="playlist_existing">A(z) %s lejátszólista már létezik</string>
+    <string name="new_title">Új cím</string>
 </resources>
