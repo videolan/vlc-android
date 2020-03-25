@@ -113,6 +113,7 @@ fun SharedPreferences.putSingle(key: String, value: Any) {
         is Float -> edit().putFloat(key, value).apply()
         is Long -> edit().putLong(key, value).apply()
         is String -> edit().putString(key, value).apply()
+        is List<*> -> edit().putStringSet(key, value.toSet() as Set<String>).apply()
         else -> throw IllegalArgumentException("value class is invalid!")
     }
 }
