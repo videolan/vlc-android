@@ -450,6 +450,7 @@
     <string name="dump_logcat_success">Logcat 成功傾印到 %1$s！</string>
     <string name="dump_logcat_failure">傾印 logcat 失敗。</string>
     <string name="custom_libvlc_options">自訂 libVLC 選項</string>
+    <string name="custom_libvlc_options_invalid">無效的 libVLC 選項！</string>
 
     <string name="serious_crash">很遺憾，一個嚴重的錯誤的發生，VLC 必須關閉。</string>
     <string name="help_us_send_log">請發送以下的錯誤記錄來協助我們改善 VLC：</string>
@@ -504,6 +505,7 @@
     <string name="back_quit_lock">再次按下返回鍵關閉影片播放</string>
     <string name="playlist_deleted">已刪除播放清單</string>
     <string name="file_deleted">已刪除檔案</string>
+    <string name="stream_deleted">串流已刪除</string>
     <string name="no_subs_found">資料夾中沒有字幕檔</string>
     <string name="music_now_playing">正在播放</string>
 
@@ -662,7 +664,8 @@
     <string name="onboarding_theme_title">隨便自由使用</string>
     <string name="done">完成</string>
     <string name="onboarding_scan_title">自動探索媒體</string>
-    <string name="daynight_explanation">VLC 將在適當時間自動切換成「夜間模式」</string>
+    <string name="daynight_system_explanation">VLC 將會根據系統設定自動切換到深色模式</string>
+    <string name="daynight_legacy_explanation">VLC 將會在適當的時間自動切換到夜間模式</string>
     <string name="onboarding_scanning_enable">讓 VLC 掃描裝置的媒體內容</string>
     <string name="onboarding_scan_whole">VLC 將掃描整張 SD 卡中的內容</string>
     <string name="onboarding_scan_customize">讓我選擇要讓 VLC 掃描的資料夾</string>
@@ -778,4 +781,5 @@
     <string name="this_folder">新增此資料夾</string>
     <string name="all_subfolders">新增此資料夾與子資料夾</string>
     <string name="playlist_existing">播放清單 %s 已存在</string>
+    <string name="new_title">新標題</string>
 </resources>
