@@ -164,7 +164,7 @@ convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr
 {
     jstring name = env->NewStringUTF(videogroupPtr->name().c_str());
     jobject item = env->NewObject(fields->VideoGroup.clazz, fields->VideoGroup.initID,
-                          name, (jint)videogroupPtr->nbVideo());
+                          (jlong) videogroupPtr->id(), name, (jint)videogroupPtr->nbVideo());
     env->DeleteLocalRef(name);
     return item;
 }

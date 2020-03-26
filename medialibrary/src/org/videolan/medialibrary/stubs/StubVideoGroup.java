@@ -7,7 +7,7 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup;
 
 public class StubVideoGroup extends VideoGroup {
     public StubVideoGroup(String name, int count) {
-        super(name, count);
+        super(0L, name, count);
     }
 
     public StubVideoGroup(Parcel in) {

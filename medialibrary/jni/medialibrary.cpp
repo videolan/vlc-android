@@ -2181,7 +2181,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.VideoGroup.initID,
            ml_fields.VideoGroup.clazz,
-           "<init>", "(Ljava/lang/String;I)V");
+           "<init>", "(JLjava/lang/String;I)V");
 
     GET_ID(GetFieldID,
            ml_fields.MediaLibrary.instanceID,

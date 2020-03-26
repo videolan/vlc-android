@@ -12,8 +12,8 @@ public abstract class VideoGroup extends MediaLibraryItem {
 
     public int mCount;
 
-    public VideoGroup(String name, int count) {
-        super(0L, name);
+    public VideoGroup(long id, String name, int count) {
+        super(id, name);
         mCount = count;
     }
 
