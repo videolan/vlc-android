@@ -460,6 +460,7 @@
     <string name="dump_logcat_success">Cliché logcat enregistré avec succès dans : %1$s !</string>
     <string name="dump_logcat_failure">Échec du cliché logcat.</string>
     <string name="custom_libvlc_options">Options personnalisées de libVLC</string>
+    <string name="custom_libvlc_options_invalid">Options invalides pour libVLC !</string>
 
     <string name="serious_crash">Malheureusement, une importante erreur est intervenue et VLC a dû se fermer.</string>
     <string name="help_us_send_log">Aidez-nous à améliorer VLC en envoyant le rapport de plantage suivant :</string>
@@ -514,6 +515,7 @@
     <string name="back_quit_lock">Appuyez à nouveau sur Retour pour quitter la vidéo</string>
     <string name="playlist_deleted">Liste de lecture supprimée</string>
     <string name="file_deleted">Fichier supprimé</string>
+    <string name="stream_deleted">Flux supprimé</string>
     <string name="no_subs_found">Pas de sous-titre dans ce répertoire</string>
     <string name="music_now_playing">Lecture en cours</string>
 
@@ -672,7 +674,8 @@
     <string name="onboarding_theme_title">Faites comme chez vous</string>
     <string name="done">Terminé</string>
     <string name="onboarding_scan_title">Trouver automatiquement vos médias</string>
-    <string name="daynight_explanation">VLC basculera automatiquement en mode nuit à l’horaire approprié</string>
+    <string name="daynight_system_explanation">VLC basculera automatiquement en mode sombre en fonction du paramétrage du système</string>
+    <string name="daynight_legacy_explanation">VLC basculera automatiquement en mode nuit au moment opportun</string>
     <string name="onboarding_scanning_enable">Laisser VLC analyser les médias sur mon appareil</string>
     <string name="onboarding_scan_whole">VLC analysera l’intégralité ma carte SD</string>
     <string name="onboarding_scan_customize">Me laisser choisir quels dossiers doit analyser VLC</string>
@@ -788,4 +791,5 @@
     <string name="this_folder">Ajouter ce dossier</string>
     <string name="all_subfolders">Ajouter ce dossier avec ces sous-dossiers</string>
     <string name="playlist_existing">La liste de lecture %s existe déjà</string>
+    <string name="new_title">Nouveau titre</string>
 </resources>
