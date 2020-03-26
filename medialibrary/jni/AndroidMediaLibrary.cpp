@@ -535,6 +535,55 @@ AndroidMediaLibrary::searchFromMediaGroup( const int64_t groupId, const std::str
     return group == nullptr ? nullptr : group->searchMedia(query, medialibrary::IMedia::Type::Video, params);
 }
 
+bool
+AndroidMediaLibrary::groupAddId( const int64_t groupId, const int64_t mediaId )
+{
+    medialibrary::MediaGroupPtr group = p_ml->mediaGroup(groupId);
+    return group != nullptr && group->add(mediaId);
+}
+
+bool
+AndroidMediaLibrary::groupRemoveId( const int64_t groupId, const int64_t mediaId )
+{
+    medialibrary::MediaGroupPtr group = p_ml->mediaGroup(groupId);
+    return group != nullptr && group->remove(mediaId);
+}
+
+const std::string&
+AndroidMediaLibrary::groupeName( const int64_t groupId )
+{
+    const medialibrary::MediaGroupPtr group = p_ml->mediaGroup(groupId);
+    return group == nullptr ? nullptr : group->name();
+}
+
+bool
+AndroidMediaLibrary::groupRename( const int64_t groupId, const std::string& name )
+{
+    medialibrary::MediaGroupPtr group = p_ml->mediaGroup(groupId);
+    return group != nullptr && group->rename(name);
+}
+
+bool
+AndroidMediaLibrary::groupUserInteracted( const int64_t groupId )
+{
+    medialibrary::MediaGroupPtr group = p_ml->mediaGroup(groupId);
+    return group != nullptr && group->userInteracted();
+}
+
+int64_t
+AndroidMediaLibrary::groupDuration( const int64_t groupId )
+{
+    medialibrary::MediaGroupPtr group = p_ml->mediaGroup(groupId);
+    return group == nullptr ? 0 : group->duration();
+}
+
+bool
+AndroidMediaLibrary::groupDestroy( const int64_t groupId )
+{
+    medialibrary::MediaGroupPtr group = p_ml->mediaGroup(groupId);
+    return group != nullptr && group->destroy();
+}
+
 void
 AndroidMediaLibrary::requestThumbnail( int64_t media_id, medialibrary::ThumbnailSizeType sizeType, uint32_t desiredWidth,
                                        uint32_t desiredHeight, float position )

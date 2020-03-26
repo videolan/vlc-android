@@ -28,4 +28,39 @@ public class StubVideoGroup extends VideoGroup {
     public int searchTracksCount(String query) {
         return 0;
     }
+
+    @Override
+    public boolean add(long mediaId) {
+        return false;
+    }
+
+    @Override
+    public boolean remove(long mediaId) {
+        return false;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public boolean rename(String name) {
+        return false;
+    }
+
+    @Override
+    public boolean userInteracted() {
+        return false;
+    }
+
+    @Override
+    public long duration() {
+        return 0L;
+    }
+
+    @Override
+    public boolean destroy() {
+        return false;
+    }
 }

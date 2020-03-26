@@ -1864,6 +1864,51 @@ getSearchFromvideoGroupCount(JNIEnv* env, jobject thiz, jobject medialibrary, jl
     env->ReleaseStringUTFChars(filterQuery, queryChar);
     return static_cast<jint> (query != nullptr ? query->count() : 0);
 }
+
+jboolean
+groupAddId(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlong mediaId)
+{
+    return MediaLibrary_getInstance(env, medialibrary)->groupAddId(id, mediaId);
+}
+
+jboolean
+groupRemoveId(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlong mediaId)
+{
+    return MediaLibrary_getInstance(env, medialibrary)->groupRemoveId(id, mediaId);
+}
+
+jstring
+groupeName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    return env->NewStringUTF(MediaLibrary_getInstance(env, medialibrary)->groupeName(id).c_str());
+}
+
+jboolean
+groupRename(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring name)
+{
+    const char *nameChar = env->GetStringUTFChars(name, JNI_FALSE);
+    bool result = MediaLibrary_getInstance(env, medialibrary)->groupRename(id, nameChar);
+    env->ReleaseStringUTFChars(name, nameChar);
+    return result;
+}
+
+jboolean
+groupUserInteracted(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    return MediaLibrary_getInstance(env, medialibrary)->groupUserInteracted(id);
+}
+
+jlong groupDuration(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    return MediaLibrary_getInstance(env, medialibrary)->groupDuration(id);
+}
+
+jboolean
+groupDestroy(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    return MediaLibrary_getInstance(env, medialibrary)->groupDestroy(id);
+}
+
  /*
   * JNI stuff
   */
@@ -2013,6 +2058,13 @@ static JNINativeMethod videogroup_methods[] = {
     {"nativeMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromvideoGroup },
     {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromvideoGroup },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromvideoGroupCount },
+    {"nativeGroupAddId", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)groupAddId },
+    {"nativeGroupRemoveId", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)groupRemoveId },
+    {"nativeGroupeName", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Ljava/lang/String;", (void*)groupeName },
+    {"nativeGroupRename", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)Z", (void*)groupRename },
+    {"nativeGroupUserInteracted", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)groupUserInteracted },
+    {"nativeGroupDuration", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)J", (void*)groupDuration },
+    {"nativeGroupDestroy", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)groupDestroy },
 };
 
 static JNINativeMethod playlist_methods[] = {

@@ -105,7 +105,14 @@ public:
     medialibrary::Query<medialibrary::IMedia> mediaFromMediaGroup(const int64_t groupId, const medialibrary::QueryParameters* params );
     medialibrary::Query<medialibrary::IMedia> searchFromMediaGroup(const int64_t groupId, const std::string& query, const medialibrary::QueryParameters* params );
     void onMediaGroupsAdded(std::vector<medialibrary::MediaGroupPtr> mediaGroups );
-    medialibrary::MediaGroupPtr videoGroup(const int64_t groupId );
+    medialibrary::MediaGroupPtr videoGroup( const int64_t groupId );
+    bool groupAddId( const int64_t groupId, const int64_t mediaId );
+    bool groupRemoveId( const int64_t groupId, const int64_t mediaId );
+    const std::string& groupeName( const int64_t groupId );
+    bool groupRename( const int64_t groupId, const std::string& name );
+    bool groupUserInteracted(const int64_t groupId );
+    int64_t groupDuration(const int64_t groupId );
+    bool groupDestroy(const int64_t groupId );
     void onMediaGroupsModified( std::set<int64_t> mediaGroupsIds );
     void onMediaGroupsDeleted( std::set<int64_t> mediaGroupsIds );
     void onBookmarksAdded( std::vector<medialibrary::BookmarkPtr> );

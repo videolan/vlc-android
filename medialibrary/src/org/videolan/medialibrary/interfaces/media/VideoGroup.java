@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import androidx.annotation.Nullable;
+
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
@@ -20,6 +22,13 @@ public abstract class VideoGroup extends MediaLibraryItem {
     abstract public MediaWrapper[] media(int sort, boolean desc, int nbItems, int offset);
     abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
+    abstract public boolean add(long mediaId);
+    abstract public boolean remove(long mediaId);
+    @Nullable abstract public String getName();
+    abstract public boolean rename(String name);
+    abstract public boolean userInteracted();
+    abstract public long duration();
+    abstract public boolean destroy();
 
     public String getDisplayTitle() {
         return super.getTitle() + "…";
