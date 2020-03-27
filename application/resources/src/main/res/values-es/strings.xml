@@ -86,6 +86,10 @@
         <item quantity="one">1 subcarpeta</item>
         <item quantity="other">%d subcarpetas</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 medio</item>
+        <item quantity="other">%d medios</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 archivo de medio</item>
         <item quantity="other">%d archivos de medio</item>
@@ -254,7 +258,7 @@
     <string name="licence">Licencia</string>
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
-    <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión de Android™ puede leer la mayoría de archivos y flujos de red.</string>
+    <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión de Android™ puede leer la mayoría de archivos y emisiones de red.</string>
     <string name="vlc_authors">y autores VLC.</string>
     <string name="compiled_by">Esta versión de VLC está compilada por:</string>
     <string name="feedback_forum">Foro de comentarios</string>
@@ -456,6 +460,7 @@
     <string name="dump_logcat_success">Logcat volcado correctamente a %1$s</string>
     <string name="dump_logcat_failure">Fallo al volcar logcat.</string>
     <string name="custom_libvlc_options">Opciones personalizas libVLC</string>
+    <string name="custom_libvlc_options_invalid">Opciones libVLC inválidas!</string>
 
     <string name="serious_crash">Desafortunadamente, ha ocurrido un error serio y VLC ha tenido que cerrarse.</string>
     <string name="help_us_send_log">Ayúdanos a mejorar VLC enviándonos las siguientes trazas de fallo:</string>
@@ -510,6 +515,7 @@
     <string name="back_quit_lock">Pulsar atrás otra vez para salir de vídeo</string>
     <string name="playlist_deleted">Lista de reproducción eliminada</string>
     <string name="file_deleted">Archivo eliminado</string>
+    <string name="stream_deleted">Emisión eliminada</string>
     <string name="no_subs_found">No hay subtítulos en esta carpeta</string>
     <string name="music_now_playing">Reproduciendo ahora</string>
 
@@ -668,7 +674,8 @@
     <string name="onboarding_theme_title">Siéntase como en casa</string>
     <string name="done">Hecho</string>
     <string name="onboarding_scan_title">Autodescubrir sus medios</string>
-    <string name="daynight_explanation">VLC cambiará automáticamente a modo oscuro a la hora apropiada</string>
+    <string name="daynight_system_explanation">VLC cambiará automáticamente al modo oscuro de acuerdo con las preferencias del sistema</string>
+    <string name="daynight_legacy_explanation">VLC cambiará automáticamente al modo nocturno a la hora apropiada</string>
     <string name="onboarding_scanning_enable">Dejar que VLC escanee mi dispositivo en busca de medios</string>
     <string name="onboarding_scan_whole">VLC escaneará toda la tarjeta SD</string>
     <string name="onboarding_scan_customize">Dejarme elegir que carpetas escanear</string>
@@ -780,4 +787,9 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progreso: %s</string>
+    <string name="sortby_track">Pista</string>
+    <string name="this_folder">Añadir esta carpeta</string>
+    <string name="all_subfolders">Añadir esta carpeta y subcarpetas</string>
+    <string name="playlist_existing">La lista de reproducción %s ya existe</string>
+    <string name="new_title">Nuevo título</string>
 </resources>
