@@ -164,7 +164,7 @@ dependencies {
     releaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
     signedReleaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     signedReleaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
-    api project(':api')
+    api project(':extension-api')
     api project(':application:tools')
     api project(':application:resources')
     api project(':application:mediadb')

@@ -4,9 +4,9 @@ This is the official **Android** port of [VLC](https://videolan.org/vlc/).
 VLC on Android plays all the same files as the classical version of VLC, and features a media database
 for Audio and Video files and stream.
 
-- [License](#license)
 - [Project Structure](#project-structure)
 - [LibVLC](#libvlc)
+- [License](#license)
 - [Build](#build)
   - [Build Application](#build-application)
   - [Build LibVLC](#build-libvlc)
@@ -16,15 +16,10 @@ for Audio and Video files and stream.
 - [Issues and feature requests](#issues-and-feature-requests)
 - [Support](#support)
 
-## License
-VLC for Android is licensed under [GPLv2 (or later)](COPYING). Android libraries make this, de facto, a GPLv3 application.
-
-VLC engine *(LibVLC)* for Android is licensed under [LGPLv2](libvlc/COPYING.LIB).
-
 ## Project Structure
 
 Here are the current folders of vlc-android project:
-- api : Application extensions SDK (not released yet)
+- extension-api : Application extensions SDK (not released yet)
 - application : Android application source code, organized by modules.
 - buildsystem : Build scripts, CI and maven publication configuration
 - libvlc : LibVLC gradle module, VLC source code will be cloned in `vlc/` at root level.
@@ -50,6 +45,12 @@ And more.
 
 You can use our LibVLC module to power your own Android media player.
 Have a look at our  [sample codes](https://code.videolan.org/videolan/libvlc-android-samples).
+
+
+## License
+VLC for Android is licensed under [GPLv2 (or later)](COPYING). Android libraries make this, de facto, a GPLv3 application.
+
+VLC engine *(LibVLC)* for Android is licensed under [LGPLv2](libvlc/COPYING.LIB).
 
 ## Build
 

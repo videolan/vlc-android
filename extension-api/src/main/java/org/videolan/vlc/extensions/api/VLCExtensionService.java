@@ -127,7 +127,8 @@ public abstract class VLCExtensionService extends Service{
      * Use it to call {@link #updateList(String, List, boolean, boolean)} with root level elements
      * if you want VLC to handle your extension browsing.
      */
-    protected void onInitialize() {};
+    protected void onInitialize() {
+    }
 
     private final IExtensionService.Stub mBinder = new IExtensionService.Stub() {
         @Override
