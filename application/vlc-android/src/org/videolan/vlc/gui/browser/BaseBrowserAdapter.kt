@@ -49,8 +49,8 @@ import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding
+import org.videolan.vlc.databinding.CardBrowserItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
-import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
@@ -60,7 +60,7 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
+open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibraryItem>) : DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder<ViewDataBinding>>(), MultiSelectAdapter<MediaLibraryItem> {
 
     protected val TAG = "VLC/BaseBrowserAdapter"
 
@@ -82,29 +82,29 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
 
     init {
-        val root = fragment.isRootDirectory
-        val fileBrowser = fragment is FileBrowserFragment
+        val root = browserContainer.isRootDirectory
+        val fileBrowser = browserContainer.isFile
         val filesRoot = root && fileBrowser
-        networkRoot = root && fragment is NetworkBrowserFragment
-        val mrl = fragment.mrl
+        networkRoot = root && browserContainer.isNetwork
+        val mrl = browserContainer.mrl
         specialIcons = filesRoot || fileBrowser && mrl != null && mrl.endsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
         // Setup resources
-        val res = fragment.requireContext().resources
-        folderDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_menu_folder))
-        audioDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_audio_normal))
-        videoDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_video_normal))
-        subtitleDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_subtitle_normal))
-        unknownDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_unknown_normal))
-        qaMoviesDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_movies_normal))
-        qaMusicDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_music_normal))
-        qaPodcastsDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_podcasts_normal))
-        qaDownloadDrawable = BitmapDrawable(res, fragment.requireActivity().getBitmapFromDrawable(R.drawable.ic_browser_download_normal))
+        val res = browserContainer.containerActivity().resources
+        folderDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_menu_folder))
+        audioDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_audio_normal))
+        videoDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_video_normal))
+        subtitleDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_subtitle_normal))
+        unknownDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_unknown_normal))
+        qaMoviesDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_movies_normal))
+        qaMusicDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_music_normal))
+        qaPodcastsDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_podcasts_normal))
+        qaDownloadDrawable = BitmapDrawable(res, browserContainer.containerActivity().getBitmapFromDrawable(R.drawable.ic_browser_download_normal))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ViewDataBinding> {
         val inflater = LayoutInflater.from(parent.context)
         return if (viewType == TYPE_MEDIA || viewType == TYPE_STORAGE)
-            MediaViewHolder(BrowserItemBinding.inflate(inflater, parent, false)) as ViewHolder<ViewDataBinding>
+            MediaViewHolder(if (browserContainer.inCards) BrowserItemBindingContainer(CardBrowserItemBinding.inflate(inflater, parent, false)) else BrowserItemBindingContainer(BrowserItemBinding.inflate(inflater, parent, false)))
         else
             SeparatorViewHolder(BrowserItemSeparatorBinding.inflate(inflater, parent, false)) as ViewHolder<ViewDataBinding>
     }
@@ -133,8 +133,8 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
         if (payloads.isEmpty())
             onBindViewHolder(holder, position)
         else if (payloads[0] is CharSequence) {
-            (holder as MediaViewHolder).binding.text.visibility = View.VISIBLE
-            (holder as MediaViewHolder).binding.text.text = payloads[0] as CharSequence
+            (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
+            holder.bindingContainer.text.text = payloads[0] as CharSequence
         } else if (payloads[0] is Int) {
             val value = payloads[0] as Int
             if (value == UPDATE_SELECTION) holder.selectView(multiSelectHelper.isSelected(position))
@@ -144,14 +144,14 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
     private fun onBindMediaViewHolder(vh: MediaViewHolder, position: Int) {
         val media = getItem(position) as MediaWrapper
         val isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE)
-        vh.binding.item = media
+        vh.bindingContainer.setItem(media)
         val scheme = media.uri.scheme
-        vh.binding.hasContextMenu = ((!networkRoot || isFavorite)
+        vh.bindingContainer.setHasContextMenu(((!networkRoot || isFavorite)
                 && "content" != scheme
-                && "otg" != scheme)
-        vh.binding.filename = if (media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null
-        if (networkRoot) vh.binding.protocol = getProtocol(media)
-        vh.binding.cover = getIcon(media, specialIcons)
+                && "otg" != scheme))
+        vh.bindingContainer.setFileName(if (media.type != MediaWrapper.TYPE_DIR && "file" == scheme) media.fileName else null)
+        if (networkRoot) vh.bindingContainer.setProtocol(getProtocol(media))
+        vh.bindingContainer.setCover(getIcon(media, specialIcons))
         vh.selectView(multiSelectHelper.isSelected(position))
     }
 
@@ -182,18 +182,18 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    internal inner class MediaViewHolder(binding: BrowserItemBinding) : ViewHolder<BrowserItemBinding>(binding), MarqueeViewHolder {
-        override val titleView: TextView? = binding.title
+    internal inner class MediaViewHolder(val bindingContainer: BrowserItemBindingContainer) : ViewHolder<ViewDataBinding>(bindingContainer.binding), MarqueeViewHolder {
+        override val titleView: TextView? = bindingContainer.title
         var job : Job? = null
 
         init {
-            binding.holder = this
+            bindingContainer.setHolder(this)
             if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener { v ->
                 onMoreClick(v)
                 true
             }
             if (this@BaseBrowserAdapter is FilePickerAdapter) {
-                binding.itemIcon.isFocusable = false
+                bindingContainer.itemIcon.isFocusable = false
             }
         }
 
@@ -210,30 +210,30 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
         override fun onClick(v: View) {
             val position = layoutPosition
             if (position < dataset.size && position >= 0)
-                fragment.onClick(v, position, dataset[position])
+                browserContainer.onClick(v, position, dataset[position])
         }
 
         override fun onImageClick(v: View) {
             val position = layoutPosition
             if (position < dataset.size && position >= 0)
-                fragment.onImageClick(v, position, dataset[position])
+                browserContainer.onImageClick(v, position, dataset[position])
         }
 
         override fun onMoreClick(v: View) {
             val position = layoutPosition
             if (position < dataset.size && position >= 0)
-                fragment.onCtxClick(v, position, dataset[position])
+                browserContainer.onCtxClick(v, position, dataset[position])
         }
 
         override fun onLongClick(v: View): Boolean {
             val position = layoutPosition
             if (getItem(position).itemType == TYPE_STORAGE && Settings.showTvUi) {
-                binding.browserCheckbox.toggle()
-                onCheckBoxClick(binding.browserCheckbox)
+                bindingContainer.browserCheckbox.toggle()
+                onCheckBoxClick(bindingContainer.browserCheckbox)
                 return true
             }
             return (position < dataset.size && position >= 0
-                    && fragment.onLongClick(v, position, dataset[position]))
+                    && browserContainer.onLongClick(v, position, dataset[position]))
         }
 
         override fun isSelected(): Boolean {
@@ -306,6 +306,6 @@ open class BaseBrowserAdapter(protected val fragment: BaseBrowserFragment) : Dif
     }
 
     override fun onUpdateFinished() {
-        fragment.onUpdateFinished(this)
+        browserContainer.onUpdateFinished(this)
     }
 }

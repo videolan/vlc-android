@@ -26,16 +26,13 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.TYPE_LOCAL_FAV
 import org.videolan.resources.TYPE_NETWORK_FAV
-import org.videolan.tools.IOScopedObject
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.SingletonHolder
-import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.mediadb.models.BrowserFav
@@ -73,6 +70,8 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
 
     @WorkerThread
     suspend fun browserFavExists(uri: Uri): Boolean = withContext(Dispatchers.IO) { browserFavDao.get(uri).isNotEmpty() }
+
+    suspend fun isFavNetwork(searchUri: Uri): Boolean = withContext(Dispatchers.IO) { browserFavDao.get(searchUri).any { it.type == TYPE_NETWORK_FAV && it.uri == searchUri } }
 
     suspend fun deleteBrowserFav(uri: Uri) = withContext(Dispatchers.IO) { browserFavDao.delete(uri) }
 

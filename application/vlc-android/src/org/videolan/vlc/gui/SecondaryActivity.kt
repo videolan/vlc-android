@@ -43,6 +43,8 @@ import org.videolan.tools.RESULT_RESTART
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
+import org.videolan.vlc.gui.browser.FileBrowserFragment
+import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoGridFragment
@@ -149,6 +151,13 @@ class SecondaryActivity : ContentActivity() {
                 fragment = StorageBrowserFragment()
                 setResult(RESULT_RESTART)
             }
+            FILE_BROWSER -> {
+                fragment = FileBrowserFragment().apply {
+                    arguments = Bundle(2).apply {
+                        putParcelable(KEY_MEDIA, intent.getParcelableExtra(KEY_MEDIA))
+                    }
+                }
+            }
             else -> throw IllegalArgumentException("Wrong fragment id.")
         }
     }
@@ -164,5 +173,6 @@ class SecondaryActivity : ContentActivity() {
         const val ABOUT = "about"
         const val VIDEO_GROUP_LIST = "videoGroupList"
         const val STORAGE_BROWSER = "storage_browser"
+        const val FILE_BROWSER = "file_browser"
     }
 }

@@ -33,7 +33,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import org.videolan.medialibrary.MLServiceLocator
@@ -146,6 +145,11 @@ open class FileBrowserFragment : BaseBrowserFragment() {
             inflater.inflate(R.menu.fragment_option_network, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    override fun containerActivity() = requireActivity()
+
+    override val isNetwork = false
+    override val isFile = true
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)

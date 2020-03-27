@@ -25,7 +25,6 @@ import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -33,9 +32,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.tools.CoroutineContextProvider
 import org.videolan.vlc.providers.*
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.tools.CoroutineContextProvider
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
@@ -134,6 +133,6 @@ private val descComp by lazy {
 
 @ExperimentalCoroutinesApi
 fun Fragment.getBrowserModel(category: Long, url: String?, showHiddenFiles: Boolean, showDummyCategory: Boolean = false) = if (category == TYPE_NETWORK)
-    ViewModelProviders.of(this, NetworkModel.Factory(requireContext(), url, showHiddenFiles)).get(NetworkModel::class.java)
+    ViewModelProvider(this, NetworkModel.Factory(requireContext(), url, showHiddenFiles)).get(NetworkModel::class.java)
 else
-    ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), url, category, showHiddenFiles, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)
+    ViewModelProvider(this, BrowserModel.Factory(requireContext(), url, category, showHiddenFiles, showDummyCategory = showDummyCategory)).get(BrowserModel::class.java)

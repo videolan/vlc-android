@@ -40,14 +40,14 @@ import org.videolan.vlc.repository.DirectoryRepository
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBrowserAdapter(fragment) {
+internal class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>) : BaseBrowserAdapter(browserContainer) {
 
     private var mediaDirsLocation: MutableList<String> = mutableListOf()
     private lateinit var customDirsLocation: List<String>
     private var updateJob : Job? = null
 
     init {
-        updateMediaDirs(fragment.requireContext())
+        updateMediaDirs(browserContainer.containerActivity())
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
@@ -57,18 +57,18 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
             if (storage.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
             var storagePath = (storage as Storage).uri.path ?: ""
             if (!storagePath.endsWith("/")) storagePath += "/"
-            vh.binding.item = storage
+            vh.bindingContainer.setItem(storage)
             updateJob?.join()
             if (updateJob?.isCancelled == true) return@launch
             val hasContextMenu = customDirsLocation.contains(storagePath)
-            val checked = (fragment as StorageBrowserFragment).scannedDirectory || mediaDirsLocation.containsPath(storagePath)
-            vh.binding.hasContextMenu = hasContextMenu
+            val checked = browserContainer.scannedDirectory || mediaDirsLocation.containsPath(storagePath)
+            vh.bindingContainer.setHasContextMenu(hasContextMenu)
             when {
-                checked -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_CHECKED
-                hasDiscoveredChildren(storagePath) -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
-                else -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
+                checked -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_CHECKED
+                hasDiscoveredChildren(storagePath) -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
+                else -> vh.bindingContainer.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
             }
-            vh.binding.checkEnabled = !fragment.scannedDirectory
+            vh.bindingContainer.setCheckEnabled(!browserContainer.scannedDirectory)
         }
     }
 
@@ -109,6 +109,6 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
     }
 
     override fun checkBoxAction(v: View, mrl: String) {
-        (fragment as? StorageBrowserFragment)?.checkBoxAction(v, mrl)
+        (browserContainer as? StorageBrowserFragment)?.checkBoxAction(v, mrl)
     }
 }

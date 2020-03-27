@@ -37,7 +37,6 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.collection.SimpleArrayMap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -45,8 +44,8 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -61,7 +60,6 @@ import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.onboarding.OnboardingActivity
-import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.io.File
@@ -70,12 +68,13 @@ const val KEY_IN_MEDIALIB = "key_in_medialib"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
+class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, BrowserContainer<MediaLibraryItem> {
 
-    internal var scannedDirectory = false
+    override var scannedDirectory = false
     private val processingFolders = SimpleArrayMap<String, CheckBox>()
     private var snack: com.google.android.material.snackbar.Snackbar? = null
     private var alertDialog: AlertDialog? = null
+    override val inCards = false
 
     override val categoryTitle: String
         get() = getString(R.string.directories_summary)
@@ -268,4 +267,9 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         })
         alertDialog = builder.show()
     }
+
+    override fun containerActivity() = requireActivity()
+
+    override val isNetwork = false
+    override val isFile = true
 }

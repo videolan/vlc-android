@@ -32,27 +32,17 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.NetworkMonitor
-import org.videolan.tools.Settings
-import org.videolan.vlc.ExternalMonitor
-import org.videolan.vlc.R
-import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.tools.livedata.LiveDataset
+import org.videolan.vlc.R
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(context, dataset, url, showHiddenFiles), Observer<List<MediaWrapper>> {
 
-    private val favorites = if (url == null && !Settings.showTvUi) BrowserFavRepository.getInstance(context).networkFavorites else null
-
-    init {
-        favorites?.observeForever(this)
-    }
 
     override suspend fun browseRootImpl() {
         dataset.clear()
-        dataset.value = mutableListOf<MediaLibraryItem>().apply {
-            getFavoritesList(favorites?.value)?.let { addAll(it) }
-        }
+        dataset.value = mutableListOf()
         if (NetworkMonitor.getInstance(context).lanAllowed) browse()
     }
 
@@ -91,11 +81,6 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
     override fun stop() {
         if (url == null) clearListener()
         return super.stop()
-    }
-
-    override fun release() {
-        favorites?.removeObserver(this)
-        super.release()
     }
 
     override fun onChanged(favs: List<MediaWrapper>?) {

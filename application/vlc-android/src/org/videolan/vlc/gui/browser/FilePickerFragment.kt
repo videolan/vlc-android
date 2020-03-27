@@ -46,7 +46,8 @@ import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_PICKER
 
 const val EXTRA_MRL = "sub_mrl"
-class FilePickerFragment : FileBrowserFragment() {
+
+class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryItem> {
 
     override fun createFragment(): Fragment {
         return FilePickerFragment()
@@ -115,4 +116,9 @@ class FilePickerFragment : FileBrowserFragment() {
             return true
         } else length < 7
     } ?: true
+
+    override fun containerActivity() = requireActivity()
+
+    override val isNetwork = false
+    override val isFile = true
 }

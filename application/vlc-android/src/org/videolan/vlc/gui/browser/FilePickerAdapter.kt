@@ -27,17 +27,18 @@ import androidx.databinding.ViewDataBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class FilePickerAdapter internal constructor(fragment: BaseBrowserFragment) : BaseBrowserAdapter(fragment) {
+class FilePickerAdapter internal constructor(browserContainer: BrowserContainer<MediaLibraryItem>) : BaseBrowserAdapter(browserContainer) {
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
         val h = holder as MediaViewHolder
         val media = getItem(position) as MediaWrapper
-        h.binding.item = media
-        h.binding.hasContextMenu = false
-        h.binding.protocol = null
-        h.binding.cover = getIcon(media, false)
+        h.bindingContainer.setItem(media)
+        h.bindingContainer.setHasContextMenu(false)
+        h.bindingContainer.setProtocol(null)
+        h.bindingContainer.setCover(getIcon(media, false))
     }
 }

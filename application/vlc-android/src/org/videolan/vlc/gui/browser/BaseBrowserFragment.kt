@@ -50,7 +50,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
-import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
@@ -59,6 +58,7 @@ import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylistAsync
+import org.videolan.vlc.gui.helpers.UiTools.showMediaInfo
 import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
@@ -82,15 +82,17 @@ private const val MSG_REFRESH = 3
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener {
+abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler<MediaLibraryItem>, CtxActionReceiver, PathAdapterListener, BrowserContainer<MediaLibraryItem> {
 
     private lateinit var addPlaylistFolderOnly: MenuItem
     protected val handler = BrowserFragmentHandler(this)
     private lateinit var layoutManager: LinearLayoutManager
-    var mrl: String? = null
+    override var mrl: String? = null
     protected var currentMedia: MediaWrapper? = null
     private var savedPosition = -1
-    var isRootDirectory: Boolean = false
+    override var isRootDirectory: Boolean = false
+    override val scannedDirectory = false
+    override val inCards = false
     protected var showHiddenFiles: Boolean = false
     protected lateinit var adapter: BaseBrowserAdapter
     protected abstract val categoryTitle: String
@@ -343,12 +345,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         return true
     }
 
-    private fun showMediaInfo(mw: MediaWrapper) {
-        val i = Intent(activity, InfoActivity::class.java)
-        i.putExtra(TAG_ITEM, mw)
-        startActivity(i)
-    }
-
     private fun playAll(mw: MediaWrapper?) {
         var positionInPlaylist = 0
         val mediaLocations = LinkedList<MediaWrapper>()
@@ -395,7 +391,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 R.id.action_mode_file_play -> MediaUtils.openList(activity, list, 0)
                 R.id.action_mode_file_append -> MediaUtils.appendMedia(activity, list)
                 R.id.action_mode_file_add_playlist -> requireActivity().addToPlaylist(list)
-                R.id.action_mode_file_info -> showMediaInfo(list[0])
+                R.id.action_mode_file_info -> requireActivity().showMediaInfo(list[0])
                 R.id.action_mode_file_delete -> removeItems(list)
                 else -> {
                     stopActionMode()
@@ -541,7 +537,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
             CTX_APPEND -> MediaUtils.appendMedia(activity, mw)
             CTX_DELETE -> removeItem(mw)
-            CTX_INFORMATION -> showMediaInfo(mw)
+            CTX_INFORMATION -> requireActivity().showMediaInfo(mw)
             CTX_PLAY_AS_AUDIO -> {
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 MediaUtils.openMedia(activity, mw)

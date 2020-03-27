@@ -613,7 +613,7 @@
 
     <style name="Theme.VLC.HorizontalListTitle">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">?attr/font_default</item>
+        <item name="android:textColor">?attr/colorAccent</item>
         <item name="android:textSize">18sp</item>
     </style>
 

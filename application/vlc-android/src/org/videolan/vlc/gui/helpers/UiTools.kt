@@ -75,6 +75,7 @@ import org.videolan.tools.isStarted
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
+import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.media.MediaUtils
@@ -340,6 +341,11 @@ object UiTools {
         savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
     }
 
+    fun FragmentActivity.showMediaInfo(mediaWrapper: MediaWrapper) {
+        val i = Intent(this, InfoActivity::class.java)
+        i.putExtra(TAG_ITEM, mediaWrapper)
+        startActivity(i)
+    }
 
     fun getDefaultCover(context: Context, item: MediaLibraryItem): BitmapDrawable {
         return when (item.itemType) {
