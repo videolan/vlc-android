@@ -48,6 +48,8 @@
     <string name="insert_next">Įterpti kitą</string>
     <string name="play_all">Groti visus</string>
     <string name="append_all">Įtraukti visus</string>
+    <string name="resume_playback_short_title">Tęsti grojimą</string>
+    <string name="resume_playback_long_title">Toliau groti paskutinį grojaraštį</string>
     <string name="delete">Šalinti</string>
     <string name="remove">Pašalinti</string>
     <string name="set_song">Naudoti kaip skambučio toną</string>
@@ -124,6 +126,7 @@
     <string name="noplaylist">Grojaraščių neradome.</string>
     <string name="mediafiles">Kūriniai</string>
     <string name="notavailable">neprieinama</string>
+    <string name="nosubfolder">Be poaplankių</string>
     <string name="directorynotfound">„%1$s“ aplanko neradome.</string>
     <string name="nohistory">Kol kas grojimo žurnalas tuščias.</string>
     <string name="validation">Tikrai?</string>
@@ -192,8 +195,10 @@
 
     <string name="server_add_title">Pažymėti naują serverį kaip mėgstamą</string>
     <string name="server_domain_hint">Serverio adresas (domeno vardas ar IP)</string>
+    <string name="server_share_hint">Bendrinamo tinklo vardas (arba IP adresas)</string>
     <string name="server_folder_hint">Aplanko kelias (nebūtinas)</string>
     <string name="server_username_hint">Naudotojo vardas</string>
+    <string name="server_servername_hint">Serverio vardas, patogumui</string>
     <string name="server_port">Prievadas:</string>
     <string name="password">Slaptažodis</string>
 
@@ -423,7 +428,6 @@
     <string name="dump_logcat_success">Pranešimų žunalas „logcat“ sėkmingai įrašytas į %1$s!</string>
     <string name="dump_logcat_failure">Nepavyko įrašyti „logcat“.</string>
     <string name="custom_libvlc_options">Savitos libVLC parinktys</string>
-
     <string name="serious_crash">Deja, dėl rimtos klaidos VLC programą reikia užverti.</string>
     <string name="help_us_send_log">Padėkite mums tobulinti VLC nusiųsdami šią informaciją apie programos klaidą:</string>
     <string name="restart_vlc">Iš naujo paleisti VLC</string>
@@ -470,6 +474,7 @@
     <string name="back_quit_lock">Norėdami išeiti iš vaizdo įrašo, dar kartą spauskite išėjimo mygtuką</string>
     <string name="playlist_deleted">Grojaraštis pašalintas</string>
     <string name="file_deleted">Failas pašalintas</string>
+    <string name="stream_deleted">Srautas pašalintas</string>
     <string name="no_subs_found">Šiame kataloge subtitrų nerasta</string>
     <string name="music_now_playing">Dabar groja</string>
 
@@ -494,6 +499,7 @@
     <string name="opengl_automatic">Automatiškai</string>
     <string name="opengl_on">Priverstinai įjungti</string>
     <string name="opengl_off">Priverstinai išjungti</string>
+    <string name="network_shared_folders">Bendrinami aplankai</string>
     <string name="store_password">Įsiminti slaptažodį</string>
     <string name="add_to_playlist">Įtraukti į grojaraštį</string>
     <string name="snack_subloader_sub_found">Subtitrai parsiųsti</string>
@@ -547,6 +553,8 @@
     <string name="tv_my_new_videos">Nauji vaizdo įrašai</string>
     <string name="browser">Naršyti</string>
     <string name="ab_repeat">A-B kartojimas</string>
+    <string name="stop_after_this">Stabdyti po šio takelio</string>
+    <string name="time_category_new">Naujas kūrinys</string>
     <string name="time_category_current_month">Šį mėnesį</string>
     <string name="time_category_current_year">Šiemet</string>
     <string name="time_category_last_year">Pernai</string>
@@ -567,13 +575,14 @@
     <string name="device_dialog_title">Prijungtas išorinis įrenginys</string>
     <string name="videos_folders_title">Vaizdo įrašai pagal aplankus</string>
     <string name="videos_groups_title">Vaizdo įrašų grupės</string>
+    <string name="video_remote_disable">Dubliuoti ekraną</string>
+    <string name="removed_from_playlist_anonymous">Įrašai pašalinti iš grojaraščio</string>
     <string name="welcome_title">Jus sveikina VLC!</string>
     <string name="welcome_subtitle">nemokama atviro kodo įvairialypės terpės leistuvė</string>
     <string name="permission_media">VLC programai reikia jūsų leidimo prieiti prie įrenginyje esančių kūrinių</string>
     <string name="medialibrary_scan_explanation">VLC gali automatiškai žvalgyti jūsų įrenginį sudarydama bei atnaujindama kūrinių sąrašus.</string>
     <string name="done">Atlikta</string>
     <string name="onboarding_scan_title">Kūrinius aptikti automatiškai</string>
-    <string name="daynight_explanation">VLC automatiškai persijungs į naktinę veikseną atitinkamu paros laiku</string>
     <string name="onboarding_scanning_enable">Leisti, kad VLC žvalgytų kūrinius visame įrenginyje</string>
     <string name="onboarding_scan_whole">VLC išžvalgys visą SD kortelę</string>
     <string name="onboarding_scan_customize">Leiskite man nurodyti, kuriuos aplankus VLC galėtų žvalgyti</string>
@@ -585,6 +594,7 @@
     <string name="resume_card_message">Tęsti „%1$s“ grojimą?</string>
     <string name="misc">Įvairūs</string>
     <string name="device_default">Įrenginio numatytasis</string>
+    <string name="track_number">%d takeliai</string>
     <string name="jump_to">Šokti į</string>
     <string name="show_video_thumbnails_summary">Sąrašuose rodyti vaizdo įrašų miniatiūras</string>
     <string name="show_video_thumbnails">Vaizdo miniatiūros</string>
@@ -625,4 +635,22 @@
     <string name="video_group_size_summary">Grupuoti pagal pirmas %s raides</string>
     <string name="video_group_size">Grupuoti vaizdo įrašus pagal pavadinimą</string>
     <string name="url_copied_to_clipboard">URL nukopijuotas į iškarpinę</string>
+    <string name="share">Dalintis</string>
+    <string name="release_date">Išleista:</string>
+    <string name="language">Kalba</string>
+    <string name="track_samplerate">Elementų dažnis</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bitų dažnis</string>
+    <string name="codec">Kodavimas</string>
+    <string name="text">Tekstas</string>
+    <string name="audio_delay_start">Išgirstas garsas</string>
+    <string name="subtitle_delay_first">Išgirstas balsas</string>
+    <string name="subtitle_delay_end">Pamatytas tekstas</string>
+    <string name="track_index">Takelis: %s</string>
+    <string name="audio_queue_progress">Eiga: %s</string>
+    <string name="sortby_track">Takelis</string>
+    <string name="this_folder">Pridėti šį aplanką</string>
+    <string name="all_subfolders">Pridėti šį aplanką su poaplankiais</string>
+    <string name="playlist_existing">Grojaraštis pavadinimu „%s“ jau yra</string>
+    <string name="new_title">Naujas pavadinimas</string>
 </resources>
