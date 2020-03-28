@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">அளவு (இறங்க)</string>
     <string name="sortby_date">தேதி</string>
     <string name="sortby_date_desc">தேதி (இறங்க)</string>
+    <string name="sortby_last_modified_date">சமீபத்தில் சேர்க்கப்பட்டவை</string>
+    <string name="sortby_last_modified_date_desc">சமீபத்தில் சேர்க்கப்பட்டவை(இறங்கு)</string>
     <string name="sortby_number">தடங்களின் எண்ணிக்கை</string>
     <string name="sortby_number_desc">தடங்களின் எண்ணிக்கை (இறங்க)</string>
     <string name="searchable_hint">தேடு…</string>
@@ -50,6 +52,7 @@
     <string name="set_song_question">\'%1$s\' ஐ ரிங்க்டோனாக உபயோகிக்கலாமா?</string>
     <string name="info">தகவல்</string>
     <string name="confirm_delete">\'%1$s\' கோப்பை அழி?</string>
+    <string name="confirm_delete_several_media">%1$d  ஊடகத்தை நீக்கவா?</string>
     <string name="confirm_delete_folder">அடைவு  \'%1$s\' மற்றும் அதன் அனைத்து உள்ளடக்கங்களை நீக்கு?</string>
     <string name="confirm_delete_playlist">பட்டியல் %1$s-ஐ நீக்கு?</string>
     <string name="ringtone_set">\'%1$s\' கோப்பு அழைப்போசையாக அமைக்கப்பட்டது.</string>
@@ -280,6 +283,10 @@
     <string name="subtitles_background_title">துணைஉரை பின்னணி</string>
     <string name="subtitles_bold_title">போல்ட் வசனவரிகள்</string>
     <string name="audio_prefs_category">ஒலி</string>
+    <string name="list_title_ellipsize_default">இயல்புநிலை</string>
+    <string name="list_title_ellipsize_left">இடது</string>
+    <string name="list_title_ellipsize_right">வலது</string>
+    <string name="list_title_ellipsize_middle">நடு</string>
     <string name="enable_headset_detection">தலைப்பொறி கண்டறியப்பட்டது</string>
     <string name="enable_steal_remote_control">பிரத்தியேக தலைப்பொறி தொலைநிலை கட்டுப்பாடு</string>
     <string name="enable_steal_remote_control_summary">தொலைநிலை கட்டுப்பாட்டை பிற பயன்பாடுகள் திருடுவதை தடுப்பதன் மூலம் மோதல்களை தவிர்க்கலாம். இது HTC பேசிகளில் இரட்டை சொடுக்கல் மூலம் எண்கள் அழைத்தலை தடுக்க முடியும்.</string>
@@ -339,10 +346,18 @@
     <string name="send_log">பதிவை அனுப்பு</string>
     <string name="sending_log">பதிவை அனுப்புகிறது…</string>
 
+    <string name="delete_sub_yes">ஆம்</string>
+    <string name="delete_sub_no">இல்லை</string>
+    <string name="download_subtitle_title">வசன வரி தறவிறக்கப்பட்டது</string>
+
+    <string name="no_result">முடிவுகள் எதுவும் இல்லை</string>
+    <string name="no_internet_connection">உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்</string>
     <string name="drawer_open">வழிச்செலுத்தல் இழுப்பறையைத் திற</string>
     <string name="drawer_close">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
     <string name="network_browsing">உள் வலையமைப்பு</string>
     <string name="browsing">கண்டெடுக்க</string>
+
+    <string name="file_size">கோப்பின் அளவு</string>
 
     <string name="audio_delay">ஒலி தாமதம்</string>
     <string name="spu_delay">துணை உரை தாமதம்</string>
@@ -351,9 +366,11 @@
     <string name="network_connection_needed">சாதனம் உள்ளே இணைய இணைப்பு இல்லை.</string>
     <string name="search_hint">ஊடகத்தை தேடு</string>
     <string name="playlist_save">சேமி தொகுப்பு பட்டியல்</string>
+    <string name="playlist_name_hint">தொகுப்பு பட்டியல் பெயர்</string>
     <string name="go_to_chapter">அத்தியாயம் செல்ல…</string>
     <string name="chapter">அத்தியாயம்</string>
     <string name="directory_empty">அடைவு வெறுமையாக உள்ளது</string>
+    <string name="tv_ui_title">ஆண்ட்ராய்டு  டிவி இடைமுகப்பு</string>
     <string name="medialibrary">ஊடக நூலகம்</string>
 
     <!-- Accessibility -->
@@ -371,11 +388,18 @@
     <string name="plugins">நிரல்கள்</string>
     <string name="download_on_device">பதிவிறக்கு</string>
     <string name="opengl_automatic">தானியக்க</string>
+    <string name="store_password">கடவுச்சொல்லை நினைவுகொள்</string>
     <string name="add_to_playlist">தொகுப்பு பட்டியலுடன் சேர்</string>
     <string name="popup_expand">விரிவாக்கு காணொளி</string>
+    <string name="snack_subloader_sub_not_found">வசன வரிகள் ஏதுமில்லை</string>
+    <string name="dialog_subloader_success">இதற்கான வசன வரிகள்:</string>
+    <string name="dialog_subloader_fails">இதற்கான வசன வரிகள் ஏதுமில்லை:</string>
     <string name="download_subtitles">வசன வரிகளை தரவிறக்கு</string>
     <string name="preferences_languages_download">வசன வரிகளின் மொழி</string>
     <string name="service_unavailable">சேவை இல்லை</string>
+    <string name="downloading_subtitles">வசன வரிகள் தறவிறக்கப்படுகிறது</string>
+    <string name="browse_folder">கோப்புறையை உலாவ</string>
+    <string name="listen">கேளுங்கள்</string>
     <string name="connecting">இணக்கப்படுகிறத…</string>
     <string name="episodes">பாகங்கள்</string>
     <string name="movies">திரைப்படங்கள்</string>
@@ -388,11 +412,36 @@
     <string name="yes">ஆம்</string>
 
     <string name="save">சேமி</string>
+    <string name="custom_set_wrong_input">தவறான பெயர்.</string>
     <string name="equalizer_new_preset_name">புதிய</string>
     <string name="recommendations">பரிந்துரைகள்</string>
     <string name="browser_storages">சேமிப்புகள்</string>
     <string name="renderer_list_title">காட்சிகள்</string>
     <string name="dialog_sd_wizard">காண்பி</string>
     <string name="renderers_disconnect">துண்டி</string>
+    <string name="browser">உலாவி</string>
+    <string name="time_category_current_month">இந்த மாதம்</string>
+    <string name="time_category_current_year">இந்த வருடம்</string>
+    <string name="time_category_last_year">கடந்த ஆண்டு</string>
+    <string name="time_category_older">பழைய ஊடகங்கள்</string>
+    <string name="rename">மறுபெயரிடு</string>
+    <string name="rename_media">%1$s க்கு மறுபெயரிடு </string>
+    <string name="subtitle_search_name_hint">பெயர்</string>
+    <string name="language_to_download">மொழி</string>
     <string name="next">அடுத்து</string>
+    <string name="download">பதிவிறக்கு</string>
+    <string name="ctx_player_audio_track">ஒலி தடம்</string>
+    <string name="welcome_title">VLC க்கு வருக!</string>
+    <string name="done">முடிந்தது</string>
+    <string name="add">சேர்க்க</string>
+    <string name="send">அனுப்பு</string>
+    <string name="favorite">பிடித்தவை</string>
+    <string name="always">எப்போதும்</string>
+    <string name="share">பகிர்</string>
+    <string name="invalid_file">தவறான கோப்பு. பகிர முடியாது.</string>
+    <string name="share_file">%s யை பகிர்</string>
+    <string name="text">எழுத்து</string>
+    <string name="unknown">தெரியாத</string>
+    <string name="sortby_track">தடம்</string>
+    <string name="new_title">புதிய தலைப்பு</string>
 </resources>
