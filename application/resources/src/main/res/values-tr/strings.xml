@@ -86,6 +86,10 @@
         <item quantity="one">1 alt klasör</item>
         <item quantity="other">%d alt klasör</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 ortam</item>
+        <item quantity="other">%d ortam</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 ortam dosyası</item>
         <item quantity="other">%d ortam dosyası</item>
@@ -456,6 +460,7 @@
     <string name="dump_logcat_success">Logcat %1$s dosyasına yazıldı!</string>
     <string name="dump_logcat_failure">Logcat indirilemedi.</string>
     <string name="custom_libvlc_options">Özel libVLC ayarları</string>
+    <string name="custom_libvlc_options_invalid">libVLC ayarları geçersiz!</string>
 
     <string name="serious_crash">Maalesef önemli bir sorun çıktığından VLC kapatılacak.</string>
     <string name="help_us_send_log">Bu çökme kaydını göndererek VLC uygulamasının geliştirilmesine yardımcı olun:</string>
@@ -510,6 +515,7 @@
     <string name="back_quit_lock">Görüntüden çıkmak için yeniden geriye basın</string>
     <string name="playlist_deleted">Oynatma listesi silindi</string>
     <string name="file_deleted">Dosya silindi</string>
+    <string name="stream_deleted">Akış silindi</string>
     <string name="no_subs_found">Bu klasörde herhangi bir alt yazı yok</string>
     <string name="music_now_playing">Şimdi Oynatılan</string>
 
@@ -668,7 +674,8 @@
     <string name="onboarding_theme_title">Kendinizi evinizde hissedin</string>
     <string name="done">Bitti</string>
     <string name="onboarding_scan_title">Ortamlarınızı otomatik olarak tarayın</string>
-    <string name="daynight_explanation">VLC, uygun zamanda otomatik olarak gece kipine geçecek</string>
+    <string name="daynight_system_explanation">VLC sistem ayarlarına göre otomatik olarak koyu kipe geçecek</string>
+    <string name="daynight_legacy_explanation">VLC zamanı geldiğinde otomatik olarak gece kipine geçecek</string>
     <string name="onboarding_scanning_enable">VLC ortamları bulmak için aygıtımı tarayabilsin</string>
     <string name="onboarding_scan_whole">VLC SD kartımın tamamını tarasın</string>
     <string name="onboarding_scan_customize">VLC tarafından taranacak klasörleri ben seçeyim</string>
@@ -781,4 +788,8 @@
     <string name="track_index">Kayıt: %s</string>
     <string name="audio_queue_progress">İlerleme: %s</string>
     <string name="sortby_track">Kayıt</string>
+    <string name="this_folder">Bu klasörü ekle</string>
+    <string name="all_subfolders">Bu klasörü ve alt klasörlerini ekle</string>
+    <string name="playlist_existing">%s oynatma listesi zaten var</string>
+    <string name="new_title">Yeni başlık</string>
 </resources>
