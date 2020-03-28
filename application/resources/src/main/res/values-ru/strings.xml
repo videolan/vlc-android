@@ -480,6 +480,7 @@
     <string name="dump_logcat_success">Журнал logcat успешно выгружен в %1$s!</string>
     <string name="dump_logcat_failure">Выгрузить logcat не удалось.</string>
     <string name="custom_libvlc_options">Спецпараметры libVLC</string>
+    <string name="custom_libvlc_options_invalid">Заданы некорректные параметры libVLC!</string>
 
     <string name="serious_crash">К сожалению, произошла серьёзная ошибка и VLC пришлось закрыть.</string>
     <string name="help_us_send_log">Помогите нам усовершенствовать VLC, отправив протокол сбоя:</string>
@@ -534,6 +535,7 @@
     <string name="back_quit_lock">Нажмите Назад ещё раз, чтобы закрыть видео</string>
     <string name="playlist_deleted">Плейлист удалён</string>
     <string name="file_deleted">Файл удалён</string>
+    <string name="stream_deleted">Поток удалён</string>
     <string name="no_subs_found">В этом каталоге нет субтитров</string>
     <string name="music_now_playing">Сейчас играет</string>
 
@@ -692,7 +694,8 @@
     <string name="onboarding_theme_title">Сделайте VLC уютным</string>
     <string name="done">Готово</string>
     <string name="onboarding_scan_title">Автосканирование ваших медиафайлов</string>
-    <string name="daynight_explanation">VLC будет автоматически переключаться в ночной режим в нужное время</string>
+    <string name="daynight_system_explanation">VLC будет автоматически переключаться в «тёмный» режим в соответствии с настройками системы</string>
+    <string name="daynight_legacy_explanation">VLC будет автоматически переключаться в ночной режим в нужное время</string>
     <string name="onboarding_scanning_enable">Разрешить VLC искать медиафайлы на моём устройстве</string>
     <string name="onboarding_scan_whole">VLC будет сканировать всю память (SD-карту)</string>
     <string name="onboarding_scan_customize">Я хочу выбрать, какие папки будет сканировать VLC</string>
@@ -808,4 +811,5 @@
     <string name="this_folder">Добавить эту папку</string>
     <string name="all_subfolders">Добавить эту папку и подпапки</string>
     <string name="playlist_existing">Плейлист %s уже существует</string>
+    <string name="new_title">Новое название</string>
 </resources>
