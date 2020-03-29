@@ -45,6 +45,8 @@
     <string name="insert_next">作为下一曲</string>
     <string name="play_all">播放全部</string>
     <string name="append_all">追加全部</string>
+    <string name="resume_playback_short_title">继续播放</string>
+    <string name="resume_playback_long_title">继续播放上次播放的媒体</string>
     <string name="delete">删除</string>
     <string name="remove">移除</string>
     <string name="set_song">设为铃声</string>
@@ -80,12 +82,22 @@
     <plurals name="subfolders_quantity">
         <item quantity="other">%d 个子文件夹</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">%d 个媒体</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="other">%d 个媒体文件</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="other">%d 个视频</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">%d 个视频</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">%d 个电视节目</item>
+    </plurals>
+
     <string name="internal_memory">内部存储</string>
     <string name="parent_folder">转到上级目录</string>
     <string name="audio">音频</string>
@@ -106,6 +118,7 @@
     <string name="noplaylist">未找到播放列表。</string>
     <string name="mediafiles">媒体文件</string>
     <string name="notavailable">不可用</string>
+    <string name="nosubfolder">没有子文件夹</string>
     <string name="directorynotfound">目录路径「%1$s」不存在。</string>
     <string name="nohistory">尚无播放历史记录。</string>
     <string name="validation">是否确定?</string>
@@ -283,7 +296,9 @@
 
     <string name="video_prefs_category">视频</string>
     <string name="video_min_group_length_title">视频分组</string>
+    <string name="video_min_group_length_disable">不要分组视频</string>
     <string name="video_min_group_length_folder">按文件夹分组</string>
+    <string name="video_min_group_length_name">按名称分组</string>
     <string name="video_min_group_length_first">仅首个字母相同</string>
     <string name="video_min_group_length_short">少量字母相同 (6)</string>
     <string name="video_min_group_length_long">大量字母相同 (9)</string>
@@ -333,6 +348,12 @@
     <string name="lockscreen_cover_summary">可用时，将当前媒体的专辑封面设为锁屏桌面</string>
     <string name="playlist_animate_scroll_title">当前播放列表自动滚动的动画效果</string>
     <string name="playlist_animate_scroll_summary">媒体切换时的滚动动画效果</string>
+    <string name="list_title_ellipsize">单行列表标题缩略</string>
+    <string name="list_title_ellipsize_default">默认</string>
+    <string name="list_title_ellipsize_left">左侧</string>
+    <string name="list_title_ellipsize_right">右侧</string>
+    <string name="list_title_ellipsize_middle">中间</string>
+    <string name="list_title_ellipsize_marquee">走马灯</string>
     <string name="audio_boost_title">音频增强</string>
     <string name="audio_boost_summary">允许音量放大到 200%</string>
     <string name="headset_prefs_category">耳机</string>
@@ -395,6 +416,7 @@
     <string name="dump_media_db">转储媒体数据库</string>
     <string name="dump_media_db_summary">将数据库复制到内部存储根目录</string>
     <string name="clear_media_db">清除媒体数据库</string>
+    <string name="clear_media_database_summary">清除数据库并从头开始</string>
     <string name="clear_history">清除历史</string>
     <string name="media_db_cleared">媒体数据库已清除!</string>
     <string name="set_locale">设置区域变量</string>
@@ -411,6 +433,8 @@
     <string name="restart_message">改动将在应用重新启动后生效。\n\n是否现在重启?</string>
     <string name="restart_message_OK">确定</string>
     <string name="restart_message_Later">稍后</string>
+    <string name="browser_show_all_title">显示所有文件</string>
+
     <string name="developer_prefs_category">开发人员</string>
     <string name="enable_verbose_mode">详尽模式</string>
     <string name="enable_verbose_mode_summary">增加详尽程度 (logcat)</string>
@@ -426,6 +450,7 @@
     <string name="dump_logcat_success">Logcat 日志已成功转储至 %1$s!</string>
     <string name="dump_logcat_failure">logcat 转储失败。</string>
     <string name="custom_libvlc_options">自定义 libVLC 选项</string>
+    <string name="custom_libvlc_options_invalid">无效的 libVLC 选项!</string>
 
     <string name="serious_crash">真不走运，发生了很严重的错误，VLC 不得不关闭鸟。</string>
     <string name="help_us_send_log">您可以将下述崩溃日志发送给我们，协助改进 VLC:</string>
@@ -453,9 +478,11 @@
     <string name="audio_delay">音频延迟</string>
     <string name="spu_delay">字幕延迟</string>
     <string name="sleep_time_not_set">未设置</string>
+    <string name="network_shares_discovery">查找网络共享</string>
     <string name="network_empty">该目录为空。</string>
     <string name="network_connection_needed">本地网络无连接。</string>
     <string name="search_hint">搜索媒体</string>
+    <string name="search_in_list_hint">在当前列表中搜索</string>
     <string name="search_global">在所有媒体库中搜索媒体</string>
     <string name="directory_show_medialib">在媒体库中显示</string>
     <string name="directory_hide_medialib">从媒体库中隐藏</string>
@@ -465,6 +492,7 @@
     <string name="chapter">章节</string>
     <string name="resume_from_position">从上次播放到的位置继续</string>
     <string name="confirm_resume">是否从上次播放到的位置继续播放？</string>
+    <string name="confirm_resume_title">继续播放视频</string>
     <string name="directory_empty">目录为空</string>
     <string name="tv_ui_title">Android TV 界面</string>
     <string name="tv_ui_summary">将 UI 改为适应 TV 的主题</string>
@@ -477,6 +505,7 @@
     <string name="back_quit_lock">再次按「返回」可退出视频</string>
     <string name="playlist_deleted">播放列表已删除</string>
     <string name="file_deleted">文件已删除</string>
+    <string name="stream_deleted">流已删除</string>
     <string name="no_subs_found">该目录下无字幕文件</string>
     <string name="music_now_playing">正在播放</string>
 
@@ -622,6 +651,7 @@
     <string name="device_dialog_title">已插入外部设备</string>
     <string name="device_dialog_message">您刚将新的存储设备插入机顶盒，是否希望 VLC 打开它?</string>
     <string name="videos_folders_title">按文件夹显示视频</string>
+    <string name="videos_groups_title">视频分组</string>
     <string name="video_save_remote_setting">是否自动激活远程控制模式?</string>
     <string name="video_save_clone_mode">是否自动激活克隆模式?</string>
     <string name="video_remote_enable">切换到远程控制模式</string>
@@ -634,7 +664,8 @@
     <string name="onboarding_theme_title">就像在自己家</string>
     <string name="done">完成</string>
     <string name="onboarding_scan_title">自动发现媒体</string>
-    <string name="daynight_explanation">VLC 将在恰当的时间自动切换到夜间模式</string>
+    <string name="daynight_system_explanation">VLC 将跟随系统设置自动切换深色模式</string>
+    <string name="daynight_legacy_explanation">VLC 将在恰当的时间自动切换到夜间模式</string>
     <string name="onboarding_scanning_enable">让 VLC 扫描我的设备，寻找媒体内容</string>
     <string name="onboarding_scan_whole">VLC 将扫描我的整个 SD 卡</string>
     <string name="onboarding_scan_customize">让我选择 VLC 扫描的文件夹</string>
@@ -648,6 +679,7 @@
     <string name="popup_force_legacy_title">使用自定义画中画弹窗</string>
     <string name="popup_force_legacy_summary">使用大小可调整的自定义画中画弹出窗口</string>
     <string name="device_default">设备默认</string>
+    <string name="track_number">%d 条轨道</string>
     <string name="jump_to">跳转到</string>
     <string name="show_video_thumbnails_summary">在列表中显示视频缩略图</string>
     <string name="show_video_thumbnails">视频缩略图</string>
@@ -680,4 +712,74 @@
     <string name="report_a_bug">报告 bug</string>
     <string name="report_a_crash">报告崩溃事件</string>
     <string name="describe_crash">请描述崩溃发生时的情况</string>
+    <string name="favorite">收藏</string>
+    <string name="always">总是</string>
+    <string name="never">不要</string>
+    <string name="ask_confirmation">要求确认</string>
+    <string name="add_to_scanned">扫描该文件夹</string>
+    <string name="directory_not_scanned">此目录尚未扫描</string>
+    <string name="scanned_directory_added">%s 项已添加到已扫描目录</string>
+    <string name="video_group_size_dialog_text">用于按名称分组的字符数量</string>
+    <string name="video_group_size_summary">按前 %s 个字母分组</string>
+    <string name="video_group_size">视频按名称分组</string>
+    <string name="url_copied_to_clipboard">URL 已复制到剪贴板</string>
+    <string name="share">分享</string>
+    <string name="invalid_file">无效文件。无法分享。</string>
+    <string name="share_file">分享 %s</string>
+    <string name="share_message">这是 %s</string>
+    <string name="find_metadata">查找元数据</string>
+    <string name="moviepedia_hint">搜索元数据</string>
+    <string name="moviepedia_result">视频结果</string>
+    <string name="release_date">发行日期:</string>
+    <string name="synopsis">概要</string>
+    <string name="directed_by">导演</string>
+    <string name="casting">主演</string>
+    <string name="produced_by">制片</string>
+    <string name="written_by">编剧</string>
+    <string name="music_by">配乐</string>
+    <string name="posters">海报</string>
+    <string name="backdrops">布景</string>
+    <string name="header_tvshows">电视节目</string>
+    <string name="all_movies">所有电影</string>
+    <string name="movie_count">%s 部影片</string>
+    <string name="header_movies">电影</string>
+    <string name="season_number">第%s季</string>
+    <string name="resume_episode">继续 (%s)</string>
+    <string name="start_over">从头开始</string>
+    <string name="next_episode">下一集</string>
+    <string name="open_network_settings">打开网络设置?</string>
+    <string name="recently_played">最近播放</string>
+    <string name="recently_added">最近添加</string>
+    <string name="playback_multiple_errors">多个媒体无法播放</string>
+    <string name="clear_media_db_warning">将会丢失您的播放进度，以及您所创建的播放列表。\n%s</string>
+    <string name="abrepeat_add_first_marker">设置开始位置</string>
+    <string name="abrepeat_add_second_marker">设置结束位置</string>
+    <string name="demux_bitrate">解码码率</string>
+    <string name="input_bitrate">输入码率</string>
+    <string name="video_information">视频信息</string>
+
+    <string name="channels">声道</string>
+    <string name="resolution">分辨率</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">帧率</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">语言</string>
+    <string name="track_samplerate">采样率</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">码率</string>
+    <string name="codec">编码</string>
+    <string name="text">文本</string>
+    <string name="unknown">未知</string>
+    <string name="audio_delay_start">听到的声音</string>
+    <string name="subtitle_delay_first">听到的人声</string>
+    <string name="audio_delay_end">细小声音</string>
+    <string name="subtitle_delay_end">看见的文字</string>
+    <string name="track_index">轨道: %s</string>
+    <string name="audio_queue_progress">进度: %s</string>
+    <string name="sortby_track">轨道</string>
+    <string name="this_folder">添加该文件夹</string>
+    <string name="all_subfolders">添加该文件夹及其子文件夹</string>
+    <string name="playlist_existing">播放列表「%s 」已存在</string>
+    <string name="new_title">新标题</string>
 </resources>
