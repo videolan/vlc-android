@@ -86,6 +86,10 @@
         <item quantity="one">1 undermappe</item>
         <item quantity="other">%d undermapper</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 medie</item>
+        <item quantity="other">%d medier</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 mediefil</item>
         <item quantity="other">%d mediefiler</item>
@@ -456,6 +460,7 @@
     <string name="dump_logcat_success">Logcat blev dumpet til %1$s!</string>
     <string name="dump_logcat_failure">Kunne ikke dumpe logcat.</string>
     <string name="custom_libvlc_options">Bbrugerdefinerede libVLC-indstillinger</string>
+    <string name="custom_libvlc_options_invalid">Ugyldige libVLC-indstillinger!</string>
 
     <string name="serious_crash">Der opstod desværre en alvorlig fejl, og VLC måtte lukkes ned.</string>
     <string name="help_us_send_log">Hjælp os med at forbedre VLC ved at sende følgende log for nedbrud:</string>
@@ -510,6 +515,7 @@
     <string name="back_quit_lock">Tryk på Tilbage igen for at afslutte videoen</string>
     <string name="playlist_deleted">Spilleliste slettet</string>
     <string name="file_deleted">Fil slettet</string>
+    <string name="stream_deleted">Strøm slettet</string>
     <string name="no_subs_found">Ingen undertekster i denne mappe</string>
     <string name="music_now_playing">Afspiller nu</string>
 
@@ -668,7 +674,8 @@
     <string name="onboarding_theme_title">Gør dit selv tilrette</string>
     <string name="done">Færdig</string>
     <string name="onboarding_scan_title">Automatisk opdagelse af dine medier</string>
-    <string name="daynight_explanation">VLC skifter automatisk til nat-tilstand på rette tidspunkt</string>
+    <string name="daynight_system_explanation">VLC skifter automatisk til mørk tilstand i henhold til systemets indstilling</string>
+    <string name="daynight_legacy_explanation">VLC skifter automatisk til nat-tilstand på rette tidspunkt</string>
     <string name="onboarding_scanning_enable">Lad VLC skanne din enhed for medieindhold</string>
     <string name="onboarding_scan_whole">VLC skanner hele dit SD-kort</string>
     <string name="onboarding_scan_customize">Lad mig vælge, hvilke mapper som VLC skal skanne</string>
@@ -778,4 +785,11 @@
     <string name="subtitle_delay_first">Stemme hørt</string>
     <string name="audio_delay_end">Lyd opdaget</string>
     <string name="subtitle_delay_end">Tekst set</string>
+    <string name="track_index">Spor: %s</string>
+    <string name="audio_queue_progress">Forløb: %s</string>
+    <string name="sortby_track">Spor</string>
+    <string name="this_folder">Tilføj mappen</string>
+    <string name="all_subfolders">Tilføj mappen og undermapperne</string>
+    <string name="playlist_existing">Afspilningslisten %s findes allerede</string>
+    <string name="new_title">Ny titel</string>
 </resources>
