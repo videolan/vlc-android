@@ -82,6 +82,9 @@
     <plurals name="subfolders_quantity">
         <item quantity="other">%d subfolder</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">Media %d</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="other">%d fail media</item>
     </plurals>
@@ -447,6 +450,7 @@
     <string name="dump_logcat_success">Logcat berjaya dilonggok ke %1$s!</string>
     <string name="dump_logcat_failure">Gagal longgokkan logcat.</string>
     <string name="custom_libvlc_options">Pilihan libVLC suai</string>
+    <string name="custom_libvlc_options_invalid">Pilihan libVLC tidak sah!</string>
 
     <string name="serious_crash">Malangnya, satu ralat yang serius telah berlaku dan VLC perlu ditutup.</string>
     <string name="help_us_send_log">Bantu kami mempertingkatkan VLC dengan menghantar log kerosakan berikut:</string>
@@ -501,6 +505,7 @@
     <string name="back_quit_lock">Ketik Undur sekali lagi untuk tutup video</string>
     <string name="playlist_deleted">Senarai main dipadam</string>
     <string name="file_deleted">Fail dipadam</string>
+    <string name="stream_deleted">Strim dipadam</string>
     <string name="no_subs_found">Tiada sarikata dalam direktori ini</string>
     <string name="music_now_playing">Kini Dimainkan</string>
 
@@ -659,7 +664,8 @@
     <string name="onboarding_theme_title">Buat seperti rumah sendiri</string>
     <string name="done">Selesai</string>
     <string name="onboarding_scan_title">Temui media anda secara automatik</string>
-    <string name="daynight_explanation">VLC akan beralih ke mod malam pada waktu berkaitan</string>
+    <string name="daynight_system_explanation">VLC akan bertukar ke mod gelap secara automatk berdasarkan tetapan sistem</string>
+    <string name="daynight_legacy_explanation">VLC akan beralih ke mod malam pada waktu berkaitan</string>
     <string name="onboarding_scanning_enable">Biar VLC mengimbas peranti saya untuk dapatkan kandungan media</string>
     <string name="onboarding_scan_whole">VLC akan mengimbas keseluruhan Kad SD saya</string>
     <string name="onboarding_scan_customize">Biar saya pilih folder manakah VLC akan mengimbas</string>
@@ -769,4 +775,11 @@
     <string name="subtitle_delay_first">Suara didengari</string>
     <string name="audio_delay_end">Bunyi dikesan</string>
     <string name="subtitle_delay_end">Teks dilihat</string>
+    <string name="track_index">Trek: %s</string>
+    <string name="audio_queue_progress">Kemajuan: %s</string>
+    <string name="sortby_track">Trek</string>
+    <string name="this_folder">Tambah folder ini</string>
+    <string name="all_subfolders">Tambah folder dan subfolder ini</string>
+    <string name="playlist_existing">Senarai main %s sudah wujud</string>
+    <string name="new_title">Tajuk baharu</string>
 </resources>
