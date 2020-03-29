@@ -82,6 +82,10 @@
         <item quantity="one">Azpikarpeta bat</item>
         <item quantity="other">%d azpikarpeta</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one"> multimedia-fitxategi 1</item>
+        <item quantity="other">%d multimedia-fitxategi</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">Multimedia-fitxategi bat</item>
         <item quantity="other">%d multimedia-fitxategi</item>
@@ -90,6 +94,15 @@
         <item quantity="one">Bideo bat</item>
         <item quantity="other">%d bideo</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">Pelikula 1</item>
+        <item quantity="other">%d pelikula</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">TB saio 1</item>
+        <item quantity="other">%d TB saio</item>
+    </plurals>
+
     <string name="internal_memory">Barne-memoria</string>
     <string name="parent_folder">Gorantz karpeta gurasora</string>
     <string name="audio">Audioa</string>
@@ -110,11 +123,13 @@
     <string name="noplaylist">Ez da erreprodukzio-zerrendarik aurkitu.</string>
     <string name="mediafiles">Multimedia-fitxategiak</string>
     <string name="notavailable">ez dago erabilgarri</string>
+    <string name="nosubfolder">Azpikarpetarik ez</string>
     <string name="directorynotfound">\'%1$s\' direktorio-bidea ez da aurkitu.</string>
     <string name="nohistory">Ez daukazu erreprodukzio-historiarik oraindik.</string>
     <string name="validation">Ziur zaude?</string>
 
     <string name="cover_art">Azaleko diseinua</string>
+    <string name="shuffle_all_title">Nahastu denak</string>
     <string name="shuffle_title">Nahasketa modua</string>
     <string name="shuffle">Nahasketa itzalita</string>
     <string name="shuffle_on">Nahasketa piztuta</string>
@@ -285,6 +300,7 @@
     <string name="video_min_group_length_long">Letra-kopuru luzea (9)</string>
     <string name="media_fast_seek">Azkar bilatu</string>
     <string name="media_fast_seek_summary">Multimedia batean bilatzea azkarragoa da baina zehaztasun gutxiagokoa</string>
+    <string name="video_transition_summary">Erakutsi bideoaren titulu berria trantsizioan</string>
     <string name="media_seen">Erakutsi ikusitako bideoaren marka</string>
     <string name="media_seen_summary">Markatu bideoa ikusitako gisa bukaera arte erreproduzitzean</string>
     <string name="force_play_all_summary">Erreproduzitu bideo guztiak, zuk sakatutakotik hasita</string>
@@ -327,6 +343,11 @@
     <string name="lockscreen_cover_summary">Erabilgarri dagoenean, ezarri uneko multimediaren azaleko irudia blokeo-pantailaren horma-paper gisa</string>
     <string name="playlist_animate_scroll_title">Animatu uneko erreprodukzio-zerrendaren korritze automatikoa</string>
     <string name="playlist_animate_scroll_summary">Animatu korritzea multimediaz aldatzean</string>
+    <string name="list_title_ellipsize_default">Lehenetsia</string>
+    <string name="list_title_ellipsize_left">Ezkerra</string>
+    <string name="list_title_ellipsize_right">Eskuina</string>
+    <string name="list_title_ellipsize_middle">Erdian</string>
+    <string name="list_title_ellipsize_marquee">Markesina</string>
     <string name="audio_boost_title">Audio-boost</string>
     <string name="audio_boost_summary">Baimendu bolumena % 200era igotzea</string>
     <string name="headset_prefs_category">Aurikular+mikroa</string>
@@ -388,6 +409,7 @@
     <string name="dump_media_db">Irauli multimedia datu-basea</string>
     <string name="dump_media_db_summary">Kopiatu datu-basea barne-biltegiko errora</string>
     <string name="clear_media_db">Garbitu multimedia datu-basea</string>
+    <string name="clear_history">Garbitu historiala</string>
     <string name="media_db_cleared">Multimedia datu-basea garbituta!</string>
     <string name="set_locale">Ezarri hizkuntza</string>
     <string name="set_locale_detail">Utzi zuriz berrezartzeko</string>
@@ -403,6 +425,8 @@
     <string name="restart_message">Aldaketek aplikazioa berrabiarazitakoan izango dute eragina.\n\nBerrabiarazi orain?</string>
     <string name="restart_message_OK">Ados</string>
     <string name="restart_message_Later">Gero</string>
+    <string name="browser_show_all_title">Erakutsi fitxategi guztiak</string>
+
     <string name="developer_prefs_category">Garatzailea</string>
     <string name="enable_verbose_mode">Xehetua</string>
     <string name="enable_verbose_mode_summary">Handitu xehetasun-maila (logcat)</string>
@@ -418,7 +442,6 @@
     <string name="dump_logcat_success">Logcat ondo erauzi da %1$s(e)ra!</string>
     <string name="dump_logcat_failure">Huts egin du logcat-a erauztea.</string>
     <string name="custom_libvlc_options">libVLC aukera pertsonalizatuak</string>
-
     <string name="serious_crash">Tamalez errore larri bat gertatu da eta VLC itxi egin da.</string>
     <string name="help_us_send_log">Lagun gaitzazu VLC hobetzen ondorengo hutsegite-erregistroa bidalita:</string>
     <string name="restart_vlc">Berrabiarazi VLC</string>
@@ -438,12 +461,16 @@
     <string name="network_browsing">Sare lokala</string>
     <string name="browsing">Arakatzea</string>
 
+    <string name="file_size">Fitxategi-tamaina</string>
+
     <string name="audio_delay">Audio-atzerapena</string>
     <string name="spu_delay">Azpititulu-atzerapena</string>
     <string name="sleep_time_not_set">bat ere ez ezarrita</string>
+    <string name="network_shares_discovery">Sareko partekatzeen bila</string>
     <string name="network_empty">Direktorio hau hutsik dago.</string>
     <string name="network_connection_needed">Sare lokalerako konexiorik ez.</string>
     <string name="search_hint">Bilatu multimedia</string>
+    <string name="search_in_list_hint">Bilatu uneko zerrendan</string>
     <string name="search_global">Bilatu multimedia-liburutegi osoan</string>
     <string name="directory_show_medialib">Erakutsi MediaLib-en</string>
     <string name="directory_hide_medialib">Ezkutatu MediaLib-etik</string>
@@ -601,4 +628,16 @@
     <string name="ctx_player_subs_track">Azpitituluen pista</string>
     <string name="ctx_player_tracks_title">Multimedia pistak</string>
     <string name="device_dialog_title">Kanpoko gailua txertatua</string>
+    <string name="track_number">%d pista</string>
+    <string name="show_video_thumbnails_summary">Erakutsi bideoen iruditxoak zerrendetan</string>
+    <string name="appended">Pista(k) erantsita</string>
+    <string name="inserted">Pista(k) txertatuta</string>
+    <string name="url_copied_to_clipboard">URLa arbelean kopiatuta</string>
+    <string name="header_tvshows">TB saioak</string>
+    <string name="demux_bitrate">Demultiplexadorearen bit-emaria</string>
+    <string name="input_bitrate">Sarrera bit-emaria</string>
+    <string name="channels">Kanalak</string>
+    <string name="bitrate">Bit-emaria</string>
+    <string name="track_index">Pista: %s</string>
+    <string name="sortby_track">Pista</string>
 </resources>
