@@ -44,6 +44,10 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
     val observableSearchText = ObservableField<String>()
     var service: PlaybackService? = null
 
+    private val serviceCb = object : PlaybackService.Callback by EmptyPBSCallback {
+        override fun update() = refresh()
+    }
+
     init {
         if (medialibrary.isStarted) refresh()
         PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(viewModelScope)
@@ -78,12 +82,6 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
         } else {
             this.service?.apply { removeCallback(serviceCb) }
             this.service = null
-        }
-    }
-
-    private val serviceCb = object : PlaybackService.Callback by EmptyPBSCallback {
-        override fun update() {
-            refresh()
         }
     }
 
