@@ -143,6 +143,9 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
             }
         })
         localViewModel.browseRoot()
+        localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner, Observer { pair ->
+            if (pair != null) storageBrowserAdapter.notifyItemChanged(pair.first, pair.second)
+        })
 
 
 
