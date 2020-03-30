@@ -25,6 +25,8 @@
 package org.videolan.vlc.gui.browser
 
 import android.app.Activity
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.interfaces.IEventsHandler
 
 interface BrowserContainer<T> : IEventsHandler<T> {
@@ -36,4 +38,22 @@ interface BrowserContainer<T> : IEventsHandler<T> {
     val isNetwork: Boolean
     val isFile: Boolean
     val inCards: Boolean
+}
+
+class BrowserContainerImpl<T>(
+        override val scannedDirectory: Boolean,
+        override val mrl: String?,
+        override val isRootDirectory: Boolean,
+        override val isNetwork: Boolean,
+        override val isFile: Boolean,
+        override val inCards: Boolean
+) : BrowserContainer<T> {
+    override fun containerActivity() = throw NotImplementedError()
+    override fun onClick(v: View, position: Int, item: T) {}
+    override fun onLongClick(v: View, position: Int, item: T) = false
+    override fun onImageClick(v: View, position: Int, item: T) {}
+    override fun onCtxClick(v: View, position: Int, item: T) {}
+    override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {}
+    override fun onMainActionClick(v: View, position: Int, item: T) {}
+    override fun onItemFocused(v: View, item: T) {}
 }

@@ -208,7 +208,14 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         dialog.show(fm, "fragment_add_server")
     }
 
-    inner class MainBrowserContainer(override val scannedDirectory: Boolean = false, override val mrl: String? = null, override val isRootDirectory: Boolean = true, override val isNetwork: Boolean, override val isFile: Boolean, override val inCards: Boolean = true) : BrowserContainer<MediaLibraryItem> {
+    inner class MainBrowserContainer(
+            override val scannedDirectory: Boolean = false,
+            override val mrl: String? = null,
+            override val isRootDirectory: Boolean = true,
+            override val isNetwork: Boolean,
+            override val isFile: Boolean,
+            override val inCards: Boolean = true
+    ) : BrowserContainer<MediaLibraryItem> by BrowserContainerImpl(scannedDirectory, mrl, isRootDirectory, isNetwork, isFile, inCards) {
         override fun containerActivity() = requireActivity()
 
         fun requireAdapter() = containerAdapterAssociation[this]?.first
@@ -293,13 +300,6 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 }
             }
         }
-
-        override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        }
-
-        override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
-
-        override fun onItemFocused(v: View, item: MediaLibraryItem) {}
     }
 
     override fun onCtxAction(position: Int, option: Int) {

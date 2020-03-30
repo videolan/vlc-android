@@ -2,7 +2,6 @@ package org.videolan.vlc.interfaces
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import org.videolan.medialibrary.media.MediaLibraryItem
 
 interface IEventsHandler<T> {
     fun onClick(v: View, position: Int, item: T)
