@@ -477,6 +477,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
         updateHasWidget()
         if (!this::mediaSession.isInitialized) initMediaSession()
+        forceForeground()
 
         val filter = IntentFilter().apply {
             priority = Integer.MAX_VALUE
@@ -523,7 +524,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (AndroidUtil.isOOrLater && !isForeground) forceForeground()
+        forceForeground()
         dispatcher.onServicePreSuperOnStart()
         setupScope()
         when (intent?.action) {
@@ -587,6 +588,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
+        if (!AndroidUtil.isOOrLater || isForeground) return
         val ctx = this@PlaybackService
         val stopped = PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED
         val notification = if (this::notification.isInitialized && !stopped) notification

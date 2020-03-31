@@ -122,6 +122,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
         NotificationHelper.createNotificationChannels(applicationContext)
+        if (AndroidUtil.isOOrLater) forceForeground()
         medialibrary = Medialibrary.getInstance()
         medialibrary.addDeviceDiscoveryCb(this@MediaParsingService)
         val filter = IntentFilter()
