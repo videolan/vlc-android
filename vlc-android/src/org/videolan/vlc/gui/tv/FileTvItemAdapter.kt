@@ -1,6 +1,5 @@
 package org.videolan.vlc.gui.tv
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
@@ -8,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -106,7 +106,8 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler, var itemSize:
         return if (media.type != AbstractMediaWrapper.TYPE_DIR) null else media.uri.scheme
     }
 
-    inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.M)
+    inner class MediaItemTVViewHolder
     internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler, private val showProtocol: Boolean) : MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
 
         override fun getItem(layoutPosition: Int) = this@FileTvItemAdapter.getItem(layoutPosition)
@@ -128,17 +129,25 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler, var itemSize:
                         newWidth--
                     }
                     val scale = newWidth.toFloat() / itemSize
-                    binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
+                    if (AndroidUtil.isLolliPopOrLater)
+                        binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
+                    else
+                        binding.container.animate().scaleX(scale).scaleY(scale)
+
 
                     if (layoutPosition in dataset.indices) {
                         eventsHandler.onItemFocused(binding.root, getItem(layoutPosition))
                         focusListener?.onFocusChanged(layoutPosition)
                     }
                 } else {
-                    binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
+                    if (AndroidUtil.isLolliPopOrLater)
+                        binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
+                    else
+                        binding.container.animate().scaleX(1f).scaleY(1f)
+
                 }
             }
-            binding.container.clipToOutline = true
+            if (AndroidUtil.isLolliPopOrLater) binding.container.clipToOutline = true
         }
 
         override fun recycle() {

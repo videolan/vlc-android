@@ -6,13 +6,12 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
@@ -34,7 +33,10 @@ import org.videolan.vlc.util.CATEGORY
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.ITEM
 import org.videolan.vlc.util.isSchemeSupported
-import org.videolan.vlc.viewmodels.browser.*
+import org.videolan.vlc.viewmodels.browser.BrowserModel
+import org.videolan.vlc.viewmodels.browser.TYPE_FILE
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
+import org.videolan.vlc.viewmodels.browser.getBrowserModel
 
 private const val TAG = "FileBrowserTvFragment"
 @UseExperimental(ObsoleteCoroutinesApi::class)
@@ -158,7 +160,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment(), PathAdapterListener {
             ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             ariane.adapter = PathAdapter(this@FileBrowserTvFragment, this)
             if (ariane.itemDecorationCount == 0) {
-                val did = object : VLCDividerItemDecoration(requireContext(), HORIZONTAL, ContextCompat.getDrawable(requireContext(), R.drawable.ic_divider)!!) {
+                val did = object : VLCDividerItemDecoration(requireActivity(), HORIZONTAL, VectorDrawableCompat.create(requireActivity().resources, R.drawable.ic_divider, requireActivity().theme)!!) {
                     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                         val position = parent.getChildAdapterPosition(view)
                         // hide the divider for the last child

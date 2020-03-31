@@ -50,6 +50,7 @@
                 android:id="@+id/headerList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                    android:focusable="true"
                 android:layout_gravity="center"
                 android:clipToPadding="false" />
         </FrameLayout>
@@ -84,7 +85,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_height="48dp" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/favoriteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +99,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/sortButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/sortButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,7 +111,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/headerButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/headerButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,7 +151,7 @@
 
         </org.videolan.vlc.gui.tv.FocusableRecyclerView>
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageButtonSort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -165,7 +166,7 @@
             app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
             app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/imageButtonFavorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -180,7 +181,7 @@
                 app:layout_constraintStart_toStartOf="@+id/imageButtonHeader"
                 app:layout_constraintTop_toTopOf="@+id/imageButtonHeader" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/imageButtonHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -197,7 +198,7 @@
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
                 app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageButtonSettings"
             android:layout_width="56dp"
             android:layout_height="56dp"

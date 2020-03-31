@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
@@ -153,7 +154,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
         abstract fun setCoverlay(selected: Boolean)
     }
 
-    inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.M)
+    inner class MediaItemTVViewHolder
     internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler) : AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
         override fun getItem(layoutPosition: Int) =  this@MediaTvItemAdapter.getItem(layoutPosition)
 
@@ -173,7 +175,11 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
                         newWidth--
                     }
                     val scale = newWidth.toFloat() / itemSize
-                    binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
+
+                    if (AndroidUtil.isLolliPopOrLater)
+                        binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
+                    else
+                        binding.container.animate().scaleX(scale).scaleY(scale)
 
                     eventsHandler.onItemFocused(binding.root, getItem(layoutPosition)!!)
                     if (focusListener != null) {
@@ -181,10 +187,13 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
                     }
 
                 } else {
-                    binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
+                    if (AndroidUtil.isLolliPopOrLater)
+                        binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
+                    else
+                        binding.container.animate().scaleX(1f).scaleY(1f)
                 }
             }
-            binding.container.clipToOutline = true
+            if (AndroidUtil.isLolliPopOrLater) binding.container.clipToOutline = true
         }
 
         override fun recycle() {
