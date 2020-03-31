@@ -77,6 +77,7 @@
         <item quantity="many">Počet skladieb: %d</item>
         <item quantity="other">Počet skladieb: %d</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Informácia o stope/skladbe bola skopírovaná do schránky</string>
 
     <string name="artists">Umelci</string>
     <string name="albums">Albumy</string>
