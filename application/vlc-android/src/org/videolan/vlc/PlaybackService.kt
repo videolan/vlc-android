@@ -996,10 +996,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     fun loadLastPlaylist(type: Int) {
-        lifecycleScope.launch {
-            awaitMedialibraryStarted()
-            if (!playlistManager.loadLastPlaylist(type)) stopService(Intent(applicationContext, PlaybackService::class.java))
-        }
+        if (!playlistManager.loadLastPlaylist(type)) stopService(Intent(applicationContext, PlaybackService::class.java))
     }
 
     fun showToast(text: String, duration: Int, isError: Boolean = false) {
@@ -1058,7 +1055,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     @MainThread
-    fun load(mediaList: List<MediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
+    fun load(mediaList: List<MediaWrapper>, position: Int) = lifecycleScope.launch { playlistManager.load(mediaList, position) }
 
     private fun updateMediaQueue() = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()

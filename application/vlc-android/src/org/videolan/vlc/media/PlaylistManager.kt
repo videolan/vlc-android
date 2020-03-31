@@ -27,10 +27,8 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.util.*
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.setResumeProgram
-import org.videolan.vlc.util.updateWithMLMeta
-import org.videolan.vlc.util.validateLocation
 import java.util.*
 import kotlin.math.max
 
@@ -122,31 +120,31 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @MainThread
-    fun load(list: List<MediaWrapper>, position: Int, mlUpdate: Boolean = false) {
-        launch {
-            saveMediaList()
-            savePosition()
-            mediaList.removeEventListener(this@PlaylistManager)
-            previous.clear()
-            videoBackground = false
-            mediaList.replaceWith(list)
-            if (!hasMedia()) {
-                Log.w(TAG, "Warning: empty media list, nothing to play !")
-                return@launch
-            }
-            currentIndex = if (isValidPosition(position)) position else 0
+    suspend fun load(list: List<MediaWrapper>, position: Int, mlUpdate: Boolean = false) {
+        saveMediaList()
+        savePosition()
+        mediaList.removeEventListener(this@PlaylistManager)
+        previous.clear()
+        videoBackground = false
+        mediaList.replaceWith(list)
+        if (!hasMedia()) {
+            Log.w(TAG, "Warning: empty media list, nothing to play !")
+            return
+        }
+        currentIndex = if (isValidPosition(position)) position else 0
 
-            // Add handler after loading the list
-            mediaList.addEventListener(this@PlaylistManager)
-            stopAfter = -1
-            clearABRepeat()
-            player.setRate(1.0f, false)
-            playIndex(currentIndex)
-            service.onPlaylistLoaded()
-            if (mlUpdate) {
-                mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() })
-                executeUpdate()
-            }
+        // Add handler after loading the list
+        mediaList.addEventListener(this@PlaylistManager)
+        stopAfter = -1
+        clearABRepeat()
+        player.setRate(1.0f, false)
+        playIndex(currentIndex)
+        service.onPlaylistLoaded()
+        if (mlUpdate) {
+            service.awaitMedialibraryStarted()
+            mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() })
+            executeUpdate()
+            service.showNotification()
         }
     }
 
@@ -664,7 +662,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     suspend fun append(list: List<MediaWrapper>) {
         if (!hasCurrentMedia()) {
-            load(list, 0)
+            launch { load(list, 0, mlUpdate = true) }
             return
         }
         val list = withContext(Dispatchers.IO) { list.updateWithMLMeta() }
@@ -681,7 +679,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     fun insertNext(list: List<MediaWrapper>) {
         if (!hasCurrentMedia()) {
-            load(list, 0)
+            launch { load(list, 0) }
             return
         }
         val startIndex = currentIndex + 1
