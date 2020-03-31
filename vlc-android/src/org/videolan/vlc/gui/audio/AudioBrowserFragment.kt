@@ -233,6 +233,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
                     handler.sendEmptyMessage(UNSET_REFRESHING)
 
                 (activity as? MainActivity)?.refreshing = loading
+                updateEmptyView()
             })
         }
     }
@@ -299,8 +300,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     }
 
     private fun updateEmptyView() {
-        emptyView.visibility = if (getCurrentAdapter().isEmpty) View.VISIBLE else View.GONE
-        medialibrarySettingsBtn.visibility = if (getCurrentAdapter().isEmpty) View.VISIBLE else View.GONE
+        val emptyVisibility = getViewModel().providers[currentTab].isEmpty() && getViewModel().providers[currentTab].loading.value == false
+        emptyView.visibility = if (emptyVisibility) View.VISIBLE else View.GONE
+        medialibrarySettingsBtn.visibility = if (emptyVisibility) View.VISIBLE else View.GONE
         setFabPlayShuffleAllVisibility()
     }
 
