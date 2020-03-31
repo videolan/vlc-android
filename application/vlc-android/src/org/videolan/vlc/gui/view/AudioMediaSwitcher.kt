@@ -68,6 +68,10 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
             audioMediaSwitcherListener.onTouchClick()
         }
 
+        override fun onTouchLongClick() {
+            audioMediaSwitcherListener.onTouchLongClick()
+        }
+
         override fun onBackSwitched() {}
     }
 
@@ -121,6 +125,8 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
 
         fun onTouchClick()
 
+        fun onTouchLongClick()
+
         companion object {
             const val PREVIOUS_MEDIA = 1
             const val CURRENT_MEDIA = 2
@@ -134,5 +140,6 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
         override fun onTouchDown() {}
         override fun onTouchUp() {}
         override fun onTouchClick() {}
+        override fun onTouchLongClick() = Unit
     }
 }

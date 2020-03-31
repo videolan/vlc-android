@@ -45,6 +45,8 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
 
     abstract val viewSwitchListener: ViewSwitchListener
 
+    private var lastActionDownMillis = 0L
+
     init {
         layoutParams = LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
 
@@ -139,6 +141,7 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
             MotionEvent.ACTION_DOWN -> {
                 if (!scroller.isFinished) scroller.abortAnimation()
                 lastX = x
+                lastActionDownMillis = event.eventTime
                 viewSwitchListener.onTouchDown()
             }
             MotionEvent.ACTION_MOVE -> {
@@ -174,7 +177,16 @@ abstract class FlingViewGroup(context: Context, attrs: AttributeSet) : ViewGroup
                 this.velocityTracker = null
 
                 viewSwitchListener.onTouchUp()
-                if (dx * dx + dy * dy < touchSlop * touchSlop) viewSwitchListener.onTouchClick()
+                if (dx * dx + dy * dy < touchSlop * touchSlop) {
+                    val isLongClick = lastActionDownMillis.let {
+                        lastActionDownMillis = 0L
+                        it > 0L && event.eventTime - it > ViewConfiguration.getLongPressTimeout()
+                    }
+                    if (isLongClick)
+                        viewSwitchListener.onTouchLongClick()
+                    else
+                        viewSwitchListener.onTouchClick()
+                }
             }
         }
         return true
@@ -233,6 +245,8 @@ interface ViewSwitchListener {
     fun onTouchUp()
 
     fun onTouchClick()
+
+    fun onTouchLongClick()
 
     fun onBackSwitched()
 }

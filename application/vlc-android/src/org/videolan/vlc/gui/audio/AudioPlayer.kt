@@ -21,9 +21,7 @@
 package org.videolan.vlc.gui.audio
 
 import android.Manifest
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.media.session.PlaybackStateCompat
@@ -580,6 +578,21 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         override fun onTouchClick() {
             val activity = activity as AudioPlayerContainerActivity
             activity.slideUpOrDownAudioPlayer()
+        }
+
+        override fun onTouchLongClick() {
+            val trackInfo = playlistModel.title ?: return
+            val ctx = context ?: return
+
+            val data = ClipData.newPlainText(ctx.getString(R.string.app_name), trackInfo)
+            (ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
+                    .setPrimaryClip(data)
+
+            Snackbar.make(
+                    binding.root,
+                    R.string.track_info_copied_to_clipboard,
+                    Snackbar.LENGTH_LONG
+            ).show()
         }
 
         override fun onTouchDown() {}

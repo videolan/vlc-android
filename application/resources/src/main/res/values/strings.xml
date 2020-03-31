@@ -74,6 +74,7 @@
         <item quantity="one">1 song</item>
         <item quantity="other">%d songs</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Track info copied to clipboard</string>
 
     <string name="artists">Artists</string>
     <string name="albums">Albums</string>
