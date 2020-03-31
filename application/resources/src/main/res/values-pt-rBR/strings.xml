@@ -73,6 +73,7 @@
         <item quantity="one">1 música</item>
         <item quantity="other">%d músicas</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">informações da trilha copiadas para a área de transferência</string>
 
     <string name="artists">Artistas</string>
     <string name="albums">Álbuns</string>
