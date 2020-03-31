@@ -5,7 +5,7 @@
         <activity
             android:name="org.videolan.television.ui.MainTvActivity"
             android:label="@string/app_name"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV"
             tools:ignore="LockedOrientationActivity"/>
