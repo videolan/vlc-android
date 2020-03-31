@@ -134,6 +134,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.getDescriptionUpdate().observe(this, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
         viewModel.loading.observe(this, Observer {
             (activity as? MainActivity)?.refreshing = it
+            updateEmptyView()
         })
     }
 

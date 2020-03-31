@@ -33,7 +33,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
@@ -138,7 +137,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     override fun updateEmptyView() {
         if (ExternalMonitor.isConnected) {
             if (Util.isListEmpty(viewModel.dataset.value)) {
-                if (swipeRefreshLayout.isRefreshing) {
+                if (viewModel.loading.value == true) {
                     binding.empty.setText(R.string.loading)
                     binding.empty.visibility = View.VISIBLE
                     binding.networkList.visibility = View.GONE

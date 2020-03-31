@@ -76,6 +76,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         })
         viewModel.loading.observe(this, Observer {
             (activity as? MainActivity)?.refreshing = it
+            updateEmptyView()
         })
     }
 
