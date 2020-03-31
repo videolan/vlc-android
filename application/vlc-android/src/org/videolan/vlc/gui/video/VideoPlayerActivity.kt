@@ -598,7 +598,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         if (!isInPictureInPictureMode
                 && (finishing || (AndroidUtil.isNougatOrLater && !AndroidUtil.isOOrLater //Video on background on Nougat Android TVs
-                                  && AndroidDevices.isAndroidTv && !requestVisibleBehind(true))))
+                        && AndroidDevices.isAndroidTv && !requestVisibleBehind(true))))
             stopPlayback()
     }
 
@@ -845,7 +845,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (!isFinishing) {
                 currentAudioTrack = audioTrack
                 currentSpuTrack = spuTrack
-                if (tv && !isInteractive) finish() // Leave player on TV, restauration can be difficult
+                if (tv) finish() // Leave player on TV, restauration can be difficult
             }
 
             if (isMute) mute(false)
@@ -955,7 +955,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             return super.onKeyDown(keyCode, event)
         if (isOptionsListShowing) return false
         if (isPlaybackSettingActive && keyCode != KeyEvent.KEYCODE_J && keyCode != KeyEvent.KEYCODE_K
-                        && keyCode != KeyEvent.KEYCODE_G && keyCode != KeyEvent.KEYCODE_H) return false
+                && keyCode != KeyEvent.KEYCODE_G && keyCode != KeyEvent.KEYCODE_H) return false
         if (isLoading) {
             when (keyCode) {
                 KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_MEDIA_STOP -> {
@@ -2591,29 +2591,29 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         menuIdx = -1
         lifecycleScope.launchWhenStarted {
             val titles = withContext(Dispatchers.IO) { service?.titles }
-                if (isFinishing) return@launchWhenStarted
-                if (titles != null) {
-                    val currentIdx = service?.titleIdx ?: return@launchWhenStarted
-                    for (i in titles.indices) {
-                        val title = titles[i]
-                        if (title.isMenu) {
-                            menuIdx = i
-                            break
-                        }
+            if (isFinishing) return@launchWhenStarted
+            if (titles != null) {
+                val currentIdx = service?.titleIdx ?: return@launchWhenStarted
+                for (i in titles.indices) {
+                    val title = titles[i]
+                    if (title.isMenu) {
+                        menuIdx = i
+                        break
                     }
-                    isNavMenu = menuIdx == currentIdx
                 }
+                isNavMenu = menuIdx == currentIdx
+            }
 
-                if (isNavMenu) {
-                    /*
-                             * Keep the overlay hidden in order to have touch events directly
-                             * transmitted to navigation handling.
-                             */
-                    hideOverlay(false)
-                } else if (menuIdx != -1) setESTracks()
+            if (isNavMenu) {
+                /*
+                         * Keep the overlay hidden in order to have touch events directly
+                         * transmitted to navigation handling.
+                         */
+                hideOverlay(false)
+            } else if (menuIdx != -1) setESTracks()
 
-                navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.GONE)
-                supportInvalidateOptionsMenu()
+            navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.GONE)
+            supportInvalidateOptionsMenu()
         }
     }
 
