@@ -19,6 +19,7 @@
     <string name="sortby_date">Data</string>
     <string name="sortby_date_desc">Data (beherantz)</string>
     <string name="sortby_last_modified_date">Duela gutxi gehitutakoak</string>
+    <string name="sortby_last_modified_date_desc">Berriki gehituak (behera)</string>
     <string name="sortby_number">Nb pistak</string>
     <string name="sortby_number_desc">Nb pistak (beherantz)</string>
     <string name="searchable_hint">Bilatu…</string>
@@ -45,12 +46,15 @@
     <string name="insert_next">Txertatu hurrengoa</string>
     <string name="play_all">Erreproduzitu denak</string>
     <string name="append_all">Erantsi denak</string>
+    <string name="resume_playback_short_title">Berrekin erreprodukzioa</string>
+    <string name="resume_playback_long_title">Berrekin azken erreprodukzio-zerrendaren erreprodukzioa</string>
     <string name="delete">Ezabatu</string>
     <string name="remove">Kendu</string>
     <string name="set_song">Ezarri dei-tonu gisa</string>
     <string name="set_song_question">Ezarri %1$s dei-tonu gisa?</string>
     <string name="info">Informazioa</string>
     <string name="confirm_delete">Ezabatu \'%1$s\' fitxategia?</string>
+    <string name="confirm_delete_several_media">Ezabatu %1$d multimedia hauek?</string>
     <string name="confirm_delete_folder">Ezabatu \'%1$s\' karpeta eta bere eduki guztiak?</string>
     <string name="confirm_delete_playlist">Ezabatu \'%1$s\' erreprodukzio-zerrenda?</string>
     <string name="confirm_remove_from_playlist">Ezabatu %1$s erreprodukzio-zerrendatik?</string>
@@ -165,8 +169,12 @@
     <string name="navmenu">nabigazio-menua</string>
     <string name="advanced">aukera aurreratuak</string>
     <string name="audio_boost_warning">Irristatu berriro gora %100-etik harago joateko</string>
+    <string name="locked_in_portrait_mode">Modu bertikalean blokeatuta\n(Sakatu luze botoian ezeztatzeko)</string>
+    <string name="locked_in_landscape_mode">Modu horizontalean blokeatuta\n(Sakatu luze botoian ezeztatzeko)</string>
+    <string name="reset_orientation">Orientazioa berrezartzea</string>
+
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">kanal 1\n</item>
+        <item quantity="one">Kanal 1\n</item>
         <item quantity="other">%1$d kanal\n</item>
     </plurals>
 
@@ -250,9 +258,10 @@
     <string name="licence">Lizentzia</string>
     <string name="revision">Berrikuspena</string>
     <string name="about">Honi buruz</string>
-    <string name="about_text">VLC kode irekiko multimedia-erreproduzitzaile ezagunaren moldaketa da Android™-erako VLC. Android™ bertsioak fitxategi eta sareko transmisio-jarraitu gehienak irakur ditzake.</string>
+    <string name="about_text">VLC kode irekiko multimedia-erreproduzigailu ezagunaren moldaketa da Android™-erako VLC. Android™ bertsioak fitxategi eta sareko transmisio-jarraitu gehienak irakur ditzake.</string>
     <string name="vlc_authors">eta VLC egileak.</string>
     <string name="compiled_by">VLC bertsio hau honek konpilatu du:</string>
+    <string name="feedback_forum">Iruzkinen foroa</string>
 
     <!-- Preferences -->
     <string name="preferences">Ezarpenak</string>
@@ -281,6 +290,8 @@
     <string name="enable_black_theme_summary">Aldatu interfazearen koloreak argi gutxiko inguruneetan erosotasun handiagoa izateko.</string>
     <string name="subtitle_text_encoding">Azpitituluen testu-kodeketa</string>
     <string name="daynight_title">EgunGau modua</string>
+    <string name="daynight_follow_system_title">Jarraitu sistemaren modua</string>
+    <string name="daynight_battery_title">Jarraitu bateria-aurrezlea</string>
     <string name="daynight_summary">Automatikoki aldatu gaueko modura momentu egokian</string>
 
     <string name="extra_prefs_category">Aparteko ezarpenak</string>
@@ -295,11 +306,15 @@
 
     <string name="video_prefs_category">Bideoa</string>
     <string name="video_min_group_length_title">Bideoak taldekatzea</string>
+    <string name="video_min_group_length_disable">Ez taldekatu bideoak</string>
+    <string name="video_min_group_length_folder">Taldekatu karpeten arabera</string>
+    <string name="video_min_group_length_name">Taldekatu izenen arabera</string>
     <string name="video_min_group_length_first">Lehen letra soilik</string>
     <string name="video_min_group_length_short">Letra-kopuru laburra (6)</string>
     <string name="video_min_group_length_long">Letra-kopuru luzea (9)</string>
     <string name="media_fast_seek">Azkar bilatu</string>
     <string name="media_fast_seek_summary">Multimedia batean bilatzea azkarragoa da baina zehaztasun gutxiagokoa</string>
+    <string name="video_transition_title">Bideoen trantsizioa</string>
     <string name="video_transition_summary">Erakutsi bideoaren titulu berria trantsizioan</string>
     <string name="media_seen">Erakutsi ikusitako bideoaren marka</string>
     <string name="media_seen_summary">Markatu bideoa ikusitako gisa bukaera arte erreproduzitzean</string>
@@ -343,6 +358,7 @@
     <string name="lockscreen_cover_summary">Erabilgarri dagoenean, ezarri uneko multimediaren azaleko irudia blokeo-pantailaren horma-paper gisa</string>
     <string name="playlist_animate_scroll_title">Animatu uneko erreprodukzio-zerrendaren korritze automatikoa</string>
     <string name="playlist_animate_scroll_summary">Animatu korritzea multimediaz aldatzean</string>
+    <string name="list_title_ellipsize">Lerro bakarreko zerrendan titulua laburtzea</string>
     <string name="list_title_ellipsize_default">Lehenetsia</string>
     <string name="list_title_ellipsize_left">Ezkerra</string>
     <string name="list_title_ellipsize_right">Eskuina</string>
@@ -364,6 +380,7 @@
     <string name="audio_ducking_title">Jaitsi VLC bolumena jakinarazpenekin</string>
     <string name="audio_ducking_summary">Audio jakinarazpenak, nabigazio jarraibideak eta mintzodun morroiak entzuten laguntzen du</string>
     <string name="casting_category">Igortzea</string>
+    <string name="casting_switch_title">Hari gabeko igortzea</string>
     <string name="casting_passthrough_title">Audio igarobidea</string>
     <string name="casting_passthrough_summary">Utzi zure telebistari audioa errendatzen</string>
     <string name="casting_conversion_quality_title">Bihurketa kalitatea</string>
@@ -397,7 +414,7 @@
     <string name="deblocking_all">Desblokeatze gabe (azkarrena)</string>
     <string name="enable_frame_skip">Marko saltoa</string>
     <string name="enable_frame_skip_summary">Dekodetze prozesua azkartuko du baina bideo kalitatea jaits lezake.</string>
-    <string name="enable_time_stretching_audio">Gaitu audioaren denbora-luzatzea</string>
+    <string name="enable_time_stretching_audio">Audioaren denbora-luzatzea</string>
     <string name="enable_time_stretching_audio_summary">Bizkortu eta moteldu audioa tonua aldatu gabe (gailu azkarra behar du)</string>
 
     <string name="advanced_prefs_category">Aurreratua</string>
@@ -406,9 +423,10 @@
     <string name="save_video_always">Gorde abiadura saioen artean</string>
     <string name="auto_rescan">Berreskaneatu automatikoki</string>
     <string name="auto_rescan_summary">Aplikazioa abiatzean, automatikoki eskaneatu gailua multimedia berria edo ezabatutakoa atzemateko</string>
-    <string name="dump_media_db">Irauli multimedia datu-basea</string>
+    <string name="dump_media_db">Erauzi multimedia datu-basea</string>
     <string name="dump_media_db_summary">Kopiatu datu-basea barne-biltegiko errora</string>
     <string name="clear_media_db">Garbitu multimedia datu-basea</string>
+    <string name="clear_media_database_summary">Datu-basea garbitzen du berriro hasteko</string>
     <string name="clear_history">Garbitu historiala</string>
     <string name="media_db_cleared">Multimedia datu-basea garbituta!</string>
     <string name="set_locale">Ezarri hizkuntza</string>
@@ -442,8 +460,10 @@
     <string name="dump_logcat_success">Logcat ondo erauzi da %1$s(e)ra!</string>
     <string name="dump_logcat_failure">Huts egin du logcat-a erauztea.</string>
     <string name="custom_libvlc_options">libVLC aukera pertsonalizatuak</string>
+    <string name="custom_libvlc_options_invalid">Baliogabeko libVLC aukerak!</string>
+
     <string name="serious_crash">Tamalez errore larri bat gertatu da eta VLC itxi egin da.</string>
-    <string name="help_us_send_log">Lagun gaitzazu VLC hobetzen ondorengo hutsegite-erregistroa bidalita:</string>
+    <string name="help_us_send_log">Lagun gaitzazu VLC hobetzen ondorengo kraskatze-erregistroa bidalita:</string>
     <string name="restart_vlc">Berrabiarazi VLC</string>
     <string name="send_log">Bidali erregistroa</string>
     <string name="sending_log">Erregistroa bidaltzen…</string>
@@ -456,6 +476,8 @@
 
     <string name="no_result">Ez da emaitzarik aurkitu</string>
     <string name="no_internet_connection">Egiaztatu zure internet-konexioa</string>
+    <string name="some_error_occurred">Erroreren bat gertatu da. Saiatu berriro segundo batzuk barru</string>
+
     <string name="drawer_open">Ireki nabigatzeko menu lerrakorra</string>
     <string name="drawer_close">Itxi nabigatzeko menu lerrakorra</string>
     <string name="network_browsing">Sare lokala</string>
@@ -475,10 +497,12 @@
     <string name="directory_show_medialib">Erakutsi MediaLib-en</string>
     <string name="directory_hide_medialib">Ezkutatu MediaLib-etik</string>
     <string name="playlist_save">Gorde erreprodukzio-zerrenda</string>
+    <string name="playlist_name_hint">Erreprodukzio-zerrendaren izena</string>
     <string name="go_to_chapter">Joan kapitulura…</string>
     <string name="chapter">Kapitulua</string>
     <string name="resume_from_position">Berrekin azken posiziotik</string>
     <string name="confirm_resume">Azken posiziotik berrekin?</string>
+    <string name="confirm_resume_title">Berrekin erreproduzitutako bideoak</string>
     <string name="directory_empty">Direktorioa hutsik dago</string>
     <string name="tv_ui_title">Android TB intefazea</string>
     <string name="tv_ui_summary">Aldatu interfazea TBra moldatutako itxurara</string>
@@ -491,6 +515,7 @@
     <string name="back_quit_lock">Bideotik irteteko, sakatu berriro \'Atzera\'</string>
     <string name="playlist_deleted">Erreprodukzio-zerrenda ezabatu egin da</string>
     <string name="file_deleted">Fitxategia ezabatu egin da</string>
+    <string name="stream_deleted">Transmisio jarraitua antzeman da</string>
     <string name="no_subs_found">Azpititulurik ez direktorio honeta</string>
     <string name="music_now_playing">Orain erreproduzitzen</string>
 
@@ -548,7 +573,7 @@
     <string name="subtitles_download_title">Azpitituluen deskarga</string>
     <string name="connecting">Konektatzen…</string>
     <string name="save_bluetooth_delay">gorde atzerapena bluetooth gailuarentzat</string>
-    <string name="episodes">atalak</string>
+    <string name="episodes">kapituluak</string>
     <string name="movies">filmak</string>
     <string name="videos">bideoak</string>
     <string name="videos_all">Bideo guztiak</string>
@@ -563,7 +588,7 @@
     <string name="ml_external_storage_title">Kanpoko biltegi berria atzeman da</string>
     <string name="ml_external_storage_msg">VLCk %1$s gailua zure multimedia-liburutegian gehitzea nahi duzu?</string>
     <string name="ml_external_storage_accept">Bai</string>
-    <string name="ml_external_storage_decline">z</string>
+    <string name="ml_external_storage_decline">Ez</string>
     <string name="last_added_media">gehitutako azkena</string>
     <string name="no">Ez</string>
     <string name="loading_medialibrary">Multimedia-liburutegia kargatzen…</string>
@@ -597,6 +622,10 @@
     <string name="audio_digital_output_enabled">Audio digitalaren irteera gaituta</string>
     <string name="audio_digital_output_disabled">Audio digitalaren irteera ezgaituta</string>
     <string name="audio_digital_title">Audio digitalaren irteera (igarobidea)</string>
+    <string name="audio_task_cleared_title">Gelditu aplikazioan hatza pasatzean</string>
+    <string name="audio_task_cleared_summary">Gelditu erreprodukzioa aplikazioa baztertua denean</string>
+    <string name="audio_resume_card_title">Erakutsi azken erreprodukzio-zerrendaren iradokizuna</string>
+    <string name="audio_resume_card_summary">Aplikazioa abiatzean audio erreprodukzioa berrekiteko iradokizun bat erakusten du</string>
     <string name="playback_rewind">Birbobinatu</string>
     <string name="playback_forward">Bizkor erreproduzitu</string>
     <string name="ml_wizard_title">VLC multimedia-liburutegiaren hautaketa</string>
@@ -606,6 +635,7 @@
     <string name="cast_option_title">Igorri multimediak beste pantaila batera</string>
     <string name="otg_device_title">OTG gailua</string>
     <string name="browser">Nabigatzailea</string>
+    <string name="ab_repeat">A-B errepikapena</string>
     <string name="stop_after_this">Gelditu pista honen ondoren</string>
     <string name="time_category_new">Multimedia berria</string>
     <string name="time_category_current_month">Hilabete honetan</string>
@@ -627,17 +657,139 @@
     <string name="ctx_player_audio_track">Audio-pista</string>
     <string name="ctx_player_subs_track">Azpitituluen pista</string>
     <string name="ctx_player_tracks_title">Multimedia pistak</string>
+    <string name="ctx_pip_title">Laster-leiho erreproduzigailua</string>
     <string name="device_dialog_title">Kanpoko gailua txertatua</string>
+    <string name="device_dialog_message">Biltegiratze gailu berria konektatu duzu zure TB kutxara, VLC-rekin ireki nahi duzu?</string>
+    <string name="videos_folders_title">Bideoak karpetako</string>
+    <string name="videos_groups_title">Bideo taldeak</string>
+    <string name="video_save_remote_setting">Automatikoki aktibatu urruneko kontrol modua?</string>
+    <string name="video_save_clone_mode">Automatikoki aktibatu klon modua?</string>
+    <string name="video_remote_enable">Aldatu urruneko kontrol modura</string>
+    <string name="video_remote_disable">Bikoiztu pantaila</string>
+    <string name="removed_from_playlist_anonymous">Elementua(k) zerrendatik kenduta</string>
+    <string name="welcome_title">Ongi etorri VLC-ra!</string>
+    <string name="welcome_subtitle">Multimedia-erreproduzigailu libre eta doakoa</string>
+    <string name="permission_media">VLC-k zure baimena behar du zure gailuko multimedia atzitzeko</string>
+    <string name="medialibrary_scan_explanation">VLC-k automatikoki eskaneatu dezake zure gailua zure multimedia bilduma antolatzeko</string>
+    <string name="onboarding_theme_title">Jarri zaitez eroso</string>
+    <string name="done">Egina</string>
+    <string name="onboarding_scan_title">Automatikoki aurkitu zure multimedia</string>
+    <string name="daynight_system_explanation">VLC automatikoki aldatuko da modu ilunera sistemaren ezarpenen arabera</string>
+    <string name="daynight_legacy_explanation">VLC automatikoki aldatuko da gau modura dagokion orduan</string>
+    <string name="onboarding_scanning_enable">Baimendu VLC-ri nire gailua eskaneatzea multimedia edukien bila</string>
+    <string name="onboarding_scan_whole">VLC-k nire SD txartel osoa eskaneatuko du</string>
+    <string name="onboarding_scan_customize">Utzi niri VLC-k eskaneatuko dituen karpetak aukeratzea</string>
+    <string name="button_medialibrary_preferences">Joan multimedia liburutegiaren hobespenetara</string>
+    <string name="light_theme">Itxura argia</string>
+    <string name="add">Gehitu</string>
+    <string name="add_to_new_playlist">Gehitu erreprodukzio-zerrenda berrira</string>
+    <string name="theme_follow_system_mode">Jarraitu sistemaren modua</string>
+    <string name="resume_card_message">Berrekin %1$s-ren erreprodukzioa?</string>
+    <string name="misc">Denetarik</string>
+    <string name="popup_force_legacy_title">Erabili irudia-irudian laster-leiho pertsonalizatua</string>
+    <string name="popup_force_legacy_summary">Erabili irudia-irudian laster-leiho pertsonalizatu neurgarria</string>
+    <string name="device_default">Gailuan lehenetsitakoa</string>
     <string name="track_number">%d pista</string>
+    <string name="jump_to">Jauzi hona</string>
     <string name="show_video_thumbnails_summary">Erakutsi bideoen iruditxoak zerrendetan</string>
+    <string name="show_video_thumbnails">Bideo-iruditxoak</string>
+    <string name="eq_snap_bands">Kolpetik mugitu bandak</string>
+    <string name="enable_equalizer">Gaitu</string>
+    <string name="preamp">Aurreanp</string>
+    <string name="presets">Aurrezarpenak</string>
+    <string name="reset">Berrezarri</string>
     <string name="appended">Pista(k) erantsita</string>
     <string name="inserted">Pista(k) txertatuta</string>
+    <string name="remove_current">Kendu unekoa</string>
+    <string name="validation_delete_playlist">Ziur erreprodukzio-zerrenda hau ezabatu nahi duzula?</string>
+    <string name="validation_delete_playlist_text">Ekintza hau ezin da desegin.</string>
+    <string name="display_in_list">Bistarazi zerrendan</string>
+    <string name="display_in_grid">Bistarazi saretan</string>
+    <string name="dump_db_succes">Datu-basea barne biltegiaren erroan erauzi da</string>
+    <string name="dump_db_failure">Ezin izan da datu-basea erauzi</string>
+    <string name="send_crash_title">VLC kraskatze berri-emailea</string>
+    <string name="send_crash_description">Zure kraskatzea guri bidaliz, VLC-ren egonkortasuna hobetzen lagunduko duzu.</string>
+    <string name="send_crash_warning">Ziurtatu bidali nahi ez duzun informazio pertsonala kentzen duzula.</string>
+    <string name="dont_ask_again">Ez galdetu berriro</string>
+    <string name="include_medialib">Sartu zure datu-basean</string>
+    <string name="vlc_reporter">VLC berri-emailea</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Ongi etorri VLC beta programara.\nIzan kontuan bertsio honek akatsak izan ditzakeela.</string>
+    <string name="welcome_beta_description_bugs">Akats bat antzematen bat duzu, eman mesedez honen berri gure foroan edo akatsen zerrendan.</string>
+    <string name="welcome_beta_description_crashes">Kraskatzea pairatzen baduzu, erabili mesedez VLC berri-emailearen ikonoa zure abiarazlean guri bidaltzeko.</string>
+    <string name="send">Bidali</string>
+    <string name="send_crash_action_title">Zer egin nahi duzu?</string>
+    <string name="report_a_bug">Eman akats baten berri</string>
+    <string name="report_a_crash">Eman kraskatzearen berri</string>
+    <string name="describe_crash">Azaldu kraskatze hau nola gertatu den</string>
+    <string name="favorite">Gogokoa</string>
+    <string name="always">Beti</string>
+    <string name="never">Inoiz ez</string>
+    <string name="ask_confirmation">Eskatu baieztapena</string>
+    <string name="add_to_scanned">Eskaneatu karpeta hau</string>
+    <string name="directory_not_scanned">Direktorio hau eskaneatu gabe dago</string>
+    <string name="scanned_directory_added">%s gehitu da zure eskaneatutako direktorioetara</string>
+    <string name="video_group_size_dialog_text">Izenaren arabera erabili beharreko karaktere kopurua</string>
+    <string name="video_group_size_summary">Taldekatu lehen %s letren arabera</string>
+    <string name="video_group_size">Taldekatu bideoak izenaren arabera</string>
     <string name="url_copied_to_clipboard">URLa arbelean kopiatuta</string>
+    <string name="share">Partekatu</string>
+    <string name="invalid_file">Fitxategi baliogabea. Ezin da partekatu.</string>
+    <string name="share_file">Partekatu %s</string>
+    <string name="share_message">Hemen dago %s</string>
+    <string name="find_metadata">Aurkitu metadatuak</string>
+    <string name="moviepedia_hint">Bilatu metadatuak</string>
+    <string name="moviepedia_result">Bideo emaitzak</string>
+    <string name="release_date">Argitaratua:</string>
+    <string name="synopsis">Sinopsia</string>
+    <string name="directed_by">Zuzendaria</string>
+    <string name="casting">Aktoreak</string>
+    <string name="produced_by">Produktorea</string>
+    <string name="written_by">Gidoilaria</string>
+    <string name="music_by">Musika</string>
+    <string name="posters">Posterrak</string>
+    <string name="backdrops">Atzealdeak</string>
     <string name="header_tvshows">TB saioak</string>
+    <string name="all_movies">Filma guztiak</string>
+    <string name="movie_count">%s filma</string>
+    <string name="header_movies">Filmak</string>
+    <string name="season_number">%s. denboraldia</string>
+    <string name="resume_episode">Berrekin (%s)</string>
+    <string name="start_over">Hasi berriro</string>
+    <string name="next_episode">Hurrengo kapitulua</string>
+    <string name="open_network_settings">Ireki sare-ezarpenak?</string>
+    <string name="recently_played">Berriki erreproduzitua</string>
+    <string name="recently_added">Berriki gehitua</string>
+    <string name="playback_multiple_errors">Hainbat multimedia ezin dira erreproduzitu</string>
+    <string name="clear_media_db_warning">Progresioak eta sortu dituzun erreprodukzio-zerrendak galduko dituzu.\n%s</string>
+    <string name="abrepeat_add_first_marker">Ezarri hasiera puntua</string>
+    <string name="abrepeat_add_second_marker">Ezarri amaiera puntua</string>
     <string name="demux_bitrate">Demultiplexadorearen bit-emaria</string>
     <string name="input_bitrate">Sarrera bit-emaria</string>
+    <string name="video_information">Bideoaren informazioa</string>
+
     <string name="channels">Kanalak</string>
+    <string name="resolution">Bereizmena</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Fotograma maiztasuna</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Hizkuntza</string>
+    <string name="track_samplerate">Lagin-emaria</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
     <string name="bitrate">Bit-emaria</string>
+    <string name="codec">Kodeka</string>
+    <string name="text">Testua</string>
+    <string name="unknown">Ezezaguna</string>
+    <string name="audio_delay_start">Doinua entzun da</string>
+    <string name="subtitle_delay_first">Ahotsa entzun da</string>
+    <string name="audio_delay_end">Soinua antzeman da</string>
+    <string name="subtitle_delay_end">Testua ikusi da</string>
     <string name="track_index">Pista: %s</string>
+    <string name="audio_queue_progress">Progresioa: %s</string>
     <string name="sortby_track">Pista</string>
+    <string name="this_folder">Gehitu karpeta hau</string>
+    <string name="all_subfolders">Gehitu karpeta hau eta bere azpikarpetak</string>
+    <string name="playlist_existing">%s erreprodukzio-zerrenda badago auretik</string>
+    <string name="new_title">Izenburu berria</string>
 </resources>
