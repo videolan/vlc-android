@@ -71,9 +71,9 @@
     <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,7 +83,7 @@
                 android:clickable="@{holder != null}"
                 android:focusable="true"
                 android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
-                android:minWidth="150dp"
+                android:minWidth="120dp"
                 android:onClick="@{holder::onClick}"
                 android:onLongClick="@{holder::onLongClick}"
                 android:padding="2dp">
@@ -103,8 +103,8 @@
             <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
             <ImageView
                     android:id="@+id/item_icon"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:layout_marginTop="8dp"
                     android:contentDescription="@string/cover_art"
                     android:onClick="@{holder::onImageClick}"
@@ -143,7 +143,7 @@
                     android:singleLine="true"
                     android:text="@{filename ?? item.title}"
                     android:textColor="?attr/list_title"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:ellipsizeMode="@{true}"
                     app:layout_constraintBottom_toTopOf="@+id/text"
                     app:layout_constraintEnd_toStartOf="@+id/item_more"

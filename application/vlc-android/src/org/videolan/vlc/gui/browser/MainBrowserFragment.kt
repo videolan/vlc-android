@@ -270,11 +270,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         }
 
         override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {
-            if (actionMode != null) {
-                onClick(v, position, item)
-                return
-            }
-            onLongClick(v, position, item)
+            onClick(v, position, item)
         }
 
         override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
