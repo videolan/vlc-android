@@ -73,6 +73,7 @@
         <item quantity="one">1 Lied</item>
         <item quantity="other">%d Lieder</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Titelinformation in die Zwischenablage kopiert</string>
 
     <string name="artists">Künstler</string>
     <string name="albums">Alben</string>
