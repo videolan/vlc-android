@@ -56,13 +56,14 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.leanback.widget.Presenter
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.tools.dp
-import org.videolan.television.R
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
 import org.videolan.moviepedia.database.models.Person
 import org.videolan.moviepedia.database.models.tvEpisodeSubtitle
+import org.videolan.television.R
+import org.videolan.tools.dp
 import org.videolan.vlc.gui.helpers.downloadIcon
 import org.videolan.vlc.util.generateResolutionClass
 
@@ -71,7 +72,7 @@ import org.videolan.vlc.util.generateResolutionClass
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MetadataCardPresenter(private val context: Activity) : Presenter() {
 
-    private var defaultCardImage: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_account_circle_black_24dp)
+    private var defaultCardImage: Drawable? = VectorDrawableCompat.create(context.resources, R.drawable.ic_account_circle_black_24dp, context.theme)
 
     inner class ViewHolder(view: View) : Presenter.ViewHolder(view) {
 

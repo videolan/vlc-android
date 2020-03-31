@@ -236,7 +236,7 @@
         <item name="background_default_gradient">@drawable/gradient_background_tv</item>
         <item name="audio_browser_separator">@color/orange500</item>
         <item name="player_icon_color">@color/white</item>
-        <item name="ariane_text_color">@color/simple_list_title</item>
+        <item name="ariane_text_color">@color/simple_list_title_tv</item>
         <item name="list_title">@color/grey50</item>
         <item name="ariane_text_size">18sp</item>
         <item name="font_light">@color/grey50transparent_ea</item>

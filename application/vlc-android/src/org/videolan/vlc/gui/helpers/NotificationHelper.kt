@@ -119,9 +119,9 @@ object NotificationHelper {
         notificationIntent.action = if (paused) ACTION_RESUME_SCAN else ACTION_PAUSE_SCAN
         val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val playpause = if (paused)
-            NotificationCompat.Action(R.drawable.ic_play, ctx.getString(R.string.resume), pi)
+            NotificationCompat.Action(R.drawable.ic_play_notif, ctx.getString(R.string.resume), pi)
         else
-            NotificationCompat.Action(R.drawable.ic_pause, ctx.getString(R.string.pause), pi)
+            NotificationCompat.Action(R.drawable.ic_pause_notif, ctx.getString(R.string.pause), pi)
         scanCompatBuilder.addAction(playpause)
         return scanCompatBuilder.build()
     }

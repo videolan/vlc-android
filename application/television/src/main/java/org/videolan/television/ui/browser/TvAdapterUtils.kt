@@ -26,15 +26,16 @@ package org.videolan.television.ui.browser
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.annotation.TargetApi
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.television.ui.FocusableConstraintLayout
 import org.videolan.vlc.R
 
 object TvAdapterUtils {
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun itemFocusChange(hasFocus: Boolean, itemSize: Int, container: FocusableConstraintLayout, isList: Boolean, listener: () -> Unit) {
         if (hasFocus) {
             val growFactor = if (isList) 1.05 else 1.1
@@ -43,11 +44,17 @@ object TvAdapterUtils {
                 newWidth--
             }
             val scale = newWidth.toFloat() / itemSize
-            container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
+            if (AndroidUtil.isLolliPopOrLater)
+                container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
+            else
+                container.animate().scaleX(scale).scaleY(scale)
 
             listener()
         } else {
-            container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
+            if (AndroidUtil.isLolliPopOrLater)
+                container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
+            else
+                container.animate().scaleX(1f).scaleY(1f)
         }
 
         if (isList) {

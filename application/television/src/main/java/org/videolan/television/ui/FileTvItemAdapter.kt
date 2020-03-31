@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -119,7 +120,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
     private fun getProtocol(media: MediaWrapper) = if (media.type != MediaWrapper.TYPE_DIR) null else media.uri.scheme
 
-    @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.M)
     inner class MediaItemTVViewHolder(
             binding: MediaBrowserTvItemBinding,
             override val eventsHandler: IEventsHandler<MediaLibraryItem>,
@@ -147,7 +148,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
                     }
                 }
             }
-            binding.container.clipToOutline = true
+            if (AndroidUtil.isLolliPopOrLater) binding.container.clipToOutline = true
         }
 
         override fun recycle() {

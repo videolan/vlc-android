@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.helpers
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -33,6 +34,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.BitmapCache
@@ -116,13 +118,17 @@ object BitmapUtil {
 }
 
 fun Context.getBitmapFromDrawable(@DrawableRes drawableId: Int): Bitmap? {
-    var drawable: Drawable = ContextCompat.getDrawable(this, drawableId) ?: return null
+    var drawable: Drawable = try {
+        ContextCompat.getDrawable(this, drawableId) ?: return null
+    } catch (e: Resources.NotFoundException) {
+        VectorDrawableCompat.create(this.resources, drawableId, this.theme)!!
+    }
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         drawable = DrawableCompat.wrap(drawable).mutate()
     }
-    return when (drawable) {
-        is BitmapDrawable -> drawable.bitmap
-        is VectorDrawableCompat, is VectorDrawable -> {
+    return when {
+        drawable is BitmapDrawable -> drawable.bitmap
+        drawable is VectorDrawableCompat || (AndroidUtil.isLolliPopOrLater && drawable is VectorDrawable) -> {
             val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             drawable.setBounds(0, 0, canvas.width, canvas.height)

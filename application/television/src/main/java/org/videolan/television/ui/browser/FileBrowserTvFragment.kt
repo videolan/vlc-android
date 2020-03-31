@@ -7,15 +7,17 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -36,11 +38,15 @@ import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.DialogDelegate
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.IDialogManager
+import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.*
 
 private const val TAG = "FileBrowserTvFragment"
-@UseExperimental(ObsoleteCoroutinesApi::class)
+
+@OptIn(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
 class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAdapterListener, IDialogManager {
 
@@ -142,7 +148,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             ariane.adapter = PathAdapter(this@FileBrowserTvFragment, this)
             if (ariane.itemDecorationCount == 0) {
-                val did = object : VLCDividerItemDecoration(requireContext(), HORIZONTAL, ContextCompat.getDrawable(requireContext(), R.drawable.ic_divider)!!) {
+                val did = object : VLCDividerItemDecoration(requireActivity(), HORIZONTAL, VectorDrawableCompat.create(requireActivity().resources, R.drawable.ic_divider, requireActivity().theme)!!) {
                     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                         val position = parent.getChildAdapterPosition(view)
                         // hide the divider for the last child
@@ -153,7 +159,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                         }
                     }
                 }
-                did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_divider)!!)
+                did.setDrawable(VectorDrawableCompat.create(requireActivity().resources, R.drawable.ic_divider, requireActivity().theme)!!)
                 ariane.addItemDecoration(did)
             }
             ariane.scrollToPosition(ariane.adapter!!.itemCount - 1)

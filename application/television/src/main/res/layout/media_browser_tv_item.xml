@@ -93,11 +93,11 @@
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:media="@{item}" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ml_item_seen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_seen_normal"
+                vlc:srcCompat="@drawable/ic_seen_normal"
                 android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE}"
                 vlc:layout_constraintRight_toRightOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"/>

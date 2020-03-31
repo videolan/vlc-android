@@ -29,6 +29,7 @@
                     android:id="@+id/headerList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
                     android:layout_gravity="center"
                     android:clipToPadding="false" />
         </FrameLayout>
@@ -63,19 +64,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_height="48dp" />
 
-        <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/displayButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tv_overscan_vertical"
                 android:background="@color/transparent"
                 android:elevation="6dp"
-                android:src="@drawable/ic_menu_grid_tv"
+            app:srcCompat="@drawable/ic_menu_grid_tv"
                 app:layout_constraintEnd_toEndOf="@+id/ariane"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
 
-        <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/favoriteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,13 +84,13 @@
                 android:layout_marginEnd="8dp"
                 android:background="@color/transparent"
                 android:elevation="6dp"
-                android:src="@drawable/ic_menu_fav_tv"
+            app:srcCompat="@drawable/ic_menu_fav_tv"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/sortButton"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
 
-        <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/sortButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,11 +98,11 @@
                 android:layout_marginEnd="8dp"
                 android:background="@color/transparent"
                 android:elevation="6dp"
-                android:src="@drawable/ic_menu_sort_tv"
+            app:srcCompat="@drawable/ic_menu_sort_tv"
                 app:layout_constraintEnd_toStartOf="@+id/headerButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/headerButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,7 +110,7 @@
                 android:layout_marginEnd="@dimen/tv_overscan_horizontal"
                 android:background="@color/transparent"
                 android:elevation="6dp"
-                android:src="@drawable/ic_menu_header_tv"
+            app:srcCompat="@drawable/ic_menu_header_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -142,7 +143,7 @@
 
         </org.videolan.television.ui.FocusableRecyclerView>
 
-        <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/imageButtonDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,13 +152,13 @@
                 android:background="@drawable/orange_circle"
                 android:elevation="6dp"
                 android:nextFocusDown="@id/imageButtonHeader"
-                android:src="@drawable/ic_menu_grid_tv_normal"
+            app:srcCompat="@drawable/ic_menu_grid_tv_normal"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonSort"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSort"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSort"
                 app:layout_constraintTop_toTopOf="@+id/imageButtonSort" />
 
-        <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/imageButtonSort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -166,13 +167,13 @@
                 android:background="@drawable/orange_circle"
                 android:elevation="6dp"
                 android:nextFocusDown="@id/imageButtonHeader"
-                android:src="@drawable/ic_menu_sort_tv"
+            app:srcCompat="@drawable/ic_menu_sort_tv"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
                 app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
 
-        <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/imageButtonFavorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -187,7 +188,7 @@
                 app:layout_constraintTop_toTopOf="@+id/imageButtonHeader"
                 app:srcCompat="@drawable/ic_menu_fav_tv" />
 
-        <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/imageButtonHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -198,13 +199,13 @@
                 android:nextFocusUp="@id/imageButtonSort"
                 android:nextFocusDown="@id/imageButtonSettings"
                 android:nextFocusForward="@id/imageButtonSort"
-                android:src="@drawable/ic_menu_header_tv_normal"
+            app:srcCompat="@drawable/ic_menu_header_tv_normal"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
                 app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
 
-        <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/imageButtonSettings"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
@@ -214,7 +215,7 @@
                 android:elevation="6dp"
                 android:nextFocusUp="@id/imageButtonHeader"
                 android:nextFocusForward="@id/imageButtonHeader"
-                android:src="@drawable/ic_menu_preferences_tv"
+            app:srcCompat="@drawable/ic_menu_preferences_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/headerListContainer" />
 

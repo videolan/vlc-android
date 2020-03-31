@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
@@ -166,7 +167,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         abstract fun setCoverlay(selected: Boolean)
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.M)
     inner class MediaItemTVViewHolder(
             binding: MediaBrowserTvItemBinding,
             override val eventsHandler: IEventsHandler<MediaLibraryItem>
@@ -191,7 +192,7 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
                     }
                 }
             }
-            binding.container.clipToOutline = true
+            if (AndroidUtil.isLolliPopOrLater) binding.container.clipToOutline = true
         }
 
         override fun recycle() {

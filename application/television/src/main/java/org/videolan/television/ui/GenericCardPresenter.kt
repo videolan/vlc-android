@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import org.videolan.vlc.R
-
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 
 class GenericCardPresenter @JvmOverloads constructor(context: Context, cardThemeResId: Int = R.style.VLCGenericCardView) : Presenter() {
 
@@ -38,7 +38,7 @@ class GenericCardPresenter @JvmOverloads constructor(context: Context, cardTheme
 
 
             cardView.setInfoAreaBackgroundColor(bgColor)
-            cardView.mainImageView.setImageDrawable(ContextCompat.getDrawable(context, item.icon))
+            cardView.mainImageView.setImageBitmap(context.getBitmapFromDrawable(item.icon))
             cardView.mainImageView.setPadding(padding, padding, padding, padding)
             cardView.titleText = item.title
             cardView.contentText = item.content
