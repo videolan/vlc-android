@@ -73,6 +73,7 @@
         <item quantity="one">൧ ഗാനം</item>
         <item quantity="other">%d ഗാനങ്ങള്‍</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">ട്രാക്ക് വിവരങ്ങൾ ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി</string>
 
     <string name="artists">കലാകാരന്മാര്‍</string>
     <string name="albums">ആല്‍ബങ്ങള്‍</string>
