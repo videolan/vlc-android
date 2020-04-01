@@ -73,6 +73,7 @@
         <item quantity="one">Un brano</item>
         <item quantity="other">%d brani</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Informazioni sulla traccia copiate negli appunti</string>
 
     <string name="artists">Artisti</string>
     <string name="albums">Album</string>
