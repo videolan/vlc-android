@@ -146,7 +146,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     private fun processUri(): Boolean {
         if (!TextUtils.isEmpty(viewModel.observableSearchText.get())) {
-            val mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(viewModel.observableSearchText.get()))
+            val mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(viewModel.observableSearchText.get()?.trim()))
             playMedia(mw)
             viewModel.observableSearchText.set("")
             return true
