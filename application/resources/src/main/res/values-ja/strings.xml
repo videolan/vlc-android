@@ -71,6 +71,7 @@
     <plurals name="songs_quantity">
         <item quantity="other">%d 曲</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">クリップボードにトラック情報がコピーされました</string>
 
     <string name="artists">アーティスト</string>
     <string name="albums">アルバム</string>
