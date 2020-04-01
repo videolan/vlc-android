@@ -71,6 +71,7 @@
     <plurals name="songs_quantity">
         <item quantity="other">%d 首歌曲</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">轨道信息已复制到剪贴板</string>
 
     <string name="artists">艺术家</string>
     <string name="albums">专辑</string>
