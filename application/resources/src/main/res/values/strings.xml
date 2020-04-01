@@ -824,4 +824,5 @@
     <string name="new_title">New title</string>
     <string name="browse">Browse</string>
     <string name="more">More</string>
+    <string name="favorites">Favorites</string>
 </resources>

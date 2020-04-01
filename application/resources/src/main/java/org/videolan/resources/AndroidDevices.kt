@@ -214,6 +214,8 @@ object AndroidDevices {
             }
 
         }
+
+        fun isOneOfMediaFolders(uri: Uri) = EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI == uri || EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI == uri || EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI == uri || EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI == uri || EXTERNAL_PUBLIC_DCIM_DIRECTORY_URI == uri || WHATSAPP_VIDEOS_FILE == uri
     }
 
     fun close(closeable: Closeable?): Boolean {

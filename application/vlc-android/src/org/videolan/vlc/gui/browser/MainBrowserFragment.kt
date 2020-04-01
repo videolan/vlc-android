@@ -150,7 +150,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
 
         favoritesEntry = view.findViewById(R.id.fav_browser_entry)
-        favoritesEntry.findViewById<TextView>(R.id.title).text = getString(R.string.favorite)
+        favoritesEntry.findViewById<TextView>(R.id.title).text = getString(R.string.favorites)
         favoritesList = favoritesEntry.findViewById(R.id.list)
         favoritesList.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
         val favoritesBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true)

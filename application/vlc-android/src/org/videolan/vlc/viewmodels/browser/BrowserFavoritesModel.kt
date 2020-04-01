@@ -30,10 +30,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import kotlinx.coroutines.CoroutineScope
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.CoroutineContextProvider
 import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.convertFavorites
+import kotlin.coroutines.CoroutineContext
 
 class BrowserFavoritesModel(context: Context) : AndroidViewModel(context.applicationContext as Application) {
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
