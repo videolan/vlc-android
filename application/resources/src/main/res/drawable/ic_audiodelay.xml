@@ -8,7 +8,7 @@
             android:strokeAlpha="1"
             android:strokeLineJoin="round"
             android:strokeWidth="1"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:strokeColor="#00000000"
             android:fillType="nonZero"
             android:fillAlpha="1"

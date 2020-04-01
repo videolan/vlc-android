@@ -68,9 +68,13 @@
                 type="int" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/VLCCardView"
+            android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
+            android:onClick="@{holder::onClick}"
+            android:onLongClick="@{holder::onLongClick}"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
@@ -80,12 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@{bgColor}"
-                android:clickable="@{holder != null}"
-                android:focusable="true"
-                android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
+                android:focusable="false"
                 android:minWidth="120dp"
-                android:onClick="@{holder::onClick}"
-                android:onLongClick="@{holder::onLongClick}"
                 android:padding="2dp">
 
             <org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
@@ -107,7 +107,6 @@
                     android:layout_height="64dp"
                     android:layout_marginTop="8dp"
                     android:contentDescription="@string/cover_art"
-                    android:onClick="@{holder::onImageClick}"
                     android:scaleType="centerCrop"
                     android:src="@{cover}"
                     android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.GONE : View.VISIBLE}"
@@ -157,6 +156,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginBottom="4dp"
                     android:maxLines="1"
                     android:text="@{item.description}"
                     android:textColor="?attr/list_subtitle"
@@ -180,5 +180,5 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

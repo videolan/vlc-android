@@ -30,7 +30,7 @@
     <path
             android:pathData="M5,4L5,15L4,15L4,17L5,17L5,20L7,20L7,17L8,17L8,15L7,15L7,4L5,4zM11,4L11,6L10,6L10,8L11,8L11,20L13,20L13,8L14,8L14,6L13,6L13,4L11,4zM17,4L17,12L16,12L16,14L17,14L17,20L19,20L19,14L20,14L20,12L19,12L19,4L17,4z"
             android:strokeWidth="0.5"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:strokeColor="#00000000"
             android:fillType="nonZero"
             android:fillAlpha="1" />

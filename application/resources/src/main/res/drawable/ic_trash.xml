@@ -29,7 +29,7 @@
         android:viewportHeight="24">
     <path
             android:fillAlpha="1"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillType="nonZero"
             android:pathData="m10,4c-0.7396,0 -1.3727,0.4031 -1.7187,1l-2.2813,-0.013 0,2 12,0 0,-2 -2.2813,0.013c-0.346,-0.5969 -0.9791,-1 -1.7188,-1zM7,8 L7,18c0,1.108 0.892,2 2,2l6,0c1.108,0 2,-0.892 2,-2l0,-10z"
             android:strokeWidth="1"

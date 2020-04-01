@@ -31,7 +31,7 @@
             android:pathData="m12,5.0001a8,8 0,0 0,-8 8l2,0a6,6 0,0 1,6 -6,6 6,0 0,1 6,6l2,0a8,8 0,0 0,-8 -8z"
             android:strokeAlpha="1"
             android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillAlpha="1"
             android:strokeColor="#00000000"
             android:fillType="nonZero" />
@@ -40,7 +40,7 @@
             android:strokeAlpha="1"
             android:strokeLineJoin="miter"
             android:strokeWidth="1"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillAlpha="1"
             android:strokeColor="#00000000"
             android:fillType="evenOdd"
@@ -49,7 +49,7 @@
             android:pathData="M21,17.0001l-4,0l-0,2l4,0z"
             android:strokeAlpha="1"
             android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillAlpha="1"
             android:strokeColor="#00000000"
             android:fillType="nonZero" />
@@ -57,7 +57,7 @@
             android:pathData="M14.6667,17.0001l-2,0l-0,2l2,0z"
             android:strokeAlpha="1"
             android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillAlpha="1"
             android:strokeColor="#00000000"
             android:fillType="nonZero" />
@@ -65,7 +65,7 @@
             android:pathData="M4,13.0001h2v2h-2z"
             android:strokeAlpha="1"
             android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillAlpha="1"
             android:strokeColor="#00000000"
             android:fillType="nonZero" />
@@ -73,7 +73,7 @@
             android:pathData="M10.3333,17.0001l-2,0l-0,2l2,0z"
             android:strokeAlpha="1"
             android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillAlpha="1"
             android:strokeColor="#00000000"
             android:fillType="nonZero" />
@@ -81,7 +81,7 @@
             android:pathData="M6,17.0001l-2,0l-0,2l2,0z"
             android:strokeAlpha="1"
             android:strokeWidth="35.43307114"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillAlpha="1"
             android:strokeColor="#00000000"
             android:fillType="nonZero" />

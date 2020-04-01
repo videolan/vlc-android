@@ -30,14 +30,14 @@
     <path
             android:pathData="M5.4593,7.227l1.7678,-1.7678l11.3137,11.3137l-1.7678,1.7678z"
             android:strokeWidth="0.5"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillAlpha="1"
             android:strokeColor="#00000000"
             android:fillType="nonZero" />
     <path
             android:pathData="M16.773,5.4593l1.7678,1.7678l-11.3137,11.3137l-1.7678,-1.7678z"
             android:strokeWidth="0.5"
-            android:fillColor="@color/standard_selection_grey900"
+            android:fillColor="@color/standard_selection_control_normal"
             android:fillAlpha="1"
             android:strokeColor="#00000000"
             android:fillType="nonZero" />
