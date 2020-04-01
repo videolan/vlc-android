@@ -46,6 +46,8 @@
     <string name="insert_next">Inserir seguinte</string>
     <string name="play_all">Reproducir todos</string>
     <string name="append_all">Anexar todos</string>
+    <string name="resume_playback_short_title">Continuar reprodución</string>
+    <string name="resume_playback_long_title">Continuar a reprodución da última lista</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Eliminar</string>
     <string name="set_song">Definir como ton de chamada</string>
@@ -71,6 +73,7 @@
         <item quantity="one">1 canción</item>
         <item quantity="other">%d cancións</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">A información da pista copiouse no portapapeis.</string>
 
     <string name="artists">Artistas</string>
     <string name="albums">Albums</string>
@@ -84,14 +87,27 @@
         <item quantity="one">1 subcartafol</item>
         <item quantity="other">%d subcartafoles</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 multimedia</item>
+        <item quantity="other">%d multimedia</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">1 ficheiro de media</item>
-        <item quantity="other">%d ficheiros de media</item>
+        <item quantity="one">1 ficheiro multimedia</item>
+        <item quantity="other">%d ficheiros multimedia</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 vídeo</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 película</item>
+        <item quantity="other">%d películas</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 programa de TV</item>
+        <item quantity="other">%d programas de TV</item>
+    </plurals>
+
     <string name="internal_memory">memoria interna</string>
     <string name="parent_folder">Ir arriba ao cartafol pai</string>
     <string name="audio">Son</string>
@@ -112,6 +128,7 @@
     <string name="noplaylist">Non se atopou ningunha lista de reprodución.</string>
     <string name="mediafiles">Ficheiros multimedia</string>
     <string name="notavailable">non está dispoñíbel</string>
+    <string name="nosubfolder">Non ha subcartafoles</string>
     <string name="directorynotfound">Non foi posíbel localizar o camiño \'%1$s\'.</string>
     <string name="nohistory">Aínda non existe un historial de reprodución.</string>
     <string name="validation">Está seguro?</string>
@@ -187,7 +204,7 @@
     <string name="password">Contrasinal</string>
 
     <string name="search_results">Resultados da busca</string>
-    <string name="search_no_result">Non se encontrou ningún medio</string>
+    <string name="search_no_result">Non se encontrou ningún multimedia</string>
     <string name="favorites_add">Engadir a favoritos</string>
     <string name="favorites_remove">Retirar dos favoritos</string>
     <string name="favorites_edit">Editar</string>
@@ -202,7 +219,7 @@
     <string name="error_problem">Desculpe. O VLC para Android tivo un problema ao cargar e pechouse.</string>
     <string name="error_message_is">A mensaxe de erro é (mencione isto para a depuración):\n</string>
     <string name="encountered_error_title">Erro de reprodución</string>
-    <string name="encountered_error_message">O VLC encontrou un erro con este medio.\nProbe a actualizar a biblioteca multimedia.</string>
+    <string name="encountered_error_message">O VLC encontrou un erro con este multimedia.\nProbe a actualizar a biblioteca multimedia.</string>
     <string name="invalid_location">Non é posíbel reproducir a localización %1$s.</string>
 
     <string name="search">Buscar</string>
@@ -290,7 +307,9 @@
 
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupar vídeos</string>
+    <string name="video_min_group_length_disable">Non agrupar vídeos</string>
     <string name="video_min_group_length_folder">Agrupar por cartafol</string>
+    <string name="video_min_group_length_name">Agrupar polo nome</string>
     <string name="video_min_group_length_first">Só a primeira letra</string>
     <string name="video_min_group_length_short">Número pequeno de letras (6)</string>
     <string name="video_min_group_length_long">Número grande de letras (9)</string>
@@ -340,6 +359,11 @@
     <string name="lockscreen_cover_summary">Cando estea dispoñíbel, estabelecer a portada do multimedia actual como fondo da pantalla de bloqueo</string>
     <string name="playlist_animate_scroll_title">Animación no desprazamento automático da lista de reprodución actual</string>
     <string name="playlist_animate_scroll_summary">Animación do desprazamento na transición de multimedia</string>
+    <string name="list_title_ellipsize">Facer elipse nos títulos da lista dunha liña</string>
+    <string name="list_title_ellipsize_default">Predeterminado</string>
+    <string name="list_title_ellipsize_left">Esquerda</string>
+    <string name="list_title_ellipsize_right">Dereita</string>
+    <string name="list_title_ellipsize_middle">Medio</string>
     <string name="audio_boost_title">Reforzo de son</string>
     <string name="audio_boost_summary">Permitir volume ata o 200%</string>
     <string name="headset_prefs_category">Auriculares</string>
@@ -418,6 +442,8 @@
     <string name="restart_message">Os cambios terán efecto cando se reinicie a aplicación.\nReiniciar a aplicación?</string>
     <string name="restart_message_OK">Aceptar</string>
     <string name="restart_message_Later">Máis tarde</string>
+    <string name="browser_show_all_title">Mostrar todos os ficheiros</string>
+
     <string name="developer_prefs_category">Desenvolvedor/a</string>
     <string name="enable_verbose_mode">Detallado</string>
     <string name="enable_verbose_mode_summary">Incrementar o nivel de detalle (logcat)</string>
@@ -462,6 +488,7 @@
     <string name="network_empty">Este directorio está baleiro</string>
     <string name="network_connection_needed">Non hai conexión coa rede local.</string>
     <string name="search_hint">Buscar multimedia</string>
+    <string name="search_in_list_hint">Buscar na lista actual</string>
     <string name="search_global">Buscar na biblioteca multimedia global</string>
     <string name="directory_show_medialib">Mostrar en MediaLib</string>
     <string name="directory_hide_medialib">Agochar de MediaLib</string>
@@ -471,6 +498,7 @@
     <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Continuar desde a última posición</string>
     <string name="confirm_resume">Quere continuar desde a última posición?</string>
+    <string name="confirm_resume_title">Continuar vídeos reproducidos</string>
     <string name="directory_empty">O directorio está baleiro</string>
     <string name="tv_ui_title">Interface de Android TV</string>
     <string name="tv_ui_summary">Cambiar a interface ao tema adaptado de TV</string>
@@ -483,6 +511,7 @@
     <string name="back_quit_lock">Prema de novo Atrás para saír do vídeo</string>
     <string name="playlist_deleted">Lista de reprodución eliminada</string>
     <string name="file_deleted">Ficheiro eliminado</string>
+    <string name="stream_deleted">Fluxo eliminado</string>
     <string name="no_subs_found">Non hai subtítulos neste directorio</string>
     <string name="music_now_playing">En reporodución</string>
 
@@ -685,4 +714,11 @@
     <string name="report_a_bug">Informar dun erro</string>
     <string name="report_a_crash">Informar dun fallo</string>
     <string name="describe_crash">Describa como sucedeu o fallo</string>
+    <string name="favorite">Favorito</string>
+    <string name="always">Sempre</string>
+    <string name="never">Nunca</string>
+    <string name="ask_confirmation">Pedir confirmación</string>
+    <string name="add_to_scanned">Analizar este cartafol</string>
+    <string name="directory_not_scanned">O cartafol non está analizado</string>
+    <string name="playback_multiple_errors">Non é posíbel reproducir múltiples multimedia</string>
 </resources>
