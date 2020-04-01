@@ -73,6 +73,7 @@
         <item quantity="one">1 chanson</item>
         <item quantity="other">%d morceaux</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Les informations de la piste ont été copiées dans le presse-papiers</string>
 
     <string name="artists">Artistes</string>
     <string name="albums">Albums</string>
