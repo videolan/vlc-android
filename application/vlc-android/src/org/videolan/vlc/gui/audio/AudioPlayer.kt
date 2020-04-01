@@ -21,7 +21,9 @@
 package org.videolan.vlc.gui.audio
 
 import android.Manifest
-import android.content.*
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.media.session.PlaybackStateCompat
@@ -45,17 +47,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
-import org.videolan.tools.PREF_PLAYLIST_TIPS_SHOWN
-import org.videolan.tools.Settings
-import org.videolan.tools.dp
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioPlayerBinding
@@ -353,11 +351,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onNextClick(view: View) {
-        if (!playlistModel.next()) Snackbar.make(binding.root, R.string.lastsong, Snackbar.LENGTH_SHORT).show()
+        if (!playlistModel.next()) UiTools.snacker(requireActivity().findViewById(android.R.id.content), R.string.lastsong)
     }
 
     fun onPreviousClick(view: View) {
-        if (!playlistModel.previous()) Snackbar.make(binding.root, R.string.firstsong, Snackbar.LENGTH_SHORT).show()
+        if (!playlistModel.previous()) UiTools.snacker(requireActivity().findViewById(android.R.id.content), R.string.firstsong)
     }
 
     fun onRepeatClick(view: View) {
@@ -583,17 +581,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
         override fun onTouchLongClick() {
             val trackInfo = playlistModel.title ?: return
-            val ctx = context ?: return
 
-            val data = ClipData.newPlainText(ctx.getString(R.string.app_name), trackInfo)
-            (ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
-                    .setPrimaryClip(data)
-
-            Snackbar.make(
-                    binding.root,
-                    R.string.track_info_copied_to_clipboard,
-                    Snackbar.LENGTH_LONG
-            ).show()
+            requireActivity().copy("VLC - song name", trackInfo)
+            UiTools.snacker(requireActivity().findViewById(android.R.id.content), R.string.track_info_copied_to_clipboard)
         }
 
         override fun onTouchDown() {}
