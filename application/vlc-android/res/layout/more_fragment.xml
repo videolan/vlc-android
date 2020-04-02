@@ -74,15 +74,30 @@
                         app:layout_constraintStart_toEndOf="@+id/settingsButton"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                <Button
+                        android:id="@+id/streamsButton"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/open_mrl"
+                        app:icon="@drawable/ic_more_stream"
+                        app:layout_constraintEnd_toEndOf="@+id/settingsButton"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
+
                 <org.videolan.vlc.gui.view.TitleListView
                         android:id="@+id/history_entry"
                         android:layout_width="0dp"
-                        app:title="@string/history"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="24dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
+                        app:layout_constraintTop_toBottomOf="@+id/streamsButton"
+                        app:title="@string/history">
+
+                </org.videolan.vlc.gui.view.TitleListView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

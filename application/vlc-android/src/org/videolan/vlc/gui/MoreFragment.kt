@@ -43,6 +43,7 @@ import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity.Companion.ABOUT
+import org.videolan.vlc.gui.SecondaryActivity.Companion.STREAMS
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.view.EmptyLoadingState
@@ -109,6 +110,11 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
         aboutButton.setOnClickListener {
             val i = Intent(activity, SecondaryActivity::class.java)
             i.putExtra("fragment", ABOUT)
+            requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
+        }
+        streamsButton.setOnClickListener {
+            val i = Intent(activity, SecondaryActivity::class.java)
+            i.putExtra("fragment", STREAMS)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
         historyAdapter.updateEvt.observe(viewLifecycleOwner) {

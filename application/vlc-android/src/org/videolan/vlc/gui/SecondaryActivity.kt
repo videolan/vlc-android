@@ -47,6 +47,7 @@ import org.videolan.vlc.gui.browser.FileBrowserFragment
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
 
@@ -139,6 +140,7 @@ class SecondaryActivity : ContentActivity() {
                 }
             }
             ABOUT -> fragment = AboutFragment()
+            STREAMS -> fragment = MRLPanelFragment()
             VIDEO_GROUP_LIST -> {
                 fragment = VideoGridFragment().apply {
                     arguments = Bundle(2).apply {
@@ -171,6 +173,7 @@ class SecondaryActivity : ContentActivity() {
 
         const val ALBUMS_SONGS = "albumsSongs"
         const val ABOUT = "about"
+        const val STREAMS = "streams"
         const val VIDEO_GROUP_LIST = "videoGroupList"
         const val STORAGE_BROWSER = "storage_browser"
         const val FILE_BROWSER = "file_browser"

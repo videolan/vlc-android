@@ -10,7 +10,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/background_default_darker"
+            android:background="?attr/background_default"
         app:layout_behavior="org.videolan.vlc.gui.helpers.BottomSheetBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,6 @@
                 android:id="@+id/mrlbar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="?attr/background_default"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:elevation="4dp"
