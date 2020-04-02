@@ -143,19 +143,20 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
             if (pair != null) storageBrowserAdapter.notifyItemChanged(pair.first, pair.second)
         })
 
-
-
         favoritesEntry = view.findViewById(R.id.fav_browser_entry)
         val favoritesBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true)
         val favoritesAdapter = BaseBrowserAdapter(favoritesBrowserContainer)
         favoritesEntry.list.adapter = favoritesAdapter
         favoritesViewModel = BrowserFavoritesModel(requireContext())
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
-        favoritesViewModel.updatedFavoriteList.observe(viewLifecycleOwner, Observer<List<MediaWrapper>> { list ->
+        favoritesViewModel.favorites.observe(viewLifecycleOwner, Observer { list ->
             list?.let {
                 favoritesAdapter.update(it)
                 favoritesEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             }
+        })
+        favoritesViewModel.provider.descriptionUpdate.observe(viewLifecycleOwner, Observer { pair ->
+            if (pair != null) favoritesAdapter.notifyItemChanged(pair.first, pair.second)
         })
 
         networkEntry = view.findViewById(R.id.network_browser_entry)

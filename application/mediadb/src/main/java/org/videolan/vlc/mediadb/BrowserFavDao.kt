@@ -26,6 +26,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import org.videolan.vlc.mediadb.models.BrowserFav
 
 @Dao
@@ -37,7 +38,7 @@ interface BrowserFavDao {
     fun get(uri: Uri): List<BrowserFav>
 
     @Query("SELECT * from fav_table")
-    fun getAll(): LiveData<List<BrowserFav>>
+    fun getAll(): Flow<List<BrowserFav>>
 
     @Query("SELECT * from fav_table where type = 0")
     fun getAllNetwrokFavs(): LiveData<List<BrowserFav>>

@@ -54,6 +54,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.convertFavorites
@@ -78,7 +79,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     var showHistory = false
         private set
     // LiveData
-    private val favorites: LiveData<List<org.videolan.vlc.mediadb.models.BrowserFav>> = browserFavRepository.browserFavorites
+    private val favorites: LiveData<List<BrowserFav>> = browserFavRepository.browserFavorites.asLiveData(viewModelScope.coroutineContext)
     val nowPlaying: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val videos: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val audioCategories: LiveData<List<MediaLibraryItem>> = MutableLiveData()
@@ -98,7 +99,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         for (action in channel) setHistory()
     }
 
-    private val favObserver = Observer<List<org.videolan.vlc.mediadb.models.BrowserFav>> { list ->
+    private val favObserver = Observer<List<BrowserFav>> { list ->
         updatedFavoritList = convertFavorites(list)
         if (!updateActor.isClosedForSend) updateActor.offer(Unit)
     }

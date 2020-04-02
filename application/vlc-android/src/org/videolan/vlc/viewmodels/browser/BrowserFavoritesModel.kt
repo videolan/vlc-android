@@ -26,34 +26,56 @@ package org.videolan.vlc.viewmodels.browser
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import android.net.Uri
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.withContext
+import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.mediadb.models.BrowserFav
+import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.convertFavorites
 import kotlin.coroutines.CoroutineContext
 
 class BrowserFavoritesModel(context: Context) : AndroidViewModel(context.applicationContext as Application) {
+    val favorites = LiveDataset<MediaLibraryItem>()
+    val provider = FavoritesProvider(context, favorites, viewModelScope)
+}
+
+class FavoritesProvider(
+        context: Context,
+        dataset: LiveDataset<MediaLibraryItem>,
+        scope: CoroutineScope
+) : BrowserProvider(context, dataset, null, false) {
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
-    private val favorites: LiveData<List<BrowserFav>> = browserFavRepository.browserFavorites
-
-    var updatedFavoriteList = MutableLiveData<List<MediaWrapper>>()
-
-    private val favObserver = Observer<List<BrowserFav>> { list ->
-        updatedFavoriteList.value = convertFavorites(list.sortedBy { it.type })
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        favorites.removeObserver(favObserver)
-    }
 
     init {
-        favorites.observeForever(favObserver)
+        browserFavRepository.browserFavorites
+                .flowOn(Dispatchers.IO)
+                .onEach { list ->
+                    convertFavorites(list.sortedBy { it.type }).let {
+                        dataset.value = it as MutableList<MediaLibraryItem>
+                        parseSubDirectories()
+                    }
+                }.launchIn(scope)
     }
+
+    override suspend fun requestBrowsing(url: String?, eventListener: MediaBrowser.EventListener, interact : Boolean) = withContext(coroutineContextProvider.IO) {
+        initBrowser()
+        mediabrowser?.let {
+            it.changeEventListener(eventListener)
+            if (url != null) it.browse(Uri.parse(url), getFlags(interact))
+        }
+    }
+
+    override suspend fun browseRootImpl() {}
 }
