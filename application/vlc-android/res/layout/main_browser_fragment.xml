@@ -32,27 +32,27 @@
             android:layout_height="match_parent">
 
 
-        <include
+        <org.videolan.vlc.gui.view.TitleListView
                 android:id="@+id/fav_browser_entry"
-                layout="@layout/browser_entry"
+                app:title="@string/favorites"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        <include
+        <org.videolan.vlc.gui.view.TitleListView
                 android:id="@+id/local_browser_entry"
-                layout="@layout/browser_entry"
+                app:title="@string/browser_storages"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fav_browser_entry" />
 
-        <include
+        <org.videolan.vlc.gui.view.TitleListView
                 android:id="@+id/network_browser_entry"
-                layout="@layout/browser_entry"
+                app:title="@string/network_browsing"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

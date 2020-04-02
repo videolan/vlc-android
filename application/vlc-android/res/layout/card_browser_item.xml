@@ -74,11 +74,7 @@
             style="@style/VLCCardView"
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
             android:onClick="@{holder::onClick}"
-            android:onLongClick="@{holder::onLongClick}"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp">
+            android:onLongClick="@{holder::onLongClick}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

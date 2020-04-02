@@ -33,7 +33,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.more_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,6 +45,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity.Companion.ABOUT
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.preferences.PreferencesActivity
+import org.videolan.vlc.gui.view.EmptyLoadingState
+import org.videolan.vlc.gui.view.TitleListView
 import org.videolan.vlc.interfaces.IHistory
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
@@ -60,6 +61,7 @@ private const val KEY_SELECTION = "key_selection"
 @ExperimentalCoroutinesApi
 class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener {
 
+    private lateinit var historyEntry: TitleListView
     private lateinit var viewModel: HistoryModel
     private lateinit var cleanMenuItem: MenuItem
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
@@ -81,6 +83,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        historyEntry = view.findViewById(R.id.history_entry)
         viewModel = ViewModelProviders.of(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
         viewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaWrapper>> { list ->
             list?.let {
@@ -88,12 +91,16 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
                 if (::cleanMenuItem.isInitialized) {
                     cleanMenuItem.isVisible = list.isNotEmpty()
                 }
-                if (list.isEmpty()) historyTitle.setGone() else historyTitle.setVisible()
+                if (list.isEmpty()) historyEntry.setGone() else {
+                    historyEntry.setVisible()
+                    historyEntry.loading.state = EmptyLoadingState.NONE
+                }
             }
             restoreMultiSelectHelper()
         })
         viewModel.loading.observe(viewLifecycleOwner) {
             (activity as? MainActivity)?.refreshing = it
+            if (it) historyEntry.loading.state = EmptyLoadingState.LOADING
         }
 
         settingsButton.setOnClickListener {
@@ -119,16 +126,15 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        historyList.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        historyList.adapter = historyAdapter
-        historyList.nextFocusUpId = R.id.ml_menu_search
-        historyList.nextFocusLeftId = android.R.id.list
-        historyList.nextFocusRightId = android.R.id.list
-        historyList.nextFocusForwardId = android.R.id.list
+        historyEntry.list.adapter = historyAdapter
+        historyEntry.list.nextFocusUpId = R.id.ml_menu_search
+        historyEntry.list.nextFocusLeftId = android.R.id.list
+        historyEntry.list.nextFocusRightId = android.R.id.list
+        historyEntry.list.nextFocusForwardId = android.R.id.list
 
         multiSelectHelper = historyAdapter.multiSelectHelper
-        historyList.requestFocus()
-        registerForContextMenu(historyList)
+        historyEntry.list.requestFocus()
+        registerForContextMenu(historyEntry.list)
         swipeRefreshLayout.setOnRefreshListener(this)
     }
 

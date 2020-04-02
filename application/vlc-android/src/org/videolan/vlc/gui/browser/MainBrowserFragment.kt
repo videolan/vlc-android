@@ -27,14 +27,10 @@ package org.videolan.vlc.gui.browser
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
 import androidx.appcompat.view.ActionMode
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -53,6 +49,7 @@ import org.videolan.vlc.gui.helpers.UiTools.showMediaInfo
 import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
+import org.videolan.vlc.gui.view.TitleListView
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.viewmodels.browser.*
@@ -64,16 +61,13 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     private lateinit var networkMonitor: NetworkMonitor
     private var currentCtx: MainBrowserContainer? = null
     private lateinit var browserFavRepository: BrowserFavRepository
-    private lateinit var localList: RecyclerView
-    private lateinit var localEntry: ConstraintLayout
+    private lateinit var localEntry: TitleListView
     private lateinit var localViewModel: BrowserModel
 
-    private lateinit var favoritesList: RecyclerView
-    private lateinit var favoritesEntry: ConstraintLayout
+    private lateinit var favoritesEntry: TitleListView
     private lateinit var favoritesViewModel: BrowserFavoritesModel
 
-    private lateinit var networkList: RecyclerView
-    private lateinit var networkEntry: ConstraintLayout
+    private lateinit var networkEntry: TitleListView
     private lateinit var networkViewModel: BrowserModel
 
     private var currentAdapterActionMode: BaseBrowserAdapter? = null
@@ -130,23 +124,19 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
         //local
         localEntry = view.findViewById(R.id.local_browser_entry)
-        val localLoading: EmptyLoadingStateView = localEntry.findViewById(R.id.loading)
-        localEntry.findViewById<TextView>(R.id.title).text = getString(R.string.browser_storages)
-        localList = localEntry.findViewById(R.id.list)
-        localList.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
         val storageBbrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true)
         val storageBrowserAdapter = BaseBrowserAdapter(storageBbrowserContainer)
-        localList.adapter = storageBrowserAdapter
+        localEntry.list.adapter = storageBrowserAdapter
         localViewModel = getBrowserModel(category = TYPE_FILE, url = null, showHiddenFiles = false)
         containerAdapterAssociation[storageBbrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
         localViewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaLibraryItem>> { list ->
             list?.let {
                 storageBrowserAdapter.update(it)
-                localLoading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                localEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             }
         })
         localViewModel.loading.observe(viewLifecycleOwner, Observer {
-            if (it) localLoading.state = EmptyLoadingState.LOADING
+            if (it) localEntry.loading.state = EmptyLoadingState.LOADING
         })
         localViewModel.browseRoot()
         localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner, Observer { pair ->
@@ -156,44 +146,36 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
 
         favoritesEntry = view.findViewById(R.id.fav_browser_entry)
-        val favoritesLoading: EmptyLoadingStateView = favoritesEntry.findViewById(R.id.loading)
-        favoritesEntry.findViewById<TextView>(R.id.title).text = getString(R.string.favorites)
-        favoritesList = favoritesEntry.findViewById(R.id.list)
-        favoritesList.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
         val favoritesBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true)
         val favoritesAdapter = BaseBrowserAdapter(favoritesBrowserContainer)
-        favoritesList.adapter = favoritesAdapter
+        favoritesEntry.list.adapter = favoritesAdapter
         favoritesViewModel = BrowserFavoritesModel(requireContext())
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
         favoritesViewModel.updatedFavoriteList.observe(viewLifecycleOwner, Observer<List<MediaWrapper>> { list ->
             list?.let {
                 favoritesAdapter.update(it)
-                favoritesLoading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                favoritesEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             }
         })
 
         networkEntry = view.findViewById(R.id.network_browser_entry)
-        val networkLoading: EmptyLoadingStateView = networkEntry.findViewById(R.id.loading)
-        networkLoading.showNoMedia = false
-        networkLoading.emptyText = R.string.nomedia
-        networkEntry.findViewById<TextView>(R.id.title).text = getString(R.string.network_browsing)
-        networkList = networkEntry.findViewById(R.id.list)
-        networkList.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
+        networkEntry.loading.showNoMedia = false
+        networkEntry.loading.emptyText = R.string.nomedia
         val networkBrowserContainer = MainBrowserContainer(isNetwork = true, isFile = false)
         val networkAdapter = BaseBrowserAdapter(networkBrowserContainer)
-        networkList.adapter = networkAdapter
+        networkEntry.list.adapter = networkAdapter
         networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
         containerAdapterAssociation[networkBrowserContainer] = Pair(networkAdapter, networkViewModel)
         networkViewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaLibraryItem>> { list ->
             list?.let {
                 networkAdapter.update(it)
-                updateNetworkEmptyView(networkLoading)
-                if (networkViewModel.loading.value == false) networkLoading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                updateNetworkEmptyView(networkEntry.loading)
+                if (networkViewModel.loading.value == false) networkEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             }
         })
         networkViewModel.loading.observe(viewLifecycleOwner, Observer {
-            if (it) localLoading.state = EmptyLoadingState.LOADING
-            updateNetworkEmptyView(networkLoading)
+            if (it) networkEntry.loading.state = EmptyLoadingState.LOADING
+            updateNetworkEmptyView(networkEntry.loading)
         })
         networkViewModel.browseRoot()
     }
@@ -211,17 +193,17 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                         emptyLoading.state = EmptyLoadingState.EMPTY
                         emptyLoading.emptyText = R.string.network_connection_needed
                     }
-                    networkList.visibility = View.GONE
+                    networkEntry.list.visibility = View.GONE
 //                    handler.sendEmptyMessage(MSG_HIDE_LOADING)
                 }
             } else {
                 emptyLoading.state = EmptyLoadingState.NONE
-                networkList.visibility = View.VISIBLE
+                networkEntry.list.visibility = View.VISIBLE
             }
         } else {
             emptyLoading.state = EmptyLoadingState.EMPTY
             emptyLoading.emptyText = R.string.network_connection_needed
-            networkList.visibility = View.GONE
+            networkEntry.list.visibility = View.GONE
         }
     }
 

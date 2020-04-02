@@ -218,11 +218,11 @@
         <item name="ariane_text_color">@color/grey50</item>
         <item name="ariane_text_size">14sp</item>
         <item name="player_icon_color">@color/white</item>
-        <item name="card_background">@color/grey900</item>
+        <item name="card_background">@color/black</item>
         <item name="default_separator">@color/grey700</item>
         <item name="empty_button">@style/Widget.MaterialComponents.Button.OutlinedButton</item>
 
-        <item name="card_border">@color/transparent</item>
+        <item name="card_border">@color/grey800</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">

@@ -117,6 +117,9 @@
         <attr name="empty_text" format="reference|string" />
         <attr name="show_no_media" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="TitleListView">
+        <attr name="title" format="reference|string" />
+    </declare-styleable>
 
     <declare-styleable name="HalfCircleView">
         <attr name="is_left" format="boolean"/>
