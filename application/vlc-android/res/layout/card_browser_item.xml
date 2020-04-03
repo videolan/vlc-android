@@ -168,7 +168,7 @@
                     android:id="@+id/item_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_more"
+                    app:srcCompat="@drawable/ic_more"
                     android:clickable="@{hasContextMenu}"
                     android:onClick="@{holder::onMoreClick}"
                     android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE, default=gone}"

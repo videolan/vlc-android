@@ -50,6 +50,7 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.delay
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.startMedialibrary
@@ -128,7 +129,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         bottomBar = findViewById(R.id.navigation)
         tabLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
             //add a shadow if there are tabs
-            appBarLayout.elevation = if (tabLayout?.isVisible() == true) 4.dp.toFloat() else 0.dp.toFloat()
+            if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (tabLayout?.isVisible() == true) 4.dp.toFloat() else 0.dp.toFloat()
         }
         audioPlayerContainer = findViewById(R.id.audio_player_container)
     }
