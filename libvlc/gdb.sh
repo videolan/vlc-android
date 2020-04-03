@@ -21,7 +21,7 @@ ANDROID_MANIFEST="$APP_BUILD/merged_manifests/dev/AndroidManifest.xml"
 ABI=`ls "$APP_BUILD/stripped_native_libs/dev/out/lib" --sort=time | head -n 1`
 
 if [ ! -f "$ANDROID_MANIFEST" -o "$ABI" = "" ]; then
-    echo "Invalid manifest/ABI, did you try building first ?"
+    echo "Invalid manifest/ABI, did you try building first?"
     exit 1
 fi
 

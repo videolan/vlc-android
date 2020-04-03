@@ -638,7 +638,7 @@ rm ${REDEFINED_VLC_MODULES_DIR}/syms
 
 VLC_MODULES=$(avlc_find_modules ${REDEFINED_VLC_MODULES_DIR})
 VLC_CONTRIB_LDFLAGS=$(for i in $(/bin/ls $VLC_CONTRIB/lib/pkgconfig/*.pc); do PKG_CONFIG_PATH="$VLC_CONTRIB/lib/pkgconfig/" pkg-config --libs $i; done |xargs)
-echo -e "ndk-build vlc"
+echo "ndk-build vlc"
 
 touch $VLC_OUT_PATH/dummy.cpp
 
