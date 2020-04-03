@@ -1,3 +1,17 @@
+Changes between 3.2.10 and 3.2.11:
+------------------
+
+Application:
+ * Fix network server edition
+ * Fiw subs not loaded on video playback restoration
+ * Fix loading states in lists when content is empty
+ * TV: Fix video playback restoration
+ * Fix crashes
+
+VLC:
+ * Security fixes
+ * AV1 decoding performances improvement
+
 Changes between 3.2.9 and 3.2.10:
 ------------------
 
