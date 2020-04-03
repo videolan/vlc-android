@@ -75,7 +75,10 @@ class HistoryAdapter(private val inCards: Boolean = false) : DiffUtilAdapter<Med
         fun onLongClick(v: View) = eventsChannel.safeOffer(LongClick(layoutPosition))
 
         fun onImageClick(v: View) {
-            eventsChannel.safeOffer(ImageClick(layoutPosition))
+            if (inCards)
+                eventsChannel.safeOffer(SimpleClick(layoutPosition))
+            else
+                eventsChannel.safeOffer(ImageClick(layoutPosition))
         }
 
         override fun isSelected() = getItem(layoutPosition).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
