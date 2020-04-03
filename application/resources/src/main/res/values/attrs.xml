@@ -119,6 +119,8 @@
     </declare-styleable>
     <declare-styleable name="TitleListView">
         <attr name="title" format="reference|string" />
+        <attr name="show_button" format="boolean" />
+        <attr name="button_icon" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="HalfCircleView">

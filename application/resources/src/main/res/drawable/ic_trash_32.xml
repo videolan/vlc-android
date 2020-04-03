@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <!--
   ~ *************************************************************************
-  ~  bottom_navigation.xml
+  ~  ic_trash_32.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -24,28 +22,16 @@
   ~
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-    <item
-            android:id="@+id/nav_video"
-            android:title="@string/video"
-            android:icon="@drawable/ic_menu_video" />
-    <item
-            android:id="@+id/nav_audio"
-            android:title="@string/audio"
-            android:icon="@drawable/ic_menu_audio" />
-    <item
-            android:id="@+id/nav_directories"
-            android:title="@string/browse"
-            android:icon="@drawable/ic_menu_folder" />
-    <item
-            android:id="@+id/nav_playlists"
-            android:title="@string/playlists"
-            android:icon="@drawable/ic_menu_playlist" />
-    <item
-            android:id="@+id/nav_more"
-            android:title="@string/more"
-            android:icon="@drawable/ic_nav_more" />
-
-</menu>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="32dp"
+        android:height="32dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="@color/standard_selection_control_normal"
+            android:fillType="nonZero"
+            android:pathData="m10,4c-0.7396,0 -1.3727,0.4031 -1.7187,1l-2.2813,-0.013 0,2 12,0 0,-2 -2.2813,0.013c-0.346,-0.5969 -0.9791,-1 -1.7188,-1zM7,8 L7,18c0,1.108 0.892,2 2,2l6,0c1.108,0 2,-0.892 2,-2l0,-10z"
+            android:strokeWidth="1"
+            android:strokeColor="#00000000" />
+</vector>

@@ -30,14 +30,17 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.videolan.tools.setGone
 import org.videolan.vlc.R
 
 class TitleListView : ConstraintLayout {
 
+    private var actionClickListener: ((View) -> Unit)? = null
     private val titleView: TextView by lazy {
         findViewById<TextView>(R.id.title)
     }
@@ -48,6 +51,14 @@ class TitleListView : ConstraintLayout {
 
     val loading: EmptyLoadingStateView by lazy {
         findViewById<EmptyLoadingStateView>(R.id.loading)
+    }
+
+    val actionButton: ImageButton by lazy {
+        findViewById<ImageButton>(R.id.action_button)
+    }
+
+    fun setOnActionClickListener(listener: (View) -> Unit) {
+        this.actionClickListener = listener
     }
 
     constructor(context: Context) : super(context)
@@ -67,6 +78,12 @@ class TitleListView : ConstraintLayout {
             val a = context.theme.obtainStyledAttributes(attrs, R.styleable.TitleListView, 0, defStyle)
             try {
                 titleView.text = a.getString(R.styleable.TitleListView_title)
+                if (!a.getBoolean(R.styleable.TitleListView_show_button, false)) actionButton.setGone()
+                actionButton.setImageDrawable(a.getDrawable(R.styleable.TitleListView_button_icon))
+                actionButton.setOnClickListener {
+                    actionClickListener?.let { listener -> listener(actionButton) }
+                }
+//                actionButton.icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon))
             } catch (e: Exception) {
                 Log.w("", e.message, e)
             } finally {

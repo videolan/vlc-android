@@ -38,6 +38,7 @@ import kotlinx.android.synthetic.main.more_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.onEach
+import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.*
@@ -64,7 +65,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
 
     private lateinit var historyEntry: TitleListView
     private lateinit var viewModel: HistoryModel
-    private lateinit var cleanMenuItem: MenuItem
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(true)
     override fun hasFAB() = false
@@ -89,13 +89,11 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
         viewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaWrapper>> { list ->
             list?.let {
                 historyAdapter.update(it)
-                if (::cleanMenuItem.isInitialized) {
-                    cleanMenuItem.isVisible = list.isNotEmpty()
-                }
                 if (list.isEmpty()) historyEntry.setGone() else {
                     historyEntry.setVisible()
                     historyEntry.loading.state = EmptyLoadingState.NONE
                 }
+                if (list.isNotEmpty()) historyEntry.actionButton.setVisible() else historyEntry.actionButton.setGone()
             }
             restoreMultiSelectHelper()
         })
@@ -138,6 +136,10 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
         historyEntry.list.nextFocusRightId = android.R.id.list
         historyEntry.list.nextFocusForwardId = android.R.id.list
 
+        historyEntry.setOnActionClickListener {
+            clearHistory()
+        }
+
         multiSelectHelper = historyAdapter.multiSelectHelper
         historyEntry.list.requestFocus()
         registerForContextMenu(historyEntry.list)
@@ -149,23 +151,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
             outState.putParcelable(KEY_SELECTION, SparseBooleanArrayParcelable(it.selectionMap))
         }
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.fragment_option_history, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-        cleanMenuItem = menu.findItem(R.id.ml_menu_clean)
-        cleanMenuItem.isVisible = !isEmpty()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.ml_menu_clean -> {
-                clearHistory()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     override fun refresh() = viewModel.refresh()
@@ -180,11 +165,11 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
 
     override fun clearHistory() {
         viewModel.clearHistory()
+        Medialibrary.getInstance().clearHistory()
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.action_mode_history, menu)
-        return true
+        return false
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {

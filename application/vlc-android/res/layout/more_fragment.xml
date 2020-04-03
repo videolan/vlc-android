@@ -91,6 +91,7 @@
                         android:id="@+id/history_entry"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        app:button_icon="@drawable/ic_trash_32"
                         android:layout_marginTop="24dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
