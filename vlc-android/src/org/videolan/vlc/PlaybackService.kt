@@ -463,6 +463,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
         updateHasWidget()
         if (!this::mediaSession.isInitialized) initMediaSession()
+        if (AndroidUtil.isOOrLater && !isForeground) forceForeground()
 
         val filter = IntentFilter().apply {
             priority = Integer.MAX_VALUE

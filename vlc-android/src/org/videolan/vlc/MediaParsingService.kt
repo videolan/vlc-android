@@ -123,6 +123,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope, Lifec
     override fun onCreate() {
         dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
+        if (AndroidUtil.isOOrLater) forceForeground()
         localBroadcastManager = LocalBroadcastManager.getInstance(this)
         medialibrary = AbstractMedialibrary.getInstance()
         medialibrary.addDeviceDiscoveryCb(this@MediaParsingService)
