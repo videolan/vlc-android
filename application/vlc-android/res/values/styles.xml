@@ -15,6 +15,7 @@
     <style name="Theme.VLC.Apearance" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.MaterialComponents</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionModeUpStyle</item>
 
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
@@ -632,6 +633,10 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
 
+    </style>
+
+    <style name="ActionModeUpStyle" parent="Widget.AppCompat.Light.ActionButton.CloseMode">
+        <item name="android:tint">@color/white</item> <!-- whatever color -->
     </style>
 
 </resources>
