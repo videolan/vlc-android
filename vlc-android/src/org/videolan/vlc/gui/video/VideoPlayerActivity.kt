@@ -854,7 +854,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             if (!isFinishing) {
                 currentAudioTrack = audioTrack
                 currentSpuTrack = spuTrack
-                if (tv && !isInteractive) finish() // Leave player on TV, restauration can be difficult
+                if (tv) finish() // Leave player on TV, restauration can be difficult
             }
 
             if (isMute) mute(false)
