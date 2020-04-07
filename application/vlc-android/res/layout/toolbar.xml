@@ -25,8 +25,8 @@
 
         <ImageView
                 android:id="@+id/toolbar_icon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 app:srcCompat="@drawable/icon" />
 
         <TextView
