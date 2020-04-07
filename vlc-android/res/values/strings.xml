@@ -261,7 +261,7 @@
     <string name="about_link" translatable="false">        &lt;a href=&quot;https://www.videolan.org/vlc/&quot;&gt;https://www.videolan.org/vlc/&lt;/a&gt;</string>
     <string name="authors" translatable="false">Edward&#160;Wang, Sébastien&#160;Toque, Adrien&#160;Maglo, Jean-Baptiste&#160;Kempf, Ludovic&#160;Fauvet, Rafaël&#160;Carré, Alexandre&#160;Perraud, Michael&#160;Merg, Martin&#160;Storsjö, Rémi&#160;Duraffort, Dominique&#160;Martinet, Jean-Philippe&#160;André, Felix&#160;Abecassis, Christoph&#160;Miebach, Hugo&#160;Beauzée-Luyssen, Felix&#160;Paul&#160;Kühne, John&#160;Mooring, Pavol&#160;Rusnak, Rohit&#160;Yadav, Tanguy&#160;Pruvot, Thomas&#160;Clavier, Asad&#160;Mehmood, Garret&#160;Kelly, Philipp&#160;Dreimann, Walter&#160;Heck, Thomas&#160;Guillem, Geoffrey&#160;Métais, Habib&#160;Kazemi, Nicolas&#160;Pomepuy</string>
     <string name="feedback_link" translatable="false">&lt;a href=&quot;https://forum.videolan.org/viewforum.php?f=35&quot;&gt;%s&lt;/a&gt;</string>
-    <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2019 by VideoLAN.\n</string>
+    <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2020 by VideoLAN.\n</string>
     <string name="vlc_authors">and VLC Authors.</string>
     <string name="compiled_by">This version of VLC is compiled by:</string>
     <string name="feedback_forum">Feedback forum</string>
