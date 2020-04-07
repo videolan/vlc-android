@@ -26,7 +26,9 @@
             android:id="@+id/scan_viewstub"
             android:layout_width="match_parent"
             android:layout_height="@dimen/progress_layout_height"
-            android:layout_gravity="bottom"
+            app:layout_anchor="@+id/navigation"
+            app:layout_anchorGravity="top"
+            android:layout_gravity="top"
             android:layout="@layout/scan_progress" />
 
     <include layout="@layout/audioplayercontainer" />
