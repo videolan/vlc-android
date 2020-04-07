@@ -67,7 +67,6 @@
     <attr name="ic_playlist" format="reference" />
     <attr name="ic_playlist_on" format="reference" />
     <attr name="ic_menu_search" format="reference" />
-    <attr name="ic_audio_player_more" format="reference" />
     <attr name="ic_previous" format="reference" />
     <attr name="ic_next" format="reference" />
     <attr name="ic_close" format="reference" />

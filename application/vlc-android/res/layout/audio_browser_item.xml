@@ -133,7 +133,7 @@
                 android:contentDescription="@string/more_actions"
                 android:onClick="@{holder::onMoreClick}"
                 android:scaleType="center"
-                android:src="@drawable/ic_more"
+                vlc:srcCompat="@drawable/ic_more"
                 vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="@+id/title" />

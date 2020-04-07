@@ -1,6 +1,6 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ *************************************************************************
-  ~  ic_am_playlist_down.xml
+  ~  styles.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -22,19 +22,17 @@
   ~
   -->
 
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="48dp"
-        android:height="48dp"
-        android:viewportWidth="24"
-        android:viewportHeight="24">
-    <path
-            android:fillAlpha="1"
-            android:fillColor="?attr/colorControlNormal"
-            android:fillType="evenOdd"
-            android:pathData="m12,20 l-1.4141,-1.416 -6.0859,-6.084 1.4141,-1.4141 5.0859,5.084v-12.1699h2v12.1699l5.0859,-5.084 1.4141,1.4141 -6.0859,6.084z"
-            android:strokeWidth="3.7416575"
-            android:strokeAlpha="1"
-            android:strokeColor="#00000000"
-            android:strokeLineCap="butt"
-            android:strokeLineJoin="round" />
-</vector>
+<resources>
+
+    <style name="Theme.VLC" parent="Theme.VLC.19">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.19">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

@@ -200,7 +200,7 @@
                 android:focusable="true"
                 android:onClick="@{fragment::showAdvancedOptions}"
                 android:contentDescription="@string/advanced"
-                android:src="?attr/ic_audio_player_more" />
+                    app:srcCompat="@drawable/ic_more" />
 
             <TextView
                 android:id="@+id/header_time"

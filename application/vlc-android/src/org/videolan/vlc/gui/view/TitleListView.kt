@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 
 class TitleListView : ConstraintLayout {
 
@@ -79,7 +80,8 @@ class TitleListView : ConstraintLayout {
             try {
                 titleView.text = a.getString(R.styleable.TitleListView_title)
                 if (!a.getBoolean(R.styleable.TitleListView_show_button, false)) actionButton.setGone()
-                actionButton.setImageDrawable(a.getDrawable(R.styleable.TitleListView_button_icon))
+                val drawableResId = a.getResourceId(R.styleable.TitleListView_button_icon, -1)
+                actionButton.setImageBitmap(context.getBitmapFromDrawable(drawableResId))
                 actionButton.setOnClickListener {
                     actionClickListener?.let { listener -> listener(actionButton) }
                 }

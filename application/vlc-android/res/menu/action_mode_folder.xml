@@ -4,7 +4,7 @@
     <item
         android:id="@+id/action_folder_play"
         android:title="@string/play"
-        android:icon="@drawable/ic_play_w"
+            android:icon="@drawable/ic_am_play"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_folder_append"
