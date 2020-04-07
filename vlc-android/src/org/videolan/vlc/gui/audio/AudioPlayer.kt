@@ -56,6 +56,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.isStarted
@@ -140,6 +141,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         binding.audioMediaSwitcher.setAudioMediaSwitcherListener(headerMediaSwitcherListener)
         binding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener)
         binding.playlistSearchText.editText?.addTextChangedListener(this)
+        if (!AndroidUtil.isLolliPopOrLater) binding.songsList.itemAnimator = null
 
         val callback = SwipeDragItemTouchHelperCallback(playlistAdapter, true)
         val touchHelper = ItemTouchHelper(callback)
