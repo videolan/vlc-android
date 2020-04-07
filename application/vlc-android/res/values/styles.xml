@@ -97,7 +97,7 @@
         <item name="ic_video_stats">@drawable/ic_video_stats</item>
         <item name="ic_dial">@drawable/ic_dial</item>
         <item name="progress_background">@color/grey400</item>
-        <item name="ariane_text_color">@color/grey50</item>
+        <item name="ariane_text_color">@color/grey700</item>
         <item name="ariane_text_size">14sp</item>
         <item name="player_icon_color">@color/black</item>
         <item name="card_background">@color/white</item>
