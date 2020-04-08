@@ -583,7 +583,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val trackInfo = playlistModel.title ?: return
 
             requireActivity().copy("VLC - song name", trackInfo)
-            UiTools.snacker(requireActivity().findViewById(android.R.id.content), R.string.track_info_copied_to_clipboard)
+            activity?.window?.decorView?.let { UiTools.snacker(it, R.string.track_info_copied_to_clipboard) }
         }
 
         override fun onTouchDown() {}
