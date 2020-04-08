@@ -113,7 +113,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
             R.id.nav_network -> NetworkBrowserFragment()
             R.id.nav_more -> MoreFragment()
             else -> {
-                val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "-1")!!)
+                val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "1")!!)
                 when {
                     group > 0 -> VideoGridFragment().apply {
                         arguments = Bundle(1).apply {
