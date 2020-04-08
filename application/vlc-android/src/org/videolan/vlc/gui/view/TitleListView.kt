@@ -85,7 +85,7 @@ class TitleListView : ConstraintLayout {
                 actionButton.setOnClickListener {
                     actionClickListener?.let { listener -> listener(actionButton) }
                 }
-//                actionButton.icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon))
+                list.isNestedScrollingEnabled = false
             } catch (e: Exception) {
                 Log.w("", e.message, e)
             } finally {
