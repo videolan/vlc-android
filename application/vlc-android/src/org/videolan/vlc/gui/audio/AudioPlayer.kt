@@ -351,7 +351,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     fun onNextClick(view: View) {
-        if (!playlistModel.next()) UiTools.snacker(requireActivity().findViewById(android.R.id.content), R.string.lastsong)
+        if (!playlistModel.next()) activity?.window?.decorView?.let { UiTools.snacker(it, R.string.lastsong) }
     }
 
     fun onPreviousClick(view: View) {
