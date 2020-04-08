@@ -46,6 +46,7 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
     private var lastStartedType: Int = 0
     private var offsetAnimator: ValueAnimator? = null
     private var isSnappingEnabled = true
+    var isPlayerHidden = false
     private var player: FrameLayout? = null
 
     override fun onNestedPreScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
@@ -69,6 +70,7 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
     override fun onStartNestedScroll(
             coordinatorLayout: CoordinatorLayout, child: V, directTargetChild: View, target: View, axes: Int, type: Int
     ): Boolean {
+        if (isPlayerHidden) return false
         if (axes != ViewCompat.SCROLL_AXIS_VERTICAL)
             return false
 
@@ -123,7 +125,9 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
         }
     }
 
-    private fun animateBarVisibility(child: View, isVisible: Boolean) {
+    fun animateBarVisibility(child: View, isVisible: Boolean) {
+        val targetTranslation = if (isVisible) 0f else child.height.toFloat()
+        if (child.translationY == targetTranslation) return
         if (offsetAnimator == null) {
             offsetAnimator = ValueAnimator().apply {
                 interpolator = DecelerateInterpolator()
@@ -139,8 +143,17 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
             offsetAnimator?.cancel()
         }
 
-        val targetTranslation = if (isVisible) 0f else child.height.toFloat()
         offsetAnimator?.setFloatValues(child.translationY, targetTranslation)
         offsetAnimator?.start()
+    }
+
+    companion object {
+        fun <V : View> from(view: V): BottomNavigationBehavior<V>? {
+            val params = view.layoutParams
+            require(params is CoordinatorLayout.LayoutParams) { "The view is not a child of CoordinatorLayout" }
+            val behavior = params.behavior
+            require(behavior is BottomNavigationBehavior<*>) { "The view is not associated with BottomNavigationBehavior" }
+            return behavior as BottomNavigationBehavior<V>?
+        }
     }
 }

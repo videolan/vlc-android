@@ -58,8 +58,10 @@ import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
+import org.videolan.vlc.gui.helpers.BottomNavigationBehavior
 import org.videolan.vlc.gui.helpers.PlayerBehavior
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.getHeightWhenReady
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
 
@@ -68,7 +70,7 @@ private const val TAG = "VLC/APCActivity"
 private const val ACTION_DISPLAY_PROGRESSBAR = 1339
 private const val ACTION_SHOW_PLAYER = 1340
 private const val ACTION_HIDE_PLAYER = 1341
-
+private const val BOTTOM_IS_HIDDEN = "bottom_is_hidden"
 @SuppressLint("Registered")
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -105,11 +107,14 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     val isAudioPlayerExpanded: Boolean
         get() = isAudioPlayerReady && playerBehavior.state == STATE_EXPANDED
 
+    var bottomIsHiddden: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
 
             this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
+            bottomIsHiddden = savedInstanceState.getBoolean(BOTTOM_IS_HIDDEN, false)
         }
         super.onCreate(savedInstanceState)
         volumeControlStream = AudioManager.STREAM_MUSIC
@@ -127,6 +132,13 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         tabLayout = findViewById(R.id.sliding_tabs)
         appBarLayout.setExpanded(true)
         bottomBar = findViewById(R.id.navigation)
+        if (bottomIsHiddden) {
+            bottomBar?.let {
+                val bottomBehavior = BottomNavigationBehavior.from(it) as BottomNavigationBehavior<*>
+                bottomBehavior.isPlayerHidden = true
+                it.getHeightWhenReady { height -> it.translationY = height.toFloat() }
+            }
+        }
         tabLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
             //add a shadow if there are tabs
             if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (tabLayout?.isVisible() == true) 4.dp.toFloat() else 0.dp.toFloat()
@@ -142,6 +154,8 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         findViewById<View>(R.id.audio_player_stub).visibility = View.VISIBLE
         audioPlayer = supportFragmentManager.findFragmentById(R.id.audio_player) as AudioPlayer
         playerBehavior = from(audioPlayerContainer) as PlayerBehavior<*>
+        val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<*> }
+                ?: null
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         playerBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -152,11 +166,28 @@ open class AudioPlayerContainerActivity : BaseActivity() {
                 onPlayerStateChanged(bottomSheet, newState)
                 audioPlayer.onStateChanged(newState)
                 if (newState == STATE_COLLAPSED || newState == STATE_HIDDEN) removeTipViewIfDisplayed()
-                if (newState == STATE_DRAGGING) bottomBar?.animate()?.translationY(bottomBar?.height?.toFloat()
-                        ?: 0F)
+                bottomBehavior?.let { bottomBehavior ->
+                    bottomBar?.let { bottomBar ->
+                        if (newState == STATE_DRAGGING) {
+                            bottomBehavior.animateBarVisibility(bottomBar, false)
+                            bottomBehavior.isPlayerHidden = true
+                        }
+                        if (newState == STATE_COLLAPSED) {
+                            bottomBehavior.animateBarVisibility(bottomBar, true)
+                            bottomBehavior.isPlayerHidden = false
+                        }
+                    }
+                }
+
             }
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<*> }?.isPlayerHidden
+                ?: false)
+        super.onSaveInstanceState(outState)
     }
 
     fun expandAppBar() {

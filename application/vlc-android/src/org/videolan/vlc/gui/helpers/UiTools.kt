@@ -671,3 +671,12 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
     }
     else -> R.drawable.ic_browser_unknown_big_normal
 }
+
+fun View.getHeightWhenReady(listener: (height: Int) -> Unit) {
+    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            listener(height)
+            viewTreeObserver.removeOnGlobalLayoutListener(this)
+        }
+    })
+}
