@@ -42,8 +42,9 @@
             android:tint="@color/grey50"
             android:visibility="invisible"
             app:borderWidth="0dp"
-            app:layout_anchor="@+id/fragment_placeholder"
-            app:layout_anchorGravity="bottom|end"
+            app:layout_anchor="@+id/navigation"
+            app:layout_anchorGravity="top|end"
+            android:layout_gravity="top"
             app:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
             app:rippleColor="@color/orange50" />
 
