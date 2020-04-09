@@ -698,8 +698,6 @@
     <string name="preamp">Előerősítés</string>
     <string name="presets">Előbeállítások</string>
     <string name="reset">Visszaállítás</string>
-    <string name="appended">Szám(ok) hozzáadva</string>
-    <string name="inserted">Szám(ok) beszúrva</string>
     <string name="remove_current">Jelenlegi eltávolítása</string>
     <string name="validation_delete_playlist">Biztos, hogy törli ezt a lejátszólistát?</string>
     <string name="validation_delete_playlist_text">Ez a művelet nem vonható vissza.</string>

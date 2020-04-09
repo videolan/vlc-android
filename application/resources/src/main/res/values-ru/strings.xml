@@ -718,8 +718,6 @@
     <string name="preamp">Предусилитель</string>
     <string name="presets">Предустановки</string>
     <string name="reset">Сброс</string>
-    <string name="appended">Дорожка(и) добавлена(ы)</string>
-    <string name="inserted">Дорожка(и) вставлена(ы)</string>
     <string name="remove_current">Удалить текущий</string>
     <string name="validation_delete_playlist">Вы уверены, что хотите удалить этот плейлист?</string>
     <string name="validation_delete_playlist_text">Это действие нельзя отменить.</string>

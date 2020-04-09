@@ -689,8 +689,6 @@
     <string name="preamp">前置放大器</string>
     <string name="presets">预设</string>
     <string name="reset">重置</string>
-    <string name="appended">已追加轨道</string>
-    <string name="inserted">已插入轨道</string>
     <string name="remove_current">移除当前项</string>
     <string name="validation_delete_playlist">是否确定要删除该播放列表?</string>
     <string name="validation_delete_playlist_text">此操作不可撤销。</string>

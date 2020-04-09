@@ -84,7 +84,8 @@ object MediaUtils {
             service.append(media)
             context.let {
                 if (it is Activity) {
-                    Snackbar.make(it.findViewById(android.R.id.content), R.string.appended, Snackbar.LENGTH_LONG).show()
+                    val text = context.resources.getQuantityString(R.plurals.tracks_appended, media.size, media.size)
+                    Snackbar.make(it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -102,7 +103,8 @@ object MediaUtils {
             service.insertNext(media)
             context.let {
                 if (it is Activity) {
-                    Snackbar.make(it.findViewById(android.R.id.content), R.string.inserted, Snackbar.LENGTH_LONG).show()
+                    val text = context.resources.getQuantityString(R.plurals.tracks_inserted, media.size, media.size)
+                    Snackbar.make(it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }
         }

@@ -677,7 +677,6 @@
     <string name="preamp">Předzesílení</string>
     <string name="presets">Přednastavení</string>
     <string name="reset">Obnovit</string>
-    <string name="inserted">Skladba/y byly přidány</string>
     <string name="remove_current">Odstranit aktuální</string>
     <string name="validation_delete_playlist">Opravdu chcete smazat tento seznam skladeb?</string>
     <string name="display_in_list">Zobrazit v seznamu</string>

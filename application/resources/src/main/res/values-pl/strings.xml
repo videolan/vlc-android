@@ -719,8 +719,6 @@
     <string name="preamp">Przedwzmacniacz</string>
     <string name="presets">Domyślne</string>
     <string name="reset">Resetuj</string>
-    <string name="appended">Utwory dołączone</string>
-    <string name="inserted">Utwory wstawione</string>
     <string name="remove_current">Usuń obecne</string>
     <string name="validation_delete_playlist">Czy na pewno chcesz usunąć tą listę odtwarzania?</string>
     <string name="validation_delete_playlist_text">Ta akcja nie może zostać cofnięta.</string>

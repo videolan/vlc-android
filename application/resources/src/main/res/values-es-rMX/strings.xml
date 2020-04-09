@@ -674,8 +674,6 @@
     <string name="preamp">Preamp</string>
     <string name="presets">Predefinidos</string>
     <string name="reset">Restablecer</string>
-    <string name="appended">Pista(s) adjuntas</string>
-    <string name="inserted">Pista(s) insertadas</string>
     <string name="remove_current">Borrar actual</string>
     <string name="validation_delete_playlist">¿Realmente quiere borrar la lista?</string>
     <string name="validation_delete_playlist_text">Esta acción no se puede deshacer</string>

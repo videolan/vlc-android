@@ -699,8 +699,6 @@
     <string name="preamp">Preamplificazione</string>
     <string name="presets">Preimpostazioni</string>
     <string name="reset">Ripristina</string>
-    <string name="appended">Tracce accodate</string>
-    <string name="inserted">Tracce inserite</string>
     <string name="remove_current">Rimuovi attuale</string>
     <string name="validation_delete_playlist">Sei sicuro di voler eliminare questa scaletta?</string>
     <string name="validation_delete_playlist_text">Questa azione non può essere annullata.</string>

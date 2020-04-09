@@ -719,8 +719,6 @@
     <string name="preamp">Predbežné zosilnenie</string>
     <string name="presets">Prednastavenia</string>
     <string name="reset">Reset</string>
-    <string name="appended">Pripojená stopa/stopy</string>
-    <string name="inserted">Vložená stopa/stopy</string>
     <string name="remove_current">Odstrániť aktuálne</string>
     <string name="validation_delete_playlist">Naozaj chcete vymazať tento playlist?</string>
     <string name="validation_delete_playlist_text">Túto akciu nemožno vrátiť späť.</string>

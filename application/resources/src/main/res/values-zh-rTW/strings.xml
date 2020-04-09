@@ -688,8 +688,6 @@
     <string name="preamp">前置放大</string>
     <string name="presets">預置</string>
     <string name="reset">重設</string>
-    <string name="appended">軌道已附加</string>
-    <string name="inserted">軌道已插入</string>
     <string name="remove_current">移除目前的</string>
     <string name="validation_delete_playlist">您確定要刪除這個播放清單嗎？</string>
     <string name="validation_delete_playlist_text">這個動作無法復原。</string>

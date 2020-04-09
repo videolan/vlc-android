@@ -601,8 +601,6 @@
     <string name="enable_equalizer">Įgalinti</string>
     <string name="presets">Deriniai</string>
     <string name="reset">Atstatyti</string>
-    <string name="appended">Takelis(-iai) pridėti</string>
-    <string name="inserted">Takelis(-iai) įdėti</string>
     <string name="remove_current">Pašalinti dabartinį</string>
     <string name="validation_delete_playlist">Ar tikrai norite pašalinti šį grojaraštį?</string>
     <string name="validation_delete_playlist_text">Veiksmo atšaukti negalėsite.</string>

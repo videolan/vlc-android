@@ -680,8 +680,6 @@
     <string name="preamp">Pré-amplificação</string>
     <string name="presets">Predefinições</string>
     <string name="reset">Repor</string>
-    <string name="appended">Faixa(s) anexada(s)</string>
-    <string name="inserted">Faixa(s) inserida(s)</string>
     <string name="remove_current">Remover atual</string>
     <string name="validation_delete_playlist">Tem a certeza que quer eliminar esta lista de reprodução?</string>
     <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>

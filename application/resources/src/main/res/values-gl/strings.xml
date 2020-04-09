@@ -690,8 +690,6 @@
     <string name="preamp">Preamplificación</string>
     <string name="presets">Predeterminados</string>
     <string name="reset">Restabelecer</string>
-    <string name="appended">Pista(s) anexadas</string>
-    <string name="inserted">Pista(s) inseridas</string>
     <string name="remove_current">Retirar a actual</string>
     <string name="validation_delete_playlist">Confirma a eliminación desta lista de reprodución?</string>
     <string name="validation_delete_playlist_text">Non é posíbel desfacer esta acción.</string>

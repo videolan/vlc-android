@@ -673,7 +673,6 @@
     <string name="enable_equalizer">Galluogi</string>
     <string name="presets">Rhagosodiadau</string>
     <string name="reset">Ailosod</string>
-    <string name="inserted">Mewnosodwyd trac(iau)</string>
     <string name="remove_current">Tynnu\'r cyfredol</string>
     <string name="validation_delete_playlist">Wyt ti\'n sicr eisiau dileu\'r rhestr chwarae hon?</string>
     <string name="validation_delete_playlist_text">Ni ellir dadwneud y weithred hon.</string>

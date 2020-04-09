@@ -698,8 +698,6 @@
     <string name="preamp">Försteg</string>
     <string name="presets">Förinställningar</string>
     <string name="reset">Nollställ</string>
-    <string name="appended">Lade spår i kö</string>
-    <string name="inserted">Lade till spår</string>
     <string name="remove_current">Ta bort nuvarande</string>
     <string name="validation_delete_playlist">Är du säker på att du vill radera denna spellista?</string>
     <string name="validation_delete_playlist_text">Denna handling kan inte ångras.</string>

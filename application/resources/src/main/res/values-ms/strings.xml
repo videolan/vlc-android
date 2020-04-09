@@ -688,8 +688,6 @@
     <string name="preamp">Praamp</string>
     <string name="presets">Praset</string>
     <string name="reset">Tetap Semula</string>
-    <string name="appended">Trek ditambah</string>
-    <string name="inserted">Trek ditambah</string>
     <string name="remove_current">Buang semasa</string>
     <string name="validation_delete_playlist">Anda pasti mahu memadam senarai main ini?</string>
     <string name="validation_delete_playlist_text">Tindakan ini tidak boleh dikembalikan.</string>

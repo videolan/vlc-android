@@ -698,8 +698,6 @@
     <string name="preamp">Voorversterking</string>
     <string name="presets">Presets</string>
     <string name="reset">Herstellen</string>
-    <string name="appended">Track(s) toegevoegd</string>
-    <string name="inserted">Track(s) ingevoegd</string>
     <string name="remove_current">Huidige verwijderen</string>
     <string name="validation_delete_playlist">Weer u zeker dat u deze afspeellijst wilt verwijderen?</string>
     <string name="validation_delete_playlist_text">Deze handeling kan niet ongedaan worden gemaakt.</string>

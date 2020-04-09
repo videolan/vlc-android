@@ -689,8 +689,6 @@
     <string name="preamp">プリアンプ</string>
     <string name="presets">プリセット</string>
     <string name="reset">リセット</string>
-    <string name="appended">トラックが追加されました</string>
-    <string name="inserted">トラックが挿入されました</string>
     <string name="remove_current">現在のものを削除</string>
     <string name="validation_delete_playlist">本当にこのプレイリストを削除しますか？</string>
     <string name="validation_delete_playlist_text">このアクションは取消できません。</string>

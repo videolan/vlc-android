@@ -669,8 +669,6 @@
     <string name="preamp">Førforsterker</string>
     <string name="presets">Forvalg</string>
     <string name="reset">Tilbakestill</string>
-    <string name="appended">Sang(er) lagt til</string>
-    <string name="inserted">Sang(er) lagt inn</string>
     <string name="remove_current">Fjern nåværende</string>
     <string name="validation_delete_playlist">Er du sikker på at du vil slette denne spillelisten?</string>
     <string name="display_in_list">Vis i liste</string>

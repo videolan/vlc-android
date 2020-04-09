@@ -698,8 +698,6 @@
     <string name="preamp">Ön güçlendirme</string>
     <string name="presets">Hazır Ayarlar</string>
     <string name="reset">Sıfırla</string>
-    <string name="appended">Kayıt sona eklendi</string>
-    <string name="inserted">Kayıt araya eklendi</string>
     <string name="remove_current">Geçerli ögeyi çıkar</string>
     <string name="validation_delete_playlist">Bu oynatma listesini silmek istediğinize emin misiniz?</string>
     <string name="validation_delete_playlist_text">Bu işlem geri alınamaz.</string>

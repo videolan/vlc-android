@@ -658,7 +658,5 @@
     <string name="preamp">Preamplificazione</string>
     <string name="presets">Preselezzioni</string>
     <string name="reset">Viutà</string>
-    <string name="appended">Traccia(e) aghjunta(e) à a fine</string>
-    <string name="inserted">Traccia(e) framessa(e)</string>
     <string name="remove_current">Caccià l’attuale</string>
 </resources>

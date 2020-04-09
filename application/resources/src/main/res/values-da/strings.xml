@@ -698,8 +698,6 @@
     <string name="preamp">Forforstærkning</string>
     <string name="presets">Forudindstillinger</string>
     <string name="reset">Nulstil</string>
-    <string name="appended">Spor tilføjet</string>
-    <string name="inserted">Spor indsæt</string>
     <string name="remove_current">Fjern nuværende</string>
     <string name="validation_delete_playlist">Er du sikker på, at du vil slette afspilningslisten?</string>
     <string name="validation_delete_playlist_text">Handlingen kan ikke fortrydes.</string>

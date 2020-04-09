@@ -698,8 +698,6 @@
     <string name="preamp">Aurreanp</string>
     <string name="presets">Aurrezarpenak</string>
     <string name="reset">Berrezarri</string>
-    <string name="appended">Pista(k) erantsita</string>
-    <string name="inserted">Pista(k) txertatuta</string>
     <string name="remove_current">Kendu unekoa</string>
     <string name="validation_delete_playlist">Ziur erreprodukzio-zerrenda hau ezabatu nahi duzula?</string>
     <string name="validation_delete_playlist_text">Ekintza hau ezin da desegin.</string>

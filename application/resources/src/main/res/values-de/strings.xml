@@ -699,8 +699,6 @@
     <string name="preamp">Vorverstärker</string>
     <string name="presets">Voreinstellung</string>
     <string name="reset">Zurücksetzen</string>
-    <string name="appended">Titel angefügt</string>
-    <string name="inserted">Titel eingefügt</string>
     <string name="remove_current">Aktuelles entfernen</string>
     <string name="validation_delete_playlist">Diese Wiedergabeliste wirklich löschen?</string>
     <string name="validation_delete_playlist_text">Diese Aktion kann nicht rückgängig gemacht werden.</string>

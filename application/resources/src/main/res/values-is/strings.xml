@@ -684,8 +684,6 @@
     <string name="preamp">Formögnun</string>
     <string name="presets">Forstillingar</string>
     <string name="reset">Endurstilla</string>
-    <string name="appended">Lagi/lögum bætt við</string>
-    <string name="inserted">Lag/lög sett inn</string>
     <string name="remove_current">Fjarlægja fyrirliggjandi</string>
     <string name="validation_delete_playlist">Ertu viss um að þú viljir eyða þessum spilunarlista?</string>
     <string name="validation_delete_playlist_text">Þessa aðgerð er ekki hægt að afturkalla.</string>
