@@ -26,7 +26,7 @@
 
     <attr name="item_footer" format="reference|color" />
     <attr name="background_default" format="reference|color" />
-    <attr name="background_default_gradient" format="reference|color" />
+    <attr name="header_background" format="reference|color" />
     <attr name="background_default_darker" format="reference|color" />
     <attr name="background_actionbar" format="reference|color" />
     <attr name="background_menu_divider" format="reference|color" />
