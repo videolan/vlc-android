@@ -300,6 +300,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     }
 
     private fun updateEmptyView() {
+        if (activity == null) return
         val emptyVisibility = getViewModel().providers[currentTab].isEmpty() && getViewModel().providers[currentTab].loading.value == false
         emptyView.visibility = if (emptyVisibility) View.VISIBLE else View.GONE
         medialibrarySettingsBtn.visibility = if (emptyVisibility) View.VISIBLE else View.GONE
