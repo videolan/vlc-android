@@ -226,11 +226,12 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         })
         provider.loading.observe(viewLifecycleOwner, Observer { loading ->
             if (loading == null || currentTab != index) return@Observer
-            setRefreshing(loading)
-            if (loading) empty_loading.state = EmptyLoadingState.LOADING
-            else {
-                swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
-                songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+            setRefreshing(loading) { refresh ->
+                if (refresh) empty_loading.state = EmptyLoadingState.LOADING
+                else {
+                    swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
+                    songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
+                }
             }
         })
     }

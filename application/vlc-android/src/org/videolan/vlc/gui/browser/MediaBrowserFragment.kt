@@ -340,11 +340,12 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     override fun allowedToExpand() = true
 
-    protected fun setRefreshing(refreshing: Boolean) {
+    protected fun setRefreshing(refreshing: Boolean, action: ((loading: Boolean) -> Unit)? = null) {
         refreshJob = lifecycleScope.launchWhenStarted {
             if (refreshing) delay(300L)
             swipeRefreshLayout.isRefreshing = refreshing
             (activity as? MainActivity)?.refreshing = refreshing
+            action?.invoke(refreshing)
         }
     }
 }

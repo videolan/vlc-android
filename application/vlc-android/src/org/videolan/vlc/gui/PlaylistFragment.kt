@@ -105,8 +105,9 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
         })
         viewModel.provider.loading.observe(requireActivity(), Observer<Boolean> { loading ->
-            setRefreshing(loading)
-            if (!loading) binding.empty.visibility = if (empty) View.VISIBLE else View.GONE
+            setRefreshing(loading) { refresh ->
+                if (!refresh) binding.empty.visibility = if (empty) View.VISIBLE else View.GONE
+            }
         })
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)

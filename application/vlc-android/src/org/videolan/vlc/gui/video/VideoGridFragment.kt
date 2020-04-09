@@ -115,11 +115,12 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         })
 
         viewModel.provider.loading.observe(this, Observer { loading ->
-            setRefreshing(loading)
-            if (!loading) {
-                setFabPlayVisibility(true)
-                menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
-                restoreMultiSelectHelper()
+            setRefreshing(loading) { refresh ->
+                if (!refresh) {
+                    setFabPlayVisibility(true)
+                    menu?.let { UiTools.updateSortTitles(it, viewModel.provider) }
+                    restoreMultiSelectHelper()
+                }
             }
         })
         videoListAdapter.showFilename.set(viewModel.groupingType == VideoGroupingType.NONE && viewModel.provider.sort == Medialibrary.SORT_FILENAME)
