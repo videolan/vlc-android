@@ -85,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
                 vlc:srcCompat="@drawable/ic_more"
+                android:background="?attr/selectableItemBackgroundBorderless"
             android:visibility="@{item.type !=  0 ? View.VISIBLE : View.GONE}"
             android:layout_marginEnd="1dp"
             vlc:layout_constraintRight_toRightOf="parent"

@@ -142,7 +142,7 @@
                 android:layout_gravity="center"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/button_circle_orange_selector"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="center"
                 android:layout_marginRight="4dp"
                 app:srcCompat="@drawable/ic_more"

@@ -140,6 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_more"
+                android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="@{hasContextMenu}"
             android:onClick="@{holder::onMoreClick}"
             android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE, default=gone}"

@@ -150,6 +150,7 @@
                     android:onClick="@{holder::onMoreClick}"
                     android:scaleType="center"
                     vlc:srcCompat="@drawable/ic_more"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
                     vlc:layout_constraintEnd_toEndOf="parent"
                     vlc:layout_constraintTop_toTopOf="@+id/title" />

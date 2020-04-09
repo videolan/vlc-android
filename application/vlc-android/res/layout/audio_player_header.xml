@@ -91,6 +91,7 @@
             android:focusable="true"
             android:onClick="@{fragment::showAdvancedOptions}"
             android:contentDescription="@string/advanced"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:srcCompat="@drawable/ic_more" />
 
         <TextView

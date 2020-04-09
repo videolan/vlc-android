@@ -153,6 +153,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             vlc:layout_constraintEnd_toEndOf="parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:contentDescription="@string/more_actions"
             android:onClick="@{holder::onMoreClick}"
