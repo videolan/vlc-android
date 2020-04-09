@@ -19,6 +19,7 @@
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:popupTheme="?attr/toolbar_popup_style"
             app:theme="@style/Toolbar.VLC"
+
             app:titleTextColor="@color/orange500"
             app:titleMarginStart="@dimen/default_margin"
             tools:targetApi="o">
