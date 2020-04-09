@@ -26,7 +26,7 @@
 
         <item name="colorPrimary">@color/orange500</item>
         <item name="colorPrimaryDark">@color/orange700</item>
-        <item name="colorSecondary">@color/orange700</item>
+        <item name="colorSecondary">@color/orange500</item>
         <item name="colorOnSecondary">@color/grey50</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/orange500</item>
