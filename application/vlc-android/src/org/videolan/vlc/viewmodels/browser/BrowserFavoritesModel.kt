@@ -27,24 +27,21 @@ package org.videolan.vlc.viewmodels.browser
 import android.app.Application
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.MediaBrowser
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.convertFavorites
-import kotlin.coroutines.CoroutineContext
 
 class BrowserFavoritesModel(context: Context) : AndroidViewModel(context.applicationContext as Application) {
     val favorites = LiveDataset<MediaLibraryItem>()
@@ -62,7 +59,7 @@ class FavoritesProvider(
         browserFavRepository.browserFavorites
                 .flowOn(Dispatchers.IO)
                 .onEach { list ->
-                    convertFavorites(list.sortedBy { it.type }).let {
+                    convertFavorites(list.sortedWith(compareBy(BrowserFav::title, BrowserFav::type))).let {
                         dataset.value = it as MutableList<MediaLibraryItem>
                         parseSubDirectories()
                     }
