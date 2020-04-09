@@ -35,6 +35,7 @@
         <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500
         </item>
         <item name="colorControlHighlight">@color/orange500</item>
+        <item name="colorControlNormal">@color/grey700</item>
 
 
         <item name="actionModeBackground">@color/grey400</item>
@@ -158,6 +159,7 @@
         <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/orange500
         </item>
         <item name="colorControlHighlight">@color/orange500</item>
+        <item name="colorControlNormal">@color/grey700</item>
 
         <item name="item_footer">@color/grey700</item>
         <item name="windowActionModeOverlay">true</item>
