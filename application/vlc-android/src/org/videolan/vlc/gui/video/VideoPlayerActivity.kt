@@ -445,7 +445,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         sDisplayRemainingTime = settings.getBoolean(KEY_REMAINING_TIME_DISPLAY, false)
         // Clear the resume time, since it is only used for resumes in external
         // videos.
-        settings.putSingle(VIDEO_RESUME_TIME, -1)
+        settings.putSingle(VIDEO_RESUME_TIME, -1L)
         // Paused flag - per session too, like the subs list.
         this.volumeControlStream = AudioManager.STREAM_MUSIC
 
@@ -2331,7 +2331,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                     showConfirmResumeDialog()
                                     return
                                 } else {
-                                    settings.putSingle(VIDEO_RESUME_TIME, -1)
+                                    settings.putSingle(VIDEO_RESUME_TIME, -1L)
                                     startTime = rTime
                                 }
                             }
