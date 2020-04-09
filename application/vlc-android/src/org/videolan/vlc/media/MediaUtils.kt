@@ -73,6 +73,27 @@ object MediaUtils {
         else Permissions.askWriteStoragePermission(activity, false, callBack)
     }
 
+    suspend fun deleteMedia(mw: MediaLibraryItem, failCB: Runnable? = null) = withContext(Dispatchers.IO) {
+        val foldersToReload = LinkedList<String>()
+        val mediaPaths = LinkedList<String>()
+        for (media in mw.tracks) {
+            val path = media.uri.path
+            val parentPath = FileUtils.getParent(path)
+            if (FileUtils.deleteFile(media.uri)) parentPath?.let {
+                if (media.id > 0L && !foldersToReload.contains(it)) {
+                    foldersToReload.add(it)
+                }
+                mediaPaths.add(media.location)
+            }
+        }
+        val mediaLibrary = Medialibrary.getInstance()
+        for (folder in foldersToReload) mediaLibrary.reload(folder)
+        if (mediaPaths.isEmpty()) {
+            failCB?.run()
+            false
+        } else true
+    }
+
     fun loadlastPlaylist(context: Context?, type: Int) {
         if (context == null) return
         SuspendDialogCallback(context) { service -> service.loadLastPlaylist(type) }

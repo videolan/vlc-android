@@ -60,12 +60,10 @@ import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getW
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel
 import java.lang.Runnable
-import java.util.*
 
 private const val TAG = "VLC/MediaBrowserFragment"
 private const val KEY_SELECTION = "key_selection"
@@ -184,7 +182,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             for (item in items) {
                 if (!isStarted()) break
                 when(item) {
-                    is MediaWrapper -> if (getWritePermission(item.uri)) deleteMedia(item)
+                    is MediaWrapper -> if (getWritePermission(item.uri)) MediaUtils.deleteMedia(item)
                     is Playlist -> withContext(Dispatchers.IO) { item.delete() }
                 }
             }
@@ -194,46 +192,24 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
         val view = view ?: return false
-        when (item.itemType) {
-            MediaLibraryItem.TYPE_PLAYLIST -> snackerConfirm(view, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as Playlist) })
-            MediaLibraryItem.TYPE_MEDIA -> {
+        when (item) {
+            is Playlist -> lifecycleScope.snackerConfirm(view, getString(R.string.confirm_delete_playlist, item.title)) { MediaUtils.deletePlaylist(item) }
+            is MediaWrapper -> {
                 val deleteAction = Runnable {
-                    if (isStarted()) lifecycleScope.launch { deleteMedia(item, false, null) }
+                    if (isStarted()) lifecycleScope.launch {
+                        if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
+                    }
                 }
-                val resid = if ((item as MediaWrapper).type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-                snackerConfirm(view, getString(resid, item.getTitle()), Runnable { if (Permissions.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
+                val resid = if (item.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
+                lifecycleScope.snackerConfirm(view, getString(resid, item.getTitle())) { if (Permissions.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() }
             }
             else -> return false
         }
         return true
     }
 
-    protected suspend fun deleteMedia(mw: MediaLibraryItem, refresh: Boolean = false, failCB: Runnable? = null) = withContext(Dispatchers.IO) {
-        val foldersToReload = LinkedList<String>()
-        val mediaPaths = LinkedList<String>()
-        for (media in mw.tracks) {
-            val path = media.uri.path
-            val parentPath = FileUtils.getParent(path)
-            if (FileUtils.deleteFile(media.uri)) parentPath?.let {
-                if (media.id > 0L && !foldersToReload.contains(it)) {
-                    foldersToReload.add(it)
-                }
-                mediaPaths.add(media.location)
-            } else
-                onDeleteFailed(media)
-        }
-        for (folder in foldersToReload) mediaLibrary.reload(folder)
-        if (isStarted()) launch {
-            if (mediaPaths.isEmpty()) {
-                failCB?.run()
-                return@launch
-            }
-            if (refresh) onRefresh()
-        }
-    }
-
-    private fun onDeleteFailed(media: MediaWrapper) {
-        if (isAdded) view?.let { UiTools.snacker(it, getString(R.string.msg_delete_failed, media.title)) }
+    private fun onDeleteFailed(item: MediaLibraryItem) {
+        if (isAdded) view?.let { UiTools.snacker(it, getString(R.string.msg_delete_failed, item.title)) }
     }
 
     protected fun showInfoDialog(item: MediaLibraryItem) {

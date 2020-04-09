@@ -219,6 +219,7 @@ object UiTools {
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()
     }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun CoroutineScope.snackerConfirm(view: View, message: String, action: suspend() -> Unit) {
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)

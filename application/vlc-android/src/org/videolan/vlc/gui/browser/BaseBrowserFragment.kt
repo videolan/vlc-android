@@ -334,7 +334,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val cancel = Runnable { viewModel.refresh() }
         val deleteAction = Runnable {
             lifecycleScope.launch {
-                deleteMedia(mw, false, cancel)
+                MediaUtils.deleteMedia(mw, cancel)
                 viewModel.remove(mw)
             }
         }
