@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.video
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -76,6 +77,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaLibraryItem>
     private lateinit var binding: VideoGridBinding
     private var gridItemDecoration: RecyclerView.ItemDecoration? = null
+    private lateinit var settings: SharedPreferences
 
     private fun FragmentActivity.open(item: MediaLibraryItem) {
         val i = Intent(activity, SecondaryActivity::class.java)
@@ -87,9 +89,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!::settings.isInitialized) settings = Settings.getInstance(requireContext())
         if (!::videoListAdapter.isInitialized) {
-            val preferences = Settings.getInstance(requireContext())
-            val seenMarkVisible = preferences.getBoolean("media_seen", true)
+            val seenMarkVisible = settings.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(seenMarkVisible)
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
@@ -125,9 +127,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.ml_menu_last_playlist).isVisible = true
+        menu.findItem(R.id.ml_menu_last_playlist).isVisible = settings.contains(KEY_MEDIA_LAST_PLAYLIST)
         menu.findItem(R.id.ml_menu_video_group).isVisible = viewModel.group == null && viewModel.folder == null
-        val displayInCards = Settings.getInstance(requireActivity()).getBoolean("video_display_in_cards", true)
+        val displayInCards = settings.getBoolean("video_display_in_cards", true)
         menu.findItem(R.id.ml_menu_display_grid).isVisible = !displayInCards
         menu.findItem(R.id.ml_menu_display_list).isVisible = displayInCards
     }
@@ -139,15 +141,15 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 true
             }
             R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
-                val displayInCards = Settings.getInstance(requireActivity()).getBoolean("video_display_in_cards", true)
-                Settings.getInstance(requireActivity()).putSingle("video_display_in_cards", !displayInCards)
+                val displayInCards = settings.getBoolean("video_display_in_cards", true)
+                settings.putSingle("video_display_in_cards", !displayInCards)
                 (activity as ContentActivity).forceLoadVideoFragment()
                 true
             }
             R.id.video_min_group_length_disable -> {
                 lifecycleScope.launchWhenStarted {
                     withContext(Dispatchers.IO) {
-                        Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "-1").commit()
+                        settings.edit().putString("video_min_group_length", "-1").commit()
                     }
                     changeGroupingType(VideoGroupingType.NONE)
                 }
@@ -156,7 +158,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             R.id.video_min_group_length_folder -> {
                 lifecycleScope.launchWhenStarted {
                     withContext(Dispatchers.IO) {
-                        Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "0").commit()
+                        settings.edit().putString("video_min_group_length", "0").commit()
                     }
                     changeGroupingType(VideoGroupingType.FOLDER)
                 }
@@ -165,7 +167,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             R.id.video_min_group_length_name -> {
                 lifecycleScope.launchWhenStarted {
                     withContext(Dispatchers.IO) {
-                        Settings.getInstance(requireActivity()).edit().putString("video_min_group_length", "6").commit()
+                        settings.edit().putString("video_min_group_length", "6").commit()
                     }
                     changeGroupingType(VideoGroupingType.NAME)
                 }
@@ -255,7 +257,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val res = resources
         if (gridItemDecoration == null)
             gridItemDecoration = ItemOffsetDecoration(resources, R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin)
-        val listMode = !Settings.getInstance(requireContext()).getBoolean("video_display_in_cards", true)
+        val listMode = !settings.getBoolean("video_display_in_cards", true)
 
         // Select between grid or list
         binding.videoGrid.removeItemDecoration(gridItemDecoration!!)
@@ -382,7 +384,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     fun updateSeenMediaMarker() {
-        videoListAdapter.setSeenMediaMarkerVisible(Settings.getInstance(requireContext()).getBoolean("media_seen", true))
+        videoListAdapter.setSeenMediaMarkerVisible(settings.getBoolean("media_seen", true))
         videoListAdapter.notifyItemRangeChanged(0, videoListAdapter.itemCount - 1, UPDATE_SEEN)
     }
 

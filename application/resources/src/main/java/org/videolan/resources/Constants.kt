@@ -92,6 +92,12 @@ const val KEY_MRL = "mrl"
 // AUDIO category
 const val KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab"
 
+// Playback settings category
+const val KEY_AUDIO_LAST_PLAYLIST = "audio_list"
+const val KEY_MEDIA_LAST_PLAYLIST = "media_list"
+const val KEY_CURRENT_AUDIO = "current_song"
+const val KEY_CURRENT_MEDIA = "current_media"
+
 // Info Activity
 const val TAG_ITEM = "ML_ITEM"
 
