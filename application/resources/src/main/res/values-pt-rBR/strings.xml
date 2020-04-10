@@ -699,6 +699,14 @@
     <string name="preamp">Pré amplificador</string>
     <string name="presets">Padrões</string>
     <string name="reset">Restaurar</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d Trilha incluída</item>
+        <item quantity="other">%d Trilhas incluídas</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d Trilhas adicionadas</item>
+        <item quantity="other">%d Tracks adicionadas</item>
+    </plurals>
     <string name="remove_current">Excluir atual</string>
     <string name="validation_delete_playlist">Tem certeza que deseja excluir esta lista de reprodução?</string>
     <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>
