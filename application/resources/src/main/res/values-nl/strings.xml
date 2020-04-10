@@ -73,6 +73,7 @@
         <item quantity="one">1 nummer</item>
         <item quantity="other">%d nummers</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Trackinformatie naar klembord gekopieerd</string>
 
     <string name="artists">Artiesten</string>
     <string name="albums">Albums</string>
