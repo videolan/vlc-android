@@ -73,6 +73,7 @@
         <item quantity="one">1 parça</item>
         <item quantity="other">%d parça</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Kayıt bilgileri panoya kopyalandı</string>
 
     <string name="artists">Sanatçılar</string>
     <string name="albums">Albümler</string>
