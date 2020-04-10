@@ -73,6 +73,7 @@
         <item quantity="one">Unu branu</item>
         <item quantity="other">%d branos</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Informatziones de sa rasta copiadas in punta de billete</string>
 
     <string name="artists">Artistas</string>
     <string name="albums">Albums</string>
@@ -698,6 +699,14 @@
     <string name="preamp">Preamplificatzione</string>
     <string name="presets">Preseletziones</string>
     <string name="reset">Riprìstina</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d rasta insertada</item>
+        <item quantity="other">%d rastas insertadas</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d rasta annànghida</item>
+        <item quantity="other">%d rastas annànghidas</item>
+    </plurals>
     <string name="remove_current">Boga s\'atuale</string>
     <string name="validation_delete_playlist">Ses seguru de chèrrere iscantzellare custa iscalita?</string>
     <string name="validation_delete_playlist_text">Custa atzione non podet èssere annullada.</string>
