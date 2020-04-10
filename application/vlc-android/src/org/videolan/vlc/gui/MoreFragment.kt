@@ -43,9 +43,11 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.*
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.SecondaryActivity.Companion.ABOUT
-import org.videolan.vlc.gui.SecondaryActivity.Companion.STREAMS
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.network.IStreamsFragmentDelegate
+import org.videolan.vlc.gui.network.KeyboardListener
+import org.videolan.vlc.gui.network.MRLAdapter
+import org.videolan.vlc.gui.network.StreamsFragmentDelegate
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.TitleListView
@@ -55,16 +57,21 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.launchWhenStarted
 import org.videolan.vlc.viewmodels.HistoryModel
+import org.videolan.vlc.viewmodels.StreamsModel
 
 private const val TAG = "VLC/HistoryFragment"
 private const val KEY_SELECTION = "key_selection"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener {
+class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener,
+        IStreamsFragmentDelegate by StreamsFragmentDelegate() {
 
+    private lateinit var streamsAdapter: MRLAdapter
     private lateinit var historyEntry: TitleListView
+    private lateinit var streamsEntry: TitleListView
     private lateinit var viewModel: HistoryModel
+    private lateinit var streamsViewModel: StreamsModel
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(true)
     override fun hasFAB() = false
@@ -101,25 +108,41 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
             (activity as? MainActivity)?.refreshing = it
             if (it) historyEntry.loading.state = EmptyLoadingState.LOADING
         }
+        historyAdapter.updateEvt.observe(viewLifecycleOwner) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        historyAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
+
+        streamsEntry = view.findViewById(R.id.streams_entry)
+        streamsViewModel = ViewModelProviders.of(requireActivity(), StreamsModel.Factory(requireContext(), showDummy = true)).get(StreamsModel::class.java)
+        setup(this, streamsViewModel, object : KeyboardListener {
+            override fun hideKeyboard() {}
+        })
+
+        streamsAdapter = MRLAdapter(getlistEventActor(), inCards = true)
+        streamsAdapter.setOnDummyClickListener {
+            val i = Intent(activity, SecondaryActivity::class.java)
+            i.putExtra("fragment", SecondaryActivity.STREAMS)
+            requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
+        }
+        streamsViewModel.dataset.observe(requireActivity(), Observer {
+            streamsAdapter.update(it)
+            streamsEntry.loading.state = EmptyLoadingState.NONE
+
+        })
+        streamsViewModel.loading.observe(requireActivity(), Observer {
+            (activity as? MainActivity)?.refreshing = it
+            if (it) streamsEntry.loading.state = EmptyLoadingState.LOADING
+        })
 
         settingsButton.setOnClickListener {
             requireActivity().startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
         }
         aboutButton.setOnClickListener {
             val i = Intent(activity, SecondaryActivity::class.java)
-            i.putExtra("fragment", ABOUT)
+            i.putExtra("fragment", SecondaryActivity.ABOUT)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
-        streamsButton.setOnClickListener {
-            val i = Intent(activity, SecondaryActivity::class.java)
-            i.putExtra("fragment", STREAMS)
-            requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
-        }
-        historyAdapter.updateEvt.observe(viewLifecycleOwner) {
-            swipeRefreshLayout.isRefreshing = false
-            //restoreMultiSelectHelper()
-        }
-        historyAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
     }
 
     override fun onStart() {
@@ -135,6 +158,8 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
         historyEntry.list.nextFocusLeftId = android.R.id.list
         historyEntry.list.nextFocusRightId = android.R.id.list
         historyEntry.list.nextFocusForwardId = android.R.id.list
+
+        streamsEntry.list.adapter = streamsAdapter
 
         historyEntry.setOnActionClickListener {
             clearHistory()

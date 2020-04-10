@@ -81,7 +81,7 @@ class TitleListView : ConstraintLayout {
                 titleView.text = a.getString(R.styleable.TitleListView_title)
                 if (!a.getBoolean(R.styleable.TitleListView_show_button, false)) actionButton.setGone()
                 val drawableResId = a.getResourceId(R.styleable.TitleListView_button_icon, -1)
-                actionButton.setImageBitmap(context.getBitmapFromDrawable(drawableResId))
+                if (drawableResId != -1) actionButton.setImageBitmap(context.getBitmapFromDrawable(drawableResId))
                 actionButton.setOnClickListener {
                     actionClickListener?.let { listener -> listener(actionButton) }
                 }

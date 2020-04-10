@@ -28,7 +28,7 @@
             android:icon="@drawable/ic_menu_network" />
         <item
             android:id="@+id/nav_mrl"
-            android:title="@string/open_mrl"
+                android:title="@string/streams"
             android:icon="@drawable/ic_menu_stream" />
         <item
             android:id="@+id/nav_history"

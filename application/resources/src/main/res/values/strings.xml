@@ -213,7 +213,7 @@
     <string name="favorite_removed">Removed from favorites</string>
 
     <string name="open">Open</string>
-    <string name="open_mrl">Stream</string>
+    <string name="streams">Streams</string>
     <string name="open_mrl_dialog_title">Open network stream</string>
     <string name="open_mrl_dialog_msg">Enter network address: e.g. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">Sorry, your device is currently not supported by this version of VLC for Android™.</string>
@@ -825,4 +825,5 @@
     <string name="browse">Browse</string>
     <string name="more">More</string>
     <string name="favorites">Favorites</string>
+    <string name="new_stream">New stream</string>
 </resources>

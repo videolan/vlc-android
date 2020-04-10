@@ -30,16 +30,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.videolan.libvlc.MediaPlayer
-import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.util.DummyMediaWrapperProvider
 import org.videolan.vlc.util.EmptyPBSCallback
 
-
-class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<MediaWrapper>(context, coroutineContextProvider) {
+class StreamsModel(context: Context, private val showDummy: Boolean = false, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : MedialibraryModel<MediaWrapper>(context, coroutineContextProvider) {
     var deletingMedia: MediaWrapper? = null
     val observableSearchText = ObservableField<String>()
     var service: PlaybackService? = null
@@ -54,11 +52,18 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
     }
 
     override suspend fun updateList() {
-        dataset.value = withContext(coroutineContextProvider.Default) { medialibrary.lastStreamsPlayed().toMutableList().also { deletingMedia?.let { remove(it) } } }
+        dataset.value = withContext(coroutineContextProvider.Default) {
+            medialibrary.lastStreamsPlayed().toMutableList()
+                    .also {
+                        deletingMedia?.let { remove(it) }
+                        if (showDummy) it.add(0, DummyMediaWrapperProvider.getDummyMediaWrapper(-1))
+                    }
+        }
+
     }
 
     fun rename(position: Int, name: String) {
-        val media = dataset.get(position)
+        val media = dataset.get(position) as? MediaWrapper ?: return
         viewModelScope.launch {
             withContext(Dispatchers.IO) { media.rename(name) }
             refresh()
@@ -85,10 +90,10 @@ class StreamsModel(context: Context, coroutineContextProvider: CoroutineContextP
         }
     }
 
-    class Factory(private val context: Context) : ViewModelProvider.Factory {
+    class Factory(private val context: Context, private val showDummy: Boolean = false) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return StreamsModel(context.applicationContext) as T
+            return StreamsModel(context.applicationContext, showDummy) as T
         }
     }
 }

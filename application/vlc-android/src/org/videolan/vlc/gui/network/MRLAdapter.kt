@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.network
 
 import android.net.Uri
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,35 +29,97 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.channels.SendChannel
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
+import org.videolan.vlc.databinding.MrlCardItemBinding
+import org.videolan.vlc.databinding.MrlDummyItemBinding
 import org.videolan.vlc.databinding.MrlItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
+import org.videolan.vlc.gui.helpers.MarqueeViewHolder
+import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 
-internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : DiffUtilAdapter<MediaWrapper, MRLAdapter.ViewHolder>() {
+private const val TYPE_LIST = 0
+private const val TYPE_CARD = 1
+private const val TYPE_DUMMY = 2
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MRLAdapter.ViewHolder {
+internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, private val inCards: Boolean = false) : DiffUtilAdapter<MediaWrapper, RecyclerView.ViewHolder>() {
+    private var dummyClickListener: (() -> Unit)? = null
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding: MrlItemBinding = DataBindingUtil.inflate(inflater, R.layout.mrl_item, parent, false)
-        return ViewHolder(binding)
+        return when (viewType) {
+            TYPE_CARD -> CardViewHolder(DataBindingUtil.inflate(inflater, R.layout.mrl_card_item, parent, false))
+            TYPE_LIST -> ListViewHolder(DataBindingUtil.inflate(inflater, R.layout.mrl_item, parent, false))
+            else -> DummyViewHolder(DataBindingUtil.inflate(inflater, R.layout.mrl_dummy_item, parent, false))
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = dataset.get(position)
-        holder.binding.mrlItemUri.text = Uri.decode(item.location)
-        holder.binding.mrlItemTitle.text = Uri.decode(item.title)
+    override fun getItemViewType(position: Int) = when {
+        dataset[position].id < 0 -> TYPE_DUMMY
+        inCards -> TYPE_CARD
+        else -> TYPE_LIST
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = dataset[position]
+        when (holder) {
+            is ListViewHolder -> {
+                holder.binding.mrlItemUri.text = Uri.decode(item.location)
+                holder.binding.mrlItemTitle.text = Uri.decode(item.title)
+            }
+            is CardViewHolder -> {
+                holder.binding.mrlItemUri.text = Uri.decode(item.location)
+                holder.binding.mrlItemTitle.text = Uri.decode(item.title)
+            }
+        }
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        if (Settings.listTitleEllipsize == 4) enableMarqueeEffect(recyclerView, handler)
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        if (Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
+        super.onDetachedFromRecyclerView(recyclerView)
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        if (Settings.listTitleEllipsize == 4) handler.removeCallbacksAndMessages(null)
+        when (holder) {
+            is ListViewHolder -> holder.recycle()
+            is CardViewHolder -> holder.recycle()
+        }
+
+        super.onViewRecycled(holder)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isNullOrEmpty()) {
             onBindViewHolder(holder, position)
             return
         }
         for (payload in payloads) {
-            if (payload is String) holder.binding.mrlItemTitle.text = payload
+            if (payload is String) when (holder) {
+                is ListViewHolder -> holder.binding.mrlItemTitle.text = payload
+                is CardViewHolder -> holder.binding.mrlItemTitle.text = payload
+            }
         }
     }
 
-    inner class ViewHolder(val binding: MrlItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    inner class DummyViewHolder(val binding: MrlDummyItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.container.setOnClickListener {
+                dummyClickListener?.invoke()
+            }
+        }
+
+        fun recycle() {}
+    }
+
+    inner class ListViewHolder(val binding: MrlItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         init {
             itemView.setOnClickListener(this)
@@ -65,8 +128,29 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : Diff
         }
 
         override fun onClick(v: View) {
-            dataset.get(layoutPosition).let { eventActor.offer(Playmedia(it)) }
+            dataset[layoutPosition].let { eventActor.offer(Playmedia(it)) }
         }
+
+        fun recycle() {}
+    }
+
+    inner class CardViewHolder(val binding: MrlCardItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener, MarqueeViewHolder {
+
+        init {
+            binding.container.setOnClickListener(this)
+            binding.container.setOnLongClickListener { eventActor.offer(ShowContext(layoutPosition)) }
+            binding.mrlCtx.setOnClickListener { eventActor.offer(ShowContext(layoutPosition)) }
+        }
+
+        override fun onClick(v: View) {
+            dataset[layoutPosition].let { eventActor.offer(Playmedia(it)) }
+        }
+
+        fun recycle() {
+            binding.mrlItemTitle.isSelected = false
+        }
+
+        override val titleView = binding.mrlItemTitle
     }
 
     override fun createCB() = object : DiffCallback<MediaWrapper>() {
@@ -76,6 +160,10 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : Diff
         }
 
         override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int) = newList[newItemPosition].title
+    }
+
+    fun setOnDummyClickListener(dummyClickLisener: () -> Unit) {
+        this.dummyClickListener = dummyClickLisener
     }
 }
 

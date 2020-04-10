@@ -216,7 +216,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
         if (networkMonitor.isLan) {
             list.add(DummyItem(HEADER_NETWORK, context.getString(R.string.network_browsing), null))
-            list.add(DummyItem(HEADER_STREAM, context.getString(R.string.open_mrl), null))
+            list.add(DummyItem(HEADER_STREAM, context.getString(R.string.streams), null))
             list.add(DummyItem(HEADER_SERVER, context.getString(R.string.server_add_title), null))
             updatedFavoritList.forEach {
                 it.description = it.uri.scheme

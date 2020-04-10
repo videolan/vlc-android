@@ -74,31 +74,25 @@
                         app:layout_constraintStart_toEndOf="@+id/settingsButton"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                        android:id="@+id/streamsButton"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                <org.videolan.vlc.gui.view.TitleListView
+                        android:id="@+id/streams_entry"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/open_mrl"
-                        app:icon="@drawable/ic_more_stream"
-                        app:layout_constraintEnd_toEndOf="@+id/settingsButton"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
+                        app:layout_constraintTop_toBottomOf="@+id/settingsButton"
+                        app:title="@string/streams" />
 
                 <org.videolan.vlc.gui.view.TitleListView
                         android:id="@+id/history_entry"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:button_icon="@drawable/ic_trash_32"
-                        android:layout_marginTop="24dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/streamsButton"
-                        app:title="@string/history">
-
-                </org.videolan.vlc.gui.view.TitleListView>
+                        app:layout_constraintTop_toBottomOf="@+id/streams_entry"
+                        app:title="@string/history" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
