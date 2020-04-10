@@ -12,18 +12,6 @@ android {
     dataBinding {
         enabled = true
     }
-
-    task luaPlaylistCopy(type: Copy) {
-        from '../vlc/share/lua/playlist'
-        into 'assets/lua/playlist'
-        exclude '**/*.txt'
-    }
-
-    task luaMetaCopy(type: Copy) {
-        from '../vlc/share/lua/meta'
-        into 'assets/lua/meta'
-        exclude '**/*.txt'
-    }
     
     packagingOptions {
         pickFirst '**/*.so'
@@ -48,13 +36,6 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         vectorDrawables.useSupportLibrary = true
-
-        tasks.whenTaskAdded { task ->
-            if (task.name.startsWith('merge')) {
-                task.dependsOn luaPlaylistCopy
-                task.dependsOn luaMetaCopy
-            }
-        }
 
         javaCompileOptions {
             annotationProcessorOptions {

@@ -1,6 +1,7 @@
 # VLC
 /vlc/
 /toolchains/
+application/app/src/main/assets/
 
 #medialibrary
 medialibrary/medialibrary
