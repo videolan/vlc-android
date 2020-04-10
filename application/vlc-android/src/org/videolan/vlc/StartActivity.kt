@@ -170,6 +170,7 @@ class StartActivity : FragmentActivity() {
                 startApplication(tv, firstRun, upgrade, target)
         }
         FileUtils.copyLua(applicationContext, upgrade)
+        FileUtils.copyHrtfs(applicationContext, upgrade)
         if (AndroidDevices.watchDevices) this.enableStorageMonitoring()
         finish()
     }

@@ -35,15 +35,13 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.documentfile.provider.DocumentFile
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.tools.AppScope
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Settings
 import org.videolan.tools.runIO
@@ -51,6 +49,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaUtils
 import java.io.*
+import java.lang.Runnable
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -109,33 +108,43 @@ object FileUtils {
         }
     }
 
+    fun copyHrtfs(context: Context, force: Boolean) {
+        AppScope.launch(Dispatchers.IO) {
+            val destinationFolder = context.getDir("vlc",
+                    Context.MODE_PRIVATE).absolutePath + "/.share/hrtfs"
+            val am = context.assets
+            copyAssetFolder(am, "hrtfs", destinationFolder, force)
+        }
+    }
+
     fun copyLua(context: Context, force: Boolean) {
-        runIO(Runnable {
+        AppScope.launch(Dispatchers.IO) {
             val destinationFolder = context.getDir("vlc",
                     Context.MODE_PRIVATE).absolutePath + "/.share/lua"
             val am = context.assets
             copyAssetFolder(am, "lua", destinationFolder, force)
-        })
+        }
     }
 
     @WorkerThread
     internal fun copyAssetFolder(assetManager: AssetManager, fromAssetPath: String, toPath: String, force: Boolean): Boolean {
         try {
             val files = assetManager.list(fromAssetPath)
-            if (files!!.isEmpty()) return false
+            if (files.isNullOrEmpty()) return false
             File(toPath).mkdirs()
             var res = true
             for (file in files)
-                res = if (file.contains("."))
+                res = if (file.contains(".")) {
                     res and copyAsset(assetManager,
                             "$fromAssetPath/$file",
                             "$toPath/$file",
                             force)
-                else
+                } else {
                     res and copyAssetFolder(assetManager,
                             "$fromAssetPath/$file",
                             "$toPath/$file",
                             force)
+                }
             return res
         } catch (e: Exception) {
             e.printStackTrace()
