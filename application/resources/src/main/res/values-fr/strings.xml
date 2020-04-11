@@ -699,6 +699,14 @@
     <string name="preamp">Préampli</string>
     <string name="presets">Présélections</string>
     <string name="reset">Réinitialiser</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d Piste insérée</item>
+        <item quantity="other">%d Pistes insérées</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d Piste annexée</item>
+        <item quantity="other">%d Pistes annexées</item>
+    </plurals>
     <string name="remove_current">Supprimer l\'élément actuel</string>
     <string name="validation_delete_playlist">Êtes-vous certain(e) de vouloir supprimer cette liste de lecture ?</string>
     <string name="validation_delete_playlist_text">Cette action ne peut pas être annulée.</string>
