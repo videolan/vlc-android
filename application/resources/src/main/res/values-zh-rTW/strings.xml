@@ -71,6 +71,7 @@
     <plurals name="songs_quantity">
         <item quantity="other">%d 首歌曲</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">軌道資訊已複製到剪貼簿</string>
 
     <string name="artists">藝人</string>
     <string name="albums">專輯</string>
@@ -688,6 +689,12 @@
     <string name="preamp">前置放大</string>
     <string name="presets">預置</string>
     <string name="reset">重設</string>
+    <plurals name="tracks_inserted">
+        <item quantity="other">%d 軌道已插入</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="other">%d 軌道已附加</item>
+    </plurals>
     <string name="remove_current">移除目前的</string>
     <string name="validation_delete_playlist">您確定要刪除這個播放清單嗎？</string>
     <string name="validation_delete_playlist_text">這個動作無法復原。</string>
