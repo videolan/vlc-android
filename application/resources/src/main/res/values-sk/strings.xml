@@ -719,6 +719,18 @@
     <string name="preamp">Predbežné zosilnenie</string>
     <string name="presets">Prednastavenia</string>
     <string name="reset">Reset</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d vložená stopa</item>
+        <item quantity="few">%d vložené stopy</item>
+        <item quantity="many">%d vložených stôp</item>
+        <item quantity="other">%d vložených stôp</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d pripojená stopa</item>
+        <item quantity="few">%d pripojené stopy</item>
+        <item quantity="many">%d pripojených stôp</item>
+        <item quantity="other">%d pripojených stôp</item>
+    </plurals>
     <string name="remove_current">Odstrániť aktuálne</string>
     <string name="validation_delete_playlist">Naozaj chcete vymazať tento playlist?</string>
     <string name="validation_delete_playlist_text">Túto akciu nemožno vrátiť späť.</string>
