@@ -719,6 +719,18 @@
     <string name="preamp">Попередній підсилювач</string>
     <string name="presets">Переднабори</string>
     <string name="reset">Очистити</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d доріжка вставлена</item>
+        <item quantity="few">%d доріжки вставлені</item>
+        <item quantity="many">%d доріжок вставлено</item>
+        <item quantity="other">%d доріжки вставлено</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d доріжка додана</item>
+        <item quantity="few">%d доріжки додані</item>
+        <item quantity="many">%d доріжок додано</item>
+        <item quantity="other">%d доріжки додано</item>
+    </plurals>
     <string name="remove_current">Вилучити поточне</string>
     <string name="validation_delete_playlist">Ви справді хочете вилучити цей список відтворення?</string>
     <string name="validation_delete_playlist_text">Цю дію не можна скасувати.</string>
