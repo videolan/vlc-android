@@ -719,6 +719,18 @@
     <string name="preamp">הגברת קדם</string>
     <string name="presets">ערכות מוגדרות</string>
     <string name="reset">איפוס</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">רצועה %d נוספת</item>
+        <item quantity="two">%d רצועות נוספות</item>
+        <item quantity="many">%d רצועות נוספות</item>
+        <item quantity="other">%d רצועות נוספות</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">רצועה %d נוספה לסוף</item>
+        <item quantity="two">%d רצועות נוספו לסוף</item>
+        <item quantity="many">%d רצועות נוספו לסוף</item>
+        <item quantity="other">%d רצועות נוספו לסוף</item>
+    </plurals>
     <string name="remove_current">הסרת הנוכחית</string>
     <string name="validation_delete_playlist">למחוק את רשימת הנגינה הזו?</string>
     <string name="validation_delete_playlist_text">פעולה זו היא בלתי הפיכה.</string>
