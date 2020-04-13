@@ -719,6 +719,18 @@
     <string name="preamp">Przedwzmacniacz</string>
     <string name="presets">Domyślne</string>
     <string name="reset">Resetuj</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Wstawiono %d utwór</item>
+        <item quantity="few">Wstawiono %d utworów</item>
+        <item quantity="many">Wstawiono %d utwory</item>
+        <item quantity="other">Wstawiono %d utworów</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Dołączono %d utwór</item>
+        <item quantity="few">Dołączono %d utworów</item>
+        <item quantity="many">Dołączono %d utwory</item>
+        <item quantity="other">Dołączono %d utworów</item>
+    </plurals>
     <string name="remove_current">Usuń obecne</string>
     <string name="validation_delete_playlist">Czy na pewno chcesz usunąć tą listę odtwarzania?</string>
     <string name="validation_delete_playlist_text">Ta akcja nie może zostać cofnięta.</string>
