@@ -48,6 +48,8 @@
     <string name="insert_next">Vložit další</string>
     <string name="play_all">Přehrát vše</string>
     <string name="append_all">Připojit vše</string>
+    <string name="resume_playback_short_title">Obnovení přehrávání</string>
+    <string name="resume_playback_long_title">Obnovení přehrávání posledního seznamu skladeb</string>
     <string name="delete">Smazat</string>
     <string name="remove">Odstranit</string>
     <string name="set_song">Nastavit jako vyzváněcí melodii</string>
