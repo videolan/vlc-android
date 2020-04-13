@@ -689,6 +689,12 @@
     <string name="preamp">プリアンプ</string>
     <string name="presets">プリセット</string>
     <string name="reset">リセット</string>
+    <plurals name="tracks_inserted">
+        <item quantity="other">%d トラックが挿入されました</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="other">%d トラックが追加されました</item>
+    </plurals>
     <string name="remove_current">現在のものを削除</string>
     <string name="validation_delete_playlist">本当にこのプレイリストを削除しますか？</string>
     <string name="validation_delete_playlist_text">このアクションは取消できません。</string>
