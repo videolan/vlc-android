@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatDialog
 import androidx.fragment.app.DialogFragment
@@ -44,7 +45,6 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
     //Dummy hack because spinner callback is called right on registration
     var ignoreFirstSpinnerCb = false
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val activity = activity
         val dialog = AppCompatDialog(activity, theme)
@@ -52,6 +52,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
 
         dialog.setCancelable(true)
         dialog.setCanceledOnTouchOutside(true)
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         return dialog
     }
 
@@ -166,7 +167,6 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         }
         return 0
     }
-
 
     private fun getPortForProtocol(position: Int): String {
         return when (protocols[position]) {
