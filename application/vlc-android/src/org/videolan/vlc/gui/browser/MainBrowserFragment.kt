@@ -298,7 +298,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
                 val mw = item as MediaWrapper
                 if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@launch
-                var flags = 0
+                var flags = 0L
                 val isEmpty = (viewModel as? BrowserModel)?.isFolderEmpty(mw) ?: true
                 if (!isEmpty) flags = flags or CTX_PLAY
                 val isFileBrowser = isFile && item.uri.scheme == "file"
@@ -311,7 +311,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                     if (localViewModel.provider.hasMedias(mw)) flags = flags or CTX_ADD_FOLDER_PLAYLIST
                     if (localViewModel.provider.hasSubfolders(mw)) flags = flags or CTX_ADD_FOLDER_AND_SUB_PLAYLIST
                 }
-                if (flags != 0) {
+                if (flags != 0L) {
                     showContext(requireActivity(), this@MainBrowserFragment, position, item.getTitle(), flags)
                     currentCtx = this@MainBrowserContainer
                 }
@@ -319,7 +319,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         }
     }
 
-    override fun onCtxAction(position: Int, option: Int) {
+    override fun onCtxAction(position: Int, option: Long) {
         val adapter = currentCtx?.requireAdapter() ?: return
         val mw = adapter.getItem(position) as? MediaWrapper
                 ?: return

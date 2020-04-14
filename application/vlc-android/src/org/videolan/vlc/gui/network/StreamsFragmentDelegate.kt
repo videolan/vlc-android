@@ -54,7 +54,7 @@ class StreamsFragmentDelegate : IStreamsFragmentDelegate, CtxActionReceiver {
         this.keyboardListener = keyboardListener
     }
 
-    override fun onCtxAction(position: Int, option: Int) {
+    override fun onCtxAction(position: Int, option: Long) {
         when (option) {
             CTX_RENAME -> renameStream(position)
             CTX_APPEND -> {

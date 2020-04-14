@@ -826,4 +826,5 @@
     <string name="more">More</string>
     <string name="favorites">Favorites</string>
     <string name="new_stream">New stream</string>
+    <string name="add_to_group">Add to group</string>
 </resources>

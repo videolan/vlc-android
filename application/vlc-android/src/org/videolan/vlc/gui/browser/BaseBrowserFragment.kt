@@ -522,11 +522,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 if (!isAudio) flags = flags or CTX_PLAY_AS_AUDIO
                 if (isVideo) flags = flags or CTX_DOWNLOAD_SUBTITLES
             }
-            if (flags != 0) showContext(requireActivity(), this@BaseBrowserFragment, position, item.getTitle(), flags)
+            if (flags != 0L) showContext(requireActivity(), this@BaseBrowserFragment, position, item.getTitle(), flags)
         }
     }
 
-    override fun onCtxAction(position: Int, option: Int) {
+    override fun onCtxAction(position: Int, option: Long) {
         val mw = adapter.getItem(position) as? MediaWrapper
                 ?: return
         when (option) {

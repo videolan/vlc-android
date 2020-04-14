@@ -192,7 +192,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
     }
 
     private val ctxReceiver: CtxActionReceiver = object : CtxActionReceiver {
-        override fun onCtxAction(position: Int, option: Int) {
+        override fun onCtxAction(position: Int, option: Long) {
             if (position in 0 until playlistAdapter.itemCount) when (option) {
                 CTX_SET_RINGTONE -> activity?.setRingtone(playlistAdapter.getItem(position))
                 CTX_ADD_TO_PLAYLIST -> {

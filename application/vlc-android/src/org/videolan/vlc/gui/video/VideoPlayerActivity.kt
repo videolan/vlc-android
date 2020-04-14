@@ -1625,7 +1625,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     open fun onAudioSubClick(anchor: View?) {
         service?.let { service ->
-            var flags = 0
+            var flags = 0L
             if (enableSubs) {
                 flags = flags or CTX_DOWNLOAD_SUBTITLES_PLAYER
                 if (displayManager.isPrimary) flags = flags or CTX_PICK_SUBS

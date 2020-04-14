@@ -50,7 +50,6 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
-import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
@@ -279,7 +278,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        val flags: Int = when (item.itemType) {
+        val flags: Long = when (item.itemType) {
             MediaLibraryItem.TYPE_MEDIA -> CTX_TRACK_FLAGS
             MediaLibraryItem.TYPE_PLAYLIST -> CTX_PLAYLIST_FLAGS
             else -> CTX_AUDIO_FLAGS
@@ -300,7 +299,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}
 
-    override fun onCtxAction(position: Int, option: Int) {
+    override fun onCtxAction(position: Int, option: Long) {
         if (position >= getCurrentAdapter()?.itemCount ?: 0) return
         val media = getCurrentAdapter()?.getItem(position) ?: return
         when (option) {

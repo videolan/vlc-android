@@ -160,7 +160,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Brows
         }
     }
 
-    override fun onCtxAction(position: Int, option: Int) {
+    override fun onCtxAction(position: Int, option: Long) {
         val storage = adapter.getItem(position) as Storage
         val path = storage.uri.path ?: return
         viewModel.deleteCustomDirectory(path)

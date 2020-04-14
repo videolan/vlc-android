@@ -42,22 +42,22 @@ import java.util.*
 private const val ACTION_AUDIO_DELAY = 2
 private const val ACTION_SPU_DELAY = 3
 
-private const val ID_PLAY_AS_AUDIO = 0
-private const val ID_SLEEP = 1
-private const val ID_JUMP_TO = 2
-private const val ID_AUDIO_DELAY = 3
-private const val ID_SPU_DELAY = 4
-private const val ID_CHAPTER_TITLE = 5
-private const val ID_PLAYBACK_SPEED = 6
-private const val ID_EQUALIZER = 7
-private const val ID_SAVE_PLAYLIST = 8
-private const val ID_POPUP_VIDEO = 9
-private const val ID_REPEAT = 10
-private const val ID_SHUFFLE = 11
-private const val ID_PASSTHROUGH = 12
-private const val ID_ABREPEAT = 13
-private const val ID_OVERLAY_SIZE = 14
-private const val ID_VIDEO_STATS = 15
+private const val ID_PLAY_AS_AUDIO = 0L
+private const val ID_SLEEP = 1L
+private const val ID_JUMP_TO = 2L
+private const val ID_AUDIO_DELAY = 3L
+private const val ID_SPU_DELAY = 4L
+private const val ID_CHAPTER_TITLE = 5L
+private const val ID_PLAYBACK_SPEED = 6L
+private const val ID_EQUALIZER = 7L
+private const val ID_SAVE_PLAYLIST = 8L
+private const val ID_POPUP_VIDEO = 9L
+private const val ID_REPEAT = 10L
+private const val ID_SHUFFLE = 11L
+private const val ID_PASSTHROUGH = 12L
+private const val ID_ABREPEAT = 13L
+private const val ID_OVERLAY_SIZE = 14L
+private const val ID_VIDEO_STATS = 15L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -67,7 +67,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     private lateinit var recyclerview: RecyclerView
     private lateinit var rootView: FrameLayout
     private lateinit var playerOptionType: PlayerOptionType
-    var flags: Int = 0
+    var flags: Long = 0L
     private val toast by lazy(LazyThreadSafetyMode.NONE) { Toast.makeText(activity, "", Toast.LENGTH_SHORT) }
 
     private val primary = activity is VideoPlayerActivity && activity.displayManager.isPrimary
@@ -123,17 +123,17 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                     options.add(PlayerOption(playerOptionType, ID_PASSTHROUGH, R.attr.ic_passthrough, res.getString(R.string.audio_digital_title)))
             }
             PlayerOptionType.MEDIA_TRACKS -> {
-                if (flags and CTX_VIDEO_TRACK != 0) options.add(PlayerOption(playerOptionType, CTX_VIDEO_TRACK, R.drawable.ic_video_track_w, res.getString(R.string.ctx_player_video_track)))
-                if (flags and CTX_AUDIO_TRACK != 0) {
+                if (flags and CTX_VIDEO_TRACK != 0L) options.add(PlayerOption(playerOptionType, CTX_VIDEO_TRACK, R.drawable.ic_video_track_w, res.getString(R.string.ctx_player_video_track)))
+                if (flags and CTX_AUDIO_TRACK != 0L) {
                     options.add(PlayerOption(playerOptionType, CTX_AUDIO_TRACK, R.drawable.ic_audiotrack_w, res.getString(R.string.ctx_player_audio_track)))
                     options.add(PlayerOption(playerOptionType, ID_AUDIO_DELAY, R.drawable.ic_audiodelay_w, res.getString(R.string.audio_delay)))
                 }
-                if (flags and CTX_SUBS_TRACK != 0) {
+                if (flags and CTX_SUBS_TRACK != 0L) {
                     options.add(PlayerOption(playerOptionType, CTX_SUBS_TRACK, R.drawable.ic_subtitle_w, res.getString(R.string.ctx_player_subs_track)))
                     options.add(PlayerOption(playerOptionType, ID_SPU_DELAY, R.drawable.ic_subtitledelay_w, res.getString(R.string.spu_delay)))
                 }
-                if (flags and CTX_PICK_SUBS != 0) options.add(PlayerOption(playerOptionType, CTX_PICK_SUBS, R.drawable.ic_subtitle_open_w, res.getString(R.string.subtitle_select)))
-                if (flags and CTX_DOWNLOAD_SUBTITLES_PLAYER != 0) options.add(PlayerOption(playerOptionType, CTX_DOWNLOAD_SUBTITLES_PLAYER, R.drawable.ic_downsub_w, res.getString(R.string.download_subtitles)))
+                if (flags and CTX_PICK_SUBS != 0L) options.add(PlayerOption(playerOptionType, CTX_PICK_SUBS, R.drawable.ic_subtitle_open_w, res.getString(R.string.subtitle_select)))
+                if (flags and CTX_DOWNLOAD_SUBTITLES_PLAYER != 0L) options.add(PlayerOption(playerOptionType, CTX_DOWNLOAD_SUBTITLES_PLAYER, R.drawable.ic_downsub_w, res.getString(R.string.download_subtitles)))
             }
         }
         (recyclerview.adapter as OptionsAdapter).update(options)
@@ -221,7 +221,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         }
     }
 
-    private fun showFragment(id: Int) {
+    private fun showFragment(id: Long) {
         val newFragment: DialogFragment
         val tag: String
         when (id) {
@@ -440,7 +440,7 @@ fun Context.setSleep(time: Calendar?) {
     PlayerOptionsDelegate.playerSleepTime = time
 }
 
-data class PlayerOption(val type: PlayerOptionType, val id: Int, val icon: Int, val title: String)
+data class PlayerOption(val type: PlayerOptionType, val id: Long, val icon: Int, val title: String)
 
 enum class PlayerOptionType {
     ADVANCED, MEDIA_TRACKS

@@ -389,7 +389,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         videoListAdapter.notifyItemRangeChanged(0, videoListAdapter.itemCount - 1, UPDATE_SEEN)
     }
 
-    override fun onCtxAction(position: Int, option: Int) {
+    override fun onCtxAction(position: Int, option: Long) {
         if (position >= videoListAdapter.itemCount) return
         val activity = activity ?: return
         when (val media = videoListAdapter.getItem(position)) {
@@ -448,7 +448,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     is Folder, is VideoGroup -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS)
                     is MediaWrapper -> {
                         val group = item.type == MediaWrapper.TYPE_GROUP
-                        var flags = if (group) CTX_VIDEO_GOUP_FLAGS else CTX_VIDEO_FLAGS
+                        var flags = if (group) CTX_VIDEO_GROUP_FLAGS else CTX_VIDEO_FLAGS
                         if (item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
                         showContext(requireActivity(), this@VideoGridFragment, position, item.getTitle(), flags)
                     }

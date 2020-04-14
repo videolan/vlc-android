@@ -360,7 +360,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         startActivity(i)
     }
 
-    override fun onCtxAction(position: Int, option: Int) {
+    override fun onCtxAction(position: Int, option: Long) {
         if (position >= audioBrowserAdapter.itemCount) return
         val media = audioBrowserAdapter.getItem(position) as MediaWrapper? ?: return
         when (option) {

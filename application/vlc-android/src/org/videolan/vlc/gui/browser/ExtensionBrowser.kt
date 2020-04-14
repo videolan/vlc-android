@@ -154,7 +154,7 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
         showContext(requireActivity(), this, position, mAdapter.getItem(position).title, CTX_PLAY_ALL or CTX_APPEND or CTX_PLAY_AS_AUDIO or CTX_ITEM_DL)
     }
 
-    override fun onCtxAction(position: Int, option: Int) {
+    override fun onCtxAction(position: Int, option: Long) {
         when (option) {
             CTX_PLAY_ALL -> {
                 val items = mAdapter.all
