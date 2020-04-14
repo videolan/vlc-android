@@ -14,11 +14,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.AppScope
-import org.videolan.tools.runIO
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.MainActivity
@@ -181,7 +179,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         }
     }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if (ignoreFirstSpinnerCb) {
             ignoreFirstSpinnerCb = false
             return
