@@ -59,14 +59,14 @@ object VLCOptions {
         get() {
             val context = AppContextProvider.appContext
             val pref = Settings.getInstance(context)
-            if (context != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && audiotrackSessionId == 0) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && audiotrackSessionId == 0) {
                 val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
                 audiotrackSessionId = audioManager.generateAudioSessionId()
             }
 
             val options = ArrayList<String>(50)
 
-            val timeStrechingDefault = context != null && context.resources.getBoolean(R.bool.time_stretching_default)
+            val timeStrechingDefault = context.resources.getBoolean(R.bool.time_stretching_default)
             val timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault)
             val subtitlesEncoding = pref.getString("subtitle_text_encoding", "") ?: ""
             val frameSkip = pref.getBoolean("enable_frame_skip", false)
@@ -109,22 +109,14 @@ object VLCOptions {
             options.add("--freetype-rel-fontsize=" + freetypeRelFontsize!!)
             if (freetypeBold) options.add("--freetype-bold")
             options.add("--freetype-color=" + freetypeColor!!)
-            if (freetypeBackground)
-                options.add("--freetype-background-opacity=128")
-            else
-                options.add("--freetype-background-opacity=0")
-            if (opengl == 1)
-                options.add("--vout=gles2,none")
+
+            options.add(if (freetypeBackground) "--freetype-background-opacity=128" else "--freetype-background-opacity=0")
+            if (opengl == 1) options.add("--vout=gles2,none")
             else if (opengl == 0) options.add("--vout=android_display,none")
             options.add("--keystore")
-            if (AndroidUtil.isMarshMallowOrLater)
-                options.add("file_crypt,none")
-            else
-                options.add("file_plaintext,none")
-            if (context != null) {
-                options.add("--keystore-file")
-                options.add(File(context.getDir("keystore", Context.MODE_PRIVATE), "file").absolutePath)
-            }
+            options.add(if (AndroidUtil.isMarshMallowOrLater) "file_crypt,none" else "file_plaintext,none")
+            options.add("--keystore-file")
+            options.add(File(context.getDir("keystore", Context.MODE_PRIVATE), "file").absolutePath)
             options.add(if (verboseMode) "-vv" else "-v")
             if (pref.getBoolean("casting_passthrough", false))
                 options.add("--sout-chromecast-audio-passthrough")
@@ -134,17 +126,23 @@ object VLCOptions {
             options.add("--sout-keep")
 
             val customOptions = pref.getString("custom_libvlc_options", null)
-            if (!TextUtils.isEmpty(customOptions)) {
-                val optionsArray = customOptions!!.split("\\r?\\n".toRegex()).toTypedArray()
+            if (!customOptions.isNullOrEmpty()) {
+                val optionsArray = customOptions.split("\\r?\\n".toRegex()).toTypedArray()
                 if (!optionsArray.isNullOrEmpty()) Collections.addAll(options, *optionsArray)
             }
             options.add("--smb-force-v1")
+            if (!Settings.showTvUi) {
+                //Ambisonic
+                val hstfDir = context.getDir("vlc", Context.MODE_PRIVATE)
+                val hstfPath = "${hstfDir.absolutePath}/.share/hrtfs/dodeca_and_7channel_3DSL_HRTF.sofa"
+                options.add("--spatialaudio-headphones")
+                options.add("--hrtf-file")
+                options.add(hstfPath)
+            }
             return options
         }
 
-    fun isAudioDigitalOutputEnabled(pref: SharedPreferences): Boolean {
-        return pref.getBoolean("audio_digital_output", false)
-    }
+    fun isAudioDigitalOutputEnabled(pref: SharedPreferences) = pref.getBoolean("audio_digital_output", false)
 
     fun setAudioDigitalOutputEnabled(pref: SharedPreferences, enabled: Boolean) {
         pref.putSingle("audio_digital_output", enabled)
