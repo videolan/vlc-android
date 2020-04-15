@@ -228,6 +228,18 @@ public class MedialibraryImpl extends Medialibrary {
         if (mIsInitiated) nativeSetVideoGroupsPrefixLength(lenght);
     }
 
+    @Override
+    @WorkerThread
+    public VideoGroup createVideoGroup(String name) {
+        return mIsInitiated && !TextUtils.isEmpty(name) ? nativeCreateGroupByName(name) : null;
+    }
+
+    @Override
+    @WorkerThread
+    public VideoGroup createVideoGroup(long[] ids) {
+        return mIsInitiated && (ids.length != 0) ? nativeCreateGroup(ids) : null;
+    }
+
 
     @WorkerThread
     public Album[] getAlbums() {
@@ -563,6 +575,10 @@ public class MedialibraryImpl extends Medialibrary {
     private native VideoGroup[] nativeGetVideoGroups(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetVideoGroupsCount();
     private native void nativeSetVideoGroupsPrefixLength(int length);
+
+    private native VideoGroup nativeCreateGroupByName(String name);
+
+    private native VideoGroup nativeCreateGroup(long[] ids);
     private native Album[] nativeGetAlbums(int sort, boolean desc);
     private native Album[] nativeGetPagedAlbums(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetAlbumsCount();

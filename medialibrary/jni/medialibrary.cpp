@@ -1909,6 +1909,30 @@ groupDestroy(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
     return MediaLibrary_getInstance(env, medialibrary)->groupDestroy(id);
 }
 
+jobject
+createMediaGroupByName(JNIEnv* env, jobject thiz, jstring name)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *name_cstr = env->GetStringUTFChars(name, JNI_FALSE);
+    medialibrary::MediaGroupPtr group = aml->createMediaGroup(name_cstr);
+    env->ReleaseStringUTFChars(name, name_cstr);
+    return group != nullptr ? convertVideoGroupObject(env, &ml_fields, group) : nullptr;
+}
+
+jobject
+createMediaGroup(JNIEnv* env, jobject thiz, jlongArray mediaIds)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    std::vector<int64_t> cids;
+    jsize size = env->GetArrayLength(mediaIds);
+    jlong *ids = env->GetLongArrayElements(mediaIds, 0);
+    for (int i = 0; i < size; ++i)
+        cids.push_back((int64_t) ids[i]);
+    env->ReleaseLongArrayElements(mediaIds, ids, 0);
+    medialibrary::MediaGroupPtr group = aml->createMediaGroup(cids);
+    return group != nullptr ? convertVideoGroupObject(env, &ml_fields, group) : nullptr;
+}
+
  /*
   * JNI stuff
   */
@@ -1994,6 +2018,8 @@ static JNINativeMethod methods[] = {
     {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)playlistCreate },
     {"nativeGetVideoGroups", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)videoGroups },
     {"nativeGetVideoGroupsCount", "()I", (void*)videoGroupsCount },
+    {"nativeCreateGroupByName", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroupByName },
+    {"nativeCreateGroup", "([J)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroup },
 
 };
 

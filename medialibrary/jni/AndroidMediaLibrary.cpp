@@ -584,6 +584,18 @@ AndroidMediaLibrary::groupDestroy( const int64_t groupId )
     return group != nullptr && group->destroy();
 }
 
+medialibrary::MediaGroupPtr
+AndroidMediaLibrary::createMediaGroup( std::string name )
+{
+    return p_ml->createMediaGroup(name);
+}
+
+medialibrary::MediaGroupPtr
+AndroidMediaLibrary::createMediaGroup( const std::vector<int64_t> mediaIds )
+{
+    return p_ml->createMediaGroup(mediaIds);
+}
+
 void
 AndroidMediaLibrary::requestThumbnail( int64_t media_id, medialibrary::ThumbnailSizeType sizeType, uint32_t desiredWidth,
                                        uint32_t desiredHeight, float position )

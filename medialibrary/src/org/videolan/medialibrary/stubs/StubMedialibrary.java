@@ -148,6 +148,16 @@ public class StubMedialibrary extends Medialibrary {
     @Override
     public void setVideoGroupsPrefixLength(int lenght) {}
 
+    @Override
+    public VideoGroup createVideoGroup(String name) {
+        return null;
+    }
+
+    @Override
+    public VideoGroup createVideoGroup(long[] ids) {
+        return null;
+    }
+
     public Album[] getAlbums() {
         return getAlbums(SORT_DEFAULT, false);
     }
