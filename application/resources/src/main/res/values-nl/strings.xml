@@ -212,7 +212,6 @@
     <string name="favorite_removed">Verwijderd uit favorieten</string>
 
     <string name="open">Openen</string>
-    <string name="open_mrl">Stream</string>
     <string name="open_mrl_dialog_title">Netwerkstream openen</string>
     <string name="open_mrl_dialog_msg">Geef netwerk-MRL op: bijvoorbeeld http://, mms:// of rtsp://</string>
     <string name="error_not_compatible">Sorry, uw toestel wordt op dit moment niet ondersteund door deze versie van VLC voor Android™.</string>
@@ -699,6 +698,14 @@
     <string name="preamp">Voorversterking</string>
     <string name="presets">Presets</string>
     <string name="reset">Herstellen</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d track ingevoegd</item>
+        <item quantity="other">%d tracks ingevoegd</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d track toegevoegd</item>
+        <item quantity="other">%d tracks toegevoegd</item>
+    </plurals>
     <string name="remove_current">Huidige verwijderen</string>
     <string name="validation_delete_playlist">Weer u zeker dat u deze afspeellijst wilt verwijderen?</string>
     <string name="validation_delete_playlist_text">Deze handeling kan niet ongedaan worden gemaakt.</string>
