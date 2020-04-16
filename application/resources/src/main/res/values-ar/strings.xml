@@ -81,6 +81,7 @@
         <item quantity="many">%d أغنية</item>
         <item quantity="other">%d أغنية</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">تم نسخ معلومات المسار إلى الحافظة</string>
 
     <string name="artists">الفنانون</string>
     <string name="albums">الألبومات</string>
@@ -155,6 +156,7 @@
     <string name="noplaylist">لم توجد أية قوائم تشغيل.</string>
     <string name="mediafiles">ملفات الوسائط</string>
     <string name="notavailable">غير متوفر</string>
+    <string name="nosubfolder">لا يوجد مجلد فرعي</string>
     <string name="directorynotfound">لم يوجد مسار الدليل ”%1$s“.</string>
     <string name="nohistory">من من شيء شغّلته في التأريخ.</string>
     <string name="validation">أمتأكّد؟</string>
@@ -242,7 +244,6 @@
     <string name="favorite_removed">أُزيلت من المفضلة</string>
 
     <string name="open">افتح</string>
-    <string name="open_mrl">دفق</string>
     <string name="open_mrl_dialog_title">افتح بثًا شبكيًا</string>
     <string name="open_mrl_dialog_msg">أدخِل عنوان الشبكة على سبيل المثال: http: // أو mms: // أو rtsp: //</string>
     <string name="error_not_compatible">عذرًا، جهازك غير مدعوم حاليًا بهذه الإصدارة من VLC للأندرويد™.</string>
@@ -386,6 +387,7 @@
 
     <string name="audio_prefs_category">صوت</string>
     <string name="lockscreen_cover_title">غلاف الوسائط على شاشة القفل</string>
+    <string name="lockscreen_cover_summary">عند توفرها ، قم بتعيين صورة غلاف الوسائط الحالية كخلفية لشاشة القفل</string>
     <string name="list_title_ellipsize_default">مبدئي</string>
     <string name="list_title_ellipsize_left">يسار</string>
     <string name="list_title_ellipsize_right">يمين</string>
@@ -441,7 +443,9 @@
     <string name="advanced_prefs_category">مُتقدّم</string>
     <string name="save_video_none">لا تقم بحفظ السرعة</string>
     <string name="auto_rescan">إعادة المسح التلقائي</string>
+    <string name="dump_media_db">تفريغ قاعدة بيانات الوسائط</string>
     <string name="clear_media_db">امسح قاعدة بيانات الوسائط</string>
+    <string name="clear_media_database_summary">مسح قاعدة البيانات للبدء من جديد</string>
     <string name="clear_history">امسح التأريخ</string>
     <string name="media_db_cleared">تم مسح قاعدة بيانات الوسائط!</string>
     <string name="set_locale">اضبط المحلّية</string>
@@ -449,7 +453,13 @@
     <string name="set_locale_popup">اخرج وأعد تشغيل VLC لكي تُفعَّل التغييرات.</string>
     <string name="network_caching">قيمة مخبئيات الشّبكة</string>
     <string name="network_caching_summary">الوقت اللازم لدفق الوسيط الشّبكي (بالميللي ثانية). لا تستعمله مع فك التّرميز العتادي. اتركه فارغًا لإعادة ضبطه.</string>
+    <string name="resume_playback_title">استأنف التشغيل بعد انتهاء مكالمة</string>
+    <string name="resume_playback_summary">غير ذلك البقاء متوقف</string>
+    <string name="blurred_cover_background_title">تضبيب خلفية الغلاف</string>
+    <string name="blurred_cover_background_summary">تضبيب الغلاف في خلفية مشغل الموسيقى</string>
+    <string name="network_caching_popup">يجب أن تتراوح هذه القيمة بين 0 و 6000 ملي ثانية</string>
     <string name="quit">أغلق وأعِدْ تشغيل التّطبيق</string>
+    <string name="restart_message">ستسري التغييرات بمجرد إعادة تشغيل التطبيق.\n\n إعادة التشغيل الآن؟</string>
     <string name="restart_message_OK">حسنًا</string>
     <string name="restart_message_Later">لاحقًا</string>
     <string name="browser_show_all_title">اظهر كافة الملفات</string>
@@ -469,6 +479,8 @@
     <string name="dump_logcat_success">طُرح Logcat بنجاح في %1$s !</string>
     <string name="dump_logcat_failure">فشل طرْح logcat.</string>
     <string name="custom_libvlc_options">خيارات مخصصة للـlibVLC</string>
+    <string name="custom_libvlc_options_invalid">خيارات libVLC غير صالحة!</string>
+
     <string name="serious_crash">مع الأسف، حدث خطأ جسيم ويجب على VLC أن يُغلَق.</string>
     <string name="help_us_send_log">ساعدنا في تحسين VLC عبر إرسال تقرير الخطأ هذا :</string>
     <string name="restart_vlc">أعد تشغيل VLC</string>
@@ -483,6 +495,8 @@
 
     <string name="no_result">ليس هناك نتائج</string>
     <string name="no_internet_connection">تحقق من اتصال الإنترنت</string>
+    <string name="some_error_occurred">حدث خطأ ما. يرجى المحاولة مرة أخرى في بضع ثوان</string>
+
     <string name="drawer_open">افتح ساحب التصفح</string>
     <string name="drawer_close">أغلق ساحب التصفح</string>
     <string name="network_browsing">الشبكة المحلية</string>
@@ -497,6 +511,7 @@
     <string name="network_empty">هذا المجلد فارغ</string>
     <string name="network_connection_needed">لا يوجد اتصال مع الشبكة المحلية.</string>
     <string name="search_hint">بحث عن الوسائط</string>
+    <string name="search_in_list_hint">بحث في القائمة الحالية</string>
     <string name="search_global">ابحث في كل مكتبات الوسائط</string>
     <string name="directory_show_medialib">اظهر في ماسح الوسائط </string>
     <string name="directory_hide_medialib">إخفاء من ماسح الوسائط </string>
@@ -506,15 +521,20 @@
     <string name="chapter">الفصل</string>
     <string name="resume_from_position">إسئناف من آخر موقع</string>
     <string name="confirm_resume">هل تريد إستئناف من آخر موقع؟</string>
+    <string name="confirm_resume_title">استئناف تشغيل الفيديوهات</string>
     <string name="directory_empty">المجلد فارغ</string>
+    <string name="tv_ui_title">واجهة Android TV</string>
+    <string name="tv_ui_summary">قم بتغيير واجهة المستخدم إلى مظهر ملائم للتلفزيون</string>
     <string name="medialibrary">مكتبة الوسائط</string>
     <string name="medialibrary_directories">مجلدات مكتبة الوسائط</string>
 
     <!-- Accessibility -->
     <string name="more_actions">المزيد من الإجراءات</string>
     <string name="move">انقل</string>
+    <string name="back_quit_lock">اضغط على \"رجوع\" مرة أخرى للخروج من الفيديو</string>
     <string name="playlist_deleted">حذفت قائمة التشغيل</string>
     <string name="file_deleted">حُذف الملف</string>
+    <string name="stream_deleted">تم حذف التدفق</string>
     <string name="no_subs_found">لا يوجد ترجمات في هذا الدليل</string>
     <string name="music_now_playing">جارٍ تشغيل</string>
 
@@ -527,20 +547,30 @@
     <string name="allow_settings_access_ringtone_description">يطلب منك VLC التصريح للسماح له لاستخدام هذه الأغنية كنغمة للهاتف.</string>
     <string name="allow_settings_access_brightness_title">السماح لـVLC في تعيين نوع السطوع</string>
     <string name="allow_settings_access_brightness_description">يطلب منك VLC التصريح للسماح له في تعديل نوع السطوع</string>
+    <string name="allow_draw_overlays_title">السماح بظهور مشغل VLC العائم على التطبيقات الأخرى</string>
+    <string name="allow_sdraw_overlays_description">يحتاج VLC منك منح هذا الإذن لعرض الفيديو الخاص بك في نافذة منبثقة على التطبيقات الأخرى.</string>
     <string name="permission_ask_again">الحصول على تصريح</string>
     <string name="exit_app">أغلق VLC</string>
     <string name="exit_app_msg">هل أنت متأكد من مغادرة VLC؟</string>
 
+    <!-- fast scroller -->
+    <string name="fastscroller_track">مسار FastScroller</string>
+
     <!-- Plugins -->
     <string name="plugins">الإضافات</string>
     <string name="download_on_device">تنزيل </string>
+    <string name="opengl_title">استخدام OpenGL ES2</string>
+    <string name="opengl_summary">بشكل افتراضي ، يتم استخدام OpenGL ES2 لفك التشفير بالبرمجيات وفك التشفير بالعتاد عند الحاجة (مقاطع فيديو بزاوية 360 درجة).</string>
     <string name="opengl_automatic">تلقائي</string>
     <string name="opengl_on">الفرض يعمل</string>
     <string name="opengl_off">الفرض لا يعمل</string>
     <string name="network_favorites">مفضلات الشبكة</string>
     <string name="network_shared_folders">المجلدات المشتركة</string>
+    <string name="encryption_warning">تحذير، التشفير غير متاح لإصدار أندرويد هذا، سيتم تخزين كلمة المرور في مساحة خاصة ولكنها غير مشفرة</string>
+    <string name="store_password">تذكر كلمة المرور</string>
     <string name="add_to_playlist">أضف إلى قائمة التشغيل</string>
     <string name="popup_playback_title">شغّل الفيديو في نافذة منبثقة</string>
+    <string name="popup_playback">التشغل في نافذة منبثقة</string>
     <string name="popup_expand">قم بتوسيع الفيديو</string>
     <string name="snack_subloader_sub_found">تم تنزيل الترجمات</string>
     <string name="snack_subloader_sub_not_found">لم يتم العثور على الترجمات</string>
@@ -558,6 +588,7 @@
     <string name="listen">استمع</string>
     <string name="subtitles_download_title">تنزيل الترجمات</string>
     <string name="connecting">الاتصال جارٍ…</string>
+    <string name="save_bluetooth_delay">حفظ التأخير لجهاز بلوتوث</string>
     <string name="episodes">الحلقات</string>
     <string name="movies">أفلام</string>
     <string name="videos">الفيديوهات</string>
@@ -598,8 +629,15 @@
     <string name="browser_storages">مساحات التخزين</string>
     <string name="msg_delete_failed">فشِل في حذف الوسائط %1$s</string>
     <string name="renderer_list_title">واجهات العرض</string>
+    <string name="feedback_player_crashed">عذرًا ، تعطل VLC للتو. حاول مرة اخرى.</string>
     <string name="sdcard_permission_dialog_title">يجب السماح للبرنامج الوصول والكاتبة على الذاكرة</string>
+    <string name="sdcard_permission_dialog_message">لا يمكن لـ VLC حذف هذا الملف بدون إذن الوصول للكتابة.\nيرجى الذهاب إلى بطاقة SD الخاصة بك وانقر على \"اختيار\".\nقد تضطر إلى النقر فوق \"إظهار بطاقة SD\" أولاً في القائمة العلوية اليمنى</string>
+    <string name="dialog_sd_wizard">أرني</string>
     <string name="renderers_disconnect">قطع الاتصال</string>
+    <string name="audio_digital_failed">فشل تغيير حالة الإخراج الرقمي الصوتي</string>
+    <string name="audio_digital_output_enabled">تم تمكين إخراج الصوت الرقمي</string>
+    <string name="audio_digital_output_disabled">تم تعطيل إخراج الصوت الرقمي</string>
+    <string name="audio_task_cleared_summary">أوقف التشغيل عندما يتم رفض التطبيق</string>
     <string name="playback_rewind">أعد التشغيل</string>
     <string name="playback_forward">تقديم للأمام</string>
     <string name="ml_wizard_title">أختيار ماسح الوسائط لVLC</string>
