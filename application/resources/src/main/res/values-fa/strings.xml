@@ -86,6 +86,10 @@
         <item quantity="one">%d زیرپوشه</item>
         <item quantity="other">%d زیرپوشه</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">یک رسانه</item>
+        <item quantity="other">%d رسانه</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">%d فایل رسانه‌ای</item>
         <item quantity="other">%d فایل رسانه‌ای</item>
@@ -94,6 +98,15 @@
         <item quantity="one">%d تصویری</item>
         <item quantity="other">%d تصویری</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">یک فیلم</item>
+        <item quantity="other">%d فیلم</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">یک نمایش تلوزیونی</item>
+        <item quantity="other">%d نمایش تلوزیونی</item>
+    </plurals>
+
     <string name="internal_memory">حافظه داخلی</string>
     <string name="parent_folder">بازگشت به پوشه‌ی مادر</string>
     <string name="audio">صدا</string>
@@ -114,6 +127,7 @@
     <string name="noplaylist">هیچ سیاههٔ پخشی یافت نشد.</string>
     <string name="mediafiles">فایل های رسانه‌ای</string>
     <string name="notavailable">در دسترس نیست</string>
+    <string name="nosubfolder">زیرشاخه‌ای موجود نیست</string>
     <string name="directorynotfound">مسیر پوشه \'%1$s\' یافت نشد.</string>
     <string name="nohistory">هنوز هیچ سابقه پخشی نداری.</string>
     <string name="validation">آیا اطمینان داری؟</string>
@@ -197,7 +211,6 @@
     <string name="favorite_removed">از علاقه مندی‌ها حذف شد</string>
 
     <string name="open">باز کردن</string>
-    <string name="open_mrl">جریان</string>
     <string name="open_mrl_dialog_title">باز کردن جریان شبکه</string>
     <string name="open_mrl_dialog_msg">نشانی شبكه را وارد کنید: مثل http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">با عرض پوزش، دستگاه کنونی شما این نسخه VLC برای اندروید™ را پشتیبانی نمیکند.</string>
@@ -247,6 +260,7 @@
     <string name="about_text">VLC نسخه اندروید™ نسخه‌ای از برنامه پخش کننده معروف و کد باز VLC میباشد. نسخه اندرویدVLC برای اندروید™ برنامه میتواند اکثر فایل‌ها و جریانات شبکه‌ای را اجرا کند.</string>
     <string name="vlc_authors">و همکاران VLC</string>
     <string name="compiled_by">این نسخه برنامه VLC تالیف شده توسط:</string>
+    <string name="feedback_forum">انجمن بازخورد</string>
 
     <!-- Preferences -->
     <string name="preferences">تنظیمات</string>
@@ -275,6 +289,8 @@
     <string name="enable_black_theme_summary">رنگ های رابط را برای راحتی بهتر در محیط های کم نور تغییر دهید.</string>
     <string name="subtitle_text_encoding">کد گذاری متن زیرنویس</string>
     <string name="daynight_title">حالت شب</string>
+    <string name="daynight_follow_system_title">پیروزی از تنظیمات سامانه</string>
+    <string name="daynight_battery_title">پیروی از محافظ باتری</string>
     <string name="daynight_summary">به صورت خودکار در زمان مناسب به حالت شب تعویض شود</string>
 
     <string name="extra_prefs_category">تنظیمات اضافی</string>
@@ -289,20 +305,29 @@
 
     <string name="video_prefs_category">ویدئو</string>
     <string name="video_min_group_length_title">گروه ویدیوها</string>
+    <string name="video_min_group_length_disable">ویدئوها گروه‌بندی نشوند</string>
     <string name="video_min_group_length_folder">گروه‌بندی برپایه پوشه</string>
+    <string name="video_min_group_length_name">گروه‌بندی بر اساس نام</string>
     <string name="video_min_group_length_first">فقط حرف اول</string>
     <string name="video_min_group_length_short">تعداد کوتاه از حروف (6)</string>
     <string name="video_min_group_length_long">تعداد بلند از حروف (9)</string>
     <string name="media_fast_seek">جابه‌جایی سریع</string>
+    <string name="video_transition_title">جلوه انتقال بین ویدئوها</string>
+    <string name="video_transition_summary">نمایش عنوان ویدئوی جدید در حین انتقال</string>
     <string name="media_seen">نمایش نشان مشاهده‌شده</string>
     <string name="media_seen_summary">نشان کردن ویدیوهایی که تا انتها پخش شده‌اند</string>
+    <string name="force_play_all_summary">پخش همه ویدئوها با شروع از ویدئویی که روی آن کلیک کردید</string>
     <string name="force_play_all_title">حالت سیاههٔ پخش ویدئو</string>
+    <string name="save_brightness_summary">سطح روشنایی در پخش‌کننده ویدئو به خاطر سپرده شود</string>
     <string name="save_brightness_title">ذخیره سطح روشنایی برای ویدئو</string>
+    <string name="save_audiodelay_summary">تاخیر صدا برای هر ویدئو مستقلا ذخیره شود</string>
     <string name="save_audiodelay_title">ذخیره تاخیر صدا</string>
     <string name="enable_brightness_gesture_title">حرکت روشنایی</string>
     <string name="enable_brightness_gesture_summary">کنترل درخشانی توسط حرکت روی صفحه ویدیو در حال پخش</string>
     <string name="enable_volume_gesture_title">حرکت حجم صدا</string>
     <string name="enable_volume_gesture_summary">کنترل حجم صدا توسط حرکت روی صفحه ویدیو در حال پخش</string>
+    <string name="popup_keepscreen_title">صفحه در حین پخش تصویردرتصویر روشن نگه داشته شود</string>
+    <string name="popup_keepscreen_summary">در حالت تصویردرتصویر، صفحه همواره حتی زمانی که ویدئو متوقف است روشن نگه داشته شود</string>
     <string name="browser_show_hidden_files_title">نمایش فایل های مخفی</string>
 
     <string name="subtitles_prefs_category">زیرنویس ها</string>
@@ -313,17 +338,41 @@
     <string name="subtitles_size_huge">خیلی بزرگ</string>
     <string name="subtitles_color_title">رنگ زیرنویس ها</string>
     <string name="subtitles_color_white">سفید</string>
+    <string name="subtitles_color_gray">خاکستری</string>
     <string name="subtitles_color_pink">صورتی</string>
     <string name="subtitles_color_blue">ابی</string>
     <string name="subtitles_color_yellow">زرد</string>
     <string name="subtitles_color_green">سبز</string>
     <string name="subtitles_background_title">پسزمینه زیرنویس ها</string>
+    <string name="subtitles_bold_title">زیرنویس ضخیم</string>
+    <string name="subtitles_autoload_title">نمایش خودکار زیرنویس</string>
+
+    <string name="audio_prefs_category">صدا</string>
+    <string name="lockscreen_cover_title">تصویر رسانه در حالت قفل صفحه نمایش یابد</string>
+    <string name="lockscreen_cover_summary">در صورتی که موجود باشد، تصویر رسانه در حال پخش به عنوان تصویر پس‌زمینه حالت قفل نمایش یابد</string>
     <string name="playlist_animate_scroll_title">خودکارسازی پیمایش خودکار سیاههٔ پخش جاری</string>
+    <string name="list_title_ellipsize_default">پیش‌فرض</string>
+    <string name="list_title_ellipsize_left">چپ</string>
+    <string name="list_title_ellipsize_right">راست</string>
+    <string name="list_title_ellipsize_middle">وسط</string>
+    <string name="audio_boost_title">تقویت صدا</string>
+    <string name="audio_boost_summary">اجازه افزایش صدا تا ۲۰۰٪</string>
+    <string name="headset_prefs_category">هدست</string>
     <string name="enable_headset_detection">یافتن گوشی</string>
+    <string name="enable_headset_detection_summary">اتصال و قطع هدست تشخیص داده شود</string>
+    <string name="enable_headset_actions_title">میانبرهای کنترل از راه دور</string>
+    <string name="enable_play_on_headset_insertion">با وصل شدن هدست، پخش ادامه یابد</string>
     <string name="enable_steal_remote_control">کنترل از راه دور اختصاصی گوشی</string>
     <string name="enable_steal_remote_control_summary">از سرقت رفتن کنترل از راه دور توسط برنامه‌های دیگر جلوگیری شود. این مانع دوبار کلیک در گوشی‌های HTC میشود.</string>
     <string name="aout">خروجی صوتی</string>
     <string name="aout_summary">تغییر روش خروجی صوتی مورد استفاده VLC.</string>
+    <string name="audio_ducking_title">صدای VLC در زمان دریافت اعلانات کاهش یابد</string>
+    <string name="casting_conversion_quality_title">کیفیت تبدیل</string>
+    <string name="casting_conversion_quality_summary">کیفیت تبدیل را در زمان پخش روی صفحه نمایش راه دور انتخاب کنید</string>
+    <string name="casting_quality_high">بالا</string>
+    <string name="casting_quality_medium">میانه</string>
+    <string name="casting_quality_low">پایین</string>
+    <string name="casting_quality_lowcpu">بسیار پایین</string>
     <string name="extension_prefs_activation_title">فعال کردن</string>
     <string name="android_auto">اندروید خودرو</string>
 
