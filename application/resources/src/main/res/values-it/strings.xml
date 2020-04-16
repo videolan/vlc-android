@@ -212,7 +212,7 @@
     <string name="favorite_removed">Rimosso dai preferiti</string>
 
     <string name="open">Apri</string>
-    <string name="open_mrl">Trasmetti</string>
+    <string name="streams">Flussi</string>
     <string name="open_mrl_dialog_title">Apri flusso di rete</string>
     <string name="open_mrl_dialog_msg">Digita indirizzo di rete: ad es. http://, mms:// o rtsp://</string>
     <string name="error_not_compatible">Spiacenti, il tuo dispositivo non è supportato da questa versione di VLC per Android™.</string>
@@ -699,6 +699,14 @@
     <string name="preamp">Preamplificazione</string>
     <string name="presets">Preimpostazioni</string>
     <string name="reset">Ripristina</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d traccia inserita</item>
+        <item quantity="other">%d tracce inserite</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d traccia accodata</item>
+        <item quantity="other">%d tracce accodate</item>
+    </plurals>
     <string name="remove_current">Rimuovi attuale</string>
     <string name="validation_delete_playlist">Sei sicuro di voler eliminare questa scaletta?</string>
     <string name="validation_delete_playlist_text">Questa azione non può essere annullata.</string>
@@ -791,4 +799,8 @@
     <string name="all_subfolders">Aggiungi questa cartella e le sottocartelle</string>
     <string name="playlist_existing">La scaletta %s esiste già</string>
     <string name="new_title">Nuovo titolo</string>
+    <string name="browse">Sfoglia</string>
+    <string name="more">Altro</string>
+    <string name="favorites">Preferiti</string>
+    <string name="new_stream">Nuovo flusso</string>
 </resources>
