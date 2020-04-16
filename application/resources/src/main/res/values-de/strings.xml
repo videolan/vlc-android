@@ -212,7 +212,7 @@
     <string name="favorite_removed">Von Favoriten entfernt</string>
 
     <string name="open">Öffnen</string>
-    <string name="open_mrl">Stream</string>
+    <string name="streams">Streams</string>
     <string name="open_mrl_dialog_title">Netzwerkstream öffnen</string>
     <string name="open_mrl_dialog_msg">Adresse eingeben: z.B. http://, mms:// oder rtsp://</string>
     <string name="error_not_compatible">Es tut uns leid, Ihr Gerät wird derzeit von dieser Version von VLC für Android™ nicht unterstützt.</string>
@@ -799,4 +799,8 @@
     <string name="all_subfolders">Alle Unterordner hinzufügen</string>
     <string name="playlist_existing">Wiedergabeliste %s existiert bereits</string>
     <string name="new_title">Neuer Titel</string>
+    <string name="browse">Durchsuchen</string>
+    <string name="more">Mehr</string>
+    <string name="favorites">Favoriten</string>
+    <string name="new_stream">Neuer Stream</string>
 </resources>
