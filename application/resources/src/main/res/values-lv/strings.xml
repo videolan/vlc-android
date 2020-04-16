@@ -18,6 +18,10 @@
     <string name="sortby_length_desc">Garuma (dilstoši)</string>
     <string name="sortby_date">Datuma</string>
     <string name="sortby_date_desc">Datuma (dilstoši)</string>
+    <string name="sortby_last_modified_date">Nesen pievienots</string>
+    <string name="sortby_last_modified_date_desc">Nesen pievienots (dilstoši)</string>
+    <string name="sortby_number">Reģ. celiņi</string>
+    <string name="sortby_number_desc">Reģ. celiņi (dilstoši)</string>
     <string name="searchable_hint">Meklēt…</string>
     <string name="history">Vēsture</string>
 
@@ -30,19 +34,31 @@
     <string name="play">Atskaņot</string>
     <string name="playback">Atskaņošana</string>
     <string name="playback_controls">Atskaņošanas vadība</string>
+    <string name="medialibrary_scan">Multivides bibliotēkas skenēšana</string>
+    <string name="Medialibrary_progress">Multivides bibliotēkas skenēšanas norises atjauninājumi</string>
     <string name="play_from_start">Atskaņot no sākuma</string>
     <string name="play_as_audio">Atskaņot kā audio</string>
     <string name="play_as_video">Atskaņot kā video</string>
+    <string name="video_app_switch_title">Fona/AA režīms</string>
+    <string name="video_app_switch_summary">Izvēlieties VLC darbību, pārslēdzoties uz citu programmu no video atskaņošanas</string>
+    <string name="play_pip_title">Video demonstrēšana režīmā Attēls attēlā</string>
     <string name="play_as_audio_background">Atskaņot video fonā</string>
     <string name="append">Pievienot</string>
+    <string name="insert_next">Ievietot nākamo</string>
     <string name="play_all">Atskaņot visu</string>
     <string name="append_all">Pievienot visu</string>
     <string name="resume_playback_short_title">Atsākt atskaņošanu</string>
+    <string name="resume_playback_long_title">Atsākt pēdējā atskaņošanas saraksta atskaņošanu</string>
     <string name="delete">Izdzēst</string>
     <string name="remove">Noņemt</string>
     <string name="set_song">Iestatīt kā zvana signālu</string>
+    <string name="set_song_question">\'%1$s\' iestatīt kā zvana signālu?</string>
     <string name="info">Informācija</string>
     <string name="confirm_delete">Vai izdzēst failu \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Vai izdzēst šos datus %1$d?</string>
+    <string name="confirm_delete_folder">Vai izdzēst \'%1$s\'mapi un visu tās saturu?</string>
+    <string name="confirm_delete_playlist">Dzēst atskaņošanas sarakstu \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Izņemt \'%1$s\' no atskaņošanas saraksta?</string>
     <string name="confirm_remove_from_playlist_anonymous">Izņemt no atskaņošanas saraksta?</string>
     <string name="ringtone_set">Fails \'%1$s\' iestatīts kā zvana signāls.</string>
     <string name="ringtone_error">Radās kļūda nosakot zvana signālu.</string>
@@ -59,6 +75,7 @@
         <item quantity="one">1 dziesma</item>
         <item quantity="other">%d dziesmas</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Ieraksta informācija kopēta starpliktuvē</string>
 
     <string name="artists">Izpildītāji</string>
     <string name="albums">Albumi</string>
@@ -185,7 +202,6 @@
     <string name="favorite_removed">Izņemts no izlases</string>
 
     <string name="open">Atvērt</string>
-    <string name="open_mrl">Straumēt</string>
     <string name="open_mrl_dialog_title">Atvērt tīkla plūsmu</string>
     <string name="open_mrl_dialog_msg">Ievadiet tīkla adresi: piemēram, http://, mms:// vai rtsp://</string>
     <string name="error_not_compatible">Žēl, jūsu ierīce pašlaik neatbalsta šo versiju VLC Android™.</string>
