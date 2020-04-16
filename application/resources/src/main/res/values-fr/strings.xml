@@ -212,7 +212,7 @@
     <string name="favorite_removed">Retiré des favoris</string>
 
     <string name="open">Ouvrir</string>
-    <string name="open_mrl">Flux</string>
+    <string name="streams">Flux</string>
     <string name="open_mrl_dialog_title">Ouvrir un flux réseau</string>
     <string name="open_mrl_dialog_msg">Entrez une addresse réseau : p. ex. http://, mms:// ou rtsp://</string>
     <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.</string>
@@ -799,4 +799,8 @@
     <string name="all_subfolders">Ajouter ce dossier avec ces sous-dossiers</string>
     <string name="playlist_existing">La liste de lecture %s existe déjà</string>
     <string name="new_title">Nouveau titre</string>
+    <string name="browse">Parcourir</string>
+    <string name="more">Détails</string>
+    <string name="favorites">Favoris</string>
+    <string name="new_stream">Nouveau flux</string>
 </resources>
