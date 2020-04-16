@@ -212,7 +212,6 @@
     <string name="favorite_removed">ഇഷ്ട്പ്പെട്ടവയില്‍ നിന്നും നീക്കം ചെയ്തു</string>
 
     <string name="open">തുറക്കുക</string>
-    <string name="open_mrl">സ്ട്രീം </string>
     <string name="open_mrl_dialog_title">ശൃംഖല സ്രോതസ്സ്‌ തുറക്കുക</string>
     <string name="open_mrl_dialog_msg">ശ്രിന്ഘല വിലാസം തരു. ഉദാഹരണം :  http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">ക്ഷമിക്കുക, ആന്‍ഡ്രോയിഡ്™ ഇല്‍ ഉള്ള VLC ഇപ്പോള്‍ നിങ്ങളുടെ ഉപകരണത്തെ അനുകൂലിക്കുന്നില്ല.</string>
@@ -700,6 +699,14 @@
     <string name="preamp">പ്രീ ആംപ് </string>
     <string name="presets">പ്രീസെറ്റുകൾ</string>
     <string name="reset">റീസെറ്റ് </string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d ട്രാക്കുകൾ ചേർത്തു</item>
+        <item quantity="other">%d ട്രാക്കുകൾ ചേർത്തു</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d ട്രാക്കുകൾ കൂട്ടിച്ചേർത്തു</item>
+        <item quantity="other">%d ട്രാക്കുകൾ കൂട്ടിച്ചേർത്തു</item>
+    </plurals>
     <string name="remove_current">ഇപ്പോൾ ഉള്ളത് മാറ്റുക</string>
     <string name="validation_delete_playlist">ഈ പ്ലേലിസ്റ്റ് ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ?</string>
     <string name="validation_delete_playlist_text">ഈ പ്രവർത്തനം പഴയപടിയാക്കാൻ കഴിയില്ല.</string>
