@@ -14,7 +14,7 @@ public class ToolsTest {
     }
 
     @Test
-    public void testMillisToString()n {
+    public void testMillisToString() {
         assertEquals("3min30s", Tools.millisToString(210000, true, true));
         assertEquals("3min", Tools.millisToString(180000, true, true));
         assertEquals("1h30min30s", Tools.millisToString(5430000, true, true));
