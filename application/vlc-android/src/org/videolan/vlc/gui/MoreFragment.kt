@@ -37,6 +37,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.more_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -105,8 +106,11 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
             restoreMultiSelectHelper()
         })
         viewModel.loading.observe(viewLifecycleOwner) {
-            (activity as? MainActivity)?.refreshing = it
-            if (it) historyEntry.loading.state = EmptyLoadingState.LOADING
+            lifecycleScope.launchWhenStarted {
+                if (it) delay(300L)
+                (activity as? MainActivity)?.refreshing = it
+                if (it) historyEntry.loading.state = EmptyLoadingState.LOADING
+            }
         }
         historyAdapter.updateEvt.observe(viewLifecycleOwner) {
             swipeRefreshLayout.isRefreshing = false
@@ -131,8 +135,11 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
 
         })
         streamsViewModel.loading.observe(requireActivity(), Observer {
-            (activity as? MainActivity)?.refreshing = it
-            if (it) streamsEntry.loading.state = EmptyLoadingState.LOADING
+            lifecycleScope.launchWhenStarted {
+                if (it) delay(300L)
+                (activity as? MainActivity)?.refreshing = it
+                if (it) streamsEntry.loading.state = EmptyLoadingState.LOADING
+            }
         })
 
         settingsButton.setOnClickListener {
