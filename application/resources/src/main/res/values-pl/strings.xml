@@ -232,7 +232,7 @@
     <string name="favorite_removed">Usunięto z ulubionych</string>
 
     <string name="open">Otwórz</string>
-    <string name="open_mrl">Strumieniowanie</string>
+    <string name="streams">Strumienie</string>
     <string name="open_mrl_dialog_title">Otwórz strumień sieciowy</string>
     <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
     <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™.</string>
@@ -823,4 +823,8 @@
     <string name="all_subfolders">Dodaj ten folder z podfolderami</string>
     <string name="playlist_existing">Lista odtwarzania %s już istnieje</string>
     <string name="new_title">Nowy tytuł</string>
+    <string name="browse">Przeglądaj</string>
+    <string name="more">Więcej</string>
+    <string name="favorites">Ulubione</string>
+    <string name="new_stream">Nowy strumień</string>
 </resources>
