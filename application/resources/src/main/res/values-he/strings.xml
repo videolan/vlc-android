@@ -232,7 +232,7 @@
     <string name="favorite_removed">הוסר מהמועדפים</string>
 
     <string name="open">פתיחה</string>
-    <string name="open_mrl">הזרמה</string>
+    <string name="streams">תזרימים</string>
     <string name="open_mrl_dialog_title">פתיחת תזרים רשת</string>
     <string name="open_mrl_dialog_msg">הזנת כתובת הרשת: למשל http://‎,‏ mms://‎ או rtsp://‎</string>
     <string name="error_not_compatible">ההתקן שלך אינו נתמך על ידי גרסה זו של VLC ל־Android™, עמך הסליחה.</string>
@@ -823,4 +823,8 @@
     <string name="all_subfolders">הוספת התיקייה הזו על תת־תיקיותיה</string>
     <string name="playlist_existing">רשימת הנגינה %s כבר קיימת</string>
     <string name="new_title">כותרת חדשה</string>
+    <string name="browse">עיון</string>
+    <string name="more">עוד</string>
+    <string name="favorites">מועדפים</string>
+    <string name="new_stream">תזרים חדש</string>
 </resources>
