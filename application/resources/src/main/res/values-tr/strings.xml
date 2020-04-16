@@ -212,7 +212,6 @@
     <string name="favorite_removed">Sık kullanılanlardan çıkarıldı</string>
 
     <string name="open">Aç</string>
-    <string name="open_mrl">Akış</string>
     <string name="open_mrl_dialog_title">Ağ akışı aç</string>
     <string name="open_mrl_dialog_msg">Ağ adresini yazın: örneğin http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">Maalesef, aygıtınız bu Android™ için VLC sürümünü desteklemiyor.</string>
@@ -699,6 +698,10 @@
     <string name="preamp">Ön güçlendirme</string>
     <string name="presets">Hazır Ayarlar</string>
     <string name="reset">Sıfırla</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d Parçaları eklendi</item>
+        <item quantity="other">%d Parçaları eklendi</item>
+    </plurals>
     <string name="remove_current">Geçerli ögeyi çıkar</string>
     <string name="validation_delete_playlist">Bu oynatma listesini silmek istediğinize emin misiniz?</string>
     <string name="validation_delete_playlist_text">Bu işlem geri alınamaz.</string>
