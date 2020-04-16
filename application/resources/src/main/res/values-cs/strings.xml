@@ -76,6 +76,7 @@
         <item quantity="many">%d skladeb</item>
         <item quantity="other">%d skladeb</item>
     </plurals>
+    <string name="track_info_copied_to_clipboard">Informace o skladbě zkopírovány do schránky</string>
 
     <string name="artists">Umělci</string>
     <string name="albums">Alba</string>
@@ -211,7 +212,6 @@
     <string name="favorite_removed">Odstraněno z oblíbených</string>
 
     <string name="open">Otevřít</string>
-    <string name="open_mrl">Proud</string>
     <string name="open_mrl_dialog_title">Otevřít síťový proud</string>
     <string name="open_mrl_dialog_msg">Zadejte adresu URL: e.g. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">Bohužel Vaše zařízení není v současné době podporované touto verzí VLC pro Android™.</string>
@@ -456,6 +456,8 @@
     <string name="dump_logcat_success">Záznam logcat úspěšně vypsán do %1$s!</string>
     <string name="dump_logcat_failure">Vypsání záznamu logcat selhalo.</string>
     <string name="custom_libvlc_options">Vlastní volby libVLC</string>
+    <string name="custom_libvlc_options_invalid">Neplatné nastavení libVLC!</string>
+
     <string name="serious_crash">Bohužel nastala závažná chyba a přehrávač VLC se musel ukončit.</string>
     <string name="help_us_send_log">Pomozte nám vylepšit přehrávač VLC zasláním následujícího záznamu o pádu aplikace:</string>
     <string name="restart_vlc">Restartovat VLC</string>
@@ -482,6 +484,7 @@
     <string name="audio_delay">Zpoždění zvuku</string>
     <string name="spu_delay">Zpoždění titulků</string>
     <string name="sleep_time_not_set">nenastaveno</string>
+    <string name="network_shares_discovery">Hledám síťové disky…</string>
     <string name="network_empty">Adresář je prázdný.</string>
     <string name="network_connection_needed">Žádné spojení s místní sítí.</string>
     <string name="search_hint">Hledat média</string>
