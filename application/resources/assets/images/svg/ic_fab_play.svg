@@ -11,15 +11,13 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="24"
    height="24"
-   id="svg4682"
+   viewBox="0 0 24 24"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="ic_fab_play.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   id="SVGRoot"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="ic_fab_play.svg">
   <defs
-     id="defs4684" />
+     id="defs9728" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,45 +25,36 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="18.270833"
-     inkscape:cx="6.8073316"
-     inkscape:cy="15.656191"
+     inkscape:zoom="25.6"
+     inkscape:cx="11.109183"
+     inkscape:cy="16.026289"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
+     inkscape:window-height="1080"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     inkscape:snap-bbox="true"
-     inkscape:bbox-paths="true"
-     inkscape:bbox-nodes="true"
-     inkscape:snap-bbox-edge-midpoints="true"
-     inkscape:snap-bbox-midpoints="true"
-     inkscape:object-nodes="true"
-     inkscape:snap-intersection-paths="true"
-     inkscape:snap-smooth-nodes="true"
-     inkscape:snap-midpoints="true"
-     inkscape:snap-object-midpoints="true"
-     inkscape:snap-center="true"
-     inkscape:snap-text-baseline="true">
+     inkscape:grid-bbox="true">
     <inkscape:grid
        type="xygrid"
-       id="grid2983"
-       empspacing="4"
-       visible="true"
-       enabled="true"
-       snapvisiblegridlinesonly="true"
-       originx="-7.4928101"
-       originy="-6.0000172" />
+       id="grid10288" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid10290"
+       color="#ff0000"
+       opacity="0.1254902"
+       spacingx="20"
+       spacingy="20"
+       empspacing="20"
+       originx="2"
+       originy="2"
+       empcolor="#ff0000"
+       empopacity="0.1254902" />
   </sodipodi:namedview>
   <metadata
-     id="metadata4687">
+     id="metadata9731">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -75,28 +64,23 @@
         <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-7.4928101,-1022.3622)">
+     transform="translate(0,4)">
     <path
-       sodipodi:type="star"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:#212121;stroke-width:1.42905498;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="path5180"
-       sodipodi:sides="3"
-       sodipodi:cx="18.563544"
-       sodipodi:cy="1034.3622"
-       sodipodi:r1="10.722"
-       sodipodi:r2="5.9566665"
-       sodipodi:arg1="0"
-       sodipodi:arg2="1.0471976"
-       inkscape:flatsided="true"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="m 29.285543,1034.3622 -16.083,9.2855 0,-18.571 z"
-       inkscape:transform-center-y="-0.0055772233"
-       inkscape:transform-center-x="-2.6837118" />
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.99999797;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       d="m 7.04102,-1.99995 c -0.5738,0 -1.04144,0.43132 -1.04102,1 v 18 c 5.8e-4,0.77648 0.84727,1.25393 1.51367,0.85742 l 15,-9 c 0.64844,-0.38843 0.64844,-1.32627 0,-1.71484 l -15,-9 C 7.37051,-1.94367 7.24684,-1.99995 7.04102,-1.99995 Z"
+       id="path8804"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sccccccs" />
   </g>
 </svg>
