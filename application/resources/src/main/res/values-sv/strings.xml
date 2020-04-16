@@ -212,7 +212,7 @@
     <string name="favorite_removed">Togs bort från favoriter</string>
 
     <string name="open">Öppna</string>
-    <string name="open_mrl">Ström</string>
+    <string name="streams">Strömmar</string>
     <string name="open_mrl_dialog_title">Öppna nätverkström</string>
     <string name="open_mrl_dialog_msg">Ange nätverksadress: d.v.s. http://, mms:// eller rtsp://</string>
     <string name="error_not_compatible">Tyvärr, din enhet stödjer för tillfället inte denna version av VLC för Android™.</string>
@@ -799,4 +799,8 @@
     <string name="all_subfolders">Lägg till denna mapp och undermappar</string>
     <string name="playlist_existing">Spellistan %s finns redan</string>
     <string name="new_title">Ny titel</string>
+    <string name="browse">Bläddra</string>
+    <string name="more">Mer</string>
+    <string name="favorites">Favoriter</string>
+    <string name="new_stream">Ny ström</string>
 </resources>
