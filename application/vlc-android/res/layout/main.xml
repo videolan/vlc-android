@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="?attr/background_default"
+            android:background="?attr/bottom_navigation_background"
             app:elevation="8dp"
             app:itemIconTint="@color/bottom_navigation_selector"
             app:itemTextColor="@color/bottom_navigation_selector"

@@ -32,8 +32,7 @@
             android:id="@+id/swipeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="?attr/background_default">
+            android:layout_gravity="center_horizontal">
 
         <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"

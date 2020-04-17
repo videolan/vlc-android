@@ -7,7 +7,6 @@
         android:id="@+id/audio_list"
         android:layout_width="@dimen/default_content_width"
         android:layout_height="match_parent"
-        android:background="?attr/background_default"
         android:layout_gravity="center_horizontal"
         android:clipToPadding="false" />
 
