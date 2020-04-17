@@ -1,6 +1,6 @@
 <!--
   ~ *************************************************************************
-  ~  ic_menu_list_tv.xml
+  ~  ic_bookmark.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -23,12 +23,17 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="40dp"
-        android:height="40dp"
-        android:viewportWidth="24.0"
-        android:viewportHeight="24.0">
+        android:width="36dp"
+        android:height="36dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
     <path
+            android:pathData="m24,8 l3.9375,12H40L30.3318,27.2968 34.5,40 24,32.0755 13.5,40 17.6682,27.2968 8,20h12.0625z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="1"
             android:fillColor="@color/tv_menu_selection"
-            android:pathData="M3,13h2v-2L3,11v2zM3,17h2v-2L3,15v2zM3,9h2L5,7L3,7v2zM7,13h14v-2L7,11v2zM7,17h14v-2L7,15v2zM7,7v2h14L21,7L7,7z" />
+            android:strokeColor="#00000000"
+            android:fillType="evenOdd"
+            android:strokeLineCap="butt" />
 </vector>
-

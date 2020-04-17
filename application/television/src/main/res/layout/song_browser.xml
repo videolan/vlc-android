@@ -35,19 +35,18 @@
         </FrameLayout>
 
 
-        <TextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/tv_overscan_horizontal"
-                android:layout_marginTop="@dimen/tv_overscan_vertical"
-                android:layout_marginEnd="8dp"
-                android:textAlignment="viewStart"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintEnd_toStartOf="@+id/displayButton"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Tracks" />
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tv_overscan_horizontal"
+            android:layout_marginTop="@dimen/tv_overscan_vertical"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Tracks" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ariane"
@@ -65,30 +64,30 @@
                 tools:layout_height="48dp" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/displayButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/tv_overscan_vertical"
-                android:background="@color/transparent"
-                android:elevation="6dp"
-            app:srcCompat="@drawable/ic_menu_grid_tv"
-                app:layout_constraintEnd_toEndOf="@+id/ariane"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+            android:id="@+id/displayButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tv_overscan_vertical"
+            android:layout_marginEnd="8dp"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/sortButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_grid"
+            tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/favoriteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/tv_overscan_vertical"
-                android:layout_marginEnd="8dp"
-                android:background="@color/transparent"
-                android:elevation="6dp"
-            app:srcCompat="@drawable/ic_menu_fav_tv"
-                android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@+id/sortButton"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+            android:id="@+id/favoriteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tv_overscan_vertical"
+            android:layout_marginEnd="8dp"
+            android:background="@color/transparent"
+            android:elevation="6dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/displayButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_bookmark"
+            tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/sortButton"
@@ -98,7 +97,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@color/transparent"
                 android:elevation="6dp"
-            app:srcCompat="@drawable/ic_menu_sort_tv"
+            app:srcCompat="@drawable/ic_sort"
                 app:layout_constraintEnd_toStartOf="@+id/headerButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -110,7 +109,7 @@
                 android:layout_marginEnd="@dimen/tv_overscan_horizontal"
                 android:background="@color/transparent"
                 android:elevation="6dp"
-            app:srcCompat="@drawable/ic_menu_header_tv"
+            app:srcCompat="@drawable/ic_jumptoheader"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -149,10 +148,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/orange_circle"
                 android:elevation="6dp"
                 android:nextFocusDown="@id/imageButtonHeader"
-            app:srcCompat="@drawable/ic_menu_grid_tv_normal"
+            app:srcCompat="@drawable/ic_fabtvmini_bookmark"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonSort"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSort"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSort"
@@ -164,10 +162,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/orange_circle"
                 android:elevation="6dp"
                 android:nextFocusDown="@id/imageButtonHeader"
-            app:srcCompat="@drawable/ic_menu_sort_tv"
+            app:srcCompat="@drawable/ic_fabtvmini_sort"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
@@ -179,14 +176,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/orange_circle"
                 android:elevation="6dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonHeader"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonHeader"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonHeader"
                 app:layout_constraintTop_toTopOf="@+id/imageButtonHeader"
-                app:srcCompat="@drawable/ic_menu_fav_tv" />
+            app:srcCompat="@drawable/ic_fabtvmini_bookmark" />
 
     <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/imageButtonHeader"
@@ -194,12 +190,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/orange_circle"
                 android:elevation="6dp"
                 android:nextFocusUp="@id/imageButtonSort"
                 android:nextFocusDown="@id/imageButtonSettings"
                 android:nextFocusForward="@id/imageButtonSort"
-            app:srcCompat="@drawable/ic_menu_header_tv_normal"
+            app:srcCompat="@drawable/ic_fabtvmini_jumptoheader"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
@@ -211,11 +206,10 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/orange_circle"
                 android:elevation="6dp"
                 android:nextFocusUp="@id/imageButtonHeader"
                 android:nextFocusForward="@id/imageButtonHeader"
-            app:srcCompat="@drawable/ic_menu_preferences_tv"
+            app:srcCompat="@drawable/ic_fabtv_preferences"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/headerListContainer" />
 

@@ -1,6 +1,6 @@
 <!--
   ~ *************************************************************************
-  ~  ic_fab_play.xml
+  ~  ic_bookmark_outline.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -23,16 +23,16 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="24dp"
-        android:height="24dp"
-        android:viewportWidth="24"
-        android:viewportHeight="24">
+        android:width="36dp"
+        android:height="36dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
     <path
-            android:pathData="m7.041,2.0001c-0.5738,0 -1.0414,0.4313 -1.041,1v18c0.0006,0.7765 0.8473,1.2539 1.5137,0.8574l15,-9c0.6484,-0.3884 0.6484,-1.3263 0,-1.7148l-15,-9C7.3705,2.0563 7.2468,2.0001 7.041,2.0001Z"
+            android:pathData="M24,8 L20.0625,20H8L17.668,27.2969 13.5,40 24,32.0762 34.5,40 30.332,27.2969 40,20H27.9375ZM24,14.416 L26.4883,22h7.543l-6.0449,4.5625 2.623,7.9961L24,29.5703 17.3906,34.5586 20.0137,26.5625 13.9688,22h7.543z"
             android:strokeAlpha="1"
-            android:strokeLineJoin="round"
-            android:strokeWidth="1.99999797"
-            android:fillColor="#000000"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="4"
+            android:fillColor="@color/tv_menu_selection"
             android:strokeColor="#00000000"
             android:fillType="evenOdd"
             android:fillAlpha="1"
