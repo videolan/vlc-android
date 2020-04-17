@@ -22,6 +22,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.CloseableUtils
+import org.videolan.tools.sanitizePath
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -45,7 +46,7 @@ object ThumbnailsProvider {
     @WorkerThread
     fun getFolderThumbnail(folder: Folder, width: Int): Bitmap? {
         val media = folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
-        return getComposedImage("folder:${folder.title}", media, width)
+        return getComposedImage("folder:${folder.mMrl.sanitizePath()}", media, width)
     }
 
     @WorkerThread

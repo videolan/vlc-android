@@ -25,6 +25,7 @@ import androidx.leanback.widget.ImageCardView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
@@ -33,6 +34,7 @@ import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.tools.BitmapCache
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.Settings
+import org.videolan.tools.sanitizePath
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.util.ThumbnailsProvider
@@ -72,7 +74,7 @@ fun loadImage(v: View, item: MediaLibraryItem?, imageWidth: Int = 0, tv: Boolean
     val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER
     val cacheKey = when {
         isGroup -> "videogroup:${item.title}"
-        isFolder -> "folder:${item.title}"
+        isFolder -> "folder:${(item as Folder).mMrl.sanitizePath()}"
         else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item, imageWidth.toString())
     }
     val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
