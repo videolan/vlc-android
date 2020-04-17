@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_account_circle_black_24dp.xml
+  ~  ic_player_more_h.xml
   ~ **************************************************************************
-  ~ Copyright © 2019 VLC authors and VideoLAN
+  ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,11 +23,18 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="90dp"
-        android:height="90dp"
-        android:viewportWidth="24.0"
-        android:viewportHeight="24.0">
+        android:width="36dp"
+        android:height="36dp"
+        android:viewportWidth="36"
+        android:viewportHeight="36">
     <path
-            android:fillColor="@color/grey400"
-            android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM12,5c1.66,0 3,1.34 3,3s-1.34,3 -3,3 -3,-1.34 -3,-3 1.34,-3 3,-3zM12,19.2c-2.5,0 -4.71,-1.28 -6,-3.22 0.03,-1.99 4,-3.08 6,-3.08 1.99,0 5.97,1.09 6,3.08 -1.29,1.94 -3.5,3.22 -6,3.22z" />
+            android:pathData="m9,15a3,3 0,0 0,-3 3,3 3,0 0,0 3,3 3,3 0,0 0,3 -3,3 3,0 0,0 -3,-3zM18,15a3,3 0,0 0,-3 3,3 3,0 0,0 3,3 3,3 0,0 0,3 -3,3 3,0 0,0 -3,-3zM27,15a3,3 0,0 0,-3 3,3 3,0 0,0 3,3 3,3 0,0 0,3 -3,3 3,0 0,0 -3,-3z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="1.5"
+            android:fillColor="?attr/player_icon_color"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:fillAlpha="1"
+            android:strokeLineCap="round" />
 </vector>

@@ -72,7 +72,7 @@ import org.videolan.vlc.util.generateResolutionClass
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class MetadataCardPresenter(private val context: Activity) : Presenter() {
 
-    private var defaultCardImage: Drawable? = VectorDrawableCompat.create(context.resources, R.drawable.ic_account_circle_black_24dp, context.theme)
+    private var defaultCardImage: Drawable? = VectorDrawableCompat.create(context.resources, R.drawable.ic_people_big, context.theme)
 
     inner class ViewHolder(view: View) : Presenter.ViewHolder(view) {
 

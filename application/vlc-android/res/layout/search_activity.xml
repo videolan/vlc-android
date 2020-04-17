@@ -17,33 +17,34 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/background_default"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_arrow_back"
-                android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"
-                android:scaleType="center"
-                android:onClick="@{handler::onBack}" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/search_edit_layout"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?attr/background_default">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:onClick="@{handler::onBack}"
+                    app:srcCompat="@drawable/ic_arrow_back" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/search_edit_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
                     app:endIconMode="clear_text">
+
                 <EditText
-                    android:id="@+id/search_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:hint="@string/search_hint"
-                    android:imeOptions="actionSearch"
+                        android:id="@+id/search_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:hint="@string/search_hint"
+                        android:imeOptions="actionSearch"
                         android:inputType="textFilter" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

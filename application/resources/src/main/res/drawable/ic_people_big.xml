@@ -1,6 +1,6 @@
 <!--
   ~ *************************************************************************
-  ~  ic_duration.xml
+  ~  ic_people_big.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -23,16 +23,16 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="24dp"
-        android:height="24dp"
-        android:viewportWidth="48"
-        android:viewportHeight="48">
+        android:width="96dp"
+        android:height="96dp"
+        android:viewportWidth="96"
+        android:viewportHeight="96">
     <path
-            android:pathData="M24,8C15.1634,8 8,15.1634 8,24C8,32.8366 15.1634,40 24,40C32.8366,40 40,32.8366 40,24C40,15.1634 32.8366,8 24,8zM24,12C30.6274,12 36,17.3726 36,24C36,30.6274 30.6274,36 24,36C17.3726,36 12,30.6274 12,24C12,17.3726 17.3726,12 24,12zM24,16C23.169,16 22.5,16.669 22.5,17.5L22.5,25C22.5,25.4255 22.6762,25.8076 22.959,26.0801L26.8281,29.9492C27.4157,30.5368 28.3616,30.5368 28.9492,29.9492C29.5368,29.3616 29.5368,28.4157 28.9492,27.8281L25.5,24.3789L25.5,17.5C25.5,16.669 24.831,16 24,16z"
+            android:pathData="M48,0A48,48 0,0 0,0 48,48 48,0 0,0 48,96 48,48 0,0 0,96 48,48 48,0 0,0 48,0ZM48,16c8.8366,0 16,7.1634 16,16 0,8.8365 -7.1634,16 -16,16 -8.8366,0 -16,-7.1635 -16,-16 0,-8.8366 7.1634,-16 16,-16zM48,56c13.4095,-0.008 26.8106,4.9427 27.918,14.6875A36,36 0,0 1,48 84,36 36,0 0,1 20.082,70.6992C21.1837,60.9786 34.5873,56.0077 48,56Z"
             android:strokeAlpha="1"
-            android:strokeLineJoin="round"
-            android:strokeWidth="6.09600544"
-            android:fillColor="?attr/font_audio_light"
+            android:strokeLineJoin="bevel"
+            android:strokeWidth="2"
+            android:fillColor="#000000"
             android:strokeColor="#00000000"
             android:fillAlpha="1"
             android:strokeLineCap="round" />

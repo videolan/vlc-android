@@ -47,7 +47,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/tim_pic_timetojump"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tim_pic_timetojump"
-            app:srcCompat="@drawable/ic_backspace_w" />
+                app:srcCompat="@drawable/ic_backspace" />
 
         <LinearLayout
             android:id="@+id/linearLayout2"

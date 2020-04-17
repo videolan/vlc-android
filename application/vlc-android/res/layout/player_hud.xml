@@ -440,7 +440,7 @@
                     vlc:layout_constraintHorizontal_bias="0.5"
                     vlc:layout_constraintStart_toEndOf="@+id/orientation_toggle"
                     vlc:layout_constraintTop_toTopOf="@+id/orientation_toggle"
-                    vlc:srcCompat="@drawable/ic_advanced_player" />
+                    vlc:srcCompat="@drawable/ic_player_more_h" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

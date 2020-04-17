@@ -1,6 +1,6 @@
 <!--
   ~ *************************************************************************
-  ~  ic_duration.xml
+  ~  ic_send.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -23,17 +23,17 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="24dp"
-        android:height="24dp"
+        android:width="48dp"
+        android:height="48dp"
         android:viewportWidth="48"
         android:viewportHeight="48">
     <path
-            android:pathData="M24,8C15.1634,8 8,15.1634 8,24C8,32.8366 15.1634,40 24,40C32.8366,40 40,32.8366 40,24C40,15.1634 32.8366,8 24,8zM24,12C30.6274,12 36,17.3726 36,24C36,30.6274 30.6274,36 24,36C17.3726,36 12,30.6274 12,24C12,17.3726 17.3726,12 24,12zM24,16C23.169,16 22.5,16.669 22.5,17.5L22.5,25C22.5,25.4255 22.6762,25.8076 22.959,26.0801L26.8281,29.9492C27.4157,30.5368 28.3616,30.5368 28.9492,29.9492C29.5368,29.3616 29.5368,28.4157 28.9492,27.8281L25.5,24.3789L25.5,17.5C25.5,16.669 24.831,16 24,16z"
+            android:pathData="m8,9 l34,15L8,39V27l24,-3 -24,-3z"
             android:strokeAlpha="1"
-            android:strokeLineJoin="round"
-            android:strokeWidth="6.09600544"
-            android:fillColor="?attr/font_audio_light"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="1"
+            android:fillColor="@color/standard_selection_orange500"
             android:strokeColor="#00000000"
-            android:fillAlpha="1"
-            android:strokeLineCap="round" />
+            android:fillType="evenOdd"
+            android:strokeLineCap="butt" />
 </vector>

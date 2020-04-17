@@ -68,7 +68,7 @@ import org.videolan.vlc.gui.helpers.downloadIcon
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PersonCardPresenter(private val context: Activity) : Presenter() {
 
-    private var defaultCardImage: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_account_circle_black_24dp)
+    private var defaultCardImage: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_people_big)
 
     inner class ViewHolder(view: View) : Presenter.ViewHolder(view) {
         val cardView: ImageCardView = view as ImageCardView

@@ -136,7 +136,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="center"
-                    app:srcCompat="@drawable/ic_advanced_player"/>
+                    app:srcCompat="@drawable/ic_player_more_h" />
         </LinearLayout>
 
         <LinearLayout
