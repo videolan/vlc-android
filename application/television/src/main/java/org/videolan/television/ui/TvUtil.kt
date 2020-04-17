@@ -310,7 +310,7 @@ object TvUtil {
                 val intent = Intent(context, VerticalGridActivity::class.java)
                 intent.putExtra(ITEM, mediaLibraryItem)
                 intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
-                intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
                 context.startActivity(intent)
             }
         }

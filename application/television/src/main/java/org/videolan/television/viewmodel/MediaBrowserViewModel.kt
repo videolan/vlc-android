@@ -17,14 +17,14 @@ import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
 
 @ExperimentalCoroutinesApi
-class MediaBrowserViewModel(context: Context, val category: Long) : MedialibraryViewModel(context), TvBrowserModel<MediaLibraryItem> {
+class MediaBrowserViewModel(context: Context, val category: Long, val parent : MediaLibraryItem?) : MedialibraryViewModel(context), TvBrowserModel<MediaLibraryItem> {
 
 
     override var nbColumns = 0
-    override var currentItem: MediaLibraryItem? = null
+    override var currentItem: MediaLibraryItem? = parent
 
     override val provider = when (category) {
-        CATEGORY_ALBUMS -> AlbumsProvider(null, context, this)
+        CATEGORY_ALBUMS -> AlbumsProvider(parent, context, this)
         CATEGORY_ARTISTS -> ArtistsProvider(context, this, true)
         CATEGORY_GENRES -> GenresProvider(context, this)
         CATEGORY_VIDEOS -> VideosProvider(null, null, context, this)
@@ -41,13 +41,13 @@ class MediaBrowserViewModel(context: Context, val category: Long) : Medialibrary
         }
     }
 
-    class Factory(private val context: Context, private val category: Long) : ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context, private val category: Long, private val parent : MediaLibraryItem?) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return MediaBrowserViewModel(context.applicationContext, category) as T
+            return MediaBrowserViewModel(context.applicationContext, category, parent) as T
         }
     }
 }
 
 @ExperimentalCoroutinesApi
-fun Fragment.getMediaBrowserModel(category: Long) = ViewModelProviders.of(requireActivity(), MediaBrowserViewModel.Factory(requireContext(), category)).get(MediaBrowserViewModel::class.java)
+fun Fragment.getMediaBrowserModel(category: Long, parent : MediaLibraryItem? = null) = ViewModelProviders.of(requireActivity(), MediaBrowserViewModel.Factory(requireContext(), category, parent)).get(MediaBrowserViewModel::class.java)
