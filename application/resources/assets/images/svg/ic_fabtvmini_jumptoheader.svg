@@ -15,7 +15,7 @@
    version="1.1"
    id="SVGRoot"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="ic_fabtvmini_list.svg">
+   sodipodi:docname="ic_fabtvmini_jumptoheader.svg">
   <defs
      id="defs7678" />
   <sodipodi:namedview
@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6568545"
-     inkscape:cx="-44.992843"
-     inkscape:cy="29.792426"
+     inkscape:cx="-45.434785"
+     inkscape:cy="29.085319"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1043"
+     inkscape:window-height="1016"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="1107"
      inkscape:window-maximized="1"
      inkscape:grid-bbox="true"
      inkscape:snap-bbox="true"
@@ -60,7 +60,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,15 +70,15 @@
      id="layer1"
      transform="translate(0,-8)">
     <circle
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#ff8800;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:12.59842491;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="circle17977"
-       cx="20"
+       r="20"
        cy="28"
-       r="20" />
+       cx="20"
+       id="circle1599"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#ff8800;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:12.59842491;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.03774905;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;enable-background:accumulate"
-       d="m 11,22 v 2 h 2 v -2 z m 4,0 v 2 h 14 v -2 z m -4,5 v 2 h 2 v -2 z m 4,0 v 2 h 14 v -2 z m -4,5 v 2 h 2 v -2 z m 4,0 v 2 h 14 v -2 z"
-       id="path1556"
+       style="opacity:1;fill:#fafafa;fill-opacity:1;stroke:none;stroke-width:1.12815213;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 17,21.800781 a 6,6 0 0 0 -6,6 6,6 0 0 0 6,6 v 1 c 0,0.44505 0.534416,0.666516 0.853516,0.353516 l 2,-2 c 0.1952,-0.19525 0.1952,-0.511781 0,-0.707031 l -2,-2 C 17.534416,30.134266 16.9997,30.355581 17,30.800781 v 1 a 4,4 0 0 1 -4,-4 4,4 0 0 1 4,-4 h 3 v -2 z m 5,0 v 2 h 7 v -2 z m 0,5 v 2 h 7 v -2 z m 0,5 v 2 h 7 v -2 z"
+       id="rect1587"
        inkscape:connector-curvature="0" />
   </g>
 </svg>
