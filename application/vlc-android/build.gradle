@@ -197,7 +197,7 @@ dependencies {
     testApi "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
     testApi "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
     testApi "org.robolectric:robolectric:$rootProject.ext.robolectric"
-    androidTestApi 'androidx.test:rules:1.3.0-alpha03'
+    androidTestApi 'androidx.test:rules:1.3.0-alpha05'
 }
 
 

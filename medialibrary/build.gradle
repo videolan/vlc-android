@@ -97,9 +97,9 @@ dependencies {
     devImplementation project(':libvlc')
     api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxLegacyVersion"
     api "androidx.core:core:$rootProject.ext.androidxCoreVersion"
-    api "androidx.fragment:fragment:$rootProject.ext.androidxVersion"
+    api "androidx.fragment:fragment:$rootProject.ext.androidxFragmentVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    testImplementation "org.robolectric:robolectric:4.2.1"
+    testImplementation "org.robolectric:robolectric:4.3.1"
 
 }
 
