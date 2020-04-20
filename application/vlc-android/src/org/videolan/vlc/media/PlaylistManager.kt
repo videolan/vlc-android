@@ -161,7 +161,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
         val locations = settings.getString(if (audio) KEY_AUDIO_LAST_PLAYLIST else KEY_MEDIA_LAST_PLAYLIST, null)
                 ?.split(" ".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
-        if (locations?.isNotEmpty() != true) {
+        if (locations.isNullOrEmpty()) {
             loadingLastPlaylist = false
             return false
         }
@@ -485,7 +485,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private fun saveCurrentMedia() {
         val media = getCurrentMedia() ?: return
         val isAudio = isAudioList()
-        settings.putSingle(if (isAudio) "current_song" else "current_media", media.location)
+        settings.putSingle(if (isAudio) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA, media.location)
     }
 
     private suspend fun saveMediaList() {
@@ -495,7 +495,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val list = mediaList.copy.takeIf { it.isNotEmpty() } ?: return@withContext
             for (mw in list) locations.append(" ").append(mw.uri.toString())
             //We save a concatenated String because putStringSet is APIv11.
-            settings.putSingle(if (isAudioList()) KEY_CURRENT_AUDIO else KEY_CURRENT_MEDIA, locations.toString().trim())
+            settings.putSingle(if (isAudioList()) KEY_AUDIO_LAST_PLAYLIST else KEY_MEDIA_LAST_PLAYLIST, locations.toString().trim())
         }
     }
 
