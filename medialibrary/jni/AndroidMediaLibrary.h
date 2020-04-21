@@ -115,6 +115,8 @@ public:
     bool groupDestroy(const int64_t groupId );
     medialibrary::MediaGroupPtr createMediaGroup( std::string name );
     medialibrary::MediaGroupPtr createMediaGroup( std::vector<int64_t> mediaIds );
+    bool regroupAll( );
+    bool regroup(int64_t mediaId);
     void onMediaGroupsModified( std::set<int64_t> mediaGroupsIds );
     void onMediaGroupsDeleted( std::set<int64_t> mediaGroupsIds );
     void onBookmarksAdded( std::vector<medialibrary::BookmarkPtr> );

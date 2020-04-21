@@ -590,6 +590,19 @@ AndroidMediaLibrary::createMediaGroup( std::string name )
     return p_ml->createMediaGroup(name);
 }
 
+bool
+AndroidMediaLibrary::regroupAll()
+{
+    return p_ml->regroupAll();
+}
+
+bool
+AndroidMediaLibrary::regroup(int64_t mediaId)
+{
+    auto media = p_ml->media(mediaId);
+    return media != nullptr && media->regroup();
+}
+
 medialibrary::MediaGroupPtr
 AndroidMediaLibrary::createMediaGroup( const std::vector<int64_t> mediaIds )
 {

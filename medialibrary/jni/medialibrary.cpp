@@ -1933,6 +1933,17 @@ createMediaGroup(JNIEnv* env, jobject thiz, jlongArray mediaIds)
     return group != nullptr ? convertVideoGroupObject(env, &ml_fields, group) : nullptr;
 }
 
+jboolean regroupAll(JNIEnv* env, jobject thiz)
+{
+    return MediaLibrary_getInstance(env, thiz)->regroupAll();
+}
+
+jboolean
+regroup(JNIEnv* env, jobject thiz, jlong id)
+{
+    return MediaLibrary_getInstance(env, thiz)->regroup((int64_t)id);
+}
+
  /*
   * JNI stuff
   */
@@ -2020,6 +2031,8 @@ static JNINativeMethod methods[] = {
     {"nativeGetVideoGroupsCount", "()I", (void*)videoGroupsCount },
     {"nativeCreateGroupByName", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroupByName },
     {"nativeCreateGroup", "([J)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroup },
+    {"nativeRegroupAll", "()Z", (void*)regroupAll },
+    {"nativeRegroup", "(J)Z", (void*)regroup },
 
 };
 

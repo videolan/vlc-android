@@ -240,6 +240,16 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated && (ids.length != 0) ? nativeCreateGroup(ids) : null;
     }
 
+    @Override
+    public boolean regroupAll() {
+        return mIsInitiated && nativeRegroupAll();
+    }
+
+
+    public boolean regroup(long mediaId) {
+        return mIsInitiated && mediaId > 0 && nativeRegroup(mediaId);
+    }
+
 
     @WorkerThread
     public Album[] getAlbums() {
@@ -579,6 +589,10 @@ public class MedialibraryImpl extends Medialibrary {
     private native VideoGroup nativeCreateGroupByName(String name);
 
     private native VideoGroup nativeCreateGroup(long[] ids);
+
+    private native boolean nativeRegroupAll();
+
+    private native boolean nativeRegroup(long mediaId);
     private native Album[] nativeGetAlbums(int sort, boolean desc);
     private native Album[] nativeGetPagedAlbums(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetAlbumsCount();

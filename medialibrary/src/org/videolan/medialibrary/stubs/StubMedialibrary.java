@@ -158,6 +158,16 @@ public class StubMedialibrary extends Medialibrary {
         return null;
     }
 
+    @Override
+    public boolean regroupAll() {
+        return false;
+    }
+
+    @Override
+    public boolean regroup(long mediaId) {
+        return false;
+    }
+
     public Album[] getAlbums() {
         return getAlbums(SORT_DEFAULT, false);
     }

@@ -718,6 +718,10 @@ abstract public class Medialibrary {
     abstract public VideoGroup createVideoGroup(String name);
 
     abstract public VideoGroup createVideoGroup(long[] ids);
+
+    abstract public boolean regroupAll();
+
+    abstract public boolean regroup(long mediaId);
     abstract public Album[] getAlbums();
     abstract public Album[] getAlbums(int sort, boolean desc);
     abstract public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
