@@ -2078,7 +2078,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     internal fun hideOverlay(fromUser: Boolean) {
         if (isShowing) {
             handler.removeMessages(FADE_OUT)
-            Log.i(TAG, "remove View!")
+            Log.v(TAG, "remove View!")
             overlayTips.setInvisible()
             if (!displayManager.isPrimary) {
                 overlayBackground?.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out))
@@ -2288,7 +2288,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val continueplayback = isPlaying && (restorePlayback || positionInPlaylist == service.currentMediaPosition)
             if (resumePlaylist) {
                 // Provided externally from AudioService
-                if (BuildConfig.DEBUG) Log.d(TAG, "Continuing playback from PlaybackService at index $positionInPlaylist")
+                if (BuildConfig.DEBUG) Log.v(TAG, "Continuing playback from PlaybackService at index $positionInPlaylist")
                 openedMedia = service.media[positionInPlaylist]
                 itemTitle = openedMedia.title
                 updateSeekable(service.isSeekable)
@@ -2587,11 +2587,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     private fun updateNavStatus() {
         if (service == null) return
-        isNavMenu = false
         menuIdx = -1
         lifecycleScope.launchWhenStarted {
             val titles = withContext(Dispatchers.IO) { service?.titles }
             if (isFinishing) return@launchWhenStarted
+            isNavMenu = false
             if (titles != null) {
                 val currentIdx = service?.titleIdx ?: return@launchWhenStarted
                 for (i in titles.indices) {
