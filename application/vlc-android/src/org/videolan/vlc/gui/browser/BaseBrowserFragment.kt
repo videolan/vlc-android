@@ -50,7 +50,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
-import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
@@ -156,8 +155,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             if (::addPlaylistFolderOnly.isInitialized) addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
         })
         viewModel.getDescriptionUpdate().observe(viewLifecycleOwner, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
-            (activity as? MainActivity)?.refreshing = it
+        viewModel.loading.observe(viewLifecycleOwner, Observer { loading ->
+            swipeRefreshLayout.isRefreshing = loading
+            updateEmptyView()
         })
     }
 
@@ -285,17 +285,19 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
      */
     protected open fun updateEmptyView() {
         swipeRefreshLayout.let {
-            if (viewModel.isEmpty()) {
-                if (it.isRefreshing) {
+            when {
+                it.isRefreshing -> {
                     binding.emptyLoading.state = EmptyLoadingState.LOADING
                     binding.networkList.visibility = View.GONE
-                } else {
+                }
+                viewModel.isEmpty() -> {
                     binding.emptyLoading.state = EmptyLoadingState.EMPTY
                     binding.networkList.visibility = View.GONE
                 }
-            } else {
-                binding.emptyLoading.state = EmptyLoadingState.NONE
-                binding.networkList.visibility = View.VISIBLE
+                else -> {
+                    binding.emptyLoading.state = EmptyLoadingState.NONE
+                    binding.networkList.visibility = View.VISIBLE
+                }
             }
         }
     }
