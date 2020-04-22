@@ -1,0 +1,39 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_group_auto.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:pathData="m15,6c-1.662,0 -3,1.338 -3,3v24c0,1.662 1.338,3 3,3h24c1.662,0 3,-1.338 3,-3L42,9C42,7.338 40.662,6 39,6ZM15,9L39,9L39,33L15,33ZM26.6855,12.0117a9,9 0,0 0,-7.8457 5.1914,9 9,0 0,0 4.3516,11.9609 9,9 0,0 0,11.9023 -4.2422,1.5 1.5,0 0,0 0.0625,-0.1094v-0.002a1.5,1.5 0,0 0,-0.7246 -1.9941,1.5 1.5,0 0,0 -1.9941,0.7266 6,6 0,0 1,-7.9727 2.9023,6 6,0 0,1 -2.9023,-7.9746 6,6 0,0 1,7.9727 -2.9023,6 6,0 0,1 2.0742,1.6152l-1.4629,1.4629C29.8336,18.9616 30.0545,19.4998 30.5,19.5h5c0.2761,-0 0.5,-0.2239 0.5,-0.5v-5c0.0001,-0.2823 -0.2334,-0.5088 -0.5156,-0.5 -0.1272,0.004 -0.248,0.0564 -0.3379,0.1465l-1.4082,1.4082a9,9 0,0 0,-2.9355 -2.2051,9 9,0 0,0 -4.1133,-0.8379zM6,13v26c0,1.6568 1.3431,3 3,3L35,42L35,39L9,39L9,13Z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="0.75590551"
+            android:fillColor="?attr/colorControlNormal"
+            android:strokeColor="#00000000"
+            android:fillAlpha="1"
+            android:strokeLineCap="round" />
+</vector>
