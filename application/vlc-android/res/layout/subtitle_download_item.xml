@@ -1,85 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <import type="android.view.View"/>
-        <import type="org.videolan.vlc.gui.dialogs.State"/>
-        <variable name="subtitleItem"
-            type="org.videolan.vlc.gui.dialogs.SubtitleItem"/>
+
+        <import type="android.view.View" />
+
+        <import type="org.videolan.vlc.gui.dialogs.State" />
+
+        <variable
+                name="subtitleItem"
+                type="org.videolan.vlc.gui.dialogs.SubtitleItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:minHeight="50dp"
-        android:focusable="true">
-
-        <TextView
-            android:id="@+id/sub_title"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="4dp"
-            android:text="@{subtitleItem.movieReleaseName.trim()}"
-            android:textColor="?attr/font_default"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/language"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Attack.on.Titan.S02E01.DUBBED.HDTV.x264-W4F" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:minHeight="50dp"
+            android:focusable="true">
 
         <TextView
-            android:id="@+id/language"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:text="@{subtitleItem.subLanguageID.trim()}"
-            android:textAlignment="center"
-            android:gravity="center_vertical"
-            android:textColor="?attr/font_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/barrier"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/sub_title"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="En" />
+                android:id="@+id/sub_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="4dp"
+                android:text="@{subtitleItem.movieReleaseName.trim()}"
+                android:textColor="?attr/font_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/language"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Attack.on.Titan.S02E01.DUBBED.HDTV.x264-W4F" />
+
+        <TextView
+                android:id="@+id/language"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{subtitleItem.subLanguageID.trim()}"
+                android:textAlignment="center"
+                android:gravity="center_vertical"
+                android:textColor="?attr/font_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/barrier"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/sub_title"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="En" />
 
         <ImageView
-            android:id="@+id/download_sub"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="@{subtitleItem.state == State.Downloading ? View.GONE : View.VISIBLE}"
-            android:contentDescription="Download"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@{subtitleItem.state == State.Downloaded ? @drawable/ic_ctx_done_normal : @drawable/ic_ctx_download_subtitles_normal }"/>
+                android:id="@+id/download_sub"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="@{subtitleItem.state == State.Downloading ? View.GONE : View.VISIBLE}"
+                android:contentDescription="Download"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@{subtitleItem.state == State.Downloaded ? @drawable/ic_ctx_done_normal : @drawable/ic_ctx_download_subtitles_normal }" />
 
         <ProgressBar
-            android:id="@+id/loading"
-            style="?android:attr/progressBarStyleSmallTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="38dp"
-            android:visibility="@{subtitleItem.state == State.Downloading ? View.VISIBLE : View.GONE}"
-            android:padding="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/download_sub"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/loading"
+                style="?android:attr/progressBarStyleSmallTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="38dp"
+                android:visibility="@{subtitleItem.state == State.Downloading ? View.VISIBLE : View.GONE}"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/download_sub"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="loading,download_sub" />
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="start"
+                app:constraint_referenced_ids="loading,download_sub" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

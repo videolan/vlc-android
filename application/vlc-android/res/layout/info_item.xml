@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_item"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    android:orientation="horizontal"
-    android:focusable="true"
-    android:clickable="true" >
-
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/layout_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:focusable="true"
+        android:clickable="true">
+
+    <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <TextView
                 android:id="@+id/title"
@@ -32,7 +32,8 @@
                 android:textSize="18sp"
                 android:scrollHorizontally="true"
                 tools:targetApi="jelly_bean"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
         <TextView
                 android:id="@+id/subtitle"
                 android:layout_width="wrap_content"
@@ -40,7 +41,7 @@
                 android:layout_margin="@dimen/half_default_margin"
                 android:fontFamily="sans-serif"
                 android:textColor="?attr/list_subtitle"
-                tools:targetApi="jelly_bean"/>
+                tools:targetApi="jelly_bean" />
     </LinearLayout>
 
 </LinearLayout>

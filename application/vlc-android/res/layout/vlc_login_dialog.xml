@@ -1,76 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <import type="android.view.View" />
+
         <import type="org.videolan.libvlc.util.AndroidUtil" />
-        <variable name="dialog" type="org.videolan.libvlc.Dialog.LoginDialog"/>
-        <variable name="handler" type="org.videolan.vlc.gui.dialogs.VlcLoginDialog"/>
+
+        <variable
+                name="dialog"
+                type="org.videolan.libvlc.Dialog.LoginDialog" />
+
+        <variable
+                name="handler"
+                type="org.videolan.vlc.gui.dialogs.VlcLoginDialog" />
     </data>
+
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
 
             <TextView
-                android:id="@+id/text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minWidth="600dip"
-                android:layout_alignParentTop="true"
-                android:layout_margin="8dp"
-                android:text="@{dialog.text}"/>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/login_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text"
-                android:layout_margin="8dp" >
-                <EditText
-                    android:id="@+id/login"
+                    android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minWidth="192dp"
-                    android:hint="@string/login"
-                    android:text="@{dialog.getDefaultUsername()}"
-                    android:inputType="textNoSuggestions"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:minWidth="600dip"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="8dp"
+                    android:text="@{dialog.text}" />
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/password_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/login_container"
-                android:layout_margin="8dp" >
-                <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/login_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minWidth="200dp"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:singleLine="true" />
+                    android:layout_below="@+id/text"
+                    android:layout_margin="8dp">
+
+                <EditText
+                        android:id="@+id/login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minWidth="192dp"
+                        android:hint="@string/login"
+                        android:text="@{dialog.getDefaultUsername()}"
+                        android:inputType="textNoSuggestions"
+                        android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/login_container"
+                    android:layout_margin="8dp">
+
+                <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minWidth="200dp"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <CheckBox
-                android:id="@+id/store"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/password_container"
-                android:text="@string/store_password"
-                android:layout_alignParentStart="true"
-                android:layout_margin="4dp"
-                android:checked="@{handler.store()}"
-                android:visibility="@{dialog.asksStore() ? View.VISIBLE : View.GONE}"/>
+                    android:id="@+id/store"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/password_container"
+                    android:text="@string/store_password"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="4dp"
+                    android:checked="@{handler.store()}"
+                    android:visibility="@{dialog.asksStore() ? View.VISIBLE : View.GONE}" />
+
             <TextView
-                android:id="@+id/warning"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/store"
-                android:layout_margin="8dp"
-                android:text="@string/encryption_warning"
-                android:visibility="@{dialog.asksStore() &amp;&amp; !AndroidUtil.isMarshMallowOrLater ? View.VISIBLE : View.GONE}" />
+                    android:id="@+id/warning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/store"
+                    android:layout_margin="8dp"
+                    android:text="@string/encryption_warning"
+                    android:visibility="@{dialog.asksStore() &amp;&amp; !AndroidUtil.isMarshMallowOrLater ? View.VISIBLE : View.GONE}" />
+
             <Button
                     android:id="@+id/cancel"
                     android:layout_width="wrap_content"
@@ -82,6 +100,7 @@
                     android:textSize="14sp"
                     android:onClick="@{handler::onCancel}"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+
             <Button
                     android:id="@+id/action"
                     android:layout_width="wrap_content"

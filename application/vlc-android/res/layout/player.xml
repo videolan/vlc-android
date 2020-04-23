@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/player_root"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:keepScreenOn="true">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/player_root"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:keepScreenOn="true">
 
     <!--
      the double FrameLayout is necessary here to do cropping on the bottom right
@@ -13,66 +13,66 @@
     -->
 
     <org.videolan.libvlc.util.VLCVideoLayout
-        android:id="@+id/video_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="false"/>
+            android:id="@+id/video_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false" />
 
 
     <androidx.appcompat.widget.ViewStubCompat
-        android:id="@+id/player_seek_stub"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="false"
-        android:layout="@layout/player_overlay_seek"/>
-
-    <RelativeLayout
-        android:id="@+id/player_ui_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        <androidx.appcompat.widget.ViewStubCompat
-            android:id="@+id/player_overlay_tips"
+            android:id="@+id/player_seek_stub"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout="@layout/player_tips"/>
+            android:fitsSystemWindows="false"
+            android:layout="@layout/player_overlay_seek" />
+
+    <RelativeLayout
+            android:id="@+id/player_ui_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
+
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_overlay_tips"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/player_tips" />
 
         <ImageView
-            android:id="@+id/player_overlay_loading"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:visibility="invisible"
+                android:id="@+id/player_overlay_loading"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/ic_cone_o" />
 
         <androidx.appcompat.widget.ViewStubCompat
-            android:id="@+id/player_info_stub"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/default_margin"
-            android:layout="@layout/player_overlay_info"/>
+                android:id="@+id/player_info_stub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout="@layout/player_overlay_info" />
 
         <androidx.appcompat.widget.ViewStubCompat
-            android:id="@+id/player_overlay_settings_stub"
-            android:layout="@layout/player_overlay_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/default_margin"/>
+                android:id="@+id/player_overlay_settings_stub"
+                android:layout="@layout/player_overlay_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/default_margin" />
 
         <androidx.appcompat.widget.ViewStubCompat
-            android:id="@+id/player_hud_stub"
-            android:layout_width="800dp"
+                android:id="@+id/player_hud_stub"
+                android:layout_width="800dp"
                 android:layout_height="match_parent"
-            android:layout="@layout/player_hud"
-            android:layout_marginBottom="@dimen/overlay_margin"
-            android:layout_marginRight="@dimen/overlay_margin"
-            android:layout_marginLeft="@dimen/overlay_margin"
-            android:layout_alignParentBottom="true"/>
+                android:layout="@layout/player_hud"
+                android:layout_marginBottom="@dimen/overlay_margin"
+                android:layout_marginRight="@dimen/overlay_margin"
+                android:layout_marginLeft="@dimen/overlay_margin"
+                android:layout_alignParentBottom="true" />
 
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/player_hud_right_stub"
@@ -80,19 +80,19 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout="@layout/player_hud_right"/>
+                android:layout="@layout/player_hud_right" />
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+            android:layout_width="match_parent"
 
-        android:maxWidth="480dp"
-        android:layout_centerHorizontal="true"
-        android:background="@color/playerbackground"
-        android:id="@+id/video_playlist_container"
-        android:visibility="gone"
-        android:layout_height="match_parent"
-        tools:visibility="visible">
+            android:maxWidth="480dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/playerbackground"
+            android:id="@+id/video_playlist_container"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            tools:visibility="visible">
 
         <View
                 android:id="@+id/view"
@@ -104,16 +104,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_close_small"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:id="@+id/close_button"
-            android:padding="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
-            android:layout_marginStart="8dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_close_small"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:id="@+id/close_button"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/view"
+                android:layout_marginStart="8dp" />
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/playlist_search_text"
@@ -162,9 +162,9 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.ViewStubCompat
-        android:id="@+id/player_options_stub"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout="@layout/player_options"/>
+            android:id="@+id/player_options_stub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/player_options" />
 
 </RelativeLayout>

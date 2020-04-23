@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <import type="android.text.TextUtils" />
+
         <import type="android.view.View" />
-        <variable name="dialog" type="org.videolan.libvlc.Dialog.QuestionDialog"/>
-        <variable name="handler" type="org.videolan.vlc.gui.dialogs.VlcQuestionDialog"/>
+
+        <variable
+                name="dialog"
+                type="org.videolan.libvlc.Dialog.QuestionDialog" />
+
+        <variable
+                name="handler"
+                type="org.videolan.vlc.gui.dialogs.VlcQuestionDialog" />
     </data>
+
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
 
-            <TextView
-                android:id="@+id/text"
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:text="@{dialog.text}"
-                android:layout_margin="8dp" />
+                android:padding="8dp">
+
+            <TextView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="@{dialog.text}"
+                    android:layout_margin="8dp" />
+
             <Button
                     android:id="@+id/cancel"
                     android:layout_width="wrap_content"
@@ -32,31 +44,33 @@
                     android:layout_marginStart="@dimen/default_margin"
                     android:onClick="@{handler::onCancel}"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+
             <Button
-                android:id="@+id/action2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text"
-                android:layout_toStartOf="@+id/action1"
-                android:layout_marginStart="@dimen/default_margin"
-                android:text="@{dialog.action2Text}"
-                android:textSize="14sp"
-                android:visibility="@{TextUtils.isEmpty(dialog.action2Text) ? View.GONE : View.VISIBLE}"
-                android:onClick="@{handler::onAction2}"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+                    android:id="@+id/action2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text"
+                    android:layout_toStartOf="@+id/action1"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:text="@{dialog.action2Text}"
+                    android:textSize="14sp"
+                    android:visibility="@{TextUtils.isEmpty(dialog.action2Text) ? View.GONE : View.VISIBLE}"
+                    android:onClick="@{handler::onAction2}"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+
             <Button
-                android:id="@+id/action1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginEnd="8dp"
-                android:layout_below="@+id/text"
-                android:text="@{dialog.action1Text}"
-                android:textSize="14sp"
-                android:visibility="@{TextUtils.isEmpty(dialog.action1Text) ? View.GONE : View.VISIBLE}"
-                android:onClick="@{handler::onAction1}"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+                    android:id="@+id/action1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginEnd="8dp"
+                    android:layout_below="@+id/text"
+                    android:text="@{dialog.action1Text}"
+                    android:textSize="14sp"
+                    android:visibility="@{TextUtils.isEmpty(dialog.action1Text) ? View.GONE : View.VISIBLE}"
+                    android:onClick="@{handler::onAction1}"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
         </RelativeLayout>
     </ScrollView>
 </layout>

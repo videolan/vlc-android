@@ -1,187 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <import type="android.view.View"/>
-        <import type="android.text.TextUtils"/>
-        <variable name="viewmodel"
-            type="org.videolan.vlc.viewmodels.SubtitlesModel"/>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+                name="viewmodel"
+                type="org.videolan.vlc.viewmodels.SubtitlesModel" />
     </data>
+
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
             <org.videolan.vlc.gui.MultiSelectionSpinner
-                android:id="@+id/language_list_spinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:focusable="true"
-                app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
-                app:layout_constraintStart_toEndOf="@+id/languages_list"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline" />
+                    android:id="@+id/language_list_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
+                    app:layout_constraintStart_toEndOf="@+id/languages_list"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline" />
 
             <TextView
-                android:id="@+id/languages_list"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/language_to_download"
-                android:textColor="?attr/font_default"
-                app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
-                app:layout_constraintEnd_toStartOf="@+id/language_list_spinner"
-                app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline" />
+                    android:id="@+id/languages_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/language_to_download"
+                    android:textColor="?attr/font_default"
+                    app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
+                    app:layout_constraintEnd_toStartOf="@+id/language_list_spinner"
+                    app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline" />
 
             <CheckBox
-                android:id="@+id/manual_search_checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:onCheckedChanged="@{(v, checked) -> viewmodel.onCheckedChanged(checked)}"
-                android:checked="@{viewmodel.manualSearchEnabled}"
-                android:paddingStart="0dp"
-                android:focusable="true"
-                android:text="@string/manual_search"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/language_list_spinner" />
+                    android:id="@+id/manual_search_checkBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:onCheckedChanged="@{(v, checked) -> viewmodel.onCheckedChanged(checked)}"
+                    android:checked="@{viewmodel.manualSearchEnabled}"
+                    android:paddingStart="0dp"
+                    android:focusable="true"
+                    android:text="@string/manual_search"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/language_list_spinner" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/left_vertical_guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="16dp" />
+                    android:id="@+id/left_vertical_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="16dp" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/right_vertical_guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="16dp" />
+                    android:id="@+id/right_vertical_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="16dp" />
 
             <EditText
-                android:id="@+id/name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:focusable="true"
-                android:nextFocusDown="@id/season"
-                android:hint="@string/subtitle_search_name_hint"
-                android:inputType="textNoSuggestions"
-                android:text="@={viewmodel.observableSearchName}"
-                app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
-                app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/manual_search_checkBox"/>
+                    android:id="@+id/name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:nextFocusDown="@id/season"
+                    android:hint="@string/subtitle_search_name_hint"
+                    android:inputType="textNoSuggestions"
+                    android:text="@={viewmodel.observableSearchName}"
+                    app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
+                    app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/manual_search_checkBox" />
 
             <EditText
-                android:id="@+id/episode"
-                android:layout_width="72dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:focusable="true"
-                android:nextFocusDown="@id/subtitle_list"
-                android:ems="10"
-                android:hint="@string/subtitle_search_episode_hint"
-                android:inputType="textPersonName|number"
-                android:text="@={viewmodel.observableSearchEpisode}"
-                app:layout_constraintBaseline_toBaselineOf="@+id/season"
-                app:layout_constraintEnd_toStartOf="@+id/search_button"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/season"/>
+                    android:id="@+id/episode"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:focusable="true"
+                    android:nextFocusDown="@id/subtitle_list"
+                    android:ems="10"
+                    android:hint="@string/subtitle_search_episode_hint"
+                    android:inputType="textPersonName|number"
+                    android:text="@={viewmodel.observableSearchEpisode}"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/season"
+                    app:layout_constraintEnd_toStartOf="@+id/search_button"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/season" />
 
             <EditText
-                android:id="@+id/season"
-                android:layout_width="72dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:nextFocusDown="@id/subtitle_list"
-                android:focusable="true"
-                android:hint="@string/subtitle_search_season_hint"
-                android:inputType="textPersonName|number"
-                android:text="@={viewmodel.observableSearchSeason}"
-                app:layout_constraintEnd_toStartOf="@+id/episode"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/name"/>
+                    android:id="@+id/season"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:nextFocusDown="@id/subtitle_list"
+                    android:focusable="true"
+                    android:hint="@string/subtitle_search_season_hint"
+                    android:inputType="textPersonName|number"
+                    android:text="@={viewmodel.observableSearchSeason}"
+                    app:layout_constraintEnd_toStartOf="@+id/episode"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="manual_search_checkBox,name,episode,season"/>
+                    android:id="@+id/barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="manual_search_checkBox,name,episode,season" />
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/manual_search_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{viewmodel.manualSearchEnabled ? View.VISIBLE : View.GONE}"
-                app:constraint_referenced_ids="episode,season,name,search_button" />
+                    android:id="@+id/manual_search_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewmodel.manualSearchEnabled ? View.VISIBLE : View.GONE}"
+                    app:constraint_referenced_ids="episode,season,name,search_button" />
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeContainer"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintHeight_min="160dp"
-                app:refreshing="@{viewmodel.isApiLoading}"
-                app:onRefreshListener="@{()-> viewmodel.onRefresh()}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier" >
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/subtitle_list"
-                    android:focusable="true"
+                    android:id="@+id/swipeContainer"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintHeight_default="wrap"/>
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintHeight_min="160dp"
+                    app:refreshing="@{viewmodel.isApiLoading}"
+                    app:onRefreshListener="@{()-> viewmodel.onRefresh()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/barrier">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/subtitle_list"
+                        android:focusable="true"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintHeight_default="wrap" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <Button
-                android:id="@+id/search_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="@{!TextUtils.isEmpty(viewmodel.observableSearchName.get().trim())}"
-                android:text="@android:string/search_go"
-                android:focusable="true"
-                app:layout_constraintBaseline_toBaselineOf="@+id/episode"
-                app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/episode"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
+                    android:id="@+id/search_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{!TextUtils.isEmpty(viewmodel.observableSearchName.get().trim())}"
+                    android:text="@android:string/search_go"
+                    android:focusable="true"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/episode"
+                    app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/episode"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/top_horizontal_guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="16dp" />
+                    android:id="@+id/top_horizontal_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="16dp" />
 
             <TextView
-                android:id="@+id/message"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{viewmodel.observableMessage}"
-                android:textColor="@color/red"
-                android:gravity="center_horizontal"
-                android:visibility="@{TextUtils.isEmpty(viewmodel.observableMessage) ? View.GONE : View.VISIBLE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/swipeContainer"
-                app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
-                app:layout_goneMarginTop="40dp" />
+                    android:id="@+id/message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.observableMessage}"
+                    android:textColor="@color/red"
+                    android:gravity="center_horizontal"
+                    android:visibility="@{TextUtils.isEmpty(viewmodel.observableMessage) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/swipeContainer"
+                    app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
+                    app:layout_goneMarginTop="40dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

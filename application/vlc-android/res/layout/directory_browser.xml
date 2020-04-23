@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <import type="android.view.View" />
+
         <variable
-            name="showFavorites"
-            type="boolean" />
+                name="showFavorites"
+                type="boolean" />
     </data>
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            <include layout="@layout/button_search"
+            android:layout_height="match_parent">
+
+        <include
+                layout="@layout/button_search"
                 android:layout_width="@dimen/default_content_width"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:background="?attr/background_default" />
-            <org.videolan.vlc.gui.view.SwipeRefreshLayout
+
+        <org.videolan.vlc.gui.view.SwipeRefreshLayout
                 android:id="@+id/swipeLayout"
                 android:layout_width="@dimen/default_content_width"
                 android:layout_height="0dp"
@@ -25,25 +32,26 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHeight_default="spread" >
-                <androidx.recyclerview.widget.RecyclerView
+                app:layout_constraintHeight_default="spread">
+
+            <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/network_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?attr/background_default"
-                    android:visibility="gone"/>
-            </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+                    android:visibility="gone" />
+        </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
-            <org.videolan.vlc.gui.view.EmptyLoadingStateView
-                    android:id="@+id/empty_loading"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:empty_text="@string/nomedia"
-                    app:show_no_media="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <org.videolan.vlc.gui.view.EmptyLoadingStateView
+                android:id="@+id/empty_loading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:empty_text="@string/nomedia"
+                app:show_no_media="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

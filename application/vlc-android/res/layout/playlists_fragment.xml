@@ -1,52 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <include layout="@layout/button_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sliding_tabs"
-            android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginRight="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin" />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <include
+                layout="@layout/button_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sliding_tabs"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin" />
 
         <org.videolan.vlc.gui.view.SwipeRefreshLayout
-            android:id="@+id/swipeLayout"
-            android:layout_width="@dimen/default_content_width"
-            android:layout_height="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchButton"
-            app:layout_constraintBottom_toBottomOf="parent" >
-            <include layout="@layout/audio_recyclerview"
-                android:id="@+id/playlist_list" />
+                android:id="@+id/swipeLayout"
+                android:layout_width="@dimen/default_content_width"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchButton"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <include
+                    layout="@layout/audio_recyclerview"
+                    android:id="@+id/playlist_list" />
         </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
         <org.videolan.vlc.gui.view.FastScroller
-            android:id="@+id/songs_fast_scroller"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/swipeLayout"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"/>
+                android:id="@+id/songs_fast_scroller"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/swipeLayout"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/empty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/noplaylist"
-            android:gravity="center"
-            android:visibility="gone"
-            tools:visibility="visible" />
+                android:id="@+id/empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/noplaylist"
+                android:gravity="center"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

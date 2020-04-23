@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <import type="android.view.View" />
+
         <variable
-            name="fragment"
-            type="org.videolan.vlc.gui.audio.AudioPlayer" />
+                name="fragment"
+                type="org.videolan.vlc.gui.audio.AudioPlayer" />
 
         <variable
                 name="ab_repeat_a"
@@ -36,7 +39,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:src="?attr/background_default_darker"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
         <ProgressBar
                 android:id="@+id/progressBar"
@@ -53,7 +56,7 @@
                 android:minHeight="1dip"
                 android:paddingLeft="0px"
                 android:paddingRight="0px"
-                android:progressDrawable="?attr/progress_mini_player"/>
+                android:progressDrawable="?attr/progress_mini_player" />
 
         <View
                 android:id="@+id/progressBarMask"
@@ -91,7 +94,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
 
             <org.videolan.vlc.gui.view.HeaderMediaSwitcher
                     android:id="@+id/audio_media_switcher"
@@ -101,7 +104,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/barrier"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="#00000000"/>
+                    android:background="#00000000" />
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/playlist_search_text"
@@ -168,7 +171,7 @@
                     android:scaleType="fitXY"
                     android:onClick="@{fragment::onSearchClick}"
                     android:contentDescription="@string/search"
-                    app:srcCompat="?attr/ic_menu_search"/>
+                    app:srcCompat="?attr/ic_menu_search" />
 
             <ImageView
                     android:id="@+id/playlist_switch"
@@ -209,7 +212,7 @@
                     android:onClick="@{fragment::onTimeLabelClick}"
                     android:text="@string/time_0"
                     android:textColor="?attr/audio_player_header_time"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
             <ImageView
                     android:id="@+id/header_play_pause"
@@ -223,7 +226,7 @@
                     android:focusable="true"
                     android:scaleType="fitXY"
                     android:onClick="@{fragment::onPlayPauseClick}"
-                    android:onLongClick="@{fragment::onStopClick}"/>
+                    android:onLongClick="@{fragment::onStopClick}" />
 
             <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/barrier"
@@ -308,7 +311,7 @@
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/length"
-                app:layout_constraintBottom_toBottomOf="@+id/length"/>
+                app:layout_constraintBottom_toBottomOf="@+id/length" />
 
         <SeekBar
                 android:id="@+id/timeline"
@@ -328,7 +331,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
-                app:layout_constraintTop_toTopOf="@+id/bottom_bar"/>
+                app:layout_constraintTop_toTopOf="@+id/bottom_bar" />
 
         <TextView
                 android:id="@+id/length"
@@ -342,8 +345,7 @@
                 android:elevation="4dp"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/repeat"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
                 android:id="@+id/shuffle"
@@ -361,7 +363,7 @@
                 android:onClick="@{fragment::onShuffleClick}"
                 android:layout_marginStart="16dp"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toStartOf="@+id/previous"/>
+                app:layout_constraintEnd_toStartOf="@+id/previous" />
 
         <ImageView
                 android:id="@+id/previous"
@@ -377,7 +379,7 @@
                 app:srcCompat="?attr/ic_previous"
                 app:layout_constraintStart_toEndOf="@+id/shuffle"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toStartOf="@+id/play_pause"/>
+                app:layout_constraintEnd_toStartOf="@+id/play_pause" />
 
         <ImageView
                 android:id="@+id/play_pause"
@@ -393,7 +395,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
                 app:layout_constraintStart_toEndOf="@+id/previous"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toStartOf="@+id/next"/>
+                app:layout_constraintEnd_toStartOf="@+id/next" />
 
         <ImageView
                 android:id="@+id/next"
@@ -410,7 +412,7 @@
                 app:srcCompat="?attr/ic_next"
                 app:layout_constraintStart_toEndOf="@+id/play_pause"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toStartOf="@+id/repeat"/>
+                app:layout_constraintEnd_toStartOf="@+id/repeat" />
 
         <ImageView
                 android:id="@+id/repeat"
@@ -427,7 +429,7 @@
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_repeat"
                 app:layout_constraintStart_toEndOf="@+id/next"
-                app:layout_constraintHorizontal_bias="0.5"/>
+                app:layout_constraintHorizontal_bias="0.5" />
 
         <androidx.appcompat.widget.ViewStubCompat
                 android:id="@+id/player_options_stub"
@@ -438,7 +440,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:elevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout="@layout/player_options"/>
+                android:layout="@layout/player_options" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ab_repeat_marker_guideline_container"

@@ -1,71 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
-            name="handler"
-            type="org.videolan.vlc.gui.dialogs.ExtDeviceHandler" />
+                name="handler"
+                type="org.videolan.vlc.gui.dialogs.ExtDeviceHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/device_dialog_background">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/device_dialog_background">
 
         <TextView
-            android:id="@+id/ext_device_summary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center_horizontal"
-            android:text="@string/device_dialog_message"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/ext_device_summary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_horizontal"
+                android:text="@string/device_dialog_message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/ext_device_open"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:onClick="@{handler::browse}"
-            android:text="@string/browse_folder"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/ext_device_scan"
-            app:layout_constraintTop_toBottomOf="@+id/ext_device_summary" >
+                android:id="@+id/ext_device_open"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:onClick="@{handler::browse}"
+                android:text="@string/browse_folder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ext_device_scan"
+                app:layout_constraintTop_toBottomOf="@+id/ext_device_summary">
+
             <requestFocus />
         </Button>
 
         <Button
-            android:id="@+id/ext_device_scan"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{handler::scan}"
-            android:text="@string/medialibrary_scan"
-            app:layout_constraintEnd_toStartOf="@+id/ext_device_open"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/ext_device_cancel"
-            app:layout_constraintTop_toTopOf="@+id/ext_device_open"
-            android:visibility="gone"/>
+                android:id="@+id/ext_device_scan"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{handler::scan}"
+                android:text="@string/medialibrary_scan"
+                app:layout_constraintEnd_toStartOf="@+id/ext_device_open"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/ext_device_cancel"
+                app:layout_constraintTop_toTopOf="@+id/ext_device_open"
+                android:visibility="gone" />
 
         <Button
-            android:id="@+id/ext_device_cancel"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:onClick="@{handler::cancel}"
-            android:text="@string/cancel"
-            app:layout_constraintEnd_toStartOf="@+id/ext_device_scan"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ext_device_open" />
+                android:id="@+id/ext_device_cancel"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:onClick="@{handler::cancel}"
+                android:text="@string/cancel"
+                app:layout_constraintEnd_toStartOf="@+id/ext_device_scan"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ext_device_open" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

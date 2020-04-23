@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/default_margin"
-    android:layout_weight="1"
-    android:orientation="vertical">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
     <!-- Be careful: the view is rotated by 90 degrees. -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="+20dB"
-        android:textSize="10sp"
-        tools:ignore="HardcodedText" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="+20dB"
+            android:textSize="10sp"
+            tools:ignore="HardcodedText" />
 
     <org.videolan.vlc.gui.view.VerticalSeekBarContainer
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal">
 
         <org.videolan.vlc.gui.view.VerticalSeekBar
-            android:id="@+id/equalizer_seek"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:splitTrack="false"
+                android:id="@+id/equalizer_seek"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:splitTrack="false"
                 android:thumb="@drawable/ic_seekbar_thumb" />
     </org.videolan.vlc.gui.view.VerticalSeekBarContainer>
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="-20dB"
-        android:textSize="10sp"
-        tools:ignore="HardcodedText" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="-20dB"
+            android:textSize="10sp"
+            tools:ignore="HardcodedText" />
 
 
     <TextView
-        android:id="@+id/equalizer_band"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="16kHz"
-        android:textSize="10sp"
-        tools:ignore="HardcodedText" />
+            android:id="@+id/equalizer_band"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="16kHz"
+            android:textSize="10sp"
+            tools:ignore="HardcodedText" />
 
     <TextView
             android:id="@+id/band_value"

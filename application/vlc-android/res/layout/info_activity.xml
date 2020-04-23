@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:vlc="http://schemas.android.com/apk/res-auto"
+<layout xmlns:vlc="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
-        <import type="org.videolan.medialibrary.Tools"/>
+        <import type="org.videolan.medialibrary.Tools" />
 
-        <import type="org.videolan.medialibrary.media.MediaLibraryItem"/>
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
-        <import type="android.text.TextUtils"/>
+        <import type="android.text.TextUtils" />
 
 
         <variable
                 name="item"
-                type="MediaLibraryItem"/>
+                type="MediaLibraryItem" />
 
         <variable
                 name="cover"
-                type="android.graphics.drawable.BitmapDrawable"/>
+                type="android.graphics.drawable.BitmapDrawable" />
 
         <variable
                 name="length"
-                type="String"/>
+                type="String" />
 
         <variable
                 name="path"
-                type="String"/>
+                type="String" />
 
         <variable
                 name="sizeTitleText"
-                type="String"/>
+                type="String" />
 
         <variable
                 name="extraTitleText"
-                type="String"/>
+                type="String" />
 
         <variable
                 name="sizeValueText"
-                type="String"/>
+                type="String" />
 
         <variable
                 name="extraValueText"
-                type="String"/>
+                type="String" />
 
         <variable
                 name="progress"
-                type="int"/>
+                type="int" />
 
         <variable
                 name="resolution"
-                type="String"/>
+                type="String" />
 
         <variable
                 name="scanned"
@@ -91,14 +90,14 @@
                         android:fitsSystemWindows="false"
                         android:scaleType="centerCrop"
                         android:src="@{cover}"
-                        vlc:layout_collapseMode="parallax"/>
+                        vlc:layout_collapseMode="parallax" />
 
                 <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_gravity="bottom"
                         android:background="@drawable/black_gradient"
-                        vlc:layout_collapseMode="parallax"/>
+                        vlc:layout_collapseMode="parallax" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -120,7 +119,7 @@
                             vlc:layout_constraintEnd_toEndOf="parent"
                             tools:visibility="visible"
                             tools:text="4K"
-                            android:layout_marginEnd="16dp"/>
+                            android:layout_marginEnd="16dp" />
 
                     <ImageView
                             android:id="@+id/info_subtitles"
@@ -132,7 +131,7 @@
                             android:visibility="gone"
                             tools:visibility="visible"
                             android:layout_marginTop="8dp"
-                            vlc:layout_constraintTop_toBottomOf="@+id/ml_item_resolution"/>
+                            vlc:layout_constraintTop_toBottomOf="@+id/ml_item_resolution" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -146,7 +145,7 @@
                         vlc:navigationIcon="?attr/homeAsUpIndicator"
                         vlc:titleMarginStart="@dimen/default_margin"
                         vlc:layout_scrollFlags="scroll|enterAlways"
-                        vlc:layout_collapseMode="pin"/>
+                        vlc:layout_collapseMode="pin" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -176,21 +175,21 @@
                         vlc:layout_constraintStart_toStartOf="parent"
                         vlc:layout_constraintEnd_toEndOf="parent"
                         android:visibility="@{progress > 0 ? View.VISIBLE : View.GONE}"
-                        vlc:layout_constraintTop_toTopOf="parent"/>
+                        vlc:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/guideline9"
-                        vlc:layout_constraintGuide_begin="16dp"/>
+                        vlc:layout_constraintGuide_begin="16dp" />
 
                 <androidx.constraintlayout.widget.Guideline
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/guideline10"
-                        vlc:layout_constraintGuide_end="16dp"/>
+                        vlc:layout_constraintGuide_end="16dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="0dp"
@@ -203,7 +202,7 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:clipToPadding="false"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
 
                 <TextView
                         android:id="@+id/directory_not_scanned_text"
@@ -255,7 +254,7 @@
                         android:layout_marginStart="16dp"
                         vlc:layout_constraintBottom_toTopOf="@+id/length_value"
                         vlc:layout_constraintVertical_chainStyle="packed"
-                        vlc:layout_constraintTop_toTopOf="@+id/length_icon"/>
+                        vlc:layout_constraintTop_toTopOf="@+id/length_icon" />
 
                 <TextView
                         android:id="@+id/length_value"
@@ -266,7 +265,7 @@
                         vlc:layout_constraintStart_toEndOf="@+id/length_icon"
                         android:layout_marginStart="16dp"
                         vlc:layout_constraintTop_toBottomOf="@+id/length_title"
-                        vlc:layout_constraintBottom_toBottomOf="@+id/length_icon"/>
+                        vlc:layout_constraintBottom_toBottomOf="@+id/length_icon" />
 
                 <ImageView
                         android:layout_width="wrap_content"
@@ -278,7 +277,7 @@
                         android:visibility="@{TextUtils.isEmpty(sizeTitleText) ? View.GONE : View.VISIBLE}"
                         vlc:layout_constraintTop_toBottomOf="@+id/length_icon"
                         vlc:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="16dp"/>
+                        android:layout_marginStart="16dp" />
 
                 <TextView
                         android:id="@+id/size_title"
@@ -291,7 +290,7 @@
                         android:layout_marginStart="16dp"
                         vlc:layout_constraintBottom_toTopOf="@+id/size_value"
                         vlc:layout_constraintTop_toTopOf="@+id/size_icon"
-                        vlc:layout_constraintVertical_chainStyle="packed"/>
+                        vlc:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                         android:id="@+id/size_value"
@@ -302,7 +301,7 @@
                         vlc:layout_constraintStart_toEndOf="@+id/size_icon"
                         android:layout_marginStart="16dp"
                         vlc:layout_constraintTop_toBottomOf="@+id/size_title"
-                        vlc:layout_constraintBottom_toBottomOf="@+id/size_icon"/>
+                        vlc:layout_constraintBottom_toBottomOf="@+id/size_icon" />
 
                 <ImageView
                         android:layout_width="wrap_content"
@@ -314,7 +313,7 @@
                         android:visibility="@{TextUtils.isEmpty(extraTitleText) ? View.GONE : View.VISIBLE}"
                         vlc:layout_constraintTop_toBottomOf="@+id/size_icon"
                         vlc:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="16dp"/>
+                        android:layout_marginStart="16dp" />
 
                 <TextView
                         android:id="@+id/extra_title"
@@ -328,7 +327,7 @@
                         vlc:layout_constraintBottom_toTopOf="@+id/extra_value"
                         android:layout_marginTop="8dp"
                         vlc:layout_constraintTop_toTopOf="@+id/extra_icon"
-                        vlc:layout_constraintVertical_chainStyle="packed"/>
+                        vlc:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                         android:id="@+id/extra_value"
@@ -340,7 +339,7 @@
                         android:layout_marginStart="16dp"
                         vlc:layout_constraintTop_toBottomOf="@+id/extra_title"
                         android:layout_marginBottom="8dp"
-                        vlc:layout_constraintBottom_toBottomOf="@+id/extra_icon"/>
+                        vlc:layout_constraintBottom_toBottomOf="@+id/extra_icon" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -358,7 +357,7 @@
                         vlc:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginTop="24dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"/>
+                        android:layout_marginEnd="16dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
@@ -374,7 +373,7 @@
                 vlc:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
                 vlc:srcCompat="@drawable/ic_fab_play" />
 
-        <include layout="@layout/audioplayercontainer"/>
+        <include layout="@layout/audioplayercontainer" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

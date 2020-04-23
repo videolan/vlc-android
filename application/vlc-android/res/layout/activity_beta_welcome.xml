@@ -3,8 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
+    <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="300dp"
@@ -20,7 +19,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="16dp"
-                app:layout_constraintHorizontal_chainStyle="packed"/>
+                app:layout_constraintHorizontal_chainStyle="packed" />
 
         <TextView
                 android:text="@string/welcome_beta_title"
@@ -34,7 +33,7 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintStart_toEndOf="@+id/imageView6"
                 android:layout_marginStart="8dp"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
         <TextView
                 android:text="@string/welcome_beta_description"
@@ -47,7 +46,7 @@
                 android:layout_marginStart="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintHorizontal_bias="1.0"/>
+                app:layout_constraintHorizontal_bias="1.0" />
 
         <TextView
                 android:text="@string/welcome_beta_description_bugs"
@@ -60,7 +59,7 @@
                 android:layout_marginStart="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintHorizontal_bias="1.0"/>
+                app:layout_constraintHorizontal_bias="1.0" />
 
         <TextView
                 android:text="@string/welcome_beta_description_crashes"
@@ -75,7 +74,7 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 android:layout_marginTop="8dp"
                 android:textStyle="bold"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         <ImageView
                 android:src="@mipmap/ic_launcher_reporter"
@@ -87,7 +86,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp" />
 
         <Button
                 android:text="@string/ok"
@@ -98,7 +97,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
                 app:layout_constraintTop_toBottomOf="@+id/imageView7"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

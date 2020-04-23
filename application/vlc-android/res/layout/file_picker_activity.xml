@@ -3,25 +3,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="@dimen/default_content_width"
-    android:layout_height="@dimen/file_picker_height"
-    android:minHeight="320dp">
+        android:orientation="vertical"
+        android:layout_width="@dimen/default_content_width"
+        android:layout_height="@dimen/file_picker_height"
+        android:minHeight="320dp">
+
     <ImageView
-        android:id="@+id/button_home"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="start|center_horizontal"
-        android:contentDescription="@string/directories"
-        android:layout_marginLeft="2dp"
-        android:onClick="onHomeClick"
-        tools:targetApi="11"
+            android:id="@+id/button_home"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start|center_horizontal"
+            android:contentDescription="@string/directories"
+            android:layout_marginLeft="2dp"
+            android:onClick="onHomeClick"
+            tools:targetApi="11"
             app:srcCompat="@drawable/ic_browser_home_normal"
-        android:scaleType="fitCenter"
-        android:focusable="true"
-        android:clickable="true"/>
+            android:scaleType="fitCenter"
+            android:focusable="true"
+            android:clickable="true" />
+
     <FrameLayout
-        android:id="@+id/fragment_placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+            android:id="@+id/fragment_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 </LinearLayout>

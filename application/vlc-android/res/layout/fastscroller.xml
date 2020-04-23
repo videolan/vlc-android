@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/fastscroller_bubble"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/fastscroller_handle"
-        android:background="@drawable/fastscroller_bubble"
-        android:gravity="center"
-        android:textSize="@dimen/fastscroller_handle_text_size"
-        android:textColor="@color/white"
-        android:visibility="gone" />
+            android:id="@+id/fastscroller_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/fastscroller_handle"
+            android:background="@drawable/fastscroller_bubble"
+            android:gravity="center"
+            android:textSize="@dimen/fastscroller_handle_text_size"
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/fastscroller_handle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/fastscroller_track"
-        android:src="@drawable/fastscroller_handle"
-        android:layout_marginStart="@dimen/fastscroller_track_padding"
-        android:layout_marginLeft="@dimen/fastscroller_track_padding"
-        android:layout_marginEnd="@dimen/fastscroller_track_padding"
-        android:layout_marginRight="@dimen/fastscroller_track_padding"/>
+            android:id="@+id/fastscroller_handle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/fastscroller_track"
+            android:src="@drawable/fastscroller_handle"
+            android:layout_marginStart="@dimen/fastscroller_track_padding"
+            android:layout_marginLeft="@dimen/fastscroller_track_padding"
+            android:layout_marginEnd="@dimen/fastscroller_track_padding"
+            android:layout_marginRight="@dimen/fastscroller_track_padding" />
 
 </merge>

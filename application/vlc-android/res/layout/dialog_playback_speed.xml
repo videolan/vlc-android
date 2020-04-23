@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content"
-                                                   android:orientation="horizontal">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
     <TextView
             android:id="@+id/textView12"
@@ -15,7 +15,7 @@
             android:layout_weight="1"
             android:text="@string/playback_speed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/textView13"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toStartOf="@+id/playback_speed_value"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
             android:id="@+id/playback_speed_value"
@@ -44,7 +44,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textView14"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView12"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <TextView
             android:id="@+id/textView14"
@@ -58,7 +58,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/playback_speed_value"
             app:layout_constraintEnd_toStartOf="@+id/playback_speed_plus"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/playback_speed_value"/>
+            app:layout_constraintStart_toEndOf="@+id/playback_speed_value" />
 
     <SeekBar
             android:id="@+id/playback_speed_seek"
@@ -82,7 +82,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/playback_speed_minus"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/playback_speed_value"/>
+            app:layout_constraintTop_toBottomOf="@+id/playback_speed_value" />
 
     <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/playback_speed_plus"
@@ -96,7 +96,7 @@
             android:nextFocusDown="@+id/playback_speed_minus"
             app:srcCompat="@drawable/ic_up_on_circle_dialog"
             app:layout_constraintBottom_toTopOf="@+id/playback_speed_minus"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/playback_speed_minus"
@@ -110,6 +110,6 @@
             android:padding="0dp"
             app:srcCompat="@drawable/ic_down_on_circle_dialog"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scan_progress_layout"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/progress_layout_height" >
-    <ProgressBar
-        android:id="@+id/scan_progress_bar"
+        android:id="@+id/scan_progress_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:max="100"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:progressDrawable="?attr/progress_mini_player"
-        android:background="?attr/background_default"/>
+        android:layout_height="@dimen/progress_layout_height">
+
+    <ProgressBar
+            android:id="@+id/scan_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:max="100"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progressDrawable="?attr/progress_mini_player"
+            android:background="?attr/background_default" />
 
     <TextView
             android:id="@+id/scan_progress_text"
@@ -20,5 +21,5 @@
             android:maxLines="1"
             android:textColor="?attr/font_default"
             android:text="@string/loading_medialibrary"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 </RelativeLayout>

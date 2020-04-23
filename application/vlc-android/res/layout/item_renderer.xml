@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
-            name="renderer"
-            type="org.videolan.libvlc.RendererItem" />
+                name="renderer"
+                type="org.videolan.libvlc.RendererItem" />
+
         <variable
-            name="clicHandler"
-            type="org.videolan.vlc.gui.dialogs.RenderersDialog.RendererClickhandler" />
+                name="clicHandler"
+                type="org.videolan.vlc.gui.dialogs.RenderersDialog.RendererClickhandler" />
     </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp">
-        <TextView
-            android:id="@+id/renderer_name"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{renderer.displayName}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{() -> clicHandler.connect(renderer)}"/>
+            android:layout_margin="16dp">
+
+        <TextView
+                android:id="@+id/renderer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{renderer.displayName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{() -> clicHandler.connect(renderer)}" />
     </LinearLayout>
 </layout>

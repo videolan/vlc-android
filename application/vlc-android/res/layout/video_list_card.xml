@@ -1,103 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:vlc="http://schemas.android.com/apk/res-auto" >
+        xmlns:vlc="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <import type="android.view.View" />
+
         <import type="android.text.TextUtils" />
-        <variable
-            name="media"
-            type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
         <variable
-            name="seen"
-            type="long" />
+                name="media"
+                type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
         <variable
-            name="time"
-            type="String" />
+                name="seen"
+                type="long" />
 
         <variable
-            name="bgColor"
-            type="int" />
+                name="time"
+                type="String" />
 
         <variable
-            name="max"
-            type="int" />
+                name="bgColor"
+                type="int" />
 
         <variable
-            name="progress"
-            type="int" />
+                name="max"
+                type="int" />
 
         <variable
-            name="cover"
-            type="android.graphics.drawable.BitmapDrawable" />
+                name="progress"
+                type="int" />
 
         <variable
-            name="scaleType"
-            type="android.widget.ImageView.ScaleType" />
+                name="cover"
+                type="android.graphics.drawable.BitmapDrawable" />
 
         <variable
-            name="holder"
-            type="org.videolan.vlc.gui.video.VideoListAdapter.ViewHolder" />
+                name="scaleType"
+                type="android.widget.ImageView.ScaleType" />
+
+        <variable
+                name="holder"
+                type="org.videolan.vlc.gui.video.VideoListAdapter.ViewHolder" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="@{holder::onClick}"
-        android:onLongClick="@{holder::onLongClick}"
-        android:longClickable="true"
-        android:padding="5dp"
-        android:background="@{bgColor}"
-        android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{holder::onClick}"
+            android:onLongClick="@{holder::onLongClick}"
+            android:longClickable="true"
+            android:padding="5dp"
+            android:background="@{bgColor}"
+            android:orientation="horizontal">
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
         <ImageView
-            android:id="@+id/ml_item_thumbnail"
-            android:layout_width="128dp"
-            android:layout_height="80dp"
-            vlc:layout_constraintStart_toStartOf="parent"
-            vlc:layout_constraintTop_toTopOf="parent"
-            vlc:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/ml_item_thumbnail"
+                android:layout_width="128dp"
+                android:layout_height="80dp"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_constraintBottom_toBottomOf="parent"
                 android:onClick="@{holder::onImageClick}"
-            vlc:media="@{media}"
-            android:scaleType="centerCrop"
-            android:src="@{cover}" />
-        <ImageView
-            android:id="@+id/ml_item_overlay"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitXY"
-            vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
-            android:visibility="gone" />
+                vlc:media="@{media}"
+                android:scaleType="centerCrop"
+                android:src="@{cover}" />
 
         <ImageView
-            android:id="@+id/ml_item_seen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+                android:id="@+id/ml_item_overlay"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail"
+                vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
+                vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+                vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
+                android:visibility="gone" />
+
+        <ImageView
+                android:id="@+id/ml_item_seen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 vlc:srcCompat="@drawable/ic_seen_normal"
-            android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE, default=gone}"
-            vlc:layout_constraintRight_toRightOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
+                android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE, default=gone}"
+                vlc:layout_constraintRight_toRightOf="@+id/ml_item_thumbnail"
+                vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
 
         <TextView
-            android:id="@+id/ml_item_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            vlc:layout_constraintTop_toTopOf="parent"
-            vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintEnd_toStartOf="@+id/item_more"
-            vlc:layout_constraintBottom_toTopOf="@+id/ml_item_time"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:text="@{media.title}"
-            style="@style/VLC.TextViewTitle"/>
+                android:id="@+id/ml_item_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail"
+                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+                vlc:layout_constraintBottom_toTopOf="@+id/ml_item_time"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="@{media.title}"
+                style="@style/VLC.TextViewTitle" />
 
         <ImageView
                 android:id="@+id/item_more"
@@ -114,37 +119,37 @@
                 vlc:srcCompat="@drawable/ic_more" />
 
         <TextView
-            android:id="@+id/ml_item_time"
-            style="@style/VLC.TextViewDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:gravity="start"
-            android:text="@{time}"
-            android:visibility="@{TextUtils.isEmpty(time) ? View.GONE : View.VISIBLE}"
-            vlc:layout_constraintTop_toBottomOf="@+id/ml_item_title"
-            vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
-            vlc:layout_constraintEnd_toStartOf="@+id/item_more"
-            vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail" />
+                android:id="@+id/ml_item_time"
+                style="@style/VLC.TextViewDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:gravity="start"
+                android:text="@{time}"
+                android:visibility="@{TextUtils.isEmpty(time) ? View.GONE : View.VISIBLE}"
+                vlc:layout_constraintTop_toBottomOf="@+id/ml_item_title"
+                vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
+                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+                vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail" />
 
         <ProgressBar
-            android:id="@+id/ml_item_progress"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:background="@color/black"
-            vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
-            android:indeterminate="false"
-            android:max="@{max}"
-            android:maxHeight="1dip"
-            android:minHeight="1dip"
-            android:progress="@{progress}"
-            android:secondaryProgress="@{max}"
-            android:progressDrawable="?attr/gridview_progressbar"
-            android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
+                android:id="@+id/ml_item_progress"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:background="@color/black"
+                vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+                vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
+                vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
+                android:indeterminate="false"
+                android:max="@{max}"
+                android:maxHeight="1dip"
+                android:minHeight="1dip"
+                android:progress="@{progress}"
+                android:secondaryProgress="@{max}"
+                android:progressDrawable="?attr/gridview_progressbar"
+                android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

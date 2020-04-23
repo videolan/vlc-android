@@ -2,40 +2,40 @@
 <org.videolan.vlc.gui.view.PopupLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="@dimen/video_pip_width"
-    android:layout_height="@dimen/video_pip_heigth"
-    android:keepScreenOn="true">
+        android:layout_height="@dimen/video_pip_heigth"
+        android:keepScreenOn="true">
 
     <SurfaceView
-        android:id="@+id/player_surface"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            android:id="@+id/player_surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     <ImageView
-        android:id="@+id/popup_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+            android:id="@+id/popup_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
             app:srcCompat="@drawable/ic_close_w"
-        android:visibility="gone" />
+            android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/popup_expand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/popup_close"
-        android:layout_marginRight="5dp"
+            android:id="@+id/popup_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/popup_close"
+            android:layout_marginRight="5dp"
             app:srcCompat="@drawable/ic_popup_expand_w"
-        android:visibility="gone" />
+            android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/video_play_pause"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/popup_expand"
-        android:scaleType="center"
-        android:src="@drawable/ic_popup_pause"
-        android:visibility="gone" />
+            android:id="@+id/video_play_pause"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/popup_expand"
+            android:scaleType="center"
+            android:src="@drawable/ic_popup_pause"
+            android:visibility="gone" />
 
 </org.videolan.vlc.gui.view.PopupLayout>

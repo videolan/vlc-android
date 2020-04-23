@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
-        <import type="org.videolan.medialibrary.interfaces.media.MediaWrapper"/>
+        <import type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
 
-        <import type="android.text.TextUtils"/>
+        <import type="android.text.TextUtils" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
                 name="holder"
-                type="org.videolan.vlc.gui.HistoryAdapter.ViewHolder"/>
+                type="org.videolan.vlc.gui.HistoryAdapter.ViewHolder" />
 
         <variable
                 name="media"
-                type="org.videolan.medialibrary.interfaces.media.MediaWrapper"/>
+                type="org.videolan.medialibrary.interfaces.media.MediaWrapper" />
 
         <variable
                 name="cover"
-                type="android.graphics.drawable.BitmapDrawable"/>
+                type="android.graphics.drawable.BitmapDrawable" />
 
         <variable
                 name="bgColor"
-                type="int"/>
+                type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,7 +57,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                     android:id="@+id/icon"
@@ -72,7 +71,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:media="@{media}"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -88,7 +87,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/constraintLayout4"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"/>
+                app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
                 android:id="@+id/subtitle"
@@ -101,7 +100,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/constraintLayout4"
-                app:layout_constraintTop_toBottomOf="@id/title"/>
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

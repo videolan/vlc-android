@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/audio_tips"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/background_audio_tips"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:weightSum="8" >
+        android:id="@+id/audio_tips"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/background_audio_tips"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="8">
 
     <TextView
-        style="@style/TipsFontStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:gravity="bottom"
-        android:text="@string/audio_player_tips"
-        android:textSize="18sp" />
+            style="@style/TipsFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="bottom"
+            android:text="@string/audio_player_tips"
+            android:textSize="18sp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="left|center"
-        android:orientation="vertical" >
-
-        <TextView
-            style="@style/TipsFontStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_gesture_finger_1"
-            android:gravity="center"
-            android:text="@string/previous_next_song" />
+            android:layout_weight="1"
+            android:gravity="left|center"
+            android:orientation="vertical">
 
         <TextView
-            style="@style/TipsFontStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_gesture_finger_2"
-            android:gravity="center"
-            android:text="@string/show_playlist" />
+                style="@style/TipsFontStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_gesture_finger_1"
+                android:gravity="center"
+                android:text="@string/previous_next_song" />
 
         <TextView
-            style="@style/TipsFontStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_gesture_finger_3"
-            android:gravity="center"
-            android:text="@string/hold_to_stop" />
+                style="@style/TipsFontStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_gesture_finger_2"
+                android:gravity="center"
+                android:text="@string/show_playlist" />
+
+        <TextView
+                style="@style/TipsFontStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_gesture_finger_3"
+                android:gravity="center"
+                android:text="@string/hold_to_stop" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/okgotit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_oval"
-            android:text="@string/ok_got_it"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/okgotit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_oval"
+                android:text="@string/ok_got_it"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold" />
     </LinearLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/img_tips_audioplayer" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/img_tips_audioplayer" />
 
 </LinearLayout>

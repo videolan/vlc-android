@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/player_overlay_info"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:background="@drawable/video_list_length_bg"
-              android:visibility="invisible">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/player_overlay_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/video_list_length_bg"
+        android:visibility="invisible">
+
     <FrameLayout
-        android:id="@+id/verticalbar"
-        android:layout_width="20dp"
-        android:layout_height="100dp">
+            android:id="@+id/verticalbar"
+            android:layout_width="20dp"
+            android:layout_height="100dp">
+
         <LinearLayout
-            android:id="@+id/verticalbar_linearlayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp"
-            android:orientation="vertical"
-            android:weightSum="100"
-            android:gravity="bottom">
-
-            <View android:id="@+id/verticalbar_boost_progress"
+                android:id="@+id/verticalbar_linearlayout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/red500transparent" />
+                android:layout_height="match_parent"
+                android:padding="4dp"
+                android:orientation="vertical"
+                android:weightSum="100"
+                android:gravity="bottom">
 
-            <View android:id="@+id/verticalbar_progress"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/orange500transparent" />
+            <View
+                    android:id="@+id/verticalbar_boost_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/red500transparent" />
+
+            <View
+                    android:id="@+id/verticalbar_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/orange500transparent" />
         </LinearLayout>
     </FrameLayout>
 
@@ -41,5 +45,5 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="36sp"
-            tools:text="Audio delay\n0ms"/>
+            tools:text="Audio delay\n0ms" />
 </LinearLayout>

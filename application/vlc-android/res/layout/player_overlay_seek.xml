@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:id="@+id/seekContainer"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/seekContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/guideline11"
-            app:layout_constraintGuide_percent="0.5"/>
+            app:layout_constraintGuide_percent="0.5" />
 
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0"
             android:id="@+id/seek_background"
-            android:background="@drawable/video_list_length_bg"/>
+            android:background="@drawable/video_list_length_bg" />
 
     <org.videolan.vlc.gui.view.HalfCircleView
             android:id="@+id/leftContainerBackground"
@@ -30,7 +30,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     <org.videolan.vlc.gui.view.HalfCircleView
             android:id="@+id/rightContainerBackground"
@@ -42,7 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.circularreveal.CircularRevealFrameLayout
             android:id="@+id/leftContainer"
@@ -53,7 +53,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.circularreveal.CircularRevealFrameLayout
             android:id="@+id/rightContainer"
@@ -64,7 +64,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     <!--<androidx.constraintlayout.widget.ConstraintLayout-->
     <!--android:id="@+id/constraintLayout3"-->
@@ -98,7 +98,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/seekLeftText"
-                app:layout_constraintHorizontal_chainStyle="packed"/>
+                app:layout_constraintHorizontal_chainStyle="packed" />
 
         <ImageView
                 android:id="@+id/seekRewindFirst"
@@ -110,7 +110,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintEnd_toEndOf="@+id/seekLeftText"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/seekLeftText"
@@ -125,7 +125,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="64dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -153,7 +153,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/seekRightText"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="16dp"
-                app:layout_constraintHorizontal_bias="0.5"/>
+                app:layout_constraintHorizontal_bias="0.5" />
 
         <ImageView
                 android:id="@+id/seekForwardSecond"
@@ -165,8 +165,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/seekForwardFirst"
                 app:layout_constraintEnd_toEndOf="@+id/seekRightText"
-                app:layout_constraintHorizontal_bias="0.5"
-                />
+                app:layout_constraintHorizontal_bias="0.5" />
 
         <TextView
                 android:id="@+id/seekRightText"
@@ -181,7 +180,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="64dp"/>
+                android:layout_marginStart="64dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -192,20 +191,20 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintGuide_percent="0.3333333333"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.6666666666"/>
+            app:layout_constraintGuide_percent="0.6666666666" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5"/>
+            app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

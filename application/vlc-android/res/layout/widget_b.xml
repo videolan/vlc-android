@@ -1,138 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/widget_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="@dimen/widget_margin"
-    android:background="@color/grey900"
-    android:clickable="true"
-    android:gravity="center"
-    android:orientation="horizontal" >
+        android:id="@+id/widget_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/widget_margin"
+        android:background="@color/grey900"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/cover"
-        android:layout_width="82dp"
-        android:layout_height="82dp"
-        android:background="@color/grey850"
-        android:src="@drawable/icon" />
+            android:id="@+id/cover"
+            android:layout_width="82dp"
+            android:layout_height="82dp"
+            android:background="@color/grey850"
+            android:src="@drawable/icon" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/half_default_margin"
-            android:paddingRight="@dimen/half_default_margin">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/half_default_margin"
+                android:paddingRight="@dimen/half_default_margin">
 
             <TextView
-                android:id="@+id/artist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|left"
-                android:layout_marginLeft="@dimen/half_default_margin"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:textColor="@color/grey500"
-                android:textSize="14sp" />
+                    android:id="@+id/artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="@dimen/half_default_margin"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:textColor="@color/grey500"
+                    android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/songName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|left"
-                android:layout_marginLeft="@dimen/half_default_margin"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:text="@string/widget_default_text"
-                android:textColor="@color/grey50"
-                android:textSize="16sp" />
+                    android:id="@+id/songName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="@dimen/half_default_margin"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:text="@string/widget_default_text"
+                    android:textColor="@color/grey50"
+                    android:textSize="16sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
                 <ImageButton
-                    android:id="@+id/backward"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#00ffffff"
-                    android:clickable="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_widget_previous_w" />
+                        android:id="@+id/backward"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00ffffff"
+                        android:clickable="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_widget_previous_w" />
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
 
                 <ImageButton
-                    android:id="@+id/play_pause"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#00ffffff"
-                    android:clickable="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_widget_play_w" />
+                        android:id="@+id/play_pause"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00ffffff"
+                        android:clickable="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_widget_play_w" />
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
 
                 <ImageButton
-                    android:id="@+id/forward"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#00ffffff"
-                    android:clickable="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_widget_next_w" />
+                        android:id="@+id/forward"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00ffffff"
+                        android:clickable="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_widget_next_w" />
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
 
                 <ImageButton
-                    android:id="@+id/stop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#00ffffff"
-                    android:clickable="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_widget_close_w" />
+                        android:id="@+id/stop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00ffffff"
+                        android:clickable="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_widget_close_w" />
             </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/timeline_parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
-
-            <ProgressBar
-                android:id="@+id/timeline"
-                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:id="@+id/timeline_parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="false"
-                android:indeterminate="false"
-                android:maxHeight="2dip"
-                android:minHeight="2dip"
-                android:paddingLeft="0px"
-                android:paddingRight="0px"
-                android:progressDrawable="@drawable/progress_widget"
-                android:splitTrack="false" />
+                android:layout_alignParentBottom="true">
+
+            <ProgressBar
+                    android:id="@+id/timeline"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:indeterminate="false"
+                    android:maxHeight="2dip"
+                    android:minHeight="2dip"
+                    android:paddingLeft="0px"
+                    android:paddingRight="0px"
+                    android:progressDrawable="@drawable/progress_widget"
+                    android:splitTrack="false" />
         </LinearLayout>
     </RelativeLayout>
 

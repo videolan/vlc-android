@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/tabcontent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+        android:id="@android:id/tabcontent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/sliding_tabs"
-        android:layout_marginBottom="16dp">
+        android:layout_height="match_parent">
+
+    <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sliding_tabs"
+            android:layout_marginBottom="16dp">
 
         <include layout="@layout/about_main" />
+
         <include layout="@layout/about_licence" />
     </androidx.viewpager.widget.ViewPager>
 </RelativeLayout>

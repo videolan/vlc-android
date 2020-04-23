@@ -1,56 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:vlc="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
+        xmlns:vlc="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar"/>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar" />
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:keyboardNavigationCluster="true"
-            tools:targetApi="o" />
+                android:id="@+id/fragment_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:keyboardNavigationCluster="true"
+                tools:targetApi="o" />
 
         <androidx.appcompat.widget.ViewStubCompat
-            android:id="@+id/scan_viewstub"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/progress_layout_height"
-            android:layout_gravity="bottom"
-            android:layout="@layout/scan_progress"/>
+                android:id="@+id/scan_viewstub"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/progress_layout_height"
+                android:layout_gravity="bottom"
+                android:layout="@layout/scan_progress" />
 
-        <include layout="@layout/audioplayercontainer"/>
+        <include layout="@layout/audioplayercontainer" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            vlc:borderWidth="0dp"
-            vlc:rippleColor="@color/orange50"
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+                vlc:borderWidth="0dp"
+                vlc:rippleColor="@color/orange50"
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 vlc:srcCompat="@drawable/ic_fab_add"
-            android:tint="@color/grey50"
-            vlc:layout_anchor="@+id/fragment_placeholder"
-            vlc:layout_anchorGravity="bottom|end"
-            vlc:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
-            android:visibility="invisible"
-            android:layout_margin="16dp"/>
+                android:tint="@color/grey50"
+                vlc:layout_anchor="@+id/fragment_placeholder"
+                vlc:layout_anchorGravity="bottom|end"
+                vlc:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
+                android:visibility="invisible"
+                android:layout_margin="16dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <androidx.appcompat.widget.ViewStubCompat
-        android:id="@+id/audio_playlist_tips"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout="@layout/audio_playlist_tips"/>
+            android:id="@+id/audio_playlist_tips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/audio_playlist_tips" />
 
     <androidx.appcompat.widget.ViewStubCompat
-        android:id="@+id/audio_player_tips"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout="@layout/audio_player_tips"/>
+            android:id="@+id/audio_player_tips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/audio_player_tips" />
 </merge>
