@@ -534,106 +534,84 @@ abstract public class Medialibrary {
     }
 
     public void addMediaCb(MediaCb mediaUpdatedCb) {
-        if (!mIsInitiated) return;
         synchronized (mMediaCbs) {
-//            if (mMediaCbs.isEmpty()) {
-//                nativeSetMediaAddedCbFlag(FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO);
-//                nativeSetMediaUpdatedCbFlag(FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_VIDEO);
-//            }
             mMediaCbs.add(mediaUpdatedCb);
         }
     }
 
     public void removeMediaCb(MediaCb mediaUpdatedCb) {
-        if (!mIsInitiated) return;
         synchronized (mMediaCbs) {
             mMediaCbs.remove(mediaUpdatedCb);
-//            if (mMediaCbs.isEmpty()) {
-//                nativeSetMediaAddedCbFlag(0);
-//                nativeSetMediaUpdatedCbFlag(0);
-//            }
         }
     }
 
     public void addArtistsCb(ArtistsCb artistsAddedCb) {
-        if (!mIsInitiated) return;
         synchronized (mArtistsCbs) {
             mArtistsCbs.add(artistsAddedCb);
         }
     }
 
     public void removeArtistsCb(ArtistsCb artistsAddedCb) {
-        if (!mIsInitiated) return;
         synchronized (mArtistsCbs) {
             mArtistsCbs.remove(artistsAddedCb);
         }
     }
 
     public void addAlbumsCb(AlbumsCb AlbumsAddedCb) {
-        if (!mIsInitiated) return;
         synchronized (mAlbumsCbs) {
             mAlbumsCbs.add(AlbumsAddedCb);
         }
     }
 
     public void removeAlbumsCb(AlbumsCb AlbumsAddedCb) {
-        if (!mIsInitiated) return;
         synchronized (mAlbumsCbs) {
             mAlbumsCbs.remove(AlbumsAddedCb);
         }
     }
 
     public void addGenreCb(GenresCb GenreCb) {
-        if (!mIsInitiated) return;
         synchronized (mGenreCbs) {
             this.mGenreCbs.add(GenreCb);
         }
     }
 
     public void removeGenreCb(GenresCb GenreCb) {
-        if (!mIsInitiated) return;
         synchronized (mGenreCbs) {
             this.mGenreCbs.remove(GenreCb);
         }
     }
 
     public void addPlaylistCb(PlaylistsCb playlistCb) {
-        if (!mIsInitiated) return;
         synchronized (mPlaylistCbs) {
             this.mPlaylistCbs.add(playlistCb);
         }
     }
 
     public void removePlaylistCb(PlaylistsCb playlistCb) {
-        if (!mIsInitiated) return;
         synchronized (mPlaylistCbs) {
             this.mPlaylistCbs.remove(playlistCb);
         }
     }
 
     public void addHistoryCb(HistoryCb historyCb) {
-        if (!mIsInitiated) return;
         synchronized (mHistoryCbs) {
             this.mHistoryCbs.add(historyCb);
         }
     }
 
     public void removeHistoryCb(HistoryCb historyCb) {
-        if (!mIsInitiated) return;
         synchronized (mHistoryCbs) {
             this.mHistoryCbs.remove(historyCb);
         }
     }
 
     public void addMediaGroupCb(MediaGroupCb mediaGroupCb) {
-        if (!mIsInitiated) return;
         synchronized (mMediaGroupCbs) {
             this.mMediaGroupCbs.add(mediaGroupCb);
         }
     }
 
     public void removeMediaGroupCb(MediaGroupCb mediaGroupCb) {
-        if (!mIsInitiated) return;
         synchronized (mMediaGroupCbs) {
             this.mMediaGroupCbs.remove(mediaGroupCb);
         }
