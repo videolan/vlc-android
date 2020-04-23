@@ -24,13 +24,17 @@
 package org.videolan.vlc.gui.audio
 
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,13 +55,14 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
+import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
+import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import java.util.*
@@ -66,6 +71,8 @@ import java.util.*
 @ObsoleteCoroutinesApi
 abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragment<T>(), IEventsHandler<MediaLibraryItem>, CtxActionReceiver, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
+    var backgroundColor: Int = -1
+    var listColor: Int = -1
     internal lateinit var adapters: Array<AudioBrowserAdapter>
 
     private var tabLayout: TabLayout? = null
@@ -127,6 +134,13 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         nbColumns = resources.getInteger(R.integer.mobile_card_columns)
+        val typedValue = TypedValue()
+        val theme: Resources.Theme = requireActivity().theme
+        theme.resolveAttribute(R.attr.background_default_darker, typedValue, true)
+        backgroundColor = typedValue.data
+
+        theme.resolveAttribute(R.attr.background_default, typedValue, true)
+        listColor = typedValue.data
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -138,6 +152,32 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<ViewPager>(R.id.pager)?.let { viewPager = it }
         tabLayout = requireActivity().findViewById(R.id.sliding_tabs)
+    }
+
+    fun setupLayoutManager(providerInCard: Boolean, list: RecyclerView, provider: MedialibraryProvider<MediaLibraryItem>, adapter: AudioBrowserAdapter, spacing: Int) {
+        if (list.itemDecorationCount > 0) {
+            list.removeItemDecorationAt(0)
+        }
+        when (providerInCard) {
+            true -> {
+                adapter.cardSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+                displayListInGrid(list, adapter, provider, spacing)
+            }
+            else -> {
+                adapter.cardSize = -1
+                list.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, provider))
+                list.layoutManager = LinearLayoutManager(activity)
+            }
+        }
+        val lp = list.layoutParams
+        val dimension = requireActivity().resources.getDimension(R.dimen.default_content_width)
+        lp.width = if (providerInCard) ViewGroup.LayoutParams.MATCH_PARENT else {
+            dimension.toInt()
+        }
+
+        (list.parent as View).setBackgroundColor(if (!providerInCard && dimension != -1F) backgroundColor else ContextCompat.getColor(requireContext(), R.color.transparent))
+        list.setBackgroundColor(if (!providerInCard && dimension != -1F) listColor else ContextCompat.getColor(requireContext(), R.color.transparent))
+        list.layoutParams = lp
     }
 
     private fun setupTabLayout() {

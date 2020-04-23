@@ -55,7 +55,6 @@ import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.view.EmptyLoadingState
-import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -131,7 +130,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         }
 
         for (i in 0 until MODE_TOTAL) {
-            setupLayoutManager(i)
+            setupLayoutManager(viewModel.providersInCard[i], lists[i], viewModel.providers[i] as MedialibraryProvider<MediaLibraryItem>, adapters[i], spacing)
             (lists[i].layoutManager as LinearLayoutManager).recycleChildrenOnDetach = true
             val list = lists[i]
             list.adapter = adapters[i]
@@ -165,26 +164,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 adapters[i].notifyItemRangeChanged(gridLayoutManager.findFirstVisibleItemPosition(), gridLayoutManager.findLastVisibleItemPosition() - gridLayoutManager.findFirstVisibleItemPosition())
             }
         }
-    }
-
-    private fun setupLayoutManager(index: Int) {
-        if (lists[index].itemDecorationCount > 0) {
-            lists[index].removeItemDecorationAt(0)
-        }
-        when (viewModel.providersInCard[index]) {
-            true -> {
-                adapters[index].cardSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
-                displayListInGrid(lists[index], adapters[index], viewModel.providers[index] as MedialibraryProvider<MediaLibraryItem>, spacing)
-            }
-            else -> {
-                adapters[index].cardSize = -1
-                lists[index].addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.providers[index]))
-                lists[index].layoutManager = LinearLayoutManager(activity)
-            }
-        }
-        val lp = lists[index].layoutParams
-        lp.width = if (viewModel.providersInCard[index]) ViewGroup.LayoutParams.MATCH_PARENT else requireActivity().resources.getDimension(R.dimen.default_content_width).toInt()
-        lists[index].layoutParams = lp
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -264,7 +243,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         return when (item.itemId) {
             R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
                 viewModel.providersInCard[currentTab] = item.itemId == R.id.ml_menu_display_grid
-                setupLayoutManager(currentTab)
+                setupLayoutManager(viewModel.providersInCard[currentTab], lists[currentTab], viewModel.providers[currentTab] as MedialibraryProvider<MediaLibraryItem>, adapters[currentTab], spacing)
                 lists[currentTab].adapter = adapters[currentTab]
                 activity?.invalidateOptionsMenu()
                 Settings.getInstance(requireActivity()).putSingle(viewModel.displayModeKeys[currentTab], item.itemId == R.id.ml_menu_display_grid)
