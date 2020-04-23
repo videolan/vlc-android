@@ -98,8 +98,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         super.onViewCreated(view, savedInstanceState)
 
         spacing = resources.getDimension(R.dimen.kl_small).toInt()
-        val itemSize = if (viewModel.providersInCard[0]) RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
-        else -1
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
 
         val albumsList = viewPager.getChildAt(MODE_ALBUM).findViewById(R.id.audio_list) as RecyclerView
         val songsList = viewPager.getChildAt(MODE_SONG).findViewById(R.id.audio_list) as RecyclerView
@@ -165,6 +164,9 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
                 lists[index].layoutManager = LinearLayoutManager(activity)
             }
         }
+        val lp = lists[index].layoutParams
+        lp.width = if (viewModel.providersInCard[index]) ViewGroup.LayoutParams.MATCH_PARENT else requireActivity().resources.getDimension(R.dimen.default_content_width).toInt()
+        lists[index].layoutParams = lp
     }
 
     override fun sortBy(sort: Int) {

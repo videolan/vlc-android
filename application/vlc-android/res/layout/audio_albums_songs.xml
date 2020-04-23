@@ -17,7 +17,7 @@
 
     <org.videolan.vlc.gui.view.SwipeRefreshLayout
             android:id="@+id/swipeLayout"
-            android:layout_width="@dimen/default_content_width"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/searchButton"
             android:layout_centerHorizontal="true">

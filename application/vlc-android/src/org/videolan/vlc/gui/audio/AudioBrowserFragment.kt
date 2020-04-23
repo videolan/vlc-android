@@ -136,11 +136,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             val list = lists[i]
             list.adapter = adapters[i]
             list.addOnScrollListener(scrollListener)
-            if (viewModel.providersInCard[i]) {
-                val lp = list.layoutParams
-                lp.width = ViewGroup.LayoutParams.MATCH_PARENT
-                list.layoutParams = lp
-            }
         }
         viewPager.setOnTouchListener(swipeFilter)
         swipeRefreshLayout.setOnRefreshListener {
@@ -187,6 +182,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 lists[index].layoutManager = LinearLayoutManager(activity)
             }
         }
+        val lp = lists[index].layoutParams
+        lp.width = if (viewModel.providersInCard[index]) ViewGroup.LayoutParams.MATCH_PARENT else requireActivity().resources.getDimension(R.dimen.default_content_width).toInt()
+        lists[index].layoutParams = lp
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
