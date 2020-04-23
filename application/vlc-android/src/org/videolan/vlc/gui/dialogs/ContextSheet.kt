@@ -114,6 +114,11 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         if (flags and CTX_FIND_METADATA != 0L) add(Simple(CTX_FIND_METADATA, getString(R.string.find_metadata), R.drawable.ic_ctx_delete_normal))
         if (flags and CTX_ADD_FOLDER_PLAYLIST != 0L) add(Simple(CTX_ADD_FOLDER_PLAYLIST, getString(R.string.this_folder), R.drawable.ic_ctx_add_to_playlist_normal))
         if (flags and CTX_ADD_FOLDER_AND_SUB_PLAYLIST != 0L) add(Simple(CTX_ADD_FOLDER_AND_SUB_PLAYLIST, getString(R.string.all_subfolders), R.drawable.ic_ctx_add_to_playlist_normal))
+        if (flags and CTX_ADD_GROUP != 0L) add(Simple(CTX_ADD_GROUP, getString(R.string.add_to_group), R.drawable.ic_ctx_add_to_group))
+        if (flags and CTX_REMOVE_GROUP != 0L) add(Simple(CTX_REMOVE_GROUP, getString(R.string.remove_from_group), R.drawable.ic_ctx_remove_from_group))
+        if (flags and CTX_RENAME_GROUP != 0L) add(Simple(CTX_RENAME_GROUP, getString(R.string.rename_group), R.drawable.ic_ctx_edit))
+        if (flags and CTX_UNGROUP != 0L) add(Simple(CTX_UNGROUP, getString(R.string.ungroup), R.drawable.ic_ctx_delete))
+        if (flags and CTX_GROUP_SIMILAR != 0L) add(Simple(CTX_GROUP_SIMILAR, getString(R.string.group_similar), R.drawable.ic_ctx_group_auto))
     }
 
     inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {

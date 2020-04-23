@@ -49,10 +49,12 @@ import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToGroup
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
@@ -243,7 +245,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun getTitle() = when(viewModel.groupingType) {
-        VideoGroupingType.NONE -> viewModel.folder?.displayTitle ?: viewModel.group?.displayTitle ?: getString(R.string.videos)
+        VideoGroupingType.NONE -> viewModel.folder?.displayTitle ?: viewModel.group?.displayTitle
+        ?: getString(R.string.videos)
         VideoGroupingType.FOLDER -> getString(R.string.videos_folders_title)
         VideoGroupingType.NAME -> getString(R.string.videos_groups_title)
     }
@@ -317,6 +320,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             VideoGroupingType.NONE -> {
                 menu.findItem(R.id.action_video_append).isVisible = PlaylistManager.hasMedia()
                 menu.findItem(R.id.action_video_info).isVisible = count == 1
+                menu.findItem(R.id.action_remove_from_group).isVisible = viewModel.group != null
+            }
+            VideoGroupingType.NAME -> {
+                menu.findItem(R.id.action_ungroup).isVisible = !multiSelectHelper.getSelection().any { it !is VideoGroup }
+                menu.findItem(R.id.action_rename).isVisible = count == 1 && !multiSelectHelper.getSelection().any { it !is VideoGroup }
+                menu.findItem(R.id.action_group_similar).isVisible = count == 1 && multiSelectHelper.getSelection().filterIsInstance<VideoGroup>().isEmpty()
+                menu.findItem(R.id.action_add_to_group).isVisible = multiSelectHelper.getSelection().filterIsInstance<VideoGroup>().isEmpty()
             }
             else -> {}
         }
@@ -345,6 +355,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                         }
                         R.id.action_mode_audio_add_playlist -> requireActivity().addToPlaylist(list)
                         R.id.action_video_delete -> removeItems(list)
+                        R.id.action_remove_from_group -> viewModel.removeFromGroup(list)
+                        R.id.action_ungroup -> viewModel.ungroup(list)
                         else -> {
                             stopActionMode()
                             return false
@@ -370,6 +382,14 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     R.id.action_videogroup_play -> MediaUtils.openList(activity, selection.getAll(), 0)
                     R.id.action_videogroup_append -> MediaUtils.appendMedia(activity, selection.getAll())
                     R.id.action_videogroup_add_playlist -> lifecycleScope.launch { requireActivity().addToPlaylist(withContext(Dispatchers.Default) { selection.getAll() }) }
+                    R.id.action_group_similar -> lifecycleScope.launch { viewModel.groupSimilar(selection.getAll().first()) }
+                    R.id.action_ungroup -> viewModel.ungroup(selection.first() as VideoGroup)
+                    R.id.action_rename -> renameGroup(selection.first() as VideoGroup)
+                    R.id.action_add_to_group -> lifecycleScope.launch {
+                        viewModel.createGroup(selection.getAll())?.let {
+                            activity?.open(it)
+                        }
+                    }
                     else -> return false
                 }
             }
@@ -411,6 +431,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     startActivity(intent)
                 }
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media) }
+                CTX_REMOVE_GROUP -> viewModel.removeFromGroup(media)
+                CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media))
+                CTX_GROUP_SIMILAR -> lifecycleScope.launch { viewModel.groupSimilar(media) }
+
             }
             is Folder -> when (option) {
                 CTX_PLAY -> lifecycleScope.launch { viewModel.play(position) }
@@ -421,8 +445,16 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_PLAY -> lifecycleScope.launch { viewModel.play(position) }
                 CTX_APPEND -> lifecycleScope.launch { viewModel.append(position) }
                 CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
+                CTX_RENAME_GROUP -> renameGroup(media)
+                CTX_UNGROUP -> viewModel.ungroup(media)
             }
         }
+    }
+
+    private fun renameGroup(media: VideoGroup) {
+        RenameDialog.newInstance(media) { newName ->
+            viewModel.renameGroup(media, newName)
+        }.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
     }
 
     private val thumbObs = Observer<MediaWrapper> { media ->
@@ -445,11 +477,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             }
             is VideoCtxClick -> {
                 when (item) {
-                    is Folder, is VideoGroup -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS)
+                    is Folder -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS)
+                    is VideoGroup -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS or CTX_RENAME_GROUP or CTX_UNGROUP)
                     is MediaWrapper -> {
                         val group = item.type == MediaWrapper.TYPE_GROUP
                         var flags = if (group) CTX_VIDEO_GROUP_FLAGS else CTX_VIDEO_FLAGS
                         if (item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
+                        if (viewModel.groupingType == VideoGroupingType.NAME || viewModel.group != null) flags = flags or if (viewModel.group != null) CTX_REMOVE_GROUP else flags or CTX_ADD_GROUP or CTX_GROUP_SIMILAR
                         showContext(requireActivity(), this@VideoGridFragment, position, item.getTitle(), flags)
                     }
                 }

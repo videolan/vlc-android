@@ -54,7 +54,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     var provider = loadProvider()
         private set
 
-    private fun loadProvider(): MedialibraryProvider<out MediaLibraryItem> =  when (groupingType) {
+    private fun loadProvider(): MedialibraryProvider<out MediaLibraryItem> = when (groupingType) {
         VideoGroupingType.NONE -> VideosProvider(folder, group, context, this)
         VideoGroupingType.FOLDER -> FoldersProvider(context, this, Folder.TYPE_FOLDER_VIDEO)
         VideoGroupingType.NAME -> VideoGroupsProvider(context, this)
@@ -72,6 +72,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
 
     init {
         watchMedia()
+        watchMediaGroups()
     }
 
     class Factory(val context: Context, private val groupingType: VideoGroupingType, val folder: Folder? = null, val group: VideoGroup? = null) : ViewModelProvider.NewInstanceFactory() {
@@ -149,6 +150,57 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         if (activity == null) return
         media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         MediaUtils.openMedia(activity, media)
+    }
+
+    fun renameGroup(videoGroup: VideoGroup, newName: String) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            videoGroup.rename(newName)
+        }
+    }
+
+    fun removeFromGroup(medias: List<MediaWrapper>) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            medias.forEach { media ->
+                group?.remove(media.id)
+            }
+        }
+    }
+
+    fun removeFromGroup(media: MediaWrapper) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            group?.remove(media.id)
+        }
+    }
+
+    fun ungroup(groups: List<MediaWrapper>) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            groups.forEach { group ->
+                if (group is VideoGroup) group.destroy()
+            }
+        }
+    }
+
+    fun ungroup(group: VideoGroup) = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            group.destroy()
+        }
+    }
+
+    suspend fun createGroup(medias: List<MediaWrapper>): VideoGroup? {
+        if (medias.size < 2) return null
+        val group = withContext(Dispatchers.IO) {
+            val newGroup = medialibrary.createVideoGroup(medias[0].title)
+            medias.forEach { newGroup.add(it.id) }
+            newGroup
+        }
+        return group
+    }
+
+    suspend fun groupSimilar(media: MediaWrapper): Boolean {
+        val isRegrouped = withContext(Dispatchers.IO) {
+            medialibrary.regroup(media.id)
+        }
+        return isRegrouped
     }
 }
 

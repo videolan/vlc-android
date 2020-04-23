@@ -77,6 +77,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
+import org.videolan.vlc.gui.dialogs.AddToGroupDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -339,6 +340,15 @@ object UiTools {
         args.putParcelableArray(key, tracks)
         savePlaylistDialog.arguments = args
         savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
+    }
+
+    fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>) {
+        if (!isStarted()) return
+        val addToGroupDialog = AddToGroupDialog()
+        val args = Bundle()
+        args.putParcelableArray(AddToGroupDialog.KEY_TRACKS, tracks.toTypedArray())
+        addToGroupDialog.arguments = args
+        addToGroupDialog.show(supportFragmentManager, "fragment_add_to_playlist")
     }
 
     fun FragmentActivity.showMediaInfo(mediaWrapper: MediaWrapper) {

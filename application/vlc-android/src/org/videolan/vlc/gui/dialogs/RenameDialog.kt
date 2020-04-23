@@ -57,7 +57,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 
 private const val MEDIA = "RENAME_DIALOG_MEDIA"
@@ -68,11 +68,11 @@ class RenameDialog(private val listener: (String) -> Unit) : VLCBottomSheetDialo
 
     private lateinit var renameButton: Button
     private lateinit var newNameInputtext: TextInputEditText
-    private lateinit var media: MediaWrapper
+    private lateinit var media: MediaLibraryItem
 
     companion object {
 
-        fun newInstance(media: MediaWrapper, listener: (String) -> Unit): RenameDialog {
+        fun newInstance(media: MediaLibraryItem, listener: (String) -> Unit): RenameDialog {
 
             return RenameDialog(listener).apply {
                 val args = Bundle()

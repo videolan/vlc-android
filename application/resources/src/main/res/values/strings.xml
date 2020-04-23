@@ -826,5 +826,9 @@
     <string name="more">More</string>
     <string name="favorites">Favorites</string>
     <string name="new_stream">New stream</string>
-    <string name="add_to_group">Add to group</string>
+    <string name="add_to_group">Add to video group</string>
+    <string name="remove_from_group">Remove from video group</string>
+    <string name="rename_group">Rename video group</string>
+    <string name="ungroup">Ungroup</string>
+    <string name="group_similar">Regroup automatically</string>
 </resources>

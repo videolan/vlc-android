@@ -43,4 +43,9 @@
         android:title="@string/download_subtitles"
             android:icon="@drawable/ic_am_downsub"
         app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_remove_from_group"
+            android:title="@string/remove_from_group"
+            android:icon="@drawable/ic_remove_from_group"
+            app:showAsAction="ifRoom" />
 </menu>
