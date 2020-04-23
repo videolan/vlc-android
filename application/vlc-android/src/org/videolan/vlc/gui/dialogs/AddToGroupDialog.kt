@@ -56,11 +56,6 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
             field = value
             if (::binding.isInitialized) binding.isLoading = value
         }
-    private var filesText: String = ""
-        set(value) {
-            field = value
-            if (::binding.isInitialized) binding.filesText = value
-        }
     private lateinit var binding: DialogAddToGroupBinding
     private lateinit var adapter: SimpleAdapter
     private lateinit var newTrack: Array<MediaWrapper>
@@ -82,7 +77,6 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         newTrack = try {
             @Suppress("UNCHECKED_CAST")
             val tracks = requireArguments().getParcelableArray(KEY_TRACKS) as Array<MediaWrapper>
-            filesText = resources.getQuantityString(R.plurals.media_quantity, tracks.size, tracks.size)
             tracks
         } catch (e: Exception) {
             emptyArray()
@@ -92,7 +86,6 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DialogAddToGroupBinding.inflate(layoutInflater, container, false)
         binding.isLoading = isLoading
-        binding.filesText = filesText
         return binding.root
     }
 

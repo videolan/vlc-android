@@ -31,10 +31,6 @@
         <import type="android.view.View" />
 
         <variable
-                name="filesText"
-                type="String" />
-
-        <variable
                 name="isLoading"
                 type="Boolean" />
     </data>
@@ -60,19 +56,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                    android:id="@+id/medias"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@{filesText}"
-                    android:textSize="12sp"
-                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8"
-                    tools:text="65 medias" />
-
             <ProgressBar
                     android:id="@+id/progressBar2"
                     style="?android:attr/progressBarStyle"
@@ -88,10 +71,10 @@
                     android:id="@+id/dialog_list_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/medias">
+                    app:layout_constraintTop_toBottomOf="@+id/textView8">
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@android:id/list"

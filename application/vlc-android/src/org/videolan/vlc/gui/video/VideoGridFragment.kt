@@ -386,9 +386,11 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     R.id.action_ungroup -> viewModel.ungroup(selection.first() as VideoGroup)
                     R.id.action_rename -> renameGroup(selection.first() as VideoGroup)
                     R.id.action_add_to_group -> lifecycleScope.launch {
-                        viewModel.createGroup(selection.getAll())?.let {
-                            activity?.open(it)
-                        }
+                        if (selection.size > 1) {
+                            viewModel.createGroup(selection.getAll())?.let {
+                                activity?.open(it)
+                            }
+                        } else requireActivity().addToGroup(selection.getAll())
                     }
                     else -> return false
                 }
