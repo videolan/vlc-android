@@ -197,11 +197,8 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         }
     }
 
-    suspend fun groupSimilar(media: MediaWrapper): Boolean {
-        val isRegrouped = withContext(Dispatchers.IO) {
-            medialibrary.regroup(media.id)
-        }
-        return isRegrouped
+    suspend fun groupSimilar(media: MediaWrapper) = withContext(Dispatchers.IO) {
+        medialibrary.regroup(media.id)
     }
 }
 

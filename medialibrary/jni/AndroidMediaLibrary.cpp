@@ -278,6 +278,12 @@ AndroidMediaLibrary::searchFromPLaylist( int64_t playlistId, const std::string& 
     return playlist == nullptr ? nullptr : playlist->searchMedia(query, params);
 }
 
+medialibrary::Query<medialibrary::IFolder>
+AndroidMediaLibrary::searchFolders(const std::string& query, const medialibrary::QueryParameters* params)
+{
+    return p_ml->searchFolders(query, medialibrary::IMedia::Type::Video, params);
+}
+
 medialibrary::Query<medialibrary::IMedia>
 AndroidMediaLibrary::searchFromFolder( int64_t folderId, const std::string& query, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params )
 {
@@ -513,6 +519,12 @@ medialibrary::Query<medialibrary::IMediaGroup>
 AndroidMediaLibrary::videoGroups( const medialibrary::QueryParameters* params )
 {
     return p_ml->mediaGroups(params);
+}
+
+medialibrary::Query<medialibrary::IMediaGroup>
+AndroidMediaLibrary::searchVideoGroups( const std::string& query, const medialibrary::QueryParameters* params )
+{
+    return p_ml->searchMediaGroups(query, params);
 }
 
 medialibrary::MediaGroupPtr

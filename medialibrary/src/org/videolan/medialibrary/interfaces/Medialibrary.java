@@ -29,6 +29,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -690,7 +691,7 @@ abstract public class Medialibrary {
     abstract public int getVideoCount();
     abstract public int getAudioCount();
     abstract public VideoGroup[] getVideoGroups(int sort, boolean desc, int nbItems, int offset);
-    abstract public int getVideoGroupsCount();
+    abstract public int getVideoGroupsCount(@Nullable String query);
     abstract public void setVideoGroupsPrefixLength(int lenght);
 
     abstract public VideoGroup createVideoGroup(String name);
@@ -761,4 +762,7 @@ abstract public class Medialibrary {
     abstract public Genre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public Playlist[] searchPlaylist(String query);
     abstract public Playlist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public Folder[] searchFolders(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public int getFoldersCount(String query);
+    abstract public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, int nbItems, int offset);
 }

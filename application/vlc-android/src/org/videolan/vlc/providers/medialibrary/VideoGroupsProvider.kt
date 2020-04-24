@@ -16,7 +16,8 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
 
     override fun getAll() : Array<MediaLibraryItem> = medialibrary.getVideoGroups(sort, desc, getTotalCount(), 0).extractSingles()
 
-    override fun getTotalCount() = medialibrary.videoGroupsCount
+    override fun getTotalCount() = if (model.filterQuery == null) medialibrary.videoGroupsCount
+    else medialibrary.videoGroupsCount
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<MediaLibraryItem> = medialibrary.getVideoGroups(sort, desc, loadSize, startposition).extractSingles().also { if (Settings.showTvUi) completeHeaders(it, startposition) }
 }

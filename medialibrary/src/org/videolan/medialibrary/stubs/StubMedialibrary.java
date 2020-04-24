@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.webkit.URLUtil;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.Tools;
@@ -141,7 +142,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
-    public int getVideoGroupsCount() {
+    public int getVideoGroupsCount(@Nullable String query) {
         return 0;
     }
 
@@ -625,6 +626,21 @@ public class StubMedialibrary extends Medialibrary {
     public Playlist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset) {
         ArrayList<Playlist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query)));
         return dt.sortPlaylist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
+    }
+
+    @Override
+    public Folder[] searchFolders(String query, int sort, boolean desc, int nbItems, int offset) {
+        return new Folder[0];
+    }
+
+    @Override
+    public int getFoldersCount(String query) {
+        return 0;
+    }
+
+    @Override
+    public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, int nbItems, int offset) {
+        return new VideoGroup[0];
     }
 
     private boolean isParentFolder(String parentMrl, String childMrl) {

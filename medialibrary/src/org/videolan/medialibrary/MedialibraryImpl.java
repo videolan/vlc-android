@@ -218,8 +218,8 @@ public class MedialibraryImpl extends Medialibrary {
 
     @Override
     @WorkerThread
-    public int getVideoGroupsCount() {
-        return mIsInitiated ? nativeGetVideoGroupsCount() : 0;
+    public int getVideoGroupsCount(@Nullable String query) {
+        return mIsInitiated ? nativeGetVideoGroupsCount(query) : 0;
     }
 
     @Override
@@ -549,6 +549,21 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedPlaylist(query, sort, desc, nbItems, offset) : null;
     }
 
+    @Override
+    public Folder[] searchFolders(String query, int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedFolders(query, sort, desc, nbItems, offset) : new Folder[0];
+    }
+
+    @Override
+    public int getFoldersCount(String query) {
+        return mIsInitiated ? nativeGetSearchFoldersCount(query) : 0;
+    }
+
+    @Override
+    public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedGroups(query, sort, desc, nbItems, offset) : new VideoGroup[0];
+    }
+
     // Native methods
     private native int nativeInit(String dbPath, String thumbsPath);
     private native void nativeStart();
@@ -583,7 +598,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native int nativeGetVideoCount();
     private native int nativeGetAudioCount();
     private native VideoGroup[] nativeGetVideoGroups(int sort, boolean desc, int nbItems, int offset);
-    private native int nativeGetVideoGroupsCount();
+    private native int nativeGetVideoGroupsCount(String query);
     private native void nativeSetVideoGroupsPrefixLength(int length);
 
     private native VideoGroup nativeCreateGroupByName(String name);
@@ -641,5 +656,8 @@ public class MedialibraryImpl extends Medialibrary {
     private native Playlist[] nativeSearchPlaylist(String query);
     private native Playlist[] nativeSearchPagedPlaylist(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetPlaylistSearchCount(String query);
+    private native Folder[] nativeSearchPagedFolders(String query, int sort, boolean desc, int nbItems, int offset);
+    private native int nativeGetSearchFoldersCount(String query);
+    private native VideoGroup[] nativeSearchPagedGroups(String query, int sort, boolean desc, int nbItems, int offset);
     private native void nativeRequestThumbnail(long mediaId);
 }

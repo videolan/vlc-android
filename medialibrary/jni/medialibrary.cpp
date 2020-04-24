@@ -1800,9 +1800,72 @@ videoGroups(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint
     return groupsRefs;
 }
 
+jobjectArray
+searchMediaGroups(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    const char *queryChar = env->GetStringUTFChars(queryString, JNI_FALSE);
+    const auto query = aml->searchVideoGroups(queryChar, &params);
+    std::vector<medialibrary::MediaGroupPtr> groups = nbItems != 0 ? query->items(nbItems, offset) : query->all();
+    jobjectArray groupRefs = (jobjectArray) env->NewObjectArray(groups.size(), ml_fields.VideoGroup.clazz, NULL);
+    int index = -1;
+    for(medialibrary::MediaGroupPtr const& group : groups) {
+        jobject item = convertVideoGroupObject(env, &ml_fields, group);
+        env->SetObjectArrayElement(groupRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    env->ReleaseStringUTFChars(queryString, queryChar);
+    return groupRefs;
+}
+
+
+jobjectArray
+searchFolders(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    const char *queryChar = env->GetStringUTFChars(queryString, JNI_FALSE);
+    const auto query = aml->searchFolders(queryChar, &params);
+    std::vector<medialibrary::FolderPtr> folders = nbItems != 0 ? query->items(nbItems, offset) : query->all();
+    jobjectArray folderRefs = (jobjectArray) env->NewObjectArray(folders.size(), ml_fields.Folder.clazz, NULL);
+    int index = -1;
+    for(medialibrary::FolderPtr const& folder : folders)
+    {
+        const auto query = aml->mediaFromFolder(folder->id(), medialibrary::IMedia::Type::Video);
+        int count = (query != nullptr ? query->count() : 0);
+        jobject item = convertFolderObject(env, &ml_fields, folder, count);
+        env->SetObjectArrayElement(folderRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    env->ReleaseStringUTFChars(queryString, queryChar);
+    return folderRefs;
+}
+
 jint
-videoGroupsCount(JNIEnv* env, jobject thiz) {
-    const auto query = MediaLibrary_getInstance(env, thiz)->videoGroups(nullptr);
+getSearchFoldersCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery) {
+    const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->searchFolders(queryChar);
+    env->ReleaseStringUTFChars(filterQuery, queryChar);
+    return (jint) (query != nullptr ? query->count() : 0);
+}
+
+jint
+videoGroupsCount(JNIEnv* env, jobject thiz, jstring filterQuery) {
+    if (filterQuery == nullptr)
+    {
+        const auto query = MediaLibrary_getInstance(env, thiz)->videoGroups(nullptr);
+        return (jint) (query != nullptr ? query->count() : 0);
+    }
+    const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
+    const auto query = MediaLibrary_getInstance(env, thiz)->searchVideoGroups(queryChar);
+    env->ReleaseStringUTFChars(filterQuery, queryChar);
     return (jint) (query != nullptr ? query->count() : 0);
 }
 
@@ -2017,6 +2080,8 @@ static JNINativeMethod methods[] = {
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylist },
     {"nativeGetFolders", "(IIZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)folders },
     {"nativeGetFoldersCount", "(I)I", (void*)foldersCount },
+    {"nativeSearchPagedFolders", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)searchFolders },
+    {"nativeGetSearchFoldersCount", "(Ljava/lang/String;)I", (void*)getSearchFoldersCount },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
     {"nativeReload", "()V", (void*)reload },
@@ -2028,8 +2093,9 @@ static JNINativeMethod methods[] = {
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
     {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)playlistCreate },
     {"nativeGetVideoGroups", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)videoGroups },
-    {"nativeGetVideoGroupsCount", "()I", (void*)videoGroupsCount },
+    {"nativeGetVideoGroupsCount", "(Ljava/lang/String;)I", (void*)videoGroupsCount },
     {"nativeCreateGroupByName", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroupByName },
+    {"nativeSearchPagedGroups", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)searchMediaGroups },
     {"nativeCreateGroup", "([J)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroup },
     {"nativeRegroupAll", "()Z", (void*)regroupAll },
     {"nativeRegroup", "(J)Z", (void*)regroup },
