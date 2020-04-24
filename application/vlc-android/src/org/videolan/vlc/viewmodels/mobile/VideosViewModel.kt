@@ -188,12 +188,13 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
 
     suspend fun createGroup(medias: List<MediaWrapper>): VideoGroup? {
         if (medias.size < 2) return null
-        val group = withContext(Dispatchers.IO) {
-            val newGroup = medialibrary.createVideoGroup(medias[0].title)
-            medias.forEach { newGroup.add(it.id) }
+        return withContext(Dispatchers.IO) {
+            val newGroup = medialibrary.createVideoGroup(medias.map { it.id }.toLongArray())
+            if (newGroup.title.isNullOrBlank()) {
+                newGroup.rename(medias[0].title)
+            }
             newGroup
         }
-        return group
     }
 
     suspend fun groupSimilar(media: MediaWrapper): Boolean {
