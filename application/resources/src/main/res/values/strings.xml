@@ -831,4 +831,5 @@
     <string name="rename_group">Rename video group</string>
     <string name="ungroup">Ungroup</string>
     <string name="group_similar">Regroup automatically</string>
+    <string name="no_favorite">No favorite</string>
 </resources>

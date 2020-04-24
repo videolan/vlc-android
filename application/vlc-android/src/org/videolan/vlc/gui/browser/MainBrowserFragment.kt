@@ -144,6 +144,8 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         })
 
         favoritesEntry = view.findViewById(R.id.fav_browser_entry)
+        favoritesEntry.loading.showNoMedia = false
+        favoritesEntry.loading.emptyText = R.string.no_favorite
         val favoritesBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true)
         val favoritesAdapter = BaseBrowserAdapter(favoritesBrowserContainer)
         favoritesEntry.list.adapter = favoritesAdapter

@@ -117,6 +117,7 @@
     <declare-styleable name="EmptyLoadingStateView">
         <attr name="empty_text" format="reference|string" />
         <attr name="show_no_media" format="boolean" />
+        <attr name="compact_mode" format="boolean" />
     </declare-styleable>
     <declare-styleable name="TitleListView">
         <attr name="title" format="reference|string" />

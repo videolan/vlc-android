@@ -29,18 +29,31 @@ import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.view_empty_loading.view.*
+import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 
 class EmptyLoadingStateView : FrameLayout {
 
+    private val normalConstraintSet = ConstraintSet()
+    private val compactConstraintSet = ConstraintSet()
+
+    lateinit var container: ConstraintLayout
     var showNoMedia: Boolean = true
+    private var compactMode: Boolean = false
+        set(value) {
+            field = value
+            applyCompactMode()
+        }
     var state = EmptyLoadingState.LOADING
         set(value) {
             loadingFlipper.visibility = if (value == EmptyLoadingState.LOADING) View.VISIBLE else View.GONE
@@ -66,7 +79,7 @@ class EmptyLoadingStateView : FrameLayout {
             field = emptyText
         }
 
-    var noMediaClickListener: (() -> Unit)? = null
+    private var noMediaClickListener: (() -> Unit)? = null
 
     fun setOnNoMediaClickListener(l: () -> Unit) {
         noMediaClickListener = l
@@ -81,7 +94,7 @@ class EmptyLoadingStateView : FrameLayout {
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         initialize()
-        initAttributes(attrs, 0)
+        initAttributes(attrs, defStyle)
     }
 
     private fun initAttributes(attrs: AttributeSet, defStyle: Int) {
@@ -90,6 +103,7 @@ class EmptyLoadingStateView : FrameLayout {
             try {
                 emptyTextView.text = a.getString(R.styleable.EmptyLoadingStateView_empty_text)
                 showNoMedia = a.getBoolean(R.styleable.EmptyLoadingStateView_show_no_media, true)
+                compactMode = a.getBoolean(R.styleable.EmptyLoadingStateView_compact_mode, true)
             } catch (e: Exception) {
                 Log.w("", e.message, e)
             } finally {
@@ -106,6 +120,18 @@ class EmptyLoadingStateView : FrameLayout {
             (context as Activity).startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES)
             noMediaClickListener?.invoke()
         }
+        container = findViewById(R.id.container)
+        normalConstraintSet.clone(container)
+        compactConstraintSet.clone(context, R.layout.view_empty_loading_compact)
+        if (compactMode) {
+            applyCompactMode()
+        }
+    }
+
+    private fun applyCompactMode() {
+        TransitionManager.beginDelayedTransition(container)
+        if (compactMode) compactConstraintSet.applyTo(container) else normalConstraintSet.applyTo(container)
+        emptyTextView.gravity = if (compactMode) Gravity.START else Gravity.CENTER
     }
 
     private fun initialize() {
