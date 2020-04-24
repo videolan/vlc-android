@@ -57,13 +57,14 @@ class FavoritesProvider(
 
     init {
         browserFavRepository.browserFavorites
-                .flowOn(Dispatchers.IO)
                 .onEach { list ->
                     convertFavorites(list.sortedWith(compareBy(BrowserFav::title, BrowserFav::type))).let {
-                        dataset.value = it as MutableList<MediaLibraryItem>
+                        dataset.postValue(it as MutableList<MediaLibraryItem>)
                         parseSubDirectories()
                     }
-                }.launchIn(scope)
+                }
+                .flowOn(Dispatchers.IO)
+                .launchIn(scope)
     }
 
     override suspend fun requestBrowsing(url: String?, eventListener: MediaBrowser.EventListener, interact : Boolean) = withContext(coroutineContextProvider.IO) {
