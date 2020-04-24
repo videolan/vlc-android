@@ -549,7 +549,7 @@ AndroidMediaLibrary::groupRemoveId( const int64_t groupId, const int64_t mediaId
     return group != nullptr && group->remove(mediaId);
 }
 
-const std::string&
+std::string
 AndroidMediaLibrary::groupeName( const int64_t groupId )
 {
     const medialibrary::MediaGroupPtr group = p_ml->mediaGroup(groupId);
