@@ -37,7 +37,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 
 class TitleListView : ConstraintLayout {
 
@@ -58,6 +57,10 @@ class TitleListView : ConstraintLayout {
         findViewById<ImageButton>(R.id.action_button)
     }
 
+    private val titleContent: View by lazy {
+        findViewById<View>(R.id.title_content)
+    }
+
     fun setOnActionClickListener(listener: (View) -> Unit) {
         this.actionClickListener = listener
     }
@@ -71,7 +74,7 @@ class TitleListView : ConstraintLayout {
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         initialize()
-        initAttributes(attrs, 0)
+        initAttributes(attrs, defStyle)
     }
 
     private fun initAttributes(attrs: AttributeSet, defStyle: Int) {
@@ -80,9 +83,10 @@ class TitleListView : ConstraintLayout {
             try {
                 titleView.text = a.getString(R.styleable.TitleListView_title)
                 if (!a.getBoolean(R.styleable.TitleListView_show_button, false)) actionButton.setGone()
-                val drawableResId = a.getResourceId(R.styleable.TitleListView_button_icon, -1)
-                if (drawableResId != -1) actionButton.setImageBitmap(context.getBitmapFromDrawable(drawableResId))
                 actionButton.setOnClickListener {
+                    actionClickListener?.let { listener -> listener(actionButton) }
+                }
+                titleContent.setOnClickListener {
                     actionClickListener?.let { listener -> listener(actionButton) }
                 }
                 list.isNestedScrollingEnabled = false

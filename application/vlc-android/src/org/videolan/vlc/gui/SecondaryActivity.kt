@@ -141,6 +141,7 @@ class SecondaryActivity : ContentActivity() {
             }
             ABOUT -> fragment = AboutFragment()
             STREAMS -> fragment = MRLPanelFragment()
+            HISTORY -> fragment = HistoryFragment()
             VIDEO_GROUP_LIST -> {
                 fragment = VideoGridFragment().apply {
                     arguments = Bundle(2).apply {
@@ -174,6 +175,7 @@ class SecondaryActivity : ContentActivity() {
         const val ALBUMS_SONGS = "albumsSongs"
         const val ABOUT = "about"
         const val STREAMS = "streams"
+        const val HISTORY = "history"
         const val VIDEO_GROUP_LIST = "videoGroupList"
         const val STORAGE_BROWSER = "storage_browser"
         const val FILE_BROWSER = "file_browser"

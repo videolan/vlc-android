@@ -30,7 +30,7 @@ import android.util.SparseBooleanArray
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -93,7 +93,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         historyEntry = view.findViewById(R.id.history_entry)
-        viewModel = ViewModelProviders.of(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
         viewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaWrapper>> { list ->
             list?.let {
                 historyAdapter.update(it)
@@ -118,7 +118,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
         historyAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
 
         streamsEntry = view.findViewById(R.id.streams_entry)
-        streamsViewModel = ViewModelProviders.of(requireActivity(), StreamsModel.Factory(requireContext(), showDummy = true)).get(StreamsModel::class.java)
+        streamsViewModel = ViewModelProvider(requireActivity(), StreamsModel.Factory(requireContext(), showDummy = true)).get(StreamsModel::class.java)
         setup(this, streamsViewModel, object : KeyboardListener {
             override fun hideKeyboard() {}
         })
@@ -169,7 +169,9 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
         streamsEntry.list.adapter = streamsAdapter
 
         historyEntry.setOnActionClickListener {
-            clearHistory()
+            val i = Intent(activity, SecondaryActivity::class.java)
+            i.putExtra("fragment", SecondaryActivity.HISTORY)
+            requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
 
         multiSelectHelper = historyAdapter.multiSelectHelper
@@ -238,7 +240,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
         multiSelectHelper.clearSelection()
     }
 
-    fun restoreMultiSelectHelper() {
+    private fun restoreMultiSelectHelper() {
         getMultiHelper()?.let {
 
             if (savedSelection.size() > 0) {
