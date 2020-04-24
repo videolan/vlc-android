@@ -1878,9 +1878,9 @@ groupRemoveId(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jlong m
 }
 
 jstring
-groupeName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+groupName(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
-    return env->NewStringUTF(MediaLibrary_getInstance(env, medialibrary)->groupeName(id).c_str());
+    return env->NewStringUTF(MediaLibrary_getInstance(env, medialibrary)->groupName(id).c_str());
 }
 
 jboolean
@@ -2099,7 +2099,7 @@ static JNINativeMethod videogroup_methods[] = {
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromvideoGroupCount },
     {"nativeGroupAddId", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)groupAddId },
     {"nativeGroupRemoveId", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)groupRemoveId },
-    {"nativeGroupeName", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Ljava/lang/String;", (void*)groupeName },
+    {"nativeGroupName", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Ljava/lang/String;", (void*)groupName },
     {"nativeGroupRename", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)Z", (void*)groupRename },
     {"nativeGroupUserInteracted", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)groupUserInteracted },
     {"nativeGroupDuration", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)J", (void*)groupDuration },

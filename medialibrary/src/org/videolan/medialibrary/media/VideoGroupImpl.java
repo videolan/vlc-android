@@ -58,7 +58,7 @@ public class VideoGroupImpl extends VideoGroup {
     @Nullable
     public String getName() {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGroupeName(ml, mId) : null;
+        return ml.isInitiated() ? nativeGroupName(ml, mId) : null;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class VideoGroupImpl extends VideoGroup {
     private native int nativeGetSearchCount(Medialibrary ml, long id, String query);
     private native boolean nativeGroupAddId(Medialibrary ml, long id, long mediaId);
     private native boolean nativeGroupRemoveId(Medialibrary ml, long id, long mediaId);
-    private native String nativeGroupeName(Medialibrary ml, long id);
+    private native String nativeGroupName(Medialibrary ml, long id);
     private native boolean nativeGroupRename(Medialibrary ml, long id, String name);
     private native boolean nativeGroupUserInteracted(Medialibrary ml, long id);
     private native long nativeGroupDuration(Medialibrary ml, long id);

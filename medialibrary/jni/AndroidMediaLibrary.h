@@ -108,7 +108,7 @@ public:
     medialibrary::MediaGroupPtr videoGroup( const int64_t groupId );
     bool groupAddId( const int64_t groupId, const int64_t mediaId );
     bool groupRemoveId( const int64_t groupId, const int64_t mediaId );
-    std::string groupeName( const int64_t groupId );
+    std::string groupName( const int64_t groupId );
     bool groupRename( const int64_t groupId, const std::string& name );
     bool groupUserInteracted(const int64_t groupId );
     int64_t groupDuration(const int64_t groupId );
