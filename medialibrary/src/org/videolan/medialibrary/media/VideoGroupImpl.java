@@ -56,6 +56,7 @@ public class VideoGroupImpl extends VideoGroup {
 
     @Override
     @Nullable
+    @WorkerThread
     public String getName() {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGroupName(ml, mId) : null;
