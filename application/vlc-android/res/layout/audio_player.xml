@@ -24,7 +24,7 @@
             android:id="@+id/content_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/background_default_darker"
+            android:background="?attr/bottom_navigation_background"
             android:clickable="true"
             android:keyboardNavigationCluster="true"
             tools:targetApi="o"
@@ -78,7 +78,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/progressBar"
                 android:fitsSystemWindows="true"
-                android:background="?attr/background_default_darker">
+                android:background="?attr/bottom_navigation_background">
 
             <ImageView
                     android:id="@+id/playlist_playasaudio_off"
