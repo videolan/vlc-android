@@ -138,6 +138,11 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         setFabPlayVisibility(false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        savedSelection.clear()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         getMultiHelper()?.let {
             outState.putParcelable(KEY_SELECTION, SparseBooleanArrayParcelable(it.selectionMap))
