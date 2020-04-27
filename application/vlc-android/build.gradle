@@ -69,6 +69,7 @@ android {
         debug {
             buildConfigField "boolean", "BETA", "false"
             buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
+            resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".debug.tv"
             multiDexEnabled true
         }
         signedRelease {
