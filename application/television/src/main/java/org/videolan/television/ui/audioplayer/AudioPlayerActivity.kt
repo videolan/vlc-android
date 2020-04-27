@@ -41,20 +41,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.AndroidDevices
 import org.videolan.television.R
+import org.videolan.television.databinding.TvAudioPlayerBinding
+import org.videolan.television.ui.browser.BaseTvActivity
+import org.videolan.tools.Settings
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.MediaComparators
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.resources.AndroidDevices
-import org.videolan.television.databinding.TvAudioPlayerBinding
-import org.videolan.tools.Settings
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.lang.Runnable
-import java.util.*
+import kotlin.math.abs
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -202,12 +202,12 @@ class AudioPlayerActivity : BaseTvActivity() {
 
         val dpadx = event.getAxisValue(MotionEvent.AXIS_HAT_X)
         val dpady = event.getAxisValue(MotionEvent.AXIS_HAT_Y)
-        if (inputDevice == null || Math.abs(dpadx) == 1.0f || Math.abs(dpady) == 1.0f) return false
+        if (inputDevice == null || abs(dpadx) == 1.0f || abs(dpady) == 1.0f) return false
 
         val x = AndroidDevices.getCenteredAxis(event, inputDevice,
                 MotionEvent.AXIS_X)
 
-        if (Math.abs(x) > 0.3 && System.currentTimeMillis() - lastMove > JOYSTICK_INPUT_DELAY) {
+        if (abs(x) > 0.3 && System.currentTimeMillis() - lastMove > JOYSTICK_INPUT_DELAY) {
             seek(if (x > 0.0f) 10000 else -10000)
             lastMove = System.currentTimeMillis()
             return true
@@ -233,11 +233,11 @@ class AudioPlayerActivity : BaseTvActivity() {
 
     private fun setShuffleMode(shuffle: Boolean) {
         shuffling = shuffle
-        val medias = model.medias ?: return
+        val medias = model.medias?.toMutableList() ?: return
         if (shuffle)
-            Collections.shuffle(medias)
+            medias.shuffle()
         else
-            Collections.sort(medias, MediaComparators.BY_TRACK_NUMBER)
+            medias.sortWith(MediaComparators.BY_TRACK_NUMBER)
         model.load(medias, 0)
     }
 
