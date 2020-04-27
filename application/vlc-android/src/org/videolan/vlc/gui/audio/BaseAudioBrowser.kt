@@ -320,7 +320,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         val flags: Long = when (item.itemType) {
             MediaLibraryItem.TYPE_MEDIA -> CTX_TRACK_FLAGS
-            MediaLibraryItem.TYPE_PLAYLIST -> CTX_PLAYLIST_FLAGS
+            MediaLibraryItem.TYPE_PLAYLIST, MediaLibraryItem.TYPE_ALBUM -> CTX_PLAYLIST_ALBUM_FLAGS
             else -> CTX_AUDIO_FLAGS
         }
         if (actionMode == null) showContext(requireActivity(), this, position, item.title, flags)

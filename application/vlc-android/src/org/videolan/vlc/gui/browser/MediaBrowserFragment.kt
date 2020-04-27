@@ -36,6 +36,7 @@ import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -137,7 +138,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         val view = view ?: return false
         when (item) {
             is Playlist -> lifecycleScope.snackerConfirm(view, getString(R.string.confirm_delete_playlist, item.title)) { MediaUtils.deletePlaylist(item) }
-            is MediaWrapper -> {
+            is MediaWrapper-> {
                 val deleteAction = Runnable {
                     if (isStarted()) lifecycleScope.launch {
                         if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
@@ -145,6 +146,15 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                 }
                 val resid = if (item.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
                 lifecycleScope.snackerConfirm(view, getString(resid, item.getTitle())) { if (Permissions.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() }
+            }
+            is Album -> {
+                val deleteAction = Runnable {
+                    if (isStarted()) lifecycleScope.launch {
+                        if (!MediaUtils.deleteMedia(item, null)) onDeleteFailed(item)
+                    }
+                }
+                val resid = R.string.confirm_delete_album
+                lifecycleScope.snackerConfirm(view, getString(resid, item.getTitle())) { if (item.tracks.any { Permissions.checkWritePermission(requireActivity(), it, deleteAction) }) deleteAction.run() }
             }
             else -> return false
         }

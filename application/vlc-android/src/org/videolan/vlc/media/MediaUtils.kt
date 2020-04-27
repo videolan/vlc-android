@@ -35,13 +35,13 @@ import org.videolan.tools.safeOffer
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DialogActivity
-import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideoGroupsProvider
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.min
@@ -89,6 +89,13 @@ object MediaUtils {
         }
         val mediaLibrary = Medialibrary.getInstance()
         for (folder in foldersToReload) mediaLibrary.reload(folder)
+        if (mw is Album) {
+            foldersToReload.forEach {
+                if (File(it).list().isNullOrEmpty()) {
+                    FileUtils.deleteFile(it)
+                }
+            }
+        }
         if (mediaPaths.isEmpty()) {
             failCB?.run()
             false
