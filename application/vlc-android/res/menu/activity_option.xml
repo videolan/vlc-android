@@ -103,16 +103,18 @@
         <menu>
             <item
                     android:orderInCategory="2"
-                    android:id="@+id/video_min_group_length_disable"
-                    android:title="@string/video_min_group_length_disable" />
+                    android:id="@+id/video_min_group_length_name"
+                    android:title="@string/video_min_group_length_name" />
             <item
                     android:orderInCategory="2"
                     android:id="@+id/video_min_group_length_folder"
                     android:title="@string/video_min_group_length_folder" />
             <item
                     android:orderInCategory="2"
-                    android:id="@+id/video_min_group_length_name"
-                    android:title="@string/video_min_group_length_name" />
+                    android:id="@+id/video_min_group_length_disable"
+                    android:title="@string/video_min_group_length_disable" />
+
+
         </menu>
     </item>
     <item
