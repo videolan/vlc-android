@@ -92,6 +92,7 @@ class RenameDialog(private val listener: (String) -> Unit) : VLCBottomSheetDialo
         val view = inflater.inflate(R.layout.dialog_rename, container)
         newNameInputtext = view.findViewById(R.id.new_name)
         renameButton = view.findViewById(R.id.rename_button)
+        if (media.title.isNotEmpty()) newNameInputtext.setText(media.title)
         renameButton.setOnClickListener {
             performRename()
         }
