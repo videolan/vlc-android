@@ -12,15 +12,15 @@
             android:icon="@drawable/ic_am_append"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_videogroup_add_playlist"
-        android:title="@string/add_to_playlist"
-            android:icon="@drawable/ic_am_addtoplaylist"
-        app:showAsAction="always"/>
-    <item
             android:id="@+id/action_add_to_group"
             android:title="@string/add_to_group"
             android:icon="@drawable/ic_add_to_group"
-            app:showAsAction="ifRoom" />
+            app:showAsAction="always" />
+    <item
+            android:id="@+id/action_videogroup_add_playlist"
+            android:title="@string/add_to_playlist"
+            android:icon="@drawable/ic_am_addtoplaylist"
+            app:showAsAction="ifRoom"/>
     <item
             android:id="@+id/action_ungroup"
             android:title="@string/ungroup"
