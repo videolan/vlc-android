@@ -114,6 +114,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
             updateEmptyView()
             restoreMultiSelectHelper()
+            if (viewModel.group != null && it.size < 2) requireActivity().finish()
         })
 
         viewModel.provider.loading.observe(this, Observer { loading ->
@@ -135,6 +136,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val displayInCards = settings.getBoolean("video_display_in_cards", true)
         menu.findItem(R.id.ml_menu_display_grid).isVisible = !displayInCards
         menu.findItem(R.id.ml_menu_display_list).isVisible = displayInCards
+        menu.findItem(R.id.rename_group).isVisible = viewModel.group != null
+        menu.findItem(R.id.ungroup).isVisible = viewModel.group != null
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -174,6 +177,14 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     }
                     changeGroupingType(VideoGroupingType.NAME)
                 }
+                true
+            }
+            R.id.rename_group -> {
+                viewModel.group?.let { renameGroup(it) }
+                true
+            }
+            R.id.ungroup -> {
+                viewModel.group?.let { viewModel.ungroup(it) }
                 true
             }
             else -> super.onOptionsItemSelected(item)
