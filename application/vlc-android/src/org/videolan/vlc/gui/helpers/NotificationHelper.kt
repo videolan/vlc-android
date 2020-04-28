@@ -54,8 +54,8 @@ object NotificationHelper {
 
     fun createPlaybackNotification(ctx: Context, video: Boolean, title: String, artist: String,
                                    album: String, cover: Bitmap?, playing: Boolean, pausable: Boolean,
-                                   sessionToken: MediaSessionCompat.Token,
-                                   spi: PendingIntent): Notification {
+                                   sessionToken: MediaSessionCompat.Token?,
+                                   spi: PendingIntent?): Notification {
 
         val piStop = MediaButtonReceiver.buildMediaButtonPendingIntent(ctx, PlaybackStateCompat.ACTION_STOP)
         val builder = NotificationCompat.Builder(ctx, PLAYBACK_SERVICE_CHANNEL_ID)
@@ -71,11 +71,11 @@ object NotificationHelper {
                 .setOngoing(playing)
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setDeleteIntent(piStop)
-                .setContentIntent(spi)
                 .addAction(NotificationCompat.Action(
                         R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous),
                         MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
                                 PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)))
+        spi?.let { builder.setContentIntent(it) }
         if (pausable) {
             if (playing) builder.addAction(NotificationCompat.Action(
                         R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause),
@@ -94,12 +94,12 @@ object NotificationHelper {
                     R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop))
 
         if (AndroidDevices.showMediaStyle) {
-            builder.setStyle(androidx.media.app.NotificationCompat.MediaStyle()
-                    .setMediaSession(sessionToken)
+            val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
                     .setShowActionsInCompactView(0, 1, 2)
                     .setShowCancelButton(true)
                     .setCancelButtonIntent(piStop)
-            )
+            sessionToken?.let { mediaStyle.setMediaSession(it) }
+            builder.setStyle(mediaStyle)
         }
         return builder.build()
     }
