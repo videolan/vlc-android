@@ -1,6 +1,8 @@
 package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -22,7 +24,7 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
         medialibrary.getVideoGroups(sort, desc, loadSize, startposition)
     } else {
         medialibrary.searchVideoGroups(model.filterQuery, sort, desc, loadSize, startposition)
-    }.extractSingles().also { if (Settings.showTvUi)completeHeaders(it, startposition) }
+    }.extractSingles().also { if (Settings.showTvUi) completeHeaders(it, startposition) }
 }
 
 private fun Array<VideoGroup>.extractSingles() = map {

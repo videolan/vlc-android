@@ -21,8 +21,11 @@
 package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Folder
+import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 
@@ -36,6 +39,5 @@ class FoldersProvider(context: Context, model: SortableModel, val type: Int) : M
         medialibrary.getFolders(type, sort, desc, loadSize, startposition).also { completeHeaders(it, startposition) }
     } else {
         medialibrary.searchFolders(model.filterQuery, sort, desc, loadSize, startposition)
-    }
-
+    }.also { if (Settings.showTvUi) completeHeaders(it, startposition) }
 }

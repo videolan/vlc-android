@@ -21,7 +21,9 @@
 package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.vlc.viewmodels.SortableModel
 
@@ -34,7 +36,8 @@ class ArtistsProvider(context: Context, model: SortableModel, var showAll: Boole
     override fun getPage(loadSize: Int, startposition: Int): Array<Artist> {
         val list = if (model.filterQuery == null) medialibrary.getPagedArtists(showAll, sort, desc, loadSize, startposition)
         else medialibrary.searchArtist(model.filterQuery, sort, desc, loadSize, startposition)
-        return list.also { completeHeaders(it, startposition) }
+        model.viewModelScope.launch { completeHeaders(list, startposition) }
+        return list
     }
 
     override fun getTotalCount() = if (model.filterQuery == null) medialibrary.getArtistsCount(showAll)

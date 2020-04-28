@@ -21,7 +21,9 @@
 package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.Artist
@@ -59,7 +61,8 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, model: So
             is Genre -> parent.searchAlbums(model.filterQuery, sort, desc, loadSize, startposition)
             else -> medialibrary.searchAlbum(model.filterQuery, sort, desc, loadSize, startposition)
         }
-        return list.also { completeHeaders(it, startposition) }
+        model.viewModelScope.launch { completeHeaders(list, startposition) }
+        return list
     }
 
     override fun getTotalCount() = if (model.filterQuery == null) when(parent) {

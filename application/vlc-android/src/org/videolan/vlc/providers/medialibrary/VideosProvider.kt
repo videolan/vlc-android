@@ -21,7 +21,9 @@
 package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
@@ -56,7 +58,8 @@ class VideosProvider(val folder : Folder?, val group: VideoGroup?, context: Cont
             group !== null -> group.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
             else -> medialibrary.searchVideo(model.filterQuery, sort, desc, loadSize, startposition)
         }
-        return list.also { completeHeaders(it, startposition) }
+        model.viewModelScope.launch { completeHeaders(list, startposition) }
+        return list
     }
 
     override fun getAll(): Array<MediaWrapper> = when {
