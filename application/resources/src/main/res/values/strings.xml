@@ -8,23 +8,14 @@
     <string name="other">Other</string>
     <string name="sortby">Sort by…</string>
     <string name="sortby_name">Name</string>
-    <string name="sortby_name_desc">Name (desc)</string>
     <string name="sortby_filename">File name</string>
-    <string name="sortby_filename_desc">File name (desc)</string>
     <string name="sortby_artist_name">Artist name</string>
-    <string name="sortby_artist_name_desc">Artist name (desc)</string>
     <string name="sortby_album_name">Album name</string>
-    <string name="sortby_album_name_desc">Album name (desc)</string>
     <string name="sortby_length">Length</string>
-    <string name="sortby_length_desc">Length (desc)</string>
     <string name="sortby_date">Date</string>
-    <string name="sortby_date_desc">Date (desc)</string>
     <string name="sortby_last_modified_date">Recently added</string>
-    <string name="sortby_last_modified_date_desc">Recently added (desc)</string>
     <string name="sortby_media_number">Media number</string>
-    <string name="sortby_media_number_desc">Media number (desc)</string>
     <string name="sortby_number">Nb tracks</string>
-    <string name="sortby_number_desc">Nb tracks (desc)</string>
     <string name="searchable_hint">Search…</string>
     <string name="history">History</string>
 
