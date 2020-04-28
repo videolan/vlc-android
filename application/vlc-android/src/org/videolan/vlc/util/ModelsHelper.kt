@@ -107,7 +107,6 @@ object ModelsHelper {
 
     fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem?, aboveItem: MediaLibraryItem?) = if (context !== null && item != null) when (sort) {
         SORT_DEFAULT,
-        SORT_FILENAME,
         SORT_ALPHA -> {
             val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || item.isSpecialItem()) "#" else item.title.substring(0, 1).toUpperCase()
             if (aboveItem == null) letter
@@ -164,6 +163,16 @@ object ModelsHelper {
             else {
                 val previous = (aboveItem as MediaWrapper).album ?: ""
                 album.takeIf { it != previous }
+            }
+        }
+        SORT_FILENAME -> {
+            val title = FileUtils.getFileNameFromPath((item as? MediaWrapper)?.uri.toString())
+            val aboveTitle = FileUtils.getFileNameFromPath((aboveItem as? MediaWrapper)?.uri.toString())
+            val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || item.isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
+            if (aboveItem == null) letter
+            else {
+                val previous = if (aboveTitle.isEmpty() || !Character.isLetter(aboveTitle[0]) || aboveItem.isSpecialItem()) "#" else aboveTitle.substring(0, 1).toUpperCase()
+                letter.takeIf { it != previous }
             }
         }
         else -> null

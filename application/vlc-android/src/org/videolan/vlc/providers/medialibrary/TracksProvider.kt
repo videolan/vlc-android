@@ -38,7 +38,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, model: So
     override fun canSortByLastModified() = parent !is Playlist
     override fun canSortByReleaseDate() = parent !is Playlist
     override fun canSortByName() = parent !is Playlist
-    override fun canSortByFileNameName() = parent is Album
+    override fun canSortByFileNameName() = parent !is Playlist
     override fun canSortByTrackId() = parent is Album
 
     init {
