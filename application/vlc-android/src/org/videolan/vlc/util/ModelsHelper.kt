@@ -210,6 +210,7 @@ interface SortModule {
     fun canSortByAlbum ()= false
     fun canSortByPlayCount() = false
     fun canSortByTrackId() = false
+    fun canSortByMediaNumber() = false
     fun canSortBy(sort: Int) = when (sort) {
         SORT_DEFAULT -> true
         SORT_ALPHA -> canSortByName()
@@ -223,6 +224,7 @@ interface SortModule {
         SORT_ALBUM -> canSortByAlbum()
         SORT_PLAYCOUNT -> canSortByPlayCount()
         TrackId -> canSortByTrackId()
+        NbMedia -> canSortByMediaNumber()
         else -> false
     }
 }

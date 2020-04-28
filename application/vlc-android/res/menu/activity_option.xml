@@ -92,6 +92,11 @@
                     android:id="@+id/ml_menu_sortby_number"
                     android:title="@string/sortby_number"
                     android:visible="false"/>
+
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_media_number"
+                    android:title="@string/sortby_media_number" />
         </menu>
     </item>
     <item

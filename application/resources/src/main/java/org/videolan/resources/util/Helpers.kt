@@ -10,6 +10,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
+import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.R
@@ -45,6 +46,7 @@ fun MediaLibraryItem.isSpecialItem() = itemType == MediaLibraryItem.TYPE_ARTIST
 fun MediaLibraryItem.getLength() = when {
     itemType == MediaLibraryItem.TYPE_ALBUM -> (this as Album).duration
     itemType == MediaLibraryItem.TYPE_MEDIA -> (this as MediaWrapper).length
+    itemType == MediaLibraryItem.TYPE_VIDEO_GROUP -> (this as VideoGroup).duration()
     else -> 0L
 }
 

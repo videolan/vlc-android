@@ -205,6 +205,10 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                 sortBy(Medialibrary.SORT_ALBUM)
                 return true
             }
+            R.id.ml_menu_sortby_media_number -> {
+                sortBy(Medialibrary.NbMedia)
+                return true
+            }
             R.id.ml_menu_sortby_number -> {
                 sortBy(Medialibrary.SORT_FILESIZE) //TODO
                 return super.onOptionsItemSelected(item)

@@ -51,6 +51,7 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
     override fun canSortByArtist() = providers.any { it.canSortByArtist() }
     override fun canSortByAlbum () = providers.any { it.canSortByAlbum () }
     override fun canSortByPlayCount() = providers.any { it.canSortByPlayCount() }
+    override fun canSortByMediaNumber() = providers.any { it.canSortByMediaNumber() }
 }
 
 fun MedialibraryViewModel.prepareOptionsMenu(menu: Menu) {
@@ -61,6 +62,7 @@ fun MedialibraryViewModel.prepareOptionsMenu(menu: Menu) {
     menu.findItem(R.id.ml_menu_sortby_length).isVisible = canSortByDuration()
     menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
     menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
+    menu.findItem(R.id.ml_menu_sortby_media_number).isVisible = canSortByMediaNumber()
     menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
 }
 
