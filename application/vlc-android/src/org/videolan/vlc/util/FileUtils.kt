@@ -65,7 +65,7 @@ object FileUtils {
         fun onResult(success: Boolean)
     }
 
-    fun getFileNameFromPath(filePath: String?) =  filePath?.substringBeforeLast('/') ?: ""
+    fun getFileNameFromPath(filePath: String?) =  filePath?.substringAfterLast('/') ?: ""
 
     fun getParent(path: String?): String? {
         if (path == null || TextUtils.equals("/", path))
