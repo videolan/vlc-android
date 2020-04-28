@@ -37,6 +37,8 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.isStarted
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.SecondaryActivity
@@ -153,6 +155,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
         favoritesViewModel.favorites.observe(viewLifecycleOwner, Observer { list ->
             list?.let {
+                if (list.isEmpty()) favoritesEntry.setGone() else   favoritesEntry.setVisible()
                 favoritesAdapter.update(it)
                 favoritesEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             }
