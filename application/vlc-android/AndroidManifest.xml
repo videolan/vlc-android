@@ -65,7 +65,7 @@
             android:resource="@drawable/icon"/>
         <meta-data
             android:name="android.max_aspect"
-            android:value="3"/>
+            android:value="3.0"/>
         <meta-data
             android:name="android.allow_multiple_resumed_activities"
             android:value="true" />
