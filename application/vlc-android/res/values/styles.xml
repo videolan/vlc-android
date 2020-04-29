@@ -143,7 +143,7 @@
 
     <style name="Theme.VLC.Apearance.Black" parent="Theme.MaterialComponents.NoActionBar">
         <item name="marginTopContent">50dp</item>
-        <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="toolbar_popup_style">@style/ThemeOverlay.MaterialComponents.Dark</item>
 
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
