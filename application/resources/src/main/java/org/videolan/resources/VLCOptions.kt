@@ -166,14 +166,7 @@ object VLCOptions {
         var ret = deblocking
         if (deblocking < 0) {
             /**
-             * Set some reasonable sDeblocking defaults:
-             *
-             * Skip all (4) for armv6 and MIPS by default
-             * Skip non-ref (1) for all armv7 more than 1.2 Ghz and more than 2 cores
-             * Skip non-key (3) for all devices that don't meet anything above
-             */
-            /**
-             * Set some reasonable sDeblocking defaults:
+             * Set some reasonable deblocking defaults:
              *
              * Skip all (4) for armv6 and MIPS by default
              * Skip non-ref (1) for all armv7 more than 1.2 Ghz and more than 2 cores
