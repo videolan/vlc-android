@@ -2686,13 +2686,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private fun updateNavStatus() {
         if (service == null) return
-        isNavMenu = false
         menuIdx = -1
 
         runIO(Runnable {
             val titles = service?.titles
             runOnMainThread(Runnable {
                 if (isFinishing || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return@Runnable
+                isNavMenu = false
                 if (titles != null) {
                     val currentIdx = service?.titleIdx ?: return@Runnable
                     for (i in titles.indices) {
@@ -2702,7 +2702,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                             break
                         }
                     }
-                    isNavMenu = menuIdx == currentIdx
+                    val interactive = service?.mediaplayer?.let {
+                        it.titles[it.title].isInteractive
+                    } ?: false
+                    isNavMenu = menuIdx == currentIdx || interactive
+
                 }
 
                 if (isNavMenu) {
