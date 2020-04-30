@@ -467,6 +467,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     private fun renameGroup(media: VideoGroup) {
         RenameDialog.newInstance(media) { newName ->
             viewModel.renameGroup(media, newName)
+            (activity as? AppCompatActivity)?.run {
+                supportActionBar?.title = newName
+            }
         }.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
     }
 
