@@ -185,6 +185,7 @@ release:
     except:
         - branches
     script:
+        - ./buildsystem/compile.sh --init
         - ./gradlew assembleRelease
     artifacts:
         name: "${CI_COMMIT_TAG}"
