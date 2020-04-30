@@ -6,16 +6,16 @@
                                       android:title="@string/video_prefs_category">
     <CheckBoxPreference
             app:singleLineTitle="false"
-            android:defaultValue="false"
-            android:key="save_brightness"
-            android:summary="@string/save_brightness_summary"
-            android:title="@string/save_brightness_title"/>
-    <CheckBoxPreference
-            app:singleLineTitle="false"
             android:defaultValue="true"
             android:key="save_individual_audio_delay"
             android:summary="@string/save_audiodelay_summary"
             android:title="@string/save_audiodelay_title"/>
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="save_brightness"
+            android:summary="@string/save_brightness_summary"
+            android:title="@string/save_brightness_title"/>
     <CheckBoxPreference
             app:singleLineTitle="false"
             android:defaultValue="false"
