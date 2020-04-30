@@ -282,7 +282,7 @@
     <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
     <string name="remove_custom_path">Remove custom path</string>
     <string name="hardware_acceleration">Hardware Acceleration</string>
-    <string name="hardware_acceleration_summary">Disabled: better stability.\nDecoding: may improve performance.\nFull: may improve performance further.</string>
+    <string name="hardware_acceleration_summary">Disabled: better stability\nDecoding: may improve performance\nFull: may improve performance further</string>
     <string name="hardware_acceleration_disabled">Disabled</string>
     <string name="hardware_acceleration_decoding">Decoding acceleration</string>
     <string name="hardware_acceleration_full">Full acceleration</string>
@@ -301,7 +301,7 @@
     <string name="screen_orientation_reverse_portrait">Reverse portrait</string>
     <string name="screen_orientation_reverse_landscape">Reverse landscape</string>
     <string name="enable_black_theme">Black theme</string>
-    <string name="enable_black_theme_summary">Change the interface colors for better comfort in low light environments.</string>
+    <string name="enable_black_theme_summary">Change the interface colors for better comfort in low light environments</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="daynight_title">DayNight mode</string>
     <string name="daynight_follow_system_title">Follow system mode</string>
@@ -313,9 +313,9 @@
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_gui">Display</string>
     <string name="interface_secondary_display_category_title">Secondary display</string>
-    <string name="interface_secondary_display_category_summary">Settings when secondary displays are connected (HDMI/Chromecast).</string>
+    <string name="interface_secondary_display_category_summary">Settings when secondary displays are connected (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Prefer clone</string>
-    <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
+    <string name="enable_clone_mode_summary">Clone the device screen without remote control</string>
     <string name="interface_other_category">Interface - Other</string>
 
     <string name="video_prefs_category">Video</string>
@@ -388,9 +388,9 @@
     <string name="enable_play_on_headset_insertion">Resume on headset insertion</string>
     <string name="enable_play_on_headset_insertion_summary">Pause otherwise</string>
     <string name="enable_steal_remote_control">Exclusive headset remote control</string>
-    <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
+    <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps which prevents dialing on double click on HTC phones</string>
     <string name="aout">Audio output</string>
-    <string name="aout_summary">Change the method that VLC uses to output audio.</string>
+    <string name="aout_summary">Change the method that VLC uses to output audio</string>
     <string name="aout_audiotrack" translatable="false">AudioTrack</string>
     <string name="aout_opensles" translatable="false">OpenSL ES</string>
     <string name="audio_ducking_title">Lower VLC volume on notifications</string>
@@ -421,17 +421,17 @@
 
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Force video chroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices. Android 2.3 and later only.</string>
+    <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices (Android 2.3 and later only)</string>
     <string name="deblocking">Deblocking filter settings</string>
-    <string name="deblocking_summary">Change the deblocking filter settings. Could improve video quality. Advanced users only.</string>
+    <string name="deblocking_summary">Changing the deblocking filter settings could improve video quality (advanced users only)</string>
     <string name="deblocking_always">Full deblocking (slowest)</string>
     <string name="deblocking_nonref">Medium deblocking</string>
     <string name="deblocking_nonkey">Low deblocking</string>
     <string name="deblocking_all">No deblocking (fastest)</string>
     <string name="enable_frame_skip">Frame skip</string>
-    <string name="enable_frame_skip_summary">Speed up decoding but could lower video quality.</string>
+    <string name="enable_frame_skip_summary">Speed up decoding but could lower video quality</string>
     <string name="enable_time_stretching_audio">Time-stretching audio</string>
-    <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device).</string>
+    <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device)</string>
 
     <string name="advanced_prefs_category">Advanced</string>
     <string name="save_video_none">Do not save speed</string>
@@ -449,7 +449,7 @@
     <string name="set_locale_detail">Leave blank to reset</string>
     <string name="set_locale_popup">Quit and restart VLC for changes to take effect.</string>
     <string name="network_caching">Network caching value</string>
-    <string name="network_caching_summary">The amount of time to buffer network media (in ms). Does not work with hardware decoding. Leave blank to reset.</string>
+    <string name="network_caching_summary">The amount of time to buffer network media (in ms) for software decoding\nLeave blank to reset</string>
     <string name="resume_playback_title">Resume playback after a call</string>
     <string name="resume_playback_summary">Stay in pause otherwise</string>
     <string name="blurred_cover_background_title">Blurred cover background</string>
@@ -561,7 +561,7 @@
     <string name="extension_empty">No item to display, go to your extension settings to get some.</string>
 
     <string name="opengl_title">OpenGL ES2 usage</string>
-    <string name="opengl_summary">By default, OpenGL ES2 is used for software decoding and hardware decoding when needed (360° videos).</string>
+    <string name="opengl_summary">By default, OpenGL ES2 is used for software decoding and hardware decoding when needed (360° videos)</string>
     <string name="opengl_automatic">Automatic</string>
     <string name="opengl_on">Force On</string>
     <string name="opengl_off">Force Off</string>
