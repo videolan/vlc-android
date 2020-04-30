@@ -129,6 +129,7 @@ class EmptyLoadingStateView : FrameLayout {
     }
 
     private fun applyCompactMode() {
+        if (!::container.isInitialized) return
         TransitionManager.beginDelayedTransition(container)
         if (compactMode) compactConstraintSet.applyTo(container) else normalConstraintSet.applyTo(container)
         emptyTextView.gravity = if (compactMode) Gravity.START else Gravity.CENTER
