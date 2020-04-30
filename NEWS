@@ -1,3 +1,13 @@
+Changes between 3.2.11 and 3.2.12:
+------------------
+
+Application:
+ * Fix TV player button focus state and order
+ * Fix app not launching if installed on SD card on some Android versions
+ * Improve DVD/BD menu support
+ * Fix crash in audio category
+
+
 Changes between 3.2.10 and 3.2.11:
 ------------------
 
