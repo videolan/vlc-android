@@ -42,6 +42,7 @@
         <item name="item_footer">@color/grey300</item>
         <item name="background_default">@color/white</item>
         <item name="bottom_navigation_background">@drawable/bottom_navigation_background</item>
+        <item name="bottom_sheet_background">@color/white</item>
         <item name="bottom_navigation_color">@color/grey700</item>
         <item name="progress_indeterminate_tint">@color/white</item>
         <item name="header_background">@color/whitetransparent_ea</item>
@@ -168,6 +169,7 @@
         <item name="actionModeBackground">@color/grey875</item>
         <item name="background_default">@color/black</item>
         <item name="bottom_navigation_background">@drawable/bottom_navigation_background_dark</item>
+        <item name="bottom_sheet_background">@color/grey875</item>
         <item name="bottom_navigation_color">@color/grey500</item>
         <item name="header_background">@color/blacktransparent</item>
         <item name="background_default_darker">@color/grey875</item>
