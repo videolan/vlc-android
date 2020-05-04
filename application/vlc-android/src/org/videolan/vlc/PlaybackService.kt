@@ -759,7 +759,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     private fun hideNotification(remove: Boolean): Boolean {
         notificationShowing = false
-        return cbActor.safeOffer(HideNotification(remove))
+        return if (::cbActor.isInitialized) cbActor.safeOffer(HideNotification(remove)) else false
     }
 
     private fun hideNotificationInternal(remove: Boolean) {
