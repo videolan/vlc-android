@@ -124,7 +124,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
         return -1; \
     } \
     if (b_globlal) { \
+        jclass local_class = (clazz); \
         (clazz) = (jclass) (*env)->NewGlobalRef(env, (clazz)); \
+        (*env)->DeleteLocalRef(env, local_class); \
         if (!(clazz)) { \
             LOGE("NewGlobalRef(%s) failed", (str)); \
             return -1; \
@@ -147,6 +149,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetStaticFieldID, SDK_INT_fieldID, Version_clazz, "SDK_INT", "I");
     fields.SDK_INT = (*env)->GetStaticIntField(env, Version_clazz,
                                                SDK_INT_fieldID);
+    (*env)->DeleteLocalRef(env, Version_clazz);
 
     GET_CLASS(fields.IllegalStateException.clazz,
               "java/lang/IllegalStateException", true);
@@ -348,8 +351,21 @@ void JNI_OnUnload(JavaVM* vm, void* reserved)
     (*env)->DeleteGlobalRef(env, fields.RuntimeException.clazz);
     (*env)->DeleteGlobalRef(env, fields.OutOfMemoryError.clazz);
     (*env)->DeleteGlobalRef(env, fields.String.clazz);
+    (*env)->DeleteGlobalRef(env, fields.FileDescriptor.clazz);
     (*env)->DeleteGlobalRef(env, fields.VLCObject.clazz);
     (*env)->DeleteGlobalRef(env, fields.Media.clazz);
+    (*env)->DeleteGlobalRef(env, fields.Media.Track.clazz);
+    (*env)->DeleteGlobalRef(env, fields.Media.Slave.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.Title.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.Chapter.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.TrackDescription.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.Equalizer.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaDiscoverer.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaDiscoverer.Description.clazz);
+    (*env)->DeleteGlobalRef(env, fields.RendererDiscoverer.clazz);
+    (*env)->DeleteGlobalRef(env, fields.RendererDiscoverer.Description.clazz);
+    (*env)->DeleteGlobalRef(env, fields.Dialog.clazz);
 
     pthread_key_delete(jni_env_key);
 
