@@ -46,6 +46,7 @@ import org.videolan.television.ui.TvUtil.diffCallback
 import org.videolan.television.ui.TvUtil.metadataDiffCallback
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
+import org.videolan.television.ui.preferences.PreferencesActivity
 import org.videolan.vlc.reloadLibrary
 import org.videolan.television.viewmodel.MainTvModel
 import org.videolan.television.viewmodel.MainTvModel.Companion.getMainTvModel
@@ -115,7 +116,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         val ctx = requireActivity()
         rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
         // Now Playing
-        nowPlayingAdapter = ArrayObjectAdapter(org.videolan.television.ui.CardPresenter(ctx))
+        nowPlayingAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val nowPlayingHeader = HeaderItem(HEADER_NOW_PLAYING, getString(R.string.music_now_playing))
         nowPlayingRow = ListRow(nowPlayingHeader, nowPlayingAdapter)
         rowsAdapter.add(nowPlayingRow)
@@ -130,40 +131,40 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         recentlyAdddedRow = ListRow(recentlyAddedHeader, recentlyAddedAdapter)
         rowsAdapter.add(recentlyAdddedRow)
         // Video
-        videoAdapter = ArrayObjectAdapter(org.videolan.television.ui.CardPresenter(ctx))
+        videoAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val videoHeader = HeaderItem(0, getString(R.string.video))
         videoRow = ListRow(videoHeader, videoAdapter)
         rowsAdapter.add(videoRow)
         // Audio
-        categoriesAdapter = ArrayObjectAdapter(org.videolan.television.ui.CardPresenter(ctx))
+        categoriesAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val musicHeader = HeaderItem(HEADER_CATEGORIES, getString(R.string.audio))
         audioRow = ListRow(musicHeader, categoriesAdapter)
         rowsAdapter.add(audioRow)
         //History
 
         // Playlists
-        playlistAdapter = ArrayObjectAdapter(org.videolan.television.ui.CardPresenter(ctx))
+        playlistAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val playlistHeader = HeaderItem(HEADER_PLAYLISTS, getString(R.string.playlists))
         playlistRow = ListRow(playlistHeader, playlistAdapter)
 //        rowsAdapter.add(playlistRow)
 
         //Browser section
-        browserAdapter = ArrayObjectAdapter(org.videolan.television.ui.CardPresenter(ctx))
+        browserAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val browserHeader = HeaderItem(HEADER_NETWORK, getString(R.string.browsing))
         browsersRow = ListRow(browserHeader, browserAdapter)
         rowsAdapter.add(browsersRow)
         //Misc. section
-        otherAdapter = ArrayObjectAdapter(org.videolan.television.ui.GenericCardPresenter(ctx))
+        otherAdapter = ArrayObjectAdapter(GenericCardPresenter(ctx))
         val miscHeader = HeaderItem(HEADER_MISC, getString(R.string.other))
 
-        otherAdapter.add(org.videolan.television.ui.GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_menu_preferences_big, R.color.tv_card_content_dark))
-        otherAdapter.add(org.videolan.television.ui.GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_menu_tv_scan, R.color.tv_card_content_dark))
-        otherAdapter.add(org.videolan.television.ui.GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content_dark))
-        otherAdapter.add(org.videolan.television.ui.GenericCardItem(ID_LICENCE, getString(R.string.licence), "", R.drawable.ic_menu_open_source, R.color.tv_card_content_dark))
+        otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_menu_preferences_big, R.color.tv_card_content_dark))
+        otherAdapter.add(GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_menu_tv_scan, R.color.tv_card_content_dark))
+        otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content_dark))
+        otherAdapter.add(GenericCardItem(ID_LICENCE, getString(R.string.licence), "", R.drawable.ic_menu_open_source, R.color.tv_card_content_dark))
         miscRow = ListRow(miscHeader, otherAdapter)
         rowsAdapter.add(miscRow)
 
-        historyAdapter = ArrayObjectAdapter(org.videolan.television.ui.CardPresenter(requireActivity()))
+        historyAdapter = ArrayObjectAdapter(CardPresenter(requireActivity()))
         val historyHeader = HeaderItem(HEADER_HISTORY, getString(R.string.history))
         historyRow = ListRow(historyHeader, historyAdapter)
 
@@ -274,7 +275,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         val media = selectedItem as? MediaWrapper
                 ?: return false
         if (media.type != MediaWrapper.TYPE_DIR) return false
-        val intent = Intent(requireActivity(), org.videolan.television.ui.DetailsActivity::class.java)
+        val intent = Intent(requireActivity(), DetailsActivity::class.java)
         // pass the item information
         intent.putExtra("media", media)
         intent.putExtra("item", MediaItemDetails(media.title, media.artist, media.album, media.location, media.artworkURL))
@@ -286,25 +287,26 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         val activity = requireActivity()
         when (row?.id) {
             HEADER_CATEGORIES -> {
-                if ((item as DummyItem).id == CATEGORY_NOW_PLAYING) { //NOW PLAYING CARD
-                    activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
-                    return
-                }
                 val intent = Intent(activity, VerticalGridActivity::class.java)
-                intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
-                intent.putExtra(CATEGORY, item.id)
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
+                intent.putExtra(CATEGORY, (item as DummyItem).id)
                 activity.startActivity(intent)
             }
             HEADER_MISC -> {
-                when ((item as org.videolan.television.ui.GenericCardItem).id) {
-                    ID_SETTINGS -> activity.startActivityForResult(Intent(activity, org.videolan.television.ui.preferences.PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
+                when ((item as GenericCardItem).id) {
+                    ID_SETTINGS -> activity.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
                     ID_REFRESH -> {
                         if (!Medialibrary.getInstance().isWorking) {
                             requireActivity().reloadLibrary()
                         }
                     }
-                    ID_ABOUT_TV -> activity.startActivity(Intent(activity, org.videolan.television.ui.AboutActivity::class.java))
-                    ID_LICENCE -> startActivity(Intent(activity, org.videolan.television.ui.LicenceActivity::class.java))
+                    ID_ABOUT_TV -> activity.startActivity(Intent(activity, AboutActivity::class.java))
+                    ID_LICENCE -> startActivity(Intent(activity, LicenceActivity::class.java))
+                }
+            }
+            HEADER_NOW_PLAYING -> {
+                if ((item as DummyItem).id == CATEGORY_NOW_PLAYING) { //NOW PLAYING CARD
+                    activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
                 }
             }
             else -> {
