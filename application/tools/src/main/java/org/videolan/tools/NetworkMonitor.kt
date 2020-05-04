@@ -31,6 +31,22 @@ class NetworkMonitor(private val context: Context) : LifecycleObserver {
         get() = connection.value.run { connected && !mobile }
     val lanAllowed : Boolean
         get() = connection.value.run { connected && (!mobile || vpn) }
+    val receiver = object : BroadcastReceiver() {
+        @SuppressLint("MissingPermission")
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.action) {
+                ConnectivityManager.CONNECTIVITY_ACTION -> {
+                    val networkInfo = cm.activeNetworkInfo
+                    val isConnected = networkInfo != null && networkInfo.isConnected
+                    val isMobile = isConnected && networkInfo!!.type == ConnectivityManager.TYPE_MOBILE
+                    val isVPN = isConnected && updateVPNStatus()
+                    val conn = Connection(isConnected, isMobile, isVPN)
+                    if (connection.value != conn) connection.offer(conn)
+                }
+
+            }
+        }
+    }
 
     init {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this@NetworkMonitor)
@@ -78,22 +94,6 @@ class NetworkMonitor(private val context: Context) : LifecycleObserver {
         }
     }
 
-    val receiver = object : BroadcastReceiver() {
-        @SuppressLint("MissingPermission")
-        override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.action) {
-                ConnectivityManager.CONNECTIVITY_ACTION -> {
-                    val networkInfo = cm.activeNetworkInfo
-                    val isConnected = networkInfo != null && networkInfo.isConnected
-                    val isMobile = isConnected && networkInfo!!.type == ConnectivityManager.TYPE_MOBILE
-                    val isVPN = isConnected && updateVPNStatus()
-                    val conn = Connection(isConnected, isMobile, isVPN)
-                    if (connection.value != conn) connection.offer(conn)
-                }
-
-            }
-        }
-    }
     companion object : SingletonHolder<NetworkMonitor, Context>({ NetworkMonitor(it.applicationContext) })
 }
 
