@@ -24,6 +24,8 @@
 package org.videolan.vlc.gui
 
 import android.content.Intent
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
@@ -92,6 +94,14 @@ class SecondaryActivity : ContentActivity() {
                     .add(R.id.fragment_placeholder, fragment!!)
                     .commit()
         }
+    }
+
+    //Workaround to avoid a crash with webviews. See https://stackoverflow.com/a/60854445/2732052 and https://stackoverflow.com/a/58131421/2732052
+    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+        if (Build.VERSION.SDK_INT in 21..25 && (resources.configuration.uiMode ==  applicationContext.resources.configuration.uiMode)) {
+            return
+        }
+        super.applyOverrideConfiguration(overrideConfiguration)
     }
 
     override fun forceLoadVideoFragment() {

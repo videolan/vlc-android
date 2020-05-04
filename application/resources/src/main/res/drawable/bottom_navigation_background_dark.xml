@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ *************************************************************************
-  ~  bottom_navigation_background.xml
+  ~  bottom_navigation_background_dark.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -30,7 +30,7 @@
     </item>
     <item android:top="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/white" />
+            <solid android:color="@color/grey875" />
         </shape>
     </item>
 </layer-list>
