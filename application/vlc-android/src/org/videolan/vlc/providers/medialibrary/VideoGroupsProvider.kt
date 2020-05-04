@@ -14,7 +14,7 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
     override fun canSortByLastModified() = true
     override fun canSortByMediaNumber() = true
 
-    override fun getAll() : Array<MediaLibraryItem> = medialibrary.getVideoGroups(sort, desc, getTotalCount(), 0).extractSingles()
+    override fun getAll() : Array<VideoGroup> = medialibrary.getVideoGroups(sort, desc, getTotalCount(), 0)
 
     override fun getTotalCount() = medialibrary.getVideoGroupsCount(model.filterQuery)
 

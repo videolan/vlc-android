@@ -83,8 +83,8 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     }
 
     // Folders & Groups
-    internal suspend fun play(position: Int) {
-        val item = provider.pagedList.value?.get(position) ?: return
+    internal fun play(position: Int) = viewModelScope.launch {
+        val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
             when (item) {
                 is Folder -> item.getAll()
@@ -94,8 +94,8 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         }?.let { MediaUtils.openList(context, it, 0) }
     }
 
-    internal suspend fun append(position: Int) {
-        val item = provider.pagedList.value?.get(position) ?: return
+    internal fun append(position: Int) = viewModelScope.launch {
+        val item = provider.pagedList.value?.get(position) ?: return@launch
         withContext(Dispatchers.IO) {
             when (item) {
                 is Folder -> item.getAll()
@@ -131,7 +131,11 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         val settings = Settings.getInstance(context)
         if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
-            MediaUtils.playAll(context, provider as VideosProvider, position, false)
+            when(val prov = provider) {
+                is VideosProvider -> MediaUtils.playAll(context, prov, position, false)
+                is FoldersProvider -> MediaUtils.playAllTracks(context, prov, position, false)
+                is VideoGroupsProvider -> MediaUtils.playAllTracks(context, prov, position, false)
+            }
         } else {
             if (fromStart) mw.addFlags(MediaWrapper.MEDIA_FROM_START)
             MediaUtils.openMedia(context, mw)

@@ -429,7 +429,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             is MediaWrapper -> when (option) {
                 CTX_PLAY_FROM_START -> viewModel.playVideo(activity, media, position, true)
                 CTX_PLAY_AS_AUDIO -> viewModel.playAudio(activity, media)
-                CTX_PLAY_ALL -> MediaUtils.playAll(activity, viewModel.provider as VideosProvider, position, false)
+                CTX_PLAY_ALL -> viewModel.play(position)
                 CTX_INFORMATION -> showInfoDialog(media)
                 CTX_DELETE -> removeItem(media)
                 CTX_APPEND -> MediaUtils.appendMedia(activity, media)
@@ -450,13 +450,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
             }
             is Folder -> when (option) {
-                CTX_PLAY -> lifecycleScope.launch { viewModel.play(position) }
-                CTX_APPEND -> lifecycleScope.launch { viewModel.append(position) }
+                CTX_PLAY -> viewModel.play(position)
+                CTX_APPEND -> viewModel.append(position)
                 CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
             }
             is VideoGroup -> when (option) {
-                CTX_PLAY -> lifecycleScope.launch { viewModel.play(position) }
-                CTX_APPEND -> lifecycleScope.launch { viewModel.append(position) }
+                CTX_PLAY -> viewModel.play(position)
+                CTX_APPEND -> viewModel.append(position)
                 CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
                 CTX_RENAME_GROUP -> renameGroup(media)
                 CTX_UNGROUP -> viewModel.ungroup(media)
@@ -483,7 +483,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         }
     }
 
-    private suspend fun VideoAction.process() {
+    private fun VideoAction.process() {
         when (this) {
             is VideoClick -> {
                 onClick(position, item)
@@ -519,7 +519,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (actionMode == null) startActionMode()
     }
 
-    private suspend fun onClick(position: Int, item: MediaLibraryItem) {
+    private fun onClick(position: Int, item: MediaLibraryItem) {
         when (item) {
             is MediaWrapper -> {
                 if (actionMode != null) {

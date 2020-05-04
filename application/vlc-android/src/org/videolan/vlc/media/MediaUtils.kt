@@ -236,7 +236,9 @@ object MediaUtils {
             when (count) {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
-                    provider.getAll().toList()
+                    provider.getAll().flatMap {
+                        it.media(Medialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
+                    }
                 })
                 else -> {
                     var index = 0

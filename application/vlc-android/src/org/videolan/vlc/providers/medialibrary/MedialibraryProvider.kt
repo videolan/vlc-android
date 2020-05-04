@@ -71,7 +71,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
 
     abstract fun getTotalCount(): Int
     abstract fun getPage(loadSize: Int, startposition: Int): Array<T>
-    abstract fun getAll(): Array<T>
+    abstract fun getAll(): Array<out T>
 
     override fun sort(sort: Int) {
         if (canSortBy(sort)) {
