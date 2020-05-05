@@ -272,20 +272,22 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
             extensionManagerService?.stopSelf()
             return
         }
-        val extensionGroup = navigationView.menu.findItem(R.id.extensions_group)
-        extensionGroup.subMenu.clear()
-        for (id in plugins.indices) {
-            val extension = plugins[id]
-            val key = "extension_" + extension.componentName().packageName
-            if (settings.contains(key)) {
-                extensionsManager.displayPlugin(activity, id, extension, settings.getBoolean(key, false))
-            } else {
-                extensionsManager.showExtensionPermissionDialog(activity, id, extension, key)
-            }
-        }
-        if (extensionGroup.subMenu.size() == 0) extensionGroup.isVisible = false
-        onPluginsLoaded()
-        navigationView.invalidate()
+       navigationView.menu.findItem(R.id.extensions_group)?.let { extensionGroup->
+           extensionGroup.subMenu.clear()
+           for (id in plugins.indices) {
+               val extension = plugins[id]
+               val key = "extension_" + extension.componentName().packageName
+               if (settings.contains(key)) {
+                   extensionsManager.displayPlugin(activity, id, extension, settings.getBoolean(key, false))
+               } else {
+                   extensionsManager.showExtensionPermissionDialog(activity, id, extension, key)
+               }
+           }
+           if (extensionGroup.subMenu.size() == 0) extensionGroup.isVisible = false
+           onPluginsLoaded()
+           navigationView.invalidate()
+       }
+
     }
 
     private fun onPluginsLoaded() {
