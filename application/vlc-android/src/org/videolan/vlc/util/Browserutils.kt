@@ -28,7 +28,11 @@ import org.videolan.vlc.mediadb.models.BrowserFav
 import java.io.File
 
 fun isSchemeSupported(scheme: String?) = when(scheme) {
-    "file", "smb", "ssh", "nfs", "content" -> true
+    "file", "smb", "ssh", "nfs", "ftp", "ftps", "content" -> true
+    else -> false
+}
+fun String?.isSchemeNetwork() = when(this) {
+    "smb", "ssh", "nfs", "ftp", "ftps" -> true
     else -> false
 }
 

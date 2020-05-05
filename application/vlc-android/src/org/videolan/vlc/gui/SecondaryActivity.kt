@@ -34,22 +34,28 @@ import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.KEY_FOLDER
 import org.videolan.resources.KEY_GROUP
 import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.RESULT_RESCAN
 import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.isValidUrl
+import org.videolan.tools.removeFileProtocole
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.FileBrowserFragment
 import org.videolan.vlc.gui.browser.KEY_MEDIA
+import org.videolan.vlc.gui.browser.NetworkBrowserFragment
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.isSchemeNetwork
+import org.videolan.vlc.util.validateLocation
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -155,9 +161,12 @@ class SecondaryActivity : ContentActivity() {
                 setResult(RESULT_RESTART)
             }
             FILE_BROWSER -> {
-                fragment = FileBrowserFragment().apply {
+                val media = intent.getParcelableExtra(KEY_MEDIA) as MediaWrapper
+                fragment = if(media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
+                else FileBrowserFragment()
+                fragment?.apply {
                     arguments = Bundle(2).apply {
-                        putParcelable(KEY_MEDIA, intent.getParcelableExtra(KEY_MEDIA))
+                        putParcelable(KEY_MEDIA, media)
                     }
                 }
             }
