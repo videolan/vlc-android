@@ -56,6 +56,15 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
         value = internalList.apply { add(item) }
     }
 
+    fun add(item: T, comparator: Comparator<T>) {
+        var position = 0
+        for (media in internalList) {
+            if (comparator.compare(item, media) > 0) position++
+            else break
+        }
+        value = internalList.apply { this.add(position, item) }
+    }
+
     fun add(position: Int, item: T) {
         value = internalList.apply { add(position, item) }
     }
