@@ -129,11 +129,21 @@ entryPoints(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::FolderPtr> entryPoints = aml->entryPoints();
-    entryPoints.erase(std::remove_if( begin( entryPoints ), end( entryPoints ), []( const medialibrary::FolderPtr f ) { return f->isPresent() == false; } ), end( entryPoints ));
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(entryPoints.size(), env->FindClass("java/lang/String"), NULL);
+    std::vector<std::string> mrls{ entryPoints.size() };
+    for(medialibrary::FolderPtr& entryPoint : entryPoints) {
+        try
+        {
+            mrls.push_back( std::move( entryPoint->mrl() ) );
+        }
+        catch ( const medialibrary::fs::errors::DeviceRemoved& )
+        {
+            // Just ignore, the device isn't available anymore
+        }
+    }
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mrls.size(), env->FindClass("java/lang/String"), NULL);
     int index = -1;
-    for(medialibrary::FolderPtr const& entrypoint : entryPoints) {
-        jstring mrl = env->NewStringUTF(entrypoint->mrl().c_str());
+    for( const std::string& m : mrls ) {
+        jstring mrl = env->NewStringUTF(m.c_str());
         env->SetObjectArrayElement(mediaRefs, ++index, mrl);
         env->DeleteLocalRef(mrl);
     }
