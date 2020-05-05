@@ -25,6 +25,7 @@ import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -33,8 +34,10 @@ import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.CoroutineContextProvider
+import org.videolan.tools.Settings
 import org.videolan.vlc.providers.*
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
@@ -45,15 +48,28 @@ const val TYPE_STORAGE = 3L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-open class BrowserModel(context: Context, val url: String?, val type: Long, showHiddenFiles: Boolean, private val showDummyCategory: Boolean, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BaseModel<MediaLibraryItem>(context, coroutineContextProvider), TvBrowserModel<MediaLibraryItem>, IPathOperationDelegate by PathOperationDelegate() {
+open class BrowserModel(
+        context: Context,
+        val url: String?,
+        val type: Long,
+        showHiddenFiles: Boolean,
+        private val showDummyCategory: Boolean,
+        coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
+) : BaseModel<MediaLibraryItem>(
+        context, coroutineContextProvider),
+        TvBrowserModel<MediaLibraryItem>,
+        IPathOperationDelegate by PathOperationDelegate()
+{
     override var currentItem: MediaLibraryItem? = null
     override var nbColumns: Int = 0
 
+    private val tv = Settings.showTvUi
+
     override val provider: BrowserProvider = when (type) {
-        TYPE_PICKER -> FilePickerProvider(context, dataset, url)
-        TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles)
+        TYPE_PICKER -> FilePickerProvider(context, dataset, url).also { if (tv) it.desc = desc }
+        TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles).also { if (tv) it.desc = desc }
         TYPE_STORAGE -> StorageProvider(context, dataset, url, showHiddenFiles)
-        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory)
+        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles, showDummyCategory = showDummyCategory).also { if (tv) it.desc = desc }
     }
 
     override val loading = provider.loading
@@ -67,7 +83,13 @@ open class BrowserModel(context: Context, val url: String?, val type: Long, show
         viewModelScope.launch {
             this@BrowserModel.sort = sort
             desc = !desc
-            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(if (desc) descComp else ascComp) }.also { provider.computeHeaders(dataset.value) } }
+            if (tv) provider.desc = desc
+            val comp = if (tv) {
+                if (desc) tvDescComp else tvAscComp
+            } else {
+                if (desc) descComp else ascComp
+            }
+            dataset.value = withContext(coroutineContextProvider.Default) { dataset.value.apply { sortWith(comp) }.also { provider.computeHeaders(dataset.value) } }
         }
     }
 
@@ -106,29 +128,6 @@ open class BrowserModel(context: Context, val url: String?, val type: Long, show
     }
 
     override fun canSortByFileNameName(): Boolean = true
-}
-
-private val ascComp by lazy {
-    Comparator<MediaLibraryItem> { item1, item2 ->
-        if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            val type1 = (item1 as MediaWrapper).type
-            val type2 = (item2 as MediaWrapper).type
-            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
-            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        }
-        item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
-    }
-}
-private val descComp by lazy {
-    Comparator<MediaLibraryItem> { item1, item2 ->
-        if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            val type1 = (item1 as MediaWrapper).type
-            val type2 = (item2 as MediaWrapper).type
-            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
-            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        }
-        item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
-    }
 }
 
 @ExperimentalCoroutinesApi

@@ -237,3 +237,49 @@ interface SortModule {
         else -> false
     }
 }
+
+val ascComp by lazy {
+    Comparator<MediaLibraryItem> { item1, item2 ->
+        if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
+            val type1 = (item1 as MediaWrapper).type
+            val type2 = (item2 as MediaWrapper).type
+            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+        }
+        item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
+    }
+}
+val descComp by lazy {
+    Comparator<MediaLibraryItem> { item1, item2 ->
+        if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
+            val type1 = (item1 as MediaWrapper).type
+            val type2 = (item2 as MediaWrapper).type
+            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+        }
+        item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
+    }
+}
+
+val tvAscComp by lazy {
+    Comparator<MediaLibraryItem> { item1, item2 ->
+        if (item1?.title?.get(0)?.toLowerCase() == item2?.title?.get(0)?.toLowerCase()) {
+            val type1 = (item1 as MediaWrapper).type
+            val type2 = (item2 as MediaWrapper).type
+            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+        }
+        item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
+    }
+}
+val tvDescComp by lazy {
+    Comparator<MediaLibraryItem> { item1, item2 ->
+        if (item1?.title?.get(0)?.toLowerCase() == item2?.title?.get(0)?.toLowerCase()) {
+            val type1 = (item1 as MediaWrapper).type
+            val type2 = (item2 as MediaWrapper).type
+            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
+        }
+        item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
+    }
+}

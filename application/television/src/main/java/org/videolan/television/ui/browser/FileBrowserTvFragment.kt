@@ -94,7 +94,8 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (viewModel.provider as BrowserProvider).dataset.observe(viewLifecycleOwner, Observer { items ->
+        (viewModel as BrowserModel).dataset.observe(viewLifecycleOwner, Observer { items ->
+            if (items == null) return@Observer
             val lm = binding.list.layoutManager as LinearLayoutManager
             val selectedItem = lm.focusedChild
             submitList(items)

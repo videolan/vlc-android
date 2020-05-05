@@ -48,15 +48,12 @@ import org.videolan.tools.DependencyProvider
 import org.videolan.tools.Settings
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.R
-import org.videolan.vlc.util.ModelsHelper
-import org.videolan.vlc.util.isBrowserMedia
-import org.videolan.vlc.util.isMedia
+import org.videolan.vlc.util.*
 
 const val TAG = "VLC/BrowserProvider"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-
 abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private var showHiddenFiles: Boolean) : CoroutineScope, HeaderProvider() {
 
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
@@ -73,6 +70,13 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
+    var desc : Boolean? = null
+    private val comparator : Comparator<MediaLibraryItem>?
+        get() = when(desc) {
+            true -> tvDescComp
+            false -> tvAscComp
+            else -> null
+        }
 
     init {
         registerCreator { CoroutineContextProvider() }
@@ -144,6 +148,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             discoveryJob = launch(coroutineContextProvider.Main) { filesFlow(url).collect { findMedia(it)?.let { item -> addMedia(item) } } }
         } else {
             val files = filesFlow(url).mapNotNull { findMedia(it) }.onEach { addMedia(it) }.toList()
+            comparator?.let { files.apply {  (this as MutableList).sortWith(it) } }
             computeHeaders(files)
             parseSubDirectories(files)
         }
@@ -180,7 +185,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         loading.postValue(false)
     }
 
-    private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow {
+    private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow<IMedia> {
         val listener = object : EventListener {
             override fun onMediaAdded(index: Int, media: IMedia) {
                 if (!isClosedForSend) offer(media.apply { retain() })
@@ -196,7 +201,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         awaitClose { if (url != null) mediabrowser?.changeEventListener(null) }
     }.buffer(Channel.UNLIMITED)
 
-    open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
+    open fun addMedia(media: MediaLibraryItem) {
+        comparator?.let { dataset.add(media, it) } ?: dataset.add(media)
+    }
 
     open fun refresh() {
         if (url === null) return
@@ -238,14 +245,14 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                     if (!isActive) break@loop
                     //skip media that are not browsable
                     val item = currentMediaList[currentParsedPosition]
-                    val current = when {
-                        item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
+                    val current = when (item.itemType) {
+                        MediaLibraryItem.TYPE_MEDIA -> {
                             val mw = item as MediaWrapper
                             if (mw.type != MediaWrapper.TYPE_DIR && mw.type != MediaWrapper.TYPE_PLAYLIST) continue@loop
                             if (mw.uri.scheme == "otg" || mw.uri.scheme == "content") continue@loop
                             mw
                         }
-                        item.itemType == MediaLibraryItem.TYPE_STORAGE ->
+                        MediaLibraryItem.TYPE_STORAGE ->
                             MLServiceLocator.getAbstractMediaWrapper((item as Storage).uri).apply { type = MediaWrapper.TYPE_DIR }
                         else -> continue@loop
                     }
@@ -267,6 +274,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                             descriptionUpdate.value = Pair(position, it)
                         }
                         directories.addAll(files)
+                        comparator?.let { directories.sortWith(it) }
                         withContext(coroutineContextProvider.Main) { foldersContentMap.put(item, directories.toMutableList()) }
                     }
                     directories.clear()
