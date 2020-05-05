@@ -34,12 +34,12 @@ import org.videolan.resources.util.VLCCrashHandler
 
 @ObsoleteCoroutinesApi
 object VLCInstance {
-    val TAG = "VLC/UiTools/VLCInstance"
+    const val TAG = "VLC/UiTools/VLCInstance"
 
     @SuppressLint("StaticFieldLeak")
     private var sLibVLC: ILibVLC? = null
 
-    private val libVLCFactory = FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory
+    private val libVLCFactory by lazy { FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory }
 
     /** A set of utility functions for the VLC application  */
     @Synchronized
@@ -63,10 +63,8 @@ object VLCInstance {
     @Synchronized
     @Throws(IllegalStateException::class)
     fun restart() {
-        if (sLibVLC != null) {
-            sLibVLC!!.release()
-            sLibVLC = libVLCFactory.getFromOptions(AppContextProvider.appContext, VLCOptions.libOptions)
-        }
+        sLibVLC?.release()
+        sLibVLC = libVLCFactory.getFromOptions(AppContextProvider.appContext, VLCOptions.libOptions)
     }
 
     @Synchronized
