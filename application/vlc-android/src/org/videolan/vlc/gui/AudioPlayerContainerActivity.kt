@@ -425,7 +425,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
                     if (this::resumeCard.isInitialized && resumeCard.isShown) resumeCard.dismiss()
                     showAudioPlayerImpl()
                     updateContainerPadding(true)
-                    playerBehavior.let { owner.applyMarginToProgressBar(it.peekHeight) }
+                    if (::playerBehavior.isInitialized) owner.applyMarginToProgressBar(playerBehavior.peekHeight)
                 }
                 ACTION_HIDE_PLAYER -> owner.run {
                     hideAudioPlayerImpl()
