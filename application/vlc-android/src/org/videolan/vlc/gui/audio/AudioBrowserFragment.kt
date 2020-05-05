@@ -190,7 +190,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     }
 
     private fun setupProvider(index: Int = viewModel.currentTab) {
-        val provider = viewModel.providers[index]
+        val provider = viewModel.providers[index.coerceIn(0, viewModel.providers.size-1)]
         if (provider.loading.hasObservers()) return
         provider.pagedList.observe(viewLifecycleOwner, Observer { items ->
             @Suppress("UNCHECKED_CAST")
