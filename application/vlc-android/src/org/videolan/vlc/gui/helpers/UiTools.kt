@@ -384,7 +384,7 @@ object UiTools {
 
 
             //Create the Allocations (in/out) with the Renderscript and the in/out bitmaps
-            val allIn = Allocation.createFromBitmap(rs, bitmap)
+            val allIn = Allocation.createFromBitmap(rs, if (bitmap.config == Bitmap.Config.ARGB_8888) bitmap else bitmap.copy(Bitmap.Config.ARGB_8888, true))
             val allOut = Allocation.createFromBitmap(rs, outBitmap)
 
             //Set the radius of the blur
