@@ -20,27 +20,14 @@
 
 package org.videolan.vlc.gui.video.benchmark
 
-import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.PixelFormat
-import android.hardware.display.VirtualDisplay
-import android.media.Image
-import android.media.ImageReader
-import android.media.projection.MediaProjection
-import android.media.projection.MediaProjectionManager
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
-import androidx.core.app.ActivityCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -50,6 +37,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.resources.VLCInstance
+import org.videolan.vlc.R
 import java.io.*
 
 /**
@@ -59,100 +47,80 @@ import java.io.*
  * The class just plays the video, sending back statistics to VLCBenchmark.
  * - SCREENSHOTS:
  * The class waits for the video to buffer the first time to do the initial setup.
- * Then it starts an activity that asks for the permission to take screenshots.
- * If that permission is granted, a seek is performed to the first screenshot timestamp.
- * Once the buffering is finished, a callback is set on the next image available.
- * That callback writes the image bitmap to a file, and calls the seek to the next timestamp.
+ * Then a seek is performed to the first screenshot timestamp.
+ * Once the buffering is finished, a broadcast is sent to org.videolan.vlcbenchmark's service
+ * to take a screenshot. Screenshots are taken in VLCBenchmark because, as of Android 10,
+ * the MediaProjection API previously used to take screenshots now requires user input to
+ * accept permission to take a screenshot at every restart of the app, which happens for every test
+ * on vlc-android. By using this API in a service in VLCBenchmark, the user is only asked permission
+ * once, when the user starts the benchmark.
+ * VLCBenchmark then uses a broadcast to ask vlc-android to resume the sample to the next
+ * screenshot timestamp or stop if there aren't any left.
  */
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
+@TargetApi(21)
 class BenchActivity : ShallowVideoPlayer() {
 
-    private var mTimeOut: Runnable? = null
-
-    private var mWidth: Int = 0
-    private var mHeight: Int = 0
-    private var mDensity: Int = 0
-    private var mVirtualDisplay: VirtualDisplay? = null
-    private var mProjectionManager: MediaProjectionManager? = null
-    private var mMediaProjection: MediaProjection? = null
-    private var mImageReader: ImageReader? = null
-    private var mHandler: Handler? = null
-    private var mTimestamp: List<Long>? = null
-    private var mIsScreenshot = false
-    private var mScreenshotCount = 0
-    private var mScreenshotNumber = 0
-    private var mLateFrameCounter = 0
-    private var mSetup = false
+    private lateinit var timeOut: Runnable
+    private val timeoutHandler: Handler = Handler()
+    private var screenshotsTimestamp: List<Long>? = null
+    private var isScreenshot = false
+    private var screenshotCount = 0
+    private var lateFrameCounter = 0
+    private var isSetup = false
     /* Differentiates between buffering due or not to seeking */
-    private var mSeeking = false
+    private var isSeeking = false
     /* set to true when VLC crashes */
-    private var mVLCFailed = false
+    private var hasVLCFailed = false
     /* set to true when video is in hardware decoding */
-    private var mIsHardware = false
+    private var isHardware = false
     /* set to true when Vout event is received
      * used to check if hardware decoder works */
-    private var mHasVout = false
-    /* screenshot directory location */
-    private var screenshotDir: String? = null
-    /* bool to wait in pause for user permission */
-    private var mWritePermission = false
+    private var hasVout = false
 
     /* android_display vout is forced on hardware tests */
     /* this option is set using the opengl sharedPref */
     /* Saves the original value to reset it after the benchmark */
-    private var mOldOpenglValue: String? = "-2"
+    private var oldOpenglValue: String? = "-2"
 
     /* To avoid storing benchmark samples in the user's vlc history, the user's preference is
     *  saved, to be restored at the end of the test */
-    private var mOldHistoryBoolean = true
+    private var oldHistoryBoolean = true
 
     /* Used to determine when a playback is stuck */
-    private var mPosition = 0f
-    private var mPositionCounter = 0
+    private var position = 0f
+    private var positionCounter = 0
 
     /* File in which vlc will store logs in case of a crash or freeze */
     private var stacktraceFile: String? = null
 
+    /* Receive continue benchmark action from VLCBenchmark after having taken screenshots */
+    private var broadcastReceiver: BroadcastReceiver = ScreenshotBroadcastReceiver()
+
     override fun onServiceChanged(service: PlaybackService?) {
         super.onServiceChanged(service)
-        if (mIsHardware && this.service != null) {
+        if (isHardware && this.service != null) {
             val sharedPref = Settings.getInstance(this)
-            mOldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")
-            mOldHistoryBoolean = sharedPref.getBoolean(PREFERENCE_PLAYBACK_HISTORY, true)
-            sharedPref.edit()
-                    .putString(PREFERENCE_OPENGL, "0")
-                    .putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
-                    .commit()
+            oldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")
+            oldHistoryBoolean = sharedPref.getBoolean(PREFERENCE_PLAYBACK_HISTORY, true)
+            AppScope.launch(Dispatchers.IO) {
+                sharedPref.edit().run {
+                    putString(PREFERENCE_OPENGL, "0")
+                    putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
+                    apply()
+                }
+            }
             VLCInstance.restart()
             this.service?.restartMediaPlayer()
         }
     }
 
     override fun loadMedia() {
-        if (service != null) {
-            service!!.setBenchmark()
-            if (mIsHardware) {
-                service!!.setHardware()
-            }
-        }
+        service?.setBenchmark()
+        if (isHardware) service?.setHardware()
         super.loadMedia()
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // checking for permission other than granted
-        if (requestCode == PERMISSION_REQUEST_WRITE &&
-                grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-            errorFinish("Failed to get write permission for screenshots")
-        } else if (requestCode == PERMISSION_REQUEST_WRITE && grantResults.isNotEmpty()) {
-            mWritePermission = true
-            if (mIsScreenshot) {
-                /* Temporizing for the authorisation popup to disappear */
-                mHandler!!.postDelayed({ seekScreenshot() }, 1000)
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,7 +131,7 @@ class BenchActivity : ShallowVideoPlayer() {
 
         /* Enabling hardware mode if necessary*/
         /* Stops the hardware decoder falling back to software */
-        mIsHardware = !intent.getBooleanExtra(EXTRA_HARDWARE, true)
+        isHardware = !intent.getBooleanExtra(EXTRA_HARDWARE, true)
         isBenchmark = true
 
         super.onCreate(savedInstanceState)
@@ -182,18 +150,13 @@ class BenchActivity : ShallowVideoPlayer() {
             EXTRA_ACTION_PLAYBACK -> {
             }
             EXTRA_ACTION_QUALITY -> {
-                if (!intent.hasExtra(EXTRA_SCREENSHOT_DIR)) {
-                    errorFinish("Failed to get screenshot directory location")
-                    return
-                }
-                screenshotDir = intent.getStringExtra(EXTRA_SCREENSHOT_DIR)
-                mIsScreenshot = intent.hasExtra(EXTRA_TIMESTAMPS)
-                if (!mIsScreenshot) {
+                isScreenshot = intent.hasExtra(EXTRA_TIMESTAMPS)
+                if (!isScreenshot) {
                     errorFinish("Missing screenshots timestamps")
                     return
                 }
                 if (intent.getSerializableExtra(EXTRA_TIMESTAMPS) is List<*>) {
-                    mTimestamp = intent.getSerializableExtra(EXTRA_TIMESTAMPS) as List<Long>
+                    screenshotsTimestamp = intent.getSerializableExtra(EXTRA_TIMESTAMPS) as List<Long>
                 } else {
                     errorFinish("Failed to get timestamps")
                     return
@@ -210,9 +173,7 @@ class BenchActivity : ShallowVideoPlayer() {
         // Minimum apk for benchmark is 21, so this warning is a non-issue
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
 
-        // Check for write permission, if false will ask
-        // for them after asking for screenshot permission
-        mWritePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        registerReceiver(broadcastReceiver, IntentFilter(ACTION_CONTINUE_BENCHMARK))
     }
 
     override fun onResume() {
@@ -226,16 +187,14 @@ class BenchActivity : ShallowVideoPlayer() {
      * and return to the benchmark for the next test.
      */
     private fun setTimeout() {
-        if (mSetup && mHandler != null) {
-            if (mTimeOut != null) {
-                mHandler!!.removeCallbacks(mTimeOut)
-                mTimeOut = null
-            }
-            mTimeOut = Runnable {
+        if (isSetup) {
+            if (::timeOut.isInitialized)
+                timeoutHandler.removeCallbacks(timeOut)
+            timeOut = Runnable {
                 Log.e(TAG, "VLC Seek Froze")
                 errorFinish("VLC Seek Froze")
             }
-            mHandler!!.postDelayed(mTimeOut, 10000)
+            timeoutHandler.postDelayed(timeOut, 10000)
         }
     }
 
@@ -248,7 +207,7 @@ class BenchActivity : ShallowVideoPlayer() {
      * the activity that asks for the screenshot permission.
      *
      * if end of buffering, and boolean seeking is true
-     * sets screenshot callback.
+     * trigger screenshot in org.videolan.vlcbenchmark's service
      *
      * if not end of buffering, and seeking, checks for seek timeouts.
      *
@@ -257,65 +216,70 @@ class BenchActivity : ShallowVideoPlayer() {
     @TargetApi(21)
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
         when (event.type) {
-            MediaPlayer.Event.Vout -> mHasVout = true
+            MediaPlayer.Event.Vout -> hasVout = true
             MediaPlayer.Event.TimeChanged -> setTimeout()
             MediaPlayer.Event.PositionChanged -> {
                 val pos = event.positionChanged
-                if (!mIsScreenshot) {
+                if (!isScreenshot) {
                     when {
-                        pos != mPosition -> {
-                            mPosition = pos
-                            mPositionCounter = 0
+                        pos != position -> {
+                            position = pos
+                            positionCounter = 0
                         }
-                        mPositionCounter > 50 -> errorFinish("VLC Playback Froze")
-                        else -> mPositionCounter += 1
+                        positionCounter > 50 -> errorFinish("VLC Playback Froze")
+                        else -> positionCounter += 1
                     }
                 }
             }
             MediaPlayer.Event.Buffering -> if (event.buffering == 100f) {
                 /* initial setup that has to be done when the video
-                     * has finished the first buffering */
-                if (!mSetup) {
-                    mSetup = true
-                    if (mIsScreenshot) {
+                 * has finished the first buffering */
+                if (!isSetup) {
+                    isSetup = true
+                    if (isScreenshot) {
                         service?.pause()
-                        val metrics = DisplayMetrics()
-                        windowManager.defaultDisplay.getRealMetrics(metrics)
-                        mWidth = metrics.widthPixels
-                        mHeight = metrics.heightPixels
-                        mDensity = metrics.densityDpi
-                        mProjectionManager = getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-                        if (mProjectionManager == null) {
-                            errorFinish("Failed to create MediaProjectionManager")
-                        }
-                        mHandler = Handler()
-                        val screenshotIntent: Intent = mProjectionManager!!.createScreenCaptureIntent()
-                        screenshotIntent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
-                        screenshotIntent.flags = Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
-                        startActivityForResult(screenshotIntent, REQUEST_SCREENSHOT)
+                        timeoutHandler.postDelayed({ seekScreenshot() }, 1000)
                     }
                 }
                 /* Screenshot callback setup */
-                if (mIsScreenshot && mSetup && mScreenshotNumber < mTimestamp!!.size && mSeeking) {
-                    mSeeking = false
-                    mImageReader = ImageReader.newInstance(mWidth, mHeight, PixelFormat.RGBA_8888, 2)
-                    mVirtualDisplay = mMediaProjection!!.createVirtualDisplay("testScreenshot", mWidth,
-                            mHeight, mDensity, VIRTUAL_DISPLAY_FLAGS,
-                            mImageReader!!.surface, null, mHandler)
+                if (isScreenshot && isSetup && screenshotCount < screenshotsTimestamp!!.size && isSeeking) {
+                    isSeeking = false
 
-                    if (mVirtualDisplay == null) {
-                        errorFinish("Failed to create Virtual Display")
-                    }
-                    try {
-                        mImageReader!!.setOnImageAvailableListener(ImageAvailableListener(), mHandler)
-                    } catch (e: IllegalArgumentException) {
-                        errorFinish("Failed to create screenshot callback")
-                    }
+                    /* Hiding navigation bar */
+                    val decorView = window.decorView
+                    val uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    decorView.systemUiVisibility = uiOptions
 
+                    /* Broadcast to trigger screenshot in VLCBenchamrk */
+                    val packageName = getString(R.string.benchmark_package_name)
+                    val broadcastIntent = Intent(ACTION_TRIGGER_SCREENSHOT)
+                    broadcastIntent.setPackage(packageName)
+                    broadcastIntent.putExtra("screenshot", screenshotCount)
+                    broadcastIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
+                    sendBroadcast(broadcastIntent)
                 }
             }
         }
         super.onMediaPlayerEvent(event)
+    }
+
+    private fun continueScreenshots() {
+        screenshotCount++
+        if (screenshotCount < screenshotsTimestamp!!.size) {
+            seekScreenshot()
+        } else {
+            finish()
+        }
+    }
+
+    inner class ScreenshotBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent != null) {
+                if (intent.action == ACTION_CONTINUE_BENCHMARK) {
+                    continueScreenshots()
+                }
+            }
+        }
     }
 
     /**
@@ -331,46 +295,12 @@ class BenchActivity : ShallowVideoPlayer() {
             errorFinish("PlayerService is null")
             return
         }
-        if (mProjectionManager != null && mScreenshotCount < mTimestamp!!.size) {
+        if (screenshotCount < screenshotsTimestamp!!.size) {
             setTimeout()
-            seek(mTimestamp!![mScreenshotCount])
-            ++mScreenshotCount
-            mSeeking = true
+            seek(screenshotsTimestamp!![screenshotCount])
+            isSeeking = true
         } else {
             finish()
-        }
-    }
-
-    /**
-     * Called on return of launched activities,
-     * and particularly the screenshot authorisation activity.
-     * If successful, sets up the mediaProjection for later virtual displays
-     *
-     * @param requestCode activity request code
-     * @param resultCode  activity result code
-     * @param resultData  activity result data
-     */
-    @TargetApi(21)
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        if (requestCode == REQUEST_SCREENSHOT && resultData != null && resultCode == Activity.RESULT_OK) {
-            /* Hiding navigation bar */
-            val decorView = window.decorView
-            val uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-            decorView.systemUiVisibility = uiOptions
-
-            /* Creating the MediaProjection used later for each VirtualDisplay creation */
-            mMediaProjection = mProjectionManager!!.getMediaProjection(resultCode, resultData)
-            if (mMediaProjection == null) {
-                errorFinish("Failed to create MediaProjection")
-            }
-            if (mWritePermission) {
-                /* Temporizing for the authorisation popup to disappear */
-                mHandler!!.postDelayed({ seekScreenshot() }, 1000)
-            } else {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), PERMISSION_REQUEST_WRITE)
-            }
-        } else {
-            errorFinish("Failed to get screenshot permission")
         }
     }
 
@@ -382,7 +312,7 @@ class BenchActivity : ShallowVideoPlayer() {
      */
     override fun exit(resultCode: Int) {
         if (resultCode != Activity.RESULT_OK) {
-            mVLCFailed = true
+            hasVLCFailed = true
         }
         super.exit(resultCode)
     }
@@ -418,7 +348,7 @@ class BenchActivity : ShallowVideoPlayer() {
                     stacktraceContent.append(line)
                     line = bufferedReader.readLine()
                 }
-                val outputFile = File(stacktraceFile)
+                val outputFile = File(stacktraceFile!!)
                 val fileOutputStream = FileOutputStream(outputFile)
                 fileOutputStream.write(stacktraceContent.toString().toByteArray(Charsets.UTF_8))
                 fileOutputStream.close()
@@ -468,31 +398,32 @@ class BenchActivity : ShallowVideoPlayer() {
             Log.e(TAG, ex.toString())
         }
 
-        mLateFrameCounter = counter
+        lateFrameCounter = counter
     }
 
     /**
      * Sets up the benchmark statistics to be returned
      * before calling super
      */
-    @TargetApi(21)
     override fun finish() {
         /* Resetting vout preference to it value before the benchmark */
-        if (mIsHardware && mOldOpenglValue != "-2") {
+        if (isHardware && oldOpenglValue != "-2") {
             val sharedPref = Settings.getInstance(this)
-            sharedPref.edit().run {
-                putString(PREFERENCE_OPENGL, mOldOpenglValue)
-                putBoolean(PREFERENCE_PLAYBACK_HISTORY, mOldHistoryBoolean)
-                commit()
+            AppScope.launch(Dispatchers.IO) {
+                sharedPref.edit().run {
+                    putString(PREFERENCE_OPENGL, oldOpenglValue)
+                    putBoolean(PREFERENCE_PLAYBACK_HISTORY, oldHistoryBoolean)
+                    apply()
+                }
             }
             VLCInstance.restart()
         }
         /* Case of error in VideoPlayerActivity, then finish is not overridden */
-        if (mVLCFailed) {
+        if (hasVLCFailed) {
             super.finish()
             return
         }
-        if (!mHasVout) {
+        if (!hasVout) {
             setResult(RESULT_NO_HW, null)
             super.finish()
         }
@@ -502,8 +433,7 @@ class BenchActivity : ShallowVideoPlayer() {
             val stats = service!!.lastStats
             sendIntent.putExtra("percent_of_bad_seek", 0.0)
             sendIntent.putExtra("number_of_dropped_frames", stats?.lostPictures ?: 100)
-            sendIntent.putExtra("screenshot_folder", Environment.getExternalStorageDirectory().toString() + File.separator + "screenshotFolder")
-            sendIntent.putExtra("late_frames", mLateFrameCounter)
+            sendIntent.putExtra("late_frames", lateFrameCounter)
             setResult(Activity.RESULT_OK, sendIntent)
             super.finish()
         } else {
@@ -511,108 +441,12 @@ class BenchActivity : ShallowVideoPlayer() {
         }
     }
 
-    @TargetApi(21)
     override fun onDestroy() {
-        if (mImageReader != null) {
-            try {
-                mImageReader!!.setOnImageAvailableListener(null, null)
-            } catch (e: IllegalArgumentException) {
-                Log.e(TAG, "Failed to destroy screenshot callback")
-            }
-
+        if (::timeOut.isInitialized) {
+            timeoutHandler.removeCallbacks(timeOut)
         }
-        if (mVirtualDisplay != null) {
-            mVirtualDisplay!!.release()
-        }
-        if (mMediaProjection != null) {
-            mMediaProjection!!.stop()
-        }
-        if (mTimeOut != null && mHandler != null) {
-            mHandler!!.removeCallbacks(mTimeOut)
-        }
+        unregisterReceiver(broadcastReceiver)
         super.onDestroy()
-    }
-
-    /**
-     * Callback that is called when the first image is available after setting up
-     * ImageReader in onEventReceive(...) at the end of the video buffering.
-     *
-     *
-     * It takes the screenshot.
-     */
-    @TargetApi(19)
-    private inner class ImageAvailableListener : ImageReader.OnImageAvailableListener {
-        @TargetApi(21)
-        override fun onImageAvailable(reader: ImageReader) {
-            mHandler!!.postDelayed({
-                var outputStream: FileOutputStream? = null
-                var image: Image? = null
-                val bitmap: Bitmap?
-                try {
-                    image = mImageReader!!.acquireLatestImage()
-                } catch (e: IllegalArgumentException) {
-                    Log.e(TAG, "Failed to acquire latest image for screenshot.")
-                }
-
-                if (image != null) {
-                    val planes = image.planes
-                    val buffer = planes[0].buffer.rewind()
-                    val pixelStride = planes[0].pixelStride
-                    val rowStride = planes[0].rowStride
-                    val rowPadding = rowStride - pixelStride * mWidth
-
-                    bitmap = Bitmap.createBitmap(mWidth + rowPadding / pixelStride, mHeight,
-                            Bitmap.Config.ARGB_8888)
-                    if (bitmap != null) {
-                        bitmap.copyPixelsFromBuffer(buffer)
-                        val folder = File(screenshotDir)
-
-                        if (!folder.exists()) {
-                            if (!folder.mkdir()) {
-                                errorFinish("Failed to create screenshot directory")
-                            }
-                        }
-                        val imageFile = File(folder.absolutePath + File.separator + "Screenshot_" + mScreenshotNumber + ".png")
-                        mScreenshotNumber += 1
-                        try {
-                            outputStream = FileOutputStream(imageFile)
-                        } catch (e: IOException) {
-                            Log.e(TAG, "Failed to create outputStream")
-                        }
-
-                        if (outputStream != null) {
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                        }
-
-                        bitmap.recycle()
-                        image.close()
-                        if (outputStream != null) {
-                            try {
-                                outputStream.flush()
-                                outputStream.close()
-                            } catch (e: IOException) {
-                                Log.e(TAG, "Failed to release outputStream")
-                            }
-
-                        }
-                    }
-                }
-                try {
-                    mImageReader!!.setOnImageAvailableListener(null, null)
-                } catch (e: IllegalArgumentException) {
-                    Log.e(TAG, "Failed to delete ImageReader callback")
-                }
-
-                mVirtualDisplay!!.release()
-                mVirtualDisplay = null
-                mImageReader!!.close()
-                if (mScreenshotNumber < mTimestamp!!.size) {
-                    seekScreenshot()
-                } else {
-                    finish()
-                }
-            }, 3000)
-        }
     }
 
     companion object {
@@ -620,20 +454,17 @@ class BenchActivity : ShallowVideoPlayer() {
         private const val EXTRA_TIMESTAMPS = "extra_benchmark_timestamps"
         private const val EXTRA_ACTION_QUALITY = "extra_benchmark_action_quality"
         private const val EXTRA_ACTION_PLAYBACK = "extra_benchmark_action_playback"
-        private const val EXTRA_SCREENSHOT_DIR = "extra_benchmark_screenshot_dir"
         private const val EXTRA_ACTION = "extra_benchmark_action"
         private const val EXTRA_HARDWARE = "extra_benchmark_disable_hardware"
         private const val EXTRA_STACKTRACE_FILE = "stacktrace_file"
 
+        private const val ACTION_TRIGGER_SCREENSHOT = "org.videolan.vlcbenchmark.TRIGGER_SCREENSHOT"
+        private const val ACTION_CONTINUE_BENCHMARK = "org.videolan.vlc.gui.video.benchmark.CONTINUE_BENCHMARK"
+
         private const val TAG = "VLCBenchmark"
-        private const val REQUEST_SCREENSHOT = 666
 
         private const val RESULT_FAILED = 6
         private const val RESULT_NO_HW = 1
-
-        private const val VIRTUAL_DISPLAY_FLAGS = 0
-
-        private const val PERMISSION_REQUEST_WRITE = 1
 
         private const val PREFERENCE_PLAYBACK_HISTORY = "playback_history"
         private const val PREFERENCE_OPENGL = "opengl"

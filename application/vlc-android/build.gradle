@@ -65,9 +65,11 @@ android {
         release {
             proguardFile 'proguard.cfg'
             buildConfigField "boolean", "BETA", isBeta()
+            resValue 'string', 'benchmark_package_name', 'org.videolan.vlcbenchmark'
         }
         debug {
             buildConfigField "boolean", "BETA", "false"
+            resValue 'string', 'benchmark_package_name', 'org.videolan.vlcbenchmark.debug'
             buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
             resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".debug.tv"
             multiDexEnabled true
