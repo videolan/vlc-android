@@ -9,8 +9,8 @@ cache:
 .build-all-base:
     image: registry.videolan.org/vlc-debian-android:20200311171937
     tags:
-        - debian 
         - amd64
+        - docker
     stage: build
     script:
         - ./buildsystem/compile.sh ${EXTRA_BUILD_PARAM} -a ${ARCH}
