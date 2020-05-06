@@ -22,7 +22,7 @@ cache:
     extends: .build-all-base
     only:
         refs:
-            - master
+            - master@videolan/vlc-android
             - merge_requests
         changes:
             # For build script, we rely on the .build-ml-base config
@@ -39,7 +39,7 @@ cache:
     extends: .build-all-base
     only:
         refs:
-            - master
+            - master@videolan/vlc-android
             - merge_requests
         changes:
             - medialibrary/**/*
@@ -57,7 +57,7 @@ continuous-app-build:
         - ./gradlew assembleDebug
     only:
         refs:
-            - master
+            - master@videolan/vlc-android
             - merge_requests
         changes:
             - "**/*"
