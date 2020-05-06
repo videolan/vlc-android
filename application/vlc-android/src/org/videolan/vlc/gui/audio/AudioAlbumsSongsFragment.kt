@@ -133,6 +133,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         viewModel.albumsProvider.pagedList.observe(requireActivity(), Observer { albums ->
             @Suppress("UNCHECKED_CAST")
             (albums as? PagedList<MediaLibraryItem>)?.let { albumsAdapter.submitList(it) }
+            if (viewModel.albumsProvider.loading.value == false && empty && !viewModel.isFiltering()) currentTab = 1
         })
         viewModel.tracksProvider.pagedList.observe(requireActivity(), Observer { tracks ->
             @Suppress("UNCHECKED_CAST")
@@ -141,7 +142,6 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         for (i in 0..1) setupLayoutManager(viewModel.providersInCard[i], lists[i], viewModel.providers[i] as MedialibraryProvider<MediaLibraryItem>, adapters[i], spacing)
         viewModel.albumsProvider.loading.observe(requireActivity(), Observer { loading ->
             if (!loading) {
-                if (empty && !viewModel.isFiltering()) currentTab = 1
                 fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
             }
             setRefreshing(loading)
