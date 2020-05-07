@@ -313,8 +313,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = Uri.parse("$uri#$title")
-            val chapter = mw.getMetaLong(MediaWrapper.META_CHAPTER)
-            if (chapter > 0) uri = Uri.parse("$uri:$chapter")
             val start = getStartTime(mw)
             val media = mediaFactory.getFromUri(VLCInstance.get(service), uri)
             media.addOption(":start-time=${start/1000L}")
@@ -431,7 +429,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val media = medialibrary.findMedia(currentMedia) ?: return@launch
             if (media.id == 0L) return@launch
             if (titleIdx > 0) media.setLongMeta(MediaWrapper.META_TITLE, titleIdx.toLong())
-            if (chapterIdx > 0) media.setLongMeta(MediaWrapper.META_CHAPTER, chapterIdx.toLong())
             if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
                 var progress = time / length.toFloat()
                 if (progress > 0.95f || length - time < 10000) {
