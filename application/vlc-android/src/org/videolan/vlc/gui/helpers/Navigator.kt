@@ -253,7 +253,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
             else -> {
                 val currentId = currentFragmentId
                 val target = navigationView.menu.findItem(id)
-                if (id != currentId && target != null) {
+                if (id != navigationView.selectedItemId && target != null) {
                     val current = navigationView.menu.findItem(currentId)
                     if (current != null) current.isChecked = false
                     target.isChecked = true
