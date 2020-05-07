@@ -11,7 +11,7 @@ class AndroidDeviceLister : public medialibrary::IDeviceLister
 {
 public:
     std::vector<std::tuple<std::string, std::string, bool>> devices() const;
-    bool addDevice(std::string, std::string, bool);
+    void addDevice(std::string, std::string, bool);
     bool removeDevice(std::string uuidToRemove, const std::string& path);
     void refresh();
     bool start( medialibrary::IDeviceListerCb* cb );

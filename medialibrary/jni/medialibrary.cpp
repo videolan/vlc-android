@@ -79,13 +79,24 @@ unbanFolder(JNIEnv* env, jobject thiz, jstring folderPath)
     env->ReleaseStringUTFChars(folderPath, path);
 }
 
-jboolean
+void
 addDevice(JNIEnv* env, jobject thiz, jstring uuid, jstring storagePath, jboolean removable)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *uuidChar = env->GetStringUTFChars(uuid, JNI_FALSE);
     const char *path = env->GetStringUTFChars(storagePath, JNI_FALSE);
-    jboolean isNew = aml->addDevice(uuidChar, path, removable);
+    aml->addDevice(uuidChar, path, removable);
+    env->ReleaseStringUTFChars(uuid, uuidChar);
+    env->ReleaseStringUTFChars(storagePath, path);
+}
+
+jboolean
+isDeviceKnown(JNIEnv* env, jobject thiz, jstring uuid, jstring storagePath, jboolean removable)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *uuidChar = env->GetStringUTFChars(uuid, JNI_FALSE);
+    const char *path = env->GetStringUTFChars(storagePath, JNI_FALSE);
+    jboolean isNew = aml->isDeviceKnown(uuidChar, path, removable);
     env->ReleaseStringUTFChars(uuid, uuidChar);
     env->ReleaseStringUTFChars(storagePath, path);
     return isNew;
@@ -2025,7 +2036,8 @@ static JNINativeMethod methods[] = {
     {"nativeStart", "()V", (void*)start },
     {"nativeRelease", "()V", (void*)release },
     {"nativeClearDatabase", "(Z)V", (void*)clearDatabase },
-    {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)Z", (void*)addDevice },
+    {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)V", (void*)addDevice },
+    {"nativeIsDeviceKnown", "(Ljava/lang/String;Ljava/lang/String;Z)Z", (void*)isDeviceKnown },
     {"nativeDevices", "()[Ljava/lang/String;", (void*)devices },
     {"nativeDiscover", "(Ljava/lang/String;)V", (void*)discover },
     {"nativeRemoveEntryPoint", "(Ljava/lang/String;)V", (void*)removeEntryPoint },

@@ -69,9 +69,12 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         for (action in channel) when (action){
             is MediaMounted -> {
                 if (TextUtils.isEmpty(action.uuid)) return@actor
-                if (ctx.getFromMl { addDevice(action.uuid, action.path, true) }) {
-                    notifyNewStorage(action)
+                val isNew = ctx.getFromMl {
+                    val isNewForMl = !isDeviceKnown(action.uuid, action.path, true)
+                    addDevice(action.uuid, action.path, true)
+                    isNewForMl
                 }
+                if (isNew) notifyNewStorage(action)
             }
             is MediaUnmounted -> {
                 delay(100L)

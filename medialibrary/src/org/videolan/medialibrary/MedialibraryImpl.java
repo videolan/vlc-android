@@ -117,15 +117,17 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeDevices() : new String[0];
     }
 
-    public boolean addDevice(@NonNull String uuid, @NonNull String path, boolean removable) {
-        if (!mIsInitiated) return false;
-        final boolean added = nativeAddDevice(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
+    public boolean isDeviceKnown(@NonNull String uuid, @NonNull String path, boolean removable) {
+        return mIsInitiated && nativeIsDeviceKnown(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
+    }
+
+    public void addDevice(@NonNull String uuid, @NonNull String path, boolean removable) {
+        if (!mIsInitiated) return;
+        nativeAddDevice(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
         synchronized (onDeviceChangeListeners) {
             for (OnDeviceChangeListener listener : onDeviceChangeListeners) listener.onDeviceChange();
         }
-        return added;
     }
-
     public void discover(@NonNull String path) {
         if (mIsInitiated) nativeDiscover(Tools.encodeVLCMrl(path));
     }
@@ -572,7 +574,8 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativeClearDatabase(boolean keepPlaylist);
     private native void nativeBanFolder(String path);
     private native void nativeUnbanFolder(String path);
-    private native boolean nativeAddDevice(String uuid, String path, boolean removable);
+    private native void nativeAddDevice(String uuid, String path, boolean removable);
+    private native boolean nativeIsDeviceKnown(String uuid, String path, boolean removable);
     private native String[] nativeDevices();
     private native void nativeDiscover(String path);
     private native void nativeRemoveEntryPoint(String path);

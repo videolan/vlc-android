@@ -261,8 +261,10 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
             val uuid = FileUtils.getFileNameFromPath(device)
             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid) || !device.scanAllowed()) continue
-            val isNew = (isMainStorage || (addExternal && knownDevices?.contains(device) != false))
-                    && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
+
+            val isNewForML =  !medialibrary.isDeviceKnown(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
+            val isNew = (isMainStorage || (addExternal && knownDevices?.contains(device) != true))
+                    && isNewForML
             if (!isMainStorage && isNew && preselectedStorages.isEmpty()) showStorageNotification(device)
         }
     }
@@ -316,7 +318,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                 missingDevices.remove("file://$device")
                 continue
             }
-            val isNew = withContext(Dispatchers.IO) { medialibrary.addDevice(uuid, device, true) }
+             val isNew = withContext(Dispatchers.IO) {
+                 val isNewForML = !medialibrary.isDeviceKnown(uuid, device, true)
+                 medialibrary.addDevice(uuid, device, true)
+                 isNewForML
+             }
             if (isNew) showStorageNotification(device)
         }
         withContext(Dispatchers.IO) { for (device in missingDevices) {

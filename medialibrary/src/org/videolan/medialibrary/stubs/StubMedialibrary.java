@@ -60,7 +60,10 @@ public class StubMedialibrary extends Medialibrary {
         return new String[0];
     }
 
-    public boolean addDevice(@NonNull String uuid, @NonNull String path, boolean removable) {
+    public void addDevice(@NonNull String uuid, @NonNull String path, boolean removable) { }
+
+    @Override
+    public boolean isDeviceKnown(@NonNull String uuid, @NonNull String path, boolean removable) {
         return false;
     }
 

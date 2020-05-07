@@ -10,12 +10,13 @@ AndroidDeviceLister::devices() const
     return devices;
 }
 
-bool
+void
 AndroidDeviceLister::addDevice(std::string uuid, std::string path, bool removable)
 {
     std::lock_guard<std::mutex> guard(m_mutex);
     m_devices.insert(std::make_pair(uuid, std::make_tuple(uuid, path, removable)));
-    return p_DeviceListerCb != nullptr && p_DeviceListerCb->onDeviceMounted(uuid, path, removable);
+    if (p_DeviceListerCb != nullptr)
+        p_DeviceListerCb->onDeviceMounted(uuid, path, removable);
 }
 
 bool

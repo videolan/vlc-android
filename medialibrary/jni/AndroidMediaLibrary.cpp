@@ -66,10 +66,16 @@ AndroidMediaLibrary::clearDatabase(bool restorePlaylists) {
     p_ml->clearDatabase(restorePlaylists);
 }
 
-bool
+void
 AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
 {
-    return p_lister->addDevice(uuid, path, removable);
+    p_lister->addDevice(uuid, path, removable);
+}
+
+bool
+AndroidMediaLibrary::isDeviceKnown(const std::string& uuid, const std::string& path, bool removable)
+{
+    return p_ml->isDeviceKnown(uuid, path, removable);
 }
 
 std::vector<std::tuple<std::string, std::string, bool>>

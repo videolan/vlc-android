@@ -36,7 +36,11 @@ class StoragesMonitor : BroadcastReceiver() {
             is Mount -> {
                 if (TextUtils.isEmpty(action.uuid)) return@actor
                 if (action.path.scanAllowed()) {
-                    val isNew = action.ctx.getFromMl { addDevice(action.uuid, action.path, true) }
+                    val isNew = action.ctx.getFromMl {
+                        val isNewForML = !isDeviceKnown(action.uuid, action.path, true)
+                        addDevice(action.uuid, action.path, true)
+                        isNewForML
+                    }
                     if (isNew) {
                         val intent = Intent(action.ctx, DialogActivity::class.java).apply {
                             setAction(DialogActivity.KEY_DEVICE)
