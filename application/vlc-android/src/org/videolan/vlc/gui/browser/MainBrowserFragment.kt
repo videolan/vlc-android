@@ -134,7 +134,11 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         localViewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaLibraryItem>> { list ->
             list?.let {
                 storageBrowserAdapter.update(it)
-                localEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                localEntry.loading.state = when {
+                    list.isNotEmpty() -> EmptyLoadingState.NONE
+                    localViewModel.loading.value == true -> EmptyLoadingState.LOADING
+                    else -> EmptyLoadingState.EMPTY
+                }
             }
         })
         localViewModel.loading.observe(viewLifecycleOwner, Observer {
@@ -154,11 +158,18 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         favoritesViewModel = BrowserFavoritesModel(requireContext())
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
         favoritesViewModel.favorites.observe(viewLifecycleOwner, Observer { list ->
-            list?.let {
+            list.let {
                 if (list.isEmpty()) favoritesEntry.setGone() else   favoritesEntry.setVisible()
                 favoritesAdapter.update(it)
-                favoritesEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+                favoritesEntry.loading.state = when {
+                    list.isNotEmpty() -> EmptyLoadingState.NONE
+                    localViewModel.loading.value == true -> EmptyLoadingState.LOADING
+                    else -> EmptyLoadingState.EMPTY
+                }
             }
+        })
+        favoritesViewModel.provider.loading.observe(viewLifecycleOwner, Observer {
+            if (it) localEntry.loading.state = EmptyLoadingState.LOADING
         })
         favoritesViewModel.provider.descriptionUpdate.observe(viewLifecycleOwner, Observer { pair ->
             if (pair != null) favoritesAdapter.notifyItemChanged(pair.first, pair.second)

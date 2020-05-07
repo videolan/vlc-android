@@ -277,7 +277,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     override fun enableSearchOption() = true
 
     private fun updateEmptyView() {
-        empty_loading.state = if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+        empty_loading.state = if (viewModel.providers[currentTab].loading.value == true) EmptyLoadingState.LOADING else  if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
         setFabPlayShuffleAllVisibility()
     }
 
