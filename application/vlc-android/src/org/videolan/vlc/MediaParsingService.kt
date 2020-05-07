@@ -265,6 +265,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             val isNewForML =  !medialibrary.isDeviceKnown(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             val isNew = (isMainStorage || (addExternal && knownDevices?.contains(device) != true))
                     && isNewForML
+            medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             if (!isMainStorage && isNew && preselectedStorages.isEmpty()) showStorageNotification(device)
         }
     }
