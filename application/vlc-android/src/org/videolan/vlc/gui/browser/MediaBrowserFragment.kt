@@ -106,6 +106,11 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
         releaseBreadCrumb()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        savedSelection.clear()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         getMultiHelper()?.let {
             outState.putParcelable(KEY_SELECTION, SparseBooleanArrayParcelable(it.selectionMap))
