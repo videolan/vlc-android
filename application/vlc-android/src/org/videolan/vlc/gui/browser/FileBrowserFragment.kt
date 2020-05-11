@@ -118,8 +118,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
                     browseOtgDevice(rootUri, title)
                 } else {
                     lifecycleScope.launchWhenStarted {
-                        val otgRoot = OtgAccess.otgRoot.asFlow()
-                        val uri = otgRoot.filterNotNull().first()
+                        val uri = OtgAccess.otgRoot.filterNotNull().first()
                         browseOtgDevice(uri, title)
                     }
                     requireActivity().requestOtgRoot()

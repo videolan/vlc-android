@@ -31,10 +31,9 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.FragmentActivity
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.tools.safeOffer
 
 const val SAF_REQUEST = 85
 const val TAG = "OtgAccess"
@@ -58,13 +57,13 @@ class OtgAccess : BaseHeadlessFragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (intent != null && requestCode == SAF_REQUEST) otgRoot.safeOffer(intent.data)
+        if (intent != null && requestCode == SAF_REQUEST) otgRoot.value = intent.data
         else super.onActivityResult(requestCode, resultCode, intent)
         exit()
     }
 
     companion object {
-        val otgRoot = ConflatedBroadcastChannel<Uri?>(null)
+        val otgRoot = MutableStateFlow<Uri?>(null)
     }
 }
 
@@ -74,7 +73,7 @@ fun FragmentActivity.requestOtgRoot() {
 
 @WorkerThread
 fun getDocumentFiles(context: Context, path: String) : List<MediaWrapper>? {
-    val rootUri = OtgAccess.otgRoot.valueOrNull ?: return null
+    val rootUri = OtgAccess.otgRoot.value ?: return null
 //    else Uri.Builder().scheme("content")
 //            .authority(OTG_CONTENT_AUTHORITY)
 //            .path(path.substringBefore(':'))

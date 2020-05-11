@@ -13,24 +13,20 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.net.NetworkInterface
 import java.net.SocketException
 
 class NetworkMonitor(private val context: Context) : LifecycleObserver {
     private var registered = false
     private val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val connection = ConflatedBroadcastChannel(Connection(connected = false, mobile = true, vpn = false))
-    val connectionFlow : Flow<Connection>
-        get() = connection.asFlow()
+    val connectionFlow = MutableStateFlow(Connection(connected = false, mobile = true, vpn = false))
     val connected : Boolean
-        get() = connection.value.connected
+        get() = connectionFlow.value.connected
     val isLan : Boolean
-        get() = connection.value.run { connected && !mobile }
+        get() = connectionFlow.value.run { connected && !mobile }
     val lanAllowed : Boolean
-        get() = connection.value.run { connected && (!mobile || vpn) }
+        get() = connectionFlow.value.run { connected && (!mobile || vpn) }
     val receiver = object : BroadcastReceiver() {
         @SuppressLint("MissingPermission")
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -40,8 +36,7 @@ class NetworkMonitor(private val context: Context) : LifecycleObserver {
                     val isConnected = networkInfo != null && networkInfo.isConnected
                     val isMobile = isConnected && networkInfo!!.type == ConnectivityManager.TYPE_MOBILE
                     val isVPN = isConnected && updateVPNStatus()
-                    val conn = Connection(isConnected, isMobile, isVPN)
-                    if (connection.value != conn) connection.offer(conn)
+                    connectionFlow.value = Connection(isConnected, isMobile, isVPN)
                 }
 
             }
