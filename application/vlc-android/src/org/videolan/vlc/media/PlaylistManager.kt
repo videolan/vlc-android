@@ -314,7 +314,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = Uri.parse("$uri#$title")
             val start = getStartTime(mw)
-            val media = mediaFactory.getFromUri(VLCInstance.get(service), uri)
+            val media = mediaFactory.getFromUri(VLCInstance.getInstance(service), uri)
             media.addOption(":start-time=${start/1000L}")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags, PlaybackService.hasRenderer())
             /* keeping only video during benchmark */

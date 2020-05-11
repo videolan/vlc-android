@@ -245,7 +245,7 @@ class InfoModel : ViewModel() {
 
     internal fun parseTracks(context: Context, mw: MediaWrapper) = viewModelScope.launch {
         val media = withContext(Dispatchers.IO) {
-            val libVlc = VLCInstance[context]
+            val libVlc = VLCInstance.getInstance(context)
             mMediaFactory.getFromUri(libVlc, mw.uri).apply { parse() }
         }
         if (!isActive) return@launch

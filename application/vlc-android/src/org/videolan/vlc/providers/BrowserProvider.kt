@@ -114,7 +114,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected open fun initBrowser() {
         if (mediabrowser == null) {
-            registerCreator { MediaBrowser(VLCInstance[context], null, browserHandler) }
+            registerCreator { MediaBrowser(VLCInstance.getInstance(context), null, browserHandler) }
             mediabrowser = get(this)
         }
     }

@@ -64,7 +64,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope()
                     return@launch
                 }
                 try {
-                    val media = mFactory.getFromUri(VLCInstance.get(this@PreviewVideoInputService), mw.uri)
+                    val media = mFactory.getFromUri(VLCInstance.getInstance(this@PreviewVideoInputService), mw.uri)
                     val start = if (mw.length <= 0L) 0L else mw.length.random()
                     media.addOption(":start-time=${start/1000L}")
                     awaitSurface()

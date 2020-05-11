@@ -140,7 +140,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         if (context == null || presets == null) return@launch
 
         if (bandCount == -1) bandCount = withContext(Dispatchers.IO) {
-            VLCInstance.get(requireContext())
+            VLCInstance.getInstance(requireContext())
             MediaPlayer.Equalizer.getBandCount()
         }
         if (!isStarted()) return@launch
@@ -466,7 +466,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
             }
         }
         if (bandCount == -1) bandCount = withContext(Dispatchers.IO) {
-            VLCInstance.get(requireContext())
+            VLCInstance.getInstance(requireContext())
             MediaPlayer.Equalizer.getBandCount()
         }
         if (!isStarted()) return@launch

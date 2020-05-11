@@ -49,7 +49,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
 
     suspend fun start() {
         if (started) return
-        val libVlc = withContext(Dispatchers.IO) { VLCInstance.get(AppContextProvider.appContext) }
+        val libVlc = withContext(Dispatchers.IO) { VLCInstance.getInstance(AppContextProvider.appContext) }
         started = true
         for (discoverer in RendererDiscoverer.list(libVlc)) {
             val rd = RendererDiscoverer(libVlc, discoverer.name)

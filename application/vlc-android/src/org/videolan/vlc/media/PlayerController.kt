@@ -210,7 +210,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     private fun newMediaPlayer() : MediaPlayer {
-        return MediaPlayer(VLCInstance.get(context)).apply {
+        return MediaPlayer(VLCInstance.getInstance(context)).apply {
             setAudioDigitalOutputEnabled(VLCOptions.isAudioDigitalOutputEnabled(settings))
             VLCOptions.getAout(settings)?.let { setAudioOutput(it) }
             setRenderer(PlaybackService.renderer.value)

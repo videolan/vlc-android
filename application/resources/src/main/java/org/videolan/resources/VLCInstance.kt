@@ -30,52 +30,46 @@ import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.interfaces.ILibVLC
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.util.VLCUtil
+import org.videolan.resources.VLCInstance.init
 import org.videolan.resources.util.VLCCrashHandler
+import org.videolan.tools.SingletonHolder
 
 @ObsoleteCoroutinesApi
-object VLCInstance {
+object VLCInstance : SingletonHolder<ILibVLC, Context>({ init(it.applicationContext) }) {
     const val TAG = "VLC/UiTools/VLCInstance"
 
     @SuppressLint("StaticFieldLeak")
-    private var sLibVLC: ILibVLC? = null
+    private lateinit var sLibVLC: ILibVLC
 
-    private val libVLCFactory by lazy { FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory }
+    private val libVLCFactory= FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory
 
-    /** A set of utility functions for the VLC application  */
-    @Synchronized
     @Throws(IllegalStateException::class)
-    operator fun get(ctx: Context): ILibVLC {
-        if (sLibVLC == null) {
-            Thread.setDefaultUncaughtExceptionHandler(VLCCrashHandler())
+    fun init(ctx: Context) : ILibVLC {
+        Thread.setDefaultUncaughtExceptionHandler(VLCCrashHandler())
 
-            val context = ctx.applicationContext
-            if (!VLCUtil.hasCompatibleCPU(context)) {
-                Log.e(TAG, VLCUtil.getErrorMsg())
-                throw IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg())
-            }
-
-            // TODO change LibVLC signature to accept a List instead of an ArrayList
-            sLibVLC = libVLCFactory.getFromOptions(context, VLCOptions.libOptions)
+        if (!VLCUtil.hasCompatibleCPU(ctx)) {
+            Log.e(TAG, VLCUtil.getErrorMsg())
+            throw IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg())
         }
-        return sLibVLC!!
+
+        // TODO change LibVLC signature to accept a List instead of an ArrayList
+        sLibVLC = libVLCFactory.getFromOptions(ctx, VLCOptions.libOptions)
+        return sLibVLC
     }
 
-    @Synchronized
     @Throws(IllegalStateException::class)
     fun restart() {
-        sLibVLC?.release()
+        sLibVLC.release()
         sLibVLC = libVLCFactory.getFromOptions(AppContextProvider.appContext, VLCOptions.libOptions)
     }
 
-    @Synchronized
     fun testCompatibleCPU(context: Context): Boolean {
-        return if (sLibVLC == null && !VLCUtil.hasCompatibleCPU(context)) {
+        return if (!VLCUtil.hasCompatibleCPU(context)) {
             if (context is Activity) {
                 val i = Intent(Intent.ACTION_VIEW).setClassName(context.applicationContext, COMPATERROR_ACTIVITY)
                 context.startActivity(i)
             }
             false
-        } else
-            true
+        } else true
     }
 }
