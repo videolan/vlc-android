@@ -208,7 +208,7 @@
         <item name="ic_trash">@drawable/ic_trash_w</item>
         <item name="ic_reset">@drawable/ic_reset_w</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
-        <item name="progress_mini_player">@drawable/progress_mini_player</item>
+        <item name="progress_mini_player">@drawable/progress_mini_player_black</item>
         <item name="advanced_options_style">@style/Theme.MaterialComponents.Dialog</item>
         <item name="advanced_options_bg">@drawable/advanced_options_background_dark</item>
         <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off_w</item>

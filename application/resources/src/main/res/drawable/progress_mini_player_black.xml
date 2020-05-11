@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ *************************************************************************
-  ~  bottom_navigation_background_dark.xml
+  ~  progress_mini_player_black.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -22,15 +21,20 @@
   ~
   ~
   -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@android:id/background">
+        <shape>
             <solid android:color="@color/grey800" />
         </shape>
     </item>
-    <item android:top="1dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/grey875" />
-        </shape>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="@color/orange500" />
+            </shape>
+        </clip>
     </item>
+
 </layer-list>
