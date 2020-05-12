@@ -42,21 +42,23 @@
 
         <org.videolan.vlc.gui.view.TitleListView
                 android:id="@+id/local_browser_entry"
-                app:title="@string/browser_storages"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fav_browser_entry" />
+                app:layout_constraintTop_toBottomOf="@+id/fav_browser_entry"
+                app:title="@string/browser_storages" />
 
         <org.videolan.vlc.gui.view.TitleListView
                 android:id="@+id/network_browser_entry"
-                app:title="@string/network_browsing"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/local_browser_entry" />
+                app:layout_constraintTop_toBottomOf="@+id/local_browser_entry"
+                app:title="@string/network_browsing" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

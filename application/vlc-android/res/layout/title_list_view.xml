@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             style="@style/Theme.VLC.HorizontalListTitle"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
