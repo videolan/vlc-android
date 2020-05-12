@@ -34,7 +34,10 @@ import org.videolan.tools.NetworkMonitor
 class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles, true, coroutineContextProvider) {
 
     init {
-        NetworkMonitor.getInstance(context).connectionFlow.onEach { if (it.connected) refresh() }.launchIn(viewModelScope)
+        NetworkMonitor.getInstance(context).connectionFlow.onEach {
+            if (it.connected) refresh()
+            else dataset.clear()
+        }.launchIn(viewModelScope)
     }
 
     class Factory(val context: Context, val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
