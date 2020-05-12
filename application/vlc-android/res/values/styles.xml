@@ -626,7 +626,7 @@
 
     <style name="VLCCardView" parent="@style/Widget.MaterialComponents.CardView">
         <item name="strokeColor">?attr/card_border</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardCornerRadius">4dp</item>
         <item name="cardElevation">0dp</item>
         <item name="background">?attr/card_background</item>
         <item name="strokeWidth">1dp</item>
