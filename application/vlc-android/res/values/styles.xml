@@ -263,18 +263,6 @@
         <item name="empty_button">@style/Widget.Leanback.DetailsActionButtonStyle</item>
     </style>
 
-    <style name="Theme.VLC.Info" parent="Theme.VLC">
-        <item name="ariane_text_color">@color/grey900</item>
-        <item name="ariane_text_size">14sp</item>
-    </style>
-
-    <style name="Theme.VLC.Info.Black" parent="Theme.VLC.Black">
-        <item name="ariane_text_color">@color/grey50</item>
-        <item name="ariane_text_size">14sp</item>
-
-
-    </style>
-
     <style name="VLCardView" parent="Widget.Leanback.ImageCardViewStyle">
         <item name="cardType">infoUnderWithExtra</item>
         <item name="infoVisibility">always</item>

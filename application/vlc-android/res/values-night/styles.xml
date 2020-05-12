@@ -3,8 +3,6 @@
     <style name="Theme.VLC"
         parent="Theme.VLC.Black" />
 
-    <style name="Theme.VLC.Info"
-           parent="Theme.VLC.Info.Black"/>
 
     <style name="VLCTransparentTheme" parent="VLCTransparentThemeDark"/>
 

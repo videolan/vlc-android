@@ -473,7 +473,7 @@
             android:theme="@style/Theme.VLC"/>
         <activity
             android:name=".gui.InfoActivity"
-            android:theme="@style/Theme.VLC.Info"/>
+            android:theme="@style/Theme.VLC"/>
         <activity
             android:name=".gui.SearchActivity"
             android:theme="@style/Theme.VLC"/>
