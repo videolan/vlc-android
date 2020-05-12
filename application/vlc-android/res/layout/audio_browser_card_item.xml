@@ -40,7 +40,7 @@
 
     <com.google.android.material.card.MaterialCardView
             android:id="@+id/container"
-            style="@style/Widget.MaterialComponents.CardView"
+            style="@style/VLCCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -48,12 +48,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:longClickable="true"
             android:onClick="@{holder::onClick}"
-            android:onLongClick="@{holder::onLongClick}"
-            vlc:cardCornerRadius="8dp"
-            vlc:cardElevation="0dp"
-            vlc:strokeColor="?attr/card_border"
-            android:background="?attr/card_background"
-            vlc:strokeWidth="1dp">
+            android:onLongClick="@{holder::onLongClick}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -157,14 +152,16 @@
                     android:id="@+id/item_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/more_actions"
                     android:onClick="@{holder::onMoreClick}"
                     android:scaleType="center"
-                    vlc:srcCompat="@drawable/ic_more"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
+                    vlc:layout_constraintBottom_toBottomOf="parent"
                     vlc:layout_constraintEnd_toEndOf="parent"
-                    vlc:layout_constraintTop_toTopOf="@+id/title" />
+                    vlc:layout_constraintTop_toTopOf="@+id/title"
+                    vlc:srcCompat="@drawable/ic_more" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

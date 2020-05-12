@@ -168,13 +168,14 @@
                     android:id="@+id/item_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_more"
+                    android:layout_marginBottom="4dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="@{hasContextMenu}"
                     android:onClick="@{holder::onMoreClick}"
                     android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE, default=gone}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_more"
                     tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
