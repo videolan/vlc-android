@@ -98,10 +98,14 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
-            val group = if (savedInstanceState != null) savedInstanceState.getParcelable<VideoGroup>(KEY_GROUP)
-            else arguments?.getParcelable(KEY_GROUP)
-            val grouping = arguments?.getSerializable(KEY_GROUPING) as VideoGroupingType? ?: VideoGroupingType.NONE
-            viewModel = getViewModel(grouping, folder, group)
+            val parentGroup = if (savedInstanceState != null) savedInstanceState.getParcelable<VideoGroup>(KEY_GROUP)
+                    else arguments?.getParcelable(KEY_GROUP)
+            val grouping = when (Settings.getInstance(requireContext()).getString(KEY_GROUP_VIDEOS, null) ?: GROUP_VIDEOS_NAME) {
+                GROUP_VIDEOS_NONE -> VideoGroupingType.NONE
+                GROUP_VIDEOS_FOLDER -> VideoGroupingType.FOLDER
+                else -> VideoGroupingType.NAME
+            }
+            viewModel = getViewModel(grouping, folder, parentGroup)
             setDataObservers()
             Medialibrary.lastThumb.observe(this, thumbObs)
             videoListAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
@@ -141,54 +145,36 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
+        when (item.itemId) {
             R.id.ml_menu_last_playlist -> {
                 MediaUtils.loadlastPlaylist(activity, PLAYLIST_TYPE_VIDEO)
-                true
             }
             R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
-                val displayInCards = settings.getBoolean("video_display_in_cards", true)
-                settings.putSingle("video_display_in_cards", !displayInCards)
+                val displayInCards = settings.getBoolean(KEY_VIDEOS_CARDS, true)
+                settings.putSingle(KEY_VIDEOS_CARDS, !displayInCards)
                 (activity as ContentActivity).forceLoadVideoFragment()
-                true
             }
             R.id.video_min_group_length_disable -> {
-                lifecycleScope.launchWhenStarted {
-                    withContext(Dispatchers.IO) {
-                        settings.edit().putString("video_min_group_length", "-1").commit()
-                    }
-                    changeGroupingType(VideoGroupingType.NONE)
-                }
-                true
+                settings.putSingle(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NONE)
+                changeGroupingType(VideoGroupingType.NONE)
             }
             R.id.video_min_group_length_folder -> {
-                lifecycleScope.launchWhenStarted {
-                    withContext(Dispatchers.IO) {
-                        settings.edit().putString("video_min_group_length", "0").commit()
-                    }
-                    changeGroupingType(VideoGroupingType.FOLDER)
-                }
-                true
+                settings.putSingle(KEY_GROUP_VIDEOS, GROUP_VIDEOS_FOLDER)
+                changeGroupingType(VideoGroupingType.FOLDER)
             }
             R.id.video_min_group_length_name -> {
-                lifecycleScope.launchWhenStarted {
-                    withContext(Dispatchers.IO) {
-                        settings.edit().putString("video_min_group_length", "6").commit()
-                    }
-                    changeGroupingType(VideoGroupingType.NAME)
-                }
-                true
+                settings.putSingle(KEY_GROUP_VIDEOS, GROUP_VIDEOS_NAME)
+                changeGroupingType(VideoGroupingType.NAME)
             }
             R.id.rename_group -> {
                 viewModel.group?.let { renameGroup(it) }
-                true
             }
             R.id.ungroup -> {
                 viewModel.group?.let { viewModel.ungroup(it) }
-                true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> return super.onOptionsItemSelected(item)
         }
+        return true
     }
 
     override fun sortBy(sort: Int) {
@@ -270,9 +256,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             return
         }
         val res = resources
-        if (gridItemDecoration == null)
-            gridItemDecoration = ItemOffsetDecoration(resources, R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin)
-        val listMode = !settings.getBoolean("video_display_in_cards", true)
+        if (gridItemDecoration == null) gridItemDecoration = ItemOffsetDecoration(resources, R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin)
+        val listMode = !settings.getBoolean(KEY_VIDEOS_CARDS, true)
 
         // Select between grid or list
         binding.videoGrid.removeItemDecoration(gridItemDecoration!!)

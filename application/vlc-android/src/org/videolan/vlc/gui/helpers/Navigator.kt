@@ -61,7 +61,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
 
     private val defaultFragmentId= R.id.nav_video
     override var currentFragmentId : Int = 0
-    var currentFragment: Fragment? = null
+    private var currentFragment: Fragment? = null
         private set
     private lateinit var activity: MainActivity
     private lateinit var settings: SharedPreferences
@@ -112,22 +112,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
             R.id.nav_playlists -> PlaylistFragment()
             R.id.nav_network -> NetworkBrowserFragment()
             R.id.nav_more -> MoreFragment()
-            else -> {
-                val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "1")!!)
-                when {
-                    group > 0 -> VideoGridFragment().apply {
-                        arguments = Bundle(1).apply {
-                            putSerializable(KEY_GROUPING, VideoGroupingType.NAME)
-                        }
-                    }
-                    group == 0 -> VideoGridFragment().apply {
-                        arguments = Bundle(1).apply {
-                            putSerializable(KEY_GROUPING, VideoGroupingType.FOLDER)
-                        }
-                    }
-                    else -> VideoGridFragment()
-                }
-            }
+            else -> VideoGridFragment()
         }
     }
 

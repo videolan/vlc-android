@@ -13,7 +13,7 @@ import org.videolan.tools.Settings.init
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-object Settings : SingletonHolder<SharedPreferences, Context>({ init(it) }) {
+object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicationContext) }) {
 
     var showVideoThumbs = true
     var tvUI = false
