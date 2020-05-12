@@ -91,8 +91,7 @@ class MainTvActivity : BaseTvActivity() {
             when (resultCode) {
                 RESULT_RESCAN -> this.reloadLibrary()
                 RESULT_RESTART, RESULT_RESTART_APP -> {
-                    val intent = intent
-                    intent.setClass(this, if (resultCode == RESULT_RESTART_APP) StartActivity::class.java else MainTvActivity::class.java)
+                    val intent = Intent(this, if (resultCode == RESULT_RESTART_APP) StartActivity::class.java else MainTvActivity::class.java)
                     finish()
                     startActivity(intent)
                 }
