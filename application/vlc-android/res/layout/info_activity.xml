@@ -234,7 +234,7 @@
                         android:id="@+id/length_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="6dp"
                         android:layout_marginTop="8dp"
                         android:padding="8dp"
                         android:visibility="@{TextUtils.isEmpty(length) ? View.GONE : View.VISIBLE}"
@@ -246,49 +246,50 @@
                         android:id="@+id/length_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="26dp"
                         android:text="@string/length"
                         android:textColor="?attr/font_audio_light"
-                        android:visibility="@{TextUtils.isEmpty(length) ? View.GONE : View.VISIBLE}"
                         android:textStyle="bold"
-                        vlc:layout_constraintStart_toEndOf="@+id/length_icon"
-                        android:layout_marginStart="16dp"
+                        android:visibility="@{TextUtils.isEmpty(length) ? View.GONE : View.VISIBLE}"
                         vlc:layout_constraintBottom_toTopOf="@+id/length_value"
-                        vlc:layout_constraintVertical_chainStyle="packed"
-                        vlc:layout_constraintTop_toTopOf="@+id/length_icon" />
+                        vlc:layout_constraintStart_toEndOf="@+id/length_icon"
+                        vlc:layout_constraintTop_toTopOf="@+id/length_icon"
+                        vlc:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                         android:id="@+id/length_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="?attr/font_audio_light"
                         android:text="@{length}"
-                        vlc:layout_constraintStart_toEndOf="@+id/length_icon"
-                        android:layout_marginStart="16dp"
-                        vlc:layout_constraintTop_toBottomOf="@+id/length_title"
-                        vlc:layout_constraintBottom_toBottomOf="@+id/length_icon" />
+                        android:textColor="?attr/font_audio_light"
+                        tools:text="10:30"
+                        vlc:layout_constraintBottom_toBottomOf="@+id/length_icon"
+                        vlc:layout_constraintStart_toStartOf="@+id/length_title"
+                        vlc:layout_constraintTop_toBottomOf="@+id/length_title" />
 
                 <ImageView
+                        android:id="@+id/size_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        vlc:srcCompat="@drawable/ic_storage"
-                        android:id="@+id/size_icon"
+                        android:layout_marginStart="6dp"
                         android:layout_marginTop="24dp"
                         android:padding="8dp"
                         android:visibility="@{TextUtils.isEmpty(sizeTitleText) ? View.GONE : View.VISIBLE}"
-                        vlc:layout_constraintTop_toBottomOf="@+id/length_icon"
                         vlc:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="16dp" />
+                        vlc:layout_constraintTop_toBottomOf="@+id/length_icon"
+                        vlc:srcCompat="@drawable/ic_storage" />
 
                 <TextView
                         android:id="@+id/size_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="26dp"
                         android:text="@{sizeTitleText}"
                         android:textColor="?attr/font_audio_light"
                         android:textStyle="bold"
-                        vlc:layout_constraintStart_toEndOf="@+id/size_icon"
-                        android:layout_marginStart="16dp"
+                        tools:text="@string/file_size"
                         vlc:layout_constraintBottom_toTopOf="@+id/size_value"
+                        vlc:layout_constraintStart_toEndOf="@+id/size_icon"
                         vlc:layout_constraintTop_toTopOf="@+id/size_icon"
                         vlc:layout_constraintVertical_chainStyle="packed" />
 
@@ -296,36 +297,37 @@
                         android:id="@+id/size_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="?attr/font_audio_light"
                         android:text="@{sizeValueText}"
-                        vlc:layout_constraintStart_toEndOf="@+id/size_icon"
-                        android:layout_marginStart="16dp"
-                        vlc:layout_constraintTop_toBottomOf="@+id/size_title"
-                        vlc:layout_constraintBottom_toBottomOf="@+id/size_icon" />
+                        android:textColor="?attr/font_audio_light"
+                        tools:text="3MB"
+                        vlc:layout_constraintBottom_toBottomOf="@+id/size_icon"
+                        vlc:layout_constraintStart_toStartOf="@+id/size_title"
+                        vlc:layout_constraintTop_toBottomOf="@+id/size_title" />
 
                 <ImageView
+                        android:id="@+id/extra_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        vlc:srcCompat="@drawable/ic_song"
-                        android:id="@+id/extra_icon"
-                        android:padding="8dp"
+                        android:layout_marginStart="6dp"
                         android:layout_marginTop="24dp"
+                        android:padding="8dp"
                         android:visibility="@{TextUtils.isEmpty(extraTitleText) ? View.GONE : View.VISIBLE}"
-                        vlc:layout_constraintTop_toBottomOf="@+id/size_icon"
                         vlc:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="16dp" />
+                        vlc:layout_constraintTop_toBottomOf="@+id/size_icon"
+                        vlc:srcCompat="@drawable/ic_song" />
 
                 <TextView
                         android:id="@+id/extra_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="?attr/font_audio_light"
-                        android:text="@{extraTitleText}"
-                        android:textStyle="bold"
-                        vlc:layout_constraintStart_toEndOf="@+id/extra_icon"
-                        android:layout_marginStart="16dp"
-                        vlc:layout_constraintBottom_toTopOf="@+id/extra_value"
+                        android:layout_marginStart="26dp"
                         android:layout_marginTop="8dp"
+                        android:text="@{extraTitleText}"
+                        android:textColor="?attr/font_audio_light"
+                        android:textStyle="bold"
+                        tools:text="Title"
+                        vlc:layout_constraintBottom_toTopOf="@+id/extra_value"
+                        vlc:layout_constraintStart_toEndOf="@+id/extra_icon"
                         vlc:layout_constraintTop_toTopOf="@+id/extra_icon"
                         vlc:layout_constraintVertical_chainStyle="packed" />
 
@@ -333,13 +335,13 @@
                         android:id="@+id/extra_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        vlc:layout_constraintStart_toEndOf="@+id/extra_icon"
-                        android:textColor="?attr/font_audio_light"
-                        android:text="@{extraValueText}"
-                        android:layout_marginStart="16dp"
-                        vlc:layout_constraintTop_toBottomOf="@+id/extra_title"
                         android:layout_marginBottom="8dp"
-                        vlc:layout_constraintBottom_toBottomOf="@+id/extra_icon" />
+                        android:text="@{extraValueText}"
+                        android:textColor="?attr/font_audio_light"
+                        tools:text="Beethoven - 9th symphony"
+                        vlc:layout_constraintBottom_toBottomOf="@+id/extra_icon"
+                        vlc:layout_constraintStart_toStartOf="@+id/extra_title"
+                        vlc:layout_constraintTop_toBottomOf="@+id/extra_title" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
