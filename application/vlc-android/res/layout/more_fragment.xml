@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                <Button
+                <org.videolan.vlc.gui.view.AutofitButton
                         android:id="@+id/settingsButton"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                         android:layout_width="0dp"
@@ -50,15 +50,19 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="8dp"
+                        android:ellipsize="middle"
+                        android:singleLine="true"
                         android:text="@string/preferences"
+                        app:iconSize="24dp"
                         app:icon="@drawable/ic_more_preferences"
                         app:layout_constraintEnd_toStartOf="@+id/aboutButton"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_max="200dp" />
 
-                <Button
+                <org.videolan.vlc.gui.view.AutofitButton
                         android:id="@+id/aboutButton"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                         android:layout_width="0dp"
@@ -66,12 +70,16 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="16dp"
+                        android:ellipsize="middle"
+                        android:singleLine="true"
+                        app:iconSize="24dp"
                         android:text="@string/about"
                         app:icon="@drawable/ic_more_about"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/settingsButton"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_max="200dp" />
 
                 <org.videolan.vlc.gui.view.TitleListView
                         android:id="@+id/streams_entry"
