@@ -93,6 +93,7 @@ object UiTools {
     private var DEFAULT_COVER_ARTIST_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_MOVIE_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_TVSHOW_DRAWABLE: BitmapDrawable? = null
+    private var DEFAULT_COVER_FOLDER_DRAWABLE: BitmapDrawable? = null
 
     private var DEFAULT_COVER_VIDEO_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_DRAWABLE_BIG: BitmapDrawable? = null
@@ -100,24 +101,30 @@ object UiTools {
     private var DEFAULT_COVER_ARTIST_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_MOVIE_DRAWABLE_BIG: BitmapDrawable? = null
     private var DEFAULT_COVER_TVSHOW_DRAWABLE_BIG: BitmapDrawable? = null
+    private var DEFAULT_COVER_FOLDER_DRAWABLE_BIG: BitmapDrawable? = null
 
     private val sHandler = Handler(Looper.getMainLooper())
     const val DELETE_DURATION = 3000
 
     fun getDefaultVideoDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE == null) {
-            val DEFAULT_COVER_VIDEO = getBitmapFromDrawable(context, R.drawable.ic_no_thumbnail_1610)
-            DEFAULT_COVER_VIDEO_DRAWABLE = BitmapDrawable(context.resources, DEFAULT_COVER_VIDEO)
+            DEFAULT_COVER_VIDEO_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_no_thumbnail_1610))
         }
         return DEFAULT_COVER_VIDEO_DRAWABLE!!
     }
 
     fun getDefaultAudioDrawable(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_AUDIO_DRAWABLE == null) {
-            val DEFAULT_COVER_AUDIO = getBitmapFromDrawable(context, R.drawable.ic_no_song)
-            DEFAULT_COVER_AUDIO_DRAWABLE = BitmapDrawable(context.resources, DEFAULT_COVER_AUDIO)
+            DEFAULT_COVER_AUDIO_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_no_song))
         }
         return DEFAULT_COVER_AUDIO_DRAWABLE!!
+    }
+
+    fun getDefaultFolderDrawable(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_FOLDER_DRAWABLE == null) {
+            DEFAULT_COVER_FOLDER_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_menu_folder))
+        }
+        return DEFAULT_COVER_FOLDER_DRAWABLE!!
     }
 
     fun getDefaultAlbumDrawable(context: Context): BitmapDrawable {
@@ -150,16 +157,14 @@ object UiTools {
 
     fun getDefaultVideoDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_VIDEO_DRAWABLE_BIG == null) {
-            val DEFAULT_COVER_VIDEO = getBitmapFromDrawable(context, R.drawable.ic_browser_video_big_normal)
-            DEFAULT_COVER_VIDEO_DRAWABLE_BIG = BitmapDrawable(context.resources, DEFAULT_COVER_VIDEO)
+            DEFAULT_COVER_VIDEO_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_video_big_normal))
         }
         return DEFAULT_COVER_VIDEO_DRAWABLE_BIG!!
     }
 
     fun getDefaultAudioDrawableBig(context: Context): BitmapDrawable {
         if (DEFAULT_COVER_AUDIO_DRAWABLE_BIG == null) {
-            val DEFAULT_COVER_AUDIO = getBitmapFromDrawable(context, R.drawable.ic_song_big)
-            DEFAULT_COVER_AUDIO_DRAWABLE_BIG = BitmapDrawable(context.resources, DEFAULT_COVER_AUDIO)
+            DEFAULT_COVER_AUDIO_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_song_big))
         }
         return DEFAULT_COVER_AUDIO_DRAWABLE_BIG!!
     }
@@ -190,6 +195,13 @@ object UiTools {
             DEFAULT_COVER_TVSHOW_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_browser_tvshow_big))
         }
         return DEFAULT_COVER_TVSHOW_DRAWABLE_BIG!!
+    }
+
+    fun getDefaultFolderDrawableBig(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_FOLDER_DRAWABLE_BIG == null) {
+            DEFAULT_COVER_FOLDER_DRAWABLE_BIG = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_menu_folder_big))
+        }
+        return DEFAULT_COVER_FOLDER_DRAWABLE_BIG!!
     }
 
     /**

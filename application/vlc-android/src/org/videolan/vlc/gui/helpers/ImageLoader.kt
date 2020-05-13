@@ -106,6 +106,7 @@ fun getMediaIconDrawable(context: Context?, type: Int, big: Boolean = false): Bi
         MediaWrapper.TYPE_ARTIST -> if (big) UiTools.getDefaultArtistDrawableBig(it) else UiTools.getDefaultArtistDrawable(it)
         MediaWrapper.TYPE_AUDIO -> if (big) UiTools.getDefaultAudioDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
         MediaWrapper.TYPE_VIDEO -> if (big) UiTools.getDefaultVideoDrawableBig(it) else UiTools.getDefaultAudioDrawable(it)
+        MediaWrapper.TYPE_DIR -> if (big) UiTools.getDefaultFolderDrawableBig(it) else UiTools.getDefaultFolderDrawable(it)
         else -> null
     }
 }
