@@ -519,7 +519,6 @@
     <string name="resume_from_position">Resume from last position</string>
     <string name="confirm_resume">Resume from last position?</string>
     <string name="confirm_resume_title">Resume played videos</string>
-    <string name="directory_empty">Directory is empty</string>
     <string name="tv_ui_title">Android TV interface</string>
     <string name="tv_ui_summary">Change UI to TV adapted theme</string>
     <string name="medialibrary">Media library</string>
@@ -826,4 +825,5 @@
     <string name="ungroup">Ungroup</string>
     <string name="group_similar">Regroup automatically</string>
     <string name="no_favorite">No favorite</string>
+    <string name="empty_directory">Empty</string>
 </resources>

@@ -183,7 +183,7 @@
                 android:textAppearance="@style/VLCImageCardViewContentStyleTextAppearance"
                 android:textSize="11sp"
                 tools:text="@string/add_custom_path_description"
-                vlc:asyncText="@{description}"
+                vlc:browserDescription="@{description}"
                 vlc:layout_constraintBottom_toBottomOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintStart_toStartOf="parent"

@@ -30,6 +30,7 @@ import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.getDescriptionSpan
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

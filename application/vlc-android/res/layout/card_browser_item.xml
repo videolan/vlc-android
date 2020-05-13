@@ -163,7 +163,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="4dp"
                     android:maxLines="1"
-                    app:asyncText="@{item}"
+                    app:browserDescription="@{item.description}"
                     android:textColor="?attr/list_subtitle"
                     android:textSize="12sp"
                     android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE}"

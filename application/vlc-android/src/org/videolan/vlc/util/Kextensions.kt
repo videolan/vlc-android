@@ -8,6 +8,10 @@ import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.DynamicDrawableSpan
+import android.text.style.ImageSpan
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.TextView
@@ -43,7 +47,6 @@ import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
-import kotlin.collections.ArrayList
 
 fun String.validateLocation(): Boolean {
     var location = this
@@ -172,6 +175,25 @@ fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
     view.visibility = View.VISIBLE
     val params = TextViewCompat.getTextMetricsParams(view)
     (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
+}
+
+const val folderReplacementMarker = "§*§"
+const val fileReplacementMarker = "*§*"
+
+@BindingAdapter("app:browserDescription", requireAll = false)
+fun browserDescription(view: TextView, description: String?) {
+    (view as AppCompatTextView).text = description?.getDescriptionSpan(view.context)
+}
+
+fun CharSequence.getDescriptionSpan(context: Context):SpannableString {
+    val string = SpannableString(this)
+    if (this.contains(folderReplacementMarker)) {
+        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_folder, DynamicDrawableSpan.ALIGN_BASELINE), this.indexOf(folderReplacementMarker), this.indexOf(folderReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    }
+    if (this.contains(fileReplacementMarker)) {
+        string.setSpan(ImageSpan(context, R.drawable.ic_emoji_file, DynamicDrawableSpan.ALIGN_BASELINE), this.indexOf(fileReplacementMarker), this.indexOf(fileReplacementMarker)+3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    }
+    return string
 }
 
 fun Int.toPixel(): Int {

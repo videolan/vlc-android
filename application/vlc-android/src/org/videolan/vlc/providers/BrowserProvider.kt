@@ -293,11 +293,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         val res = context.resources
         sb.clear()
         if (folderCount > 0) {
-            sb.append(res.getQuantityString(R.plurals.subfolders_quantity, folderCount, folderCount))
-            if (mediaFileCount > 0) sb.append(", ")
+            sb.append("$folderCount $folderReplacementMarker")
+            if (mediaFileCount > 0) sb.append(" · ")
         }
-        if (mediaFileCount > 0) sb.append(res.getQuantityString(R.plurals.mediafiles_quantity, mediaFileCount, mediaFileCount))
-        else if (folderCount == 0 && mediaFileCount == 0) sb.append(res.getString(R.string.directory_empty))
+        if (mediaFileCount > 0) sb.append("$mediaFileCount $fileReplacementMarker")
+        else if (folderCount == 0 && mediaFileCount == 0) sb.append(res.getString(R.string.empty_directory))
         return sb.toString()
     }
 

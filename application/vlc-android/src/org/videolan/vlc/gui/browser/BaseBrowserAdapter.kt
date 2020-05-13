@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.helpers.MarqueeViewHolder
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.enableMarqueeEffect
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.util.getDescriptionSpan
 import java.util.*
 
 
@@ -134,7 +135,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             onBindViewHolder(holder, position)
         else if (payloads[0] is CharSequence) {
             (holder as MediaViewHolder).bindingContainer.text.visibility = View.VISIBLE
-            holder.bindingContainer.text.text = payloads[0] as CharSequence
+            holder.bindingContainer.text.text = (payloads[0] as CharSequence).getDescriptionSpan(holder.bindingContainer.text.context)
         } else if (payloads[0] is Int) {
             val value = payloads[0] as Int
             if (value == UPDATE_SELECTION) holder.selectView(multiSelectHelper.isSelected(position))

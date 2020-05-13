@@ -125,7 +125,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="@{item.description}"
+                app:browserDescription="@{item.description}"
                 android:textColor="?attr/list_subtitle"
                 android:textSize="12sp"
                 android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE, default=gone}"

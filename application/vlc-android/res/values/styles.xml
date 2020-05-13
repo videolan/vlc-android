@@ -261,6 +261,7 @@
         <item name="ariane_text_size">18sp</item>
         <item name="font_light">@color/grey50transparent_ea</item>
         <item name="empty_button">@style/Widget.Leanback.DetailsActionButtonStyle</item>
+        <item name="list_subtitle">@color/lb_basic_card_content_text_color</item>
     </style>
 
     <style name="VLCardView" parent="Widget.Leanback.ImageCardViewStyle">
