@@ -118,7 +118,7 @@ Pull requests must be proposed on our [gitlab server](https://code.videolan.org/
 
 So you must create an account, fork vlc-android project, and propose your merge requests from it.
 
-**Exept for translations**, see the section below.
+**Expert for translations**, see the section below.
 
 ### Translations
 
