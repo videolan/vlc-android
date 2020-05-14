@@ -58,7 +58,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
-        if (provider.headers.isEmpty) {
+        if (provider.liveHeaders.value?.isEmpty != false) {
             return
         }
 

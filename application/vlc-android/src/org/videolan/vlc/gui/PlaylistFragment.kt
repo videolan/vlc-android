@@ -109,6 +109,10 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
             setRefreshing(loading) {  }
         })
 
+        viewModel.provider.liveHeaders.observe(requireActivity(), Observer {
+            playlists.invalidateItemDecorations()
+        })
+
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
 
     }

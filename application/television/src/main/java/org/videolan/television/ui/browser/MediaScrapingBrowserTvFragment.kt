@@ -30,6 +30,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -99,21 +100,16 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
 
                 binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
                 headerAdapter.sortType = (viewModel as MediaScrapingBrowserViewModel).sort
-                val headerItems = ArrayList<String>()
-                viewModel.provider.headers.run {
-                    for (i in 0 until size()) {
-                        headerItems.add(valueAt(i))
-                    }
-                }
-                headerAdapter.items = headerItems
-                headerAdapter.notifyDataSetChanged()
             }
         })
+
+        viewModel.provider.liveHeaders.observe(this, Observer {
+            updateHeaders(it)
+            binding.list.invalidateItemDecorations()
+        })
+
         (viewModel.provider as MediaScrapingProvider).loading.observe(this, Observer {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
-        })
-        (viewModel.provider as MediaScrapingProvider).liveHeaders.observe(this, Observer {
-            headerAdapter.notifyDataSetChanged()
         })
     }
 

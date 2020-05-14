@@ -42,6 +42,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,6 +53,7 @@ import kotlinx.coroutines.yield
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.util.HeadersIndex
 import org.videolan.television.R
 import org.videolan.television.databinding.SongBrowserBinding
 import org.videolan.television.ui.*
@@ -68,6 +70,7 @@ import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
+import java.util.ArrayList
 
 private const val TAG = "MediaBrowserTvFragment"
 
@@ -217,6 +220,18 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         }
         recyclerSectionItemGridDecoration.isList = !inGrid
         binding.list.layoutManager = gridLayoutManager
+    }
+
+
+    fun updateHeaders(it: HeadersIndex) {
+        val headerItems = ArrayList<String>()
+        it.run {
+            for (i in 0 until size()) {
+                headerItems.add(valueAt(i))
+            }
+        }
+        headerAdapter.items = headerItems
+        headerAdapter.notifyDataSetChanged()
     }
 
     private fun changeDisplayMode() {

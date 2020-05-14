@@ -211,6 +211,9 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 }
             }
         })
+        provider.liveHeaders.observe(viewLifecycleOwner, Observer {
+            lists[currentTab].invalidateItemDecorations()
+        })
     }
 
     override fun onStart() {

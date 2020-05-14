@@ -146,6 +146,13 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             }
             setRefreshing(loading)
         })
+
+        viewModel.albumsProvider.liveHeaders.observe(viewLifecycleOwner, Observer {
+            lists[0].invalidateItemDecorations()
+        })
+        viewModel.tracksProvider.liveHeaders.observe(viewLifecycleOwner, Observer {
+            lists[1].invalidateItemDecorations()
+        })
     }
 
     override fun sortBy(sort: Int) {

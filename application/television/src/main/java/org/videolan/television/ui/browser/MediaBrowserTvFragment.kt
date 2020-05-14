@@ -6,12 +6,14 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.HeadersIndex
 import org.videolan.television.ui.MediaTvItemAdapter
 import org.videolan.television.ui.TvItemAdapter
 import org.videolan.television.ui.TvUtil
@@ -39,7 +41,6 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
     }
 
     override fun getDisplayPrefId() = "display_tv_media_${(viewModel as MediaBrowserViewModel).category}"
-
 
     override lateinit var adapter: TvItemAdapter
 
@@ -71,7 +72,6 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         val currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(ITEM) as? MediaLibraryItem
         else requireActivity().intent.getParcelableExtra<Parcelable>(ITEM) as? MediaLibraryItem
 
@@ -87,15 +87,13 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
 
             binding.headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as MediaBrowserViewModel).sort
-            val headerItems = ArrayList<String>()
-            viewModel.provider.headers.run {
-                for (i in 0 until size()) {
-                    headerItems.add(valueAt(i))
-                }
-            }
-            headerAdapter.items = headerItems
-            headerAdapter.notifyDataSetChanged()
         })
+
+        viewModel.provider.liveHeaders.observe(this, Observer {
+            updateHeaders(it)
+            binding.list.invalidateItemDecorations()
+        })
+
         (viewModel.provider as MedialibraryProvider<*>).loading.observe(this, Observer {
             binding.emptyLoading.state = when {
                 it -> EmptyLoadingState.LOADING
