@@ -7,21 +7,14 @@
     <string name="other">其他</string>
     <string name="sortby">依…排序</string>
     <string name="sortby_name">名稱</string>
-    <string name="sortby_name_desc">名稱（遞減）</string>
     <string name="sortby_filename">檔案名稱</string>
-    <string name="sortby_filename_desc">檔案名稱（遞減）</string>
     <string name="sortby_artist_name">藝人名稱</string>
-    <string name="sortby_artist_name_desc">藝人名稱（遞減）</string>
     <string name="sortby_album_name">專輯名稱</string>
-    <string name="sortby_album_name_desc">專輯名稱（遞減）</string>
     <string name="sortby_length">長度</string>
-    <string name="sortby_length_desc">長度（遞減）</string>
     <string name="sortby_date">日期</string>
-    <string name="sortby_date_desc">日期（遞減）</string>
     <string name="sortby_last_modified_date">最近新增</string>
-    <string name="sortby_last_modified_date_desc">最近新增（描述）</string>
+    <string name="sortby_media_number">媒體數</string>
     <string name="sortby_number">曲目編號</string>
-    <string name="sortby_number_desc">曲目編號（遞減）</string>
     <string name="searchable_hint">搜尋…</string>
     <string name="history">歷史記錄</string>
 
@@ -53,6 +46,7 @@
     <string name="set_song_question">要將「%1$s」設為鈴聲嗎？</string>
     <string name="info">資訊</string>
     <string name="confirm_delete">是否刪除檔案「%1$s」？</string>
+    <string name="confirm_delete_album">刪除專輯「%1$s」？</string>
     <string name="confirm_delete_several_media">刪除這 %1$d 個媒體嗎？</string>
     <string name="confirm_delete_folder">是否刪除資料夾「%1$s」和其全部內容？</string>
     <string name="confirm_delete_playlist">是否刪除播放清單「%1$s」？</string>
@@ -202,7 +196,7 @@
     <string name="favorite_removed">已從收藏中移除</string>
 
     <string name="open">開啟</string>
-    <string name="open_mrl">串流</string>
+    <string name="streams">串流</string>
     <string name="open_mrl_dialog_title">開啟網路串流</string>
     <string name="open_mrl_dialog_msg">請輸入網址：例如 http://、mms:// 或 rtsp://</string>
     <string name="error_not_compatible">抱歉，您的裝置目前尚未被此版本的 VLC for Android™ 支援。</string>
@@ -219,7 +213,7 @@
     <string name="playback_history_title">播放記錄</string>
     <string name="playback_history_summary">儲存所有播放過的媒體到歷史記錄部分中</string>
     <string name="playback_speed_title">儲存播放速度</string>
-    <string name="playback_speed_summary">記住您設定的播放速度</string>
+    <string name="playback_speed_summary">在不同播放間保持播放速度</string>
 
     <string name="play_button">播放按鈕</string>
 
@@ -311,8 +305,8 @@
     <string name="media_seen_summary">將影片播放到最後之後，將它標示為已看過</string>
     <string name="force_play_all_summary">播放所有影片，從您點選的開始</string>
     <string name="force_play_all_title">影片播放清單模式</string>
-    <string name="save_brightness_summary">記住視訊播放器的亮度值</string>
-    <string name="save_brightness_title">儲存視訊的亮度值</string>
+    <string name="save_brightness_summary">在不同播放間保持亮度</string>
+    <string name="save_brightness_title">儲存亮度</string>
     <string name="save_audiodelay_summary">為每個影片儲存獨立的音訊延遲</string>
     <string name="save_audiodelay_title">儲存音訊延遲</string>
     <string name="enable_brightness_gesture_title">亮度手勢</string>
@@ -494,7 +488,6 @@
     <string name="resume_from_position">從上次播放的位置繼續</string>
     <string name="confirm_resume">從上次播放的位置繼續嗎？</string>
     <string name="confirm_resume_title">恢復播放過的影片</string>
-    <string name="directory_empty">資料夾為空</string>
     <string name="tv_ui_title">Android TV 介面</string>
     <string name="tv_ui_summary">將介面更改至適合電視的主題</string>
     <string name="medialibrary">媒體櫃</string>
@@ -787,4 +780,15 @@
     <string name="all_subfolders">新增此資料夾與子資料夾</string>
     <string name="playlist_existing">播放清單 %s 已存在</string>
     <string name="new_title">新標題</string>
+    <string name="browse">瀏覽</string>
+    <string name="more">更多</string>
+    <string name="favorites">最愛</string>
+    <string name="new_stream">新串流</string>
+    <string name="add_to_group">新增至影片群組</string>
+    <string name="remove_from_group">自影片群組移除</string>
+    <string name="rename_group">重新命名影片群組</string>
+    <string name="ungroup">取消分組</string>
+    <string name="group_similar">自動重新分組</string>
+    <string name="no_favorite">無收藏</string>
+    <string name="empty_directory">空的</string>
 </resources>
