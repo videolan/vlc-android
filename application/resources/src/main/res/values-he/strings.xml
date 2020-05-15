@@ -7,21 +7,14 @@
     <string name="other">אחר</string>
     <string name="sortby">סידור לפי…</string>
     <string name="sortby_name">שם</string>
-    <string name="sortby_name_desc">שם (יורד)</string>
     <string name="sortby_filename">שם הקובץ</string>
-    <string name="sortby_filename_desc">שם הקובץ (יורד)</string>
     <string name="sortby_artist_name">שם האמן</string>
-    <string name="sortby_artist_name_desc">שם האמן (יורד)</string>
     <string name="sortby_album_name">שם האלבום</string>
-    <string name="sortby_album_name_desc">שם האלבום (יורד)</string>
     <string name="sortby_length">משך</string>
-    <string name="sortby_length_desc">אורך (יורד)</string>
     <string name="sortby_date">תאריך</string>
-    <string name="sortby_date_desc">תאריך (יורד)</string>
     <string name="sortby_last_modified_date">נוספו לאחרונה</string>
-    <string name="sortby_last_modified_date_desc">נוספו לאחרונה (סדר יורד)</string>
+    <string name="sortby_media_number">מספר מדיה</string>
     <string name="sortby_number">מספר הרצועות</string>
-    <string name="sortby_number_desc">מספר הרצועות (יורד)</string>
     <string name="searchable_hint">חיפוש…</string>
     <string name="history">היסטוריה</string>
 
@@ -56,6 +49,7 @@
     <string name="set_song_question">להגדיר את ‚%1$s’ כצלצול?</string>
     <string name="info">מידע</string>
     <string name="confirm_delete">למחוק את הקובץ „%1$s“?</string>
+    <string name="confirm_delete_album">למחוק את האלבום ‚%1$s’?</string>
     <string name="confirm_delete_several_media">למחוק את %1$d פריטי המדיה האלו?</string>
     <string name="confirm_delete_folder">למחוק את התיקייה „%1$s“ על כל תכניה?</string>
     <string name="confirm_delete_playlist">למחוק את רשימת הנגינה „%1$s“?</string>
@@ -249,7 +243,7 @@
     <string name="playback_history_title">היסטוריית נגינה</string>
     <string name="playback_history_summary">לשמור את כל המדיה שהתנגנה באגף ההיסטוריה</string>
     <string name="playback_speed_title">לשמור את מהירות הנגינה</string>
-    <string name="playback_speed_summary">לזכור את מהירות הנגינה שהגדרת</string>
+    <string name="playback_speed_summary">לשמור על מהירות הנגינה בין הפעלה להפעלה</string>
 
     <string name="play_button">כפתור נגינה</string>
 
@@ -341,8 +335,8 @@
     <string name="media_seen_summary">סימון צפייה על הסרטון בעת נגינתו עד לסופו</string>
     <string name="force_play_all_summary">לנגן את כל הסרטונים, החל מזה שעליו לחצת</string>
     <string name="force_play_all_title">מצב רשימת סרטונים</string>
-    <string name="save_brightness_summary">שמירת רמת הבהירות בנגן הסרטונים</string>
-    <string name="save_brightness_title">שמירת רמת הבהירות לסרטון</string>
+    <string name="save_brightness_summary">לשמור על רמת הבהירות בין הפעלה להפעלה</string>
+    <string name="save_brightness_title">שמירת רמת הבהירות</string>
     <string name="save_audiodelay_summary">שמירת השהיית שמע נקודתית לכל סרטון</string>
     <string name="save_audiodelay_title">שמירת השהיית השמע</string>
     <string name="enable_brightness_gesture_title">מחוות בהירות</string>
@@ -524,7 +518,6 @@
     <string name="resume_from_position">המשך מהמיקום האחרון</string>
     <string name="confirm_resume">להמשיך מהמיקום האחרון?</string>
     <string name="confirm_resume_title">להמשיך סרטונים שנעצרו</string>
-    <string name="directory_empty">התיקייה ריקה</string>
     <string name="tv_ui_title">מנשק טלוויזיית אנדרויד</string>
     <string name="tv_ui_summary">החלפת מנשק המשתמש לערכת נושא תואמת טלוויזייה</string>
     <string name="medialibrary">ספריית מדיה</string>
@@ -827,4 +820,11 @@
     <string name="more">עוד</string>
     <string name="favorites">מועדפים</string>
     <string name="new_stream">תזרים חדש</string>
+    <string name="add_to_group">הוספת וידאו לקבוצה</string>
+    <string name="remove_from_group">הסרה מקבוצת הווידאו</string>
+    <string name="rename_group">שינוי שם קבוצת וידאו</string>
+    <string name="ungroup">פירוק הקבוצה</string>
+    <string name="group_similar">קיבוץ אוטומטי מחדש</string>
+    <string name="no_favorite">אין מועדפים</string>
+    <string name="empty_directory">ריקה</string>
 </resources>
