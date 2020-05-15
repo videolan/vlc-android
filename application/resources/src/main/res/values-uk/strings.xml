@@ -7,21 +7,14 @@
     <string name="other">Інше</string>
     <string name="sortby">Сортувати за…</string>
     <string name="sortby_name">назвою</string>
-    <string name="sortby_name_desc">Назва (за спад.)</string>
     <string name="sortby_filename">Назва файлу</string>
-    <string name="sortby_filename_desc">Назва файлу (за спад.)</string>
     <string name="sortby_artist_name">Ім\'я виконавця</string>
-    <string name="sortby_artist_name_desc">Ім\'я виконавця (за спад.)</string>
     <string name="sortby_album_name">Назва альбому</string>
-    <string name="sortby_album_name_desc">Назва альбому (за спад.)</string>
     <string name="sortby_length">довжиною</string>
-    <string name="sortby_length_desc">Довжина (за спад.)</string>
     <string name="sortby_date">Дата</string>
-    <string name="sortby_date_desc">Дата (за спад.)</string>
     <string name="sortby_last_modified_date">Недавно додано</string>
-    <string name="sortby_last_modified_date_desc">Недавно додано (спад.)</string>
+    <string name="sortby_media_number">Кількість медіа</string>
     <string name="sortby_number">Доріжки Nb</string>
-    <string name="sortby_number_desc">Доріжки Nb (за спад.)</string>
     <string name="searchable_hint">Триває пошук…</string>
     <string name="history">Історія</string>
 
@@ -56,6 +49,7 @@
     <string name="set_song_question">Встановити \'%1$s\' як мелодію дзвінків?</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
+    <string name="confirm_delete_album">Вилучити альбом%1$s?</string>
     <string name="confirm_delete_several_media">Вилучити ці %1$d медіа?</string>
     <string name="confirm_delete_folder">Вилучити теку \'%1$s\' та увесь її вміст?</string>
     <string name="confirm_delete_playlist">Вилучити список відтворення \'%1$s\'?</string>
@@ -232,7 +226,7 @@
     <string name="favorite_removed">Вилучено з обраного</string>
 
     <string name="open">Відкрити</string>
-    <string name="open_mrl">Потік</string>
+    <string name="streams">Потоки</string>
     <string name="open_mrl_dialog_title">Відкрити мережевий потік</string>
     <string name="open_mrl_dialog_msg">Уведіть мережеву MRL-адресу, наприклад, http://, mms:// або rtsp://</string>
     <string name="error_not_compatible">На жаль, ваш пристрій на даний час не підтримується цією версією VLC для Android™.</string>
@@ -249,7 +243,7 @@
     <string name="playback_history_title">Історія відтворення</string>
     <string name="playback_history_summary">Зберігати усі відтворені медіафайли у Історії</string>
     <string name="playback_speed_title">Зберігати швидкість відтворення</string>
-    <string name="playback_speed_summary">Запам\'ятати швидкість відтворення, задану вами</string>
+    <string name="playback_speed_summary">Зберігати швидкість відтворення між запусками</string>
 
     <string name="play_button">Кнопка Відтворити</string>
 
@@ -341,8 +335,8 @@
     <string name="media_seen_summary">Позначте відео, як переглянути, коли ви додивитеся до кінця</string>
     <string name="force_play_all_summary">Відтворювати усе відео, починаючи з першого, на тицьнули</string>
     <string name="force_play_all_title">Режим відтворення списку відео</string>
-    <string name="save_brightness_summary">Запам\'ятати рівень яскравості у відеопрогравачі</string>
-    <string name="save_brightness_title">Зберегти рівень яскравості для відео</string>
+    <string name="save_brightness_summary">Зберігати рівень яскравості між відтвореннями</string>
+    <string name="save_brightness_title">Зберегти рівень яскравості</string>
     <string name="save_audiodelay_summary">Зберігати індивідуальну затримку звуку для кожного відео</string>
     <string name="save_audiodelay_title">Зберігати затримку звуку</string>
     <string name="enable_brightness_gesture_title">Жест яскравості</string>
@@ -524,7 +518,6 @@
     <string name="resume_from_position">Відновити із останньої позиції</string>
     <string name="confirm_resume">Відновити із останньої позиції?</string>
     <string name="confirm_resume_title">Відновити відтворене відео</string>
-    <string name="directory_empty">Каталог - порожній</string>
     <string name="tv_ui_title">Інтерфейс ТБ Андроїд</string>
     <string name="tv_ui_summary">Змінити інтерфейс на тему під ТБ</string>
     <string name="medialibrary">Медіа бібліотека</string>
@@ -823,4 +816,15 @@
     <string name="all_subfolders">Додати цю теку і підтеки</string>
     <string name="playlist_existing">Список відтворення %s вже існує</string>
     <string name="new_title">Нова назва</string>
+    <string name="browse">Огляд</string>
+    <string name="more">Більше</string>
+    <string name="favorites">Обране</string>
+    <string name="new_stream">Новий потік</string>
+    <string name="add_to_group">Додати до групи відео</string>
+    <string name="remove_from_group">Вилучити з групи відео</string>
+    <string name="rename_group">Перейменувати групу відео</string>
+    <string name="ungroup">Розгрупувати</string>
+    <string name="group_similar">Перегрупувати автоматично</string>
+    <string name="no_favorite">Не обране</string>
+    <string name="empty_directory">Порожньо</string>
 </resources>
