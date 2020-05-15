@@ -7,21 +7,14 @@
     <string name="other">Altro</string>
     <string name="sortby">Ordina per…</string>
     <string name="sortby_name">Nome</string>
-    <string name="sortby_name_desc">Nome (decresc)</string>
     <string name="sortby_filename">Nome file</string>
-    <string name="sortby_filename_desc">Nome file (decresc)</string>
     <string name="sortby_artist_name">Nome artista</string>
-    <string name="sortby_artist_name_desc">Nome artista (decresc)</string>
     <string name="sortby_album_name">Nome album</string>
-    <string name="sortby_album_name_desc">Nome album (decresc)</string>
     <string name="sortby_length">Durata</string>
-    <string name="sortby_length_desc">Durata (decresc)</string>
     <string name="sortby_date">Data</string>
-    <string name="sortby_date_desc">Data (decresc)</string>
     <string name="sortby_last_modified_date">Aggiunti di recente</string>
-    <string name="sortby_last_modified_date_desc">Aggiunti di recente (decres)</string>
+    <string name="sortby_media_number">Numero media</string>
     <string name="sortby_number">Num. tracce</string>
-    <string name="sortby_number_desc">Num. tracce (decresc)</string>
     <string name="searchable_hint">Cerca…</string>
     <string name="history">Cronologia</string>
 
@@ -54,6 +47,7 @@
     <string name="set_song_question">Vuoi impostare \'%1$s\' come suoneria?</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
+    <string name="confirm_delete_album">Vuoi eliminare l\'album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Vuoi eliminare questi %1$d media?</string>
     <string name="confirm_delete_folder">Vuoi eliminare la cartella \'%1$s\' e il suo contenuto?</string>
     <string name="confirm_delete_playlist">Vuoi eliminare la scaletta \'%1$s\'?</string>
@@ -229,7 +223,7 @@
     <string name="playback_history_title">Cronologia di riproduzione</string>
     <string name="playback_history_summary">Salva tutti i media riprodotti nella sezione Cronologia</string>
     <string name="playback_speed_title">Salva velocità di riproduzione</string>
-    <string name="playback_speed_summary">Ricorda la velocità di riproduzione impostata</string>
+    <string name="playback_speed_summary">Ricorda la velocità di riproduzione tra le riproduzioni</string>
 
     <string name="play_button">Pulsante Riproduci</string>
 
@@ -321,8 +315,8 @@
     <string name="media_seen_summary">Marca un video come visto quando lo riproduci fino alla fine</string>
     <string name="force_play_all_summary">Riproduci tutti i video, iniziando con quello su che hai toccato</string>
     <string name="force_play_all_title">Modalità scaletta video</string>
-    <string name="save_brightness_summary">Ricorda il livello di luminosità nel lettore video</string>
-    <string name="save_brightness_title">Salva il livello di luminosità per il video</string>
+    <string name="save_brightness_summary">Ricorda il livello di luminosità tra le riproduzioni</string>
+    <string name="save_brightness_title">Salva il livello di luminosità</string>
     <string name="save_audiodelay_summary">Salva ritardo audio individuale per ogni video</string>
     <string name="save_audiodelay_title">Salva ritardo audio</string>
     <string name="enable_brightness_gesture_title">Gesti della luminosità</string>
@@ -504,7 +498,6 @@
     <string name="resume_from_position">Riprendi dall\'ultima posizione</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
     <string name="confirm_resume_title">Riprendi video riprodotti</string>
-    <string name="directory_empty">La cartella è vuota</string>
     <string name="tv_ui_title">Interfaccia Android TV</string>
     <string name="tv_ui_summary">Cambia interfaccia a tema adattato alla TV</string>
     <string name="medialibrary">Raccolta multimediale</string>
@@ -803,4 +796,11 @@
     <string name="more">Altro</string>
     <string name="favorites">Preferiti</string>
     <string name="new_stream">Nuovo flusso</string>
+    <string name="add_to_group">Aggiungi al gruppo di video</string>
+    <string name="remove_from_group">Rimuovi dal gruppo di video</string>
+    <string name="rename_group">Rinomina il gruppo di video</string>
+    <string name="ungroup">Separa</string>
+    <string name="group_similar">Raggruppa automaticamente</string>
+    <string name="no_favorite">Nessun preferito</string>
+    <string name="empty_directory">Vuota</string>
 </resources>
