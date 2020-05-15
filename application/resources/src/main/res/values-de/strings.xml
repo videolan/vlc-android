@@ -7,21 +7,14 @@
     <string name="other">Andere</string>
     <string name="sortby">Sortieren nach…</string>
     <string name="sortby_name">Name</string>
-    <string name="sortby_name_desc">Name (absteigend)</string>
     <string name="sortby_filename">Dateiname</string>
-    <string name="sortby_filename_desc">Dateiname (absteigend)</string>
     <string name="sortby_artist_name">Künstlername</string>
-    <string name="sortby_artist_name_desc">Künstlername (absteigend)</string>
     <string name="sortby_album_name">Albumname</string>
-    <string name="sortby_album_name_desc">Albumname (absteigend)</string>
     <string name="sortby_length">Laufzeit</string>
-    <string name="sortby_length_desc">Laufzeit (absteigend)</string>
     <string name="sortby_date">Datum</string>
-    <string name="sortby_date_desc">Datum (absteigend)</string>
     <string name="sortby_last_modified_date">Zuletzt hinzugefügt</string>
-    <string name="sortby_last_modified_date_desc">Zuletzt hinzugefügt (absteigend)</string>
+    <string name="sortby_media_number">Mediennummer</string>
     <string name="sortby_number">Titelnummern</string>
-    <string name="sortby_number_desc">Titelnummern (absteigend)</string>
     <string name="searchable_hint">Suchen…</string>
     <string name="history">Verlauf</string>
 
@@ -54,6 +47,7 @@
     <string name="set_song_question">\'%1$s\' als Klingelton festlegen?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei \'%1$s\' löschen?</string>
+    <string name="confirm_delete_album">Das Album  \'%1$s\' löschen?</string>
     <string name="confirm_delete_several_media">%1$d wirklich löschen?</string>
     <string name="confirm_delete_folder">Den Ordner \'%1$s\' mit dem gesamten Inhalt löschen?</string>
     <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
@@ -229,7 +223,7 @@
     <string name="playback_history_title">Wiedergabeverlauf</string>
     <string name="playback_history_summary">Alle abgespielten Medien im Verlaufsbereich speichern</string>
     <string name="playback_speed_title">Wiedergabegeschwindigkeit speichern</string>
-    <string name="playback_speed_summary">Eingestellte Wiedergabegeschwindigkeit wird gespeichert</string>
+    <string name="playback_speed_summary">Wiedergabegeschwindigkeit zwischen den Wiedergaben gleich behalten</string>
 
     <string name="play_button">Wiedergabe-Knopf</string>
 
@@ -321,7 +315,7 @@
     <string name="media_seen_summary">Ein Video als gesehen markieren, wenn es bis zum Ende wiedergegeben wurde</string>
     <string name="force_play_all_summary">Alle Videos wiedergeben, mit dem angeklickten Video beginnen</string>
     <string name="force_play_all_title">Modus für Video-Wiedergabelisten</string>
-    <string name="save_brightness_summary">Eingestellte Helligkeitseinstellung wird im Videoplayer gespeichert</string>
+    <string name="save_brightness_summary">Helligkeit zwischen den Wiedergaben gleich behalten</string>
     <string name="save_brightness_title">Helligkeitseinstellung speichern</string>
     <string name="save_audiodelay_summary">Individuelle Audioverzögerung für jedes einzelne Video speichern</string>
     <string name="save_audiodelay_title">Audioverzögerung speichern</string>
@@ -504,7 +498,6 @@
     <string name="resume_from_position">Fortsetzen von letzter Position</string>
     <string name="confirm_resume">Von letzter Position fortsetzen?</string>
     <string name="confirm_resume_title">Wiedergegebene Videos fortsetzen</string>
-    <string name="directory_empty">Verzeichnis ist leer</string>
     <string name="tv_ui_title">Android-TV-Schnittstelle</string>
     <string name="tv_ui_summary">Benutzeroberfläche zum TV angepassten Design ändern</string>
     <string name="medialibrary">Medienbibliothek</string>
@@ -799,8 +792,15 @@
     <string name="all_subfolders">Alle Unterordner hinzufügen</string>
     <string name="playlist_existing">Wiedergabeliste %s existiert bereits</string>
     <string name="new_title">Neuer Titel</string>
-    <string name="browse">Durchsuchen</string>
+    <string name="browse">Dateien</string>
     <string name="more">Mehr</string>
     <string name="favorites">Favoriten</string>
     <string name="new_stream">Neuer Stream</string>
+    <string name="add_to_group">Video zur Gruppe hinzufügen</string>
+    <string name="remove_from_group">Video aus Gruppe entfernen</string>
+    <string name="rename_group">Videogruppe umbenennen</string>
+    <string name="ungroup">Gruppierung aufheben</string>
+    <string name="group_similar">Automatisch neu gruppieren</string>
+    <string name="no_favorite">Keine Favoriten</string>
+    <string name="empty_directory">Leer</string>
 </resources>
