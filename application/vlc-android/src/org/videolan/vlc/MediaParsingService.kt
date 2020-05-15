@@ -173,7 +173,8 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             ACTION_INIT -> {
                 val upgrade = intent.getBooleanExtra(EXTRA_UPGRADE, false)
                 val parse = intent.getBooleanExtra(EXTRA_PARSE, true)
-                setupMedialibrary(upgrade, parse)
+                val removeDevices = intent.getBooleanExtra(EXTRA_REMOVE_DEVICE, false)
+                setupMedialibrary(upgrade, parse, removeDevices)
             }
             ACTION_RELOAD -> actions.safeOffer(Reload(intent.getStringExtra(EXTRA_PATH)))
             ACTION_FORCE_RELOAD -> actions.safeOffer(ForceReload)
@@ -239,22 +240,23 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         else medialibrary.reload(path)
     }
 
-    private fun setupMedialibrary(upgrade: Boolean, parse: Boolean) {
+    private fun setupMedialibrary(upgrade: Boolean, parse: Boolean, removeDevices:Boolean) {
         if (medialibrary.isInitiated) {
             medialibrary.resumeBackgroundOperations()
             if (parse && !scanActivated) actions.safeOffer(StartScan(upgrade))
-        } else actions.safeOffer(Init(upgrade, parse))
+        } else actions.safeOffer(Init(upgrade, parse, removeDevices))
     }
 
-    private suspend fun initMedialib(parse: Boolean, context: Context, shouldInit: Boolean, upgrade: Boolean) {
-        addDevices(context, parse)
+    private suspend fun initMedialib(parse: Boolean, context: Context, shouldInit: Boolean, upgrade: Boolean, removeDevices: Boolean) {
+        addDevices(context, parse, removeDevices)
         if (upgrade) medialibrary.forceParserRetry()
         medialibrary.start()
         if (parse) startScan(shouldInit, upgrade)
         else exitCommand()
     }
 
-    private suspend fun addDevices(context: Context, addExternal: Boolean) {
+    private suspend fun addDevices(context: Context, addExternal: Boolean, removeDevices: Boolean) {
+        if (removeDevices) medialibrary.deleteRemovableDevices()
         val devices = DirectoryRepository.getInstance(context).getMediaDirectories()
         val knownDevices = if (AndroidDevices.watchDevices) medialibrary.devices else null
         for (device in devices) {
@@ -450,14 +452,14 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     val initCode = medialibrary.init(context)
                     if (initCode != Medialibrary.ML_INIT_ALREADY_INITIALIZED) {
                         shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET) or (initCode == Medialibrary.ML_INIT_DB_CORRUPTED)
-                        if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
+                        if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade, action.removeDevices)
                         else exitCommand()
                     } else exitCommand()
                 }
             }
             is StartScan -> {
                 scanActivated = true
-                addDevices(this@MediaParsingService, true)
+                addDevices(this@MediaParsingService, addExternal = true, removeDevices = false)
                 startScan(false, action.upgrade)
             }
             UpdateStorages -> updateStorages()
@@ -513,7 +515,7 @@ fun Context.rescan() {
 private sealed class MLAction
 private class DiscoverStorage(val path: String) : MLAction()
 private class DiscoverFolder(val path: String) : MLAction()
-private class Init(val upgrade: Boolean, val parse: Boolean) : MLAction()
+private class Init(val upgrade: Boolean, val parse: Boolean, val removeDevices:Boolean) : MLAction()
 private class StartScan(val upgrade: Boolean) : MLAction()
 private object UpdateStorages : MLAction()
 private class Reload(val path: String?) : MLAction()

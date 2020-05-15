@@ -78,6 +78,12 @@ AndroidMediaLibrary::isDeviceKnown(const std::string& uuid, const std::string& p
     return p_ml->isDeviceKnown(uuid, path, removable);
 }
 
+bool
+AndroidMediaLibrary::deleteRemovableDevices()
+{
+    return p_ml->deleteRemovableDevices();
+}
+
 std::vector<std::tuple<std::string, std::string, bool>>
 AndroidMediaLibrary::devices()
 {

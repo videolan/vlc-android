@@ -67,6 +67,11 @@ public class StubMedialibrary extends Medialibrary {
         return false;
     }
 
+    @Override
+    public boolean deleteRemovableDevices() {
+        return false;
+    }
+
     public void loadJsonData(String jsonContent) {
         dt.loadJsonData(jsonContent);
         reload();

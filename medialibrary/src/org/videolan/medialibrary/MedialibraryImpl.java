@@ -121,6 +121,10 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated && nativeIsDeviceKnown(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
     }
 
+    public boolean deleteRemovableDevices() {
+        return mIsInitiated && nativeDeleteRemovableDevices();
+    }
+
     public void addDevice(@NonNull String uuid, @NonNull String path, boolean removable) {
         if (!mIsInitiated) return;
         nativeAddDevice(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
@@ -576,6 +580,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativeUnbanFolder(String path);
     private native void nativeAddDevice(String uuid, String path, boolean removable);
     private native boolean nativeIsDeviceKnown(String uuid, String path, boolean removable);
+    private native boolean nativeDeleteRemovableDevices();
     private native String[] nativeDevices();
     private native void nativeDiscover(String path);
     private native void nativeRemoveEntryPoint(String path);

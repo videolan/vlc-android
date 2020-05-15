@@ -36,7 +36,7 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary
     }
 }
 
-fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = AppScope.launch {
+fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true, removeDevices:Boolean = false, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = AppScope.launch {
     if (Medialibrary.getInstance().isStarted || !canReadStorage(this@startMedialibrary)) return@launch
     val prefs = withContext(coroutineContextProvider.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (Settings.showTvUi) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
@@ -47,6 +47,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
     ContextCompat.startForegroundService(this@startMedialibrary, intent
             .putExtra(EXTRA_FIRST_RUN, firstRun)
             .putExtra(EXTRA_UPGRADE, upgrade)
+            .putExtra(EXTRA_REMOVE_DEVICE, removeDevices)
             .putExtra(EXTRA_PARSE, parse && scanOpt != ML_SCAN_OFF))
 }
 

@@ -102,6 +102,14 @@ isDeviceKnown(JNIEnv* env, jobject thiz, jstring uuid, jstring storagePath, jboo
     return isNew;
 }
 
+jboolean
+deleteRemovableDevices(JNIEnv* env, jobject thiz)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    jboolean isDeleted = aml->deleteRemovableDevices();
+    return isDeleted;
+}
+
 jobjectArray
 devices(JNIEnv* env, jobject thiz)
 {
@@ -2038,6 +2046,7 @@ static JNINativeMethod methods[] = {
     {"nativeClearDatabase", "(Z)V", (void*)clearDatabase },
     {"nativeAddDevice", "(Ljava/lang/String;Ljava/lang/String;Z)V", (void*)addDevice },
     {"nativeIsDeviceKnown", "(Ljava/lang/String;Ljava/lang/String;Z)Z", (void*)isDeviceKnown },
+    {"nativeDeleteRemovableDevices", "()Z", (void*)deleteRemovableDevices },
     {"nativeDevices", "()[Ljava/lang/String;", (void*)devices },
     {"nativeDiscover", "(Ljava/lang/String;)V", (void*)discover },
     {"nativeRemoveEntryPoint", "(Ljava/lang/String;)V", (void*)removeEntryPoint },
