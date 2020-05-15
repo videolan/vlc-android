@@ -7,21 +7,14 @@
     <string name="other">Inne</string>
     <string name="sortby">Sortuj według…</string>
     <string name="sortby_name">Nazwy</string>
-    <string name="sortby_name_desc">Nazwy (malejąco)</string>
     <string name="sortby_filename">Nazwy pliku</string>
-    <string name="sortby_filename_desc">Nazwy pliku (malejąco)</string>
     <string name="sortby_artist_name">Nazwy wykonawcy</string>
-    <string name="sortby_artist_name_desc">Nazwy wykonawcy (malejąco)</string>
     <string name="sortby_album_name">Nazwy albumu</string>
-    <string name="sortby_album_name_desc">Nazwy albumu (malejąco)</string>
     <string name="sortby_length">Długości</string>
-    <string name="sortby_length_desc">Długości (malejąco)</string>
     <string name="sortby_date">Daty</string>
-    <string name="sortby_date_desc">Daty (malejąco)</string>
     <string name="sortby_last_modified_date">Ostatnio dodanego</string>
-    <string name="sortby_last_modified_date_desc">Ostatnio dodanego (malejąco)</string>
+    <string name="sortby_media_number">Numeru mediów</string>
     <string name="sortby_number">Liczby utworów</string>
-    <string name="sortby_number_desc">Liczby utworów (malejąco)</string>
     <string name="searchable_hint">Szukaj…</string>
     <string name="history">Historia</string>
 
@@ -56,6 +49,7 @@
     <string name="set_song_question">Ustaw \'%1$s\' jako dzwonek?</string>
     <string name="info">Informacje</string>
     <string name="confirm_delete">Usunąć plik \"%1$s\"?</string>
+    <string name="confirm_delete_album">Usunąć album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Czy naprawdę usunąć %1$d?</string>
     <string name="confirm_delete_folder">Usunąć folder \'%1$s\' i całą jego zawartość?</string>
     <string name="confirm_delete_playlist">Usunąć listę odtwarzania \'%1$s\'?</string>
@@ -142,8 +136,8 @@
     <string name="directories">Katalogi</string>
     <string name="loading">Ładowanie</string>
     <string name="please_wait">Proszę czekać…</string>
-    <string name="nomedia">Brak plików multimedialnych, proszę przenieś kilka plików na twoje urządzenie lub zmień ustawienia.</string>
-    <string name="noplaylist">Nie znaleziono listy odtwarzania.</string>
+    <string name="nomedia">Brak plików multimedialnych, przenieś kilka plików na urządzenie lub zmień ustawienia</string>
+    <string name="noplaylist">Nie znaleziono listy odtwarzania</string>
     <string name="mediafiles">Pliki multimedialne</string>
     <string name="notavailable">niedostępne</string>
     <string name="nosubfolder">Brak podfolderów</string>
@@ -235,7 +229,7 @@
     <string name="streams">Strumienie</string>
     <string name="open_mrl_dialog_title">Otwórz strumień sieciowy</string>
     <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
-    <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™.</string>
+    <string name="error_not_compatible">Przykro nam, ale Twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™.</string>
     <string name="error_problem">Przepraszamy, ale VLC dla Androida miał problem przy ładowaniu i został zamknięty.</string>
     <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):\n</string>
     <string name="encountered_error_title">Błąd odtwarzania</string>
@@ -249,7 +243,7 @@
     <string name="playback_history_title">Historia odtwarzania</string>
     <string name="playback_history_summary">Zapisz wszystkie media odtwarzane w sekcji Historia</string>
     <string name="playback_speed_title">Zapisz prędkość odtwarzania</string>
-    <string name="playback_speed_summary">Zapamiętaj ustawioną prędkość odtwarzania</string>
+    <string name="playback_speed_summary">Zachowaj prędkość odtwarzania między odtworzeniami</string>
 
     <string name="play_button">Przycisk odtwarzania</string>
 
@@ -341,7 +335,7 @@
     <string name="media_seen_summary">Oznacz film jako obejrzany, gdy odtworzysz go do końca</string>
     <string name="force_play_all_summary">Odtwórz wszystkie filmy, zaczynając od tego, którego kliknąłeś</string>
     <string name="force_play_all_title">Tryb odtwarzania listy filmów</string>
-    <string name="save_brightness_summary">Zapamiętaj ustawiony poziom jasności w odtwarzaczu</string>
+    <string name="save_brightness_summary">Zachowaj poziom jasności między odtworzeniami</string>
     <string name="save_brightness_title">Zapisz poziom jasności</string>
     <string name="save_audiodelay_summary">Zapamiętaj indywidualne opóźnienie dźwięku dla każdego filmu</string>
     <string name="save_audiodelay_title">Zapisz opóźnienie dźwięku</string>
@@ -524,7 +518,6 @@
     <string name="resume_from_position">Wznów od ostatniej pozycji</string>
     <string name="confirm_resume">Wznowić od ostatniej pozycji?</string>
     <string name="confirm_resume_title">Wznów odtwarzane filmy</string>
-    <string name="directory_empty">Katalog jest pusty</string>
     <string name="tv_ui_title">Interfejs Android TV</string>
     <string name="tv_ui_summary">Zmień interfejs użytkownika do dopasowanego przez TV</string>
     <string name="medialibrary">Biblioteka mediów</string>
@@ -627,7 +620,7 @@
     <string name="custom_set_restored">Odtworzono własne ustawienie korektora</string>
     <string name="unsaved_set_deleted_message">Usunięto niezapisane ustawienie korektora</string>
     <string name="equalizer_new_preset_name">Nowe</string>
-    <string name="settings_ml_block_scan">Biblioteka multimediów skanuje teraz twoje urządzenia</string>
+    <string name="settings_ml_block_scan">Biblioteka multimediów skanuje teraz Twoje urządzenia</string>
     <string name="recommendations">Zalecenia</string>
     <string name="recommendations_desc">Karty rekomendacji na launcherze</string>
     <string name="browser_quick_access">Szybki dostęp</string>
@@ -680,7 +673,7 @@
     <string name="ctx_player_tracks_title">Ścieżki multimedialne</string>
     <string name="ctx_pip_title">Odtwarzacz w oknie pop-up</string>
     <string name="device_dialog_title">Włożono urządzenie zewnętrzne</string>
-    <string name="device_dialog_message">Podłączyłeś nowe urządzenie pamięci masowej do twojego telewizora, czy chcesz je otworzyć za pomocą VLC?</string>
+    <string name="device_dialog_message">Podłączyłeś nowe urządzenie pamięci masowej do Twojego telewizora, czy chcesz je otworzyć za pomocą VLC?</string>
     <string name="videos_folders_title">Filmy grupowane według folderów</string>
     <string name="videos_groups_title">Grupy wideo</string>
     <string name="video_save_remote_setting">Czy automatycznie włączyć tryb zdalnego sterowania?</string>
@@ -747,7 +740,7 @@
     <string name="welcome_beta_title">VLC beta</string>
     <string name="welcome_beta_description">Witamy w programie VLC beta.\nPamiętaj, że ta wersja może zawierać kilka błędów.</string>
     <string name="welcome_beta_description_bugs">Jeśli zauważysz błąd, zgłoś go na naszym forum lub w narzędziu do śledzenia błędów.</string>
-    <string name="welcome_beta_description_crashes">W przypadku wystąpienia awarii, użyj ikony VLC reporter w twoim launcherze, aby wysłać ją do nas.</string>
+    <string name="welcome_beta_description_crashes">W przypadku wystąpienia awarii, użyj ikony VLC reporter w Twoim launcherze, aby wysłać ją do nas.</string>
     <string name="send">Wyślij</string>
     <string name="send_crash_action_title">Co chcesz robić?</string>
     <string name="report_a_bug">Zgłosić błąd</string>
@@ -827,4 +820,11 @@
     <string name="more">Więcej</string>
     <string name="favorites">Ulubione</string>
     <string name="new_stream">Nowy strumień</string>
+    <string name="add_to_group">Dodaj do grupy wideo</string>
+    <string name="remove_from_group">Usuń z grupy wideo</string>
+    <string name="rename_group">Zmień nazwę grupy wideo</string>
+    <string name="ungroup">Rozgrupuj</string>
+    <string name="group_similar">Przegrupuj automatycznie</string>
+    <string name="no_favorite">Brak ulubionych</string>
+    <string name="empty_directory">Pusty</string>
 </resources>
