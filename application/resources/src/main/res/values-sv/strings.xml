@@ -7,21 +7,14 @@
     <string name="other">Övrigt</string>
     <string name="sortby">Sortera efter…</string>
     <string name="sortby_name">Namn</string>
-    <string name="sortby_name_desc">Namn (fallande)</string>
     <string name="sortby_filename">Filnamn</string>
-    <string name="sortby_filename_desc">Filnamn (fallande)</string>
     <string name="sortby_artist_name">Artistnamn</string>
-    <string name="sortby_artist_name_desc">Artistnamn (fallande)</string>
     <string name="sortby_album_name">Albumnamn</string>
-    <string name="sortby_album_name_desc">Albumnamn (fallande)</string>
     <string name="sortby_length">Längd</string>
-    <string name="sortby_length_desc">Längd (fallande)</string>
     <string name="sortby_date">Datum</string>
-    <string name="sortby_date_desc">Datum (fallande)</string>
     <string name="sortby_last_modified_date">Lades nyligen till</string>
-    <string name="sortby_last_modified_date_desc">Lades nyligen till (fallande)</string>
+    <string name="sortby_media_number">Medianummer</string>
     <string name="sortby_number">Antal spår</string>
-    <string name="sortby_number_desc">Antal spår (fallande)</string>
     <string name="searchable_hint">Sök…</string>
     <string name="history">Historik</string>
 
@@ -54,6 +47,7 @@
     <string name="set_song_question">Ange  \"%1$s\" som ringsignal?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \"%1$s\"?</string>
+    <string name="confirm_delete_album">Radera albumet \"%1$s\"?</string>
     <string name="confirm_delete_several_media">Radera dessa %1$d mediafiler?</string>
     <string name="confirm_delete_folder">Radera mappen \"%1$s\" och allt innehåll?</string>
     <string name="confirm_delete_playlist">Radera spellistan \"%1$s\"?</string>
@@ -229,7 +223,7 @@
     <string name="playback_history_title">Uppspelningshistorik</string>
     <string name="playback_history_summary">Spara all uppspelad media i historikavsnittet</string>
     <string name="playback_speed_title">Spara uppspelningshastighet</string>
-    <string name="playback_speed_summary">Kom ihåg uppspelningshastigheten du angav</string>
+    <string name="playback_speed_summary">Behåll uppspelningshastigheten mellan uppspelningar</string>
 
     <string name="play_button">Uppspelningsknapp</string>
 
@@ -321,8 +315,8 @@
     <string name="media_seen_summary">Markera en video som sedd när du spelar den till slutet</string>
     <string name="force_play_all_summary">Spela upp alla videor, börja med den du klickade på</string>
     <string name="force_play_all_title">Videospellistläge</string>
-    <string name="save_brightness_summary">Kom ihåg ljusstyrkans nivå i videospelaren</string>
-    <string name="save_brightness_title">Spara ljusstyrkans nivå för videor</string>
+    <string name="save_brightness_summary">Behåll ljusstyrkan mellan uppspelningar</string>
+    <string name="save_brightness_title">Spara ljusstyrkenivån</string>
     <string name="save_audiodelay_summary">Spara individuell ljudfördröjning för varje video</string>
     <string name="save_audiodelay_title">Spara ljudfördröjning</string>
     <string name="enable_brightness_gesture_title">Ljusstyrkegester</string>
@@ -504,7 +498,6 @@
     <string name="resume_from_position">Återuppta från senaste position</string>
     <string name="confirm_resume">Återuppta från senaste position?</string>
     <string name="confirm_resume_title">Återuppta uppspelade videor</string>
-    <string name="directory_empty">Katalogen är tom</string>
     <string name="tv_ui_title">Android TV-gränssnitt</string>
     <string name="tv_ui_summary">Ändra gränssnitt till TV-anpassat tema</string>
     <string name="medialibrary">Mediabibliotek</string>
@@ -710,8 +703,8 @@
     <string name="remove_current">Ta bort nuvarande</string>
     <string name="validation_delete_playlist">Är du säker på att du vill radera denna spellista?</string>
     <string name="validation_delete_playlist_text">Denna handling kan inte ångras.</string>
-    <string name="display_in_list">Visa i lista</string>
-    <string name="display_in_grid">Visa i rutnät</string>
+    <string name="display_in_list">Visa som lista</string>
+    <string name="display_in_grid">Visa som rutnät</string>
     <string name="dump_db_succes">Databasen sparades på den interna lagringens rotmapp</string>
     <string name="dump_db_failure">Misslyckades att spara databas</string>
     <string name="send_crash_title">VLC-kraschrapportör</string>
@@ -803,4 +796,11 @@
     <string name="more">Mer</string>
     <string name="favorites">Favoriter</string>
     <string name="new_stream">Ny ström</string>
+    <string name="add_to_group">Lägg till i videogrupp</string>
+    <string name="remove_from_group">Ta bort från videogrupp</string>
+    <string name="rename_group">Byt namn på videogrupp</string>
+    <string name="ungroup">Avgruppera</string>
+    <string name="group_similar">Omgruppera automatiskt</string>
+    <string name="no_favorite">Inga favoriter</string>
+    <string name="empty_directory">Tom</string>
 </resources>
