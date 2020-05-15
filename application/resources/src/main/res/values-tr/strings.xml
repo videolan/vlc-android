@@ -7,21 +7,14 @@
     <string name="other">Diğer</string>
     <string name="sortby">Sıralama…</string>
     <string name="sortby_name">Ad</string>
-    <string name="sortby_name_desc">Ad (azalan)</string>
     <string name="sortby_filename">Dosya adı</string>
-    <string name="sortby_filename_desc">Dosya adı (azalan)</string>
     <string name="sortby_artist_name">Sanatçı adı</string>
-    <string name="sortby_artist_name_desc">Sanatçı adı (azalan)</string>
     <string name="sortby_album_name">Albüm adı</string>
-    <string name="sortby_album_name_desc">Albüm adı (azalan)</string>
     <string name="sortby_length">Uzunluk</string>
-    <string name="sortby_length_desc">Uzunluk (azalan)</string>
     <string name="sortby_date">Tarih</string>
-    <string name="sortby_date_desc">Tarih (azalan)</string>
     <string name="sortby_last_modified_date">Son eklenen</string>
-    <string name="sortby_last_modified_date_desc">Son eklenen (azalan)</string>
+    <string name="sortby_media_number">Ortam numarası</string>
     <string name="sortby_number">Kayıt numarası</string>
-    <string name="sortby_number_desc">Kayıt numarası (azalan)</string>
     <string name="searchable_hint">Arama…</string>
     <string name="history">Geçmiş</string>
 
@@ -49,11 +42,12 @@
     <string name="resume_playback_short_title">Oynatmayı sürdür</string>
     <string name="resume_playback_long_title">Son oynatma listesini oynatmayı sürdürür</string>
     <string name="delete">Sil</string>
-    <string name="remove">Kaldır</string>
+    <string name="remove">Ç:ıkar</string>
     <string name="set_song">Zil sesi olarak ayarla</string>
     <string name="set_song_question">\'%1$s\' zil sesi olarak ayarlansın mı?</string>
     <string name="info">Bilgiler</string>
     <string name="confirm_delete">\'%1$s\' dosyası silinsin mi?</string>
+    <string name="confirm_delete_album">\'%1$s\' albümü silinsin mi?</string>
     <string name="confirm_delete_several_media">Bu %1$d ortam silinsin mi?</string>
     <string name="confirm_delete_folder">\'%1$s\' klasörü ve tüm içeriği silinsin mi?</string>
     <string name="confirm_delete_playlist">\'%1$s\' oynatma listesi silinsin mi?</string>
@@ -212,6 +206,7 @@
     <string name="favorite_removed">Sık kullanılanlardan çıkarıldı</string>
 
     <string name="open">Aç</string>
+    <string name="streams">Akışlar</string>
     <string name="open_mrl_dialog_title">Ağ akışı aç</string>
     <string name="open_mrl_dialog_msg">Ağ adresini yazın: örneğin http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">Maalesef, aygıtınız bu Android™ için VLC sürümünü desteklemiyor.</string>
@@ -228,7 +223,7 @@
     <string name="playback_history_title">Oynatma geçmişi</string>
     <string name="playback_history_summary">Oynatılan tüm ortamlar geçmiş bölümüne kaydedilir</string>
     <string name="playback_speed_title">Oynatma Hızını Kaydet</string>
-    <string name="playback_speed_summary">Ayarlanan oynatma hızı hatırlansın</string>
+    <string name="playback_speed_summary">Oynatmalar arasında oynatma hızı korunsun</string>
 
     <string name="play_button">Oynatma Düğmesi</string>
 
@@ -320,8 +315,8 @@
     <string name="media_seen_summary">Sonuna dek oynatılmış görüntüleri görüldü olarak işaretler</string>
     <string name="force_play_all_summary">Tüm görüntüleri oynatın, birine tıklayarak başlayın</string>
     <string name="force_play_all_title">Görüntü oynatma listesi kipi</string>
-    <string name="save_brightness_summary">Görüntü oynatıcısının parlaklık düzeyi hatırlansın</string>
-    <string name="save_brightness_title">Görüntü parlaklık düzeyini kaydet</string>
+    <string name="save_brightness_summary">Oynatmalar arasında parlaklık düzeyi korunsun</string>
+    <string name="save_brightness_title">Parlaklık düzeyini kaydet</string>
     <string name="save_audiodelay_summary">Her görüntü için ayrı ses gecikmesi kaydedilsin</string>
     <string name="save_audiodelay_title">Ses gecikmesini kaydet</string>
     <string name="enable_brightness_gesture_title">Parlaklık el hareketi</string>
@@ -380,7 +375,7 @@
     <string name="audio_ducking_title">Bildirim geldiğinde VLC ses düzeyi azaltılsın</string>
     <string name="audio_ducking_summary">Bu seçenek etkinleştirildiğinde, bildirim seslerinin, yol bulma bilgilendirmelerinin ya da yardımcı konuşmalarının duyulması kolaylaşır</string>
     <string name="casting_category">Aktarım</string>
-    <string name="casting_switch_title">Kablosuz yayın</string>
+    <string name="casting_switch_title">Kablosuz aktarım</string>
     <string name="casting_passthrough_title">Doğrudan Ses Geçişi</string>
     <string name="casting_passthrough_summary">Ses TV tarafından oluşturulsun</string>
     <string name="casting_conversion_quality_title">Dönüşüm kalitesi</string>
@@ -503,7 +498,6 @@
     <string name="resume_from_position">Oynatmayı kalınan konumdan sürdür</string>
     <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
     <string name="confirm_resume_title">Oynatılan görüntüleri sürdür</string>
-    <string name="directory_empty">Klasör boş</string>
     <string name="tv_ui_title">Android TV arayüzü</string>
     <string name="tv_ui_summary">Kullanıcı arayüzü TV uyumlu temaya dönüştürülsün</string>
     <string name="medialibrary">Ortam kitaplığı</string>
@@ -699,8 +693,12 @@
     <string name="presets">Hazır Ayarlar</string>
     <string name="reset">Sıfırla</string>
     <plurals name="tracks_inserted">
-        <item quantity="one">%d Parçaları eklendi</item>
-        <item quantity="other">%d Parçaları eklendi</item>
+        <item quantity="one">%d Kayıt eklendi</item>
+        <item quantity="other">%d Kayıt eklendi</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d Kayıt sona eklendi</item>
+        <item quantity="other">%d Kayıt sona eklendi</item>
     </plurals>
     <string name="remove_current">Geçerli ögeyi çıkar</string>
     <string name="validation_delete_playlist">Bu oynatma listesini silmek istediğinize emin misiniz?</string>
@@ -711,7 +709,7 @@
     <string name="dump_db_failure">Veritabanı kopyalanamadı</string>
     <string name="send_crash_title">VLC çökme bildirici</string>
     <string name="send_crash_description">Çökme ile ilgili bilgileri göndermeniz VLC uygulamasını geliştirmemize yardımcı olur.</string>
-    <string name="send_crash_warning">Göndermek istemediğiniz önemli bilgileri kaldırdığınızdan emin olun.</string>
+    <string name="send_crash_warning">Göndermek istemediğiniz önemli bilgileri çıkardığınızdan emin olun.</string>
     <string name="dont_ask_again">Bir daha sorma</string>
     <string name="include_medialib">Veritabanınız katılsın</string>
     <string name="vlc_reporter">VLC bildirici</string>
@@ -745,7 +743,7 @@
     <string name="release_date">Yayım tarihi:</string>
     <string name="synopsis">Konu</string>
     <string name="directed_by">Yönetmen</string>
-    <string name="casting">Oyuncular</string>
+    <string name="casting">Aktarım</string>
     <string name="produced_by">Yapımcı</string>
     <string name="written_by">Yazar</string>
     <string name="music_by">Müzikler</string>
@@ -794,4 +792,15 @@
     <string name="all_subfolders">Bu klasörü ve alt klasörlerini ekle</string>
     <string name="playlist_existing">%s oynatma listesi zaten var</string>
     <string name="new_title">Yeni başlık</string>
+    <string name="browse">Göz at</string>
+    <string name="more">Diğerleri</string>
+    <string name="favorites">Sık kullanılanlar</string>
+    <string name="new_stream">Yeni akış</string>
+    <string name="add_to_group">Görüntü grubuna ekle</string>
+    <string name="remove_from_group">Görüntü grubundan çıkar</string>
+    <string name="rename_group">Görüntü grubunu yeniden adlandır</string>
+    <string name="ungroup">Grubu çöz</string>
+    <string name="group_similar">Otomatik olarak yeniden grupla</string>
+    <string name="no_favorite">Sık kullanılan yok</string>
+    <string name="empty_directory">Boş</string>
 </resources>
