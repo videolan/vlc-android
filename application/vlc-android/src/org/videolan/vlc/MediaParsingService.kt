@@ -106,7 +106,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         }
     } else if (BuildConfig.DEBUG) Medialibrary.MedialibraryExceptionHandler { context, errMsg, _ ->
         throw IllegalStateException("$context:\n$errMsg")
-    } else null
+    } else  null
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
@@ -293,7 +293,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             }
             upgrade -> {
                 medialibrary.unbanFolder("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/WhatsApp/")
-                medialibrary.banFolder("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/WhatsApp/Media/WhatsApp Animated Gifs/")
+                medialibrary.banFolder("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/WhatsApp/Media/WhatsApp%20Animated%20Gifs/")
             }
             settings.getBoolean(KEY_MEDIALIBRARY_AUTO_RESCAN, true) -> reload(null)
             else -> exitCommand()

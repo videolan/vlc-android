@@ -176,7 +176,7 @@ abstract public class Medialibrary {
                 "/audio/alarms/",
                 "/audio/ringtones/",
                 "/audio/notifications/",
-                "/WhatsApp/Media/WhatsApp Animated Gifs/",
+                "/WhatsApp/Media/WhatsApp%20Animated%20Gifs/",
         };
     }
 
