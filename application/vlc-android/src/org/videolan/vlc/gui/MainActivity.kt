@@ -103,7 +103,7 @@ class MainActivity : ContentActivity(),
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(false)
             setHomeButtonEnabled(false)
-            setDisplayShowTitleEnabled(!AndroidDevices.isPhone)
+            setDisplayShowTitleEnabled(false)
         }
     }
 

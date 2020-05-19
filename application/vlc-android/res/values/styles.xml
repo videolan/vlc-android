@@ -621,7 +621,6 @@
     </style>
 
     <style name="ToolbarTitleText" parent="@style/TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textStyle">bold</item>
         <item name="android:textColor">?attr/colorControlNormal</item>
     </style>
 
