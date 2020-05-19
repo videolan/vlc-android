@@ -7,21 +7,13 @@
     <string name="other">Cits</string>
     <string name="sortby">Kārtot pēc…</string>
     <string name="sortby_name">Nosaukuma</string>
-    <string name="sortby_name_desc">Nosaukuma (dilstoši)</string>
     <string name="sortby_filename">Datnes nosaukuma</string>
-    <string name="sortby_filename_desc">Datnes nosaukuma (dilstoši)</string>
     <string name="sortby_artist_name">Izpildītāja nosaukuma</string>
-    <string name="sortby_artist_name_desc">Izpildītāja nosaukuma (dilstoši)</string>
     <string name="sortby_album_name">Albuma nosaukuma</string>
-    <string name="sortby_album_name_desc">Albuma nosaukuma (dilstoši)</string>
     <string name="sortby_length">Garuma</string>
-    <string name="sortby_length_desc">Garuma (dilstoši)</string>
     <string name="sortby_date">Datuma</string>
-    <string name="sortby_date_desc">Datuma (dilstoši)</string>
     <string name="sortby_last_modified_date">Nesen pievienots</string>
-    <string name="sortby_last_modified_date_desc">Nesen pievienots (dilstoši)</string>
     <string name="sortby_number">Reģ. celiņi</string>
-    <string name="sortby_number_desc">Reģ. celiņi (dilstoši)</string>
     <string name="searchable_hint">Meklēt…</string>
     <string name="history">Vēsture</string>
 
@@ -59,22 +51,13 @@
     <string name="confirm_delete_folder">Vai izdzēst \'%1$s\'mapi un visu tās saturu?</string>
     <string name="confirm_delete_playlist">Dzēst atskaņošanas sarakstu \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Izņemt \'%1$s\' no atskaņošanas saraksta?</string>
-    <string name="confirm_remove_from_playlist_anonymous">Izņemt no atskaņošanas saraksta?</string>
     <string name="ringtone_set">Fails \'%1$s\' iestatīts kā zvana signāls.</string>
     <string name="ringtone_error">Radās kļūda nosakot zvana signālu.</string>
     <string name="pause">Pauzēt</string>
-    <string name="not_show_again">Nerādīt šo ziņu atkārtoti.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Nezināms Mākslinieks</string>
     <string name="unknown_album">Nezināms Albūms</string>
     <string name="unknown_genre">Nezināms Žanrs</string>
-    <string name="unknown_number">Nezināms ierakstu skaits</string>
     <string name="songs">Dziesmas</string>
-    <plurals name="songs_quantity">
-        <item quantity="zero">%d</item>
-        <item quantity="one">1 dziesma</item>
-        <item quantity="other">%d dziesmas</item>
-    </plurals>
     <string name="track_info_copied_to_clipboard">Ieraksta informācija kopēta starpliktuvē</string>
 
     <string name="artists">Izpildītāji</string>
@@ -107,7 +90,6 @@
         <item quantity="other">%d video</item>
     </plurals>
     <string name="internal_memory">iekšējā atmiņa</string>
-    <string name="parent_folder">Līdz mātes mapei</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Grāmatzīmes</string>
@@ -116,15 +98,10 @@
     <string name="genres">Žanri</string>
     <string name="playlists">Atskaņošanas saraksti</string>
     <string name="title">Virsraksts</string>
-    <string name="artist">Mākslinieks</string>
-    <string name="album">Albums</string>
-    <string name="directory">Katalogs</string>
     <string name="directories">Katalogi</string>
     <string name="loading">Ielādēšana</string>
     <string name="please_wait">Lūdzu uzgaidiet …</string>
     <string name="noplaylist">Atskaņošanas sarakstu nav.</string>
-    <string name="mediafiles">Multivides faili</string>
-    <string name="notavailable">Nav pieejams</string>
     <string name="nosubfolder">Apakšmapju nav</string>
     <string name="directorynotfound">Direktorijas ceļš \'%1$s\' netika atrasts.</string>
     <string name="nohistory">Jums nav atskaņošanas vēstures vēl.</string>
@@ -150,7 +127,6 @@
     <string name="surface_fit_screen">Ietilpināt ekrānā</string>
     <string name="surface_fill">Piepildīt</string>
     <string name="surface_original">Centrs</string>
-    <string name="thumbnail">Sīktēls</string>
     <string name="unseekable_stream">Nepieejama plūsma</string>
     <string name="refresh">Atjaunot</string>
     <string name="track_audio">Audio celiņš</string>
@@ -164,7 +140,6 @@
     <string name="sound_on">Skaņa ieslēgta</string>
     <string name="sound_off">Skaņa izslēgta</string>
     <string name="brightness">Spilgtums</string>
-    <string name="navmenu">navigācijas izvēlne</string>
     <string name="advanced">paplašinātās opcijas</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="zero">%1$d kanālu\n</item>
@@ -176,15 +151,11 @@
     <string name="track_resolution_info">Izšķirtspēja: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Kadru ātrums: %1$.3f\n</string>
 
-    <string name="tools">Darbarīki</string>
     <string name="playback_speed">Atskaņošanas ātrums</string>
     <string name="sleep_title">Miega taimeris</string>
     <string name="sleep_in">Iemigt pēc</string>
-    <string name="sleep_cancel">Atcelt miega taimeri</string>
     <string name="jump_to_time">Pārlēkt uz laiku</string>
-    <string name="subtitle_label">Pievienot subtitru failu</string>
     <string name="subtitle_select">Izvēlaties subtitru failu</string>
-    <string name="no_file_picker_found">Nav failu atlasītājs atrasts sistēmā.</string>
 
     <string name="server_add_title">Pievienot izlasei jaunu serveri</string>
     <string name="server_domain_hint">Servera adrese (domēna vārds vai IP)</string>
@@ -193,7 +164,6 @@
     <string name="login">Pieteikties</string>
     <string name="password">Parole</string>
 
-    <string name="search_results">Meklēšanas rezultāti</string>
     <string name="search_no_result">Nekas nav atrasts</string>
     <string name="favorites_add">Pievienot izlasei</string>
     <string name="favorites_remove">Izņemt no izlases</string>
@@ -201,24 +171,17 @@
     <string name="favorite_added">Saglabāts izlasē</string>
     <string name="favorite_removed">Izņemts no izlases</string>
 
-    <string name="open">Atvērt</string>
-    <string name="open_mrl_dialog_title">Atvērt tīkla plūsmu</string>
     <string name="open_mrl_dialog_msg">Ievadiet tīkla adresi: piemēram, http://, mms:// vai rtsp://</string>
-    <string name="error_not_compatible">Žēl, jūsu ierīce pašlaik neatbalsta šo versiju VLC Android™.</string>
-    <string name="error_problem">Žēl, VLC Android bija problēma ielādešanā un nācās aizvērt.</string>
-    <string name="error_message_is">Kļūdas ziņojums (lūdzu norādiet atkļūdojot):\n</string>
     <string name="encountered_error_title">Atskaņošanas kļūda</string>
     <string name="encountered_error_message">VLC radusies kļūda ar šo multivides failu.\nLūdzu mēģiniet atsvaidzināt multivides bibliotēku.</string>
     <string name="invalid_location">Resursu ar adresi %1$s nevar atskaņot.</string>
 
     <string name="search">Meklēt</string>
-    <string name="search_history">Meklēšanas vēsture</string>
 
 
     <string name="playback_history_title">Atskaņošanas vēsture</string>
     <string name="playback_history_summary">Visu, kas tiek atskaņots, saglabāt \"Vēsturē\"</string>
     <string name="playback_speed_title">Saglabāt atskaņošanas ātrumu</string>
-    <string name="playback_speed_summary">Atcerēties jūsu iestatīto atskaņošanas ātrumu</string>
 
     <!-- Tips -->
     <string name="video_player_tips">Video atskaņošanas padomi:</string>
@@ -253,7 +216,6 @@
     <!-- Preferences -->
     <string name="preferences">Iestatījumi</string>
 
-    <string name="general_prefs_category">Vispārīgi</string>
     <string name="directories_summary">Izvēlaties direktorijas, lai iekļautu multivides bibliotēku</string>
     <string name="add_custom_path">Pievienot pielāgotu ceļu</string>
     <string name="add_custom_path_description">Ievadīt papildu pielāgoto direktoriju, lai skenētu:</string>
@@ -269,18 +231,12 @@
     <string name="screen_orientation_start_lock">Bloķēts sākumā</string>
     <string name="screen_orientation_portrait">Portrets</string>
     <string name="screen_orientation_landscape">Ainava</string>
-    <string name="screen_orientation_reverse_portrait">Atpakaļgaitas portrets</string>
-    <string name="screen_orientation_reverse_landscape">Atgriezt ainavu</string>
     <string name="enable_black_theme">Melnā apdare</string>
-    <string name="enable_black_theme_summary">Mainīt saskarnes krāsas, mainoties apgaismojumam līmenim</string>
     <string name="subtitle_text_encoding">Apakšvirsraksta teksta kodēšana</string>
     <string name="daynight_title">Dienas-nakts režīms</string>
     <string name="extra_prefs_category">Papildu iestatījumi</string>
 
     <string name="interface_prefs_screen">Interfeiss</string>
-    <string name="interface_gui">Displejs</string>
-    <string name="interface_other_category">Interfeiss - Cits</string>
-
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Grupēt video</string>
     <string name="video_min_group_length_disable">Negrupēt video</string>
@@ -321,32 +277,21 @@
     <string name="audio_boost_title">Pastiprināts skaļums</string>
     <string name="audio_boost_summary">Ļaut skaļumu palielināt līdz 200%</string>
     <string name="enable_headset_detection">Atklāt austiņas</string>
-    <string name="enable_steal_remote_control">Ekskluzīvs austiņu tālvadības pults</string>
-    <string name="enable_steal_remote_control_summary">Izvairīties no konfliktiem nozogot tālvadības pulti no citām lietojumprogrammām. Tas novērš Zvanu dubultklikšķi uz HTC telefoniem.</string>
     <string name="aout">Audio izeja</string>
-    <string name="aout_summary">Mainīt metodi, ko VLC izmanto, lai izvadītu audio.</string>
     <string name="extensions_prefs_category">Paplašinājumi</string>
     <string name="performance_prefs_category">Izpildījums</string>
     <string name="chroma_format">Piespiest video Chroma</string>
     <string name="deblocking">Atbloķēšanas filtra iestatījumi</string>
-    <string name="deblocking_summary">Mainīt atbloķēšanas filtra iestatījumus. Var uzlabot video kvalitāti. Tikai pieredzējušiem lietotājiem.</string>
     <string name="deblocking_always">Pilna atbloķēšana (lēnākais)</string>
     <string name="deblocking_nonref">Vidēja atbloķēšana</string>
     <string name="deblocking_nonkey">Zema atbloķēšana</string>
     <string name="deblocking_all">Nav atbloķēšanas (ātrākais)</string>
-    <string name="enable_frame_skip_summary">Paātrinot dekodēšanu varētu samazināt video kvalitāti.</string>
     <string name="enable_time_stretching_audio">Laika stiepšana audio</string>
-    <string name="enable_time_stretching_audio_summary">Paātrināt un palēnināt audio nemainot piķi (prasa ātru ierīci).</string>
-
     <string name="advanced_prefs_category">Uzlabots</string>
-    <string name="save_video_none">Nesaglabāt ātrumu</string>
     <string name="clear_media_db">Iztīrīt mediju datubāzi</string>
     <string name="clear_history">Tīrīt vēsturi</string>
-    <string name="media_db_cleared">Mediju datubāze izvadītīta!</string>
     <string name="set_locale">noteikt darbības vietu</string>
-    <string name="set_locale_detail">Atstājiet tukšu, lai atjaunotu</string>
     <string name="network_caching">Tīkla kešdarbes vērtība</string>
-    <string name="network_caching_summary">Laika daudzums lai buferētu tīkla mediju (ms). Nedarbojas ar aparatūras dekodēšanu. Atstājiet tukšu, lai atjaunotu.</string>
     <string name="quit">Iziet un restartēt programmu</string>
     <string name="restart_message_OK">Labi</string>
     <string name="restart_message_Later">Vēlāk</string>
@@ -375,7 +320,6 @@
 
     <string name="audio_delay">Audio aizture</string>
     <string name="spu_delay">Subtitru aizture</string>
-    <string name="sleep_time_not_set">nav</string>
     <string name="network_empty">Šī mape ir tukša.</string>
     <string name="search_hint">Meklēt multividi</string>
     <string name="search_in_list_hint">Meklēt aktuālajā sarakstā</string>
@@ -384,12 +328,9 @@
     <string name="playlist_name_hint">Atskaņošanas saraksta nosaukums</string>
     <string name="go_to_chapter">Atskaņot nodaļu...</string>
     <string name="chapter">Nodaļa</string>
-    <string name="directory_empty">Datņu katalogs ir tukšs</string>
     <string name="medialibrary">Multivides bibliotēka</string>
     <string name="medialibrary_directories">Multivides bibliotēkas mapes</string>
 
-    <string name="playlist_deleted">Atskaņošanas saraksts izdzēsts</string>
-    <string name="file_deleted">Fails izdzēsts</string>
     <string name="stream_deleted">Straumējums izdzēsts</string>
     <string name="no_subs_found">Šajā mapē subtitru nav</string>
     <string name="music_now_playing">Šobrīd atskaņo</string>
@@ -405,21 +346,13 @@
     <string name="network_shared_folders">Koplietotās mapes</string>
     <string name="store_password">Atcerēties paroli</string>
     <string name="add_to_playlist">Pievienot atskaņošanas sarakstam</string>
-    <string name="snack_subloader_sub_found">Subtitri lejupielādēti</string>
-    <string name="snack_subloader_sub_not_found">Subtitru nav</string>
-    <string name="dialog_subloader_sumup">Lejupielāde pabeigta</string>
     <string name="download_subtitles">Lejupielādēt subtitrus</string>
-    <string name="preferences_languages_download">Subtitru valodas</string>
-    <string name="service_unavailable">Pakalpojums nav pieejams</string>
-    <string name="downloading_subtitles">Lejupielādē subtitrus</string>
     <string name="listen">Klausīties</string>
-    <string name="connecting">Savienojas...</string>
     <string name="episodes">sērijas</string>
     <string name="movies">filmas</string>
     <string name="videos">video</string>
     <string name="videos_all">Visi video</string>
     <string name="clear_playback_history">Tīrīt atskaņošanas vēsturi</string>
-    <string name="various_artists">Dažādi izpildītāji</string>
     <string name="resume">Atsākt</string>
     <string name="length">Ilgums</string>
     <string name="ml_external_storage_accept">Jā</string>
@@ -450,7 +383,6 @@
     <string name="ctx_player_video_track">Atlasīt video celiņu</string>
     <string name="ctx_player_audio_track">Audio celiņš</string>
     <string name="ctx_player_subs_track">Subtitru celiņš</string>
-    <string name="ctx_player_tracks_title">Multivides celiņi</string>
     <string name="track_index">Ieraksts: %s</string>
     <string name="sortby_track">Ieraksts</string>
 </resources>
