@@ -7,21 +7,13 @@
     <string name="other">Drugo</string>
     <string name="sortby">Razvrsti po …</string>
     <string name="sortby_name">imenu</string>
-    <string name="sortby_name_desc">imenu (opis)</string>
     <string name="sortby_filename">imenu datoteke</string>
-    <string name="sortby_filename_desc">imenu datoteke (opis)</string>
     <string name="sortby_artist_name">imenu izvajalca</string>
-    <string name="sortby_artist_name_desc">imenu izvajalca (opis)</string>
     <string name="sortby_album_name">nazivu albuma</string>
-    <string name="sortby_album_name_desc">nazivu albuma (opis)</string>
     <string name="sortby_length">dolžini</string>
-    <string name="sortby_length_desc">dolžini (opis)</string>
     <string name="sortby_date">datumu</string>
-    <string name="sortby_date_desc">datumu (opis)</string>
     <string name="sortby_last_modified_date">Nedavno dodano</string>
-    <string name="sortby_last_modified_date_desc">Nedavno dodano (padajoče)</string>
     <string name="sortby_number">številu posnetkov</string>
-    <string name="sortby_number_desc">številu posnetkov (opis)</string>
     <string name="searchable_hint">Poišči …</string>
     <string name="history">Zgodovina</string>
 
@@ -56,24 +48,13 @@
     <string name="confirm_delete_folder">Ali želite izbrisati mapo »%1$s« z vso vsebino?</string>
     <string name="confirm_delete_playlist">Ali želite izbrisati seznam predvajanja »%1$s«?</string>
     <string name="confirm_remove_from_playlist">Odstranim %1$s iz seznama predvajanja?</string>
-    <string name="confirm_remove_from_playlist_anonymous">Odstranim iz seznama predvajanja?</string>
     <string name="ringtone_set">Datoteka »%1$s« je nastavljena kot zvok zvonjenja.</string>
     <string name="ringtone_error">Pri nastavljanju zvoka za zvonjenje je prišlo do napake.</string>
     <string name="pause">Premor</string>
-    <string name="not_show_again">Tega sporočila ne pokaži več.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Neznan izvajalec</string>
     <string name="unknown_album">Neznan album</string>
     <string name="unknown_genre">Neznana zvrst</string>
-    <string name="unknown_number">Neznano število posnetkov</string>
     <string name="songs">Skladbe</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">%d pesem</item>
-        <item quantity="two">%d pesmi</item>
-        <item quantity="few">%d pesmi</item>
-        <item quantity="other">%d pesmi</item>
-    </plurals>
-
     <string name="artists">Izvajalci</string>
     <string name="albums">Albumi</string>
     <string name="tracks">Posnetki</string>
@@ -103,7 +84,6 @@
         <item quantity="other">%d videov</item>
     </plurals>
     <string name="internal_memory">Notranji pomnilnik</string>
-    <string name="parent_folder">V nadrejeno mapo</string>
     <string name="audio">Zvok</string>
     <string name="video">Video</string>
     <string name="bookmarks">Zaznamki</string>
@@ -112,16 +92,11 @@
     <string name="genres">Zvrsti</string>
     <string name="playlists">Seznami predvajanja</string>
     <string name="title">Naslov</string>
-    <string name="artist">Izvajalec</string>
-    <string name="album">Album</string>
-    <string name="directory">Mapa</string>
     <string name="directories">Mape</string>
     <string name="loading">Poteka nalaganje …</string>
     <string name="please_wait">Počakajte trenutek …</string>
     <string name="nomedia">Ni najdene nobene predstavne datoteke; prenesite datoteke na svojo napravo ali spremenite svoje nastavitve.</string>
     <string name="noplaylist">Seznama predvajanja ni mogoče najti.</string>
-    <string name="mediafiles">Predstavne datoteke</string>
-    <string name="notavailable">ni na voljo</string>
     <string name="directorynotfound">Mape »%1$s« ni mogoče najti.</string>
     <string name="nohistory">Trenutno ni zgodovine predvajanja.</string>
     <string name="validation">Ali ste prepričani?</string>
@@ -146,7 +121,6 @@
     <string name="surface_fit_screen">Prilagojeno zaslonu</string>
     <string name="surface_fill">Zapolnjen zaslon</string>
     <string name="surface_original">Sredinska postavitev</string>
-    <string name="thumbnail">Predogledna sličica</string>
     <string name="unseekable_stream">Po pretoku ni mogoče iskati</string>
     <string name="refresh">Osveži</string>
     <string name="track_audio">Zvočni posnetek</string>
@@ -160,7 +134,6 @@
     <string name="sound_on">Zvok je vključen</string>
     <string name="sound_off">Zvok je izključen</string>
     <string name="brightness">Svetlost</string>
-    <string name="navmenu">meni krmarjenja</string>
     <string name="advanced">napredne možnosti</string>
     <string name="audio_boost_warning">Potegnite znova za vrednosti nad 100 %.</string>
     <plurals name="track_channels_info_quantity">
@@ -174,15 +147,11 @@
     <string name="track_resolution_info">Ločljivost: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Hitrost predvajanja: %1$.3f\n</string>
 
-    <string name="tools">Orodja</string>
     <string name="playback_speed">Hitrost predvajanja</string>
     <string name="sleep_title">Časomer mirovanja</string>
     <string name="sleep_in">Postavi v stanje mirovanja čez:</string>
-    <string name="sleep_cancel">Prekliči časomer mirovanja</string>
     <string name="jump_to_time">Skoči na čas</string>
-    <string name="subtitle_label">Dodaj datoteko s podnapisi</string>
     <string name="subtitle_select">Izbor datoteke s podnapisi</string>
-    <string name="no_file_picker_found">Na sistemu ni izbirnika datotek.</string>
 
     <string name="server_add_title">Dodaj nov strežnik med priljubljene</string>
     <string name="server_domain_hint">Naslov strežnika (ime domene ali naslov IP)</string>
@@ -194,7 +163,6 @@
     <string name="login">Prijava</string>
     <string name="password">Geslo</string>
 
-    <string name="search_results">Rezultati iskanja</string>
     <string name="search_no_result">Ni najdenih predstavnih datotek</string>
     <string name="favorites_add">Dodaj med priljubljene</string>
     <string name="favorites_remove">Odstrani iz priljubljenih</string>
@@ -202,26 +170,17 @@
     <string name="favorite_added">Shranjeno med priljubljene</string>
     <string name="favorite_removed">Odstranjeno iz priljubljenih</string>
 
-    <string name="open">Odpri</string>
-    <string name="open_mrl">Pretok</string>
-    <string name="open_mrl_dialog_title">Odpri omrežni pretok</string>
     <string name="open_mrl_dialog_msg">Omrežni naslov http://, mms:// ali rtsp://.</string>
-    <string name="error_not_compatible">Različica VLC za Android™ trenutno še ne podpira vaše naprave.</string>
-    <string name="error_problem">Med nalaganjem je prišlo do napake, zato se je program VLC za Android nepričakovano končal.</string>
-    <string name="error_message_is">Sporočilo napake je (za razhroščevanje):\n</string>
     <string name="encountered_error_title">Napaka pri predvajanju</string>
     <string name="encountered_error_message">Med nalaganjem je program naletel na napako v izbrani predstavni vsebini.\nPoskusite osvežiti knjižnico predstavnih vsebin.</string>
     <string name="invalid_location">Posnetkov z mesta %1$s ni mogoče predvajati.</string>
 
     <string name="search">Poišči</string>
-    <string name="search_history">Zgodovina iskanja</string>
 
 
     <string name="playback_history_title">Zgodovina predvajanja</string>
     <string name="playback_history_summary">Shrani vse posnetke, predvajane iz odseka Zgodovine</string>
     <string name="playback_speed_title">Shrani hitrost predvajanja</string>
-    <string name="playback_speed_summary">Program si zapomni nastavljeno hitrost predvajanja</string>
-
     <string name="play_button">Gumb Predvajaj</string>
 
     <!-- Tips -->
@@ -257,13 +216,11 @@
     <!-- Preferences -->
     <string name="preferences">Nastavitve</string>
 
-    <string name="general_prefs_category">Splošno</string>
     <string name="directories_summary">Izbor map za vključitev v zbirko predstavnih vsebin</string>
     <string name="add_custom_path">Dodajanje pot po meri</string>
     <string name="add_custom_path_description">Vnesite pot do nove mape za preiskovanje:</string>
     <string name="remove_custom_path">Odstrani pot po meri</string>
     <string name="hardware_acceleration">Strojno pospeševanje</string>
-    <string name="hardware_acceleration_summary">Onemogočeno: večja stabilnost.\nOdkodiranje: lahko izboljša delovanje.\nPolno: lahko močno izboljša delovanje.</string>
     <string name="hardware_acceleration_disabled">Onemogočeno</string>
     <string name="hardware_acceleration_decoding">Pospeševanje odkodiranja</string>
     <string name="hardware_acceleration_full">Polno pospeševanje</string>
@@ -275,36 +232,21 @@
     <string name="screen_orientation_start_lock">Zaklenjeno ob začetku</string>
     <string name="screen_orientation_portrait">Pokončna postavitev</string>
     <string name="screen_orientation_landscape">Ležeča postavitev</string>
-    <string name="screen_orientation_reverse_portrait">Obratno pokončno</string>
-    <string name="screen_orientation_reverse_landscape">Obratno ležeče</string>
     <string name="enable_black_theme">Črna tema</string>
-    <string name="enable_black_theme_summary">Spremeni barve vmesnika za prijetnejše delo v slabše osvetljenih okoljih.</string>
     <string name="subtitle_text_encoding">Kodiranje besedila podnapisov</string>
     <string name="daynight_title">Dnevno/Nočni način</string>
-    <string name="daynight_summary">Samodejno preklopi na nočni način ob ustreznem času</string>
-
     <string name="extra_prefs_category">Dodatne nastavitve</string>
 
     <string name="interface_prefs_screen">Vmesnik</string>
-    <string name="interface_gui">Zaslon</string>
     <string name="interface_secondary_display_category_title">Pomožni zaslon</string>
-    <string name="interface_secondary_display_category_summary">Nastavitve prikaza, kadar je naprava povezana z drugimi zasloni (HDMI/CromeCast).</string>
     <string name="enable_clone_mode">Prednost ima kloniranje</string>
-    <string name="enable_clone_mode_summary">Kloniraj zaslon naprave brez daljinskega upravljalnika.</string>
-    <string name="interface_other_category">Vmesnik – drugo</string>
-
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Združuj posnetke v skupine</string>
-    <string name="video_min_group_length_first">Upoštevaj le prvo črko</string>
-    <string name="video_min_group_length_short">Majhno število črk (6)</string>
-    <string name="video_min_group_length_long">Veliko število črk (9)</string>
     <string name="media_fast_seek">Hitro iskanje</string>
     <string name="media_seen">Pokaži oznako že videne vsebine</string>
     <string name="media_seen_summary">Označi posnetek kot že ogledan, kadar je predvajan do konca posnetka.</string>
     <string name="force_play_all_summary">Program predvaja vse posnetke, začne s tistim, ki je prvi izbran</string>
     <string name="force_play_all_title">Predvajaj po seznamu</string>
-    <string name="save_brightness_summary">Zapomni si raven svetlosti v predvajalniku videa</string>
-    <string name="save_brightness_title">Shrani raven svetlosti za video</string>
     <string name="save_audiodelay_summary">Program shrani zamik zvoka za vsak video posnetek</string>
     <string name="save_audiodelay_title">Shrani zamik zvoka</string>
     <string name="enable_brightness_gesture_title">Poteza za svetlost</string>
@@ -338,8 +280,6 @@
     <string name="audio_prefs_category">Zvok</string>
     <string name="lockscreen_cover_title">Pokaži naslovnico na zaklenjenem zaslonu</string>
     <string name="lockscreen_cover_summary">Naslovnico posnetka pokaže kot ozadje zaklenjenega zaslona, če je na voljo.</string>
-    <string name="playlist_animate_scroll_title">Animiraj samodejno drsenje trenutnega seznama predvajanja</string>
-    <string name="playlist_animate_scroll_summary">Animiraj drsenje med prehodi posnetkov</string>
     <string name="audio_boost_title">Povečaj glasnost čez omejitev</string>
     <string name="audio_boost_summary">Dovoli glasnost do 200 %.</string>
     <string name="headset_prefs_category">Slušalke</string>
@@ -347,10 +287,7 @@
     <string name="enable_headset_detection_summary">Program zazna priklop in odklop slušalk.</string>
     <string name="enable_play_on_headset_insertion">Nadaljuj ob priklopu slušalk</string>
     <string name="enable_play_on_headset_insertion_summary">Drugače začasno ustavi</string>
-    <string name="enable_steal_remote_control">Ekskluziven daljinski nadzor slušalk</string>
-    <string name="enable_steal_remote_control_summary">Izognite se konfliktom z odvzemom daljinskega nadzora drugim napravam. To prepreči klicanje z dvoklikom na HTC telefonih.</string>
     <string name="aout">Odvod zvoka</string>
-    <string name="aout_summary">Spreminjanje načina odvoda zvoka med predvajanjem v predvajalniku VLC.</string>
     <string name="audio_ducking_title">Zmanjšaj glasnost ob prejemu sporočila</string>
     <string name="audio_ducking_summary">Možnost omogoča prilagajanje glasnosti obvestil, navigacijskega vodenja in drugih zvokov.</string>
     <string name="casting_passthrough_title">Zvočni prehod</string>
@@ -364,7 +301,6 @@
     <string name="artists_show_all_title">Pokaži vse izvajalce</string>
 
     <string name="extensions_prefs_category">Razširitve</string>
-    <string name="extensions_enable_category">Izbor razširitev za uporabo</string>
     <string name="extensions_empty">Ni najdenih programskih razširitev</string>
     <string name="extension_permission_title">Zaženi novo razširitev »%1$s«?</string>
     <string name="extension_permission_checkbox_title">Prikaži v %1$s</string>
@@ -375,30 +311,18 @@
 
     <string name="performance_prefs_category">Možnosti delovanja</string>
     <string name="chroma_format">Vsili barve videa</string>
-    <string name="chroma_format_summary">32-bitni RGB: privzeta barva\n16-bitni RGB: boljša zmogljivost, vendar nižja kakovost\nYUV: najboljša zmogljivost, vendar ne deluje na vseh napravah. Velja le za različice Android 2.3 in kasnejše.</string>
     <string name="deblocking">Nastavitve filtra za odstranjevanje kock</string>
-    <string name="deblocking_summary">Spreminjanje nastavitve filtra za odstranjevanje kock, s čimer se lahko poveča kakovost slike. Nastavitve ni priporočljivo spreminjati.</string>
     <string name="deblocking_always">Polno odstranjevanje kock (najpočasnejše)</string>
     <string name="deblocking_nonref">Srednje odstranjevanje kock</string>
     <string name="deblocking_nonkey">Nizko odstranjevanje kock</string>
     <string name="deblocking_all">Brez odstranjevanja kock (najhitrejše)</string>
-    <string name="enable_frame_skip_summary">Pohitri odkodiranje, vendar lahko zniža kakovost slike.</string>
     <string name="enable_time_stretching_audio">Časovno raztegovanje zvoka</string>
-    <string name="enable_time_stretching_audio_summary">Pohitri ali upočasni zvok brez spremembe višine tona (zahteva zmogljivo napravo).</string>
-
     <string name="advanced_prefs_category">Napredno</string>
-    <string name="save_video_none">Ne shrani hitrosti</string>
-    <string name="save_video_session">Shrani hitrost za sejo</string>
-    <string name="save_video_always">Shrani hitrost za vsa predvajanja</string>
     <string name="auto_rescan">Samodejno iskanje</string>
     <string name="auto_rescan_summary">Ob zagonu programa samodejno preišči mape za novo oziroma odstranjeno predstavno vsebino</string>
     <string name="clear_media_db">Počisti podatkovno zbirko predstavnih vsebin</string>
-    <string name="media_db_cleared">Podatkovna zbirka predstavnih vsebin je počiščena!</string>
     <string name="set_locale">Nastavitev jezikovnega področja</string>
-    <string name="set_locale_detail">Prazno polje ponastavi na privzete vrednosti</string>
-    <string name="set_locale_popup">Za uveljavitev sprememb končajte in ponovno zaženite predvajalnik VLC.</string>
     <string name="network_caching">Vrednost omrežnega predpomnjenja</string>
-    <string name="network_caching_summary">Nastavitev določa čas medpomnjenja omrežnega pretoka (v milisekundah). Možnost ne deluje s strojnim odkodiranjem. Za ponastavitev pustite polje prazno.</string>
     <string name="resume_playback_title">Po klicu nadaljuj s predvajanjem</string>
     <string name="resume_playback_summary">Če možnost ni izbrana, ostane predvajanje v premoru.</string>
     <string name="network_caching_popup">Vrednost mora biti podana med 0 in 6000 ms.</string>
@@ -435,8 +359,6 @@
     <string name="no_internet_connection">Preverite internetno povezavo</string>
     <string name="some_error_occurred">Prišlo je do napake. Poskusite znova čez nekaj sekund</string>
 
-    <string name="drawer_open">Odpri predalnik krmarjenja</string>
-    <string name="drawer_close">Zapri predalnik krmarjenja</string>
     <string name="network_browsing">Krajevno omrežje</string>
     <string name="browsing">Brskanje</string>
 
@@ -444,20 +366,16 @@
 
     <string name="audio_delay">Zamik zvoka</string>
     <string name="spu_delay">Zamik podnapisov</string>
-    <string name="sleep_time_not_set">ni nastavljeno</string>
     <string name="network_empty">Mapa je prazna.</string>
     <string name="network_connection_needed">Ni povezave s krajevnim omrežjem.</string>
     <string name="search_hint">Poišči vsebino</string>
     <string name="search_global">Poišči predstavne datoteke v celotni zbirki</string>
-    <string name="directory_show_medialib">Prikaži v knjižnici MediaLib</string>
-    <string name="directory_hide_medialib">Skrij pred knjižnico MediaLib</string>
     <string name="playlist_save">Shrani seznam predvajanja</string>
     <string name="playlist_name_hint">ime seznama predvajanja</string>
     <string name="go_to_chapter">Skoči na poglavje …</string>
     <string name="chapter">Poglavje</string>
     <string name="resume_from_position">Nadaljuj pri nazadnje ustavljenem mestu</string>
     <string name="confirm_resume">Ali želite nadaljevati pri nazadnje ustavljenem mestu?</string>
-    <string name="directory_empty">Mapa je prazna</string>
     <string name="tv_ui_title">Vmesnik Android TV</string>
     <string name="tv_ui_summary">Spremeni vmesnik na temo Android TV</string>
     <string name="medialibrary">Knjižnica predstavnih vsebin</string>
@@ -465,10 +383,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">Več dejanj</string>
-    <string name="move">Premakni</string>
     <string name="back_quit_lock">Ponovno pritisnite gumb za nazaj za končanje videa</string>
-    <string name="playlist_deleted">Seznam predvajanja je izbrisan</string>
-    <string name="file_deleted">Datoteka je izbrisana</string>
     <string name="no_subs_found">V tej mapi ni datotek s podnapisi</string>
     <string name="music_now_playing">Trenutno se predvaja</string>
 
@@ -497,7 +412,6 @@
     <string name="extension_empty">Ni predmetov za prikaz. Med nastavitvami razširitev jih je mogoče dodati.</string>
 
     <string name="opengl_title">Uporaba OpenGL ES2</string>
-    <string name="opengl_summary">Privzeto je za programsko in strojno dekodiranje posnetkov uporabljen kodek OpenGL ES2 (posnetki 360 °).</string>
     <string name="opengl_automatic">Samodejno</string>
     <string name="opengl_on">Vsili zagon</string>
     <string name="opengl_off">Vsili izklop</string>
@@ -509,29 +423,15 @@
     <string name="popup_playback_title">Predvajaj posnetek v pojavnem oknu</string>
     <string name="popup_playback">Predvajanje v pojavnem oknu</string>
     <string name="popup_expand">Razširi video</string>
-    <string name="snack_subloader_sub_found">Podnapisi so prejeti</string>
-    <string name="snack_subloader_sub_not_found">Podnapisov ni mogoče najti</string>
-    <string name="dialog_subloader_success">Najdeni so podnapisi za:</string>
-    <string name="dialog_subloader_fails">Ni najdenih podnapisov za:</string>
-    <string name="dialog_subloader_sumup">Prejem je končan</string>
     <string name="download_subtitles">Prejmi podnapise</string>
-    <string name="preferences_languages_download">Jeziki podnapisov</string>
-    <string name="list_languages_download_summary">Jeziki podnapisov, ki jih program poskuša pridobiti</string>
-    <string name="list_languages_download_title">Jezik podnapisov za prejem</string>
-    <string name="service_unavailable">Storitev ni na voljo</string>
-    <string name="subs_dl_lang_fail">Nastavljanje jezika podnapisov je spodletelo. Poskusite možnosti prilagoditi med nastavitvami programa.</string>
-    <string name="downloading_subtitles">Poteka prejemanje podpisov</string>
     <string name="browse_folder">Prebrskaj mapo</string>
     <string name="listen">Poslušaj</string>
-    <string name="subtitles_download_title">Prejemanje podnapisov</string>
-    <string name="connecting">Poteka vzpostavljanje povezave …</string>
     <string name="save_bluetooth_delay">shrani zamik za naprave bluetooth</string>
     <string name="episodes">nanizanke</string>
     <string name="movies">filmi</string>
     <string name="videos">video posnetki</string>
     <string name="videos_all">Vsi videoposnetki</string>
     <string name="clear_playback_history">Počisti zgodovino predvajanja</string>
-    <string name="various_artists">Različni izvajalci</string>
     <string name="ml_scanning">Preiskovanje razpoložljivih predstavnih datotek</string>
     <string name="ml_parse_media">Razčlenjevanje podatkov predstavne vsebine</string>
     <string name="ml_discovering">Odkrivanje</string>
@@ -566,7 +466,6 @@
     <string name="browser_storages">Shrambe</string>
     <string name="msg_delete_failed">Brisanje nosilca %1$s je spodletelo.</string>
     <string name="renderer_list_title">Zasloni</string>
-    <string name="feedback_player_crashed">VLC se je ustavil. Poskusite ponovno.</string>
     <string name="dialog_sd_wizard">Pokaži</string>
     <string name="renderers_disconnect">Prekini povezavo</string>
     <string name="playback_forward">Naprej</string>
