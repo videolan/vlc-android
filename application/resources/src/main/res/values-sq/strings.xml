@@ -7,21 +7,13 @@
     <string name="other">Të Tjera</string>
     <string name="sortby">Ndaj sipas…</string>
     <string name="sortby_name">Emri</string>
-    <string name="sortby_name_desc">Rëndit (zbrit)</string>
     <string name="sortby_filename">Emri skedarit</string>
-    <string name="sortby_filename_desc">Emri skedarit (zbrit)</string>
     <string name="sortby_artist_name">Emri artistit</string>
-    <string name="sortby_artist_name_desc">Emri artistit (zbrit)</string>
     <string name="sortby_album_name">Emri albumit</string>
-    <string name="sortby_album_name_desc">Emri albumit (zbrit)</string>
     <string name="sortby_length">Gjatësi</string>
-    <string name="sortby_length_desc">Gjatësi (zbrit)</string>
     <string name="sortby_date">Datë</string>
-    <string name="sortby_date_desc">Datë (zbrit)</string>
     <string name="sortby_last_modified_date">Shtuar së fundmi</string>
-    <string name="sortby_last_modified_date_desc">Shtuar së fundmi (zbrit)</string>
     <string name="sortby_number">Nb këngë</string>
-    <string name="sortby_number_desc">Nb këngë (zbrit)</string>
     <string name="searchable_hint">Kërko</string>
     <string name="history">Histori</string>
 
@@ -55,22 +47,13 @@
     <string name="confirm_delete_folder">Fshij dosjen \'%1$s\' dhe gjithë përmbajtjen?</string>
     <string name="confirm_delete_playlist">Fshij listën \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Hiq \'%1$s\' nga lista?</string>
-    <string name="confirm_remove_from_playlist_anonymous">Hiq nga lista?</string>
     <string name="ringtone_set">Skedari \'%1$s\' është vendosur si zile.</string>
     <string name="ringtone_error">Ndodhi një gabim gjatë vendosjes së ziles.</string>
     <string name="pause">Pushim</string>
-    <string name="not_show_again">Mos e tregoni këtë mesazh përsëri.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artiste i panjohur</string>
     <string name="unknown_album">Album i panjohur</string>
     <string name="unknown_genre">Zhanri i panjohur</string>
-    <string name="unknown_number">Numri i panjohur i Këngëve</string>
     <string name="songs">Këngët</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">1 këngë</item>
-        <item quantity="other">%d këngët</item>
-    </plurals>
-
     <string name="artists">Artistat</string>
     <string name="albums">Albumet</string>
     <string name="tracks">Këngët</string>
@@ -92,7 +75,6 @@
         <item quantity="other">%d videos</item>
     </plurals>
     <string name="internal_memory">Memoria e brendshme</string>
-    <string name="parent_folder">Deri në dosjen kryesore</string>
     <string name="audio">Zëri</string>
     <string name="video">Video</string>
     <string name="bookmarks">Shënuar</string>
@@ -101,16 +83,11 @@
     <string name="genres">Zhanret</string>
     <string name="playlists">Lista</string>
     <string name="title">Titull</string>
-    <string name="artist">Artisti</string>
-    <string name="album">Albumi</string>
-    <string name="directory">Dosje</string>
     <string name="directories">Dosjet</string>
     <string name="loading">Mbushje</string>
     <string name="please_wait">Ju lutem prisni...</string>
     <string name="nomedia">Asnjë skedar media nuk gjendet, ju lutem transferoni disa skedarë në pajisjen tuaj ose rregulloni preferencat tuaja.</string>
     <string name="noplaylist">Asnjë listë e gjetur</string>
-    <string name="mediafiles">Skedarë media</string>
-    <string name="notavailable">i padisponueshëm </string>
     <string name="directorynotfound">Rruga e dosjes \'%1$s\' nuk u gjet.</string>
     <string name="nohistory">Ju nuk keni një histori ridëgjimi akoma.</string>
     <string name="validation">Jeni të sigurtë ?</string>
@@ -135,7 +112,6 @@
     <string name="surface_fit_screen">Përshtat ekranin</string>
     <string name="surface_fill">Mbush</string>
     <string name="surface_original">Qëndër</string>
-    <string name="thumbnail">Thumbnail</string>
     <string name="unseekable_stream">Transmetim pakërkueshëm </string>
     <string name="refresh">Rifresko</string>
     <string name="track_audio">Këndë audio</string>
@@ -149,7 +125,6 @@
     <string name="sound_on">Zëri ndezur</string>
     <string name="sound_off">Zëri fikur</string>
     <string name="brightness">Bardhësia</string>
-    <string name="navmenu">menu lundrimi</string>
     <string name="advanced">alternativa avancuara</string>
     <string name="audio_boost_warning">Rrëshqisni lart për të shkuar përtej 100%</string>
     <string name="locked_in_portrait_mode">Kyçur në modalitetin portret\n(Shtypni gjatë në buton për të anuluar)</string>
@@ -165,15 +140,11 @@
     <string name="track_resolution_info">Rezolucion: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Strukturë normë: %1$.3f\n</string>
 
-    <string name="tools">Vegla</string>
     <string name="playback_speed">Shpejtësi ridëgjimi</string>
     <string name="sleep_title">Kohëmatës fjetje</string>
     <string name="sleep_in">Fle në</string>
-    <string name="sleep_cancel">Anulo kohëmatësin fjetjes</string>
     <string name="jump_to_time">Kërce në Orën</string>
-    <string name="subtitle_label">Shto skedarin titrave</string>
     <string name="subtitle_select">Përzgjedh skedarin titrave</string>
-    <string name="no_file_picker_found">Asnjë zgjedhës skedari nuk u gjet në sistem.</string>
 
     <string name="server_add_title">Shto një server të ri në të preferuarat</string>
     <string name="server_domain_hint">Server adresë (domain name ose IP)</string>
@@ -185,7 +156,6 @@
     <string name="login">Kyçu</string>
     <string name="password">Fjalëkalimi</string>
 
-    <string name="search_results">Rezultatet kërkimit</string>
     <string name="search_no_result">Asnjë media nuk u gjet</string>
     <string name="favorites_add">Shto tek të preferuarat</string>
     <string name="favorites_remove">Hiq nga të preferuarat</string>
@@ -193,26 +163,17 @@
     <string name="favorite_added">Ruaj tek të preferuarat</string>
     <string name="favorite_removed">Hiq nga të preferuarat</string>
 
-    <string name="open">Hap</string>
-    <string name="open_mrl">Transmeto</string>
-    <string name="open_mrl_dialog_title">Hap rrjetin transmetimit</string>
     <string name="open_mrl_dialog_msg">Fusni adresën e rrjetit: p.sh. http://, mms:// ose rtsp://</string>
-    <string name="error_not_compatible">Na vjen keq, pajisja juaj aktualisht nuk mbështetet nga ky version i VLC për Android™.</string>
-    <string name="error_problem">Na vjen keq, VLC për Android kishte një problem në ngarkim dhe duhej të mbyllej. </string>
-    <string name="error_message_is">Mesazhi i gabimit është (ju lutem përmendeni këtë kur debugging):\n</string>
     <string name="encountered_error_title">Gabim ridëgjim</string>
     <string name="encountered_error_message">VLC hasi një gabim me këtë media.\nJu lutem provoni të rifreskoni bibliotekën media.</string>
     <string name="invalid_location">Vendndodhja %1$s nuk mund të luhet.</string>
 
     <string name="search">Kërko</string>
-    <string name="search_history">Historiku kërkimit</string>
 
 
     <string name="playback_history_title">Histori ridëgjimi</string>
     <string name="playback_history_summary">Ruaj të gjitha media e luajtura në Seksionin Historia</string>
     <string name="playback_speed_title">Ruaj Shpejtësinë Ridëgjimit</string>
-    <string name="playback_speed_summary">Kujto shpejtësinë e vendosur të ridëgjimit</string>
-
     <string name="play_button">Buton Fillimi</string>
 
     <string name="seek">Kërko</string>
@@ -246,7 +207,6 @@
     <!-- Preferences -->
     <string name="preferences">Cilësimet</string>
 
-    <string name="general_prefs_category">Përgjithshme</string>
     <string name="directories_summary">Përzgjidhni dosjet që duhet të përfshihen në bibliotekën e media</string>
     <string name="add_custom_path">Shto rrugën e personalizuar</string>
     <string name="add_custom_path_description">Futni dosjen shtesë të personalize për të skanuar:</string>
@@ -262,28 +222,19 @@
     <string name="screen_orientation_start_lock">Kyçur në fillim</string>
     <string name="screen_orientation_portrait">Portret</string>
     <string name="screen_orientation_landscape">Peizazh</string>
-    <string name="screen_orientation_reverse_portrait">Rikthe portretin</string>
-    <string name="screen_orientation_reverse_landscape">Rikthe peizazhin</string>
     <string name="enable_black_theme">Temë zezë</string>
-    <string name="enable_black_theme_summary">Ndryshimi i ngjyrave të ndërfaqes për rehati më të mirë në mjedis me dritë të ulët.</string>
     <string name="subtitle_text_encoding">Deshifrim teksti titra</string>
     <string name="daynight_title">Mënyrë DitëNatë</string>
     <string name="daynight_follow_system_title">Ndiqni mënyrën e sistemit</string>
-    <string name="daynight_battery_title">Ndiqni Ruajtësin Baterisë</string>
+
     <string name="extra_prefs_category">Cilësime shtresë</string>
 
     <string name="interface_prefs_screen">Ndërfaqja</string>
-    <string name="interface_gui">Ekran</string>
     <string name="interface_secondary_display_category_title">Ekrani dytësor</string>
-    <string name="interface_secondary_display_category_summary">Cilësimet kur ekrane dytësor janë lidhur(HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Preferoni klonim</string>
-    <string name="enable_clone_mode_summary">Klono ekranin e pajisjes pa telekomandë.</string>
-    <string name="interface_other_category">Ndërfaqe - Tjetër</string>
-
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Grup videos</string>
     <string name="video_min_group_length_folder">Grupo nga dosja</string>
-    <string name="video_min_group_length_first">Vetëm shkronja e parë</string>
     <string name="subtitles_prefs_category">Titra</string>
     <string name="subtitles_size_title">Përmasa Titrave</string>
     <string name="subtitles_size_small">Vogël</string>
@@ -303,7 +254,6 @@
 
     <string name="audio_prefs_category">Audio</string>
     <string name="performance_prefs_category">Performanca</string>
-    <string name="media_db_cleared">Database-i Media u pastrua!</string>
     <string name="debug_logs">Log-et e Debug</string>
     <string name="restart_vlc">Ristarto VLC</string>
 </resources>
