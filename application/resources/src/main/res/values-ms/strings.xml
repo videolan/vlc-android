@@ -7,21 +7,13 @@
     <string name="other">Lain-lain</string>
     <string name="sortby">Isih dengan…</string>
     <string name="sortby_name">Nama</string>
-    <string name="sortby_name_desc">Nama (turun)</string>
     <string name="sortby_filename">Nama fail</string>
-    <string name="sortby_filename_desc">Nama fail (turun)</string>
     <string name="sortby_artist_name">Nama artis</string>
-    <string name="sortby_artist_name_desc">Nama artis (turun)</string>
     <string name="sortby_album_name">Nama album</string>
-    <string name="sortby_album_name_desc">Nama album (turun)</string>
     <string name="sortby_length">Tempoh</string>
-    <string name="sortby_length_desc">Tempoh (turun)</string>
     <string name="sortby_date">Tarikh</string>
-    <string name="sortby_date_desc">Tarikh (turun)</string>
     <string name="sortby_last_modified_date">Baru-baru Ini ditambah</string>
-    <string name="sortby_last_modified_date_desc">Baru-baru Ini ditambah (menurun)</string>
     <string name="sortby_number">Trek Nb</string>
-    <string name="sortby_number_desc">Trek Nb (turun)</string>
     <string name="searchable_hint">Gelintar…</string>
     <string name="history">Sejarah</string>
 
@@ -57,21 +49,13 @@
     <string name="confirm_delete_folder">Padam folder \'%1$s\' dan semua kandungannya?</string>
     <string name="confirm_delete_playlist">Padam senarai main \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Buang \'%1$s\' dari senarai main?</string>
-    <string name="confirm_remove_from_playlist_anonymous">Buang dari senarai main?</string>
     <string name="ringtone_set">Fail \'%1$s\' telah ditetapkan sebagai nada dering.</string>
     <string name="ringtone_error">Ralat berlaku ketika menetapkan nada dering.</string>
     <string name="pause">Jeda</string>
-    <string name="not_show_again">Jangan tunjuk mesej ini lagi.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artis Tidak Diketahui</string>
     <string name="unknown_album">Album Tidak Diketahui</string>
     <string name="unknown_genre">Genre Tidak Diketahui</string>
-    <string name="unknown_number">Bilangan trek tidak diketahui</string>
     <string name="songs">Lagu</string>
-    <plurals name="songs_quantity">
-        <item quantity="other">%d lagu</item>
-    </plurals>
-
     <string name="artists">Artis</string>
     <string name="albums">Album</string>
     <string name="tracks">Trek</string>
@@ -99,7 +83,6 @@
     </plurals>
 
     <string name="internal_memory">Ingatan dalaman</string>
-    <string name="parent_folder">Naik ke folder induk</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Tanda Buku</string>
@@ -108,16 +91,11 @@
     <string name="genres">Genre</string>
     <string name="playlists">Senarai Main</string>
     <string name="title">Tajuk</string>
-    <string name="artist">Artis</string>
-    <string name="album">Album</string>
-    <string name="directory">Direktori</string>
     <string name="directories">Direktori</string>
     <string name="loading">Memuatkan…</string>
     <string name="please_wait">Sila tunggu…</string>
     <string name="nomedia">Tiada media ditemui, sila pindah beberapa fail ke peranti anda atau laraskan keutamaan anda.</string>
     <string name="noplaylist">Tiada senarai main ditemui.</string>
-    <string name="mediafiles">Fail media</string>
-    <string name="notavailable">tidak tersedia</string>
     <string name="nosubfolder">No subfolder</string>
     <string name="directorynotfound">Laluan direktori \'%1$s\' tidak ditemui.</string>
     <string name="nohistory">Anda belum memiliki sejarah mainbalik.</string>
@@ -143,7 +121,6 @@
     <string name="surface_fit_screen">Suai muat skrin</string>
     <string name="surface_fill">Penuhkan</string>
     <string name="surface_original">Tengah</string>
-    <string name="thumbnail">Lakaran Kenit</string>
     <string name="unseekable_stream">Strim tidak boleh dijangkau</string>
     <string name="refresh">Segar semula</string>
     <string name="track_audio">Trek audio</string>
@@ -157,7 +134,6 @@
     <string name="sound_on">Bunyi Hidup</string>
     <string name="sound_off">Bunyi Mati</string>
     <string name="brightness">Kecerahan</string>
-    <string name="navmenu">menu navigasi</string>
     <string name="advanced">pilihan lanjutan</string>
     <string name="audio_boost_warning">Leret ke atas sekali lagi untuk melangkaui 100%</string>
     <string name="locked_in_portrait_mode">Dikunci dalam mod potrait\n(Tahan pada butang untuk batalkan)</string>
@@ -172,15 +148,11 @@
     <string name="track_resolution_info">Resolusi: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Kadar bingkai: %1$.3f\n</string>
 
-    <string name="tools">Alatan</string>
     <string name="playback_speed">Kelajuan mainbalik</string>
     <string name="sleep_title">Pemasa tidur</string>
     <string name="sleep_in">Tidur dalam tempoh</string>
-    <string name="sleep_cancel">Batal pemasa tidur</string>
     <string name="jump_to_time">Lompat ke Masa</string>
-    <string name="subtitle_label">Tambah fail sarikata</string>
     <string name="subtitle_select">Pilih fail sarikata</string>
-    <string name="no_file_picker_found">Tiada pengutip fail ditemui pada sistem.</string>
 
     <string name="server_add_title">Tambah pelayan baharu ke kegemaran</string>
     <string name="server_domain_hint">Alamat pelayan (nama domain atau IP)</string>
@@ -192,7 +164,6 @@
     <string name="login">Daftar Masuk</string>
     <string name="password">Kata Laluan</string>
 
-    <string name="search_results">Keputusan gelintar</string>
     <string name="search_no_result">Tiada media ditemui</string>
     <string name="favorites_add">Tambah ke kegemaran</string>
     <string name="favorites_remove">Buang dari kegemaran</string>
@@ -200,26 +171,17 @@
     <string name="favorite_added">Disimpan di kegemaran</string>
     <string name="favorite_removed">Dibuang dari kegemaran</string>
 
-    <string name="open">Buka</string>
-    <string name="open_mrl">Strim</string>
-    <string name="open_mrl_dialog_title">Buka strim rangkaian</string>
     <string name="open_mrl_dialog_msg">Masukkan MRL rangkaian: cth. http://, mms:// atau rtsp://</string>
-    <string name="error_not_compatible">Maaf, peranti anda belum lagi menyokong versi VLC untuk Android™ ini.</string>
-    <string name="error_problem">Maaf, VLC untuk Android mengalami masalah memuatkan dan perlu ditutup.</string>
-    <string name="error_message_is">Ralat mesej ialah (sila jelaskan perkara ini bila menyahpepijat):\n</string>
     <string name="encountered_error_title">Ralat mainbalik</string>
     <string name="encountered_error_message">VLC menghadapi ralat dengan media ini.\nSila segar semula pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak dapat dimainkan.</string>
 
     <string name="search">Gelintar</string>
-    <string name="search_history">Gelintar sejarah</string>
 
 
     <string name="playback_history_title">Sejarah main balik</string>
     <string name="playback_history_summary">Simpan semua media telah dimain dalam seksyen Sejarah</string>
     <string name="playback_speed_title">Simpan Kelajuan Main Balik</string>
-    <string name="playback_speed_summary">Ingat kelajuan main balik yang anda tetapkan</string>
-
     <string name="play_button">Butang Main</string>
 
     <!-- Tips -->
@@ -256,13 +218,11 @@
     <!-- Preferences -->
     <string name="preferences">Tetapan</string>
 
-    <string name="general_prefs_category">Am</string>
     <string name="directories_summary">Pilih direktori untuk dimasukkan ke dalam pustaka media</string>
     <string name="add_custom_path">Tambah laluan suai</string>
     <string name="add_custom_path_description">Masukkan direktori suai tambahan untuk diimbas</string>
     <string name="remove_custom_path">Buang laluan suai</string>
     <string name="hardware_acceleration">Pemecutan Perkakasan</string>
-    <string name="hardware_acceleration_summary">Dilumpuhkan: kestabilan lebih baik.\nPenyahkodan: mungkin meningkatkan prestasi.\nPenuh: mungkin meningkatkan lagi prestasi.</string>
     <string name="hardware_acceleration_disabled">Dilumpuhkan</string>
     <string name="hardware_acceleration_decoding">Menyahkod pemecutan</string>
     <string name="hardware_acceleration_full">Pemecutan penuh</string>
@@ -274,34 +234,21 @@
     <string name="screen_orientation_start_lock">Dikunci ketika mula</string>
     <string name="screen_orientation_portrait">Potret</string>
     <string name="screen_orientation_landscape">Landskap</string>
-    <string name="screen_orientation_reverse_portrait">Potret balikan</string>
-    <string name="screen_orientation_reverse_landscape">Landskap balikan</string>
     <string name="enable_black_theme">Tema gelap</string>
-    <string name="enable_black_theme_summary">Ubah warna antaramuka supaya mesra mata dalam persekitaran kurang cahaya.</string>
     <string name="subtitle_text_encoding">Pengekodan teks sarikata</string>
     <string name="daynight_title">Mod SiangMalam</string>
     <string name="daynight_follow_system_title">Ikuti mod sistem</string>
-    <string name="daynight_battery_title">Ikuti penjimat Bateri</string>
-    <string name="daynight_summary">Automatik tukar mod malam pada waktu berkaitan</string>
 
     <string name="extra_prefs_category">Tetapan tambahan</string>
 
     <string name="interface_prefs_screen">Antaramuka</string>
-    <string name="interface_gui">Paparan</string>
     <string name="interface_secondary_display_category_title">Paparan sekunder</string>
-    <string name="interface_secondary_display_category_summary">Tetapan bila paparan sekunder bersambung (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Utamakan klon</string>
-    <string name="enable_clone_mode_summary">Klonkan skrin peranti tanpa kawalan jauh.</string>
-    <string name="interface_other_category">Antaramuka - Lain</string>
-
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Video kumpulan</string>
     <string name="video_min_group_length_disable">Jangan kelompokkan video</string>
     <string name="video_min_group_length_folder">Kelompok mengikut folder</string>
     <string name="video_min_group_length_name">Kelompok mengikut nama</string>
-    <string name="video_min_group_length_first">Abjad pertama sahaja</string>
-    <string name="video_min_group_length_short">Bilangan abjad pendek (6)</string>
-    <string name="video_min_group_length_long">Bilangan abjad panjang (9)</string>
     <string name="media_fast_seek">Jangkau pantas</string>
     <string name="media_fast_seek_summary">Menjangkau media lebih pantas tetapi kurang tepat</string>
     <string name="video_transition_title">Peralihan video</string>
@@ -310,8 +257,6 @@
     <string name="media_seen_summary">Tanda video yang telah ditonton yang anda telah mainkan sehingga tamat</string>
     <string name="force_play_all_summary">Main semua video, mulakan dengan salah satu yang anda klik</string>
     <string name="force_play_all_title">Mod senarai main video</string>
-    <string name="save_brightness_summary">Ingat aras kecerahan dalam pemain video</string>
-    <string name="save_brightness_title">Simpan aras kecerahan untuk video</string>
     <string name="save_audiodelay_summary">Simpan lengah audio individu untuk setiap video</string>
     <string name="save_audiodelay_title">Simpan lengah audio</string>
     <string name="enable_brightness_gesture_title">Gerak isyarat kecerahan</string>
@@ -346,8 +291,6 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Kulit hadapan media pada Skrin Kunci</string>
     <string name="lockscreen_cover_summary">Bila tersedia, tetapkan seni kulit hadapan media semasa sebagai kertas dinding skrin kunci</string>
-    <string name="playlist_animate_scroll_title">Animasikan auto-penatalan senarai main semasa</string>
-    <string name="playlist_animate_scroll_summary">Animasikan penatalan pada peralihan media</string>
     <string name="list_title_ellipsize">Senarai satu baris elipsis tajuk</string>
     <string name="list_title_ellipsize_default">Lalai</string>
     <string name="list_title_ellipsize_left">Kiri</string>
@@ -359,14 +302,9 @@
     <string name="headset_prefs_category">Set Kepala</string>
     <string name="enable_headset_detection">Kesan set kepala</string>
     <string name="enable_headset_detection_summary">Kesan pemasangan dan penanggalan set kepala</string>
-    <string name="enable_headset_actions_title">Pintasan Kawalan Jauh</string>
-    <string name="enable_headset_actions_summary">Dwi-klik pada \'Main\' untuk langkau ke berikutnya dan tahan lama padanya untuk langkau trek terdahulu</string>
     <string name="enable_play_on_headset_insertion">Sambung semula ketika pemasangan set kepala</string>
     <string name="enable_play_on_headset_insertion_summary">Jeda jika sebaliknya</string>
-    <string name="enable_steal_remote_control">Kawalan jauh set kepala ekslusif</string>
-    <string name="enable_steal_remote_control_summary">Jauhkan konflik dengan mencuri kawalan jauh daripada apl lain. Ini mengelakkan mendail apabila dwi-klik pada fon HTC.</string>
     <string name="aout">Output audio</string>
-    <string name="aout_summary">Ubah kaedah yang VLC gunakan untuk audio output</string>
     <string name="audio_ducking_title">Rendahkan volum VLC ketika pemberitahuan</string>
     <string name="audio_ducking_summary">Bantu mendengar pemberitahuan audio, arahan navigasi atau percakapan pembantu</string>
     <string name="casting_category">Casting</string>
@@ -379,12 +317,10 @@
     <string name="casting_quality_medium">Sederhana</string>
     <string name="casting_quality_low">Rendah</string>
     <string name="casting_quality_lowcpu">Paling Rendah</string>
-    <string name="cast_performance_warning">Casting video ini memerlukan penukaran. Penukaran ini boleh gunakan semua kuasa yang ada dan boleh mengeringkan kuasa bateri dengan pantas.</string>
     <string name="casting_connected_renderer">Bersambung dengan penerap \'%1$s\'</string>
     <string name="artists_show_all_title">Tunjuk semua artis</string>
 
     <string name="extensions_prefs_category">Sambungan</string>
-    <string name="extensions_enable_category">Pilih sambungan untuk dibenarkan</string>
     <string name="extensions_empty">Tiada sambungan dikesan</string>
     <string name="extension_permission_title">Aktifkan sambungan baharu \"%1$s\"?</string>
     <string name="extension_permission_checkbox_title">Tunjuk dalam %1$s</string>
@@ -395,22 +331,14 @@
 
     <string name="performance_prefs_category">Prestasi</string>
     <string name="chroma_format">Paksa kroma video</string>
-    <string name="chroma_format_summary">RGB 32-bit: kroma lalai\nRGB 16-bit: prestasi lebih baik tetapi kualiti lebih rendah\nYUV: prestasi terbaik tetapi tidak berfungsi pada semua peranti. Android 2.3 dan terkini sahaja.</string>
     <string name="deblocking">Tetapan penapis menyahsekat</string>
-    <string name="deblocking_summary">Tukar tetapan penapis menyahsekat. Boleh meningkatkan kualiti video. Pengguna lanjutan sahaja.</string>
     <string name="deblocking_always">Menyahsekat penuh (paling perlahan)</string>
     <string name="deblocking_nonref">Menyahsekat sederhana</string>
     <string name="deblocking_nonkey">Menyahsekat rendah</string>
     <string name="deblocking_all">Tiada menyahsekat (terpantas)</string>
     <string name="enable_frame_skip">Langkau bingkai</string>
-    <string name="enable_frame_skip_summary">Percepatkan menyahkod tetapi menyebabkan kualiti video rendah.</string>
     <string name="enable_time_stretching_audio">Audio diregang-masa</string>
-    <string name="enable_time_stretching_audio_summary">Lajukan dan perlahankan audio tanpa mengubah pic (memerlukan peranti pantas).</string>
-
     <string name="advanced_prefs_category">Lanjutan</string>
-    <string name="save_video_none">Jangan simpan kelajuan</string>
-    <string name="save_video_session">Simpan kelajuan ketika sesi</string>
-    <string name="save_video_always">Simpan kelajuan merentasi sesi</string>
     <string name="auto_rescan">Auto imbas semula</string>
     <string name="auto_rescan_summary">Imbas peranti secara automatik untuk media baharu atau dipadam ketika permulaan aplikasi</string>
     <string name="dump_media_db">Longgok pangkalan data media</string>
@@ -418,12 +346,8 @@
     <string name="clear_media_db">Kosongkan pangkalan data media</string>
     <string name="clear_media_database_summary">Clears the database to start over</string>
     <string name="clear_history">Kosongkan sejarah</string>
-    <string name="media_db_cleared">Pangkalan data media dikosongkan!</string>
     <string name="set_locale">Tetapkan lokaliti</string>
-    <string name="set_locale_detail">Tinggalkan kosong untuk tetap semula</string>
-    <string name="set_locale_popup">Keluar dan mula semula VLC suoaya perubahan berkesan.</string>
     <string name="network_caching">Nilai caching rangkaian</string>
-    <string name="network_caching_summary">Amaun masa untuk menimbal media rangkaian (dalam ms). Tidak berfungsi dengan menyahkog perkakasan. Tinggalkan kosong untuk tetap semula.</string>
     <string name="resume_playback_title">Sambung semula main balik selepas panggilan</string>
     <string name="resume_playback_summary">Kekal terjeda sebaliknya</string>
     <string name="blurred_cover_background_title">Latar belakang kulit hadapan kabur</string>
@@ -468,8 +392,6 @@
     <string name="no_internet_connection">Periksa sambungan internet anda</string>
     <string name="some_error_occurred">Terdapat beberapa ralat berlaku. Cuba sekali lagi dalam tempoh beberapa saat</string>
 
-    <string name="drawer_open">Buka laci navigasi</string>
-    <string name="drawer_close">Tutup laci navigasi</string>
     <string name="network_browsing">Rangkaian Setempat</string>
     <string name="browsing">Pelayaran</string>
 
@@ -477,15 +399,12 @@
 
     <string name="audio_delay">Lengah audio</string>
     <string name="spu_delay">Lengah sarikata</string>
-    <string name="sleep_time_not_set">tidak ditetapkan</string>
     <string name="network_shares_discovery">Mencari perkongsian rangkaian</string>
     <string name="network_empty">Direktori ini kosong.</string>
     <string name="network_connection_needed">Tiada sambungan untuk rangkaian setempat.</string>
     <string name="search_hint">Gelintar media</string>
     <string name="search_in_list_hint">Search in current list</string>
     <string name="search_global">Gelintar dalam semua pustaka media</string>
-    <string name="directory_show_medialib">Tunjuk dalam MediaLib</string>
-    <string name="directory_hide_medialib">Sembunyi dari MediaLib</string>
     <string name="playlist_save">Simpan Senarai Main</string>
     <string name="playlist_name_hint">Senarai main</string>
     <string name="go_to_chapter">Pergi ke bab…</string>
@@ -493,7 +412,6 @@
     <string name="resume_from_position">Sambung dari kedudukan terakhir</string>
     <string name="confirm_resume">Sambung dari kedudukan terakhir?</string>
     <string name="confirm_resume_title">Sambung semula video-video yang telah dimainkan</string>
-    <string name="directory_empty">Direktori kosong</string>
     <string name="tv_ui_title">Antaramuka Android TV</string>
     <string name="tv_ui_summary">Ubah UI ke tema tersuai TV</string>
     <string name="medialibrary">Pustaka media</string>
@@ -501,10 +419,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">Lagi Tindakan</string>
-    <string name="move">Alih</string>
     <string name="back_quit_lock">Ketik Undur sekali lagi untuk tutup video</string>
-    <string name="playlist_deleted">Senarai main dipadam</string>
-    <string name="file_deleted">Fail dipadam</string>
     <string name="stream_deleted">Strim dipadam</string>
     <string name="no_subs_found">Tiada sarikata dalam direktori ini</string>
     <string name="music_now_playing">Kini Dimainkan</string>
@@ -534,7 +449,6 @@
     <string name="extension_empty">Tiada item dipaparkan, pergi ke tetapan sambungan anda untuk dapatkannya.</string>
 
     <string name="opengl_title">Penggunaan ES2 OpenGL</string>
-    <string name="opengl_summary">Secara lalai, ES2 OpenGL digunakan untuk penyahkodan perisian dan penyahkodan perkakasan bila diperlukan (video 360°).</string>
     <string name="opengl_automatic">Automatik</string>
     <string name="opengl_on">Paksa Hidup</string>
     <string name="opengl_off">Paksa Mati</string>
@@ -546,29 +460,15 @@
     <string name="popup_playback_title">Main video dalam tetingkap Timbul</string>
     <string name="popup_playback">Dimainkan dalam tetingkap Timbul</string>
     <string name="popup_expand">Kembangkan video</string>
-    <string name="snack_subloader_sub_found">Sarikata dimuat turun</string>
-    <string name="snack_subloader_sub_not_found">Sarikata tidak ditemui</string>
-    <string name="dialog_subloader_success">Sarikata ditemui untuk:</string>
-    <string name="dialog_subloader_fails">Sarikata tidak ditemui untuk:</string>
-    <string name="dialog_subloader_sumup">Muat turun selesai</string>
     <string name="download_subtitles">Muat turun sarikata</string>
-    <string name="preferences_languages_download">Bahasa sarikata</string>
-    <string name="list_languages_download_summary">Bahasa yang dimuat turun ketika mendapatkan sarikata</string>
-    <string name="list_languages_download_title">Bahasa muat turun sarikata</string>
-    <string name="service_unavailable">Perkhidmatan tidak tersedia</string>
-    <string name="subs_dl_lang_fail">Gagal tetapkan bahasa sarikata, cuba tetapkannya di dalam tetapan aplikasi</string>
-    <string name="downloading_subtitles">Memuat turun sarikata</string>
     <string name="browse_folder">Layar folder</string>
     <string name="listen">Dengar</string>
-    <string name="subtitles_download_title">Muat turun sarikata</string>
-    <string name="connecting">Menyambung…</string>
     <string name="save_bluetooth_delay">simpan lengah untuk peranti bluetooth</string>
     <string name="episodes">episod</string>
     <string name="movies">cereka</string>
     <string name="videos">video</string>
     <string name="videos_all">Semua video</string>
     <string name="clear_playback_history">Kosongkan sejarah main balik</string>
-    <string name="various_artists">Pelbagai Artis</string>
     <string name="ml_scanning">Mengimbas fail media</string>
     <string name="ml_parse_media">Menghurai media</string>
     <string name="ml_discovering">Menemui</string>
@@ -603,7 +503,6 @@
     <string name="browser_storages">Storan</string>
     <string name="msg_delete_failed">Gagal memadam media %1$s</string>
     <string name="renderer_list_title">Paparan</string>
-    <string name="feedback_player_crashed">Maaf, VLC baru sahaja mengalami kerosakan. Cuba sekali lagi.</string>
     <string name="sdcard_permission_dialog_title">Anda telah memberi kebenaran VLC capaian tulis ke Kad SD anda</string>
     <string name="sdcard_permission_dialog_message">VLC tidak dapat memadam fail ini tanpa keizinan capaian tulis.\nSila pergi ke Kad SD anda dan klik pada \"Pilih\".\nAnda boleh klik pada \"Tunjuk kad SD\" dauhlu dalam menu kanan-atas</string>
     <string name="dialog_sd_wizard">Tunjuk saya</string>
@@ -618,7 +517,6 @@
     <string name="audio_resume_card_summary">Menunjukkan satu petua yang dapat bantu anda menyambung semula main balik audio ketika apl bermula</string>
     <string name="playback_rewind">Mandir</string>
     <string name="playback_forward">Maju pantas</string>
-    <string name="ml_wizard_title">Pemilihan Pustaka Media VLC</string>
     <string name="ml_wizard_scan_checkbox">Imbas peranti untuk dapatkan kandungan media</string>
     <string name="ml_wizard_description">Pilih sama ada VLC akan mengimbas storan peranti anda yang mana ia bertujuan untuk mengurus pustaka media anda atau hanya guna ia sebagai pemain ringkas disepadukan dengan pelayar.</string>
     <string name="tv_my_new_videos">Video baharu saya</string>
@@ -646,13 +544,11 @@
     <string name="ctx_player_video_track">Pilih trek video</string>
     <string name="ctx_player_audio_track">Trek audio</string>
     <string name="ctx_player_subs_track">Trek sarikata</string>
-    <string name="ctx_player_tracks_title">Trek media</string>
     <string name="ctx_pip_title">Pemain timbul</string>
     <string name="device_dialog_title">Peranti luar disisip</string>
     <string name="device_dialog_message">Anda baru sahaja memalam peranti storan baharu ke dalam kotak TV anda, anda mahu membukanya dengan VLC?</string>
     <string name="videos_folders_title">Video mengikut folder</string>
     <string name="videos_groups_title">Kumpulan video</string>
-    <string name="video_save_remote_setting">Aktifkan mod kawalan jauh secara automatik?</string>
     <string name="video_save_clone_mode">Aktifkan mod klon secara automatik?</string>
     <string name="video_remote_enable">Tukar ke mod kawalan jauh</string>
     <string name="video_remote_disable">Duplikasikan skrin</string>
@@ -667,13 +563,11 @@
     <string name="daynight_system_explanation">VLC akan bertukar ke mod gelap secara automatk berdasarkan tetapan sistem</string>
     <string name="daynight_legacy_explanation">VLC akan beralih ke mod malam pada waktu berkaitan</string>
     <string name="onboarding_scanning_enable">Biar VLC mengimbas peranti saya untuk dapatkan kandungan media</string>
-    <string name="onboarding_scan_whole">VLC akan mengimbas keseluruhan Kad SD saya</string>
     <string name="onboarding_scan_customize">Biar saya pilih folder manakah VLC akan mengimbas</string>
     <string name="button_medialibrary_preferences">Pergi ke keutamaan Pustaka Media</string>
     <string name="light_theme">Tema cerah</string>
     <string name="add">Tambah</string>
     <string name="add_to_new_playlist">Tambah ke senarai main baharu</string>
-    <string name="theme_follow_system_mode">Ikuti mod sistem</string>
     <string name="resume_card_message">Sambung semula main balik %1$s?</string>
     <string name="misc">Pelbagai</string>
     <string name="popup_force_legacy_title">Guna tetingkap timbul Gambar-dalam-Gambar suai</string>
@@ -698,7 +592,6 @@
     <string name="send_crash_title">Pelapor kerosakan VLC</string>
     <string name="send_crash_description">Dengan mengirim data kerosakan anda kepada kami, anda dapat bantu kami menambahbaik kestabilan VLC ini.</string>
     <string name="send_crash_warning">Pastikan anda telah membuang apa jua data sulit anda sebelum menghantarnya.</string>
-    <string name="dont_ask_again">Jangan tanya lagi</string>
     <string name="include_medialib">Sertakan pangkalan data anda</string>
     <string name="vlc_reporter">Pelapor VLC</string>
     <string name="welcome_beta_title">VLC Beta</string>
@@ -717,9 +610,7 @@
     <string name="add_to_scanned">Imbas folder ini</string>
     <string name="directory_not_scanned">Direktori ini tidak diimbas</string>
     <string name="scanned_directory_added">%s ditambah ke dalam direktori terimbas anda</string>
-    <string name="video_group_size_dialog_text">Bilangan aksara yang digunakan pada kelompok mengikut nama</string>
     <string name="video_group_size_summary">Kelompok mengikut %s abjad pertama</string>
-    <string name="video_group_size">Kelompok video mengikut nama</string>
     <string name="url_copied_to_clipboard">Url disalin ke dalam papan keratan</string>
     <string name="share">Kongsi</string>
     <string name="invalid_file">Fail tidak sah. Tidak dapat dikongsikan.</string>
@@ -728,8 +619,6 @@
     <string name="find_metadata">Cari data meta</string>
     <string name="moviepedia_hint">Gelintar data meta</string>
     <string name="moviepedia_result">Keputusan video</string>
-    <string name="release_date">Dikeluarkan:</string>
-    <string name="synopsis">Sinopsis</string>
     <string name="directed_by">Diarah oleh</string>
     <string name="casting">Lakonan</string>
     <string name="produced_by">Dihasilkan oleh</string>
@@ -738,8 +627,6 @@
     <string name="posters">Poster</string>
     <string name="backdrops">Balik Tabir</string>
     <string name="header_tvshows">Rancangan TV</string>
-    <string name="all_movies">Semua cereka</string>
-    <string name="movie_count">%s cereka(s)</string>
     <string name="header_movies">Cereka</string>
     <string name="season_number">Musim %s</string>
     <string name="resume_episode">Sambung semula (%s)</string>
