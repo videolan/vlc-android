@@ -33,15 +33,9 @@
     <string name="ringtone_set">Berkas \'%1$s\' dijadikan ringtone.</string>
     <string name="ringtone_error">Terjadi kesalahan ketika mengatur ringtone.</string>
     <string name="pause">Jeda</string>
-    <string name="not_show_again">Jangan tampilkan pesan ini lagi.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artis tak dikenal</string>
     <string name="unknown_album">Album tak dikenal</string>
     <string name="unknown_genre">Jenis musik tak dikenal</string>
-    <plurals name="songs_quantity">
-        <item quantity="other">%d lagu</item>
-    </plurals>
-
     <string name="artists">Artis</string>
     <string name="albums">Album</string>
     <string name="tracks">Trek</string>
@@ -59,7 +53,6 @@
         <item quantity="other">%d video</item>
     </plurals>
     <string name="internal_memory">Memori internal</string>
-    <string name="parent_folder">Naik ke folder utama</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Bookmark</string>
@@ -68,15 +61,10 @@
     <string name="genres">Genre</string>
     <string name="playlists">Playlist</string>
     <string name="title">Judul</string>
-    <string name="artist">Artis</string>
-    <string name="album">Album</string>
-    <string name="directory">Direktori</string>
     <string name="directories">Direktori</string>
     <string name="loading">Memuat</string>
     <string name="please_wait">Silakan tunggu…</string>
     <string name="nomedia">Berkas tidak ditemukan, silakan transfer berkas ke perangkat Anda atau ubah preferensi Anda</string>
-    <string name="mediafiles">Berkas media</string>
-    <string name="notavailable">tidak tersedia</string>
     <string name="nohistory">Anda belum memiliki riwayat pemutaran.</string>
     <string name="validation">Anda yakin?</string>
 
@@ -89,7 +77,6 @@
     <string name="surface_best_fit">Paling sesuai</string>
     <string name="surface_fill">Isi</string>
     <string name="surface_original">Tengah</string>
-    <string name="thumbnail">Pratinjau</string>
     <string name="unseekable_stream">Streaming tidak bisa dipercepat</string>
     <string name="refresh">Muat ulang</string>
     <string name="track_audio">Trek audio</string>
@@ -101,32 +88,21 @@
     <string name="volume">Volume</string>
     <string name="brightness">Kecerahan</string>
     <string name="track_resolution_info">Resolusi: %1$dx%2$d\n</string>
-    <string name="tools">Peralatan</string>
     <string name="playback_speed">Kecepatan memutar ulang</string>
     <string name="sleep_title">Waktu tidur</string>
-    <string name="sleep_cancel">Batalkan waktu tidur</string>
     <string name="jump_to_time">Lompat ke Waktu</string>
-    <string name="subtitle_label">Tambah file terjemahan</string>
     <string name="subtitle_select">Pilih file terjemahan</string>
-    <string name="no_file_picker_found">Tidak ada pemilih berkas pada sistem.</string>
 
     <string name="server_username_hint">Username</string>
     <string name="server_port">Port: </string>
     <string name="password">Password</string>
 
-    <string name="search_results">Hasil pencarian</string>
     <string name="search_no_result">Tidak ada media yang ditemukan</string>
     <string name="favorites_edit">Sunting</string>
-    <string name="open">Buka</string>
-    <string name="open_mrl">Stream</string>
-    <string name="open_mrl_dialog_title">Buka stream jaringan</string>
-    <string name="error_not_compatible">Maaf, perangkat Anda belum didukung oleh VLC untuk Android™ versi ini.</string>
-    <string name="error_problem">Maaf, VLC untuk Android memiliki masalah dalam memuat dan harus ditutup.</string>
     <string name="encountered_error_title">Pemutar eror</string>
     <string name="invalid_location">Lokasi %1$s tidak bisa dimainkan.</string>
 
     <string name="search">Cari</string>
-    <string name="search_history">Cari riwayat</string>
 
 
     <!-- Tips -->
@@ -158,7 +134,6 @@
     <!-- Preferences -->
     <string name="preferences">Pengaturan</string>
 
-    <string name="general_prefs_category">Umum</string>
     <string name="directories_summary">Pilih direktori untuk dimasukkan ke pustaka media</string>
     <string name="add_custom_path">Tambah jejak manual</string>
     <string name="add_custom_path_description">Masukkan direktori tambahan untuk dipindai:</string>
@@ -173,16 +148,11 @@
     <string name="screen_orientation_start_lock">Terkunci saat memulai</string>
     <string name="screen_orientation_portrait">Potrait</string>
     <string name="screen_orientation_landscape">Pemandangan</string>
-    <string name="screen_orientation_reverse_portrait">Balik portrait</string>
-    <string name="screen_orientation_reverse_landscape">Balik landscape</string>
     <string name="subtitle_text_encoding">Pengkodean teks terjemahan</string>
     <string name="extra_prefs_category">Pengaturan tambahan</string>
 
     <string name="interface_prefs_screen">Antarmuka</string>
     <string name="enable_clone_mode">Pilih klon</string>
-    <string name="enable_clone_mode_summary">Klon layar perangkat tampa remot pengendali.</string>
-    <string name="interface_other_category">Antarmuka - Lainnya</string>
-
     <string name="video_prefs_category">Video</string>
     <string name="media_fast_seek">Pencarian cepat</string>
     <string name="save_audiodelay_title">Simpan penundaan audio</string>
@@ -206,9 +176,7 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Deteksi headset</string>
-    <string name="enable_steal_remote_control">Remot kontrol headset ekslusif</string>
     <string name="aout">Output audio</string>
-    <string name="aout_summary">Ubah metode yang digunakan untuk menghasilkan output audio.</string>
     <string name="casting_conversion_quality_title">Kualitas konversi</string>
     <string name="casting_quality_high">Tinggi</string>
     <string name="casting_quality_medium">Sedang</string>
@@ -221,21 +189,14 @@
     <string name="performance_prefs_category">Performa</string>
     <string name="chroma_format">Paksa kroma video</string>
     <string name="deblocking">Deblocking pengaturan penyaringan</string>
-    <string name="deblocking_summary">Ubah pengaturan penyaringan Deblocking. Dapat meningkatkan kualitas video. Hanya untuk pengguna mahir.</string>
     <string name="deblocking_always">Deblocking penuh (paling lambat)</string>
     <string name="deblocking_nonref">Deblocking medium</string>
     <string name="deblocking_nonkey">Deblocking rendah</string>
     <string name="deblocking_all">Tanpa deblocking (paling cepat)</string>
-    <string name="enable_frame_skip_summary">Percepat decoding namun dapat menurunkan kualitas video.</string>
     <string name="enable_time_stretching_audio">Waktu peregangan suara</string>
-    <string name="enable_time_stretching_audio_summary">Percepat dan perlambat suara tampa mengubah nada (membutuhkan pernagkat yang cepat)</string>
-
     <string name="advanced_prefs_category">Lanjutan</string>
     <string name="clear_media_db">Hapus database media</string>
-    <string name="media_db_cleared">Database media terhapus!</string>
     <string name="set_locale">Pilih bahasa</string>
-    <string name="set_locale_detail">Kosongkan untuk menghapus</string>
-    <string name="set_locale_popup">Keluar dan hidupkan kembali VLC untuk melihat perubahan.</string>
     <string name="network_caching">Nilai cache jaringan</string>
     <string name="quit">Keluar dan restart aplikasi</string>
     <string name="restart_message_OK">OK</string>
@@ -270,7 +231,6 @@
     <string name="network_empty">Direktori ini kosong.</string>
     <string name="search_hint">Cari media</string>
     <string name="chapter">Bab</string>
-    <string name="directory_empty">Direktori kosong</string>
     <string name="tv_ui_title">Antarmuka Android TV</string>
     <string name="medialibrary">Pustaka media</string>
     <string name="medialibrary_directories">Folder pustaka media</string>
@@ -280,10 +240,7 @@
     <string name="opengl_title">Penggunaan OpenGL ES2</string>
     <string name="opengl_automatic">Otomatis</string>
     <string name="add_to_playlist">Tambahkan ke playlist</string>
-    <string name="snack_subloader_sub_not_found">Terjemahan tidak ditemukan</string>
     <string name="download_subtitles">Unduh terjemahan</string>
-    <string name="preferences_languages_download">Bahasa terjemahan</string>
-    <string name="downloading_subtitles">Mengunduh terjemahan</string>
     <string name="videos">video</string>
     <string name="videos_all">Semua video</string>
     <string name="ml_external_storage_msg">Anda ingin VLC menambahkan perangkat %1$s ke pustaka media?</string>
