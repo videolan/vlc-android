@@ -7,21 +7,13 @@
     <string name="other">أخرى</string>
     <string name="sortby">افرز حسب…</string>
     <string name="sortby_name">الاسم</string>
-    <string name="sortby_name_desc">الاسم (تنازليًا)</string>
     <string name="sortby_filename">اسم الملف</string>
-    <string name="sortby_filename_desc">اسم الملف (تنازليًا)</string>
     <string name="sortby_artist_name">اسم الفنان</string>
-    <string name="sortby_artist_name_desc">اسم الفنان (تنازليًا)</string>
     <string name="sortby_album_name">اسم الألبوم</string>
-    <string name="sortby_album_name_desc">اسم الألبوم (تنازليًا)</string>
     <string name="sortby_length">الطول</string>
-    <string name="sortby_length_desc">الطول (تنازليًا)</string>
     <string name="sortby_date">التاريخ</string>
-    <string name="sortby_date_desc">التاريخ (تنازليًا)</string>
     <string name="sortby_last_modified_date">أُضيف حديثًا</string>
-    <string name="sortby_last_modified_date_desc">أُضيف حديثًا (تنازليًا)</string>
     <string name="sortby_number">عدد المقطوعات</string>
-    <string name="sortby_number_desc">عدد المقطوعات (تنازليًا)</string>
     <string name="searchable_hint">ابحث عن…</string>
     <string name="history">التأريخ</string>
 
@@ -62,25 +54,13 @@
     <string name="confirm_delete_folder">أأحذف المجلد ”%1$s وكل ما يحتوي؟</string>
     <string name="confirm_delete_playlist">أأحذف قائمة التشغيل ”%1$s‘؟</string>
     <string name="confirm_remove_from_playlist">أأُزيل ”%1$s“ من قائمة التشغيل؟</string>
-    <string name="confirm_remove_from_playlist_anonymous">أأُزيله من قائمة التشغيل؟</string>
     <string name="ringtone_set">ضُبط الملف ”%1$s“ ليكون للرنين.</string>
     <string name="ringtone_error">حدث خطأ أثناء الضبط ليكون للرنين.</string>
     <string name="pause">ألبِث</string>
-    <string name="not_show_again">لا تعرض هذه الرسالة ثانيةً.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">فنان مجهول</string>
     <string name="unknown_album">ألبوم مجهول</string>
     <string name="unknown_genre">نوع مجهول</string>
-    <string name="unknown_number">عدد المقطوعات مجهول</string>
     <string name="songs">الأغاني</string>
-    <plurals name="songs_quantity">
-        <item quantity="zero">لا أغاني</item>
-        <item quantity="one">أغنية واحدة</item>
-        <item quantity="two">أغنيتان</item>
-        <item quantity="few">%d أغاني</item>
-        <item quantity="many">%d أغنية</item>
-        <item quantity="other">%d أغنية</item>
-    </plurals>
     <string name="track_info_copied_to_clipboard">تم نسخ معلومات المسار إلى الحافظة</string>
 
     <string name="artists">الفنانون</string>
@@ -137,7 +117,6 @@
     </plurals>
 
     <string name="internal_memory">الذاكرة الداخلية</string>
-    <string name="parent_folder">انتقل إلى المجلد الأب</string>
     <string name="audio">الصوت</string>
     <string name="video">الڤديو</string>
     <string name="bookmarks">العلامات</string>
@@ -146,16 +125,11 @@
     <string name="genres">الأنواع</string>
     <string name="playlists">قوائم التّشغيل</string>
     <string name="title">العنوان</string>
-    <string name="artist">الفنان</string>
-    <string name="album">الألبوم</string>
-    <string name="directory">الدليل</string>
     <string name="directories">الأدلة</string>
     <string name="loading">يحمّل</string>
     <string name="please_wait">انتظر من فضلك…</string>
     <string name="nomedia">لم توجد أية ملفات وسائط. من فضلك انقل بعض الملفات إلى جهازك أو اضبط التفضيلات.</string>
     <string name="noplaylist">لم توجد أية قوائم تشغيل.</string>
-    <string name="mediafiles">ملفات الوسائط</string>
-    <string name="notavailable">غير متوفر</string>
     <string name="nosubfolder">لا يوجد مجلد فرعي</string>
     <string name="directorynotfound">لم يوجد مسار الدليل ”%1$s“.</string>
     <string name="nohistory">من من شيء شغّلته في التأريخ.</string>
@@ -181,7 +155,6 @@
     <string name="surface_fit_screen">املأ الشاشة</string>
     <string name="surface_fill">املأ</string>
     <string name="surface_original">وسّط</string>
-    <string name="thumbnail">المصغّرة</string>
     <string name="unseekable_stream">لا يدعم الدفق التنقّل فيه</string>
     <string name="refresh">أنعِش</string>
     <string name="track_audio">مسار صوت</string>
@@ -195,7 +168,6 @@
     <string name="sound_on">الصوت مفعّل</string>
     <string name="sound_off">الصوت معطّل</string>
     <string name="brightness">السّطوع</string>
-    <string name="navmenu">قائمة التنقل</string>
     <string name="advanced">خيارات متقدمة</string>
     <string name="audio_boost_warning">مرر إلى الأعلى مرة أخرى لتتجاوز 100٪</string>
     <string name="locked_in_portrait_mode">مقفل في وضع عمودي\n(اضغط  ‏‏على الزر لفترة طويلة لإلغاء)</string>
@@ -215,15 +187,11 @@
     <string name="track_resolution_info">الميز: %1$d×%2$d\n</string>
     <string name="track_framerate_info">معدل الإطار: %1$.3f\n</string>
 
-    <string name="tools">الأدوات</string>
     <string name="playback_speed">سرعة التّشغيل</string>
     <string name="sleep_title">مؤقّت النّوم</string>
     <string name="sleep_in">النوم</string>
-    <string name="sleep_cancel">ألغِ مؤقّت النّوم</string>
     <string name="jump_to_time">اقفز زمنيًا إلى</string>
-    <string name="subtitle_label">أضِف ملف ترجمة</string>
     <string name="subtitle_select">اختر ملف ترجمة</string>
-    <string name="no_file_picker_found">لا يوجد منتقي الملفات في النّظام.</string>
 
     <string name="server_add_title">أضِف خادوما جديدا إلى المفضلة</string>
     <string name="server_domain_hint">عنوان الخادوم (اسم النطاق أو IP)</string>
@@ -235,7 +203,6 @@
     <string name="login">تسجيل الدخول</string>
     <string name="password">كلمة السر</string>
 
-    <string name="search_results">نتائج البحث</string>
     <string name="search_no_result">لم يُعثر على وسائط</string>
     <string name="favorites_add">أضِف إلى المفضلة</string>
     <string name="favorites_remove">أزِل من المفضلة</string>
@@ -243,25 +210,17 @@
     <string name="favorite_added">حُفظت في المفضلة</string>
     <string name="favorite_removed">أُزيلت من المفضلة</string>
 
-    <string name="open">افتح</string>
-    <string name="open_mrl_dialog_title">افتح بثًا شبكيًا</string>
     <string name="open_mrl_dialog_msg">أدخِل عنوان الشبكة على سبيل المثال: http: // أو mms: // أو rtsp: //</string>
-    <string name="error_not_compatible">عذرًا، جهازك غير مدعوم حاليًا بهذه الإصدارة من VLC للأندرويد™.</string>
-    <string name="error_problem">عذرًا، حدثت مشكلة أثناء تحميل VLC للأندرويد و وجب الإغلاق.</string>
-    <string name="error_message_is">رسالة الخطأ هي (يُرجى ذكر هذا عند التنقيح) :\n</string>
     <string name="encountered_error_title">خطأ تشغيلي</string>
     <string name="encountered_error_message">صادف VLC خطأ عند قراءة هذا الوسيط.\nيُرجى إعادة إنعاش مكتبة الوسائط.</string>
     <string name="invalid_location">لا يمكن قراءة الموقع %1$s .</string>
 
     <string name="search">ابحث</string>
-    <string name="search_history">تأريخ البحث</string>
 
 
     <string name="playback_history_title">تأريخ التشغيل</string>
     <string name="playback_history_summary">احفظ كل الوسائط المشغّلة في قسم التأريخ</string>
     <string name="playback_speed_title">احفظ سرعة التشغيل</string>
-    <string name="playback_speed_summary">تذكّر سرعة التشغيل التي ضبطتُها</string>
-
     <string name="play_button">زر التشغيل</string>
 
     <!-- Tips -->
@@ -298,13 +257,11 @@
     <!-- Preferences -->
     <string name="preferences">الإعدادات</string>
 
-    <string name="general_prefs_category">عام</string>
     <string name="directories_summary">اختر أدلّة لضمّها إلى مكتبة الوسائط</string>
     <string name="add_custom_path">أضِف مسارًا مخصّصًا</string>
     <string name="add_custom_path_description">أدخِل دليلًا مخصّصًا إضافيًا لرؤيته:</string>
     <string name="remove_custom_path">أزِل مسارًا مخصّصًا</string>
     <string name="hardware_acceleration">ترميز مُسرّع عتاديًا</string>
-    <string name="hardware_acceleration_summary">غير مفعَّل : ثبات أكثر./nفك الترميز : قد يرفع الأداء./nكامل : قد يرفع الأداء بشكل أفضل.</string>
     <string name="hardware_acceleration_disabled">تعطيل</string>
     <string name="hardware_acceleration_decoding">يجري فك ترميز التسريع</string>
     <string name="hardware_acceleration_full">تسريع كامل</string>
@@ -316,34 +273,21 @@
     <string name="screen_orientation_start_lock">مقفل عند البدء</string>
     <string name="screen_orientation_portrait">طولي</string>
     <string name="screen_orientation_landscape">عرضي</string>
-    <string name="screen_orientation_reverse_portrait">طولي معكوس</string>
-    <string name="screen_orientation_reverse_landscape">عرضي معكوس</string>
     <string name="enable_black_theme">الثيم الأسود</string>
-    <string name="enable_black_theme_summary">غيّر ألوان الواجهة لراحة أفضل في أماكن ذات إضاءات ضعيفة.</string>
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
-    <string name="daynight_title">نمط ليل نهار</string>
+    <string name="daynight_title">نمط ليلي نهاري</string>
     <string name="daynight_follow_system_title">متابعة نمط النظام</string>
-    <string name="daynight_battery_title">اتبع موفر البطارية</string>
-    <string name="daynight_summary">سينتقل تلقائيًا إلى الوضع الليلي في الوقت المحدّد</string>
 
     <string name="extra_prefs_category">إعدادات إضافية</string>
 
     <string name="interface_prefs_screen">الواجهة</string>
-    <string name="interface_gui">الواجهة</string>
     <string name="interface_secondary_display_category_title">الواجهة الثانوية</string>
-    <string name="interface_secondary_display_category_summary">وضع الإعدادات عند الربط بشاشة ثانوية (HDMI/Miracast).</string>
     <string name="enable_clone_mode">خَيِّر المستنسَخ</string>
-    <string name="enable_clone_mode_summary">استنسخْ عتاد الشاشة بدون التحكم عن بعد.</string>
-    <string name="interface_other_category">الواجهة - أخرى</string>
-
     <string name="video_prefs_category">فيديو</string>
     <string name="video_min_group_length_title">فيديوهات المجموعة</string>
     <string name="video_min_group_length_disable">لا تجمع الفيديو</string>
     <string name="video_min_group_length_folder">جمع بحسب المجلدات</string>
     <string name="video_min_group_length_name">جمع بحسب الاسم</string>
-    <string name="video_min_group_length_first">أول حرف فقط</string>
-    <string name="video_min_group_length_short">عدد أقصر من الحروف (6)</string>
-    <string name="video_min_group_length_long">عدد أطول من الحروف (9)</string>
     <string name="media_fast_seek">تقدم سريع</string>
     <string name="media_fast_seek_summary">التقدم في الوسائط اسرع لكن ليس بدقيق</string>
     <string name="video_transition_title">تنقل الفيديوهات</string>
@@ -352,8 +296,6 @@
     <string name="media_seen_summary">وضع علامة كتمت مشاهدت الفيديو عندما تشغلها إلى النهاية</string>
     <string name="force_play_all_summary">شغل كل الفيديوهات، بدايةً بالتي نقرت عليها</string>
     <string name="force_play_all_title">وضع قائمة تشغيل الفيديو</string>
-    <string name="save_brightness_summary">تذكر مستوى السطوع في مُشغّل المرئيات</string>
-    <string name="save_brightness_title">احفظ مستوى السطوع للفيديو</string>
     <string name="save_audiodelay_summary">احفظ تأخير الصوت الفردي لكل فيديو</string>
     <string name="save_audiodelay_title">حفظ تأخير الصوت</string>
     <string name="enable_brightness_gesture_title">إيماء السّطوع</string>
@@ -398,13 +340,9 @@
     <string name="headset_prefs_category">سماعة الصوت</string>
     <string name="enable_headset_detection">افحص مجموعة الرأس</string>
     <string name="enable_headset_detection_summary">تحقق من إدراج أو اخراج سماعة الرأس</string>
-    <string name="enable_headset_actions_title">اختصارات التحكم عن بعد</string>
     <string name="enable_play_on_headset_insertion">استأنف فور إدخال سماعات الأذن</string>
     <string name="enable_play_on_headset_insertion_summary">غير ذالك قف مؤقتا </string>
-    <string name="enable_steal_remote_control">حصر التّحكم بمجموعة الرّأس عن بُعد</string>
-    <string name="enable_steal_remote_control_summary">تجنّب التّعارضات التي قد تحدث عند التّحكم عن بُعد بتطبيقاتٍ أُخرى. يمنع هذا الطلب بالنّقر المزدوج المتوفر في هواتف HTC.</string>
     <string name="aout">الإخراج الصّوتي</string>
-    <string name="aout_summary">غير طريقة إخراج VLC الصّوتي.</string>
     <string name="audio_ducking_title">قلل درجة صوت في حالة الإشعارات</string>
     <string name="casting_category">يتم الآن التحويل</string>
     <string name="casting_switch_title">التحويل عن بعد</string>
@@ -418,7 +356,6 @@
     <string name="artists_show_all_title">اظهر كافة الفنانين</string>
 
     <string name="extensions_prefs_category">الامتدادات</string>
-    <string name="extensions_enable_category">اختر الامتدادات التي تريد تنشيطها</string>
     <string name="extensions_empty">لم نعثر على أي امتداد</string>
     <string name="extension_permission_checkbox_title">أظهر في %1$s</string>
     <string name="extension_prefs_activation_title">نشّط</string>
@@ -428,31 +365,21 @@
 
     <string name="performance_prefs_category">الأداء</string>
     <string name="chroma_format">قوّ الصّفاء المرئي</string>
-    <string name="chroma_format_summary">RGB بـ 32 بِتْ : صفاء افتراضي\nRGB بـ 16 بِتْ : أداء أفضل لكن بجودة أقل\nYUV : أداء جيد لكن لا يعمل في كل الأجهزة. أندرويد 2.3 وما يليه فقط.</string>
     <string name="deblocking">إعدادات مُرشّح فك ضغط المرئيات</string>
-    <string name="deblocking_summary">غيّر إعدادات مُرشّح فك ضغط المرئيات. حيث يُمكنه تحسين الجودة المرئية. للمُستخدمين المُتقدّمين فقط.</string>
     <string name="deblocking_always">فك ضغط مرئي كامل (الأبطأ)</string>
     <string name="deblocking_nonref">فك ضغط مرئي متوسط</string>
     <string name="deblocking_nonkey">فك ضغط مرئي ضعيف</string>
     <string name="deblocking_all">بدون فك ضغط مرئي (الأسرع)</string>
     <string name="enable_frame_skip">تجاوز الإطار</string>
-    <string name="enable_frame_skip_summary">تسريع فك التّرميز و الذي قد يترافق مع جودة مرئية منخفضة.</string>
     <string name="enable_time_stretching_audio">الوقت المُمتد للصّوت</string>
-    <string name="enable_time_stretching_audio_summary">سرّع و بطّئ الصّوت بدون تغيير درجته (يتطلب جهازًا سريعًا).</string>
-
     <string name="advanced_prefs_category">مُتقدّم</string>
-    <string name="save_video_none">لا تقم بحفظ السرعة</string>
     <string name="auto_rescan">إعادة المسح التلقائي</string>
     <string name="dump_media_db">تفريغ قاعدة بيانات الوسائط</string>
     <string name="clear_media_db">امسح قاعدة بيانات الوسائط</string>
     <string name="clear_media_database_summary">مسح قاعدة البيانات للبدء من جديد</string>
     <string name="clear_history">امسح التأريخ</string>
-    <string name="media_db_cleared">تم مسح قاعدة بيانات الوسائط!</string>
     <string name="set_locale">اضبط المحلّية</string>
-    <string name="set_locale_detail">اتركه فارغًا لإعادة ضبطه</string>
-    <string name="set_locale_popup">اخرج وأعد تشغيل VLC لكي تُفعَّل التغييرات.</string>
     <string name="network_caching">قيمة مخبئيات الشّبكة</string>
-    <string name="network_caching_summary">الوقت اللازم لدفق الوسيط الشّبكي (بالميللي ثانية). لا تستعمله مع فك التّرميز العتادي. اتركه فارغًا لإعادة ضبطه.</string>
     <string name="resume_playback_title">استأنف التشغيل بعد انتهاء مكالمة</string>
     <string name="resume_playback_summary">غير ذلك البقاء متوقف</string>
     <string name="blurred_cover_background_title">تضبيب خلفية الغلاف</string>
@@ -497,8 +424,6 @@
     <string name="no_internet_connection">تحقق من اتصال الإنترنت</string>
     <string name="some_error_occurred">حدث خطأ ما. يرجى المحاولة مرة أخرى في بضع ثوان</string>
 
-    <string name="drawer_open">افتح ساحب التصفح</string>
-    <string name="drawer_close">أغلق ساحب التصفح</string>
     <string name="network_browsing">الشبكة المحلية</string>
     <string name="browsing">تصفح</string>
 
@@ -506,15 +431,12 @@
 
     <string name="audio_delay">تأخر الصوت</string>
     <string name="spu_delay">تأخير الترجمة</string>
-    <string name="sleep_time_not_set">لا شيء مدخل</string>
     <string name="network_shares_discovery">جارٍ البحث عن مشاركات شبكية…</string>
     <string name="network_empty">هذا المجلد فارغ</string>
     <string name="network_connection_needed">لا يوجد اتصال مع الشبكة المحلية.</string>
     <string name="search_hint">بحث عن الوسائط</string>
     <string name="search_in_list_hint">بحث في القائمة الحالية</string>
     <string name="search_global">ابحث في كل مكتبات الوسائط</string>
-    <string name="directory_show_medialib">اظهر في ماسح الوسائط </string>
-    <string name="directory_hide_medialib">إخفاء من ماسح الوسائط </string>
     <string name="playlist_save">احفظ قائمة التشغيل</string>
     <string name="playlist_name_hint">اسم قائمة التشغيل</string>
     <string name="go_to_chapter">انتقل إلى الفصل…</string>
@@ -522,7 +444,6 @@
     <string name="resume_from_position">إسئناف من آخر موقع</string>
     <string name="confirm_resume">هل تريد إستئناف من آخر موقع؟</string>
     <string name="confirm_resume_title">استئناف تشغيل الفيديوهات</string>
-    <string name="directory_empty">المجلد فارغ</string>
     <string name="tv_ui_title">واجهة Android TV</string>
     <string name="tv_ui_summary">قم بتغيير واجهة المستخدم إلى مظهر ملائم للتلفزيون</string>
     <string name="medialibrary">مكتبة الوسائط</string>
@@ -530,10 +451,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">المزيد من الإجراءات</string>
-    <string name="move">انقل</string>
     <string name="back_quit_lock">اضغط على \"رجوع\" مرة أخرى للخروج من الفيديو</string>
-    <string name="playlist_deleted">حذفت قائمة التشغيل</string>
-    <string name="file_deleted">حُذف الملف</string>
     <string name="stream_deleted">تم حذف التدفق</string>
     <string name="no_subs_found">لا يوجد ترجمات في هذا الدليل</string>
     <string name="music_now_playing">جارٍ تشغيل</string>
@@ -541,7 +459,7 @@
     <!-- Widget -->
     <string name="widget_name_w">تطبيق مصغر VLC ابيض</string>
     <string name="widget_name_b">تطبيق مصغر VLC اسود</string>
-    <string name="allow_storage_access_title">السماح ل VLC بالدخول إلى الملفات السمعية و الفيديو</string>
+    <string name="allow_storage_access_title">السماح لـ VLC بالدخول إلى الملفات السمعية و الفيديو</string>
     <string name="allow_storage_access_description">يحتاج VLC إلى الحصول على تصريح للدخول إلى ملفات الوسائط هذه في هذا الجهاز</string>
     <string name="allow_settings_access_ringtone_title">السماح لـVLC من تعيين الرنة</string>
     <string name="allow_settings_access_ringtone_description">يطلب منك VLC التصريح للسماح له لاستخدام هذه الأغنية كنغمة للهاتف.</string>
@@ -560,7 +478,6 @@
     <string name="plugins">الإضافات</string>
     <string name="download_on_device">تنزيل </string>
     <string name="opengl_title">استخدام OpenGL ES2</string>
-    <string name="opengl_summary">بشكل افتراضي ، يتم استخدام OpenGL ES2 لفك التشفير بالبرمجيات وفك التشفير بالعتاد عند الحاجة (مقاطع فيديو بزاوية 360 درجة).</string>
     <string name="opengl_automatic">تلقائي</string>
     <string name="opengl_on">الفرض يعمل</string>
     <string name="opengl_off">الفرض لا يعمل</string>
@@ -572,29 +489,15 @@
     <string name="popup_playback_title">شغّل الفيديو في نافذة منبثقة</string>
     <string name="popup_playback">التشغل في نافذة منبثقة</string>
     <string name="popup_expand">قم بتوسيع الفيديو</string>
-    <string name="snack_subloader_sub_found">تم تنزيل الترجمات</string>
-    <string name="snack_subloader_sub_not_found">لم يتم العثور على الترجمات</string>
-    <string name="dialog_subloader_success">تم العثور على الترجمات لـ :</string>
-    <string name="dialog_subloader_fails">لم يتم العثور على الترجمات لـ :</string>
-    <string name="dialog_subloader_sumup">انتهى التنزيل </string>
     <string name="download_subtitles">تنزيل الترجمات</string>
-    <string name="preferences_languages_download">لغات الترجمات</string>
-    <string name="list_languages_download_summary">اللغات للتنزيل عند جلب الترجمات</string>
-    <string name="list_languages_download_title">ترجمات تنزيل اللغات </string>
-    <string name="service_unavailable">الخدمة غير متاحة</string>
-    <string name="subs_dl_lang_fail">فشل تعيين لغة الترجمات، حاول تعيينها في إعدادات التطبيق</string>
-    <string name="downloading_subtitles">يتم الآن تنزيل التّرجمات</string>
     <string name="browse_folder">تصفح المجلد</string>
     <string name="listen">استمع</string>
-    <string name="subtitles_download_title">تنزيل الترجمات</string>
-    <string name="connecting">الاتصال جارٍ…</string>
     <string name="save_bluetooth_delay">حفظ التأخير لجهاز بلوتوث</string>
     <string name="episodes">الحلقات</string>
     <string name="movies">أفلام</string>
     <string name="videos">الفيديوهات</string>
     <string name="videos_all">كل الفيديوهات</string>
     <string name="clear_playback_history">امسح تاريخ التشغيل</string>
-    <string name="various_artists">عدّة فنانين</string>
     <string name="ml_scanning">مسح من أجل العثور على ملفات الوسائط</string>
     <string name="ml_parse_media">جارٍ جلب الوسائط</string>
     <string name="ml_discovering">الاستكشاف جارٍ</string>
@@ -629,7 +532,6 @@
     <string name="browser_storages">مساحات التخزين</string>
     <string name="msg_delete_failed">فشِل في حذف الوسائط %1$s</string>
     <string name="renderer_list_title">واجهات العرض</string>
-    <string name="feedback_player_crashed">عذرًا ، تعطل VLC للتو. حاول مرة اخرى.</string>
     <string name="sdcard_permission_dialog_title">يجب السماح للبرنامج الوصول والكاتبة على الذاكرة</string>
     <string name="sdcard_permission_dialog_message">لا يمكن لـ VLC حذف هذا الملف بدون إذن الوصول للكتابة.\nيرجى الذهاب إلى بطاقة SD الخاصة بك وانقر على \"اختيار\".\nقد تضطر إلى النقر فوق \"إظهار بطاقة SD\" أولاً في القائمة العلوية اليمنى</string>
     <string name="dialog_sd_wizard">أرني</string>
@@ -640,8 +542,8 @@
     <string name="audio_task_cleared_summary">أوقف التشغيل عندما يتم رفض التطبيق</string>
     <string name="playback_rewind">أعد التشغيل</string>
     <string name="playback_forward">تقديم للأمام</string>
-    <string name="ml_wizard_title">أختيار ماسح الوسائط لVLC</string>
     <string name="ml_wizard_scan_checkbox">امسح الجهاز من أجل العثور على محتوى للوسائط</string>
+    <string name="ml_wizard_description">لديك الاختيار بين بحث VLC في عتاد تخزينك لتنظيم مكتبة وسائطك و بين استخدامه كقاريء عادي للوسائط مع متصفحك المُدمَج.</string>
     <string name="tv_my_new_videos">فيديوهاتي الجديدة </string>
     <string name="otg_device_title">وصلة خارجية</string>
     <string name="browser">متصفح</string>
@@ -662,7 +564,6 @@
     <string name="download">نزّل</string>
     <string name="ctx_player_audio_track">مسار الصوت</string>
     <string name="ctx_player_subs_track">مسار الترجمات النصية</string>
-    <string name="ctx_player_tracks_title">مسارات الوسائط</string>
     <string name="videos_folders_title">الفيديوهات بحسب المجلدات</string>
     <string name="welcome_title">مرحبًا بكم على VLC!</string>
     <string name="welcome_subtitle">مُشغّل الوسائط الحُر ومفتوح المصدر</string>
@@ -672,16 +573,18 @@
     <string name="onboarding_scan_title">استكشف تلقائيا وسائطك</string>
     <string name="onboarding_scanning_enable">دع VLC يتفحّص الجهاز بحثًا عن محتوى للوسائط</string>
     <string name="onboarding_scan_customize">دعني أختار المجلدات التي سيفحصها VLC</string>
+    <string name="button_medialibrary_preferences">اذهب إلى مفضلات مكتبة الوسائط</string>
     <string name="light_theme">سمة فاتحة</string>
     <string name="add">أضِف</string>
     <string name="misc">متفرّقات</string>
+    <string name="show_video_thumbnails_summary">أظهر الصور المصغرة للفيديوهات في قوائم</string>
+    <string name="show_video_thumbnails">الصور المصغرة للفيديو</string>
     <string name="enable_equalizer">فعّل</string>
     <string name="reset">صفّر</string>
     <string name="remove_current">إزالة الحالي</string>
     <string name="dump_db_failure">فشل في تفريغ قاعدة البيانات</string>
     <string name="send_crash_title">فني تقرير اعطال VLC</string>
     <string name="send_crash_description">ارسالك لتقرير العطل يساهم في مساعدتنا في تحسين حالة استقرار VLC.</string>
-    <string name="dont_ask_again">لا تسألني مرة أخرى</string>
     <string name="welcome_beta_title">VLC بيتا</string>
     <string name="send">أرسل</string>
     <string name="send_crash_action_title">ما الذي تريد فعله؟</string>
@@ -693,9 +596,7 @@
     <string name="ask_confirmation">السؤال للموافقة </string>
     <string name="add_to_scanned">مسح هذا المجلد</string>
     <string name="directory_not_scanned">لم يتم مسح هذا المجلد بعد</string>
-    <string name="video_group_size_dialog_text">استخدمت اعداد الرموز للجمع حسب الاسم</string>
     <string name="video_group_size_summary">جمع بحسب الحرف الاول %s</string>
-    <string name="video_group_size">جمع الفلم بحسب الاسم</string>
     <string name="url_copied_to_clipboard">تم نسخ العنوان إلى الحافظة</string>
     <string name="share">مشاركة</string>
     <string name="invalid_file">ملف غير صالح: لا يمكن المشاركة</string>
@@ -704,8 +605,6 @@
     <string name="find_metadata">البحث عن الوصف</string>
     <string name="moviepedia_hint">وصف البحث</string>
     <string name="moviepedia_result">نتائج الفيديو</string>
-    <string name="release_date">‏‏تم الإصدار</string>
-    <string name="synopsis">ملخصات</string>
     <string name="directed_by">إخراج</string>
     <string name="casting">يتم الآن التحويل</string>
     <string name="produced_by">انتجت من</string>
@@ -713,8 +612,6 @@
     <string name="music_by">موسيقى من</string>
     <string name="posters">ملصقات</string>
     <string name="header_tvshows">برامج تلفاز</string>
-    <string name="all_movies">كل الافلام</string>
-    <string name="movie_count">%s فلم</string>
     <string name="header_movies">أفلام</string>
     <string name="season_number">الموسم %s</string>
     <string name="resume_episode">استئناف (%s)</string>
