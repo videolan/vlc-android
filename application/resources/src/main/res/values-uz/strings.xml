@@ -30,15 +30,9 @@
     <string name="ringtone_set">“%1$s” fayli rington sifatida o‘rnatildi.</string>
     <string name="ringtone_error">Ringtonni o‘rnatishda xatolik yuz berdi.</string>
     <string name="pause">Pauza</string>
-    <string name="not_show_again">Ushbu xabar boshqa ko‘rsatilmasin.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Noma’lum ijrochi</string>
     <string name="unknown_album">Noma’lum albom</string>
     <string name="unknown_genre">Noma’lum janr</string>
-    <plurals name="songs_quantity">
-        <item quantity="other">%d ta qo‘shiq</item>
-    </plurals>
-
     <string name="artists">Ijrochilar</string>
     <plurals name="albums_quantity">
         <item quantity="other">%d ta albom</item>
@@ -53,7 +47,6 @@
         <item quantity="other">%d ta video</item>
     </plurals>
     <string name="internal_memory">Ichki xotira</string>
-    <string name="parent_folder">Asosiy jildga qaytish</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Xatcho‘plar</string>
@@ -62,15 +55,10 @@
     <string name="genres">Janrlar</string>
     <string name="playlists">Ijro ro‘yxatlari</string>
     <string name="title">Nomi</string>
-    <string name="artist">Ijrochi</string>
-    <string name="album">Albom</string>
-    <string name="directory">Katalog</string>
     <string name="directories">Kataloglar</string>
     <string name="loading">Yuklanmoqda…</string>
     <string name="please_wait">Kuting…</string>
     <string name="nomedia">Hech qanday media fayl topilmadi. Qurilmangizga fayllarni o‘tkazing yoki sozlamalarni o‘zgartiring.</string>
-    <string name="mediafiles">Media fayllar</string>
-    <string name="notavailable">mavjud emas</string>
     <string name="directorynotfound">\'%1$s\' jildi topilmadi.</string>
     <string name="nohistory">Ijro tarixi bo‘m-bo‘sh.</string>
     <string name="validation">Ishonchingiz komilmi?</string>
@@ -83,7 +71,6 @@
     <string name="surface_best_fit">Optimal</string>
     <string name="surface_fill">To‘ldirish</string>
     <string name="surface_original">Markazga</string>
-    <string name="thumbnail">Nishoncha</string>
     <string name="unseekable_stream">Topilmaydigan oqim</string>
     <string name="refresh">Yangilash</string>
     <string name="track_audio">Audio yozuv</string>
@@ -103,26 +90,16 @@
     <string name="track_resolution_info">Rezolutsiya: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Kadr chastotasi: %1$.3f\n</string>
 
-    <string name="tools">Asboblar</string>
     <string name="playback_speed">Ijro tezligi</string>
     <string name="sleep_title">Uyqu taymeri</string>
-    <string name="sleep_cancel">Uyqu taymerini bekor qilish</string>
     <string name="jump_to_time">Vaqt bo‘yicha o‘tish</string>
-    <string name="subtitle_label">Subtitr faylini qoʻshish</string>
     <string name="subtitle_select">Subtitr faylini tanlang</string>
-    <string name="no_file_picker_found">Fayl teruvchi tizimingizda topilmadi.</string>
 
-    <string name="open">Ochish</string>
-    <string name="open_mrl_dialog_title">Tarmoq oqimni ijro etish</string>
-    <string name="error_not_compatible">Kechirasiz, Android™ uchun VLC dasturining ushbu versiyasi qurilmangizda ishlamaydi.</string>
-    <string name="error_problem">Kechirasiz, Android uchun VLC dasturini yuklashda muammo yuz berdi, shuning uchun uni yopishga to‘g‘ri keldi.</string>
-    <string name="error_message_is">Xatolik haqida xabar (nosozlikni tuzatish uchun kerak bo‘ladi):\n</string>
     <string name="encountered_error_title">Ijro etishda xato</string>
     <string name="encountered_error_message">VLC`da ushbu media bilan muammo boʻldi.\nMedia kutubxonasini yangilashga harakat qiling.</string>
     <string name="invalid_location">%1$s manzilidagi media faylni ijro etib bo‘lmaydi.</string>
 
     <string name="search">Izlash</string>
-    <string name="search_history">Tarixdan izlash</string>
 
 
     <!-- Tips -->
@@ -147,13 +124,11 @@
     <string name="about">Dastur haqida</string>
     <string name="about_text">Android™ uchun VLC – VLC media pleyerning (ochiq kodli mashhur pleyer) port qilingan versiyasi hisoblanadi. Uning Android™ versyasi ko‘plab fayl turlari va tarmoqli oqim rejimida uzatiladigan videolarni o‘qiy oladi.</string>
     <string name="compiled_by">VLC dasturining ushbu versiyasi ushbu inson tomonidan kompilatsiya qilingan:</string>
-    <string name="general_prefs_category">Umumiy</string>
     <string name="directories_summary">Media kutubxonaga qoʻshish uchun direktoriyalarni tanlang</string>
     <string name="add_custom_path">Boshqa yo‘lni qo‘shish</string>
     <string name="add_custom_path_description">Tekshirish uchun boshqa qo‘shimcha katalogni kiriting:</string>
     <string name="remove_custom_path">Qo‘shimcha yo‘lni olib tashlash</string>
     <string name="hardware_acceleration">Qurilmani tezlatish</string>
-    <string name="hardware_acceleration_summary">Oʻchirilgan: Stabilroq.\nDekod: ishlashni yaxshilashi mumkin.\nToʻliq: ishlashni yanada yaxshilashi mumkin.</string>
     <string name="hardware_acceleration_disabled">Oʻchirilgan</string>
     <string name="hardware_acceleration_decoding">Kodni yechish orqali tezlashtirish</string>
     <string name="hardware_acceleration_full">To‘liq tezlashtirish</string>
@@ -163,43 +138,26 @@
     <string name="screen_orientation_start_lock">Ishga tushganda qulflansin</string>
     <string name="screen_orientation_portrait">Bo‘yiga</string>
     <string name="screen_orientation_landscape">Eniga</string>
-    <string name="screen_orientation_reverse_portrait">Bo‘yiga teskari</string>
-    <string name="screen_orientation_reverse_landscape">Eniga teskari</string>
     <string name="subtitle_text_encoding">Subtitr matnini kodlash</string>
     <string name="extra_prefs_category">Qo‘shimcha sozlamalar</string>
 
     <string name="interface_prefs_screen">Interfeys</string>
     <string name="enable_clone_mode">Nusxasini afzal ko‘rish</string>
-    <string name="enable_clone_mode_summary">Qurilma ekranini masofadan boshqaruvsiz nusxalash</string>
-    <string name="interface_other_category">Interfeys – Boshqa</string>
-
     <string name="enable_brightness_gesture_summary">Video ijrosi davomidagi harakatlarga tegishli yoqrinlikni boshqarish</string>
     <string name="enable_headset_detection">Quloqlikni aniqlash</string>
-    <string name="enable_steal_remote_control">Ekskluziv masofadagi quloqlik orqali boshqarish</string>
-    <string name="enable_steal_remote_control_summary">Boshqa ilova dasturlardagi masofadan boshqarish ziddiyatlaridan qoching. Bu HTC telefonlarda 2 marta chertish orqali amalga oshiriladi.</string>
     <string name="aout">Audio chiqarish</string>
-    <string name="aout_summary">VLC foydalanadigan chiquvchi audio uslubini oʻzgartirish.</string>
     <string name="performance_prefs_category">Bajarish</string>
     <string name="chroma_format">Majburiy rangdorlik formati</string>
-    <string name="chroma_format_summary">RGB 32-bit: birlamchi rang\nRGB 16-bit: yaxshiroq ishlaydi, ammo sifati past bo‘ladi\nYUV: juda yaxshi ishlaydi, lekin barcha qurilmalarda ham ishlamaydi. Faqat Android 2.3 va undan keyingi versiyalarda ishlaydi.</string>
     <string name="deblocking">Filter sozlamalarini ochish</string>
-    <string name="deblocking_summary">Blokdan chiqarish sozlamalarini oʻzgartiring. Video sifatini yaxshilashi mumkin. Faqat tajribali foydalanuvchilar uchun.</string>
     <string name="deblocking_always">Toʻliq koddan chiqarish (sekin)</string>
     <string name="deblocking_nonref">Oʻrtacha blokdan chiqarish</string>
     <string name="deblocking_nonkey">Past blokdan chiqarish</string>
     <string name="deblocking_all">Bloklanmasin (tez)</string>
-    <string name="enable_frame_skip_summary">Koddan chiqarish tez ishlashi mumkin, lekin video sifati pasayadi.</string>
     <string name="enable_time_stretching_audio">Ovoz tezligini o‘zgartirish</string>
-    <string name="enable_time_stretching_audio_summary">Audioni bosqichlarni o‘zgartirmasdan tezlattirish va sekinlatish (tez ishlaydigan qurilma bo‘lishi kerak).</string>
-
     <string name="advanced_prefs_category">Qo‘shimcha</string>
     <string name="clear_media_db">Media ma’lumotlar bazasini tozalash</string>
-    <string name="media_db_cleared">Media ma’lumotlar bazasi tozalandi!</string>
     <string name="set_locale">Tilni moslash</string>
-    <string name="set_locale_detail">Bo‘sh qator birlamchi qiymatni nazarda tutadi</string>
-    <string name="set_locale_popup">O‘zgarishlar kuchga kirishi uchun VLC dasturidan chiqib, uni qaytadan ishga tushiring.</string>
     <string name="network_caching">Tarmoq keshi qiymati</string>
-    <string name="network_caching_summary">Tarmoqdagi mediani buferga yuklash vaqti (ms da). Qurilmada koddan chiqarishda ishlamaydi. Tiklash uchun bo‘sh qoldiring.</string>
     <string name="quit">Ilovani qaytadan ishga tushirish</string>
     <string name="developer_prefs_category">Dasturchi</string>
     <string name="enable_verbose_mode">Batafsil</string>
@@ -219,7 +177,5 @@
     <string name="send_log">Jurnalni yuborish</string>
     <string name="sending_log">Jurnal yuborilmoqda</string>
 
-    <string name="drawer_open">Navigatsiya tortmasini ochish</string>
-    <string name="drawer_close">Navigatsiya tortmasini yopish</string>
     <string name="next">Keyingi</string>
 </resources>
