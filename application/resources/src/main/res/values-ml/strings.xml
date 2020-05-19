@@ -7,21 +7,14 @@
     <string name="other">മറ്റുള്ളവ</string>
     <string name="sortby">ക്രമീകരിക്കുക…</string>
     <string name="sortby_name">പേര്</string>
-    <string name="sortby_name_desc">പേര് (വിവരണം)</string>
     <string name="sortby_filename">ഫയല്‍ നാമം</string>
-    <string name="sortby_filename_desc">ഫയല്‍ നാമം (എതിര്‍ക്രമം)</string>
     <string name="sortby_artist_name">കലാകാരന്‍റെ പേര്</string>
-    <string name="sortby_artist_name_desc">കലാകാരന്‍റെ പേര് (എതിര്‍ക്രമം)</string>
     <string name="sortby_album_name">ആൽബം</string>
-    <string name="sortby_album_name_desc">ആൽബം പേര് (വിവരണം)</string>
     <string name="sortby_length">ദൈര്‍ഘ്യം</string>
-    <string name="sortby_length_desc">ദൈർഘ്യം (വിവരണം)</string>
     <string name="sortby_date">തീയതി</string>
-    <string name="sortby_date_desc">തീയതി (വിവരണം)</string>
     <string name="sortby_last_modified_date">ഈയിടെ ചേർത്തത് </string>
-    <string name="sortby_last_modified_date_desc">ഈയിടെ ചേർത്തത് ( വിവരണം )</string>
+    <string name="sortby_media_number">മാധ്യമ അക്കം</string>
     <string name="sortby_number">ട്രാക്കുകളുടെ എണ്ണം</string>
-    <string name="sortby_number_desc">ട്രാക്കുകളുടെ എണ്ണം (എതിര്‍ക്രമം)</string>
     <string name="searchable_hint">തിരയുക…</string>
     <string name="history">ചരിത്രം</string>
 
@@ -54,25 +47,18 @@
     <string name="set_song_question">%1$s റിങ് ടോൺ ആകണോ?</string>
     <string name="info">വിവരം</string>
     <string name="confirm_delete">\'%1$s\' ഫയല്‍ കളയട്ടെ?</string>
+    <string name="confirm_delete_album">\'%1$s\' ആൽബം ഇല്ലാതാക്കുക?</string>
     <string name="confirm_delete_several_media">%1$d മീഡിയ കളയട്ടെ?</string>
     <string name="confirm_delete_folder">%1$s ഫോൾഡറും അതിലെ ഉള്ളടക്കങ്ങളും ഇല്ലാതാക്കാണോ?</string>
     <string name="confirm_delete_playlist">\'%1$s\' പ്ലേലിസ്റ്റ് നശിപ്പിക്കട്ടെ?</string>
     <string name="confirm_remove_from_playlist">%1$s പ്ളേ ലിസ്റ്റിൽ നിന്ന് നീക്കം ചെയ്യുക</string>
-    <string name="confirm_remove_from_playlist_anonymous">പ്ളേ ലിസ്റ്റിൽ നിന്ന് നീക്കം ചെയ്യുക </string>
     <string name="ringtone_set">\'%1$s\' റിംഗ്ടോണ്‍ ആക്കി</string>
     <string name="ringtone_error">റിംഗ്ടോണ്‍ ആക്കാന്‍ സാധിച്ചില്ല</string>
     <string name="pause">വിരാമം</string>
-    <string name="not_show_again">ഈ മെസേജ് വീണ്ടും കാണിക്കേണ്ട</string>
-    <string name="info_title">വിഎല്‍സി</string>
     <string name="unknown_artist">അജ്ഞാത കലാകാരന്‍</string>
     <string name="unknown_album">അജ്ഞാത ആല്‍ബം</string>
     <string name="unknown_genre">അജ്ഞാത വിഭാഗം</string>
-    <string name="unknown_number">ട്രാക്കുകളുടെ എണ്ണം അജ്ഞാതം</string>
     <string name="songs">ഗാനങ്ങള്‍</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">൧ ഗാനം</item>
-        <item quantity="other">%d ഗാനങ്ങള്‍</item>
-    </plurals>
     <string name="track_info_copied_to_clipboard">ട്രാക്ക് വിവരങ്ങൾ ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി</string>
 
     <string name="artists">കലാകാരന്മാര്‍</string>
@@ -109,7 +95,6 @@
     </plurals>
 
     <string name="internal_memory">ആന്തരിക മെമറി</string>
-    <string name="parent_folder">മാതൃ ഫോള്‍ഡറിലേക്ക്</string>
     <string name="audio">ശബ്ദം</string>
     <string name="video">ദ്രിശ്യം</string>
     <string name="bookmarks">അടയാളങ്ങള്‍</string>
@@ -118,16 +103,11 @@
     <string name="genres">ശൈലികള്‍</string>
     <string name="playlists">പ്ലേലിസ്റ്റുകള്‍</string>
     <string name="title">തലക്കെട്ട്</string>
-    <string name="artist">കലാകാരന്‍</string>
-    <string name="album">ആല്‍ബം</string>
-    <string name="directory">ഡയറക്റ്ററി ചേര്‍ക്കുക</string>
     <string name="directories">ഡയറക്‍ട്ടറികള്‍</string>
     <string name="loading">നിറയ്ക്കുന്നു</string>
     <string name="please_wait">ദയവായി കാത്തിരിക്കുക…</string>
     <string name="nomedia">മീഡിയ ഫയലുകള്‍ ലഭ്യമല്ലാത്തതുകൊണ്ട്, ചില ഫയലുകള്‍ ന്ങ്ങളുടെ ഉപകരണത്തിലേക്ക് മാറ്റുക; അല്ലെങ്കില്‍ നിങ്ങളുടെ അഭിരുചി ക്രമീകരിക്കുക.</string>
     <string name="noplaylist">പ്ലേലിസ്റ്റ് കണ്ടെത്താന്‍ സാധിച്ചില്ല</string>
-    <string name="mediafiles">മീഡിയ ഫയലുകള്‍</string>
-    <string name="notavailable">ലഭ്യമല്ല</string>
     <string name="nosubfolder">ഉപഫോൾഡർ ഇല്ല</string>
     <string name="directorynotfound">%1$s  ഫോള്‍ഡറിലേക്കുള്ള വഴി കണ്ടെത്താനായില്ല</string>
     <string name="nohistory">നിങ്ങള്‍ക്ക് ഇതുവരെ പ്ളേബാക്ക് ചരിത്രം ഇല്ല</string>
@@ -153,7 +133,6 @@
     <string name="surface_fit_screen">സ്ക്രീനില്‍ നിറയ്ക്കുക</string>
     <string name="surface_fill">നിറയ്ക്കുക</string>
     <string name="surface_original">മധ്യം</string>
-    <string name="thumbnail">ചെറുരൂപം</string>
     <string name="unseekable_stream">നീക്കാനാകാത്ത സ്ട്രീം</string>
     <string name="refresh">പുതുക്കുക</string>
     <string name="track_audio">ഓഡിയോ ട്രാക്ക്</string>
@@ -167,7 +146,6 @@
     <string name="sound_on">ശബ്ദം ഓണ്‍ ആക്കുക</string>
     <string name="sound_off">ശബ്ദം ഓഫ് ആക്കുക</string>
     <string name="brightness">തെളിച്ചം</string>
-    <string name="navmenu">ഗതിനിയന്ത്രണ പട്ടിക</string>
     <string name="advanced">വിപുലീകരിച്ച ഐച്ഛികങ്ങൾ</string>
     <string name="audio_boost_warning">100% ത്തില്‍ കൂടുതല്‍ പോകാന്‍ മുകളിലേക്ക് ഇനിയും നീക്കുക</string>
     <string name="locked_in_portrait_mode">പോർട്രെയിറ്റ് മോഡിൽ സ്ഥിരപ്പെടുത്തിയിരിക്കുന്നു\n(ബട്ടൺ കുറച്ചധികം നേരം തൊട്ടുപിടിച്ചാൽ മാറ്റാം)</string>
@@ -183,15 +161,11 @@
     <string name="track_resolution_info">റെസല്യൂഷന്‍ %1$dX%2$d\n</string>
     <string name="track_framerate_info">ഫ്രേം റേറ്റ് : %1$.3f\n</string>
 
-    <string name="tools">ഉപകരണങ്ങള്‍</string>
     <string name="playback_speed">പ്ളേബാക്ക് വേഗത</string>
     <string name="sleep_title">സ്ലീപ് റ്റൈമര്‍</string>
     <string name="sleep_in">ഇത്ര സമയത്തിനുള്ളില്‍ ഉറങ്ങുക</string>
-    <string name="sleep_cancel">സ്ലീപ് റ്റൈമര്‍ റദ്ദാക്കുക</string>
     <string name="jump_to_time">സമയത്തിലേക്ക് ചാടുക</string>
-    <string name="subtitle_label">സബ്ടൈറ്റില്‍ ഫയല്‍ ചേര്‍ക്കുക</string>
     <string name="subtitle_select">സബ്ടൈറ്റില്‍ ഫയല്‍ തിരഞ്ഞെടുക്കുക</string>
-    <string name="no_file_picker_found">ഫയല്‍ തിരഞ്ഞെടുക്കാനുള്ള ഒരുപാധിയും കണ്ടെത്താനായില്ല.</string>
 
     <string name="server_add_title">പുതിയ സര്‍വര്‍ ഇഷ്ടപ്പെട്ടതിലേക്ക് ചേര്‍ക്കുക</string>
     <string name="server_domain_hint">സെര്‍വര്‍ വിലാസം (ഡൊമൈന്‍ നാമം അല്ലെങ്കില്‍ ഐപി)</string>
@@ -203,7 +177,6 @@
     <string name="login">പ്രവേശനം</string>
     <string name="password">രഹസ്യവാക്ക്</string>
 
-    <string name="search_results">തിരയൽഫലങ്ങൾ</string>
     <string name="search_no_result">മീഡിയ ഒന്നും കണ്ടെത്താനായില്ല</string>
     <string name="favorites_add">ഇഷ്ടപ്പെട്ടതിലേക്ക് ചേര്‍ക്കുക</string>
     <string name="favorites_remove">ഇഷ്ടപ്പെട്ടവയില്‍ നിന്നും നീക്കം ചെയ്യുക</string>
@@ -211,25 +184,18 @@
     <string name="favorite_added">ഇഷ്ടപ്പെട്ടവയിലേക്ക് ചേര്‍ത്തു</string>
     <string name="favorite_removed">ഇഷ്ട്പ്പെട്ടവയില്‍ നിന്നും നീക്കം ചെയ്തു</string>
 
-    <string name="open">തുറക്കുക</string>
-    <string name="open_mrl_dialog_title">ശൃംഖല സ്രോതസ്സ്‌ തുറക്കുക</string>
+    <string name="streams">സ്ട്രീമുകൾ </string>
     <string name="open_mrl_dialog_msg">ശ്രിന്ഘല വിലാസം തരു. ഉദാഹരണം :  http://, mms:// or rtsp://</string>
-    <string name="error_not_compatible">ക്ഷമിക്കുക, ആന്‍ഡ്രോയിഡ്™ ഇല്‍ ഉള്ള VLC ഇപ്പോള്‍ നിങ്ങളുടെ ഉപകരണത്തെ അനുകൂലിക്കുന്നില്ല.</string>
-    <string name="error_problem">ക്ഷമിക്കുക, ആന്‍ഡ്രോയ്ഡിനുള്ള വിഎല്‍സി പ്ലയര്‍ ലോഡ് ആവുന്നതില്‍ പ്രശ്നം സംഭവിച്ചിരിക്കുന്നതിനാല്‍ നിര്‍ത്തലാക്കുന്നു.</string>
-    <string name="error_message_is">ഇതാണ് കുഴപ്പം ( ഡീബഗ്ഗിങ് സമയത്തു സൂചിപ്പിക്കുക ):\n</string>
     <string name="encountered_error_title">പ്രവര്‍ത്തിക്കുന്നതില്‍ പിഴവ്</string>
     <string name="encountered_error_message">ഈ മീഡിയ പ്രവര്‍ത്തിപ്പിക്കുന്നതില്‍ വിഎല്‍സിക്ക് പിഴവ് സംഭവിച്ചിരിക്കുന്നു\n മീഡിയ ലൈബ്രറി റീഫ്രഷ് ചെയ്ത് നോക്കുക</string>
     <string name="invalid_location">%1$sഎന്ന സ്ഥലത്തുള്ളവ കാണാനാവില്ല</string>
 
     <string name="search">തിരയുക</string>
-    <string name="search_history">തിരയൽചരിത്രം</string>
 
 
     <string name="playback_history_title">മുൻപ് കണ്ടതിന്റെ വിവരങ്ങൾ </string>
     <string name="playback_history_summary">കണ്ട മീഡിയയുടെ ചരിത്രം  സൂക്ഷിക്കുക </string>
     <string name="playback_speed_title">കാഴ്ചയുടെ വേഗം സൂക്ഷിക്കുക </string>
-    <string name="playback_speed_summary">നിങ്ങൾ തീരുമാനിച്ച കാഴ്ച വേഗം ഓർമ വയ്ക്കുക </string>
-
     <string name="play_button">പ്ളേ ബട്ടൺ </string>
 
     <!-- Tips -->
@@ -266,13 +232,11 @@
     <!-- Preferences -->
     <string name="preferences">ക്രമീകരണങ്ങൾ</string>
 
-    <string name="general_prefs_category">പൊതുവായ</string>
     <string name="directories_summary">മീഡിയ ലൈബ്രറിയിൽ ഉൾപ്പെടുത്തേണ്ട ഡയറക്റ്ററികൾ തിരഞ്ഞെടുക്കുക </string>
     <string name="add_custom_path">താത്പര്യത്തിനനുസരിച്ചുള്ള ഒരു പാത തിരഞ്ഞെടുക്കുക</string>
     <string name="add_custom_path_description">സ്കാൻ ചെയ്യാനായി നിങ്ങൾക്ക് താത്പര്യമുള്ള മറ്റൊരു ഡയറക്റ്ററി കൂടെ ചേർക്കുക </string>
     <string name="remove_custom_path">നിങ്ങൾക്ക് താത്പര്യമുള്ള വഴി ഒഴിവാക്കുക </string>
     <string name="hardware_acceleration">ഹാര്‍ഡ്വെയര്‍ ത്വരിതപ്പെടുത്തല്‍</string>
-    <string name="hardware_acceleration_summary">അപ്രാപ്‌തമാക്കി: മികച്ച സ്ഥിരത.\n ഡീകോഡിംഗ്: പ്രകടനം മെച്ചപ്പെടുത്തിയേക്കാം.\nപൂർണമായി : പ്രകടനം കൂടുതൽ‌ മെച്ചപ്പെടുത്താം.</string>
     <string name="hardware_acceleration_disabled">അപ്രാപ്തമാക്കി</string>
     <string name="hardware_acceleration_decoding">ഡികോഡിങ് ആസ്സലറേഷൻ </string>
     <string name="hardware_acceleration_full">പരമാവധി ആസ്സലറേഷൻ </string>
@@ -284,34 +248,21 @@
     <string name="screen_orientation_start_lock">തുടക്കത്തില്‍ പൂട്ടിയിരിക്കുന്നു</string>
     <string name="screen_orientation_portrait">ലംബരൂപമായി</string>
     <string name="screen_orientation_landscape">തിരശ്ചീനരൂപമായി</string>
-    <string name="screen_orientation_reverse_portrait">ലംബരൂപത്തിന് വിപരീതമായി</string>
-    <string name="screen_orientation_reverse_landscape">തിരശ്ചീനരൂപത്തിന് വിപരീതമായി</string>
     <string name="enable_black_theme">കറുത്ത ഉടുപ്പ് </string>
-    <string name="enable_black_theme_summary">മങ്ങിയ പ്രകാശ അവസ്ഥയിലെ സൗകര്യത്തിനായി ഇന്റർഫേസ് നിറങ്ങൾ മാറ്റുക </string>
     <string name="subtitle_text_encoding">ഉപശീര്‍ഷക ടെക്സ്റ്റ് എന്‍കോഡിങ്</string>
     <string name="daynight_title">പകൽ രാത്രി സംവിധാനം</string>
     <string name="daynight_follow_system_title">സിസ്റ്റം മോഡ് സ്വീകരിക്കുക </string>
-    <string name="daynight_battery_title">ബാറ്ററി ലാഭിക്കൽ സ്വീകരിക്കുക </string>
-    <string name="daynight_summary">സമയമാവുമ്പോൾ രാത്രി സംവിധാനത്തിലേക്ക് തനിയെ മാറുക </string>
 
     <string name="extra_prefs_category">അധിക ക്രമീകരണങ്ങൾ</string>
 
     <string name="interface_prefs_screen">ഇന്‍ര്‍ഫേസ്</string>
-    <string name="interface_gui">ഡിസ്പ്ളേ </string>
     <string name="interface_secondary_display_category_title">അനുബന്ധ ഡിസ്പ്ളേ </string>
-    <string name="interface_secondary_display_category_summary">രണ്ടാം ഡിസ്പ്ളേയുടെ ക്രമീകരണങ്ങൾ ( ക്രോംകാസ്റ് / എഛ്‌ ഡി എം ഐ ).</string>
     <string name="enable_clone_mode">ക്ളോണിന് മുൻഗണന നൽകുക </string>
-    <string name="enable_clone_mode_summary">വിദൂര നിയന്ത്രണം വഴിയല്ലാതെ ഉപകരണത്തിന്റെ സ്‌ക്രീൻ ക്ളോൺ ചെയ്യുക</string>
-    <string name="interface_other_category">ഇന്റർഫേസ് - മറ്റുള്ളവ </string>
-
     <string name="video_prefs_category">വീഡിയോ</string>
     <string name="video_min_group_length_title">ഗ്രൂപ്പ് വീഡിയോകൾ</string>
     <string name="video_min_group_length_disable">വിഡിയോകളെ സംഘങ്ങളായി ചേർക്കാതിരിക്കുക </string>
     <string name="video_min_group_length_folder">ഫോൾഡറുകളെ സംഘങ്ങളാക്കുക</string>
     <string name="video_min_group_length_name">പേരിന് അനുസരിച്ചുള്ള സംഘങ്ങളാക്കുക </string>
-    <string name="video_min_group_length_first">ആദ്യാക്ഷരം മാത്രം</string>
-    <string name="video_min_group_length_short">കുറച്‌ അക്ഷരങ്ങൾ  (6)</string>
-    <string name="video_min_group_length_long">കൂടുതൽ അക്ഷരങ്ങൾ (9)</string>
     <string name="media_fast_seek">വേഗത്തിൽ തേടുക </string>
     <string name="media_fast_seek_summary">മീഡിയ തേടുന്നത് വേഗത്തിലാക്കും പക്ഷെ ക്രത്യത കുറയും </string>
     <string name="video_transition_title">വിഡിയോകളുടെ പരിവർത്തനം </string>
@@ -320,8 +271,7 @@
     <string name="media_seen_summary">വീഡിയോ മുഴുവനും കണ്ടുകഴിഞ്ഞെങ്കിൽ അത് സൂചിപ്പിക്കുക </string>
     <string name="force_play_all_summary">എല്ലാ വീഡിയോകളും കാണുക, നിങ്ങള്‍ അമര്‍ത്തിയതുമുതല്‍ കണ്ട് തുടങ്ങുക</string>
     <string name="force_play_all_title">വീഡിയോയുടെ പ്ളേ ലിസ്റ്റ് മോഡ് </string>
-    <string name="save_brightness_summary">വീഡിയോ പ്ലയറിലെ ബ്രൈറ്റ്നെസിന്റെ അളവ് ഓര്‍മിക്കുക</string>
-    <string name="save_brightness_title">വീഡിയോയ്ക്ക് ബ്രൈറ്റ്നെസിന്റെ അളവ് സംരക്ഷിച്ച്‍വെക്കുക</string>
+    <string name="save_brightness_title">തെളിച്ചത്തിന്റെ അളവ് സ്‌ഥിരപ്പെടുത്തുക </string>
     <string name="save_audiodelay_summary">ശബ്ദത്തിന്റെ കാലതാമസം ഓരോ വിഡിയോയ്ക്കും പ്രത്യേകം സൂക്ഷിക്കുക </string>
     <string name="save_audiodelay_title">ശബ്ദത്തിന്റെ കാലതാമസം സേവ് ചെയ്യുക</string>
     <string name="enable_brightness_gesture_title">തെളിച്ചത്തിനുള്ള അംഗവിക്ഷേപം </string>
@@ -356,8 +306,6 @@
     <string name="audio_prefs_category">ഓഡിയോ</string>
     <string name="lockscreen_cover_title">ലോക്ക് സ്‌ക്രീനിൽ മീഡിയ കവർ </string>
     <string name="lockscreen_cover_summary">ലഭ്യമാകുമ്പോൾ, നിലവിലെ മീഡിയ കവർ ആർട്ട് ലോക്ക്സ്ക്രീൻ വാൾപേപ്പറായി പ്രദർശിപ്പിക്കുക</string>
-    <string name="playlist_animate_scroll_title">നിലവിലെ പ്ലേലിസ്റ്റ് തനിയെ സ്ക്രോൾ ചെയ്യുന്നത് അനിമേറ്റുചെയ്യുക</string>
-    <string name="playlist_animate_scroll_summary">മീഡിയ പരിവർത്തനം നടക്കുമ്പോൾ സ്ക്രോളിങ് അനിമേറ്റ് ചെയ്യുക </string>
     <string name="list_title_ellipsize">ഒറ്റ വരി ലിസ്റ്റ് ശീർഷകം എലിപ്‌സൈസ്</string>
     <string name="list_title_ellipsize_default">തുടക്കം മുതൽ ഉള്ളത് </string>
     <string name="list_title_ellipsize_left">ഇടത് </string>
@@ -369,14 +317,9 @@
     <string name="headset_prefs_category">ഹെഡ്സെറ്റ് </string>
     <string name="enable_headset_detection">ഹെഡ്സെറ്റ് കണ്ടുപിടിക്കുക </string>
     <string name="enable_headset_detection_summary">ഹെഡ്സെറ്റ് ചേർക്കുന്നതും നീക്കുന്നതും കണ്ടുപിടിക്കുക</string>
-    <string name="enable_headset_actions_title">വിദൂര നിയന്ത്രണ ഷോർട്കട്ടുകൾ </string>
-    <string name="enable_headset_actions_summary">അടുത്തതിലേക്ക് പോകുന്നതിന് \'പ്ലേ\'യിൽ ഇരട്ട അമർത്തുക, മുമ്പത്തെ ട്രാക്കിലേക്ക് പോകുന്നതിന് അതിൽ ദീർഘനേരം അമർത്തുക</string>
     <string name="enable_play_on_headset_insertion">ഹെഡ്സെറ്റ് ചേർത്ത ഉടൻ തുടരുക </string>
     <string name="enable_play_on_headset_insertion_summary">അല്ലെങ്കിൽ പോസ് ചെയ്യുക </string>
-    <string name="enable_steal_remote_control">പ്രത്യേക ഹെഡ്സെറ്റ് വിദൂര നിയന്ത്രണം </string>
-    <string name="enable_steal_remote_control_summary">മറ്റ് അപ്ലിക്കേഷനുകളിൽ നിന്ന് വിദൂര നിയന്ത്രണം മോഷ്‌ടിച്ചുകൊണ്ട് പൊരുത്തക്കേടുകൾ ഒഴിവാക്കുക. എച്ച്ടിസി ഫോണുകളിൽ ഇരട്ട ക്ലിക്കിലൂടെ ഡയൽ ചെയ്യുന്നത് ഇത് തടയുന്നു.</string>
     <string name="aout">ഓഡിയോ ഔട്ട്പുട്ട്</string>
-    <string name="aout_summary">വിഎൽസി ശബ്ദം പുറത്തേക്കയക്കുന്ന രീതി മാറ്റുക </string>
     <string name="audio_ducking_title">അറിയിപ്പുകൾ ലഭിക്കുമ്പോൾ വിഎൽസി യുടെ ശബ്ദം കുറയ്ക്കുക </string>
     <string name="audio_ducking_summary">ഓഡിയോ അറിയിപ്പുകൾ, നാവിഗേഷൻ നിർദ്ദേശങ്ങൾ അല്ലെങ്കിൽ അസിസ്റ്റന്റ് സംസാരിക്കൽ എന്നിവ കേൾക്കാൻ സഹായിക്കുന്നു</string>
     <string name="casting_category">കാസ്റ്റിങ് </string>
@@ -389,12 +332,10 @@
     <string name="casting_quality_medium">മദ്ധ്യത്തിൽ </string>
     <string name="casting_quality_low">കുറവ് </string>
     <string name="casting_quality_lowcpu">വളരെ കുറവ് </string>
-    <string name="cast_performance_warning">ഈ വീഡിയോ കാസറ്റ് ചെയ്യാൻ പരിവർത്തനം ആവശ്യമുണ്ട്.ഈ പരിവർത്തനത്തിന് ആവശ്യമുള്ള ശക്തി നിങ്ങളുടെ ബാറ്ററി വേഗത്തിൽ തീരുവാൻ കാരണമായേക്കാം </string>
     <string name="casting_connected_renderer">റെൻഡററുമായി ബന്ധിപ്പിച്ചിരിക്കുന്നു \" %1$s \"</string>
     <string name="artists_show_all_title">എല്ലാ കലാകാരന്മാരെയും കാണിക്കുക </string>
 
     <string name="extensions_prefs_category">എക്സറ്റൻഷനുകൾ</string>
-    <string name="extensions_enable_category">ആവശ്യമുള്ള എക്സ്റ്റൻഷനുകൾ തിരഞ്ഞെടുക്കുക </string>
     <string name="extensions_empty">എക്സ്റ്റൻഷനുകൾ ഒന്നും കാണുന്നില്ല </string>
     <string name="extension_permission_title">പുതിയ എക്സ്റ്റൻഷൻ സജീവമാക്കുക \"%1$s\"?</string>
     <string name="extension_permission_checkbox_title">%1$s ഇതിൽ കാണിക്കുക </string>
@@ -405,22 +346,14 @@
 
     <string name="performance_prefs_category">പ്രകടനം</string>
     <string name="chroma_format">വീഡിയോ ക്രോമ നിർബന്ധിക്കുക </string>
-    <string name="chroma_format_summary">ആർജിബി 32-ബിറ്റ്: സ്ഥിരസ്ഥിതി ക്രോമ\nആർജിബി 16-ബിറ്റ്: മികച്ച പ്രകടനം, എന്നാൽ കുറഞ്ഞ നിലവാരം\nYUV: മികച്ച പ്രകടനം എന്നാൽ എല്ലാ ഉപകരണങ്ങളിലും പ്രവർത്തിക്കുന്നില്ല. ആൻഡ്രോയിഡ് 2.3 ഉം അതിനുശേഷമുള്ളതും മാത്രം.</string>
     <string name="deblocking">ഫിൽറ്റർ സെറ്റിങ്ങുകളുടെ ഡിബ്ലോക്കിങ് </string>
-    <string name="deblocking_summary">ഡീബ്ലോക്കിംഗ് ഫിൽട്ടർ ക്രമീകരണങ്ങൾ മാറ്റുക. വീഡിയോ ഗുണമേന്മ മെച്ചപ്പെടുത്താൻ കഴിയും. വിപുലമായ ഉപയോക്താക്കൾ മാത്രം.</string>
     <string name="deblocking_always">ഫുൾ ഡിബ്ലോക്കിങ് (ഏറ്റവും കുറഞ്ഞ വേഗം)</string>
     <string name="deblocking_nonref">ഇടത്തരം ഡിബ്ലോക്കിങ് </string>
     <string name="deblocking_nonkey">കുറഞ്ഞ ഡിബ്ലോക്കിങ് </string>
     <string name="deblocking_all">ഡിബ്ലോക്കിങ് വേണ്ട ( വേഗമേറിയത് )</string>
     <string name="enable_frame_skip">ഫ്രേം ഒഴിവാക്കുക </string>
-    <string name="enable_frame_skip_summary">ഡീകോഡിംഗ് വേഗത്തിലാക്കുക പക്ഷേ വീഡിയോ ഗുണമേന്മ കുറയാം</string>
     <string name="enable_time_stretching_audio">സമയം-നീട്ടിയ ഓഡിയോ</string>
-    <string name="enable_time_stretching_audio_summary">പിച് മാറ്റാതെ ശബ്ദം കൂട്ടുകയും കുറയ്ക്കുകയും ചെയ്യുക ( വേഗമേറിയ ഉപകരണം ആവശ്യമുണ്ട് )</string>
-
     <string name="advanced_prefs_category">കൂടുതല്‍</string>
-    <string name="save_video_none">വേഗം സേവ് ചെയ്യേണ്ട </string>
-    <string name="save_video_session">ഉപയോഗത്തിൽ ഇരിക്കുമ്പോൾ വേഗം സേവ് ചെയ്യുക </string>
-    <string name="save_video_always">സെഷനുകൾ മാറുമ്പോഴും വേഗം സേവ് ചെയ്യുക </string>
     <string name="auto_rescan">തനിയെ റീസ്‌കാൻ ചെയ്യുക </string>
     <string name="auto_rescan_summary">വിഎൽസി യുടെ തുടക്കത്തിൽ തന്നെ പുതിയതും കളഞ്ഞതുമായ മീഡിയക്കായി ഉപകരണം തനിയെ സ്കാൻ ചെയ്യുക </string>
     <string name="dump_media_db">മീഡിയ ഡാറ്റബേസ് ഡംപ് ചെയ്യുക </string>
@@ -428,12 +361,8 @@
     <string name="clear_media_db">മീഡിയ വിവരശേഖരം തുടച്ചുമാറ്റുക</string>
     <string name="clear_media_database_summary">ആരംഭിക്കുന്നതിന് ഡാറ്റാബേസ് മായ്‌ക്കും</string>
     <string name="clear_history">ചരിത്രം മായ്ക്കുക </string>
-    <string name="media_db_cleared">മീഡിയ വിവരശേഖരം തുടച്ചുമാറ്റിയിരിക്കുന്നു!</string>
     <string name="set_locale">സങ്കേതസ്ഥാനം നിയമിക്കുക</string>
-    <string name="set_locale_detail">പുനഃക്രമീകരിക്കുന്നതിന് ഒഴിച്ച് ഇടുക</string>
-    <string name="set_locale_popup">മാറ്റങ്ങള്‍ പ്രാവര്‍ത്തികമാക്കുവാന്‍ VLC നിറുത്തിയിട്ടു വീണ്ടും തുടങ്ങുക.</string>
     <string name="network_caching">ശ്രിന്ഘ കാഷിങ് വാല്യൂ </string>
-    <string name="network_caching_summary">നെറ്റ്‌വർക്ക് മീഡിയ ബഫർ ചെയ്യുന്നതിനുള്ള സമയം (മില്ലിസെക്കൻഡിൽ).  ഹാർഡ്‌വെയർ ഡീകോഡിംഗിൽ പ്രവർത്തിക്കില്ല. പുനഃക്രമീകരിക്കാൻ ഒഴിച്ചിടുക.</string>
     <string name="resume_playback_title">കാൾ നിന്ന ശേഷം പ്ളേ ബാക്ക് തുടരുക </string>
     <string name="resume_playback_summary">അല്ലാത്ത പക്ഷം പോസ് നിലനിർത്തുക </string>
     <string name="blurred_cover_background_title">കവറിന്റെ പശ്ചാത്തലം മങ്ങിയത് </string>
@@ -478,8 +407,6 @@
     <string name="no_internet_connection">നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക </string>
     <string name="some_error_occurred">എന്തോ പിഴവ് സംഭവിച്ചിരിക്കുന്നു. ദയവായി അൽപ നിമിഷങ്ങൾക്ക് ശേഷം വീണ്ടും ശ്രമിക്കുക </string>
 
-    <string name="drawer_open">നാവിഗേഷൻ ഡ്രോവർ തുറക്കുക</string>
-    <string name="drawer_close">നാവിഗേഷൻ ഡ്രോവർ അടയ്ക്കുക </string>
     <string name="network_browsing">പ്രാദേശിക ശ്രിന്ഘല </string>
     <string name="browsing">ബ്രൗസിങ് </string>
 
@@ -487,15 +414,12 @@
 
     <string name="audio_delay">ശബ്ദത്തിന്റെ കാലതാമസം </string>
     <string name="spu_delay">സബ്ടൈറ്റിലിന്റെ കാലതാമസം </string>
-    <string name="sleep_time_not_set">ഒന്നും നിശ്ചയിച്ചിട്ടില്ല </string>
     <string name="network_shares_discovery">ശ്രിന്ഘലയിലെ പങ്കിടലുകൾക്കായി തിരയുന്നു </string>
     <string name="network_empty">ഈ ഡയറക്റ്ററി കാലിയാണ് </string>
     <string name="network_connection_needed">പ്രാദേശിക ശ്രിന്ഘലയുമായി ബന്ധമില്ല</string>
     <string name="search_hint">മീഡിയ തിരയുക</string>
     <string name="search_in_list_hint">നിലവിലെ പട്ടികയിൽ‌ തിരയുക</string>
     <string name="search_global">എല്ലാ മീഡിയ ലൈബ്രറിയിലും തിരയുക</string>
-    <string name="directory_show_medialib">മീഡിയ ലിബ് ൽ കാണിക്കുക</string>
-    <string name="directory_hide_medialib">മീഡിയ ലിബ് ൽ നിന്ന് മറയ്ക്കുക </string>
     <string name="playlist_save">പ്ളേ ലിസ്റ്റ് സേവ് ചെയ്യുക </string>
     <string name="playlist_name_hint">പ്ളേ ലിസ്റ്റിന്റെ പേര് </string>
     <string name="go_to_chapter">അധ്യായത്തിലേക്ക് പോകുക</string>
@@ -503,7 +427,6 @@
     <string name="resume_from_position">അവസാന ഭാഗത്തുനിന്ന് തുടരുക</string>
     <string name="confirm_resume">അവസാന ഭാഗത്തുനിന്ന് തുടരണോ?</string>
     <string name="confirm_resume_title">പ്ളേ ചെയ്ത വീഡിയോകൾ തുടരുക </string>
-    <string name="directory_empty">ഡയറക്ടറി കാലിയാണ് </string>
     <string name="tv_ui_title">ആൻഡ്രോയിഡ് ടിവിയുടെ സമ്പര്‍ക്കമുഖം</string>
     <string name="tv_ui_summary">ടിവി തിരഞ്ഞെടുത്ത തീമിലേക്ക് സമ്പർക്ക മുഖം മാറ്റുക</string>
     <string name="medialibrary">മീഡിയ ലൈബ്രറി </string>
@@ -511,10 +434,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">കൂടുതൽ കാര്യങ്ങൾ </string>
-    <string name="move">നീക്കുക </string>
     <string name="back_quit_lock">വീഡിയോ ഉപേക്ഷിക്കുന്നതിന് ബാക്ക് ബട്ടൺ വീണ്ടും അമർത്തുക</string>
-    <string name="playlist_deleted">പ്ളേ ലിസ്റ്റ് നീക്കം ചെയ്തു </string>
-    <string name="file_deleted">ഫയൽ നീക്കം ചെയ്തു </string>
     <string name="stream_deleted">സ്ട്രീം ഇല്ലാതാക്കി</string>
     <string name="no_subs_found">ഈ ഡയറക്ടറിയിൽ സബ്ടൈറ്റിലുകൾ ഒന്നുമില്ല </string>
     <string name="music_now_playing">ഇപ്പോള്‍ പ്ലേ ചെയ്യുന്നവ</string>
@@ -545,7 +465,6 @@
     <string name="extension_empty">കാണിക്കുവാൻ ഒന്നുമില്ല, എക്സ്റ്റൻഷൻ സെറ്റിങ്‌സ് ഉപയോഗിക്കുക  </string>
 
     <string name="opengl_title">ഓപ്പൺ ജിഎൽ ഇഎസ് 2 ഉപയോഗം</string>
-    <string name="opengl_summary">സ്ഥിരസ്ഥിതിയായി, ആവശ്യമുള്ളപ്പോൾ സോഫ്റ്റ്വെയർ ഡീകോഡിംഗിനും ഹാർഡ്‌വെയർ ഡീകോഡിംഗിനും ഓപ്പൺജിഎൽ ഇഎസ് 2 ഉപയോഗിക്കുന്നു (360 ° വീഡിയോകൾ).</string>
     <string name="opengl_automatic">സ്വയം പ്രേരിതം </string>
     <string name="opengl_on">നിർബന്ധപൂർവം On</string>
     <string name="opengl_off">നിർബന്ധപൂർവം Off</string>
@@ -557,29 +476,15 @@
     <string name="popup_playback_title">വീഡിയോ തള്ളിനിൽക്കുന്ന വിൻഡോവിൽ പ്രദർശിപ്പിക്കുക </string>
     <string name="popup_playback">പോപ് അപ് ജാലകത്തില്‍ പ്ലേ ചെയ്യുന്നു</string>
     <string name="popup_expand">വീഡിയോ വിടർത്തുക </string>
-    <string name="snack_subloader_sub_found">ഉപശീരര്‍ഷകം ഡൗണ്‍ലോഡ് ചെയ്തു</string>
-    <string name="snack_subloader_sub_not_found">ഉപശീര്‍ഷകങ്ങള്‍ കണ്ടെത്താനായില്ല</string>
-    <string name="dialog_subloader_success">ഇവയ്ക്കുള്ള സബ്ടൈറ്റിലുകൾ ലഭ്യമാണ് :</string>
-    <string name="dialog_subloader_fails">ഉപശീര്‍ഷകങ്ങള്‍ കണ്ടെത്തിയിരിക്കുന്നു</string>
-    <string name="dialog_subloader_sumup">ഡൗണ്‍ലോഡ് പൂര്‍ത്തിയായിരിക്കുന്നു</string>
     <string name="download_subtitles">ഉപശീര്‍ഷകങ്ങള്‍ ഡൗണ്‍ലോഡ് ചെയ്യുക</string>
-    <string name="preferences_languages_download">ഉപശീര്‍ഷകത്തിന്റെ ഭാഷകള്‍</string>
-    <string name="list_languages_download_summary">സബ്ടൈറ്റിൽ തേടുമ്പോൾ നോക്കേണ്ട ഭാഷകൾ </string>
-    <string name="list_languages_download_title">സബ്ടൈറ്റിൽ ഡൌൺലോഡ് ചെയ്യേണ്ട ഭാഷകൾ </string>
-    <string name="service_unavailable">സേവനം ലഭ്യമല്ല</string>
-    <string name="subs_dl_lang_fail">ഉപശീര്‍ഷകത്തിന്റെ ഭാഷ ക്രമീകരിക്കുന്നതില്‍ പരാജയപ്പെട്ടു. അപ്ലികേഷന്‍ ക്രമീകരണത്തില്‍നിന്നും ക്രമീകരിക്കാന്‍ ശ്രമിക്കുക</string>
-    <string name="downloading_subtitles">ഉപശീര്‍ഷകങ്ങള്‍ ഡൗണ്‍ലോഡ് ചെയ്യുന്നു</string>
     <string name="browse_folder">ഫോൾഡർ നോക്കുക </string>
     <string name="listen">ശ്രവിക്കുക</string>
-    <string name="subtitles_download_title">സബ്സ് ഡൗൺലോഡ് ചെയ്യുക </string>
-    <string name="connecting">ബന്ധം സ്ഥാപിക്കുന്നു</string>
     <string name="save_bluetooth_delay">ബ്ലൂടൂത്തു ഉപകരണത്തിനായുള്ള കാലതാമസം സേവ് ചെയ്യുക </string>
     <string name="episodes">എപ്പിസോഡുകൾ</string>
     <string name="movies">സിനിമകള്‍</string>
     <string name="videos">വീഡിയോകള്‍</string>
     <string name="videos_all">എല്ലാ വീഡിയോകള</string>
     <string name="clear_playback_history">പ്ലേബാക്ക് ചരിത്രം മായ്‌ക്കുക</string>
-    <string name="various_artists">വ്യത്യസ്ത കലാകാരന്മാര്‍</string>
     <string name="ml_scanning">മീഡിയ ഫയലുകള്‍ക്ക് വേണ്ടി തിരയുന്നു</string>
     <string name="ml_parse_media">മീഡിയ പാർസ് ചെയ്യുന്നു </string>
     <string name="ml_discovering">കണ്ടെത്തികൊണ്ടിരിക്കുന്നു </string>
@@ -614,7 +519,6 @@
     <string name="browser_storages">സ്റ്റോറജുകൾ</string>
     <string name="msg_delete_failed">%1$s എന്ന മീഡിയ നീക്കം ചെയ്യുന്നതില്‍ പരാജയപ്പെട്ടു</string>
     <string name="renderer_list_title">ഡിസ്പ്ലേകൾ</string>
-    <string name="feedback_player_crashed">ക്ഷമിക്കുക, വിഎല്‍സി തകരാറിലായി. ദയവായി ഒന്നുകൂടി ശ്രമിക്കുക</string>
     <string name="sdcard_permission_dialog_title">എസ്ഡി കാർഡിൽ റൈറ്റ് ചെയ്യുവാൻ വിഎൽസി യെ അനുവദിക്കുക ആവശ്യമാണ് </string>
     <string name="sdcard_permission_dialog_message">\" റയിറ്റ് \" അനുമതിയില്ലാതെ ഈ ഫയൽ മായ്ക്കൽ വിഎൽസി ക്ക് സാധ്യമല്ല .\nദയവായി എസ്ഡി കാർഡിൽ \"സെലക്ട് \" ക്ലിക്ക് ചെയ്യുക.\nമുകളിൽ വലത് മെനുവിലെ \"SD കാർഡ് കാണിക്കുക\" എന്നതിൽ നിങ്ങൾ ആദ്യം ക്ലിക്കു ചെയ്യേണ്ടതായി വരും </string>
     <string name="dialog_sd_wizard">എനിക്ക് കാണിച്ചു തരൂ</string>
@@ -629,7 +533,6 @@
     <string name="audio_resume_card_summary">അപ്ലിക്കേഷൻ ആരംഭത്തിൽ ഓഡിയോ പ്ലേബാക്ക് തുടരാൻ സഹായിക്കുന്ന ഒരു ടിപ്പ് കാണിക്കും</string>
     <string name="playback_rewind">പുറകോട്ട് പോവുക </string>
     <string name="playback_forward">വേഗത്തിൽ മുന്നോട്ട് പോവുക </string>
-    <string name="ml_wizard_title">വിഎൽസി മീഡിയ ലൈബ്രറി തിരഞ്ഞെടുക്കൽ</string>
     <string name="ml_wizard_scan_checkbox">മീഡിയ ഉള്ളടക്കത്തിനായി ഉപകരണം തിരഞ്ഞു നോക്കുക </string>
     <string name="ml_wizard_description">വിഎൽസി നിങ്ങളുടെ സംഭരണ ഉപകരണം സ്കാൻ ചെയ്തു മീഡിയ ലൈബ്രറി ഒരുക്കണമോ അതോ സാധാരണ ബ്രൗസർ അധിഷ്ഠിത പ്ലെയർ ആയി ഉപയോഗിക്കണമോ എന്ന് തീരുമാനിക്കുക</string>
     <string name="tv_my_new_videos">എന്റെ പുതിയ വീഡിയോകൾ</string>
@@ -657,13 +560,11 @@
     <string name="ctx_player_video_track">വീഡിയോ ട്രാക്ക് തിരഞ്ഞെടുക്കുക </string>
     <string name="ctx_player_audio_track">ഓഡിയോ ട്രാക്ക് </string>
     <string name="ctx_player_subs_track">സബ്ടൈറ്റിൽ ട്രാക്ക് </string>
-    <string name="ctx_player_tracks_title">മീഡിയ ട്രാക്കുകൾ</string>
     <string name="ctx_pip_title">പോപ്പ് അപ്പ് പ്ലെയർ </string>
     <string name="device_dialog_title">ബാഹ്യ ഉപകരണം ചേർത്തിട്ടുണ്ട് </string>
     <string name="device_dialog_message">ഇപ്പോൾ നിങ്ങളുടെ ടിവി ബോക്സിലേക്ക് ഒരു പുതിയ സംഭരണ ഉപകരണം ചേർത്തിട്ടുണ്ട് , അത് വിഎൽസി ഉപയോഗിച്ച് തുറക്കാൻ താത്‌പര്യമുണ്ടോ ?</string>
     <string name="videos_folders_title">വീഡിയോകൾ ഫോൾഡർ വഴി </string>
     <string name="videos_groups_title">വീഡിയോ ഗ്രൂപ്പുകൾ</string>
-    <string name="video_save_remote_setting">വിദൂര നിയന്ത്രണ രീതി തനിയെ ഉപയോഗത്തിൽ കൊണ്ടുവരണമോ ?</string>
     <string name="video_save_clone_mode">ക്ളോൺ രീതി തനിയെ ഉപയോഗത്തിൽ കൊണ്ടുവരണമോ ?</string>
     <string name="video_remote_enable">വിദൂര നിയന്ത്രണ രീതിയിലേക്ക് മാറുക</string>
     <string name="video_remote_disable">തനിപ്പകർപ്പ് സ്ക്രീൻ</string>
@@ -678,13 +579,11 @@
     <string name="daynight_system_explanation">സിസ്റ്റം ക്രമീകരണത്തിനനുസരിച്ച് വി‌എൽ‌സി സ്വപ്രേരിതമായി ഡാർക്ക് മോഡിലേക്ക് മാറും</string>
     <string name="daynight_legacy_explanation">ഉചിതമായ സമയത്ത് വി‌എൽ‌സി സ്വപ്രേരിതമായി രാത്രി മോഡിലേക്ക് മാറും</string>
     <string name="onboarding_scanning_enable">മീഡിയ ഉള്ളടക്കത്തിനായി വി‌എൽ‌സി എന്റെ ഉപകരണം സ്കാൻ ചെയ്യാൻ അനുവദിക്കുക</string>
-    <string name="onboarding_scan_whole">വിഎൽസി എന്റെ മുഴുവൻ എസ്ഡി കാർഡും സ്കാൻ ചെയ്യും</string>
     <string name="onboarding_scan_customize">വിഎൽസി ഏത് ഫോൾഡറുകൾ സ്കാൻ ചെയ്യണം എന്ന് തീരുമാനിക്കാൻ എന്നെ അനുവദിക്കുക </string>
     <string name="button_medialibrary_preferences">മീഡിയ ലിബ്രറി മുൻ‌ഗണനകളിലേക്ക് പോകുക</string>
     <string name="light_theme">ലൈറ്റ് തീം</string>
     <string name="add">ചേർക്കുക</string>
     <string name="add_to_new_playlist">പുതിയ പ്ളേ ലിസ്റ്റിലേക്ക് ചേർക്കുക </string>
-    <string name="theme_follow_system_mode">സിസ്റ്റം രീതി പിന്തുടരുക </string>
     <string name="resume_card_message">%1$sന്റെ പ്ലേബാക്ക് തുടരണോ?</string>
     <string name="misc">പലവക</string>
     <string name="popup_force_legacy_title">പ്രത്യേക പിക്ച്ചർ-ഇൻ-പിക്ച്ചർ പോപ്പ് അപ്പ് ഉപയോഗിക്കുക </string>
@@ -717,7 +616,6 @@
     <string name="send_crash_title">വിഎൽസി യുടെ ക്റാഷ് റിപ്പോർട്ടർ </string>
     <string name="send_crash_description">നിങ്ങളുടെ ക്രാഷ് അയച്ചുകൊണ്ട്, വി‌എൽ‌സി സ്ഥിരത മെച്ചപ്പെടുത്താൻ നിങ്ങൾ ഞങ്ങളെ സഹായിക്കും.</string>
     <string name="send_crash_warning">നിങ്ങൾ‌ക്ക് അയയ്‌ക്കാൻ‌ താൽ‌പ്പര്യമില്ലാത്ത ഏതെങ്കിലും പ്രാധാന്യമുള്ള വിവരങ്ങൾ നീക്കംചെയ്യുന്നുവെന്ന് ഉറപ്പാക്കുക.</string>
-    <string name="dont_ask_again">വീണ്ടും ചോദിക്കരുത്</string>
     <string name="include_medialib">നിങ്ങളുടെ ഡാറ്റാബേസ് ഉൾപെടുത്തുക </string>
     <string name="vlc_reporter">വിഎൽസി റിപ്പോർട്ടർ </string>
     <string name="welcome_beta_title">VLC ബീറ്റ</string>
@@ -736,9 +634,7 @@
     <string name="add_to_scanned">ഈ ഫോൾഡർ സ്കാൻ ചെയ്യുക </string>
     <string name="directory_not_scanned">ഈ ഡയറക്ടറി സ്കാൻ ചെയ്തിട്ടില്ല </string>
     <string name="scanned_directory_added">%s നിങ്ങളുടെ സ്കാൻ ചെയ്ത ഡയറക്ടറികളിലേക്ക് ചേർത്തിരിക്കുന്നു </string>
-    <string name="video_group_size_dialog_text">പേര് അനുസരിച്ച് ഗ്രൂപ്പുചെയ്യാൻ ഉപയോഗിക്കുന്ന പ്രതീകങ്ങളുടെ എണ്ണം</string>
     <string name="video_group_size_summary">ആദ്യാക്ഷരങ്ങൾക്ക് അനുസരിച്ചു് %s ചേർക്കുക </string>
-    <string name="video_group_size">പേരിന് അനുസരിച്ചു് വീഡിയോകൾ ചേർത്ത് വയ്ക്കുക </string>
     <string name="url_copied_to_clipboard">യുആർഎൽ ക്ലിപ്ബോർഡിലേക്ക് ചേർത്തിരിക്കുന്നു </string>
     <string name="share">പങ്കിടുക</string>
     <string name="invalid_file">അസാധുവായ ഫയൽ. പങ്കിടാൻ കഴിയില്ല.</string>
@@ -747,8 +643,6 @@
     <string name="find_metadata">മെറ്റാ ഡാറ്റ കണ്ടെത്തുക </string>
     <string name="moviepedia_hint">മെറ്റാ ഡാറ്റ തിരയുക </string>
     <string name="moviepedia_result">വീഡിയോ ഫലങ്ങൾ</string>
-    <string name="release_date">പുറത്തിറക്കി:</string>
-    <string name="synopsis">സംഗ്രഹം</string>
     <string name="directed_by">സംവിധാനം</string>
     <string name="casting">കാസ്റ്റിങ് </string>
     <string name="produced_by">നിർമ്മിച്ചത് </string>
@@ -757,8 +651,6 @@
     <string name="posters">പോസ്റ്ററുകൾ </string>
     <string name="backdrops">ബാക്ക് ഡ്രോപ്പുകൾ </string>
     <string name="header_tvshows">ടിവി ഷോകൾ</string>
-    <string name="all_movies">എല്ലാ സിനിമകളും</string>
-    <string name="movie_count">%s സിനിമ(കൾ)</string>
     <string name="header_movies">സിനിമകൾ</string>
     <string name="season_number">സീസൺ %s</string>
     <string name="resume_episode">(%s) തുടരുക</string>
@@ -799,4 +691,15 @@
     <string name="all_subfolders">ഈ ഫോൾഡറും സബ്ഫോൾഡറുകളും ചേർക്കുക</string>
     <string name="playlist_existing">%s പ്ലേലിസ്റ്റ് ഇതിനകം നിലവിലുണ്ട്</string>
     <string name="new_title">പുതിയ ശീർഷകം</string>
+    <string name="browse">തേടുക</string>
+    <string name="more">കൂടുതൽ</string>
+    <string name="favorites">പ്രിയപ്പെട്ടവ</string>
+    <string name="new_stream">പുതിയ സ്ട്രീമുകൾ</string>
+    <string name="add_to_group">വീഡിയോ ഗ്രൂപ്പിലേക്ക് ചേർക്കുക</string>
+    <string name="remove_from_group">വീഡിയോ ഗ്രൂപ്പിൽ നിന്ന് നീക്കംചെയ്യുക</string>
+    <string name="rename_group">വീഡിയോ ഗ്രൂപ്പിന്റെ പേരുമാറ്റുക</string>
+    <string name="ungroup">അൺഗ്രൂപ്പ്</string>
+    <string name="group_similar">യാന്ത്രികമായി വീണ്ടും ഗ്രൂപ്പുചെയ്യുക</string>
+    <string name="no_favorite">പ്രിയങ്കരമില്ല</string>
+    <string name="empty_directory">കാലി</string>
 </resources>
