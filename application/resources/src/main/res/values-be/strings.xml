@@ -33,18 +33,9 @@
     <string name="ringtone_set">Файл «%1$s» пастаўлены рынгтонам.</string>
     <string name="ringtone_error">Не ўдалося змяніць рынгтон.</string>
     <string name="pause">Паўза</string>
-    <string name="not_show_again">Не паказваць зноў.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Невядомы артыст</string>
     <string name="unknown_album">Невядомы альбом</string>
     <string name="unknown_genre">Невядомы жанр</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">1 песня</item>
-        <item quantity="few">%d песні</item>
-        <item quantity="many">%d песень</item>
-        <item quantity="other">%d песень</item>
-    </plurals>
-
     <string name="artists">Выканаўцы</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 альбом</item>
@@ -71,7 +62,6 @@
         <item quantity="other">%d відэа</item>
     </plurals>
     <string name="internal_memory">Унутраная памяць</string>
-    <string name="parent_folder">Да бацькоўскай папкі</string>
     <string name="audio">Аўдыё</string>
     <string name="video">Відэа</string>
     <string name="bookmarks">Закладкі</string>
@@ -80,15 +70,10 @@
     <string name="genres">Жанры</string>
     <string name="playlists">Плэйлісты</string>
     <string name="title">Назва</string>
-    <string name="artist">Выканаўца</string>
-    <string name="album">Альбом</string>
-    <string name="directory">Каталог</string>
     <string name="directories">Каталогі</string>
     <string name="loading">Загрузка</string>
     <string name="please_wait">Чакайце…</string>
     <string name="nomedia">Медыяфайлы не знойдзены. Перадайце файлы на прыладу альбо скарэктуйце настаўленні.</string>
-    <string name="mediafiles">Медыяфайлы</string>
-    <string name="notavailable">недаступны</string>
     <string name="directorynotfound">Каталог «%1$s» не знойдзены.</string>
     <string name="nohistory">Няма гісторыі прайгравання.</string>
     <string name="validation">Упэўнены?</string>
@@ -101,7 +86,6 @@
     <string name="surface_best_fit">Найлепшы стасунак</string>
     <string name="surface_fill">Запоўніць</string>
     <string name="surface_original">Па цэнтры</string>
-    <string name="thumbnail">Мініяцюра</string>
     <string name="unseekable_stream">Паток без патрымкі пошуку</string>
     <string name="refresh">Абнавіць</string>
     <string name="track_audio">Аўдыёдарожка</string>
@@ -124,26 +108,16 @@
     <string name="track_resolution_info">Памер: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Частата кадраў: %1$.3f\n</string>
 
-    <string name="tools">Інструменты</string>
     <string name="playback_speed">Хуткасць прайгравання</string>
     <string name="sleep_title">Таймер сну</string>
-    <string name="sleep_cancel">Адключыць таймер сну</string>
     <string name="jump_to_time">Пераход да часу</string>
-    <string name="subtitle_label">Дадаць файл субтытраў</string>
     <string name="subtitle_select">Выбраць файл субтытраў</string>
-    <string name="no_file_picker_found">Не знойдзена дыялогу выбару файла ў сістэме.</string>
 
-    <string name="open">Адкрыць</string>
-    <string name="open_mrl_dialog_title">Адкрыць сеткавы паток</string>
-    <string name="error_not_compatible">Выбачайце, гэтай версіяй VLC для Android™ вашая прылада не падтрымліваецца.</string>
-    <string name="error_problem">Выбачайце, VLC для Android не здолеў загрузіцца і мусіў закрыцца.</string>
-    <string name="error_message_is">Паведамленне пра памылку (згадайце пры адладцы):\n</string>
     <string name="encountered_error_title">Памылка прайгравання</string>
     <string name="encountered_error_message">У VLC узніклі цяжкасці з гэтым медыя-аб’ектам.\nПаспрабуйце абнавіць медыятэку.</string>
     <string name="invalid_location">Немагчыма прайграць месца %1$s</string>
 
     <string name="search">Шукаць</string>
-    <string name="search_history">Гісторыя пошуку</string>
 
 
     <!-- Tips -->
@@ -168,13 +142,11 @@
     <string name="about">Апісанне праграмы</string>
     <string name="about_text">VLC для Android™ — гэта порт VLC, папулярнага адкрытага медыяплэера. Версія для Android™ можа чытаць бальшыню файлаў і сеткавых патокаў.</string>
     <string name="compiled_by">Гэта версія VLC скампілявана:</string>
-    <string name="general_prefs_category">Агульныя</string>
     <string name="directories_summary">Абярыце каталогі для ўключэння ў медыятэку</string>
     <string name="add_custom_path">Дадаць свой шлях</string>
     <string name="add_custom_path_description">Дадатковая дырэкторыя на сканаванне:</string>
     <string name="remove_custom_path">Выдаліць свой шлях</string>
     <string name="hardware_acceleration">Апаратная акселерацыя</string>
-    <string name="hardware_acceleration_summary">Адключана: лепшая стабільнасць.\nДэкадаванне: можа палепшыць прадукцыйнасць.\nПоўнае: можа дадаткова палепшыць прадукцыйнасць.</string>
     <string name="hardware_acceleration_disabled">Адключана</string>
     <string name="hardware_acceleration_decoding">Акселерацыя дэкадавання</string>
     <string name="hardware_acceleration_full">Поўная акселерацыя</string>
@@ -184,43 +156,26 @@
     <string name="screen_orientation_start_lock">Блакіруецца пры запуску</string>
     <string name="screen_orientation_portrait">Кніжная</string>
     <string name="screen_orientation_landscape">Альбомная</string>
-    <string name="screen_orientation_reverse_portrait">Кніжная наадварот</string>
-    <string name="screen_orientation_reverse_landscape">Альбомная наадварот</string>
     <string name="subtitle_text_encoding">Кадзіроўка субтытраў</string>
     <string name="extra_prefs_category">Іншыя настаўленні</string>
 
     <string name="interface_prefs_screen">Інтэрфейс</string>
     <string name="enable_clone_mode">Кланаваць па магчымасці</string>
-    <string name="enable_clone_mode_summary">Кланаваць экран прылады без аддаленага кіравання.</string>
-    <string name="interface_other_category">Інтэрфейс - Іншае</string>
-
     <string name="enable_brightness_gesture_summary">Кантраляваць яркасць жэстам у часе прайгравання відэа.</string>
     <string name="enable_headset_detection">Вызначаць навушнікі</string>
-    <string name="enable_steal_remote_control">Кантроль толькі з навушнікаў</string>
-    <string name="enable_steal_remote_control_summary">Пазбегнуць канфліктаў, скраўшы аддалены кантроль у іншых праграм. Гэта дазваляе не пачынаць тэлефанаваць пры падвойным шчаўшчку на тэлефонах HTC.</string>
     <string name="aout">Аўдыявывад</string>
-    <string name="aout_summary">Змяніць спосаб вываду аўдыё</string>
     <string name="performance_prefs_category">Прадукцыйнасць</string>
     <string name="chroma_format">Прымусовы фармат колернасці</string>
-    <string name="chroma_format_summary">RGB 32 біт: стандартная колернасць\nRGB 16 біт: лепшая прадукцыйнасць за кошт якасці\nYUV: лепшая прадукцыйнасць, але толькі для Android 2.3 і вышэй.</string>
     <string name="deblocking">Узровень распакоўкі блокаў</string>
-    <string name="deblocking_summary">Змяніць настаўленні фільтра распакоўкі блокаў. Магчыма палепшыць якасць відэа. Не для пачаткоўца.</string>
     <string name="deblocking_always">Поўная распакоўка (марудна)</string>
     <string name="deblocking_nonref">Сярэдні ўзровень</string>
     <string name="deblocking_nonkey">Нізкі ўзровень</string>
     <string name="deblocking_all">Без распакоўкі (хутка)</string>
-    <string name="enable_frame_skip_summary">Паскорыць дэкадаванне з магчымай стратай якасці.</string>
     <string name="enable_time_stretching_audio">Змена хуткасці гуку</string>
-    <string name="enable_time_stretching_audio_summary">Паскорыць або замарудзіць аўдыё без змены частаты (патрабуе хуткай прылады).</string>
-
     <string name="advanced_prefs_category">Дадаткова</string>
     <string name="clear_media_db">Ачысціць медыятэку</string>
-    <string name="media_db_cleared">Медыятэка ачышчана!</string>
     <string name="set_locale">Задаць лакаль</string>
-    <string name="set_locale_detail">Пакінуць пустой, каб скінуць</string>
-    <string name="set_locale_popup">Закрыць і перазапусціць VLC для дастасавання змен.</string>
     <string name="network_caching">Сеткавы буфер</string>
-    <string name="network_caching_summary">Велічыня буфера сеткавага медыя (у мс). Не працуе з апаратным дэкадаваннем. Пакінуць пустым, каб скінуць.</string>
     <string name="quit">Выйсці і перазапусціць праграму</string>
     <string name="developer_prefs_category">Распрацоўнік</string>
     <string name="enable_verbose_mode">Падрабязна</string>
@@ -240,7 +195,5 @@
     <string name="send_log">Адправіць часапіс</string>
     <string name="sending_log">Адпраўка часапісу…</string>
 
-    <string name="drawer_open">Адкрыць панэль навігацыі</string>
-    <string name="drawer_close">Закрыць панэль навігацыі</string>
     <string name="next">Наступны</string>
 </resources>
