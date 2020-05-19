@@ -31,16 +31,9 @@
     <string name="ringtone_set">The file \'%1$s\' was set as the ringtone.</string>
     <string name="ringtone_error">An error occurred while setting the ringtone.</string>
     <string name="pause">Pause</string>
-    <string name="not_show_again">Don\'t show this message again.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Unknown Artist</string>
     <string name="unknown_album">Unknown Album</string>
     <string name="unknown_genre">Unknown Genre</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">1 song</item>
-        <item quantity="other">%d songs</item>
-    </plurals>
-
     <string name="artists">Artists</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
@@ -59,7 +52,6 @@
         <item quantity="other">%d videos</item>
     </plurals>
     <string name="internal_memory">Internal memory</string>
-    <string name="parent_folder">Up to parent folder</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Bookmarks</string>
@@ -68,15 +60,10 @@
     <string name="genres">Genres</string>
     <string name="playlists">Playlists</string>
     <string name="title">Title</string>
-    <string name="artist">Artist</string>
-    <string name="album">Album</string>
-    <string name="directory">Directory</string>
     <string name="directories">Directories</string>
     <string name="loading">Loading</string>
     <string name="please_wait">Please wait…</string>
     <string name="nomedia">No media files found, please transfer some files to your device or adjust your preferences.</string>
-    <string name="mediafiles">Media files</string>
-    <string name="notavailable">not available</string>
     <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
     <string name="nohistory">You have no playback history yet.</string>
     <string name="validation">Are you sure?</string>
@@ -89,7 +76,6 @@
     <string name="surface_best_fit">Best fit</string>
     <string name="surface_fill">Fill</string>
     <string name="surface_original">Centre</string>
-    <string name="thumbnail">Thumbnail</string>
     <string name="unseekable_stream">Unseekable stream</string>
     <string name="refresh">Refresh</string>
     <string name="track_audio">Audio track</string>
@@ -110,26 +96,16 @@
     <string name="track_resolution_info">Resolution: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Frame rate: %1$.3f\n</string>
 
-    <string name="tools">Tools</string>
     <string name="playback_speed">Playback speed</string>
     <string name="sleep_title">Sleep timer</string>
-    <string name="sleep_cancel">Cancel sleep timer</string>
     <string name="jump_to_time">Jump to Time</string>
-    <string name="subtitle_label">Add subtitle file</string>
     <string name="subtitle_select">Select subtitle file</string>
-    <string name="no_file_picker_found">No file picker was found on the system.</string>
 
-    <string name="open">Open</string>
-    <string name="open_mrl_dialog_title">Open network stream</string>
-    <string name="error_not_compatible">Sorry, your device is currently not supported by this version of VLC for Android™.</string>
-    <string name="error_problem">Sorry, VLC for Android had a problem loading and had to close.</string>
-    <string name="error_message_is">The error message is (please mention this when debugging):\n</string>
     <string name="encountered_error_title">Playback error</string>
     <string name="encountered_error_message">VLC encountered an error with this media.\nPlease try refreshing the media library.</string>
     <string name="invalid_location">The location %1$s cannot be played.</string>
 
     <string name="search">Search</string>
-    <string name="search_history">Search history</string>
 
 
     <!-- Tips -->
@@ -154,13 +130,11 @@
     <string name="about">About</string>
     <string name="about_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read most files and network streams.</string>
     <string name="compiled_by">This version of VLC is compiled by:</string>
-    <string name="general_prefs_category">General</string>
     <string name="directories_summary">Select directories to include in the media library</string>
     <string name="add_custom_path">Add a custom path</string>
     <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
     <string name="remove_custom_path">Remove custom path</string>
     <string name="hardware_acceleration">Hardware Acceleration</string>
-    <string name="hardware_acceleration_summary">Disabled: better stability.\nDecoding: may improve performance.\nFull: may improve performance further.</string>
     <string name="hardware_acceleration_disabled">Disabled</string>
     <string name="hardware_acceleration_decoding">Decoding acceleration</string>
     <string name="hardware_acceleration_full">Full acceleration</string>
@@ -170,43 +144,26 @@
     <string name="screen_orientation_start_lock">Locked at start</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="screen_orientation_landscape">Landscape</string>
-    <string name="screen_orientation_reverse_portrait">Reverse portrait</string>
-    <string name="screen_orientation_reverse_landscape">Reverse landscape</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="extra_prefs_category">Extra settings</string>
 
     <string name="interface_prefs_screen">Interface</string>
     <string name="enable_clone_mode">Prefer clone</string>
-    <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
-    <string name="interface_other_category">Interface - Other</string>
-
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
     <string name="enable_headset_detection">Detect headset</string>
-    <string name="enable_steal_remote_control">Exclusive headset remote control</string>
-    <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="aout">Audio output</string>
-    <string name="aout_summary">Change the method that VLC uses to output audio.</string>
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Force video chroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices. Android 2.3 and later only.</string>
     <string name="deblocking">Deblocking filter settings</string>
-    <string name="deblocking_summary">Change the deblocking filter settings. Could improve video quality. Advanced users only.</string>
     <string name="deblocking_always">Full deblocking (slowest)</string>
     <string name="deblocking_nonref">Medium deblocking</string>
     <string name="deblocking_nonkey">Low deblocking</string>
     <string name="deblocking_all">No deblocking (fastest)</string>
-    <string name="enable_frame_skip_summary">Speed up decoding but could lower video quality.</string>
     <string name="enable_time_stretching_audio">Time-stretching audio</string>
-    <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device).</string>
-
     <string name="advanced_prefs_category">Advanced</string>
     <string name="clear_media_db">Clear media database</string>
-    <string name="media_db_cleared">Media database cleared!</string>
     <string name="set_locale">Set locale</string>
-    <string name="set_locale_detail">Leave blank to reset</string>
-    <string name="set_locale_popup">Quit and restart VLC for changes to take effect.</string>
     <string name="network_caching">Network caching value</string>
-    <string name="network_caching_summary">The amount of time to buffer network media (in ms). Does not work with hardware decoding. Leave blank to reset.</string>
     <string name="quit">Quit and restart application</string>
     <string name="developer_prefs_category">Developer</string>
     <string name="enable_verbose_mode">Verbose</string>
@@ -226,7 +183,5 @@
     <string name="send_log">Send the log</string>
     <string name="sending_log">Sending the log…</string>
 
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
     <string name="next">Next</string>
 </resources>
