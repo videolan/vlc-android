@@ -32,17 +32,9 @@
     <string name="ringtone_set">Datoteka \'%1$s\' je postavljena kao zvono.</string>
     <string name="ringtone_error">Dogodila se greška tokom postavljanja zvona.</string>
     <string name="pause">Pauziraj</string>
-    <string name="not_show_again">Ne prikazuj ovu poruku ponovo.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Nepoznat Izvođač</string>
     <string name="unknown_album">Nepoznat Album</string>
     <string name="unknown_genre">Nepoznat Žanr</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">1 pjesma</item>
-        <item quantity="few">%d pjesama</item>
-        <item quantity="other">%d pjesme</item>
-    </plurals>
-
     <string name="artists">Izvođači</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
@@ -65,7 +57,6 @@
         <item quantity="other">%d  videi</item>
     </plurals>
     <string name="internal_memory">Interna memorija</string>
-    <string name="parent_folder">Do nadređene mape</string>
     <string name="audio">Zvuk</string>
     <string name="video">Video</string>
     <string name="bookmarks">Oznake</string>
@@ -74,15 +65,10 @@
     <string name="genres">Žanrovi</string>
     <string name="playlists">Liste izvođenja</string>
     <string name="title">Naslov</string>
-    <string name="artist">Izvođač</string>
-    <string name="album">Album</string>
-    <string name="directory">Direktorij</string>
     <string name="directories">Direktoriji</string>
     <string name="loading">Učitava</string>
     <string name="please_wait">Molim sačekajte…</string>
     <string name="nomedia">Medijske datoteke nisu pronađene, molimo prenesite neke datoteke na svoj uređaj ili podesite svoje postavke.</string>
-    <string name="mediafiles">Medijske datoteke</string>
-    <string name="notavailable">nije dostupno</string>
     <string name="directorynotfound">Putanja direktorija \'%1$s\' nije pronađena.</string>
     <string name="nohistory">Nemate historiju reproduciranja.</string>
     <string name="validation">Da li ste sigurni?</string>
@@ -95,7 +81,6 @@
     <string name="surface_best_fit">Najbolje uklapanje</string>
     <string name="surface_fill">Popuni</string>
     <string name="surface_original">Centar</string>
-    <string name="thumbnail">Slikica</string>
     <string name="unseekable_stream">Nepotraživo stujanje</string>
     <string name="refresh">Osvježi</string>
     <string name="track_audio">Trag zvuka</string>
@@ -117,26 +102,16 @@
     <string name="track_resolution_info">Rezolucija: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Brzina prikaza: %1$.3f\n</string>
 
-    <string name="tools">Alati</string>
     <string name="playback_speed">Brzina reproduciranja</string>
     <string name="sleep_title">Brojač za spavanje</string>
-    <string name="sleep_cancel">Otkaži brojač za spavanje</string>
     <string name="jump_to_time">Skoči na Vrijeme</string>
-    <string name="subtitle_label">Dodaj datoteku podtitla</string>
     <string name="subtitle_select">Izaberi datoteku podtitla</string>
-    <string name="no_file_picker_found">Ni jedan uvozač datoteka nije pronađen na sistemu.</string>
 
-    <string name="open">Otvori</string>
-    <string name="open_mrl_dialog_title">Otvori mrežno strujanje</string>
-    <string name="error_not_compatible">Izvinite, vaš uređaj trenutno nije podržan od ove verzije VLC-a za Android™.</string>
-    <string name="error_problem">Izvinite, VLC za Android je imao problem s učitavanjem i morao se zatvoriti.</string>
-    <string name="error_message_is">Poruka s greškom je (molimo napomenite ovo tokom otkrivanja grešaka):\n</string>
     <string name="encountered_error_title">Greška reproduciranja</string>
     <string name="encountered_error_message">VLC je naišao na grešku sa ovim medijem.\nMolimo pokušajte osvježiti medijsku biblioteku.</string>
     <string name="invalid_location">Lokacija %1$s se ne može producirati.</string>
 
     <string name="search">Pretraga</string>
-    <string name="search_history">Historija pretraživanja</string>
 
 
     <!-- Tips -->
@@ -161,13 +136,11 @@
     <string name="about">O nama</string>
     <string name="about_text">VLC za Android™ je port VLC medijskog izvođača, popularnog medijskog izvođača otvorenog koda. Android™ verzija može čitati većinu datoteka i mrežnih strujanja.</string>
     <string name="compiled_by">Ova verzija VLC-a je kompajlirana od strane:</string>
-    <string name="general_prefs_category">Opće</string>
     <string name="directories_summary">Izaberi direktorije za uključivanje u medijskoj biblioteci</string>
     <string name="add_custom_path">Dodaj prilagođen put</string>
     <string name="add_custom_path_description">Unesi dodatni prilagođen direktorij za skeniranje:</string>
     <string name="remove_custom_path">Ukloni prilagođen put</string>
     <string name="hardware_acceleration">Hardversko Ubrzanje</string>
-    <string name="hardware_acceleration_summary">Isključeno: bolja stabilnost.\nDekodiranje: može poboljšati performansu.\nPuno: može dalje poboljšati dalje performansu.</string>
     <string name="hardware_acceleration_disabled">Isključeno</string>
     <string name="hardware_acceleration_decoding">Ubrzanje dekodiranja</string>
     <string name="hardware_acceleration_full">Puno ubrzanje</string>
@@ -177,43 +150,26 @@
     <string name="screen_orientation_start_lock">Zaključan na početku</string>
     <string name="screen_orientation_portrait">Portret</string>
     <string name="screen_orientation_landscape">Pejzaž</string>
-    <string name="screen_orientation_reverse_portrait">Obrnuti potret</string>
-    <string name="screen_orientation_reverse_landscape">Obrnuti pejzaž</string>
     <string name="subtitle_text_encoding">Kodiranje teksta podtitla</string>
     <string name="extra_prefs_category">Dodatne postavke</string>
 
     <string name="interface_prefs_screen">Interfejs</string>
     <string name="enable_clone_mode">Preferiraj kloniranje</string>
-    <string name="enable_clone_mode_summary">Kloniraj prikaz uređaja bez daljinskog upravljača</string>
-    <string name="interface_other_category">Interfejs - Drugo</string>
-
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
     <string name="enable_headset_detection">Pronađi slušalice</string>
-    <string name="enable_steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
-    <string name="enable_steal_remote_control_summary">Izbjegavaj konflikt preuzimanja daljinskog upravljanja od drugih aplikacija. Ovo sprječava pozivanje na dupli klik kod HTC telefona.</string>
     <string name="aout">Izlaz zvuka</string>
-    <string name="aout_summary">Izmijeni način na koji VLC koristi izlazni zvuk.</string>
     <string name="performance_prefs_category">Performansa</string>
     <string name="chroma_format">Forsiraj video krom</string>
-    <string name="chroma_format_summary">RGB 32-bit: zadana kroma\nRGB 16-bit: bolja performansa ali slabiji kvalitet\nYUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.</string>
     <string name="deblocking">Postavke filtera za deblokiranje</string>
-    <string name="deblocking_summary">Izmijeni postavke filtera za deblokiranje. Moguće poboljšanje kvalitete videa. Samo za napredne korisnike.</string>
     <string name="deblocking_always">Puno deblokiranje (najsporije)</string>
     <string name="deblocking_nonref">Umjereno deblokiranje</string>
     <string name="deblocking_nonkey">Nisko deblokiranje</string>
     <string name="deblocking_all">Bez deblokiranja (najbrže)</string>
-    <string name="enable_frame_skip_summary">Ubrzava dekodiranje ali može smanjiti kvalitet videa.</string>
     <string name="enable_time_stretching_audio">Vremensko-proširavanje zvuka</string>
-    <string name="enable_time_stretching_audio_summary">Ubrzaj i uspori zvuk bez mijenjanja tonaliteta (zahtjeva brz uređaj).</string>
-
     <string name="advanced_prefs_category">Napredno</string>
     <string name="clear_media_db">Očisti medijsku bazu podataka</string>
-    <string name="media_db_cleared">Medijska baza podataka očišćena!</string>
     <string name="set_locale">Podesi lokaciju</string>
-    <string name="set_locale_detail">Ostavi prazno za resetovanje</string>
-    <string name="set_locale_popup">Zatvori i restartuj VLC kako bi djelovale promjene.</string>
     <string name="network_caching">Veličina predmemoriranja mreže</string>
-    <string name="network_caching_summary">Količina vremena za amortizovanje mrežnog medija (u ms). Ne radi sa hardverskim dekodiranjem. Ostavite prazno za resetovanje.</string>
     <string name="quit">Zatvori i ponovo pokreni aplikaciju</string>
     <string name="developer_prefs_category">Programer</string>
     <string name="enable_verbose_mode">Pojačavanje</string>
@@ -233,8 +189,6 @@
     <string name="send_log">Pošalji izvještaj</string>
     <string name="sending_log">Šaljem izvještaj…</string>
 
-    <string name="drawer_open">Otvori navigacijsku ladicu</string>
-    <string name="drawer_close">Zatvori navigacijsku ladicu</string>
     <string name="resume_from_position">Nastavi sa zadnje pozicije</string>
     <string name="confirm_resume">Nastavi sa zadnje pozicije?</string>
     <string name="next">Sljedeće</string>
