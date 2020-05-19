@@ -7,21 +7,13 @@
     <string name="other">دیگر</string>
     <string name="sortby">مرتب سازی بر پایه…</string>
     <string name="sortby_name">نام</string>
-    <string name="sortby_name_desc">نام (کاهشی)</string>
     <string name="sortby_filename">نام فایل</string>
-    <string name="sortby_filename_desc">نام فایل (کاهشی)</string>
     <string name="sortby_artist_name">نام هنرمند</string>
-    <string name="sortby_artist_name_desc">نام هنرمند (کاهشی)</string>
     <string name="sortby_album_name">نام آلبوم</string>
-    <string name="sortby_album_name_desc">نام آلبوم (کاهشی)</string>
     <string name="sortby_length">مدت</string>
-    <string name="sortby_length_desc">مدت (کاهشی)</string>
     <string name="sortby_date">تاریخ</string>
-    <string name="sortby_date_desc">تاریخ (کاهشی)</string>
     <string name="sortby_last_modified_date">تازه افزوده شده</string>
-    <string name="sortby_last_modified_date_desc">تازه افزوده شده (کاهشی)</string>
     <string name="sortby_number">قطعه‌های Nb</string>
-    <string name="sortby_number_desc">قطعه‌های Nb (کاهشی)</string>
     <string name="searchable_hint">جستجو…</string>
     <string name="history">تاریخچه</string>
 
@@ -58,22 +50,13 @@
     <string name="confirm_delete_folder">پوشه \'%1$s\' و تمامی محتویاتش حذف شوند؟</string>
     <string name="confirm_delete_playlist">حذف سیاههٔ پخش \'%1$s\'؟</string>
     <string name="confirm_remove_from_playlist">\'%1$s\' از سیاههٔ پخش حذف شود؟</string>
-    <string name="confirm_remove_from_playlist_anonymous">از سیاههٔ پخش حذف شود؟</string>
     <string name="ringtone_set">فایل \'%1$s\' به عنوان آهنگ زنگ تنظیم شد.</string>
     <string name="ringtone_error">خطایی برای تنظیم آهنگ‌زنگ بوجود آمده است.</string>
     <string name="pause">ایست</string>
-    <string name="not_show_again">دیگر این پیام نشان داده نشود.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">هنرمند ناشناس</string>
     <string name="unknown_album">آلبوم ناشناس</string>
     <string name="unknown_genre">گونه ناشناس</string>
-    <string name="unknown_number">تعداد نامشخصی از قطعه‌ها</string>
     <string name="songs">ترانه‌ها</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">%d ترانه</item>
-        <item quantity="other">%d ترانه</item>
-    </plurals>
-
     <string name="artists">هنرمندان</string>
     <string name="albums">آلبوم‌ها</string>
     <string name="tracks">قطعه‌ها</string>
@@ -108,7 +91,6 @@
     </plurals>
 
     <string name="internal_memory">حافظه داخلی</string>
-    <string name="parent_folder">بازگشت به پوشه‌ی مادر</string>
     <string name="audio">صدا</string>
     <string name="video">ویدیو</string>
     <string name="bookmarks">نشانه‌ها</string>
@@ -117,16 +99,11 @@
     <string name="genres">گونه‌ها</string>
     <string name="playlists">سیاهه‌های پخش</string>
     <string name="title">عنوان</string>
-    <string name="artist">هنرمند</string>
-    <string name="album">آلبوم</string>
-    <string name="directory">پوشه</string>
     <string name="directories">پوشه‌ها</string>
     <string name="loading">درحال بارگذاری</string>
     <string name="please_wait">لطفا شکیبا باش…</string>
     <string name="nomedia">هیچ فایل رسانه‌‌ای پیدا نشد، لطفا فایلی را به دستگاه انتقال داده یا تنظیمات خود را تغییر ده.</string>
     <string name="noplaylist">هیچ سیاههٔ پخشی یافت نشد.</string>
-    <string name="mediafiles">فایل های رسانه‌ای</string>
-    <string name="notavailable">در دسترس نیست</string>
     <string name="nosubfolder">زیرشاخه‌ای موجود نیست</string>
     <string name="directorynotfound">مسیر پوشه \'%1$s\' یافت نشد.</string>
     <string name="nohistory">هنوز هیچ سابقه پخشی نداری.</string>
@@ -152,7 +129,6 @@
     <string name="surface_fit_screen">صفحه نمایش مناسب</string>
     <string name="surface_fill">پر کردن فضای خالی</string>
     <string name="surface_original">میانه</string>
-    <string name="thumbnail">بند انگشتی</string>
     <string name="unseekable_stream">جریان غیر قابل بازگشت</string>
     <string name="refresh">نوسازی</string>
     <string name="track_audio">قطعه صوتی</string>
@@ -166,7 +142,6 @@
     <string name="sound_on">صدا باز</string>
     <string name="sound_off">صدا بسته</string>
     <string name="brightness">روشنایی</string>
-    <string name="navmenu">منوی اصلی</string>
     <string name="advanced">گزینه‌های پیشرفته</string>
     <string name="audio_boost_warning">دوباره تا به یش از 100% بالا بکش</string>
     <string name="locked_in_portrait_mode">فیکس شده در حالت عمودی (برای غیرفعلل کردن دکمه را چند لحظه نگه دارید)</string>
@@ -182,15 +157,11 @@
     <string name="track_resolution_info">تفکیک‌پذیری %1$d در %2$d \n</string>
     <string name="track_framerate_info">نرخ چارچوب:  %1$.3f\n</string>
 
-    <string name="tools">ابزارها</string>
     <string name="playback_speed">سرعت پخش</string>
     <string name="sleep_title">زمان خواب</string>
     <string name="sleep_in">خوابیدن در</string>
-    <string name="sleep_cancel">بی‌خیال شدن زمان خواب</string>
     <string name="jump_to_time">پرش به زمان</string>
-    <string name="subtitle_label">افزودن فایل زیرنویس</string>
     <string name="subtitle_select">انتخاب فایل زیرنویس</string>
-    <string name="no_file_picker_found">هیچ ابزاری برای گزینش فایل از سیستم یافت نشد.</string>
 
     <string name="server_add_title">افزودن سروری جدید به علاقه‌مندی‌ها</string>
     <string name="server_domain_hint">نشانی سرور (نام دامین یا آی‌پی)</string>
@@ -202,7 +173,6 @@
     <string name="login">ورود</string>
     <string name="password">گذرواژه</string>
 
-    <string name="search_results">نتایج جستجو</string>
     <string name="search_no_result">هیچ رسانه یافت نشد</string>
     <string name="favorites_add">افزودن به علاقه مندی‌ها</string>
     <string name="favorites_remove">حذف از علاقه مندی‌ها</string>
@@ -210,25 +180,17 @@
     <string name="favorite_added">در علاقه مندی‌ها ذخیره شد</string>
     <string name="favorite_removed">از علاقه مندی‌ها حذف شد</string>
 
-    <string name="open">باز کردن</string>
-    <string name="open_mrl_dialog_title">باز کردن جریان شبکه</string>
     <string name="open_mrl_dialog_msg">نشانی شبكه را وارد کنید: مثل http://, mms:// or rtsp://</string>
-    <string name="error_not_compatible">با عرض پوزش، دستگاه کنونی شما این نسخه VLC برای اندروید™ را پشتیبانی نمیکند.</string>
-    <string name="error_problem">با عرض پوزش، VLC اندروید با مشکل مواجه شده و اکنون بسته میشود.</string>
-    <string name="error_message_is">پیغام خطا (لطفا خطا را هنگام اشکال زدایی ذکر کنید) :\n</string>
     <string name="encountered_error_title">خطای پخش</string>
     <string name="encountered_error_message">VLC با این رسانه به مشکل مواجه شده./ لطفا کتابخانه رسانه‌‌ها را بازنشانی کنید.</string>
     <string name="invalid_location">محل %1$s نمیتواند اجرا شود.</string>
 
     <string name="search">جستجو</string>
-    <string name="search_history">سابقه جستجو</string>
 
 
     <string name="playback_history_title">تاریخچه پخش</string>
     <string name="playback_history_summary">ذخیره همه رسانه های پخش شده در تاریخچه پخش</string>
     <string name="playback_speed_title">ذخیره سرعت پخش</string>
-    <string name="playback_speed_summary">یادآوری سرعت پخشی که شما قرار داده‌اید</string>
-
     <string name="play_button">کلید پخش</string>
 
     <!-- Tips -->
@@ -265,13 +227,11 @@
     <!-- Preferences -->
     <string name="preferences">تنظیمات</string>
 
-    <string name="general_prefs_category">عمومی</string>
     <string name="directories_summary">مسیرها را انتخاب کنید تا در کتابخانه رسانه شامل شوند</string>
     <string name="add_custom_path">افزودن مسیر سفارشی</string>
     <string name="add_custom_path_description">یک مسیر برای اسکن کردن وارد کنید:</string>
     <string name="remove_custom_path">حذف مسیر سفارشی</string>
     <string name="hardware_acceleration">شتاب سخت افزاری</string>
-    <string name="hardware_acceleration_summary">غیرفعال: ثبات بهتر.\ رمزگشایی: ممکن است عملکرد را بهبود ببخشد.\ کامل: ممکن است عملکرد را بیشتر بهبود ببخشد.</string>
     <string name="hardware_acceleration_disabled">غیر فعال</string>
     <string name="hardware_acceleration_decoding">شتاب رمزگشایی</string>
     <string name="hardware_acceleration_full">شتاب کامل</string>
@@ -283,34 +243,21 @@
     <string name="screen_orientation_start_lock">قفل در شروع</string>
     <string name="screen_orientation_portrait">پرتره</string>
     <string name="screen_orientation_landscape">منظره</string>
-    <string name="screen_orientation_reverse_portrait">پرتره معکوس</string>
-    <string name="screen_orientation_reverse_landscape">منظره معکوس</string>
     <string name="enable_black_theme">پوسته مشکی</string>
-    <string name="enable_black_theme_summary">رنگ های رابط را برای راحتی بهتر در محیط های کم نور تغییر دهید.</string>
     <string name="subtitle_text_encoding">کد گذاری متن زیرنویس</string>
     <string name="daynight_title">حالت شب</string>
     <string name="daynight_follow_system_title">پیروزی از تنظیمات سامانه</string>
-    <string name="daynight_battery_title">پیروی از محافظ باتری</string>
-    <string name="daynight_summary">به صورت خودکار در زمان مناسب به حالت شب تعویض شود</string>
 
     <string name="extra_prefs_category">تنظیمات اضافی</string>
 
     <string name="interface_prefs_screen">رابط</string>
-    <string name="interface_gui">صفحه نمایش</string>
     <string name="interface_secondary_display_category_title">صفحه نمایش دوم</string>
-    <string name="interface_secondary_display_category_summary">تنظیمات زمانی نشان داده میشود که به (HDMI/Miracast) متصل باشید.</string>
     <string name="enable_clone_mode">ترجیحات شبیه‌سازی</string>
-    <string name="enable_clone_mode_summary">شبیه‌سازی صفحه نمایش دستگاه بدون اتصال به کنترل از راه دور.</string>
-    <string name="interface_other_category">دیگر - رابط‌ ها</string>
-
     <string name="video_prefs_category">ویدئو</string>
     <string name="video_min_group_length_title">گروه ویدیوها</string>
     <string name="video_min_group_length_disable">ویدئوها گروه‌بندی نشوند</string>
     <string name="video_min_group_length_folder">گروه‌بندی برپایه پوشه</string>
     <string name="video_min_group_length_name">گروه‌بندی بر اساس نام</string>
-    <string name="video_min_group_length_first">فقط حرف اول</string>
-    <string name="video_min_group_length_short">تعداد کوتاه از حروف (6)</string>
-    <string name="video_min_group_length_long">تعداد بلند از حروف (9)</string>
     <string name="media_fast_seek">جابه‌جایی سریع</string>
     <string name="video_transition_title">جلوه انتقال بین ویدئوها</string>
     <string name="video_transition_summary">نمایش عنوان ویدئوی جدید در حین انتقال</string>
@@ -318,8 +265,6 @@
     <string name="media_seen_summary">نشان کردن ویدیوهایی که تا انتها پخش شده‌اند</string>
     <string name="force_play_all_summary">پخش همه ویدئوها با شروع از ویدئویی که روی آن کلیک کردید</string>
     <string name="force_play_all_title">حالت سیاههٔ پخش ویدئو</string>
-    <string name="save_brightness_summary">سطح روشنایی در پخش‌کننده ویدئو به خاطر سپرده شود</string>
-    <string name="save_brightness_title">ذخیره سطح روشنایی برای ویدئو</string>
     <string name="save_audiodelay_summary">تاخیر صدا برای هر ویدئو مستقلا ذخیره شود</string>
     <string name="save_audiodelay_title">ذخیره تاخیر صدا</string>
     <string name="enable_brightness_gesture_title">حرکت روشنایی</string>
@@ -350,7 +295,6 @@
     <string name="audio_prefs_category">صدا</string>
     <string name="lockscreen_cover_title">تصویر رسانه در حالت قفل صفحه نمایش یابد</string>
     <string name="lockscreen_cover_summary">در صورتی که موجود باشد، تصویر رسانه در حال پخش به عنوان تصویر پس‌زمینه حالت قفل نمایش یابد</string>
-    <string name="playlist_animate_scroll_title">خودکارسازی پیمایش خودکار سیاههٔ پخش جاری</string>
     <string name="list_title_ellipsize_default">پیش‌فرض</string>
     <string name="list_title_ellipsize_left">چپ</string>
     <string name="list_title_ellipsize_right">راست</string>
@@ -360,12 +304,8 @@
     <string name="headset_prefs_category">هدست</string>
     <string name="enable_headset_detection">یافتن گوشی</string>
     <string name="enable_headset_detection_summary">اتصال و قطع هدست تشخیص داده شود</string>
-    <string name="enable_headset_actions_title">میانبرهای کنترل از راه دور</string>
     <string name="enable_play_on_headset_insertion">با وصل شدن هدست، پخش ادامه یابد</string>
-    <string name="enable_steal_remote_control">کنترل از راه دور اختصاصی گوشی</string>
-    <string name="enable_steal_remote_control_summary">از سرقت رفتن کنترل از راه دور توسط برنامه‌های دیگر جلوگیری شود. این مانع دوبار کلیک در گوشی‌های HTC میشود.</string>
     <string name="aout">خروجی صوتی</string>
-    <string name="aout_summary">تغییر روش خروجی صوتی مورد استفاده VLC.</string>
     <string name="audio_ducking_title">صدای VLC در زمان دریافت اعلانات کاهش یابد</string>
     <string name="casting_conversion_quality_title">کیفیت تبدیل</string>
     <string name="casting_conversion_quality_summary">کیفیت تبدیل را در زمان پخش روی صفحه نمایش راه دور انتخاب کنید</string>
@@ -380,29 +320,19 @@
 
     <string name="performance_prefs_category">کارآیی</string>
     <string name="chroma_format">نیروی تصویر رنگی</string>
-    <string name="chroma_format_summary">RGB بـ 32 بِیت : رنگی پیشفرض\nRGB بـ 16 بِیت : عملکرد خوب، اما کیفیت پایین می‌آید\nYUV : بهترین عملکرد، اما فقط در بعضی دستگاه‌ها کارایی دارد. فقط در اندروید 2.3 و نسخه‌های بعدی.</string>
     <string name="deblocking">تنظیمات فیلتر بلاک شکن</string>
-    <string name="deblocking_summary">تغییر تنظیمات فیلتر بلاک شکن. میتواند کیفیت ویدیو را بهبود ببخشد. فقط به کاربران پیشرفته توصیه میشود.</string>
     <string name="deblocking_always">بلاک شکنی کامل (آهسته‌ترین)</string>
     <string name="deblocking_nonref">بلاک شکنی متوسط</string>
     <string name="deblocking_nonkey">بلاک شکنی ضعیف</string>
     <string name="deblocking_all">بلاک شکنی نشود (سریعترین)</string>
     <string name="enable_frame_skip">پرش از فریم</string>
-    <string name="enable_frame_skip_summary">سرعت رمزگشایی بالا میرود، اما ممکن هست کیفیت ویدیو پایین بیاید.</string>
     <string name="enable_time_stretching_audio">زمان - کش دادن صوت</string>
-    <string name="enable_time_stretching_audio_summary">بالا و پایین کردن سرعت صدا  بدون تغییر در زیر و بم (نیازمند به یک دستگاه سریع).</string>
-
     <string name="advanced_prefs_category">پیشرفته</string>
-    <string name="save_video_none">عدم ذخیره‌ی سرعت</string>
     <string name="auto_rescan">جستوجوی خودکار</string>
     <string name="auto_rescan_summary">جستوجوی خودکار دستگاه برای رسانه‌‌های جدید و حذف شده در ابتدای اجرای برنامه</string>
     <string name="clear_media_db">پاک کردن بانک اطلاعاتی رسانه</string>
-    <string name="media_db_cleared">بانک رسانه حذف شد!</string>
     <string name="set_locale">تغییر‌ زبان</string>
-    <string name="set_locale_detail">برای باز نشانی خالی بگذارید</string>
-    <string name="set_locale_popup">برای اعمال شدن افکت‌ها از برنامه خارج شوید و راه اندازی مجدد صورت گیرد.</string>
     <string name="network_caching">مقدار کش کردن شبکه</string>
-    <string name="network_caching_summary">مقدار زمان برای بافر رسانه شبکه (در میلی‌ثانیه). با سخت‌افزار رمزگشایی کار نمیکند. برای تنظیم مجدد خالی بگذارید.</string>
     <string name="quit">خروج و شروع مجدد برنامه</string>
     <string name="developer_prefs_category">توسعه دهنده</string>
     <string name="enable_verbose_mode">طولانی نویسی</string>
@@ -422,20 +352,15 @@
     <string name="send_log">ارسال گزارش</string>
     <string name="sending_log">در حال ارسال گزارش…</string>
 
-    <string name="drawer_open">گشودن کشو ناوبری</string>
-    <string name="drawer_close">بستن کشو ناوبری</string>
     <string name="network_browsing">شبکه محلی</string>
     <string name="search_hint">جستجوی رسانه</string>
     <string name="search_global">جستجو در تمام کتابخانه</string>
-    <string name="directory_show_medialib">نمایش در MediaLib</string>
-    <string name="directory_hide_medialib">پنهان‌سازی از MediaLib</string>
     <string name="playlist_save">ذخیره سیاههٔ پخش</string>
     <string name="playlist_name_hint">نام سیاههٔ پخش</string>
     <string name="go_to_chapter">برو به باب...</string>
     <string name="chapter">باب</string>
     <string name="resume_from_position">پخش از آخرین موقعیت</string>
     <string name="confirm_resume">پخش از آخرین موقعیت؟</string>
-    <string name="directory_empty">پوشه خالی است</string>
     <string name="tv_ui_title">میانای Android TV</string>
     <string name="tv_ui_summary">میانای کاربری را به پوسته سازگار با TV تغییر بده</string>
     <string name="medialibrary">کتابخانه رسانه‌ای</string>
@@ -443,10 +368,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">کنش‌های دیگر</string>
-    <string name="move">حرکت</string>
     <string name="back_quit_lock">برای خروج دکمه بازگشت را دوباره بزنید.</string>
-    <string name="playlist_deleted">سیاههٔ پخش حذف شد</string>
-    <string name="file_deleted">فایل حذف شده است</string>
     <string name="no_subs_found">زیرنویسی در این پوشه یافت نشد</string>
     <string name="music_now_playing">در حال پخش</string>
 
@@ -472,15 +394,12 @@
 
     <string name="opengl_automatic">خودکار</string>
     <string name="add_to_playlist">افزودن به سیاههٔ پخش</string>
-    <string name="downloading_subtitles">در حال بارگیری زیرنویس ها</string>
     <string name="listen">گوش دادن</string>
-    <string name="connecting">در حال اتصال…</string>
     <string name="episodes">فصل‌ها</string>
     <string name="movies">فیلم ها</string>
     <string name="videos">ویدئوها</string>
     <string name="videos_all">تمامی ویدیوها</string>
     <string name="clear_playback_history">پاک کردن سابقه پخش</string>
-    <string name="various_artists">هنرمندان مختلف</string>
     <string name="ml_scanning">در حال جستوجوی محتوای رسانه‌ای</string>
     <string name="ml_parse_media">درحال پردازش رسانه</string>
     <string name="ml_discovering">درحال جستوجو</string>
@@ -493,7 +412,6 @@
     <string name="equalizer_new_preset_name">جدید</string>
     <string name="recommendations">پیشنهادات</string>
     <string name="browser_quick_access">دسترسی سریع</string>
-    <string name="feedback_player_crashed">متاسفانه VLC کرش کرده است. لطفا دوباره امتحان کنید.</string>
     <string name="sdcard_permission_dialog_title">بایستی به VLC اجازه‌ی دسترسی به فایل‌های حافظه‌ی دستگاه‌تان را بدهید.</string>
     <string name="dialog_sd_wizard">نشانم بده</string>
     <string name="renderers_disconnect">قطع شدن</string>
