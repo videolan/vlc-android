@@ -7,19 +7,12 @@
     <string name="other">अन्य</string>
     <string name="sortby">क्रमान्कित  गर्नुहोस</string>
     <string name="sortby_name">नाम</string>
-    <string name="sortby_name_desc">नाम (घट्दोक्रममा)</string>
     <string name="sortby_filename">फाइल नाम</string>
-    <string name="sortby_filename_desc">फाइल नाम (घट्दोक्रममा)</string>
     <string name="sortby_artist_name">कलाकारको नाम</string>
-    <string name="sortby_artist_name_desc">कलाकारको नाम (घट्दोक्रममा)</string>
     <string name="sortby_album_name">सङ्ग्रह नाम</string>
-    <string name="sortby_album_name_desc">सङ्ग्रह नाम (घट्दोक्रममा)</string>
     <string name="sortby_length">लम्बाइ</string>
-    <string name="sortby_length_desc">लम्बाइ (घट्दोक्रममा)</string>
     <string name="sortby_date">मिति</string>
-    <string name="sortby_date_desc">मिति (घट्दोक्रममा)</string>
     <string name="sortby_number">Nb ट्र्याकहरू</string>
-    <string name="sortby_number_desc">Nb ट्र्याकहरू(घट्दोक्रममा)</string>
     <string name="searchable_hint">खोज्नुहोस…</string>
     <string name="history">इतिहास</string>
 
@@ -53,18 +46,10 @@
     <string name="ringtone_set">\'%1$s\' लाई रिङटोनको रुपमा स्थापित गरियो।</string>
     <string name="ringtone_error">रिङटोनको रुपमा स्थापित गर्ने क्रममा त्रुटि भयो ।</string>
     <string name="pause">पौज गर्नुहोस</string>
-    <string name="not_show_again">यो शन्देस फेरी नदेखाउनुहोला।</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">अज्ञात कलाकार</string>
     <string name="unknown_album">अज्ञात एलबम</string>
     <string name="unknown_genre">अज्ञात शैली</string>
-    <string name="unknown_number">अज्ञात ट्र्याकहरूको सङ्ख्या</string>
     <string name="songs">गीतहरू</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">१ गीत</item>
-        <item quantity="other">%d गीतहरू</item>
-    </plurals>
-
     <string name="artists">कलाकारहरू</string>
     <string name="albums">संग्रहहरू</string>
     <string name="tracks">ट्र्याकहरू</string>
@@ -86,7 +71,6 @@
         <item quantity="other">%d वीडियो</item>
     </plurals>
     <string name="internal_memory">आन्तरिक भन्डारण</string>
-    <string name="parent_folder">प्यारेन्ट फोल्डरमा जानुहोस</string>
     <string name="audio">अडियो</string>
     <string name="video">भिडियो</string>
     <string name="bookmarks">पुस्तकचिनो</string>
@@ -95,16 +79,11 @@
     <string name="genres">शैलीहरू</string>
     <string name="playlists">प्लेलिस्टहरु</string>
     <string name="title">शिर्षक</string>
-    <string name="artist">कलाकार</string>
-    <string name="album">एलबम</string>
-    <string name="directory">निर्देशिका</string>
     <string name="directories">निर्देशिकाहरु</string>
     <string name="loading">लोड हुदैछ</string>
     <string name="please_wait">कृपया प्रतिक्ष्य गर्नुहोस …</string>
     <string name="nomedia">कुनै पनि सामग्री फाइल भेटिएन , कृपया केही फाइलहरू तपाईको डिभाइसमा सार्नुहोस् या अभिरुचीहरू मिलाउनुहोस् ।</string>
     <string name="noplaylist">कुनै पनि बजाउने भेटिएन।</string>
-    <string name="mediafiles">मेडिया फाईलहरु</string>
-    <string name="notavailable">उपलब्ध हुन् सकेन</string>
     <string name="directorynotfound">डाइरेक्टरी पाथ \'%1$s\' भेटिएन।</string>
     <string name="nohistory">अहिले सम्म तपाईँसँग बजाएको इतिहास छैन ।</string>
     <string name="validation">तपाई पक्का हुनुहुन्छ?</string>
@@ -125,7 +104,6 @@
     <string name="surface_fit_screen">पर्दामा अटाउनुहोस्</string>
     <string name="surface_fill">भरी भर्नुहोस</string>
     <string name="surface_original">बिच</string>
-    <string name="thumbnail">थम्बनेल</string>
     <string name="unseekable_stream">खोज्न नमिल्ने प्रवाह</string>
     <string name="refresh">ताजा गर्नुहोस</string>
     <string name="track_audio">अडियो ट्रयाक</string>
@@ -139,20 +117,15 @@
     <string name="sound_on">आवाज चालु</string>
     <string name="sound_off">आवाज बन्द</string>
     <string name="brightness">चमक</string>
-    <string name="navmenu">परिचालन सूची</string>
     <string name="advanced">उन्नत विकल्पहरू</string>
     <string name="track_samplerate_info">स्याम्पल दर: %1$d हर्ट्ज\n</string>
     <string name="track_resolution_info">रिजोल्युसन: %1$dx%2$d\n</string>
     <string name="track_framerate_info">फ्रेम दर: %1$.3f\n</string>
 
-    <string name="tools">अैाजारहरु</string>
     <string name="playback_speed">बजाउने गति</string>
     <string name="sleep_title">बन्दहुने समय</string>
-    <string name="sleep_cancel">बन्दहुने समय रद्दगर्नुहोस्</string>
     <string name="jump_to_time">समयमा जानुहोस्</string>
-    <string name="subtitle_label">उपशीर्षक फाइल थप्नुहोस्</string>
     <string name="subtitle_select">उपशीर्षक फाइल छान्नुहोस्</string>
-    <string name="no_file_picker_found">प्रणालीमा कुनै पनि फाइल पिकर भेटिएन ।</string>
 
     <string name="server_domain_hint">सर्भर ठेगाना (डोमेन नाम वा आईपी)</string>
     <string name="server_folder_hint">फोल्डर पाथ (ऐच्छिक)</string>
@@ -162,7 +135,6 @@
     <string name="login">लग इन</string>
     <string name="password">पासवर्ड</string>
 
-    <string name="search_results">खोज नतिजा</string>
     <string name="search_no_result">कुनै मेडिया भेटिएन</string>
     <string name="favorites_add">मनपर्नेमा  थप्नुहोस्</string>
     <string name="favorites_remove">मनपर्नेबाट हटाउनुहोस्</string>
@@ -170,17 +142,11 @@
     <string name="favorite_added">मनपर्नेको सूचीमा सङ्ग्रह गरियो</string>
     <string name="favorite_removed">मनपर्नेको सूचीबाट हटाइयो</string>
 
-    <string name="open">खोल्नुहोस</string>
-    <string name="open_mrl">स्ट्रिम</string>
-    <string name="open_mrl_dialog_title">सञ्जाल प्रवाह खोल्नुहोस</string>
     <string name="open_mrl_dialog_msg">सञ्जाल ठेगाना राख्नुहोस्: उदा॰ http://, mms:// or rtsp://</string>
-    <string name="error_not_compatible">माफ गर्नुहोला, तपाईँको उपकरण हाल  VLC यो संस्करण द्वारा समर्थित छैन।</string>
-    <string name="error_problem">माफ गर्नुहोस, एन्ड्रोइडको लागि VLC लाई खुल्नमा सस्या भएकोले बन्दगर्नुपरेको छ ।</string>
     <string name="encountered_error_title">बजाउँदा त्रुटि</string>
     <string name="invalid_location">स्थान %1$sबजाउन सकिएन।</string>
 
     <string name="search">खोज्नुहोस</string>
-    <string name="search_history">खोज इतिहास</string>
 
 
     <string name="playback_history_title">बजाउने इतिहास</string>
@@ -210,7 +176,6 @@
     <!-- Preferences -->
     <string name="preferences">सेटिङहरू</string>
 
-    <string name="general_prefs_category">सामान्य</string>
     <string name="remove_custom_path">अनुकूलित बाटो हटाउनुहोस्</string>
     <string name="hardware_acceleration">हार्डवेयर प्रवेग</string>
     <string name="hardware_acceleration_disabled">अक्षम गरिएको छ</string>
@@ -221,17 +186,11 @@
     <string name="screen_orientation_start_lock">सुरुमा बन्द गरिएको</string>
     <string name="screen_orientation_portrait">पोट्रेट</string>
     <string name="screen_orientation_landscape">ल्यान्डस्केप</string>
-    <string name="screen_orientation_reverse_portrait">पोट्रेट उल्टो</string>
-    <string name="screen_orientation_reverse_landscape">ल्यान्डकेप उल्टो</string>
     <string name="subtitle_text_encoding">उपशीर्षक पाठ इनकोडिङ</string>
     <string name="extra_prefs_category">अतिरिक्त सेटिङहरू</string>
 
     <string name="interface_prefs_screen">इन्टरफेस</string>
-    <string name="interface_gui">प्रदर्शन</string>
-    <string name="interface_other_category">इन्टरफेस-अन्य</string>
-
     <string name="video_prefs_category">भिडियो</string>
-    <string name="video_min_group_length_first">पहिलो अक्षर मात्र</string>
     <string name="subtitles_size_small">सानो</string>
     <string name="subtitles_size_normal">सामान्य</string>
     <string name="subtitles_size_big">ठूलो</string>
@@ -248,9 +207,7 @@
     <string name="extensions_prefs_category">एक्सटेन्सन</string>
     <string name="performance_prefs_category">प्रदर्शन</string>
     <string name="advanced_prefs_category">उन्नत</string>
-    <string name="media_db_cleared">मेडिया डाटाबेस खाली गरियो!</string>
     <string name="set_locale">स्थान सेट गर्नुहोस</string>
-    <string name="set_locale_detail">रिसेट गर्न खाली छोड्नुहोस</string>
     <string name="developer_prefs_category">डेभलपर</string>
     <string name="enable_verbose_mode">वाचाल</string>
     <string name="clear_log">लग खाली गर्नुहोस्</string>
@@ -272,9 +229,6 @@
 
     <!-- Accessibility -->
     <string name="more_actions">थप कार्यहरू</string>
-    <string name="move">सार्नुहोस्</string>
-    <string name="playlist_deleted">प्लेलिस्ट मेटियो</string>
-    <string name="file_deleted">फाइल मेटियो</string>
     <string name="music_now_playing">अहिले बजिरहेको</string>
 
     <string name="permission_ask_again">अनुमति दिनुहोस्</string>
@@ -285,20 +239,13 @@
     <string name="network_shared_folders">साझा फोल्डरहरू</string>
     <string name="store_password">पासवर्ड सम्झिनुहोस्</string>
     <string name="add_to_playlist">वाद्यसूचीमा थप्नुहोस्</string>
-    <string name="snack_subloader_sub_not_found">उपशीर्षकहरू भेटिएन</string>
-    <string name="dialog_subloader_sumup">डाउनलोड सकियो</string>
     <string name="download_subtitles">उपशीर्षकहरू डाउनलोड</string>
-    <string name="preferences_languages_download">उपशीर्षकका भाषाहरू</string>
-    <string name="list_languages_download_title">उपशीर्षकका डाउलोड भाषाहरू</string>
-    <string name="service_unavailable">सेवा अनुपलब्ध</string>
-    <string name="downloading_subtitles">उपशीर्षकहरू डाउनलोड गर्दै</string>
     <string name="browse_folder">फोल्डर अन्वेषण गर्नुहोस्</string>
     <string name="listen">सुन्नुहोस्</string>
     <string name="episodes">भागहरू</string>
     <string name="movies">चलचित्रहरू</string>
     <string name="videos">भिडियोहरू</string>
     <string name="clear_playback_history">प्लेब्याक इतिहास मेटाउनुहोस्</string>
-    <string name="various_artists">विभिन्न कलाकारहरू</string>
     <string name="ml_scanning">मिडिया फाइलहरूको लागि स्क्यान गर्दै</string>
     <string name="ml_external_storage_accept">हो</string>
     <string name="ml_external_storage_decline">हैन</string>
