@@ -7,21 +7,13 @@
     <string name="other">Jiné</string>
     <string name="sortby">Třídit dle…</string>
     <string name="sortby_name">Název</string>
-    <string name="sortby_name_desc">Název (sestupně)</string>
     <string name="sortby_filename">Název souboru</string>
-    <string name="sortby_filename_desc">Název souboru (sestupně)</string>
     <string name="sortby_artist_name">Název umělce</string>
-    <string name="sortby_artist_name_desc">Název umělce (sestupně)</string>
     <string name="sortby_album_name">Název alba</string>
-    <string name="sortby_album_name_desc">Název alba (sestupně)</string>
     <string name="sortby_length">Délka</string>
-    <string name="sortby_length_desc">Délka (sestupně)</string>
     <string name="sortby_date">Datum</string>
-    <string name="sortby_date_desc">Datum (sestupně)</string>
     <string name="sortby_last_modified_date">Nedávno přidané</string>
-    <string name="sortby_last_modified_date_desc">Nedávno přidané (sestupně)</string>
     <string name="sortby_number">Počet stop</string>
-    <string name="sortby_number_desc">Počet stop (sestupně)</string>
     <string name="searchable_hint">Hledat…</string>
     <string name="history">Historie</string>
 
@@ -59,23 +51,13 @@
     <string name="confirm_delete_folder">Smazat složku \'%1$s\' a veškerý její obsah?</string>
     <string name="confirm_delete_playlist">Smazat seznam skladeb \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Odstranit \'%1$s\' ze seznamu skladeb?</string>
-    <string name="confirm_remove_from_playlist_anonymous">Odstranit ze seznamu skladeb?</string>
     <string name="ringtone_set">\'%1$s\' bylo nastaveno jako vyzváněcí melodie.</string>
     <string name="ringtone_error">Nastala chyba při nastavování vyzváněcí melodie.</string>
     <string name="pause">Pozastavit</string>
-    <string name="not_show_again">Tuto zprávu již nezobrazovat.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Neznámý umělec</string>
     <string name="unknown_album">Neznámé album</string>
     <string name="unknown_genre">Neznámý žánr</string>
-    <string name="unknown_number">Neznámý počet stop</string>
     <string name="songs">Skladby</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">1 skladba</item>
-        <item quantity="few">%d skladby</item>
-        <item quantity="many">%d skladeb</item>
-        <item quantity="other">%d skladeb</item>
-    </plurals>
     <string name="track_info_copied_to_clipboard">Informace o skladbě zkopírovány do schránky</string>
 
     <string name="artists">Umělci</string>
@@ -107,7 +89,6 @@
         <item quantity="other">%d videí</item>
     </plurals>
     <string name="internal_memory">Vnitřní paměť</string>
-    <string name="parent_folder">Vzhůru do nadřazené složky</string>
     <string name="audio">Zvuk</string>
     <string name="video">Video</string>
     <string name="bookmarks">Záložky</string>
@@ -116,16 +97,11 @@
     <string name="genres">Žánry</string>
     <string name="playlists">Seznamy skladeb</string>
     <string name="title">Název</string>
-    <string name="artist">Umělec</string>
-    <string name="album">Album</string>
-    <string name="directory">Adresář</string>
     <string name="directories">Adresáře</string>
     <string name="loading">Načítám</string>
     <string name="please_wait">Vyčkejte prosím…</string>
     <string name="nomedia">Nenalezeny žádné mediální soubory. Prosím nahrajte soubory na Vaše zařízení, nebo upravte nastavení.</string>
     <string name="noplaylist">Nebyl nalezen žádný seznam sladeb.</string>
-    <string name="mediafiles">Mediální soubory</string>
-    <string name="notavailable">nedostupné</string>
     <string name="nosubfolder">Žádná podsložka</string>
     <string name="directorynotfound">Adresář \'%1$s\' nebyl nalezen.</string>
     <string name="nohistory">Nemáte zatím žádnou historii přehraných položek.</string>
@@ -151,7 +127,6 @@
     <string name="surface_fit_screen">Přizpůsobit obrazovce</string>
     <string name="surface_fill">Vyplnit</string>
     <string name="surface_original">Vystředit</string>
-    <string name="thumbnail">Náhled</string>
     <string name="unseekable_stream">Proud bez možnosti posunu</string>
     <string name="refresh">Obnovit</string>
     <string name="track_audio">Stopa zvuku</string>
@@ -165,7 +140,6 @@
     <string name="sound_on">Zap. zvuk</string>
     <string name="sound_off">Vyp. zvuk</string>
     <string name="brightness">Jas</string>
-    <string name="navmenu">navigační nabídka</string>
     <string name="advanced">pokročilé možnosti</string>
     <string name="audio_boost_warning">Znovu posuňte nahoru pro překročení 100%</string>
     <string name="locked_in_portrait_mode">Uzamčeno v režimu na výšku\n(Dlouze podržte tlačítko pro zrušení)</string>
@@ -183,15 +157,11 @@
     <string name="track_resolution_info">Rozlíšení: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Obnovovací frekvence: %1$.3f\n</string>
 
-    <string name="tools">Nástroje</string>
     <string name="playback_speed">Rychlost přehrávání</string>
     <string name="sleep_title">Uspání</string>
     <string name="sleep_in">Uspat za</string>
-    <string name="sleep_cancel">Zrušit uspání</string>
     <string name="jump_to_time">Skočit na čas</string>
-    <string name="subtitle_label">Přidat soubor s titulky</string>
     <string name="subtitle_select">Vybrat soubor s titulky</string>
-    <string name="no_file_picker_found">V systému nenalezen žádný program pro výběr souborů.</string>
 
     <string name="server_add_title">Přidejte nový server do oblíbených</string>
     <string name="server_domain_hint">Adresa serveru (název domény nebo adresa IP)</string>
@@ -203,7 +173,6 @@
     <string name="login">Přihlášení</string>
     <string name="password">Heslo</string>
 
-    <string name="search_results">Výsledky vyhledávání</string>
     <string name="search_no_result">Nebylo nalezeno žádné médium</string>
     <string name="favorites_add">Přidat k oblíbeným</string>
     <string name="favorites_remove">Odstranit z oblíbených</string>
@@ -211,25 +180,17 @@
     <string name="favorite_added">Uloženo do oblíbených</string>
     <string name="favorite_removed">Odstraněno z oblíbených</string>
 
-    <string name="open">Otevřít</string>
-    <string name="open_mrl_dialog_title">Otevřít síťový proud</string>
     <string name="open_mrl_dialog_msg">Zadejte adresu URL: e.g. http://, mms:// or rtsp://</string>
-    <string name="error_not_compatible">Bohužel Vaše zařízení není v současné době podporované touto verzí VLC pro Android™.</string>
-    <string name="error_problem">Lituji, ale VLC pro Android mělo problém s načtením a muselo se ukončit.</string>
-    <string name="error_message_is">Chybová zpráva je (prosím oznamte při ladění):\n</string>
     <string name="encountered_error_title">Chyba přehrávání</string>
     <string name="encountered_error_message">VLC s tímto médiem narazilo na chybu.\nZkuste prosím obnovit knihovnu médií.</string>
     <string name="invalid_location">Nelze přehrát umístění %1$s</string>
 
     <string name="search">Hledat</string>
-    <string name="search_history">Historie hledání</string>
 
 
     <string name="playback_history_title">Historie přehrávání</string>
     <string name="playback_history_summary">Uložit všechna přehraná média v části Historie</string>
     <string name="playback_speed_title">Uložit rychlost přehrávání</string>
-    <string name="playback_speed_summary">Pamatovat si nastavenou rychlost přehrávání</string>
-
     <string name="play_button">Tlačítko přehrát</string>
 
     <!-- Tips -->
@@ -265,13 +226,11 @@
     <!-- Preferences -->
     <string name="preferences">Nastavení</string>
 
-    <string name="general_prefs_category">Obecné</string>
     <string name="directories_summary">Vyberat adresáře zahrnuté do knihovny médií</string>
     <string name="add_custom_path">Přidat vlastní cestu</string>
     <string name="add_custom_path_description">Zadejte dodatečnou cestu k adresáři na prohledání:</string>
     <string name="remove_custom_path">Odstranit vlastní cestu</string>
     <string name="hardware_acceleration">Hardwarová akcelerace</string>
-    <string name="hardware_acceleration_summary">Zakázána: lepší stabilita.\nDekódování: může vylepšit výkon.\nPlná: ještě více zlepší výkon.</string>
     <string name="hardware_acceleration_disabled">Zakázána</string>
     <string name="hardware_acceleration_decoding">Akcelerace dekódování</string>
     <string name="hardware_acceleration_full">Plná akcelerace</string>
@@ -283,34 +242,21 @@
     <string name="screen_orientation_start_lock">Uzamčeno při spuštění</string>
     <string name="screen_orientation_portrait">Na výšku</string>
     <string name="screen_orientation_landscape">Na šířku</string>
-    <string name="screen_orientation_reverse_portrait">Obráceně na výšku</string>
-    <string name="screen_orientation_reverse_landscape">Obráceně na šířku</string>
     <string name="enable_black_theme">Tmavý motiv</string>
-    <string name="enable_black_theme_summary">Změňte barvy rozhraní pro větší pohodlí v prostředí s nízkým světlem.</string>
     <string name="subtitle_text_encoding">Znaková sada titulků</string>
     <string name="daynight_title">Denní/Noční režim</string>
     <string name="daynight_follow_system_title">Dle nastavení systému</string>
-    <string name="daynight_battery_title">Dle nastavení Spořice baterie</string>
-    <string name="daynight_summary">Automaticky přepnout do nočního režimu ve vhodném čase</string>
 
     <string name="extra_prefs_category">Další nastavení</string>
 
     <string name="interface_prefs_screen">Rozhraní</string>
-    <string name="interface_gui">Displej</string>
     <string name="interface_secondary_display_category_title">Sekundární displej</string>
-    <string name="interface_secondary_display_category_summary">Nastavení pro další připojené displeje (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Upřednostnit klon</string>
-    <string name="enable_clone_mode_summary">Klonovat obrazovku zařízení bez dálkového ovládání.</string>
-    <string name="interface_other_category">Rozhraní - Další</string>
-
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Skupinová videa</string>
     <string name="video_min_group_length_disable">Neseskupovat videa</string>
     <string name="video_min_group_length_folder">Seskupit dle složky</string>
     <string name="video_min_group_length_name">Seskupit podle názvu</string>
-    <string name="video_min_group_length_first">Pouze první písmeno</string>
-    <string name="video_min_group_length_short">Krátký počet písmen (6)</string>
-    <string name="video_min_group_length_long">Dlouhý počet písmen (9)</string>
     <string name="media_fast_seek">Rychlý posun</string>
     <string name="media_fast_seek_summary">Posun v médiu je rychlejší, ale méně přesný</string>
     <string name="video_transition_title">Přechod videa</string>
@@ -319,8 +265,6 @@
     <string name="media_seen_summary">Označit video jako zhlédnuté pokud jej přehrajete až do konce</string>
     <string name="force_play_all_summary">Přehrát všechna videa, počínaje videem na které jste klikli</string>
     <string name="force_play_all_title">Režim seznamu skladeb videa</string>
-    <string name="save_brightness_summary">Zapamatovat úroveň jasu v přehrávači videa</string>
-    <string name="save_brightness_title">Uložit úroveň jasu videa</string>
     <string name="save_audiodelay_summary">Uložit jednotlivé zpoždění zvuku pro každé video</string>
     <string name="save_audiodelay_title">Uložit zpoždění zvuku</string>
     <string name="enable_brightness_gesture_title">Gesto jasu</string>
@@ -355,8 +299,6 @@
     <string name="audio_prefs_category">Zvuk</string>
     <string name="lockscreen_cover_title">Obal média na zámku obrazovky</string>
     <string name="lockscreen_cover_summary">Pokud dostupný, nastaví obal aktuálního média jako pozadí zámku obrazovky</string>
-    <string name="playlist_animate_scroll_title">Animovat automatický posun aktuálního seznamu skladeb</string>
-    <string name="playlist_animate_scroll_summary">Animovat posun při změně skladby</string>
     <string name="list_title_ellipsize_default">Výchozí</string>
     <string name="list_title_ellipsize_left">Vlevo</string>
     <string name="list_title_ellipsize_right">Vpravo</string>
@@ -366,14 +308,9 @@
     <string name="headset_prefs_category">Sluchátka</string>
     <string name="enable_headset_detection">Detekovat sluchátka</string>
     <string name="enable_headset_detection_summary">Detekce připojení a odpojení sluchátek</string>
-    <string name="enable_headset_actions_title">Zkratky pro vzdálené ovládání</string>
-    <string name="enable_headset_actions_summary">Dvojitým stisknutím tlačítka \"Přehrát\" přeskočíte na další skladbu a dlouhým stisknutím na předchozí</string>
     <string name="enable_play_on_headset_insertion">Pokračovat v přehrávání při připojení sluchátek</string>
     <string name="enable_play_on_headset_insertion_summary">Jinak pozastavit</string>
-    <string name="enable_steal_remote_control">Výhradní ovládání hlasitosti sluchátek</string>
-    <string name="enable_steal_remote_control_summary">Obchází konflikt ukradením vzdálené kontroly od ostatních aplikací. Zabraňuje vytáčení při dvojitém stisku na telefonech HTC.</string>
     <string name="aout">Zvukový výstup</string>
-    <string name="aout_summary">Změnit metodu pro výstup zvuku používanou VLC.</string>
     <string name="audio_ducking_title">Snížit hlasitost VLC při oznámeních</string>
     <string name="audio_ducking_summary">Pomáhá slyšet zvuková upozornění, navigační pokyny, nebo asistenta</string>
     <string name="casting_category">Vysílání</string>
@@ -386,12 +323,10 @@
     <string name="casting_quality_medium">Střední</string>
     <string name="casting_quality_low">Nízká</string>
     <string name="casting_quality_lowcpu">Nejnižší</string>
-    <string name="cast_performance_warning">Vysílání videa vyžaduje převod. Ten může využívat veškerý dostupný výkon a rychle vybíjet baterii.</string>
     <string name="casting_connected_renderer">Připojeno k interpreteru \'%1$s\'</string>
     <string name="artists_show_all_title">Zobrazit všechny umělce</string>
 
     <string name="extensions_prefs_category">Rozšíření</string>
-    <string name="extensions_enable_category">Vyberte rozšíření, která chcete povolit</string>
     <string name="extensions_empty">Nebyla zjištěna žádná rozšíření</string>
     <string name="extension_permission_title">Zapnout nové rozšíření \"%1$s\"?</string>
     <string name="extension_permission_checkbox_title">Zobrazit v %1$s</string>
@@ -402,34 +337,22 @@
 
     <string name="performance_prefs_category">Výkon</string>
     <string name="chroma_format">Vynutit chroma videa</string>
-    <string name="chroma_format_summary">RGB 32-bit: výchozí chroma\nRGB 16-bit: rychlejší, avšak nižší kvalita\nYUV: nejlepší vlastnosti, avšak nefunguje na všech zařízeních. Vyžaduje Android 2.3 a novější.</string>
     <string name="deblocking">Nastavení filtru odstranění kostek z videa</string>
-    <string name="deblocking_summary">Změňte nastavení filtru odstranění kostek ve videu. Zvýší kvalitu obrazu. Pouze pro pokročilé uživatele.</string>
     <string name="deblocking_always">Úplné odstranění kostek (nejpomalejší)</string>
     <string name="deblocking_nonref">Střední odstraňování kostek</string>
     <string name="deblocking_nonkey">Nízké odstraňování kostek</string>
     <string name="deblocking_all">Žádné odstraňování kostek (nejrychlejší)</string>
     <string name="enable_frame_skip">Přeskakování snímků</string>
-    <string name="enable_frame_skip_summary">Zrychlí dekódování, ale může snížit kvalitu videa.</string>
     <string name="enable_time_stretching_audio">Časové roztažení zvuku</string>
-    <string name="enable_time_stretching_audio_summary">Zrychlení a zpomalení zvuku bez změny výšky (vyžaduje rychlé zařízení).</string>
-
     <string name="advanced_prefs_category">Pokročilé</string>
-    <string name="save_video_none">Neukládat rychlost</string>
-    <string name="save_video_session">Uložit rychlost během relace</string>
-    <string name="save_video_always">Uložit rychlost napříč relacemi</string>
     <string name="auto_rescan">Automaticky znovu prohledávat</string>
     <string name="auto_rescan_summary">Automaticky prohledávat zařízení pro nové nebo smazané soubory při spuštění aplikace</string>
     <string name="dump_media_db">Vysypat databázi médií</string>
     <string name="dump_media_db_summary">Kopírovat databázi do kořene interního úložiště</string>
     <string name="clear_media_db">Vyčistit databázi médií</string>
     <string name="clear_history">Vymazat historii</string>
-    <string name="media_db_cleared">Databáze médií vyčištěna</string>
     <string name="set_locale">Nastavit jazyk</string>
-    <string name="set_locale_detail">Ponechte prázdné pro výchozí</string>
-    <string name="set_locale_popup">Ukončete a restartujte VLC pro projevení změn</string>
     <string name="network_caching">Velikost vyrovnávací paměti síťě</string>
-    <string name="network_caching_summary">Velikost zásobníku pro síťová média (v ms). Nefunguje s hardwarovým dekódováním. Ponechte prázdné pro výchozí hodnotu.</string>
     <string name="resume_playback_title">Obnovit přehrávání po hovoru</string>
     <string name="resume_playback_summary">Jinak pozastavit</string>
     <string name="blurred_cover_background_title">Rozmazaný obal na pozadí</string>
@@ -474,8 +397,6 @@
     <string name="no_internet_connection">Zkontrolujte své internetové připojení</string>
     <string name="some_error_occurred">Nastala chyba. Prosím opakujte akci  za pár vteřin</string>
 
-    <string name="drawer_open">Otevřít navigační šuplík</string>
-    <string name="drawer_close">Zavřít navigační šuplík</string>
     <string name="network_browsing">Místní síť</string>
     <string name="browsing">Procházení</string>
 
@@ -483,15 +404,12 @@
 
     <string name="audio_delay">Zpoždění zvuku</string>
     <string name="spu_delay">Zpoždění titulků</string>
-    <string name="sleep_time_not_set">nenastaveno</string>
     <string name="network_shares_discovery">Hledám síťové disky…</string>
     <string name="network_empty">Adresář je prázdný.</string>
     <string name="network_connection_needed">Žádné spojení s místní sítí.</string>
     <string name="search_hint">Hledat média</string>
     <string name="search_in_list_hint">Hledat v aktuálním seznamu</string>
     <string name="search_global">Prohledat v celé knihovně médií</string>
-    <string name="directory_show_medialib">Zobrazit v knihovně médií</string>
-    <string name="directory_hide_medialib">Nezobrazovat v knihovně médií</string>
     <string name="playlist_save">Uložit seznam skladeb</string>
     <string name="playlist_name_hint">Název seznamu skladeb</string>
     <string name="go_to_chapter">Přejít na kapitolu…</string>
@@ -499,7 +417,6 @@
     <string name="resume_from_position">Obnovit z poslední pozice</string>
     <string name="confirm_resume">Obnovit z poslední pozice?</string>
     <string name="confirm_resume_title">Pokračovat v přehrávání</string>
-    <string name="directory_empty">Adresář je prázdný</string>
     <string name="tv_ui_title">Rozhraní Android TV</string>
     <string name="tv_ui_summary">Změnit uživatelské rozhraní na motiv upravený pro TV</string>
     <string name="medialibrary">Knihovna médií</string>
@@ -507,10 +424,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">Více činností</string>
-    <string name="move">Přesunout</string>
     <string name="back_quit_lock">Stiskněte znovu zpět pro ukončení videa</string>
-    <string name="playlist_deleted">Seznam skladeb smazán</string>
-    <string name="file_deleted">Soubor smazán</string>
     <string name="stream_deleted">Proud byl odstraněn</string>
     <string name="no_subs_found">V adresáři nejsou žádné titulky</string>
     <string name="music_now_playing">Nyní se hraje</string>
@@ -540,7 +454,6 @@
     <string name="extension_empty">Nelze zobrazit žádné položky. Můžete je přidat v nastavení rozšíření.</string>
 
     <string name="opengl_title">Použít OpenGL ES2</string>
-    <string name="opengl_summary">OpenGL ES2 je standartně používáno pro softwarové a hardwarové dekódování, pokud je potřeba (360° videa)</string>
     <string name="opengl_automatic">Automaticky</string>
     <string name="opengl_on">Zapnout</string>
     <string name="opengl_off">Vypnout</string>
@@ -552,29 +465,15 @@
     <string name="popup_playback_title">Přehrávat video ve vyskakovacím okně</string>
     <string name="popup_playback">Přehrávání videa ve vyskakovacím okně</string>
     <string name="popup_expand">Roztáhnout video</string>
-    <string name="snack_subloader_sub_found">Titulky byly staženy</string>
-    <string name="snack_subloader_sub_not_found">Titulky nebyly nalezeny</string>
-    <string name="dialog_subloader_success">Titulky nalezeny pro:</string>
-    <string name="dialog_subloader_fails">Titulky nenalezeny pro:</string>
-    <string name="dialog_subloader_sumup">Stahování dokončeno</string>
     <string name="download_subtitles">Stáhnout titulky</string>
-    <string name="preferences_languages_download">Jazyky titulků</string>
-    <string name="list_languages_download_summary">Jazyky ke stažení při získávání titulků</string>
-    <string name="list_languages_download_title">Jazyky stažených titulků</string>
-    <string name="service_unavailable">Služba je nedostupná</string>
-    <string name="subs_dl_lang_fail">Nepodařilo se nastavit jazyk titulků, zkuste jej změnit v nastavení aplikace</string>
-    <string name="downloading_subtitles">Stahování titulků</string>
     <string name="browse_folder">Procházet složku</string>
     <string name="listen">Poslouchat</string>
-    <string name="subtitles_download_title">Stáhnout titulky</string>
-    <string name="connecting">Připojování…</string>
     <string name="save_bluetooth_delay">nastavit zpoždění pro bluetooth zařízení</string>
     <string name="episodes">epizody</string>
     <string name="movies">filmy</string>
     <string name="videos">videa</string>
     <string name="videos_all">Všechna videa</string>
     <string name="clear_playback_history">Vymazat historii přehrávání</string>
-    <string name="various_artists">Různí umělci</string>
     <string name="ml_scanning">Prohledávání složek s médii</string>
     <string name="ml_parse_media">Zpracovávání média</string>
     <string name="ml_discovering">Prohledávání</string>
@@ -609,7 +508,6 @@
     <string name="browser_storages">Úložiště</string>
     <string name="msg_delete_failed">Smazání média %1$s selhalo</string>
     <string name="renderer_list_title">Displeje</string>
-    <string name="feedback_player_crashed">Omlouváme se, VLC právě havarovalo. Prosím zkuste to znovu.</string>
     <string name="sdcard_permission_dialog_title">Musíte udělit VLC práva k zápisu na kartu SD</string>
     <string name="sdcard_permission_dialog_message">VLC nemůže tento soubor smazat bez oprávnění k zápisu.\nProsím přejděte na kartu SD a klikněte na \"Vybrat\".\nV pravém horním rohu obrazovky možná budete muset kliknout na \"Zobrazit kartu SD\"</string>
     <string name="dialog_sd_wizard">Zobrazit</string>
@@ -622,7 +520,6 @@
     <string name="audio_task_cleared_summary">Zastavit přehrávání při přesunutí aplikace na pozadí</string>
     <string name="playback_rewind">Vzad</string>
     <string name="playback_forward">Vpřed</string>
-    <string name="ml_wizard_title">Výběr knihovny médií VLC</string>
     <string name="ml_wizard_scan_checkbox">Prohledat zařízení pro multimediální obsah</string>
     <string name="ml_wizard_description">Vyberte zda má VLC prohledat vaše zařízení a vyrobit knihovnu médií, nebo zda jej chcete používat jako jednoduchý přehrávač s integrovaným prohlížečem.</string>
     <string name="tv_my_new_videos">Nová videa</string>
@@ -650,13 +547,11 @@
     <string name="ctx_player_video_track">Vyberte stopu videa</string>
     <string name="ctx_player_audio_track">Stopa zvuku</string>
     <string name="ctx_player_subs_track">Stopa titulků</string>
-    <string name="ctx_player_tracks_title">Stopy média</string>
     <string name="ctx_pip_title">Vyskakovací přehrávač</string>
     <string name="device_dialog_title">Vloženo externí zařízení</string>
     <string name="device_dialog_message">U vaši TV bylo zjištěno připojení nového úložného zařízení, chcete s ním manipulovat pomocí VLC? </string>
     <string name="videos_folders_title">Videa podle složek</string>
     <string name="videos_groups_title">Skupiny videí</string>
-    <string name="video_save_remote_setting">Automaticky aktivovat režim vzdáleného ovládání?</string>
     <string name="video_remote_enable">Přepnout do režimu vzdáleného ovládání</string>
     <string name="video_remote_disable">Duplikovat obrazovku</string>
     <string name="removed_from_playlist_anonymous">Položka/y odebrány ze seznamu</string>
@@ -665,13 +560,11 @@
     <string name="medialibrary_scan_explanation">VLC umí automaticky prohledat zařízení a najít mediální soubory</string>
     <string name="done">Dokončeno</string>
     <string name="onboarding_scanning_enable">Povolit VLC prohledat zařízení pro multimédia</string>
-    <string name="onboarding_scan_whole">VLC může prohledat celou moji SD kartu</string>
     <string name="onboarding_scan_customize">Chci vybrat, které složky bude VLC prohledávat</string>
     <string name="button_medialibrary_preferences">Přejít do Nastavení knihovny médií</string>
     <string name="light_theme">Světlý vzhled</string>
     <string name="add">Přidat</string>
     <string name="add_to_new_playlist">Přidat do nového seznamu skladeb</string>
-    <string name="theme_follow_system_mode">Dle nastavení systému</string>
     <string name="resume_card_message">Obnovit přehrávání %1$s</string>
     <string name="misc">Různé</string>
     <string name="device_default">Výchozí zařízení</string>
@@ -686,7 +579,6 @@
     <string name="validation_delete_playlist">Opravdu chcete smazat tento seznam skladeb?</string>
     <string name="display_in_list">Zobrazit v seznamu</string>
     <string name="display_in_grid">Zobrazit v mřížce</string>
-    <string name="dont_ask_again">Znovu se neptat</string>
     <string name="welcome_beta_title">VLC Beta</string>
     <string name="send">Odeslat</string>
     <string name="report_a_bug">Nahlásit chybu</string>
@@ -698,10 +590,8 @@
     <string name="ask_confirmation">Zeptat se</string>
     <string name="add_to_scanned">Prohledat tuto složku</string>
     <string name="directory_not_scanned">Tento adresář nemůže být prohledán</string>
-    <string name="video_group_size">Seskupit videa podle názvu</string>
     <string name="url_copied_to_clipboard">URL adresa byla zkopírována do schránky</string>
     <string name="share">Sdílet</string>
-    <string name="all_movies">Všechny filmy</string>
     <string name="header_movies">Filmy</string>
     <string name="season_number">Řada %s</string>
     <string name="next_episode">Další díl</string>
