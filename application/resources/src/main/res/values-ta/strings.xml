@@ -7,21 +7,13 @@
     <string name="other">பிற</string>
     <string name="sortby">வரிசைப்படுத்து…</string>
     <string name="sortby_name">பெயர்</string>
-    <string name="sortby_name_desc">பெயர் (இறங்க)</string>
     <string name="sortby_filename">கோப்பு பெயர்</string>
-    <string name="sortby_filename_desc">கோப்பு பெயர் (விளக்கம்)</string>
     <string name="sortby_artist_name">கலைஞரின் பெயர்</string>
-    <string name="sortby_artist_name_desc">கலைஞரின் பெயர் (இறங்க)</string>
     <string name="sortby_album_name">தொகுப்பின் பெயர்</string>
-    <string name="sortby_album_name_desc">தொகுப்பின் பெயர் (இறங்க)</string>
     <string name="sortby_length">நீளம்</string>
-    <string name="sortby_length_desc">அளவு (இறங்க)</string>
     <string name="sortby_date">தேதி</string>
-    <string name="sortby_date_desc">தேதி (இறங்க)</string>
     <string name="sortby_last_modified_date">சமீபத்தில் சேர்க்கப்பட்டவை</string>
-    <string name="sortby_last_modified_date_desc">சமீபத்தில் சேர்க்கப்பட்டவை(இறங்கு)</string>
     <string name="sortby_number">தடங்களின் எண்ணிக்கை</string>
-    <string name="sortby_number_desc">தடங்களின் எண்ணிக்கை (இறங்க)</string>
     <string name="searchable_hint">தேடு…</string>
     <string name="history">வரலாறு</string>
 
@@ -58,18 +50,10 @@
     <string name="ringtone_set">\'%1$s\' கோப்பு அழைப்போசையாக அமைக்கப்பட்டது.</string>
     <string name="ringtone_error">அழைப்போசையை அமைக்கும்போது பிழை ஏற்பட்டது.</string>
     <string name="pause">இடைநிறுத்தம்</string>
-    <string name="not_show_again">இச்செய்தியை மறுமுறைக் காட்டாதே.</string>
-    <string name="info_title">விஎல்சி</string>
     <string name="unknown_artist">தெரியாத கலைஞர்</string>
     <string name="unknown_album">தெரியாத தொகுப்பு</string>
     <string name="unknown_genre">தெரியாத வகை</string>
-    <string name="unknown_number">தடங்களின் எண்ணிக்கை தெரியவில்லை</string>
     <string name="songs">பாடல்கள்</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">1 பாடல்</item>
-        <item quantity="other">%d பாடல்கள்</item>
-    </plurals>
-
     <string name="artists">கலைஞர்கள்</string>
     <string name="albums">தொகுப்புகள்</string>
     <string name="tracks">தடங்கள்</string>
@@ -91,7 +75,6 @@
         <item quantity="other">%d காணொளிகள்</item>
     </plurals>
     <string name="internal_memory">உள்ளாரந்த சேமிப்பகம்</string>
-    <string name="parent_folder">மூல அடைவுக்குச் செல்</string>
     <string name="audio">ஒலி</string>
     <string name="video">காணொளி</string>
     <string name="bookmarks">புத்தகக்குறிகள்</string>
@@ -100,16 +83,11 @@
     <string name="genres">வகைகள்</string>
     <string name="playlists">பட்டியல்கள்</string>
     <string name="title">தலைப்பு</string>
-    <string name="artist">கலைஞர்</string>
-    <string name="album">தொகுப்பு</string>
-    <string name="directory">அடைவு</string>
     <string name="directories">அடைவுகள்</string>
     <string name="loading">ஏற்றுகிறது</string>
     <string name="please_wait">காத்திருக்கவும்…</string>
     <string name="nomedia">ஊடகக் கோப்புகள் காணவில்லை, சாதனத்தில் சில கோப்புகளை ஏற்று (அ) முன்னுரிமைகளைச் சரிச்செய்யவும்.</string>
     <string name="noplaylist">இயக்க பட்டியல் கண்டறியப்பட்டது.</string>
-    <string name="mediafiles">ஊடகக் கோப்புகள்</string>
-    <string name="notavailable">இல்லை</string>
     <string name="directorynotfound">\'%1$s\' அடைவுப் பாதைக் காணப்படவில்லை.</string>
     <string name="nohistory">வரலாறு ஏதுமில்லை.</string>
     <string name="validation">கண்டிப்பாக?</string>
@@ -133,7 +111,6 @@
     <string name="surface_fit_screen">திரைக்குப் பொருந்து</string>
     <string name="surface_fill">நிரப்பு</string>
     <string name="surface_original">நடுவில்</string>
-    <string name="thumbnail">கைரேகை</string>
     <string name="unseekable_stream">படிக்கயிலாத ஓடம்</string>
     <string name="refresh">புதுப்பி</string>
     <string name="track_audio">ஒலி தடம்</string>
@@ -147,7 +124,6 @@
     <string name="sound_on">ஒலியைச் செயல்படுத்து</string>
     <string name="sound_off">ஒலியை அணை</string>
     <string name="brightness">வெளிச்சம்</string>
-    <string name="navmenu">வழிசெலுத்தல்  மெனு</string>
     <string name="advanced">மேம்பட்ட தேர்வுகள்</string>
     <string name="audio_boost_warning">100%-க்கு அப்பால் செல்ல மீண்டும் மேல் நோக்கி செலுத்து</string>
     <plurals name="track_channels_info_quantity">
@@ -159,15 +135,11 @@
     <string name="track_resolution_info">தெளிதிறன்: %1$dx%2$d\n</string>
     <string name="track_framerate_info">சட்டக விகிதம்: %1$.3f\n</string>
 
-    <string name="tools">கருவிகள்</string>
     <string name="playback_speed">இயக்க வேகம்</string>
     <string name="sleep_title">தூங்கு கடிகாரம்</string>
     <string name="sleep_in">தூங்க</string>
-    <string name="sleep_cancel">தூங்கு கடிகாரத்தை ரத்துச்செய்</string>
     <string name="jump_to_time">நேரத்திற்கு தாவு</string>
-    <string name="subtitle_label">துணைத்தலைப்பு கோப்பைச் சேர்</string>
     <string name="subtitle_select">துணைத்தலைப்பு கோப்பை தேர்</string>
-    <string name="no_file_picker_found">கணினியில் எந்த ஒரு தேர்வுப் கருவியும் இல்லை.</string>
 
     <string name="server_domain_hint">சேவையகத்தின் முகவரி (Domain பெயர் அல்லது IP)</string>
     <string name="server_username_hint">பயனர்பெயர்</string>
@@ -175,24 +147,16 @@
     <string name="login">உள் நுழை</string>
     <string name="password">கடவுச்சொல்</string>
 
-    <string name="search_results">தேடல் முடிவுகள்</string>
     <string name="search_no_result">மீடியா எதுவும் இல்லை</string>
     <string name="favorites_add">பிடித்தவையில் சேர்</string>
     <string name="favorites_remove">பிடித்தப்பட்டியலில் இருந்து நீக்கு</string>
     <string name="favorites_edit">தொகு</string>
     <string name="favorite_added">பிடித்தபட்டியலில் இணைக்க</string>
-    <string name="open">திற</string>
-    <string name="open_mrl">ஓடை</string>
-    <string name="open_mrl_dialog_title">பிணைய ஓடத்தைத் திற</string>
-    <string name="error_not_compatible">மன்னிக்கவும், ஆண்ட்ராய்டு™ VLC பதிப்பு உங்கள் சாதனத்தை ஆதரிக்கவில்லை.</string>
-    <string name="error_problem">மன்னிக்கவும், ஆண்ட்ராய்டிற்கான VLC ஐ ஏற்றுவதில் பிரச்சனை எனவே மூடவும.</string>
-    <string name="error_message_is">பிரிச்சனைக்கான விவரம் (வழுநீக்கத்தின் போது இதைக் குறிப்பிடவும்):\n</string>
     <string name="encountered_error_title">இயக்க பிழை</string>
     <string name="encountered_error_message">இவ்வூடகத்தில் விஎல்சி பிழைக் கண்டுள்ளது.\nஊடகத் தொகுப்பைப் புதுப்பித்து முயற்சிக்கவும்.</string>
     <string name="invalid_location">%1$s இவ்விடத்தை இயக்க முடியாது.</string>
 
     <string name="search">தேடு</string>
-    <string name="search_history">தேடல் வரலாறு</string>
 
 
     <string name="playback_history_title">இயக்க வரலாறு</string>
@@ -229,13 +193,11 @@
     <!-- Preferences -->
     <string name="preferences">அமைப்புகள்</string>
 
-    <string name="general_prefs_category">பொது</string>
     <string name="directories_summary">அடைவுகளைவத் தேர்வுச்செய்து ஊடகத் தொகுப்பில் சேர்க்கவும்</string>
     <string name="add_custom_path">ஒரு தனிப்பயன் பாதையைச் சேர்</string>
     <string name="add_custom_path_description">வருடித் தேட கூடுதல் தனிப் பாதையைச் சேர் :</string>
     <string name="remove_custom_path">தனிப் பாதையை நீக்கு</string>
     <string name="hardware_acceleration">வன்பொருள் முடுக்கம்</string>
-    <string name="hardware_acceleration_summary">முடங்கியது: நல்ல நிலைத்தன்மை.\nகுறிவிலக்கம்: செயல் திறனைக் கூட்டலாம்.\nமுழுமை: செயல் திறனை இன்னமும் கூட்டலாம்.</string>
     <string name="hardware_acceleration_disabled">முடங்கியது</string>
     <string name="hardware_acceleration_decoding">குறிவிலக்க முடுக்கம்</string>
     <string name="hardware_acceleration_full">முழு முடுக்கம்</string>
@@ -247,22 +209,15 @@
     <string name="screen_orientation_start_lock">துவக்கத்தில் பூட்டிய</string>
     <string name="screen_orientation_portrait">உருவப்படம்</string>
     <string name="screen_orientation_landscape">இயற்கைநிலக்காட்சி</string>
-    <string name="screen_orientation_reverse_portrait">தலைகீழ் உருவப்படம்</string>
-    <string name="screen_orientation_reverse_landscape">தலைகீழ் இயற்கைநிலக்காட்சி</string>
     <string name="subtitle_text_encoding">துணைத்தலைப்பு உரை குறியாக்கம்</string>
     <string name="daynight_title">பகல் இரவு முறை</string>
     <string name="extra_prefs_category">கூடுதல் அமைவுகள்</string>
 
     <string name="interface_prefs_screen">இடைமுகம்</string>
-    <string name="interface_gui">காட்சி</string>
     <string name="interface_secondary_display_category_title">இரண்டாம் திரை</string>
     <string name="enable_clone_mode">குளோனை விரும்பு</string>
-    <string name="enable_clone_mode_summary">தொலைநிலை கட்டுபாடில்லாமலே திரைகளை நகலெடு.</string>
-    <string name="interface_other_category">இடைமுகப்பு - பிற</string>
-
     <string name="video_prefs_category">காணொளி</string>
     <string name="video_min_group_length_title">குழு காணொளிகள்</string>
-    <string name="video_min_group_length_first">முதல் எழுத்து மட்டும்</string>
     <string name="enable_brightness_gesture_title">வெளிச்ச சைகை</string>
     <string name="enable_brightness_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் வெளிச்சத்தை கட்டுப்படுத்து</string>
     <string name="enable_volume_gesture_title">ஒலிச்சத்தம் சைகை</string>
@@ -288,10 +243,7 @@
     <string name="list_title_ellipsize_right">வலது</string>
     <string name="list_title_ellipsize_middle">நடு</string>
     <string name="enable_headset_detection">தலைப்பொறி கண்டறியப்பட்டது</string>
-    <string name="enable_steal_remote_control">பிரத்தியேக தலைப்பொறி தொலைநிலை கட்டுப்பாடு</string>
-    <string name="enable_steal_remote_control_summary">தொலைநிலை கட்டுப்பாட்டை பிற பயன்பாடுகள் திருடுவதை தடுப்பதன் மூலம் மோதல்களை தவிர்க்கலாம். இது HTC பேசிகளில் இரட்டை சொடுக்கல் மூலம் எண்கள் அழைத்தலை தடுக்க முடியும்.</string>
     <string name="aout">ஒலி வெளியீடு</string>
-    <string name="aout_summary">ஒலியை வெளியிட VLC பயன்படுத்தும் முறையை மாற்று.</string>
     <string name="casting_quality_high">அதிகபட்சம்</string>
     <string name="casting_quality_medium">சராசரி</string>
     <string name="casting_quality_low">குறைந்த</string>
@@ -304,27 +256,17 @@
 
     <string name="performance_prefs_category">செயல்திறன்</string>
     <string name="chroma_format">காணொளி கிரோமாவிற்கு கட்டாயப்படுத்து</string>
-    <string name="chroma_format_summary">RGB 32-பிட்: முன்னிருப்பு குரோமா\nRGB 16-பிட்: நல்ல செயல்திறன் ஆனால் குறைந்த தரம்\nYUV: நல்ல செயல்திறன் ஆனால் எல்லா சாதனங்களிலும் வேலைச் செய்யாது. ஆண்ட்ராய்டு 2.3+ பதிப்புகளில் மட்டுமே.</string>
     <string name="deblocking">பிரித்தெடுத்தல் வடிப்பி அமைவுகள்</string>
-    <string name="deblocking_summary">பிரித்தெடுத்தல் வடிப்பி அமைவுகள் மாற்றுதல். காணொளி தரத்தை கூட்ட முடியும். அறிவாளி பயனர்களுக்கு மட்டும்.</string>
     <string name="deblocking_always">முழு பிரித்தெடுத்தல் (மெதுவான)</string>
     <string name="deblocking_nonref">பாதி பிரித்தெடுத்தல்</string>
     <string name="deblocking_nonkey">குறைந்த பிரித்தெடுத்தல்</string>
     <string name="deblocking_all">பிரித்தெடுத்தல் இல்லை (வேகமானது)</string>
-    <string name="enable_frame_skip_summary">குறிவிலக்கத்தை அதிகரிக்கலாம் ஆனால் காணொளியின் தரத்தை குறைத்துவிடும்.</string>
     <string name="enable_time_stretching_audio">நேரம் நீட்டித்த ஒலி</string>
-    <string name="enable_time_stretching_audio_summary">சுருதி மாற்றாமல் ஒலியின் வேகத்தை அதிகரி மெதுவாக்கு (இதற்கு வேகமான சாதனம் தேவை).</string>
-
     <string name="advanced_prefs_category">அறிவாளி</string>
-    <string name="save_video_none">இயக்க வேகத்தை நினைவிற்கொள்ள வேண்டாம்</string>
     <string name="auto_rescan">தானாக மறுசோதனை</string>
     <string name="clear_media_db">ஊடக தரவுத்தளம் துடை</string>
-    <string name="media_db_cleared">ஊடக தரவுத்தளம் துடைக்கப்பட்டது!</string>
     <string name="set_locale">மொழியை அமை</string>
-    <string name="set_locale_detail">மீட்டமைக்க வெற்றாக விடு</string>
-    <string name="set_locale_popup">மாற்றங்களைப் பார்க்க VLC இலிருந்து வெளியேறி மீள்துவக்கவும்.</string>
     <string name="network_caching">பிணைய பற்றுதல்(Caching) மதிப்பு</string>
-    <string name="network_caching_summary">பிணைய ஊடகத்தை பப்பர்(buffer) செய்ய ஆகும் நேரம்(மில்லிவிநாடியில்).வன்பொருள் குறிவிலக்கத்தில் வேலைச் செய்யாது. மீட்டமைக்க வெற்றாக விடு.</string>
     <string name="quit">பயன்பாட்டை மூடியப்பின் திறக்கவும்</string>
     <string name="developer_prefs_category">உருவாக்குநர்</string>
     <string name="enable_verbose_mode">வெளித்தள்ளுதல்</string>
@@ -352,8 +294,6 @@
 
     <string name="no_result">முடிவுகள் எதுவும் இல்லை</string>
     <string name="no_internet_connection">உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்</string>
-    <string name="drawer_open">வழிச்செலுத்தல் இழுப்பறையைத் திற</string>
-    <string name="drawer_close">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
     <string name="network_browsing">உள் வலையமைப்பு</string>
     <string name="browsing">கண்டெடுக்க</string>
 
@@ -361,7 +301,6 @@
 
     <string name="audio_delay">ஒலி தாமதம்</string>
     <string name="spu_delay">துணை உரை தாமதம்</string>
-    <string name="sleep_time_not_set">ஒன்றுமில்லை</string>
     <string name="network_empty">இந்த அடைவு வெறுமையாக உள்ளது</string>
     <string name="network_connection_needed">சாதனம் உள்ளே இணைய இணைப்பு இல்லை.</string>
     <string name="search_hint">ஊடகத்தை தேடு</string>
@@ -369,16 +308,12 @@
     <string name="playlist_name_hint">தொகுப்பு பட்டியல் பெயர்</string>
     <string name="go_to_chapter">அத்தியாயம் செல்ல…</string>
     <string name="chapter">அத்தியாயம்</string>
-    <string name="directory_empty">அடைவு வெறுமையாக உள்ளது</string>
     <string name="tv_ui_title">ஆண்ட்ராய்டு  டிவி இடைமுகப்பு</string>
     <string name="medialibrary">ஊடக நூலகம்</string>
 
     <!-- Accessibility -->
     <string name="more_actions">மேலும் செயல்கள்</string>
-    <string name="move">நகர்த்து</string>
     <string name="back_quit_lock">திரும்ப அழுத்தவும் காணொளி விட்டு வெளியேற</string>
-    <string name="playlist_deleted">தொகுப்பு பட்டியல் நீக்கப்பட்டது</string>
-    <string name="file_deleted">கோப்பு நீக்கப்பட்டது</string>
     <string name="no_subs_found">இந்த அடைவில் வசன வரிகள் இல்லை</string>
     <string name="music_now_playing">இப்போ ஒடுவது</string>
 
@@ -391,16 +326,9 @@
     <string name="store_password">கடவுச்சொல்லை நினைவுகொள்</string>
     <string name="add_to_playlist">தொகுப்பு பட்டியலுடன் சேர்</string>
     <string name="popup_expand">விரிவாக்கு காணொளி</string>
-    <string name="snack_subloader_sub_not_found">வசன வரிகள் ஏதுமில்லை</string>
-    <string name="dialog_subloader_success">இதற்கான வசன வரிகள்:</string>
-    <string name="dialog_subloader_fails">இதற்கான வசன வரிகள் ஏதுமில்லை:</string>
     <string name="download_subtitles">வசன வரிகளை தரவிறக்கு</string>
-    <string name="preferences_languages_download">வசன வரிகளின் மொழி</string>
-    <string name="service_unavailable">சேவை இல்லை</string>
-    <string name="downloading_subtitles">வசன வரிகள் தறவிறக்கப்படுகிறது</string>
     <string name="browse_folder">கோப்புறையை உலாவ</string>
     <string name="listen">கேளுங்கள்</string>
-    <string name="connecting">இணக்கப்படுகிறத…</string>
     <string name="episodes">பாகங்கள்</string>
     <string name="movies">திரைப்படங்கள்</string>
     <string name="videos">காணொளிகள்</string>
