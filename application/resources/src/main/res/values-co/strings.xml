@@ -7,21 +7,13 @@
     <string name="other">Altru</string>
     <string name="sortby">Classificà da…</string>
     <string name="sortby_name">Nome</string>
-    <string name="sortby_name_desc">Nome (discend)</string>
     <string name="sortby_filename">Nome di schedariu</string>
-    <string name="sortby_filename_desc">Nome di schedariu (discend)</string>
     <string name="sortby_artist_name">Nome di l’artista</string>
-    <string name="sortby_artist_name_desc">Nome di l’artista (discend)</string>
     <string name="sortby_album_name">Nome di l’albumu</string>
-    <string name="sortby_album_name_desc">Nome di l’albumu (discend)</string>
     <string name="sortby_length">Durata</string>
-    <string name="sortby_length_desc">Durata (discend)</string>
     <string name="sortby_date">Data</string>
-    <string name="sortby_date_desc">Data (discend)</string>
     <string name="sortby_last_modified_date">Aghjunti pocu fà</string>
-    <string name="sortby_last_modified_date_desc">Aghjunti pocu fà (discend)</string>
     <string name="sortby_number">Num traccie</string>
-    <string name="sortby_number_desc">Num traccie (discend)</string>
     <string name="searchable_hint">Circà…</string>
     <string name="history">Crunulogia</string>
 
@@ -56,22 +48,13 @@
     <string name="confirm_delete_folder">Squassà u cartulare \'%1$s\' è tuttu u so cuntenutu ?</string>
     <string name="confirm_delete_playlist">Squassà a lista di lettura \'%1$s\' ?</string>
     <string name="confirm_remove_from_playlist">Caccià \'%1$s\' da a lista di lettura ?</string>
-    <string name="confirm_remove_from_playlist_anonymous">Caccià da a lista di lettura ?</string>
     <string name="ringtone_set">U schedariu %1$s\' hè statu definitu cum’è suneria.</string>
     <string name="ringtone_error">Un sbagliu hè accadutu durante a definizione di a suneria.</string>
     <string name="pause">Pausa</string>
-    <string name="not_show_again">Ùn affissà più stu messaghju torna.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artista scunnisciutu</string>
     <string name="unknown_album">Albumu scunnisciutu</string>
     <string name="unknown_genre">Generu scunnisciutu</string>
-    <string name="unknown_number">Numeru scunnisciutu di traccie</string>
     <string name="songs">Canzone</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">Una canzona</item>
-        <item quantity="other">%d canzone</item>
-    </plurals>
-
     <string name="artists">Artisti</string>
     <string name="albums">Albumi</string>
     <string name="tracks">Traccie</string>
@@ -93,7 +76,6 @@
         <item quantity="other">%d video</item>
     </plurals>
     <string name="internal_memory">Memoria interna</string>
-    <string name="parent_folder">Livellu superiore</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Indette</string>
@@ -102,16 +84,11 @@
     <string name="genres">Generi</string>
     <string name="playlists">Liste di lettura</string>
     <string name="title">Titulu</string>
-    <string name="artist">Artista</string>
-    <string name="album">Albumu</string>
-    <string name="directory">Cartulare</string>
     <string name="directories">Cartulari</string>
     <string name="loading">Caricamentu</string>
     <string name="please_wait">Aspittate per piacè…</string>
     <string name="nomedia">Alcunu media trouvu, ci vole à trasferà qualchì schedariu ver di u vostru apparechju o cambià e vostre preferenze.</string>
     <string name="noplaylist">Alcuna lista di lettura trova.</string>
-    <string name="mediafiles">Schedarii media</string>
-    <string name="notavailable">micca dispunibule</string>
     <string name="directorynotfound">U passeghju di u cartulare \'%1$s\' ùn si trova micca.</string>
     <string name="nohistory">Ùn ci hè manc’una crunulogia di ripruduzzione.</string>
     <string name="validation">Site sicuru ?</string>
@@ -136,7 +113,6 @@
     <string name="surface_fit_screen">Adattatu à u screnu</string>
     <string name="surface_fill">Riempie</string>
     <string name="surface_original">Centru</string>
-    <string name="thumbnail">Imaghjinuccia</string>
     <string name="unseekable_stream">Ùn si pò pusiziunà in u flussu</string>
     <string name="refresh">Attualizà</string>
     <string name="track_audio">Traccia audio</string>
@@ -150,7 +126,6 @@
     <string name="sound_on">Sonu</string>
     <string name="sound_off">Mutu</string>
     <string name="brightness">Lucidezza</string>
-    <string name="navmenu">listinu di navigazione</string>
     <string name="advanced">ozzioni esperti</string>
     <string name="audio_boost_warning">Sculiscià torna insù per andà à più di 100%</string>
     <string name="locked_in_portrait_mode">Bluccatu in modu verticale\n(Longa incalcata nant’à u buttone per abbandunà)</string>
@@ -166,15 +141,11 @@
     <string name="track_resolution_info">Risuluzione : %1$dx%2$d\n</string>
     <string name="track_framerate_info">Tessitura : %1$.3f\n</string>
 
-    <string name="tools">Attrezzi</string>
     <string name="playback_speed">Vitezza di ripruduzzione</string>
     <string name="sleep_title">Minuteria di veghja</string>
     <string name="sleep_in">Veghja in</string>
-    <string name="sleep_cancel">Abbandunà a veghja</string>
     <string name="jump_to_time">Saltà à a stonda</string>
-    <string name="subtitle_label">Aghjunghje un schedariu di sottutituli</string>
     <string name="subtitle_select">Selezziunà un schedariu di sottutituli</string>
-    <string name="no_file_picker_found">Alcunu selettore di schedariu ùn hè statu trovu nant’à u sistema.</string>
 
     <string name="server_add_title">Aghjunghje un novu servitore à i favuriti</string>
     <string name="server_domain_hint">Indirizzu di u servitore (nome di duminiu o IP)</string>
@@ -186,7 +157,6 @@
     <string name="login">Identificazione</string>
     <string name="password">Parolla d’entrata</string>
 
-    <string name="search_results">Risultati di a ricerca</string>
     <string name="search_no_result">Alcunu media trouvu</string>
     <string name="favorites_add">Aghjunghje à i favuriti</string>
     <string name="favorites_remove">Caccià da i favuriti</string>
@@ -194,26 +164,17 @@
     <string name="favorite_added">Arregistrà ver di i favuriti</string>
     <string name="favorite_removed">Cacciatu da i favuriti</string>
 
-    <string name="open">Apre</string>
-    <string name="open_mrl">Flussu</string>
-    <string name="open_mrl_dialog_title">Apre un flussu di reta</string>
     <string name="open_mrl_dialog_msg">Scrivite un indirizzu di reta : p.i. http://, mms:// o rtsp://</string>
-    <string name="error_not_compatible">Per disgrazia, u vostru apparechju ùn hè micca accettatu da sta versione di VLC per Android™.</string>
-    <string name="error_problem">Per disgrazia, VLC per Android™ hè statu chjosu per via d’un penseru.</string>
-    <string name="error_message_is">U messaghju di sbagliu, chì hè à indicà fer favvi spannà, hè :\n</string>
     <string name="encountered_error_title">Sbagliu di ripruduzzione</string>
     <string name="encountered_error_message">VLC hà scuntratu un sbagliu cù stu media.\nCi vole à pruvà di rinfrescà a vostra bibliuteca media.</string>
     <string name="invalid_location">A lucalizazione %1$s ùn pò micca esse sunata.</string>
 
     <string name="search">Ricerca</string>
-    <string name="search_history">Crunulogia di ricerca</string>
 
 
     <string name="playback_history_title">Crunulogia di ripruduzzione</string>
     <string name="playback_history_summary">Arregistrà tutti i media sunati in a sezzione Crunulogia</string>
     <string name="playback_speed_title">Arregistrà a Vitezza di Ripruduzzione</string>
-    <string name="playback_speed_summary">Cunservà a vitezza di ripruduzzione d’una video à l’altra</string>
-
     <string name="play_button">Buttone Sunà</string>
 
     <!-- Tips -->
@@ -250,13 +211,11 @@
     <!-- Preferences -->
     <string name="preferences">Preferenze</string>
 
-    <string name="general_prefs_category">Generale</string>
     <string name="directories_summary">Selezziunà i cartulari à include in a bibliuteca di media</string>
     <string name="add_custom_path">Aghjunghje un passeghju persunalizatu</string>
     <string name="add_custom_path_description">Scrivite un cartulare persunalizatu addiziunale à analizà :</string>
     <string name="remove_custom_path">Caccià u passeghju persunalizatu</string>
     <string name="hardware_acceleration">Accelerazione Materiale</string>
-    <string name="hardware_acceleration_summary">Disattivata : stabilità più bona.\nÀ a discudificazione : pò megliurà l’andamentu.\nCumpleta : pò ancu megliurà l’andamentu.</string>
     <string name="hardware_acceleration_disabled">Disattivata</string>
     <string name="hardware_acceleration_decoding">Accelerazione durante a discudificazione</string>
     <string name="hardware_acceleration_full">Accelerazione cumpleta</string>
@@ -268,32 +227,19 @@
     <string name="screen_orientation_start_lock">Bluccatu à l’iniziiu</string>
     <string name="screen_orientation_portrait">Verticale</string>
     <string name="screen_orientation_landscape">Orizuntale</string>
-    <string name="screen_orientation_reverse_portrait">Verticale invertitu</string>
-    <string name="screen_orientation_reverse_landscape">Orizuntale invertitu</string>
     <string name="enable_black_theme">Temu neru</string>
-    <string name="enable_black_theme_summary">Cambia i culori di l’interfaccia per un benestà in ambienti à bassa luminescenza.</string>
     <string name="subtitle_text_encoding">Cudificazione di u testu di i sottutituli</string>
     <string name="daynight_title">Modu Ghjornu-Notte</string>
     <string name="daynight_follow_system_title">Seguità u modu sistema</string>
-    <string name="daynight_battery_title">Seguità l’ecunumizatore di batteria</string>
-    <string name="daynight_summary">Cambià autumaticamente à u mumentu cunvitu ver di u modu nutturnu</string>
 
     <string name="extra_prefs_category">Preferenze cumplementarie</string>
 
     <string name="interface_prefs_screen">Interfaccia</string>
-    <string name="interface_gui">Affissà</string>
     <string name="interface_secondary_display_category_title">Screnu secundariu</string>
-    <string name="interface_secondary_display_category_summary">Preferenze quandu screni secundarii so cunnetti (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Preferisce u modu « clone »</string>
-    <string name="enable_clone_mode_summary">Duplicà l’apparechju di screnu senza telecumanda.</string>
-    <string name="interface_other_category">Interfaccia - Altri</string>
-
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Gruppà e video</string>
     <string name="video_min_group_length_folder">Gruppà da cartulare</string>
-    <string name="video_min_group_length_first">Prima lettera solu</string>
-    <string name="video_min_group_length_short">Numeru cortu di lettere (6)</string>
-    <string name="video_min_group_length_long">Numeru longu di lettere (9)</string>
     <string name="media_fast_seek">Pusiziunà rapidu</string>
     <string name="media_fast_seek_summary">Pusiziunà in un mediu hè più rapidu ma menu precisu</string>
     <string name="video_transition_title">Transizione di video</string>
@@ -302,8 +248,6 @@
     <string name="media_seen_summary">Marcà a video cum’è vista quandu hè sunata sine à a fine</string>
     <string name="force_play_all_summary">Sunà tutte e video, principiendu cù quella chì hè selezziunata</string>
     <string name="force_play_all_title">Modu di lista di lettura video</string>
-    <string name="save_brightness_summary">Arricurdassi di u livellu di lucidezza in u lettore di video</string>
-    <string name="save_brightness_title">Arregistrà u livellu di lucidezza per e video</string>
     <string name="save_audiodelay_summary">Arregistrà u cumportu audio individuale per ogni video</string>
     <string name="save_audiodelay_title">Arregistrà u cumportu audio</string>
     <string name="enable_brightness_gesture_title">Lucidezza à tastu</string>
@@ -338,21 +282,14 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Cuprendula nant’à u screnu quandu l’urdinatore hè bluccatu</string>
     <string name="lockscreen_cover_summary">S’ellu hè dispunibule, definisce a cuprendula attuale cum’è tappizzeria di screnu quandu l’urdinatore hè bluccatu</string>
-    <string name="playlist_animate_scroll_title">Animà a sfilarata autumatica di a lista di lettura attuale</string>
-    <string name="playlist_animate_scroll_summary">Animà a sfilarata à u cambiu di media</string>
     <string name="audio_boost_title">Aizzu-Auto</string>
     <string name="audio_boost_summary">Permette d’accresce u vulume sin’à 200%</string>
     <string name="headset_prefs_category">Cascu</string>
     <string name="enable_headset_detection">Avvintà u cascu</string>
     <string name="enable_headset_detection_summary">Avvintà l’inserzione è a cacciatura di u cascu</string>
-    <string name="enable_headset_actions_title">Accurtatoghjii di a telecumanda</string>
-    <string name="enable_headset_actions_summary">Incalcata doppia nant’à « Sunà » per saltà à a traccia seguente è longa per rivene à u principiu o à a traccia precedente</string>
     <string name="enable_play_on_headset_insertion">Cuntinuà à l’inserzione di u cascu</string>
     <string name="enable_play_on_headset_insertion_summary">Mette in pausa altrimentu</string>
-    <string name="enable_steal_remote_control">Telecumanda esclusiva di u cascu</string>
-    <string name="enable_steal_remote_control_summary">Scartà i cunflitti cù d’altre appiecazioni blucchendu a telecumanda. Quessu impedisce di richjamà un numeru cù un doppiu-cliccu nant’à i telefuni HTC.</string>
     <string name="aout">Esciuta audio</string>
-    <string name="aout_summary">Cambià u metoda chì VLC impiega per l’esciuta audio s’ellu ùn funzioneghja micca.</string>
     <string name="audio_ducking_title">Diminuisce u vulume di VLC in casu di nutificazione</string>
     <string name="audio_ducking_summary">Aiuta à stà à sente e nutificazioni aidio, l’istruzzioni parlate di navigazione o d’assistenza</string>
     <string name="casting_category">Trasmissione</string>
@@ -365,12 +302,10 @@
     <string name="casting_quality_medium">Medianu</string>
     <string name="casting_quality_low">Bassu</string>
     <string name="casting_quality_lowcpu">U più bassu</string>
-    <string name="cast_performance_warning">A trasmissione di sta video rechiede una cunversione. Quessa pò impiegà tutta a putenza dispunibule è pò viutà in furia a vostra batteria.</string>
     <string name="casting_connected_renderer">Cunnettu à u trasfurmatore \'%1$s\'</string>
     <string name="artists_show_all_title">Affissà tutti l’artisti</string>
 
     <string name="extensions_prefs_category">Stinzioni</string>
-    <string name="extensions_enable_category">Sceglie l’estensioni à attivà</string>
     <string name="extensions_empty">Alcuna estensione avvintata</string>
     <string name="extension_permission_title">Attivà a nova estensione \&quot;%1$s\&quot; ?</string>
     <string name="extension_permission_checkbox_title">Affissà in %1$s</string>
@@ -381,33 +316,21 @@
 
     <string name="performance_prefs_category">Andamentu</string>
     <string name="chroma_format">Sfurzà crominanza video</string>
-    <string name="chroma_format_summary">RGB 32-bit : crominanza predefinita\nRGB 16-bit : andamentu più bonu ma qualità più bassa\nYUV : andamentu ancu più bonu ma ùn funzioneghja micca cù tutti l’apparechji. Solu Android 2.3 è dopu.</string>
     <string name="deblocking">Preferenze di filtru per sbluccà</string>
-    <string name="deblocking_summary">Cambià e preferenze di u filtru per sbluccà. Pò megliurà a qualità video. Solu per l’utilizatori esperti.</string>
     <string name="deblocking_always">Sbluccà cumpletu (u più pianu)</string>
     <string name="deblocking_nonref">Sbluccà medianu</string>
     <string name="deblocking_nonkey">Sbluccà legeru</string>
     <string name="deblocking_all">Senza filtru (u più rapidu)</string>
     <string name="enable_frame_skip">Saltu di sequenza</string>
-    <string name="enable_frame_skip_summary">Accelera a discudificazione ma pò diminuì a qualità video.</string>
     <string name="enable_time_stretching_audio">Stinzata di tempu audio</string>
-    <string name="enable_time_stretching_audio_summary">Accelera è frena l’audio senza cambià a tunalità (richiede un apparechju rapida).</string>
-
     <string name="advanced_prefs_category">Espertu</string>
-    <string name="save_video_none">Ùn arregistrà micca a vitezza</string>
-    <string name="save_video_session">Arregistrà a vitezza durante a sessione</string>
-    <string name="save_video_always">Arregistrà a vitezza trà e sessioni</string>
     <string name="auto_rescan">Nova analisa autumatica</string>
     <string name="auto_rescan_summary">Analizà autumaticamente l’apparechju à l’iniziu di l’appiecazione per cunnosce i media novi o squassati</string>
     <string name="dump_media_db">Estrae a banca di dati media</string>
     <string name="dump_media_db_summary">Cupià a banca di dati ver di a radica di u magazinu internu</string>
     <string name="clear_media_db">Viutà a banca di dati media</string>
-    <string name="media_db_cleared">A banca di dati media hè stata viutata !</string>
     <string name="set_locale">Definisce a lingua</string>
-    <string name="set_locale_detail">Lascià viotu per rimette à zeru</string>
-    <string name="set_locale_popup">Ci vole à chità è rilancià VLC per piglià sti cambiamenti in contu.</string>
     <string name="network_caching">Valore di l’impiatta di reta</string>
-    <string name="network_caching_summary">A quantità di tempu dedicata à u stampone di media di reta (in ms). Ùn funziuneghja micca cù a discudificazione materiale. Lascià viotu per rimette à zeru</string>
     <string name="resume_playback_title">Cuntinuà a ripruduzzione dopu a chjama</string>
     <string name="resume_playback_summary">Stà in pausa altrimentu</string>
     <string name="blurred_cover_background_title">Cuprendula frolla in fondu</string>
@@ -448,8 +371,6 @@
     <string name="no_internet_connection">Verificate a vostra cunnessione internet</string>
     <string name="some_error_occurred">Qualchì sbagliu hè accadutu. Provate torna in qualchì seconda</string>
 
-    <string name="drawer_open">Apre a tiretta di navigazione</string>
-    <string name="drawer_close">Chjode a tiretta di navigazione</string>
     <string name="network_browsing">Reta lucale</string>
     <string name="browsing">Navigazione</string>
 
@@ -457,20 +378,16 @@
 
     <string name="audio_delay">Cumportu audio</string>
     <string name="spu_delay">Cumportu sottutitulu</string>
-    <string name="sleep_time_not_set">micca definitu</string>
     <string name="network_empty">Stu cartulare hè viotu.</string>
     <string name="network_connection_needed">Alcuna cunnessione à a reta lucale.</string>
     <string name="search_hint">Circà u media</string>
     <string name="search_global">Circà in tutte e bibliuteche di media</string>
-    <string name="directory_show_medialib">Affissà in BibMedia</string>
-    <string name="directory_hide_medialib">Piattà da BibMedia</string>
     <string name="playlist_save">Arregistrà a Lista di Lettura</string>
     <string name="playlist_name_hint">Nome di lista di lettura</string>
     <string name="go_to_chapter">Và à u capitulu…</string>
     <string name="chapter">Capitulu</string>
     <string name="resume_from_position">Riprincipià da l’ultima pusizione</string>
     <string name="confirm_resume">Vulete riprincipià da l’ultima pusizione ?</string>
-    <string name="directory_empty">U cartulare hè viotu</string>
     <string name="tv_ui_title">Interfaccia Android TV</string>
     <string name="tv_ui_summary">Cambia l’interfaccia ver di u temu adattatu à a TV</string>
     <string name="medialibrary">Bibliuteca di media</string>
@@ -478,10 +395,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">Azzioni di più</string>
-    <string name="move">Dispiazzà</string>
     <string name="back_quit_lock">Preme Precedente torna per chità a video</string>
-    <string name="playlist_deleted">Lista di lettura squassata</string>
-    <string name="file_deleted">Schedariu squassatu</string>
     <string name="no_subs_found">Alcunu sottutitulu in stu cartulare</string>
     <string name="music_now_playing">Ripruduzzione in corsu</string>
 
@@ -510,7 +424,6 @@
     <string name="extension_empty">Alcunu elementu à affissà, andate puru in e preferenze d’estensione per truvane.</string>
 
     <string name="opengl_title">Impiegu d’OpenGL ES2</string>
-    <string name="opengl_summary">Di bona regula, OpenGL ES2 hè impiegatu per a discudificazione logica è materiale quandu ci hè bisognu (video 360°).</string>
     <string name="opengl_automatic">Autumaticu</string>
     <string name="opengl_on">Sfurzà l’attivazione</string>
     <string name="opengl_off">Sfurzà a disattivazione</string>
@@ -522,29 +435,15 @@
     <string name="popup_playback_title">Sunà a video in una finestra Pop-Up</string>
     <string name="popup_playback">Lettura in una finestra Pop-Up</string>
     <string name="popup_expand">Allargà a video</string>
-    <string name="snack_subloader_sub_found">Sottutituli scaricati</string>
-    <string name="snack_subloader_sub_not_found">Sottutituli micca trovi</string>
-    <string name="dialog_subloader_success">Sottutituli trovi per :</string>
-    <string name="dialog_subloader_fails">Sottutituli micca trovi per :</string>
-    <string name="dialog_subloader_sumup">Scaricamentu compiu</string>
     <string name="download_subtitles">Scaricà i sottutituli</string>
-    <string name="preferences_languages_download">Lingue di sottutituli</string>
-    <string name="list_languages_download_summary">Lingue à scaricà per a ricerca di sottutituli</string>
-    <string name="list_languages_download_title">Sottutituli scaricheghja e lingue</string>
-    <string name="service_unavailable">Serviziu micca dispunibule</string>
-    <string name="subs_dl_lang_fail">Fiascu per definisce a lingua di i sottutituli, prova di definilla in e preferenze d’appiecazione</string>
-    <string name="downloading_subtitles">Scaricamentu di i sottutituli</string>
     <string name="browse_folder">Sfuglià u cartulare</string>
     <string name="listen">Stà à sente</string>
-    <string name="subtitles_download_title">Scaricamentu di sottutitul</string>
-    <string name="connecting">Cunnessione…</string>
     <string name="save_bluetooth_delay">arregistrà u cumportu per l’apparechju bluetooth</string>
     <string name="episodes">episodii</string>
     <string name="movies">filmi</string>
     <string name="videos">video</string>
     <string name="videos_all">Tutte e video</string>
     <string name="clear_playback_history">Viutà a crunulogia di ripruduzzione</string>
-    <string name="various_artists">Artisti diversi</string>
     <string name="ml_scanning">Analisa di i schedarii media</string>
     <string name="ml_parse_media">Analisa di media</string>
     <string name="ml_discovering">Scuperta</string>
@@ -579,7 +478,6 @@
     <string name="browser_storages">Magazini</string>
     <string name="msg_delete_failed">Fiascu per squassà u media %1$s</string>
     <string name="renderer_list_title">Screni</string>
-    <string name="feedback_player_crashed">Per disgrazia, VLC s’hè chjosu di manera gattiva. Ci vole à pruvà torna.</string>
     <string name="sdcard_permission_dialog_title">Ci vole à cuncede à VLC l’accessu in scrittura à a vostra carta SD</string>
     <string name="sdcard_permission_dialog_message">VLC ùn pò micca squassà stu schedariu senza permessu d’accessu in scrittura.\nDa prima, ci vole à andà ver di a vostra carta SD è cliccà nant’à \&quot;Affissà carta SD\&quot; in u listinu insù-diritta</string>
     <string name="dialog_sd_wizard">Mustrammi</string>
@@ -592,7 +490,6 @@
     <string name="audio_task_cleared_summary">Piantà a ripruduzzione quandu l’appiecazione hè interrotta</string>
     <string name="playback_rewind">Ritrusà</string>
     <string name="playback_forward">Avanzà in furia</string>
-    <string name="ml_wizard_title">Selezzione Mediabibliuteca di VLC</string>
     <string name="ml_wizard_scan_checkbox">Ricerca di cuntenutu media nant’à l’apparechju</string>
     <string name="ml_wizard_description">Sceglie s’è VLC analizerà u vostru apparechju per urganizà a vostra bibliuteca media o s’ellu impiegherallu solu cum’è un lettore simplice cù un navigatore integratu.</string>
     <string name="tv_my_new_videos">I mo filmetti novi</string>
@@ -620,12 +517,10 @@
     <string name="ctx_player_video_track">Selezziunà a traccia video</string>
     <string name="ctx_player_audio_track">Traccia audio</string>
     <string name="ctx_player_subs_track">Traccia di sottutituli</string>
-    <string name="ctx_player_tracks_title">Traccie media</string>
     <string name="ctx_pip_title">Lettore pop-up</string>
     <string name="device_dialog_title">Apparechju esternu framessu</string>
     <string name="device_dialog_message">Avete brancatu un novu apparechju d’allucamentu à a vostra scatula TV, vulete aprelu cù VLC ?</string>
     <string name="videos_folders_title">Video da cartulari</string>
-    <string name="video_save_remote_setting">Attivà autumaticamente u modu telecumanda ?</string>
     <string name="video_save_clone_mode">Attivà autumaticamente u modu duplicazione ?</string>
     <string name="video_remote_enable">Passà in modu di telecumanda</string>
     <string name="video_remote_disable">Duplicà u screnu</string>
@@ -638,13 +533,11 @@
     <string name="done">Fattu</string>
     <string name="onboarding_scan_title">Scopre autumaticamente u vostru media</string>
     <string name="onboarding_scanning_enable">Lascià VLC analizà u mo apparechju è truvà i media</string>
-    <string name="onboarding_scan_whole">VLC analizerà a mo carta SD sana</string>
     <string name="onboarding_scan_customize">Lasciammi sceglie quelli cartulari chì VLC analizerà</string>
     <string name="button_medialibrary_preferences">Andà à e preferenze di Medialibrary</string>
     <string name="light_theme">Temu legeru</string>
     <string name="add">Aghjunghje</string>
     <string name="add_to_new_playlist">Aghjunghje à a nova lista di lettura</string>
-    <string name="theme_follow_system_mode">Seguità u modu sistema</string>
     <string name="resume_card_message">Ripiglià a ripruduzzione di %1$s ?</string>
     <string name="misc">Diversi</string>
     <string name="popup_force_legacy_title">Impiegà una finestra persunalizata fiura-nant’à-fiura (PIP)</string>
