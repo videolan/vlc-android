@@ -36,6 +36,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -124,7 +125,9 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 UiTools.restartDialog(requireActivity())
             }
             "browser_show_all_files", "video_min_group_length" -> (activity as PreferencesActivity).setRestart()
-            KEY_APP_THEME -> (activity as PreferencesActivity).exitAndRescan()
+            KEY_APP_THEME -> {
+                if (!AppContextProvider.locale.isNullOrEmpty()) UiTools.restartDialog(requireActivity()) else (activity as PreferencesActivity).exitAndRescan()
+            }
             LIST_TITLE_ELLIPSIZE -> {
                 Settings.listTitleEllipsize = sharedPreferences.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
                 (activity as PreferencesActivity).setRestart()
