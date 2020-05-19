@@ -31,16 +31,9 @@
     <string name="ringtone_set">Fílan \'%1$s\' var sett sum ringitóni.</string>
     <string name="ringtone_error">Ein villa stóðst av at seta ringitónan.</string>
     <string name="pause">Steðga</string>
-    <string name="not_show_again">Vís ikki hesi boð aftur.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Ókent listafólk</string>
     <string name="unknown_album">Ókend útgáva</string>
     <string name="unknown_genre">Ókend sjangra</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">1 songur</item>
-        <item quantity="other">%d sangir</item>
-    </plurals>
-
     <string name="artists">Listafólk</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 útgáva</item>
@@ -59,7 +52,6 @@
         <item quantity="other">%d sjónbond</item>
     </plurals>
     <string name="internal_memory">Innara minni</string>
-    <string name="parent_folder">Upp til foreldramappu</string>
     <string name="audio">Ljóð</string>
     <string name="video">Video</string>
     <string name="bookmarks">Bókamerki</string>
@@ -68,15 +60,10 @@
     <string name="genres">Sjangrur</string>
     <string name="playlists">Spælilistar</string>
     <string name="title">Heiti</string>
-    <string name="artist">Listafólk</string>
-    <string name="album">Útgáva</string>
-    <string name="directory">Fíluskrá</string>
     <string name="directories">Fíluskráir</string>
     <string name="loading">Lesur inn</string>
     <string name="please_wait">Vinaliga bíða…</string>
     <string name="nomedia">Eingin miðlafíla funnin, vinaliga flyt onkrar fílur inn á eina eind ella broyt stillingarnar.</string>
-    <string name="mediafiles">Miðlafílur</string>
-    <string name="notavailable">ikki tøkt</string>
     <string name="directorynotfound">Fíluskráin á leiðini \'%1$s\' var ikki funnin.</string>
     <string name="nohistory">Tú hevur onga avspælingarsøgu enn.</string>
     <string name="validation">Ert tú vis/ur?</string>
@@ -89,7 +76,6 @@
     <string name="surface_best_fit">Hóskar best</string>
     <string name="surface_fill">Passa til</string>
     <string name="surface_original">Miðja</string>
-    <string name="thumbnail">Smámynd</string>
     <string name="unseekable_stream">Finst ikki at stroyma</string>
     <string name="refresh">Endurskapa</string>
     <string name="track_audio">Ljóðspor</string>
@@ -110,26 +96,16 @@
     <string name="track_resolution_info">Loysni: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Myndtíttleiki: %1$.3f\n</string>
 
-    <string name="tools">Amboð</string>
     <string name="playback_speed">Avspælingarferð</string>
     <string name="sleep_title">Svøvnsur</string>
-    <string name="sleep_cancel">Angra svøvnsur</string>
     <string name="jump_to_time">Hopp til tíð</string>
-    <string name="subtitle_label">Legg undirtekstafílu aftrat</string>
     <string name="subtitle_select">Vel undirtekstafílu</string>
-    <string name="no_file_picker_found">Eingin fíluveljari finst á skipanini</string>
 
-    <string name="open">Lat upp</string>
-    <string name="open_mrl_dialog_title">Lat stroyminet upp</string>
-    <string name="error_not_compatible">Orsaka, eindin hjá tær kann, sum nú er, ikki brúkast við hesi VLC-útgávu til Android™.</string>
-    <string name="error_problem">Orsaka, VLC til Android hevði trupulleikar við innlesingini og mátti latast aftur.</string>
-    <string name="error_message_is">Villumeldingin er (vinaliga greið frá hesum, tá ið rættast skal upp á trupulleikan):\n</string>
     <string name="encountered_error_title">Avspælingarvilla</string>
     <string name="encountered_error_message">Ein villa er íkomin, tá ið VLC skuldi spæla henda miðil.\nRoyn og endurbyrja miðlasavnið.</string>
     <string name="invalid_location">Keldan %1$s kann ikki spælast.</string>
 
     <string name="search">Leita</string>
-    <string name="search_history">Undanfarnar leitingar</string>
 
 
     <!-- Tips -->
@@ -154,13 +130,11 @@
     <string name="about">Um</string>
     <string name="about_text">VLC til Android™ er eitt portur hjá VLC margmiðlaspælaranum, tí víða gitta open-source spælaranum. Android™ útgávan klárar at lesa flestu fílur og kann stroyma flestu keldur.</string>
     <string name="compiled_by">Henda útgáva av VLC verður umsett av:</string>
-    <string name="general_prefs_category">Yvirskipað</string>
     <string name="directories_summary">Vel fíluskráir av hava við í miðlasavninum</string>
     <string name="add_custom_path">Legg sjálvvalda rás afturat</string>
     <string name="add_custom_path_description">Skriva inn egnar fíluskráir at lesa:</string>
     <string name="remove_custom_path">Strika egnar ræsir</string>
     <string name="hardware_acceleration">Tólbúnaðakselleratión</string>
-    <string name="hardware_acceleration_summary">Óvirkjað: bestri støðufesti.\nAvkotan: betrar kanska um avrik.\nFult: betrar kanska um framtíðar avrika</string>
     <string name="hardware_acceleration_disabled">Óvirkjað</string>
     <string name="hardware_acceleration_decoding">Avkotar akselleratión</string>
     <string name="hardware_acceleration_full">Full akselleratión</string>
@@ -170,43 +144,26 @@
     <string name="screen_orientation_start_lock">Stongt við byrjan</string>
     <string name="screen_orientation_portrait">Steyrrætt</string>
     <string name="screen_orientation_landscape">Loddrætt</string>
-    <string name="screen_orientation_reverse_portrait">Øvut steyrrætt</string>
-    <string name="screen_orientation_reverse_landscape">Øvut loddrætt</string>
     <string name="subtitle_text_encoding">Kota undirtekstir inn</string>
     <string name="extra_prefs_category">Eyka stillingar</string>
 
     <string name="interface_prefs_screen">Takførisflati</string>
     <string name="enable_clone_mode">Vel hels kloning</string>
-    <string name="enable_clone_mode_summary">Klona skíggjan á eindini við ongari fjarstýring.</string>
-    <string name="interface_other_category">Takførisflati - Annað</string>
-
     <string name="enable_brightness_gesture_summary">Stýr ljósstyrki við keipum, tá ið sjónbond verða spæld.</string>
     <string name="enable_headset_detection">Finn høvuðsett</string>
-    <string name="enable_steal_remote_control">Serlig fjarstýring til høvuðsett</string>
-    <string name="enable_steal_remote_control_summary">Ansa eftir, at fjarstýringin ikki órógvar onnur forrit. Vandi er í, at tú kemur til at ringja við dupultum klikki á HTC-telefonum.</string>
     <string name="aout">Ljóðúttak</string>
-    <string name="aout_summary">Skift hvussu VLC brúkar ljóðúttak.</string>
     <string name="performance_prefs_category">Avrik</string>
     <string name="chroma_format">Troðka video-chroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: vanligt chroma\nRGB 16-bit: bettri avrik, men verri góðska\nYUV: besta avrik, men virkar ikki á øllum eindum. Einans fyri Android 2,3 og nýggjari.</string>
     <string name="deblocking">Stillingar til loysingarfiltur</string>
-    <string name="deblocking_summary">Broyt stillingar fyri loysingarfiltur. Tað kundi betra um videogóðskuna. Bert fyri royndir brúkarar.</string>
     <string name="deblocking_always">Full loysing (seinast)</string>
     <string name="deblocking_nonref">Miðal loysing</string>
     <string name="deblocking_nonkey">Lág loysing</string>
     <string name="deblocking_all">Eingin loysing (skjótast)</string>
-    <string name="enable_frame_skip_summary">Skjótari avkoting, men kann ávika videogóðskuna.</string>
     <string name="enable_time_stretching_audio">Tíðarfevnandi ljóð</string>
-    <string name="enable_time_stretching_audio_summary">Set ljóðferðina upp ella niður uttan at broyta tónahæddina (krevur eina skjóta eind).</string>
-
     <string name="advanced_prefs_category">Víðkað</string>
     <string name="clear_media_db">Rudda miðladátabasu</string>
-    <string name="media_db_cleared">Miðladátabasa ruddað!</string>
     <string name="set_locale">Set heimastað</string>
-    <string name="set_locale_detail">Lat standa tómt fyri at nullstilla</string>
-    <string name="set_locale_popup">Sløkk og tendra VLC av nýggjum fyri at broytingarnar skulu fara í nýstlu.</string>
     <string name="network_caching">netsavnavirði</string>
-    <string name="network_caching_summary">So nógva tíð tekur tað at undanlesa netmiðilin (í ms). Virkar ikki við tólbúnaðavkoting. Lat standa tómt fyri at nullstilla.</string>
     <string name="quit">Far úr og endurbyrja forrit</string>
     <string name="developer_prefs_category">Framleiðari</string>
     <string name="enable_verbose_mode">Orðaflóð</string>
@@ -226,7 +183,5 @@
     <string name="send_log">Send loggin</string>
     <string name="sending_log">Sendir loggin…</string>
 
-    <string name="drawer_open">Lat navigatiónsskuffuna upp</string>
-    <string name="drawer_close">Lat navigatiónsskuffuna aftur</string>
     <string name="next">Næsta</string>
 </resources>
