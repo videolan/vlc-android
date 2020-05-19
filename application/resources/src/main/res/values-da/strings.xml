@@ -7,21 +7,13 @@
     <string name="other">Andet</string>
     <string name="sortby">Sortér efter …</string>
     <string name="sortby_name">Navn</string>
-    <string name="sortby_name_desc">Navn (fald)</string>
     <string name="sortby_filename">Filnavn</string>
-    <string name="sortby_filename_desc">Filnavn (fald)</string>
     <string name="sortby_artist_name">Kunstnernavn</string>
-    <string name="sortby_artist_name_desc">Kunstnernavn (fald)</string>
     <string name="sortby_album_name">Albumnavn</string>
-    <string name="sortby_album_name_desc">Kunstnernavn (fald)</string>
     <string name="sortby_length">Længde</string>
-    <string name="sortby_length_desc">Varighed (fald)</string>
     <string name="sortby_date">Dato</string>
-    <string name="sortby_date_desc">Dato (fald)</string>
     <string name="sortby_last_modified_date">Tilføjet for nylig</string>
-    <string name="sortby_last_modified_date_desc">Tilføjet for nylig (fald)</string>
     <string name="sortby_number">Nr. spor</string>
-    <string name="sortby_number_desc">Nr. spor (fald)</string>
     <string name="searchable_hint">Søg …</string>
     <string name="history">Historik</string>
 
@@ -58,21 +50,14 @@
     <string name="confirm_delete_folder">Slet mappen \'%1$s\' og alt dens indhold?</string>
     <string name="confirm_delete_playlist">Slet spillelisten \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Fjern \'%1$s\' fra afspilningsliste?</string>
-    <string name="confirm_remove_from_playlist_anonymous">Fjern fra afspilningsliste?</string>
     <string name="ringtone_set">Filen \"%1$s\" blev angivet som ringetone.</string>
     <string name="ringtone_error">Der opstod en fejl under angivelse af ringetone.</string>
     <string name="pause">Pause</string>
-    <string name="not_show_again">Vis ikke denne besked igen.</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">Ukendt kunstner</string>
     <string name="unknown_album">Ukendt album</string>
     <string name="unknown_genre">Ukendt genre</string>
-    <string name="unknown_number">Ukendt antal spor</string>
     <string name="songs">Sange</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">1 sang</item>
-        <item quantity="other">%d sange</item>
-    </plurals>
+    <string name="track_info_copied_to_clipboard">Sporinformationen blev kopieret til udklipsholderen</string>
 
     <string name="artists">Kunstnere</string>
     <string name="albums">Album</string>
@@ -108,7 +93,6 @@
     </plurals>
 
     <string name="internal_memory">Intern hukommelse</string>
-    <string name="parent_folder">Op til overordnet mappe</string>
     <string name="audio">Lyd</string>
     <string name="video">Video</string>
     <string name="bookmarks">Bogmærker</string>
@@ -117,16 +101,11 @@
     <string name="genres">Genrer</string>
     <string name="playlists">Afspilningslister</string>
     <string name="title">Titel</string>
-    <string name="artist">Kunstner</string>
-    <string name="album">Album</string>
-    <string name="directory">Mappe</string>
     <string name="directories">Mapper</string>
     <string name="loading">Indlæser</string>
     <string name="please_wait">Vent venligst …</string>
     <string name="nomedia">Fandt ingen mediefiler - overfør venligst nogle filer til din enhed eller tilpas dine præferencer.</string>
     <string name="noplaylist">Ingen spilleliste fundet.</string>
-    <string name="mediafiles">Mediefiler</string>
-    <string name="notavailable">ikke tilgængelig</string>
     <string name="nosubfolder">Ingen undermappe</string>
     <string name="directorynotfound">Mappestien \"%1$s\" blev ikke fundet.</string>
     <string name="nohistory">Du har endnu ikke en afspilningshistorik.</string>
@@ -152,7 +131,6 @@
     <string name="surface_fit_screen">Tilpas skærm</string>
     <string name="surface_fill">Udfyld</string>
     <string name="surface_original">Center</string>
-    <string name="thumbnail">Miniature</string>
     <string name="unseekable_stream">Kan ikke søge i strøm</string>
     <string name="refresh">Genopfrisk</string>
     <string name="track_audio">Lydspor</string>
@@ -166,7 +144,6 @@
     <string name="sound_on">Lyd til</string>
     <string name="sound_off">Lyd fra</string>
     <string name="brightness">Lysstyrke</string>
-    <string name="navmenu">navigationsmenu</string>
     <string name="advanced">avancerede indstillinger</string>
     <string name="audio_boost_warning">Stryg op igen for at gå over 100%</string>
     <string name="locked_in_portrait_mode">Låst i portræt-tilstand\n(tryk længe på knappen for at annullere)</string>
@@ -182,15 +159,11 @@
     <string name="track_resolution_info">Opløsning: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Billedfrekvens: %1$.3f\n</string>
 
-    <string name="tools">Værktøjer</string>
     <string name="playback_speed">Afspilningshastighed</string>
     <string name="sleep_title">Sleep-timer</string>
     <string name="sleep_in">Slumre om</string>
-    <string name="sleep_cancel">Annuller sleep-timer</string>
     <string name="jump_to_time">Spring til tidspunkt</string>
-    <string name="subtitle_label">Tilføj fil med undertekster</string>
     <string name="subtitle_select">Vælg fil med undertekster</string>
-    <string name="no_file_picker_found">Der blev ikke fundet en filvælger i systemet.</string>
 
     <string name="server_add_title">Tilføj en ny server til favoritter</string>
     <string name="server_domain_hint">Serveradresse (domænenavn eller IP)</string>
@@ -202,7 +175,6 @@
     <string name="login">Login</string>
     <string name="password">Adgangskode</string>
 
-    <string name="search_results">Søgeresultater</string>
     <string name="search_no_result">Ingen medie fundet</string>
     <string name="favorites_add">Tilføj til favoritter</string>
     <string name="favorites_remove">Fjern fra farvoritter</string>
@@ -210,26 +182,18 @@
     <string name="favorite_added">Gemt til farvoritter</string>
     <string name="favorite_removed">Fjernet fra farvoritter</string>
 
-    <string name="open">Åbn</string>
-    <string name="open_mrl">Stream</string>
-    <string name="open_mrl_dialog_title">Åbn netværksstrøm</string>
+    <string name="streams">Streams</string>
     <string name="open_mrl_dialog_msg">Indtast netværksadresse: f.eks. http://, mms:// eller rtsp://</string>
-    <string name="error_not_compatible">Beklager, din enhed understøttes i øjeblikket ikke af denne version af VLC for Android™.</string>
-    <string name="error_problem">Beklager, VLC for Android havde problemer med indlæsningen og måtte lukke.</string>
-    <string name="error_message_is">Fejlbeskeden er (nævn venligst denne ved fejlsøgning):\n</string>
     <string name="encountered_error_title">Afspilningsfejl</string>
     <string name="encountered_error_message">VLC stødte på en fejl med dette medie.\nForsøg venligst at genopfriske mediebiblioteket.</string>
     <string name="invalid_location">Placeringen %1$s kan ikke afspilles.</string>
 
     <string name="search">Søg</string>
-    <string name="search_history">Søg historik</string>
 
 
     <string name="playback_history_title">Afspilningshistorik</string>
     <string name="playback_history_summary">Gem alle afspillede medier i Historik</string>
     <string name="playback_speed_title">Gem afspilningshastighed</string>
-    <string name="playback_speed_summary">Husk den afspilningshastighed du har sat</string>
-
     <string name="play_button">Afspil-knap</string>
 
     <!-- Tips -->
@@ -266,13 +230,11 @@
     <!-- Preferences -->
     <string name="preferences">Indstillinger</string>
 
-    <string name="general_prefs_category">Generelt</string>
     <string name="directories_summary">Vælg mapper som skal indgå i mediebiblioteket</string>
     <string name="add_custom_path">Tilføj en brugerdefineret sti</string>
     <string name="add_custom_path_description">Angiv endnu en brugerdefineret mappe, der skal gennemses:</string>
     <string name="remove_custom_path">Fjern brugerdefineret sti</string>
     <string name="hardware_acceleration">Hardwareacceleration</string>
-    <string name="hardware_acceleration_summary">Deaktiveret: bedre stabilitet.\nAfkodning: kan forbedre ydelsen.\nFuld: kan forbedre ydelsen yderligere.</string>
     <string name="hardware_acceleration_disabled">Deaktiveret</string>
     <string name="hardware_acceleration_decoding">Acceleration af afkodning</string>
     <string name="hardware_acceleration_full">Fuld acceleration</string>
@@ -284,34 +246,21 @@
     <string name="screen_orientation_start_lock">Låst ved start</string>
     <string name="screen_orientation_portrait">Portræt</string>
     <string name="screen_orientation_landscape">Landskab</string>
-    <string name="screen_orientation_reverse_portrait">Vend portrættet om</string>
-    <string name="screen_orientation_reverse_landscape">Vend landskabet om</string>
     <string name="enable_black_theme">Sort tema</string>
-    <string name="enable_black_theme_summary">Skift brugerfladens farver for bedre komfort i miljøer med svagt lys.</string>
     <string name="subtitle_text_encoding">Tekstkodning for undertekster</string>
     <string name="daynight_title">Dag-nat-tilstand</string>
     <string name="daynight_follow_system_title">Følg systemtilstand</string>
-    <string name="daynight_battery_title">Følg batterisparer</string>
-    <string name="daynight_summary">Skift automatisk til nat-tilstand på rette tidspunkt</string>
 
     <string name="extra_prefs_category">Ekstra indstillinger</string>
 
     <string name="interface_prefs_screen">Brugerflade</string>
-    <string name="interface_gui">Skærm</string>
     <string name="interface_secondary_display_category_title">Sekundær skærm</string>
-    <string name="interface_secondary_display_category_summary">Indstillinger når sekundære skærme er tilsluttet (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Foretræk kloning</string>
-    <string name="enable_clone_mode_summary">Klon enhedsskærmen uden fjernbetjening.</string>
-    <string name="interface_other_category">Brugerflade - andet</string>
-
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Gruppér videoer</string>
     <string name="video_min_group_length_disable">Gruppér ikke videoer</string>
     <string name="video_min_group_length_folder">Gruppér efter mappe</string>
     <string name="video_min_group_length_name">Gruppér efter navn</string>
-    <string name="video_min_group_length_first">Kun første bogstav</string>
-    <string name="video_min_group_length_short">Korte antal tegn (6)</string>
-    <string name="video_min_group_length_long">Lange antal tegn (9)</string>
     <string name="media_fast_seek">Hurtig søgning</string>
     <string name="media_fast_seek_summary">Søgning i et medie er hurtigere men mindre præcist</string>
     <string name="video_transition_title">Videoovergang</string>
@@ -320,8 +269,6 @@
     <string name="media_seen_summary">Mærk en video som set når du afspiller den til slutningen</string>
     <string name="force_play_all_summary">Afspil alle videoer, startende med den du klikkede på</string>
     <string name="force_play_all_title">Videospilleliste-tilstand</string>
-    <string name="save_brightness_summary">Husk niveau for lysstyrke i videoafspilleren</string>
-    <string name="save_brightness_title">Gem niveau for lysstyrke for video</string>
     <string name="save_audiodelay_summary">Gem individuel lydforsinkelse for hver video</string>
     <string name="save_audiodelay_title">Gem lydforsinkelse</string>
     <string name="enable_brightness_gesture_title">Lysstyrke-gestus</string>
@@ -356,8 +303,6 @@
     <string name="audio_prefs_category">Lyd</string>
     <string name="lockscreen_cover_title">Mediecover på låseskærm</string>
     <string name="lockscreen_cover_summary">Når det er muligt, angiv det aktuelle mediecoverbillede som låseskærmens tapet</string>
-    <string name="playlist_animate_scroll_title">Animer aktuelle spilleliste auto-rulning</string>
-    <string name="playlist_animate_scroll_summary">Animer rulning ved medieovergang</string>
     <string name="list_title_ellipsize">Ellipse for titelliste på én linje</string>
     <string name="list_title_ellipsize_default">Standard</string>
     <string name="list_title_ellipsize_left">Venstre</string>
@@ -369,14 +314,9 @@
     <string name="headset_prefs_category">Hovedtelefoner</string>
     <string name="enable_headset_detection">Detektér hovedtelefoner</string>
     <string name="enable_headset_detection_summary">Registrér indsættes og fjernelse af hovedtelefoner</string>
-    <string name="enable_headset_actions_title">Genveje til fjernstyring</string>
-    <string name="enable_headset_actions_summary">Tryk to gange på \'Afspil\' for at springe til næste spor, og tryk længe for at springe til forrige spor</string>
     <string name="enable_play_on_headset_insertion">Genoptag ved indsættelse af hovedtelefoner</string>
     <string name="enable_play_on_headset_insertion_summary">Ellers sæt på pause</string>
-    <string name="enable_steal_remote_control">Udeluk hovedtelefoner fjernbetjening</string>
-    <string name="enable_steal_remote_control_summary">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
     <string name="aout">Lydoutput</string>
-    <string name="aout_summary">Skift den metode som VLC anvender til at udsende lyd med.</string>
     <string name="audio_ducking_title">Lavere VLC-lydstyrke ved notifikationer</string>
     <string name="audio_ducking_summary">Hjælper med at høre lydnotifikationer, navigationsinstruktioner eller assisterende tale</string>
     <string name="casting_category">Udsendelse</string>
@@ -389,12 +329,10 @@
     <string name="casting_quality_medium">Medium</string>
     <string name="casting_quality_low">Lav</string>
     <string name="casting_quality_lowcpu">Lavest</string>
-    <string name="cast_performance_warning">Udsendelsen af denne video kræver konvertering. Konverteringen kan bruge al den tilgængelige strøm og kan hurtigt dræne dit batteri.</string>
     <string name="casting_connected_renderer">Forbundet til optegneren \'%1$s\'</string>
     <string name="artists_show_all_title">Vis alle kunstnere</string>
 
     <string name="extensions_prefs_category">Udvidelser</string>
-    <string name="extensions_enable_category">Vælg udvidelser som skal aktiveres</string>
     <string name="extensions_empty">Ingen udvidelse registreret</string>
     <string name="extension_permission_title">Aktivér ny udvidelse \"%1$s\"?</string>
     <string name="extension_permission_checkbox_title">Vis i %1$s</string>
@@ -405,22 +343,14 @@
 
     <string name="performance_prefs_category">Ydelse</string>
     <string name="chroma_format">Gennemtving kroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: standard farveformat\nRGB 16-bit: højere ydelse, men lavere kvalitet\nYUV: bedste ydelse, men virker ikke på alle enheder. Kun Android 2.3 eller højere.</string>
     <string name="deblocking">Indstillinger for filter til blokdeling</string>
-    <string name="deblocking_summary">Tilpas indstillinger for filter til blokdeling. Dette kan forbedre videokvaliteten. Kun for avancerede brugere.</string>
     <string name="deblocking_always">Fuld blokdeling (langsomst)</string>
     <string name="deblocking_nonref">Medium blokdeling</string>
     <string name="deblocking_nonkey">Lav blokdeling</string>
     <string name="deblocking_all">Ingen blokdeling (hurtigst)</string>
     <string name="enable_frame_skip">Spring billede over</string>
-    <string name="enable_frame_skip_summary">Øger hastigheden for afkodning, men kan forringe videokvaliteten.</string>
     <string name="enable_time_stretching_audio">Slå tidsudstrækning af lyd til</string>
-    <string name="enable_time_stretching_audio_summary">Øger og sænker lydhastigheden uden at ændre tonelejet (kræver en hurtig enhed).</string>
-
     <string name="advanced_prefs_category">Avanceret</string>
-    <string name="save_video_none">Gem ikke hastighed</string>
-    <string name="save_video_session">Gem hastighed under session</string>
-    <string name="save_video_always">Gem hastighed mellem sessioner</string>
     <string name="auto_rescan">Automatisk genskan</string>
     <string name="auto_rescan_summary">Automatisk skanning af enhed efter nye eller slettede medier ved opstart af program</string>
     <string name="dump_media_db">Dump medie-database</string>
@@ -428,12 +358,8 @@
     <string name="clear_media_db">Ryd medie-database</string>
     <string name="clear_media_database_summary">Rydder databasen for at starte forfra</string>
     <string name="clear_history">Ryd historik</string>
-    <string name="media_db_cleared">Medie-database er ryddet!</string>
     <string name="set_locale">Angiv lokalitet</string>
-    <string name="set_locale_detail">Lad stå tom for at nulstille</string>
-    <string name="set_locale_popup">Afslut og genstart VLC, så ændringerne kan træde i kraft.</string>
     <string name="network_caching">Mellemlagringsværdi for netværk</string>
-    <string name="network_caching_summary">Den tidsmængde for netværksmediet som mellemlagres (i ms). Fungerer ikke sammen med afkodning via hardware. Lad den stå tom for at nulstille.</string>
     <string name="resume_playback_title">Genoptag afspilning efter et opkald</string>
     <string name="resume_playback_summary">Bliv ellers i pause</string>
     <string name="blurred_cover_background_title">Sløret coverbaggrund</string>
@@ -478,8 +404,6 @@
     <string name="no_internet_connection">Tjek din internetforbindelse</string>
     <string name="some_error_occurred">Der opstod en fejl. Prøv igen om nogle få sekunder</string>
 
-    <string name="drawer_open">Åbn navigationsskuffen</string>
-    <string name="drawer_close">Luk navigationsskuffen</string>
     <string name="network_browsing">Lokalt netværk</string>
     <string name="browsing">Gennemser</string>
 
@@ -487,15 +411,12 @@
 
     <string name="audio_delay">Lydforsinkelse</string>
     <string name="spu_delay">Undertekstforsinkelse</string>
-    <string name="sleep_time_not_set">ingen angivet</string>
     <string name="network_shares_discovery">Leder efter netværksdelinger</string>
     <string name="network_empty">Denne mappe er tom.</string>
     <string name="network_connection_needed">Ingen forbindelse til lokalt netværk.</string>
     <string name="search_hint">Søger efter medie</string>
     <string name="search_in_list_hint">Søg i den nuværende liste</string>
     <string name="search_global">Søg i alle mediebiblioteker</string>
-    <string name="directory_show_medialib">Vis i MediaLib</string>
-    <string name="directory_hide_medialib">Skjul i MediaLib</string>
     <string name="playlist_save">Gem spilleliste</string>
     <string name="playlist_name_hint">Afspilningslistenavn</string>
     <string name="go_to_chapter">Gå til kapitel…</string>
@@ -503,7 +424,6 @@
     <string name="resume_from_position">Genoptag fra sidste position</string>
     <string name="confirm_resume">Genoptag fra sidste position?</string>
     <string name="confirm_resume_title">Genoptag afspilning af videoer</string>
-    <string name="directory_empty">Mappen er tom</string>
     <string name="tv_ui_title">Android TV-grænseflade</string>
     <string name="tv_ui_summary">Skift brugerflade til tema som er tilpasset TV</string>
     <string name="medialibrary">Mediebibliotek</string>
@@ -511,10 +431,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">Flere handlinger</string>
-    <string name="move">Flyt</string>
     <string name="back_quit_lock">Tryk på Tilbage igen for at afslutte videoen</string>
-    <string name="playlist_deleted">Spilleliste slettet</string>
-    <string name="file_deleted">Fil slettet</string>
     <string name="stream_deleted">Strøm slettet</string>
     <string name="no_subs_found">Ingen undertekster i denne mappe</string>
     <string name="music_now_playing">Afspiller nu</string>
@@ -544,7 +461,6 @@
     <string name="extension_empty">Intet at vise, gå til dine udvidelsesindstillinger for at hente noget.</string>
 
     <string name="opengl_title">Brug af OpenGL ES2</string>
-    <string name="opengl_summary">Som standard bruges OpenGL ES2 til software afkodning og hardware afkodning når det er nødvendigt (360° videoer).</string>
     <string name="opengl_automatic">Automatisk</string>
     <string name="opengl_on">Tving til</string>
     <string name="opengl_off">Tving fra</string>
@@ -556,29 +472,15 @@
     <string name="popup_playback_title">Afspil video i et pop op-vindue</string>
     <string name="popup_playback">Afspiller i et pop op-vindue</string>
     <string name="popup_expand">Udvid video</string>
-    <string name="snack_subloader_sub_found">Undertekster downloadet</string>
-    <string name="snack_subloader_sub_not_found">Undertekster ikke fundet</string>
-    <string name="dialog_subloader_success">Undertekster fundet til:</string>
-    <string name="dialog_subloader_fails">Undertekster ikke fundet til:</string>
-    <string name="dialog_subloader_sumup">Download fuldført</string>
     <string name="download_subtitles">Download undertekster</string>
-    <string name="preferences_languages_download">Undertekster sprog</string>
-    <string name="list_languages_download_summary">Sprog som skal downloades når der hentes undertekster</string>
-    <string name="list_languages_download_title">Undertekster download sprog</string>
-    <string name="service_unavailable">Tjeneste utilgængelig</string>
-    <string name="subs_dl_lang_fail">Kunne ikke sætte undertekstsprog, prøv at sætte det i programindstillinger</string>
-    <string name="downloading_subtitles">Downloader undertekster</string>
     <string name="browse_folder">Gennemse mappe</string>
     <string name="listen">Lyt</string>
-    <string name="subtitles_download_title">Undertekster download</string>
-    <string name="connecting">Opretter forbindelse…</string>
     <string name="save_bluetooth_delay">gem forsinkelse for Bluetooth-enhed</string>
     <string name="episodes">episoder</string>
     <string name="movies">vidoer</string>
     <string name="videos">videoer</string>
     <string name="videos_all">Alle videoer</string>
     <string name="clear_playback_history">Ryd afspilningshistorik</string>
-    <string name="various_artists">Diverse kunstnere</string>
     <string name="ml_scanning">Skanner efter mediefiler</string>
     <string name="ml_parse_media">Parser medie</string>
     <string name="ml_discovering">Opdager</string>
@@ -613,7 +515,6 @@
     <string name="browser_storages">Lagre</string>
     <string name="msg_delete_failed">Kunne ikke slette mediet %1$s</string>
     <string name="renderer_list_title">Viser</string>
-    <string name="feedback_player_crashed">Beklager, VLC holdt op med at virke. Prøv venligst igen.</string>
     <string name="sdcard_permission_dialog_title">Du skal give VLC skriveadgang til dit SD-kort</string>
     <string name="sdcard_permission_dialog_message">VLC kan ikke slette filen uden skriveadgangstilladelse.\nGå venligst til dit SD-kort og klik på \"Vælg\".\nDet kan være du først skal klikke på \"Vis SD-kort\" i menuen øverst til højre</string>
     <string name="dialog_sd_wizard">Vis mig</string>
@@ -628,7 +529,6 @@
     <string name="audio_resume_card_summary">Viser et tip for at hjælpe dig med at genoptage lydafspilning når programmet starter</string>
     <string name="playback_rewind">Spol tilbage</string>
     <string name="playback_forward">Hurtigere</string>
-    <string name="ml_wizard_title">Udvalg i VLC-mediebibliotek</string>
     <string name="ml_wizard_scan_checkbox">Skan enhed for medieindhold</string>
     <string name="ml_wizard_description">Vælg om VLC skal skanne din enheds lager for at organisere dit mediebibliotek, eller bare bruge det som en simpel afspiller med en integreret browser.</string>
     <string name="tv_my_new_videos">Mine nye videoer</string>
@@ -656,13 +556,11 @@
     <string name="ctx_player_video_track">Vælg videospor</string>
     <string name="ctx_player_audio_track">Lydspor</string>
     <string name="ctx_player_subs_track">Undertekstspor</string>
-    <string name="ctx_player_tracks_title">Mediespor</string>
     <string name="ctx_pip_title">Pop op-afspiller</string>
     <string name="device_dialog_title">Ekstern enhed indsat</string>
     <string name="device_dialog_message">Du har lige sat en ny lagerenhed i din TV-boks. Vil du åbne den med VLC?</string>
     <string name="videos_folders_title">Videoer efter mapper</string>
     <string name="videos_groups_title">Videogrupper</string>
-    <string name="video_save_remote_setting">Automatisk aktivering af fjernstyringstilstand?</string>
     <string name="video_save_clone_mode">Automatisk aktivering af kloningstilstand?</string>
     <string name="video_remote_enable">Skift til fjernstyringstilstand</string>
     <string name="video_remote_disable">Duplikér skærm</string>
@@ -677,13 +575,11 @@
     <string name="daynight_system_explanation">VLC skifter automatisk til mørk tilstand i henhold til systemets indstilling</string>
     <string name="daynight_legacy_explanation">VLC skifter automatisk til nat-tilstand på rette tidspunkt</string>
     <string name="onboarding_scanning_enable">Lad VLC skanne din enhed for medieindhold</string>
-    <string name="onboarding_scan_whole">VLC skanner hele dit SD-kort</string>
     <string name="onboarding_scan_customize">Lad mig vælge, hvilke mapper som VLC skal skanne</string>
     <string name="button_medialibrary_preferences">Gå til mediebibliotek-præferencer</string>
     <string name="light_theme">Lyst tema</string>
     <string name="add">Tilføj</string>
     <string name="add_to_new_playlist">Tilføj til ny afspilningsliste</string>
-    <string name="theme_follow_system_mode">Følg systemtilstand</string>
     <string name="resume_card_message">Genoptag afspilning af %1$s?</string>
     <string name="misc">Diverse</string>
     <string name="popup_force_legacy_title">Brug tilpasset billede-i-billede-pop op</string>
@@ -698,6 +594,14 @@
     <string name="preamp">Forforstærkning</string>
     <string name="presets">Forudindstillinger</string>
     <string name="reset">Nulstil</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d spor indsat</item>
+        <item quantity="other">%d spor indsat</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d spor tilføjet</item>
+        <item quantity="other">%d spor tilføjet</item>
+    </plurals>
     <string name="remove_current">Fjern nuværende</string>
     <string name="validation_delete_playlist">Er du sikker på, at du vil slette afspilningslisten?</string>
     <string name="validation_delete_playlist_text">Handlingen kan ikke fortrydes.</string>
@@ -708,7 +612,6 @@
     <string name="send_crash_title">VLC-nedbrudsrapport</string>
     <string name="send_crash_description">Ved at sende dit nedbrud, hjælper du med at forbedre VLCs stabilitet.</string>
     <string name="send_crash_warning">Sørg for at slette eventuelle følsomme data som du ikke vil have sendt.</string>
-    <string name="dont_ask_again">Spørg ikke igen</string>
     <string name="include_medialib">Medtag din database</string>
     <string name="vlc_reporter">VLC-rapport</string>
     <string name="welcome_beta_title">VLC Beta</string>
@@ -727,9 +630,7 @@
     <string name="add_to_scanned">Skan mappen</string>
     <string name="directory_not_scanned">Mappen er ikke blevet skannet</string>
     <string name="scanned_directory_added">%s blevet tilføjet til dine skannet mapper</string>
-    <string name="video_group_size_dialog_text">Antal tegn som bruges til at gruppere efter navn</string>
     <string name="video_group_size_summary">Gruppér efter %s første bogstaver</string>
-    <string name="video_group_size">Gruppér videoer efter navn</string>
     <string name="url_copied_to_clipboard">Url\'en blev kopieret til udklipsholderen</string>
     <string name="share">Del</string>
     <string name="invalid_file">Ugyldig fil. Kan ikke deles.</string>
@@ -738,8 +639,6 @@
     <string name="find_metadata">Find metadata</string>
     <string name="moviepedia_hint">Søg efter metadata</string>
     <string name="moviepedia_result">Videoresultater</string>
-    <string name="release_date">Udgivet:</string>
-    <string name="synopsis">Synopsis</string>
     <string name="directed_by">Instrueret af</string>
     <string name="casting">Casting</string>
     <string name="produced_by">Produceret af</string>
@@ -748,8 +647,6 @@
     <string name="posters">Plakater</string>
     <string name="backdrops">Baggrunde</string>
     <string name="header_tvshows">TV-udsendelser</string>
-    <string name="all_movies">Alle film</string>
-    <string name="movie_count">%s film</string>
     <string name="header_movies">Film</string>
     <string name="season_number">Sæson %s</string>
     <string name="resume_episode">Genoptag (%s)</string>
@@ -790,4 +687,8 @@
     <string name="all_subfolders">Tilføj mappen og undermapperne</string>
     <string name="playlist_existing">Afspilningslisten %s findes allerede</string>
     <string name="new_title">Ny titel</string>
+    <string name="browse">Gennemse</string>
+    <string name="more">Mere</string>
+    <string name="favorites">Favoritter</string>
+    <string name="new_stream">Ny stream</string>
 </resources>
