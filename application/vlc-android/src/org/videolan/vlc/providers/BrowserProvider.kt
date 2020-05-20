@@ -116,6 +116,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         if (mediabrowser == null) {
             registerCreator { MediaBrowser(VLCInstance.getInstance(context), null, browserHandler) }
             mediabrowser = get(this)
+            if (showAll) mediabrowser?.setIgnoreFileTypes(".")
         }
     }
 
@@ -305,6 +306,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         val mw: MediaWrapper = MLServiceLocator.getAbstractMediaWrapper(media)
         media.release()
         if (!mw.isMedia()) {
+            if (showAll || mw.isBrowserMedia()) return mw
             if (mw.isBrowserMedia()) return mw
             else if (!showAll) return null
         }
