@@ -7,21 +7,14 @@
     <string name="other">其他</string>
     <string name="sortby">排序条件</string>
     <string name="sortby_name">名称</string>
-    <string name="sortby_name_desc">名称 (倒序)</string>
     <string name="sortby_filename">文件名</string>
-    <string name="sortby_filename_desc">文件名 (倒序)</string>
     <string name="sortby_artist_name">艺术家名称</string>
-    <string name="sortby_artist_name_desc">艺术家名称 (倒序)</string>
     <string name="sortby_album_name">专辑名称</string>
-    <string name="sortby_album_name_desc">专辑名称 (倒序)</string>
     <string name="sortby_length">长度</string>
-    <string name="sortby_length_desc">长度 (倒序)</string>
     <string name="sortby_date">日期</string>
-    <string name="sortby_date_desc">日期 (倒序)</string>
     <string name="sortby_last_modified_date">最近添加</string>
-    <string name="sortby_last_modified_date_desc">最近添加 (逆序)</string>
+    <string name="sortby_media_number">媒体数</string>
     <string name="sortby_number">轨道编号</string>
-    <string name="sortby_number_desc">轨道编号 (倒序)</string>
     <string name="searchable_hint">搜索…</string>
     <string name="history">历史</string>
 
@@ -53,24 +46,18 @@
     <string name="set_song_question">是否将「%1$s」设为铃声?</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否要删除文件「%1$s」?</string>
+    <string name="confirm_delete_album">是否删除专辑「%1$s」?</string>
     <string name="confirm_delete_several_media">删除这些 %1$d 媒体?</string>
     <string name="confirm_delete_folder">是否删除文件夹「%1$s」及其全部内容?</string>
     <string name="confirm_delete_playlist">是否删除播放列表「%1$s」?</string>
     <string name="confirm_remove_from_playlist">将「%1$s」从播放列表中移除？</string>
-    <string name="confirm_remove_from_playlist_anonymous">从播放列表移除？</string>
     <string name="ringtone_set">文件「%1$s」已被设为铃声。</string>
     <string name="ringtone_error">设置铃声时发生错误。</string>
     <string name="pause">暂停</string>
-    <string name="not_show_again">不再显示此提示信息。</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">未知艺术家</string>
     <string name="unknown_album">未知专辑</string>
     <string name="unknown_genre">未知流派</string>
-    <string name="unknown_number">未知轨道编号</string>
     <string name="songs">曲目</string>
-    <plurals name="songs_quantity">
-        <item quantity="other">%d 首歌曲</item>
-    </plurals>
     <string name="track_info_copied_to_clipboard">轨道信息已复制到剪贴板</string>
 
     <string name="artists">艺术家</string>
@@ -100,7 +87,6 @@
     </plurals>
 
     <string name="internal_memory">内部存储</string>
-    <string name="parent_folder">转到上级目录</string>
     <string name="audio">音频</string>
     <string name="video">视频</string>
     <string name="bookmarks">书签</string>
@@ -109,16 +95,11 @@
     <string name="genres">流派</string>
     <string name="playlists">播放列表</string>
     <string name="title">标题</string>
-    <string name="artist">艺术家</string>
-    <string name="album">专辑</string>
-    <string name="directory">目录</string>
     <string name="directories">目录</string>
     <string name="loading">正在加载</string>
     <string name="please_wait">请稍候…</string>
     <string name="nomedia">未找到媒体文件，请传输一些文件到您的设备，或调整您的偏好设置。</string>
     <string name="noplaylist">未找到播放列表。</string>
-    <string name="mediafiles">媒体文件</string>
-    <string name="notavailable">不可用</string>
     <string name="nosubfolder">没有子文件夹</string>
     <string name="directorynotfound">目录路径「%1$s」不存在。</string>
     <string name="nohistory">尚无播放历史记录。</string>
@@ -144,7 +125,6 @@
     <string name="surface_fit_screen">适合屏幕</string>
     <string name="surface_fill">拉伸填充</string>
     <string name="surface_original">居中</string>
-    <string name="thumbnail">缩略图</string>
     <string name="unseekable_stream">不支持定位的流</string>
     <string name="refresh">刷新</string>
     <string name="track_audio">音频轨</string>
@@ -158,7 +138,6 @@
     <string name="sound_on">声音开启</string>
     <string name="sound_off">声音关闭</string>
     <string name="brightness">亮度</string>
-    <string name="navmenu">导航菜单</string>
     <string name="advanced">高级选项</string>
     <string name="audio_boost_warning">再次上滑可超越 100%</string>
     <string name="locked_in_portrait_mode">锁定垂直模式\n(长按解除)</string>
@@ -173,15 +152,11 @@
     <string name="track_resolution_info">分辨率: %1$dx%2$d\n</string>
     <string name="track_framerate_info">帧率: %1$.3f\n</string>
 
-    <string name="tools">工具</string>
     <string name="playback_speed">回放速度</string>
     <string name="sleep_title">睡眠计时器</string>
     <string name="sleep_in">睡眠倒计时</string>
-    <string name="sleep_cancel">取消睡眠计时器</string>
     <string name="jump_to_time">转到时间</string>
-    <string name="subtitle_label">添加字幕文件</string>
     <string name="subtitle_select">选择字幕文件</string>
-    <string name="no_file_picker_found">系统中未找到文件选择器。</string>
 
     <string name="server_add_title">向收藏夹添加新的服务器</string>
     <string name="server_domain_hint">服务器地址 (域名或 IP)</string>
@@ -193,7 +168,6 @@
     <string name="login">登录名</string>
     <string name="password">密码</string>
 
-    <string name="search_results">搜索结果</string>
     <string name="search_no_result">未找到媒体文件</string>
     <string name="favorites_add">添加到收藏夹</string>
     <string name="favorites_remove">从收藏夹移除</string>
@@ -201,25 +175,19 @@
     <string name="favorite_added">已保存到收藏夹</string>
     <string name="favorite_removed">已从收藏夹移除</string>
 
-    <string name="open">打开</string>
-    <string name="open_mrl">串流</string>
-    <string name="open_mrl_dialog_title">打开网络流</string>
+    <string name="streams">串流</string>
     <string name="open_mrl_dialog_msg">请输入网络地址: 如 http://、mms:// 或 rtsp://</string>
-    <string name="error_not_compatible">抱歉，该版本的 VLC for Android™ 尚不支持您的设备。</string>
-    <string name="error_problem">抱歉，VLC for Android 加载时出现问题，需要关闭。</string>
-    <string name="error_message_is">错误消息为 (请在汇报问题时附上此内容):\n</string>
     <string name="encountered_error_title">回放错误</string>
     <string name="encountered_error_message">VLC 处理该媒体时发生错误。\n请尝试刷新媒体库。</string>
     <string name="invalid_location">无法播放位置 %1$s。</string>
 
     <string name="search">搜索</string>
-    <string name="search_history">搜索历史</string>
 
 
     <string name="playback_history_title">回放历史</string>
     <string name="playback_history_summary">在「历史记录」下保留所有播放过的媒体</string>
     <string name="playback_speed_title">保存回放速度</string>
-    <string name="playback_speed_summary">记住您所设置的回放速度</string>
+    <string name="playback_speed_summary">切换媒体时保持回放速度</string>
 
     <string name="play_button">播放按钮</string>
 
@@ -257,13 +225,12 @@
     <!-- Preferences -->
     <string name="preferences">设置</string>
 
-    <string name="general_prefs_category">常规</string>
     <string name="directories_summary">选择要收录于媒体库的目录</string>
     <string name="add_custom_path">添加自定义路径</string>
     <string name="add_custom_path_description">输入要扫描的其他自定义目录:</string>
     <string name="remove_custom_path">移除自定义路径</string>
     <string name="hardware_acceleration">硬件加速</string>
-    <string name="hardware_acceleration_summary">禁用: 较为稳定。\n解码: 可提升性能。\n完全: 可进一步提升性能。</string>
+    <string name="hardware_acceleration_summary">禁用: 稳定性更高\n解码: 可能提升性能\n完全: 可能进一步提升性能</string>
     <string name="hardware_acceleration_disabled">禁用</string>
     <string name="hardware_acceleration_decoding">解码加速</string>
     <string name="hardware_acceleration_full">完全加速</string>
@@ -275,34 +242,24 @@
     <string name="screen_orientation_start_lock">开始播放时锁定</string>
     <string name="screen_orientation_portrait">纵向</string>
     <string name="screen_orientation_landscape">横向</string>
-    <string name="screen_orientation_reverse_portrait">纵向翻转</string>
-    <string name="screen_orientation_reverse_landscape">横向翻转</string>
     <string name="enable_black_theme">黑色主题</string>
-    <string name="enable_black_theme_summary">更改界面颜色，使得在较暗环境更为舒适。</string>
     <string name="subtitle_text_encoding">字幕文本编码</string>
     <string name="daynight_title">自动切换夜间模式</string>
     <string name="daynight_follow_system_title">跟随系统模式</string>
-    <string name="daynight_battery_title">跟随“省电模式”</string>
-    <string name="daynight_summary">在合适的时间自动切换到夜间模式</string>
 
     <string name="extra_prefs_category">附加设置</string>
 
     <string name="interface_prefs_screen">界面</string>
-    <string name="interface_gui">显示器</string>
     <string name="interface_secondary_display_category_title">外置显示器</string>
-    <string name="interface_secondary_display_category_summary">连接外置显示器时 (HDMI/Chromecast) 的设置项。</string>
+    <string name="interface_secondary_display_category_summary">连接外部显示器时的设置 (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">克隆优先</string>
-    <string name="enable_clone_mode_summary">克隆设备屏幕，而不启用远程控制。</string>
-    <string name="interface_other_category">界面 - 其他</string>
+    <string name="enable_clone_mode_summary">克隆设备屏幕，不使用遥控功能</string>
 
     <string name="video_prefs_category">视频</string>
     <string name="video_min_group_length_title">视频分组</string>
     <string name="video_min_group_length_disable">不要分组视频</string>
     <string name="video_min_group_length_folder">按文件夹分组</string>
     <string name="video_min_group_length_name">按名称分组</string>
-    <string name="video_min_group_length_first">仅首个字母相同</string>
-    <string name="video_min_group_length_short">少量字母相同 (6)</string>
-    <string name="video_min_group_length_long">大量字母相同 (9)</string>
     <string name="media_fast_seek">快速定位</string>
     <string name="media_fast_seek_summary">更快地定位播放进度，代价是降低精确度</string>
     <string name="video_transition_title">视频切换</string>
@@ -311,8 +268,8 @@
     <string name="media_seen_summary">当视频播放到底时标记为已经看过</string>
     <string name="force_play_all_summary">播放所有视频，从您点击的那个视频开始</string>
     <string name="force_play_all_title">视频播放列表模式</string>
-    <string name="save_brightness_summary">记住使用视频播放器时的亮度级别</string>
-    <string name="save_brightness_title">保存视频亮度级别</string>
+    <string name="save_brightness_summary">切换媒体时保持亮度级别</string>
+    <string name="save_brightness_title">保持亮度级别</string>
     <string name="save_audiodelay_summary">为每个视频保存单独的音频延迟</string>
     <string name="save_audiodelay_title">保存音频延迟</string>
     <string name="enable_brightness_gesture_title">亮度手势</string>
@@ -347,8 +304,6 @@
     <string name="audio_prefs_category">音频</string>
     <string name="lockscreen_cover_title">锁屏媒体封面</string>
     <string name="lockscreen_cover_summary">可用时，将当前媒体的专辑封面设为锁屏桌面</string>
-    <string name="playlist_animate_scroll_title">当前播放列表自动滚动的动画效果</string>
-    <string name="playlist_animate_scroll_summary">媒体切换时的滚动动画效果</string>
     <string name="list_title_ellipsize">单行列表标题缩略</string>
     <string name="list_title_ellipsize_default">默认</string>
     <string name="list_title_ellipsize_left">左侧</string>
@@ -360,14 +315,10 @@
     <string name="headset_prefs_category">耳机</string>
     <string name="enable_headset_detection">启用耳机侦测</string>
     <string name="enable_headset_detection_summary">检测耳机的插入和拔出</string>
-    <string name="enable_headset_actions_title">远程控制快捷键</string>
-    <string name="enable_headset_actions_summary">双击「播放」可跳到下一项，长按「播放」可跳到上一项</string>
     <string name="enable_play_on_headset_insertion">在插入耳机后继续播放</string>
     <string name="enable_play_on_headset_insertion_summary">否则暂停</string>
-    <string name="enable_steal_remote_control">独占耳机远程控制</string>
-    <string name="enable_steal_remote_control_summary">通过拦截其他应用的远程控制请求来避免冲突。可能导致 HTC 手机的双击拨号功能无法使用。</string>
     <string name="aout">音频输出</string>
-    <string name="aout_summary">更改 VLC 输出音频的方式。</string>
+    <string name="aout_summary">更改 VLC 输出音频的方式</string>
     <string name="audio_ducking_title">收到通知时降低 VLC 音量</string>
     <string name="audio_ducking_summary">有助于听清通知声音、导航语音或辅助功能讲解</string>
     <string name="casting_category">投屏</string>
@@ -380,12 +331,10 @@
     <string name="casting_quality_medium">中</string>
     <string name="casting_quality_low">低</string>
     <string name="casting_quality_lowcpu">最低</string>
-    <string name="cast_performance_warning">此视频投屏需要进行格式转换。此类转换将令处理器全速运转，可能会迅速耗尽您的电池。</string>
     <string name="casting_connected_renderer">已连接到渲染器「%1$s」</string>
     <string name="artists_show_all_title">显示所有艺术家</string>
 
     <string name="extensions_prefs_category">扩展</string>
-    <string name="extensions_enable_category">选择要启用的扩展</string>
     <string name="extensions_empty">未侦测到扩展</string>
     <string name="extension_permission_title">激活新的扩展程序「%1$s」?</string>
     <string name="extension_permission_checkbox_title">在 %1$s 中显示</string>
@@ -396,22 +345,19 @@
 
     <string name="performance_prefs_category">性能</string>
     <string name="chroma_format">强制画面色度</string>
-    <string name="chroma_format_summary">RGB 32 位: 默认色度\nRGB 16 位: 性能更佳，但画质下降\nYUV: 性能最佳，但并非所有设备可用。仅限 Android 2.3 及更高版本。</string>
+    <string name="chroma_format_summary">RGB 32 位: 默认色度\nRGB 16 位: 性能更佳但画质较差\nYUV: 性能最佳但并部分设备不支持 (只支持 Android 2.3 及更高)</string>
     <string name="deblocking">去块滤镜设置</string>
-    <string name="deblocking_summary">更改去块滤镜设置。能够改进视频质量。仅供高级用户使用。</string>
+    <string name="deblocking_summary">更改去块滤镜设置可能提升画质 (仅限高级用户使用)</string>
     <string name="deblocking_always">完全去块 (最慢)</string>
     <string name="deblocking_nonref">中度去块</string>
     <string name="deblocking_nonkey">低级去块</string>
     <string name="deblocking_all">不去块 (最快)</string>
     <string name="enable_frame_skip">跳帧</string>
-    <string name="enable_frame_skip_summary">加速解码，但可能降低画质。</string>
+    <string name="enable_frame_skip_summary">加速解码但可能降低画质</string>
     <string name="enable_time_stretching_audio">启用音频的时间伸缩</string>
-    <string name="enable_time_stretching_audio_summary">可加速与减慢音频播放而不改变音调 (需要较快设备支持)。</string>
+    <string name="enable_time_stretching_audio_summary">加速或减慢音频，但保持音调不变 (对设备性能略有要求)</string>
 
     <string name="advanced_prefs_category">高级</string>
-    <string name="save_video_none">不要保存速度</string>
-    <string name="save_video_session">在会话期间保存速度</string>
-    <string name="save_video_always">跨会话保存速度</string>
     <string name="auto_rescan">自动重新扫描</string>
     <string name="auto_rescan_summary">应用启动时，自动扫描设备中新增或删除的媒体文件</string>
     <string name="dump_media_db">转储媒体数据库</string>
@@ -419,12 +365,9 @@
     <string name="clear_media_db">清除媒体数据库</string>
     <string name="clear_media_database_summary">清除数据库并从头开始</string>
     <string name="clear_history">清除历史</string>
-    <string name="media_db_cleared">媒体数据库已清除!</string>
     <string name="set_locale">设置区域变量</string>
-    <string name="set_locale_detail">留空可重置</string>
-    <string name="set_locale_popup">退出并重启 VLC 使更改生效。</string>
     <string name="network_caching">网络缓存值</string>
-    <string name="network_caching_summary">缓冲网络媒体的时间量 (单位为毫秒)。硬件解码时无效。留空可重置。</string>
+    <string name="network_caching_summary">缓冲网络媒体用于软件解码的时间量 (毫秒)\n留空可重置</string>
     <string name="resume_playback_title">通话结束后继续播放</string>
     <string name="resume_playback_summary">否则保持暂停</string>
     <string name="blurred_cover_background_title">背景封面模糊</string>
@@ -469,8 +412,6 @@
     <string name="no_internet_connection">请检查网络连接</string>
     <string name="some_error_occurred">出现错误。请稍候再试</string>
 
-    <string name="drawer_open">打开导航栏</string>
-    <string name="drawer_close">关闭导航栏</string>
     <string name="network_browsing">本地网络</string>
     <string name="browsing">浏览</string>
 
@@ -478,15 +419,12 @@
 
     <string name="audio_delay">音频延迟</string>
     <string name="spu_delay">字幕延迟</string>
-    <string name="sleep_time_not_set">未设置</string>
     <string name="network_shares_discovery">查找网络共享</string>
     <string name="network_empty">该目录为空。</string>
     <string name="network_connection_needed">本地网络无连接。</string>
     <string name="search_hint">搜索媒体</string>
     <string name="search_in_list_hint">在当前列表中搜索</string>
     <string name="search_global">在所有媒体库中搜索媒体</string>
-    <string name="directory_show_medialib">在媒体库中显示</string>
-    <string name="directory_hide_medialib">从媒体库中隐藏</string>
     <string name="playlist_save">保存播放列表</string>
     <string name="playlist_name_hint">播放列表名称</string>
     <string name="go_to_chapter">转到章节…</string>
@@ -494,7 +432,6 @@
     <string name="resume_from_position">从上次播放到的位置继续</string>
     <string name="confirm_resume">是否从上次播放到的位置继续播放？</string>
     <string name="confirm_resume_title">继续播放视频</string>
-    <string name="directory_empty">目录为空</string>
     <string name="tv_ui_title">Android TV 界面</string>
     <string name="tv_ui_summary">将 UI 改为适应 TV 的主题</string>
     <string name="medialibrary">媒体库</string>
@@ -502,10 +439,7 @@
 
     <!-- Accessibility -->
     <string name="more_actions">更多操作</string>
-    <string name="move">移动</string>
     <string name="back_quit_lock">再次按「返回」可退出视频</string>
-    <string name="playlist_deleted">播放列表已删除</string>
-    <string name="file_deleted">文件已删除</string>
     <string name="stream_deleted">流已删除</string>
     <string name="no_subs_found">该目录下无字幕文件</string>
     <string name="music_now_playing">正在播放</string>
@@ -535,7 +469,7 @@
     <string name="extension_empty">没有项目可以显示，请到「扩展设置」中添加。</string>
 
     <string name="opengl_title">OpenGL ES2 使用</string>
-    <string name="opengl_summary">在默认情况下，OpenGL ES2 会在软件解码和硬件解码时按需使用 (比如 360° 视频)。</string>
+    <string name="opengl_summary">默认情况下，OpenGL ES2 会在需要时用于软件解码及硬件解码 (360° 视频)</string>
     <string name="opengl_automatic">自动</string>
     <string name="opengl_on">强制开启</string>
     <string name="opengl_off">强制关闭</string>
@@ -547,29 +481,15 @@
     <string name="popup_playback_title">在浮层播放视频</string>
     <string name="popup_playback">正在浮层窗口播放视频</string>
     <string name="popup_expand">展开视频</string>
-    <string name="snack_subloader_sub_found">字幕已下载</string>
-    <string name="snack_subloader_sub_not_found">字幕未找到</string>
-    <string name="dialog_subloader_success">找到字幕:</string>
-    <string name="dialog_subloader_fails">未找到字幕:</string>
-    <string name="dialog_subloader_sumup">下载已完成</string>
     <string name="download_subtitles">下载字幕</string>
-    <string name="preferences_languages_download">字幕语言</string>
-    <string name="list_languages_download_summary">获取字幕时要下载的语言</string>
-    <string name="list_languages_download_title">字幕下载语言</string>
-    <string name="service_unavailable">服务不可用</string>
-    <string name="subs_dl_lang_fail">无法设置字幕语言，请尝试在应用程序设置中设置</string>
-    <string name="downloading_subtitles">正在下载字幕</string>
     <string name="browse_folder">浏览文件夹</string>
     <string name="listen">收听</string>
-    <string name="subtitles_download_title">字幕下载</string>
-    <string name="connecting">正在连接…</string>
     <string name="save_bluetooth_delay">为蓝牙设备保存延迟</string>
     <string name="episodes">剧集</string>
     <string name="movies">影片</string>
     <string name="videos">视频</string>
     <string name="videos_all">所有视频</string>
     <string name="clear_playback_history">清除回放历史记录</string>
-    <string name="various_artists">群星</string>
     <string name="ml_scanning">正在扫描媒体文件</string>
     <string name="ml_parse_media">正在解析媒体</string>
     <string name="ml_discovering">正在发现</string>
@@ -604,7 +524,6 @@
     <string name="browser_storages">存储设备</string>
     <string name="msg_delete_failed">无法删除媒体「%1$s」</string>
     <string name="renderer_list_title">显示器</string>
-    <string name="feedback_player_crashed">抱歉，VLC 刚才崩溃了。请再试一次。</string>
     <string name="sdcard_permission_dialog_title">您已授予 VLC 写入 SD 卡的权限</string>
     <string name="sdcard_permission_dialog_message">VLC 没有写入权限，无法删除该文件。\n请前往「SD 卡」，点击「选择」。\n您可能需要先在右上角菜单中点击「显示 SD 卡」</string>
     <string name="dialog_sd_wizard">显示</string>
@@ -619,7 +538,6 @@
     <string name="audio_resume_card_summary">应用启动时，显示可继续播放上次内容的提示</string>
     <string name="playback_rewind">倒退</string>
     <string name="playback_forward">快进</string>
-    <string name="ml_wizard_title">VLC 媒体库选择</string>
     <string name="ml_wizard_scan_checkbox">扫描设备中的媒体内容</string>
     <string name="ml_wizard_description">选择 VLC 是扫描设备存储来汇总您的媒体库，还是只作为简易的播放器（内置有文件浏览器）使用。</string>
     <string name="tv_my_new_videos">我的新视频</string>
@@ -647,15 +565,13 @@
     <string name="ctx_player_video_track">选择视频轨道</string>
     <string name="ctx_player_audio_track">音频轨</string>
     <string name="ctx_player_subs_track">字幕轨</string>
-    <string name="ctx_player_tracks_title">媒体轨道列表</string>
     <string name="ctx_pip_title">弹出播放器</string>
     <string name="device_dialog_title">已插入外部设备</string>
     <string name="device_dialog_message">您刚将新的存储设备插入机顶盒，是否希望 VLC 打开它?</string>
     <string name="videos_folders_title">按文件夹显示视频</string>
     <string name="videos_groups_title">视频分组</string>
-    <string name="video_save_remote_setting">是否自动激活远程控制模式?</string>
     <string name="video_save_clone_mode">是否自动激活克隆模式?</string>
-    <string name="video_remote_enable">切换到远程控制模式</string>
+    <string name="video_remote_enable">切换到遥控模式</string>
     <string name="video_remote_disable">复制屏幕</string>
     <string name="removed_from_playlist_anonymous">项目已从播放列表移除</string>
     <string name="welcome_title">欢迎使用 VLC!</string>
@@ -668,13 +584,11 @@
     <string name="daynight_system_explanation">VLC 将跟随系统设置自动切换深色模式</string>
     <string name="daynight_legacy_explanation">VLC 将在恰当的时间自动切换到夜间模式</string>
     <string name="onboarding_scanning_enable">让 VLC 扫描我的设备，寻找媒体内容</string>
-    <string name="onboarding_scan_whole">VLC 将扫描我的整个 SD 卡</string>
     <string name="onboarding_scan_customize">让我选择 VLC 扫描的文件夹</string>
     <string name="button_medialibrary_preferences">前往媒体库偏好设置</string>
     <string name="light_theme">亮主题</string>
     <string name="add">添加</string>
     <string name="add_to_new_playlist">添加到新播放列表</string>
-    <string name="theme_follow_system_mode">跟随系统模式</string>
     <string name="resume_card_message">是否继续播放 %1$s?</string>
     <string name="misc">杂项</string>
     <string name="popup_force_legacy_title">使用自定义画中画弹窗</string>
@@ -705,7 +619,6 @@
     <string name="send_crash_title">VLC 崩溃辅助报告程序</string>
     <string name="send_crash_description">您可通过发送与此次崩溃相关的数据，来帮助我们提升 VLC 的稳定性。</string>
     <string name="send_crash_warning">若存在您不希望发送的敏感数据，请确保取消选中它们。</string>
-    <string name="dont_ask_again">不要再次询问</string>
     <string name="include_medialib">同时发送您的数据库（含媒体库信息！）</string>
     <string name="vlc_reporter">VLC 辅助报告程序</string>
     <string name="welcome_beta_title">VLC beta</string>
@@ -724,9 +637,7 @@
     <string name="add_to_scanned">扫描该文件夹</string>
     <string name="directory_not_scanned">此目录尚未扫描</string>
     <string name="scanned_directory_added">%s 项已添加到已扫描目录</string>
-    <string name="video_group_size_dialog_text">用于按名称分组的字符数量</string>
     <string name="video_group_size_summary">按前 %s 个字母分组</string>
-    <string name="video_group_size">视频按名称分组</string>
     <string name="url_copied_to_clipboard">URL 已复制到剪贴板</string>
     <string name="share">分享</string>
     <string name="invalid_file">无效文件。无法分享。</string>
@@ -735,8 +646,6 @@
     <string name="find_metadata">查找元数据</string>
     <string name="moviepedia_hint">搜索元数据</string>
     <string name="moviepedia_result">视频结果</string>
-    <string name="release_date">发行日期:</string>
-    <string name="synopsis">概要</string>
     <string name="directed_by">导演</string>
     <string name="casting">主演</string>
     <string name="produced_by">制片</string>
@@ -745,8 +654,6 @@
     <string name="posters">海报</string>
     <string name="backdrops">布景</string>
     <string name="header_tvshows">电视节目</string>
-    <string name="all_movies">所有电影</string>
-    <string name="movie_count">%s 部影片</string>
     <string name="header_movies">电影</string>
     <string name="season_number">第%s季</string>
     <string name="resume_episode">继续 (%s)</string>
@@ -787,4 +694,15 @@
     <string name="all_subfolders">添加该文件夹及其子文件夹</string>
     <string name="playlist_existing">播放列表「%s 」已存在</string>
     <string name="new_title">新标题</string>
+    <string name="browse">浏览</string>
+    <string name="more">更多</string>
+    <string name="favorites">收藏</string>
+    <string name="new_stream">新建串流</string>
+    <string name="add_to_group">添加到视频组</string>
+    <string name="remove_from_group">从视频组移除</string>
+    <string name="rename_group">重命名视频组</string>
+    <string name="ungroup">取消组合</string>
+    <string name="group_similar">自动重新组合</string>
+    <string name="no_favorite">没有收藏内容</string>
+    <string name="empty_directory">空</string>
 </resources>
