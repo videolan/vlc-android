@@ -81,6 +81,11 @@
         <item quantity="one">1 filme</item>
         <item quantity="other">%d filmes</item>
     </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 Programa de TV</item>
+        <item quantity="other">%d 1 Programas de TV</item>
+    </plurals>
+
     <string name="internal_memory">Memória interna</string>
     <string name="audio">Áudio</string>
     <string name="video">Vídeo</string>
@@ -611,8 +616,12 @@
     <string name="share_message">Aqui está %s</string>
     <string name="moviepedia_hint">Pesquisar metadados</string>
     <string name="moviepedia_result">Resultados de vídeo</string>
+    <string name="directed_by">Realizado por</string>
     <string name="casting">Difusão</string>
     <string name="produced_by">Produzido por</string>
+    <string name="written_by">Escrito por</string>
+    <string name="music_by">Música por</string>
+    <string name="header_tvshows">Programas de TV</string>
     <string name="header_movies">Filmes</string>
     <string name="resume_episode">Retomar (%s)</string>
     <string name="start_over">Recomeçar de novo</string>
