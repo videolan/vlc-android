@@ -196,6 +196,8 @@
     <string name="playback_history_title">Lejátszási előzmények</string>
     <string name="playback_history_summary">Minden lejátszott média mentése az előzmények közé</string>
     <string name="playback_speed_title">Lejátszási sebesség mentése</string>
+    <string name="playback_speed_summary">Lejátszási sebesség megtartása a médiák között</string>
+
     <string name="play_button">Lejátszás gomb</string>
 
     <!-- Tips -->
@@ -237,6 +239,7 @@
     <string name="add_custom_path_description">Adjon meg egy egyéni könyvtárat a kereséshez:</string>
     <string name="remove_custom_path">Egyéni útvonal eltávolítása</string>
     <string name="hardware_acceleration">Hardveres gyorsítás</string>
+    <string name="hardware_acceleration_summary">Kikapcsolva: jobb stabilitás\nDekódolás: javulhat a teljesítmény\nTeljes: tovább javulhat a teljesítmény</string>
     <string name="hardware_acceleration_disabled">Kikapcsolva</string>
     <string name="hardware_acceleration_decoding">Dekódolás gyorsítás</string>
     <string name="hardware_acceleration_full">Teljes gyorsítás</string>
@@ -257,7 +260,10 @@
 
     <string name="interface_prefs_screen">Kezelőfelület</string>
     <string name="interface_secondary_display_category_title">Másodlagos megjelenítő</string>
+    <string name="interface_secondary_display_category_summary">Beállítások arra az esetre, ha másodlagos kijelző csatlakozik (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Klónozás előnyben részesítése</string>
+    <string name="enable_clone_mode_summary">Az eszköz képernyőjének klónozása távvezérlés nélkül</string>
+
     <string name="video_prefs_category">Videó</string>
     <string name="video_min_group_length_title">Videók csoportosítása</string>
     <string name="video_min_group_length_disable">Ne csoportosítsa a videókat</string>
@@ -271,6 +277,7 @@
     <string name="media_seen_summary">A videók megjelölése megtekintettként, ha végignézte</string>
     <string name="force_play_all_summary">Az összes videó lejátszása, kezdve azzal, amelyikre kattintott</string>
     <string name="force_play_all_title">Videó lejátszólista mód</string>
+    <string name="save_brightness_summary">Fényerő szintjének megtartása a médiák között</string>
     <string name="save_brightness_title">Fényerő szintjének mentése</string>
     <string name="save_audiodelay_summary">Hangkésleltetés mentése külön az összes videóhoz</string>
     <string name="save_audiodelay_title">Hangkésleltetés mentése</string>
@@ -320,6 +327,7 @@
     <string name="enable_play_on_headset_insertion">Folytatás a fejhallgató visszahelyezésekor</string>
     <string name="enable_play_on_headset_insertion_summary">Egyébként szüneteltetés</string>
     <string name="aout">Hangkimenet</string>
+    <string name="aout_summary">Változtassa meg a VLC hangkimenetét</string>
     <string name="audio_ducking_title">Értesítésekkor alacsonyabb VLC hangerő</string>
     <string name="audio_ducking_summary">Segít meghallani a hangértesítéseket, a navigációs utasításokat vagy az asszisztensprogramokat</string>
     <string name="casting_category">Vetítés</string>
@@ -346,13 +354,18 @@
 
     <string name="performance_prefs_category">Teljesítmény</string>
     <string name="chroma_format">Videó színesség kényszerítése</string>
+    <string name="chroma_format_summary">RGB 32-bit: alapértelmezett színtartomány\nRGB 16-bit: jobb teljesítmény, de rosszabb minőség\nYUV: legjobb teljesítmény, de nem minden eszköz támogatja (Android 2.3 vagy újabb szükséges)</string>
     <string name="deblocking">Blokkszűrő beállítások</string>
+    <string name="deblocking_summary">A blokkszűrő beállításainak módosítása javíthatja a videólejátszás minőségét (csak haladó felhasználóknak).</string>
     <string name="deblocking_always">Teljes (leglassabb)</string>
     <string name="deblocking_nonref">Közepes</string>
     <string name="deblocking_nonkey">Alacsony</string>
     <string name="deblocking_all">Nincs (leggyorsabb)</string>
     <string name="enable_frame_skip">Képkocka eldobás</string>
+    <string name="enable_frame_skip_summary">Gyorsítja a dekódolást, de rontja a videólejátszás minőségét</string>
     <string name="enable_time_stretching_audio">Időbeli hangnyújtás</string>
+    <string name="enable_time_stretching_audio_summary">Hang gyorsítása vagy lassítása a hangmagasság változása nélkül (gyors eszköz kell hozzá)</string>
+
     <string name="advanced_prefs_category">Speciális</string>
     <string name="auto_rescan">Automatikus újraátvizsgálás</string>
     <string name="auto_rescan_summary">Automatikusan átvizsgálja az eszközt új és törölt médiák után az alkalmazás indításakor.</string>
@@ -363,6 +376,7 @@
     <string name="clear_history">Előzmények törlése</string>
     <string name="set_locale">Hely beállítása</string>
     <string name="network_caching">Hálózati gyorsítótárazás időtartama</string>
+    <string name="network_caching_summary">Hálózati műsor pufferelési ideje (ms). szoftveres dekódolásnál\nHagyja üresen az alapértelmezés használatához</string>
     <string name="resume_playback_title">Lejátszás folytatása hívás után</string>
     <string name="resume_playback_summary">Egyébként szüneteltetve marad</string>
     <string name="blurred_cover_background_title">Elmosott borítóháttér</string>
@@ -464,6 +478,7 @@
     <string name="extension_empty">Nincs megjelenítendő elem, menjen a bővítménybeállásokhoz, és szerezzen be néhányat.</string>
 
     <string name="opengl_title">OpenGL ES2 használata</string>
+    <string name="opengl_summary">Alapértelmezetten az OpenGL ES2 van használatban a szoftveres dekódoláshoz, és a hardveres dekódoláshoz, ha az szükséges (360°-os videók)</string>
     <string name="opengl_automatic">Automatikus</string>
     <string name="opengl_on">Kényszerítés bekapcsolva</string>
     <string name="opengl_off">Kényszerítés kikapcsolva</string>
@@ -700,4 +715,5 @@
     <string name="ungroup">Csoport felbontása</string>
     <string name="group_similar">Újracsoportosítás automatikusan</string>
     <string name="no_favorite">Nincs kedvenc</string>
+    <string name="empty_directory">Üres</string>
 </resources>
