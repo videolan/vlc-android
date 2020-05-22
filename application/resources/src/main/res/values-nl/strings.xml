@@ -13,6 +13,7 @@
     <string name="sortby_length">Lengte</string>
     <string name="sortby_date">Datum</string>
     <string name="sortby_last_modified_date">Recent toegevoegd</string>
+    <string name="sortby_media_number">Medianummer</string>
     <string name="sortby_number">Aantal tracks</string>
     <string name="searchable_hint">Zoeken…</string>
     <string name="history">Geschiedenis</string>
@@ -46,6 +47,7 @@
     <string name="set_song_question">\'%1$s\' als beltoon instellen?</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
+    <string name="confirm_delete_album">Album \'%1$s\' verwijderen?</string>
     <string name="confirm_delete_several_media">Deze %1$d media verwijderen?</string>
     <string name="confirm_delete_folder">Map \'%1$s\' en de volledige inhoud verwijderen?</string>
     <string name="confirm_delete_playlist">Afspeellijst \'%1$s\' verwijderen?</string>
@@ -194,6 +196,8 @@
     <string name="playback_history_title">Afspeelgeschiedenis</string>
     <string name="playback_history_summary">Alle media afgespeeld in geschiedenis-sectie opslaan</string>
     <string name="playback_speed_title">Afspeelsnelheid opslaan</string>
+    <string name="playback_speed_summary">Afspeelsnelheid tussen media behouden</string>
+
     <string name="play_button">Afspeelknop</string>
 
     <!-- Tips -->
@@ -235,6 +239,7 @@
     <string name="add_custom_path_description">Aangepaste map toevoegen om te controleren:</string>
     <string name="remove_custom_path">Aangepast pad verwijderen</string>
     <string name="hardware_acceleration">Hardwareversnelling</string>
+    <string name="hardware_acceleration_summary">Uitgeschakeld: betere stabiliteit\nDecoderen: kan prestaties verbeteren\nVolledig: kan prestaties nog meer verbeteren</string>
     <string name="hardware_acceleration_disabled">Uitgeschakeld</string>
     <string name="hardware_acceleration_decoding">Decodeerversnelling</string>
     <string name="hardware_acceleration_full">Volledige versnelling</string>
@@ -255,7 +260,10 @@
 
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_secondary_display_category_title">Secundair scherm</string>
+    <string name="interface_secondary_display_category_summary">Instellingen wanneer secundaire schermen verbonden zijn (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Kloon verkiezen</string>
+    <string name="enable_clone_mode_summary">Apparaatscherm zonder afstandsbediening klonen</string>
+
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Video\'s groeperen</string>
     <string name="video_min_group_length_disable">Video\'s niet groeperen</string>
@@ -269,6 +277,8 @@
     <string name="media_seen_summary">Een video als gezien markeren als u hem tot het einde afspeelt</string>
     <string name="force_play_all_summary">Alle video\'s afspelen, beginnend met die waar u op klikte</string>
     <string name="force_play_all_title">Video-afspeellijst modus</string>
+    <string name="save_brightness_summary">Helderheid tussen media behouden</string>
+    <string name="save_brightness_title">Helderheidsniveau opslaan</string>
     <string name="save_audiodelay_summary">Individuele audiovertraging opslaan voor elke video</string>
     <string name="save_audiodelay_title">Audiovertraging opslaan</string>
     <string name="enable_brightness_gesture_title">Helderheidsgebaar</string>
@@ -317,6 +327,7 @@
     <string name="enable_play_on_headset_insertion">Hervatten bij insteken van headset</string>
     <string name="enable_play_on_headset_insertion_summary">Anders pauzeren</string>
     <string name="aout">Audio-uitvoer</string>
+    <string name="aout_summary">Verander de audio-uitvoermethode die VLC gebruikt</string>
     <string name="audio_ducking_title">VLC-volume verlagen bij meldingen</string>
     <string name="audio_ducking_summary">Helpt om audiomeldingen, navigatie-instructies of het praten van de assistent te horen</string>
     <string name="casting_category">Uitzenden</string>
@@ -343,13 +354,18 @@
 
     <string name="performance_prefs_category">Prestaties</string>
     <string name="chroma_format">Chroma forceren</string>
+    <string name="chroma_format_summary">RGB 32-bit: standaard chroma\nRGB 16-bit: betere prestaties maar lagere kwaliteit\nYUV: beste prestaties maar werkt niet op alle apparaten (alleen Android 2.3 en later)</string>
     <string name="deblocking">Deblocking-filter instellingen</string>
+    <string name="deblocking_summary">Instellingen van deblocking-filter aanpassen kan de videokwaliteit verbeteren (alleen geavanceerde gebruikers)</string>
     <string name="deblocking_always">Volledige deblocking (traagste)</string>
     <string name="deblocking_nonref">Medium deblocking</string>
     <string name="deblocking_nonkey">Lage deblocking</string>
     <string name="deblocking_all">Geen deblocking (snelste)</string>
     <string name="enable_frame_skip">Beelden overslaan</string>
+    <string name="enable_frame_skip_summary">Versnelt decoderen, maar kan videokwaliteit verlagen</string>
     <string name="enable_time_stretching_audio">Tijdrekken van audio inschakelen</string>
+    <string name="enable_time_stretching_audio_summary">Audio versnellen en vertragen zonder de toonhoogte te veranderen (vereist een snel apparaat)</string>
+
     <string name="advanced_prefs_category">Geavanceerd</string>
     <string name="auto_rescan">Automatisch opnieuw scannen</string>
     <string name="auto_rescan_summary">Apparaat automatisch scannen op nieuwe of verwijderde media bij het starten van de toepassing</string>
@@ -360,6 +376,7 @@
     <string name="clear_history">Geschiedenis wissen</string>
     <string name="set_locale">Taal instellen</string>
     <string name="network_caching">Netwerkbuffergrootte</string>
+    <string name="network_caching_summary">De hoeveelheid tijd om netwerkmedia te bufferen (in ms) voor software-decoderen\nLeeg laten om te herstellen</string>
     <string name="resume_playback_title">Afspelen hervatten na een oproep</string>
     <string name="resume_playback_summary">Anders blijven pauzeren</string>
     <string name="blurred_cover_background_title">Wazige albumhoes-achtergrond</string>
@@ -461,6 +478,7 @@
     <string name="extension_empty">Geen items om weer te geven, ga naar uw extensie-instellingen om er op te halen.</string>
 
     <string name="opengl_title">OpenGL ES2 gebruik</string>
+    <string name="opengl_summary">Standaard wordt OpenGL ES2 gebruikt voor software-decoderen en hardware-decoderen wanneer nodig (360°-video\'s)</string>
     <string name="opengl_automatic">Automatisch</string>
     <string name="opengl_on">Geforceerd inschakelen</string>
     <string name="opengl_off">Geforceerd uitschakelen</string>
@@ -691,4 +709,11 @@
     <string name="more">Meer</string>
     <string name="favorites">Favorieten</string>
     <string name="new_stream">Nieuwe stream</string>
+    <string name="add_to_group">Toevoegen aan videogroep</string>
+    <string name="remove_from_group">Verwijderen uit videogroep</string>
+    <string name="rename_group">Videogroep hernoemen</string>
+    <string name="ungroup">Degroeperen</string>
+    <string name="group_similar">Automatisch hergroeperen</string>
+    <string name="no_favorite">Geen favoriet</string>
+    <string name="empty_directory">Leeg</string>
 </resources>
