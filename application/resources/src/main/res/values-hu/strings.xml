@@ -9,7 +9,7 @@
     <string name="sortby_name">Név</string>
     <string name="sortby_filename">Fájlnév</string>
     <string name="sortby_artist_name">Előadó neve</string>
-    <string name="sortby_album_name">Album címe</string>
+    <string name="sortby_album_name">Album neve</string>
     <string name="sortby_length">Hossz</string>
     <string name="sortby_date">Dátum</string>
     <string name="sortby_last_modified_date">Legutóbb hozzáadott</string>
@@ -53,7 +53,7 @@
     <string name="confirm_delete_playlist">Törli a(z) „%1$s” lejátszólistát?</string>
     <string name="confirm_remove_from_playlist">Eltávolítja a(z) „%1$s” elemet a lejátszólistáról?</string>
     <string name="ringtone_set">A(z) „%1$s” fájl beállítva csengőhangként.</string>
-    <string name="ringtone_error">Hiba történt a csengőhang beállítása közben.</string>
+    <string name="ringtone_error">Hiba történt a csengőhang beállításakor.</string>
     <string name="pause">Szünet</string>
     <string name="unknown_artist">Ismeretlen előadó</string>
     <string name="unknown_album">Ismeretlen album</string>
@@ -129,11 +129,11 @@
 
     <string name="locked">Zárolva</string>
     <string name="unlocked">Feloldva</string>
-    <string name="surface_best_fit">Legjobban illeszkedő</string>
+    <string name="surface_best_fit">Legjobb illeszkedés</string>
     <string name="surface_fit_screen">Képernyőhöz igazítás</string>
     <string name="surface_fill">Kitöltés</string>
     <string name="surface_original">Középre</string>
-    <string name="unseekable_stream">Nem lehet ugrani ebben a folyamban</string>
+    <string name="unseekable_stream">Nem lehet tekerni ebben a folyamban</string>
     <string name="refresh">Frissítés</string>
     <string name="track_audio">Hangsáv</string>
     <string name="track_video">Videosáv</string>
@@ -161,11 +161,11 @@
     <string name="track_resolution_info">Felbontás: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Képkockasebesség: %1$.3f\n</string>
 
-    <string name="playback_speed">Lejátszás sebessége</string>
+    <string name="playback_speed">Lejátszási sebesség</string>
     <string name="sleep_title">Elalváskapcsoló</string>
     <string name="sleep_in">Elalvás:</string>
     <string name="jump_to_time">Ugrás időpontra</string>
-    <string name="subtitle_select">Feliratfájl kiválasztása</string>
+    <string name="subtitle_select">Válasszon feliratfájlt</string>
 
     <string name="server_add_title">Új kiszolgáló hozzáadása a kedvencekhez</string>
     <string name="server_domain_hint">Kiszolgálócím (domain név vagy IP)</string>
@@ -187,7 +187,7 @@
     <string name="streams">Folyamok</string>
     <string name="open_mrl_dialog_msg">Írja be a hálózati címet: pl. http://, mms:// vagy rtsp://</string>
     <string name="encountered_error_title">Lejátszási hiba</string>
-    <string name="encountered_error_message">A VLC hibát tapasztalt ezzel a médiával.\nKérjük próbálja meg frissíteni a médiatárat.</string>
+    <string name="encountered_error_message">A VLC hibát tapasztalt ezzel a médiával.\nPróbálja meg frissíteni a médiatárat.</string>
     <string name="invalid_location">A(z) %1$s helyet nem lehet lejátszani.</string>
 
     <string name="search">Keresés</string>
@@ -212,7 +212,7 @@
 
     <string name="playlist_tips">Lejátszási lista tippek</string>
     <string name="remove_song">Szám eltávolítása</string>
-    <string name="remove_playlist_item">A(z) %1$s el lett távolítva a lejátszólistáról</string>
+    <string name="remove_playlist_item">A(z) %1$s eltávolítva a lejátszólistáról</string>
     <string name="rearrange_order">Sorrend átrendezése</string>
     <string name="hold_to_seek">Tartsa a kereséshez</string>
 
@@ -241,13 +241,13 @@
     <string name="hardware_acceleration">Hardveres gyorsítás</string>
     <string name="hardware_acceleration_summary">Kikapcsolva: jobb stabilitás\nDekódolás: javulhat a teljesítmény\nTeljes: tovább javulhat a teljesítmény</string>
     <string name="hardware_acceleration_disabled">Kikapcsolva</string>
-    <string name="hardware_acceleration_decoding">Dekódolás gyorsítás</string>
+    <string name="hardware_acceleration_decoding">Dekódolásgyorsítás</string>
     <string name="hardware_acceleration_full">Teljes gyorsítás</string>
     <string name="dev_hardware_decoder">Fejlett hardveres dekódoló</string>
     <string name="dev_hardware_decoder_summary">Hardveres dekódoló erőltetése, csak haladó felhasználóknak</string>
     <string name="automatic">Automatikus</string>
     <string name="screen_orientation">Képernyő tájolása</string>
-    <string name="screen_orientation_sensor">Automatikus (szenzor)</string>
+    <string name="screen_orientation_sensor">Automatikus (érzékelő)</string>
     <string name="screen_orientation_start_lock">Indításkor zárolva</string>
     <string name="screen_orientation_portrait">Álló</string>
     <string name="screen_orientation_landscape">Fekvő</string>
@@ -256,7 +256,7 @@
     <string name="daynight_title">Éjjel-nappali mód</string>
     <string name="daynight_follow_system_title">Rendszer módjának követése</string>
 
-    <string name="extra_prefs_category">Extra beállítások</string>
+    <string name="extra_prefs_category">További beállítások</string>
 
     <string name="interface_prefs_screen">Kezelőfelület</string>
     <string name="interface_secondary_display_category_title">Másodlagos megjelenítő</string>
