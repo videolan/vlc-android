@@ -196,6 +196,8 @@
     <string name="playback_history_title">മുൻപ് കണ്ടതിന്റെ വിവരങ്ങൾ </string>
     <string name="playback_history_summary">കണ്ട മീഡിയയുടെ ചരിത്രം  സൂക്ഷിക്കുക </string>
     <string name="playback_speed_title">കാഴ്ചയുടെ വേഗം സൂക്ഷിക്കുക </string>
+    <string name="playback_speed_summary">മീഡിയകൾക്കിടയിൽ പ്ലേബാക്ക് വേഗത നിലനിർത്തുക</string>
+
     <string name="play_button">പ്ളേ ബട്ടൺ </string>
 
     <!-- Tips -->
@@ -237,6 +239,7 @@
     <string name="add_custom_path_description">സ്കാൻ ചെയ്യാനായി നിങ്ങൾക്ക് താത്പര്യമുള്ള മറ്റൊരു ഡയറക്റ്ററി കൂടെ ചേർക്കുക </string>
     <string name="remove_custom_path">നിങ്ങൾക്ക് താത്പര്യമുള്ള വഴി ഒഴിവാക്കുക </string>
     <string name="hardware_acceleration">ഹാര്‍ഡ്വെയര്‍ ത്വരിതപ്പെടുത്തല്‍</string>
+    <string name="hardware_acceleration_summary">അപ്രാപ്‌തമാക്കി: മികച്ച സ്ഥിരത\nഡീകോഡിംഗ്: പ്രകടനം മെച്ചപ്പെട്ടേക്കാം\nപൂർ‌ണ്ണം: പ്രകടനം കൂടുതൽ‌ മെച്ചമായേക്കാം</string>
     <string name="hardware_acceleration_disabled">അപ്രാപ്തമാക്കി</string>
     <string name="hardware_acceleration_decoding">ഡികോഡിങ് ആസ്സലറേഷൻ </string>
     <string name="hardware_acceleration_full">പരമാവധി ആസ്സലറേഷൻ </string>
@@ -257,7 +260,10 @@
 
     <string name="interface_prefs_screen">ഇന്‍ര്‍ഫേസ്</string>
     <string name="interface_secondary_display_category_title">അനുബന്ധ ഡിസ്പ്ളേ </string>
+    <string name="interface_secondary_display_category_summary">ദ്വിതീയ ദൃശ്യ മുഖങ്ങൾ ബന്ധിപ്പിക്കുമ്പോഴുള്ള ക്രമീകരണങ്ങൾ (എച്ഡിഎംഐ / ക്രോംകാസ്റ്റ് )</string>
     <string name="enable_clone_mode">ക്ളോണിന് മുൻഗണന നൽകുക </string>
+    <string name="enable_clone_mode_summary">വിദൂര നിയന്ത്രണമില്ലാതെ ഉപകരണ സ്‌ക്രീൻ ഇരട്ടിപ്പിക്കുക</string>
+
     <string name="video_prefs_category">വീഡിയോ</string>
     <string name="video_min_group_length_title">ഗ്രൂപ്പ് വീഡിയോകൾ</string>
     <string name="video_min_group_length_disable">വിഡിയോകളെ സംഘങ്ങളായി ചേർക്കാതിരിക്കുക </string>
@@ -271,6 +277,7 @@
     <string name="media_seen_summary">വീഡിയോ മുഴുവനും കണ്ടുകഴിഞ്ഞെങ്കിൽ അത് സൂചിപ്പിക്കുക </string>
     <string name="force_play_all_summary">എല്ലാ വീഡിയോകളും കാണുക, നിങ്ങള്‍ അമര്‍ത്തിയതുമുതല്‍ കണ്ട് തുടങ്ങുക</string>
     <string name="force_play_all_title">വീഡിയോയുടെ പ്ളേ ലിസ്റ്റ് മോഡ് </string>
+    <string name="save_brightness_summary">മീഡിയയ്ക്കിടയിൽ തെളിച്ച നില നിലനിർത്തുക</string>
     <string name="save_brightness_title">തെളിച്ചത്തിന്റെ അളവ് സ്‌ഥിരപ്പെടുത്തുക </string>
     <string name="save_audiodelay_summary">ശബ്ദത്തിന്റെ കാലതാമസം ഓരോ വിഡിയോയ്ക്കും പ്രത്യേകം സൂക്ഷിക്കുക </string>
     <string name="save_audiodelay_title">ശബ്ദത്തിന്റെ കാലതാമസം സേവ് ചെയ്യുക</string>
@@ -320,6 +327,7 @@
     <string name="enable_play_on_headset_insertion">ഹെഡ്സെറ്റ് ചേർത്ത ഉടൻ തുടരുക </string>
     <string name="enable_play_on_headset_insertion_summary">അല്ലെങ്കിൽ പോസ് ചെയ്യുക </string>
     <string name="aout">ഓഡിയോ ഔട്ട്പുട്ട്</string>
+    <string name="aout_summary">ശബ്ദം പുറത്തേക്ക് നൽകുന്നതിന് വി‌എൽ‌സി ഉപയോഗിക്കുന്ന രീതി മാറ്റുക</string>
     <string name="audio_ducking_title">അറിയിപ്പുകൾ ലഭിക്കുമ്പോൾ വിഎൽസി യുടെ ശബ്ദം കുറയ്ക്കുക </string>
     <string name="audio_ducking_summary">ഓഡിയോ അറിയിപ്പുകൾ, നാവിഗേഷൻ നിർദ്ദേശങ്ങൾ അല്ലെങ്കിൽ അസിസ്റ്റന്റ് സംസാരിക്കൽ എന്നിവ കേൾക്കാൻ സഹായിക്കുന്നു</string>
     <string name="casting_category">കാസ്റ്റിങ് </string>
@@ -346,13 +354,18 @@
 
     <string name="performance_prefs_category">പ്രകടനം</string>
     <string name="chroma_format">വീഡിയോ ക്രോമ നിർബന്ധിക്കുക </string>
+    <string name="chroma_format_summary">RGB 32-ബിറ്റ്: സ്ഥിരസ്ഥിതി ക്രോമ\nRGB 16-ബിറ്റ്: മികച്ച പ്രകടനവും കുറഞ്ഞ നിലവാരവും\nYUV: മികച്ച പ്രകടനം എന്നാൽ എല്ലാ ഉപകരണങ്ങളിലും പ്രവർത്തിക്കുന്നില്ല (ആൻഡ്രോയിഡ് 2.3 ഉം അതിനുശേഷവും മാത്രം)</string>
     <string name="deblocking">ഫിൽറ്റർ സെറ്റിങ്ങുകളുടെ ഡിബ്ലോക്കിങ് </string>
+    <string name="deblocking_summary">ഡീബ്ലോക്കിംഗ് അരിപ്പ ക്രമീകരണങ്ങൾ മാറ്റുന്നത് ദൃശ്യ നിലവാരം മെച്ചപ്പെടുത്തും (മികവുള്ള ഉപയോക്താക്കൾക്ക് മാത്രം)</string>
     <string name="deblocking_always">ഫുൾ ഡിബ്ലോക്കിങ് (ഏറ്റവും കുറഞ്ഞ വേഗം)</string>
     <string name="deblocking_nonref">ഇടത്തരം ഡിബ്ലോക്കിങ് </string>
     <string name="deblocking_nonkey">കുറഞ്ഞ ഡിബ്ലോക്കിങ് </string>
     <string name="deblocking_all">ഡിബ്ലോക്കിങ് വേണ്ട ( വേഗമേറിയത് )</string>
     <string name="enable_frame_skip">ഫ്രേം ഒഴിവാക്കുക </string>
+    <string name="enable_frame_skip_summary">ഡീകോഡിംഗ് വേഗം കൂടുമെങ്കിലും ദൃശ്യ നിലവാരം കുറയും </string>
     <string name="enable_time_stretching_audio">സമയം-നീട്ടിയ ഓഡിയോ</string>
+    <string name="enable_time_stretching_audio_summary">പിച്ച് മാറ്റാതെ ശബ്ദം വേഗത്തിലാക്കുകയും വേഗത കുറയ്ക്കുകയും ചെയ്യുക (വേഗതയേറിയ ഉപകരണം ആവശ്യമാണ്)</string>
+
     <string name="advanced_prefs_category">കൂടുതല്‍</string>
     <string name="auto_rescan">തനിയെ റീസ്‌കാൻ ചെയ്യുക </string>
     <string name="auto_rescan_summary">വിഎൽസി യുടെ തുടക്കത്തിൽ തന്നെ പുതിയതും കളഞ്ഞതുമായ മീഡിയക്കായി ഉപകരണം തനിയെ സ്കാൻ ചെയ്യുക </string>
@@ -363,6 +376,7 @@
     <string name="clear_history">ചരിത്രം മായ്ക്കുക </string>
     <string name="set_locale">സങ്കേതസ്ഥാനം നിയമിക്കുക</string>
     <string name="network_caching">ശ്രിന്ഘ കാഷിങ് വാല്യൂ </string>
+    <string name="network_caching_summary">സോഫ്റ്റ്വെയർ ഡീകോഡിംഗിനായി ശ്രിന്ഘല മീഡിയ ബഫർ ചെയ്യുന്നതിനുള്ള സമയം (എം‌എസിൽ)\nപുനഃസജ്ജമാക്കാൻ ശൂന്യമായി വിടുക</string>
     <string name="resume_playback_title">കാൾ നിന്ന ശേഷം പ്ളേ ബാക്ക് തുടരുക </string>
     <string name="resume_playback_summary">അല്ലാത്ത പക്ഷം പോസ് നിലനിർത്തുക </string>
     <string name="blurred_cover_background_title">കവറിന്റെ പശ്ചാത്തലം മങ്ങിയത് </string>
@@ -465,6 +479,7 @@
     <string name="extension_empty">കാണിക്കുവാൻ ഒന്നുമില്ല, എക്സ്റ്റൻഷൻ സെറ്റിങ്‌സ് ഉപയോഗിക്കുക  </string>
 
     <string name="opengl_title">ഓപ്പൺ ജിഎൽ ഇഎസ് 2 ഉപയോഗം</string>
+    <string name="opengl_summary">സ്ഥിരസ്ഥിതിയായി, ആവശ്യമുള്ളപ്പോൾ സോഫ്റ്റ്വെയർ ഡീകോഡിംഗിനും ഹാർഡ്‌വെയർ ഡീകോഡിംഗിനും ഓപ്പൺജിഎൽ ഇഎസ് 2 ഉപയോഗിക്കുന്നു (360 ° ദൃശ്യങ്ങൾ)</string>
     <string name="opengl_automatic">സ്വയം പ്രേരിതം </string>
     <string name="opengl_on">നിർബന്ധപൂർവം On</string>
     <string name="opengl_off">നിർബന്ധപൂർവം Off</string>
