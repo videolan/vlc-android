@@ -102,69 +102,67 @@
             tools:layout_editor_absoluteX="960dp" />
 
         <HorizontalScrollView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/spacer"
-            app:layout_constraintEnd_toEndOf="@+id/media_list"
-            app:layout_constraintStart_toEndOf="@+id/barrier2">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/spacer"
+                app:layout_constraintEnd_toEndOf="@+id/media_list">
 
             <LinearLayout
-                style="?android:attr/buttonBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:orientation="horizontal">
+                    style="?android:attr/buttonBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/play"
-                    android:layout_marginEnd="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_circle_white_selector"
-                    android:padding="8dp"
-                    android:text="@string/play"
-                    app:srcCompat="@drawable/ic_tv_list_play" />
+                        android:id="@+id/play"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/button_circle_white_selector"
+                        android:padding="8dp"
+                        android:text="@string/play"
+                        app:srcCompat="@drawable/ic_tv_list_play" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/delete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/button_circle_white_selector"
-                    android:padding="8dp"
-                    android:text="@string/delete"
-                    app:srcCompat="@drawable/ic_tv_list_delete" />
+                        android:id="@+id/delete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/button_circle_white_selector"
+                        android:padding="8dp"
+                        android:text="@string/delete"
+                        app:srcCompat="@drawable/ic_tv_list_delete" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/insert_next"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/button_circle_white_selector"
-                    android:padding="8dp"
-                    android:text="@string/insert_next"
-                    app:srcCompat="@drawable/ic_tv_list_playnext" />
+                        android:id="@+id/insert_next"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/button_circle_white_selector"
+                        android:padding="8dp"
+                        android:text="@string/insert_next"
+                        app:srcCompat="@drawable/ic_tv_list_playnext" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/append"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/button_circle_white_selector"
-                    android:padding="8dp"
-                    android:text="@string/append"
-                    app:srcCompat="@drawable/ic_tv_list_append" />
+                        android:id="@+id/append"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/button_circle_white_selector"
+                        android:padding="8dp"
+                        android:text="@string/append"
+                        app:srcCompat="@drawable/ic_tv_list_append" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/add_playlist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_circle_white_selector"
-                    android:padding="8dp"
-                    android:text="@string/add_to_playlist"
-                    app:srcCompat="@drawable/ic_tv_list_addtoplaylist" />
+                        android:id="@+id/add_playlist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_circle_white_selector"
+                        android:padding="8dp"
+                        android:text="@string/add_to_playlist"
+                        app:srcCompat="@drawable/ic_tv_list_addtoplaylist" />
 
             </LinearLayout>
         </HorizontalScrollView>
