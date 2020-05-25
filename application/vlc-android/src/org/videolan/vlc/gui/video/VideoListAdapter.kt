@@ -46,10 +46,7 @@ import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.UPDATE_SEEN
-import org.videolan.resources.UPDATE_SELECTION
-import org.videolan.resources.UPDATE_THUMB
-import org.videolan.resources.UPDATE_TIME
+import org.videolan.resources.*
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.safeOffer
@@ -122,6 +119,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                     UPDATE_THUMB -> loadImage(holder.overlay, media)
                     UPDATE_TIME, UPDATE_SEEN -> fillView(holder, media as MediaWrapper)
                     UPDATE_SELECTION -> holder.selectView(multiSelectHelper.isSelected(position))
+                    UPDATE_VIDEO_GROUP -> fillView(holder, media!!)
                 }
             }
         }
@@ -252,11 +250,16 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                         && TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl)
                         && oldItem.seen == newItem.seen)
             } //else if (oldItem is FolderImpl && newItem is FolderImpl) return oldItem === newItem || (oldItem.title == newItem.title && oldItem.artworkMrl == newItem.artworkMrl)
+            else if (oldItem is VideoGroup && newItem is VideoGroup) {
+                oldItem === newItem || (oldItem.title == newItem.title
+                        && oldItem.tracksCount == newItem.tracksCount)
+            }
             else oldItem.itemType == MediaLibraryItem.TYPE_FOLDER || oldItem.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
         }
 
         override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem) = when {
             (oldItem is MediaWrapper && newItem is MediaWrapper) && oldItem.displayTime != newItem.displayTime -> UPDATE_TIME
+            (oldItem is VideoGroup && newItem is VideoGroup) -> UPDATE_VIDEO_GROUP
             !TextUtils.equals(oldItem.artworkMrl, newItem.artworkMrl) -> UPDATE_THUMB
             else -> UPDATE_SEEN
         }

@@ -65,9 +65,7 @@ public class VideoGroupImpl extends VideoGroup {
     @Override
     public boolean rename(String name) {
         final Medialibrary ml = Medialibrary.getInstance();
-        boolean newNameSet = ml.isInitiated() && nativeGroupRename(ml, mId, name);
-        if (newNameSet) setTitle(name);
-        return newNameSet;
+        return  ml.isInitiated() && nativeGroupRename(ml, mId, name);
     }
 
     @Override

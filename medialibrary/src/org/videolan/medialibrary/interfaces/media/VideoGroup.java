@@ -25,7 +25,7 @@ public abstract class VideoGroup extends MediaLibraryItem {
     abstract public boolean add(long mediaId);
     abstract public boolean remove(long mediaId);
     @Nullable abstract public String getName();
-    abstract public boolean rename(String name);
+    abstract public boolean  rename(String name);
     abstract public boolean userInteracted();
     abstract public long duration();
     abstract public boolean destroy();
