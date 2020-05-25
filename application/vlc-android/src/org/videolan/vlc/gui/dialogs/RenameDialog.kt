@@ -45,6 +45,8 @@
  */
 package org.videolan.vlc.gui.dialogs
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -60,11 +62,13 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 
-private const val MEDIA = "RENAME_DIALOG_MEDIA"
+const val RENAME_DIALOG_MEDIA = "RENAME_DIALOG_MEDIA"
+const val RENAME_DIALOG_NEW_NAME = "RENAME_DIALOG_NEW_NAME"
+const val RENAME_DIALOG_REQUEST_CODE = 1
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class RenameDialog(private val listener: (String) -> Unit) : VLCBottomSheetDialogFragment() {
+class RenameDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var renameButton: Button
     private lateinit var newNameInputtext: TextInputEditText
@@ -72,18 +76,18 @@ class RenameDialog(private val listener: (String) -> Unit) : VLCBottomSheetDialo
 
     companion object {
 
-        fun newInstance(media: MediaLibraryItem, listener: (String) -> Unit): RenameDialog {
+        fun newInstance(media: MediaLibraryItem): RenameDialog {
 
-            return RenameDialog(listener).apply {
+            return RenameDialog().apply {
                 val args = Bundle()
-                args.putParcelable(MEDIA, media)
+                args.putParcelable(RENAME_DIALOG_MEDIA, media)
                 arguments = args
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        media = arguments?.getParcelable(MEDIA) ?: return
+        media = arguments?.getParcelable(RENAME_DIALOG_MEDIA) ?: return
         super.onCreate(savedInstanceState)
     }
 
@@ -118,7 +122,10 @@ class RenameDialog(private val listener: (String) -> Unit) : VLCBottomSheetDialo
 
     private fun performRename() {
         if (newNameInputtext.text.toString().isNotEmpty()) {
-            listener(newNameInputtext.text.toString())
+            val intent = Intent()
+            intent.putExtra(RENAME_DIALOG_MEDIA,media)
+            intent.putExtra(RENAME_DIALOG_NEW_NAME,newNameInputtext.text.toString())
+            targetFragment?.onActivityResult(RENAME_DIALOG_REQUEST_CODE, Activity.RESULT_OK, intent)
             dismiss()
         }
     }

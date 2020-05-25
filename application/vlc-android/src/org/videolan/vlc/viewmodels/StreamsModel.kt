@@ -62,8 +62,7 @@ class StreamsModel(context: Context, private val showDummy: Boolean = false, cor
 
     }
 
-    fun rename(position: Int, name: String) {
-        val media = dataset.get(position) as? MediaWrapper ?: return
+    fun rename(media: MediaWrapper, name: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) { media.rename(name) }
             refresh()

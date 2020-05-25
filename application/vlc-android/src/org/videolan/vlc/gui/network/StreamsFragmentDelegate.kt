@@ -35,6 +35,7 @@ import org.videolan.resources.*
 import org.videolan.tools.copy
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_REQUEST_CODE
 import org.videolan.vlc.gui.dialogs.RenameDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.helpers.UiTools
@@ -104,9 +105,9 @@ class StreamsFragmentDelegate : IStreamsFragmentDelegate, CtxActionReceiver {
     }
 
     private fun renameStream(position: Int) {
-        RenameDialog.newInstance(viewModel.dataset.get(position)) { newName ->
-            viewModel.rename(position, newName)
-        }.show(fragment.requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+        val dialog = RenameDialog.newInstance(viewModel.dataset.get(position))
+        dialog.setTargetFragment(fragment, RENAME_DIALOG_REQUEST_CODE)
+        dialog.show(fragment.requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
     }
 }
 

@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.network
 
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
@@ -43,12 +44,16 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.Settings
 import org.videolan.tools.isValidUrl
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
+import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_REQUEST_CODE
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.viewmodels.StreamsModel
@@ -113,6 +118,18 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         val clipBoardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val text = clipBoardManager.primaryClip?.getItemAt(0)?.text?.toString()
         if (text.isValidUrl()) viewModel.observableSearchText.set(text)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RENAME_DIALOG_REQUEST_CODE) {
+            data?.let {
+
+                val media = it.getParcelableExtra<MediaWrapper>(RENAME_DIALOG_MEDIA)
+                val newName = it.getStringExtra(RENAME_DIALOG_NEW_NAME)
+                viewModel.rename(media, newName)
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onStart() {

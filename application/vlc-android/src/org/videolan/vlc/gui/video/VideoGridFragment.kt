@@ -48,10 +48,7 @@ import org.videolan.vlc.databinding.VideoGridBinding
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
-import org.videolan.vlc.gui.dialogs.CtxActionReceiver
-import org.videolan.vlc.gui.dialogs.RenameDialog
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
-import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
@@ -449,13 +446,25 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         }
     }
 
-    private fun renameGroup(media: VideoGroup) {
-        RenameDialog.newInstance(media) { newName ->
-            viewModel.renameGroup(media, newName)
-            (activity as? AppCompatActivity)?.run {
-                supportActionBar?.title = newName
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RENAME_DIALOG_REQUEST_CODE) {
+            data?.let {
+
+                val media = it.getParcelableExtra<VideoGroup>(RENAME_DIALOG_MEDIA)
+                val newName = it.getStringExtra(RENAME_DIALOG_NEW_NAME)
+                viewModel.renameGroup(media, newName)
+                (activity as? AppCompatActivity)?.run {
+                    supportActionBar?.title = newName
+                }
             }
-        }.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun renameGroup(media: VideoGroup) {
+        val dialog = RenameDialog.newInstance(media)
+        dialog.setTargetFragment(this, RENAME_DIALOG_REQUEST_CODE)
+        dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
     }
 
     private val thumbObs = Observer<MediaWrapper> { media ->
