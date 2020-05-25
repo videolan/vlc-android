@@ -31,7 +31,7 @@ public abstract class VideoGroup extends MediaLibraryItem {
     abstract public boolean destroy();
 
     public String getDisplayTitle() {
-        return super.getTitle() + "…";
+        return super.getTitle();
     }
 
     public int mediaCount() {
