@@ -266,7 +266,7 @@
                 android:id="@+id/audio_play_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners_bottom_default_darker"
+                android:background="?attr/rounded_corners_bottom_default_darker"
                 android:elevation="4dp"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"

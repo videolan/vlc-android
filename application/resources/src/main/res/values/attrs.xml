@@ -63,6 +63,7 @@
     <attr name="empty_button" format="reference" />
     <attr name="default_separator" format="color" />
     <attr name="card_border" format="color" />
+    <attr name="rounded_corners_bottom_default_darker" format="reference" />
 
     <!--Main Icons-->
     <attr name="ic_down_style" format="reference" />

@@ -111,6 +111,7 @@
         <item name="default_separator">@color/grey300</item>
         <item name="empty_button">@style/Widget.MaterialComponents.Button.OutlinedButton</item>
         <item name="card_border">@color/grey300</item>
+        <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_light</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.MaterialComponents.Dialog">
@@ -237,6 +238,7 @@
         <item name="empty_button">@style/Widget.MaterialComponents.Button.OutlinedButton</item>
 
         <item name="card_border">@color/grey800</item>
+        <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_dark</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">
