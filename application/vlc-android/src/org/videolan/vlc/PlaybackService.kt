@@ -457,9 +457,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         dispatcher.onServicePreSuperOnCreate()
+        setupScope()
         forceForeground()
         super.onCreate()
-        setupScope()
         NotificationHelper.createNotificationChannels(applicationContext)
         settings = Settings.getInstance(this)
         playlistManager = PlaylistManager(this)
@@ -588,13 +588,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private fun forceForeground() {
         if (!AndroidUtil.isOOrLater || isForeground) return
         val ctx = applicationContext
-        val stopped = PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED
+        val stopped = PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED || PlayerController.playbackState == PlaybackStateCompat.STATE_NONE
         val notification = if (this::notification.isInitialized && !stopped) notification
         else {
             val pi = if (::playlistManager.isInitialized) sessionPendingIntent else null
             NotificationHelper.createPlaybackNotification(ctx, false,
-                ctx.resources.getString(R.string.loading), "", "", null,
-                false, true, null, pi)
+                    ctx.resources.getString(R.string.loading), "", "", null,
+                    false, true, null, pi)
         }
         startForeground(3, notification)
         isForeground = true
