@@ -858,6 +858,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (switchToPopup)
                     switchToPopup(currentMediaPosition)
                 else {
+                    mediaplayer.detachViews()
                     currentMediaWrapper?.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                     showWithoutParse(currentMediaPosition)
                 }
@@ -884,7 +885,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         /* Stop listening for changes to media routes. */
         if (!isBenchmark) displayManager.removeMediaRouterCallback()
 
-        if (!displayManager.isSecondary) service?.mediaplayer?.detachViews()
+         if (!displayManager.isSecondary) service?.mediaplayer?.detachViews()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
