@@ -354,6 +354,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             return false
         val hasRenderer = player.hasRenderer
         videoBackground = false
+        showAudioPlayer.postValue(false)
         if (player.isVideoPlaying() && !hasRenderer) {//Player is already running, just send it an intent
             player.setVideoTrackEnabled(true)
             LocalBroadcastManager.getInstance(service).sendBroadcast(

@@ -1111,14 +1111,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
      */
 
     @MainThread
-    fun showWithoutParse(index: Int) {
+    fun showWithoutParse(index: Int, forPopup:Boolean = false) {
         playlistManager.setVideoTrackEnabled(false)
         val media = playlistManager.getMedia(index) ?: return
         // Show an URI without interrupting/losing the current stream
         if (BuildConfig.DEBUG) Log.v(TAG, "Showing index " + index + " with playing URI " + media.uri)
         playlistManager.currentIndex = index
         notifyTrackChanged()
-        PlaylistManager.showAudioPlayer.value = !isVideoPlaying
+        PlaylistManager.showAudioPlayer.value = !isVideoPlaying && !forPopup
         showNotification()
     }
 
@@ -1129,7 +1129,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     @MainThread
     fun switchToPopup(index: Int) {
         playlistManager.saveMediaMeta()
-        showWithoutParse(index)
+        showWithoutParse(index, true)
         showPopup()
     }
 
