@@ -91,9 +91,11 @@ class AudioPlayerActivity : BaseTvActivity() {
             }
         })
         model.playerState.observe(this, Observer { playerState -> update(playerState) })
-        val medialist = intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
-        if (medialist != null) MediaUtils.openList(this, medialist, position)
+        if (intent.hasExtra(MEDIA_PLAYLIST))
+            intent.getLongExtra(MEDIA_PLAYLIST, -1L).let { MediaUtils.openPlaylist(this, it) }
+        else
+            intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)?.let { MediaUtils.openList(this, it, position) }
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
         pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play)!!
     }
@@ -285,6 +287,7 @@ class AudioPlayerActivity : BaseTvActivity() {
         const val TAG = "VLC/AudioPlayerActivity"
 
         const val MEDIA_LIST = "media_list"
+        const val MEDIA_PLAYLIST = "media_playlist"
         const val MEDIA_POSITION = "media_position"
 
         //PAD navigation

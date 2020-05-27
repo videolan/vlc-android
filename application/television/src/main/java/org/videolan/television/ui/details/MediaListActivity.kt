@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.ITEM
@@ -79,7 +80,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
         binding.totalTime = Tools.millisToString(item.tracks.sumByDouble { it.length.toDouble() }.toLong())
 
 
-        binding.play.setOnClickListener { TvUtil.playMedia(this, item.tracks.toMutableList()) }
+        binding.play.setOnClickListener { if (item is Playlist) TvUtil.playPlaylist(this, item as Playlist)  else TvUtil.playMedia(this, item.tracks.toMutableList())}
         binding.append.setOnClickListener { MediaUtils.appendMedia(this, item.tracks) }
         binding.insertNext.setOnClickListener { MediaUtils.insertNext(this, item.tracks) }
         binding.addPlaylist.setOnClickListener { addToPlaylist(item.tracks, SavePlaylistDialog.KEY_NEW_TRACKS) }
@@ -125,7 +126,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
     }
 
     override fun onClickPlay(v: View, position: Int) {
-        TvUtil.playMedia(this, item.tracks.toList(), position)
+        if (item is Playlist) TvUtil.playPlaylist(this, item as Playlist, position)  else  TvUtil.playMedia(this, item.tracks.toList(), position)
     }
 
     override fun onClickPlayNext(v: View, position: Int) {

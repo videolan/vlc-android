@@ -38,6 +38,7 @@ import androidx.leanback.widget.DiffCallback
 import androidx.leanback.widget.ListRow
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.moviepedia.database.models.MediaMetadataWithImages
@@ -120,6 +121,13 @@ object TvUtil {
     fun playMedia(activity: Activity, media: List<MediaWrapper>, position: Int = 0) {
         val intent = Intent(activity, AudioPlayerActivity::class.java)
         intent.putExtra(AudioPlayerActivity.MEDIA_LIST, ArrayList(media))
+        intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position)
+        activity.startActivity(intent)
+    }
+
+    fun playPlaylist(activity: Activity, playlist: Playlist, position: Int = 0) {
+        val intent = Intent(activity, AudioPlayerActivity::class.java)
+        intent.putExtra(AudioPlayerActivity.MEDIA_PLAYLIST, playlist.id)
         intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position)
         activity.startActivity(intent)
     }

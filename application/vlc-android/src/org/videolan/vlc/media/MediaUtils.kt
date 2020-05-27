@@ -298,6 +298,16 @@ object MediaUtils {
         }
     }
 
+    @JvmOverloads
+    fun openPlaylist(context: Context?, playlistId: Long, position: Int = 0, shuffle: Boolean = false) {
+        if (playlistId == -1L || context == null) return
+        SuspendDialogCallback(context) { service ->
+           val playlist =  context.getFromMl { getPlaylist(playlistId) }
+            service.load(playlist.getPagedTracks(playlist.realTracksCount, 0), position)
+            if (shuffle && !service.isShuffling) service.shuffle()
+        }
+    }
+
     fun openUri(context: Context?, uri: Uri?) {
         if (uri == null || context == null) return
         SuspendDialogCallback(context) { service ->
