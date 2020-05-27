@@ -2005,6 +2005,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
                     hudBinding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
                     service.manageAbRepeatStep(hudRightBinding.abRepeatReset, hudRightBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
+                    showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) OVERLAY_INFINITE else OVERLAY_TIMEOUT)
                 })
                 service.playlistManager.abRepeatOn.observe(this, Observer {
                     hudBinding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
@@ -2013,6 +2014,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                         hudBinding.playerOverlayLength.nextFocusUpId = R.id.ab_repeat_add_marker
                         hudBinding.playerOverlayTime.nextFocusUpId = R.id.ab_repeat_add_marker
                     }
+                    if (it) showOverlayTimeout(OVERLAY_INFINITE)
 
                     service.manageAbRepeatStep(hudRightBinding.abRepeatReset, hudRightBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                 })
