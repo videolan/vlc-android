@@ -25,6 +25,7 @@
 package org.videolan.vlc.gui.video
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Handler
 import android.util.Log
 import android.view.MotionEvent
@@ -92,6 +93,8 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
         setupLayout()
     }
 
+    var lastMediaUri:Uri?= null
+
     @SuppressLint("SetTextI18n")
     private val runnable = Runnable {
         val media = player.service?.mediaplayer?.media as? Media ?: return@Runnable
@@ -105,13 +108,14 @@ class VideoStatsDelegate(private val player: VideoPlayerActivity, val scrolling:
             binding.plotView.addData(StatIndex.INPUT_BITRATE.ordinal, Pair(now, it * 8 * 1024))
         }
 
-        media.let {
+        if (lastMediaUri != media.uri) {
+            lastMediaUri = media.uri
             binding.infoGrids.removeAllViews()
-            for (i in 0 until it.trackCount) {
+            for (i in 0 until media.trackCount) {
                 val grid = GridLayout(player)
                 grid.columnCount = 2
 
-                val track = it.getTrack(i)
+                val track = media.getTrack(i)
                 if (track.bitrate > 0) addStreamGridView(grid, player.getString(R.string.bitrate), player.getString(R.string.bitrate_value, track.bitrate.toLong().readableSize()))
                 addStreamGridView(grid, player.getString(R.string.codec), track.codec)
                 if (track.language != null && !track.language.equals("und", ignoreCase = true))
