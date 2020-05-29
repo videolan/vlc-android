@@ -61,9 +61,10 @@ import org.videolan.vlc.gui.browser.StorageBrowserFragment
 import org.videolan.vlc.gui.helpers.BottomNavigationBehavior
 import org.videolan.vlc.gui.helpers.PlayerBehavior
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.helpers.getHeightWhenReady
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.PlaylistManager
+import kotlin.math.max
+import kotlin.math.min
 
 private const val TAG = "VLC/APCActivity"
 
@@ -71,13 +72,14 @@ private const val ACTION_DISPLAY_PROGRESSBAR = 1339
 private const val ACTION_SHOW_PLAYER = 1340
 private const val ACTION_HIDE_PLAYER = 1341
 private const val BOTTOM_IS_HIDDEN = "bottom_is_hidden"
+
 @SuppressLint("Registered")
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 open class AudioPlayerContainerActivity : BaseActivity() {
 
     private var bottomBar: BottomNavigationView? = null
-    protected lateinit var appBarLayout: AppBarLayout
+    lateinit var appBarLayout: AppBarLayout
     protected lateinit var toolbar: Toolbar
     private var tabLayout: TabLayout? = null
     protected lateinit var audioPlayer: AudioPlayer
@@ -107,14 +109,11 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     val isAudioPlayerExpanded: Boolean
         get() = isAudioPlayerReady && playerBehavior.state == STATE_EXPANDED
 
-    var bottomIsHiddden: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
 
             this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
-            bottomIsHiddden = savedInstanceState.getBoolean(BOTTOM_IS_HIDDEN, false)
         }
         super.onCreate(savedInstanceState)
         volumeControlStream = AudioManager.STREAM_MUSIC
@@ -132,13 +131,6 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         tabLayout = findViewById(R.id.sliding_tabs)
         appBarLayout.setExpanded(true)
         bottomBar = findViewById(R.id.navigation)
-        if (bottomIsHiddden) {
-            bottomBar?.let {
-                val bottomBehavior = BottomNavigationBehavior.from(it) as BottomNavigationBehavior<*>
-                bottomBehavior.isPlayerHidden = true
-                it.getHeightWhenReady { height -> it.translationY = height.toFloat() }
-            }
-        }
         tabLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
             //add a shadow if there are tabs
             if (AndroidUtil.isLolliPopOrLater) appBarLayout.elevation = if (tabLayout?.isVisible() == true) 4.dp.toFloat() else 0.dp.toFloat()
@@ -154,38 +146,32 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         findViewById<View>(R.id.audio_player_stub).visibility = View.VISIBLE
         audioPlayer = supportFragmentManager.findFragmentById(R.id.audio_player) as AudioPlayer
         playerBehavior = from(audioPlayerContainer) as PlayerBehavior<*>
-        val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<*> }
+        val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View> }
                 ?: null
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         playerBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 audioPlayer.onSlide(slideOffset)
+                val translationpercent = min(1f, max(0f, slideOffset))
+                bottomBehavior?.let { bottomBehavior ->
+                    bottomBar?.let {                        bottomBar->
+                        val translation =  min((translationpercent*audioPlayerContainer.height / 2), bottomBar.height.toFloat())
+                        bottomBehavior.translate(bottomBar, translation)
+                    }
+                }
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 onPlayerStateChanged(bottomSheet, newState)
                 audioPlayer.onStateChanged(newState)
                 if (newState == STATE_COLLAPSED || newState == STATE_HIDDEN) removeTipViewIfDisplayed()
-                bottomBehavior?.let { bottomBehavior ->
-                    bottomBar?.let { bottomBar ->
-                        if (newState == STATE_DRAGGING) {
-                            bottomBehavior.animateBarVisibility(bottomBar, false)
-                            bottomBehavior.isPlayerHidden = true
-                        }
-                        if (newState == STATE_COLLAPSED) {
-                            bottomBehavior.animateBarVisibility(bottomBar, true)
-                            bottomBehavior.isPlayerHidden = false
-                        }
-                    }
-                }
-
             }
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<*> }?.isPlayerHidden
+        outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { it.translationY != 0F }
                 ?: false)
         super.onSaveInstanceState(outState)
     }
@@ -356,15 +342,6 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         scanProgressBar?.progress = parsing
     }
 
-    protected fun updateContainerPadding(show: Boolean) {
-        if (!::fragmentContainer.isInitialized) return
-        val factor = if (show) 1 else 0
-        val peekHeight = if (show && isAudioPlayerReady) playerBehavior.peekHeight else 0
-        fragmentContainer.run {
-            setPadding(paddingLeft, paddingTop, paddingRight, originalBottomPadding + factor * peekHeight)
-        }
-    }
-
     private fun applyMarginToProgressBar(marginValue: Int) {
         if (scanProgressLayout != null && scanProgressLayout?.visibility == View.VISIBLE) {
             val lp = scanProgressLayout!!.layoutParams as CoordinatorLayout.LayoutParams
@@ -424,12 +401,10 @@ open class AudioPlayerContainerActivity : BaseActivity() {
                 ACTION_SHOW_PLAYER -> owner.run {
                     if (this::resumeCard.isInitialized && resumeCard.isShown) resumeCard.dismiss()
                     showAudioPlayerImpl()
-                    updateContainerPadding(true)
                     if (::playerBehavior.isInitialized) owner.applyMarginToProgressBar(playerBehavior.peekHeight)
                 }
                 ACTION_HIDE_PLAYER -> owner.run {
                     hideAudioPlayerImpl()
-                    updateContainerPadding(false)
                     applyMarginToProgressBar(0)
                 }
             }

@@ -208,7 +208,9 @@ object UiTools {
      * Print an on-screen message to alert the user
      */
     fun snacker(view: View, stringId: Int) {
-        Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT).show()
+        val snack = Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT)
+//        snack.setAnchorView()
+                snack.show()
     }
 
     /**
@@ -692,13 +694,4 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
         }
     }
     else -> R.drawable.ic_browser_unknown_big_normal
-}
-
-fun View.getHeightWhenReady(listener: (height: Int) -> Unit) {
-    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            listener(height)
-            viewTreeObserver.removeOnGlobalLayoutListener(this)
-        }
-    })
 }

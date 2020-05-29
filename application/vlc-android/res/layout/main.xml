@@ -44,7 +44,7 @@
             app:borderWidth="0dp"
             app:layout_anchor="@+id/navigation"
             app:layout_anchorGravity="top|end"
-            android:layout_gravity="top"
+            android:layout_gravity="top|end"
             app:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
             app:rippleColor="@color/orange50" />
 

@@ -2,11 +2,17 @@ package org.videolan.vlc.gui.helpers
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.tools.dp
+import org.videolan.vlc.R
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -19,9 +25,32 @@ class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomS
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
+    init {
+        state = STATE_HIDDEN
+
+    }
+
     fun lock(lock: Boolean) {
         this.lock = lock
     }
+
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
+        if (dependency is Snackbar.SnackbarLayout) {
+            updateSnackbar(child, dependency)
+        }
+
+        return super.layoutDependsOn(parent, child, dependency)
+    }
+
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
+        if (dependency is Snackbar.SnackbarLayout) {
+            updateSnackbar(child, dependency)
+        }
+
+        return super.onDependentViewChanged(parent, child, dependency)
+    }
+
+
 
     override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: V, event: MotionEvent): Boolean {
         if (lock) return false
@@ -32,6 +61,19 @@ class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomS
             return false
         }
 
+    }
+
+
+    private fun updateSnackbar(child: View, view: View) {
+        if (view.layoutParams is CoordinatorLayout.LayoutParams) {
+            val params = view.layoutParams as CoordinatorLayout.LayoutParams
+
+            params.anchorId = child.id
+            params.anchorGravity = Gravity.TOP
+            params.gravity = Gravity.TOP
+            params.bottomMargin = 8.dp
+            view.layoutParams = params
+        }
     }
 
 

@@ -50,7 +50,6 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
 
         for (i in 0 until nbColumns) {
             if ((pos - i) >= 0 && provider.isFirstInSection(pos - i)) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "Adding offset for $pos")
                 outRect.top = headerOffset + space * 2
             }
         }
@@ -106,9 +105,6 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     private fun drawHeader(c: Canvas, child: View, headerView: View) {
         c.save()
         if (sticky) {
-            if (BuildConfig.DEBUG) Log.d("ItemGridDecoration", "Child top: ${child.top}")
-            if (BuildConfig.DEBUG) Log.d("ItemGridDecoration", "canvas: ${c.clipBounds}")
-            if (BuildConfig.DEBUG) Log.d("ItemGridDecoration", "y: ${Math.max(0, child.top - 0 - headerView.height - space * 2).toFloat()}")
             c.translate(0f, Math.max(0, child.top - headerView.height - (space * 1.5).toInt()).toFloat())
         } else {
             c.translate(0f, (child.top - headerView.height).toFloat())
