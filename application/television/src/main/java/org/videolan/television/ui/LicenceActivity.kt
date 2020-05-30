@@ -1,10 +1,8 @@
 package org.videolan.television.ui
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
+import android.util.Base64
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.FragmentActivity
@@ -16,15 +14,18 @@ class LicenceActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(org.videolan.television.R.layout.about_licence)
+
+        val webView = findViewById<WebView>(R.id.webview)
         val revision = getString(R.string.build_revision)
-        val licence = WebView(this)
+        webView.loadUrl("file:///android_asset/licence.htm")
 
-        licence.loadUrl("file:///android_asset/licence.htm")
-
-        licence.webViewClient = object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
 
             override fun onPageFinished(view: WebView, url: String) {
                 if (url.startsWith("file:///android_asset")) {
+                    // Inject CSS when page is done loading
+                    injectCSS(view, "licence_dark.css")
                     injectCommitRevision(view, revision)
                 }
                 super.onPageFinished(view, url)
@@ -32,9 +33,29 @@ class LicenceActivity : FragmentActivity() {
             }
         }
 
-        setContentView(licence)
-        (licence.parent as View).setBackgroundColor(Color.LTGRAY)
         applyOverscanMargin(this)
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun injectCSS(webView: WebView, cssAsset: String) {
+        try {
+            webView.settings.javaScriptEnabled = true
+
+            val buffer = Util.readAsset(cssAsset, "")
+            val encoded = Base64.encodeToString(buffer.toByteArray(), Base64.NO_WRAP)
+            webView.loadUrl("javascript:(function() {" +
+                    "var parent = document.getElementsByTagName('head').item(0);" +
+                    "var style = document.createElement('style');" +
+                    "style.type = 'text/css';" +
+                    // Tell the browser to BASE64-decode the string into your script !!!
+                    "style.innerHTML = window.atob('" + encoded + "');" +
+                    "parent.appendChild(style);" +
+                    "})()")
+
+            webView.settings.javaScriptEnabled = false
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
