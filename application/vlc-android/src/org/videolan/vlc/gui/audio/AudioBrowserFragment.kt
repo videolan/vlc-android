@@ -235,6 +235,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
             menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
             menu.findItem(R.id.ml_menu_display_grid).isVisible = currentTab in 0..2 && !viewModel.providersInCard[currentTab]
             menu.findItem(R.id.ml_menu_display_list).isVisible = currentTab in 0..2 && viewModel.providersInCard[currentTab]
+            menu.findItem(R.id.ml_menu_sortby_media_number).isVisible = canSortByMediaNumber()
             val showAllArtistsItem = menu.findItem(R.id.artists_show_all_title)
             showAllArtistsItem.isVisible = currentTab == 0
             showAllArtistsItem.isChecked = Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false)

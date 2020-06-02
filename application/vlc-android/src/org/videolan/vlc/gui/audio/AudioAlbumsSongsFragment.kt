@@ -183,6 +183,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
             menu.findItem(R.id.ml_menu_display_grid).isVisible = !viewModel.providersInCard[currentTab]
             menu.findItem(R.id.ml_menu_display_list).isVisible = viewModel.providersInCard[currentTab]
+            menu.findItem(R.id.ml_menu_sortby_media_number).isVisible = canSortByMediaNumber()
         }
         sortMenuTitles()
     }
