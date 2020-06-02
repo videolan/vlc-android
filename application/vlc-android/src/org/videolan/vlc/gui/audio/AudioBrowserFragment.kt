@@ -204,7 +204,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         provider.loading.observe(viewLifecycleOwner, Observer { loading ->
             if (loading == null || currentTab != index) return@Observer
             setRefreshing(loading) { refresh ->
-                if (refresh) empty_loading.state = EmptyLoadingState.LOADING
+                if (refresh) updateEmptyView()
                 else {
                     swipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
                     songs_fast_scroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
@@ -281,7 +281,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     override fun enableSearchOption() = true
 
     private fun updateEmptyView() {
-        empty_loading.state = if (viewModel.providers[currentTab].loading.value == true) EmptyLoadingState.LOADING else  if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
+        empty_loading.state = if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else  if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
         setFabPlayShuffleAllVisibility()
     }
 
