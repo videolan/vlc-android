@@ -2605,7 +2605,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     }
                 }
                 val interactive = service?.mediaplayer?.let {
-                    it.titles[it.title].isInteractive
+                    (it.titles[it.title])?.isInteractive ?: false
                 } ?: false
                 isNavMenu = menuIdx == currentIdx || interactive
             }
