@@ -94,7 +94,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
             performSearh(s.toString())
     }
 
-    override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent): Boolean {
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             UiTools.setKeyboardVisibility(binding.root, false)
             return true
