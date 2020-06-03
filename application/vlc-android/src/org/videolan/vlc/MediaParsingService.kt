@@ -401,7 +401,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private fun exitCommand() {
         if (!medialibrary.isWorking && !serviceLock && !discoverTriggered) {
             lastNotificationTime = 0L
-            if (wakeLock.isHeld) wakeLock.release()
+            if (wakeLock.isHeld) try {
+                wakeLock.release()
+            } catch (t: Throwable) {
+                //catching here as isHeld is not thread safe
+            }
             localBroadcastManager.sendBroadcast(Intent(ACTION_CONTENT_INDEXING))
             //todo reenable entry point when ready
             if (::notificationActor.isInitialized) notificationActor.safeOffer(Hide)
