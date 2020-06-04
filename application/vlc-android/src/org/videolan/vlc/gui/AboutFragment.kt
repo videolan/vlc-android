@@ -78,7 +78,7 @@ class AboutFragment : Fragment() {
         }
         lifecycleScope.launch {
             UiTools.fillAboutView(view)
-            webView.loadUrl("file:///android_asset/licence.htm")
+            webView.loadUrl("file:///android_asset/license.htm")
 
             webView.webViewClient = object : WebViewClient() {
 

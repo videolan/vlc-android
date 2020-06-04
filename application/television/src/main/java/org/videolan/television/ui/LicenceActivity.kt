@@ -21,7 +21,7 @@ class LicenceActivity : FragmentActivity() {
 
         val webView = WebView(this)
         val revision = getString(R.string.build_revision)
-        webView.loadUrl("file:///android_asset/licence.htm")
+        webView.loadUrl("file:///android_asset/license.htm")
         webView.setBackgroundColor(backgroundColor)
 
         webView.webViewClient = object : WebViewClient() {
