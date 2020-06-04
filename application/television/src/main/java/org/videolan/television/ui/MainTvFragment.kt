@@ -301,7 +301,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                         }
                     }
                     ID_ABOUT_TV -> activity.startActivity(Intent(activity, AboutActivity::class.java))
-                    ID_LICENCE -> startActivity(Intent(activity, LicenceActivity::class.java))
+                    ID_LICENCE -> activity.startActivity(Intent(activity, LicenceActivity::class.java))
                 }
             }
             HEADER_NOW_PLAYING -> {

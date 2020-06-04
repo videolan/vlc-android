@@ -3,8 +3,11 @@ package org.videolan.television.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Base64
+import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.vlc.R
@@ -14,26 +17,30 @@ class LicenceActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(org.videolan.television.R.layout.about_licence)
+        val backgroundColor = ContextCompat.getColor(this, R.color.grey850)
 
-        val webView = findViewById<WebView>(R.id.webview)
+        val webView = WebView(this)
         val revision = getString(R.string.build_revision)
         webView.loadUrl("file:///android_asset/licence.htm")
+        webView.setBackgroundColor(backgroundColor)
 
         webView.webViewClient = object : WebViewClient() {
 
             override fun onPageFinished(view: WebView, url: String) {
                 if (url.startsWith("file:///android_asset")) {
                     // Inject CSS when page is done loading
-                    injectCSS(view, "licence_dark.css")
+                    injectCSS(view, "licence_dark_tv.css")
                     injectCommitRevision(view, revision)
                 }
                 super.onPageFinished(view, url)
 
             }
         }
-
-        applyOverscanMargin(this)
+        setContentView(webView)
+        (webView.layoutParams as? FrameLayout.LayoutParams)?.let {
+            it.setMargins(0,0,0,0)
+        }
+        (webView.parent as View).setBackgroundColor(backgroundColor)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
