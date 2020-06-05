@@ -1028,7 +1028,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     @MainThread
     fun removeCallback(cb: Callback) = cbActor.safeOffer(CbRemove(cb))
 
-    fun restartMediaPlayer() = playlistManager.player.restart()
+    fun restartMediaPlayer() = playlistManager.restart()
 
     fun saveMediaMeta() = playlistManager.saveMediaMeta()
 

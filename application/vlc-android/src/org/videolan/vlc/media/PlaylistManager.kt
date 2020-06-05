@@ -12,6 +12,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import okhttp3.internal.waitMillis
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -214,6 +215,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         }
         launch { playIndex(currentIndex) }
+    }
+
+    fun restart() {
+        val isPlaying = player.isPlaying() && isAudioList()
+        stop()
+        if (isPlaying) PlaybackService.loadLastAudio(service)
     }
 
     fun stop(systemExit: Boolean = false, video: Boolean = false) {
