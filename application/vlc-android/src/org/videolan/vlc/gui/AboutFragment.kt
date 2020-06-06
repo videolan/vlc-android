@@ -87,13 +87,13 @@ class AboutFragment : Fragment() {
                         // Inject CSS when page is done loading
                         injectCSS(webView, when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
                             Configuration.UI_MODE_NIGHT_YES -> {
-                                "licence_dark.css"
+                                "license_dark.css"
                             }
                             Configuration.UI_MODE_NIGHT_NO -> {
-                                "licence_light.css"
+                                "license_light.css"
                             }
                             else -> {
-                                "licence_light.css"
+                                "license_light.css"
                             }
                         })
                         injectCommitRevision(webView, revision)
