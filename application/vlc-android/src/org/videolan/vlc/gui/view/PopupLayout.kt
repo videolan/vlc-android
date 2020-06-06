@@ -110,7 +110,7 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
         windowManager = context.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
         popupWidth = context.resources.getDimensionPixelSize(R.dimen.video_pip_width)
-        popupHeight = context.resources.getDimensionPixelSize(R.dimen.video_pip_heigth)
+        popupHeight = context.resources.getDimensionPixelSize(R.dimen.video_pip_height)
         val params = WindowManager.LayoutParams(
                 popupWidth,
                 popupHeight,

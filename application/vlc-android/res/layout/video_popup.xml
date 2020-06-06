@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="@dimen/video_pip_width"
-        android:layout_height="@dimen/video_pip_heigth"
+        android:layout_height="@dimen/video_pip_height"
         android:keepScreenOn="true">
 
     <SurfaceView

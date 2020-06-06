@@ -15,7 +15,7 @@
 
     <!-- pop-Up player -->
     <dimen name="video_pip_width">512dp</dimen>
-    <dimen name="video_pip_heigth">288dp</dimen>
+    <dimen name="video_pip_height">288dp</dimen>
 
     <dimen name="dialog_sd_wisard_width">448dp</dimen>
     <dimen name="dialog_sd_wisard_height">576dp</dimen>
