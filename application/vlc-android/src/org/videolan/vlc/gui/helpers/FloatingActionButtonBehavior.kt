@@ -26,11 +26,15 @@ package org.videolan.vlc.gui.helpers
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
 import androidx.annotation.Keep
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import org.videolan.tools.setInvisible
@@ -42,6 +46,11 @@ class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet?) : Flo
     // Listener to workaroud AppCompat 25.x bug
     // FAB doesn't receive any callback when set to GONE.
     private val onVisibilityChangedListener: FloatingActionButton.OnVisibilityChangedListener
+    private var player: FrameLayout? = null
+    private val playerBehavior: PlayerBehavior<*>?
+        get() {
+            return ((player?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? PlayerBehavior)
+        }
 
     init {
         onVisibilityChangedListener = object : FloatingActionButton.OnVisibilityChangedListener() {
@@ -53,7 +62,12 @@ class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet?) : Flo
     }
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: FloatingActionButton, dependency: View): Boolean {
+        if (dependency is FrameLayout && dependency.id == R.id.audio_player_container) {
+            player = dependency
+        }
+
         return (dependency.id == R.id.audio_player_container
+                || dependency is BottomNavigationView
                 || dependency is Snackbar.SnackbarLayout
                 || dependency is RecyclerView
                 || dependency is NestedScrollView)
@@ -64,12 +78,18 @@ class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet?) : Flo
     }
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: FloatingActionButton, dependency: View): Boolean {
-        return if (dependency.id == R.id.audio_player_container && dependency.visibility == View.VISIBLE) {
-            val childHeight = (child.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin + child.height
-            child.y = dependency.y - childHeight
-            true
-        } else
-            super.onDependentViewChanged(parent, child, dependency)
+        if (dependency.id == R.id.audio_player_container && playerBehavior?.state != BottomSheetBehavior.STATE_HIDDEN) {
+            val params = (child.layoutParams as CoordinatorLayout.LayoutParams)
+
+            if (params.anchorId != dependency.id) {
+                params.anchorId = dependency.id
+                params.anchorGravity = Gravity.TOP or Gravity.END
+                params.gravity = Gravity.TOP or Gravity.END
+                child.layoutParams = params
+            }
+            return true
+        }
+        return super.onDependentViewChanged(parent, child, dependency)
     }
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: FloatingActionButton, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
@@ -80,10 +100,5 @@ class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet?) : Flo
             child.hide(onVisibilityChangedListener)
         else if (dy < 0 && child.visibility == View.INVISIBLE)
             child.show()
-    }
-
-    companion object {
-
-        private const val TAG = "VLC/FloatingActionButtonBehavior"
     }
 }

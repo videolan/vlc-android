@@ -68,11 +68,13 @@ class PlayerBehavior<V : View> : com.google.android.material.bottomsheet.BottomS
         if (view.layoutParams is CoordinatorLayout.LayoutParams) {
             val params = view.layoutParams as CoordinatorLayout.LayoutParams
 
-            params.anchorId = child.id
-            params.anchorGravity = Gravity.TOP
-            params.gravity = Gravity.TOP
-            params.bottomMargin = 8.dp
-            view.layoutParams = params
+            if (params.anchorId != child.id) {
+                params.anchorId = child.id
+                params.anchorGravity = Gravity.TOP
+                params.gravity = Gravity.TOP
+                params.bottomMargin = 8.dp
+                view.layoutParams = params
+            }
         }
     }
 

@@ -154,8 +154,8 @@ open class AudioPlayerContainerActivity : BaseActivity() {
                 audioPlayer.onSlide(slideOffset)
                 val translationpercent = min(1f, max(0f, slideOffset))
                 bottomBehavior?.let { bottomBehavior ->
-                    bottomBar?.let {                        bottomBar->
-                        val translation =  min((translationpercent*audioPlayerContainer.height / 2), bottomBar.height.toFloat())
+                    bottomBar?.let { bottomBar ->
+                        val translation = min((translationpercent * audioPlayerContainer.height / 2), bottomBar.height.toFloat())
                         bottomBehavior.translate(bottomBar, translation)
                     }
                 }

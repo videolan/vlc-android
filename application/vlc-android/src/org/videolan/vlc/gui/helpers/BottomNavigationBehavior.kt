@@ -86,7 +86,7 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
         if (dependency is Snackbar.SnackbarLayout) {
             updateSnackbar(child, dependency)
         }
-        if (dependency is FrameLayout && dependency.id == R.id.audio_player_container) return true
+        if (dependency.id == R.id.audio_player_container) return true
         return super.layoutDependsOn(parent, child, dependency)
     }
 
@@ -98,9 +98,7 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
         return super.onDependentViewChanged(parent, child, dependency)
     }
 
-    override fun onStartNestedScroll(
-            coordinatorLayout: CoordinatorLayout, child: V, directTargetChild: View, target: View, axes: Int, type: Int
-    ): Boolean {
+    override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: V, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
         if (playerBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) return false
         updatePlayer(child)
         return true
@@ -181,10 +179,12 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
         if (snackbarLayout.layoutParams is CoordinatorLayout.LayoutParams) {
             val params = snackbarLayout.layoutParams as CoordinatorLayout.LayoutParams
 
-            params.anchorId = child.id
-            params.anchorGravity = Gravity.TOP
-            params.gravity = Gravity.TOP
-            snackbarLayout.layoutParams = params
+            if (params.anchorId != child.id) {
+                params.anchorId = child.id
+                params.anchorGravity = Gravity.TOP
+                params.gravity = Gravity.TOP
+                snackbarLayout.layoutParams = params
+            }
         }
     }
 
