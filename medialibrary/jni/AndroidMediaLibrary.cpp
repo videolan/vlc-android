@@ -530,7 +530,7 @@ medialibrary::Query<medialibrary::IFolder> AndroidMediaLibrary::subFolders(int64
 medialibrary::Query<medialibrary::IMediaGroup>
 AndroidMediaLibrary::videoGroups( const medialibrary::QueryParameters* params )
 {
-    return p_ml->mediaGroups(params);
+    return p_ml->mediaGroups(medialibrary::IMedia::Type::Video, params);
 }
 
 medialibrary::Query<medialibrary::IMediaGroup>
