@@ -100,9 +100,6 @@ else
 fi
 if [ "$RELEASE" = "1" ]; then
   git reset --hard ${MEDIALIBRARY_HASH}
-  # In case of VLC 4.0 build, we need this commit to fix the build, but we
-  # still don't want to change the HASH for that.
-  git cherry-pick bfb2ad6e8b34a62c482e3064e6e13751482b903f
 fi
 cd ${SRC_DIR}
 
