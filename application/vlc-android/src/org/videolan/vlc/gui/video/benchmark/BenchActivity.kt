@@ -26,6 +26,7 @@ import android.content.*
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.View
 import kotlinx.coroutines.Dispatchers
@@ -80,6 +81,19 @@ class BenchActivity : ShallowVideoPlayer() {
      * used to check if hardware decoder works */
     private var hasVout = false
 
+    private var isSpeed = false
+    /* this is playback speed, it will rise or lower up to having
+     the speed limit at which playback isn't loosing frames yet */
+    private var speed: Float = 1.0f
+    private var speedIteration = 0
+    private var interval: Float = 1.0f
+    /* multiply by -1 when changing search orientation */
+    /* set to zero for first pass as orientation will be determined by results */
+    private var direction = 0
+    private var hasLimit = false
+    private var oldRate: Float = 0f
+    private var oldRepeating: Int = 0
+
     /* android_display vout is forced on hardware tests */
     /* this option is set using the opengl sharedPref */
     /* Saves the original value to reset it after the benchmark */
@@ -114,6 +128,10 @@ class BenchActivity : ShallowVideoPlayer() {
             }
             VLCInstance.restart()
             this.service?.restartMediaPlayer()
+        } else if (isSpeed && this.service != null) {
+            oldRate = service!!.rate
+            oldRepeating = service.playlistManager.repeating
+            service.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_ONE)
         }
     }
 
@@ -166,6 +184,9 @@ class BenchActivity : ShallowVideoPlayer() {
                 enableCloneMode = true
                 displayManager.release()
             }
+            EXTRA_ACTION_SPEED -> {
+                isSpeed = true
+            }
         }
 
         // blocking display in landscape orientation
@@ -215,9 +236,16 @@ class BenchActivity : ShallowVideoPlayer() {
      */
     @TargetApi(21)
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        super.onMediaPlayerEvent(event)
         when (event.type) {
             MediaPlayer.Event.Vout -> hasVout = true
             MediaPlayer.Event.TimeChanged -> setTimeout()
+            MediaPlayer.Event.EndReached -> {
+                checkLogs()
+                if (isSpeed) {
+                    continueSpeedTest()
+                }
+            }
             MediaPlayer.Event.PositionChanged -> {
                 val pos = event.positionChanged
                 if (!isScreenshot) {
@@ -250,7 +278,7 @@ class BenchActivity : ShallowVideoPlayer() {
                     val uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
                     decorView.systemUiVisibility = uiOptions
 
-                    /* Broadcast to trigger screenshot in VLCBenchamrk */
+                    /* Broadcast to trigger screenshot in VLCBenchmark */
                     val packageName = getString(R.string.benchmark_package_name)
                     val broadcastIntent = Intent(ACTION_TRIGGER_SCREENSHOT)
                     broadcastIntent.setPackage(packageName)
@@ -260,7 +288,93 @@ class BenchActivity : ShallowVideoPlayer() {
                 }
             }
         }
-        super.onMediaPlayerEvent(event)
+    }
+
+    private fun initConvergeance(dropped: Boolean) = when {
+        (dropped) -> {
+            direction = -1
+            interval = 0.5f
+        }
+        else -> {
+            direction = 1
+            interval = 1.0f
+        }
+    }
+
+    /* This is the first part of the binary search determining the interval in which the
+    maximum decoding speed is */
+    private fun findLimit(dropped: Boolean) : Boolean {
+        when {
+            (direction == -1 && dropped) -> {
+                interval /= 2
+                return true
+            }
+            (direction == -1 && !dropped) -> return true
+            (direction == 1 && dropped) -> return true
+        }
+        speed += interval * direction
+        return false
+    }
+
+    /* This is the second part of the binary search, converging on the maximum decoding speed,
+    after having determined an interval in which it is */
+    private fun converge(dropped: Boolean) {
+        if (!hasLimit)
+            return
+        speedIteration += 1
+        when {
+            (direction == -1 && dropped && speed < 1.0) -> interval /= 2
+            (direction == -1 && !dropped) -> {
+                direction = 1
+                interval /= 2
+            }
+            (direction == 1 && dropped) -> {
+                direction = -1
+                interval /= 2
+            }
+        }
+        speed += interval * direction
+    }
+
+    private fun heuristic() : Boolean {
+        val metric: Int
+        val drops = service!!.lastStats!!.lostPictures
+        when {
+            (direction == 0 && drops > 0) -> return true
+            (direction != 0 && speed >= 1.0) -> {
+                metric = lateFrameCounter
+                lateFrameCounter = 0
+                if (metric > 0)
+                    return true
+            }
+            (direction != 0 && speed < 1.0) -> {
+                lateFrameCounter = 0
+                if (drops > 0)
+                    return true
+            }
+        }
+        return false
+    }
+
+    private fun continueSpeedTest() {
+        if (service == null) {
+            errorFinish("SpeedTesting: There is no service")
+            return
+        }
+        val goBack = heuristic()
+        if (direction == 0) {
+            hasLimit = goBack
+            initConvergeance(goBack)
+        }
+        if (!hasLimit) {
+            hasLimit = findLimit(goBack)
+        }
+        converge(goBack)
+        if (speedIteration == SPEED_TEST_ITERATION_LIMIT || speed == 0f) {
+            service!!.playlistManager.setRepeatType(oldRepeating)
+            finish()
+        }
+        service!!.setRate(speed, true)
     }
 
     private fun continueScreenshots() {
@@ -370,12 +484,12 @@ class BenchActivity : ShallowVideoPlayer() {
      * Method analysing VLC logs to find warnings,
      * and report them to VLCBenchmark
      */
-    private fun checkLogs() = AppScope.launch (Dispatchers.IO){
+    private fun checkLogs() {
         var counter = 0
         try {
             val pid = android.os.Process.myPid()
-            /*Displays priority, tag, and PID of the process issuing the message from this pid*/
-            val process = Runtime.getRuntime().exec("logcat -d -v brief --pid=$pid")
+            /* Displays the date, invocation time, priority, tag, and PID of the process issuing the message from this pid*/
+            val process = Runtime.getRuntime().exec("logcat -d -v time --pid=$pid")
             val inputStreamReader = InputStreamReader(process.inputStream)
             val bufferedReader = BufferedReader(inputStreamReader)
             var line = bufferedReader.readLine()
@@ -397,7 +511,6 @@ class BenchActivity : ShallowVideoPlayer() {
         } catch (ex: IOException) {
             Log.e(TAG, ex.toString())
         }
-
         lateFrameCounter = counter
     }
 
@@ -416,6 +529,9 @@ class BenchActivity : ShallowVideoPlayer() {
                     apply()
                 }
             }
+            if (isSpeed) {
+                service!!.setRate(oldRate, true)
+            }
             VLCInstance.restart()
         }
         /* Case of error in VideoPlayerActivity, then finish is not overridden */
@@ -428,13 +544,13 @@ class BenchActivity : ShallowVideoPlayer() {
             super.finish()
         }
         val sendIntent = Intent()
-        checkLogs()
         if (service != null) {
             val stats = service!!.lastStats
             sendIntent.putExtra("percent_of_bad_seek", 0.0)
             sendIntent.putExtra("number_of_dropped_frames", stats?.lostPictures ?: 100)
             sendIntent.putExtra("late_frames", lateFrameCounter)
             setResult(Activity.RESULT_OK, sendIntent)
+            sendIntent.putExtra("speed", speed)
             super.finish()
         } else {
             errorFinish("PlaybackService is null")
@@ -454,12 +570,15 @@ class BenchActivity : ShallowVideoPlayer() {
         private const val EXTRA_TIMESTAMPS = "extra_benchmark_timestamps"
         private const val EXTRA_ACTION_QUALITY = "extra_benchmark_action_quality"
         private const val EXTRA_ACTION_PLAYBACK = "extra_benchmark_action_playback"
+        private const val EXTRA_ACTION_SPEED = "extra_benchmark_action_speed"
         private const val EXTRA_ACTION = "extra_benchmark_action"
         private const val EXTRA_HARDWARE = "extra_benchmark_disable_hardware"
         private const val EXTRA_STACKTRACE_FILE = "stacktrace_file"
 
         private const val ACTION_TRIGGER_SCREENSHOT = "org.videolan.vlcbenchmark.TRIGGER_SCREENSHOT"
         private const val ACTION_CONTINUE_BENCHMARK = "org.videolan.vlc.gui.video.benchmark.CONTINUE_BENCHMARK"
+
+        private const val SPEED_TEST_ITERATION_LIMIT = 5
 
         private const val TAG = "VLCBenchmark"
 

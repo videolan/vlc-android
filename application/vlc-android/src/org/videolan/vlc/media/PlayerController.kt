@@ -247,6 +247,17 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         return id != IMedia.Meta.NowPlaying || mw?.nowPlaying !== null
     }
 
+    /**
+     * When changing current media, setPreviousStats is called to store statistics related to the
+     * media. SetCurrentStats is called in the case where repeating is set to
+     * PlaybackStateCompat.REPEAT_MODE_ONE, and the current media should not be released, as
+     * it is still in use.
+     */
+    fun setCurrentStats() {
+        val media = mediaplayer.media ?: return
+        previousMediaStats = media.stats
+    }
+
     fun setPreviousStats() {
         val media = mediaplayer.media ?: return
         previousMediaStats = media.stats

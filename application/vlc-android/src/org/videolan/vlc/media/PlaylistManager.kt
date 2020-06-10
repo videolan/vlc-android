@@ -809,6 +809,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (stopAfter == currentIndex) {
                         stop()
                     } else {
+                        if (isBenchmark) player.setCurrentStats()
                         determinePrevAndNextIndices(true)
                         if (!hasNext()) getCurrentMedia()?.let {
                             if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
