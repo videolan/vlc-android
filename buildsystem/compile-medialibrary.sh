@@ -90,6 +90,7 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
   #    git checkout 0.5.x
   git submodule update --init libvlcpp
+  git reset --hard ${MEDIALIBRARY_HASH}
 else
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
   if ! git cat-file -e ${MEDIALIBRARY_HASH}; then
@@ -97,9 +98,6 @@ else
     rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
     rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
   fi
-fi
-if [ "$RELEASE" = "1" ]; then
-  git reset --hard ${MEDIALIBRARY_HASH}
 fi
 cd ${SRC_DIR}
 
