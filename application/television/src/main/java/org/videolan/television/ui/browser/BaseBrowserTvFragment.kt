@@ -314,7 +314,6 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
         menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = (viewModel as SortableModel).canSortByInsertionDate() || (viewModel as SortableModel).canSortByReleaseDate() || (viewModel as SortableModel).canSortByLastModified()
         menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = (viewModel as SortableModel).canSortByReleaseDate()
         menu.menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = (viewModel as SortableModel).canSortByLastModified()
-        menu.menu.findItem(org.videolan.vlc.R.id.ml_menu_sortby_media_number).isVisible = false
         menu.menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
         menu.setOnMenuItemClickListener(this)
         menu.show()
