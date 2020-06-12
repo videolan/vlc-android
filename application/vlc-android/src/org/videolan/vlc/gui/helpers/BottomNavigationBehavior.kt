@@ -62,11 +62,14 @@ class BottomNavigationBehavior<V : View>(context: Context, attrs: AttributeSet) 
     private var forceTranslation: Float = -1F
 
     override fun onSaveInstanceState(parent: CoordinatorLayout, child: V): Parcelable? {
-        return BottomNavigationBehaviorState(super.onSaveInstanceState(parent, child), child.translationY)
+        val superState = super.onSaveInstanceState(parent, child)
+        superState?.let {
+            return BottomNavigationBehaviorState(superState, child.translationY)
+        }
+        return superState
     }
 
     override fun onRestoreInstanceState(parent: CoordinatorLayout, child: V, state: Parcelable) {
-
         val ss = state as BottomNavigationBehaviorState
         super.onRestoreInstanceState(parent, child, ss.superState!!)
         this.forceTranslation = ss.translation
