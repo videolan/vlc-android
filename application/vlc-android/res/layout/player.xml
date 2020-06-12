@@ -26,6 +26,26 @@
             android:fitsSystemWindows="false"
             android:layout="@layout/player_overlay_seek" />
 
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_brightness_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginRight="@dimen/tv_overscan_horizontal"
+            android:layout="@layout/player_overlay_brightness" />
+
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_volume_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/tv_overscan_horizontal"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout="@layout/player_overlay_volume" />
+
     <RelativeLayout
             android:id="@+id/player_ui_container"
             android:layout_width="match_parent"

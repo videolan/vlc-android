@@ -70,6 +70,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.player_overlay_brightness.*
+import kotlinx.android.synthetic.main.player_overlay_volume.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -142,9 +144,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var isShowingDialog: Boolean = false
     var info: TextView? = null
     var overlayInfo: View? = null
-    var verticalBar: View? = null
-    private lateinit var verticalBarProgress: View
-    private lateinit var verticalBarBoostProgress: View
     internal var isLoading: Boolean = false
         private set
     private var isPlaying = false
@@ -238,6 +237,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private lateinit var playToPause: AnimatedVectorDrawableCompat
     private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
 
+    private lateinit var vibrator: Vibrator
+
     internal val isPlaybackSettingActive: Boolean
         get() = delayDelegate.playbackSetting != IPlaybackSettingsController.DelayState.OFF
 
@@ -249,7 +250,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             service?.run {
                 when (msg.what) {
                     FADE_OUT -> hideOverlay(false)
-                    FADE_OUT_INFO -> fadeOutInfo()
+                    FADE_OUT_INFO -> fadeOutInfo(overlayInfo)
+                    FADE_OUT_BRIGHTNESS_INFO -> fadeOutInfo(player_overlay_brightness)
+                    FADE_OUT_VOLUME_INFO -> fadeOutInfo(player_overlay_volume)
                     START_PLAYBACK -> startPlayback()
                     AUDIO_SERVICE_CONNECTION_FAILED -> exit(RESULT_CONNECTION_FAILED)
                     RESET_BACK_LOCK -> lockBackButton = true
@@ -497,6 +500,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
         pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play)!!
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     }
 
     override fun afterTextChanged(s: Editable?) {
@@ -1279,32 +1283,42 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         lockBackButton = false
     }
 
+
+    private fun hapticFeedback() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)  vibrator.vibrate(VibrationEffect.createOneShot(50, 80))
+        else vibrator.vibrate(50)
+    }
+
     /**
-     * Show text in the info view and vertical progress bar for "duration" milliseconds
-     * @param text
-     * @param duration
-     * @param barNewValue new volume/brightness value (range: 0 - 15)
+     * Show the brightness value with  bar
+     * @param brightness the brightness value
      */
-    private fun showInfoWithVerticalBar(text: String, duration: Int, barNewValue: Int, max: Int) {
-        showInfo(text, duration)
-        if (!::verticalBarProgress.isInitialized) return
-        var layoutParams: LinearLayout.LayoutParams
-        if (barNewValue <= 100) {
-            layoutParams = verticalBarProgress.layoutParams as LinearLayout.LayoutParams
-            layoutParams.weight = barNewValue * 100 / max.toFloat()
-            verticalBarProgress.layoutParams = layoutParams
-            layoutParams = verticalBarBoostProgress.layoutParams as LinearLayout.LayoutParams
-            layoutParams.weight = 0f
-            verticalBarBoostProgress.layoutParams = layoutParams
-        } else {
-            layoutParams = verticalBarProgress.layoutParams as LinearLayout.LayoutParams
-            layoutParams.weight = 100 * 100 / max.toFloat()
-            verticalBarProgress.layoutParams = layoutParams
-            layoutParams = verticalBarBoostProgress.layoutParams as LinearLayout.LayoutParams
-            layoutParams.weight = (barNewValue - 100) * 100 / max.toFloat()
-            verticalBarBoostProgress.layoutParams = layoutParams
-        }
-        verticalBar.setVisible()
+    private fun showBrightnessBar(brightness: Int) {
+        findViewById<ViewStubCompat>(R.id.player_brightness_stub)?.setVisible()
+        if (player_overlay_brightness.visibility != View.VISIBLE) hapticFeedback()
+        player_overlay_brightness.setVisible()
+        brightness_value_text.text = "$brightness%"
+        playerBrightnessProgress.setValue(brightness)
+        player_overlay_brightness.setVisible()
+        handler.removeMessages(FADE_OUT_BRIGHTNESS_INFO)
+        handler.sendEmptyMessageDelayed(FADE_OUT_BRIGHTNESS_INFO, 1000L)
+        dimStatusBar(true)
+    }
+
+    /**
+     * Show the volume value with  bar
+     * @param volume the volume value
+     */
+    private fun showVolumeBar(volume: Int) {
+        findViewById<ViewStubCompat>(R.id.player_volume_stub)?.setVisible()
+        if (player_overlay_volume.visibility != View.VISIBLE)  hapticFeedback()
+        volume_value_text.text = "$volume%"
+        playerVolumeProgress.isDouble = isAudioBoostEnabled
+        playerVolumeProgress.setValue(volume)
+        player_overlay_volume.setVisible()
+        handler.removeMessages(FADE_OUT_VOLUME_INFO)
+        handler.sendEmptyMessageDelayed(FADE_OUT_VOLUME_INFO, 1000L)
+        dimStatusBar(true)
     }
 
     /**
@@ -1315,7 +1329,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     internal fun showInfo(text: String, duration: Int) {
         if (isInPictureInPictureMode) return
         initInfoOverlay()
-        verticalBar.setGone()
         overlayInfo.setVisible()
         info.setVisible()
         info?.text = text
@@ -1330,9 +1343,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             // the info textView is not on the overlay
             info = findViewById(R.id.player_overlay_textinfo)
             overlayInfo = findViewById(R.id.player_overlay_info)
-            verticalBar = findViewById(R.id.verticalbar)
-            verticalBarProgress = findViewById(R.id.verticalbar_progress)
-            verticalBarBoostProgress = findViewById(R.id.verticalbar_boost_progress)
         }
     }
 
@@ -1344,15 +1354,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      * hide the info view with "delay" milliseconds delay
      * @param delay
      */
-    private fun hideInfo(delay: Int = 0) {
-        handler.sendEmptyMessageDelayed(FADE_OUT_INFO, delay.toLong())
-    }
-
-    private fun fadeOutInfo() {
-        if (overlayInfo?.visibility == View.VISIBLE) {
-            overlayInfo?.startAnimation(AnimationUtils.loadAnimation(
+        private fun fadeOutInfo(view:View?) {
+        if (view?.visibility == View.VISIBLE) {
+            view.startAnimation(AnimationUtils.loadAnimation(
                     this@VideoPlayerActivity, android.R.anim.fade_out))
-            overlayInfo.setInvisible()
+            view.setInvisible()
         }
     }
 
@@ -1561,7 +1567,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     //Toast that appears only once
     fun displayWarningToast() {
         warningToast?.cancel()
-        warningToast = Toast.makeText(application, R.string.audio_boost_warning, Toast.LENGTH_SHORT).apply { show() }
+        warningToast = Toast.makeText(application, R.string.audio_boost_warning, Toast.LENGTH_SHORT).apply {
+            setGravity(Gravity.LEFT or Gravity.BOTTOM, 16.dp,0)
+            show()
+        }
     }
 
     internal fun setAudioVolume(vol: Int) {
@@ -1591,7 +1600,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 vol = Math.round(vol * 100 / audioMax.toFloat())
                 service.setVolume(Math.round(vol.toFloat()))
             }
-            showInfoWithVerticalBar(getString(R.string.volume) + "\n" + Integer.toString(vol) + '%'.toString(), 1000, vol, if (isAudioBoostEnabled) 200 else 100)
+            showVolumeBar(vol)
         }
     }
 
@@ -1614,7 +1623,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         var brightness = (lp.screenBrightness + delta).coerceIn(0.01f, 1f)
         setWindowBrightness(brightness)
         brightness = (brightness * 100).roundToInt().toFloat()
-        showInfoWithVerticalBar("${getString(R.string.brightness)}\n${brightness.toInt()}%", 1000, brightness.toInt(), 100)
+        showBrightnessBar(brightness.toInt())
     }
 
     private fun setWindowBrightness(brightness: Float) {
@@ -2078,7 +2087,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     /**
      * hider overlay
      */
-    internal fun hideOverlay(fromUser: Boolean) {
+    fun hideOverlay(fromUser: Boolean) {
         if (isShowing) {
             handler.removeMessages(FADE_OUT)
             Log.v(TAG, "remove View!")
@@ -2672,6 +2681,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         internal const val HIDE_INFO = 9
         internal const val HIDE_SEEK = 10
         internal const val HIDE_SETTINGS = 11
+        private const val FADE_OUT_BRIGHTNESS_INFO = 12
+        private const val FADE_OUT_VOLUME_INFO = 13
         private const val KEY_REMAINING_TIME_DISPLAY = "remaining_time_display"
         const val KEY_BLUETOOTH_DELAY = "key_bluetooth_delay"
 

@@ -121,7 +121,6 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
      */
     private fun initPlaybackSettingInfo() {
         player.initInfoOverlay()
-        player.verticalBar.setGone()
         delayContainer.setVisible()
         var text = ""
         val title = when (playbackSetting) {
