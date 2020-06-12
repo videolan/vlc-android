@@ -118,7 +118,7 @@ object MediaUtils {
                     if (it is AudioPlayerContainerActivity) {
                         Snackbar.make(it.appBarLayout, text, Snackbar.LENGTH_LONG).show()
                     } else
-                    Snackbar.make(it.findViewById(R.id.appbar), text, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(it.findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
