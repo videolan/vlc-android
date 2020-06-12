@@ -183,7 +183,6 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         menu.findItem(R.id.ml_menu_sortby_length).isVisible = viewModel.canSortByDuration()
         menu.findItem(R.id.ml_menu_sortby_date).isVisible = viewModel.canSortByReleaseDate()
         menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = viewModel.canSortByLastModified()
-        menu.findItem(R.id.ml_menu_sortby_media_number).isVisible = false
         return true
     }
 
