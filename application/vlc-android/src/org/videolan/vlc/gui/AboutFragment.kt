@@ -121,7 +121,6 @@ class AboutFragment : Fragment() {
                     "style.innerHTML = window.atob('" + encoded + "');" +
                     "parent.appendChild(style);" +
                     "})()")
-            webView.settings.javaScriptEnabled = false
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -138,7 +137,6 @@ class AboutFragment : Fragment() {
                     "link.setAttribute('href', newLink);" +
                     "link.innerText = newLink;" +
                     "})()")
-            webView.settings.javaScriptEnabled = false
         } catch (e: Exception) {
             e.printStackTrace()
         }
