@@ -9,7 +9,6 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.vlc.R
 import org.videolan.vlc.util.Util
 
@@ -29,7 +28,7 @@ class LicenceActivity : FragmentActivity() {
             override fun onPageFinished(view: WebView, url: String) {
                 if (url.startsWith("file:///android_asset")) {
                     // Inject CSS when page is done loading
-                    injectCSS(view, "licence_dark_tv.css")
+                    injectCSS(view, "license_dark_tv.css")
                     injectCommitRevision(view, revision)
                 }
                 super.onPageFinished(view, url)
@@ -58,8 +57,6 @@ class LicenceActivity : FragmentActivity() {
                     "style.innerHTML = window.atob('" + encoded + "');" +
                     "parent.appendChild(style);" +
                     "})()")
-
-            webView.settings.javaScriptEnabled = false
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -76,7 +73,6 @@ class LicenceActivity : FragmentActivity() {
                     "link.setAttribute('href', newLink);" +
                     "link.innerText = newLink;" +
                     "})()")
-            webView.settings.javaScriptEnabled = false
         } catch (e: Exception) {
             e.printStackTrace()
         }
