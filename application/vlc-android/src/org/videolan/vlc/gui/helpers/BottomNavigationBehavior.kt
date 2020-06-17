@@ -29,6 +29,7 @@ import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,7 @@ import androidx.core.animation.addListener
 import androidx.customview.view.AbsSavedState
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 
 private const val ENTER_ANIMATION_DURATION = 225L
@@ -234,5 +236,15 @@ class BottomNavigationBehaviorState : AbsSavedState {
     override fun writeToParcel(out: Parcel, flags: Int) {
         super.writeToParcel(out, flags)
         out.writeFloat(translation)
+    }
+
+    companion object CREATOR : Parcelable.Creator<BottomNavigationBehaviorState> {
+        override fun createFromParcel(parcel: Parcel): BottomNavigationBehaviorState {
+            return BottomNavigationBehaviorState(parcel)
+        }
+
+        override fun newArray(size: Int): Array<BottomNavigationBehaviorState?> {
+            return arrayOfNulls(size)
+        }
     }
 }
