@@ -15,7 +15,7 @@
    version="1.1"
    id="SVGRoot"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="ic_player_ratio.svg">
+   sodipodi:docname="ic_player_pause.svg">
   <defs
      id="defs2412" />
   <sodipodi:namedview
@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.313709"
-     inkscape:cx="22.633127"
-     inkscape:cy="22.527066"
+     inkscape:cx="31.438158"
+     inkscape:cy="24.874666"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -62,8 +62,8 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 9 9 C 7.892 9 7 9.892 7 11 L 7 25 C 7 26.108 7.892 27 9 27 L 27 27 C 28.108 27 29 26.108 29 25 L 29 11 C 29 9.892 28.108 9 27 9 L 9 9 z M 9 11 L 27 11 L 27 25 L 9 25 L 9 11 z M 11 13 L 11 18 L 13 18 L 13 15 L 16 15 L 16 13 L 11 13 z M 23 18 L 23 21 L 20 21 L 20 23 L 25 23 L 25 18 L 23 18 z "
-       id="path2502" />
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60356736;marker:none;enable-background:accumulate"
+       d="M 11.945312 3 C 10.313917 3 9 4.3380003 9 6 L 9 30 C 9 31.662 10.313918 33 11.945312 33 L 12.054688 33 C 13.686083 33 15 31.662 15 30 L 15 6 C 15 4.3380003 13.686083 3 12.054688 3 L 11.945312 3 z M 23.933594 3 C 22.308269 3 21 4.3379987 21 6 L 21 30 C 21 31.662001 22.308269 33 23.933594 33 L 24.066406 33 C 25.691731 33 27 31.662001 27 30 L 27 6 C 27 4.3379987 25.691731 3 24.066406 3 L 23.933594 3 z "
+       id="rect2467" />
   </g>
 </svg>
