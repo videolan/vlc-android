@@ -89,8 +89,8 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
   avlc_checkfail "medialibrary source: git clone failed"
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
   #    git checkout 0.5.x
-  git submodule update --init libvlcpp
   git reset --hard ${MEDIALIBRARY_HASH}
+  git submodule update --init libvlcpp
 else
   cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
   if ! git cat-file -e ${MEDIALIBRARY_HASH}; then
