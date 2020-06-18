@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="14.222222"
-     inkscape:cx="24.223334"
-     inkscape:cy="5.0876688"
+     inkscape:zoom="7.111111"
+     inkscape:cx="25.032588"
+     inkscape:cy="22.003701"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -51,7 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -60,8 +60,9 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="M 11 9 C 9.338 9 8 10.338 8 12 L 8 23 C 8 24.662 9.338 26 11 26 L 16.75 26 L 15.273438 31.068359 C 15.091637 31.804559 15.991397 32.313747 16.529297 31.779297 L 22 26 L 25 26 C 26.662 26 28 24.662 28 23 L 28 12 C 28 10.338 26.662 9 25 9 L 11 9 z M 12 12 L 13 12 C 13.554 12 14 12.446 14 13 C 14 13.554 13.554 14 13 14 L 12 14 C 11.446 14 11 13.554 11 13 C 11 12.446 11.446 12 12 12 z M 17 12 L 24 12 C 24.554 12 25 12.446 25 13 C 25 13.554 24.554 14 24 14 L 17 14 C 16.446 14 16 13.554 16 13 C 16 12.446 16.446 12 17 12 z M 12 16.5 L 18.5 16.5 C 19.054 16.5 19.5 16.946 19.5 17.5 C 19.5 18.054 19.054 18.5 18.5 18.5 L 12 18.5 C 11.446 18.5 11 18.054 11 17.5 C 11 16.946 11.446 16.5 12 16.5 z M 23 16.5 L 24 16.5 C 24.554 16.5 25 16.946 25 17.5 C 25 18.054 24.554 18.5 24 18.5 L 23 18.5 C 22.446 18.5 22 18.054 22 17.5 C 22 16.946 22.446 16.5 23 16.5 z M 12 21 L 17 21 C 17.554 21 18 21.446 18 22 C 18 22.554 17.554 23 17 23 L 12 23 C 11.446 23 11 22.554 11 22 C 11 21.446 11.446 21 12 21 z M 21 21 L 24 21 C 24.554 21 25 21.446 25 22 C 25 22.554 24.554 23 24 23 L 21 23 C 20.446 23 20 22.554 20 22 C 20 21.446 20.446 21 21 21 z "
-       id="path2432" />
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers fill stroke"
+       d="M 8,8 C 6.8919982,8 6,8.891998 6,10 v 16 c 0,1.108002 0.8919982,2 2,2 h 20 c 1.108002,0 2,-0.891998 2,-2 V 10 C 30,8.891998 29.108002,8 28,8 Z m 1.75,10 h 1.5 c 0.6925,0 1.25,0.5575 1.25,1.25 0,0.6925 -0.5575,1.25 -1.25,1.25 H 9.75 C 9.0575,20.5 8.5,19.9425 8.5,19.25 8.5,18.5575 9.0575,18 9.75,18 Z m 6.5,0 h 10 c 0.6925,0 1.25,0.5575 1.25,1.25 0,0.6925 -0.5575,1.25 -1.25,1.25 h -10 C 15.5575,20.5 15,19.9425 15,19.25 15,18.5575 15.5575,18 16.25,18 Z m -6.5,5 h 9 c 0.6925,0 1.25,0.5575 1.25,1.25 0,0.6925 -0.5575,1.25 -1.25,1.25 h -9 C 9.0575,25.5 8.5,24.9425 8.5,24.25 8.5,23.5575 9.0575,23 9.75,23 Z m 14,0 h 2.5 c 0.6925,0 1.25,0.5575 1.25,1.25 0,0.6925 -0.5575,1.25 -1.25,1.25 h -2.5 c -0.6925,0 -1.25,-0.5575 -1.25,-1.25 0,-0.6925 0.5575,-1.25 1.25,-1.25 z"
+       id="rect2536-0"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
