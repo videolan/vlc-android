@@ -97,9 +97,6 @@
                 android:layout_width="800dp"
                 android:layout_height="match_parent"
                 android:layout="@layout/player_hud"
-                android:layout_marginBottom="@dimen/overlay_margin"
-                android:layout_marginRight="@dimen/overlay_margin"
-                android:layout_marginLeft="@dimen/overlay_margin"
                 android:layout_alignParentBottom="true" />
 
     </RelativeLayout>

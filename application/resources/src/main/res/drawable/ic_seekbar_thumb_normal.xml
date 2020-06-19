@@ -29,7 +29,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
     <path
             android:fillAlpha="1"
-            android:fillColor="#ff8800"
+            android:fillColor="#ff610a"
             android:fillType="nonZero"
             android:pathData="m10,7a3,3 90,1 1,-6 0,3 3,90 1,1 6,0z"
             android:strokeColor="#00000000"

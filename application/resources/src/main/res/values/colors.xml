@@ -41,8 +41,9 @@
     <color name="playerbackground">#c0141414</color>
     <color name="playerbackground_invert">#c0ebebeb</color>
     <color name="black_more_transparent">#88000000</color>
-    <color name="status_bar_transparency">#66000000</color>
-    <color name="status_bar_transparency2">#66ffffff</color>
+    <color name="status_bar_transparency">#cb000000</color>
+
+    <color name="grey200transparent">#33eeeeee</color>
 
     <color name="whitetransparent_b9">#b9ffffff</color>
     <color name="whitetransparent_ea">#eaffffff</color>

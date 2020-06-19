@@ -6,7 +6,7 @@
         <item name="android:background">@drawable/bottom_sheet_background</item>
     </style>
 
-    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.19">
+    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/status_bar_transparency</item>
         <item name="android:navigationBarColor">@color/status_bar_transparency</item>

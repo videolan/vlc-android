@@ -2,4 +2,8 @@
     <!-- Default -->
     <dimen name="actionBarSize">48dp</dimen>
 
+    <dimen name="large_margins_center">24dp</dimen>
+    <dimen name="small_margins_sides">8dp</dimen>
+
+
 </resources>

@@ -56,7 +56,6 @@ private const val ID_REPEAT = 10L
 private const val ID_SHUFFLE = 11L
 private const val ID_PASSTHROUGH = 12L
 private const val ID_ABREPEAT = 13L
-private const val ID_OVERLAY_SIZE = 14L
 private const val ID_VIDEO_STATS = 15L
 
 @ObsoleteCoroutinesApi
@@ -110,7 +109,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                     if (primary && AndroidDevices.pipAllowed && !AndroidDevices.isDex(activity))
                         options.add(PlayerOption(playerOptionType, ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
                     if (primary)
-                        options.add(PlayerOption(playerOptionType, ID_OVERLAY_SIZE, R.attr.ic_crop_player, res.getString(R.string.resize)))
                     options.add(PlayerOption(playerOptionType, ID_REPEAT, R.drawable.ic_repeat, res.getString(R.string.repeat_title)))
                     if (service.canShuffle()) options.add(PlayerOption(playerOptionType, ID_SHUFFLE, R.drawable.ic_shuffle, res.getString(R.string.shuffle_title)))
                     val chaptersCount = service.getChapters(-1)?.size ?: 0
@@ -181,9 +179,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                     ID_POPUP_VIDEO -> {
                         (activity as VideoPlayerActivity).switchToPopup()
                         hide()
-                    }
-                    ID_OVERLAY_SIZE -> {
-                        (activity as VideoPlayerActivity).resizeVideo()
                     }
                     ID_REPEAT -> setRepeatMode()
                     ID_SHUFFLE -> {

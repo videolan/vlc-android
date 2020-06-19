@@ -115,7 +115,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="center"
-                    app:srcCompat="@drawable/ic_audiotrack_player" />
+                    app:srcCompat="@drawable/ic_player_audiotrack" />
 
             <ImageView
                     android:layout_width="0dp"
@@ -129,14 +129,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="center"
-                    app:srcCompat="@drawable/ic_rotate_player" />
+                    app:srcCompat="@drawable/ic_player_rotate" />
 
             <ImageView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="center"
-                    app:srcCompat="@drawable/ic_player_more_h" />
+                    app:srcCompat="@drawable/ic_player_more" />
         </LinearLayout>
 
         <LinearLayout

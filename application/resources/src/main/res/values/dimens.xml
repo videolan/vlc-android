@@ -34,6 +34,9 @@
     <dimen name="seek_margin_sides">8dp</dimen>
     <dimen name="time_margin_sides">16dp</dimen>
 
+    <dimen name="large_margins_center">8dp</dimen>
+    <dimen name="small_margins_sides">0dp</dimen>
+
 
     <dimen name="media_ctrl_margin_top">20dp</dimen>
     <dimen name="tv_overscan_vertical">27dp</dimen>

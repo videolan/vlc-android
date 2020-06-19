@@ -498,8 +498,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             }
         }
 
-        playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
-        pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play)!!
+        playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
+        pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     }
 
@@ -548,13 +548,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         navMenu?.setOnClickListener(if (enabled) this else null)
         if (::hudBinding.isInitialized) {
             hudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(if (enabled) seekListener else null)
-            hudBinding.orientationToggle.setOnClickListener(if (enabled) this else null)
-            hudBinding.orientationToggle.setOnLongClickListener(if (enabled) this else null)
+            hudBinding.abRepeatReset.setOnClickListener(this)
+            hudBinding.abRepeatStop.setOnClickListener(this)
             abRepeatAddMarker.setOnClickListener(this)
         }
         if (::hudRightBinding.isInitialized) {
-            hudRightBinding.abRepeatReset.setOnClickListener(this)
-            hudRightBinding.abRepeatStop.setOnClickListener(this)
+            hudRightBinding.orientationToggle.setOnClickListener(if (enabled) this else null)
+            hudRightBinding.orientationToggle.setOnLongClickListener(if (enabled) this else null)
         }
         UiTools.setViewOnClickListener(rendererBtn, if (enabled) this else null)
     }
@@ -677,14 +677,15 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         resetHudLayout()
         showControls(isShowing)
         statsDelegate.onConfigurationChanged()
+        updateHudMargins()
+        updateTitleConstraints()
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun resetHudLayout() {
-        if (!::hudBinding.isInitialized) return
+        if (!::hudRightBinding.isInitialized) return
         if (!isTv && !AndroidDevices.isChromeBook) {
-            hudBinding.orientationToggle.setVisible()
-            hudBinding.lockOverlayButton.setVisible()
+            hudRightBinding.orientationToggle.setVisible()
         }
     }
 
@@ -1250,7 +1251,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
         showInfo(R.string.locked, 1000)
         if (::hudBinding.isInitialized) {
-            hudBinding.lockOverlayButton.setImageResource(R.drawable.ic_locked_player)
             hudBinding.playerOverlayTime.isEnabled = false
             hudBinding.playerOverlaySeekbar.isEnabled = false
             hudBinding.playerOverlayLength.isEnabled = false
@@ -1270,7 +1270,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             requestedOrientation = screenOrientationLock
         showInfo(R.string.unlocked, 1000)
         if (::hudBinding.isInitialized) {
-            hudBinding.lockOverlayButton.setImageResource(R.drawable.ic_lock_player)
             hudBinding.playerOverlayTime.isEnabled = true
             hudBinding.playerOverlaySeekbar.isEnabled = service?.isSeekable != false
             hudBinding.playerOverlayLength.isEnabled = true
@@ -1848,14 +1847,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (!::hudBinding.isInitialized) return
         hudBinding.playerOverlayRewind.isEnabled = seekable
         hudBinding.playerOverlayRewind.setImageResource(if (seekable)
-            R.drawable.ic_rewind_player
+            R.drawable.ic_player_rewind_10
         else
-            R.drawable.ic_rewind_player_disabled)
+            R.drawable.ic_player_rewind_10_disabled)
         hudBinding.playerOverlayForward.isEnabled = seekable
         hudBinding.playerOverlayForward.setImageResource(if (seekable)
-            R.drawable.ic_forward_player
+            R.drawable.ic_player_forward_10
         else
-            R.drawable.ic_forward_player_disabled)
+            R.drawable.ic_player_forward_10_disabled)
         if (!isLocked)
             hudBinding.playerOverlaySeekbar.isEnabled = seekable
     }
@@ -1904,6 +1903,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         val next = (mediaplayer.videoScale.ordinal + 1) % MediaPlayer.SURFACE_SCALES_COUNT
         val scale = MediaPlayer.ScaleType.values()[next]
         setVideoScale(scale)
+        handler.sendEmptyMessage(SHOW_INFO)
     }
 
     internal fun setVideoScale(scale: MediaPlayer.ScaleType) = service?.run {
@@ -1971,9 +1971,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 hudBinding.playerOverlayRewind.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playerOverlayForward.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
-            hudBinding.orientationToggle.visibility = if (isTv || AndroidDevices.isChromeBook) View.GONE else if (show) View.VISIBLE else View.INVISIBLE
             hudBinding.playerOverlayTracks.visibility = if (show) View.VISIBLE else View.INVISIBLE
             hudBinding.playerOverlayAdvFunction.visibility = if (show) View.VISIBLE else View.INVISIBLE
+            hudBinding.playerResize.visibility = if (show) View.VISIBLE else View.INVISIBLE
             if (hasPlaylist) {
                 hudBinding.playlistPrevious.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playlistNext.visibility = if (show) View.VISIBLE else View.INVISIBLE
@@ -1981,9 +1981,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
         if (::hudRightBinding.isInitialized) {
             val secondary = displayManager.isSecondary
-            if (secondary) hudRightBinding.videoSecondaryDisplay.setImageResource(R.drawable.ic_screenshare_stop_circle_player)
+            if (secondary) hudRightBinding.videoSecondaryDisplay.setImageResource(R.drawable.ic_player_screenshare_stop)
             hudRightBinding.videoSecondaryDisplay.visibility = if (!show) View.GONE else if (UiTools.hasSecondaryDisplay(applicationContext)) View.VISIBLE else View.GONE
             hudRightBinding.videoSecondaryDisplay.contentDescription = resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
+            hudRightBinding.orientationToggle.visibility = if (isTv || AndroidDevices.isChromeBook) View.GONE else if (show) View.VISIBLE else View.INVISIBLE
 
             hudRightBinding.playlistToggle.visibility = if (show && service?.hasPlaylist() == true) View.VISIBLE else View.GONE
         }
@@ -2014,7 +2015,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     hudBinding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / service.playlistManager.player.getLength().toFloat()
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
                     hudBinding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
-                    service.manageAbRepeatStep(hudRightBinding.abRepeatReset, hudRightBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
+                    service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                     showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) OVERLAY_INFINITE else OVERLAY_TIMEOUT)
                 })
                 service.playlistManager.abRepeatOn.observe(this, Observer {
@@ -2026,7 +2027,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     }
                     if (it) showOverlayTimeout(OVERLAY_INFINITE)
 
-                    service.manageAbRepeatStep(hudRightBinding.abRepeatReset, hudRightBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
+                    service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                 })
                 service.playlistManager.delayValue.observe(this, Observer {
                     delayDelegate.delayChanged(it, service)
@@ -2051,11 +2052,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (!AndroidDevices.isChromeBook && !isTv
                         && Settings.getInstance(this).getBoolean("enable_casting", true)) {
                     rendererBtn = findViewById(R.id.video_renderer)
-                    PlaybackService.renderer.observe(this, Observer { rendererItem -> rendererBtn?.setImageDrawable(AppCompatResources.getDrawable(this, if (rendererItem == null) R.drawable.ic_renderer_circle_player else R.drawable.ic_renderer_on_circle_player)) })
+                    PlaybackService.renderer.observe(this, Observer { rendererItem -> rendererBtn?.setImageDrawable(AppCompatResources.getDrawable(this, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_am_renderer_on)) })
                     RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> rendererBtn.setVisibility(if (rendererItems.isNullOrEmpty()) View.GONE else View.VISIBLE) })
                 }
 
                 hudRightBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title
+                manageTitleConstraints()
+                updateTitleConstraints()
+                updateHudMargins()
 
                 if (seekButtons) initSeekButton()
 
@@ -2076,12 +2080,59 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 updateNavStatus()
                 setListeners(true)
                 initPlaylistUi()
-                if (!displayManager.isPrimary || isTv) hudBinding.lockOverlayButton.setGone()
             } else if (::hudBinding.isInitialized) {
                 hudBinding.progress = service.playlistManager.player.progress
                 hudBinding.lifecycleOwner = this
             }
         }
+    }
+
+    private val titleConstraintSetLandscape = ConstraintSet()
+    private val titleConstraintSetPortrait = ConstraintSet()
+    private fun manageTitleConstraints() {
+       titleConstraintSetLandscape.clone(hudRightBinding.hudRightOverlay)
+       titleConstraintSetPortrait.clone(hudRightBinding.hudRightOverlay)
+        titleConstraintSetPortrait.setMargin(hudRightBinding.playerOverlayTitle.id, ConstraintSet.START, 16.dp)
+        titleConstraintSetPortrait.setMargin(hudRightBinding.playerOverlayTitle.id, ConstraintSet.END, 16.dp)
+        titleConstraintSetPortrait.connect(hudRightBinding.playerOverlayTitle.id, ConstraintSet.TOP, hudRightBinding.orientationToggle.id, ConstraintSet.BOTTOM, 0.dp)
+    }
+
+    private fun updateTitleConstraints() {
+        if (::hudRightBinding.isInitialized) when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> titleConstraintSetPortrait
+            else -> titleConstraintSetLandscape
+        }.applyTo(hudRightBinding.hudRightOverlay)
+    }
+
+
+    private fun updateHudMargins() {
+        if (::hudBinding.isInitialized) {
+            val largeMargin = resources.getDimension(R.dimen.large_margins_center)
+            val smallMargin = resources.getDimension(R.dimen.small_margins_sides)
+            applyMargin(hudBinding.playlistPrevious, largeMargin.toInt(), true)
+            applyMargin(hudBinding.playerOverlayRewind, largeMargin.toInt(), true)
+            applyMargin(hudBinding.playlistNext, largeMargin.toInt(), false)
+            applyMargin(hudBinding.playerOverlayForward, largeMargin.toInt(), false)
+
+            applyMargin(hudBinding.playerOverlayTracks, smallMargin.toInt(), false)
+            applyMargin(hudBinding.playerOverlayNavmenu, smallMargin.toInt(), false)
+            applyMargin(hudBinding.playerResize, smallMargin.toInt(), true)
+            applyMargin(hudBinding.playerOverlayAdvFunction, smallMargin.toInt(), true)
+
+            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                hudBinding.playerSpaceLeft.setGone()
+                hudBinding.playerSpaceRight.setGone()
+            } else {
+                hudBinding.playerSpaceLeft.setVisible()
+                hudBinding.playerSpaceRight.setVisible()
+            }
+
+        }
+    }
+
+    private fun applyMargin(view: View, margin: Int, isEnd: Boolean) = (view.layoutParams as ConstraintLayout.LayoutParams).apply {
+        if (isEnd) marginEnd = margin else marginStart = margin
+        view.layoutParams = this
     }
 
     /**
@@ -2627,7 +2678,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 hideOverlay(false)
             } else if (menuIdx != -1) setESTracks()
 
-            navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.GONE)
+            navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.INVISIBLE)
             supportInvalidateOptionsMenu()
         }
     }
