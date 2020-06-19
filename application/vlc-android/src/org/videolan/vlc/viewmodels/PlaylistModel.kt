@@ -27,6 +27,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -61,7 +62,9 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     }
 
     init {
-        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(viewModelScope)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
+                .onCompletion { onServiceChanged(null) }
+                .launchIn(viewModelScope)
     }
 
     private fun setup(service: PlaybackService) {

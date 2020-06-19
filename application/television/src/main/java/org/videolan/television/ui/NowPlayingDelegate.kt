@@ -27,6 +27,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
@@ -44,7 +45,9 @@ class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callba
 
     init {
         PlaylistManager.showAudioPlayer.observeForever(nowPlayingObserver)
-        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(model.viewModelScope)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
+                .onCompletion { service?.removeCallback(this@NowPlayingDelegate) }
+                .launchIn(model.viewModelScope)
     }
 
     fun onClear() {

@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -48,7 +49,9 @@ class StreamsModel(context: Context, private val showDummy: Boolean = false, cor
 
     init {
         if (medialibrary.isStarted) refresh()
-        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(viewModelScope)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }
+                .onCompletion { onServiceChanged(null) }
+                .launchIn(viewModelScope)
     }
 
     override suspend fun updateList() {
