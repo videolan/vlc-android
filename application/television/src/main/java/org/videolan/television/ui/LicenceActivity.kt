@@ -1,6 +1,8 @@
 package org.videolan.television.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
@@ -34,6 +36,16 @@ class LicenceActivity : FragmentActivity() {
                 super.onPageFinished(view, url)
 
             }
+
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                if (url.contains("file://")) {
+                    view.loadUrl(url)
+                } else {
+                    val i = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(i)
+                }
+                return true
+            }
         }
         setContentView(webView)
         (webView.layoutParams as? FrameLayout.LayoutParams)?.let {
@@ -57,6 +69,8 @@ class LicenceActivity : FragmentActivity() {
                     "style.innerHTML = window.atob('" + encoded + "');" +
                     "parent.appendChild(style);" +
                     "})()")
+
+            webView.settings.javaScriptEnabled = false
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -73,6 +87,8 @@ class LicenceActivity : FragmentActivity() {
                     "link.setAttribute('href', newLink);" +
                     "link.innerText = newLink;" +
                     "})()")
+
+            webView.settings.javaScriptEnabled = false
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -21,7 +21,9 @@
 package org.videolan.vlc.gui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.view.LayoutInflater
@@ -44,6 +46,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioPagerAdapter
 import org.videolan.vlc.gui.helpers.UiTools
+
 
 private const val TAG = "VLC/AboutFragment"
 private const val MODE_TOTAL = 2 // Number of audio browser modes
@@ -100,6 +103,16 @@ class AboutFragment : Fragment() {
                     }
                     super.onPageFinished(view, url)
                 }
+
+                override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                    if (url.contains("file://")) {
+                        view.loadUrl(url)
+                    } else {
+                        val i = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        startActivity(i)
+                    }
+                    return true
+                }
             }
         }
     }
@@ -121,6 +134,8 @@ class AboutFragment : Fragment() {
                     "style.innerHTML = window.atob('" + encoded + "');" +
                     "parent.appendChild(style);" +
                     "})()")
+
+            webView.settings.javaScriptEnabled = false
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -137,6 +152,8 @@ class AboutFragment : Fragment() {
                     "link.setAttribute('href', newLink);" +
                     "link.innerText = newLink;" +
                     "})()")
+
+            webView.settings.javaScriptEnabled = false
         } catch (e: Exception) {
             e.printStackTrace()
         }
