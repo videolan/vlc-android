@@ -108,8 +108,8 @@ class AboutFragment : Fragment() {
                     if (url.contains("file://")) {
                         view.loadUrl(url)
                     } else {
-                        val i = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        startActivity(i)
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        startActivity(intent)
                     }
                     return true
                 }
