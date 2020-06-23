@@ -51,7 +51,7 @@ public:
     void reload( const std::string& entryPoint );
     void forceParserRetry();
     void forceRescan();
-    bool increasePlayCount(int64_t mediaId);
+    bool setProgress(int64_t mediaId, float progress);
     void removeMediaFromHistory(int64_t mediaId);
     /* History */
     std::vector<medialibrary::MediaPtr> lastMediaPlayed();

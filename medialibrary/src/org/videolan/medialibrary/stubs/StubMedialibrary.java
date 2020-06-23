@@ -389,7 +389,7 @@ public class StubMedialibrary extends Medialibrary {
             media = addStream(mrl, title);
         }
         dt.mHistory.add(media);
-        increasePlayCount(media.getId());
+        setProgress(media.getId(), 1.0f);
         return true;
     }
 
@@ -482,7 +482,7 @@ public class StubMedialibrary extends Medialibrary {
 
     public void requestThumbnail(long id) {}
 
-    public boolean increasePlayCount(long mediaId) {
+    public boolean setProgress(long mediaId, float progress) {
         for (int i = 0; i < dt.mVideoMediaWrappers.size(); i++) {
             MediaWrapper media = dt.mVideoMediaWrappers.get(i);
             if (media.getId() == mediaId) {

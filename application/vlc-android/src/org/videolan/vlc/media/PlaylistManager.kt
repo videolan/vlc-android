@@ -871,7 +871,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (internalMedia != null) id = internalMedia.id
                 }
             }
-            if (id != 0L) medialibrary.increasePlayCount(id)
+            if (id != 0L) medialibrary.setProgress(id, 1.0f)
         }
     }
 

@@ -62,10 +62,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     unsigned int width = hasVideoTracks ? videoTracks.at(0)->width() : 0;
     unsigned int height = hasVideoTracks ? videoTracks.at(0)->height() : 0;
     int64_t duration = mediaPtr->duration();
-    const medialibrary::IMetadata& progressMeta = mediaPtr->metadata( medialibrary::IMedia::MetadataType::Progress );
-    int64_t progress = progressMeta.isSet() ? progressMeta.asInt() : 0;
-    // workaround to convert legacy percentage progress
-    if (progress != 0 && progress < 100) progress = duration * ( progress / 100.0 );
+    const float progress = mediaPtr->progress() * duration;
     const medialibrary::IMetadata& seenMeta =  mediaPtr->metadata( medialibrary::IMedia::MetadataType::Seen );
     int64_t seen = seenMeta.isSet() ? seenMeta.asInt() : 0;
 
