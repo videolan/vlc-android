@@ -466,8 +466,8 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeGetFoldersCount(type) : 0;
     }
 
-    public boolean increasePlayCount(long mediaId) {
-        return mIsInitiated && mediaId > 0 && nativeIncreasePlayCount(mediaId);
+    public boolean setProgress(long mediaId, float progress) {
+        return mIsInitiated && mediaId > 0 && nativeSetProgress(mediaId, progress);
     }
 
     // If media is not in ML, find it with its path
@@ -641,7 +641,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativeReload(String entryPoint);
     private native void nativeForceParserRetry();
     private native void nativeForceRescan();
-    private native boolean nativeIncreasePlayCount(long mediaId);
+    private native boolean nativeSetProgress(long mediaId, float progress);
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);
     private native SearchAggregate nativeSearch(String query);

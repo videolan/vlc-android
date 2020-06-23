@@ -177,11 +177,11 @@ AndroidMediaLibrary::forceRescan()
 }
 
 bool
-AndroidMediaLibrary::increasePlayCount(int64_t mediaId)
+AndroidMediaLibrary::setProgress(int64_t mediaId, float progress)
 {
     auto media = p_ml->media(mediaId);
     if (media != nullptr)
-        return media->increasePlayCount();
+        return media->setProgress( progress );
     return false;
 }
 

@@ -747,7 +747,7 @@ abstract public class Medialibrary {
     abstract public MediaWrapper addStream(String mrl, String title);
     abstract public Folder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset);
     abstract public int getFoldersCount(int type);
-    abstract public boolean increasePlayCount(long mediaId);
+    abstract public boolean setProgress(long mediaId, float progress);
     abstract public SearchAggregate search(String query);
     abstract public MediaWrapper[] searchMedia(String query);
     abstract public MediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset);

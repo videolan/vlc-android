@@ -240,9 +240,9 @@ forceRescan(JNIEnv* env, jobject thiz)
 }
 
 jboolean
-increasePlayCount(JNIEnv* env, jobject thiz, jlong id)
+setProgress(JNIEnv* env, jobject thiz, jlong id, jfloat progress)
 {
-    return MediaLibrary_getInstance(env, thiz)->increasePlayCount((int64_t)id);
+    return MediaLibrary_getInstance(env, thiz)->setProgress((int64_t)id, (float)progress);
 }
 
 void
@@ -2119,7 +2119,7 @@ static JNINativeMethod methods[] = {
     {"nativeReload", "(Ljava/lang/String;)V", (void*)reloadEntryPoint },
     {"nativeForceParserRetry", "()V", (void*)forceParserRetry },
     {"nativeForceRescan", "()V", (void*)forceRescan },
-    {"nativeIncreasePlayCount", "(J)Z", (void*)increasePlayCount },
+    {"nativeSetProgress", "(JF)Z", (void*)setProgress },
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
     {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)playlistCreate },
