@@ -2554,7 +2554,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     fun showAdvancedOptions() {
         if (optionsDelegate == null) service?.let { optionsDelegate = PlayerOptionsDelegate(this, it) }
-        optionsDelegate?.show(PlayerOptionType.ADVANCED)
+        optionsDelegate?.show()
         hideOverlay(false)
     }
 
