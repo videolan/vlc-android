@@ -191,6 +191,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     lateinit var touchDelegate: VideoTouchDelegate
     private val statsDelegate: VideoStatsDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoStatsDelegate(this, { showOverlayTimeout(OVERLAY_INFINITE) }, { showOverlay(true) }) }
     val delayDelegate: VideoDelayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoDelayDelegate(this@VideoPlayerActivity) }
+    private val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
     private var isTv: Boolean = false
 
     // Tracks & Subtitles
@@ -345,7 +346,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var seekButtons: Boolean = false
     private var hasPlaylist: Boolean = false
 
-    private var enableSubs = true
+    var enableSubs = true
 
     private val downloadedSubtitleObserver = Observer<List<org.videolan.vlc.mediadb.models.ExternalSub>> { externalSubs ->
         for (externalSub in externalSubs) {
@@ -1633,21 +1634,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     open fun onAudioSubClick(anchor: View?) {
-        service?.let { service ->
-            var flags = 0L
-            if (enableSubs) {
-                flags = flags or CTX_DOWNLOAD_SUBTITLES_PLAYER
-                if (displayManager.isPrimary) flags = flags or CTX_PICK_SUBS
-            }
-            if (service.videoTracksCount > 2) flags = flags or CTX_VIDEO_TRACK
-            if (service.audioTracksCount > 0) flags = flags or CTX_AUDIO_TRACK
-            if (service.spuTracksCount > 0) flags = flags or CTX_SUBS_TRACK
-
-            if (optionsDelegate == null) optionsDelegate = PlayerOptionsDelegate(this, service)
-            optionsDelegate?.flags = flags
-            optionsDelegate?.show(PlayerOptionType.MEDIA_TRACKS)
-            hideOverlay(false)
-        }
+        overlayDelegate.showTracks()
+        hideOverlay(false)
     }
 
     override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {

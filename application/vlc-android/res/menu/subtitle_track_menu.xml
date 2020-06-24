@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/subtitle_track_delay"
+            android:title="@string/spu_delay" />
+    <item
+            android:id="@+id/subtitle_track_file"
+            android:title="@string/subtitle_select" />
+    <item
+            android:id="@+id/subtitle_track_download"
+            android:title="@string/download_subtitles"/>
+</menu>

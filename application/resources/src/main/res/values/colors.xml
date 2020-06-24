@@ -66,6 +66,9 @@
     <color name="black_audio_player_transparent">#ee2a2a2a</color>
     <color name="transparent">#00000000</color>
 
+    <color name="black_transparent_80">#cc000000</color>
+    <color name="white_transparent_10">#1affffff</color>
+
     <color name="white_selection_transparent">#44ffffff</color>
 
     <color name="tv_bg">#3e6c80</color>

@@ -735,4 +735,5 @@
     <string name="group_similar">Regroup automatically</string>
     <string name="no_favorite">No favorite</string>
     <string name="empty_directory">Empty</string>
+    <string name="no_track">No track</string>
 </resources>
