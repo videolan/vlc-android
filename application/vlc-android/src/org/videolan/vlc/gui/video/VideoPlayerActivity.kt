@@ -552,10 +552,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             hudBinding.abRepeatReset.setOnClickListener(this)
             hudBinding.abRepeatStop.setOnClickListener(this)
             abRepeatAddMarker.setOnClickListener(this)
+            hudBinding.orientationToggle.setOnClickListener(if (enabled) this else null)
+            hudBinding.orientationToggle.setOnLongClickListener(if (enabled) this else null)
         }
         if (::hudRightBinding.isInitialized) {
-            hudRightBinding.orientationToggle.setOnClickListener(if (enabled) this else null)
-            hudRightBinding.orientationToggle.setOnLongClickListener(if (enabled) this else null)
+//            hudRightBinding.orientationToggle.setOnClickListener(if (enabled) this else null)
+//            hudRightBinding.orientationToggle.setOnLongClickListener(if (enabled) this else null)
         }
         UiTools.setViewOnClickListener(rendererBtn, if (enabled) this else null)
     }
@@ -684,9 +686,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun resetHudLayout() {
-        if (!::hudRightBinding.isInitialized) return
+        if (!::hudBinding.isInitialized) return
         if (!isTv && !AndroidDevices.isChromeBook) {
-            hudRightBinding.orientationToggle.setVisible()
+            hudBinding.orientationToggle.setVisible()
         }
     }
 
@@ -1966,13 +1968,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 hudBinding.playlistPrevious.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playlistNext.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
+            hudBinding.orientationToggle.visibility = if (isTv || AndroidDevices.isChromeBook) View.GONE else if (show) View.VISIBLE else View.INVISIBLE
         }
         if (::hudRightBinding.isInitialized) {
             val secondary = displayManager.isSecondary
             if (secondary) hudRightBinding.videoSecondaryDisplay.setImageResource(R.drawable.ic_player_screenshare_stop)
             hudRightBinding.videoSecondaryDisplay.visibility = if (!show) View.GONE else if (UiTools.hasSecondaryDisplay(applicationContext)) View.VISIBLE else View.GONE
             hudRightBinding.videoSecondaryDisplay.contentDescription = resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
-            hudRightBinding.orientationToggle.visibility = if (isTv || AndroidDevices.isChromeBook) View.GONE else if (show) View.VISIBLE else View.INVISIBLE
 
             hudRightBinding.playlistToggle.visibility = if (show && service?.hasPlaylist() == true) View.VISIBLE else View.GONE
         }
@@ -2082,7 +2084,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
        titleConstraintSetPortrait.clone(hudRightBinding.hudRightOverlay)
         titleConstraintSetPortrait.setMargin(hudRightBinding.playerOverlayTitle.id, ConstraintSet.START, 16.dp)
         titleConstraintSetPortrait.setMargin(hudRightBinding.playerOverlayTitle.id, ConstraintSet.END, 16.dp)
-        titleConstraintSetPortrait.connect(hudRightBinding.playerOverlayTitle.id, ConstraintSet.TOP, hudRightBinding.orientationToggle.id, ConstraintSet.BOTTOM, 0.dp)
+        titleConstraintSetPortrait.connect(hudRightBinding.playerOverlayTitle.id, ConstraintSet.TOP, hudRightBinding.playerOverlayNavmenu.id, ConstraintSet.BOTTOM, 0.dp)
     }
 
     private fun updateTitleConstraints() {
@@ -2103,7 +2105,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             applyMargin(hudBinding.playerOverlayForward, largeMargin.toInt(), false)
 
             applyMargin(hudBinding.playerOverlayTracks, smallMargin.toInt(), false)
-            applyMargin(hudBinding.playerOverlayNavmenu, smallMargin.toInt(), false)
+            applyMargin(hudBinding.orientationToggle, smallMargin.toInt(), false)
             applyMargin(hudBinding.playerResize, smallMargin.toInt(), true)
             applyMargin(hudBinding.playerOverlayAdvFunction, smallMargin.toInt(), true)
 
