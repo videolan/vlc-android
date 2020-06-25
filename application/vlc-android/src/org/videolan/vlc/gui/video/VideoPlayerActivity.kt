@@ -70,6 +70,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.player.*
 import kotlinx.android.synthetic.main.player_overlay_brightness.*
 import kotlinx.android.synthetic.main.player_overlay_volume.*
 import kotlinx.coroutines.*
@@ -554,10 +555,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             abRepeatAddMarker.setOnClickListener(this)
             hudBinding.orientationToggle.setOnClickListener(if (enabled) this else null)
             hudBinding.orientationToggle.setOnLongClickListener(if (enabled) this else null)
-        }
-        if (::hudRightBinding.isInitialized) {
-//            hudRightBinding.orientationToggle.setOnClickListener(if (enabled) this else null)
-//            hudRightBinding.orientationToggle.setOnLongClickListener(if (enabled) this else null)
+            hudBinding.swipeToUnlock.setOnStartTouchingListener { showOverlayTimeout(OVERLAY_INFINITE) }
+            hudBinding.swipeToUnlock.setOnStopTouchingListener { showOverlayTimeout(OVERLAY_TIMEOUT) }
+            hudBinding.swipeToUnlock.setOnUnlockListener { toggleLock() }
         }
         UiTools.setViewOnClickListener(rendererBtn, if (enabled) this else null)
     }
@@ -1044,6 +1044,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             KeyEvent.KEYCODE_DPAD_LEFT -> {
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
+                else if (isLocked) {
+                    showOverlayTimeout(OVERLAY_TIMEOUT)
+                }
                 else if (!isShowing && !playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(-300000)
@@ -1059,6 +1062,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             KeyEvent.KEYCODE_DPAD_RIGHT -> {
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
+                else if (isLocked) {
+                    showOverlayTimeout(OVERLAY_TIMEOUT)
+                }
                 else if (!isShowing && !playlistContainer.isVisible()) {
                     if (event.isAltPressed && event.isCtrlPressed) {
                         touchDelegate.seekDelta(300000)
@@ -1074,6 +1080,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             KeyEvent.KEYCODE_DPAD_UP -> {
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
+                else if (isLocked) {
+                    showOverlayTimeout(OVERLAY_TIMEOUT)
+                }
                 else if (event.isCtrlPressed) {
                     volumeUp()
                     return true
@@ -1088,6 +1097,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             KeyEvent.KEYCODE_DPAD_DOWN -> {
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
+                else if (isLocked) {
+                    showOverlayTimeout(OVERLAY_TIMEOUT)
+                }
                 else if (event.isCtrlPressed) {
                     volumeDown()
                     return true
@@ -1099,6 +1111,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             KeyEvent.KEYCODE_DPAD_CENTER -> {
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
+                else if (isLocked) {
+                    showOverlayTimeout(OVERLAY_TIMEOUT)
+                }
                 else if (!isShowing) {
                     doPlayPause()
                     return true
@@ -1252,13 +1267,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             else
                 getScreenOrientation(100)
         }
-        showInfo(R.string.locked, 1000)
         if (::hudBinding.isInitialized) {
             hudBinding.playerOverlayTime.isEnabled = false
             hudBinding.playerOverlaySeekbar.isEnabled = false
             hudBinding.playerOverlayLength.isEnabled = false
             hudBinding.playlistNext.isEnabled = false
             hudBinding.playlistPrevious.isEnabled = false
+            hudBinding.swipeToUnlock.setVisible()
         }
         hideOverlay(true)
         lockBackButton = true
@@ -1271,7 +1286,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private fun unlockScreen() {
         if (screenOrientation != 100)
             requestedOrientation = screenOrientationLock
-        showInfo(R.string.unlocked, 1000)
         if (::hudBinding.isInitialized) {
             hudBinding.playerOverlayTime.isEnabled = true
             hudBinding.playerOverlaySeekbar.isEnabled = service?.isSeekable != false
@@ -2172,6 +2186,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             visibility = visibility or View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         }
+
+        player_ui_container.setPadding(0, 0, 0, 0)
+        player_ui_container.fitsSystemWindows = !isLocked
 
         if (AndroidDevices.hasNavBar)
             visibility = visibility or navbar

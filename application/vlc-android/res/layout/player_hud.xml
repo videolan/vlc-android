@@ -490,6 +490,16 @@
                     vlc:layout_constraintTop_toTopOf="@+id/player_overlay_play"
                     vlc:srcCompat="@drawable/ic_player_more" />
 
+            <org.videolan.vlc.gui.view.SwipeToUnlockView
+                    android:id="@+id/swipe_to_unlock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    vlc:layout_constraintBottom_toBottomOf="parent"
+                    vlc:layout_constraintEnd_toEndOf="parent"
+                    vlc:layout_constraintStart_toStartOf="parent"
+                    vlc:layout_constraintTop_toBottomOf="@id/player_overlay_seekbar" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

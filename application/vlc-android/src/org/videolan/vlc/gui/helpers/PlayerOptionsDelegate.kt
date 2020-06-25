@@ -56,6 +56,7 @@ private const val ID_REPEAT = 10L
 private const val ID_SHUFFLE = 11L
 private const val ID_PASSTHROUGH = 12L
 private const val ID_ABREPEAT = 13L
+private const val ID_LOCK_PLAYER = 14L
 private const val ID_VIDEO_STATS = 15L
 
 @ObsoleteCoroutinesApi
@@ -94,6 +95,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     fun setup() {
         if (!this::recyclerview.isInitialized || PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED) return
         val options = mutableListOf<PlayerOption>()
+        if (video) options.add(PlayerOption(ID_LOCK_PLAYER, R.attr.ic_lock_player, res.getString(R.string.lock)))
         options.add(PlayerOption(ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
         if (service.isSeekable) {
             options.add(PlayerOption(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
@@ -168,6 +170,10 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             ID_ABREPEAT -> {
                 hide()
                 service.playlistManager.toggleABRepeat()
+            }
+            ID_LOCK_PLAYER -> {
+                hide()
+                (activity as VideoPlayerActivity).toggleLock()
             }
             ID_VIDEO_STATS -> {
                 hide()

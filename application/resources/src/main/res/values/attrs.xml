@@ -99,6 +99,7 @@
     <attr name="ic_abrepeat_seta" format="reference" />
     <attr name="ic_abrepeat_setb" format="reference" />
     <attr name="ic_video_stats" format="reference" />
+    <attr name="ic_lock_player" format="reference" />
     <attr name="ic_crop_player" format="reference" />
     <attr name="ic_dial" format="reference" />
     <attr name="player_icon_color" format="reference" />

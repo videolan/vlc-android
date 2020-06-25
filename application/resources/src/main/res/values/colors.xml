@@ -68,6 +68,7 @@
 
     <color name="black_transparent_80">#cc000000</color>
     <color name="white_transparent_10">#1affffff</color>
+    <color name="white_transparent_30">#4dffffff</color>
 
     <color name="white_selection_transparent">#44ffffff</color>
 
