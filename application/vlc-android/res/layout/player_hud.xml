@@ -27,7 +27,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/progress_overlay"
-            android:layout_width="800dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible"
             tools:theme="@style/Theme.VLC.Player"

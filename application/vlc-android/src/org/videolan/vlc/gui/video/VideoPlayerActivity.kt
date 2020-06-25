@@ -1982,7 +1982,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 hudBinding.playlistPrevious.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playlistNext.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
-            hudBinding.orientationToggle.visibility = if (isTv || AndroidDevices.isChromeBook) View.GONE else if (show) View.VISIBLE else View.INVISIBLE
+            hudBinding.orientationToggle.visibility = if (isTv || AndroidDevices.isChromeBook) View.INVISIBLE else if (show) View.VISIBLE else View.INVISIBLE
         }
         if (::hudRightBinding.isInitialized) {
             val secondary = displayManager.isSecondary
@@ -2045,12 +2045,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 hudBinding.statsClose.setOnClickListener { service.playlistManager.videoStatsOn.postValue(false) }
 
                 hudBinding.lifecycleOwner = this
-                val layoutParams = hudBinding.progressOverlay.layoutParams as RelativeLayout.LayoutParams
-                if (AndroidDevices.isPhone || !AndroidDevices.hasNavBar)
-                    layoutParams.width = LayoutParams.MATCH_PARENT
-                else
-                    layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE)
-                hudBinding.progressOverlay.layoutParams = layoutParams
                 overlayBackground = findViewById(R.id.player_overlay_background)
                 navMenu = findViewById(R.id.player_overlay_navmenu)
                 if (!AndroidDevices.isChromeBook && !isTv
@@ -2067,15 +2061,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
                 if (seekButtons) initSeekButton()
 
-                //Set margins for TV overscan
-                if (isTv) {
-                    val hm = resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal)
-                    val vm = resources.getDimensionPixelSize(R.dimen.tv_overscan_vertical)
-
-                    val lp = vsc.layoutParams as RelativeLayout.LayoutParams
-                    lp.setMargins(hm, 0, hm, vm)
-                    vsc.layoutParams = lp
-                }
 
                 resetHudLayout()
                 updateOverlayPausePlay(true)
@@ -2110,6 +2095,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
 
     private fun updateHudMargins() {
+        //here, we override the default Android overscan
+        val overscanHorizontal = if (isTv) 32.dp else 0
+        val overscanVertical = if (isTv) resources.getDimension(R.dimen.tv_overscan_vertical).toInt() else 0
         if (::hudBinding.isInitialized) {
             val largeMargin = resources.getDimension(R.dimen.large_margins_center)
             val smallMargin = resources.getDimension(R.dimen.small_margins_sides)
@@ -2118,10 +2106,17 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             applyMargin(hudBinding.playlistNext, largeMargin.toInt(), false)
             applyMargin(hudBinding.playerOverlayForward, largeMargin.toInt(), false)
 
-            applyMargin(hudBinding.playerOverlayTracks, smallMargin.toInt(), false)
+            applyMargin(hudBinding.playerOverlayTracks, if (!isTv) smallMargin.toInt() else overscanHorizontal, false)
             applyMargin(hudBinding.orientationToggle, smallMargin.toInt(), false)
             applyMargin(hudBinding.playerResize, smallMargin.toInt(), true)
-            applyMargin(hudBinding.playerOverlayAdvFunction, smallMargin.toInt(), true)
+            applyMargin(hudBinding.playerOverlayAdvFunction, if (!isTv) smallMargin.toInt() else overscanHorizontal, true)
+
+            hudBinding.playerOverlaySeekbar.setPadding(overscanHorizontal, 0, overscanHorizontal, 0)
+
+            if (isTv) {
+                applyMargin(hudBinding.playerOverlayTimeContainer, overscanHorizontal, false)
+                applyMargin(hudBinding.playerOverlayLengthContainer, overscanHorizontal, true)
+            }
 
             if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 hudBinding.playerSpaceLeft.setGone()
@@ -2130,12 +2125,19 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 hudBinding.playerSpaceLeft.setVisible()
                 hudBinding.playerSpaceRight.setVisible()
             }
-
+        }
+        if (::hudRightBinding.isInitialized) {
+            applyVerticalMargin(hudRightBinding.playerOverlayTitle, overscanVertical, false)
         }
     }
 
     private fun applyMargin(view: View, margin: Int, isEnd: Boolean) = (view.layoutParams as ConstraintLayout.LayoutParams).apply {
         if (isEnd) marginEnd = margin else marginStart = margin
+        view.layoutParams = this
+    }
+
+    private fun applyVerticalMargin(view: View, margin: Int, isBottom: Boolean) = (view.layoutParams as ConstraintLayout.LayoutParams).apply {
+        if (isBottom) bottomMargin = margin else topMargin = margin
         view.layoutParams = this
     }
 
