@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ic_play_player@1x</title>
+    <g id="ic_play_player" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(4.000000, 4.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <path d="M16,29 L28,20 L16,11 L16,29 Z M20,0 C8.96,0 0,8.96 0,20 C0,31.04 8.96,40 20,40 C31.04,40 40,31.04 40,20 C40,8.96 31.04,0 20,0 Z M20,37.5 C10.353125,37.5 2.5,29.646875 2.5,20 C2.5,10.353125 10.353125,2.5 20,2.5 C29.646875,2.5 37.5,10.353125 37.5,20 C37.5,29.646875 29.646875,37.5 20,37.5 Z"></path>
+        </g>
+    </g>
+</svg>
