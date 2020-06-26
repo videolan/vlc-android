@@ -108,6 +108,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/playlist_search_text"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="8dp"
