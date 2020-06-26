@@ -43,11 +43,9 @@ import android.util.Rational
 import android.view.*
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
-import android.view.ViewGroup.LayoutParams
 import android.view.animation.*
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
-import androidx.annotation.StringRes
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -57,6 +55,7 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Guideline
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -98,7 +97,10 @@ import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.dialogs.RenderersDialog
-import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.OnRepeatListener
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
+import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.MediaUtils
@@ -152,9 +154,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var navMenu: ImageView? = null
     private var rendererBtn: ImageView? = null
     protected var enableCloneMode: Boolean = false
-    private var screenOrientation: Int = 0
-    private var screenOrientationLock: Int = 0
-    private var currentScreenOrientation: Int = 0
+    private lateinit var orientationMode: PlayerOrientationMode
+    private var orientationLockedBeforeLock: Boolean = false
 
     private var currentAudioTrack = -2
     private var currentSpuTrack = -2
@@ -434,8 +435,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
 
 
-        screenOrientation = Integer.valueOf(
-                settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
+        val screenOrientationSetting = Integer.valueOf(settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
+        orientationMode = when (screenOrientationSetting) {
+            99 -> PlayerOrientationMode(false)
+            101 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+            102 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            else -> PlayerOrientationMode(true, getOrientationForLock())
+        }
 
         videoLayout = findViewById(R.id.video_layout)
 
@@ -456,10 +462,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         // 100 is the value for screen_orientation_start_lock
         try {
-            requestedOrientation = getScreenOrientation(screenOrientation)
+            requestedOrientation = getScreenOrientation(orientationMode)
         } catch (ignored: IllegalStateException) {
             Log.w(TAG, "onCreate: failed to set orientation")
         }
+        updateOrientationIcon()
 
         // Extra initialization when no secondary display is detected
         isTv = Settings.showTvUi
@@ -482,12 +489,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     + (if (brightnessTouch) TOUCH_FLAG_BRIGHTNESS else 0)
                     + if (settings.getBoolean(ENABLE_DOUBLE_TAP_SEEK, true)) TOUCH_FLAG_SEEK else 0)
         } else 0
-        currentScreenOrientation = resources.configuration.orientation
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
-        val yRange = Math.min(dm.widthPixels, dm.heightPixels)
-        val xRange = Math.max(dm.widthPixels, dm.heightPixels)
-        val sc = ScreenConfig(dm, xRange, yRange, currentScreenOrientation)
+        val yRange = dm.widthPixels.coerceAtMost(dm.heightPixels)
+        val xRange = dm.widthPixels.coerceAtLeast(dm.heightPixels)
+        val sc = ScreenConfig(dm, xRange, yRange, orientationMode.orientation)
         touchDelegate = VideoTouchDelegate(this, touch, sc, isTv)
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
@@ -543,7 +549,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
          */
         setListeners(true)
 
-        if (isLocked && screenOrientation == 99) requestedOrientation = screenOrientationLock
+        if (isLocked && !orientationMode.locked) requestedOrientation = orientationMode.orientation
+        updateOrientationIcon()
     }
 
     private fun setListeners(enabled: Boolean) {
@@ -666,15 +673,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        currentScreenOrientation = newConfig.orientation
 
         if (touchDelegate != null) {
             val dm = DisplayMetrics()
             windowManager.defaultDisplay.getMetrics(dm)
             val sc = ScreenConfig(dm,
-                    Math.max(dm.widthPixels, dm.heightPixels),
-                    Math.min(dm.widthPixels, dm.heightPixels),
-                    currentScreenOrientation)
+                    dm.widthPixels.coerceAtLeast(dm.heightPixels),
+                    dm.widthPixels.coerceAtMost(dm.heightPixels),
+                    orientationMode.orientation)
             touchDelegate.screenConfig = sc
         }
         resetHudLayout()
@@ -1257,16 +1263,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     /**
-     * Lock screen rotation
+     * Lock player
      */
     private fun lockScreen() {
-        if (screenOrientation != 100) {
-            screenOrientationLock = requestedOrientation
-            requestedOrientation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                ActivityInfo.SCREEN_ORIENTATION_LOCKED
-            else
-                getScreenOrientation(100)
-        }
+        orientationLockedBeforeLock = orientationMode.locked
+        if (!orientationMode.locked) toggleOrientation()
         if (::hudBinding.isInitialized) {
             hudBinding.playerOverlayTime.isEnabled = false
             hudBinding.playerOverlaySeekbar.isEnabled = false
@@ -1281,11 +1282,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     /**
-     * Remove screen lock
+     * Remove player lock
      */
     private fun unlockScreen() {
-        if (screenOrientation != 100)
-            requestedOrientation = screenOrientationLock
+        orientationMode.locked = orientationLockedBeforeLock
+        requestedOrientation = getScreenOrientation(orientationMode)
         if (::hudBinding.isInitialized) {
             hudBinding.playerOverlayTime.isEnabled = true
             hudBinding.playerOverlaySeekbar.isEnabled = service?.isSeekable != false
@@ -1293,6 +1294,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             hudBinding.playlistNext.isEnabled = true
             hudBinding.playlistPrevious.isEnabled = true
         }
+        updateOrientationIcon()
         isShowing = false
         isLocked = false
         showOverlay()
@@ -1695,10 +1697,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     override fun onLongClick(v: View): Boolean {
-        when (v.id) {
-            R.id.orientation_toggle -> return resetOrientation()
-        }
-
         return false
     }
 
@@ -2045,6 +2043,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 hudBinding.statsClose.setOnClickListener { service.playlistManager.videoStatsOn.postValue(false) }
 
                 hudBinding.lifecycleOwner = this
+                updateOrientationIcon()
                 overlayBackground = findViewById(R.id.player_overlay_background)
                 navMenu = findViewById(R.id.player_overlay_navmenu)
                 if (!AndroidDevices.isChromeBook && !isTv
@@ -2486,26 +2485,18 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private fun getScreenOrientation(mode: Int): Int {
-        when (mode) {
-            98 //toggle button
-            -> return if (currentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE)
-                ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
-            else
-                ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-            99 //screen orientation user
-            -> return if (AndroidUtil.isJellyBeanMR2OrLater)
+    private fun getScreenOrientation(mode: PlayerOrientationMode): Int {
+        return if (!mode.locked) {
+            if (AndroidUtil.isJellyBeanMR2OrLater)
                 ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
             else
                 ActivityInfo.SCREEN_ORIENTATION_SENSOR
-            101 //screen orientation landscape
-            -> return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-            102 //screen orientation portrait
-            -> return ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+        } else {
+            mode.orientation
         }
-        /*
-         screenOrientation = 100, we lock screen at its current orientation
-         */
+    }
+
+    private fun getOrientationForLock(): Int {
         val wm = applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
         val rot = screenRotation
@@ -2578,31 +2569,24 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     private fun toggleOrientation() {
-        //screen is not yet locked. We invert the rotation to force locking in the current orientation
-        if (screenOrientation != 98) {
-            currentScreenOrientation = if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) Configuration.ORIENTATION_LANDSCAPE else Configuration.ORIENTATION_PORTRAIT
-        }
-        screenOrientation = 98//Rotate button
-        requestedOrientation = getScreenOrientation(screenOrientation)
+        orientationMode.locked = !orientationMode.locked
+        orientationMode.orientation = getOrientationForLock()
 
-        //As the current orientation may have been artificially changed above, we reset it to the real current orientation
-        currentScreenOrientation = resources.configuration.orientation
-        @StringRes val message = if (currentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE)
-            R.string.locked_in_landscape_mode
-        else
-            R.string.locked_in_portrait_mode
-        rootView?.let { UiTools.snacker(it, message) }
+        requestedOrientation = getScreenOrientation(orientationMode)
+        updateOrientationIcon()
     }
 
-    private fun resetOrientation(): Boolean {
-        if (screenOrientation == 98) {
-            screenOrientation = Integer.valueOf(
-                    settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
-            rootView?.let { UiTools.snacker(it, R.string.reset_orientation) }
-            requestedOrientation = getScreenOrientation(screenOrientation)
-            return true
+    private fun updateOrientationIcon() {
+        if (::hudBinding.isInitialized) {
+            val drawable = if (!orientationMode.locked) {
+                R.drawable.ic_player_rotate
+            } else if (orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE || orientationMode.orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE) {
+                R.drawable.ic_player_lock_landscape
+            } else {
+                R.drawable.ic_player_lock_portrait
+            }
+            hudBinding.orientationToggle.setImageDrawable(ContextCompat.getDrawable(this, drawable))
         }
-        return false
     }
 
     internal fun togglePlaylist() {
@@ -2798,6 +2782,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 }
+
+data class PlayerOrientationMode (
+    var locked:Boolean = false,
+    var orientation:Int = 0
+)
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi

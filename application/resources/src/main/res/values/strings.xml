@@ -147,9 +147,6 @@
     <string name="brightness">Brightness</string>
     <string name="advanced">advanced options</string>
     <string name="audio_boost_warning">Slide up again to go beyond 100%</string>
-    <string name="locked_in_portrait_mode">Locked in portrait mode\n(Long press on button to cancel)</string>
-    <string name="locked_in_landscape_mode">Locked in landscape mode\n(Long press on button to cancel)</string>
-    <string name="reset_orientation">Orientation reset</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 channel\n</item>
