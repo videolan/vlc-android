@@ -13,7 +13,7 @@
    height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.92.1 r15371"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="ic_browser_movies_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -28,15 +28,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="9.3618131"
+     inkscape:cx="-1.5533655"
      inkscape:cy="10.970056"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1054"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
+     inkscape:window-width="2560"
+     inkscape:window-height="1413"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
@@ -61,8 +61,8 @@
      transform="translate(0,-1028.3622)">
     <path
        inkscape:connector-curvature="0"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;enable-background:accumulate"
-       d="m 5,1033.3622 c -1.108,0 -1.81785,0.9071 -2,2 v 1 9 c 0,1.108 0.892,2 2,2 h 14 c 1.108,0 2,-0.892 2,-2 v -8 c 0,-1.108 -0.892,-2 -2,-2 h -7 l -2,-2 z m 6,5 h 0.375 l 0.875,1.75 h 1.5 l -0.875,-1.75 h 0.75 l 0.875,1.75 H 16 l -0.875,-1.75 h 0.75 l 0.875,1.75 h 1.5 l -0.875,-1.75 H 18 19 v 1 5 c 0,0.554 -0.446,1 -1,1 h -7 c -0.554,0 -1,-0.446 -1,-1 v -5 c 0,-0.554 0.446,-1 1,-1 z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.11112547;marker:none;enable-background:accumulate"
+       d="m 4.2222222,1032.5842 c -1.2311111,0 -2.0198333,1.0079 -2.2222222,2.2224 v 1.1111 10.0002 c 0,1.2312 0.9911111,2.2223 2.2222222,2.2223 H 19.777778 c 1.231111,0 2.222222,-0.9911 2.222222,-2.2223 v -8.8891 c 0,-1.2311 -0.991111,-2.2222 -2.222222,-2.2222 H 12 l -2.222222,-2.2224 z m 6.6666668,5.5557 h 0.416667 l 0.972222,1.9445 h 1.666666 l -0.972222,-1.9445 h 0.833334 l 0.972222,1.9445 h 1.666666 l -0.972222,-1.9445 h 0.833334 l 0.972222,1.9445 h 1.666666 l -0.972222,-1.9445 h 0.694445 1.111111 v 1.1112 5.5557 c 0,0.6155 -0.495556,1.1111 -1.111111,1.1111 h -7.777778 c -0.615556,0 -1.111111,-0.4956 -1.111111,-1.1111 v -5.5557 c 0,-0.6155 0.495555,-1.1112 1.111111,-1.1112 z"
        id="path8187" />
   </g>
 </svg>

@@ -54,8 +54,7 @@
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
             android:minHeight="48dp"
             android:onClick="@{holder::onClick}"
-            android:onLongClick="@{holder::onLongClick}"
-            android:padding="2dp">
+            android:onLongClick="@{holder::onLongClick}">
 
         <org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
                 android:id="@+id/browser_checkbox"
@@ -74,6 +73,9 @@
                 android:id="@+id/item_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:contentDescription="@string/cover_art"
                 android:onClick="@{holder::onImageClick}"
                 android:scaleType="centerCrop"
@@ -102,12 +104,12 @@
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
                 android:ellipsize="marquee"
+                android:lineSpacingMultiplier="1.1"
                 android:marqueeRepeatLimit="1"
                 android:scrollHorizontally="true"
-                android:lineSpacingMultiplier="1.1"
                 android:singleLine="true"
                 android:text="@{filename ?? item.title}"
                 android:textColor="?attr/list_title"
@@ -125,10 +127,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                app:browserDescription="@{item.description}"
                 android:textColor="?attr/list_subtitle"
                 android:textSize="12sp"
                 android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE, default=gone}"
+                app:browserDescription="@{item.description}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/item_more"
                 app:layout_constraintStart_toStartOf="@+id/title"
@@ -139,13 +141,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_more"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="@{hasContextMenu}"
                 android:onClick="@{holder::onMoreClick}"
                 android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE, default=gone}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_more" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
