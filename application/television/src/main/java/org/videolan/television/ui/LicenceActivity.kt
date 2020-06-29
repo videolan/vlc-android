@@ -1,6 +1,7 @@
 package org.videolan.television.ui
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -42,7 +43,12 @@ class LicenceActivity : FragmentActivity() {
                     view.loadUrl(url)
                 } else {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    startActivity(intent)
+                    try {
+                        startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        view.loadUrl(url)
+                    }
+
                 }
                 return true
             }
