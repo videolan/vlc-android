@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
@@ -1954,7 +1955,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
                 dimStatusBar(false)
                 hudBinding.progressOverlay.setVisible()
+                hudBinding.progressOverlay.alpha = 0f
+                hudBinding.progressOverlay.translationY = 100.dp.toFloat()
+                hudBinding.progressOverlay.animate().alpha(1F).translationY(0F).setDuration(150L).setListener(null)
+
                 hudRightBinding.hudRightOverlay.setVisible()
+                hudRightBinding.hudRightOverlay.alpha = 0f
+                hudRightBinding.hudRightOverlay.translationY = -100.dp.toFloat()
+                hudRightBinding.hudRightOverlay.animate().alpha(1F).translationY(0F).setDuration(150L).setListener(null)
                 if (!displayManager.isPrimary)
                     overlayBackground.setVisible()
                 updateOverlayPausePlay(true)
@@ -2152,8 +2160,24 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 overlayBackground?.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out))
                 overlayBackground.setInvisible()
             }
-            if (::hudBinding.isInitialized) hudBinding.progressOverlay.setInvisible()
-            if (::hudRightBinding.isInitialized) hudRightBinding.hudRightOverlay.setInvisible()
+
+            hudBinding.progressOverlay.animate().alpha(0F).translationY(100.dp.toFloat()).setDuration(150L).setListener(object : Animator.AnimatorListener {
+                override fun onAnimationEnd(animation: Animator?) {
+                    hudBinding.progressOverlay.setInvisible()
+                }
+                override fun onAnimationCancel(animation: Animator?) {}
+                override fun onAnimationRepeat(animation: Animator?) {}
+                override fun onAnimationStart(animation: Animator?) {}
+            })
+
+            hudRightBinding.hudRightOverlay.animate().alpha(0F).translationY(-100.dp.toFloat()).setDuration(150L).setListener(object : Animator.AnimatorListener {
+                override fun onAnimationEnd(animation: Animator?) {
+                    hudRightBinding.hudRightOverlay.setInvisible()
+                }
+                override fun onAnimationCancel(animation: Animator?) {}
+                override fun onAnimationRepeat(animation: Animator?) {}
+                override fun onAnimationStart(animation: Animator?) {}
+            })
             showControls(false)
             isShowing = false
             dimStatusBar(true)
