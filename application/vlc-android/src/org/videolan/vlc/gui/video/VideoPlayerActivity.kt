@@ -2212,8 +2212,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             visibility = visibility or View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         }
 
-        player_ui_container.setPadding(0, 0, 0, 0)
-        player_ui_container.fitsSystemWindows = !isLocked
+        player_ui_container?.setPadding(0, 0, 0, 0)
+        player_ui_container?.fitsSystemWindows = !isLocked
 
         if (AndroidDevices.hasNavBar)
             visibility = visibility or navbar
