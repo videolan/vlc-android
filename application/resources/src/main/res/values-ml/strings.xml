@@ -127,8 +127,6 @@
     <string name="firstsong">പ്ലേലിസ്റ്റിലെ ആദ്യ ഗാനം</string>
     <string name="lastsong">പ്ലേലിസ്റ്റിലെ അവസാന ഗാനം</string>
 
-    <string name="locked">പൂട്ടിയിരിക്കന്നു</string>
-    <string name="unlocked">തുറന്നിരിക്കുന്നു</string>
     <string name="surface_best_fit">ഏറ്റവും അനുയോജ്യമായത്</string>
     <string name="surface_fit_screen">സ്ക്രീനില്‍ നിറയ്ക്കുക</string>
     <string name="surface_fill">നിറയ്ക്കുക</string>
@@ -148,9 +146,6 @@
     <string name="brightness">തെളിച്ചം</string>
     <string name="advanced">വിപുലീകരിച്ച ഐച്ഛികങ്ങൾ</string>
     <string name="audio_boost_warning">100% ത്തില്‍ കൂടുതല്‍ പോകാന്‍ മുകളിലേക്ക് ഇനിയും നീക്കുക</string>
-    <string name="locked_in_portrait_mode">പോർട്രെയിറ്റ് മോഡിൽ സ്ഥിരപ്പെടുത്തിയിരിക്കുന്നു\n(ബട്ടൺ കുറച്ചധികം നേരം തൊട്ടുപിടിച്ചാൽ മാറ്റാം)</string>
-    <string name="locked_in_landscape_mode">ലാൻഡ്സ്കേപ്പ് മോഡിൽ സ്ഥിരപ്പെടുത്തിയിരിക്കുന്നു\n(ബട്ടൺ കുറച്ചധികം നേരം തൊട്ടുപിടിച്ചാൽ മാറ്റാം)</string>
-    <string name="reset_orientation">ചരിവ് പഴയപടി ആക്കുക </string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 ചാനല\n</item>
@@ -717,4 +712,8 @@
     <string name="group_similar">യാന്ത്രികമായി വീണ്ടും ഗ്രൂപ്പുചെയ്യുക</string>
     <string name="no_favorite">പ്രിയങ്കരമില്ല</string>
     <string name="empty_directory">കാലി</string>
+    <string name="no_track">ട്രാക്കില്ല</string>
+
+    <string name="swipe_unlock">തുറക്കാനായി സ്‌വൈപ്പ് ചെയ്യുക </string>
+    <string name="swipe_unlock_no_touch">തുറക്കാനായി ദീർഘനേരം അമർത്തുക</string>
 </resources>
