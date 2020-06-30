@@ -176,7 +176,6 @@
                 android:id="@+id/constraintLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/gradient_hud_player"
                 android:paddingTop="@dimen/overlay_padding_top"
                 android:paddingBottom="@dimen/overlay_padding_bottom"
                 tools:theme="@style/Theme.VLC.Player"

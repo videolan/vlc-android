@@ -16,14 +16,6 @@
             android:visibility="invisible"
             tools:visibility="visible">
 
-        <View
-                android:id="@+id/top_gradient"
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:background="@drawable/gradient_title_player"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
                 android:id="@+id/player_overlay_navmenu"

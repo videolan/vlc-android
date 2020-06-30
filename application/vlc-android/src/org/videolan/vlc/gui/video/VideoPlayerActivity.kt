@@ -1954,15 +1954,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     showControls(true)
                 }
                 dimStatusBar(false)
-                hudBinding.progressOverlay.setVisible()
-                hudBinding.progressOverlay.alpha = 0f
-                hudBinding.progressOverlay.translationY = 100.dp.toFloat()
-                hudBinding.progressOverlay.animate().alpha(1F).translationY(0F).setDuration(150L).setListener(null)
 
-                hudRightBinding.hudRightOverlay.setVisible()
-                hudRightBinding.hudRightOverlay.alpha = 0f
-                hudRightBinding.hudRightOverlay.translationY = -100.dp.toFloat()
-                hudRightBinding.hudRightOverlay.animate().alpha(1F).translationY(0F).setDuration(150L).setListener(null)
+                enterAnimate(arrayOf(hudBinding.progressOverlay, hud_background), 100.dp.toFloat())
+                enterAnimate(arrayOf(hudRightBinding.hudRightOverlay, hud_right_background), -100.dp.toFloat())
+
                 if (!displayManager.isPrimary)
                     overlayBackground.setVisible()
                 updateOverlayPausePlay(true)
@@ -2161,23 +2156,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 overlayBackground.setInvisible()
             }
 
-            hudBinding.progressOverlay.animate().alpha(0F).translationY(100.dp.toFloat()).setDuration(150L).setListener(object : Animator.AnimatorListener {
-                override fun onAnimationEnd(animation: Animator?) {
-                    hudBinding.progressOverlay.setInvisible()
-                }
-                override fun onAnimationCancel(animation: Animator?) {}
-                override fun onAnimationRepeat(animation: Animator?) {}
-                override fun onAnimationStart(animation: Animator?) {}
-            })
+            exitAnimate(arrayOf(hudBinding.progressOverlay, hud_background),100.dp.toFloat())
+            exitAnimate(arrayOf(hudRightBinding.hudRightOverlay, hud_right_background),-100.dp.toFloat())
 
-            hudRightBinding.hudRightOverlay.animate().alpha(0F).translationY(-100.dp.toFloat()).setDuration(150L).setListener(object : Animator.AnimatorListener {
-                override fun onAnimationEnd(animation: Animator?) {
-                    hudRightBinding.hudRightOverlay.setInvisible()
-                }
-                override fun onAnimationCancel(animation: Animator?) {}
-                override fun onAnimationRepeat(animation: Animator?) {}
-                override fun onAnimationStart(animation: Animator?) {}
-            })
             showControls(false)
             isShowing = false
             dimStatusBar(true)
@@ -2190,6 +2171,24 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
              */
             dimStatusBar(true)
         }
+    }
+
+    private fun enterAnimate(views: Array<View?>, translationStart: Float) = views.forEach { view ->
+        view.setVisible()
+        view?.alpha = 0f
+        view?.translationY = translationStart
+        view?.animate()?.alpha(1F)?.translationY(0F)?.setDuration(150L)?.setListener(null)
+    }
+
+    private fun exitAnimate(views: Array<View?>, translationEnd: Float) = views.forEach { view ->
+        view?.animate()?.alpha(0F)?.translationY(translationEnd)?.setDuration(150L)?.setListener(object : Animator.AnimatorListener {
+            override fun onAnimationEnd(animation: Animator?) {
+                view.setInvisible()
+            }
+            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator?) {}
+        })
     }
 
     /**

@@ -46,6 +46,22 @@
             android:layout_marginBottom="@dimen/default_margin"
             android:layout="@layout/player_overlay_volume" />
 
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/hud_background"
+            android:background="@drawable/gradient_hud_player"
+            android:visibility="gone"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/hud_right_background"
+            android:background="@drawable/gradient_title_player"
+            android:visibility="gone"/>
+
     <RelativeLayout
             android:id="@+id/player_ui_container"
             android:layout_width="match_parent"
