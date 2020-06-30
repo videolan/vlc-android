@@ -3,7 +3,7 @@
     android:shape="rectangle">
     <solid android:color="?attr/bottom_sheet_background" />
     <corners
-        android:topLeftRadius="16dp"
-        android:topRightRadius="16dp" />
+        android:topLeftRadius="?attr/bottom_sheet_radius"
+        android:topRightRadius="?attr/bottom_sheet_radius" />
 
 </shape>

@@ -29,6 +29,7 @@
     <attr name="header_background" format="reference|color" />
     <attr name="bottom_navigation_background" format="reference|color" />
     <attr name="bottom_sheet_background" format="reference|color" />
+    <attr name="bottom_sheet_radius" format="dimension" />
     <attr name="bottom_navigation_color" format="reference|color" />
     <attr name="background_default_darker" format="reference|color" />
     <attr name="background_actionbar" format="reference|color" />

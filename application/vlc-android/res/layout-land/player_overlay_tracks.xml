@@ -35,7 +35,6 @@
             android:id="@+id/player_overlay_tracks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black_transparent_80"
             android:orientation="horizontal">
 
 
