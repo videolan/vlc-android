@@ -127,8 +127,6 @@
     <string name="firstsong">Første sang i spillelisten</string>
     <string name="lastsong">Siste sang i spillelisten</string>
 
-    <string name="locked">Låst</string>
-    <string name="unlocked">Låst opp</string>
     <string name="surface_best_fit">Best tilpasset</string>
     <string name="surface_fit_screen">Tilpass skjermen</string>
     <string name="surface_fill">Fyll ut</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Lysstyrke</string>
     <string name="advanced">avanserte innstillinger</string>
     <string name="audio_boost_warning">Dra opp igjen for å gå forbi 100%</string>
-    <string name="locked_in_portrait_mode">Låst i stående visning\n(Trykk og hold for å avbryte)</string>
-    <string name="locked_in_landscape_mode">Låst i landskapsmodus\n(Trykk og hold for å avbryte)</string>
-    <string name="reset_orientation">Nullstill skjermretning</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
@@ -306,6 +301,7 @@
     <string name="audio_prefs_category">Lyd</string>
     <string name="lockscreen_cover_title">Albumomslag på låseskjerm</string>
     <string name="lockscreen_cover_summary">Når tilgjengelig, sett gjeldende albumomslag som bakgrunn for låseskjerm</string>
+    <string name="list_title_ellipsize">Ellipsebruk i enkeltlinjelistetitler</string>
     <string name="list_title_ellipsize_default">Standard</string>
     <string name="list_title_ellipsize_left">Venstre</string>
     <string name="list_title_ellipsize_right">Høyre</string>
@@ -606,8 +602,8 @@
     <string name="remove_current">Fjern nåværende</string>
     <string name="validation_delete_playlist">Er du sikker på at du vil slette denne spillelisten?</string>
     <string name="validation_delete_playlist_text">Denne handlingen kan ikke omgjøres</string>
-    <string name="display_in_list">Vis i liste</string>
-    <string name="display_in_grid">Vis i rutenett</string>
+    <string name="display_in_list">Vis som liste</string>
+    <string name="display_in_grid">Vis som rutenett</string>
     <string name="dump_db_succes">Databasen dumpet på intern lagringsrot</string>
     <string name="dump_db_failure">Klarte ikke å dumpe databasen</string>
     <string name="send_crash_title">VLC krasjrapporterer</string>
