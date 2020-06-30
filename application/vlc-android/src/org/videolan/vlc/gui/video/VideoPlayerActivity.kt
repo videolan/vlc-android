@@ -153,7 +153,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private var isPlaying = false
     private var loadingImageView: ImageView? = null
     private var navMenu: ImageView? = null
-    private var rendererBtn: ImageView? = null
     protected var enableCloneMode: Boolean = false
     private lateinit var orientationMode: PlayerOrientationMode
     private var orientationLockedBeforeLock: Boolean = false
@@ -567,7 +566,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             hudBinding.swipeToUnlock.setOnStopTouchingListener { showOverlayTimeout(OVERLAY_TIMEOUT) }
             hudBinding.swipeToUnlock.setOnUnlockListener { toggleLock() }
         }
-        UiTools.setViewOnClickListener(rendererBtn, if (enabled) this else null)
+        if (::hudRightBinding.isInitialized) UiTools.setViewOnClickListener(hudRightBinding.videoRenderer, if (enabled) this else null)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -1712,6 +1711,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             unlockScreen()
         else
             lockScreen()
+        updateRendererVisibility()
     }
 
     fun toggleLoop(v: View) = service?.run {
@@ -2051,9 +2051,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 navMenu = findViewById(R.id.player_overlay_navmenu)
                 if (!AndroidDevices.isChromeBook && !isTv
                         && Settings.getInstance(this).getBoolean("enable_casting", true)) {
-                    rendererBtn = findViewById(R.id.video_renderer)
-                    PlaybackService.renderer.observe(this, Observer { rendererItem -> rendererBtn?.setImageDrawable(AppCompatResources.getDrawable(this, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_am_renderer_on)) })
-                    RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> rendererBtn.setVisibility(if (rendererItems.isNullOrEmpty()) View.GONE else View.VISIBLE) })
+                    PlaybackService.renderer.observe(this, Observer { rendererItem -> hudRightBinding.videoRenderer.setImageDrawable(AppCompatResources.getDrawable(this, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_player_renderer_on)) })
+                    RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> updateRendererVisibility() })
                 }
 
                 hudRightBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title
@@ -2076,6 +2075,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 hudBinding.lifecycleOwner = this
             }
         }
+    }
+
+    private fun updateRendererVisibility() {
+        if (::hudRightBinding.isInitialized) hudRightBinding.videoRenderer.visibility = if (isLocked || RendererDelegate.renderers.value.isNullOrEmpty()) View.GONE else View.VISIBLE
     }
 
     private val titleConstraintSetLandscape = ConstraintSet()
