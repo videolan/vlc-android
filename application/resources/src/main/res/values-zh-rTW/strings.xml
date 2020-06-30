@@ -119,8 +119,6 @@
     <string name="firstsong">播放清單中的第一首歌曲</string>
     <string name="lastsong">播放清單中的最後一首歌曲</string>
 
-    <string name="locked">已鎖定</string>
-    <string name="unlocked">已解鎖</string>
     <string name="surface_best_fit">最佳符合</string>
     <string name="surface_fit_screen">符合畫面</string>
     <string name="surface_fill">填滿</string>
@@ -140,9 +138,6 @@
     <string name="brightness">亮度</string>
     <string name="advanced">進階選項</string>
     <string name="audio_boost_warning">再次向上滑動，以超過 100％</string>
-    <string name="locked_in_portrait_mode">鎖定在直向模式\n（在按鈕上長按來取消）</string>
-    <string name="locked_in_landscape_mode">鎖定在橫向模式\n（在按鈕上長按來取消）</string>
-    <string name="reset_orientation">方向重設</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d 聲道\n</item>
@@ -705,4 +700,8 @@
     <string name="group_similar">自動重新分組</string>
     <string name="no_favorite">無收藏</string>
     <string name="empty_directory">空的</string>
+    <string name="no_track">無軌道</string>
+
+    <string name="swipe_unlock">滑動以解鎖</string>
+    <string name="swipe_unlock_no_touch">長按以解鎖</string>
 </resources>
