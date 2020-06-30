@@ -127,8 +127,6 @@
     <string name="firstsong">Premier morceau de la liste de lecture</string>
     <string name="lastsong">Dernier morceau de la liste de lecture</string>
 
-    <string name="locked">Verrouillé</string>
-    <string name="unlocked">Déverrouillé</string>
     <string name="surface_best_fit">Ajuster au mieux</string>
     <string name="surface_fit_screen">Ajuster à l\'écran</string>
     <string name="surface_fill">Étirer</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Luminosité</string>
     <string name="advanced">options avancées</string>
     <string name="audio_boost_warning">Défilez encore vers le haut pour dépasser 100 %</string>
-    <string name="locked_in_portrait_mode">Verrouillé en mode portrait\n(Appui long sur le bouton pour annuler)</string>
-    <string name="locked_in_landscape_mode">Verrouillé en mode paysage\n(Appui long sur le bouton pour annuler)</string>
-    <string name="reset_orientation">Orientation réinitialisée</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
@@ -716,4 +711,8 @@
     <string name="group_similar">Regrouper automatiquement</string>
     <string name="no_favorite">Aucun favori</string>
     <string name="empty_directory">Vide</string>
+    <string name="no_track">Aucune piste</string>
+
+    <string name="swipe_unlock">Glisser pour déverrouiller</string>
+    <string name="swipe_unlock_no_touch">Longue pression pour débloquer</string>
 </resources>
