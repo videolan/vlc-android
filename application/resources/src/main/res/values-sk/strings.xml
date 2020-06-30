@@ -143,8 +143,6 @@
     <string name="firstsong">Prvá skladba playlistu</string>
     <string name="lastsong">Posledná skladba playlistu</string>
 
-    <string name="locked">Uzamknuté</string>
-    <string name="unlocked">Odomknuté</string>
     <string name="surface_best_fit">Najlepšie prispôsobenie</string>
     <string name="surface_fit_screen">Prispôsob. obrazovky</string>
     <string name="surface_fill">Vyplniť</string>
@@ -164,9 +162,6 @@
     <string name="brightness">Jas</string>
     <string name="advanced">pokročilé nastavenia</string>
     <string name="audio_boost_warning">Opätovným posunutím prstom prejdete za úroveň 100 %</string>
-    <string name="locked_in_portrait_mode">Uzamknuté v režime na výšku\n(Zakážete dlhým stlačením tlačidla)</string>
-    <string name="locked_in_landscape_mode">Uzamknuté v režime na šírku\n(Zakážete dlhým stlačením tlačidla)</string>
-    <string name="reset_orientation">Reset orientácie</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanál\n</item>
@@ -739,4 +734,8 @@
     <string name="group_similar">Automaticky znovu zoskupiť</string>
     <string name="no_favorite">Žiadne obľúbené</string>
     <string name="empty_directory">Prázdne</string>
+    <string name="no_track">Žiadna stopa</string>
+
+    <string name="swipe_unlock">Odomknite potiahnutím</string>
+    <string name="swipe_unlock_no_touch">Odomknite dlhým stlačením</string>
 </resources>
