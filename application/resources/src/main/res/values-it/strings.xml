@@ -127,8 +127,6 @@
     <string name="firstsong">Primo brano della scaletta</string>
     <string name="lastsong">Ultimo brano della scaletta</string>
 
-    <string name="locked">Bloccato</string>
-    <string name="unlocked">Sbloccato</string>
     <string name="surface_best_fit">Adatta allo schermo</string>
     <string name="surface_fit_screen">Adatta allo schermo</string>
     <string name="surface_fill">Riempi</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Luminosità</string>
     <string name="advanced">opzioni avanzate</string>
     <string name="audio_boost_warning">Scorri ancora per andare oltre il 100%</string>
-    <string name="locked_in_portrait_mode">Bloccato in modalità verticale\n(Pressione lunga sul pulsante per annullare)</string>
-    <string name="locked_in_landscape_mode">Bloccato in modalità orizzontale\n(Pressione lunga sul pulsante per annullare)</string>
-    <string name="reset_orientation">Ripristina orientazione</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canale\n</item>
@@ -716,4 +711,8 @@
     <string name="group_similar">Raggruppa automaticamente</string>
     <string name="no_favorite">Nessun preferito</string>
     <string name="empty_directory">Vuota</string>
+    <string name="no_track">Nessuna traccia</string>
+
+    <string name="swipe_unlock">Scorri per sbloccare</string>
+    <string name="swipe_unlock_no_touch">Pressione lunga per sbloccare</string>
 </resources>
