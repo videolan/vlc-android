@@ -148,7 +148,9 @@ android {
             if (outputAbi != null) abiName = outputAbi
             output.versionCodeOverride = 10000000 + defaultConfig.versionCode + abiCodes.get(abiName, 0)
             def outputName = "VLC-Android-"
-            outputName += variant.versionName + "-" + abiName + ".apk"
+            outputName += variant.versionName.replace(" ", "-")
+            if (variant.buildType.name == "debug") outputName += "-debug"
+            outputName += "-" + abiName + ".apk"
             output.outputFileName = outputName
         }
     }
