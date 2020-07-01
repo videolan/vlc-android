@@ -127,8 +127,6 @@
     <string name="firstsong">Första låten i spellistan</string>
     <string name="lastsong">Sista låten i spellistan</string>
 
-    <string name="locked">Låst</string>
-    <string name="unlocked">Upplåst</string>
     <string name="surface_best_fit">Bäst passform</string>
     <string name="surface_fit_screen">Anpassa till skärm</string>
     <string name="surface_fill">Fyll</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Ljusstyrka</string>
     <string name="advanced">avancerade alternativ</string>
     <string name="audio_boost_warning">Svep uppåt igen för att gå över 100 %</string>
-    <string name="locked_in_portrait_mode">Låst i porträttläge\n(Håll ned knappen för att avbryta)</string>
-    <string name="locked_in_landscape_mode">Låst i landskapsläge\n(Håll ned knappen för att avbryta)</string>
-    <string name="reset_orientation">Återställ orientering</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
@@ -716,4 +711,8 @@
     <string name="group_similar">Omgruppera automatiskt</string>
     <string name="no_favorite">Inga favoriter</string>
     <string name="empty_directory">Tom</string>
+    <string name="no_track">Inget spår</string>
+
+    <string name="swipe_unlock">Svep för att låsa upp</string>
+    <string name="swipe_unlock_no_touch">Tryck länge för att låsa upp</string>
 </resources>
