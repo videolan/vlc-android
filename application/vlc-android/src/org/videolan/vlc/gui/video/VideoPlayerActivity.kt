@@ -2084,11 +2084,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private val titleConstraintSetLandscape = ConstraintSet()
     private val titleConstraintSetPortrait = ConstraintSet()
     private fun manageTitleConstraints() {
-       titleConstraintSetLandscape.clone(hudRightBinding.hudRightOverlay)
-       titleConstraintSetPortrait.clone(hudRightBinding.hudRightOverlay)
+        titleConstraintSetLandscape.clone(hudRightBinding.hudRightOverlay)
+        titleConstraintSetPortrait.clone(hudRightBinding.hudRightOverlay)
         titleConstraintSetPortrait.setMargin(hudRightBinding.playerOverlayTitle.id, ConstraintSet.START, 16.dp)
         titleConstraintSetPortrait.setMargin(hudRightBinding.playerOverlayTitle.id, ConstraintSet.END, 16.dp)
-        titleConstraintSetPortrait.connect(hudRightBinding.playerOverlayTitle.id, ConstraintSet.TOP, hudRightBinding.playerOverlayNavmenu.id, ConstraintSet.BOTTOM, 0.dp)
+        titleConstraintSetPortrait.connect(hudRightBinding.playerOverlayTitle.id, ConstraintSet.TOP, hudRightBinding.iconBarrier.id, ConstraintSet.BOTTOM, 0.dp)
     }
 
     private fun updateTitleConstraints() {
@@ -2697,7 +2697,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 hideOverlay(false)
             } else if (menuIdx != -1) setESTracks()
 
-            navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.INVISIBLE)
+            navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.GONE)
             supportInvalidateOptionsMenu()
         }
     }

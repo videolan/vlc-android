@@ -106,6 +106,15 @@
                 app:srcCompat="@drawable/ic_player_renderer"
                 tools:visibility="visible" />
 
+        <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/icon_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="playlist_toggle,video_renderer,player_overlay_navmenu,video_secondary_display"
+                tools:layout_editor_absoluteX="411dp"
+                tools:layout_editor_absoluteY="48dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Media control buttons -->
