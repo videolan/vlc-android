@@ -119,8 +119,6 @@
     <string name="firstsong">プレイリストの最初の曲</string>
     <string name="lastsong">プレイリストの最後の曲</string>
 
-    <string name="locked">ロック中</string>
-    <string name="unlocked">ロック解除</string>
     <string name="surface_best_fit">スクリーンに最適化</string>
     <string name="surface_fit_screen">画面に合わせる</string>
     <string name="surface_fill">画面一杯に合わせる</string>
@@ -140,9 +138,6 @@
     <string name="brightness">明るさ</string>
     <string name="advanced">詳細設定オプション</string>
     <string name="audio_boost_warning">スライドアップで100%を超過</string>
-    <string name="locked_in_portrait_mode">ポートレートモードに固定\n(ボタン長押しでキャンセル)</string>
-    <string name="locked_in_landscape_mode">ランドスケープモードに固定\n(ボタン長押しでキャンセル)</string>
-    <string name="reset_orientation">方向リセット</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d チャンネル\n</item>
@@ -705,4 +700,8 @@
     <string name="group_similar">自動再グループ化</string>
     <string name="no_favorite">お気に入りがありません</string>
     <string name="empty_directory">空</string>
+    <string name="no_track">トラックがありません</string>
+
+    <string name="swipe_unlock">スワイプでロック解除</string>
+    <string name="swipe_unlock_no_touch">長押しでロック解除</string>
 </resources>
