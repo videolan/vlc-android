@@ -72,42 +72,39 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
     }
 
     private fun onServiceChanged(service: PlaybackService?) {
-        service?.let { service ->
-            if (service.videoTracksCount <= 2) {
+        service?.let { playbackService ->
+            if (playbackService.videoTracksCount <= 2) {
                 binding.videoTracks.trackContainer.setGone()
                 binding.tracksSeparator3.setGone()
             }
-            if (service.audioTracksCount <= 0) {
+            if (playbackService.audioTracksCount <= 0) {
                 binding.audioTracks.trackContainer.setGone()
                 binding.tracksSeparator2.setGone()
             }
 
-            service.videoTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.first { it.id == service.videoTrack })
+            playbackService.videoTracks?.let { trackList ->
+                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.videoTrack })
                 trackAdapter.setOnTrackSelectedListener { track ->
-                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Setting track: $track")
-                    service.setVideoTrack(track.id)
+                    playbackService.setVideoTrack(track.id)
                 }
                 binding.videoTracks.trackList.adapter = trackAdapter
             }
-            service.audioTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.first { it.id == service.audioTrack })
+            playbackService.audioTracks?.let { trackList ->
+                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.audioTrack })
                 trackAdapter.setOnTrackSelectedListener { track ->
-                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Setting track: $track")
-                    service.setAudioTrack(track.id)
+                    playbackService.setAudioTrack(track.id)
                 }
                 binding.audioTracks.trackList.adapter = trackAdapter
             }
-            service.spuTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.first { it.id == service.spuTrack })
+            playbackService.spuTracks?.let { trackList ->
+                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.spuTrack })
                 trackAdapter.setOnTrackSelectedListener { track ->
-                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Setting track: $track")
-                    service.setSpuTrack(track.id)
+                    playbackService.setSpuTrack(track.id)
                 }
                 binding.subtitleTracks.trackList.adapter = trackAdapter
                 if (trackList.isEmpty()) binding.subtitleTracks.emptyView.setVisible()
             }
-            if (service.spuTracks == null) binding.subtitleTracks.emptyView.setVisible()
+            if (playbackService.spuTracks == null) binding.subtitleTracks.emptyView.setVisible()
         }
     }
 

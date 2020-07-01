@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.vlc.databinding.VideoTrackItemBinding
 
-class TrackAdapter(private val tracks: Array<MediaPlayer.TrackDescription>, var selectedTrack: MediaPlayer.TrackDescription) : RecyclerView.Adapter<TrackAdapter.ViewHolder>() {
+class TrackAdapter(private val tracks: Array<MediaPlayer.TrackDescription>, var selectedTrack: MediaPlayer.TrackDescription?) : RecyclerView.Adapter<TrackAdapter.ViewHolder>() {
 
     lateinit var trackSelectedListener: (MediaPlayer.TrackDescription) -> Unit
 
