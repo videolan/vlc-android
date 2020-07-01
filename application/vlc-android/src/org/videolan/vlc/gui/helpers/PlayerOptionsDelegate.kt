@@ -215,7 +215,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             else -> return
         }
         if (newFragment is VLCBottomSheetDialogFragment && activity is VideoPlayerActivity)
-            newFragment.onDismissListener = DialogInterface.OnDismissListener { activity.dimStatusBar(true) }
+            newFragment.onDismissListener = DialogInterface.OnDismissListener { activity.overlayDelegate.dimStatusBar(true) }
         newFragment.show(activity.supportFragmentManager, tag)
         hide()
     }

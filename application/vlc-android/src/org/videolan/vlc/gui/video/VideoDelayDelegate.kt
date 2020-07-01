@@ -83,8 +83,8 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
     @SuppressLint("ClickableViewAccessibility")
     fun showDelayControls() {
         player.touchDelegate.clearTouchAction()
-        if (!player.displayManager.isPrimary) player.showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
-        player.info.setInvisible()
+        if (!player.displayManager.isPrimary) player.overlayDelegate.showOverlayTimeout(VideoPlayerActivity.OVERLAY_INFINITE)
+        player.overlayDelegate.info.setInvisible()
         val vsc = player.findViewById<ViewStubCompat>(R.id.player_overlay_settings_stub)
         if (vsc != null) {
             vsc.inflate()
@@ -120,7 +120,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
      *
      */
     private fun initPlaybackSettingInfo() {
-        player.initInfoOverlay()
+        player.overlayDelegate.initInfoOverlay()
         delayContainer.setVisible()
         var text = ""
         val title = when (playbackSetting) {
@@ -186,7 +186,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
                 !fromCustom && currentDelay % delta != 0L -> delta - (currentDelay % delta)
                 else -> delta
             }
-            player.initInfoOverlay()
+            player.overlayDelegate.initInfoOverlay()
             if (delayState == IPlaybackSettingsController.DelayState.SUBS) service.setSpuDelay(delay) else service.setAudioDelay(delay)
             delayTitle.text = player.getString(if (delayState == IPlaybackSettingsController.DelayState.SUBS) R.string.spu_delay else R.string.audio_delay)
             delayInfo.text = "${delay / 1000L} ms"
@@ -237,9 +237,9 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
             delayFirstButton.setOnClickListener(null)
             delaySecondButton.setOnClickListener(null)
             delayContainer.setInvisible()
-            player.overlayInfo.setInvisible()
+            player.overlayDelegate.overlayInfo.setInvisible()
             service.playlistManager.delayValue.value = DelayValues()
-            player.focusPlayPause()
+            player.overlayDelegate.focusPlayPause()
         }
     }
 

@@ -109,7 +109,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             }
             player.isPlaylistVisible -> {
                 touchAction = TOUCH_IGNORE
-                player.togglePlaylist()
+                player.overlayDelegate.togglePlaylist()
                 return true
             }
             else -> {
@@ -122,7 +122,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 }
                 if (touchControls == 0 || player.isLocked) {
                     // locked or swipe disabled, only handle show/hide & ignore all actions
-                    if (event.action == MotionEvent.ACTION_UP && touchAction != TOUCH_IGNORE) player.toggleOverlay()
+                    if (event.action == MotionEvent.ACTION_UP && touchAction != TOUCH_IGNORE) player.overlayDelegate.toggleOverlay()
                     return false
                 }
 
@@ -315,7 +315,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             if (brightness) doBrightnessTouch(y_changed)
             else doVolumeTouch(y_changed)
         }
-        player.hideOverlay(true)
+        player.overlayDelegate.hideOverlay(true)
     }
 
     private fun doSeekTouch(coef: Int, gesturesize: Float, seek: Boolean) {
@@ -341,12 +341,12 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         if (seek && length > 0) player.seek(time + jump, length)
 
         //Show the jump's size
-        if (length > 0) player.showInfo(String.format("%s%s (%s)%s",
+        if (length > 0) player.overlayDelegate.showInfo(String.format("%s%s (%s)%s",
                 if (jump >= 0) "+" else "",
                 Tools.millisToString(jump.toLong()),
                 Tools.millisToString(time + jump),
                 if (coef > 1) String.format(" x%.1g", 1.0 / coef) else ""), 50)
-        else player.showInfo(org.videolan.vlc.R.string.unseekable_stream, 1000)
+        else player.overlayDelegate.showInfo(R.string.unseekable_stream, 1000)
     }
 
     private fun doVolumeTouch(y_changed: Float) {
