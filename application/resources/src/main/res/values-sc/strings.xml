@@ -127,8 +127,6 @@
     <string name="firstsong">Primu branu de s\'iscalita</string>
     <string name="lastsong">Ùrtimu branu de s\'iscalita</string>
 
-    <string name="locked">Blocadu</string>
-    <string name="unlocked">Isblocadu</string>
     <string name="surface_best_fit">Adata a s\'ischermu</string>
     <string name="surface_fit_screen">Adata a s\'ischermu</string>
     <string name="surface_fill">Prena</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Luminosidade</string>
     <string name="advanced">optziones avantzadas</string>
     <string name="audio_boost_warning">Iscurre galu pro andare prus a in antis de su 100%</string>
-    <string name="locked_in_portrait_mode">Blocadu in modalidade verticale\n(Incarca a longu pro annullare)</string>
-    <string name="locked_in_landscape_mode">Blocadu in modalidade orizontale\n(Incarca a longu pro annullare)</string>
-    <string name="reset_orientation">Riprìstina s\'orientamentu</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canale\n</item>
@@ -362,7 +357,7 @@
     <string name="deblocking_nonkey">Deblocu mìnimu</string>
     <string name="deblocking_all">Perunu deblocu (prus lestru)</string>
     <string name="enable_frame_skip">Abìlita su brincu de fotogrammas</string>
-    <string name="enable_frame_skip_summary">Atzèllerat sa decodìfica, ma diat pòdere minimare sa calidade de su vìdeu</string>
+    <string name="enable_frame_skip_summary">Illestrat sa decodìfica, ma diat pòdere minimare sa calidade de su vìdeu</string>
     <string name="enable_time_stretching_audio">Illonghiamentu temporale àudio</string>
     <string name="enable_time_stretching_audio_summary">Aumenta e mìnima sa lestresa de s\'àudio chene cambiare sa tonalidade (tenent bisòngiu de unu dispositivu lestru)</string>
 
@@ -716,4 +711,8 @@
     <string name="group_similar">Agrupa automaticamente</string>
     <string name="no_favorite">Perunu preferidu</string>
     <string name="empty_directory">Bòida</string>
+    <string name="no_track">Peruna rasta</string>
+
+    <string name="swipe_unlock">Trìsina pro isblocare</string>
+    <string name="swipe_unlock_no_touch">Incarca a longu pro isblocare</string>
 </resources>
