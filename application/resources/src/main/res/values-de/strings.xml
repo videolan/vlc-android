@@ -127,8 +127,6 @@
     <string name="firstsong">Erstes Lied der Wiedergabeliste</string>
     <string name="lastsong">Letztes Lied der Wiedergabeliste</string>
 
-    <string name="locked">Gesperrt</string>
-    <string name="unlocked">Entsperrt</string>
     <string name="surface_best_fit">Beste Größe</string>
     <string name="surface_fit_screen">An Bildschirm anpassen</string>
     <string name="surface_fill">Ausfüllen</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Helligkeit</string>
     <string name="advanced">Erweiterte Optionen</string>
     <string name="audio_boost_warning">Für mehr als 100% nach oben schieben</string>
-    <string name="locked_in_portrait_mode">Im Hochformat gesperrt\n(Langer Tastendruck zum Entsperren)</string>
-    <string name="locked_in_landscape_mode">Im Querformat gesperrt\n(Langer Tastendruck zum Entsperren)</string>
-    <string name="reset_orientation">Ausrichtung zurücksetzen</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 Kanal\n</item>
@@ -716,4 +711,8 @@
     <string name="group_similar">Automatisch neu gruppieren</string>
     <string name="no_favorite">Keine Favoriten</string>
     <string name="empty_directory">Leer</string>
+    <string name="no_track">Kein Titel</string>
+
+    <string name="swipe_unlock">Wischen zum Entsperren</string>
+    <string name="swipe_unlock_no_touch">Lange drücken zum Entsperren</string>
 </resources>
