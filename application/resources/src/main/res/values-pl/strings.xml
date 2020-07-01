@@ -143,8 +143,6 @@
     <string name="firstsong">Pierwszy utwór z listy odtwarzania</string>
     <string name="lastsong">Ostatni utwór z listy odtwarzania</string>
 
-    <string name="locked">zablokowane</string>
-    <string name="unlocked">odblokowane</string>
     <string name="surface_best_fit">Najlepsze dopasowanie</string>
     <string name="surface_fit_screen">Dopasuj ekran</string>
     <string name="surface_fill">Wypełnij</string>
@@ -164,9 +162,6 @@
     <string name="brightness">Jasność</string>
     <string name="advanced">zaawansowane opcje</string>
     <string name="audio_boost_warning">Przesuń ponownie, aby przekroczyć 100%</string>
-    <string name="locked_in_portrait_mode">Zablokowany w trybie portretowym\n(Długie naciśnięcie przycisku odblokuje)</string>
-    <string name="locked_in_landscape_mode">Zablokowany w trybie krajobrazowym\n(Długie naciśnięcie przycisku odblokuje)</string>
-    <string name="reset_orientation">Resetowanie orientacji</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanał\n</item>
@@ -522,7 +517,7 @@
     <string name="ml_discovering">Odnalezienie</string>
     <string name="resume">Wznów</string>
     <string name="length">Długość</string>
-    <string name="tv_settings_hint">Długo naciśnij przycisk OK, aby zaznaczyć/odznaczyć katalogi</string>
+    <string name="tv_settings_hint">Naciśnij długo przycisk OK, aby zaznaczyć/odznaczyć katalogi</string>
     <string name="ml_external_storage_title">Wykryto nową pamięć zewnętrzną</string>
     <string name="ml_external_storage_msg">Czy chcesz, by VLC dodał urządzenie %1$s do biblioteki mediów?</string>
     <string name="ml_external_storage_accept">Tak</string>
@@ -738,4 +733,8 @@
     <string name="group_similar">Przegrupuj automatycznie</string>
     <string name="no_favorite">Brak ulubionych</string>
     <string name="empty_directory">Pusty</string>
+    <string name="no_track">Brak utworów</string>
+
+    <string name="swipe_unlock">Przeciągnij, aby odblokować</string>
+    <string name="swipe_unlock_no_touch">Naciśnij długo, aby odblokować</string>
 </resources>
