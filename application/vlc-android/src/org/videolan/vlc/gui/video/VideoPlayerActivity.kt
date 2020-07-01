@@ -1313,9 +1313,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
     private fun showBrightnessBar(brightness: Int) {
         findViewById<ViewStubCompat>(R.id.player_brightness_stub)?.setVisible()
-        if (player_overlay_brightness.visibility != View.VISIBLE) hapticFeedback()
+        if (player_overlay_brightness?.visibility != View.VISIBLE) hapticFeedback()
         player_overlay_brightness.setVisible()
-        brightness_value_text.text = "$brightness%"
+        brightness_value_text?.text = "$brightness%"
         playerBrightnessProgress.setValue(brightness)
         player_overlay_brightness.setVisible()
         handler.removeMessages(FADE_OUT_BRIGHTNESS_INFO)
@@ -1329,11 +1329,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
      */
     private fun showVolumeBar(volume: Int) {
         findViewById<ViewStubCompat>(R.id.player_volume_stub)?.setVisible()
-        if (player_overlay_volume.visibility != View.VISIBLE)  hapticFeedback()
+        if (player_overlay_volume?.visibility != View.VISIBLE)  hapticFeedback()
         volume_value_text.text = "$volume%"
         playerVolumeProgress.isDouble = isAudioBoostEnabled
         playerVolumeProgress.setValue(volume)
-        player_overlay_volume.setVisible()
+        player_overlay_volume?.setVisible()
         handler.removeMessages(FADE_OUT_VOLUME_INFO)
         handler.sendEmptyMessageDelayed(FADE_OUT_VOLUME_INFO, 1000L)
         dimStatusBar(true)
