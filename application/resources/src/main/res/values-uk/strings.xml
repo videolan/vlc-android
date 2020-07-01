@@ -143,8 +143,6 @@
     <string name="firstsong">Перша пісня зі списку</string>
     <string name="lastsong">Остання пісня зі списку</string>
 
-    <string name="locked">Заблоковано</string>
-    <string name="unlocked">Розблоковано</string>
     <string name="surface_best_fit">Найкраще</string>
     <string name="surface_fit_screen">Екранний розмір</string>
     <string name="surface_fill">Заповнити</string>
@@ -164,9 +162,6 @@
     <string name="brightness">Яскравість</string>
     <string name="advanced">додаткові параметри</string>
     <string name="audio_boost_warning">Проведіть вгору, щоби перевищити 100%</string>
-    <string name="locked_in_portrait_mode">Заблоковано у книжковому режимі\n(Для скасування натисніть та утримуйте кнопку)</string>
-    <string name="locked_in_landscape_mode">Заблоковано в альбомному режимі\n(Для скасування натисніть та утримуйте кнопку)</string>
-    <string name="reset_orientation">Очистити орієнтацію</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 канал\n</item>
@@ -738,4 +733,8 @@
     <string name="group_similar">Перегрупувати автоматично</string>
     <string name="no_favorite">Не обране</string>
     <string name="empty_directory">Порожньо</string>
+    <string name="no_track">Без доріжки</string>
+
+    <string name="swipe_unlock">Проведіть для розблокування</string>
+    <string name="swipe_unlock_no_touch">Тривалий натиск для розблокування</string>
 </resources>
