@@ -2355,7 +2355,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 wasPaused = true
             if (wasPaused && BuildConfig.DEBUG)
                 Log.d(TAG, "Video was previously paused, resuming in paused mode")
-            if (intent.data != null) videoUri = intent.data
+            intent.data?.let {
+               val translatedPath = FileUtils.getPathFromURI(it)
+                videoUri = if (!translatedPath.isEmpty()) Uri.parse(translatedPath) else it
+            }
             if (extras != null) {
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
                     videoUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION)
