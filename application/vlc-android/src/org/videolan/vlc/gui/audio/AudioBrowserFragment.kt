@@ -156,6 +156,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         super.onConfigurationChanged(newConfig)
         val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
         for (i in 0 until MODE_TOTAL) {
+            if (i >= lists.size || i >= adapters.size) continue
             if (lists[i].layoutManager is GridLayoutManager) {
                 val gridLayoutManager = lists[i].layoutManager as GridLayoutManager
                 gridLayoutManager.spanCount = nbColumns
