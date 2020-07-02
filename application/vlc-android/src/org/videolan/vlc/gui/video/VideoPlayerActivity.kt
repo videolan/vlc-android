@@ -493,7 +493,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         windowManager.defaultDisplay.getMetrics(dm)
         val yRange = dm.widthPixels.coerceAtMost(dm.heightPixels)
         val xRange = dm.widthPixels.coerceAtLeast(dm.heightPixels)
-        val sc = ScreenConfig(dm, xRange, yRange, orientationMode.orientation)
+        val sc = ScreenConfig(dm, xRange, yRange, resources.configuration.orientation)
         touchDelegate = VideoTouchDelegate(this, touch, sc, isTv)
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
@@ -680,7 +680,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             val sc = ScreenConfig(dm,
                     dm.widthPixels.coerceAtLeast(dm.heightPixels),
                     dm.widthPixels.coerceAtMost(dm.heightPixels),
-                    orientationMode.orientation)
+                    newConfig.orientation)
             touchDelegate.screenConfig = sc
         }
         resetHudLayout()
