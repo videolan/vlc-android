@@ -25,6 +25,7 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
@@ -216,6 +217,51 @@ fun Activity.getScreenHeight(): Int {
 fun Context.getPendingIntent(iPlay: Intent): PendingIntent {
     return if (AndroidUtil.isOOrLater) PendingIntent.getForegroundService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)
     else PendingIntent.getService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)
+}
+
+/**
+ * Register an [RecyclerView.AdapterDataObserver] for the adapter.
+ *
+ * [listener] is called each time a change occurs in the adapter
+ *
+ * return the registered [RecyclerView.AdapterDataObserver]
+ *
+ * /!\ Make sure to unregister [RecyclerView.AdapterDataObserver]
+ */
+fun RecyclerView.Adapter<*>.onAnyChange(listener: ()->Unit): RecyclerView.AdapterDataObserver {
+    val dataObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onChanged() {
+            super.onChanged()
+            listener.invoke()
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+            super.onItemRangeChanged(positionStart, itemCount)
+            listener.invoke()
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+            super.onItemRangeChanged(positionStart, itemCount, payload)
+            listener.invoke()
+        }
+
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            super.onItemRangeInserted(positionStart, itemCount)
+            listener.invoke()
+        }
+
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount)
+            listener.invoke()
+        }
+
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            super.onItemRangeRemoved(positionStart, itemCount)
+            listener.invoke()
+        }
+    }
+    registerAdapterDataObserver(dataObserver)
+    return dataObserver
 }
 
 fun generateResolutionClass(width: Int, height: Int) : String? = if (width <= 0 || height <= 0) {

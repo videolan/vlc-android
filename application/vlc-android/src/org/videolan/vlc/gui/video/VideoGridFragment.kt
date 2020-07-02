@@ -60,6 +60,7 @@ import org.videolan.vlc.media.getAll
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.launchWhenStarted
+import org.videolan.vlc.util.onAnyChange
 import org.videolan.vlc.util.share
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
@@ -72,6 +73,7 @@ private const val TAG = "VLC/VideoListFragment"
 @ExperimentalCoroutinesApi
 class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, CtxActionReceiver {
 
+    private lateinit var dataObserver: RecyclerView.AdapterDataObserver
     private lateinit var videoListAdapter: VideoListAdapter
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaLibraryItem>
     private lateinit var binding: VideoGridBinding
@@ -92,6 +94,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         if (!::videoListAdapter.isInitialized) {
             val seenMarkVisible = settings.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(seenMarkVisible)
+            dataObserver = videoListAdapter.onAnyChange { updateEmptyView() }
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
@@ -236,6 +239,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         super.onDestroy()
         videoListAdapter.release()
         gridItemDecoration = null
+        if (::dataObserver.isInitialized) videoListAdapter.unregisterAdapterDataObserver(dataObserver)
     }
 
     override fun getTitle() = when(viewModel.groupingType) {
