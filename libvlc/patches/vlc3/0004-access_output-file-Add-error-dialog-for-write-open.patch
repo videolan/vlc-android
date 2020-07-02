@@ -1,20 +1,20 @@
-From f1bcdad49eb0da544ec0d4899c302e00c0804cf9 Mon Sep 17 00:00:00 2001
-Message-Id: <f1bcdad49eb0da544ec0d4899c302e00c0804cf9.1571382591.git.thomas@gllm.fr>
-In-Reply-To: <253998cefd559e3e1103788d6a6c7466ec5f1faa.1571382591.git.thomas@gllm.fr>
-References: <253998cefd559e3e1103788d6a6c7466ec5f1faa.1571382591.git.thomas@gllm.fr>
+From b95a09a0bb9cb649ab7c8f0ac0034013dad55247 Mon Sep 17 00:00:00 2001
+Message-Id: <b95a09a0bb9cb649ab7c8f0ac0034013dad55247.1593695247.git.thomas@gllm.fr>
+In-Reply-To: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
+References: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
 From: Soomin Lee <bubu@mikan.io>
 Date: Mon, 1 Oct 2018 15:37:57 +0200
-Subject: [PATCH 4/5] access_output: file: Add error dialog for write/open
+Subject: [PATCH 4/6] access_output: file: Add error dialog for write/open
 
 ---
  modules/access_output/file.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/modules/access_output/file.c b/modules/access_output/file.c
-index fbefce0be8..45de0fc75e 100644
+index ef4f2d18d1..55e4822b90 100644
 --- a/modules/access_output/file.c
 +++ b/modules/access_output/file.c
-@@ -88,6 +88,9 @@ static ssize_t Write( sout_access_out_t *p_access, block_t *p_buffer )
+@@ -87,6 +87,9 @@ static ssize_t Write( sout_access_out_t *p_access, block_t *p_buffer )
          {
              if (errno == EINTR)
                  continue;
@@ -24,7 +24,7 @@ index fbefce0be8..45de0fc75e 100644
              block_ChainRelease (p_buffer);
              msg_Err( p_access, "cannot write: %s", vlc_strerror_c(errno) );
              return -1;
-@@ -305,8 +308,13 @@ static int Open( vlc_object_t *p_this )
+@@ -304,8 +307,13 @@ static int Open( vlc_object_t *p_this )
              if (fd != -1)
                  break;
              if (fd == -1)
