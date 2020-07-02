@@ -89,6 +89,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
             when (item) {
                 is Folder -> item.getAll()
                 is VideoGroup -> item.getAll()
+                is MediaWrapper -> listOf(item)
                 else -> null
             }
         }?.let { MediaUtils.openList(context, it, 0) }
