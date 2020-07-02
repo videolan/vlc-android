@@ -13,6 +13,7 @@
     <string name="sortby_length">Duración</string>
     <string name="sortby_date">Fecha</string>
     <string name="sortby_last_modified_date">Agregado recientemente</string>
+    <string name="sortby_media_number">Número de medio</string>
     <string name="sortby_number">Pistas</string>
     <string name="searchable_hint">Buscar…</string>
     <string name="history">Historial</string>
@@ -38,12 +39,15 @@
     <string name="insert_next">Insertar siguiente</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Adjuntar todo al final</string>
+    <string name="resume_playback_short_title">Reanudar reproducción</string>
+    <string name="resume_playback_long_title">Reanudar reproducción de la última lista</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="set_song_question">Establecer \'%1$s\' como tono de llamada?</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Borrar el archivo \'%1$s\'?</string>
+    <string name="confirm_delete_album">¿Borrar el álbum \'%1$s\'?</string>
     <string name="confirm_delete_several_media">¿Borrar %1$d medio(s)?</string>
     <string name="confirm_delete_folder">¿Borrar la carpeta \'%1$s\' y todo su contenido?</string>
     <string name="confirm_delete_playlist">¿Borrar lista \'%1$s\'?</string>
@@ -55,6 +59,8 @@
     <string name="unknown_album">Álbum desconocido</string>
     <string name="unknown_genre">Género desconocido</string>
     <string name="songs">Canciones</string>
+    <string name="track_info_copied_to_clipboard">Información copiada al portapapeles.</string>
+
     <string name="artists">Artistas</string>
     <string name="albums">Álbumes</string>
     <string name="tracks">Pistas</string>
@@ -67,6 +73,10 @@
         <item quantity="one">1 subcarpeta</item>
         <item quantity="other">%d subcarpetas</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 medio</item>
+        <item quantity="other">%d medio</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 archivo multimedia</item>
         <item quantity="other">%d archivos multimedia</item>
@@ -75,6 +85,15 @@
         <item quantity="one">1 vídeo</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 película</item>
+        <item quantity="other">%d películas</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 programa de TV</item>
+        <item quantity="other">%d programas de TV</item>
+    </plurals>
+
     <string name="internal_memory">Memoria interna</string>
     <string name="audio">Audio</string>
     <string name="video">Vídeo</string>
@@ -89,6 +108,7 @@
     <string name="please_wait">Espere…</string>
     <string name="nomedia">No se encontraron archivos multimedia, por favor transfiere algunos archivos a tu dispositivo o ajusta tus preferencias.</string>
     <string name="noplaylist">Lista no encontrada.</string>
+    <string name="nosubfolder">Sin subcarpetas</string>
     <string name="directorynotfound">La ruta del directorio \'%1$s\' no ha sido encontrada</string>
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
     <string name="validation">¿Está seguro?</string>
@@ -107,8 +127,6 @@
     <string name="firstsong">Primera canción de la lista de reproducción</string>
     <string name="lastsong">Última canción de la lista de reproducción</string>
 
-    <string name="locked">Bloqueado</string>
-    <string name="unlocked">Desbloqueado</string>
     <string name="surface_best_fit">Mejor ajuste</string>
     <string name="surface_fit_screen">Ajustar a pantalla</string>
     <string name="surface_fill">Rellenar</string>
@@ -128,9 +146,6 @@
     <string name="brightness">Brillo</string>
     <string name="advanced">opciones avanzadas</string>
     <string name="audio_boost_warning">Desliza arriba otra vez para superar el 100%</string>
-    <string name="locked_in_portrait_mode">Bloqueado en modo vertical\n(Mantén presionado el botón para cancelar)</string>
-    <string name="locked_in_landscape_mode">Bloqueado en modo horizontal\n(Mantén presionado el botón para cancelar)</string>
-    <string name="reset_orientation">Reiniciar orientación</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
@@ -164,6 +179,7 @@
     <string name="favorite_added">Guardado en favoritos</string>
     <string name="favorite_removed">Eliminado de favoritos</string>
 
+    <string name="streams">Emisión</string>
     <string name="open_mrl_dialog_msg">Introducir dirección de red: p. ej. http://, mms:// o rtsp://</string>
     <string name="encountered_error_title">Error de reproducción</string>
     <string name="encountered_error_message">VLC a encontrado un error con este medio.\nPor favor intente actualizar la biblioteca</string>
@@ -175,6 +191,8 @@
     <string name="playback_history_title">Historial de reproducción</string>
     <string name="playback_history_summary">Guardar todos los medios reproducidos en la sección Historial</string>
     <string name="playback_speed_title">Guardar Velocidad de Reproducción</string>
+    <string name="playback_speed_summary">Mantener velocidad de reproducción entre otros medios</string>
+
     <string name="play_button">Botón reproducir</string>
 
     <!-- Tips -->
@@ -250,6 +268,8 @@
     <string name="media_seen_summary">Marcar vídeos como vistos al verlos hasta el final</string>
     <string name="force_play_all_summary">Reproducir todos los vídeos, a partir del seleccionado</string>
     <string name="force_play_all_title">Modo lista de reproducción en videos</string>
+    <string name="save_brightness_summary">Mantener brillo para otros medios</string>
+    <string name="save_brightness_title">Guardar nivel de brillo</string>
     <string name="save_audiodelay_summary">Guardar retrasdo de audio individual para cada vídeo</string>
     <string name="save_audiodelay_title">Guardar retraso de audio</string>
     <string name="enable_brightness_gesture_title">Gesto de brillo</string>
@@ -366,6 +386,8 @@
     <string name="dump_logcat_success">Logcat tirado satisfactoriamente a %1$s!</string>
     <string name="dump_logcat_failure">Fallo al tirar logcat.</string>
     <string name="custom_libvlc_options">Personalizar opciones libVLC</string>
+    <string name="custom_libvlc_options_invalid">opción libVLC no valida!</string>
+
     <string name="serious_crash">Desafortunadamente, un serio error a ocurrido y VLC a tuvo que cerrar.</string>
     <string name="help_us_send_log">Ayudanos a mejorar VLC enviando el siguiente registro de error:</string>
     <string name="restart_vlc">Reiniciar VLC</string>
@@ -393,6 +415,7 @@
     <string name="network_empty">Esta carpeta está vacía.</string>
     <string name="network_connection_needed">No hay conección a red local.</string>
     <string name="search_hint">Buscar medios</string>
+    <string name="search_in_list_hint">Buscar en lista actual</string>
     <string name="search_global">Buscar en todas las biblioteca de medios</string>
     <string name="playlist_save">Guardar lista</string>
     <string name="playlist_name_hint">Nombre de la lista</string>
@@ -409,6 +432,7 @@
     <!-- Accessibility -->
     <string name="more_actions">Más acciones</string>
     <string name="back_quit_lock">Presione Átras otra vez para cerrar vídeo</string>
+    <string name="stream_deleted">Emisión eliminada</string>
     <string name="no_subs_found">No hay subtitulos en esta carpeta</string>
     <string name="music_now_playing">Reproduciendo ahora</string>
 
@@ -559,6 +583,7 @@
     <string name="popup_force_legacy_title">Usar vídeo miniatura personalizado</string>
     <string name="popup_force_legacy_summary">Usar cambio de tamaño en vídeo miniatura</string>
     <string name="device_default">Predeterminado por dispositivo</string>
+    <string name="track_number">%d pistas</string>
     <string name="jump_to">Saltar a</string>
     <string name="show_video_thumbnails_summary">Mostrar miniaturas de vídeo en listas</string>
     <string name="show_video_thumbnails">Vista previa de vídeos</string>
@@ -601,4 +626,53 @@
     <string name="invalid_file">Archivo no válido. No se puede compartir.</string>
     <string name="share_file">Compartir %s</string>
     <string name="share_message">Aquí está %s</string>
+    <string name="directed_by">Director</string>
+    <string name="casting">Reparto</string>
+    <string name="produced_by">Productor</string>
+    <string name="written_by">Escrito por</string>
+    <string name="music_by">Música por</string>
+    <string name="header_movies">Películas</string>
+    <string name="season_number">Temporada %s</string>
+    <string name="resume_episode">Reanudar (%s)</string>
+    <string name="start_over">Comenzar de nuevo</string>
+    <string name="next_episode">Siguiente episodio</string>
+    <string name="open_network_settings">Abrir opciones de red?</string>
+    <string name="recently_played">Reproducido recientemente</string>
+    <string name="recently_added">Agregado recientemente</string>
+    <string name="playback_multiple_errors">No se pueden ver múltiples medios </string>
+    <string name="clear_media_db_warning">Perderás el progreso y la lista creada.\n%s</string>
+    <string name="demux_bitrate">Tasa de bits de Demux</string>
+    <string name="input_bitrate">Tasa de bits de entrada</string>
+    <string name="video_information">Información del vídeo</string>
+
+    <string name="channels">Canales</string>
+    <string name="resolution">Resolución</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Cuadros por segundo</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Idioma</string>
+    <string name="track_samplerate">Tasa de muestreo</string>
+    <string name="bitrate">Tasa de bits</string>
+    <string name="codec">Códec</string>
+    <string name="text">Texto</string>
+    <string name="unknown">Desconocido</string>
+    <string name="track_index">Pista: %s</string>
+    <string name="audio_queue_progress">Progreso: %s</string>
+    <string name="sortby_track">Pista</string>
+    <string name="this_folder">Agregar esta carpeta</string>
+    <string name="all_subfolders">Agregar esta carpeta y subcarpetas</string>
+    <string name="playlist_existing">La lista %s ya existe</string>
+    <string name="new_title">Nuevo título</string>
+    <string name="browse">Examinar</string>
+    <string name="more">Más</string>
+    <string name="favorites">Favoritos</string>
+    <string name="new_stream">Nueva emisión</string>
+    <string name="add_to_group">Agregar a grupo</string>
+    <string name="remove_from_group">Remover del grupo</string>
+    <string name="rename_group">Renombrar grupo de vídeo</string>
+    <string name="ungroup">Des-agrupar</string>
+    <string name="group_similar">Reagrupar automáticamente</string>
+    <string name="no_favorite">Sin favorito</string>
+    <string name="empty_directory">Vacío</string>
 </resources>
