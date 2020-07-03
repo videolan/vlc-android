@@ -1127,8 +1127,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             var volume = if (audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC) < audioMax)
                 audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1
             else
-                Math.round(service.volume.toFloat() * audioMax / 100 + 1)
-            volume = Math.min(Math.max(volume, 0), audioMax * if (isAudioBoostEnabled) 2 else 1)
+                (service.volume.toFloat() * audioMax / 100 + 1).roundToInt()
+            volume = volume.coerceAtLeast(0).coerceAtMost(audioMax * if (isAudioBoostEnabled) 2 else 1)
             setAudioVolume(volume)
         }
     }
@@ -1136,10 +1136,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private fun volumeDown() {
         service?.let { service ->
             var vol = if (service.volume > 100)
-                Math.round(service.volume.toFloat() * audioMax / 100 - 1)
+                (service.volume.toFloat() * audioMax / 100 - 1).roundToInt()
             else
                 audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1
-            vol = Math.min(Math.max(vol, 0), audioMax * if (isAudioBoostEnabled) 2 else 1)
+            vol = vol.coerceAtLeast(0).coerceAtMost(audioMax * if (isAudioBoostEnabled) 2 else 1)
             originalVol = vol.toFloat()
             setAudioVolume(vol)
         }
@@ -1375,7 +1375,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    internal fun setAudioVolume(volume: Int) {
+    internal fun setAudioVolume(volume: Int, fromTouch:Boolean = false) {
         var vol = volume
         if (AndroidUtil.isNougatOrLater && (vol <= 0) xor isMute) {
             mute(!isMute)
@@ -1402,7 +1402,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 vol = (vol * 100 / audioMax.toFloat()).roundToInt()
                 service.setVolume(vol.toFloat().roundToInt())
             }
-            overlayDelegate.showVolumeBar(vol)
+            overlayDelegate.showVolumeBar(vol, fromTouch)
         }
     }
 

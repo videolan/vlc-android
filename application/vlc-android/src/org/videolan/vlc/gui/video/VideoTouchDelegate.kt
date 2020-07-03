@@ -287,7 +287,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 player.volume = player.audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
                 val delta = -(rz / 7 * player.audioMax).toInt()
                 val vol = (player.volume.toInt() + delta).coerceIn(0, player.audioMax)
-                player.setAudioVolume(vol)
+                player.setAudioVolume(vol, true)
             }
             lastMove = System.currentTimeMillis()
         }
@@ -361,14 +361,14 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 if (player.isAudioBoostEnabled) {
                     if (player.originalVol < audioMax) {
                         player.displayWarningToast()
-                        player.setAudioVolume(audioMax)
+                        player.setAudioVolume(audioMax, true)
                     } else {
-                        player.setAudioVolume(vol)
+                        player.setAudioVolume(vol, true)
                     }
                     touchAction = TOUCH_VOLUME
                 }
             } else {
-                player.setAudioVolume(vol)
+                player.setAudioVolume(vol, true)
                 touchAction = TOUCH_VOLUME
             }
         }

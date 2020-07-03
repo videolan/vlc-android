@@ -195,12 +195,12 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * Show the volume value with  bar
      * @param volume the volume value
      */
-    fun showVolumeBar(volume: Int) {
+    fun showVolumeBar(volume: Int, fromTouch: Boolean) {
         player.findViewById<ViewStubCompat>(R.id.player_volume_stub)?.setVisible()
         playerOverlayVolume = player.findViewById(R.id.player_overlay_volume)
         volumeValueText = player.findViewById(R.id.volume_value_text)
         playerVolumeProgress = player.findViewById(R.id.playerVolumeProgress)
-        if (playerOverlayVolume.visibility != View.VISIBLE)  hapticFeedback()
+        if (playerOverlayVolume.visibility != View.VISIBLE && fromTouch)  hapticFeedback()
         volumeValueText.text = "$volume%"
         playerVolumeProgress.isDouble = player.isAudioBoostEnabled
         playerVolumeProgress.setValue(volume)
