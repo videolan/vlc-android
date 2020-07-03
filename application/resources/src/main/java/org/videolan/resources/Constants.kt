@@ -123,6 +123,7 @@ const val ID_LICENCE = 12L
 const val ID_REFRESH = 13L
 const val ID_ALL_MOVIES = 14L
 const val ID_ALL_TVSHOWS = 15L
+const val ID_SPONSOR = 16L
 const val CATEGORY_NOW_PLAYING = 20L
 const val CATEGORY_ARTISTS = 21L
 const val CATEGORY_ALBUMS = 22L

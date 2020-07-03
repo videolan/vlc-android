@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:drawable="@drawable/rectangle_white_transparent" />
+    <item android:state_pressed="true" android:drawable="@drawable/rectangle_white_transparent" />
+    <item android:state_focused="true" android:drawable="@drawable/rectangle_white_transparent" />
+    <item android:state_enabled="false" android:drawable="@drawable/rectangle_grey_700" />
+    <item android:drawable="@drawable/rectangle_transparent" />
+</selector>

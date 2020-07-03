@@ -73,6 +73,8 @@
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/grey900</item>
+        <item name="donate_card">@color/orange500</item>
+        <item name="donate_item_background">@color/grey200</item>
         <item name="android:windowBackground">@color/white</item>
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
@@ -206,6 +208,8 @@
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/white</item>
+        <item name="donate_card">@color/orange500transparent</item>
+        <item name="donate_item_background">@color/grey700</item>
         <item name="android:windowBackground">@color/black</item>
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
@@ -274,6 +278,8 @@
         <item name="font_light">@color/grey50transparent_ea</item>
         <item name="empty_button">@style/Widget.Leanback.DetailsActionButtonStyle</item>
         <item name="list_subtitle">@color/lb_basic_card_content_text_color</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme.Player</item>
+
     </style>
 
     <style name="VLCardView" parent="Widget.Leanback.ImageCardViewStyle">
@@ -667,6 +673,20 @@
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+
+    </style>
+
+    <style name="DonateButton">
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">88dip</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/donate_button_background</item>
+        <item name="background">@drawable/donate_button_background</item>
+        <item name="android:foreground">@drawable/donate_button_ripple</item>
 
     </style>
 

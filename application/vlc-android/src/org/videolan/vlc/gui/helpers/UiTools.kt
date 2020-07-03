@@ -80,6 +80,7 @@ import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.AddToGroupDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.VLCBillingDialog
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -369,6 +370,12 @@ object UiTools {
         videoTracksDialog.arguments = bundleOf()
         videoTracksDialog.show(supportFragmentManager, "fragment_video_tracks")
         videoTracksDialog.menuItemListener = menuListener
+    }
+
+    fun FragmentActivity.showDonations() {
+        if (!isStarted()) return
+        val videoTracksDialog = VLCBillingDialog()
+        videoTracksDialog.show(supportFragmentManager, "fragment_donations")
     }
 
     fun FragmentActivity.showMediaInfo(mediaWrapper: MediaWrapper) {
@@ -692,6 +699,7 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
             HEADER_TV_SHOW -> R.drawable.ic_browser_tvshow_big
             ID_SETTINGS -> R.drawable.ic_menu_preferences_big
             ID_ABOUT_TV, ID_LICENCE -> R.drawable.ic_default_cone
+            ID_SPONSOR -> R.drawable.ic_donate_big
             CATEGORY_ARTISTS -> R.drawable.ic_artist_big
             CATEGORY_ALBUMS -> R.drawable.ic_album_big
             CATEGORY_GENRES -> R.drawable.ic_genre_big

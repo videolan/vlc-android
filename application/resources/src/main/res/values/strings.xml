@@ -737,4 +737,17 @@
     <string name="sub_result_by_name_episode">Episode %s</string>
 
     <string name="sub_result_by_file">Results for your file</string>
+    <string name="donate">Help VLC</string>
+    <string name="donate_desc">Support the volunteers building VLC</string>
+    <string name="donate_subscribtion">I would like this to be a monthly sponsorship</string>
+    <string name="donate_send">Start your sponsorship</string>
+    <string name="donation_description">Your sponsorship will allow us to:\nImprove the VLC app for Android\nSupport the VideoLAN Association</string>
+    <string name="subscription_purchased">You are subscribed to a monthly sponsorship</string>
+    <string name="subscription_cancel">You can unsubscribe in the Play Store</string>
+    <string name="subscription_cancel_tv">How to unsubscribe</string>
+    <string name="donate_unsubscribe_tv">To unsubscribe, please open %s on a phone or a computer or scan this code:</string>
+    <string name="tip_jar">Help VLC</string>
+    <string name="thank_you">Thank you</string>
+    <string name="thank_you_desc">Thank you for your sponsorship!\nIt will help us a lot improving VLC!</string>
+    <string name="donate_again">Sponsor the app again</string>
 </resources>
