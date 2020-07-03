@@ -127,8 +127,6 @@
     <string name="firstsong">Oynatma listesinin ilk parçası</string>
     <string name="lastsong">Oynatma listesinin son parçası</string>
 
-    <string name="locked">Kilitli</string>
-    <string name="unlocked">Kilitlenmemiş</string>
     <string name="surface_best_fit">En uygun</string>
     <string name="surface_fit_screen">Ekrana sığdır</string>
     <string name="surface_fill">Doldur</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Parlaklık</string>
     <string name="advanced">gelişmiş ayarlar</string>
     <string name="audio_boost_warning">%100 üzerine çıkmak için yeniden yukarı kaydırın</string>
-    <string name="locked_in_portrait_mode">Dikey doğrultuya kilitlenmiş\n(İptal etmek için düğmeye uzun basın)</string>
-    <string name="locked_in_landscape_mode">Yatay doğrultuya kilitlenmiş\n(İptal etmek için düğmeye uzun basın)</string>
-    <string name="reset_orientation">Doğrultuyu sıfırla</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
@@ -716,4 +711,8 @@
     <string name="group_similar">Otomatik olarak yeniden grupla</string>
     <string name="no_favorite">Sık kullanılan yok</string>
     <string name="empty_directory">Boş</string>
+    <string name="no_track">Herhangi bir kayıt yok</string>
+
+    <string name="swipe_unlock">Kilidi açmak için kaydırın</string>
+    <string name="swipe_unlock_no_touch">Kilidi açmak için uzun dokunun</string>
 </resources>
