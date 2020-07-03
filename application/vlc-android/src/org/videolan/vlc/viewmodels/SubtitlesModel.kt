@@ -145,10 +145,14 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, va
                 val subs = if (byHash) {
                     withContext(coroutineContextProvider.IO) {
                         val videoFile = File(mediaUri.path)
-                        val hash = FileUtils.computeHash(videoFile)
-                        val fileLength = videoFile.length()
+                        if (videoFile.exists()) {
+                            val hash = FileUtils.computeHash(videoFile)
+                            val fileLength = videoFile.length()
+                            getSubtitleByHash(fileLength, hash, observableSearchLanguage.get())
+                        } else {
+                            getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get())
+                        }
 
-                        getSubtitleByHash(fileLength, hash, observableSearchLanguage.get())
                     }
                 } else {
                     observableSearchName.get()?.let {
