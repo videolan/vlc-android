@@ -18,7 +18,7 @@
                     android:pivotY="24">
                 <path
                         android:name="path"
-                        android:pathData="M 30.667 22.333 L 17.333 22.333 L 17.333 19 L 30.667 19 L 30.667 22.333 M 17.333 29 L 17.333 25.667 L 30.667 25.667 L 30.667 29 L 17.333 29 M 32 24 L 32 24 L 32 24"
+                        android:pathData="M 32 24 L 20 24.074 L 20 15 L 32 24 L 32 24 M 20 33 L 20 24.074 L 32 24 L 31.783 24.162 L 20 33 M 32 24 L 32 24 L 32 24"
                         android:fillColor="?attr/player_icon_color"
                         android:strokeWidth="1" />
             </group>
