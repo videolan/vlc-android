@@ -515,6 +515,10 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         if (isLocked && !orientationMode.locked) requestedOrientation = orientationMode.orientation
         overlayDelegate.updateOrientationIcon()
+        arrayOf(FADE_OUT_VOLUME_INFO, FADE_OUT_BRIGHTNESS_INFO, FADE_OUT, FADE_OUT_INFO).forEach {
+            handler.removeMessages(it)
+            handler.sendEmptyMessage(it)
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
