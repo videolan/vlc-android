@@ -254,7 +254,7 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         var hasChanged = false
         if (delayValues.start != -1L && delayValues.stop != -1L) {
             val oldDelay = if (playbackSetting == IPlaybackSettingsController.DelayState.SUBS) service.spuDelay else service.audioDelay
-            delayAudioOrSpu(delayValues.stop * 1000 - delayValues.start * 1000, fromCustom = true, delayState = playbackSetting)
+            delayAudioOrSpu(delayValues.start * 1000 - delayValues.stop * 1000, fromCustom = true, delayState = playbackSetting)
             hasChanged = oldDelay != if (playbackSetting == IPlaybackSettingsController.DelayState.SUBS) service.spuDelay else service.audioDelay
             service.playlistManager.delayValue.postValue(DelayValues())
         }
