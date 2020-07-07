@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import com.google.android.material.appbar.AppBarLayout
@@ -107,9 +108,7 @@ class PreferencesExtensions : BasePreferenceFragment() {
         if (key == null || !key.startsWith(ExtensionsManager.EXTENSION_PREFIX + "_"))
             return false
         val fragment = PreferencesExtensionFragment()
-        val extras = Bundle()
-        extras.putString("extension_key", key)
-        fragment.arguments = extras
+        fragment.arguments = bundleOf("extension_key" to key)
         loadFragment(fragment)
         return super.onPreferenceTreeClick(preference)
     }

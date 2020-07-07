@@ -16,6 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
@@ -191,8 +192,8 @@ fun downloadIcon(v: View, imageUri: Uri?, tv: Boolean = true) {
 @BindingAdapter(value = ["imageUrl", "tv" ], requireAll = false)
 fun downloadIcon(v: View, imageUrl: String?, tv: Boolean = true) {
     if (imageUrl.isNullOrEmpty()) return
-    val imageUri = Uri.parse(imageUrl)
-    if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
+    val imageUri = imageUrl.toUri()
+    if (imageUri.scheme in arrayOf("http", "https")) {
         v.scope.takeIf { it.isActive }?.launch {
             val image = HttpImageLoader.downloadBitmap(imageUri.toString())
             updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)

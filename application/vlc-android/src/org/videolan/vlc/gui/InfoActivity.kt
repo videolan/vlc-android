@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
@@ -44,7 +45,10 @@ import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.video.MediaInfoAdapter
 import org.videolan.vlc.gui.view.VLCDividerItemDecoration
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.getModel
+import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.util.isSchemeSupported
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 import java.io.File
@@ -119,7 +123,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
             val media = item as MediaWrapper
             val parent = media.uri.toString().substring(0, media.uri.toString().lastIndexOf("/"))
             MedialibraryUtils.addDir(parent, applicationContext)
-            Snackbar.make(binding.root, getString(R.string.scanned_directory_added, Uri.parse(parent).lastPathSegment), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, getString(R.string.scanned_directory_added, parent.toUri().lastPathSegment), Snackbar.LENGTH_LONG).show()
             binding.scanned = true
         }
     }
@@ -157,7 +161,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
                     //scheme is supported => test if the parent is scanned
                     var isScanned = false
                     Medialibrary.getInstance().foldersList.forEach search@{
-                        if (media.uri.toString().startsWith(Uri.parse(it).toString())) {
+                        if (media.uri.toString().startsWith(it.toUri().toString())) {
                             isScanned = true
                             return@search
                         }

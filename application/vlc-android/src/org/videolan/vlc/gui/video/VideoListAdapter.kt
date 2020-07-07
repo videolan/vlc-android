@@ -22,7 +22,6 @@ package org.videolan.vlc.gui.video
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.content.Context
 import android.os.Build
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -38,7 +37,7 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -90,7 +89,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
         get() = currentList?.snapshot() ?: emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, if (isListMode) R.layout.video_list_card else R.layout.video_grid_card, parent, false)
         if (!isListMode) {
             val params = binding.root.layoutParams as GridLayoutManager.LayoutParams

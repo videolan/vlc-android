@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -124,11 +125,9 @@ class SubtitleDownloaderDialogFragment : DialogFragment() {
 
     companion object {
         fun newInstance(mediaUris: List<Uri>): SubtitleDownloaderDialogFragment {
-            val subtitleDownloaderDialogFragment = SubtitleDownloaderDialogFragment()
-
-            val args = Bundle().apply { putParcelableArrayList(MEDIA_PATHS, ArrayList(mediaUris)) }
-            subtitleDownloaderDialogFragment.arguments = args
-            return subtitleDownloaderDialogFragment
+            return SubtitleDownloaderDialogFragment().apply {
+                arguments = bundleOf(MEDIA_PATHS to ArrayList(mediaUris))
+            }
         }
     }
 

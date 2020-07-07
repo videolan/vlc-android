@@ -6,13 +6,13 @@ import android.app.ActivityManager.RunningAppProcessInfo
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.AttrRes
+import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
@@ -72,7 +72,7 @@ fun Context.getColorFromAttr(
 }
 
 fun Context.copy(label: String, text: String) {
-    (applicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager)?.run {
+    applicationContext.getSystemService<ClipboardManager>()?.run {
         setPrimaryClip(ClipData.newPlainText(label, text))
     }
 }
@@ -90,7 +90,7 @@ suspend fun retry (
 }
 
 suspend fun Context.awaitAppIsForegroung() : Boolean {
-    val activityManager = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager ?: return false
+    val activityManager = applicationContext.getSystemService<ActivityManager>() ?: return false
     repeat(times = 2) {
         if (activityManager.isAppForeground()) return true
         else yield() //dispatch next try
@@ -120,7 +120,7 @@ fun <E> SendChannel<E>.safeOffer(value: E) = !isClosedForSend && try {
 }
 @SuppressLint("MissingPermission")
 fun Context.isConnected(): Boolean {
-    return (getSystemService(CONNECTIVITY_SERVICE) as? ConnectivityManager?)?.activeNetworkInfo?.isConnected == true
+    return getSystemService<ConnectivityManager>()?.activeNetworkInfo?.isConnected == true
 }
 
 val Context.localBroadcastManager: LocalBroadcastManager

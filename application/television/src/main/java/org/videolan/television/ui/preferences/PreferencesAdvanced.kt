@@ -32,6 +32,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.content.edit
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
@@ -43,7 +44,6 @@ import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity
-import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.util.FileUtils
 import java.io.File
@@ -138,17 +138,16 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             "network_caching" -> {
-                val editor = sharedPreferences.edit()
-                try {
-                    editor.putInt("network_caching_value", Integer.parseInt(sharedPreferences.getString(key, "0")!!))
-                } catch (e: NumberFormatException) {
-                    editor.putInt("network_caching_value", 0)
-                    val networkCachingPref = findPreference<EditTextPreference>(key)
-                    networkCachingPref?.text = ""
-                    activity?.let { Toast.makeText(it, R.string.network_caching_popup, Toast.LENGTH_SHORT).show() }
+                sharedPreferences.edit {
+                    try {
+                        putInt("network_caching_value", Integer.parseInt(sharedPreferences.getString(key, "0")!!))
+                    } catch (e: NumberFormatException) {
+                        putInt("network_caching_value", 0)
+                        val networkCachingPref = findPreference<EditTextPreference>(key)
+                        networkCachingPref?.text = ""
+                        activity?.let { Toast.makeText(it, R.string.network_caching_popup, Toast.LENGTH_SHORT).show() }
+                    }
                 }
-
-                editor.apply()
                 VLCInstance.restart()
                 (activity as? PreferencesActivity)?.restartMediaPlayer()
             }

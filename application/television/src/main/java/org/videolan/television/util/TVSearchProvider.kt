@@ -32,6 +32,7 @@ import android.database.MatrixCursor
 import android.net.Uri
 import android.provider.BaseColumns
 import android.util.Log
+import androidx.core.net.toUri
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.moviepedia.database.models.MediaMetadataType
@@ -159,11 +160,11 @@ private fun MediaWrapper.getThumb(): Uri {
     if (!isThumbnailGenerated) {
         ThumbnailsProvider.getVideoThumbnail(this@getThumb, 512)
     }
-    val mrl = artworkMrl
-            ?: return Uri.parse("android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_browser_video_big_normal}")
+    val resourceUri = "android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_browser_video_big_normal}".toUri()
+    val mrl = artworkMrl ?: return resourceUri
     return try {
         getFileUri(mrl)
     } catch (ex: IllegalArgumentException) {
-        Uri.parse("android.resource://${BuildConfig.APP_ID}/${R.drawable.ic_browser_video_big_normal}")
+        resourceUri
     }
 }

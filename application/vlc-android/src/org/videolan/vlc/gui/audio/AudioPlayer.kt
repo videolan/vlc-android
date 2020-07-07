@@ -21,11 +21,11 @@
 package org.videolan.vlc.gui.audio
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.os.Vibrator
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
 import android.text.TextWatcher
@@ -39,6 +39,7 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asFlow
@@ -402,7 +403,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         manageSearchVisibilities(true)
         binding.playlistSearchText.editText?.requestFocus()
         if (isShowingCover()) onPlaylistSwitchClick(binding.playlistSwitch)
-        val imm = v.context.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = v.context.applicationContext.getSystemService<InputMethodManager>()!!
         imm.showSoftInput(binding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS)
     }
@@ -470,8 +471,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         internal var seekRunnable: Runnable = object : Runnable {
             override fun run() {
                 if (!vibrated) {
-                    (AppContextProvider.appContext.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator)
-                            .vibrate(80)
+                    AppContextProvider.appContext.getSystemService<Vibrator>()?.vibrate(80)
                     vibrated = true
                 }
 

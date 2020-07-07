@@ -23,13 +23,12 @@
 
 package org.videolan.vlc.gui.browser
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -38,7 +37,6 @@ import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.CTX_FAV_ADD
 import org.videolan.tools.NetworkMonitor
-import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.DialogDelegate
@@ -86,7 +84,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
         val item = menu.findItem(R.id.ml_menu_save)
         item.isVisible = !isRootDirectory
         lifecycleScope.launchWhenStarted {
-            val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))
+            val isFavorite = mrl != null && browserFavRepository.browserFavExists(mrl!!.toUri())
             item.setIcon(if (isFavorite) R.drawable.ic_menu_bookmark_w else R.drawable.ic_menu_bookmark_outline_w)
             item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
         }

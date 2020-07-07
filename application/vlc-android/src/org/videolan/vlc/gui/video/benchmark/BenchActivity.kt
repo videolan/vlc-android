@@ -22,22 +22,26 @@ package org.videolan.vlc.gui.video.benchmark
 
 import android.annotation.TargetApi
 import android.app.Activity
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.View
+import androidx.core.content.edit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
-import org.videolan.vlc.PlaybackService
+import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
-import org.videolan.resources.VLCInstance
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import java.io.*
 
@@ -120,10 +124,9 @@ class BenchActivity : ShallowVideoPlayer() {
             oldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")
             oldHistoryBoolean = sharedPref.getBoolean(PREFERENCE_PLAYBACK_HISTORY, true)
             AppScope.launch(Dispatchers.IO) {
-                sharedPref.edit().run {
+                sharedPref.edit {
                     putString(PREFERENCE_OPENGL, "0")
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
-                    apply()
                 }
             }
             VLCInstance.restart()
@@ -523,10 +526,9 @@ class BenchActivity : ShallowVideoPlayer() {
         if (isHardware && oldOpenglValue != "-2") {
             val sharedPref = Settings.getInstance(this)
             AppScope.launch(Dispatchers.IO) {
-                sharedPref.edit().run {
+                sharedPref.edit {
                     putString(PREFERENCE_OPENGL, oldOpenglValue)
                     putBoolean(PREFERENCE_PLAYBACK_HISTORY, oldHistoryBoolean)
-                    apply()
                 }
             }
             if (isSpeed) {

@@ -32,6 +32,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineStart
@@ -117,7 +118,7 @@ class StartActivity : FragmentActivity() {
             val item = if (cd != null && cd.itemCount > 0) cd.getItemAt(0) else null
             if (item != null) {
                 var uri: Uri? = item.uri
-                if (uri == null && item.text != null) uri = Uri.parse(item.text.toString())
+                if (uri == null && item.text != null) uri = item.text.toString().toUri()
                 if (uri != null) {
                     MediaUtils.openMediaNoUi(uri)
                     finish()

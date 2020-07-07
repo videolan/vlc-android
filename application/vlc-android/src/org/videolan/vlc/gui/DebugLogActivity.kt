@@ -20,12 +20,14 @@
  */
 package org.videolan.vlc.gui
 
-import android.content.Context
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import androidx.core.content.getSystemService
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import org.videolan.libvlc.util.AndroidUtil
@@ -76,8 +78,8 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
         for (line in logList)
             buffer.append(line).append("\n")
 
-        val clipboard = applicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as android.text.ClipboardManager
-        clipboard.text = buffer
+        val clipboard = applicationContext.getSystemService<ClipboardManager>()!!
+        clipboard.setPrimaryClip(ClipData.newPlainText(null, buffer))
 
         UiTools.snacker(v.rootView, R.string.copied_to_clipboard)
     }

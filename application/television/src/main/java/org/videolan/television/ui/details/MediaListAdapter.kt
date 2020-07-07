@@ -1,7 +1,6 @@
 package org.videolan.television.ui.details
 
 import android.annotation.TargetApi
-import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,7 +35,7 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
     var lastMovedItemTo = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaListViewHolder {
-        val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = LayoutInflater.from(parent.context)
         val binding = ActivityMediaListTvItemBinding.inflate(inflater, parent, false)
         return MediaListViewHolder(binding, type)
     }

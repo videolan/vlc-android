@@ -24,17 +24,17 @@
 package org.videolan.vlc.util
 
 import android.annotation.TargetApi
-import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import android.util.Log
+import androidx.core.content.getSystemService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.resources.AndroidDevices
+import org.videolan.tools.AUDIO_DUCKING
 import org.videolan.tools.RESUME_PLAYBACK
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -55,7 +55,7 @@ class VLCAudioFocusHelper(private val service: PlaybackService) {
     private val audioFocusListener = createOnAudioFocusChangeListener()
 
     internal fun changeAudioFocus(acquire: Boolean) {
-        if (!this::audioManager.isInitialized) audioManager = service.getSystemService(Context.AUDIO_SERVICE) as? AudioManager ?: return
+        if (!this::audioManager.isInitialized) audioManager = service.getSystemService() ?: return
 
         if (acquire && !service.hasRenderer()) {
             if (!hasAudioFocus) {

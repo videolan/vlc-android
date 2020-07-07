@@ -1,6 +1,7 @@
 package org.videolan.television.ui.dialogs
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.leanback.app.GuidedStepSupportFragment
 import androidx.leanback.widget.GuidanceStylist
 import androidx.leanback.widget.GuidedAction
@@ -40,10 +41,7 @@ class ConfirmationTvDialog : GuidedStepSupportFragment() {
 
     companion object {
         fun newInstance(title: String, text: String): ConfirmationTvDialog = ConfirmationTvDialog().also {
-            val args = Bundle()
-            args.putString(CONFIRMATION_DIALOG_TITLE, title)
-            args.putString(CONFIRMATION_DIALOG_TEXT, text)
-            it.arguments = args
+            it.arguments = bundleOf(CONFIRMATION_DIALOG_TITLE to title, CONFIRMATION_DIALOG_TEXT to text)
         }
     }
 }

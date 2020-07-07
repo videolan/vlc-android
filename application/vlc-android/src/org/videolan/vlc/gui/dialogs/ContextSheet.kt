@@ -26,6 +26,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -158,11 +159,8 @@ interface CtxActionReceiver {
 fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, title: String, flags: Long) {
     if (!activity.isStarted()) return
     val ctxDialog = ContextSheet()
-    ctxDialog.arguments = Bundle(3).apply {
-        putString(CTX_TITLE_KEY, title)
-        putInt(CTX_POSITION_KEY, position)
-        putLong(CTX_FLAGS_KEY, flags)
-    }
+    ctxDialog.arguments = bundleOf(CTX_TITLE_KEY to title, CTX_POSITION_KEY to position,
+        CTX_FLAGS_KEY to flags)
     ctxDialog.receiver = receiver
     ctxDialog.show(activity.supportFragmentManager, "context")
 }

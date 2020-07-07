@@ -5,11 +5,13 @@ import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.Toast
 import androidx.annotation.MainThread
+import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import org.videolan.libvlc.*
+import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IMediaList
 import org.videolan.libvlc.interfaces.IVLCVout
@@ -204,7 +206,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         slaves?.let { it.forEach { slave -> media.addSlave(slave) } }
         media.release()
         slaveRepository.getSlaves(mw.location).forEach { slave ->
-            if (!slaves.contains(slave)) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
+            if (!slaves.contains(slave)) mediaplayer.addSlave(slave.type, slave.uri.toUri(), false)
         }
         slaves?.let { slaveRepository.saveSlaves(mw) }
     }

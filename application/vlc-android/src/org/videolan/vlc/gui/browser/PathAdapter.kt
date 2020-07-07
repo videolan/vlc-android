@@ -6,12 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.viewmodels.browser.IPathOperationDelegate
 import org.videolan.vlc.viewmodels.browser.PathOperationDelegate
 
@@ -39,8 +40,8 @@ class PathAdapter(val browser: PathAdapterListener, media: MediaWrapper) : Recyc
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.root.text = when {
             //substitute a storage path to its name. See [replaceStoragePath]
-            PathOperationDelegate.storages.containsKey(Uri.parse(segments[position]).path) -> pathOperationDelegate.retrieveSafePath(PathOperationDelegate.storages.valueAt(PathOperationDelegate.storages.indexOfKey(Uri.parse(segments[position]).path)))
-            else -> Uri.parse(segments[position]).lastPathSegment
+            PathOperationDelegate.storages.containsKey(segments[position].toUri().path) -> pathOperationDelegate.retrieveSafePath(PathOperationDelegate.storages.valueAt(PathOperationDelegate.storages.indexOfKey(segments[position].toUri().path)))
+            else -> segments[position].toUri().lastPathSegment
         }
     }
 

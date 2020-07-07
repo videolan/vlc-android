@@ -34,6 +34,7 @@ import android.hardware.usb.UsbManager
 import android.net.Uri
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -144,7 +145,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             if (scanOpt == ML_SCAN_ON)
                 AppScope.launch { ContextCompat.startForegroundService(ctx,Intent(ACTION_CHECK_STORAGES, null, ctx, MediaParsingService::class.java)) }
         }
-        val usbManager = ctx.getSystemService(Context.USB_SERVICE) as? UsbManager ?: return
+        val usbManager = ctx.getSystemService<UsbManager>() ?: return
         devices.add(ArrayList(usbManager.deviceList.values))
     }
 

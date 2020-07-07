@@ -1,14 +1,12 @@
 package org.videolan.vlc.gui
 
 import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -72,11 +70,10 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
 
     private fun initializeLists() {
         val count = binding.resultsContainer.childCount
-        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         for (i in 0 until count) {
             val v = binding.resultsContainer.getChildAt(i)
             if (v is RecyclerView) {
-                v.adapter = SearchResultAdapter(inflater)
+                v.adapter = SearchResultAdapter(layoutInflater)
                 v.layoutManager = LinearLayoutManager(this)
                 (v.adapter as SearchResultAdapter).setClickHandler(clickHandler)
             }

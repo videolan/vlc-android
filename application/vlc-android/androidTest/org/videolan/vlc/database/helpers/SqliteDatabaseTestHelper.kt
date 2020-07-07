@@ -20,9 +20,9 @@
 
 package org.videolan.vlc.database.helpers
 
-import android.content.ContentValues
 import android.net.Uri
 import android.text.TextUtils
+import androidx.core.content.contentValuesOf
 
 private val NETWORK_FAV_TABLE_NAME = "fav_table"
 private val NETWORK_FAV_URI = "uri"
@@ -59,12 +59,9 @@ fun createNetworkFavsTable(helper: SqliteTestDbOpenHelper) {
 
 fun saveSlave(mediaPath: String, type: Int, priority: Int, uriString: String, helper: SqliteTestDbOpenHelper) {
     val db = helper.writableDatabase
-    val values = ContentValues()
-    values.put(SLAVES_MEDIA_PATH, mediaPath)
-    values.put(SLAVES_TYPE, type)
-    values.put(SLAVES_PRIORITY, priority)
-    values.put(SLAVES_URI, uriString)
-    db.replace(SLAVES_TABLE_NAME, null, values)
+    db.replace(SLAVES_TABLE_NAME, null,
+            contentValuesOf(SLAVES_MEDIA_PATH to mediaPath, SLAVES_TYPE to type,
+                    SLAVES_PRIORITY to priority, SLAVES_URI to uriString))
     db.close()
 }
 
@@ -72,20 +69,18 @@ fun saveExSubtitle(path: String, mediaName: String, helper: SqliteTestDbOpenHelp
     val db = helper.writableDatabase
     if (TextUtils.isEmpty(path) || TextUtils.isEmpty(mediaName))
         return
-    val values = ContentValues()
-    values.put(EXTERNAL_SUBTITLES_URI, path)
-    values.put(EXTERNAL_SUBTITLES_MEDIA_NAME, mediaName)
-    db.replace(EXTERNAL_SUBTITLES_TABLE_NAME, null, values)
+    db.replace(EXTERNAL_SUBTITLES_TABLE_NAME, null,
+            contentValuesOf(EXTERNAL_SUBTITLES_URI to path,
+                    EXTERNAL_SUBTITLES_MEDIA_NAME to mediaName))
     db.close()
 }
 
 fun saveNetworkFavItem(uri: Uri, title: String, iconUrl: String?, helper: SqliteTestDbOpenHelper) {
     val db = helper.writableDatabase
-    val values = ContentValues()
-    values.put(NETWORK_FAV_URI, uri.toString())
-    values.put(NETWORK_FAV_TITLE, Uri.encode(title))
-    values.put(NETWORK_FAV_ICON_URL, Uri.encode(iconUrl))
-    db.replace(NETWORK_FAV_TABLE_NAME, null, values)
+    db.replace(NETWORK_FAV_TABLE_NAME, null,
+            contentValuesOf(NETWORK_FAV_URI to uri.toString(),
+                    NETWORK_FAV_TITLE to Uri.encode(title),
+                    NETWORK_FAV_ICON_URL to Uri.encode(iconUrl)))
     db.close()
 }
 

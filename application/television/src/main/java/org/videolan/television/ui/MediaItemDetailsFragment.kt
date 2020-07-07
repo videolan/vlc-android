@@ -22,13 +22,13 @@ package org.videolan.television.ui
 
 import android.annotation.TargetApi
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.DetailsSupportFragment
@@ -55,12 +55,12 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.getScreenWidth
-import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 
 private const val TAG = "MediaItemDetailsFragment"
 private const val ID_PLAY = 1
@@ -301,7 +301,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 }
                 ID_PLAYLIST -> requireActivity().addToPlaylist(arrayListOf(viewModel.media))
                 ID_FAVORITE_ADD -> {
-                    val uri = Uri.parse(viewModel.mediaItemDetails.location)
+                    val uri = viewModel.mediaItemDetails.location!!.toUri()
                     val local = "file" == uri.scheme
                     lifecycleScope.launch {
                         if (local)
@@ -316,7 +316,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                     Toast.makeText(activity, R.string.favorite_added, Toast.LENGTH_SHORT).show()
                 }
                 ID_FAVORITE_DELETE -> {
-                    lifecycleScope.launch { browserFavRepository.deleteBrowserFav(Uri.parse(viewModel.mediaItemDetails.location)) }
+                    lifecycleScope.launch { browserFavRepository.deleteBrowserFav(viewModel.mediaItemDetails.location!!.toUri()) }
                     actionsAdapter.set(ID_FAVORITE, actionAdd)
                     rowsAdapter.notifyArrayItemRangeChanged(0, rowsAdapter.size())
                     Toast.makeText(activity, R.string.favorite_removed, Toast.LENGTH_SHORT).show()
@@ -344,7 +344,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             val cover = if (viewModel.media.type == MediaWrapper.TYPE_AUDIO || viewModel.media.type == MediaWrapper.TYPE_VIDEO)
                 withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(viewModel.mediaItemDetails.artworkUrl, 512) }
             else null
-            val browserFavExists = browserFavRepository.browserFavExists(Uri.parse(viewModel.mediaItemDetails.location))
+            val browserFavExists = browserFavRepository.browserFavExists(viewModel.mediaItemDetails.location!!.toUri())
             val isDir = viewModel.media.type == MediaWrapper.TYPE_DIR
             val canSave = isDir && withContext(Dispatchers.IO) { FileUtils.canSave(viewModel.media) }
             if (activity.isFinishing) return@launchWhenStarted

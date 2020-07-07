@@ -31,6 +31,8 @@ import android.util.Log
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -189,7 +191,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
         }
         if (!poped) {
-            viewModel.setDestination(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(tag)))
+            viewModel.setDestination(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()))
             supportFragmentManager.popBackStackImmediate()
         }
     }
@@ -264,10 +266,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (ctx == null || !isResumed || isRemoving) return
         val ft = ctx.supportFragmentManager.beginTransaction()
         val next = createFragment()
-        val args = Bundle()
         viewModel.saveList(media)
-        args.putParcelable(KEY_MEDIA, media)
-        next.arguments = args
+        next.arguments = bundleOf(KEY_MEDIA to media)
         if (save) ft.addToBackStack(if (isRootDirectory) "root" else if (currentMedia != null) currentMedia?.uri.toString() else mrl!!)
         if (BuildConfig.DEBUG) for (i in 0 until ctx.supportFragmentManager.backStackEntryCount) {
             Log.d(this::class.java.simpleName, "Adding to back stack from PathAdapter: ${ctx.supportFragmentManager.getBackStackEntryAt(i).name}")
@@ -451,7 +451,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     private fun addToScannedFolders(mw: MediaWrapper) {
         MedialibraryUtils.addDir(mw.uri.toString(), requireActivity().applicationContext)
-        Snackbar.make(binding.root, getString(R.string.scanned_directory_added, Uri.parse(mw.uri.toString()).lastPathSegment), Snackbar.LENGTH_LONG).show()
+        Snackbar.make(binding.root, getString(R.string.scanned_directory_added, mw.uri.toString().toUri().lastPathSegment), Snackbar.LENGTH_LONG).show()
     }
 
     private fun toggleFavorite() = lifecycleScope.launch {

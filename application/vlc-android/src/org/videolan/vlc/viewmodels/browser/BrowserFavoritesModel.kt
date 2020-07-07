@@ -24,10 +24,8 @@
 
 package org.videolan.vlc.viewmodels.browser
 
-import android.app.Application
 import android.content.Context
-import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
@@ -72,7 +70,7 @@ class FavoritesProvider(
         initBrowser()
         mediabrowser?.let {
             it.changeEventListener(eventListener)
-            if (url != null) it.browse(Uri.parse(url), getFlags(interact))
+            if (url != null) it.browse(url.toUri(), getFlags(interact))
         }
     }
 

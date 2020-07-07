@@ -5,8 +5,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.Uri
 import android.os.Environment
+import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -24,7 +25,7 @@ import org.videolan.vlc.repository.ExternalSubRepository
 
 
 object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
-    private val downloadManager = AppContextProvider.appContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    private val downloadManager = AppContextProvider.appContext.getSystemService<DownloadManager>()!!
     private var dlDeferred : CompletableDeferred<SubDlResult>? = null
     private lateinit var defaultSubsDirectory : String
 
@@ -63,7 +64,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
     }
 
     suspend fun download(context: FragmentActivity, subtitleItem: SubtitleItem) {
-        val request = DownloadManager.Request(Uri.parse(subtitleItem.zipDownloadLink))
+        val request = DownloadManager.Request(subtitleItem.zipDownloadLink.toUri())
         request.setDescription(subtitleItem.movieReleaseName)
         request.setTitle(context.resources.getString(R.string.download_subtitle_title))
         request.setVisibleInDownloadsUi(false)
@@ -94,8 +95,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
         if (!this::defaultSubsDirectory.isInitialized) defaultSubsDirectory = "${context.applicationContext.getExternalFilesDir(null)!!.absolutePath}/subtitles"
         if (subtitleItem.mediaUri.scheme != "file") return defaultSubsDirectory
         val folder = subtitleItem.mediaUri.path.getParentFolder() ?: return context.getExternalFilesDir("subs")?.absolutePath
-        val uri = Uri.parse(folder)
-        val canWrite = context.isStarted() && context.getExtWritePermission(uri)
+        val canWrite = context.isStarted() && context.getExtWritePermission(folder.toUri())
         return if (canWrite) folder
         else (context.applicationContext.getExternalFilesDir(null))?.absolutePath ?: defaultSubsDirectory
     }
@@ -122,7 +122,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
             cursor.getString(localUriIndex)
         else ""
 
-        return Pair(status, if (localUri != null) Uri.parse(localUri).path!! else "")
+        return Pair(status, if (localUri != null) localUri.toUri().path!! else "")
     }
 }
 

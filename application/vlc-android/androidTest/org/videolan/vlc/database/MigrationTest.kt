@@ -20,12 +20,13 @@
 
 package org.videolan.vlc.database
 
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.room.testing.MigrationTestHelper
-import android.net.Uri
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.CoreMatchers.`is`
@@ -36,9 +37,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.resources.AppContextProvider
-import org.videolan.vlc.database.helpers.*
-import org.videolan.tools.Settings
 import org.videolan.resources.TYPE_NETWORK_FAV
+import org.videolan.tools.Settings
+import org.videolan.vlc.database.helpers.*
 import org.videolan.vlc.util.TestUtil
 import org.videolan.vlc.util.getValue
 
@@ -64,7 +65,7 @@ class MigrationTest {
         val exSubMedisubsFolder = "/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/subs/"
         val exSubfile1Sub1 = "${exSubMedisubsFolder}file1.eng.srt"
         // Favs
-        val favUri = Uri.parse("/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/subs/file1.mkv")
+        val favUri = "/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/subs/file1.mkv".toUri()
         val favTitle = "test1"
 
         val sqliteTestDbOpenHelper = SqliteTestDbOpenHelper(InstrumentationRegistry.getTargetContext(), TEST_DB_NAME, 26)
@@ -102,11 +103,12 @@ class MigrationTest {
 
     @Test fun migrateFrom27() {
         migrationTestHelper.createDatabase(TEST_DB_NAME, 27)
-        val preferences = Settings.getInstance(AppContextProvider.appContext).edit()
         val fakeCustomDirectories = TestUtil.createCustomDirectories(2)
         // 27_28 migration rule moves the data from prefs to room
         val prefCustomDirectories = fakeCustomDirectories.map { it.path }.reduce{ acc, path -> "$acc:$path" }
-        preferences.putString("custom_paths", prefCustomDirectories ).commit()
+        Settings.getInstance(AppContextProvider.appContext).edit(commit = true) {
+            putString("custom_paths", prefCustomDirectories)
+        }
 
         migrationTestHelper.runMigrationsAndValidate(TEST_DB_NAME, 28, true, migration_27_28, migration_28_29)
         val roomCustomDirectories = getMigratedRoomDatabase(migration_27_28, migration_28_29).customDirectoryDao().getAll()

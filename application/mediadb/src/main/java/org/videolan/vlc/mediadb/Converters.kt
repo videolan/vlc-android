@@ -45,6 +45,7 @@
 package org.videolan.vlc.mediadb
 
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.room.TypeConverter
 import java.util.*
 
@@ -53,7 +54,7 @@ class Converters {
     fun uriToString(uri: Uri): String = uri.toString()
 
     @TypeConverter
-    fun stringToUri(value: String): Uri = Uri.parse(value)
+    fun stringToUri(value: String): Uri = value.toUri()
 
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {

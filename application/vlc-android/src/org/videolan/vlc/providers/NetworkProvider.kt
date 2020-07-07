@@ -21,7 +21,7 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,7 +52,7 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         initBrowser()
         mediabrowser?.let {
             it.changeEventListener(eventListener)
-            if (url != null) it.browse(Uri.parse(url), getFlags(interact))
+            if (url != null) it.browse(url.toUri(), getFlags(interact))
             else it.discoverNetworkShares()
         }
     }

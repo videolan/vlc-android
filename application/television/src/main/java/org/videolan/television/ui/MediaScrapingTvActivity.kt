@@ -49,6 +49,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.television.R
@@ -65,7 +66,8 @@ class MediaScrapingTvActivity : BaseTvActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tv_next)
 
-        fragment = MediaScrapingTvFragment().apply { arguments = Bundle().apply { putParcelable(MEDIA, intent.getParcelableExtra<MediaWrapper>(MEDIA)) } }
+        fragment = MediaScrapingTvFragment().apply { arguments = bundleOf(MEDIA to
+                intent.getParcelableExtra<MediaWrapper>(MEDIA)) }
         supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_placeholder, fragment)
                 .commit()

@@ -55,6 +55,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.leanback.widget.Presenter
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -89,7 +90,7 @@ class MetadataCardPresenter(private val context: Activity) : Presenter() {
         }
 
         fun updateCardViewImage(item: Person) {
-            downloadIcon(cover, Uri.parse(item.image))
+            downloadIcon(cover, item.image?.toUri())
         }
 
         fun updateCardViewImage(image: Drawable?) {
@@ -121,7 +122,7 @@ class MetadataCardPresenter(private val context: Activity) : Presenter() {
         val mediaMetadataWithImages = item as MediaMetadataWithImages
         holder.title.text = mediaMetadataWithImages.metadata.title
         holder.subtitle.text = mediaMetadataWithImages.tvEpisodeSubtitle()
-        mediaMetadataWithImages.metadata.currentPoster.let { holder.updateCardViewImage(Uri.parse(it)) }
+        mediaMetadataWithImages.metadata.currentPoster.let { holder.updateCardViewImage(it.toUri()) }
         mediaMetadataWithImages.media?.let { media ->
             holder.resolution.text = generateResolutionClass(media.width, media.height)
         }

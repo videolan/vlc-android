@@ -7,12 +7,13 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.MainThread
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import okhttp3.internal.waitMillis
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -110,7 +111,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                             continue
                         }
                         Log.v(TAG, "Creating on-the-fly Media object for $location")
-                        mediaWrapper = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(location))
+                        mediaWrapper = MLServiceLocator.getAbstractMediaWrapper(location.toUri())
                         mediaList.add(mediaWrapper)
                     } else
                         mediaList.add(mediaWrapper)
@@ -169,7 +170,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         launch {
             val playList = withContext(Dispatchers.Default) {
                 locations.asSequence().mapTo(ArrayList(locations.size)) {
-                    MLServiceLocator.getAbstractMediaWrapper(Uri.parse(it))
+                    MLServiceLocator.getAbstractMediaWrapper(it.toUri())
                 }
             }
             // load playlist
@@ -319,7 +320,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 return
             }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
-            if (title > 0) uri = Uri.parse("$uri#$title")
+            if (title > 0) uri = "$uri#$title".toUri()
             val start = getStartTime(mw)
             val media = mediaFactory.getFromUri(VLCInstance.getInstance(service), uri)
             media.addOption(":start-time=${start/1000L}")
@@ -650,15 +651,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @Synchronized
     private fun savePosition(reset: Boolean = false, video: Boolean = false) {
         if (!hasMedia()) return
-        val editor = settings.edit()
-        val audio = !video && isAudioList()
-        editor.putBoolean(if (audio) "audio_shuffling" else "media_shuffling", shuffling)
-        editor.putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
-        editor.putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getCurrentTime())
-        if (!audio) {
-            editor.putFloat(VIDEO_SPEED, player.getRate())
+        settings.edit {
+            val audio = !video && isAudioList()
+            putBoolean(if (audio) "audio_shuffling" else "media_shuffling", shuffling)
+            putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
+            putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getCurrentTime())
+            if (!audio) {
+                putFloat(VIDEO_SPEED, player.getRate())
+            }
         }
-        editor.apply()
     }
 
     /**

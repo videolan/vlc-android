@@ -27,10 +27,10 @@ package org.videolan.television.ui.browser
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -48,7 +48,6 @@ import org.videolan.television.viewmodel.getMoviepediaBrowserModel
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.interfaces.IEventsHandler
-import java.util.*
 
 @UseExperimental(ObsoleteCoroutinesApi::class)
 @ExperimentalCoroutinesApi
@@ -77,9 +76,7 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
     companion object {
         fun newInstance(type: Long) =
                 MediaScrapingBrowserTvFragment().apply {
-                    arguments = Bundle().apply {
-                        this.putLong(CATEGORY, type)
-                    }
+                    arguments = bundleOf(CATEGORY to type)
                 }
     }
 

@@ -25,7 +25,6 @@ package org.videolan.vlc.gui
 
 import android.annotation.SuppressLint
 import android.media.AudioManager
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -39,6 +38,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -381,7 +381,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         delay(1000L)
         if (PlaylistManager.showAudioPlayer.value == true) return@launchWhenStarted
         val song = settings.getString("current_song", null) ?: return@launchWhenStarted
-        val media = getFromMl { getMedia(Uri.parse(song)) } ?: return@launchWhenStarted
+        val media = getFromMl { getMedia(song.toUri()) } ?: return@launchWhenStarted
         val title = media.title
         resumeCard = Snackbar.make(appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
                 .setAction(R.string.play) { PlaybackService.loadLastAudio(it.context) }

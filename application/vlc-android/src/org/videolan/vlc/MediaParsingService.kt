@@ -36,6 +36,8 @@ import android.os.PowerManager
 import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ActorScope
@@ -129,7 +131,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         filter.addAction(ACTION_PAUSE_SCAN)
         filter.addAction(ACTION_RESUME_SCAN)
         registerReceiver(receiver, filter)
-        val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val pm = applicationContext.getSystemService<PowerManager>()!!
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsigService")
 
         if (lastNotificationTime == 5L) stopService(Intent(applicationContext, MediaParsingService::class.java))
@@ -329,7 +331,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             if (isNew) showStorageNotification(device)
         }
         withContext(Dispatchers.IO) { for (device in missingDevices) {
-            val uri = Uri.parse(device)
+            val uri = device.toUri()
             medialibrary.removeDevice(uri.lastPathSegment, uri.path)
         } }
         serviceLock = false

@@ -30,6 +30,7 @@ import android.graphics.Point
 import android.util.AttributeSet
 import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.getSystemService
 import androidx.core.view.GestureDetectorCompat
 import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.libvlc.util.AndroidUtil
@@ -107,7 +108,7 @@ class PopupLayout : ConstraintLayout, ScaleGestureDetector.OnScaleGestureListene
     }
 
     private fun init(context: Context) {
-        windowManager = context.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager = context.applicationContext.getSystemService()
 
         popupWidth = context.resources.getDimensionPixelSize(R.dimen.video_pip_width)
         popupHeight = context.resources.getDimensionPixelSize(R.dimen.video_pip_height)

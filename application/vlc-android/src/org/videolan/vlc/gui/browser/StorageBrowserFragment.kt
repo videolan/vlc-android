@@ -35,6 +35,7 @@ import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.collection.SimpleArrayMap
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -140,10 +141,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Brows
     fun browse(media: MediaWrapper, position: Int, scanned: Boolean) {
         val ft = activity?.supportFragmentManager?.beginTransaction()
         val next = createFragment()
-        val args = Bundle()
-        args.putParcelable(KEY_MEDIA, media)
-        args.putBoolean(KEY_IN_MEDIALIB, scannedDirectory || scanned)
-        next.arguments = args
+        next.arguments = bundleOf(KEY_MEDIA to media, KEY_IN_MEDIALIB to (scannedDirectory || scanned))
         ft?.replace(R.id.fragment_placeholder, next, media.location)
         ft?.addToBackStack(if (isRootDirectory) "root" else if (currentMedia != null) currentMedia?.uri.toString() else mrl!!)
         ft?.commit()

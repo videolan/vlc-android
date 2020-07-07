@@ -564,7 +564,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     @TargetApi(Build.VERSION_CODES.M)
     private void registerAudioPlugV23(boolean register) {
-        AudioManager am = (AudioManager) mILibVLC.getAppContext().getSystemService(Context.AUDIO_SERVICE);
+        AudioManager am = mILibVLC.getAppContext().getSystemService(AudioManager.class);
         if (register) {
             mAudioDeviceCallback.onAudioDevicesAdded(am.getDevices(AudioManager.GET_DEVICES_OUTPUTS));
             am.registerAudioDeviceCallback(mAudioDeviceCallback, null);

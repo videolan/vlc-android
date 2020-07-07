@@ -32,13 +32,10 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.media.MediaRouter
-import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.renderscript.*
-import android.text.Html
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.view.*
@@ -54,6 +51,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
+import androidx.core.net.toUri
+import androidx.core.os.bundleOf
+import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -297,10 +298,12 @@ object UiTools {
 
     fun fillAboutView(v: View) {
         val link = v.findViewById<TextView>(R.id.main_link)
-        link.text = Html.fromHtml(v.context.getString(R.string.about_link))
+        link.text = HtmlCompat.fromHtml(v.context.getString(R.string.about_link),
+            HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         val feedback : TextView= v.findViewById(R.id.feedback)
-        feedback.text = Html.fromHtml(v.context.getString(R.string.feedback_link, v.context.getString(R.string.feedback_forum)))
+        feedback.text = HtmlCompat.fromHtml(v.context.getString(R.string.feedback_link,
+                v.context.getString(R.string.feedback_forum)), HtmlCompat.FROM_HTML_MODE_LEGACY)
         feedback.movementMethod = LinkMovementMethod.getInstance()
 
         val revision = v.context.getString(R.string.build_revision) + " VLC: " + v.context.getString(R.string.build_vlc_revision)
@@ -337,10 +340,8 @@ object UiTools {
     fun FragmentActivity.addToPlaylistAsync(parent: String, includeSubfolders: Boolean = false) {
         if (!isStarted()) return
         val savePlaylistDialog = SavePlaylistDialog()
-        val args = Bundle()
-        args.putString(SavePlaylistDialog.KEY_FOLDER, parent)
-        args.putBoolean(SavePlaylistDialog.KEY_SUB_FOLDERS, includeSubfolders)
-        savePlaylistDialog.arguments = args
+        savePlaylistDialog.arguments = bundleOf(SavePlaylistDialog.KEY_FOLDER to parent,
+                SavePlaylistDialog.KEY_SUB_FOLDERS to includeSubfolders)
         savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
     }
 
@@ -351,26 +352,21 @@ object UiTools {
     fun FragmentActivity.addToPlaylist(tracks: Array<MediaWrapper>, key: String) {
         if (!isStarted()) return
         val savePlaylistDialog = SavePlaylistDialog()
-        val args = Bundle()
-        args.putParcelableArray(key, tracks)
-        savePlaylistDialog.arguments = args
+        savePlaylistDialog.arguments = bundleOf(key to tracks)
         savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
     }
 
     fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>) {
         if (!isStarted()) return
         val addToGroupDialog = AddToGroupDialog()
-        val args = Bundle()
-        args.putParcelableArray(AddToGroupDialog.KEY_TRACKS, tracks.toTypedArray())
-        addToGroupDialog.arguments = args
+        addToGroupDialog.arguments = bundleOf(AddToGroupDialog.KEY_TRACKS to tracks.toTypedArray())
         addToGroupDialog.show(supportFragmentManager, "fragment_add_to_group")
     }
 
     fun FragmentActivity.showVideoTrack(menuListener:(Int) -> Unit) {
         if (!isStarted()) return
         val videoTracksDialog = VideoTracksDialog()
-        val args = Bundle()
-        videoTracksDialog.arguments = args
+        videoTracksDialog.arguments = bundleOf()
         videoTracksDialog.show(supportFragmentManager, "fragment_video_tracks")
         videoTracksDialog.menuItemListener = menuListener
     }
@@ -532,7 +528,7 @@ object UiTools {
                             if (item.uri != null)
                                 MediaUtils.openUri(activity, item.uri)
                             else if (item.text != null) {
-                                val uri = Uri.parse(item.text.toString())
+                                val uri = item.text.toString().toUri()
                                 val media = MLServiceLocator.getAbstractMediaWrapper(uri)
                                 if ("file" != uri.scheme)
                                     media.type = MediaWrapper.TYPE_STREAM
@@ -581,7 +577,7 @@ object UiTools {
     }
 
     fun hasSecondaryDisplay(context: Context): Boolean {
-        val mediaRouter = context.getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter
+        val mediaRouter = context.getSystemService<MediaRouter>()!!
         val route = mediaRouter.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_VIDEO)
         val presentationDisplay = route?.presentationDisplay
         return presentationDisplay != null

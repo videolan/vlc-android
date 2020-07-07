@@ -2,13 +2,14 @@ package org.videolan.vlc.gui.browser
 
 import android.content.Intent
 import android.widget.AutoCompleteTextView
+import androidx.core.content.edit
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.*
-import androidx.test.espresso.contrib.RecyclerViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
@@ -19,12 +20,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.EXTRA_TARGET
+import org.videolan.tools.Settings
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
-import org.videolan.resources.EXTRA_TARGET
-import org.videolan.tools.Settings
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -303,9 +304,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
 
     @Test
     fun whenAtInternalStorageAndContainsUnknownFile_checkShownIfSettingIsTrue() {
-        Settings.getInstance(context).edit()
-                .putBoolean("browser_show_all_files", true)
-                .commit()
+        Settings.getInstance(context).edit(commit = true) { putBoolean("browser_show_all_files", true) }
 
         onView(withRecyclerView(R.id.network_list).atPosition(1)).perform(click())
 
@@ -328,9 +327,7 @@ class FileBrowserFragmentUITest : BaseUITest() {
     @Test
     fun whenAtInternalStorageAndContainsUnknownFile_checkNotShownIfSettingIsFalse() {
         // TODO: Fails, because this preference value doesn't get reflected in the provider
-        Settings.getInstance(context).edit()
-                .putBoolean("browser_show_all_files", false)
-                .commit()
+        Settings.getInstance(context).edit(commit = true) { putBoolean("browser_show_all_files", false) }
 
         onView(withRecyclerView(R.id.network_list).atPosition(1)).perform(click())
 

@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.video
 
-import android.content.Context
 import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +36,7 @@ class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (!::inflater.isInitialized)
-            inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            inflater = LayoutInflater.from(parent.context)
         return ViewHolder(inflater.inflate(R.layout.info_item, parent, false))
     }
 

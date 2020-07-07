@@ -29,12 +29,12 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
@@ -45,13 +45,13 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CRASH_ML_CTX
 import org.videolan.resources.CRASH_ML_MSG
+import org.videolan.tools.AppUtils
 import org.videolan.tools.readableFileSize
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.DebugLogService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SendCrashActivityBinding
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
-import org.videolan.tools.AppUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import java.io.File
@@ -139,7 +139,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                     getString(R.string.describe_crash)
                 }
                 val body = "<p>Here are my crash logs for VLC</strong></p><p style=3D\"color:#16171A;\"> [$describeCrash]</p><p>$appData</p>"
-                val htmlBody = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(body, HtmlCompat.FROM_HTML_MODE_LEGACY) else Html.fromHtml(body)
+                val htmlBody = HtmlCompat.fromHtml(body, HtmlCompat.FROM_HTML_MODE_LEGACY)
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("vlc.crashreport+androidcrash@gmail.com"))
                 val subject = if (::errMsg.isInitialized) "[${BuildConfig.VERSION_NAME}] Medialibrary uncaught exception!"
                 else "[${BuildConfig.VERSION_NAME}] Crash logs for VLC"
@@ -166,7 +166,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
         binding = DataBindingUtil.setContentView(this, R.layout.send_crash_activity)
 
         binding.reportBugButton.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://forum.videolan.org/viewforum.php?f=35")))
+            startActivity(Intent(Intent.ACTION_VIEW, "https://forum.videolan.org/viewforum.php?f=35".toUri()))
             finish()
         }
         binding.reportCrashButton.setOnClickListener {

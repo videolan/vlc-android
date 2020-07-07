@@ -29,6 +29,7 @@ import android.content.Intent
 import android.media.tv.TvContract
 import android.os.Build
 import android.util.Log
+import androidx.core.content.getSystemService
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.vlc.util.launchChannelUpdate
@@ -73,7 +74,7 @@ class TvReceiver : BroadcastReceiver() {
     }
 
     private fun scheduleRecommendationUpdate(context: Context) {
-        val alarmManager = context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager = context.applicationContext.getSystemService<AlarmManager>()!!
         val ri = Intent(context, RecommendationsService::class.java)
         val pi = PendingIntent.getService(context, 0, ri, 0)
 

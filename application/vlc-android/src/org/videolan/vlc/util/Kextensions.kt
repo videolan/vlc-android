@@ -19,6 +19,7 @@ import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
@@ -30,7 +31,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.toCollection
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
@@ -134,7 +134,7 @@ fun List<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 suspend fun String.scanAllowed() = withContext(Dispatchers.IO) {
-    val file = File(Uri.parse(this@scanAllowed).path ?: return@withContext false)
+    val file = File(toUri().path ?: return@withContext false)
     if (!file.exists() || !file.canRead()) return@withContext false
     if (AndroidDevices.watchDevices && file.list()?.any { it == ".nomedia" } == true) return@withContext false
     true

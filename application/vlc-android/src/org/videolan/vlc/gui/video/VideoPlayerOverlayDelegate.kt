@@ -30,7 +30,6 @@ import android.annotation.TargetApi
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -46,6 +45,7 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -716,7 +716,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         val uri = player.videoUri?: return
         player.isShowingDialog = true
         val filePickerIntent = Intent(player, FilePickerActivity::class.java)
-        filePickerIntent.data = Uri.parse(FileUtils.getParent(uri.toString()))
+        filePickerIntent.data = FileUtils.getParent(uri.toString())!!.toUri()
         player.startActivityForResult(filePickerIntent, 0)
     }
 

@@ -1,5 +1,6 @@
 package org.videolan.vlc.viewmodels.mobile
 
+import androidx.core.content.edit
 import com.jraska.livedata.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -7,10 +8,10 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.stubs.StubDataSource
-import org.videolan.vlc.BaseTest
-import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.tools.KEY_ARTISTS_SHOW_ALL
 import org.videolan.tools.Settings
+import org.videolan.vlc.BaseTest
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -31,10 +32,7 @@ class AudioBrowserViewModelTest : BaseTest() {
     }
 
     private fun setupViewModel(showAll: Boolean = false) {
-        Settings.getInstance(context).edit().run {
-            putBoolean(KEY_ARTISTS_SHOW_ALL, showAll)
-            commit()
-        }
+        Settings.getInstance(context).edit(commit = true) { putBoolean(KEY_ARTISTS_SHOW_ALL, showAll) }
         audioBrowserViewModel = AudioBrowserViewModel(context)
     }
 

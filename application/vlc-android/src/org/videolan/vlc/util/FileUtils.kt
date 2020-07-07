@@ -34,6 +34,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.WorkerThread
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
@@ -85,7 +86,7 @@ object FileUtils {
      * Convert file:// uri from real path to emulated FS path.
      */
     fun convertLocalUri(uri: Uri): Uri {
-        return if (!TextUtils.equals(uri.scheme, "file") || !uri.path!!.startsWith("/sdcard")) uri else Uri.parse(uri.toString().replace("/sdcard", AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
+        return if (!TextUtils.equals(uri.scheme, "file") || !uri.path!!.startsWith("/sdcard")) uri else uri.toString().replace("/sdcard", AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY).toUri()
     }
 
     @WorkerThread
@@ -322,7 +323,7 @@ object FileUtils {
         uri.path?.let { path ->
             val context = (AppContextProvider.appContext as Context?) ?: return null
             val treePref = getMediaStorage(uri)?.let { Settings.getInstance(context).getString("tree_uri_$it", null) } ?: return null
-            val treeUri = Uri.parse(treePref)
+            val treeUri = treePref.toUri()
             var documentFile = DocumentFile.fromTreeUri(context, treeUri)
             val parts = path.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             for (i in 3 until parts.size) {

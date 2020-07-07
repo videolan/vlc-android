@@ -24,7 +24,7 @@
 
 package org.videolan.moviepedia.models.media
 
-import android.net.Uri
+import androidx.core.net.toUri
 import com.squareup.moshi.Json
 import org.videolan.moviepedia.models.identify.Images
 import java.text.SimpleDateFormat
@@ -58,7 +58,7 @@ data class MediaResult(
 )
 
 fun MediaResult.getImageUri() = images?.posters?.firstOrNull()?.let {
-    Uri.parse(imageEndpoint + "img" + it.path)
+    "${imageEndpoint}img${it.path}".toUri()
 }
 
 fun MediaResult.getYear() = date?.let {

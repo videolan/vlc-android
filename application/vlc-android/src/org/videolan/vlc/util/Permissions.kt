@@ -30,12 +30,13 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -191,7 +192,7 @@ object Permissions {
         val i = Intent()
         i.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
         i.addCategory(Intent.CATEGORY_DEFAULT)
-        i.data = Uri.parse("package:" + AppContextProvider.appContext.packageName)
+        i.data = "package:${AppContextProvider.appContext.packageName}".toUri()
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
             activity.startActivity(i)
@@ -227,15 +228,13 @@ object Permissions {
                 .setPositiveButton(activity.getString(R.string.permission_ask_again)) { _, _ ->
                     val settings = Settings.getInstance(activity)
                     val i = Intent(finalAction)
-                    i.data = Uri.parse("package:" + activity.packageName)
+                    i.data = "package:${activity.packageName}".toUri()
                     try {
                         activity.startActivity(i)
                     } catch (ignored: Exception) {
                     }
 
-                    val editor = settings.edit()
-                    editor.putBoolean("user_declined_settings_access", true)
-                    editor.apply()
+                    settings.edit { putBoolean("user_declined_settings_access", true) }
                 }
         return dialogBuilder.show()
     }

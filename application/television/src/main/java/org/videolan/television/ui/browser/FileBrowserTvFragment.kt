@@ -3,10 +3,11 @@ package org.videolan.television.ui.browser
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
-import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -178,9 +179,9 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             }
         }
         if (!poped) {
-            if (supportFragmentManager.backStackEntryCount == 0) browse(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(tag)), false)
+            if (supportFragmentManager.backStackEntryCount == 0) browse(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()), false)
             else {
-                (viewModel as IPathOperationDelegate).setDestination(MLServiceLocator.getAbstractMediaWrapper(Uri.parse(tag)))
+                (viewModel as IPathOperationDelegate).setDestination(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()))
                 supportFragmentManager.popBackStack()
             }
         }
@@ -266,11 +267,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     companion object {
         fun newInstance(type: Long, item: MediaLibraryItem?, root: Boolean = false) =
                 FileBrowserTvFragment().apply {
-                    arguments = Bundle().apply {
-                        this.putLong(CATEGORY, type)
-                        this.putParcelable(ITEM, item)
-                        this.putBoolean("rootLevel", root)
-                    }
+                    arguments = bundleOf(CATEGORY to type, ITEM to item, "rootLevel" to root)
                 }
     }
 

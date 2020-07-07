@@ -29,10 +29,10 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import org.videolan.medialibrary.MLServiceLocator
@@ -159,7 +159,8 @@ open class FileBrowserFragment : BaseBrowserFragment() {
                 val isScanned = withContext(Dispatchers.IO) { MedialibraryUtils.isScanned(it) }
                 menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && it.startsWith("file") && !isScanned
             }
-            val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))
+            val isFavorite = mrl != null && browserFavRepository.browserFavExists(mrl!!.toUri())
+
             item.setIcon(if (isFavorite)
                 R.drawable.ic_menu_bookmark_w
             else

@@ -26,11 +26,9 @@ import org.videolan.television.ui.browser.TvAdapterUtils
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.helpers.getMediaIconDrawable
-import org.videolan.vlc.gui.helpers.getTvIconRes
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.generateResolutionClass
-import org.videolan.vlc.util.getDescriptionSpan
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -61,7 +59,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding> {
-        val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = LayoutInflater.from(parent.context)
         return if (inGrid)
             MediaItemTVViewHolder(MediaBrowserTvItemBinding.inflate(inflater, parent, false), eventsHandler, showProtocol) as MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>
         else

@@ -24,7 +24,6 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.view.LayoutInflater
@@ -33,6 +32,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -109,7 +109,7 @@ class AboutFragment : Fragment() {
                     if (url.contains("file://")) {
                         view.loadUrl(url)
                     } else {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
                         try {
                             startActivity(intent)
                         } catch (e: ActivityNotFoundException) {

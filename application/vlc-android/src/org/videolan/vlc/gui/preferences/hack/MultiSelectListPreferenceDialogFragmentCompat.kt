@@ -1,9 +1,7 @@
 package org.videolan.vlc.gui.preferences.hack
 
-import android.annotation.TargetApi
-import android.os.Build
-import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.preference.DialogPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
@@ -69,11 +67,9 @@ class MultiSelectListPreferenceDialogFragmentCompat : PreferenceDialogFragmentCo
     companion object {
 
         fun newInstance(key: String): MultiSelectListPreferenceDialogFragmentCompat {
-            val fragment = MultiSelectListPreferenceDialogFragmentCompat()
-            val b = Bundle(1)
-            b.putString("key", key)
-            fragment.arguments = b
-            return fragment
+            return MultiSelectListPreferenceDialogFragmentCompat().apply {
+                arguments = bundleOf("key" to key)
+            }
         }
     }
 }

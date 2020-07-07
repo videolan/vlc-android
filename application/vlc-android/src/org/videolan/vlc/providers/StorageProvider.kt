@@ -23,6 +23,7 @@ package org.videolan.vlc.providers
 import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
+import androidx.core.net.toUri
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -53,7 +54,7 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
                 if (TextUtils.isEmpty(mediaDirLocation)) continue
                 if (customDir.path.startsWith(mediaDirLocation)) continue@customLoop
             }
-            storage = Storage(Uri.parse(customDir.path))
+            storage = Storage(customDir.path.toUri())
             storagesList.add(storage)
         }
         dataset.value = storagesList

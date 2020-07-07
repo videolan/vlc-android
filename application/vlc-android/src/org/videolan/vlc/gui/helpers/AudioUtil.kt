@@ -19,7 +19,6 @@
  */
 package org.videolan.vlc.gui.helpers
 
-import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
@@ -29,6 +28,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.WorkerThread
+import androidx.core.content.contentValuesOf
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -68,16 +68,16 @@ object AudioUtil {
                 return@snackerConfirm
             }
 
-            val values = ContentValues().apply {
-                put(MediaStore.MediaColumns.DATA, newRingtone.absolutePath)
-                put(MediaStore.MediaColumns.TITLE, song.title)
-                put(MediaStore.MediaColumns.MIME_TYPE, "audio/*")
-                put(MediaStore.Audio.Media.ARTIST, song.artist)
-                put(MediaStore.Audio.Media.IS_RINGTONE, true)
-                put(MediaStore.Audio.Media.IS_NOTIFICATION, false)
-                put(MediaStore.Audio.Media.IS_ALARM, false)
-                put(MediaStore.Audio.Media.IS_MUSIC, false)
-            }
+            val values = contentValuesOf(
+                    MediaStore.MediaColumns.DATA to newRingtone.absolutePath,
+                    MediaStore.MediaColumns.TITLE to song.title,
+                    MediaStore.MediaColumns.MIME_TYPE to "audio/*",
+                    MediaStore.Audio.Media.ARTIST to song.artist,
+                    MediaStore.Audio.Media.IS_RINGTONE to true,
+                    MediaStore.Audio.Media.IS_NOTIFICATION to false,
+                    MediaStore.Audio.Media.IS_ALARM to false,
+                    MediaStore.Audio.Media.IS_MUSIC to false
+            )
 
             try {
                 val uri = withContext(Dispatchers.IO) {

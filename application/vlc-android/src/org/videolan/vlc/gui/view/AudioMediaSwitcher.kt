@@ -25,7 +25,10 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.helpers.AudioUtil
 
@@ -92,7 +95,7 @@ abstract class AudioMediaSwitcher(context: Context, attrs: AttributeSet) : Fling
         hasPrevious = false
         previousPosition = 0
 
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = LayoutInflater.from(context)
         if (service.hasPrevious()) {
             addMediaView(inflater, service.titlePrev, service.artistPrev, coverPrev)
             hasPrevious = true

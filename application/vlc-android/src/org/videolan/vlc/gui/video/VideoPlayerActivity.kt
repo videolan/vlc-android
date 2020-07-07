@@ -60,6 +60,9 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Guideline
+import androidx.core.content.edit
+import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
@@ -202,7 +205,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private val isInteractive: Boolean
         @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
         get() {
-            val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+            val pm = applicationContext.getSystemService<PowerManager>()!!
             return if (AndroidUtil.isLolliPopOrLater) pm.isInteractive else pm.isScreenOn
         }
 
@@ -321,7 +324,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     private val screenRotation: Int
         get() {
-            val wm = applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val wm = applicationContext.getSystemService<WindowManager>()!!
             return wm.defaultDisplay?.rotation ?: Surface.ROTATION_0
         }
 
@@ -375,7 +378,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         settings = Settings.getInstance(this)
 
         /* Services and miscellaneous */
-        audiomanager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audiomanager = applicationContext.getSystemService<AudioManager>()!!
         audioMax = audiomanager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         isAudioBoostEnabled = settings.getBoolean("audio_boost", true)
 
@@ -469,7 +472,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         overlayDelegate.playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         overlayDelegate.pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
-        overlayDelegate.vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        overlayDelegate.vibrator = getSystemService<Vibrator>()!!
     }
 
     override fun afterTextChanged(s: Editable?) {
@@ -817,7 +820,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (data == null) return
 
         if (data.hasExtra(EXTRA_MRL)) {
-            service?.addSubtitleTrack(Uri.parse(data.getStringExtra(EXTRA_MRL)), false)
+            service?.addSubtitleTrack(data.getStringExtra(EXTRA_MRL)!!.toUri(), false)
             service?.currentMediaWrapper?.let {
                 SlaveRepository.getInstance(this).saveSlave(it.location, IMedia.Slave.Type.Subtitle, 2, data.getStringExtra(EXTRA_MRL)!!)
             }
@@ -1273,7 +1276,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         // Get possible subtitles
         observeDownloadedSubtitles()
         optionsDelegate?.setup()
-        settings.edit().remove(VIDEO_PAUSED).apply()
+        settings.edit { remove(VIDEO_PAUSED) }
         if (isInPictureInPictureMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val track = service?.playlistManager?.player?.mediaplayer?.currentVideoTrack ?: return
             val ar = Rational(track.width.coerceAtMost((track.height * 2.39f).toInt()), track.height)
@@ -1749,14 +1752,14 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
          * the background.
          * To workaround this, pause playback if the lockscreen is displayed.
          */
-            val km = applicationContext.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            val km = applicationContext.getSystemService<KeyguardManager>()!!
             if (km.inKeyguardRestrictedInputMode())
                 wasPaused = true
             if (wasPaused && BuildConfig.DEBUG)
                 Log.d(TAG, "Video was previously paused, resuming in paused mode")
             intent.data?.let {
                val translatedPath = FileUtils.getPathFromURI(it)
-                videoUri = if (!translatedPath.isEmpty()) Uri.parse(translatedPath) else it
+                videoUri = if (translatedPath.isNotEmpty()) translatedPath.toUri() else it
             }
             if (extras != null) {
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION)) {
@@ -1925,7 +1928,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     }
 
     private fun getOrientationForLock(): Int {
-        val wm = applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = applicationContext.getSystemService<WindowManager>()!!
         val display = wm.defaultDisplay
         val rot = screenRotation
         /*

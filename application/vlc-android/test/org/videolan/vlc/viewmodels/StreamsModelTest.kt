@@ -1,6 +1,6 @@
 package org.videolan.vlc.viewmodels
 
-import android.net.Uri
+import androidx.core.net.toUri
 import com.jraska.livedata.test
 import io.mockk.every
 import io.mockk.slot
@@ -37,7 +37,7 @@ class StreamsModelTest : BaseTest() {
                 .assertValue(Medialibrary.EMPTY_COLLECTION.toMutableList())
 
         val result = fakeMediaStrings.map {
-            val media = MediaWrapperImpl(Uri.parse(it))
+            val media = MediaWrapperImpl(it.toUri())
             println(mediaLibrary.addToHistory(media.location, media.title))
             media
         }
@@ -63,7 +63,7 @@ class StreamsModelTest : BaseTest() {
         val argumentName = slot<String>()
 
         val result = fakeMediaStrings.map {
-            val media = spyk(MediaWrapperImpl(Uri.parse(it)))
+            val media = spyk(MediaWrapperImpl(it.toUri()))
             mediaLibrary.addToHistory(media.location, media.title)
             media
         }

@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -39,7 +41,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                 .setPositiveButton(R.string.ok) { _, _ ->
                     if (!isAdded || isDetached) return@setPositiveButton
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-                    storage = arguments?.getString(KEY_STORAGE_PATH)?.apply { intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(this)) }
+                    storage = arguments?.getString(KEY_STORAGE_PATH)?.apply { intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, toUri()) }
                     startActivityForResult(intent, REQUEST_CODE_STORAGE_ACCESS)
                 }
                 .setNeutralButton(getString(R.string.dialog_sd_wizard)) { _, _ -> showHelpDialog() }.create().show()
@@ -116,7 +118,7 @@ suspend fun FragmentActivity.getExtWritePermission(uri: Uri) : Boolean {
     val model : PermissionViewmodel by viewModels()
     val fragment = WriteExternalDelegate()
     model.setupDeferred()
-    fragment.arguments = Bundle(1).apply { putString(WriteExternalDelegate.KEY_STORAGE_PATH, storage) }
+    fragment.arguments = bundleOf(WriteExternalDelegate.KEY_STORAGE_PATH to storage)
     supportFragmentManager.beginTransaction().add(fragment, WriteExternalDelegate.TAG).commitAllowingStateLoss()
     return model.deferredGrant.await()
 }

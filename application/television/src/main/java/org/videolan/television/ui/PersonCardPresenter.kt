@@ -54,6 +54,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -102,7 +103,7 @@ class PersonCardPresenter(private val context: Activity) : Presenter() {
         val holder = viewHolder as ViewHolder
         val person = item as Person
         holder.cardView.titleText = person.name
-        person.image?.let { holder.updateCardViewImage(Uri.parse(it)) }
+        person.image?.let { holder.updateCardViewImage(it.toUri()) }
                 ?: holder.updateCardViewImage(defaultCardImage)
     }
 

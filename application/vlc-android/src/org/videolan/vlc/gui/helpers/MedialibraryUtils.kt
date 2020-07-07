@@ -3,10 +3,13 @@ package org.videolan.vlc.gui.helpers
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import org.videolan.medialibrary.interfaces.Medialibrary
-import org.videolan.resources.*
+import org.videolan.resources.ACTION_DISCOVER
+import org.videolan.resources.ACTION_DISCOVER_DEVICE
+import org.videolan.resources.AppContextProvider
+import org.videolan.resources.EXTRA_PATH
 import org.videolan.tools.runIO
 import org.videolan.tools.stripTrailingSlash
 import org.videolan.vlc.MediaParsingService
@@ -34,7 +37,7 @@ object MedialibraryUtils {
         //scheme is supported => test if the parent is scanned
         var isScanned = false
         Medialibrary.getInstance().foldersList.forEach search@{
-            if (path.stripTrailingSlash().startsWith(Uri.parse(it).toString().stripTrailingSlash())) {
+            if (path.stripTrailingSlash().startsWith(it.toUri().toString().stripTrailingSlash())) {
                 isScanned = true
                 return@search
             }

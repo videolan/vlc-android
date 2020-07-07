@@ -3,7 +3,6 @@ package org.videolan.television.ui
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
@@ -11,6 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
 import org.videolan.vlc.R
 import org.videolan.vlc.util.Util
@@ -42,7 +42,7 @@ class LicenceActivity : FragmentActivity() {
                 if (url.contains("file://")) {
                     view.loadUrl(url)
                 } else {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
                     try {
                         startActivity(intent)
                     } catch (e: ActivityNotFoundException) {

@@ -24,7 +24,6 @@
 
 package org.videolan.vlc.gui.video
 
-import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
@@ -84,8 +83,7 @@ class PopupManager constructor(private val service: PlaybackService) : PlaybackS
 
     fun showPopup() {
         service.addCallback(this)
-        val li = service.applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                ?: return
+        val li = LayoutInflater.from(service.applicationContext)
         rootView = li.inflate(R.layout.video_popup, null) as PopupLayout
         if (alwaysOn) rootView!!.keepScreenOn = true
         playPauseButton = rootView!!.findViewById(R.id.video_play_pause)

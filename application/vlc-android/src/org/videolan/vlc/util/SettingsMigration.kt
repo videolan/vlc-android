@@ -28,6 +28,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.edit
 import org.videolan.tools.*
 
 private const val CURRENT_VERSION = 1
@@ -45,22 +46,22 @@ object SettingsMigration {
 
     private fun migrateToVersion1(settings: SharedPreferences) {
         Log.i(this::class.java.simpleName, "Migrating preferences to Version 1")
-        val editor = settings.edit()
-        //Migrate video Resume confirmation
-        val dialogConfirmResume = settings.getBoolean("dialog_confirm_resume", false)
-        if (dialogConfirmResume) {
-            editor.putString(KEY_VIDEO_CONFIRM_RESUME, "2")
+        settings.edit {
+            //Migrate video Resume confirmation
+            val dialogConfirmResume = settings.getBoolean("dialog_confirm_resume", false)
+            if (dialogConfirmResume) {
+                putString(KEY_VIDEO_CONFIRM_RESUME, "2")
+            }
+            remove("dialog_confirm_resume")
+            //Migrate apptheme
+            if (!settings.contains(KEY_APP_THEME)) {
+                val daynight = settings.getBoolean("daynight", false)
+                val dark = settings.getBoolean("enable_black_theme", false)
+                val mode = if (dark) AppCompatDelegate.MODE_NIGHT_YES else if (daynight) AppCompatDelegate.MODE_NIGHT_AUTO else AppCompatDelegate.MODE_NIGHT_NO
+                putString(KEY_APP_THEME, mode.toString())
+            }
+            remove("daynight")
+            remove("enable_black_theme")
         }
-        editor.remove("dialog_confirm_resume")
-        //Migrate apptheme
-        if (!settings.contains(KEY_APP_THEME)) {
-            val daynight = settings.getBoolean("daynight", false)
-            val dark = settings.getBoolean("enable_black_theme", false)
-            val mode = if (dark) AppCompatDelegate.MODE_NIGHT_YES else if (daynight) AppCompatDelegate.MODE_NIGHT_AUTO else AppCompatDelegate.MODE_NIGHT_NO
-            editor.putString(KEY_APP_THEME, mode.toString())
-        }
-        editor.remove("daynight").remove("enable_black_theme")
-
-        editor.apply()
     }
 }

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
@@ -123,7 +124,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
             editAddress.text.toString()
         else
             editServername.text.toString()
-        val uri = Uri.parse(url.text.toString())
+        val uri = url.text.toString().toUri()
         AppScope.launch {
             if (::networkUri.isInitialized) browserFavRepository.deleteBrowserFav(networkUri)
             browserFavRepository.addNetworkFavItem(uri, name, null)

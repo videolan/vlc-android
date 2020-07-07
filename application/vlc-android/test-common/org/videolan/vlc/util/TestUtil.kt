@@ -21,6 +21,7 @@
 package org.videolan.vlc.util
 
 import android.net.Uri
+import androidx.core.net.toUri
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.resources.TYPE_LOCAL_FAV
 import org.videolan.resources.TYPE_NETWORK_FAV
@@ -46,7 +47,7 @@ object TestUtil {
 
     fun createLocalFavs(count: Int): List<org.videolan.vlc.mediadb.models.BrowserFav> {
         return (0 until count).map {
-            createLocalFav(Uri.parse("${fakeMediaUri}_$it.mp4"), "local$it", null)
+            createLocalFav("${fakeMediaUri}_$it.mp4".toUri(), "local$it", null)
         }
     }
 
@@ -61,7 +62,7 @@ object TestUtil {
     fun createNetworkFavs(count: Int): List<org.videolan.vlc.mediadb.models.BrowserFav> {
         return (0 until count).map {
             createNetworkFav(
-                    Uri.parse(fakeUri + "network" + it),
+                    "${fakeUri}network${it}".toUri(),
                     "network" + 1,
                     null)
         }
@@ -116,7 +117,7 @@ object TestUtil {
             mediaPath: String,
             subLanguageID: String,
             movieReleaseName: String,
-            zipDownloadLink: String): SubtitleItem = TestUtil.createDownloadingSubtitleItem(idSubtitle, Uri.parse(mediaPath), subLanguageID, movieReleaseName, zipDownloadLink)
+            zipDownloadLink: String): SubtitleItem = createDownloadingSubtitleItem(idSubtitle, mediaPath.toUri(), subLanguageID, movieReleaseName, zipDownloadLink)
 
     fun createOpenSubtitle(
             idSubtitle: String,

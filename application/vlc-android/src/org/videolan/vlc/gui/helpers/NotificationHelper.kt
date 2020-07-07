@@ -32,6 +32,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.content.getSystemService
 import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.*
@@ -129,7 +130,7 @@ object NotificationHelper {
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun createNotificationChannels(appCtx: Context) {
         if (!AndroidUtil.isOOrLater) return
-        val notificationManager = appCtx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = appCtx.getSystemService<NotificationManager>()!!
         val channels = mutableListOf<NotificationChannel>()
         // Playback channel
         if (notificationManager.getNotificationChannel(PLAYBACK_SERVICE_CHANNEL_ID) == null ) {
@@ -172,7 +173,7 @@ object NotificationHelper {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun createDebugServcieChannel(appCtx: Context) {
-        val notificationManager = appCtx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = appCtx.getSystemService<NotificationManager>()!!
 // Playback channel
         val name = appCtx.getString(R.string.debug_logs)
         val channel = NotificationChannel(VLC_DEBUG_CHANNEL, name, NotificationManager.IMPORTANCE_LOW)

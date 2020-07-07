@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent
+import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -77,7 +78,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 }
                 mediaId.startsWith(ExtensionsManager.EXTENSION_PREFIX) -> {
                     val id = mediaId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1] + "_", "")
-                    onPlayFromUri(Uri.parse(id), null)
+                    onPlayFromUri(id.toUri(), null)
                 }
                 else -> try {
                     context.getFromMl { getMedia(mediaId.toLong()) }?.let { if (isActive) playbackService.load(it) }

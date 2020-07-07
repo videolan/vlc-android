@@ -5,18 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.videolan.resources.AndroidDevices
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
 import org.videolan.vlc.gui.OnItemSelectListener
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.resources.AndroidDevices
-import org.videolan.tools.Settings
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
 class SubtitleDownloadFragment : Fragment() {
@@ -79,9 +80,9 @@ class SubtitleDownloadFragment : Fragment() {
 
     companion object {
         fun newInstance(mediaUri: Uri): SubtitleDownloadFragment {
-            val subtitleDownloadFragment = SubtitleDownloadFragment()
-            subtitleDownloadFragment.arguments = Bundle(1).apply { putParcelable(MEDIA_PATH, mediaUri) }
-            return subtitleDownloadFragment
+            return SubtitleDownloadFragment().apply {
+                arguments = bundleOf(MEDIA_PATH to mediaUri)
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 package org.videolan.vlc.viewmodels
 
-import android.net.Uri
+import androidx.core.net.toUri
 import com.jraska.livedata.test
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,7 +36,7 @@ class HistoryModelTest : BaseTest() {
                 .assertValue(Medialibrary.EMPTY_COLLECTION.toMutableList())
 
         val result = fakeMediaStrings.map {
-            val media = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(it))
+            val media = MLServiceLocator.getAbstractMediaWrapper(it.toUri())
             mediaLibrary.addToHistory(media.location, media.title)
             media
         }
@@ -57,7 +57,7 @@ class HistoryModelTest : BaseTest() {
         val fakeMediaStrings = TestUtil.createLocalUris(2)
 
         val result = fakeMediaStrings.map {
-            val media = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(it)).apply { type = MediaWrapper.TYPE_VIDEO }
+            val media = MLServiceLocator.getAbstractMediaWrapper(it.toUri()).apply { type = MediaWrapper.TYPE_VIDEO }
             mediaLibrary.addToHistory(media.location, media.title)
             media
         }

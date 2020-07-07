@@ -21,10 +21,8 @@
 package org.videolan.vlc.gui.network
 
 import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
-import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.KeyEvent
@@ -34,6 +32,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -115,7 +115,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     override fun onResume() {
         super.onResume()
-        val clipBoardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipBoardManager = requireContext().getSystemService<ClipboardManager>()!!
         val text = clipBoardManager.primaryClip?.getItemAt(0)?.text?.toString()
         if (text.isValidUrl()) viewModel.observableSearchText.set(text)
     }
@@ -145,7 +145,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     private fun processUri(): Boolean {
         if (!TextUtils.isEmpty(viewModel.observableSearchText.get())) {
-            val mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(viewModel.observableSearchText.get()?.trim()))
+            val mw = MLServiceLocator.getAbstractMediaWrapper(viewModel.observableSearchText.get()?.trim()?.toUri())
             playMedia(mw)
             viewModel.observableSearchText.set("")
             return true

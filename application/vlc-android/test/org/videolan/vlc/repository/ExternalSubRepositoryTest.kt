@@ -22,6 +22,7 @@ package org.videolan.vlc.repository
 
 import android.net.Uri
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
@@ -39,7 +40,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import org.videolan.vlc.database.ExternalSubDao
 import org.videolan.vlc.database.MediaDatabase
-import org.videolan.vlc.mediadb.models.ExternalSub
 import org.videolan.vlc.util.*
 
 
@@ -97,8 +97,7 @@ class ExternalSubRepositoryTest {
         `when`(externalSubDao.get(foo)).thenReturn(fakeFooLiveDataSubtitles)
         `when`(externalSubDao.get(bar)).thenReturn(fakeBarLiveDataSubtitles)
 
-        val fooSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(Uri.parse(foo)))
-        val barSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(Uri.parse(bar)))
+        val fooSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(foo.toUri()))
         verify(externalSubDao, times(2)).get(ArgumentMatchers.anyString())
         assertThat(fooSubtitles.size, `is`(0))
     }
@@ -139,8 +138,8 @@ class ExternalSubRepositoryTest {
         `when`(externalSubDao.get(foo)).thenReturn(fakeFooLiveDataSubtitles)
         `when`(externalSubDao.get(bar)).thenReturn(fakeBarLiveDataSubtitles)
 
-        val fooSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(Uri.parse(foo)))
-        val barSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(Uri.parse(bar)))
+        val fooSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(foo.toUri()))
+        val barSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(bar.toUri()))
         verify(externalSubDao, times(2)).get(ArgumentMatchers.anyString())
         assertThat(fooSubtitles.size, `is`(2))
         assertThat(barSubtitles.size, `is`(2))

@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -390,7 +391,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
 }
 
 fun Context.setSleep(time: Calendar?) {
-    val alarmMgr = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val alarmMgr = applicationContext.getSystemService<AlarmManager>()!!
     val intent = Intent(SLEEP_INTENT)
     val sleepPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 

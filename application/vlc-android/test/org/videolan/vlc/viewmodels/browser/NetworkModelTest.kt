@@ -1,7 +1,7 @@
 package org.videolan.vlc.viewmodels.browser
 
-import android.net.Uri
 import android.os.Handler
+import androidx.core.net.toUri
 import androidx.lifecycle.MediatorLiveData
 import com.jraska.livedata.test
 import io.mockk.every
@@ -60,7 +60,7 @@ class NetworkModelTest : BaseTest() {
         browserProvider = browserModel.provider
     }
 
-    private fun getFakeMediaWrapper(index: Int): MediaWrapperImpl = MediaWrapperImpl(Uri.parse("http://fake_media.io/vid_$index.mp4"))
+    private fun getFakeMediaWrapper(index: Int): MediaWrapperImpl = MediaWrapperImpl("http://fake_media.io/vid_$index.mp4".toUri())
 
     @Test
     fun whenAtRootAndNoFavorites_checkResultIsEmpty() {

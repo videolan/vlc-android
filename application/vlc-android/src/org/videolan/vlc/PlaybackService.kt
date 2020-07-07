@@ -43,6 +43,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -122,7 +124,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             val state = intent.getIntExtra("state", 0)
 
             // skip all headsets events if there is a call
-            val telManager = this@PlaybackService.applicationContext.getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
+            val telManager = applicationContext.getSystemService<TelephonyManager>()
             if (telManager?.callState != TelephonyManager.CALL_STATE_IDLE) return
 
             /*
@@ -471,7 +473,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
         // Make sure the audio player will acquire a wake-lock while playing. If we don't do
         // that, the CPU might go to sleep while the song is playing, causing playback to stop.
-        val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val pm = applicationContext.getSystemService<PowerManager>()!!
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG)
 
         updateHasWidget()
@@ -489,7 +491,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
         registerReceiver(receiver, filter)
 
-        keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        keyguardManager = getSystemService()!!
         renderer.observe(this, Observer { setRenderer(it) })
         restartPlayer.observe(this, Observer { restartMediaPlayer() })
         headSetDetection.observe(this, Observer { detectHeadset(it) })
@@ -1003,11 +1005,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     fun showToast(text: String, duration: Int, isError: Boolean = false) {
         val msg = handler.obtainMessage().apply {
             what = SHOW_TOAST
-            data = Bundle(2).apply {
-                putString("text", text)
-                putInt("duration", duration)
-                putBoolean("isError", isError)
-            }
+            data = bundleOf("text" to text, "duration" to duration, "isError" to isError)
         }
         handler.removeMessages(SHOW_TOAST)
         handler.sendMessage(msg)

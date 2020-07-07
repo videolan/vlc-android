@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -42,9 +43,9 @@ class SubtitleHistoryFragment : Fragment() {
 
     companion object {
         fun newInstance(mediaUri: Uri): SubtitleHistoryFragment {
-            val subtitleHistoryFragment = SubtitleHistoryFragment()
-            subtitleHistoryFragment.arguments = Bundle(1).apply { putParcelable(MEDIA_PATH, mediaUri) }
-            return subtitleHistoryFragment
+            return SubtitleHistoryFragment().apply {
+                arguments = bundleOf(MEDIA_PATH to mediaUri)
+            }
         }
     }
 }

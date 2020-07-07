@@ -24,7 +24,7 @@
 
 package org.videolan.moviepedia.models.identify
 
-import android.net.Uri
+import androidx.core.net.toUri
 import com.squareup.moshi.Json
 import org.videolan.moviepedia.models.resolver.ResolverImage
 import org.videolan.moviepedia.models.resolver.ResolverMedia
@@ -175,7 +175,7 @@ fun MoviepediaMedia.retrievePosters(languages: List<String>) = images?.posters?.
 })
 
 fun MoviepediaMedia.retrieveImageUri(languages: List<String>) = getPosters(languages)?.firstOrNull()?.let {
-    Uri.parse(imageEndpoint + "img" + it.path())
+    "${imageEndpoint}img${it.path()}".toUri()
 }
 
 fun MoviepediaMedia.retrieveBackdrops(languages: List<String>) = images?.backdrops?.sortedWith(Comparator { p0, p1 ->
@@ -183,7 +183,7 @@ fun MoviepediaMedia.retrieveBackdrops(languages: List<String>) = images?.backdro
 })
 
 fun MoviepediaMedia.getBackdropUri(languages: List<String>) = getBackdrops(languages)?.firstOrNull()?.let {
-    Uri.parse(imageEndpoint + "img" + it.path())
+    "${imageEndpoint}img${it.path()}".toUri()
 }
 
 fun MoviepediaMedia.retrieveImageUriFromPath(path: String) = imageEndpoint + "img" + path

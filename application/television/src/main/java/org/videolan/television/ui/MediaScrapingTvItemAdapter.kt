@@ -83,7 +83,7 @@ class MediaScrapingTvItemAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaScrapingItemViewHolder<ViewDataBinding> {
-        val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater = LayoutInflater.from(parent.context)
         @Suppress("UNCHECKED_CAST")
         return if (inGrid) MovieItemTVViewHolder(MovieBrowserTvItemBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMediaScrapingItemViewHolder<ViewDataBinding>
         else MovieItemTVListViewHolder(MovieBrowserTvItemListBinding.inflate(inflater, parent, false), eventsHandler) as AbstractMediaScrapingItemViewHolder<ViewDataBinding>

@@ -30,6 +30,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
@@ -133,16 +134,16 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             "network_caching" -> {
-                val editor = sharedPreferences.edit()
-                try {
-                    editor.putInt("network_caching_value", Integer.parseInt(sharedPreferences.getString(key, "0")!!))
-                } catch (e: NumberFormatException) {
-                    editor.putInt("network_caching_value", 0)
-                    val networkCachingPref = findPreference<EditTextPreference>(key)
-                    networkCachingPref?.text = ""
-                    UiTools.snacker(view!!, R.string.network_caching_popup)
+                sharedPreferences.edit {
+                    try {
+                        putInt("network_caching_value", Integer.parseInt(sharedPreferences.getString(key, "0")!!))
+                    } catch (e: NumberFormatException) {
+                        putInt("network_caching_value", 0)
+                        val networkCachingPref = findPreference<EditTextPreference>(key)
+                        networkCachingPref?.text = ""
+                        UiTools.snacker(requireView(), R.string.network_caching_popup)
+                    }
                 }
-                editor.apply()
                 VLCInstance.restart()
                 (activity as? PreferencesActivity)?.restartMediaPlayer()
             }

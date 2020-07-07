@@ -104,7 +104,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
         if (!::inflater.isInitialized) {
-            inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            inflater = LayoutInflater.from(parent.context)
         }
         return if (displayInCard()) {
             val binding = AudioBrowserCardItemBinding.inflate(inflater, parent, false)

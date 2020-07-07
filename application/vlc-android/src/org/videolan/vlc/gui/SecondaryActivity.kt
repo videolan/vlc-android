@@ -27,10 +27,10 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,8 +43,6 @@ import org.videolan.resources.KEY_GROUP
 import org.videolan.resources.util.applyOverscanMargin
 import org.videolan.tools.RESULT_RESCAN
 import org.videolan.tools.RESULT_RESTART
-import org.videolan.tools.isValidUrl
-import org.videolan.tools.removeFileProtocole
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
@@ -57,7 +55,6 @@ import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.isSchemeNetwork
-import org.videolan.vlc.util.validateLocation
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -150,9 +147,8 @@ class SecondaryActivity : ContentActivity() {
         when (id) {
             ALBUMS_SONGS -> {
                 fragment = AudioAlbumsSongsFragment().apply {
-                    val args = Bundle(1)
-                    args.putParcelable(AudioBrowserFragment.TAG_ITEM, intent.getParcelableExtra<Parcelable>(AudioBrowserFragment.TAG_ITEM))
-                    arguments = args
+                    arguments = bundleOf(AudioBrowserFragment.TAG_ITEM to
+                            intent.getParcelableExtra(AudioBrowserFragment.TAG_ITEM))
                 }
             }
             ABOUT -> fragment = AboutFragment()
@@ -160,10 +156,8 @@ class SecondaryActivity : ContentActivity() {
             HISTORY -> fragment = HistoryFragment()
             VIDEO_GROUP_LIST -> {
                 fragment = VideoGridFragment().apply {
-                    arguments = Bundle(2).apply {
-                        putParcelable(KEY_FOLDER, intent.getParcelableExtra<Parcelable>(KEY_FOLDER))
-                        putParcelable(KEY_GROUP, intent.getParcelableExtra<Parcelable>(KEY_GROUP))
-                    }
+                    arguments = bundleOf(KEY_FOLDER to intent.getParcelableExtra(KEY_FOLDER),
+                        KEY_GROUP to intent.getParcelableExtra(KEY_GROUP))
                 }
             }
             STORAGE_BROWSER -> {
@@ -174,11 +168,7 @@ class SecondaryActivity : ContentActivity() {
                 val media = intent.getParcelableExtra(KEY_MEDIA) as MediaWrapper
                 fragment = if(media.uri.scheme.isSchemeNetwork()) NetworkBrowserFragment()
                 else FileBrowserFragment()
-                fragment?.apply {
-                    arguments = Bundle(2).apply {
-                        putParcelable(KEY_MEDIA, media)
-                    }
-                }
+                fragment?.apply { arguments = bundleOf(KEY_MEDIA to media) }
             }
             else -> throw IllegalArgumentException("Wrong fragment id.")
         }

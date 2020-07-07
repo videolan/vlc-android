@@ -1,9 +1,9 @@
 package org.videolan.vlc.gui.browser
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +36,7 @@ class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.
             if (item.type == VLCExtensionItem.TYPE_DIRECTORY) {
                 fragment!!.browseItem(item)
             } else if (item.type == VLCExtensionItem.TYPE_AUDIO || item.type == VLCExtensionItem.TYPE_VIDEO) {
-                val mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(item.link))
+                val mw = MLServiceLocator.getAbstractMediaWrapper(item.link.toUri())
                 mw.setDisplayTitle(item.getTitle())
                 mw.description = item.getSubTitle()
                 mw.type = getTypeAccordingToItem(item.type)

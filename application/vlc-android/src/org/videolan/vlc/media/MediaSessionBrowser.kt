@@ -37,6 +37,7 @@ import android.os.IBinder
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import androidx.annotation.WorkerThread
+import androidx.core.net.toUri
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -49,7 +50,6 @@ import org.videolan.vlc.extensions.ExtensionManagerService.ExtensionManagerActiv
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
-import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.UiTools.getDefaultAudioDrawable
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaUtils.getMediaSubtitle
@@ -185,44 +185,44 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         item = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_SHUFFLE_ALL)
                                 .setTitle(res.getString(R.string.shuffle_all_title))
-                                .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_audio_normal"))
+                                .setIconUri("${BASE_DRAWABLE_URI}ic_auto_audio_normal".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                         //Last added
                         item = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_LAST_ADDED)
                                 .setTitle(res.getString(R.string.last_added_media))
-                                .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_history_normal"))
+                                .setIconUri("${BASE_DRAWABLE_URI}ic_auto_history_normal".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //History
                         item = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_HISTORY)
                                 .setTitle(res.getString(R.string.history))
-                                .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_history_normal"))
+                                .setIconUri("${BASE_DRAWABLE_URI}ic_auto_history_normal".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Playlists
                         item.setMediaId(ID_PLAYLISTS)
                                 .setTitle(res.getString(R.string.playlists))
-                                .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_playlist_normal"))
+                                .setIconUri("${BASE_DRAWABLE_URI}ic_auto_playlist_normal".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Artists
                         item.setMediaId(ID_ARTISTS)
                                 .setTitle(res.getString(R.string.artists))
-                                .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_artist_normal"))
+                                .setIconUri("${BASE_DRAWABLE_URI}ic_auto_artist_normal".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Albums
                         item.setMediaId(ID_ALBUMS)
                                 .setTitle(res.getString(R.string.albums))
-                                .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_album_normal"))
+                                .setIconUri("${BASE_DRAWABLE_URI}ic_auto_album_normal".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Songs
                         item.setMediaId(ID_SONGS)
                                 .setTitle(res.getString(R.string.songs))
-                                .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_audio_normal"))
+                                .setIconUri("${BASE_DRAWABLE_URI}ic_auto_audio_normal".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Genres
                         item.setMediaId(ID_GENRES)
                                 .setTitle(res.getString(R.string.genres))
-                                .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_genre_normal"))
+                                .setIconUri("${BASE_DRAWABLE_URI}ic_auto_genre_normal".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         return results
                     }

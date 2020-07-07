@@ -25,10 +25,10 @@ package org.videolan.vlc.gui.browser
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.Dispatchers
@@ -102,7 +102,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
                 viewModel.refresh()
             }
             mrl != null -> {
-                val mw = MLServiceLocator.getAbstractMediaWrapper(Uri.parse(FileUtils.getParent(mrl)))
+                val mw = MLServiceLocator.getAbstractMediaWrapper(FileUtils.getParent(mrl)?.toUri())
                 browse(mw, false)
             }
         }

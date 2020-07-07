@@ -55,6 +55,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -79,9 +80,7 @@ class RenameDialog : VLCBottomSheetDialogFragment() {
         fun newInstance(media: MediaLibraryItem): RenameDialog {
 
             return RenameDialog().apply {
-                val args = Bundle()
-                args.putParcelable(RENAME_DIALOG_MEDIA, media)
-                arguments = args
+                arguments = bundleOf(RENAME_DIALOG_MEDIA to media)
             }
         }
     }

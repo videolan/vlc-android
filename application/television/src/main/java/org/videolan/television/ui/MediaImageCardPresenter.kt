@@ -54,6 +54,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -80,7 +81,7 @@ class MediaImageCardPresenter(private val context: Activity, private val imageTy
         }
 
         fun updateCardViewImage(item: Person) {
-            downloadIcon(cardView.mainImageView, Uri.parse(item.image))
+            downloadIcon(cardView.mainImageView, item.image?.toUri())
         }
 
         fun updateCardViewImage(image: Drawable?) {
@@ -107,7 +108,7 @@ class MediaImageCardPresenter(private val context: Activity, private val imageTy
     override fun onBindViewHolder(viewHolder: Presenter.ViewHolder, item: Any) {
         val holder = viewHolder as ViewHolder
         val mediaImage = item as MediaImage
-        holder.updateCardViewImage(Uri.parse(mediaImage.url))
+        holder.updateCardViewImage(mediaImage.url.toUri())
     }
 
     override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {}

@@ -11,6 +11,7 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_onboarding.*
@@ -18,6 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.resources.*
+import org.videolan.resources.util.startMedialibrary
 import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
@@ -27,8 +29,7 @@ import org.videolan.vlc.gui.helpers.hf.PermissionViewmodel
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getStoragePermission
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.resumePermissionRequest
 import org.videolan.vlc.gui.view.NonSwipeableViewPager
-import org.videolan.resources.util.startMedialibrary
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.Permissions
 
 const val ONBOARDING_DONE_KEY = "app_onboarding_done"
 
@@ -111,14 +112,13 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
 
     private fun completeOnBoarding() {
         setResult(RESULT_RESTART)
-        Settings.getInstance(this)
-                .edit()
-                .putInt(PREF_FIRST_RUN, BuildConfig.VERSION_CODE)
-                .putBoolean(ONBOARDING_DONE_KEY, true)
-                .putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
-                .putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
-                .putString(KEY_APP_THEME, viewModel.theme.toString())
-                .apply()
+        Settings.getInstance(this).edit {
+            putInt(PREF_FIRST_RUN, BuildConfig.VERSION_CODE)
+            putBoolean(ONBOARDING_DONE_KEY, true)
+            putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
+            putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
+            putString(KEY_APP_THEME, viewModel.theme.toString())
+        }
         if (!viewModel.scanStorages) MediaParsingService.preselectedStorages.clear()
         startMedialibrary(firstRun = true, upgrade = true, parse = viewModel.scanStorages)
         val intent = Intent(this@OnboardingActivity, MainActivity::class.java)

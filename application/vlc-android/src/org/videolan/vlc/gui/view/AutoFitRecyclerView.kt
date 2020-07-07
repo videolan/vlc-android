@@ -26,6 +26,7 @@ package org.videolan.vlc.gui.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.WindowManager
+import androidx.core.content.getSystemService
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -72,7 +73,7 @@ class AutoFitRecyclerView : RecyclerView {
 
     fun getPerfectColumnWidth(columnWidth: Int, margin: Int): Int {
 
-        val wm = context.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val wm = context.applicationContext.getSystemService<WindowManager>()!!
         val display = wm.defaultDisplay
         val displayWidth = display.width - margin
 

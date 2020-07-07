@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -19,7 +20,7 @@ import java.net.SocketException
 
 class NetworkMonitor(private val context: Context) : LifecycleObserver {
     private var registered = false
-    private val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private val cm = context.getSystemService<ConnectivityManager>()!!
     val connectionFlow = MutableStateFlow(Connection(connected = false, mobile = true, vpn = false))
     val connected : Boolean
         get() = connectionFlow.value.connected

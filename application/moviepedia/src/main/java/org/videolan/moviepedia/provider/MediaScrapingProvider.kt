@@ -25,6 +25,7 @@
 package org.videolan.moviepedia.provider
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
@@ -57,10 +58,10 @@ abstract class MediaScrapingProvider(private val context: Context) : HeaderProvi
         }
         this.sort = sort
         sortQuery.value = Pair(sort, desc)
-        settings.edit()
-                .putInt(sortKey, sort)
-                .putBoolean("${sortKey}_desc", desc)
-                .apply()
+        settings.edit {
+            putInt(sortKey, sort)
+            putBoolean("${sortKey}_desc", desc)
+        }
     }
 
     fun refresh(): Boolean {
