@@ -25,6 +25,17 @@
     <color name="orange500focus">#86ff8800</color>
     <color name="orange200transparent">#64ffca7d</color>
 
+    <color name="green50">#bdeadd</color>
+    <color name="green100">#a7e3d1</color>
+    <color name="green200">#91dcc5</color>
+    <color name="green300">#7cd5ba</color>
+    <color name="green400">#66cfaf</color>
+    <color name="green500">#50c8a3</color>
+    <color name="green600">#47b99b</color>
+    <color name="green700">#3ea992</color>
+    <color name="green800">#359989</color>
+    <color name="green900">#2b8a81</color>
+    
     <color name="grey50">#fafafa</color>
     <color name="grey100">#f5f5f5</color>
     <color name="grey200">#eeeeee</color>
