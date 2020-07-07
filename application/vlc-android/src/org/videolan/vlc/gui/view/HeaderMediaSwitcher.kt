@@ -22,7 +22,6 @@ package org.videolan.vlc.gui.view
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +29,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-
 import org.videolan.vlc.R
 
 @ExperimentalCoroutinesApi
@@ -51,7 +49,7 @@ class HeaderMediaSwitcher(context: Context, attrs: AttributeSet) : AudioMediaSwi
 
         titleView.text = title
         titleView.isSelected = true
-        val hasArtist = !TextUtils.isEmpty(artist)
+        val hasArtist = !artist.isNullOrEmpty()
         artistView.text = artist
         artistView.isSelected = hasArtist
         artistView.visibility = if (hasArtist) View.VISIBLE else View.GONE

@@ -33,7 +33,6 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.telephony.TelephonyManager
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -959,7 +958,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private fun updateWidgetCover() {
         val mw = playlistManager.getCurrentMedia()
         val newWidgetCover = mw?.artworkMrl
-        if (!TextUtils.equals(currentWidgetCover, newWidgetCover)) {
+        if (currentWidgetCover != newWidgetCover) {
             currentWidgetCover = newWidgetCover
             lifecycleScope.launch(Dispatchers.Default) {
                 sendWidgetBroadcast(Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)

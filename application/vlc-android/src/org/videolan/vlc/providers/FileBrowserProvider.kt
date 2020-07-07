@@ -22,7 +22,6 @@ package org.videolan.vlc.providers
 
 import android.content.Context
 import android.hardware.usb.UsbDevice
-import android.text.TextUtils
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -78,7 +77,7 @@ open class FileBrowserProvider(
             storageAccess = true
             val directory = MLServiceLocator.getAbstractMediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
             directory.type = MediaWrapper.TYPE_DIR
-            if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation)) {
+            if (AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY == mediaDirLocation) {
                 directory.setDisplayTitle(internalmemoryTitle)
                 storagePosition = devices.size
             } else {

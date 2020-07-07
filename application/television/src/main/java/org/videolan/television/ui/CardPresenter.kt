@@ -27,7 +27,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -74,7 +73,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
         }
 
         fun updateCardViewImage(item: MediaLibraryItem) {
-            val noArt = TextUtils.isEmpty(item.artworkMrl)
+            val noArt = item.artworkMrl.isNullOrEmpty()
             if (item is MediaWrapper) {
                 val group = item.type == MediaWrapper.TYPE_GROUP
                 val folder = item.type == MediaWrapper.TYPE_DIR
@@ -105,7 +104,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
             var picture: Bitmap?
             val res = cardView.resources
             picture = if (mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (mediaLibraryItem as MediaWrapper).type == MediaWrapper.TYPE_DIR) {
-                if (TextUtils.equals(mediaLibraryItem.uri.scheme, "file"))
+                if (mediaLibraryItem.uri.scheme == "file")
                     context.getBitmapFromDrawable(R.drawable.ic_menu_folder_big)
                 else
                     context.getBitmapFromDrawable(R.drawable.ic_menu_network_big)

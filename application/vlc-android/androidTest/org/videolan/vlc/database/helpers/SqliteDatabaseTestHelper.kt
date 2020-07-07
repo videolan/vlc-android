@@ -21,7 +21,6 @@
 package org.videolan.vlc.database.helpers
 
 import android.net.Uri
-import android.text.TextUtils
 import androidx.core.content.contentValuesOf
 
 private val NETWORK_FAV_TABLE_NAME = "fav_table"
@@ -67,7 +66,7 @@ fun saveSlave(mediaPath: String, type: Int, priority: Int, uriString: String, he
 
 fun saveExSubtitle(path: String, mediaName: String, helper: SqliteTestDbOpenHelper) {
     val db = helper.writableDatabase
-    if (TextUtils.isEmpty(path) || TextUtils.isEmpty(mediaName))
+    if (path.isEmpty() || mediaName.isEmpty())
         return
     db.replace(EXTERNAL_SUBTITLES_TABLE_NAME, null,
             contentValuesOf(EXTERNAL_SUBTITLES_URI to path,

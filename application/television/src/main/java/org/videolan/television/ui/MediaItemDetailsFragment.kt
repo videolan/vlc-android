@@ -25,7 +25,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.TextUtils
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -350,7 +349,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
             if (activity.isFinishing) return@launchWhenStarted
             val res = resources
             if (isDir) {
-                detailsOverview.imageDrawable = ContextCompat.getDrawable(activity, if (TextUtils.equals(viewModel.media.uri.scheme, "file"))
+                detailsOverview.imageDrawable = ContextCompat.getDrawable(activity, if (viewModel.media.uri.scheme == "file")
                     R.drawable.ic_menu_folder_big
                 else
                     R.drawable.ic_menu_network_big)

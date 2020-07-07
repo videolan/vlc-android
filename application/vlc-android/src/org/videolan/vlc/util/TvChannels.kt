@@ -25,7 +25,6 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
-import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
@@ -105,7 +104,7 @@ suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
                 null, null)
         cursor?.let {
             while (it.moveToNext()) {
-                if (!it.isNull(1) && TextUtils.equals(mw.id.toString(), cursor.getString(1))) {
+                if (!it.isNull(1) && mw.id.toString() == cursor.getString(1)) {
                     // Found a row that contains the matching ID
                     val watchNextProgramId = cursor.getLong(0)
                     if (it.getInt(2) == 0 || mw.time == 0L) { //Row removed by user or progress null

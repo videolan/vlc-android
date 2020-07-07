@@ -3,7 +3,6 @@ package org.videolan.vlc.media
 import android.content.Intent
 import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
-import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.MainThread
@@ -310,7 +309,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (isBenchmark) mw.addFlags(MediaWrapper.MEDIA_BENCHMARK)
         parsed = false
         player.switchToVideo = false
-        if (TextUtils.equals(mw.uri.scheme, "content")) withContext(Dispatchers.IO) { MediaUtils.retrieveMediaTitle(mw) }
+        if (mw.uri.scheme == "content") withContext(Dispatchers.IO) { MediaUtils.retrieveMediaTitle(mw) }
 
         if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
                 || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {

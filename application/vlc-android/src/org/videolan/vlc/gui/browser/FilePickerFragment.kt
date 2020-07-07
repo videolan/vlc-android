@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.browser
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -96,7 +95,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     fun browseUp() {
         when {
             isRootDirectory -> requireActivity().finish()
-            TextUtils.equals(mrl?.removeFileProtocole(), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) -> {
+            mrl?.removeFileProtocole() == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY -> {
                 mrl = null
                 isRootDirectory = true
                 viewModel.refresh()

@@ -22,7 +22,6 @@ package org.videolan.vlc.providers
 
 import android.content.Context
 import android.net.Uri
-import android.text.TextUtils
 import androidx.core.net.toUri
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -43,15 +42,15 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         val storagesList = ArrayList<MediaLibraryItem>()
         for (mediaDirLocation in storages) {
             if (!File(mediaDirLocation).exists()) continue
-            if (TextUtils.isEmpty(mediaDirLocation)) continue
+            if (mediaDirLocation.isEmpty()) continue
             storage = Storage(Uri.fromFile(File(mediaDirLocation)))
-            if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
+            if (AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY == mediaDirLocation)
                 storage.name = context.getString(R.string.internal_memory)
             storagesList.add(storage)
         }
         customLoop@ for (customDir in customDirectories) {
             for (mediaDirLocation in storages) {
-                if (TextUtils.isEmpty(mediaDirLocation)) continue
+                if (mediaDirLocation.isEmpty()) continue
                 if (customDir.path.startsWith(mediaDirLocation)) continue@customLoop
             }
             storage = Storage(customDir.path.toUri())

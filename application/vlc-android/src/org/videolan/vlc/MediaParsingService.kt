@@ -33,7 +33,6 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
-import android.text.TextUtils
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
@@ -199,7 +198,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     }
 
     private fun discoverStorage(path: String) {
-        if (TextUtils.isEmpty(path)) {
+        if (path.isEmpty()) {
             exitCommand()
             return
         }
@@ -208,7 +207,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     }
 
     private fun discover(path: String) {
-        if (TextUtils.isEmpty(path)) {
+        if (path.isEmpty()) {
             exitCommand()
             return
         }
@@ -225,7 +224,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         for (storagePath in AndroidDevices.externalStorageDirectories) {
             if (path.startsWith(storagePath)) {
                 val uuid = FileUtils.getFileNameFromPath(path)
-                if (TextUtils.isEmpty(uuid)) {
+                if (uuid.isEmpty()) {
                     exitCommand()
                     return
                 }
@@ -238,7 +237,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     private fun reload(path: String?) {
         if (reload > 0) return
-        if (TextUtils.isEmpty(path)) medialibrary.reload()
+        if (path.isNullOrEmpty()) medialibrary.reload()
         else medialibrary.reload(path)
     }
 
@@ -262,9 +261,9 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         val devices = DirectoryRepository.getInstance(context).getMediaDirectories()
         val knownDevices = if (AndroidDevices.watchDevices) medialibrary.devices else null
         for (device in devices) {
-            val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+            val isMainStorage = device == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY
             val uuid = FileUtils.getFileNameFromPath(device)
-            if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid) || !device.scanAllowed()) continue
+            if (device.isEmpty() || uuid.isEmpty() || !device.scanAllowed()) continue
 
             val isNewForML =  !medialibrary.isDeviceKnown(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             val isNew = (isMainStorage || (addExternal && knownDevices?.contains(device) != true))
@@ -391,12 +390,12 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 
     override fun onReloadStarted(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onReloadStarted: $entryPoint")
-        if (TextUtils.isEmpty(entryPoint)) ++reload
+        if (entryPoint.isEmpty()) ++reload
     }
 
     override fun onReloadCompleted(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onReloadCompleted $entryPoint")
-        if (TextUtils.isEmpty(entryPoint)) --reload
+        if (entryPoint.isEmpty()) --reload
         if (reload <= 0) exitCommand()
     }
 

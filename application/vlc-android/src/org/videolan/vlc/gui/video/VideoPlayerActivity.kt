@@ -35,7 +35,6 @@ import android.net.Uri
 import android.os.*
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.util.Log
@@ -532,7 +531,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 intent.extras?.getParcelable<Parcelable>(PLAY_EXTRA_ITEM_LOCATION) as Uri?
             } else intent.data
             if (uri == null || uri == videoUri) return
-            if (TextUtils.equals("file", uri.scheme) && uri.path?.startsWith("/sdcard") == true) {
+            if ("file" == uri.scheme && uri.path?.startsWith("/sdcard") == true) {
                 val convertedUri = FileUtils.convertLocalUri(uri)
                 if (convertedUri == videoUri) return
                 else uri = convertedUri
@@ -1807,7 +1806,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     if (!resumePlaylist) {
                         // restore last position
                         media = medialibrary.getMedia(uri)
-                        if (media == null && TextUtils.equals(uri.scheme, "file") &&
+                        if (media == null && uri.scheme == "file" &&
                                 uri.path?.startsWith("/sdcard") == true) {
                             uri = FileUtils.convertLocalUri(uri)
                             videoUri = uri
@@ -1895,7 +1894,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     private fun enableSubs() {
         videoUri?.let {
             val lastPath = it.lastPathSegment ?: return
-            overlayDelegate.enableSubs = (!TextUtils.isEmpty(lastPath) && !lastPath.endsWith(".ts") && !lastPath.endsWith(".m2ts")
+            overlayDelegate.enableSubs = (lastPath.isNotEmpty() && !lastPath.endsWith(".ts") && !lastPath.endsWith(".m2ts")
                     && !lastPath.endsWith(".TS") && !lastPath.endsWith(".M2TS"))
         }
     }

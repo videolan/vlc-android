@@ -24,9 +24,7 @@
 
 package org.videolan.vlc.gui.dialogs
 
-import android.text.TextUtils
 import android.view.View
-
 import org.videolan.libvlc.Dialog
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VlcProgressDialogBinding
@@ -39,6 +37,6 @@ class VlcProgressDialog : VlcDialog<Dialog.ProgressDialog, VlcProgressDialogBind
     fun updateProgress() {
         binding.progress.progress = (vlcDialog.position * 100f).toInt()
         binding.cancel.text = vlcDialog.cancelText
-        binding.cancel.visibility = if (TextUtils.isEmpty(vlcDialog.cancelText)) View.GONE else View.VISIBLE
+        binding.cancel.visibility = if (vlcDialog.cancelText.isNullOrEmpty()) View.GONE else View.VISIBLE
     }
 }

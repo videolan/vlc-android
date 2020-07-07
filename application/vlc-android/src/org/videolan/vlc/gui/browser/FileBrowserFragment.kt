@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.browser
 
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -94,7 +93,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     else {
         when {
             currentMedia != null -> when {
-                TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mrl?.removeFileProtocole()) -> getString(R.string.internal_memory)
+                AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY == mrl?.removeFileProtocole() -> getString(R.string.internal_memory)
                 this is FilePickerFragment -> currentMedia!!.uri.toString()
                 else -> currentMedia!!.title
             }

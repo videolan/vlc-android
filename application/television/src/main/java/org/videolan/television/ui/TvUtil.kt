@@ -29,7 +29,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore.Video.VideoColumns.CATEGORY
-import android.text.TextUtils
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -75,13 +74,13 @@ object TvUtil {
 
         @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Boolean {
-            if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return TextUtils.equals(oldItem.description, newItem.description)
+            if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return oldItem.description == newItem.description
             val oldMedia = oldItem as? MediaWrapper
                     ?: return true
             val newMedia = newItem as? MediaWrapper
                     ?: return true
             return oldMedia === newMedia || (oldMedia.time == newMedia.time
-                    && TextUtils.equals(oldMedia.artworkMrl, newMedia.artworkMrl)
+                    && oldMedia.artworkMrl == newMedia.artworkMrl
                     && oldMedia.seen == newMedia.seen)
         }
 
@@ -90,7 +89,7 @@ object TvUtil {
             val oldMedia = oldItem as MediaWrapper
             val newMedia = newItem as MediaWrapper
             if (oldMedia.time != newMedia.time) return UPDATE_TIME
-            return if (!TextUtils.equals(oldMedia.artworkMrl, newMedia.artworkMrl)) UPDATE_THUMB
+            return if (oldMedia.artworkMrl != newMedia.artworkMrl) UPDATE_THUMB
             else UPDATE_SEEN
         }
     }

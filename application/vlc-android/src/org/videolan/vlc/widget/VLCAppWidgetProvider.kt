@@ -116,7 +116,7 @@ abstract class VLCAppWidgetProvider : AppWidgetProvider() {
             }
             ACTION_WIDGET_UPDATE_COVER == action -> {
                 val artworkMrl = intent.getStringExtra("artworkMrl")
-                if (!TextUtils.isEmpty(artworkMrl)) {
+                if (!artworkMrl.isNullOrEmpty()) {
                     runIO(Runnable {
                         val cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320)
                         val wm = context.getSystemService<WindowManager>()!!

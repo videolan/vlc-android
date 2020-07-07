@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.collection.SimpleArrayMap
@@ -343,7 +342,7 @@ object MediaUtils {
     fun getMediaSubtitle(media: MediaWrapper): String? {
         var subtitle = media.nowPlaying ?: media.artist
         if (media.length > 0L) {
-            subtitle = if (TextUtils.isEmpty(subtitle)) Tools.millisToString(media.length)
+            subtitle = if (subtitle.isNullOrEmpty()) Tools.millisToString(media.length)
             else "$subtitle  •  ${Tools.millisToString(media.length)}"
         }
         return subtitle

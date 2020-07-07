@@ -27,7 +27,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.media.session.PlaybackStateCompat
-import android.text.TextUtils
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -126,7 +125,7 @@ class AudioPlayerActivity : BaseTvActivity() {
                 R.drawable.ic_shuffle_on
             else
                 R.drawable.ic_shuffle)
-            if (mw == null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
+            if (mw == null || currentCoverArt == mw.artworkMrl) return@launch
             currentCoverArt = mw.artworkMrl
             updateBackground()
         }

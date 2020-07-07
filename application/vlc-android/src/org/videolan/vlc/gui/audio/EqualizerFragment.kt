@@ -24,7 +24,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import android.view.ViewGroup.LayoutParams
@@ -39,6 +38,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import kotlinx.coroutines.*
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.VLCInstance
+import org.videolan.resources.VLCOptions
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
@@ -49,8 +50,6 @@ import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
-import org.videolan.resources.VLCInstance
-import org.videolan.resources.VLCOptions
 import java.lang.Runnable
 
 @ObsoleteCoroutinesApi
@@ -363,9 +362,9 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
 
     private fun save(ctx: Context, input: EditText, oldName: String, temporarySet: MediaPlayer.Equalizer, onPause: Boolean, displayedByUser: Boolean, positionToSave: Int, saveEqualizer: AlertDialog) {
         val newName = input.text.toString()
-        if (newName.contains("_") || TextUtils.equals(newName, newPresetName)) {
+        if (newName.contains("_") || newName == newPresetName) {
             Toast.makeText(ctx, AppContextProvider.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
-        } else if (allSets.contains(newName) && !TextUtils.equals(newName, oldName)) {
+        } else if (allSets.contains(newName) && newName != oldName) {
             Toast.makeText(ctx, AppContextProvider.appContext.resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
         } else {
             VLCOptions.saveCustomSet(ctx, temporarySet, newName)
@@ -373,7 +372,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
                 if (binding.equalizerButton.isChecked)
                     VLCOptions.saveEqualizerInSettings(ctx, temporarySet, newName, true, true)
             } else {
-                if (TextUtils.equals(newName, oldName)) {
+                if (newName == oldName) {
                     if (displayedByUser) {
                         state.update(allSets.indexOf(newName), true)
                     }

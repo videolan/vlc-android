@@ -7,7 +7,6 @@ import android.graphics.Rect
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.MediaStore
-import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -57,14 +56,14 @@ object ThumbnailsProvider {
 
     @WorkerThread
     fun getMediaThumbnail(item: MediaWrapper, width: Int): Bitmap? {
-        return if (item.type == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.artworkMrl))
+        return if (item.type == MediaWrapper.TYPE_VIDEO && item.artworkMrl.isNullOrEmpty())
             getVideoThumbnail(item, width)
         else
             readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
 
     private fun getMediaThumbnailPath(isMedia: Boolean, item: MediaLibraryItem): String? {
-        if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) {
+        if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && item.artworkMrl.isNullOrEmpty()) {
             if (appDir == null) appDir = AppContextProvider.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + MEDIALIB_FOLDER_NAME

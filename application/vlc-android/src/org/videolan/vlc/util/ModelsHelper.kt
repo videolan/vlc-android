@@ -1,7 +1,6 @@
 package org.videolan.vlc.util
 
 import android.content.Context
-import android.text.TextUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
@@ -38,7 +37,7 @@ object ModelsHelper {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
                     val title = item.title
                     val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || item.isSpecialItem()) "#" else title.substring(0, 1).toUpperCase()
-                    if (currentLetter === null || !TextUtils.equals(currentLetter, letter)) {
+                    if (currentLetter === null || currentLetter != letter) {
                         currentLetter = letter
                         if (array[letter].isNullOrEmpty()) array[letter] = mutableListOf()
                     }
@@ -50,7 +49,7 @@ object ModelsHelper {
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
                     val lengthCategory = item.getLength().lengthToCategory()
-                    if (currentLengthCategory == null || !TextUtils.equals(currentLengthCategory, lengthCategory)) {
+                    if (currentLengthCategory == null || currentLengthCategory != lengthCategory) {
                         currentLengthCategory = lengthCategory
                         if (array[currentLengthCategory].isNullOrEmpty()) array[currentLengthCategory] = mutableListOf()
                     }
@@ -62,7 +61,7 @@ object ModelsHelper {
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
                     val year = item.getYear()
-                    if (currentYear === null || !TextUtils.equals(currentYear, year)) {
+                    if (currentYear === null || currentYear != year) {
                         currentYear = year
                         if (array[currentYear].isNullOrEmpty()) array[currentYear] = mutableListOf()
                     }
@@ -74,7 +73,7 @@ object ModelsHelper {
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
                     val artist = (item as MediaWrapper).artist ?: ""
-                    if (currentArtist === null || !TextUtils.equals(currentArtist, artist)) {
+                    if (currentArtist === null || currentArtist != artist) {
                         currentArtist = artist
                         if (array[currentArtist].isNullOrEmpty()) array[currentArtist] = mutableListOf()
                     }
@@ -86,7 +85,7 @@ object ModelsHelper {
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
                     val album = (item as MediaWrapper).album ?: ""
-                    if (currentAlbum === null || !TextUtils.equals(currentAlbum, album)) {
+                    if (currentAlbum === null || currentAlbum != album) {
                         currentAlbum = album
                         if (array[currentAlbum].isNullOrEmpty()) array[currentAlbum] = mutableListOf()
                     }

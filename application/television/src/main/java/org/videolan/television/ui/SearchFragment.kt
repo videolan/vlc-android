@@ -26,7 +26,6 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.lifecycleScope
@@ -34,8 +33,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.R
 import org.videolan.resources.util.getFromMl
+import org.videolan.vlc.R
 
 private const val TAG = "SearchFragment"
 private const val REQUEST_SPEECH = 1
@@ -66,7 +65,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     private fun queryByWords(words: String?) {
         if (words == null || words.length < 3) return
         rowsAdapter.clear()
-        if (!TextUtils.isEmpty(words)) loadRows(words)
+        if (words.isNotEmpty()) loadRows(words)
     }
 
     override fun onQueryTextChange(newQuery: String) = false

@@ -22,11 +22,9 @@
  */
 package org.videolan.vlc.util
 
+
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.TextUtils
-
-
 import org.videolan.libvlc.util.AndroidUtil
 
 class VoiceSearchParams(val query: String, extras: Bundle?) {
@@ -44,7 +42,7 @@ class VoiceSearchParams(val query: String, extras: Bundle?) {
     var song: String? = null
 
     init {
-        if (TextUtils.isEmpty(query)) {
+        if (query.isEmpty()) {
             isAny = true
         } else if (extras == null || !extras.containsKey(MediaStore.EXTRA_MEDIA_FOCUS)) {
             isUnstructured = true
@@ -57,7 +55,7 @@ class VoiceSearchParams(val query: String, extras: Bundle?) {
                 MediaStore.Audio.Genres.ENTRY_CONTENT_TYPE -> {
                     isGenreFocus = true
                     genre = extras.getString(genreKey)
-                    if (TextUtils.isEmpty(genre))
+                    if (genre.isNullOrEmpty())
                         genre = query
                 }
                 MediaStore.Audio.Artists.ENTRY_CONTENT_TYPE -> {

@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -93,11 +92,11 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         if (::networkUri.isInitialized) {
             ignoreFirstSpinnerCb = true
             editAddress.setText(networkUri.host)
-            if (!TextUtils.isEmpty(networkUri.userInfo))
+            if (!networkUri.userInfo.isNullOrEmpty())
                 editUsername.editText!!.setText(networkUri.userInfo)
-            if (!TextUtils.isEmpty(networkUri.path))
+            if (!networkUri.path.isNullOrEmpty())
                 editFolder.setText(networkUri.path)
-            if (!TextUtils.isEmpty(networkName))
+            if (!networkName.isEmpty())
                 editServername.setText(networkName)
 
             networkUri.scheme?.toUpperCase()?.let {
@@ -120,7 +119,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
     }
 
     private fun saveServer() {
-        val name = if (TextUtils.isEmpty(editServername.text.toString()))
+        val name = if (editServername.text.toString().isEmpty())
             editAddress.text.toString()
         else
             editServername.text.toString()
@@ -136,24 +135,24 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         val sb = StringBuilder()
         sb.append(spinnerProtocol.selectedItem.toString().toLowerCase())
                 .append("://")
-        if (editUsername.isEnabled && !TextUtils.isEmpty(editUsername.editText!!.text)) {
+        if (editUsername.isEnabled && !editUsername.editText!!.text.isNullOrEmpty()) {
             sb.append(editUsername.editText!!.text).append('@')
         }
         sb.append(editAddress.text)
         if (needPort()) {
             sb.append(':').append(editPort.text)
         }
-        if (editFolder.isEnabled && !TextUtils.isEmpty(editFolder.text)) {
+        if (editFolder.isEnabled && !editFolder.text.isNullOrEmpty()) {
             if (!editFolder.text.toString().startsWith("/"))
                 sb.append('/')
             sb.append(editFolder.text)
         }
         url.text = sb.toString()
-        save.isEnabled = !TextUtils.isEmpty(editAddress.text.toString())
+        save.isEnabled = editAddress.text.toString().isNotEmpty()
     }
 
     private fun needPort(): Boolean {
-        if (!editPort.isEnabled || TextUtils.isEmpty(editPort.text))
+        if (!editPort.isEnabled || editPort.text.isNullOrEmpty())
             return false
         return when (editPort.text.toString()) {
             FTP_DEFAULT_PORT, SFTP_DEFAULT_PORT, HTTP_DEFAULT_PORT, HTTPS_DEFAULT_PORT -> false
@@ -161,13 +160,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         }
     }
 
-    private fun getProtocolSpinnerPosition(protocol: String): Int {
-        for (i in protocols.indices) {
-            if (TextUtils.equals(protocols[i], protocol))
-                return i
-        }
-        return 0
-    }
+    private fun getProtocolSpinnerPosition(protocol: String) = protocols.indexOfFirst { it == protocol }
 
     private fun getPortForProtocol(position: Int): String {
         return when (protocols[position]) {
@@ -215,7 +208,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        if (editUsername.hasFocus() && TextUtils.equals(spinnerProtocol.selectedItem.toString(), "SFTP")) {
+        if (editUsername.hasFocus() && spinnerProtocol.selectedItem.toString() == "SFTP") {
             editFolder.removeTextChangedListener(this)
             editFolder.setText("/home/" + editUsername.editText!!.text.toString())
             editFolder.addTextChangedListener(this)

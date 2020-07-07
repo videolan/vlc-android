@@ -4,7 +4,6 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
@@ -42,7 +41,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
         if (Intent.ACTION_SEARCH == intent.action || "com.google.android.gms.actions.SEARCH_ACTION" == intent.action) {
             val query = intent.getStringExtra(SearchManager.QUERY)
             initializeLists()
-            if (!TextUtils.isEmpty(query)) {
+            if (!query.isNullOrEmpty()) {
                 window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
                 binding.searchEditText.setText(query)
                 binding.searchEditText.setSelection(query.length)

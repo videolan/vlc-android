@@ -1,6 +1,5 @@
 package org.videolan.vlc.gui
 
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +19,7 @@ class SearchResultAdapter internal constructor(private val mLayoutInflater: Layo
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (TextUtils.isEmpty(mDataList!![position].artworkMrl))
+        if (mDataList!![position].artworkMrl.isNullOrEmpty())
             holder.binding.cover = UiTools.getDefaultCover(holder.itemView.context, mDataList!![position])
         holder.binding.item = mDataList!![position]
     }

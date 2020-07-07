@@ -26,7 +26,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Message
-import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import androidx.appcompat.view.ActionMode
@@ -246,7 +245,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override val subTitle: String? =
             if (isRootDirectory) null else {
                 var mrl = mrl?.removeFileProtocole() ?: ""
-                if (!TextUtils.isEmpty(mrl)) {
+                if (mrl.isNotEmpty()) {
                     if (this is FileBrowserFragment && mrl.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
                         mrl = getString(R.string.internal_memory) + mrl.substring(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY.length)
                     mrl = Uri.decode(mrl).replace("://".toRegex(), " ").replace("/".toRegex(), " > ")

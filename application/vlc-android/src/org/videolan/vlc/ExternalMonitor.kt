@@ -32,7 +32,6 @@ import android.content.IntentFilter
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.net.Uri
-import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
@@ -69,7 +68,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     private val actor = actor<DeviceAction>(capacity = Channel.CONFLATED) {
         for (action in channel) when (action){
             is MediaMounted -> {
-                if (TextUtils.isEmpty(action.uuid)) return@actor
+                if (action.uuid.isEmpty()) return@actor
                 val isNew = ctx.getFromMl {
                     val isNewForMl = !isDeviceKnown(action.uuid, action.path, true)
                     addDevice(action.uuid, action.path, true)

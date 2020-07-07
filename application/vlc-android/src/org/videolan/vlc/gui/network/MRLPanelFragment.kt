@@ -24,7 +24,6 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -144,7 +143,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
             event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) && processUri()
 
     private fun processUri(): Boolean {
-        if (!TextUtils.isEmpty(viewModel.observableSearchText.get())) {
+        if (!viewModel.observableSearchText.get().isNullOrEmpty()) {
             val mw = MLServiceLocator.getAbstractMediaWrapper(viewModel.observableSearchText.get()?.trim()?.toUri())
             playMedia(mw)
             viewModel.observableSearchText.set("")
