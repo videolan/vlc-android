@@ -24,8 +24,11 @@
 package org.videolan.vlc.gui.browser
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 
 class FilePickerActivity : AppCompatActivity() {
@@ -34,8 +37,9 @@ class FilePickerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.file_picker_activity)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_placeholder, FilePickerFragment(), "picker")
+        ft.replace(R.id.fragment_placeholder, FilePickerFragment().apply { arguments = bundleOf(KEY_MEDIA to intent.getParcelableExtra<MediaWrapper>(KEY_MEDIA)) }, "picker")
         ft.commit()
+        window.attributes.gravity = Gravity.BOTTOM
     }
 
     override fun onBackPressed() {
@@ -47,11 +51,10 @@ class FilePickerActivity : AppCompatActivity() {
         }
     }
 
-    fun onHomeClick(v: View) {
-        (supportFragmentManager.findFragmentById(R.id.fragment_placeholder) as FilePickerFragment).browseRoot()
+    fun onCloseClick(v:View) {
+        finish()
     }
 
     companion object {
-        private val TAG = "VLC/BaseBrowserFragment"
     }
 }

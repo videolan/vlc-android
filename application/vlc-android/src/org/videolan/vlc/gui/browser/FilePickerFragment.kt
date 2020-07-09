@@ -31,6 +31,8 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -46,6 +48,8 @@ import org.videolan.vlc.viewmodels.browser.TYPE_PICKER
 
 const val EXTRA_MRL = "sub_mrl"
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryItem> {
 
     override fun createFragment(): Fragment {
@@ -53,8 +57,8 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     }
 
     override fun onCreate(bundle: Bundle?) {
-        val uri = activity?.intent?.data
-        if (uri == null || uri.scheme == "http" || uri.scheme == "content" || uri.scheme == "fd") {
+        val media = requireActivity().intent.getParcelableExtra<MediaWrapper>(KEY_MEDIA)
+        if (media.uri == null ||media. uri.scheme == "http" || media.uri.scheme == "content" || media.uri.scheme == "fd") {
             activity?.intent = null
         }
         super.onCreate(bundle)
@@ -84,6 +88,8 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
             pickFile(media)
 
     }
+
+    override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     private fun pickFile(mw: MediaWrapper) {
         val i = Intent(Intent.ACTION_PICK)

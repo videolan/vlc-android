@@ -117,6 +117,10 @@
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="colorPrimary">@color/orange500</item>
+        <item name="colorPrimaryDark">@color/orange700</item>
+        <item name="colorSecondary">@color/orange500</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="background_default">@color/grey850</item>
         <item name="background_default_darker">@color/grey875</item>
@@ -124,6 +128,8 @@
         <item name="font_light">@color/grey600</item>
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/white</item>
+        <item name="ariane_text_color">@color/grey50</item>
+        <item name="ariane_text_size">14sp</item>
         <item name="android:windowBackground">@color/grey900</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
     </style>

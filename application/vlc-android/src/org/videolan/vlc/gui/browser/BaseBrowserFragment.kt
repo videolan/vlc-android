@@ -191,7 +191,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
         if (!poped) {
             viewModel.setDestination(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()))
-            supportFragmentManager.popBackStackImmediate()
+            supportFragmentManager.beginTransaction().detach(this).attach(this).commit()
         }
     }
 

@@ -49,16 +49,19 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -67,6 +70,7 @@ import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.FilePickerActivity
+import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.helpers.OnRepeatListener
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
@@ -76,6 +80,7 @@ import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
+import java.lang.Runnable
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -713,11 +718,13 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     }
 
     private fun pickSubtitles() {
-        val uri = player.videoUri?: return
+        val uri = player.videoUri ?: return
+        val media = MediaWrapperImpl(FileUtils.getParent(uri.toString())!!.toUri())
         player.isShowingDialog = true
         val filePickerIntent = Intent(player, FilePickerActivity::class.java)
-        filePickerIntent.data = FileUtils.getParent(uri.toString())!!.toUri()
+        filePickerIntent.putExtra(KEY_MEDIA, media)
         player.startActivityForResult(filePickerIntent, 0)
+
     }
 
     private fun downloadSubtitles() = player.service?.currentMediaWrapper?.let {
