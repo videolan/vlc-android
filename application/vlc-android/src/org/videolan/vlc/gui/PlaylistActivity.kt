@@ -116,6 +116,10 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             (tracks as? PagedList<MediaLibraryItem>)?.let { audioBrowserAdapter.submitList(it) }
             menu.let { UiTools.updateSortTitles(it, viewModel.tracksProvider) }
         })
+
+        viewModel.tracksProvider.liveHeaders.observe(this, Observer {
+            binding.songs.invalidateItemDecorations()
+        })
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
         if (isPlaylist) {
             itemTouchHelper = ItemTouchHelper(SwipeDragItemTouchHelperCallback(audioBrowserAdapter))
