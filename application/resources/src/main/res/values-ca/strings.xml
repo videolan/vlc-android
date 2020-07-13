@@ -127,8 +127,6 @@
     <string name="firstsong">Primera cançó de la llista de reproducció</string>
     <string name="lastsong">Última cançó de la llista de reproducció</string>
 
-    <string name="locked">Blocat</string>
-    <string name="unlocked">Desblocat</string>
     <string name="surface_best_fit">Millor ajust</string>
     <string name="surface_fit_screen">Ajusta a la pantalla</string>
     <string name="surface_fill">Emplena</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Brillantor</string>
     <string name="advanced">opcions avançades</string>
     <string name="audio_boost_warning">Torna a llisca cap a dalt per superar 100%</string>
-    <string name="locked_in_portrait_mode">Bloquejat a mode retrat\n(Deixa apretat el botó per cancel·lar)</string>
-    <string name="locked_in_landscape_mode">Bloquejat a mode paisatge\n(Deixa apretat per cancel·lar)</string>
-    <string name="reset_orientation">Restableix l\'orientació</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
@@ -196,6 +191,8 @@
     <string name="playback_history_title">Historial de reproducció</string>
     <string name="playback_history_summary">Desa tots els arxius multimèdia reproduïts a la secció Història</string>
     <string name="playback_speed_title">Desa la velocitat de reproducció</string>
+    <string name="playback_speed_summary">Manté la velocitat de reproducció entre medis.</string>
+
     <string name="play_button">Botó de reproducció</string>
 
     <!-- Tips -->
