@@ -594,6 +594,10 @@
     <string name="preamp">Pré-amplificação</string>
     <string name="presets">Predefinições</string>
     <string name="reset">Repor</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d faixa inserida</item>
+        <item quantity="other">%d faixas inseridas</item>
+    </plurals>
     <string name="remove_current">Remover atual</string>
     <string name="validation_delete_playlist">Tem a certeza que quer eliminar esta lista de reprodução?</string>
     <string name="validation_delete_playlist_text">Esta ação não pode ser desfeita.</string>
@@ -646,6 +650,8 @@
     <string name="open_network_settings">Abrir definições de rede?</string>
     <string name="recently_played">Reproduzido recentemente</string>
     <string name="recently_added">Adicionado recentemente</string>
+    <string name="abrepeat_add_first_marker">Definir ponto de início</string>
+    <string name="abrepeat_add_second_marker">Definir ponto de fim</string>
     <string name="video_information">Informação do vídeo</string>
 
     <string name="channels">Canais</string>
@@ -660,6 +666,9 @@
     <string name="codec">Codec</string>
     <string name="text">Texto</string>
     <string name="unknown">Desconhecido</string>
+    <string name="audio_delay_start">Som ouvido</string>
+    <string name="subtitle_delay_first">Voz ouvida</string>
+    <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Faixa: %s</string>
     <string name="audio_queue_progress">Progresso: %s</string>
     <string name="sortby_track">Faixa</string>
@@ -678,4 +687,8 @@
     <string name="group_similar">Reagrupar automaticamente</string>
     <string name="no_favorite">Nenhum favorito</string>
     <string name="empty_directory">Vazio</string>
+    <string name="no_track">Nenhuma faixa</string>
+
+    <string name="swipe_unlock">Deslizar para desbloquear</string>
+    <string name="swipe_unlock_no_touch">Pressionar longo para desbloquear</string>
 </resources>
