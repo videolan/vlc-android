@@ -115,8 +115,6 @@
     <string name="firstsong">Prva skladba s seznama predvajanja</string>
     <string name="lastsong">Zadnja skladba s seznama predvajanja</string>
 
-    <string name="locked">Nadzorne tipke so zaklenjene</string>
-    <string name="unlocked">Nadzorne tipke so odklenjene</string>
     <string name="surface_best_fit">Najboljše prileganje</string>
     <string name="surface_fit_screen">Prilagojeno zaslonu</string>
     <string name="surface_fill">Zapolnjen zaslon</string>
@@ -136,6 +134,7 @@
     <string name="brightness">Svetlost</string>
     <string name="advanced">napredne možnosti</string>
     <string name="audio_boost_warning">Potegnite znova za vrednosti nad 100 %.</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="two">%1$d kanala\n</item>

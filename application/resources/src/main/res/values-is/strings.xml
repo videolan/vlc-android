@@ -116,8 +116,6 @@
     <string name="firstsong">Fyrsta lag í spilunarlista</string>
     <string name="lastsong">Síðasta lag í lagalista</string>
 
-    <string name="locked">Læst</string>
-    <string name="unlocked">Ólæst</string>
     <string name="surface_best_fit">Passi best</string>
     <string name="surface_fit_screen">Laga að skjá</string>
     <string name="surface_fill">Fylla</string>
@@ -137,9 +135,6 @@
     <string name="brightness">Birtustig</string>
     <string name="advanced">ítarlegir valkostir</string>
     <string name="audio_boost_warning">Renndu upp aftur til að fara yfir 100%</string>
-    <string name="locked_in_portrait_mode">Læst í lóðréttum ham\n(Ýttu lengi á hnappinn til að hætta við)</string>
-    <string name="locked_in_landscape_mode">Læst í láréttum ham\n(Ýttu lengi á hnappinn til að hætta við)</string>
-    <string name="reset_orientation">Stefna endurstillt</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 rás\n</item>

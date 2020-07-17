@@ -120,8 +120,6 @@
     <string name="firstsong">Kanaouenn gentañ ar roll-lenn</string>
     <string name="lastsong">Kanaouenn ziwezhañ ar roll-lenn.</string>
 
-    <string name="locked">Morailhet</string>
-    <string name="unlocked">Divorailhet</string>
     <string name="surface_best_fit">Keidañ gwellañ</string>
     <string name="surface_fit_screen">Keidañ ar skramm</string>
     <string name="surface_fill">Leuniañ</string>
@@ -141,6 +139,7 @@
     <string name="brightness">Lintr</string>
     <string name="advanced">dibarzhioù araokaet</string>
     <string name="audio_boost_warning">Dibunit war ar c\'hrec\'h evit dibaseal 100 %</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 chadenn\n</item>
         <item quantity="two">%1$d a chadennoù\n</item>

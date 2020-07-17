@@ -125,8 +125,6 @@
     <string name="firstsong">Første nummer i spillelisten</string>
     <string name="lastsong">Sidste nummer i spillelisten</string>
 
-    <string name="locked">Låst</string>
-    <string name="unlocked">Ulåst</string>
     <string name="surface_best_fit">Bedste tilpasning</string>
     <string name="surface_fit_screen">Tilpas skærm</string>
     <string name="surface_fill">Udfyld</string>
@@ -146,9 +144,6 @@
     <string name="brightness">Lysstyrke</string>
     <string name="advanced">avancerede indstillinger</string>
     <string name="audio_boost_warning">Stryg op igen for at gå over 100%</string>
-    <string name="locked_in_portrait_mode">Låst i portræt-tilstand\n(tryk længe på knappen for at annullere)</string>
-    <string name="locked_in_landscape_mode">Låst i landskab-tilstand\n(tryk længe på knappen for at annullere)</string>
-    <string name="reset_orientation">Orientering nulstillet</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>

@@ -133,8 +133,6 @@
     <string name="firstsong">Prva pjesma na popisu izvođenja</string>
     <string name="lastsong">Posljednja pjesma na popisu izvođenja</string>
 
-    <string name="locked">Zaključano</string>
-    <string name="unlocked">Otključano</string>
     <string name="surface_best_fit">Najbolji prikaz</string>
     <string name="surface_fit_screen">Prilagodi po zaslonu</string>
     <string name="surface_fill">Ispuni</string>
@@ -154,6 +152,7 @@
     <string name="brightness">Svjetlina</string>
     <string name="advanced">napredne mogućnosti</string>
     <string name="audio_boost_warning">Kliznite gore ponovno za iznad 100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="few">%1$d kanala\n</item>

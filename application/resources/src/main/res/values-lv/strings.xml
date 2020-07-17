@@ -121,8 +121,6 @@
     <string name="firstsong">Pirmo dziesmu atskaņošanas sarakstā</string>
     <string name="lastsong">Pēdējo dziesmu atskaņošanas sarakstā</string>
 
-    <string name="locked">Bloķēts</string>
-    <string name="unlocked">Atbloķēts</string>
     <string name="surface_best_fit">Labāk piemērots</string>
     <string name="surface_fit_screen">Ietilpināt ekrānā</string>
     <string name="surface_fill">Piepildīt</string>

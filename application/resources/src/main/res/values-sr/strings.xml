@@ -76,8 +76,6 @@
     <string name="cover_art">Омот</string>
     <string name="previous">Претходно</string>
     <string name="stop">Заустави</string>
-    <string name="locked">Закључано</string>
-    <string name="unlocked">Откључано</string>
     <string name="surface_best_fit">Оптимално</string>
     <string name="surface_fill">Попуњено</string>
     <string name="surface_original">По центру</string>

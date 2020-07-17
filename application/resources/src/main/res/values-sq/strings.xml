@@ -106,8 +106,6 @@
     <string name="firstsong">Këngë e parë në listë</string>
     <string name="lastsong">Kënga e fundit në listë</string>
 
-    <string name="locked">Kyçur</string>
-    <string name="unlocked">Hapur</string>
     <string name="surface_best_fit">Përshtatja optimale</string>
     <string name="surface_fit_screen">Përshtat ekranin</string>
     <string name="surface_fill">Mbush</string>
@@ -127,9 +125,6 @@
     <string name="brightness">Bardhësia</string>
     <string name="advanced">alternativa avancuara</string>
     <string name="audio_boost_warning">Rrëshqisni lart për të shkuar përtej 100%</string>
-    <string name="locked_in_portrait_mode">Kyçur në modalitetin portret\n(Shtypni gjatë në buton për të anuluar)</string>
-    <string name="locked_in_landscape_mode">Kyçur në modalitetin peizazht\n(Shtypni gjatë në buton për të anuluar)</string>
-    <string name="reset_orientation">Rivendosje orientimi</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanall\n</item>

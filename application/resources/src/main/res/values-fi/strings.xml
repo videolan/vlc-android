@@ -101,8 +101,6 @@
     <string name="firstsong">Soittolistan ensimmäinen kappale</string>
     <string name="lastsong">Soittolistan viimeinen kappale</string>
 
-    <string name="locked">Lukittu</string>
-    <string name="unlocked">Lukitsematon</string>
     <string name="surface_best_fit">Parhaiten sopiva</string>
     <string name="surface_fit_screen">Sovita näyttöön</string>
     <string name="surface_fill">Täytä</string>
@@ -122,6 +120,7 @@
     <string name="brightness">Kirkkaus</string>
     <string name="advanced">Kehittyneet asetukset</string>
     <string name="audio_boost_warning">Vedä ylös uudelleen mennäksesi yli 100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanava\n</item>
         <item quantity="other">%1$d kanavaa\n</item>

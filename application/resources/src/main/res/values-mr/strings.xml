@@ -75,8 +75,6 @@
     <string name="cover_art">कव्हर आर्ट</string>
     <string name="previous">मागील</string>
     <string name="stop">थांबा</string>
-    <string name="locked">लॉक केलेले</string>
-    <string name="unlocked">लॉक उघडले</string>
     <string name="surface_best_fit">योग्य फिट</string>
     <string name="surface_fill">भरा</string>
     <string name="surface_original">मध्य</string>

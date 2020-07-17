@@ -119,8 +119,6 @@
     <string name="firstsong">播放列表第一首</string>
     <string name="lastsong">播放列表最后一首</string>
 
-    <string name="locked">已锁定</string>
-    <string name="unlocked">已解锁</string>
     <string name="surface_best_fit">最为合适</string>
     <string name="surface_fit_screen">适合屏幕</string>
     <string name="surface_fill">拉伸填充</string>
@@ -140,9 +138,6 @@
     <string name="brightness">亮度</string>
     <string name="advanced">高级选项</string>
     <string name="audio_boost_warning">再次上滑可超越 100%</string>
-    <string name="locked_in_portrait_mode">锁定垂直模式\n(长按解除)</string>
-    <string name="locked_in_landscape_mode">锁定水平模式\n(长按解除)</string>
-    <string name="reset_orientation">方向重置</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d 声道\n</item>

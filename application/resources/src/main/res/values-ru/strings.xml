@@ -139,8 +139,6 @@
     <string name="firstsong">Первая позиция плейлиста</string>
     <string name="lastsong">Последняя позиция плейлиста</string>
 
-    <string name="locked">Заблокировано</string>
-    <string name="unlocked">Разблокировано</string>
     <string name="surface_best_fit">Оптимально</string>
     <string name="surface_fit_screen">Подогнать под экран</string>
     <string name="surface_fill">Заполнение</string>
@@ -160,9 +158,6 @@
     <string name="brightness">Яркость</string>
     <string name="advanced">расширенные параметры</string>
     <string name="audio_boost_warning">Сдвиньте выше ещё раз для превышения 100%</string>
-    <string name="locked_in_portrait_mode">Зафиксирована книжная ориентация\n(Отменяется это долгим нажатием кнопки)</string>
-    <string name="locked_in_landscape_mode">Зафиксирована альбомная ориентация\n(Отменяется это долгим нажатием кнопки)</string>
-    <string name="reset_orientation">Сброс ориентации</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">Каналов: 1\n</item>

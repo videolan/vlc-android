@@ -97,8 +97,6 @@
     <string name="firstsong">បទដំបូងនៃបញ្ជីចាក់</string>
     <string name="lastsong">បទចុងក្រោយនៃបញ្ជីចាក់</string>
 
-    <string name="locked">បាន​ចាក់សោ</string>
-    <string name="unlocked">បាន​ដោះសោ</string>
     <string name="surface_best_fit">សម​បំផុត</string>
     <string name="surface_fit_screen">សមទៅនឹងអេក្រង់</string>
     <string name="surface_fill">បំពេញ</string>

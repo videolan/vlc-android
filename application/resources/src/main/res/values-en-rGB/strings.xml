@@ -71,8 +71,6 @@
     <string name="cover_art">Cover art</string>
     <string name="previous">Previous</string>
     <string name="stop">Stop</string>
-    <string name="locked">Locked</string>
-    <string name="unlocked">Unlocked</string>
     <string name="surface_best_fit">Best fit</string>
     <string name="surface_fill">Fill</string>
     <string name="surface_original">Centre</string>

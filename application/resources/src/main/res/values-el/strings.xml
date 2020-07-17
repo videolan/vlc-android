@@ -119,8 +119,6 @@
     <string name="firstsong">Πρώτο τραγούδι στην λίστα αναπαραγωγής</string>
     <string name="lastsong">Τελευταίο τραγούδι στην λίστα αναπαραγωγής</string>
 
-    <string name="locked">Κλειδωμένο</string>
-    <string name="unlocked">Ξεκλείδωτο</string>
     <string name="surface_best_fit">Καλύτερο ταίριασμα</string>
     <string name="surface_fit_screen">Προσαρμογή οθόνης</string>
     <string name="surface_fill">Γέμισμα</string>
@@ -140,9 +138,6 @@
     <string name="brightness">Φωτεινότητα</string>
     <string name="advanced">επιλογές για προχωρημένους</string>
     <string name="audio_boost_warning">Σύρετε προς τα πάνω ξανά για να πάτε πάνω από 100%</string>
-    <string name="locked_in_portrait_mode">Κλειδωμένο σε κατακόρυφη περιστροφή\n(Πατήστε το κουμπί παρατεταμένα για ακύρωση)</string>
-    <string name="locked_in_landscape_mode">Κλειδωμένο σε οριζόντια περιστροφή\n(Πατήστε το κουμπί παρατεταμένα για ακύρωση)</string>
-    <string name="reset_orientation">Επαναφορά προσανατολισμού</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 κανάλι\n</item>

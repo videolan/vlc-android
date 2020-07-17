@@ -114,8 +114,6 @@
     <string name="firstsong">Primul cantec din playlist</string>
     <string name="lastsong">Ultimul cantec din playlist</string>
 
-    <string name="locked">Blocat</string>
-    <string name="unlocked">Deblocat</string>
     <string name="surface_best_fit">Cea mai bună potrivire</string>
     <string name="surface_fit_screen">Potrivire ecran</string>
     <string name="surface_fill">Umplere</string>
@@ -135,9 +133,6 @@
     <string name="brightness">Luminozitate</string>
     <string name="advanced">Optiuni avansate</string>
     <string name="audio_boost_warning">Glisați din nou pentru a depăși 100%</string>
-    <string name="locked_in_portrait_mode">Blocat în modul portret \ n (Apăsați lung butonul pentru a anula)</string>
-    <string name="locked_in_landscape_mode">Blocat în modul peisaj \ n (Apăsați lung butonul pentru a anula)</string>
-    <string name="reset_orientation">Restabilirea orientării</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>

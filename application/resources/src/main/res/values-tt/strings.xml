@@ -94,8 +94,6 @@
     <string name="firstsong">Уйнату битенең беренче язмасы</string>
     <string name="lastsong">Уйнату битенең соңгы язмасы</string>
 
-    <string name="locked">Тыелган</string>
-    <string name="unlocked">Рөхсәт ителгән</string>
     <string name="surface_best_fit">Уңайлы</string>
     <string name="surface_fit_screen">Экранга туры китерү</string>
     <string name="surface_fill">Тутыру</string>
@@ -115,6 +113,7 @@
     <string name="brightness">Яктылык</string>
     <string name="advanced">өстәмә көйләүләр</string>
     <string name="audio_boost_warning">100%-тан арттыру өчен тагын бер кат өскә шудырыгыз</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d канал\n</item>
     </plurals>

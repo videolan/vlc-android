@@ -94,8 +94,6 @@
     <string name="firstsong">เพลงแรกของเพลย์ลิสต์</string>
     <string name="lastsong">เพลงสุดท้ายของเพลย์ลิสต์</string>
 
-    <string name="locked">ล็อก</string>
-    <string name="unlocked">ปลดล็อก</string>
     <string name="surface_best_fit">พอดีที่สุด</string>
     <string name="surface_fit_screen">พอดีกับหน้าจอ</string>
     <string name="surface_fill">เติมเต็ม</string>
@@ -115,6 +113,7 @@
     <string name="brightness">ความสว่าง</string>
     <string name="advanced">ตัวเลือกขั้นสูง</string>
     <string name="audio_boost_warning">เลื่อนขึ้นอีกครั้งเพื่อปรับให้เกิน 100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d ช่อง\n</item>
     </plurals>

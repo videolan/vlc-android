@@ -120,8 +120,6 @@
     <string name="firstsong">Pirmoji grojaraščio daina</string>
     <string name="lastsong">Paskutinė grojaraščio daina</string>
 
-    <string name="locked">Užrakinta</string>
-    <string name="unlocked">Atrakinta</string>
     <string name="surface_best_fit">Pritaikyti automatiškai</string>
     <string name="surface_fit_screen">Pritaikyti prie ekrano</string>
     <string name="surface_fill">Užpildyti</string>
@@ -141,9 +139,6 @@
     <string name="brightness">Ryškumas</string>
     <string name="advanced">sudėtingesnės parinktys</string>
     <string name="audio_boost_warning">Braukite į viršų dar kartą, jei norite virš 100%</string>
-    <string name="locked_in_portrait_mode">Užrakinta stačioje padėtyje\n(Norėdami atšaukti, ilgai spauskite mygtuką)</string>
-    <string name="locked_in_landscape_mode">Užrakinta gulsčioje padėtyje\n(Norėdami atšaukti, ilgai spauskite mygtuką)</string>
-    <string name="reset_orientation">Iš naujo nustatyti padėtį</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanalas\n</item>

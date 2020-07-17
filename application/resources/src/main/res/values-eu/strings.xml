@@ -123,8 +123,6 @@
     <string name="firstsong">Erreprodukzio-zerrendako lehen abestia</string>
     <string name="lastsong">Erreprodukzio-zerrendako azken abestia</string>
 
-    <string name="locked">Blokeatuta</string>
-    <string name="unlocked">Desblokeatuta</string>
     <string name="surface_best_fit">Egokitze optimoa</string>
     <string name="surface_fit_screen">Doitu pantailari</string>
     <string name="surface_fill">Bete</string>
@@ -144,9 +142,6 @@
     <string name="brightness">Distira</string>
     <string name="advanced">aukera aurreratuak</string>
     <string name="audio_boost_warning">Irristatu berriro gora %100-etik harago joateko</string>
-    <string name="locked_in_portrait_mode">Modu bertikalean blokeatuta\n(Sakatu luze botoian ezeztatzeko)</string>
-    <string name="locked_in_landscape_mode">Modu horizontalean blokeatuta\n(Sakatu luze botoian ezeztatzeko)</string>
-    <string name="reset_orientation">Orientazioa berrezartzea</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">Kanal 1\n</item>

@@ -81,8 +81,6 @@
     <string name="cover_art">Вокладка</string>
     <string name="previous">Папярэдні</string>
     <string name="stop">Спыніць</string>
-    <string name="locked">Заблакаваны</string>
-    <string name="unlocked">Разблакаваны</string>
     <string name="surface_best_fit">Найлепшы стасунак</string>
     <string name="surface_fill">Запоўніць</string>
     <string name="surface_original">Па цэнтры</string>

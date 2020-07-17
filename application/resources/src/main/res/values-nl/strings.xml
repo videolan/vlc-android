@@ -127,8 +127,6 @@
     <string name="firstsong">Eerste nummer van de afspeellijst</string>
     <string name="lastsong">Laatste nummer van de afspeellijst</string>
 
-    <string name="locked">Geblokkeerd</string>
-    <string name="unlocked">Gedeblokkeerd</string>
     <string name="surface_best_fit">Best passend</string>
     <string name="surface_fit_screen">Passend op scherm</string>
     <string name="surface_fill">Schermvullend</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Helderheid</string>
     <string name="advanced">geavanceerde opties</string>
     <string name="audio_boost_warning">Nogmaals omhoog slepen om boven 100 % te gaan</string>
-    <string name="locked_in_portrait_mode">Vergrendeld in staande modus\n(Lang drukken op knop om te annuleren)</string>
-    <string name="locked_in_landscape_mode">Vergrendeld in liggende modus\n(Lang drukken op knop om te annuleren)</string>
-    <string name="reset_orientation">Oriëntatie herstellen</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanaal\n</item>

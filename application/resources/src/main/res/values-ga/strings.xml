@@ -75,8 +75,6 @@
     <string name="repeat_all">Athsheinn uile</string>
     <string name="previous">Roimhe</string>
     <string name="stop">Stad</string>
-    <string name="locked">Faoi ghlas</string>
-    <string name="unlocked">Glas bainte</string>
     <string name="surface_best_fit">An ceann is oiriúnaí</string>
     <string name="surface_fit_screen">Oiriúnaigh don scáileán</string>
     <string name="surface_fill">Líon</string>
@@ -95,7 +93,6 @@
     <string name="brightness">Gile</string>
     <string name="advanced">ardroghanna</string>
     <string name="audio_boost_warning">Sleamhnaigh suas arís chun dul níos sia ná 100%</string>
-    <string name="reset_orientation">Athshocrú an treoshuímh</string>
 
     <string name="track_samplerate_info">Luas samplach: %1$d Hz\n</string>
     <string name="track_resolution_info">Taifeach: %1$dx%2$d\n</string>

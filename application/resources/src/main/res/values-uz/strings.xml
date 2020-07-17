@@ -66,8 +66,6 @@
     <string name="cover_art">Muqova</string>
     <string name="previous">Avvalgi</string>
     <string name="stop">To‘xtatish</string>
-    <string name="locked">Qulflangan</string>
-    <string name="unlocked">Qulflanmagan</string>
     <string name="surface_best_fit">Optimal</string>
     <string name="surface_fill">To‘ldirish</string>
     <string name="surface_original">Markazga</string>

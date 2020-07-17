@@ -115,8 +115,6 @@
     <string name="firstsong">Lagu pertama senarai main</string>
     <string name="lastsong">Lagu akhir senarai main</string>
 
-    <string name="locked">Dikunci</string>
-    <string name="unlocked">Tidak dikunci</string>
     <string name="surface_best_fit">Suai muat</string>
     <string name="surface_fit_screen">Suai muat skrin</string>
     <string name="surface_fill">Penuhkan</string>
@@ -136,9 +134,6 @@
     <string name="brightness">Kecerahan</string>
     <string name="advanced">pilihan lanjutan</string>
     <string name="audio_boost_warning">Leret ke atas sekali lagi untuk melangkaui 100%</string>
-    <string name="locked_in_portrait_mode">Dikunci dalam mod potrait\n(Tahan pada butang untuk batalkan)</string>
-    <string name="locked_in_landscape_mode">Dikunci dalam mod lanskap\n(Tahan pada butang untuk batalkan)</string>
-    <string name="reset_orientation">Tetap semua orientasi</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d saluran\n</item>

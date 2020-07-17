@@ -105,8 +105,6 @@
     <string name="firstsong">பின்னணி இயக்க பட்டியலின் முதல் பாடல்</string>
     <string name="lastsong">பின்னணி இயக்க பட்டியலின் கடைசி பாடல்</string>
 
-    <string name="locked">பூட்டியது</string>
-    <string name="unlocked">திறந்து</string>
     <string name="surface_best_fit">சிறந்தப் பொருத்தம்</string>
     <string name="surface_fit_screen">திரைக்குப் பொருந்து</string>
     <string name="surface_fill">நிரப்பு</string>
@@ -126,6 +124,7 @@
     <string name="brightness">வெளிச்சம்</string>
     <string name="advanced">மேம்பட்ட தேர்வுகள்</string>
     <string name="audio_boost_warning">100%-க்கு அப்பால் செல்ல மீண்டும் மேல் நோக்கி செலுத்து</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 வழித்தடம்\n</item>
         <item quantity="other">%1$d வழித்தடங்கள்\n</item>

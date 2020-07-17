@@ -71,8 +71,6 @@
     <string name="cover_art">Húsasnið</string>
     <string name="previous">Undanfarna</string>
     <string name="stop">Steðga</string>
-    <string name="locked">Stongt</string>
-    <string name="unlocked">Læst upp</string>
     <string name="surface_best_fit">Hóskar best</string>
     <string name="surface_fill">Passa til</string>
     <string name="surface_original">Miðja</string>

@@ -149,8 +149,6 @@
     <string name="firstsong">أول أغنية في قائمة التشغيل</string>
     <string name="lastsong">آخر أغنية في قائمة التشغيل</string>
 
-    <string name="locked">‏‏مقفل</string>
-    <string name="unlocked">غير  ‏‏مقفل</string>
     <string name="surface_best_fit">أفضل ملاءمة</string>
     <string name="surface_fit_screen">املأ الشاشة</string>
     <string name="surface_fill">املأ</string>
@@ -170,9 +168,6 @@
     <string name="brightness">السّطوع</string>
     <string name="advanced">خيارات متقدمة</string>
     <string name="audio_boost_warning">مرر إلى الأعلى مرة أخرى لتتجاوز 100٪</string>
-    <string name="locked_in_portrait_mode">مقفل في وضع عمودي\n(اضغط  ‏‏على الزر لفترة طويلة لإلغاء)</string>
-    <string name="locked_in_landscape_mode">مقفل في وضع عمودي\n(اضغط  ‏‏على الزر لفترة طويلة لإلغاء)</string>
-    <string name="reset_orientation">إعادة ضبط الاتجاه</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="zero">لا قنوات\n</item>

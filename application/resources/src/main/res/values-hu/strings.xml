@@ -127,8 +127,6 @@
     <string name="firstsong">A lejátszólista első száma</string>
     <string name="lastsong">A lejátszólista utolsó száma</string>
 
-    <string name="locked">Zárolva</string>
-    <string name="unlocked">Feloldva</string>
     <string name="surface_best_fit">Legjobb illeszkedés</string>
     <string name="surface_fit_screen">Képernyőhöz igazítás</string>
     <string name="surface_fill">Kitöltés</string>
@@ -148,9 +146,6 @@
     <string name="brightness">Fényerő</string>
     <string name="advanced">speciális beállítások</string>
     <string name="audio_boost_warning">Húzza fel újra, hogy 100% fölé menjen</string>
-    <string name="locked_in_portrait_mode">Álló módban zárolva\n(A megszakításhoz nyomja hosszan a gombot)</string>
-    <string name="locked_in_landscape_mode">Fekvő módban zárolva\n(A megszakításhoz nyomja hosszan a gombot)</string>
-    <string name="reset_orientation">Tájolás visszaállítása</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 csatorna\n</item>

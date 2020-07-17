@@ -98,8 +98,6 @@
     <string name="firstsong">वाद्यसूचीको पहिलो गीत</string>
     <string name="lastsong">वाद्यसूचीको अन्तिम गीत</string>
 
-    <string name="locked">बंद</string>
-    <string name="unlocked">खुला</string>
     <string name="surface_best_fit">सबै भन्दा राम्रो फिट</string>
     <string name="surface_fit_screen">पर्दामा अटाउनुहोस्</string>
     <string name="surface_fill">भरी भर्नुहोस</string>

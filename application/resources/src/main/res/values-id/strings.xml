@@ -72,8 +72,6 @@
     <string name="repeat_title">Mode perulangan</string>
     <string name="previous">Sebelumnya</string>
     <string name="stop">Henti</string>
-    <string name="locked">Terkunci</string>
-    <string name="unlocked">Terbuka</string>
     <string name="surface_best_fit">Paling sesuai</string>
     <string name="surface_fill">Isi</string>
     <string name="surface_original">Tengah</string>
