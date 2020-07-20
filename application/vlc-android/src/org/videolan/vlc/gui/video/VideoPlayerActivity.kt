@@ -673,6 +673,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         cleanUI()
         stopPlayback()
+        service?.playlistManager?.videoStatsOn?.postValue(false)
 
         if (savedTime != -1L) settings.putSingle(VIDEO_RESUME_TIME, savedTime)
 
