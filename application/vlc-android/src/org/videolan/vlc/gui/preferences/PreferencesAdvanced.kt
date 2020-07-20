@@ -37,7 +37,10 @@ import androidx.preference.Preference
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AndroidDevices
+import org.videolan.resources.KEY_AUDIO_LAST_PLAYLIST
+import org.videolan.resources.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -88,7 +91,10 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setMessage(R.string.validation)
                         .setIcon(R.drawable.ic_warning)
                         .setPositiveButton(R.string.yes) { _, _ ->
-                            lifecycleScope.launch(Dispatchers.IO) { Medialibrary.getInstance().clearHistory() }
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                Medialibrary.getInstance().clearHistory()
+                                Settings.getInstance(requireActivity()).edit().remove(KEY_AUDIO_LAST_PLAYLIST).remove(KEY_MEDIA_LAST_PLAYLIST).apply()
+                            }
                         }
 
                         .setNegativeButton(R.string.cancel, null).show()
