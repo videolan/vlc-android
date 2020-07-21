@@ -36,7 +36,7 @@ while [ $# -gt 0 ]; do
 done
 
 # Validate arguments
-if [ "$AVLC_MAKE_PREBUILT_CONTRIBS" -gt "0" ] && 
+if [ "$AVLC_MAKE_PREBUILT_CONTRIBS" -gt "0" ] &&
    [ "$AVLC_USE_PREBUILT_CONTRIBS" -gt "0" ]; then
     echo >&2 "ERROR: The --package-contribs and --with-prebuilt-contribs options"
     echo >&2 "       can not be used together."
