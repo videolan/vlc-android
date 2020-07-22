@@ -24,6 +24,8 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
+import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -61,7 +63,8 @@ object AudioUtil {
             Permissions.checkWriteSettingsPermission(this, Permissions.PERMISSION_SYSTEM_RINGTONE)
             return
         }
-        lifecycleScope.snackerConfirm(window.decorView, getString(R.string.set_song_question, song.title)) {
+        val view = window.decorView.findViewById(R.id.coordinator) ?: window.decorView
+        lifecycleScope.snackerConfirm(view, getString(R.string.set_song_question, song.title)) {
             val newRingtone = AndroidUtil.UriToFile(song.uri)
             if (!withContext(Dispatchers.IO) { newRingtone.exists() }) {
                 Toast.makeText(applicationContext, getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show()
@@ -69,7 +72,6 @@ object AudioUtil {
             }
 
             val values = contentValuesOf(
-                    MediaStore.MediaColumns.DATA to newRingtone.absolutePath,
                     MediaStore.MediaColumns.TITLE to song.title,
                     MediaStore.MediaColumns.MIME_TYPE to "audio/*",
                     MediaStore.Audio.Media.ARTIST to song.artist,
@@ -78,18 +80,36 @@ object AudioUtil {
                     MediaStore.Audio.Media.IS_ALARM to false,
                     MediaStore.Audio.Media.IS_MUSIC to false
             )
-
             try {
-                val uri = withContext(Dispatchers.IO) {
-                    val tmpUri = MediaStore.Audio.Media.getContentUriForPath(newRingtone.absolutePath)
-                    contentResolver.delete(tmpUri, MediaStore.MediaColumns.DATA + "=\"" + newRingtone.absolutePath + "\"", null)
-                    contentResolver.insert(tmpUri, values)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val newUri: Uri = this.contentResolver
+                            .insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values)!!
+                    contentResolver.openOutputStream(newUri).use { os ->
+                        val size = newRingtone.length().toInt()
+                        val bytes = ByteArray(size)
+                        val buf = BufferedInputStream(FileInputStream(newRingtone))
+                        buf.read(bytes, 0, bytes.size)
+                        buf.close()
+                        os!!.write(bytes)
+                        os.close()
+                        os.flush()
+                    }
+                    RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE,
+                            newUri)
+                } else {
+                    values.put(MediaStore.Audio.Media.DATA, newRingtone.absolutePath)
+
+                    val uri = withContext(Dispatchers.IO) {
+                        val tmpUri = MediaStore.Audio.Media.getContentUriForPath(newRingtone.absolutePath)
+                        contentResolver.delete(tmpUri, MediaStore.MediaColumns.DATA + "=\"" + newRingtone.absolutePath + "\"", null)
+                        contentResolver.insert(tmpUri, values)
+                    }
+                    RingtoneManager.setActualDefaultRingtoneUri(
+                            applicationContext,
+                            RingtoneManager.TYPE_RINGTONE,
+                            uri
+                    )
                 }
-                RingtoneManager.setActualDefaultRingtoneUri(
-                        applicationContext,
-                        RingtoneManager.TYPE_RINGTONE,
-                        uri
-                )
             } catch (e: Exception) {
                 Log.e(TAG, "error setting ringtone", e)
                 Toast.makeText(applicationContext,
