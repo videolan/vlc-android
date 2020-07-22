@@ -570,8 +570,8 @@ object UiTools {
         AlertDialog.Builder(context)
                 .setTitle(context.resources.getString(R.string.delete_sub_title))
                 .setMessage(context.resources.getString(R.string.delete_sub_message))
-                .setPositiveButton(R.string.delete_sub_yes, positiveListener)
-                .setNegativeButton(R.string.delete_sub_no, negativeListener)
+                .setPositiveButton(R.string.delete, positiveListener)
+                .setNegativeButton(R.string.cancel, negativeListener)
                 .create()
                 .show()
     }

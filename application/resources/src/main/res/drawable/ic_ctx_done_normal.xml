@@ -23,13 +23,13 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="38dp"
-        android:height="38dp"
+        android:width="24dp"
+        android:height="24dp"
         android:viewportWidth="20"
         android:viewportHeight="20">
     <path
             android:fillAlpha="1"
-            android:fillColor="#212121"
+            android:fillColor="?attr/colorControlNormal"
             android:fillType="evenOdd"
             android:pathData="m14.5,6.5 l-6.5,6.5 -2.5,-2.5 -1.5,1.5 4,4 8,-8z"
             android:strokeWidth="1"

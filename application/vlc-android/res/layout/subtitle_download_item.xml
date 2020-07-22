@@ -17,9 +17,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:background="?android:attr/selectableItemBackground"
             android:minHeight="50dp"
             android:focusable="true">
 
@@ -27,9 +24,10 @@
                 android:id="@+id/sub_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="4dp"
+                android:layout_marginBottom="2dp"
                 android:text="@{subtitleItem.movieReleaseName.trim()}"
                 android:textColor="?attr/font_default"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -44,10 +42,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical"
                 android:text="@{subtitleItem.subLanguageID.trim()}"
                 android:textAlignment="center"
-                android:gravity="center_vertical"
-                android:textColor="?attr/font_light"
+                android:textColor="?attr/font_default"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/barrier"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -57,27 +57,28 @@
 
         <ImageView
                 android:id="@+id/download_sub"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:visibility="@{subtitleItem.state == State.Downloading ? View.GONE : View.VISIBLE}"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Download"
+                android:padding="4dp"
+                android:src="@{subtitleItem.state == State.Downloaded ? @drawable/ic_ctx_done_normal : @drawable/ic_download }"
+                android:visibility="@{subtitleItem.state == State.Downloading ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@{subtitleItem.state == State.Downloaded ? @drawable/ic_ctx_done_normal : @drawable/ic_ctx_download_subtitles_normal }" />
+                tools:srcCompat="@drawable/ic_ctx_download_subtitles_normal" />
 
         <ProgressBar
                 android:id="@+id/loading"
                 style="?android:attr/progressBarStyleSmallTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="38dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
                 android:visibility="@{subtitleItem.state == State.Downloading ? View.VISIBLE : View.GONE}"
-                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/download_sub"
                 app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Barrier
