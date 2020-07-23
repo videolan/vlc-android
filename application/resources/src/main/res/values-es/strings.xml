@@ -408,13 +408,11 @@
 
     <string name="delete_sub_title">Eliminar subtítulo</string>
     <string name="delete_sub_message">¿Desea eliminar este subtítulo?</string>
-    <string name="delete_sub_yes">Sí</string>
-    <string name="delete_sub_no">No</string>
     <string name="download_subtitle_title">Descargar subtítulo</string>
 
     <string name="no_result">No se han econtrado resultados</string>
     <string name="no_internet_connection">Compruebe su conexión a internet</string>
-    <string name="some_error_occurred">Ocurrió algún error. Inténtelo de nuevo en unos segundos</string>
+    <string name="subs_download_error">Servicio no disponible. Inténtelo más tarde de nuevo.</string>
 
     <string name="network_browsing">Red local</string>
     <string name="browsing">Explorando</string>
@@ -715,4 +713,9 @@
 
     <string name="swipe_unlock">Arrastrar para desbloquear</string>
     <string name="swipe_unlock_no_touch">Pulsación larga para desbloquear</string>
+    <string name="sub_result_by_name">Resultados para %s</string>
+    <string name="sub_result_by_name_season">Temporada %s</string>
+    <string name="sub_result_by_name_episode">Episodio %s</string>
+
+    <string name="sub_result_by_file">Resultados para su archivo</string>
 </resources>
