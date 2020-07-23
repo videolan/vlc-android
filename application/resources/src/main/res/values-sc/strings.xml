@@ -408,13 +408,11 @@
 
     <string name="delete_sub_title">Iscantzella sutatìtulos</string>
     <string name="delete_sub_message">Cheres iscantzellare custos sutatìtulos?</string>
-    <string name="delete_sub_yes">Eja</string>
-    <string name="delete_sub_no">Nono</string>
     <string name="download_subtitle_title">Iscàrriga sutatìtulos</string>
 
     <string name="no_result">Perunu risultadu agatadu</string>
     <string name="no_internet_connection">Verìfica sa connessione a ìnternet tua</string>
-    <string name="some_error_occurred">B\'est istadu carchi errore. Pro praghere torra a proare a pustis de carchi segundu</string>
+    <string name="subs_download_error">Servìtziu non disponìbile. Torra a proare prus a tardu</string>
 
     <string name="network_browsing">Retza locale</string>
     <string name="browsing">Navigatzione</string>
@@ -715,4 +713,9 @@
 
     <string name="swipe_unlock">Trìsina pro isblocare</string>
     <string name="swipe_unlock_no_touch">Incarca a longu pro isblocare</string>
+    <string name="sub_result_by_name">Resurtados pro %s</string>
+    <string name="sub_result_by_name_season">Istajone %s</string>
+    <string name="sub_result_by_name_episode">Episòdiu %s</string>
+
+    <string name="sub_result_by_file">Resurtados pro su documentu tuo</string>
 </resources>
