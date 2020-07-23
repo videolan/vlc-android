@@ -396,14 +396,10 @@
 
     <string name="delete_sub_title">Esborra els subtítols</string>
     <string name="delete_sub_message">Vols esborrar aquest subtítol?</string>
-    <string name="delete_sub_yes">Sí</string>
-    <string name="delete_sub_no">No</string>
     <string name="download_subtitle_title">Baixa el subtítol</string>
 
     <string name="no_result">No s\'ha trobat cap resultat</string>
     <string name="no_internet_connection">Comproveu la connexió a internet</string>
-    <string name="some_error_occurred">Hi ha hagut un error. Si us plau, torna-ho a provar d\'aquí a uns segons.</string>
-
     <string name="network_browsing">Xarxa local</string>
     <string name="browsing">Navegació</string>
 
@@ -612,6 +608,7 @@
     <string name="send_crash_warning">Assegureu-vos d\'eliminar qualsevulla dada sensible que no ens vulgueu trametre</string>
     <string name="include_medialib">Incloure-hi la vostra base de dades</string>
     <string name="welcome_beta_title">VLC Beta</string>
+    <string name="send">Envia</string>
     <string name="send_crash_action_title">Què voleu fer?</string>
     <string name="favorite">Preferit</string>
     <string name="always">Sempre</string>
@@ -619,6 +616,8 @@
     <string name="ask_confirmation">Demana confirmació</string>
     <string name="add_to_scanned">Analitza aquesta carpeta</string>
     <string name="url_copied_to_clipboard">L\'URL s\'ha copiat al porta-retalls</string>
+    <string name="share">Comparteix</string>
+    <string name="share_file">Comparteix %s</string>
     <string name="directed_by">Dirigit per</string>
     <string name="produced_by">Produït</string>
     <string name="written_by">Escrit per</string>
@@ -626,17 +625,27 @@
     <string name="header_movies">Pel·lícules</string>
     <string name="season_number">Temporada %s</string>
     <string name="next_episode">Episodi següent</string>
+    <string name="recently_played">Acabat de reproduir</string>
+    <string name="recently_added">Acabat d\'afegir</string>
     <string name="video_information">Informació del vídeo</string>
 
     <string name="channels">Canals</string>
     <string name="resolution">Resolució</string>
     <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Fotogrames per segon</string>
     <string name="framerate_value">%1$.3f</string>
     <string name="bitrate_value">%1$s/s</string>
     <string name="language">Llengua</string>
+    <string name="track_samplerate">Freqüència de mostratge</string>
     <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Taxa de bits</string>
     <string name="text">Text</string>
+    <string name="unknown">Desconegut</string>
     <string name="sortby_track">Pista</string>
     <string name="this_folder">Afegeix aquesta carpeta</string>
+    <string name="playlist_existing">La llista de reproducció %s ja existeix  </string>
     <string name="new_title">Títol nou</string>
+    <string name="browse">Navega</string>
+    <string name="more">Més</string>
+    <string name="favorites">Favorits</string>
 </resources>
