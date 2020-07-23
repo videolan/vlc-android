@@ -27,6 +27,7 @@ import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import android.view.MenuItem
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -34,6 +35,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -67,6 +69,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
     private lateinit var settings: SharedPreferences
     private var extensionsService: ExtensionManagerService? = null
     override lateinit var navigationView: BottomNavigationView
+    override lateinit var appbarLayout: AppBarLayout
 
     override lateinit var extensionsManager: ExtensionsManager
     override var extensionServiceConnection: ServiceConnection? = null
@@ -83,6 +86,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
         }
         lifecycle.addObserver(this@Navigator)
         navigationView = findViewById(R.id.navigation)
+        appbarLayout = findViewById(R.id.appbar)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -174,6 +178,8 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         val current = currentFragment
+
+        appbarLayout.setExpanded(true, true)
         if (item.groupId == R.id.extensions_group) {
             if (currentFragmentId == id) {
                 clearBackstackFromClass(ExtensionBrowser::class.java)
@@ -300,6 +306,7 @@ class Navigator : BottomNavigationView.OnNavigationItemSelectedListener, Lifecyc
 
 interface INavigator {
     var navigationView: BottomNavigationView
+    var appbarLayout: AppBarLayout
     var currentFragmentId : Int
 
 

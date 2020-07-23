@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
             android:keyboardNavigationCluster="true"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationContentDescription="@string/abc_action_bar_up_description"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:popupTheme="?attr/toolbar_popup_style"
