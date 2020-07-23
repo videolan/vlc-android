@@ -310,10 +310,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
             val text = withContext(Dispatchers.Default) {
                 val medias = playlistModel.medias ?: return@withContext ""
                 if (playlistModel.currentMediaPosition == -1) return@withContext ""
-                val elapsedTracksTime = medias.asSequence()
-                        .take(playlistModel.currentMediaPosition)
-                        .map { it.length }
-                        .sum()
+                val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
                 val totalTime = elapsedTracksTime + progress.time
                 val currentProgressText = if (totalTime == 0L) "0s" else Tools.millisToString(totalTime, true, false, false)
 

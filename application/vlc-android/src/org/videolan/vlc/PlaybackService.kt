@@ -346,6 +346,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         @MainThread
         get() = playlistManager.getMediaList()
 
+    val previousTotalTime
+        @MainThread
+        get() = playlistManager.previousTotalTime()
+
     val mediaLocations: List<String>
         @MainThread
         get() {

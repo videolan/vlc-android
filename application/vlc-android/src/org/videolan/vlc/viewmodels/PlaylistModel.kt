@@ -183,6 +183,9 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
     val medias
         get() = service?.media
 
+    val previousTotalTime
+        get() = service?.previousTotalTime
+
     fun shuffle() = service?.shuffle()
 
     fun load(medialist: List<MediaWrapper>, position: Int) = service?.load(medialist, position)

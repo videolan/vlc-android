@@ -578,6 +578,18 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
+    fun previousTotalTime() = if (shuffling) {
+        mediaList.copy.asSequence()
+                .filterIndexed { index, _ -> previous.contains(index) }
+                .map { it.length }
+                .sum()
+    } else {
+        mediaList.copy.asSequence()
+                .take(currentIndex)
+                .map { it.length }
+                .sum()
+    }
+
     /**
      * Expand the current media.
      * @return the index of the media was expanded, and -1 if no media was expanded
