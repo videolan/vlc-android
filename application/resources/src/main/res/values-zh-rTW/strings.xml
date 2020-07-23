@@ -399,13 +399,11 @@
 
     <string name="delete_sub_title">刪除字幕</string>
     <string name="delete_sub_message">你要刪除這個字幕嗎？</string>
-    <string name="delete_sub_yes">是</string>
-    <string name="delete_sub_no">否</string>
     <string name="download_subtitle_title">下載字幕</string>
 
     <string name="no_result">沒有找到結果</string>
     <string name="no_internet_connection">檢查您的網路連線</string>
-    <string name="some_error_occurred">發生錯誤。請在幾秒後再試一次</string>
+    <string name="subs_download_error">暫停服務。請稍後再試</string>
 
     <string name="network_browsing">區域網路</string>
     <string name="browsing">瀏覽中</string>
@@ -704,4 +702,9 @@
 
     <string name="swipe_unlock">滑動以解鎖</string>
     <string name="swipe_unlock_no_touch">長按以解鎖</string>
+    <string name="sub_result_by_name">%s 的結果</string>
+    <string name="sub_result_by_name_season">理由 %s</string>
+    <string name="sub_result_by_name_episode">插曲 %s</string>
+
+    <string name="sub_result_by_file">您檔案的結果</string>
 </resources>
