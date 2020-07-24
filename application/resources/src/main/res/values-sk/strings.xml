@@ -426,13 +426,11 @@
 
     <string name="delete_sub_title">Vymazať titulok</string>
     <string name="delete_sub_message">Chcete vymazať tento titulok?</string>
-    <string name="delete_sub_yes">Áno</string>
-    <string name="delete_sub_no">Nie</string>
     <string name="download_subtitle_title">Stiahnuť titulok</string>
 
     <string name="no_result">Nenašli sa žiadne výsledky</string>
     <string name="no_internet_connection">Skontrolujte pripojenie na internet</string>
-    <string name="some_error_occurred">Nastala chyba. Prosím skúste to znovu o pár sekúnd</string>
+    <string name="subs_download_error">Služba nie je dostupná. Prosím, skúste to neskôr</string>
 
     <string name="network_browsing">Lokálna sieť</string>
     <string name="browsing">Prehliadanie</string>
@@ -738,4 +736,9 @@
 
     <string name="swipe_unlock">Odomknite potiahnutím</string>
     <string name="swipe_unlock_no_touch">Odomknite dlhým stlačením</string>
+    <string name="sub_result_by_name">Výsledky pre %s</string>
+    <string name="sub_result_by_name_season">Séria %s</string>
+    <string name="sub_result_by_name_episode">Epizóda %s</string>
+
+    <string name="sub_result_by_file">Výsledky pre váš súbor</string>
 </resources>
