@@ -408,13 +408,11 @@
 
     <string name="delete_sub_title">സബ്ടൈറ്റിൽ മായ്‌ചുകളയുക</string>
     <string name="delete_sub_message">ഈ സബ്ടൈറ്റിൽ നീക്കം ചെയ്യുവാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ ?</string>
-    <string name="delete_sub_yes">അതെ </string>
-    <string name="delete_sub_no">അല്ല </string>
     <string name="download_subtitle_title">സബ്ടൈറ്റിൽ നേടുക</string>
 
     <string name="no_result">ഫലങ്ങൾ ലഭ്യമല്ല </string>
     <string name="no_internet_connection">നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക </string>
-    <string name="some_error_occurred">എന്തോ പിഴവ് സംഭവിച്ചിരിക്കുന്നു. ദയവായി അൽപ നിമിഷങ്ങൾക്ക് ശേഷം വീണ്ടും ശ്രമിക്കുക </string>
+    <string name="subs_download_error">സേവനം ലഭ്യമല്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക</string>
 
     <string name="network_browsing">പ്രാദേശിക ശ്രിന്ഘല </string>
     <string name="browsing">ബ്രൗസിങ് </string>
@@ -716,4 +714,9 @@
 
     <string name="swipe_unlock">തുറക്കാനായി സ്‌വൈപ്പ് ചെയ്യുക </string>
     <string name="swipe_unlock_no_touch">തുറക്കാനായി ദീർഘനേരം അമർത്തുക</string>
+    <string name="sub_result_by_name">%s എന്നതിനായുള്ള ഫലങ്ങൾ</string>
+    <string name="sub_result_by_name_season">സീസൺ %s</string>
+    <string name="sub_result_by_name_episode">എപ്പിസോഡ് %s</string>
+
+    <string name="sub_result_by_file">നിങ്ങളുടെ ഫയലിനായുള്ള ഫലങ്ങൾ</string>
 </resources>
