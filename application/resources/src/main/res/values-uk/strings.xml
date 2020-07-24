@@ -426,13 +426,11 @@
 
     <string name="delete_sub_title">Вилучити субтитр</string>
     <string name="delete_sub_message">Справді вилучити цей субтитр?</string>
-    <string name="delete_sub_yes">Так</string>
-    <string name="delete_sub_no">Ні</string>
     <string name="download_subtitle_title">Звантажити субтитр</string>
 
     <string name="no_result">Результатів не знайдено</string>
     <string name="no_internet_connection">Перевірте ваше з\'єднання з інтернетом</string>
-    <string name="some_error_occurred">Трапилася деяка помилка. Будь ласка, спробуйте знову за декілька секунд.</string>
+    <string name="subs_download_error">Служба недоступна. Будь ласка, спробуйте знову пізніше </string>
 
     <string name="network_browsing">Локальна мережа</string>
     <string name="browsing">Огляд</string>
@@ -737,4 +735,9 @@
 
     <string name="swipe_unlock">Проведіть для розблокування</string>
     <string name="swipe_unlock_no_touch">Тривалий натиск для розблокування</string>
+    <string name="sub_result_by_name">Результати для %s</string>
+    <string name="sub_result_by_name_season">Сезон %s</string>
+    <string name="sub_result_by_name_episode">Епізод %s</string>
+
+    <string name="sub_result_by_file">Результати для вашого файла</string>
 </resources>
