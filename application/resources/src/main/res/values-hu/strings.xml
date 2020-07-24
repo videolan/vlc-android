@@ -408,13 +408,11 @@
 
     <string name="delete_sub_title">Felirat törlése</string>
     <string name="delete_sub_message">Biztos, hogy törölni akarja ezt a feliratot?</string>
-    <string name="delete_sub_yes">Igen</string>
-    <string name="delete_sub_no">Nem</string>
     <string name="download_subtitle_title">Felirat letöltése</string>
 
     <string name="no_result">Nincs találat</string>
     <string name="no_internet_connection">Ellenőrizze az internetkapcsolatát</string>
-    <string name="some_error_occurred">Valami hiba történt. Próbálja újra néhány másodperc múlva</string>
+    <string name="subs_download_error">A szolgáltatás nem érhető el, próbálja újra később</string>
 
     <string name="network_browsing">Helyi hálózat</string>
     <string name="browsing">Tallózás</string>
@@ -711,4 +709,13 @@
     <string name="group_similar">Újracsoportosítás automatikusan</string>
     <string name="no_favorite">Nincs kedvenc</string>
     <string name="empty_directory">Üres</string>
+    <string name="no_track">Nincs szám</string>
+
+    <string name="swipe_unlock">Seprés a feloldáshoz</string>
+    <string name="swipe_unlock_no_touch">Hosszú érintés a feloldáshoz</string>
+    <string name="sub_result_by_name">Találatok erre: %s</string>
+    <string name="sub_result_by_name_season">%s. évad</string>
+    <string name="sub_result_by_name_episode">%s. epizód</string>
+
+    <string name="sub_result_by_file">Találatok a fájlhoz</string>
 </resources>
