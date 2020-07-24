@@ -408,13 +408,11 @@
 
     <string name="delete_sub_title">Elimina sottotitoli</string>
     <string name="delete_sub_message">Vuoi eliminare questi sottotitoli?</string>
-    <string name="delete_sub_yes">Sì</string>
-    <string name="delete_sub_no">No</string>
     <string name="download_subtitle_title">Scarica sottotitoli</string>
 
     <string name="no_result">Nessun risultato trovato</string>
     <string name="no_internet_connection">Controlla la tua connessione a Internet</string>
-    <string name="some_error_occurred">Si sono verificati alcuni errori. Prova ancora tra pochi secondi</string>
+    <string name="subs_download_error">Servizio non disponibile. Riprova più tardi</string>
 
     <string name="network_browsing">Rete locale</string>
     <string name="browsing">Navigazione</string>
@@ -715,4 +713,9 @@
 
     <string name="swipe_unlock">Scorri per sbloccare</string>
     <string name="swipe_unlock_no_touch">Pressione lunga per sbloccare</string>
+    <string name="sub_result_by_name">Risultati per %s</string>
+    <string name="sub_result_by_name_season">Stagione %s</string>
+    <string name="sub_result_by_name_episode">Episodio %s</string>
+
+    <string name="sub_result_by_file">Risultati per il tuo file</string>
 </resources>
