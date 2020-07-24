@@ -408,13 +408,11 @@
 
     <string name="delete_sub_title">Untertitel löschen</string>
     <string name="delete_sub_message">Möchten Sie diese Untertitel löschen?</string>
-    <string name="delete_sub_yes">Ja</string>
-    <string name="delete_sub_no">Nein</string>
     <string name="download_subtitle_title">Untertitel herunterladen</string>
 
     <string name="no_result">Keine Ergebnisse gefunden</string>
     <string name="no_internet_connection">Überprüfen Sie Ihre Internetverbindung</string>
-    <string name="some_error_occurred">Ein Fehler ist aufgetreten. Bitte versuchen Sie es in einigen Sekunden erneut.</string>
+    <string name="subs_download_error">Service nicht verfügbar, versuchen Sie es später erneut</string>
 
     <string name="network_browsing">Lokales Netzwerk</string>
     <string name="browsing">Surfen</string>
@@ -715,4 +713,9 @@
 
     <string name="swipe_unlock">Wischen zum Entsperren</string>
     <string name="swipe_unlock_no_touch">Lange drücken zum Entsperren</string>
+    <string name="sub_result_by_name">Ergebnis für %s</string>
+    <string name="sub_result_by_name_season">Staffel %s</string>
+    <string name="sub_result_by_name_episode">Episode %s</string>
+
+    <string name="sub_result_by_file">Ergebnis für Ihre Datei</string>
 </resources>
