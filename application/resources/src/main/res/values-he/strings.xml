@@ -426,13 +426,11 @@
 
     <string name="delete_sub_title">מחיקת כתוביות</string>
     <string name="delete_sub_message">למחוק את הכתוביות האלה?</string>
-    <string name="delete_sub_yes">כן</string>
-    <string name="delete_sub_no">לא</string>
     <string name="download_subtitle_title">הורדת כתוביות</string>
 
     <string name="no_result">לא נמצאו תוצאות</string>
     <string name="no_internet_connection">נא לבדוק את החיבור שלך לאינטרנט</string>
-    <string name="some_error_occurred">אירעו שגיאות. נא לנסות שוב בעוד מספר שניות.</string>
+    <string name="subs_download_error">השירות אינו זמין. נא לנסות שוב מאוחר יותר</string>
 
     <string name="network_browsing">רשת מקומית</string>
     <string name="browsing">עיון</string>
@@ -737,4 +735,9 @@
 
     <string name="swipe_unlock">יש להחליק לשחרור</string>
     <string name="swipe_unlock_no_touch">לחיצה ארוכה לשחרור</string>
+    <string name="sub_result_by_name">תוצאות עבור %s</string>
+    <string name="sub_result_by_name_season">עונה %s</string>
+    <string name="sub_result_by_name_episode">פרק %s</string>
+
+    <string name="sub_result_by_file">תוצאות לקובץ שלך</string>
 </resources>
