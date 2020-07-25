@@ -408,13 +408,11 @@
 
     <string name="delete_sub_title">Squassà u sottutitulu</string>
     <string name="delete_sub_message">Vulete squassà u sottutitulu ?</string>
-    <string name="delete_sub_yes">Iè</string>
-    <string name="delete_sub_no">Innò</string>
     <string name="download_subtitle_title">Scaricà u sottutitulu</string>
 
     <string name="no_result">Alcunu risultatu trovu</string>
     <string name="no_internet_connection">Verificate a vostra cunnessione internet</string>
-    <string name="some_error_occurred">Qualchì sbagliu hè accadutu. Provate torna in qualchì seconda</string>
+    <string name="subs_download_error">Serviziu micca dispunibule. Pruvate torna in una stonda</string>
 
     <string name="network_browsing">Reta lucale</string>
     <string name="browsing">Navigazione</string>
@@ -715,4 +713,9 @@
 
     <string name="swipe_unlock">Spazzà per spalancà</string>
     <string name="swipe_unlock_no_touch">Longa incalcata per spalancà</string>
+    <string name="sub_result_by_name">Risultati per %s</string>
+    <string name="sub_result_by_name_season">Stagione %s</string>
+    <string name="sub_result_by_name_episode">Episodiu %s</string>
+
+    <string name="sub_result_by_file">Risultati per u vostru schedariu</string>
 </resources>
