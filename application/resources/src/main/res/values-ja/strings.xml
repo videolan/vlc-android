@@ -399,13 +399,11 @@
 
     <string name="delete_sub_title">字幕の削除</string>
     <string name="delete_sub_message">この字幕を削除しますか?</string>
-    <string name="delete_sub_yes">はい</string>
-    <string name="delete_sub_no">いいえ</string>
     <string name="download_subtitle_title">字幕をダウンロード</string>
 
     <string name="no_result">結果がみつかりません</string>
     <string name="no_internet_connection">インターネット接続を確認してください</string>
-    <string name="some_error_occurred">何らかのエラーが発生しました。数秒後に再度試行してみてください。</string>
+    <string name="subs_download_error">サービスは利用できません。あとで再試行してください</string>
 
     <string name="network_browsing">ローカルネットワーク</string>
     <string name="browsing">ブラウジング</string>
@@ -704,4 +702,9 @@
 
     <string name="swipe_unlock">スワイプでロック解除</string>
     <string name="swipe_unlock_no_touch">長押しでロック解除</string>
+    <string name="sub_result_by_name">%s に対する結果</string>
+    <string name="sub_result_by_name_season">シーズン %s</string>
+    <string name="sub_result_by_name_episode">エピソード %s</string>
+
+    <string name="sub_result_by_file">あなたのファイルに対する結果</string>
 </resources>
