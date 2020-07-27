@@ -412,6 +412,8 @@
 
     <string name="no_result">Herhangi bir sonuç bulunamadı</string>
     <string name="no_internet_connection">İnternet bağlantınızı denetleyin</string>
+    <string name="subs_download_error">Hizmet kullanılamıyor. Lütfen daha sonra yeniden deneyin</string>
+
     <string name="network_browsing">Yerel Ağ</string>
     <string name="browsing">Göz atılıyor</string>
 
@@ -711,4 +713,9 @@
 
     <string name="swipe_unlock">Kilidi açmak için kaydırın</string>
     <string name="swipe_unlock_no_touch">Kilidi açmak için uzun dokunun</string>
+    <string name="sub_result_by_name">%s için sonuçlar</string>
+    <string name="sub_result_by_name_season">%s. sezon</string>
+    <string name="sub_result_by_name_episode">%s. bölüm</string>
+
+    <string name="sub_result_by_file">Dosyanızın sonuçları</string>
 </resources>
