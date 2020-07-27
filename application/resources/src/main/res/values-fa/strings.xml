@@ -382,8 +382,6 @@
 
     <string name="delete_sub_title">حذف زیرنویس</string>
     <string name="delete_sub_message">آیا می‌خواهید این زیرنویس را حذف کنید؟</string>
-    <string name="delete_sub_yes">بله</string>
-    <string name="delete_sub_no">نه</string>
     <string name="download_subtitle_title">بارگیری زیرنویس</string>
 
     <string name="no_result">هیچ نتیجه‌ای یافت نشد</string>

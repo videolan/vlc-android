@@ -411,14 +411,10 @@
 
     <string name="delete_sub_title">احذف الترجمة النصية</string>
     <string name="delete_sub_message">هل ترغب بإزالة هذه الترجمة؟</string>
-    <string name="delete_sub_yes">نعم</string>
-    <string name="delete_sub_no">لا</string>
     <string name="download_subtitle_title">نزّل الترجمة النصية</string>
 
     <string name="no_result">ليس هناك نتائج</string>
     <string name="no_internet_connection">تحقق من اتصال الإنترنت</string>
-    <string name="some_error_occurred">حدث خطأ ما. يرجى المحاولة مرة أخرى في بضع ثوان</string>
-
     <string name="network_browsing">الشبكة المحلية</string>
     <string name="browsing">تصفح</string>
 

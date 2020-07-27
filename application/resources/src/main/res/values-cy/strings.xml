@@ -422,14 +422,10 @@
 
     <string name="delete_sub_title">Dileu isdeitlau</string>
     <string name="delete_sub_message">Wyt ti am ddileu yr isdeitlau hyn?</string>
-    <string name="delete_sub_yes">Ydw</string>
-    <string name="delete_sub_no">Nac ydw</string>
     <string name="download_subtitle_title">Lawrlwytho Isdeitlau</string>
 
     <string name="no_result">Ni chanfuwyd unrhyw beth</string>
     <string name="no_internet_connection">Gwiria dy gysylltiad rhyngrwyd</string>
-    <string name="some_error_occurred">Bu gwall o ryw fath. Rho gynnig arall arni ymen rhai eiliadau.</string>
-
     <string name="network_browsing">Rhwydwaith Lleol</string>
     <string name="browsing">Pori</string>
 

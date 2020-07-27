@@ -287,8 +287,6 @@
     <string name="send_log">பதிவை அனுப்பு</string>
     <string name="sending_log">பதிவை அனுப்புகிறது…</string>
 
-    <string name="delete_sub_yes">ஆம்</string>
-    <string name="delete_sub_no">இல்லை</string>
     <string name="download_subtitle_title">வசன வரி தறவிறக்கப்பட்டது</string>
 
     <string name="no_result">முடிவுகள் எதுவும் இல்லை</string>

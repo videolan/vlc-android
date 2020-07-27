@@ -396,14 +396,10 @@
 
     <string name="delete_sub_title">Eliminar subtítulo</string>
     <string name="delete_sub_message">¿Desea eliminar este subtítulo?</string>
-    <string name="delete_sub_yes">Sí</string>
-    <string name="delete_sub_no">No</string>
     <string name="download_subtitle_title">Descargar subtítulo</string>
 
     <string name="no_result">Sin resultados</string>
     <string name="no_internet_connection">Verificar tu conexión a internet</string>
-    <string name="some_error_occurred">Ocurrio algún error. Intenta más tarde por favor</string>
-
     <string name="network_browsing">Red local</string>
     <string name="browsing">Explorando</string>
 

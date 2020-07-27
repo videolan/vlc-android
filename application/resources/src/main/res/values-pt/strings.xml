@@ -396,14 +396,10 @@
 
     <string name="delete_sub_title">Eliminar legenda</string>
     <string name="delete_sub_message">Deseja eliminar esta legenda?</string>
-    <string name="delete_sub_yes">Sim</string>
-    <string name="delete_sub_no">Não</string>
     <string name="download_subtitle_title">Transferir Legendas</string>
 
     <string name="no_result">Não existem resultados</string>
     <string name="no_internet_connection">Verifique a sua ligação à Internet</string>
-    <string name="some_error_occurred">Ocorreu um erro. Por favor tente novamente dentro de segundos.</string>
-
     <string name="network_browsing">Rede local</string>
     <string name="browsing">Navegação</string>
 

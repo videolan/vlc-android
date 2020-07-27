@@ -362,8 +362,6 @@
 
     <string name="delete_sub_title">Pašalinti subtitrus</string>
     <string name="delete_sub_message">Ar tikrai norite pašalinti šiuos subtitrus?</string>
-    <string name="delete_sub_yes">Taip</string>
-    <string name="delete_sub_no">Ne</string>
     <string name="download_subtitle_title">Parsisiųsti subtitrus</string>
 
     <string name="no_result">Nerasta</string>

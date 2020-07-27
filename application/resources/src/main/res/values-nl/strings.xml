@@ -408,14 +408,10 @@
 
     <string name="delete_sub_title">Ondertitel verwijderen</string>
     <string name="delete_sub_message">Wilt u deze ondertitel verwijderen?</string>
-    <string name="delete_sub_yes">Ja</string>
-    <string name="delete_sub_no">Nee</string>
     <string name="download_subtitle_title">Ondertitel downloaden</string>
 
     <string name="no_result">Geen resultaten gevonden</string>
     <string name="no_internet_connection">Controleer uw internetverbinding</string>
-    <string name="some_error_occurred">Er trad een fout op. Probeer het binnen enkele seconden opnieuw</string>
-
     <string name="network_browsing">Lokaal netwerk</string>
     <string name="browsing">Bladeren</string>
 

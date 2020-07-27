@@ -308,8 +308,6 @@
     <string name="dump_logcat_success">Logcat veiksmīgi izgāza uz %1$s!</string>
     <string name="dump_logcat_failure">Neizdevās izgāzt logcat.</string>
     <string name="restart_vlc">Pārstartēt VLC</string>
-    <string name="delete_sub_yes">Jā</string>
-    <string name="delete_sub_no">Nē</string>
     <string name="no_result">Rezultātu nav</string>
     <string name="no_internet_connection">Pārbaudiet savu interneta savienojumu</string>
     <string name="browsing">Pārlūkot</string>

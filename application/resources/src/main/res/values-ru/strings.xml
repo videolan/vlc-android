@@ -406,14 +406,10 @@
 
     <string name="delete_sub_title">Удаление субтитров</string>
     <string name="delete_sub_message">Вы хотите удалить эти субтитры?</string>
-    <string name="delete_sub_yes">Да</string>
-    <string name="delete_sub_no">Нет</string>
     <string name="download_subtitle_title">Загрузка субтитров</string>
 
     <string name="no_result">Ничего не найдено</string>
     <string name="no_internet_connection">Проверьте ваше соединение с Интернетом</string>
-    <string name="some_error_occurred">Произошла ошибка. Попробуйте ещё раз через время</string>
-
     <string name="network_browsing">Локальная сеть</string>
     <string name="browsing">Обзор</string>
 

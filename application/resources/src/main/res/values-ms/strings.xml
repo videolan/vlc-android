@@ -379,14 +379,10 @@
 
     <string name="delete_sub_title">Padam sarikata</string>
     <string name="delete_sub_message">Anda pasti mahu memadam sarikata ini?</string>
-    <string name="delete_sub_yes">Ya</string>
-    <string name="delete_sub_no">Tidak</string>
     <string name="download_subtitle_title">Muat Turun Sarikata</string>
 
     <string name="no_result">Tiada keputusan ditemui</string>
     <string name="no_internet_connection">Periksa sambungan internet anda</string>
-    <string name="some_error_occurred">Terdapat beberapa ralat berlaku. Cuba sekali lagi dalam tempoh beberapa saat</string>
-
     <string name="network_browsing">Rangkaian Setempat</string>
     <string name="browsing">Pelayaran</string>
 

@@ -408,14 +408,10 @@
 
     <string name="delete_sub_title">Alt yazıyı sil</string>
     <string name="delete_sub_message">Bu alt yazı silinsin mi?</string>
-    <string name="delete_sub_yes">Evet</string>
-    <string name="delete_sub_no">Hayır</string>
     <string name="download_subtitle_title">Alt Yazıyı İndir</string>
 
     <string name="no_result">Herhangi bir sonuç bulunamadı</string>
     <string name="no_internet_connection">İnternet bağlantınızı denetleyin</string>
-    <string name="some_error_occurred">Bazı sorunlar çıktı. Lütfen bir kaç saniye sonra yeniden deneyin</string>
-
     <string name="network_browsing">Yerel Ağ</string>
     <string name="browsing">Göz atılıyor</string>
 

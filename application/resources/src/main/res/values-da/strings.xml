@@ -391,14 +391,10 @@
 
     <string name="delete_sub_title">Slet undertekst</string>
     <string name="delete_sub_message">Vil du slette underteksten?</string>
-    <string name="delete_sub_yes">Ja</string>
-    <string name="delete_sub_no">Nej</string>
     <string name="download_subtitle_title">Download untertekst</string>
 
     <string name="no_result">Ingen resultater fundet</string>
     <string name="no_internet_connection">Tjek din internetforbindelse</string>
-    <string name="some_error_occurred">Der opstod en fejl. Prøv igen om nogle få sekunder</string>
-
     <string name="network_browsing">Lokalt netværk</string>
     <string name="browsing">Gennemser</string>
 

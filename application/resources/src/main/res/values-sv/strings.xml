@@ -408,14 +408,10 @@
 
     <string name="delete_sub_title">Radera undertext</string>
     <string name="delete_sub_message">Vill du radera denna undertext?</string>
-    <string name="delete_sub_yes">Ja</string>
-    <string name="delete_sub_no">Nej</string>
     <string name="download_subtitle_title">Ladda ned undertext</string>
 
     <string name="no_result">Inga resultat hittades</string>
     <string name="no_internet_connection">Kontrollera din Internetanslutning</string>
-    <string name="some_error_occurred">Ett fel uppstod. Försök igen om några sekunder</string>
-
     <string name="network_browsing">Lokalt nätverk</string>
     <string name="browsing">Bläddring</string>
 

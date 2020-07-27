@@ -41,7 +41,7 @@
     <string name="append_all">Adăugați toate</string>
     <string name="resume_playback_short_title">Reluați redarea</string>
     <string name="resume_playback_long_title">Reluați redarea ultimei liste de redare</string>
-    <string name="delete">Ștergere</string>
+    <string name="delete">Șterge</string>
     <string name="remove">Eliminare</string>
     <string name="set_song">Stabilire ca ton de apel</string>
     <string name="set_song_question">Setare \'%1$s\' ca ton de apel?</string>
@@ -368,14 +368,10 @@
 
     <string name="delete_sub_title">Ștergeți subtitrarea</string>
     <string name="delete_sub_message">Doriți să ștergeți această subtitrare?</string>
-    <string name="delete_sub_yes">Da</string>
-    <string name="delete_sub_no">Nu</string>
     <string name="download_subtitle_title">Descărcați subtitrări</string>
 
     <string name="no_result">Nici un rezultat găsit</string>
     <string name="no_internet_connection">Verificați conexiunea la internet</string>
-    <string name="some_error_occurred">Au apărut unele erori. Încercați din nou în câteva secunde</string>
-
     <string name="network_browsing">Rețea locală</string>
     <string name="browsing">Răsfoire</string>
 

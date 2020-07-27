@@ -390,14 +390,10 @@
 
     <string name="delete_sub_title">Eliminar subtítulos</string>
     <string name="delete_sub_message">Quere eliminar estes subtítulos?</string>
-    <string name="delete_sub_yes">Si</string>
-    <string name="delete_sub_no">Non</string>
     <string name="download_subtitle_title">Descargar subtítulos</string>
 
     <string name="no_result">Non hai resultados</string>
     <string name="no_internet_connection">Comprobe a conexión de internet</string>
-    <string name="some_error_occurred">Producíronse algúns erros. Ténteo de novo nun chisco</string>
-
     <string name="network_browsing">Rede local</string>
     <string name="browsing">Examinando</string>
 

@@ -350,14 +350,10 @@
 
     <string name="delete_sub_title">Izbriši podnapis</string>
     <string name="delete_sub_message">Želite izbrisati ta podnapis?</string>
-    <string name="delete_sub_yes">Da</string>
-    <string name="delete_sub_no">Ne</string>
     <string name="download_subtitle_title">Prenesi podnapis</string>
 
     <string name="no_result">Ni najdenih zadetkov</string>
     <string name="no_internet_connection">Preverite internetno povezavo</string>
-    <string name="some_error_occurred">Prišlo je do napake. Poskusite znova čez nekaj sekund</string>
-
     <string name="network_browsing">Krajevno omrežje</string>
     <string name="browsing">Brskanje</string>
 

@@ -394,14 +394,10 @@
 
     <string name="delete_sub_title">Slett undertekst</string>
     <string name="delete_sub_message">Vil du slette denne underteksten?</string>
-    <string name="delete_sub_yes">Ja</string>
-    <string name="delete_sub_no">Nei</string>
     <string name="download_subtitle_title">Last ned undertekst</string>
 
     <string name="no_result">Ingen resultater funnet</string>
     <string name="no_internet_connection">Sjekk nettverkstilkoblingen</string>
-    <string name="some_error_occurred">Det har skjedd en feil. Vennligst prøv igjen om noen sekunder</string>
-
     <string name="network_browsing">Lokalnettverk</string>
     <string name="browsing">Utforsker</string>
 

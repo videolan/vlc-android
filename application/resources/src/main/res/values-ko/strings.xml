@@ -399,14 +399,10 @@
 
     <string name="delete_sub_title">자막 삭제</string>
     <string name="delete_sub_message">해당 자막을 삭제할까요?</string>
-    <string name="delete_sub_yes">네</string>
-    <string name="delete_sub_no">아니오</string>
     <string name="download_subtitle_title">자막 다운로드</string>
 
     <string name="no_result">검색된 결과가 없습니다</string>
     <string name="no_internet_connection">인터넷 연결 상태를 확인하세요</string>
-    <string name="some_error_occurred">오류가 발생했습니다. 몇 초 후 다시 시도해주세요</string>
-
     <string name="network_browsing">로컬 네트워크</string>
     <string name="browsing">찾는 중</string>
 

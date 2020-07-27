@@ -218,8 +218,6 @@
 
     <string name="delete_sub_title">Hapus terjemahan</string>
     <string name="delete_sub_message">Anda ingin menghapus terjemahan ini?</string>
-    <string name="delete_sub_yes">Ya</string>
-    <string name="delete_sub_no">Tidak</string>
     <string name="download_subtitle_title">Unduh Terjemahan</string>
 
     <string name="no_internet_connection">Cek koneksi internet Anda</string>

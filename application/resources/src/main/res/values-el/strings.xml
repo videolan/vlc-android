@@ -376,14 +376,10 @@
 
     <string name="delete_sub_title">Διαγραφή υπότιτλου</string>
     <string name="delete_sub_message">Θέλετε να διαγράψετε αυτόν τον υπότιτλο;</string>
-    <string name="delete_sub_yes">Ναι</string>
-    <string name="delete_sub_no">Όχι</string>
     <string name="download_subtitle_title">Λήψη Υπότιτλου</string>
 
     <string name="no_result">Δεν βρέθηκαν αποτελέσματα</string>
     <string name="no_internet_connection">Ελέγξτε τη σύνδεση σας στο διαδίκτυο</string>
-    <string name="some_error_occurred">Κάποιο πρόβλημα παρουσιάστηκε. Παρακαλώ προσπαθήστε ξανά αργότερα σε μερικά δευτερόλεπτα.</string>
-
     <string name="network_browsing">Τοπικό Δίκτυο</string>
     <string name="browsing">Περιήγηση</string>
 

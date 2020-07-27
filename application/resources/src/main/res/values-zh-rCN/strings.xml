@@ -399,14 +399,10 @@
 
     <string name="delete_sub_title">删除字幕</string>
     <string name="delete_sub_message">是否删除该字幕?</string>
-    <string name="delete_sub_yes">是</string>
-    <string name="delete_sub_no">否</string>
     <string name="download_subtitle_title">下载字幕</string>
 
     <string name="no_result">未找到结果</string>
     <string name="no_internet_connection">请检查网络连接</string>
-    <string name="some_error_occurred">出现错误。请稍候再试</string>
-
     <string name="network_browsing">本地网络</string>
     <string name="browsing">浏览</string>
 
@@ -700,4 +696,8 @@
     <string name="group_similar">自动重新组合</string>
     <string name="no_favorite">没有收藏内容</string>
     <string name="empty_directory">空</string>
+    <string name="no_track">没有乐曲</string>
+
+    <string name="swipe_unlock">滑动解锁</string>
+    <string name="swipe_unlock_no_touch">长按解锁</string>
 </resources>

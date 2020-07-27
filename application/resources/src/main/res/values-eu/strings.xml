@@ -388,14 +388,10 @@
 
     <string name="delete_sub_title">Ezabatu azpititulua</string>
     <string name="delete_sub_message">Azpititulu hau ezabatu nahi duzu?</string>
-    <string name="delete_sub_yes">Bai</string>
-    <string name="delete_sub_no">Ez</string>
     <string name="download_subtitle_title">Deskargatu azpititulua</string>
 
     <string name="no_result">Ez da emaitzarik aurkitu</string>
     <string name="no_internet_connection">Egiaztatu zure internet-konexioa</string>
-    <string name="some_error_occurred">Erroreren bat gertatu da. Saiatu berriro segundo batzuk barru</string>
-
     <string name="network_browsing">Sare lokala</string>
     <string name="browsing">Arakatzea</string>
 

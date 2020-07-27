@@ -242,8 +242,6 @@
     <string name="restart_vlc">Atosaigh VLC</string>
     <string name="delete_sub_title">Scrios an fotheideal</string>
     <string name="delete_sub_message">An mian leat an fotheideal sin a scriosadh?</string>
-    <string name="delete_sub_yes">Is mian</string>
-    <string name="delete_sub_no">Ní mian</string>
     <string name="download_subtitle_title">Íosluchtaigh an Fotheideal</string>
 
     <string name="no_result">Níor aimsíodh aon toradh</string>

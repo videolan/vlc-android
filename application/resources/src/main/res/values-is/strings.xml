@@ -378,14 +378,10 @@
 
     <string name="delete_sub_title">Eyða skjátexta</string>
     <string name="delete_sub_message">Villtu eyða þessum skjátexta?</string>
-    <string name="delete_sub_yes">Já</string>
-    <string name="delete_sub_no">Nei</string>
     <string name="download_subtitle_title">Sækja skjátexta</string>
 
     <string name="no_result">Engar niðurstöður fundust</string>
     <string name="no_internet_connection">Athugaðu með nettenginguna þína</string>
-    <string name="some_error_occurred">Einhver villa kom upp. Prófaðu aftur eftir nokkrar sekúndur</string>
-
     <string name="network_browsing">Staðarnet</string>
     <string name="browsing">Vafur</string>
 

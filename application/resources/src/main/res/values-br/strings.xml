@@ -308,8 +308,6 @@
     <string name="restart_message_OK">Mat eo</string>
     <string name="restart_message_Later">Diwezhatoc\'h</string>
     <string name="developer_prefs_category">Diorroer</string>
-    <string name="delete_sub_yes">Ya</string>
-    <string name="delete_sub_no">Ket</string>
     <string name="download_subtitle_title">Pellgargañ istitloù</string>
 
     <string name="no_result">Disoc\'h ebet kavet</string>
