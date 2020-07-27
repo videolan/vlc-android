@@ -412,6 +412,8 @@
 
     <string name="no_result">Inga resultat hittades</string>
     <string name="no_internet_connection">Kontrollera din Internetanslutning</string>
+    <string name="subs_download_error">Tjänsten är inte tillgänglig. Försök igen senare</string>
+
     <string name="network_browsing">Lokalt nätverk</string>
     <string name="browsing">Bläddring</string>
 
@@ -711,4 +713,9 @@
 
     <string name="swipe_unlock">Svep för att låsa upp</string>
     <string name="swipe_unlock_no_touch">Tryck länge för att låsa upp</string>
+    <string name="sub_result_by_name">Resultat för %s</string>
+    <string name="sub_result_by_name_season">Säsong %s</string>
+    <string name="sub_result_by_name_episode">Episod %s</string>
+
+    <string name="sub_result_by_file">Resultat för din fil</string>
 </resources>
