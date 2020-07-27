@@ -426,13 +426,11 @@
 
     <string name="delete_sub_title">Usuń napisy</string>
     <string name="delete_sub_message">Czy chcesz usunąć te napisy?</string>
-    <string name="delete_sub_yes">Tak</string>
-    <string name="delete_sub_no">Nie</string>
     <string name="download_subtitle_title">Pobierz napisy</string>
 
     <string name="no_result">Nie znaleziono wyników</string>
     <string name="no_internet_connection">Sprawdź swoje połączenie internetowe</string>
-    <string name="some_error_occurred">Wystąpił błąd. Spróbuj ponownie za kilka sekund.</string>
+    <string name="subs_download_error">Serwis niedostępny, spróbuj ponownie później</string>
 
     <string name="network_browsing">Sieć lokalna</string>
     <string name="browsing">Przeglądanie</string>
@@ -737,4 +735,9 @@
 
     <string name="swipe_unlock">Przeciągnij, aby odblokować</string>
     <string name="swipe_unlock_no_touch">Naciśnij długo, aby odblokować</string>
+    <string name="sub_result_by_name">Wyniki dla %s</string>
+    <string name="sub_result_by_name_season">Sezon %s</string>
+    <string name="sub_result_by_name_episode">Epizod %s</string>
+
+    <string name="sub_result_by_file">Wyniki dla Twojego pliku</string>
 </resources>
