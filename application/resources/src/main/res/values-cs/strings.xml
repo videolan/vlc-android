@@ -703,7 +703,7 @@
     <string name="framerate_value">%1$.3f</string>
     <string name="bitrate_value">%1$s/s</string>
     <string name="language">Jazyk:</string>
-    <string name="track_samplerate">Frekvence</string>
+    <string name="track_samplerate">Frekvence:</string>
     <string name="track_samplerate_value">%1$d Hz\n</string>
     <string name="bitrate">Datový tok:</string>
     <string name="codec">Kodek:</string>
