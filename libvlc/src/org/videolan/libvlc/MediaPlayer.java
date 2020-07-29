@@ -35,6 +35,8 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.SparseArray;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -582,6 +584,12 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             registerAudioPlugV21(register);
         mAudioPlugRegistered = register;
     }
+
+    /**
+     * HACK: handler to call updateVideoSurfaces() as soon as a video output
+     * is created. It is currently mandatory to have the video being displayed
+     * instead of a black screen. */
+    Handler mHandlerMainThread = new Handler(Looper.getMainLooper());
 
     /**
      * Create an empty MediaPlayer
@@ -1352,6 +1360,17 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             case Event.Vout:
                 mVoutCount = (int) arg1;
                 notify();
+
+                /* Post on the main thread so that surfaces gets updated
+                 * after the event has been processed by the application.
+                 * FIXME: This is a hack to ensure the video surface is
+                 * correctly setup and doesn't appear black when using
+                 * libvlcjni. */
+                mHandlerMainThread.post(new Runnable() {
+                    @Override
+                    public void run() { updateVideoSurfaces(); }
+                });
+
                 return new Event(eventType, arg1);
             case Event.ESAdded:
             case Event.ESDeleted:
