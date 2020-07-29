@@ -96,7 +96,6 @@ public class AWindow implements IVLCVout {
         @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         private void attachTextureView() {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
-            setSurface(new Surface(mTextureView.getSurfaceTexture()));
         }
 
         private void attachSurface() {

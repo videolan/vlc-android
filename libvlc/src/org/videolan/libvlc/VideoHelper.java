@@ -212,12 +212,17 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
 
         mMediaPlayer.getVLCVout().setWindowSize(sw, sh);
 
-        ViewGroup.LayoutParams lp = mVideoSurface.getLayoutParams();
+        /* We will setup either the videoSurface or the videoTexture */
+        View videoView = mVideoSurface;
+        if (videoView == null)
+            videoView = mVideoTexture;
+
+        ViewGroup.LayoutParams lp = videoView.getLayoutParams();
         if (mVideoWidth * mVideoHeight == 0 || (AndroidUtil.isNougatOrLater && activity != null && activity.isInPictureInPictureMode())) {
             /* Case of OpenGL vouts: handles the placement of the video using MediaPlayer API */
             lp.width  = ViewGroup.LayoutParams.MATCH_PARENT;
             lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-            mVideoSurface.setLayoutParams(lp);
+            videoView.setLayoutParams(lp);
             if (mSubtitlesSurface != null)
                 mSubtitlesSurface.setLayoutParams(lp);
             lp = mVideoSurfaceFrame.getLayoutParams();
@@ -295,11 +300,12 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
         // set display size
         lp.width  = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
-        mVideoSurface.setLayoutParams(lp);
+        videoView.setLayoutParams(lp);
         if (mSubtitlesSurface != null) mSubtitlesSurface.setLayoutParams(lp);
 
-        mVideoSurface.invalidate();
+        videoView.invalidate();
         if (mSubtitlesSurface != null) mSubtitlesSurface.invalidate();
+
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
