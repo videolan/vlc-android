@@ -880,7 +880,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     public boolean updateViewpoint(float yaw, float pitch, float roll, float fov, boolean absolute) {
         return nativeUpdateViewpoint(yaw, pitch, roll, fov, absolute);
     }
-    
+
     /**
      * Selects an audio output module.
      * Any change will take effect only after playback is stopped and
