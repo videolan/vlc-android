@@ -1831,7 +1831,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             showConfirmResumeDialog()
                             return
                         } else {
-                            val rTime = settings.getLong(VIDEO_RESUME_TIME, -1)
+                            val rTime = settings.getLong(VIDEO_RESUME_TIME, -1L)
                             if (rTime > 0) {
                                 if (askResume) {
                                     showConfirmResumeDialog()
