@@ -740,4 +740,17 @@
     <string name="sub_result_by_name_episode">Epizoda %s</string>
 
     <string name="sub_result_by_file">Výsledky pro Váš soubor</string>
+    <string name="donate">Nápověda</string>
+    <string name="donate_desc">Podpora dobrovolníků při vytváření aplikace VLC.</string>
+    <string name="donate_subscribtion">Měsíční sponzorské dary</string>
+    <string name="donate_send">Začít sponzorovat</string>
+    <string name="donation_description">Vaše sponzorské dary nám umožní\nvylepšovat aplikaci VLC pro Android\ns podporou asociace VideoLAN.</string>
+    <string name="subscription_purchased">Jste přihlášen k měsíčnímu sponzorství.</string>
+    <string name="subscription_cancel">Odhlásit se můžete v Obchodě Play.</string>
+    <string name="subscription_cancel_tv">Jak se odhlásit</string>
+    <string name="donate_unsubscribe_tv">Pro odhlášeni otevřete %s v telefonu nebo v počítači, anebo naskenujte tento kód:</string>
+    <string name="tip_jar">Nápověda</string>
+    <string name="thank_you">Poděkování</string>
+    <string name="thank_you_desc">Děkujeme za Vaše sponzorské dary!\nPomůžete nám vylepšit aplikaci VLC!</string>
+    <string name="donate_again">Sponzorovat aplikaci znovu</string>
 </resources>
