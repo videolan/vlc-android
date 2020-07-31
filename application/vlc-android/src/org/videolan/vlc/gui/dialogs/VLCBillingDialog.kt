@@ -208,17 +208,19 @@ class VLCBillingDialog : VLCBottomSheetDialogFragment() {
                             size = 10
                         }
                     }
-                    binding.konfetti.build()
-                            .addColors(ContextCompat.getColor(requireActivity(), R.color.orange100),ContextCompat.getColor(requireActivity(), R.color.orange500),ContextCompat.getColor(requireActivity(), R.color.orange900))
-                            .setDirection(0.0, 359.0)
-                            .setSpeed(1f, 9f)
-                            .setFadeOutEnabled(true)
-                            .setTimeToLive(2000L)
-                            .addShapes(Shape.Circle)
-                            .addSizes(Size(size))
-                            .setPosition(x, y)
-                            .setRotationEnabled(false)
-                            .burst(50)
+                    activity?.let {
+                        binding.konfetti.build()
+                                .addColors(ContextCompat.getColor(requireActivity(), R.color.orange100),ContextCompat.getColor(requireActivity(), R.color.orange500),ContextCompat.getColor(requireActivity(), R.color.orange900))
+                                .setDirection(0.0, 359.0)
+                                .setSpeed(1f, 9f)
+                                .setFadeOutEnabled(true)
+                                .setTimeToLive(2000L)
+                                .addShapes(Shape.Circle)
+                                .addSizes(Size(size))
+                                .setPosition(x, y)
+                                .setRotationEnabled(false)
+                                .burst(50)
+                    }
                     if (currentIndex > 1) currentIndex = 0 else currentIndex++
                     fireworksHandler.postDelayed(this, 1500)
                 }
