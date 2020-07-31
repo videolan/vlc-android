@@ -34,7 +34,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.coroutineScope
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import org.videolan.tools.*
@@ -208,7 +210,7 @@ class VLCBillingDialog : VLCBottomSheetDialogFragment() {
                             size = 10
                         }
                     }
-                    activity?.let {
+                    lifecycleScope.launchWhenStarted {
                         binding.konfetti.build()
                                 .addColors(ContextCompat.getColor(requireActivity(), R.color.orange100),ContextCompat.getColor(requireActivity(), R.color.orange500),ContextCompat.getColor(requireActivity(), R.color.orange900))
                                 .setDirection(0.0, 359.0)
