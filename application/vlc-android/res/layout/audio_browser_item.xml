@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:vlc="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
+
+
+        <variable
+                name="item"
+                type="MediaLibraryItem" />
+
+        <variable
+                name="cover"
+                type="android.graphics.drawable.BitmapDrawable" />
+
+        <variable
+                name="bgColor"
+                type="int" />
+
+        <variable
+                name="imageWidth"
+                type="int" />
+
+        <variable
+                name="holder"
+                type="org.videolan.vlc.gui.audio.AudioBrowserAdapter.MediaItemViewHolder" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@{bgColor}"
+            android:clickable="true"
+            android:focusable="true"
+            android:longClickable="true"
+            android:minHeight="@dimen/audio_browser_item_size"
+            android:onClick="@{holder::onClick}"
+            android:onLongClick="@{holder::onLongClick}">
+
+        <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
+        <ImageView
+                android:id="@+id/item_move"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/more_actions"
+                android:scaleType="center"
+                vlc:srcCompat="@drawable/ic_move_media"
+                android:visibility="@{holder.canBeReordered ? View.VISIBLE : View.GONE, default=gone}"
+                vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toTopOf="@+id/title"
+                vlc:onTouchListener="@{holder.onTouchListener}" />
+
+        <org.videolan.vlc.gui.view.FadableImageView
+                android:id="@+id/media_cover"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/audio_browser_item_size"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:onClick="@{holder::onImageClick}"
+                android:scaleType="centerCrop"
+                android:src="@{cover}"
+                android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA|MediaLibraryItem.TYPE_PLAYLIST)) != 0 ? View.VISIBLE : View.GONE, default=gone}"
+                vlc:imageWidth="@{imageWidth}"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                vlc:layout_constraintDimensionRatio="1"
+                vlc:layout_constraintStart_toEndOf="@id/item_move"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:media="@{item}" />
+
+        <ImageView
+                android:id="@+id/selector_image"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/audio_browser_item_size"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                vlc:layout_constraintDimensionRatio="1"
+                vlc:layout_constraintStart_toEndOf="@id/item_move"
+                vlc:layout_constraintTop_toTopOf="parent" />
+
+
+        <!-- TextView must be set to singleLine
+            see https://code.google.com/p/android/issues/detail?id=33868 -->
+        <TextView
+                android:id="@+id/title"
+                style="@style/VLC.TextViewTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:singleLine="false"
+                vlc:asyncText="@{item.title}"
+                vlc:layout_constraintBottom_toTopOf="@+id/subtitle"
+                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+                vlc:layout_constraintStart_toEndOf="@+id/media_cover"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_constraintVertical_chainStyle="packed"
+                vlc:layout_goneMarginEnd="@dimen/default_margin_plus_audio_margin"
+                vlc:layout_goneMarginStart="@dimen/default_margin_plus_audio_margin"
+                vlc:placeholder="@{item}" />
+
+        <TextView
+                android:id="@+id/subtitle"
+                style="@style/VLC.TextViewDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                vlc:asyncText="@{item}"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                vlc:layout_constraintEnd_toEndOf="@+id/title"
+                vlc:layout_constraintStart_toStartOf="@+id/title"
+                vlc:layout_constraintTop_toBottomOf="@+id/title"
+                vlc:placeholder="@{item}" />
+
+        <ImageView
+                android:id="@+id/item_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/more_actions"
+                android:onClick="@{holder::onMoreClick}"
+                android:scaleType="center"
+                vlc:srcCompat="@drawable/ic_more"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintTop_toTopOf="@+id/title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

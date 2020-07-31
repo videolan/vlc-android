@@ -1,0 +1,72 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    kotlinOptions.jvmTarget = "1.8"
+
+    packagingOptions {
+        pickFirst '**/*.so'
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
+        }
+        dev {
+            initWith debug
+            matchingFallbacks = ['debug']
+        }
+
+    }
+
+    sourceSets.debug {
+        res.srcDirs = ['flavors/debug/res']
+    }
+    sourceSets.dev {
+        res.srcDirs = ['flavors/debug/res']
+    }
+
+}
+dependencies {
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api 'androidx.multidex:multidex:2.0.1'
+
+
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
+
+    api project(':application:tools')
+    devApi project(':libvlc')
+    devApi project(':medialibrary')
+    debugApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    debugApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    releaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    releaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+
+    // Retrofit
+    api "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
+    api "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
+    api "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
+
+    api "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
+}
+repositories {
+    mavenCentral()
+}

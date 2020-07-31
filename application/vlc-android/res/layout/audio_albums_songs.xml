@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/tabcontent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    <include
+            layout="@layout/button_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin" />
+
+    <org.videolan.vlc.gui.view.SwipeRefreshLayout
+            android:id="@+id/swipeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/searchButton"
+            android:layout_centerHorizontal="true">
+
+        <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <include layout="@layout/audio_recyclerview" />
+
+            <include layout="@layout/audio_recyclerview" />
+        </androidx.viewpager.widget.ViewPager>
+    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+
+    <org.videolan.vlc.gui.view.FastScroller
+            android:id="@+id/songs_fast_scroller"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/swipeLayout"
+            android:visibility="invisible" />
+
+</RelativeLayout>
+

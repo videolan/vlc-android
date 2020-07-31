@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#000001</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#bb0000</color>
+
+<!--
+    Material color swatches
+    The main color is always xxx500
+-->
+    <color name="orange50">#fff3e0</color>
+    <color name="orange100">#ffdfae</color>
+    <color name="orange200">#ffca7d</color>
+    <color name="orange300">#ffb54c</color>
+    <color name="orange400">#ffa11a</color>
+    <color name="orange500">#FF8800</color>
+    <color name="orange600">#ff7d00</color>
+    <color name="orange700">#ff7200</color>
+    <color name="orange800">#ff610a</color>
+    <color name="orange900">#ff5014</color>
+
+    <color name="red500transparent">#b4ff0000</color>
+    <color name="orange500transparent">#b4ff8800</color>
+    <color name="orange500focus">#86ff8800</color>
+    <color name="orange200transparent">#64ffca7d</color>
+
+    <color name="green50">#bdeadd</color>
+    <color name="green100">#a7e3d1</color>
+    <color name="green200">#91dcc5</color>
+    <color name="green300">#7cd5ba</color>
+    <color name="green400">#66cfaf</color>
+    <color name="green500">#50c8a3</color>
+    <color name="green600">#47b99b</color>
+    <color name="green700">#3ea992</color>
+    <color name="green800">#359989</color>
+    <color name="green900">#2b8a81</color>
+    
+    <color name="grey50">#fafafa</color>
+    <color name="grey100">#f5f5f5</color>
+    <color name="grey200">#eeeeee</color>
+    <color name="grey300">#e0e0e0</color>
+    <color name="grey400">#bdbdbd</color>
+    <color name="grey500">#9e9e9e</color>
+    <color name="grey600">#757575</color>
+    <color name="grey700">#616161</color>
+    <color name="grey800">#424242</color>
+    <color name="grey850">#323232</color>
+    <color name="grey875">#2a2a2a</color>
+    <color name="grey900">#212121</color>
+
+    <color name="playerbackground">#c0141414</color>
+    <color name="playerbackground_invert">#c0ebebeb</color>
+    <color name="black_more_transparent">#88000000</color>
+    <color name="status_bar_transparency">#cb000000</color>
+
+    <color name="grey200transparent">#33eeeeee</color>
+
+    <color name="whitetransparent_b9">#b9ffffff</color>
+    <color name="whitetransparent_ea">#eaffffff</color>
+
+    <color name="grey50transparent">#b9fafafa</color>
+    <color name="grey50transparent_ea">#eafafafa</color>
+    <color name="grey400transparent">#80bdbdbd</color>
+    <color name="grey600transparent">#80757575</color>
+    <color name="grey900transparent_bb">#bb212121</color>
+    <color name="grey900transparent_dd">#dd212121</color>
+    <color name="grey900transparent">#80212121</color>
+
+    <color name="blacktransparent">#b4000000</color>
+    <color name="whitetransparent">#b4ffffff</color>
+    <color name="white_less_transparent">#ccffffff</color>
+    <color name="white_transparent_50">#80ffffff</color>
+    <color name="ripple_white">#44ffffff</color>
+    <color name="white_more_transparent">#33ffffff</color>
+    <color name="white_audio_player_transparent">#aaffffff</color>
+    <color name="black_audio_player_transparent">#ee2a2a2a</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="black_transparent_80">#cc000000</color>
+    <color name="white_transparent_10">#1affffff</color>
+    <color name="white_transparent_30">#4dffffff</color>
+
+    <color name="white_selection_transparent">#44ffffff</color>
+
+    <color name="tv_bg">#3e6c80</color>
+    <color name="tv_card_content">#3e6c80</color>
+    <color name="tv_card_content_dark">#386173</color>
+    <color name="tv_card_content_darker">#325766</color>
+
+    <color name="vlc_material_blue_grey_900">#ff263238</color>
+
+    <!--test with onboarding colors-->
+    <!--<color name="tv_bg">#1c313a</color>-->
+    <!--<color name="tv_card_content">#396375</color>-->
+    <color name="onboarding_grey_dark">#1c313a</color>
+    <color name="onboarding_grey">#455a64</color>
+    <color name="material_blue">#2196f3</color>
+    <color name="material_pink">#e91e63</color>
+</resources>

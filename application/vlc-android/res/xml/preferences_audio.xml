@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                      android:key="audio_category"
+                                      android:title="@string/audio_prefs_category">
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="true"
+            android:key="resume_playback"
+            android:summary="@string/resume_playback_summary"
+            android:title="@string/resume_playback_title"/>
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="playback_speed"
+            android:summary="@string/playback_speed_summary"
+            android:title="@string/playback_speed_title"/>
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="audio_task_removed"
+            android:title="@string/audio_task_cleared_title"
+            android:summary="@string/audio_task_cleared_summary"/>
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="audio_digital_output"
+            android:title="@string/audio_digital_title"/>
+
+    <PreferenceCategory
+            android:title="@string/headset_prefs_category"
+            android:key="headset_prefs_category">
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="enable_headset_detection"
+                android:summary="@string/enable_headset_detection_summary"
+                android:title="@string/enable_headset_detection"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:key="enable_play_on_headset_insertion"
+                android:defaultValue="false"
+                android:dependency="enable_headset_detection"
+                android:summary="@string/enable_play_on_headset_insertion_summary"
+                android:title="@string/enable_play_on_headset_insertion"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/advanced_prefs_category">
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:key="audio_ducking"
+                android:defaultValue="true"
+                android:summary="@string/audio_ducking_summary"
+                android:title="@string/audio_ducking_title"/>
+        <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/aouts"
+                android:entryValues="@array/aouts_values"
+                android:key="aout"
+                android:summary="@string/aout_summary"
+                android:title="@string/aout"/>
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

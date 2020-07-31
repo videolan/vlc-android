@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_browser_tvshow_big.xml
+  ~ **************************************************************************
+  ~ Copyright © 2019 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="96dp"
+        android:height="96dp"
+        android:viewportWidth="96"
+        android:viewportHeight="96">
+    <path
+            android:fillColor="#757575"
+            android:pathData="m84.8182,23.4545h-31.05L67.2273,9.9955 64.3636,7.0909 48,23.4545 31.6364,7.0909l-2.9045,2.9045 13.5,13.4591h-31.05C6.6818,23.4545 3,27.0955 3,31.6364v49.0909c0,4.5 3.6818,8.1818 8.1818,8.1818h73.6364c4.5,0 8.1818,-3.6818 8.1818,-8.1818L93,31.6364c0,-4.5409 -3.6818,-8.1818 -8.1818,-8.1818zM84.8182,80.7273L11.1818,80.7273L11.1818,31.6364L84.8182,31.6364ZM35.7273,39.8182L35.7273,72.5455L64.3636,56.1818Z"
+            android:strokeWidth="4.090909" />
+</vector>

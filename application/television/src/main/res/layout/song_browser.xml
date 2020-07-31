@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:theme="@style/Theme.VLC.TV">
+
+        <org.videolan.vlc.gui.view.EmptyLoadingStateView
+                android:id="@+id/empty_loading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:empty_text="@string/nomedia"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="600dp" />
+
+        <FrameLayout
+                android:id="@+id/headerListContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/headerList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:layout_gravity="center"
+                    android:clipToPadding="false" />
+        </FrameLayout>
+
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tv_overscan_horizontal"
+            android:layout_marginTop="@dimen/tv_overscan_vertical"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Tracks" />
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ariane"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_overscan_horizontal"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginEnd="8dp"
+                android:clipToPadding="false"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_height="48dp" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/displayButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tv_overscan_vertical"
+            android:layout_marginEnd="8dp"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/sortButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_grid"
+            tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tv_overscan_vertical"
+            android:layout_marginEnd="8dp"
+            android:background="@color/transparent"
+            android:elevation="6dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/displayButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_bookmark"
+            tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/sortButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginEnd="8dp"
+                android:background="@color/transparent"
+                android:elevation="6dp"
+            app:srcCompat="@drawable/ic_sort"
+                app:layout_constraintEnd_toStartOf="@+id/headerButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/headerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tv_overscan_vertical"
+                android:layout_marginEnd="@dimen/tv_overscan_horizontal"
+                android:background="@color/transparent"
+                android:elevation="6dp"
+            app:srcCompat="@drawable/ic_jumptoheader"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/tv_overscan_horizontal"
+                android:layout_marginEnd="@dimen/tv_overscan_horizontal"
+                android:visibility="visible"
+                app:constraint_referenced_ids="sortButton,title,headerButton" />
+
+        <org.videolan.television.ui.FocusableRecyclerView
+                android:id="@+id/list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:paddingLeft="@dimen/tv_overscan_horizontal"
+                android:paddingTop="62dp"
+                android:paddingRight="@dimen/tv_overscan_horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:nextFocusRight="@+id/imageButtonSettings"
+                tools:listitem="@layout/media_browser_tv_item">
+
+        </org.videolan.television.ui.FocusableRecyclerView>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imageButtonDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="6dp"
+                android:nextFocusDown="@id/imageButtonHeader"
+            app:srcCompat="@drawable/ic_fabtvmini_bookmark"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonSort"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSort"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSort"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonSort" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imageButtonSort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="6dp"
+                android:nextFocusDown="@id/imageButtonHeader"
+            app:srcCompat="@drawable/ic_fabtvmini_sort"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imageButtonFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="6dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonHeader"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonHeader"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonHeader"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonHeader"
+            app:srcCompat="@drawable/ic_fabtvmini_bookmark" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imageButtonHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="6dp"
+                android:nextFocusUp="@id/imageButtonSort"
+                android:nextFocusDown="@id/imageButtonSettings"
+                android:nextFocusForward="@id/imageButtonSort"
+            app:srcCompat="@drawable/ic_fabtvmini_jumptoheader"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/imageButtonSettings"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="6dp"
+                android:nextFocusUp="@id/imageButtonHeader"
+                android:nextFocusForward="@id/imageButtonHeader"
+            app:srcCompat="@drawable/ic_fabtv_preferences"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/headerListContainer" />
+
+        <TextView
+                android:id="@+id/favoriteDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0"
+                android:background="@drawable/rounded_corners"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="@string/favorite"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/favoriteButton"
+                app:layout_constraintStart_toStartOf="@+id/favoriteButton"
+                app:layout_constraintTop_toBottomOf="@+id/favoriteButton" />
+
+        <TextView
+                android:id="@+id/sortDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0"
+                android:background="@drawable/rounded_corners"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="@string/sortby"
+                app:layout_constraintEnd_toEndOf="@+id/sortButton"
+                app:layout_constraintStart_toStartOf="@+id/sortButton"
+                app:layout_constraintTop_toBottomOf="@+id/sortButton" />
+
+        <TextView
+                android:id="@+id/displayDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0"
+                android:background="@drawable/rounded_corners"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="@string/display_in_grid"
+                app:layout_constraintEnd_toEndOf="@+id/displayButton"
+                app:layout_constraintStart_toStartOf="@+id/displayButton"
+                app:layout_constraintTop_toBottomOf="@+id/sortButton" />
+
+        <TextView
+                android:id="@+id/headerDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="0"
+                android:background="@drawable/rounded_corners"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="@string/jump_to"
+                app:layout_constraintEnd_toEndOf="@+id/headerButton"
+                app:layout_constraintStart_toStartOf="@+id/headerButton"
+                app:layout_constraintTop_toBottomOf="@+id/headerButton" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

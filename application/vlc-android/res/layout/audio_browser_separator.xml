@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
+
+        <variable
+                name="item"
+                type="org.videolan.medialibrary.media.DummyItem" />
+    </data>
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:layout_marginBottom="10dip"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:singleLine="true"
+            android:text="@{item.title}"
+            android:textColor="?attr/audio_browser_separator"
+            android:textSize="20sp" />
+</layout>

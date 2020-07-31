@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_menu_bookmark_outline_w.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="48dp"
+        android:viewportHeight="24"
+        android:viewportWidth="24"
+        android:width="48dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="?attr/colorControlNormal"
+            android:fillType="nonZero"
+            android:pathData="m12,3.8594 l-2,6.2188 -6.5625,0 5.3125,3.8125 -2.0313,6.25 5.2813,-3.875 5.2813,3.875 -2.0313,-6.25 5.3125,-3.8125 -6.5625,0 -2,-6.2188zM12,7.8594 L13.125,11.2969 16.75,11.2969 13.8125,13.4219 14.9375,16.8906 12,14.7344 9.0625,16.8906 10.1875,13.4219 7.25,11.2969 10.875,11.2969 12,7.8594z"
+            android:strokeColor="#00000000"
+            android:strokeWidth="1.5" />
+</vector>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:targetApi="n_mr1" >
+    <shortcut
+        android:shortcutId="last_playlist"
+        android:enabled="true"
+            android:icon="@drawable/ic_shortcut_resume_playback"
+            android:shortcutShortLabel="@string/resume_playback_short_title"
+            android:shortcutLongLabel="@string/resume_playback_long_title">
+        <intent
+            android:action="vlc.shortcut.resume"
+            android:targetPackage="org.videolan.vlc.debug"
+            android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="playlists"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_playlist"
+        android:shortcutShortLabel="@string/playlists"
+        android:shortcutLongLabel="@string/playlists">
+        <intent
+            android:action="vlc.shortcut.playlists"
+            android:targetPackage="org.videolan.vlc.debug"
+            android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="browser"
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_folder"
+        android:shortcutShortLabel="@string/directories"
+        android:shortcutLongLabel="@string/directories" >
+        <intent
+            android:action="vlc.shortcut.browser"
+            android:targetPackage="org.videolan.vlc.debug"
+            android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="video"
+        android:enabled="false"
+        android:icon="@drawable/ic_menu_video"
+        android:shortcutShortLabel="@string/video"
+        android:shortcutLongLabel="@string/video"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="vlc.shortcut.video"
+            android:targetPackage="org.videolan.vlc.debug"
+            android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="audio"
+        android:enabled="false"
+        android:icon="@drawable/ic_menu_audio"
+        android:shortcutShortLabel="@string/audio"
+        android:shortcutLongLabel="@string/audio">
+        <intent
+            android:action="vlc.shortcut.audio"
+            android:targetPackage="org.videolan.vlc.debug"
+            android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="network"
+        android:enabled="false"
+        android:icon="@drawable/ic_menu_network"
+        android:shortcutShortLabel="@string/network_browsing"
+        android:shortcutLongLabel="@string/network_browsing" >
+        <intent
+            android:action="vlc.shortcut.network"
+            android:targetPackage="org.videolan.vlc.debug"
+            android:targetClass="org.videolan.vlc.StartActivity" />
+        <categories android:name="vlc.shortcut.category" />
+    </shortcut>
+</shortcuts>

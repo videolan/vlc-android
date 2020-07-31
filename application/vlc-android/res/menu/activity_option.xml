@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:vlc="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:orderInCategory="1"
+            android:id="@+id/ml_menu_renderers"
+            android:icon="@drawable/ic_am_renderer"
+            android:title="@string/cast_option_title"
+            vlc:showAsAction="always|collapseActionView"
+            android:visible="false"/>
+
+    <item
+            android:orderInCategory="1"
+            android:id="@+id/ml_menu_filter"
+            android:icon="@drawable/ic_menu_search_w"
+            vlc:actionViewClass="androidx.appcompat.widget.SearchView"
+            android:title="@string/searchable_hint"
+            vlc:showAsAction="always|collapseActionView"/>
+    <item
+            android:orderInCategory="2"
+            android:id="@+id/ml_menu_last_playlist"
+            android:icon="@drawable/ic_menu_lastplaylist"
+            android:title="@string/resume_playback_short_title"
+            vlc:showAsAction="ifRoom|collapseActionView"
+            android:visible="false"/>
+    <item
+            android:orderInCategory="3"
+            android:id="@+id/ml_menu_display_list"
+            android:title="@string/display_in_list"
+            vlc:showAsAction="ifRoom|collapseActionView"
+            android:icon="@drawable/ic_view_list"
+            android:visible="false"/>
+    <item
+            android:orderInCategory="3"
+            android:id="@+id/ml_menu_display_grid"
+            android:title="@string/display_in_grid"
+            vlc:showAsAction="ifRoom|collapseActionView"
+            android:icon="@drawable/ic_view_grid"
+            android:visible="false"/>
+    <item
+            android:orderInCategory="3"
+            android:id="@+id/ml_menu_scan"
+            android:title="@string/add_to_scanned"
+            vlc:showAsAction="ifRoom|collapseActionView"
+            android:icon="@drawable/ic_menu_addtoscan"
+            android:visible="false" />
+    <item
+            android:orderInCategory="2"
+            android:title="@string/sortby"
+            android:icon="@drawable/ic_menu_sort"
+            android:contentDescription="@string/sortby"
+            android:id="@+id/ml_menu_sortby"
+            vlc:showAsAction="ifRoom|collapseActionView"
+            android:visible="false">
+        <menu>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_name"
+                    android:title="@string/sortby_name"/>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_filename"
+                    android:title="@string/sortby_filename"/>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_artist_name"
+                    android:title="@string/sortby_artist_name"
+                    android:visible="false"/>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_album_name"
+                    android:title="@string/sortby_album_name"
+                    android:visible="false"/>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_length"
+                    android:title="@string/sortby_length"
+                    android:visible="false"/>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_date"
+                    android:title="@string/sortby_date"
+                    android:visible="false"/>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_last_modified"
+                    android:title="@string/sortby_last_modified_date"
+                    android:visible="false"/>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_number"
+                    android:title="@string/sortby_number"
+                    android:visible="false"/>
+
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_media_number"
+                    android:title="@string/sortby_media_number" />
+        </menu>
+    </item>
+    <item
+            android:orderInCategory="2"
+            android:title="@string/video_min_group_length_title"
+            android:id="@+id/ml_menu_video_group"
+            vlc:showAsAction="never"
+            android:visible="false">
+        <menu>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/video_min_group_length_name"
+                    android:title="@string/video_min_group_length_name" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/video_min_group_length_folder"
+                    android:title="@string/video_min_group_length_folder" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/video_min_group_length_disable"
+                    android:title="@string/video_min_group_length_disable" />
+
+
+        </menu>
+    </item>
+    <item
+            android:orderInCategory="3"
+            android:title="@string/add_to_playlist"
+            android:id="@+id/ml_menu_add_playlist"
+            vlc:showAsAction="never"
+            android:visible="false">
+        <menu>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/folder_add_playlist"
+                    android:title="@string/this_folder" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/subfolders_add_playlist"
+                    android:title="@string/all_subfolders" />
+        </menu>
+    </item>
+    <item
+            android:orderInCategory="4"
+            android:id="@+id/ml_menu_refresh"
+            android:icon="@drawable/ic_menu_refresh"
+            vlc:showAsAction="never"
+            android:title="@string/refresh"/>
+    <item
+            android:orderInCategory="3"
+            android:id="@+id/ml_menu_custom_dir"
+            android:title="@string/add_custom_path"
+            android:contentDescription="@string/add_custom_path_description"
+            android:visible="false"/>
+
+    <item
+            android:orderInCategory="3"
+            android:title="@string/browser_show_all_title"
+            android:visible="false"
+            android:checkable="true"
+            vlc:showAsAction="never"
+            android:id="@+id/browser_show_all_files" />
+    <item
+            android:orderInCategory="3"
+            android:title="@string/browser_show_hidden_files_title"
+            android:visible="false"
+            android:checkable="true"
+            vlc:showAsAction="never"
+            android:id="@+id/browser_show_hidden_files" />
+    <item
+            android:orderInCategory="3"
+            android:title="@string/artists_show_all_title"
+            android:visible="false"
+            android:checkable="true"
+            vlc:showAsAction="never"
+            android:id="@+id/artists_show_all_title" />
+    <item
+            android:orderInCategory="3"
+            android:title="@string/rename_group"
+            android:icon="@drawable/ic_edit_toolbar"
+            android:visible="false"
+            vlc:showAsAction="ifRoom"
+            android:id="@+id/rename_group" />
+
+    <item
+            android:orderInCategory="3"
+            android:title="@string/ungroup"
+            android:icon="@drawable/ic_delete_toolbar"
+            android:visible="false"
+            vlc:showAsAction="ifRoom"
+            android:id="@+id/ungroup" />
+</menu>

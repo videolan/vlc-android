@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.videolan.moviepedia" >
+<application>
+    <activity
+            android:name="org.videolan.moviepedia.ui.MediaScrapingActivity"
+        android:theme="@style/Theme.VLC" />
+</application>
+</manifest>

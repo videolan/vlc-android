@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_videogroup_play"
+        android:title="@string/play"
+            android:icon="@drawable/ic_am_play"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_videogroup_append"
+        android:title="@string/append"
+            android:icon="@drawable/ic_am_append"
+        app:showAsAction="always" />
+    <item
+            android:id="@+id/action_add_to_group"
+            android:title="@string/add_to_group"
+            android:icon="@drawable/ic_add_to_group"
+            app:showAsAction="always" />
+    <item
+            android:id="@+id/action_videogroup_add_playlist"
+            android:title="@string/add_to_playlist"
+            android:icon="@drawable/ic_am_addtoplaylist"
+            app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/action_ungroup"
+            android:title="@string/ungroup"
+            android:icon="@drawable/ic_delete"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/action_rename"
+            android:title="@string/rename_group"
+            android:icon="@drawable/ic_edit"
+            app:showAsAction="ifRoom" />
+
+    <item
+            android:id="@+id/action_group_similar"
+            android:title="@string/group_similar"
+            android:icon="@drawable/ic_group_auto"
+            app:showAsAction="ifRoom" />
+</menu>

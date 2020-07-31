@@ -1,0 +1,58 @@
+/*
+ * *************************************************************************
+ *  build.gradle.java
+ * **************************************************************************
+ *  Copyright © 2015 VLC authors and VideoLAN
+ *  Author: Geoffrey Métais
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *  ***************************************************************************
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+    library_version = '0.1'
+    repoName = 'Android'
+    libraryName = 'VLC-API'
+    desc = 'SDK for VLC-Android extensions'
+    lib_artifact = 'vlc-extensions'
+
+    libraryDescription = 'SDK for VLC-Android extensions'
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    api "androidx.appcompat:appcompat:$rootProject.ext.androidxAppcompatVersion"
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+}
+
+apply from: '../buildsystem/publish.gradle'

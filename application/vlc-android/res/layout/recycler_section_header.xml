@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/section_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/recycler_section_header_height"
+        android:background="?attr/header_background"
+        android:paddingStart="16dp"
+        android:paddingEnd="28dp"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:textColor="?attr/audio_browser_separator"
+        android:textSize="20sp" />

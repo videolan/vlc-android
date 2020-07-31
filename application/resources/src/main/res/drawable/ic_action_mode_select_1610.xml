@@ -1,0 +1,58 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_action_mode_select_1610.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="200dp"
+        android:viewportHeight="100"
+        android:viewportWidth="160"
+        android:width="320dp"
+        xmlns:aapt="http://schemas.android.com/aapt"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="0.39215686"
+            android:fillColor="#ffca7d"
+            android:fillType="nonZero"
+            android:pathData="M0,0l160,0l0,100l-160,0z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="1.77165353" />
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#ff8800"
+            android:fillType="nonZero"
+            android:pathData="M80,50m-20,0a20,20 135,1 1,40 0a20,20 135,1 1,-40 0"
+            android:strokeColor="#00000000"
+            android:strokeWidth="0.1" />
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#fafafa"
+            android:fillType="nonZero"
+            android:pathData="m77.143,58.572 l15.744,-15.744 -2.02,-2.02 -13.724,13.723 -6.061,-6.061 -2.02,2.02z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="1.77165353" />
+</vector>

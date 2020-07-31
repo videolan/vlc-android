@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">ठीक आहे</string>
+    <string name="cancel">रद्द करा</string>
+    <string name="other">इतर</string>
+    <string name="sortby">क्रमित करा…</string>
+    <string name="sortby_name">नाव</string>
+    <string name="sortby_filename">फाईलचे नाव</string>
+    <string name="sortby_artist_name">कलाकाराचे नाव</string>
+    <string name="sortby_album_name">अल्बमचे नाव</string>
+    <string name="sortby_length">लांबी</string>
+    <string name="sortby_date">दिनांक</string>
+    <string name="searchable_hint">शोध…</string>
+    <string name="history">इतिहास</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%1$d शोध-निकाल प्राप्त</item>
+        <item quantity="other">%1$d शोध-निकाल प्राप्त</item>
+    </plurals>
+
+    <string name="play">प्ले करा</string>
+    <string name="play_from_start">सुरुवातीपासून प्ले करा</string>
+    <string name="play_as_audio">ध्वनी स्वरुपात प्ले करा</string>
+    <string name="play_as_video">चित्रफीत स्वरुपात प्ले करा</string>
+    <string name="append">जोडा</string>
+    <string name="play_all">सर्व प्ले करा</string>
+    <string name="append_all">सर्व जोडा</string>
+    <string name="delete">काढून टाका</string>
+    <string name="remove">काढून टाका</string>
+    <string name="set_song">रिंगटोन साठी सेट करा</string>
+    <string name="info">माहिती</string>
+    <string name="confirm_delete">\'%1$s\' फाइल नष्ट करावी?</string>
+    <string name="ringtone_set">\'%1$s\' ही फाइल रिंगटोन म्हणून सेट केली.</string>
+    <string name="ringtone_error">रिंगटोन सेट करताना एक त्रुटी आली.</string>
+    <string name="pause">विरामित करा</string>
+    <string name="unknown_artist">अनामिक कलाकार</string>
+    <string name="unknown_album">अनामिक अल्बम</string>
+    <string name="unknown_genre">अनामिक जोन्र</string>
+    <string name="artists">कलाकार</string>
+    <plurals name="albums_quantity">
+        <item quantity="one">1 अल्बम</item>
+        <item quantity="other">%d अल्बम</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 उपफोल्डर</item>
+        <item quantity="other">%d उपफोल्डर</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 मीडिया फाईल</item>
+        <item quantity="other">%d मीडिया फाईल</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 चित्रफीत</item>
+        <item quantity="other">%d चित्रफिती</item>
+    </plurals>
+    <string name="internal_memory">अंतर्गत मेमरी</string>
+    <string name="audio">ध्वनी</string>
+    <string name="video">चित्रफीत</string>
+    <string name="bookmarks">बुकमार्क</string>
+    <string name="equalizer">एक्वलायझर</string>
+    <string name="all_albums">सर्व अल्बम</string>
+    <string name="genres">जोन्र</string>
+    <string name="playlists">प्लेलिस्ट</string>
+    <string name="title">शीर्षक</string>
+    <string name="directories">निर्देशिका</string>
+    <string name="loading">लोड होत आहे</string>
+    <string name="please_wait">कृपया प्रतीक्षा करा…</string>
+    <string name="nomedia">मीडिया फायली नाही आढळल्या, आपल्या उपकरणावर काही फायली स्थानांतरीत करा किंवा आपली प्राधान्ये समायोजित करा.</string>
+    <string name="directorynotfound">\'%1$s\' निर्देशिकाचा मार्ग नाही सापडला</string>
+    <string name="nohistory">आपल्याकडे आतापर्यंत प्लेबॅक इतिहास नाही.</string>
+    <string name="validation">आपली खात्री आहे?</string>
+
+    <string name="cover_art">कव्हर आर्ट</string>
+    <string name="previous">मागील</string>
+    <string name="stop">थांबा</string>
+    <string name="surface_best_fit">योग्य फिट</string>
+    <string name="surface_fill">भरा</string>
+    <string name="surface_original">मध्य</string>
+    <string name="unseekable_stream">सीक करता न येणारी स्ट्रीम</string>
+    <string name="refresh">ताजे करा</string>
+    <string name="track_audio">ध्वनी ट्रॅक</string>
+    <string name="track_video">चित्रफीत ट्रॅक</string>
+    <string name="track_unknown">अनामिक ट्रॅक</string>
+    <string name="track_codec_info">कोडेक: %1$s\n</string>
+    <string name="track_language_info">भाषा: %1$s\n</string>
+    <string name="volume">आवाज तीव्रता</string>
+    <string name="sound_on">आवाज चालू</string>
+    <string name="sound_off">आवाज बंद</string>
+    <string name="brightness">तेजस्वीपणा</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 चॅनेल</item>
+        <item quantity="other">%1$d चॅनेल\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">सम्पल रेट: %1$d Hz\n</string>
+    <string name="track_resolution_info">रेझोलूशन: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">फ्रेम दर: %1$.3f\n</string>
+
+    <string name="playback_speed">प्लेबॅक वेग</string>
+    <string name="sleep_title">स्लीप टाइमर</string>
+    <string name="sleep_in">स्लीप मध्ये</string>
+    <string name="jump_to_time">वेळेवर उडी घ्या</string>
+    <string name="subtitle_select">उपशीर्षक फाईल निवडा</string>
+
+    <string name="encountered_error_title">प्लेबॅक मध्ये त्रुटी</string>
+    <string name="encountered_error_message">या मीडिया बरोबर VLC ला एक त्रुटी आली आहे.\nकृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
+    <string name="invalid_location">%1$s हे स्थान प्ले केले जाऊ शकत नाही.</string>
+
+    <string name="search">शोधा</string>
+
+
+    <!-- Tips -->
+    <string name="video_player_tips">व्हिडिओ प्लेअर टिपा:</string>
+    <string name="seek">पुढे/मागे जा</string>
+    <string name="subtitles">उपशीर्षके</string>
+    <string name="resize">आकार बदला</string>
+    <string name="options">पर्याय</string>
+    <string name="lock">लाॅक</string>
+    <string name="playlist_tips">प्लेलिस्ट टिपा</string>
+    <string name="remove_song">गाणे काढा</string>
+    <string name="rearrange_order">क्रम पुन्हा लावा</string>
+    <string name="hold_to_seek">पुढे/मागे जाण्यासाठी दाबून ठेवा</string>
+
+    <string name="audio_player_tips">ऑडिओ प्लेयर टिपा</string>
+    <string name="previous_next_song">मागील/पुढील गाणे</string>
+    <string name="show_playlist">प्लेलिस्ट दाखवा</string>
+    <string name="hold_to_stop">थांबवण्यासाठी दाबून ठेवा</string>
+
+    <string name="licence">परवाना</string>
+    <string name="revision">पुनरावृत्ती</string>
+    <string name="about">VLC विषयी</string>
+    <string name="about_text">Android™ साठी VLC ही VLC मीडिया प्लेयर या लोकप्रिय आणि उघड-स्त्रोत मीडिया प्लेयरची आवृत्ती आहे. ही Android™ आवृत्ती जवळपास सर्व फाईल्स आणि नेटवर्क स्ट्रीम वाचू शकते .</string>
+    <string name="compiled_by">ही VLC आवृत्ती यांनी संकलित केली:</string>
+    <string name="directories_summary">मीडिया लायब्ररी मध्ये समावेश करण्यासाठी निर्देशिका निवडा</string>
+    <string name="add_custom_path">सानुकूल मार्ग प्रविष्ट करा</string>
+    <string name="add_custom_path_description">स्कॅन करण्यासाठी अधिक सानुकूल निर्देशिका प्रविष्ट करा:</string>
+    <string name="remove_custom_path">सानुकूल मार्ग काढून टाका</string>
+    <string name="hardware_acceleration">हार्डवेअर अॅक्सलरेशन</string>
+    <string name="hardware_acceleration_disabled">निष्क्रिय करा</string>
+    <string name="hardware_acceleration_decoding">डिकोडिंग अॅक्सलरेशन</string>
+    <string name="hardware_acceleration_full">पूर्ण अॅक्सलरेशन</string>
+    <string name="automatic">स्वयंचलित</string>
+    <string name="screen_orientation">चित्रफीत पडद्याची अभिमुखता</string>
+    <string name="screen_orientation_sensor">स्वयंचलित (सेन्सर)</string>
+    <string name="screen_orientation_start_lock">सुरुवातीला लॉक केलेले</string>
+    <string name="screen_orientation_portrait">पोर्ट्रेट</string>
+    <string name="screen_orientation_landscape">लॅन्डस्केप</string>
+    <string name="subtitle_text_encoding">उपशीर्षक मजकूर एनकोडिंग</string>
+    <string name="extra_prefs_category">अतिरिक्त सेटिंग्ज</string>
+
+    <string name="interface_prefs_screen">इंटरफेस</string>
+    <string name="enable_clone_mode">क्लोनला प्राधान्य</string>
+    <string name="enable_brightness_gesture_summary">चित्रफीत प्लेबॅकच्या वेळी जेस्चरने तेजस्वीपणा नियंत्रित करा</string>
+    <string name="enable_headset_detection">हेडसेट शोधा</string>
+    <string name="aout">ध्वनी आउटपुट</string>
+    <string name="performance_prefs_category">कार्यप्रदर्शन</string>
+    <string name="chroma_format">चित्रफीत क्रोमा सक्त करा</string>
+    <string name="deblocking">डीब्लॉकिंग फिल्टर सेटींग्स</string>
+    <string name="deblocking_always">पूर्ण डीब्लॉकिंग (सर्वात मंद)</string>
+    <string name="deblocking_nonref">मध्यम डीब्लॉकिंग</string>
+    <string name="deblocking_nonkey">कमी डीब्लॉकिंग</string>
+    <string name="deblocking_all">डीब्लॉकिंग नाही (सर्वात जलद)</string>
+    <string name="enable_time_stretching_audio">टाईम-स्ट्रेचिंग ध्वनी</string>
+    <string name="advanced_prefs_category">प्रगत</string>
+    <string name="auto_rescan_summary">application सुरु झाल्यावर नविन किंवा नष्ट कॆलॆल्या मीडियाचा स्वयंचलीत शॊध घ्या</string>
+    <string name="clear_media_db">मीडिया डेटाबेस स्वच्छ करा</string>
+    <string name="set_locale">स्थानिकता सेट करा</string>
+    <string name="network_caching">नेटवर्क कॅशिंग मूल्य</string>
+    <string name="quit">बाहेर पडून अनुप्रयोग पुन्हा चालू करा</string>
+    <string name="developer_prefs_category">डेव्हलपर</string>
+    <string name="enable_verbose_mode">वर्बोस</string>
+    <string name="enable_verbose_mode_summary">शब्दवडांबर वाढवा (लोगकॅट)</string>
+    <string name="debug_logs">डीबग लॉग</string>
+    <string name="start_logging">लॉगिंग चालू करा</string>
+    <string name="stop_logging">लॉगिंग थांबवा</string>
+    <string name="clear_log">लॉग पुसा</string>
+    <string name="copy_to_clipboard">क्लिपबोर्ड मध्ये कॉपी करा</string>
+    <string name="copied_to_clipboard">लॉग क्लिपबोर्ड मध्ये कॉपी केला.</string>
+    <string name="dump_logcat">logcat लाॅग डंप करा</string>
+    <string name="dump_logcat_success">Logcat %1$s मध्ये यशस्वीरित्या डंप केले!</string>
+    <string name="dump_logcat_failure">Logcat डंप करण्यात अपयश.</string>
+    <string name="serious_crash">दुर्दैवाने, एक गंभीर त्रुटी आली आणि VLC बंद करावे लागले.</string>
+    <string name="help_us_send_log">खालील क्रॅश लॉग पाठवून VLC सुधारण्यात आम्हाला मदत करा:</string>
+    <string name="restart_vlc">VLC पुन्हा सुरू करा</string>
+    <string name="send_log">लॉग पाठवा</string>
+    <string name="sending_log">लॉग पाठवत आहे…</string>
+
+    <string name="next">पुढील</string>
+</resources>

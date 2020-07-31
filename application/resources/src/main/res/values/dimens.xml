@@ -1,0 +1,116 @@
+<resources>
+
+    <dimen name="custom_match_parent">-1px</dimen>
+
+    <dimen name="shadow_width">6px</dimen>
+    <dimen name="widget_margin">0dp</dimen>
+    <dimen name="directory_browser_item_size">40dp</dimen>
+    <dimen name="listview_bottom_padding">8dp</dimen>
+    <dimen name="listview_side_padding">4dp</dimen>
+    <dimen name="grid_card_thumb_width">160dp</dimen>
+    <dimen name="grid_card_thumb_height">100dp</dimen>
+    <dimen name="tv_grid_card_thumb_width">192dp</dimen>
+    <dimen name="tv_grid_card_thumb_height">120dp</dimen>
+    <dimen name="grid_card_title_text_size">12sp</dimen>
+    <dimen name="grid_card_subtitle_text_size">10sp</dimen>
+    <dimen name="grid_card_vertical_spacing">0dp</dimen>
+    <dimen name="tab_layout_horizontal_padding">5dp</dimen>
+    <dimen name="info_appbar_height">150dp</dimen>
+    <dimen name="audioplayer_controls_margin">0dp</dimen>
+
+    <!--Keylines-->
+    <dimen name="kl_half">4dp</dimen>
+    <dimen name="kl_small">8dp</dimen>
+    <dimen name="kl_normal">16dp</dimen>
+
+    <!-- Video Player -->
+    <dimen name="overlay_padding_bottom">8dip</dimen>
+    <dimen name="overlay_padding_top">10dip</dimen>
+    <dimen name="overlay_padding_sides">5dp</dimen>
+    <dimen name="overlay_margin">4dp</dimen>
+
+    <dimen name="seekbar_height">1dip</dimen>
+    <dimen name="images_margin_sides">10dp</dimen>
+    <dimen name="seek_margin_sides">8dp</dimen>
+    <dimen name="time_margin_sides">16dp</dimen>
+
+    <dimen name="large_margins_center">8dp</dimen>
+    <dimen name="small_margins_sides">0dp</dimen>
+
+
+    <dimen name="media_ctrl_margin_top">20dp</dimen>
+    <dimen name="tv_overscan_vertical">27dp</dimen>
+    <dimen name="tv_overscan_horizontal">48dp</dimen>
+
+
+    <dimen name="video_pip_width">240dp</dimen>
+    <dimen name="video_pip_height">135dp</dimen>
+
+    <!-- Adv options -->
+    <dimen name="option_width">64dp</dimen>
+    <dimen name="option_height">72dp</dimen>
+    <dimen name="adv_options_margin">16dp</dimen>
+    <dimen name="dialog_time_picker_width">240dp</dimen>
+
+
+    <dimen name="file_picker_width">300dip</dimen>
+    <!-- -1px is fill/match_parent -->
+    <dimen name="file_picker_height">-1px</dimen>
+
+    <dimen name="default_content_width">-1px</dimen>
+    <dimen name="default_context_width">@dimen/custom_match_parent</dimen>
+
+
+    <!-- Default -->
+    <dimen name="default_appbar_elevation">4dp</dimen>
+    <dimen name="default_margin">8dp</dimen>
+    <dimen name="half_default_margin">4dp</dimen>
+    <dimen name="very_small_margin">4dp</dimen>
+    <dimen name="left_right_1610_margin">8dp</dimen>
+    <dimen name="top_bottom_1610_margin">5dp</dimen>
+    <dimen name="info_progress_end_margin">74dp</dimen>
+    <dimen name="info_default_margin">16dp</dimen>
+
+    <dimen name="info_dialog_peek_height">120dip</dimen>
+    <dimen name="player_peek_height">61dip</dimen>
+
+    <!-- fast scroller -->
+    <dimen name="fastscroller_handle_corner">20dp</dimen>
+    <dimen name="fastscroller_handle_size">50dp</dimen>
+    <dimen name="fastscroller_handle_text_size">30dp</dimen>
+    <dimen name="fastscroller_reack_corner">3dp</dimen>
+    <dimen name="fastscroller_track_height">30dp</dimen>
+    <dimen name="fastscroller_track_width">6dp</dimen>
+    <dimen name="fastscroller_track_padding">5dp</dimen>
+    <dimen name="audio_player_cover_margin">8dp</dimen>
+    <dimen name="audio_player_elevation">8dp</dimen>
+    <dimen name="progress_layout_height">20dp</dimen>
+    <dimen name="dialog_sd_wisard_width">320dp</dimen>
+    <dimen name="dialog_sd_wisard_height">420dp</dimen>
+
+    <!--MRLPanel-->
+    <dimen name="mrl_panel_min_width">320dp</dimen>
+
+    <!--Subtitle Downloader Dialog-->
+    <dimen name="subs_dl_dialog_width">320dp</dimen>
+    <dimen name="subs_dl_dialog_height">170dp</dimen>
+    <dimen name="player_option_width">224dp</dimen>
+
+    <dimen name="default_margin_plus_audio_margin">24dp</dimen>
+    <dimen name="audio_player_seekbar_bottom_margin">16dp</dimen>
+    <dimen name="toolbar_height">40dp</dimen>
+    <dimen name="tab_layout_height">24dp</dimen>
+
+    <!-- Audio items -->
+    <dimen name="audio_browser_item_size">40dp</dimen>
+    <dimen name="audio_item_header_padding">4dp</dimen>
+    <dimen name="audio_item_padding_botom">4dp</dimen>
+    <dimen name="audio_item_title_size">14sp</dimen>
+    <dimen name="wizard_dialog_width">288dp</dimen>
+    <dimen name="recycler_section_header_height">36dp</dimen>
+    <dimen name="recycler_section_header_tv_height">56dp</dimen>
+    <dimen name="recycler_section_header_spacing">12dp</dimen>
+
+    <dimen name="tv_card_padding">16dp</dimen>
+
+</resources>

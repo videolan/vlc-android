@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/background_actionbar"
+        android:elevation="0dp"
+        app:elevation="0dp">
+
+    <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:keyboardNavigationCluster="true"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:navigationContentDescription="@string/abc_action_bar_up_description"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="?attr/toolbar_popup_style"
+            app:theme="@style/Toolbar.VLC"
+
+            app:titleTextColor="@color/orange500"
+            app:titleMarginStart="@dimen/default_margin"
+            tools:targetApi="o">
+
+        <ImageView
+                android:id="@+id/toolbar_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:srcCompat="@drawable/icon" />
+
+        <TextView
+                android:id="@+id/toolbar_vlc_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAppearance="@style/ToolbarTitleText"
+                android:text="@string/app_name" />
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ariane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:clipToPadding="false"
+            android:visibility="gone"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+    <include
+            layout="@layout/tab_layout"
+            android:visibility="gone" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainLoading"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:visibility="gone">
+
+        <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+        <ProgressBar
+                android:id="@+id/mainLoadingProgress"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:indeterminateOnly="true"
+                android:padding="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/guideline8"
+                app:layout_constraintTop_toTopOf="@id/guideline8" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.appbar.AppBarLayout>

@@ -2,8 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 def abi = System.getenv('GRADLE_ABI')?.toLowerCase()
+def vlcSrcDirs = System.getenv('GRADLE_VLC_SRC_DIRS')
 ext {
-    library_version = '3.1.7'
+    library_version = "$rootProject.ext.libvlcVersion"
     repoName = 'Android'
     libraryName = 'LibVLC-Android'
     lib_artifact = "libvlc-$abi"
@@ -22,7 +23,8 @@ android {
     sourceSets {
         main {
             jni.srcDirs = [] // Prevent gradle from building native code with ndk; we have our own Makefile for it.
-            jniLibs.srcDirs = [ 'jni/libs' ] // Where generated .so files are placed.
+            jniLibs.srcDirs = [ 'jni/libs' ]
+            jniLibs.srcDirs += "$vlcSrcDirs"
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
             resources.srcDirs = ['src']
@@ -61,7 +63,7 @@ clean {
 
 dependencies {
     api "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
-    api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxVersion"
+    api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxLegacyVersion"
 }
 
 def vlcRevision() {
@@ -73,4 +75,4 @@ def vlcRevision() {
     return vlc.toString()
 }
 
-apply from: '../publish.gradle'
+apply from: '../buildsystem/publish.gradle'

@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_renderer_background_cone.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="600dp"
+        android:viewportHeight="320"
+        android:viewportWidth="272"
+        android:width="510dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="0.85098039"
+            android:fillColor="#ff8800"
+            android:fillType="evenOdd"
+            android:pathData="m116,40c-6.648,0 -12,5.352 -12,12v28h12L116,52L220,52v88h-44v12L220,152c6.648,0 12,-5.352 12,-12v-88c0,-6.648 -5.352,-12 -12,-12zM128,64v20.219c20.45,7.25 36.54,23.334 43.797,43.781h36.203v-64zM104,92v12c26.51,0 48,21.49 48,48h12c0,-33.138 -26.863,-60 -60,-60zM104,116v12c13.255,0 24,10.745 24,24h12c0,-19.882 -16.118,-36 -36,-36zM104,140c-1.651,0 -3.487,0.193 -4.809,1.188 -2.613,1.97 -3.67,5.132 -5.945,11.963 -2.276,6.831 -2.375,7.176 -2.375,7.176 9.505,4.786 16.406,5.234 26.258,0 0,0 -0.108,-0.371 -2.375,-7.176 -2.267,-6.805 -3.316,-9.946 -5.945,-11.963 -1.313,-1.008 -3.158,-1.188 -4.809,-1.188zM82.554,185.458v0l-9.504,28.714 -0.02,0.067c0.042,-0.02 0.074,-0.028 0.117,-0.038 17.822,15.557 43.963,15.56 61.785,0 0.012,0 0.021,0.02 0.031,0.02l-0.016,-0.048 -9.504,-28.711c-0.006,0 -0.014,0.02 -0.02,0.02 -14.415,10.84 -28.613,10.744 -42.871,-0.028zM58.277,228.535c-3.159,0 -6.096,2.4 -7.02,5.571l-5.535,18.966c-1.808,6.223 -3.601,12.4 -5.418,18.655 -0.76,2.614 0,4.536 1.227,5.866 0.76,0.823 1.699,1.421 2.563,1.818 0.864,0.387 1.452,0.59 2.133,0.59 1.587,0 29.287,-0.02 57.774,-0.02 28.486,0 56.187,0.02 57.774,0.02 0.68,0 1.269,-0.203 2.133,-0.59 0.863,-0.397 1.803,-0.995 2.563,-1.818 1.226,-1.329 1.987,-3.251 1.227,-5.866 -1.817,-6.255 -3.61,-12.432 -5.418,-18.655l-5.535,-18.966c-0.923,-3.171 -3.86,-5.571 -7.02,-5.571h-10.023c-0.004,0.02 -0.01,0.02 -0.016,0.032 0,0 1.584,4.782 2.375,7.176 1.148,3.474 1.716,5.193 0,7.184 -8.354,8.413 -21.685,12.901 -35.309,13.423 -15.441,0.596 -31.16,-3.991 -40.731,-13.423 -1.792,-1.766 -1.189,-3.593 0,-7.184 0.792,-2.393 2.281,-7.207 2.281,-7.207z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="round"
+            android:strokeWidth="16.00003433" />
+</vector>

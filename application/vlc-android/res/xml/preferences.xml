@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                      android:title="@string/preferences">
+
+    <PreferenceCategory android:title="@string/medialibrary">
+        <PreferenceScreen
+                android:key="directories"
+                android:summary="@string/directories_summary"
+                android:title="@string/medialibrary_directories"/>
+
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="auto_rescan"
+                android:summary="@string/auto_rescan_summary"
+                android:title="@string/auto_rescan"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/video_prefs_category">
+        <ListPreference
+                android:key="video_action_switch"
+                android:defaultValue="0"
+                android:entries="@array/video_app_switch_action_titles"
+                android:entryValues="@array/video_app_switch_action_values"
+                android:summary="@string/video_app_switch_summary"
+                android:title="@string/video_app_switch_title"/>
+        <ListPreference
+                android:defaultValue="-1"
+                android:entries="@array/hardware_acceleration_list"
+                android:entryValues="@array/hardware_acceleration_values"
+                android:key="hardware_acceleration"
+                android:summary="@string/hardware_acceleration_summary"
+                android:title="@string/hardware_acceleration"/>
+        <ListPreference
+                android:defaultValue="99"
+                android:entries="@array/screen_orientation_list"
+                android:entryValues="@array/screen_orientation_values"
+                android:key="screen_orientation"
+                android:title="@string/screen_orientation"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/history">
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="playback_history"
+                android:summary="@string/playback_history_summary"
+                android:title="@string/playback_history_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/extra_prefs_category">
+        <Preference
+                android:title="@string/interface_prefs_screen"
+                android:key="ui_category"
+                android:fragment="org.videolan.television.ui.preferences.PreferencesUi"/>
+        <Preference
+                android:title="@string/video_prefs_category"
+                android:key="video_category"
+                android:fragment="org.videolan.television.ui.preferences.PreferencesVideo"/>
+        <Preference
+                android:title="@string/subtitles_prefs_category"
+                android:key="subtitles_category"
+                android:fragment="org.videolan.television.ui.preferences.PreferencesSubtitles"/>
+        <Preference
+                android:title="@string/audio_prefs_category"
+                android:key="audio_category"
+                android:fragment="org.videolan.television.ui.preferences.PreferencesAudio"/>
+        <Preference
+                android:title="@string/casting_category"
+                android:key="casting_category"/>
+        <Preference
+                android:title="@string/extensions_prefs_category"
+                android:key="extensions_category"/>
+        <Preference
+                android:title="@string/advanced_prefs_category"
+                android:key="adv_category"
+                android:fragment="org.videolan.television.ui.preferences.PreferencesAdvanced"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

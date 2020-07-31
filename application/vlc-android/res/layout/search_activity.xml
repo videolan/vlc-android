@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="org.videolan.medialibrary.Tools" />
+
+        <variable
+                name="searchAggregate"
+                type="org.videolan.medialibrary.media.SearchAggregate" />
+
+        <variable
+                name="handler"
+                type="org.videolan.vlc.gui.SearchActivity.ClickHandler" />
+    </data>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/background_default">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:onClick="@{handler::onBack}"
+                    app:srcCompat="@drawable/ic_arrow_back" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/search_edit_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    app:endIconMode="clear_text">
+
+                <EditText
+                        android:id="@+id/search_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:hint="@string/search_hint"
+                        android:imeOptions="actionSearch"
+                        android:inputType="textFilter" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/background_default_darker"
+                android:visibility="@{searchAggregate.isEmpty ? View.GONE : View.VISIBLE}">
+
+            <LinearLayout
+                    android:id="@+id/results_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/albums"
+                        android:textAppearance="@style/Result.Title"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.albums) ? View.GONE : View.VISIBLE}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/albums_results"
+                        style="@style/Result.List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/background_default"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.albums) ? View.GONE : View.VISIBLE}" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/artists"
+                        android:textAppearance="@style/Result.Title"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.artists) ? View.GONE : View.VISIBLE}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/artists_results"
+                        style="@style/Result.List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/background_default"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.artists) ? View.GONE : View.VISIBLE}" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/genres"
+                        android:textAppearance="@style/Result.Title"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.genres) ? View.GONE : View.VISIBLE}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/genres_results"
+                        style="@style/Result.List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/background_default"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.genres) ? View.GONE : View.VISIBLE}" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/playlists"
+                        android:textAppearance="@style/Result.Title"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.playlists) ? View.GONE : View.VISIBLE}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/playlists_results"
+                        style="@style/Result.List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/background_default"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.playlists) ? View.GONE : View.VISIBLE}" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/episodes"
+                        android:textAppearance="@style/Result.Title"
+                        android:visibility="@{View.GONE}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/episodes_results"
+                        style="@style/Result.List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/background_default"
+                        android:visibility="@{View.GONE}" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/movies"
+                        android:textAppearance="@style/Result.Title"
+                        android:visibility="@{View.GONE}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/movies_results"
+                        style="@style/Result.List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/background_default"
+                        android:visibility="@{View.GONE}" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/videos"
+                        android:textAppearance="@style/Result.Title"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.videos) ? View.GONE : View.VISIBLE}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/others_results"
+                        style="@style/Result.List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/background_default"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.videos) ? View.GONE : View.VISIBLE}" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/songs"
+                        android:textAppearance="@style/Result.Title"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.tracks) ? View.GONE : View.VISIBLE}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/songs_results"
+                        style="@style/Result.List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/background_default"
+                        android:visibility="@{Tools.isArrayEmpty(searchAggregate.tracks) ? View.GONE : View.VISIBLE}" />
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/search_no_result"
+                android:textAppearance="@style/Result.Title"
+                android:visibility="@{searchAggregate.isEmpty ? View.VISIBLE : View.GONE}" />
+    </LinearLayout>
+</layout>

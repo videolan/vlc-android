@@ -1,0 +1,47 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_play_as_audio_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="38dp"
+        android:viewportHeight="20"
+        android:viewportWidth="20"
+        android:width="38dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#212121"
+            android:fillType="nonZero"
+            android:pathData="m13,6 l0,5.9996l0,0.0664c-0.1632,-0.0431 -0.3312,-0.0655 -0.5,-0.0664 -1.1046,0 -2,0.8954 -2,2 0,1.1046 0.8954,2 2,2 1.1046,0 2,-0.8954 2,-2l0,-6.4996l1.5,0l0,-1.5l-1.5,0z"
+            android:strokeColor="#00000000"
+            android:strokeWidth="0.75" />
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#212121"
+            android:fillType="evenOdd"
+            android:pathData="m4,4.0004v8l6,-4z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="1" />
+</vector>

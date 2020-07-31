@@ -13,7 +13,8 @@
         android:layout_height="match_parent"
         android:inflatedId="@+id/surface_video"
         android:layout="@layout/surface_view"
-        android:id="@+id/surface_stub" />
+        android:id="@+id/surface_stub"
+        android:layout_gravity="center"/>
 
     <ViewStub
         android:layout_width="1dp"
@@ -27,5 +28,6 @@
         android:layout_height="match_parent"
         android:layout="@layout/texture_view"
         android:inflatedId="@+id/texture_video"
-        android:id="@+id/texture_stub" />
+        android:id="@+id/texture_stub"
+        android:layout_gravity="center" />
 </FrameLayout>

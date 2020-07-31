@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/player_root"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:keepScreenOn="true">
+
+    <!--
+     the double FrameLayout is necessary here to do cropping on the bottom right
+     (which requires the surface not be centered), while keeping the result centered
+    -->
+
+    <org.videolan.libvlc.util.VLCVideoLayout
+            android:id="@+id/video_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false" />
+
+
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_seek_stub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="false"
+            android:layout="@layout/player_overlay_seek" />
+
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_brightness_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_marginRight="@dimen/tv_overscan_horizontal"
+            android:layout="@layout/player_overlay_brightness" />
+
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_volume_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/tv_overscan_horizontal"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout="@layout/player_overlay_volume" />
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/hud_background"
+            android:background="@drawable/gradient_hud_player"
+            android:visibility="gone"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/hud_right_background"
+            android:background="@drawable/gradient_title_player"
+            android:visibility="gone"/>
+
+    <RelativeLayout
+            android:id="@+id/player_ui_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
+
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_overlay_tips"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/player_tips" />
+
+        <ImageView
+                android:id="@+id/player_overlay_loading"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_cone_o" />
+
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_info_stub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout="@layout/player_overlay_info" />
+
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_overlay_settings_stub"
+                android:layout="@layout/player_overlay_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/default_margin" />
+
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_hud_right_stub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout="@layout/player_hud_right" />
+
+        <androidx.appcompat.widget.ViewStubCompat
+                android:id="@+id/player_hud_stub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/player_hud"
+                android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+
+            android:maxWidth="480dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/playerbackground"
+            android:id="@+id/video_playlist_container"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            tools:visibility="visible">
+
+        <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@color/playerbackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_close_small"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:id="@+id/close_button"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/view"
+                android:layout_marginStart="8dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/playlist_search_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:paddingTop="0dp"
+                android:visibility="visible"
+                app:boxStrokeColor="@color/grey200"
+                app:hintTextColor="@color/grey200"
+                app:layout_constraintBottom_toBottomOf="@+id/view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/close_button"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                    android:id="@+id/playlist_search_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:hint="@string/search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textFilter"
+                    android:textCursorDrawable="@drawable/cursor_w"
+                    android:nextFocusDown="@+id/video_playlist" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/video_playlist"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:descendantFocusability="afterDescendants"
+                android:focusable="true"
+                android:nextFocusUp="@+id/playlist_search_edittext"
+                android:paddingTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_options_stub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/player_options" />
+
+</RelativeLayout>

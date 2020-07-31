@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+                name="empty"
+                type="boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <include
+                layout="@layout/button_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <org.videolan.vlc.gui.view.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{empty ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchButton">
+
+            <org.videolan.vlc.gui.view.AutoFitRecyclerView
+                    android:id="@+id/video_grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:fadingEdge="none"
+                    android:fastScrollEnabled="true"
+                    android:gravity="center"
+                    android:numColumns="auto_fit"
+                    android:padding="@dimen/half_default_margin"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbars="vertical"
+                    android:stretchMode="none" />
+        </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+
+        <org.videolan.vlc.gui.view.EmptyLoadingStateView
+                android:id="@+id/empty_loading"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:empty_text="@string/nomedia"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

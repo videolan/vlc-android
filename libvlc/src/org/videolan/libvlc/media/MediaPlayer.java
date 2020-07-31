@@ -32,10 +32,11 @@ import android.os.Parcelable;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
+import org.videolan.libvlc.interfaces.ILibVLC;
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.libvlc.Media;
 
-import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.Map;
@@ -67,13 +68,13 @@ public class MediaPlayer
     public static final int VIDEO_SCALING_MODE_SCALE_TO_FIT = 1;
     public static final int VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING = 2;
 
-    private Media mCurrentMedia = null;
-    private final LibVLC mLibVLC;
+    private IMedia mCurrentMedia = null;
+    private final ILibVLC mILibVLC;
     private org.videolan.libvlc.MediaPlayer mMediaPlayer;
 
     public MediaPlayer() {
-        mLibVLC = new LibVLC(null); //FIXME, this is wrong
-        mMediaPlayer = new org.videolan.libvlc.MediaPlayer(mLibVLC);
+        mILibVLC = new LibVLC(null); //FIXME, this is wrong
+        mMediaPlayer = new org.videolan.libvlc.MediaPlayer(mILibVLC);
     }
 
     public static MediaPlayer create(Context context, Uri uri) {
@@ -108,19 +109,19 @@ public class MediaPlayer
     // FIXME, this is INCORRECT, @headers are ignored
     public void setDataSource(Context context, Uri uri, Map<String, String> headers)
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
-        mCurrentMedia = new Media(mLibVLC, uri);
+        mCurrentMedia = new Media(mILibVLC, uri);
         mMediaPlayer.setMedia(mCurrentMedia);
     }
 
     public void setDataSource(String path)
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
-        mCurrentMedia = new Media(mLibVLC, path);
+        mCurrentMedia = new Media(mILibVLC, path);
         mMediaPlayer.setMedia(mCurrentMedia);
     }
 
     public void setDataSource(FileDescriptor fd)
             throws IOException, IllegalArgumentException, IllegalStateException {
-        mCurrentMedia = new Media(mLibVLC, fd);
+        mCurrentMedia = new Media(mILibVLC, fd);
         mMediaPlayer.setMedia(mCurrentMedia);
     }
 
@@ -279,11 +280,11 @@ public class MediaPlayer
     public static final String MEDIA_MIMETYPE_TEXT_SUBRIP = "application/x-subrip";
 
     public void addTimedTextSource(String path, String mimeType) {
-        mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, path, false);
+        mMediaPlayer.addSlave(IMedia.Slave.Type.Subtitle, path, false);
     }
 
     public void addTimedTextSource(Context context, Uri uri, String mimeType) {
-        mMediaPlayer.addSlave(Media.Slave.Type.Subtitle, uri, false);
+        mMediaPlayer.addSlave(IMedia.Slave.Type.Subtitle, uri, false);
     }
 
     public void addTimedTextSource(FileDescriptor fd, String mimeType)

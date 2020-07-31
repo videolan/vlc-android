@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            tools:context="org.videolan.vlc.gui.BetaWelcomeActivity">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_stat_vlc"
+                android:id="@+id/imageView6"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintHorizontal_chainStyle="packed" />
+
+        <TextView
+                android:text="@string/welcome_beta_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView20"
+                app:layout_constraintTop_toTopOf="@+id/imageView6"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                android:layout_marginStart="8dp"
+                android:textSize="18sp" />
+
+        <TextView
+                android:text="@string/welcome_beta_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView23"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView20"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="1.0" />
+
+        <TextView
+                android:text="@string/welcome_beta_description_bugs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView24"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView23"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="1.0" />
+
+        <TextView
+                android:text="@string/welcome_beta_description_crashes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView25"
+                app:layout_constraintTop_toBottomOf="@+id/textView24"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintHorizontal_bias="1.0"
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+        <ImageView
+                android:src="@mipmap/ic_launcher_reporter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView7"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView25"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" />
+
+        <Button
+                android:text="@string/ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/betaOkButton"
+                android:layout_marginTop="24dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+                app:layout_constraintTop_toBottomOf="@+id/imageView7"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

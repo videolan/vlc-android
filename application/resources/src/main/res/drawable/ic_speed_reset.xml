@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_speed_reset_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="@color/standard_selection_orange500_orange200"
+            android:fillType="evenOdd"
+            android:pathData="m18,3.9982c-1.1046,0 -2,0.8954 -2,2 0,1.1045 0.8954,2 2,2 1.1046,0 2,-0.8955 2,-2 0,-1.1046 -0.8954,-2 -2,-2zM9,11.0001 L8,11.9982 8,14.9982 4,14.9982 4,16.9982 10,16.9982 10,13.9982 12,15.9982 12,20.0001 14,20.0001 14,16.0001 19,21.0001 20,20.0001 12.5,12.5021 10,10.0021 9,9.0021 7.584,7.5862 4,4.0022 4,4.0022 3,5.0022zM9.1699,5.9983 L8.584,6.5842 10,7.9982 12,7.9982 11,9.0001 13.5,11.5001 13.6894,11.3088 14.2519,10.7463c1.0059,3.2454 4.7481,3.2519 4.7481,3.2519l0,-2c-2.9687,0 -3,-3 -3,-3 0,-2.9999 -3,-2.9999 -3,-2.9999z"
+            android:strokeWidth="1"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="miter" />
+</vector>

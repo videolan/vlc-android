@@ -1,0 +1,163 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+android {
+    packagingOptions {
+        exclude 'META-INF/main.kotlin_module'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/armeabi/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/x86/libc++_shared.so'
+        pickFirst 'lib/x86_64/libc++_shared.so'
+    }
+
+    task hrtfsCopy(type: Copy) {
+        from '../../vlc/share/hrtfs'
+        into 'src/main/assets/hrtfs'
+    }
+
+    task luaPlaylistCopy(type: Copy) {
+        from '../../vlc/share/lua/playlist'
+        into 'src/main/assets/lua/playlist'
+        exclude '**/*.txt'
+    }
+
+    task luaMetaCopy(type: Copy) {
+        from '../../vlc/share/lua/meta'
+        into 'src/main/assets/lua/meta'
+        exclude '**/*.txt'
+    }
+
+    dexOptions {
+        maxProcessCount 8
+        javaMaxHeapSize "4g"
+        preDexLibraries true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    flavorDimensions "abi"
+
+    lintOptions {
+        abortOnError false
+        disable 'MissingTranslation', 'ExtraTranslation'
+    }
+
+
+    defaultConfig {
+        applicationId rootProject.ext.appId
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        tasks.whenTaskAdded { task ->
+            if (task.name.startsWith('merge')) {
+                task.dependsOn hrtfsCopy
+                task.dependsOn luaPlaylistCopy
+                task.dependsOn luaMetaCopy
+            }
+        }
+    }
+
+    signingConfigs {
+        release {
+            /*
+            To set this properties, create file gradle.properties with these 3 props.
+            e.g.
+            keyStoreFile=/home/<username>/.android/debug.keystore
+            storealias=androiddebugkey
+            storepwd=android
+             */
+            if (project.hasProperty('keyStoreFile')) {
+                storeFile file(project.findProperty('keyStoreFile'))
+                keyAlias project.findProperty('storealias')
+                if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()) {
+                    storePassword = System.getenv('PASSWORD_KEYSTORE')
+                    keyPassword = System.getenv('PASSWORD_KEYSTORE')
+                } else {
+                    storePassword project.findProperty('storepwd')
+                    keyPassword project.findProperty('storepwd')
+                }
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            kotlinOptions.freeCompilerArgs = ['-Xno-param-assertions']
+        }
+        signedRelease {
+            initWith release
+            signingConfig = signingConfigs.release
+            matchingFallbacks = ['release']
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            jniDebuggable true
+        }
+        dev {
+            initWith debug
+            matchingFallbacks = ['debug']
+        }
+    }
+
+    sourceSets.release {
+        manifest.srcFile 'flavors/release/AndroidManifest.xml'
+    }
+    sourceSets.signedRelease {
+        manifest.srcFile 'flavors/release/AndroidManifest.xml'
+    }
+
+    splits {
+        abi {
+            def isReleaseBuild = false
+            gradle.startParameter.taskNames.find {
+                // Enable split for release builds in different build flavors
+                // (assemblePaidRelease, assembleFreeRelease, etc.).
+                if (it.toLowerCase() ==~ /assemble.*Release/.toLowerCase()) {
+                    isReleaseBuild = true
+                    return true // break
+                }
+                return false // continue
+            }
+            enable isReleaseBuild
+            reset()
+            include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
+//            universalApk !isReleaseBuild
+        }
+    }
+
+    def abiCodes = ['x86': 5, 'x86_64': 8, 'armeabi-v7a': 4, 'arm64-v8a': 7]
+    // make per-variant version code
+    applicationVariants.all { variant ->
+        //Custom APK name and versionCode
+        variant.outputs.each { output ->
+            def outputAbi = output.getFilter(com.android.build.OutputFile.ABI)
+            def abiName = System.getenv('GRADLE_ABI')?.toLowerCase() ?: "all"
+            if (outputAbi != null) abiName = outputAbi
+            output.versionCodeOverride = 10000000 + defaultConfig.versionCode + abiCodes.get(abiName, 0)
+            def outputName = "VLC-Android-"
+            outputName += variant.versionName.replace(" ", "-")
+            if (variant.buildType.name == "debug") outputName += "-debug"
+            outputName += "-" + abiName + ".apk"
+            output.outputFileName = outputName
+        }
+    }
+
+}
+
+dependencies {
+    implementation project(':application:vlc-android')
+    implementation project(':application:television')
+}

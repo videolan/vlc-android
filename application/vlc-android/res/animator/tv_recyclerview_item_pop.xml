@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="true">
+        <set>
+            <objectAnimator
+                android:duration="200"
+                android:propertyName="elevation"
+                android:valueTo="12dp"
+                android:valueType="floatType" />
+
+        </set>
+    </item>
+
+    <item>
+        <set>
+            <objectAnimator
+                android:duration="200"
+                android:propertyName="elevation"
+                android:valueTo="1dp"
+                android:valueType="floatType" />
+
+        </set>
+    </item>
+
+</selector>

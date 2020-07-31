@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.VLC"
+        parent="Theme.VLC.Black" />
+
+
+    <style name="VLCTransparentTheme" parent="VLCTransparentThemeDark"/>
+
+    <style name="Toolbar.VLC" parent="ThemeOverlay.MaterialComponents.Toolbar.Surface">
+        <item name="android:textCursorDrawable">@drawable/cursor_w</item>
+        <item name="colorControlNormal">@color/grey400</item>
+        <item name="popupMenuBackground">@color/black</item>
+    </style>
+</resources>

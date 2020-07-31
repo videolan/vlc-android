@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_menu_stream_big.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="90dp"
+        android:viewportHeight="48"
+        android:viewportWidth="48"
+        android:width="90dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="nonZero"
+            android:pathData="m24,6c-9.9411,0 -18,8.0588 -18,18h4c0,-7.732 6.268,-14 14,-14 7.732,0 14,6.268 14,14h4c0,-9.9412 -8.0589,-18 -18,-18zM23,14c-5.0426,0.5122 -9,4.8224 -9,10h4c0,-3.3136 2.6863,-6 6,-6 3.3137,0 6,2.6864 6,6h4c0,-5.5228 -4.4772,-10 -10,-10 -0.3452,0 -0.6638,-0.034 -1,0zM24,22c-0.7733,0 -1.3677,0.475 -1.6875,1.125l-6.0625,15.875L13,39v3c7,-0.026 15,-0.026 22,0v-3h-3.25l-6.0625,-15.875c-0.3198,-0.65 -0.9142,-1.125 -1.6875,-1.125z"
+            android:strokeColor="#00000000"
+            android:strokeWidth="1" />
+</vector>

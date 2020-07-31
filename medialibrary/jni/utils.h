@@ -23,6 +23,20 @@
 #include <jni.h>
 #include <medialibrary/Types.h>
 #include <medialibrary/IMediaLibrary.h>
+#include <medialibrary/IAlbumTrack.h>
+#include <medialibrary/IVideoTrack.h>
+#include <medialibrary/IFile.h>
+#include <medialibrary/IMedia.h>
+#include <medialibrary/IArtist.h>
+#include <medialibrary/IGenre.h>
+#include <medialibrary/IAlbum.h>
+#include <medialibrary/IPlaylist.h>
+#include <medialibrary/IFolder.h>
+#include <medialibrary/IMediaLibrary.h>
+#include <medialibrary/IMetadata.h>
+#include<medialibrary/filesystem/IDevice.h>
+#include <medialibrary/IMediaGroup.h>
+#include <medialibrary/filesystem/Errors.h>
 
 #define VLC_JNI_VERSION JNI_VERSION_1_2
 
@@ -54,6 +68,10 @@ struct fields {
         jmethodID onPlaylistsAddedId;
         jmethodID onPlaylistsModifiedId;
         jmethodID onPlaylistsDeletedId;
+        jmethodID onMediaGroupAddedId;
+        jmethodID onMediaGroupModifiedId;
+        jmethodID onMediaGroupDeletedId;
+        jmethodID onHistoryChangedId;
         jmethodID onDiscoveryStartedId;
         jmethodID onDiscoveryProgressId;
         jmethodID onDiscoveryCompletedId;
@@ -63,8 +81,10 @@ struct fields {
         jmethodID onReloadCompletedId;
         jmethodID onEntryPointBannedId;
         jmethodID onEntryPointUnbannedId;
+        jmethodID onEntryPointAddedId;
         jmethodID onEntryPointRemovedId;
         jmethodID onMediaThumbnailReadyId;
+        jmethodID onUnhandledExceptionId;
     } MediaLibrary;
     struct Album {
         jclass clazz;
@@ -98,6 +118,10 @@ struct fields {
         jclass clazz;
         jmethodID initID;
     } Folder;
+    struct VideoGroup {
+        jclass clazz;
+        jmethodID initID;
+    } VideoGroup;
 };
 
 jobject mediaToMediaWrapper(JNIEnv*, fields*, const medialibrary::MediaPtr &);
@@ -105,7 +129,8 @@ jobject convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr c
 jobject convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& artistPtr);
 jobject convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& genrePtr);
 jobject convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& genrePtr);
-jobject convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr);
+jobject convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count);
+jobject convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr const& videogroupPtr);
 jobject convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr);
 jobjectArray filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount = -1);
 

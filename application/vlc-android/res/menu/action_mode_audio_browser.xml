@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_mode_audio_playlist_up"
+        android:title="@string/info"
+            android:icon="@drawable/ic_am_playlist_up"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_mode_audio_playlist_down"
+        android:title="@string/info"
+            android:icon="@drawable/ic_am_playlist_down"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_mode_audio_info"
+        android:title="@string/info"
+            android:icon="@drawable/ic_am_information"
+        app:showAsAction="always"/>
+    <item
+            android:id="@+id/action_mode_audio_share"
+            android:title="@string/share"
+            android:icon="@drawable/ic_am_share_normal"
+            app:showAsAction="always" />
+    <item
+        android:id="@+id/action_mode_audio_play"
+        android:title="@string/play"
+            android:icon="@drawable/ic_am_play"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_mode_audio_append"
+        android:title="@string/append"
+            android:icon="@drawable/ic_am_append"
+            app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_mode_audio_add_playlist"
+        android:title="@string/add_to_playlist"
+            android:icon="@drawable/ic_am_addtoplaylist"
+            app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_mode_audio_delete"
+        android:title="@string/delete"
+            android:icon="@drawable/ic_am_trash"
+        android:visible="false"
+            app:showAsAction="ifRoom" />
+    <group android:id="@+id/phone_only" >
+        <item
+            android:id="@+id/action_mode_audio_set_song"
+            android:title="@string/set_song"
+                android:icon="@drawable/ic_am_ringtone"
+            android:visible="false"
+                app:showAsAction="ifRoom" />
+    </group>
+</menu>

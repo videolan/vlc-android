@@ -15,6 +15,8 @@ import android.view.ViewStub;
 import android.widget.FrameLayout;
 
 import org.videolan.R;
+import org.videolan.libvlc.interfaces.IMedia;
+import org.videolan.libvlc.interfaces.IVLCVout;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.DisplayManager;
 import org.videolan.libvlc.util.VLCVideoLayout;
@@ -135,11 +137,11 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
                 break;
             case SURFACE_FIT_SCREEN:
             case SURFACE_FILL: {
-                Media.VideoTrack vtrack = mMediaPlayer.getCurrentVideoTrack();
+                IMedia.VideoTrack vtrack = mMediaPlayer.getCurrentVideoTrack();
                 if (vtrack == null)
                     return;
-                final boolean videoSwapped = vtrack.orientation == Media.VideoTrack.Orientation.LeftBottom
-                        || vtrack.orientation == Media.VideoTrack.Orientation.RightTop;
+                final boolean videoSwapped = vtrack.orientation == IMedia.VideoTrack.Orientation.LeftBottom
+                        || vtrack.orientation == IMedia.VideoTrack.Orientation.RightTop;
                 if (mCurrentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     int videoW = vtrack.width;
                     int videoH = vtrack.height;
@@ -186,7 +188,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
 
     @TargetApi(Build.VERSION_CODES.N)
     void updateVideoSurfaces() {
-        if (mMediaPlayer == null || mMediaPlayer.isReleased()) return;
+        if (mMediaPlayer == null || mMediaPlayer.isReleased() || !mMediaPlayer.getVLCVout().areViewsAttached()) return;
         final boolean isPrimary = mDisplayManager == null || mDisplayManager.isPrimary();
         final Activity activity = isPrimary && mVideoSurfaceFrame.getContext() instanceof Activity ? (Activity) mVideoSurfaceFrame.getContext() : null;
 
@@ -195,8 +197,8 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
 
         // get screen size
         if (activity != null) {
-            sw = activity.getWindow().getDecorView().getWidth();
-            sh = activity.getWindow().getDecorView().getHeight();
+            sw = mVideoSurfaceFrame.getWidth();
+            sh = mVideoSurfaceFrame.getHeight();
         } else if (mDisplayManager != null && mDisplayManager.getPresentation() != null && mDisplayManager.getPresentation().getWindow() != null) {
             sw = mDisplayManager.getPresentation().getWindow().getDecorView().getWidth();
             sh = mDisplayManager.getPresentation().getWindow().getDecorView().getHeight();
@@ -210,12 +212,19 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
 
         mMediaPlayer.getVLCVout().setWindowSize(sw, sh);
 
-        ViewGroup.LayoutParams lp = mVideoSurface.getLayoutParams();
+        /* We will setup either the videoSurface or the videoTexture */
+        View videoView = mVideoSurface;
+        if (videoView == null)
+            videoView = mVideoTexture;
+
+        ViewGroup.LayoutParams lp = videoView.getLayoutParams();
         if (mVideoWidth * mVideoHeight == 0 || (AndroidUtil.isNougatOrLater && activity != null && activity.isInPictureInPictureMode())) {
             /* Case of OpenGL vouts: handles the placement of the video using MediaPlayer API */
             lp.width  = ViewGroup.LayoutParams.MATCH_PARENT;
             lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-            mVideoSurface.setLayoutParams(lp);
+            videoView.setLayoutParams(lp);
+            if (mSubtitlesSurface != null)
+                mSubtitlesSurface.setLayoutParams(lp);
             lp = mVideoSurfaceFrame.getLayoutParams();
             lp.width  = ViewGroup.LayoutParams.MATCH_PARENT;
             lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -291,17 +300,12 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
         // set display size
         lp.width  = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
-        mVideoSurface.setLayoutParams(lp);
+        videoView.setLayoutParams(lp);
         if (mSubtitlesSurface != null) mSubtitlesSurface.setLayoutParams(lp);
 
-        // set frame size (crop if necessary)
-        lp = mVideoSurfaceFrame.getLayoutParams();
-        lp.width = (int) Math.floor(dw);
-        lp.height = (int) Math.floor(dh);
-        mVideoSurfaceFrame.setLayoutParams(lp);
-
-        mVideoSurface.invalidate();
+        videoView.invalidate();
         if (mSubtitlesSurface != null) mSubtitlesSurface.invalidate();
+
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_edit.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="40dp"
+        android:height="40dp"
+        android:viewportWidth="40"
+        android:viewportHeight="40">
+    <path
+            android:pathData="m27.5,8a1.205,1.205 0,0 0,-0.8398 0.3398L25,10l5,5 1.6445,-1.6445A1.205,1.205 0,0 0,32 12.5,1.205 1.205,0 0,0 31.6602,11.6602L28.3555,8.3555A1.205,1.205 0,0 0,27.5 8ZM23,12 L8,27v5h5L28,17Z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="1"
+            android:fillColor="#000000"
+            android:strokeColor="#00000000"
+            android:fillType="evenOdd"
+            android:fillAlpha="1"
+            android:strokeLineCap="butt" />
+</vector>

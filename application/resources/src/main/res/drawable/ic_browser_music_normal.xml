@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_browser_music_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="m4.2222,4.222c-1.2311,0 -2.0198,1.0079 -2.2222,2.2224v1.1111,10.0002c0,1.2312 0.9911,2.2223 2.2222,2.2223L19.7778,19.7781c1.2311,0 2.2222,-0.9911 2.2222,-2.2223v-8.8891c0,-1.2311 -0.9911,-2.2222 -2.2222,-2.2222L12,6.4445l-2.2222,-2.2224zM18.6667,8.6676v1.977,4.6899c0,0.6817 -0.553,1.2347 -1.2348,1.2347 -0.6818,0 -1.2348,-0.553 -1.2348,-1.2347 0,-0.6819 0.553,-1.2327 1.2348,-1.2327 0.0852,0 0.1671,-0.0009 0.2474,0.016v-3.0729l-2.9622,1.174v4.1038c0,0.6818 -0.553,1.2348 -1.2348,1.2348 -0.6818,0 -1.2348,-0.553 -1.2348,-1.2348 0,-0.6819 0.553,-1.2326 1.2348,-1.2326 0.0852,0 0.1649,-0.0009 0.2452,0.015v-2.485,-1.3127c0,-0.3897 0.2279,-0.7184 0.5556,-0.8789z"
+      android:strokeWidth="1.11112547"
+      android:fillColor="#757575"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
+</vector>

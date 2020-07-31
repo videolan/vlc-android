@@ -23,7 +23,9 @@ package org.videolan.libvlc.util;
 import android.net.Uri;
 import androidx.annotation.MainThread;
 
+import org.videolan.libvlc.interfaces.ILibVLC;
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 
@@ -35,7 +37,7 @@ public class Dumper {
         void onProgress(float progress);
     }
 
-    private final LibVLC mLibVLC;
+    private final ILibVLC mILibVLC;
     private final MediaPlayer mMediaPlayer;
     private final Listener mListener;
 
@@ -60,9 +62,9 @@ public class Dumper {
         options.add("--no-audio");
         options.add("--no-spu");
         options.add("-vv");
-        mLibVLC = new LibVLC(null, options);
+        mILibVLC = new LibVLC(null, options);
 
-        final Media media = new Media(mLibVLC, uri);
+        final IMedia media = new Media(mILibVLC, uri);
         mMediaPlayer = new MediaPlayer(media);
         mMediaPlayer.setEventListener(new MediaPlayer.EventListener() {
             @Override
@@ -99,6 +101,6 @@ public class Dumper {
     public void cancel() {
         mMediaPlayer.stop();
         mMediaPlayer.release();
-        mLibVLC.release();
+        mILibVLC.release();
     }
 }

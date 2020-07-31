@@ -5,14 +5,16 @@ import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import androidx.annotation.Nullable;
+
+import org.videolan.libvlc.util.VLCUtil;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
-import org.videolan.medialibrary.media.MediaWrapper;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
-
-import androidx.annotation.Nullable;
+import java.util.regex.Pattern;
 
 public class Tools {
 
@@ -40,8 +42,8 @@ public class Tools {
         long lastTime = media.getTime();
         if (lastTime == 0L) return "";
         return String.format("%s / %s",
-                millisToString(lastTime, true, false),
-                millisToString(media.getLength(), true, false));
+                millisToString(lastTime, true, false, false),
+                millisToString(media.getLength(), true, false, false));
     }
 
     /**
@@ -50,7 +52,7 @@ public class Tools {
      * @return formated string (hh:)mm:ss
      */
     public static String millisToString(long millis) {
-        return millisToString(millis, false, true);
+        return millisToString(millis, false, true, false);
     }
 
     /**
@@ -59,7 +61,17 @@ public class Tools {
      * @return formated string "[hh]h[mm]min" / "[mm]min[s]s"
      */
     public static String millisToText(long millis) {
-        return millisToString(millis, true, true);
+        return millisToString(millis, true, true, false);
+    }
+
+    /**
+     * Convert time to a string with large formatting
+     *
+     * @param millis e.g.time/length from file
+     * @return formated string "[hh]h [mm]min " / "[mm]min [s]s"
+     */
+    public static String millisToTextLarge(long millis) {
+        return millisToString(millis, true, true, true);
     }
 
     public static String getResolution(MediaWrapper media) {
@@ -84,7 +96,7 @@ public class Tools {
                 final String artist = mw.getReferenceArtist(), album = mw.getAlbum();
                 final StringBuilder sb = new StringBuilder();
                 boolean hasArtist = !TextUtils.isEmpty(artist), hasAlbum = !TextUtils.isEmpty(album);
-                if (hasArtist && hasAlbum) sb.append(album).append(" - ").append(artist);
+                if (hasArtist && hasAlbum) sb.append(artist).append(" - ").append(album);
                 else if (hasArtist) sb.append(artist);
                 else sb.append(album);
                 item.setDescription(sb.toString());
@@ -92,7 +104,7 @@ public class Tools {
         }
     }
 
-    public static String millisToString(long millis, boolean text, boolean seconds) {
+    public static String millisToString(long millis, boolean text, boolean seconds, boolean large) {
         sb.setLength(0);
         if (millis < 0) {
             millis = -millis;
@@ -108,26 +120,32 @@ public class Tools {
 
         if (text) {
             if (hours > 0)
-                sb.append(hours).append('h');
+                sb.append(hours).append('h').append(large ? " " : "");
             if (min > 0)
-                sb.append(min).append("min");
+                sb.append(min).append("min").append(large ? " " : "");
             if ((seconds || sb.length() == 0) && sec > 0)
-                sb.append(sec).append("s");
+                sb.append(sec).append("s").append(large ? " " : "");
         } else {
             if (hours > 0)
-                sb.append(hours).append(':').append(format.format(min)).append(':').append(format.format(sec));
+                sb.append(hours).append(':').append(large ? " " : "").append(format.format(min)).append(':').append(large ? " " : "").append(format.format(sec));
             else
-                sb.append(min).append(':').append(format.format(sec));
+                sb.append(min).append(':').append(large ? " " : "").append(format.format(sec));
         }
         return sb.toString();
     }
 
-    public static String encodeVLCString(String mrl) {
-        return Uri.encode(Uri.decode(mrl), ".-_~/()&!$*+,;='@:");
-    }
-
     public static String encodeVLCMrl(String mrl) {
         if (mrl.startsWith("/")) mrl = "file://"+mrl;
-        return encodeVLCString(mrl);
+        return VLCUtil.encodeVLCString(mrl);
+    }
+
+    /**
+     * Search in a case insensitive manner for a substring in a source string
+     * @param source Source string in which to look for the substring
+     * @param substring substring to search in the source string
+     * @return presence of the substring as a boolean
+     */
+    public static Boolean hasSubString(String source, String substring) {
+        return Pattern.compile(Pattern.quote(substring), Pattern.CASE_INSENSITIVE).matcher(source).find();
     }
 }

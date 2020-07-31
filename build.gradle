@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.android_plugin_version = '3.3.2'
-    ext.kotlin_version = '1.3.21'
-    ext.kotlinx_version = '1.1.1'
+    ext.android_plugin_version = '4.0.1'
+    ext.kotlin_version = '1.3.72'
+    ext.kotlinx_version = '1.3.6'
     repositories {
         flatDir dirs: "gradle/plugins"
         google()
@@ -24,30 +24,51 @@ allprojects {
         }
         jcenter()
     }
+    tasks.withType(Javadoc) {
+        // Ignores errors from mavenAndroidJavadocs task
+        // (reference: github.com/novoda/bintray-release/issues/71#issuecomment-164324255)
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+    }
 }
 
 ext {
-    versionName = '3.1.0-RC4'
-    versionCode = 3010040
-    libvlcVersion = '3.1.7'
-    medialibraryVersion = '0.4.9'
+    appId = "org.videolan.vlc"
+    versionName = '3.3.0 Beta 7'
+    versionCode = 3028700
+    libvlcVersion = '3.3.0-eap15'
+    medialibraryVersion = '0.7.0-eap15'
     minSdkVersion = 17
-    targetSdkVersion = 28
-    compileSdkVersion = 28
-    androidxCoreVersion = '1.0.1'
-    androidxPreferencesVersion = '1.0.0'
-    androidxVersion = '1.0.0'
-    androidxAnnotationVersion = '1.0.1'
-    androidxAppcompatVersion = '1.0.2'
+    targetSdkVersion = 29
+    compileSdkVersion = 29
+    androidxLegacyVersion = '1.0.0'
+    androidxCoreVersion = '1.3.0'
+    lifecycleVersion = '2.2.0'
+    androidxPreferencesVersion = '1.1.1'
+    androidxVersion = '1.1.0'
+    androidxActivityVersion = '1.1.0'
+    androidxFragmentVersion = '1.2.4'
+    androidxAnnotationVersion = '1.1.0'
+    androidxAppcompatVersion = '1.1.0'
+    androidxRecyclerviewVersion = '1.1.0'
+    androidxMediaVersion = '1.1.0'
+    androidxLeanbackVersion = '1.0.0'
+    //fixme : When we update this dep, please verify of this issue is fixed: https://github.com/material-components/material-components-android/issues/1086
+    // if so, revert application/vlc-android/res/values[-v21]/styles.xml -> AppModalStyle
+    androidxMaterialVersion = '1.1.0'
     constraintLayoutVersion = '1.1.3'
-    archVersion = '2.0.0'
-    roomVersion = '2.0.0'
-    pagingVersion = '2.0.0'
+    archVersion = '2.1.0'
+    roomVersion = '2.2.5'
+    pagingVersion = '2.1.2'
     junitVersion = '4.12'
     mockito = '2.8.9'
-    powerMock = '1.7.4'
-    retrofit = '2.4.0'
+    retrofit = '2.6.1'
+    moshi = '1.8.0'
+    powerMock = '2.0.2'
     espressoVersion = '3.1.1'
+    livedataTest = '1.1.0'
+    robolectric = '4.3.1'
+    mockk = '1.9.3'
     supportTest = '1.1.0'
 //    versionCode scheme is T M NN RR AA
 //    T: Target/Flavour (1 for Android, 2 for Chrome?)

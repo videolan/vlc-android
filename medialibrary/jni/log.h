@@ -61,6 +61,11 @@ class AndroidMediaLibraryLogger : public medialibrary::ILogger
     {
         __android_log_print( ANDROID_LOG_DEBUG, "VLC/medialibrary", "%s", msg.c_str() );
     }
+
+    virtual void Verbose( const std::string& msg ) override
+    {
+        __android_log_print( ANDROID_LOG_VERBOSE, "VLC/medialibrary", "%s", msg.c_str() );
+    }
 };
 
 #endif // LIBVLCJNI_LOG_H

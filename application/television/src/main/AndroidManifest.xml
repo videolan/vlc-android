@@ -1,0 +1,92 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.videolan.television">
+    <application>
+        <activity
+            android:name="org.videolan.television.ui.MainTvActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity
+            android:name="org.videolan.television.ui.dialogs.ConfirmationTvActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity
+            android:name="org.videolan.television.ui.DetailsActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Leanback.Details"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+                android:name="org.videolan.television.ui.MediaScrapingTvshowDetailsActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Leanback.Details"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="org.videolan.television.ui.browser.VerticalGridActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="org.videolan.television.ui.details.MediaListActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="org.videolan.television.ui.browser.TVActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.Black"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+                android:name="org.videolan.television.ui.MediaScrapingTvActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="org.videolan.television.ui.SearchActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity
+            android:name="org.videolan.television.ui.audioplayer.AudioPlayerActivity"
+            android:allowTaskReparenting="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="org.videolan.television.ui.preferences.PreferencesActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.Leanback.Preferences"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="org.videolan.television.ui.AboutActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name="org.videolan.television.ui.LicenceActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV"
+            tools:ignore="LockedOrientationActivity" />
+        <!-- Provides search suggestions for keywords against video meta data. -->
+        <provider
+            android:name="org.videolan.television.util.TVSearchProvider"
+            android:authorities="@string/tv_provider_authority"
+            android:exported="true">
+            <path-permission
+                android:pathPrefix="/search"
+                android:readPermission="android.permission.GLOBAL_SEARCH" />
+        </provider>
+    </application>
+</manifest>

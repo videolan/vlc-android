@@ -50,8 +50,6 @@ struct fields {
         jclass clazz;
         jfieldID mInstanceID;
         jmethodID dispatchEventFromNativeID;
-        jmethodID getWeakReferenceID;
-        jmethodID dispatchEventFromWeakNativeID;
     } VLCObject;
     struct {
         struct {

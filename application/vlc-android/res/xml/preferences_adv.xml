@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                      android:title="@string/advanced_prefs_category">
+
+    <EditTextPreference
+            android:defaultValue=""
+            android:key="network_caching"
+            android:maxLength="5"
+            android:summary="@string/network_caching_summary"
+            android:title="@string/network_caching"/>
+
+    <Preference
+            android:enabled="true"
+            android:key="dump_media_db"
+            android:summary="@string/dump_media_db_summary"
+            android:title="@string/dump_media_db"/>
+
+    <Preference
+            android:enabled="true"
+            android:key="clear_media_db"
+            android:summary="@string/clear_media_database_summary"
+            android:title="@string/clear_media_db"/>
+
+    <PreferenceScreen
+            android:key="clear_history"
+            android:title="@string/clear_playback_history"/>
+
+    <Preference
+            android:enabled="true"
+            android:key="quit_app"
+            android:title="@string/quit"/>
+
+    <PreferenceCategory android:title="@string/performance_prefs_category">
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="@bool/time_stretching_default"
+                android:key="enable_time_stretching_audio"
+                android:summary="@string/enable_time_stretching_audio_summary"
+                android:title="@string/enable_time_stretching_audio"/>
+        <ListPreference
+                android:defaultValue="-1"
+                android:entries="@array/opengl_list"
+                android:entryValues="@array/opengl_values"
+                android:key="opengl"
+                android:summary="@string/opengl_summary"
+                android:title="@string/opengl_title"/>
+        <ListPreference
+                android:defaultValue="@string/chroma_format_default"
+                android:entries="@array/chroma_formats"
+                android:entryValues="@array/chroma_formats_values"
+                android:key="chroma_format"
+                android:summary="@string/chroma_format_summary"
+                android:title="@string/chroma_format"/>
+        <ListPreference
+                android:defaultValue="-1"
+                android:entries="@array/deblocking_list"
+                android:entryValues="@array/deblocking_values"
+                android:key="deblocking"
+                android:summary="@string/deblocking_summary"
+                android:title="@string/deblocking"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="enable_frame_skip"
+                android:summary="@string/enable_frame_skip_summary"
+                android:title="@string/enable_frame_skip"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/developer_prefs_category">
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="enable_verbose_mode"
+                android:summary="@string/enable_verbose_mode_summary"
+                android:title="@string/enable_verbose_mode"/>
+
+        <PreferenceScreen
+                android:key="debug_logs"
+                android:title="@string/debug_logs"/>
+
+        <EditTextPreference
+                android:defaultValue=""
+                android:inputType="textMultiLine"
+                android:key="custom_libvlc_options"
+                android:singleLine="false"
+                android:title="@string/custom_libvlc_options"/>
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

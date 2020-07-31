@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                      android:key="video_category"
+                                      android:title="@string/video_prefs_category">
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="true"
+            android:key="save_individual_audio_delay"
+            android:summary="@string/save_audiodelay_summary"
+            android:title="@string/save_audiodelay_title"/>
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="save_brightness"
+            android:summary="@string/save_brightness_summary"
+            android:title="@string/save_brightness_title"/>
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="playback_speed"
+            android:summary="@string/playback_speed_summary"
+            android:title="@string/playback_speed_title"/>
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="true"
+            android:key="media_fast_seek"
+            android:summary="@string/media_fast_seek_summary"
+            android:title="@string/media_fast_seek"/>
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="true"
+            android:key="video_transition_show"
+            android:summary="@string/video_transition_summary"
+            android:title="@string/video_transition_title"/>
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="popup_force_legacy"
+            android:summary="@string/popup_force_legacy_summary"
+            android:title="@string/popup_force_legacy_title"/>
+    <ListPreference
+            app:singleLineTitle="false"
+            android:defaultValue="0"
+            android:key="video_confirm_resume"
+            android:entries="@array/ask_confirmation_entries"
+            android:entryValues="@array/ask_confirmation_values"
+            android:summary="%s"
+            android:title="@string/confirm_resume_title"/>
+
+    <PreferenceCategory android:title="@string/controls_prefs_category">
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="audio_boost"
+                android:summary="@string/audio_boost_summary"
+                android:title="@string/audio_boost_title"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="enable_volume_gesture"
+                android:summary="@string/enable_volume_gesture_summary"
+                android:title="@string/enable_volume_gesture_title"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="enable_brightness_gesture"
+                android:summary="@string/enable_brightness_gesture_summary"
+                android:title="@string/enable_brightness_gesture_title"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="true"
+                android:key="enable_double_tap_seek"
+                android:summary="@string/enable_double_tap_seek_summary"
+                android:title="@string/enable_double_tap_seek_title"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="enable_seek_buttons"
+                android:summary="@string/enable_seek_buttons_summary"
+                android:title="@string/enable_seek_buttons"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="popup_keepscreen"
+                android:summary="@string/popup_keepscreen_summary"
+                android:title="@string/popup_keepscreen_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/interface_secondary_display_category_title"
+            android:key="secondary_display_category">
+        <Preference
+                android:summary="@string/interface_secondary_display_category_summary"
+                android:key="secondary_display_category_summary"/>
+
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:defaultValue="false"
+                android:key="enable_clone_mode"
+                android:summary="@string/enable_clone_mode_summary"
+                android:title="@string/enable_clone_mode"/>
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

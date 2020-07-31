@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">OK</string>
+    <string name="cancel">Bekor qilish</string>
+    <string name="other">Boshqa</string>
+    <string name="sortby">Saralash…</string>
+    <string name="sortby_name">nomi bo‘yicha</string>
+    <string name="sortby_length">uzunligi bo‘yicha</string>
+    <string name="searchable_hint">Qidirish…</string>
+    <string name="history">Tarix</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d ta natija topildi</item>
+    </plurals>
+
+    <string name="play">Ijro etish</string>
+    <string name="play_from_start">Boshidan ijro etish</string>
+    <string name="play_as_audio">Audio sifatida ijro etish</string>
+    <string name="play_as_video">Video sifatida ijro etish</string>
+    <string name="append">Qo‘shish</string>
+    <string name="play_all">Barchasini ijro etish</string>
+    <string name="append_all">Barchasini qo‘shish</string>
+    <string name="delete">O‘chirish</string>
+    <string name="remove">Oʻchirish</string>
+    <string name="set_song">Rington sifatida oʻrnatish</string>
+    <string name="info">Ma’lumot</string>
+    <string name="confirm_delete">“%1$s” fayli o‘chirib tashlansinmi?</string>
+    <string name="ringtone_set">“%1$s” fayli rington sifatida o‘rnatildi.</string>
+    <string name="ringtone_error">Ringtonni o‘rnatishda xatolik yuz berdi.</string>
+    <string name="pause">Pauza</string>
+    <string name="unknown_artist">Noma’lum ijrochi</string>
+    <string name="unknown_album">Noma’lum albom</string>
+    <string name="unknown_genre">Noma’lum janr</string>
+    <string name="artists">Ijrochilar</string>
+    <plurals name="albums_quantity">
+        <item quantity="other">%d ta albom</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d ta tagjild</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d ta media fayl</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d ta video</item>
+    </plurals>
+    <string name="internal_memory">Ichki xotira</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="bookmarks">Xatcho‘plar</string>
+    <string name="equalizer">Ekvalayzer</string>
+    <string name="all_albums">Barcha albomlar</string>
+    <string name="genres">Janrlar</string>
+    <string name="playlists">Ijro ro‘yxatlari</string>
+    <string name="title">Nomi</string>
+    <string name="directories">Kataloglar</string>
+    <string name="loading">Yuklanmoqda…</string>
+    <string name="please_wait">Kuting…</string>
+    <string name="nomedia">Hech qanday media fayl topilmadi. Qurilmangizga fayllarni o‘tkazing yoki sozlamalarni o‘zgartiring.</string>
+    <string name="directorynotfound">\'%1$s\' jildi topilmadi.</string>
+    <string name="nohistory">Ijro tarixi bo‘m-bo‘sh.</string>
+    <string name="validation">Ishonchingiz komilmi?</string>
+
+    <string name="cover_art">Muqova</string>
+    <string name="previous">Avvalgi</string>
+    <string name="stop">To‘xtatish</string>
+    <string name="surface_best_fit">Optimal</string>
+    <string name="surface_fill">To‘ldirish</string>
+    <string name="surface_original">Markazga</string>
+    <string name="unseekable_stream">Topilmaydigan oqim</string>
+    <string name="refresh">Yangilash</string>
+    <string name="track_audio">Audio yozuv</string>
+    <string name="track_video">Video yozuv</string>
+    <string name="track_unknown">Noma’lum yozuv</string>
+    <string name="track_codec_info">Kodek: %1$s\n</string>
+    <string name="track_language_info">Til: %1$s\n</string>
+    <string name="volume">Ovoz balandligi</string>
+    <string name="sound_on">Ovoz yoqiq</string>
+    <string name="sound_off">Ovoz o\'chiq</string>
+    <string name="brightness">Yorqinlik</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">%1$d ta kanallar\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Chastota: %1$d Hz\n</string>
+    <string name="track_resolution_info">Rezolutsiya: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Kadr chastotasi: %1$.3f\n</string>
+
+    <string name="playback_speed">Ijro tezligi</string>
+    <string name="sleep_title">Uyqu taymeri</string>
+    <string name="jump_to_time">Vaqt bo‘yicha o‘tish</string>
+    <string name="subtitle_select">Subtitr faylini tanlang</string>
+
+    <string name="encountered_error_title">Ijro etishda xato</string>
+    <string name="encountered_error_message">VLC`da ushbu media bilan muammo boʻldi.\nMedia kutubxonasini yangilashga harakat qiling.</string>
+    <string name="invalid_location">%1$s manzilidagi media faylni ijro etib bo‘lmaydi.</string>
+
+    <string name="search">Izlash</string>
+
+
+    <!-- Tips -->
+    <string name="video_player_tips">Video pleyerga oid maslahatlar:</string>
+    <string name="seek">Qidirish</string>
+    <string name="subtitles">Subtitrlar</string>
+    <string name="resize">O‘lchamini o‘zgartirish</string>
+    <string name="options">Tanlamalar</string>
+    <string name="lock">Qulflash</string>
+    <string name="playlist_tips">Ijro ro‘yxatiga oid maslahatlar</string>
+    <string name="remove_song">Qo‘shiqni olib tashlash</string>
+    <string name="rearrange_order">Qayta tartiblash</string>
+    <string name="hold_to_seek">Qidirish uchun bosib turing</string>
+
+    <string name="audio_player_tips">Audio pleyerga oid maslahatlar</string>
+    <string name="previous_next_song">Avvalgi/Keyingi qo‘shiq</string>
+    <string name="show_playlist">Ijro ro‘yxatini ko‘rsatish</string>
+    <string name="hold_to_stop">To‘xtatish uchun bosib turing</string>
+
+    <string name="licence">Litsenziya</string>
+    <string name="revision">Qayta ko‘rish</string>
+    <string name="about">Dastur haqida</string>
+    <string name="about_text">Android™ uchun VLC – VLC media pleyerning (ochiq kodli mashhur pleyer) port qilingan versiyasi hisoblanadi. Uning Android™ versyasi ko‘plab fayl turlari va tarmoqli oqim rejimida uzatiladigan videolarni o‘qiy oladi.</string>
+    <string name="compiled_by">VLC dasturining ushbu versiyasi ushbu inson tomonidan kompilatsiya qilingan:</string>
+    <string name="directories_summary">Media kutubxonaga qoʻshish uchun direktoriyalarni tanlang</string>
+    <string name="add_custom_path">Boshqa yo‘lni qo‘shish</string>
+    <string name="add_custom_path_description">Tekshirish uchun boshqa qo‘shimcha katalogni kiriting:</string>
+    <string name="remove_custom_path">Qo‘shimcha yo‘lni olib tashlash</string>
+    <string name="hardware_acceleration">Qurilmani tezlatish</string>
+    <string name="hardware_acceleration_disabled">Oʻchirilgan</string>
+    <string name="hardware_acceleration_decoding">Kodni yechish orqali tezlashtirish</string>
+    <string name="hardware_acceleration_full">To‘liq tezlashtirish</string>
+    <string name="automatic">Avtomatik</string>
+    <string name="screen_orientation">Ekranning joylashuvi</string>
+    <string name="screen_orientation_sensor">Avtomatik (sezgich)</string>
+    <string name="screen_orientation_start_lock">Ishga tushganda qulflansin</string>
+    <string name="screen_orientation_portrait">Bo‘yiga</string>
+    <string name="screen_orientation_landscape">Eniga</string>
+    <string name="subtitle_text_encoding">Subtitr matnini kodlash</string>
+    <string name="extra_prefs_category">Qo‘shimcha sozlamalar</string>
+
+    <string name="interface_prefs_screen">Interfeys</string>
+    <string name="enable_clone_mode">Nusxasini afzal ko‘rish</string>
+    <string name="enable_brightness_gesture_summary">Video ijrosi davomidagi harakatlarga tegishli yoqrinlikni boshqarish</string>
+    <string name="enable_headset_detection">Quloqlikni aniqlash</string>
+    <string name="aout">Audio chiqarish</string>
+    <string name="performance_prefs_category">Bajarish</string>
+    <string name="chroma_format">Majburiy rangdorlik formati</string>
+    <string name="deblocking">Filter sozlamalarini ochish</string>
+    <string name="deblocking_always">Toʻliq koddan chiqarish (sekin)</string>
+    <string name="deblocking_nonref">Oʻrtacha blokdan chiqarish</string>
+    <string name="deblocking_nonkey">Past blokdan chiqarish</string>
+    <string name="deblocking_all">Bloklanmasin (tez)</string>
+    <string name="enable_time_stretching_audio">Ovoz tezligini o‘zgartirish</string>
+    <string name="advanced_prefs_category">Qo‘shimcha</string>
+    <string name="clear_media_db">Media ma’lumotlar bazasini tozalash</string>
+    <string name="set_locale">Tilni moslash</string>
+    <string name="network_caching">Tarmoq keshi qiymati</string>
+    <string name="quit">Ilovani qaytadan ishga tushirish</string>
+    <string name="developer_prefs_category">Dasturchi</string>
+    <string name="enable_verbose_mode">Batafsil</string>
+    <string name="enable_verbose_mode_summary">Batafsillilikni kattalashtirish (logcat)</string>
+    <string name="debug_logs">Nosozlik jurnallari</string>
+    <string name="start_logging">Jurnalga yozishni boshlash</string>
+    <string name="stop_logging">Jurnalga yozishni toʻxtatish</string>
+    <string name="clear_log">Jurnalni tozalash</string>
+    <string name="copy_to_clipboard">Xotiraga nusxa olish</string>
+    <string name="copied_to_clipboard">Jurnal a`lumotidan xotiraga nusxa olindi</string>
+    <string name="dump_logcat">logcat jurnaliga yuklash</string>
+    <string name="dump_logcat_success">Logcat muvaffaqiyatli tarzda %1$sga yuklandi.</string>
+    <string name="dump_logcat_failure">Logcat yuklash amalga oshmadi.</string>
+    <string name="serious_crash">Kechirasiz, jiddiy xatolik yuz bergani sababli VLC majburan yopiladi.</string>
+    <string name="help_us_send_log">Quyidagi ishdan chiqish holatlari jurnalini yuborish orqali VLC dasturini takomillashtirishga yordam bering:</string>
+    <string name="restart_vlc">VLC’ni qayta ishga tushirish</string>
+    <string name="send_log">Jurnalni yuborish</string>
+    <string name="sending_log">Jurnal yuborilmoqda</string>
+
+    <string name="next">Keyingi</string>
+</resources>

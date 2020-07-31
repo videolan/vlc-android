@@ -22,6 +22,7 @@
 #define LIBVLCJNI_VLCOBJECT_H
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include <jni.h>
 #include <vlc/vlc.h>
@@ -66,6 +67,7 @@ struct java_event
     jlong arg1;
     jlong arg2;
     jfloat argf1;
+    const char* argc1;
 };
 
 /* event manager callback dispatched to native struct implementing a

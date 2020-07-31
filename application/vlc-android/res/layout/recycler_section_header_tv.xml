@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+    <TextView
+            android:id="@+id/section_header"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/header_background"
+            android:paddingStart="@dimen/tv_overscan_horizontal"
+            android:paddingTop="@dimen/audio_item_header_padding"
+            android:paddingEnd="28dp"
+            android:paddingBottom="@dimen/audio_item_header_padding"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+</FrameLayout>

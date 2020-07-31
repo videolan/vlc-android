@@ -1,0 +1,39 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_add_to_group.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="40dp"
+        android:height="40dp"
+        android:viewportWidth="40"
+        android:viewportHeight="40">
+    <path
+            android:pathData="M13.5,6A2.5,2.5 0,0 0,11 8.5v18a2.5,2.5 0,0 0,2.5 2.5h18A2.5,2.5 0,0 0,34 26.5v-18A2.5,2.5 0,0 0,31.5 6ZM13.5,8.5h18v18h-18zM22.5,11.5C21.669,11.5 21,12.169 21,13v3h-3c-0.831,0 -1.5,0.669 -1.5,1.5 0,0.831 0.669,1.5 1.5,1.5h3v3c0,0.831 0.669,1.5 1.5,1.5 0.831,0 1.5,-0.669 1.5,-1.5v-3h3c0.831,0 1.5,-0.669 1.5,-1.5C28.5,16.669 27.831,16 27,16h-3v-3c0,-0.831 -0.669,-1.5 -1.5,-1.5zM6,12L6,31.5A2.5,2.5 0,0 0,8.5 34L28,34L28,31.5L8.5,31.5L8.5,12Z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="5.12989235"
+            android:fillColor="#000000"
+            android:strokeColor="#00000000"
+            android:fillAlpha="1"
+            android:strokeLineCap="round" />
+</vector>

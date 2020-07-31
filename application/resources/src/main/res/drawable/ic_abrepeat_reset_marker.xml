@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_abrepeat_reset_marker.xml
+  ~ **************************************************************************
+  ~ Copyright © 2019 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="6.35"
+        android:viewportHeight="6.3500004">
+    <path
+            android:pathData="m1.05833,1.05832 l-0.26458,0.26458 1.05833,1.05834c0,0.19505 0.04432,0.38756 0.12713,0.5638l1.07228,2.26237c0.00265,0.003 0.00291,0.006 0.00476,0.009 0.02196,0.0457 0.06816,0.0748 0.11885,0.0749 0.05316,0.00005 0.10118,-0.0317 0.12195,-0.0806l0.44545,-0.93948 1.28468,1.28468 0.26458,-0.26458zM3.175,1.05832c-0.43341,0 -0.81476,0.21016 -1.05471,0.53279l1.96265,1.96265 0.28887,-0.60872c0.08358,-0.17624 0.12565,-0.36875 0.1261,-0.5638 0,-0.73062 -0.5923,-1.32293 -1.32292,-1.32292z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="0.26458332"
+            android:fillColor="?attr/player_icon_color"
+            android:strokeColor="#00000000"
+            android:fillType="evenOdd"
+            android:fillAlpha="1"
+            android:strokeLineCap="butt" />
+</vector>

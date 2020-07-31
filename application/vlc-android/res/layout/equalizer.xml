@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="state"
+                type="org.videolan.vlc.gui.audio.EqualizerFragment.EqualizerState" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/equalizer_container"
+                android:nextFocusDown="@+id/equalizer_button"
+                android:nextFocusForward="@+id/equalizer_button"
+                android:nextFocusLeft="@+id/equalizer_button"
+                android:nextFocusRight="@+id/equalizer_button">
+
+            <TextView
+                    android:id="@+id/eq_title"
+                    style="@style/Theme.VLC.BottomSheetTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/equalizer"
+                    app:layout_constraintEnd_toStartOf="@+id/equalizer_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/equalizer_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    app:switchPadding="8dp"
+                    android:focusableInTouchMode="false"
+                    android:text="@string/enable_equalizer"
+                    app:layout_constraintBottom_toTopOf="@+id/equalizer_presets"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/eq_title"
+                    android:textAlignment="textEnd" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/equalizer_presets"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView10"
+                    app:layout_constraintTop_toBottomOf="@+id/eq_title">
+
+
+            </androidx.appcompat.widget.AppCompatSpinner>
+
+
+            <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/presets"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/equalizer_presets"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/equalizer_presets" />
+
+            <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/preamp"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/equalizer_preamp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/equalizer_preamp" />
+
+            <SeekBar
+                    android:id="@+id/equalizer_preamp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:maxHeight="4dip"
+                    android:minHeight="4dip"
+                    android:progressDrawable="@drawable/po_seekbar"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/ic_seekbar_thumb"
+                    app:layout_constraintBottom_toTopOf="@+id/equalizer_bands"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView11"
+                    app:layout_constraintTop_toBottomOf="@+id/equalizer_presets" />
+
+            <LinearLayout
+                    android:id="@+id/equalizer_bands"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="@dimen/kl_normal"
+                    android:layout_marginEnd="8dp"
+                    android:nextFocusLeft="@id/equalizer_preamp"
+                    android:nextFocusRight="@id/snapBands"
+                    android:nextFocusForward="@id/snapBands"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/equalizer_preamp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/snapBands"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:checked="true"
+                    android:text="@string/eq_snap_bands"
+                    android:textAlignment="textEnd"
+                    app:switchPadding="8dp"
+                    android:nextFocusRight="@+id/equalizer_delete"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/equalizer_bands"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                    android:id="@+id/equalizer_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{state.deleteButtonVisibility}"
+                    android:text="@string/delete"
+                    android:nextFocusRight="@+id/equalizer_revert"
+                    app:layout_constraintBottom_toBottomOf="@+id/equalizer_revert"
+                    app:layout_constraintEnd_toStartOf="@+id/equalizer_revert"
+                    app:layout_constraintTop_toTopOf="@+id/equalizer_revert" />
+
+
+            <Button
+                    android:id="@+id/equalizer_revert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{state.revertButtonVisibility}"
+                    android:text="@string/reset"
+                    android:nextFocusRight="@+id/equalizer_save"
+                    app:layout_constraintBottom_toBottomOf="@+id/equalizer_save"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toStartOf="@+id/equalizer_save"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/equalizer_save" />
+
+            <Button
+                    android:id="@+id/equalizer_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:enabled="@{state.saveButtonVisibility}"
+                    android:text="@string/save"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/snapBands" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

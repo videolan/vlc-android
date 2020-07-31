@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="24" height="24"
+        id="svg4682" version="1.1" inkscape:version="0.92.4 (33fec40, 2019-01-16)"
+        sodipodi:docname="ic_shuffle_tv_player.svg"
+        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+        inkscape:export-xdpi="90" inkscape:export-ydpi="90">
+    <defs id="defs4684" />
+    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
+            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="22.4"
+            inkscape:cx="5.5215257" inkscape:cy="15.548271" inkscape:document-units="px"
+            inkscape:current-layer="layer1" showgrid="true" inkscape:window-width="960"
+            inkscape:window-height="1028" inkscape:window-x="1920" inkscape:window-y="22"
+            inkscape:window-maximized="0">
+        <inkscape:grid type="xygrid" id="grid3002" />
+    </sodipodi:namedview>
+    <metadata id="metadata4687">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title></dc:title>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+            transform="translate(0,-1028.3622)">
+        <g id="g5269"
+                style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
+                transform="translate(-64,740.00002)" />
+        <path style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.40625;marker:none;enable-background:accumulate"
+                d="M 6.6679687,1033.8622 5.5,1035.0048 l 4.1894531,4.1894 1.1679689,-1.1425 z m 7.7695313,0 1.447266,1.4473 -9.9277348,9.9277 -0.4570312,0.457 1.1425781,1.168 0.4824219,-0.4824 9.902344,-9.9278 1.472656,1.4727 v -4.0625 z m -0.126953,7.6426 -1.167969,1.1426 2.767578,2.7421 -1.472656,1.4727 H 18.5 v -4.0625 l -1.447266,1.4473 z"
+                id="path5005" inkscape:connector-curvature="0" />
+    </g>
+</svg>

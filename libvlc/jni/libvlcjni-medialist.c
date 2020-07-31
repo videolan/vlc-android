@@ -67,7 +67,11 @@ Java_org_videolan_libvlc_MediaList_nativeNewFromLibVlc(JNIEnv *env,
     if (!p_obj)
         return;
 
+#if LIBVLC_VERSION_MAJOR && LIBVLC_VERSION_MAJOR >= 4
+    p_obj->u.p_ml = libvlc_media_list_new();
+#else
     p_obj->u.p_ml = libvlc_media_list_new(p_obj->p_libvlc);
+#endif
 
     MediaList_nativeNewCommon(env, thiz, p_obj);
 }

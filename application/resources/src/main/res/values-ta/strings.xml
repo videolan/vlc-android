@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">சரி</string>
+    <string name="cancel">இரத்து</string>
+    <string name="other">பிற</string>
+    <string name="sortby">வரிசைப்படுத்து…</string>
+    <string name="sortby_name">பெயர்</string>
+    <string name="sortby_filename">கோப்பு பெயர்</string>
+    <string name="sortby_artist_name">கலைஞரின் பெயர்</string>
+    <string name="sortby_album_name">தொகுப்பின் பெயர்</string>
+    <string name="sortby_length">நீளம்</string>
+    <string name="sortby_date">தேதி</string>
+    <string name="sortby_last_modified_date">சமீபத்தில் சேர்க்கப்பட்டவை</string>
+    <string name="sortby_number">தடங்களின் எண்ணிக்கை</string>
+    <string name="searchable_hint">தேடு…</string>
+    <string name="history">வரலாறு</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">முடிவு %d</item>
+        <item quantity="other">முடிவுகள் %d</item>
+    </plurals>
+
+    <string name="play">இயக்கு</string>
+    <string name="playback">பின்னணி இயக்கம்</string>
+    <string name="playback_controls">பின்னணி இயக்கக் கட்டுப்பாடுகள்</string>
+    <string name="medialibrary_scan">பல்லூடக நூலக சோதனை</string>
+    <string name="Medialibrary_progress">பல்லூடக நூலக சோதனை போக்கு மேம்படுத்தப்படுகிறது</string>
+    <string name="play_from_start">துவக்கத்திலிருந்து இயக்கு</string>
+    <string name="play_as_audio">ஒலியாக இயக்கு</string>
+    <string name="play_as_video">காணொளியாக இயக்கு</string>
+    <string name="video_app_switch_title">பின்புல/PiP செயல் வகை</string>
+    <string name="video_app_switch_summary">காணொளியின் பின்னணி இயக்கத்திலிருந்து வேறொரு செயலிக்கு மாறும் பொழுது VLC-ன் ஒழுங்கைத் தெரிவு செய்க</string>
+    <string name="play_pip_title">காணொளிகளை படம்-உள்-படம் முறையில் இயக்கு</string>
+    <string name="play_as_audio_background">காணொளிகளை பின்புலத்தில் இயக்கு</string>
+    <string name="append">சேர்</string>
+    <string name="insert_next">அடுத்ததை நுழைக்க</string>
+    <string name="play_all">அனைத்தையும் இயக்கு</string>
+    <string name="append_all">அனைத்தையும் சேர்</string>
+    <string name="delete">அழி</string>
+    <string name="remove">நீக்கு</string>
+    <string name="set_song">அழைப்போசையாக அமை</string>
+    <string name="set_song_question">\'%1$s\' ஐ ரிங்க்டோனாக உபயோகிக்கலாமா?</string>
+    <string name="info">தகவல்</string>
+    <string name="confirm_delete">\'%1$s\' கோப்பை அழி?</string>
+    <string name="confirm_delete_several_media">%1$d  ஊடகத்தை நீக்கவா?</string>
+    <string name="confirm_delete_folder">அடைவு  \'%1$s\' மற்றும் அதன் அனைத்து உள்ளடக்கங்களை நீக்கு?</string>
+    <string name="confirm_delete_playlist">பட்டியல் %1$s-ஐ நீக்கு?</string>
+    <string name="ringtone_set">\'%1$s\' கோப்பு அழைப்போசையாக அமைக்கப்பட்டது.</string>
+    <string name="ringtone_error">அழைப்போசையை அமைக்கும்போது பிழை ஏற்பட்டது.</string>
+    <string name="pause">இடைநிறுத்தம்</string>
+    <string name="unknown_artist">தெரியாத கலைஞர்</string>
+    <string name="unknown_album">தெரியாத தொகுப்பு</string>
+    <string name="unknown_genre">தெரியாத வகை</string>
+    <string name="songs">பாடல்கள்</string>
+    <string name="artists">கலைஞர்கள்</string>
+    <string name="albums">தொகுப்புகள்</string>
+    <string name="tracks">தடங்கள்</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 தொகுப்பு</item>
+        <item quantity="other">%d தொகுப்புகள்</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 கிளை அடைவு</item>
+        <item quantity="other">%d கிளை அடைவுகள்</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 ஊடக கோப்பு</item>
+        <item quantity="other">%d ஊடக கோப்புகள்</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 காணொளி</item>
+        <item quantity="other">%d காணொளிகள்</item>
+    </plurals>
+    <string name="internal_memory">உள்ளாரந்த சேமிப்பகம்</string>
+    <string name="audio">ஒலி</string>
+    <string name="video">காணொளி</string>
+    <string name="bookmarks">புத்தகக்குறிகள்</string>
+    <string name="equalizer">சமனாக்கி</string>
+    <string name="all_albums">தொகுப்புகள் அனைத்தும்</string>
+    <string name="genres">வகைகள்</string>
+    <string name="playlists">பட்டியல்கள்</string>
+    <string name="title">தலைப்பு</string>
+    <string name="directories">அடைவுகள்</string>
+    <string name="loading">ஏற்றுகிறது</string>
+    <string name="please_wait">காத்திருக்கவும்…</string>
+    <string name="nomedia">ஊடகக் கோப்புகள் காணவில்லை, சாதனத்தில் சில கோப்புகளை ஏற்று (அ) முன்னுரிமைகளைச் சரிச்செய்யவும்.</string>
+    <string name="noplaylist">இயக்க பட்டியல் கண்டறியப்பட்டது.</string>
+    <string name="directorynotfound">\'%1$s\' அடைவுப் பாதைக் காணப்படவில்லை.</string>
+    <string name="nohistory">வரலாறு ஏதுமில்லை.</string>
+    <string name="validation">கண்டிப்பாக?</string>
+
+    <string name="cover_art">அட்டைப் படம்</string>
+    <string name="shuffle_title">கலக்கு இயக்க முறை</string>
+    <string name="shuffle">கலக்கு இயக்க முறையை அணைக்க</string>
+    <string name="shuffle_on">கலக்கு இயக்க முறையை ஏற்று</string>
+    <string name="repeat_title">மீள் இயக்க முறை</string>
+    <string name="repeat">ஒன்றையும் மீள் இயக்காதே</string>
+    <string name="repeat_single">ஒன்றை மீள் இயக்கு</string>
+    <string name="repeat_all">அனைத்தையும் மீள் இயக்கு</string>
+    <string name="previous">முந்தைய</string>
+    <string name="stop">நிறுத்து</string>
+    <string name="firstsong">பின்னணி இயக்க பட்டியலின் முதல் பாடல்</string>
+    <string name="lastsong">பின்னணி இயக்க பட்டியலின் கடைசி பாடல்</string>
+
+    <string name="surface_best_fit">சிறந்தப் பொருத்தம்</string>
+    <string name="surface_fit_screen">திரைக்குப் பொருந்து</string>
+    <string name="surface_fill">நிரப்பு</string>
+    <string name="surface_original">நடுவில்</string>
+    <string name="unseekable_stream">படிக்கயிலாத ஓடம்</string>
+    <string name="refresh">புதுப்பி</string>
+    <string name="track_audio">ஒலி தடம்</string>
+    <string name="track_video">காணொளி தடம்</string>
+    <string name="track_text">துணைத்தலைப்புகள் தடம்</string>
+    <string name="track_unknown">தெரியாத தடம்</string>
+    <string name="track_bitrate_info">Bit வீதம்:%1$s/s\n</string>
+    <string name="track_codec_info">கோடக்: %1$s\n</string>
+    <string name="track_language_info">மொழி: %1$s\n</string>
+    <string name="volume">ஒலியளவு</string>
+    <string name="sound_on">ஒலியைச் செயல்படுத்து</string>
+    <string name="sound_off">ஒலியை அணை</string>
+    <string name="brightness">வெளிச்சம்</string>
+    <string name="advanced">மேம்பட்ட தேர்வுகள்</string>
+    <string name="audio_boost_warning">100%-க்கு அப்பால் செல்ல மீண்டும் மேல் நோக்கி செலுத்து</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 வழித்தடம்\n</item>
+        <item quantity="other">%1$d வழித்தடங்கள்\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">மாதிரி விகிதம்: %1$d Hz\n</string>
+    <string name="track_resolution_info">தெளிதிறன்: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">சட்டக விகிதம்: %1$.3f\n</string>
+
+    <string name="playback_speed">இயக்க வேகம்</string>
+    <string name="sleep_title">தூங்கு கடிகாரம்</string>
+    <string name="sleep_in">தூங்க</string>
+    <string name="jump_to_time">நேரத்திற்கு தாவு</string>
+    <string name="subtitle_select">துணைத்தலைப்பு கோப்பை தேர்</string>
+
+    <string name="server_domain_hint">சேவையகத்தின் முகவரி (Domain பெயர் அல்லது IP)</string>
+    <string name="server_username_hint">பயனர்பெயர்</string>
+    <string name="server_port">முனையம்:</string>
+    <string name="login">உள் நுழை</string>
+    <string name="password">கடவுச்சொல்</string>
+
+    <string name="search_no_result">மீடியா எதுவும் இல்லை</string>
+    <string name="favorites_add">பிடித்தவையில் சேர்</string>
+    <string name="favorites_remove">பிடித்தப்பட்டியலில் இருந்து நீக்கு</string>
+    <string name="favorites_edit">தொகு</string>
+    <string name="favorite_added">பிடித்தபட்டியலில் இணைக்க</string>
+    <string name="encountered_error_title">இயக்க பிழை</string>
+    <string name="encountered_error_message">இவ்வூடகத்தில் விஎல்சி பிழைக் கண்டுள்ளது.\nஊடகத் தொகுப்பைப் புதுப்பித்து முயற்சிக்கவும்.</string>
+    <string name="invalid_location">%1$s இவ்விடத்தை இயக்க முடியாது.</string>
+
+    <string name="search">தேடு</string>
+
+
+    <string name="playback_history_title">இயக்க வரலாறு</string>
+    <string name="playback_speed_title">இயக்க வேகத்தை சேமிக்க</string>
+
+    <!-- Tips -->
+    <string name="video_player_tips">ஊடக இயக்கி உதவிக்குறிப்புகள்:</string>
+    <string name="seek">நாடுங்கள்</string>
+    <string name="subtitles">துணைத்தலைப்புகள்</string>
+    <string name="resize">மறுஅளவு</string>
+    <string name="options">தேர்வுகள்</string>
+    <string name="lock">பூட்டு</string>
+    <string name="ok_got_it">கிடைத்தது, இதைத் தவிர்</string>
+
+    <string name="playlist_tips">பட்டியல் உதவிக்குறிப்புகள்</string>
+    <string name="remove_song">பாடலை நீக்கு</string>
+    <string name="rearrange_order">மறுசீரமைக்க</string>
+    <string name="hold_to_seek">நாட அழுத்திப் பிடி</string>
+
+    <string name="audio_player_tips">ஒலி இயக்கி உதவிக்குறிப்புகள்:</string>
+    <string name="previous_next_song">முந்தைய/அடுத்த பாடல்</string>
+    <string name="show_playlist">பட்டியலைக் காண்பி</string>
+    <string name="hold_to_stop">நிறுத்த அழுத்திப் பிடி</string>
+
+    <!-- About -->
+    <string name="app_name_full">ஆண்ட்ராய்டு VLC</string>
+    <string name="licence">உரிமம்</string>
+    <string name="revision">மறுபதிப்பு</string>
+    <string name="about">பற்றி</string>
+    <string name="about_text">ஆண்ட்ராய்டு(Android™) VLC என்பது ஒரு சிறந்த கட்டற்ற VLC ஊடக இயக்கி மென்பொருளின் இடுவை(Porting) ஆகும். ஆண்ட்ராய்டு(Android™) பதிப்பானது அனைத்து கோப்புகளையும் பிணைய ஓடங்களையும்(Network Streams) படிக்கக் கூடியது.</string>
+    <string name="vlc_authors">மற்றும் VLC ஆசிரியர்கள்.</string>
+    <string name="compiled_by">VLCயின் இப்பதிப்பை உருவாக்கியவர்கள்:</string>
+
+    <!-- Preferences -->
+    <string name="preferences">அமைப்புகள்</string>
+
+    <string name="directories_summary">அடைவுகளைவத் தேர்வுச்செய்து ஊடகத் தொகுப்பில் சேர்க்கவும்</string>
+    <string name="add_custom_path">ஒரு தனிப்பயன் பாதையைச் சேர்</string>
+    <string name="add_custom_path_description">வருடித் தேட கூடுதல் தனிப் பாதையைச் சேர் :</string>
+    <string name="remove_custom_path">தனிப் பாதையை நீக்கு</string>
+    <string name="hardware_acceleration">வன்பொருள் முடுக்கம்</string>
+    <string name="hardware_acceleration_disabled">முடங்கியது</string>
+    <string name="hardware_acceleration_decoding">குறிவிலக்க முடுக்கம்</string>
+    <string name="hardware_acceleration_full">முழு முடுக்கம்</string>
+    <string name="dev_hardware_decoder">மேம்பட்ட வன்பொருள் குறிவிலக்கி</string>
+    <string name="dev_hardware_decoder_summary">உந்து வன்பொருள் குறிவிலக்கி, மேம்பட்ட பயனர்கள் மட்டுமே</string>
+    <string name="automatic">தானியக்க</string>
+    <string name="screen_orientation">காணொளி திரை நோக்குநிலை</string>
+    <string name="screen_orientation_sensor">தானியக்க (உணரி)</string>
+    <string name="screen_orientation_start_lock">துவக்கத்தில் பூட்டிய</string>
+    <string name="screen_orientation_portrait">உருவப்படம்</string>
+    <string name="screen_orientation_landscape">இயற்கைநிலக்காட்சி</string>
+    <string name="subtitle_text_encoding">துணைத்தலைப்பு உரை குறியாக்கம்</string>
+    <string name="daynight_title">பகல் இரவு முறை</string>
+    <string name="extra_prefs_category">கூடுதல் அமைவுகள்</string>
+
+    <string name="interface_prefs_screen">இடைமுகம்</string>
+    <string name="interface_secondary_display_category_title">இரண்டாம் திரை</string>
+    <string name="enable_clone_mode">குளோனை விரும்பு</string>
+    <string name="video_prefs_category">காணொளி</string>
+    <string name="video_min_group_length_title">குழு காணொளிகள்</string>
+    <string name="enable_brightness_gesture_title">வெளிச்ச சைகை</string>
+    <string name="enable_brightness_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் வெளிச்சத்தை கட்டுப்படுத்து</string>
+    <string name="enable_volume_gesture_title">ஒலிச்சத்தம் சைகை</string>
+    <string name="enable_volume_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் ஒலிச்சத்தம் கட்டுப்படுத்து</string>
+    <string name="subtitles_prefs_category">துணைஉரைகள்</string>
+    <string name="subtitles_size_title">துணை உரைகளின் அளவு</string>
+    <string name="subtitles_size_small">சிறிய</string>
+    <string name="subtitles_size_normal">வழக்கமான</string>
+    <string name="subtitles_size_big">பெரிய</string>
+    <string name="subtitles_size_huge">மிகவும் பெரிய</string>
+    <string name="subtitles_color_title">துணைஉரைகளின் நிரம்</string>
+    <string name="subtitles_color_white">வெள்ளை</string>
+    <string name="subtitles_color_gray">சாம்பல்</string>
+    <string name="subtitles_color_pink">பிங்க்</string>
+    <string name="subtitles_color_blue">நீலம்</string>
+    <string name="subtitles_color_yellow">மஞ்சல்</string>
+    <string name="subtitles_color_green">பச்சை</string>
+    <string name="subtitles_background_title">துணைஉரை பின்னணி</string>
+    <string name="subtitles_bold_title">போல்ட் வசனவரிகள்</string>
+    <string name="audio_prefs_category">ஒலி</string>
+    <string name="list_title_ellipsize_default">இயல்புநிலை</string>
+    <string name="list_title_ellipsize_left">இடது</string>
+    <string name="list_title_ellipsize_right">வலது</string>
+    <string name="list_title_ellipsize_middle">நடு</string>
+    <string name="enable_headset_detection">தலைப்பொறி கண்டறியப்பட்டது</string>
+    <string name="aout">ஒலி வெளியீடு</string>
+    <string name="casting_quality_high">அதிகபட்சம்</string>
+    <string name="casting_quality_medium">சராசரி</string>
+    <string name="casting_quality_low">குறைந்த</string>
+    <string name="casting_quality_lowcpu">மிக குறைந்த</string>
+    <string name="extensions_prefs_category">நீட்சிகள்</string>
+    <string name="extension_prefs_activation_title">செயற்படுத்து</string>
+    <string name="android_auto">ஆண்ட்ராய்டு ஆட்டோ</string>
+
+    <string name="controls_prefs_category">அமைப்புகள்</string>
+
+    <string name="performance_prefs_category">செயல்திறன்</string>
+    <string name="chroma_format">காணொளி கிரோமாவிற்கு கட்டாயப்படுத்து</string>
+    <string name="deblocking">பிரித்தெடுத்தல் வடிப்பி அமைவுகள்</string>
+    <string name="deblocking_always">முழு பிரித்தெடுத்தல் (மெதுவான)</string>
+    <string name="deblocking_nonref">பாதி பிரித்தெடுத்தல்</string>
+    <string name="deblocking_nonkey">குறைந்த பிரித்தெடுத்தல்</string>
+    <string name="deblocking_all">பிரித்தெடுத்தல் இல்லை (வேகமானது)</string>
+    <string name="enable_time_stretching_audio">நேரம் நீட்டித்த ஒலி</string>
+    <string name="advanced_prefs_category">அறிவாளி</string>
+    <string name="auto_rescan">தானாக மறுசோதனை</string>
+    <string name="clear_media_db">ஊடக தரவுத்தளம் துடை</string>
+    <string name="set_locale">மொழியை அமை</string>
+    <string name="network_caching">பிணைய பற்றுதல்(Caching) மதிப்பு</string>
+    <string name="quit">பயன்பாட்டை மூடியப்பின் திறக்கவும்</string>
+    <string name="developer_prefs_category">உருவாக்குநர்</string>
+    <string name="enable_verbose_mode">வெளித்தள்ளுதல்</string>
+    <string name="enable_verbose_mode_summary">வெளித்தள்ளுதலை அதிகரி(logcat)</string>
+    <string name="debug_logs">வழு பதிவுகள்</string>
+    <string name="start_logging">பதிவைத் துவங்கு</string>
+    <string name="stop_logging">பதிவை நிறுத்து</string>
+    <string name="clear_log">பதிவைத் துடை</string>
+    <string name="log_service_title">விஎல்சி செயற் பதிவு</string>
+    <string name="log_service_text">பதிவு பணியகம் திறக்க</string>
+    <string name="copy_to_clipboard">ஒட்டுப்பலகைக்கு நகலெடு</string>
+    <string name="copied_to_clipboard">பதவை ஒட்டுப்பலகைக்கு நகலெடு.</string>
+    <string name="dump_logcat">logcat பதிவை எடு</string>
+    <string name="dump_logcat_success">%1$s விற்கு logcat பதிவு வெற்றிகரமாக எடுக்கப்பட்டது!</string>
+    <string name="dump_logcat_failure">logcat எடுக்க முடிவில்லை.</string>
+    <string name="serious_crash">எதிர்பாரவிதமாக, ஒரு முக்கிய பிழை நேர்ந்ததால் VLC மூடவும்.</string>
+    <string name="help_us_send_log">VLC மேம்படுத்த பின்வரும் சிதைவு அறிக்கைப் பதிவை எங்களுக்கு அனுப்பவும்:</string>
+    <string name="restart_vlc">VLC மீள்துவக்கு</string>
+    <string name="send_log">பதிவை அனுப்பு</string>
+    <string name="sending_log">பதிவை அனுப்புகிறது…</string>
+
+    <string name="download_subtitle_title">வசன வரி தறவிறக்கப்பட்டது</string>
+
+    <string name="no_result">முடிவுகள் எதுவும் இல்லை</string>
+    <string name="no_internet_connection">உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்</string>
+    <string name="network_browsing">உள் வலையமைப்பு</string>
+    <string name="browsing">கண்டெடுக்க</string>
+
+    <string name="file_size">கோப்பின் அளவு</string>
+
+    <string name="audio_delay">ஒலி தாமதம்</string>
+    <string name="spu_delay">துணை உரை தாமதம்</string>
+    <string name="network_empty">இந்த அடைவு வெறுமையாக உள்ளது</string>
+    <string name="network_connection_needed">சாதனம் உள்ளே இணைய இணைப்பு இல்லை.</string>
+    <string name="search_hint">ஊடகத்தை தேடு</string>
+    <string name="playlist_save">சேமி தொகுப்பு பட்டியல்</string>
+    <string name="playlist_name_hint">தொகுப்பு பட்டியல் பெயர்</string>
+    <string name="go_to_chapter">அத்தியாயம் செல்ல…</string>
+    <string name="chapter">அத்தியாயம்</string>
+    <string name="tv_ui_title">ஆண்ட்ராய்டு  டிவி இடைமுகப்பு</string>
+    <string name="medialibrary">ஊடக நூலகம்</string>
+
+    <!-- Accessibility -->
+    <string name="more_actions">மேலும் செயல்கள்</string>
+    <string name="back_quit_lock">திரும்ப அழுத்தவும் காணொளி விட்டு வெளியேற</string>
+    <string name="no_subs_found">இந்த அடைவில் வசன வரிகள் இல்லை</string>
+    <string name="music_now_playing">இப்போ ஒடுவது</string>
+
+    <string name="exit_app">VLC-ஐ நிறுத்து</string>
+
+    <!-- Plugins -->
+    <string name="plugins">நிரல்கள்</string>
+    <string name="download_on_device">பதிவிறக்கு</string>
+    <string name="opengl_automatic">தானியக்க</string>
+    <string name="store_password">கடவுச்சொல்லை நினைவுகொள்</string>
+    <string name="add_to_playlist">தொகுப்பு பட்டியலுடன் சேர்</string>
+    <string name="popup_expand">விரிவாக்கு காணொளி</string>
+    <string name="download_subtitles">வசன வரிகளை தரவிறக்கு</string>
+    <string name="browse_folder">கோப்புறையை உலாவ</string>
+    <string name="listen">கேளுங்கள்</string>
+    <string name="episodes">பாகங்கள்</string>
+    <string name="movies">திரைப்படங்கள்</string>
+    <string name="videos">காணொளிகள்</string>
+    <string name="ml_parse_media">ஊடகத்தை பாகுபடுத்துதல்</string>
+    <string name="ml_discovering">கண்டுபிடிக்கிறது</string>
+    <string name="resume">தொடர்</string>
+    <string name="length">நீளம்</string>
+    <string name="ml_external_storage_accept">ஆம்</string>
+    <string name="yes">ஆம்</string>
+
+    <string name="save">சேமி</string>
+    <string name="custom_set_wrong_input">தவறான பெயர்.</string>
+    <string name="equalizer_new_preset_name">புதிய</string>
+    <string name="recommendations">பரிந்துரைகள்</string>
+    <string name="browser_storages">சேமிப்புகள்</string>
+    <string name="renderer_list_title">காட்சிகள்</string>
+    <string name="dialog_sd_wizard">காண்பி</string>
+    <string name="renderers_disconnect">துண்டி</string>
+    <string name="browser">உலாவி</string>
+    <string name="time_category_current_month">இந்த மாதம்</string>
+    <string name="time_category_current_year">இந்த வருடம்</string>
+    <string name="time_category_last_year">கடந்த ஆண்டு</string>
+    <string name="time_category_older">பழைய ஊடகங்கள்</string>
+    <string name="rename">மறுபெயரிடு</string>
+    <string name="rename_media">%1$s க்கு மறுபெயரிடு </string>
+    <string name="subtitle_search_name_hint">பெயர்</string>
+    <string name="language_to_download">மொழி</string>
+    <string name="next">அடுத்து</string>
+    <string name="download">பதிவிறக்கு</string>
+    <string name="ctx_player_audio_track">ஒலி தடம்</string>
+    <string name="welcome_title">VLC க்கு வருக!</string>
+    <string name="done">முடிந்தது</string>
+    <string name="add">சேர்க்க</string>
+    <string name="send">அனுப்பு</string>
+    <string name="favorite">பிடித்தவை</string>
+    <string name="always">எப்போதும்</string>
+    <string name="share">பகிர்</string>
+    <string name="invalid_file">தவறான கோப்பு. பகிர முடியாது.</string>
+    <string name="share_file">%s யை பகிர்</string>
+    <string name="text">எழுத்து</string>
+    <string name="unknown">தெரியாத</string>
+    <string name="sortby_track">தடம்</string>
+    <string name="new_title">புதிய தலைப்பு</string>
+</resources>

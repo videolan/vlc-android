@@ -124,7 +124,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
         return -1; \
     } \
     if (b_globlal) { \
+        jclass local_class = (clazz); \
         (clazz) = (jclass) (*env)->NewGlobalRef(env, (clazz)); \
+        (*env)->DeleteLocalRef(env, local_class); \
         if (!(clazz)) { \
             LOGE("NewGlobalRef(%s) failed", (str)); \
             return -1; \
@@ -147,6 +149,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetStaticFieldID, SDK_INT_fieldID, Version_clazz, "SDK_INT", "I");
     fields.SDK_INT = (*env)->GetStaticIntField(env, Version_clazz,
                                                SDK_INT_fieldID);
+    (*env)->DeleteLocalRef(env, Version_clazz);
 
     GET_CLASS(fields.IllegalStateException.clazz,
               "java/lang/IllegalStateException", true);
@@ -169,9 +172,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_CLASS(fields.Media.clazz,
               "org/videolan/libvlc/Media", true);
     GET_CLASS(fields.Media.Track.clazz,
-              "org/videolan/libvlc/Media$Track", true);
+              "org/videolan/libvlc/interfaces/IMedia$Track", true);
     GET_CLASS(fields.Media.Slave.clazz,
-              "org/videolan/libvlc/Media$Slave", true);
+              "org/videolan/libvlc/interfaces/IMedia$Slave", true);
     GET_CLASS(fields.MediaPlayer.clazz,
               "org/videolan/libvlc/MediaPlayer", true);
     GET_CLASS(fields.MediaPlayer.Title.clazz,
@@ -206,66 +209,49 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            fields.VLCObject.dispatchEventFromNativeID,
            fields.VLCObject.clazz,
-           "dispatchEventFromNative", "(IJJF)V");
-
-    if (fields.SDK_INT <= 13)
-    {
-        LOGE("fields.SDK_INT is less than 13 (honeycomb_mr2): using compat WeakReference");
-        GET_ID(GetMethodID,
-               fields.VLCObject.getWeakReferenceID,
-               fields.VLCObject.clazz,
-               "getWeakReference", "()Ljava/lang/Object;");
-        GET_ID(GetStaticMethodID,
-               fields.VLCObject.dispatchEventFromWeakNativeID,
-               fields.VLCObject.clazz,
-               "dispatchEventFromWeakNative", "(Ljava/lang/Object;IJJF)V");
-    } else
-    {
-        fields.VLCObject.getWeakReferenceID = NULL;
-        fields.VLCObject.dispatchEventFromWeakNativeID = NULL;
-    }
+           "dispatchEventFromNative", "(IJJFLjava/lang/String;)V");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createAudioTrackFromNativeID,
            fields.Media.clazz,
            "createAudioTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;II)"
-           "Lorg/videolan/libvlc/Media$Track;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createVideoTrackFromNativeID,
            fields.Media.clazz,
            "createVideoTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;IIIIIIII)"
-           "Lorg/videolan/libvlc/Media$Track;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createSubtitleTrackFromNativeID,
            fields.Media.clazz,
            "createSubtitleTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)"
-           "Lorg/videolan/libvlc/Media$Track;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createUnknownTrackFromNativeID,
            fields.Media.clazz,
            "createUnknownTrackFromNative",
            "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;)"
-           "Lorg/videolan/libvlc/Media$Track;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Track;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createSlaveFromNativeID,
            fields.Media.clazz,
            "createSlaveFromNative",
            "(IILjava/lang/String;)"
-           "Lorg/videolan/libvlc/Media$Slave;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Slave;");
 
     GET_ID(GetStaticMethodID,
            fields.Media.createStatsFromNativeID,
            fields.Media.clazz,
            "createStatsFromNative",
            "(IFIFIIIIIIIIIIF)"
-           "Lorg/videolan/libvlc/Media$Stats;");
+           "Lorg/videolan/libvlc/interfaces/IMedia$Stats;");
 
     GET_ID(GetStaticMethodID,
            fields.MediaPlayer.createTitleFromNativeID,
@@ -365,8 +351,21 @@ void JNI_OnUnload(JavaVM* vm, void* reserved)
     (*env)->DeleteGlobalRef(env, fields.RuntimeException.clazz);
     (*env)->DeleteGlobalRef(env, fields.OutOfMemoryError.clazz);
     (*env)->DeleteGlobalRef(env, fields.String.clazz);
+    (*env)->DeleteGlobalRef(env, fields.FileDescriptor.clazz);
     (*env)->DeleteGlobalRef(env, fields.VLCObject.clazz);
     (*env)->DeleteGlobalRef(env, fields.Media.clazz);
+    (*env)->DeleteGlobalRef(env, fields.Media.Track.clazz);
+    (*env)->DeleteGlobalRef(env, fields.Media.Slave.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.Title.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.Chapter.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.TrackDescription.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaPlayer.Equalizer.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaDiscoverer.clazz);
+    (*env)->DeleteGlobalRef(env, fields.MediaDiscoverer.Description.clazz);
+    (*env)->DeleteGlobalRef(env, fields.RendererDiscoverer.clazz);
+    (*env)->DeleteGlobalRef(env, fields.RendererDiscoverer.Description.clazz);
+    (*env)->DeleteGlobalRef(env, fields.Dialog.clazz);
 
     pthread_key_delete(jni_env_key);
 
@@ -467,6 +466,11 @@ jstring Java_org_videolan_libvlc_LibVLC_version(JNIEnv* env, jobject thiz)
     return (*env)->NewStringUTF(env, libvlc_get_version());
 }
 
+jint Java_org_videolan_libvlc_LibVLC_majorVersion(JNIEnv* env, jobject thiz)
+{
+    return atoi(libvlc_get_version());
+}
+
 jstring Java_org_videolan_libvlc_LibVLC_compiler(JNIEnv* env, jobject thiz)
 {
     return (*env)->NewStringUTF(env, libvlc_get_compiler());
@@ -491,7 +495,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeSetUserAgent(JNIEnv* env,
     psz_name = jname ? (*env)->GetStringUTFChars(env, jname, 0) : NULL;
     psz_http = jhttp ? (*env)->GetStringUTFChars(env, jhttp, 0) : NULL;
 
-    if (psz_http && psz_http)
+    if (psz_name && psz_http)
         libvlc_set_user_agent(p_obj->u.p_libvlc, psz_name, psz_http);
 
     if (psz_name)

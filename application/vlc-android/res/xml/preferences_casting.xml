@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                      android:key="audio_category"
+                                      android:title="@string/casting_category">
+    <PreferenceCategory android:title="@string/casting_category">
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:key="enable_casting"
+                android:defaultValue="true"
+                android:switchTextOff="Disabled"
+                android:switchTextOn="Enabled"
+                android:title="@string/casting_switch_title"/>
+        <CheckBoxPreference
+                android:key="casting_passthrough"
+                android:defaultValue="false"
+                android:summary="@string/casting_passthrough_summary"
+                android:title="@string/casting_passthrough_title"
+                android:dependency="enable_casting"/>
+        <ListPreference
+                android:defaultValue="2"
+                android:entries="@array/casting_quality"
+                android:entryValues="@array/casting_quality_values"
+                android:key="casting_quality"
+                android:summary="@string/casting_conversion_quality_summary"
+                android:title="@string/casting_conversion_quality_title"
+                android:dependency="enable_casting"/>
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="18" height="18"
+        viewBox="0 0 18 18" version="1.1" id="svg6424"
+        inkscape:version="0.92.4 (33fec40, 2019-01-16)" sodipodi:docname="ic_divider.svg">
+    <defs id="defs6418" />
+    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
+            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="15.839192"
+            inkscape:cx="14.709891" inkscape:cy="7.5887027" inkscape:document-units="px"
+            inkscape:current-layer="layer1" showgrid="true" units="px" inkscape:window-width="1174"
+            inkscape:window-height="759" inkscape:window-x="1920" inkscape:window-y="0"
+            inkscape:window-maximized="0">
+        <inkscape:grid type="xygrid" id="grid6969" />
+    </sodipodi:namedview>
+    <metadata id="metadata6421">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title></dc:title>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+            transform="translate(0,-296.64999)">
+        <path style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;enable-background:accumulate"
+                d="m 11.812563,305.65009 a 0.625,0.625 0 0 1 -0.183125,0.44189 l -4.3688755,4.3689 -0.00625,0.006 a 0.625,0.625 0 0 1 -0.441875,0.18311 0.625,0.625 0 0 1 -0.625,-0.625 0.625,0.625 0 0 1 0.183125,-0.44189 l 3.9330625,-3.93311 -3.927,-3.927 a 0.625,0.625 0 0 1 -0.1891875,-0.448 0.625,0.625 0 0 1 0.625,-0.625 0.625,0.625 0 0 1 0.441875,0.18311 l 4.3689375,4.36889 a 0.625,0.625 0 0 1 0.189313,0.44785 z"
+                id="path6239" inkscape:connector-curvature="0" />
+    </g>
+</svg>

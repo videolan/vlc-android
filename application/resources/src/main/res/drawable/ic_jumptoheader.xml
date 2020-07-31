@@ -1,0 +1,39 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_jumptoheader.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="36dp"
+        android:height="36dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:pathData="M18,12A12,12 0,0 0,6 24,12 12,0 0,0 18,36v2c0,0.8901 1.0687,1.333 1.707,0.707l4,-4c0.3904,-0.3905 0.3904,-1.0236 0,-1.4141l-4,-4C19.0688,28.667 17.9993,29.1097 18,30v2a8,8 0,0 1,-8 -8,8 8,0 0,1 8,-8h6v-4zM28,12v4h14v-4zM28,22v4h14v-4zM28,32v4h14v-4z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="bevel"
+            android:strokeWidth="2.25630426"
+            android:fillColor="@color/tv_menu_selection"
+            android:strokeColor="#00000000"
+            android:fillAlpha="1"
+            android:strokeLineCap="round" />
+</vector>

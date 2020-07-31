@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_next_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="@color/standard_selection"
+            android:fillType="evenOdd"
+            android:pathData="m18,6.0002c-0.554,0 -1,0.4459 -1,0.9999v9.999c0,0.5539 0.446,0.9999 1,0.9999 0.554,0 1,-0.446 1,-0.9999v-9.999c0,-0.554 -0.446,-0.9999 -1,-0.9999zM7.0195,6.0002c-0.5591,-0.011 -1.0184,0.4387 -1.0195,0.9979v9.999c-0.0009,0.8142 0.9198,1.2882 1.582,0.8144l7,-4.9995c0.5579,-0.3988 0.5579,-1.228 0,-1.6268l-7,-4.9995c-0.1644,-0.1172 -0.3605,-0.1819 -0.5625,-0.1855z"
+            android:strokeWidth="1.99990106"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="round" />
+</vector>

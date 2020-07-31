@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ *************************************************************************
+  ~  card_browser_item.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:targetApi="jelly_bean">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
+
+        <variable
+                name="holder"
+                type="org.videolan.vlc.gui.browser.BaseBrowserAdapter.ViewHolder" />
+
+        <variable
+                name="item"
+                type="MediaLibraryItem" />
+
+        <variable
+                name="filename"
+                type="String" />
+
+        <variable
+                name="hasContextMenu"
+                type="boolean" />
+
+        <variable
+                name="checkEnabled"
+                type="boolean" />
+
+        <variable
+                name="protocol"
+                type="String" />
+
+        <variable
+                name="cover"
+                type="android.graphics.drawable.BitmapDrawable" />
+
+        <variable
+                name="bgColor"
+                type="int" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/VLCCardView"
+            android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
+            android:onClick="@{holder::onClick}"
+            android:onLongClick="@{holder::onLongClick}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@{bgColor}"
+                android:focusable="false"
+                android:minWidth="120dp"
+                android:padding="2dp">
+
+            <org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
+                    android:id="@+id/browser_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{checkEnabled}"
+                    android:focusable="false"
+                    android:onClick="@{holder::onCheckBoxClick}"
+                    android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.VISIBLE : View.GONE, default=gone}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
+            <ImageView
+                    android:id="@+id/item_icon"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@string/cover_art"
+                    android:scaleType="centerCrop"
+                    android:src="@{cover}"
+                    android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:media="@{item}" />
+
+            <TextView
+                    android:id="@+id/dvi_icon"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@{protocol}"
+                    android:textColor="@color/whitetransparent"
+                    android:textSize="11sp"
+                    android:visibility="@{ TextUtils.isEmpty(protocol) ? View.GONE : View.VISIBLE, default=gone}"
+                    app:layout_constraintBottom_toBottomOf="@+id/item_icon"
+                    app:layout_constraintEnd_toEndOf="@+id/item_icon"
+                    app:layout_constraintStart_toStartOf="@+id/item_icon"
+                    app:layout_constraintTop_toTopOf="@+id/item_icon" />
+
+<!--            This is a placeholder in case @+id/text is gone-->
+            <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_icon" />
+
+            <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="marquee"
+                    android:lineSpacingMultiplier="1.1"
+                    android:marqueeRepeatLimit="1"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    app:asyncText="@{filename ?? item.title}"
+                    android:textColor="?attr/list_title"
+                    android:textSize="14sp"
+                    app:ellipsizeMode="@{true}"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintBottom_toTopOf="@+id/text"
+                    app:layout_constraintEnd_toStartOf="@+id/item_more"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_icon"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_goneMarginBottom="8dp" />
+
+            <TextView
+                    android:id="@+id/text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:maxLines="1"
+                    app:browserDescription="@{item.description}"
+                    android:textColor="?attr/list_subtitle"
+                    android:textSize="12sp"
+                    android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/item_more"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    tools:visibility="visible" />
+
+            <ImageView
+                    android:id="@+id/item_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="@{hasContextMenu}"
+                    android:onClick="@{holder::onMoreClick}"
+                    android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE, default=gone}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_more"
+                    tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

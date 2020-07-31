@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_genre_big.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="90dp"
+        android:viewportHeight="48"
+        android:viewportWidth="48"
+        android:width="90dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:pathData="M18.7561,6C8.0189,21.7465 4.0289,35.7277 9.6551,40.4486 15.2813,45.1697 28.3573,38.8124 42,25.5039ZM21.1438,17.906c1.6047,1.3464 1.814,3.7388 0.4675,5.3434l-5.811,-4.8759c1.3465,-1.6047 3.7388,-1.814 5.3435,-0.4675zM29.8603,25.2198c1.6047,1.3465 1.814,3.7388 0.4675,5.3435l-5.811,-4.876c1.3465,-1.6046 3.7388,-1.814 5.3435,-0.4675z"
+            android:strokeColor="#00000000"
+            android:strokeWidth="0.17999999" />
+</vector>

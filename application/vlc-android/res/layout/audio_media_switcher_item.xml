@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dip"
+        android:paddingStart="10dip"
+        android:background="#00000000"
+        android:orientation="horizontal">
+
+    <ImageView
+            android:id="@+id/cover"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingRight="10dip"
+            android:paddingEnd="10dip"
+            android:background="#00000000"
+            android:visibility="gone" />
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:text="@string/title"
+            android:textColor="?attr/font_default"
+            android:background="#00000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/artist"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cover"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+            android:id="@+id/artist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:scrollHorizontally="true"
+            android:textColor="?attr/font_audio_light"
+            android:background="#00000000"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toEndOf="@id/cover"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

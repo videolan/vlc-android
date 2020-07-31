@@ -1,0 +1,91 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'org.videolan.android'
+version = library_version
+
+def siteUrl = 'https://code.videolan.org/videolan/vlc-android/'
+def gitUrl = 'https://code.videolan.org/videolan/vlc-android.git'
+
+def licenseName = 'GNU Lesser General Public License, version 2.1'
+def licenseUrl = 'https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html'
+def allLicenses = ["LGPL-2.1"]
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+install {
+    group = 'publishing'
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom.project {
+            packaging 'aar'
+            artifactId lib_artifact
+            name repoName
+            description libraryDescription
+            url 'https://code.videolan.org/videolan/vlc-android/'
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id 'videolan'
+                    name 'VideoLAN'
+                    email 'android@videolan.org'
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+
+apply plugin: 'com.jfrog.bintray'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = System.getenv('K8S_SECRET_BINTRAY_USER') ?: properties.getProperty("bintray.user")
+    key = System.getenv('K8S_SECRET_BINTRAY_KEY') ?: properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = repoName
+        name = libraryName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        issueTrackerUrl = 'https://code.videolan.org/videolan/vlc-android/issues'
+        licenses = allLicenses
+        vcsUrl = gitUrl
+        labels = ['aar', 'android', 'vlc']
+        dryRun = false
+        override = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
+    }
+    publish = true
+}

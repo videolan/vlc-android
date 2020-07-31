@@ -4,17 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
+
 public abstract class MediaLibraryItem implements Parcelable {
 
-    public static final int TYPE_ALBUM    = 1 << 1;
-    public static final int TYPE_ARTIST   = 1 << 2;
-    public static final int TYPE_GENRE    = 1 << 3;
-    public static final int TYPE_PLAYLIST = 1 << 4;
-    public static final int TYPE_MEDIA    = 1 << 5;
-    public static final int TYPE_DUMMY    = 1 << 6;
-    public static final int TYPE_STORAGE  = 1 << 7;
-    public static final int TYPE_HISTORY  = 1 << 9;
-    public static final int TYPE_FOLDER   = 1 << 10;
+    public static final int TYPE_ALBUM       = 1 << 1;
+    public static final int TYPE_ARTIST      = 1 << 2;
+    public static final int TYPE_GENRE       = 1 << 3;
+    public static final int TYPE_PLAYLIST    = 1 << 4;
+    public static final int TYPE_MEDIA       = 1 << 5;
+    public static final int TYPE_DUMMY       = 1 << 6;
+    public static final int TYPE_STORAGE     = 1 << 7;
+    public static final int TYPE_HISTORY     = 1 << 9;
+    public static final int TYPE_FOLDER      = 1 << 10;
+    public static final int TYPE_VIDEO_GROUP = 1 << 11;
 
     public static final int FLAG_NONE = 0;
     public static final int FLAG_SELECTED = 1;
@@ -33,9 +36,9 @@ public abstract class MediaLibraryItem implements Parcelable {
     public abstract int getTracksCount();
     public abstract int getItemType();
 
-    long mId;
+    protected long mId;
     protected String mTitle;
-    String mDescription;
+    protected String mDescription;
     private int mFlags;
 
     protected MediaLibraryItem() {}

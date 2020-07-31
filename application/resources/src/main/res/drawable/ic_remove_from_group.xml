@@ -1,0 +1,39 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_remove_from_group.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:pathData="m15,6c-1.662,0 -3,1.338 -3,3v24c0,1.662 1.338,3 3,3h24c1.662,0 3,-1.338 3,-3L42,9C42,7.338 40.662,6 39,6ZM15,9L39,9L39,33L15,33ZM21.002,12.998c-0.5113,0 -1.0224,0.1962 -1.4141,0.5879 -0.7835,0.7835 -0.7834,2.0447 0,2.8281L24.1719,21 19.5859,25.5859c-0.7834,0.7834 -0.7834,2.0447 0,2.8281 0.7835,0.7835 2.0446,0.7834 2.8281,0L27,23.8281l4.5859,4.584c0.7835,0.7834 2.0446,0.7835 2.8281,0 0.7834,-0.7834 0.7834,-2.0447 0,-2.8281L29.8281,21 34.4141,16.4141c0.7834,-0.7834 0.7834,-2.0446 0,-2.8281 -0.7834,-0.7834 -2.0446,-0.7834 -2.8281,0L27,18.1699 22.416,13.5859c-0.3917,-0.3917 -0.9028,-0.5879 -1.4141,-0.5879zM6,13v26c0,1.6568 1.3431,3 3,3L35,42L35,39L9,39L9,13Z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="0.75590551"
+            android:fillColor="?attr/colorControlNormal"
+            android:strokeColor="#00000000"
+            android:fillAlpha="1"
+            android:strokeLineCap="round" />
+</vector>

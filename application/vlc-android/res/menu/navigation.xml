@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/scrollable_group"
+        android:checkableBehavior="none"
+        android:orderInCategory="1">
+
+        <item
+            android:id="@+id/nav_video"
+            android:title="@string/video"
+            android:icon="@drawable/ic_menu_video" />
+        <item
+            android:id="@+id/nav_audio"
+            android:title="@string/audio"
+            android:icon="@drawable/ic_menu_audio" />
+        <item
+            android:id="@+id/nav_playlists"
+            android:title="@string/playlists"
+            android:icon="@drawable/ic_menu_playlist" />
+        <item
+            android:id="@+id/nav_directories"
+            android:title="@string/directories"
+            android:icon="@drawable/ic_menu_folder" />
+        <item
+            android:id="@+id/nav_network"
+            android:title="@string/network_browsing"
+            android:icon="@drawable/ic_menu_network" />
+        <item
+            android:id="@+id/nav_mrl"
+                android:title="@string/streams"
+            android:icon="@drawable/ic_menu_stream" />
+        <item
+            android:id="@+id/nav_history"
+            android:title="@string/history"
+            android:icon="@drawable/ic_menu_history" />
+    </group>
+
+    <item
+        android:id="@+id/extensions_group"
+        android:title="@string/plugins"
+        android:visible="false"
+        android:orderInCategory="2">
+        <menu>
+        </menu>
+    </item>
+
+    <group android:id="@+id/fixed_group"
+        android:orderInCategory="3">
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/preferences"
+            android:icon="@drawable/ic_menu_preferences" />
+    </group>
+
+</menu>

@@ -25,7 +25,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 def abi = System.getenv('GRADLE_ABI')?.toLowerCase()
 ext {
-    library_version = '0.4.9'
+    library_version = "$rootProject.ext.medialibraryVersion"
     repoName = 'Android'
     libraryName = 'Medialibrary-Android'
     lib_artifact = "medialibrary-$abi"
@@ -95,10 +95,12 @@ dependencies {
     releaseImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     debugImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     devImplementation project(':libvlc')
-    api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxVersion"
+    api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxLegacyVersion"
     api "androidx.core:core:$rootProject.ext.androidxCoreVersion"
-    api "androidx.fragment:fragment:$rootProject.ext.androidxVersion"
+    api "androidx.fragment:fragment:$rootProject.ext.androidxFragmentVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    testImplementation "org.robolectric:robolectric:4.3.1"
+
 }
 
-apply from: '../publish.gradle'
+apply from: '../buildsystem/publish.gradle'

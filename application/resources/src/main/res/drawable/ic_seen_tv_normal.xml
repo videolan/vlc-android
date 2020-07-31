@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_seen_tv_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="16dp"
+        android:viewportHeight="8"
+        android:viewportWidth="8"
+        android:width="16dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#fafafa"
+            android:fillType="nonZero"
+            android:pathData="m6.97554,4.03625 l0.5304,0.5304 -2,2 -1.27902,-1.279 0.53632,-0.5246 0.74277,0.7427z"
+            android:strokeColor="#00000000"
+            android:strokeWidth="0.25" />
+</vector>

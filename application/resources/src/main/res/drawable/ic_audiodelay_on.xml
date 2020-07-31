@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_audiodelay_o.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="45dp"
+        android:height="45dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:pathData="m8,5c-1.108,0 -2,0.892 -2,2v2L4,9v-2l-3,3 3,3v-2h2v3c0,1.108 0.892,2 2,2h3l-0.4844,3.3789c-0.1212,0.4908 0.4793,0.8309 0.8379,0.4746L15,16h1c1.108,0 2,-0.892 2,-2v-3h2v2l3,-3 -3,-3v2h-2v-2c0,-1.108 -0.892,-2 -2,-2zM8,7h1.6504v1.5L8,8.5ZM11,7h5v1.5h-5zM8,9.5h4.5v1.5L8,11ZM14,9.5h2v1.5h-2zM8,12h3.5v1.5L8,13.5ZM13,12h3v1.5h-3z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="1"
+            android:fillColor="@color/standard_selection_orange500"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:fillAlpha="1"
+            android:strokeLineCap="round" />
+</vector>

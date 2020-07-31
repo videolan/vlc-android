@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.videolan.vlc.gui.view.PopupLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="@dimen/video_pip_width"
+        android:layout_height="@dimen/video_pip_height"
+        android:keepScreenOn="true">
+
+    <SurfaceView
+            android:id="@+id/player_surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    <ImageView
+            android:id="@+id/popup_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_popup_close_w"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/popup_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_popup_expand_w"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/popup_close"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    <ImageView
+            android:id="@+id/video_play_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/popup_expand"
+            android:scaleType="center"
+            android:src="@drawable/ic_popup_pause"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/player_surface"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+</org.videolan.vlc.gui.view.PopupLayout>

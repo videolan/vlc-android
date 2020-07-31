@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_subtitledelay_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="45dp"
+        android:height="45dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="@color/standard_selection_orange500_orange200"
+            android:fillType="nonZero"
+            android:pathData="m8,7c-1.108,0 -2.0752,0.8946 -2,2v5L4,14v-2l-3,3 3,3v-2h2c0,1.108 0.892,2 2,2L15.7845,18 16,18c1.108,0 2,-0.892 2,-2h2v2l3,-3 -3,-3v2h-2v-5c0,-1.108 -0.892,-2 -2,-2zM8,12h2v1.5L8,13.5ZM11.5,12L16,12v1.5h-4.5zM8,14.5h4.5v1.5L8,16ZM14,14.5h2v1.5h-2z"
+            android:strokeWidth="1"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+</vector>

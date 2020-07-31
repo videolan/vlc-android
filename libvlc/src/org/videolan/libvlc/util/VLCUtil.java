@@ -28,13 +28,13 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import android.util.Log;
 
-import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.interfaces.ILibVLC;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.libvlc.Media;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -552,27 +552,6 @@ public class VLCUtil {
         return sb.toString();
     }
 
-    /**
-     * Get a media thumbnail.
-     * @return a bytearray with the RGBA thumbnail data inside.
-     */
-    public static byte[] getThumbnail(LibVLC libVLC, Uri uri, int i_width, int i_height) {
-        /* dvd thumbnails can work only with dvdsimple demux */
-        if (uri.getLastPathSegment().endsWith(".iso"))
-            uri = Uri.parse("dvdsimple://" + uri.getEncodedPath());
-        final Media media = new Media(libVLC, uri);
-        byte[] bytes = getThumbnail(media, i_width, i_height);
-        media.release();
-        return bytes;
-    }
-
-    public static byte[] getThumbnail(Media media, int i_width, int i_height) {
-        media.addOption(":no-audio");
-        media.addOption(":no-spu");
-        media.addOption(":no-osd");
-        media.addOption(":input-fast-seek");
-        return nativeGetThumbnail(media, i_width, i_height);
-    }
 
     private static void close(Closeable closeable) {
         if (closeable != null)
@@ -580,6 +559,4 @@ public class VLCUtil {
                 closeable.close();
             } catch (IOException ignored) {}
     }
-
-    private static native byte[] nativeGetThumbnail(Media media, int i_width, int i_height);
 }

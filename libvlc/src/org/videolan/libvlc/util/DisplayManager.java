@@ -20,6 +20,7 @@ import org.videolan.libvlc.RendererItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
@@ -41,7 +42,7 @@ public class DisplayManager {
     public DisplayManager(@NonNull Activity activity, @Nullable LiveData<RendererItem> selectedRender, boolean textureView, boolean cloneMode, boolean benchmark) {
         mActivity = activity;
         mSelectedRenderer = selectedRender;
-        mMediaRouter = (MediaRouter) activity.getApplicationContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
+        mMediaRouter = ContextCompat.getSystemService(activity.getApplicationContext(), MediaRouter.class);
         mTextureView = textureView;
         mPresentation = !cloneMode && !benchmark && selectedRender != null && selectedRender.getValue() == null ? createPresentation() : null;
         if (mSelectedRenderer != null) {

@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_fab_shuffle.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:pathData="m3.5,2c-0.8284,0 -1.5,0.6716 -1.5,1.5 0.0001,0.3978 0.1581,0.7793 0.4394,1.0605L7.7578,9.8789 9.8789,7.7578 4.5684,2.4473C4.2793,2.1581 3.8978,2.0001 3.5,2ZM16,2c-0.5639,-0.0002 -1.0165,0.4656 -1,1.0293 0.008,0.255 0.1124,0.4975 0.293,0.6777L16.7324,5.1465 12,9.8789 9.8789,12 2.4473,19.4316C2.1581,19.7207 2.0001,20.1022 2,20.5 2,21.3284 2.6716,22 3.5,22c0.3978,-0.0001 0.7793,-0.1581 1.0605,-0.4394L12,14.1211 14.1211,12 18.8535,7.2676 20.293,8.707C20.9006,9.3333 21.9968,8.8902 22,8v-6zM16.2422,14.1211 L14.1211,16.2422 16.7324,18.8535 15.293,20.293C14.6667,20.9006 15.1098,21.9968 16,22L20.5,22 22,22L22,20.5 22,16c0.0002,-0.5639 -0.4656,-1.0165 -1.0293,-1 -0.255,0.008 -0.4975,0.1124 -0.6777,0.293l-1.4395,1.4395z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="2"
+            android:fillColor="#000000"
+            android:strokeColor="#00000000"
+            android:fillType="evenOdd"
+            android:fillAlpha="1"
+            android:strokeLineCap="butt" />
+</vector>

@@ -1,0 +1,49 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_abrepeat_reset_marker_circle.xml
+  ~ **************************************************************************
+  ~ Copyright © 2019 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:pathData="M24,24m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="9.07086563"
+            android:fillColor="@color/player_circle_background"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:strokeLineCap="butt" />
+    <path
+            android:pathData="m10.6667,10.6667 l-1.6667,1.6667 6.6667,6.6667c0,1.2287 0.2792,2.4413 0.8008,3.5515l6.7545,14.2512c0.0167,0.02 0.0183,0.04 0.03,0.0583 0.1383,0.2878 0.4293,0.4712 0.7487,0.472 0.3348,0.0003 0.6373,-0.1997 0.7682,-0.5078l2.806,-5.918 8.0925,8.0925 1.6667,-1.6667zM24,10.6667c-2.7302,0 -5.1323,1.3238 -6.6438,3.3562l12.3632,12.3632 1.8197,-3.8345c0.5265,-1.1102 0.7915,-2.3228 0.7943,-3.5515 0,-4.6023 -3.731,-8.3333 -8.3333,-8.3333z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="1"
+            android:fillColor="?attr/player_icon_color"
+            android:strokeColor="#00000000"
+            android:fillType="evenOdd"
+            android:fillAlpha="1"
+            android:strokeLineCap="butt" />
+</vector>

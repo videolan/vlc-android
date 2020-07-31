@@ -1,0 +1,81 @@
+From 4c22fcedd313e51abfc506a8670cd06e3cf6d0e7 Mon Sep 17 00:00:00 2001
+Message-Id: <4c22fcedd313e51abfc506a8670cd06e3cf6d0e7.1593695247.git.thomas@gllm.fr>
+In-Reply-To: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
+References: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
+From: Soomin Lee <bubu@mikan.io>
+Date: Wed, 31 Oct 2018 10:08:55 +0100
+Subject: [PATCH 5/6] libvlc: media_player: Add record method
+
+---
+ include/vlc/libvlc_media_player.h | 13 +++++++++++++
+ lib/media_player.c                | 19 +++++++++++++++++++
+ 2 files changed, 32 insertions(+)
+
+diff --git a/include/vlc/libvlc_media_player.h b/include/vlc/libvlc_media_player.h
+index c431c235e9..bc0d1f774c 100644
+--- a/include/vlc/libvlc_media_player.h
++++ b/include/vlc/libvlc_media_player.h
+@@ -26,6 +26,8 @@
+ #ifndef VLC_LIBVLC_MEDIA_PLAYER_H
+ #define VLC_LIBVLC_MEDIA_PLAYER_H 1
+ 
++#define LIBVLC_MEDIA_PLAYER_HAS_RECORDING
++
+ # ifdef __cplusplus
+ extern "C" {
+ # else
+@@ -2079,6 +2081,17 @@ LIBVLC_API int libvlc_media_player_get_role(libvlc_media_player_t *p_mi);
+  */
+ LIBVLC_API int libvlc_media_player_set_role(libvlc_media_player_t *p_mi,
+                                             unsigned role);
++/**
++ * Start/stop recording
++ *
++ * \version LibVLC 4.0.0 and later.
++ *
++ * \param p_mi media player
++ * \param directory path of the recording directory or NULL to stop recording
++ * \return 0 on success, -1 on error
++ */
++LIBVLC_API int libvlc_media_player_record(libvlc_media_player_t *p_mi,
++                                          const char *directory);
+ 
+ /** @} audio */
+ 
+diff --git a/lib/media_player.c b/lib/media_player.c
+index ad8d2a80cc..e337cf7197 100644
+--- a/lib/media_player.c
++++ b/lib/media_player.c
+@@ -637,6 +637,7 @@ libvlc_media_player_new( libvlc_instance_t *instance )
+     var_Create (mp, "rate", VLC_VAR_FLOAT|VLC_VAR_DOINHERIT);
+     var_Create (mp, "sout", VLC_VAR_STRING);
+     var_Create (mp, "demux-filter", VLC_VAR_STRING);
++    var_Create (mp, "input-record-path", VLC_VAR_STRING);
+ 
+     /* Video */
+     var_Create (mp, "vout", VLC_VAR_STRING|VLC_VAR_DOINHERIT);
+@@ -2094,3 +2095,21 @@ int libvlc_media_player_get_role(libvlc_media_player_t *mp)
+     free(str);
+     return ret;
+ }
++
++int libvlc_media_player_record( libvlc_media_player_t *p_mi,
++                                const char *directory )
++{
++    vlc_value_t val = { .psz_string = (char *)directory };
++    const bool enable = directory != NULL;
++    input_thread_t *p_input_thread = libvlc_get_input_thread ( p_mi );
++    if( !p_input_thread )
++        return VLC_EGENERIC;
++
++    if( enable )
++        var_Set( p_mi, "input-record-path", val );
++
++    var_SetBool( p_input_thread, "record", enable);
++
++    vlc_object_release( p_input_thread );
++    return VLC_SUCCESS;
++}
+-- 
+2.20.1
+

@@ -1,0 +1,236 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+
+    kotlinOptions.jvmTarget = "1.8"
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    dataBinding {
+        enabled = true
+    }
+    
+    packagingOptions {
+        pickFirst '**/*.so'
+    }
+
+    defaultConfig {
+
+        resValue "string", "build_time", buildTime()
+        resValue "string", "build_host", hostName()
+        resValue "string", "build_revision", revision()
+        resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".tv"
+        buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
+
+        testInstrumentationRunner "org.videolan.vlc.MultidexTestRunner"
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        vectorDrawables.useSupportLibrary = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/assets/schemas".toString(),
+                             "room.incremental":"true"]
+            }
+        }
+    }
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        unitTests {
+            includeAndroidResources = true
+        }
+        unitTests.all {
+            jvmArgs '-noverify'
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
+    }
+
+
+    buildTypes {
+        release {
+            proguardFile 'proguard.cfg'
+            buildConfigField "boolean", "BETA", isBeta()
+            resValue 'string', 'benchmark_package_name', 'org.videolan.vlcbenchmark'
+        }
+        debug {
+            buildConfigField "boolean", "BETA", "false"
+            resValue 'string', 'benchmark_package_name', 'org.videolan.vlcbenchmark.debug'
+            buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}.debug\""
+            resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".debug.tv"
+            multiDexEnabled true
+        }
+        signedRelease {
+            initWith release
+            matchingFallbacks = ['release']
+        }
+        dev {
+            initWith debug
+            matchingFallbacks = ['debug']
+        }
+    }
+
+    sourceSets.main {
+        manifest.srcFile 'AndroidManifest.xml'
+        java.srcDirs = ['src']
+        resources.srcDirs = ['src']
+        aidl.srcDirs = ['src']
+        renderscript.srcDirs = ['src']
+        res.srcDirs = ['res']
+        assets.srcDirs = ['assets']
+    }
+    sourceSets.debug {
+        res.srcDirs = ['flavors/debug/res']
+        assets.srcDirs = ['flavors/debug/assets']
+    }
+    sourceSets.dev {
+        res.srcDirs = ['flavors/debug/res']
+        assets.srcDirs = ['flavors/debug/assets']
+    }
+    sourceSets.test {
+        java.srcDirs = ['test', 'test-common']
+        assets.srcDirs = ['flavors/debug/assets']
+    }
+    sourceSets.androidTest {
+        java.srcDirs = ['androidTest', 'test-common']
+        assets.srcDirs = ['flavors/debug/assets']
+        assets.srcDirs += files("$projectDir/assets/schemas".toString())
+    }
+}
+
+task generateSources(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task buildTranslationArray {
+    doLast {
+        def foundLocales = new StringBuilder()
+        foundLocales.append("new String[]{")
+
+        fileTree("../resources/src/main/res").visit { FileVisitDetails details ->
+            println 'details: ' + details
+            if (details.file.path.endsWith("strings.xml")) {
+                def languageCode = details.file.parentFile.name.replaceAll('values-', '').replaceAll('-r', '-')
+                languageCode = (languageCode == "values") ? "en" : languageCode
+                foundLocales.append("\"").append(languageCode).append("\"").append(",")
+            }
+        }
+
+        foundLocales.append("}")
+        //Don't forget to remove the trailing comma
+        def foundLocalesString = foundLocales.toString().replaceAll(',}', '}')
+        android.defaultConfig.buildConfigField "String[]", "TRANSLATION_ARRAY", foundLocalesString
+    }
+}
+preBuild.dependsOn buildTranslationArray
+
+dependencies {
+    devApi project(':libvlc')
+    devApi project(':medialibrary')
+    debugApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    debugApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    releaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    releaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    signedReleaseApi "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    signedReleaseApi "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    api project(':extension-api')
+    api project(':application:tools')
+    api project(':application:resources')
+    api project(':application:mediadb')
+    api project(':application:live-plot-graph')
+
+    // AppCompat
+    api "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"
+    api "androidx.fragment:fragment-ktx:$rootProject.ext.androidxFragmentVersion"
+    api "androidx.recyclerview:recyclerview:$rootProject.ext.androidxRecyclerviewVersion"
+    api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
+    api "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
+    api "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
+    api 'androidx.multidex:multidex:2.0.1'
+    api "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.lifecycleVersion"
+    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.lifecycleVersion"
+    api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
+    api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
+
+    //TV
+    api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
+    api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
+    api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxLeanbackVersion"
+
+    // Kotlin
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
+
+    // Tests
+    androidTestApi "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestApi "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestApi "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    testApi "junit:junit:$rootProject.ext.junitVersion"
+    androidTestApi "androidx.room:room-testing:$rootProject.ext.roomVersion"
+    testApi "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestApi "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestApi "androidx.test.ext:junit:$rootProject.ext.supportTest"
+    androidTestUtil "androidx.test:orchestrator:$rootProject.ext.supportTest"
+    testApi "androidx.test:core:$rootProject.ext.supportTest"
+    testApi "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.ext.kotlinx_version"
+    testApi "org.mockito:mockito-core:$rootProject.ext.mockito"
+    testApi "io.mockk:mockk:$rootProject.ext.mockk"
+    testApi "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
+    testApi "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
+    testApi "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
+    testApi "org.robolectric:robolectric:$rootProject.ext.robolectric"
+    androidTestApi 'androidx.test:rules:1.3.0-alpha05'
+}
+
+
+static def buildTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+static def hostName() {
+    return "${System.getProperty("user.name")}@${InetAddress.localHost.hostName}"
+}
+
+def revision() {
+    def code = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = code
+    }
+    return code.toString()
+}
+
+def isBeta() {
+    def versionNameLower = versionName.toLowerCase()
+    return (versionNameLower.contains("beta") || versionNameLower.contains("rc") || versionNameLower.contains("alpha") || versionNameLower.contains("dev")).toString()
+}
+
+
+kapt {
+    javacOptions {
+        // Increase the max count of errors from annotation processors.
+        // Default is 100.
+        option("-Xmaxerrs", 500)
+    }
+}

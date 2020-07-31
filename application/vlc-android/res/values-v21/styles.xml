@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--    fixme : We'll have to revert to Widget.MaterialComponents.BottomSheet.Modal when this issue is fixed: https://github.com/material-components/material-components-android/issues/1086-->
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+
+    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+    </style>
+
+    <style name="Theme.VLC" parent="Theme.VLC.19">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/grey400</item>
+    </style>
+
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.19">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
+</resources>

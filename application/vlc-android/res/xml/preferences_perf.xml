@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                      android:title="@string/performance_prefs_category">
+    <ListPreference
+            android:defaultValue="@string/chroma_format_default"
+            android:entries="@array/chroma_formats"
+            android:entryValues="@array/chroma_formats_values"
+            android:key="chroma_format"
+            android:summary="@string/chroma_format_summary"
+            android:title="@string/chroma_format"/>
+    <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/deblocking_list"
+            android:entryValues="@array/deblocking_values"
+            android:key="deblocking"
+            android:summary="@string/deblocking_summary"
+            android:title="@string/deblocking"/>
+
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="false"
+            android:key="enable_frame_skip"
+            android:summary="@string/enable_frame_skip_summary"
+            android:title="@string/enable_frame_skip"/>
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="@bool/time_stretching_default"
+            android:key="enable_time_stretching_audio"
+            android:summary="@string/enable_time_stretching_audio_summary"
+            android:title="@string/enable_time_stretching_audio"/>
+</androidx.preference.PreferenceScreen>

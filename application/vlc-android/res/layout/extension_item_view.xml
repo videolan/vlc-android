@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:vlc="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+                name="holder"
+                type="org.videolan.vlc.gui.browser.ExtensionAdapter.ViewHolder" />
+
+        <variable
+                name="item"
+                type="org.videolan.vlc.extensions.api.VLCExtensionItem" />
+
+        <variable
+                name="cover"
+                type="android.graphics.drawable.BitmapDrawable" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:onLongClick="@{holder::onLongClick}"
+            android:onClick="@{holder::onClick}">
+
+        <ImageView
+                android:id="@+id/extension_image"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                vlc:imageUri="@{item.imageUri}"
+                vlc:layout_constraintEnd_toStartOf="@id/title"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:visibility="@{item.imageUri == null || TextUtils.isEmpty(item.imageUri.toString()) ? View.GONE : View.VISIBLE}"
+                android:src="@{cover}"
+                tools:src="@drawable/icon" />
+
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:text="@{item.title}"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/list_title"
+                android:textSize="16sp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:maxLines="1"
+                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+                vlc:layout_constraintStart_toEndOf="@id/extension_image"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_constraintBottom_toTopOf="@+id/author"
+                vlc:layout_constraintVertical_chainStyle="packed"
+                tools:text="Title"
+                tools:targetApi="jelly_bean" />
+
+        <TextView
+                android:id="@+id/author"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:text="@{item.subTitle}"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/list_subtitle"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:layout_marginTop="2dp"
+                vlc:layout_constraintEnd_toStartOf="@id/item_more"
+                vlc:layout_constraintTop_toBottomOf="@+id/title"
+                vlc:layout_constraintStart_toStartOf="@id/title"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="@{TextUtils.isEmpty(item.subTitle) ? View.GONE : View.VISIBLE}"
+                tools:text="Author"
+                tools:targetApi="jelly_bean" />
+
+        <ImageView
+                android:id="@+id/item_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                vlc:srcCompat="@drawable/ic_more"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:visibility="@{item.type !=  0 ? View.VISIBLE : View.GONE}"
+                android:layout_marginEnd="1dp"
+                vlc:layout_constraintRight_toRightOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="1dp"
+                tools:src="@drawable/ic_more"
+                android:onClick="@{holder::onMoreClick}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

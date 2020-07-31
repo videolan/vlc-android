@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_set_ringtone_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="38dp"
+        android:viewportHeight="20"
+        android:viewportWidth="20"
+        android:width="38dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#212121"
+            android:fillType="nonZero"
+            android:pathData="m13.9997,4.0013v1,2.5879a1.5,1.5 0,0 0,-0.5 -0.088,1.5 1.5,0 0,0 -1.5,1.5 1.5,1.5 0,0 0,1.5 1.5,1.5 1.5,0 0,0 1.5,-1.5v-4h1v-1h-1zM4.824,4.9994h0.0019c-0.8622,0.0005 -0.8617,-0.0004 -0.8047,1.1289 0.0376,0.3709 0.0925,0.7365 0.166,1.0957 0.0735,0.3591 0.164,0.7112 0.2715,1.0567 0.0688,0.2211 0.1562,0.4353 0.2383,0.6503L4.6833,8.9309c0.0225,0.058 0.0547,0.1121 0.0781,0.17 0.0256,0.064 0.0435,0.1319 0.0703,0.1953 0.0643,0.1518 0.1421,0.295 0.2129,0.4433 0.0556,0.1163 0.1085,0.2337 0.168,0.3477 0.1188,0.2279 0.2489,0.4477 0.3828,0.666 0.0638,0.1042 0.1223,0.2106 0.1895,0.3125 0.1282,0.1942 0.2684,0.381 0.4082,0.5664 0.0873,0.116 0.1701,0.2352 0.2617,0.3477 0.1165,0.1424 0.2438,0.2737 0.3672,0.4101 0.3607,0.4003 0.7411,0.7815 1.1563,1.125 0.2035,0.1684 0.4212,0.3211 0.6367,0.4746 0.0803,0.057 0.1545,0.1208 0.2363,0.1758 0.1881,0.1264 0.3858,0.2369 0.582,0.3516 0.1278,0.075 0.2537,0.1548 0.3848,0.2246 0.1632,0.087 0.3319,0.1618 0.5,0.2402 0.1295,0.061 0.2546,0.1297 0.3867,0.1856 0.0545,0.023 0.111,0.041 0.166,0.062 0.047,0.019 0.0914,0.043 0.1387,0.061v-0.012c0.2339,0.091 0.4657,0.1828 0.707,0.2578 0.3456,0.1075 0.6994,0.1999 1.0586,0.2734 0.3592,0.073 0.7247,0.1304 1.0957,0.168 1.1284,0.058 1.1289,0.056 1.1289,-0.8066v-0.8614,-0.8632c0,-0.8673 -0.0008,-0.8625 -0.7832,-0.9043 -0.2594,-0.027 -0.5166,-0.067 -0.7715,-0.1211 -0.2549,-0.054 -0.5076,-0.1212 -0.7559,-0.2012 -0.574,-0.2395 -0.6797,-0.3324 -1.1191,0.1074l-0.3867,0.3887 -0.3887,0.3887 -0.2461,0.2461c-1.6579,-0.8797 -3.0108,-2.2518 -3.8965,-3.9082l0.2461,-0.2442 0.3867,-0.3867 0.3867,-0.3867c0.4275,-0.3952 0.2763,-0.6591 0.1074,-1.1192 -0.0802,-0.248 -0.147,-0.4993 -0.2012,-0.7539 -0.0541,-0.2545 -0.0953,-0.5123 -0.123,-0.7714 -0.0431,-0.7812 -0.0421,-0.7827 -0.9043,-0.7833L5.6872,4.9972Z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="round"
+            android:strokeWidth="4" />
+</vector>

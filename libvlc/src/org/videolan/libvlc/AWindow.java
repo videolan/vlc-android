@@ -31,6 +31,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
 
+import org.videolan.libvlc.interfaces.IVLCVout;
+
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -41,6 +43,13 @@ public class AWindow implements IVLCVout {
     private static final int ID_VIDEO = 0;
     private static final int ID_SUBTITLES = 1;
     private static final int ID_MAX = 2;
+
+    public interface SurfaceCallback {
+        @MainThread
+        void onSurfacesCreated(AWindow vout);
+        @MainThread
+        void onSurfacesDestroyed(AWindow vout);
+    }
 
     private class SurfaceHelper {
         private final int mId;
@@ -87,7 +96,6 @@ public class AWindow implements IVLCVout {
         @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         private void attachTextureView() {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
-            setSurface(new Surface(mTextureView.getSurfaceTexture()));
         }
 
         private void attachSurface() {
@@ -184,7 +192,7 @@ public class AWindow implements IVLCVout {
     private final static int SURFACE_STATE_READY = 2;
 
     private final SurfaceHelper[] mSurfaceHelpers;
-    private final MediaPlayer.SurfaceListener mSurfaceCallback;
+    private final SurfaceCallback mSurfaceCallback;
     private final AtomicInteger mSurfacesState = new AtomicInteger(SURFACE_STATE_INIT);
     private OnNewVideoLayoutListener mOnNewVideoLayoutListener = null;
     private ArrayList<IVLCVout.Callback> mIVLCVoutCallbacks = new ArrayList<IVLCVout.Callback>();
@@ -204,7 +212,7 @@ public class AWindow implements IVLCVout {
      * MediaPlayer class).
      * @param surfaceCallback
      */
-    public AWindow(MediaPlayer.SurfaceListener surfaceCallback) {
+    public AWindow(SurfaceCallback surfaceCallback) {
         mSurfaceCallback = surfaceCallback;
         mSurfaceHelpers = new SurfaceHelper[ID_MAX];
         mSurfaceHelpers[ID_VIDEO] = null;
@@ -347,7 +355,7 @@ public class AWindow implements IVLCVout {
         for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
             cb.onSurfacesDestroyed(this);
         if (mSurfaceCallback != null)
-            mSurfaceCallback.onSurfaceDestroyed();
+            mSurfaceCallback.onSurfacesDestroyed(this);
         mSurfaceTextureThread.release();
     }
 
@@ -372,7 +380,7 @@ public class AWindow implements IVLCVout {
             for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
                 cb.onSurfacesCreated(this);
             if (mSurfaceCallback != null)
-                mSurfaceCallback.onSurfaceCreated();
+                mSurfaceCallback.onSurfacesCreated(this);
         }
     }
 
@@ -575,7 +583,7 @@ public class AWindow implements IVLCVout {
         private SurfaceTextureThread() {
         }
 
-        private synchronized boolean attachToGLContext(int texName) {
+        private synchronized boolean createSurface() {
             /* Try to re-use the same SurfaceTexture until views are detached. By reusing the same
              * SurfaceTexture, we don't have to reconfigure MediaCodec when it signals a video size
              * change (and when a new VLC vout is created) */
@@ -592,6 +600,12 @@ public class AWindow implements IVLCVout {
                 }
                 mSurface = new Surface(mSurfaceTexture);
             }
+            return true;
+        }
+
+        private synchronized boolean attachToGLContext(int texName) {
+            if (!createSurface())
+                return false;
             mSurfaceTexture.attachToGLContext(texName);
             mFrameAvailable = false;
             mIsAttached = true;
@@ -670,6 +684,8 @@ public class AWindow implements IVLCVout {
         }
 
         private synchronized Surface getSurface() {
+            if (!createSurface())
+                return null;
             return mSurface;
         }
 

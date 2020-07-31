@@ -1,0 +1,37 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_shuffle_pressed.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="48dp"
+        android:viewportHeight="24"
+        android:viewportWidth="24"
+        android:width="48dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#000000"
+            android:fillType="nonZero"
+            android:pathData="M5.4375,4 L4,5.4064l5.1563,5.1562 1.4375,-1.4062 -5.1563,-5.1563zM13.5625,5.4064 L15.3438,7.1876 3.125,19.4064 2.5625,19.9689 3.9688,21.4064 4.5625,20.8126 16.75,8.5939 18.5625,10.4064 18.5625,5.4064 13.5625,5.4064zM13.4063,14.8126 L11.9688,16.2189 15.375,19.5939 13.5625,21.4064 18.5625,21.4064 18.5625,16.4064 16.7813,18.1876 13.4063,14.8126z"
+            android:strokeColor="#00000000"
+            android:strokeWidth="0.5" />
+</vector>

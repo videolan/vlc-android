@@ -1,0 +1,35 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_cone_o.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="46dp"
+        android:viewportHeight="130"
+        android:viewportWidth="130"
+        android:width="46dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#ff8800"
+            android:pathData="m65,8.759c-1.511,0 -3.023,0.368 -4.219,1.107 -2.675,1.653 -4.219,8.437 -4.219,8.437l-2.531,7.594c7.312,4.599 14.625,4.647 21.937,0l-2.531,-7.594c0,0 -1.544,-6.784 -4.219,-8.437 -1.196,-0.739 -2.707,-1.107 -4.219,-1.107zM47.281,46.148 L38.844,71.46c17.304,11.159 34.739,11.376 52.312,0l-8.438,-25.313c-11.912,8.861 -23.725,8.889 -35.437,0zM22.812,81.585 L11,121.241l108,0 -11.813,-39.656 -12.656,0 1.687,5.063c0,0 1.402,4.523 0,5.906 -14.817,14.618 -47.819,13.973 -62.437,-0.844 -1.185,-1.201 0,-5.063 0,-5.063l1.687,-5.063 -12.656,0z"
+            android:strokeColor="#00000000" />
+</vector>

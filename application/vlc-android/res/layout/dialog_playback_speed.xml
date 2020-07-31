@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <TextView
+            android:id="@+id/textView12"
+            style="@style/Theme.VLC.BottomSheetTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/playback_speed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/textView13"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="0.25"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/playback_speed_value"
+            app:layout_constraintEnd_toStartOf="@+id/playback_speed_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+            android:id="@+id/playback_speed_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:text="1.00x"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/textView14"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView13"
+            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <TextView
+            android:id="@+id/textView14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:gravity="bottom|right"
+            android:text="4.00"
+            android:textSize="12sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/playback_speed_value"
+            app:layout_constraintEnd_toStartOf="@+id/playback_speed_plus"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/playback_speed_value" />
+
+    <SeekBar
+            android:id="@+id/playback_speed_seek"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:focusable="true"
+            android:indeterminate="false"
+            android:max="200"
+            android:maxHeight="@dimen/seekbar_height"
+            android:minHeight="@dimen/seekbar_height"
+            android:nextFocusUp="@+id/playback_speed_icon"
+            android:nextFocusDown="@+id/playback_speed_plus"
+            android:progress="100"
+            android:progressDrawable="@drawable/po_seekbar"
+            android:splitTrack="false"
+            android:thumb="@drawable/ic_seekbar_thumb"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/playback_speed_minus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/playback_speed_value" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/playback_speed_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:backgroundTint="@color/transparent"
+            android:layout_marginBottom="8dp"
+            android:padding="0dp"
+            android:nextFocusUp="@+id/playback_speed_seek"
+            android:nextFocusDown="@+id/playback_speed_minus"
+            app:srcCompat="@drawable/ic_up_on_circle_dialog"
+            app:layout_constraintBottom_toTopOf="@+id/playback_speed_minus"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/playback_speed_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:nextFocusUp="@+id/playback_speed_plus"
+            android:nextFocusDown="@+id/playback_speed_icon"
+            app:backgroundTint="@color/transparent"
+            android:padding="0dp"
+            app:srcCompat="@drawable/ic_down_on_circle_dialog"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

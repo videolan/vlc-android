@@ -1,0 +1,50 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_move_media_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="38dp"
+        android:height="38dp"
+        android:viewportWidth="20"
+        android:viewportHeight="20">
+    <path
+            android:pathData="M4.75,7.5L15.25,7.5A0.75,0.75 0,0 1,16 8.25L16,8.25A0.75,0.75 0,0 1,15.25 9L4.75,9A0.75,0.75 0,0 1,4 8.25L4,8.25A0.75,0.75 0,0 1,4.75 7.5z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="9.81950092"
+            android:fillColor="@color/standard_selection_control_normal"
+            android:fillAlpha="1"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:strokeLineCap="butt" />
+    <path
+            android:pathData="M4.75,11L15.25,11A0.75,0.75 0,0 1,16 11.75L16,11.75A0.75,0.75 0,0 1,15.25 12.5L4.75,12.5A0.75,0.75 0,0 1,4 11.75L4,11.75A0.75,0.75 0,0 1,4.75 11z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="9.81950092"
+            android:fillColor="@color/standard_selection_control_normal"
+            android:fillAlpha="1"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:strokeLineCap="butt" />
+</vector>

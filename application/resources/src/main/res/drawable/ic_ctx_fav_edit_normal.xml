@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_ctx_fav_edit_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="38dp"
+        android:height="38dp"
+        android:viewportWidth="20"
+        android:viewportHeight="20">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#212121"
+            android:pathData="m10.0412,4 l-1.5547,4.666h-4.4453l3.416,2.5039 3.7305,-3.7304zM14.3459,6.0742v0,0.01c-0.241,0 -0.4814,0.093 -0.666,0.2773l-0.3887,0.3848 2,1.998 0.4277,-0.4257c0.3301,-0.3705 0.3207,-0.9336 -0.0352,-1.2891l-0.004,-0.01 -0.6641,-0.6621 -0.004,-0.01c-0.1847,-0.1842 -0.425,-0.2774 -0.666,-0.2774zM12.6252,7.4103 L6.0412,14.0001v2h2l6.584,-6.5898zM12.8947,12.5605 L11.3947,14.0605 14.0412,16z"
+            android:strokeWidth="0.66666675"
+            android:strokeColor="#00000000" />
+</vector>

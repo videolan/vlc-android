@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="tv_songs_col_count">6</integer>
+    <integer name="tv_videos_col_count">3</integer>
+    <integer name="mobile_card_columns">5</integer>
+</resources>

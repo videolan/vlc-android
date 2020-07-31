@@ -6,7 +6,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.Medialibrary;
+import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 public class Storage extends MediaLibraryItem {
 

@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+    <path
+            android:pathData="m16.4883,3.7012c-0.129,0 -0.258,0.054 -0.3535,0.1562 -0.089,0.089 -0.1343,0.2139 -0.1348,0.3399v1.8027L9,6c-1.6569,0 -3,1.3431 -3,3v1c-0.01,0.5638 0.4518,1.0225 1.0156,1.0137 0.5515,-0.01 0.992,-0.4621 0.9844,-1.0137v-1c0,-0.5523 0.4477,-1 1,-1L11.8242,8 16,8v1.8047c0.0002,0.4415 0.5334,0.6617 0.8457,0.3496L20,7l-3.1543,-3.1543c-0.0987,-0.099 -0.2284,-0.1469 -0.3574,-0.1445zM16.9844,12.9863c-0.5515,0.01 -0.992,0.4621 -0.9844,1.0137v1c0,0.5523 -0.4477,1 -1,1L12.1758,16 8,16v-1.8027c-0.0002,-0.4415 -0.5334,-0.6637 -0.8457,-0.3516l-3.1543,3.1563 3.1543,3.1543c0.1974,0.1974 0.5179,0.1904 0.709,-0.014 0.089,-0.089 0.1362,-0.2119 0.1367,-0.3379v-1.8047L15,17.9996c1.6569,0 3,-1.3431 3,-3v-1c0.01,-0.5638 -0.4518,-1.0225 -1.0156,-1.0137z"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="2"
+            android:fillColor="?attr/player_icon_color"
+            android:strokeColor="#00000000"
+            android:fillType="evenOdd"
+            android:fillAlpha="1"
+            android:strokeLineCap="round"/>
+</vector>

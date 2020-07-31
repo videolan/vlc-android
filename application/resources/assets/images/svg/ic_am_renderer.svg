@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="24" height="24"
+        id="svg4682" version="1.1" inkscape:version="0.92.1 r15371"
+        sodipodi:docname="ic_am_renderer_normal_w.svg"
+        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+        inkscape:export-xdpi="90" inkscape:export-ydpi="90">
+    <defs id="defs4684" />
+    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
+            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="22.4"
+            inkscape:cx="0.27933744" inkscape:cy="14.384109" inkscape:document-units="px"
+            inkscape:current-layer="layer1" showgrid="true" inkscape:window-width="1920"
+            inkscape:window-height="1054" inkscape:window-x="1920" inkscape:window-y="0"
+            inkscape:window-maximized="1" inkscape:snap-global="true" inkscape:snap-bbox="true"
+            inkscape:bbox-paths="true" inkscape:snap-bbox-edge-midpoints="true"
+            inkscape:snap-bbox-midpoints="true" inkscape:snap-intersection-paths="true"
+            inkscape:object-paths="true" inkscape:object-nodes="true"
+            inkscape:snap-smooth-nodes="true" inkscape:snap-midpoints="true"
+            inkscape:snap-object-midpoints="true" inkscape:snap-center="true"
+            inkscape:snap-to-guides="true">
+        <inkscape:grid type="xygrid" id="grid3002" />
+    </sodipodi:namedview>
+    <metadata id="metadata4687">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title />
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+            transform="translate(0,-1028.3622)">
+        <path style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
+                d="m 5.5,1033.3622 c -0.831,0 -1.5,0.669 -1.5,1.5 v 3.5 h 1.5 v -3.5 h 13 v 11 H 13 v 1.5 h 5.5 c 0.831,0 1.5,-0.669 1.5,-1.5 v -11 c 0,-0.831 -0.669,-1.5 -1.5,-1.5 z m -1.5,6.5 v 1.5 c 3.31371,0 6,2.6863 6,6 h 1.5 c 0,-4.1421 -3.35786,-7.5 -7.5,-7.5 z m 0,3 v 1.5 c 1.65685,0 3,1.3432 3,3 h 1.5 c 0,-2.4853 -2.01472,-4.5 -4.5,-4.5 z m 0,3 v 1.5 h 1.5 c 0,-0.8284 -0.67157,-1.5 -1.5,-1.5 z"
+                id="rect8420" inkscape:connector-curvature="0"
+                sodipodi:nodetypes="sscccccccssssscccccccccccccc" />
+    </g>
+</svg>

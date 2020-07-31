@@ -1,0 +1,740 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="app_name" translatable="false">VLC</string>
+    <string name="other">Other</string>
+    <string name="sortby">Sort by…</string>
+    <string name="sortby_name">Name</string>
+    <string name="sortby_filename">File name</string>
+    <string name="sortby_artist_name">Artist name</string>
+    <string name="sortby_album_name">Album name</string>
+    <string name="sortby_length">Length</string>
+    <string name="sortby_date">Date</string>
+    <string name="sortby_last_modified_date">Recently added</string>
+    <string name="sortby_media_number">Media number</string>
+    <string name="sortby_number">Nb tracks</string>
+    <string name="searchable_hint">Search…</string>
+    <string name="history">History</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d result found</item>
+        <item quantity="other">%d results found</item>
+    </plurals>
+
+    <string name="play">Play</string>
+    <string name="playback">Playback</string>
+    <string name="playback_controls">Playback controls</string>
+    <string name="medialibrary_scan">Media library scan</string>
+    <string name="Medialibrary_progress">Media library scanning progress updates</string>
+    <string name="play_from_start">Play from start</string>
+    <string name="play_as_audio">Play as audio</string>
+    <string name="play_as_video">Play as video</string>
+    <string name="video_app_switch_title">Background/PiP mode</string>
+    <string name="video_app_switch_summary">Select VLC behavior when you switch to other application from video playback</string>
+    <string name="play_pip_title">Play videos in Picture-in-picture mode</string>
+    <string name="play_as_audio_background">Play videos in background</string>
+    <string name="append">Append</string>
+    <string name="insert_next">Insert next</string>
+    <string name="play_all">Play all</string>
+    <string name="append_all">Append all</string>
+    <string name="resume_playback_short_title">Resume playback</string>
+    <string name="resume_playback_long_title"> Resume playback of last playlist</string>
+    <string name="delete">Delete</string>
+    <string name="remove">Remove</string>
+    <string name="set_song">Set as ringtone</string>
+    <string name="set_song_question">Set \'%1$s\' as ringtone?</string>
+    <string name="info">Information</string>
+    <string name="confirm_delete">Delete the file \'%1$s\'?</string>
+    <string name="confirm_delete_album">Delete the album \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Delete these %1$d media?</string>
+    <string name="confirm_delete_folder">Delete the folder \'%1$s\' and all its contents?</string>
+    <string name="confirm_delete_playlist">Delete playlist \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Remove \'%1$s\' from playlist?</string>
+    <string name="ringtone_set">The file \'%1$s\' was set as the ringtone.</string>
+    <string name="ringtone_error">An error occurred while setting the ringtone.</string>
+    <string name="pause">Pause</string>
+    <string name="unknown_artist">Unknown Artist</string>
+    <string name="unknown_album">Unknown Album</string>
+    <string name="unknown_genre">Unknown Genre</string>
+    <string name="songs">Songs</string>
+    <string name="track_info_copied_to_clipboard">Track info copied to clipboard</string>
+
+    <string name="artists">Artists</string>
+    <string name="albums">Albums</string>
+    <string name="tracks">Tracks</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 subfolder</item>
+        <item quantity="other">%d subfolders</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 media</item>
+        <item quantity="other">%d media</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 media file</item>
+        <item quantity="other">%d media files</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="other">%d videos</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 movie</item>
+        <item quantity="other">%d movies</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV show</item>
+        <item quantity="other">%d TV shows</item>
+    </plurals>
+
+    <string name="internal_memory">Internal memory</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="equalizer">Equalizer</string>
+    <string name="all_albums">All albums</string>
+    <string name="genres">Genres</string>
+    <string name="playlists">Playlists</string>
+    <string name="title">Title</string>
+    <string name="directories">Directories</string>
+    <string name="loading">Loading</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="nomedia">No media files found, please transfer some files to your device or adjust your preferences.</string>
+    <string name="noplaylist">No playlist found.</string>
+    <string name="nosubfolder">No subfolder</string>
+    <string name="directorynotfound">The directory path \'%1$s\' was not found.</string>
+    <string name="nohistory">You have no playback history yet.</string>
+    <string name="validation">Are you sure?</string>
+
+    <string name="cover_art">Cover art</string>
+    <string name="shuffle_all_title">Shuffle all</string>
+    <string name="shuffle_title">Shuffle mode</string>
+    <string name="shuffle">Shuffle Off</string>
+    <string name="shuffle_on">Shuffle On</string>
+    <string name="repeat_title">Repeat mode</string>
+    <string name="repeat">Repeat none</string>
+    <string name="repeat_single">Repeat single</string>
+    <string name="repeat_all">Repeat all</string>
+    <string name="previous">Previous</string>
+    <string name="stop">Stop</string>
+    <string name="firstsong">First song of the playlist</string>
+    <string name="lastsong">Last song of the playlist</string>
+
+    <string name="surface_best_fit">Best fit</string>
+    <string name="surface_fit_screen">Fit screen</string>
+    <string name="surface_fill">Fill</string>
+    <string name="surface_original">Center</string>
+    <string name="unseekable_stream">Unseekable stream</string>
+    <string name="refresh">Refresh</string>
+    <string name="track_audio">Audio track</string>
+    <string name="track_video">Video track</string>
+    <string name="track_text">Subtitle track</string>
+    <string name="track_unknown">Unknown track</string>
+    <string name="track_bitrate_info">Bitrate: %1$s/s\n</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Language: %1$s\n</string>
+    <string name="volume">Volume</string>
+    <string name="sound_on">Sound On</string>
+    <string name="sound_off">Sound Off</string>
+    <string name="brightness">Brightness</string>
+    <string name="advanced">advanced options</string>
+    <string name="audio_boost_warning">Slide up again to go beyond 100%</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 channel\n</item>
+        <item quantity="other">%1$d channels\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Sample rate: %1$d Hz\n</string>
+    <string name="track_resolution_info">Resolution: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Frame rate: %1$.3f\n</string>
+
+    <string name="playback_speed">Playback speed</string>
+    <string name="sleep_title">Sleep timer</string>
+    <string name="sleep_in">Sleep in</string>
+    <string name="jump_to_time">Jump to Time</string>
+    <string name="subtitle_select">Select subtitle file</string>
+
+    <string name="server_add_title">Add a new server to favorites</string>
+    <string name="server_domain_hint">Server address (domain name or IP)</string>
+    <string name="server_share_hint">Network share name (or IP address)</string>
+    <string name="server_folder_hint">Folder path (optional)</string>
+    <string name="server_username_hint">Username</string>
+    <string name="server_servername_hint">Server name, for conveniency</string>
+    <string name="server_port">Port: </string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+
+    <string name="search_no_result">No media found</string>
+    <string name="favorites_add">Add to favorites</string>
+    <string name="favorites_remove">Remove from favorites</string>
+    <string name="favorites_edit">Edit</string>
+    <string name="favorite_added">Saved to favorites</string>
+    <string name="favorite_removed">Removed from favorites</string>
+
+    <string name="streams">Streams</string>
+    <string name="open_mrl_dialog_msg">Enter network address: e.g. http://, mms:// or rtsp://</string>
+    <string name="empty" translatable="false"></string>
+    <string name="time_0" translatable="false">0:00</string>
+    <string name="load_1_period" translatable="false">.</string>
+    <string name="load_2_period" translatable="false">..</string>
+    <string name="load_3_period" translatable="false">...</string>
+
+    <string name="encountered_error_title">Playback error</string>
+    <string name="encountered_error_message">VLC encountered an error with this media.\nPlease try refreshing the media library.</string>
+    <string name="invalid_location">The location %1$s cannot be played.</string>
+
+    <string name="search">Search</string>
+
+
+    <string name="playback_history_title">Playback history</string>
+    <string name="playback_history_summary">Save all media played in History section</string>
+    <string name="playback_speed_title">Save Playback Speed</string>
+    <string name="playback_speed_summary">Keep playback speed between medias</string>
+
+    <string name="play_button">Play Button</string>
+
+    <!-- Tips -->
+    <string name="video_player_tips">Video player tips:</string>
+    <string name="seek">Seek</string>
+    <string name="subtitles">Subtitles</string>
+    <string name="audio_sub">Audio tracks\nand subtitles</string>
+    <string name="resize">Resize</string>
+    <string name="options">Options</string>
+    <string name="lock">Lock</string>
+    <string name="ok_got_it">Got it, dismiss&#160;this</string>
+
+    <string name="playlist_tips">Playlist tips</string>
+    <string name="remove_song">Remove song</string>
+    <string name="remove_playlist_item">%1$s has been dismissed from playlist</string>
+    <string name="rearrange_order">Rearrange order</string>
+    <string name="hold_to_seek">Hold to seek</string>
+
+    <string name="audio_player_tips">Audio player tips</string>
+    <string name="previous_next_song">Previous/Next song</string>
+    <string name="show_playlist">Show playlist</string>
+    <string name="hold_to_stop">Hold to stop</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC for Android</string>
+    <string name="licence">License</string>
+    <string name="revision">Revision</string>
+    <string name="about">About</string>
+    <string name="about_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read most files and network streams.</string>
+    <string name="about_link" translatable="false">        &lt;a href=&quot;https://www.videolan.org/vlc/&quot;&gt;https://www.videolan.org/vlc/&lt;/a&gt;</string>
+    <string name="authors" translatable="false">Edward&#160;Wang, Sébastien&#160;Toque, Adrien&#160;Maglo, Jean-Baptiste&#160;Kempf, Ludovic&#160;Fauvet, Rafaël&#160;Carré, Alexandre&#160;Perraud, Michael&#160;Merg, Martin&#160;Storsjö, Rémi&#160;Duraffort, Dominique&#160;Martinet, Jean-Philippe&#160;André, Felix&#160;Abecassis, Christoph&#160;Miebach, Hugo&#160;Beauzée-Luyssen, Felix&#160;Paul&#160;Kühne, John&#160;Mooring, Pavol&#160;Rusnak, Rohit&#160;Yadav, Tanguy&#160;Pruvot, Thomas&#160;Clavier, Asad&#160;Mehmood, Garret&#160;Kelly, Philipp&#160;Dreimann, Walter&#160;Heck, Thomas&#160;Guillem, Geoffrey&#160;Métais, Habib&#160;Kazemi, Nicolas&#160;Pomepuy</string>
+    <string name="feedback_link" translatable="false">&lt;a href=&quot;https://forum.videolan.org/viewforum.php?f=35&quot;&gt;%s&lt;/a&gt;</string>
+    <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2020 by VideoLAN.\n</string>
+    <string name="vlc_authors">and VLC Authors.</string>
+    <string name="compiled_by">This version of VLC is compiled by:</string>
+    <string name="feedback_forum">Feedback forum</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Settings</string>
+
+    <string name="directories_summary">Select directories to include in the media library</string>
+    <string name="add_custom_path">Add a custom path</string>
+    <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
+    <string name="remove_custom_path">Remove custom path</string>
+    <string name="hardware_acceleration">Hardware Acceleration</string>
+    <string name="hardware_acceleration_summary">Disabled: better stability\nDecoding: may improve performance\nFull: may improve performance further</string>
+    <string name="hardware_acceleration_disabled">Disabled</string>
+    <string name="hardware_acceleration_decoding">Decoding acceleration</string>
+    <string name="hardware_acceleration_full">Full acceleration</string>
+    <string name="dev_hardware_decoder">Advanced hardware decoder</string>
+    <string name="dev_hardware_decoder_summary">Force hardware decoder, for advanced users only</string>
+    <string name="dev_hardware_decoder_omx" translatable="false">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr" translatable="false">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec" translatable="false">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr" translatable="false">mediacodec-dr</string>
+    <string name="automatic">Automatic</string>
+    <string name="screen_orientation">Video screen orientation</string>
+    <string name="screen_orientation_sensor">Automatic (sensor)</string>
+    <string name="screen_orientation_start_lock">Locked at start</string>
+    <string name="screen_orientation_portrait">Portrait</string>
+    <string name="screen_orientation_landscape">Landscape</string>
+    <string name="enable_black_theme">Black theme</string>
+    <string name="subtitle_text_encoding">Subtitle text encoding</string>
+    <string name="daynight_title">DayNight mode</string>
+    <string name="daynight_follow_system_title">Follow system mode</string>
+
+    <string name="extra_prefs_category">Extra settings</string>
+
+    <string name="interface_prefs_screen">Interface</string>
+    <string name="interface_secondary_display_category_title">Secondary display</string>
+    <string name="interface_secondary_display_category_summary">Settings when secondary displays are connected (HDMI/Chromecast)</string>
+    <string name="enable_clone_mode">Prefer clone</string>
+    <string name="enable_clone_mode_summary">Clone the device screen without remote control</string>
+
+    <string name="video_prefs_category">Video</string>
+    <string name="video_min_group_length_title">Group videos</string>
+    <string name="video_min_group_length_disable">Do not group videos</string>
+    <string name="video_min_group_length_folder">Group by folder</string>
+    <string name="video_min_group_length_name">Group by name</string>
+    <string name="media_fast_seek">Fast seek</string>
+    <string name="media_fast_seek_summary">Seeking in a media is faster but less accurate</string>
+    <string name="video_transition_title">Videos transition</string>
+    <string name="video_transition_summary">Show new video title on transition</string>
+    <string name="media_seen">Show seen video marker</string>
+    <string name="media_seen_summary">Mark a video as seen when you play it until the end</string>
+    <string name="force_play_all_summary">Play all videos, starting with the one you clicked on</string>
+    <string name="force_play_all_title">Video playlist mode</string>
+    <string name="save_brightness_summary">Keep brightness level between media</string>
+    <string name="save_brightness_title">Save brightness level</string>
+    <string name="save_audiodelay_summary">Save individual audio delay for each video</string>
+    <string name="save_audiodelay_title">Save audio delay</string>
+    <string name="enable_brightness_gesture_title">Brightness gesture</string>
+    <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
+    <string name="enable_volume_gesture_title">Volume gesture</string>
+    <string name="enable_volume_gesture_summary">Control volume by gesture during video playback</string>
+    <string name="enable_seek_buttons">Seek buttons</string>
+    <string name="enable_seek_buttons_summary">Show rewind and forward buttons on the video interface</string>
+    <string name="enable_double_tap_seek_title">Double tap to seek</string>
+    <string name="enable_double_tap_seek_summary">Double tap on screen edges to seek by 10 seconds</string>
+    <string name="popup_keepscreen_title">Keep screen ON in Pop-Up mode</string>
+    <string name="popup_keepscreen_summary">Always keep screen ON while Pop-Up is displayed, even if video is paused.</string>
+    <string name="browser_show_hidden_files_title">Show hidden files</string>
+
+    <string name="subtitles_prefs_category">Subtitles</string>
+    <string name="subtitles_size_title">Subtitles Size</string>
+    <string name="subtitles_size_small">Small</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Big</string>
+    <string name="subtitles_size_huge">Huge</string>
+    <string name="subtitles_color_title">Subtitles Color</string>
+    <string name="subtitles_color_white">White</string>
+    <string name="subtitles_color_gray">Gray</string>
+    <string name="subtitles_color_pink">Pink</string>
+    <string name="subtitles_color_blue">Blue</string>
+    <string name="subtitles_color_yellow">Yellow</string>
+    <string name="subtitles_color_green">Green</string>
+    <string name="subtitles_background_title">Subtitles Background</string>
+    <string name="subtitles_bold_title">Bold subtitles</string>
+    <string name="subtitles_autoload_title">Auto load subtitles</string>
+
+    <string name="audio_prefs_category">Audio</string>
+    <string name="lockscreen_cover_title">Media cover on Lockscreen</string>
+    <string name="lockscreen_cover_summary">When available, set the current media cover art as lockscreen wallpaper</string>
+    <string name="list_title_ellipsize">Single line list title ellipsize</string>
+    <string name="list_title_ellipsize_default">Default</string>
+    <string name="list_title_ellipsize_left">Left</string>
+    <string name="list_title_ellipsize_right">Right</string>
+    <string name="list_title_ellipsize_middle">Middle</string>
+    <string name="list_title_ellipsize_marquee">Marquee</string>
+    <string name="audio_boost_title">Audio-boost</string>
+    <string name="audio_boost_summary">Allow volume up to 200%</string>
+    <string name="headset_prefs_category">Headset</string>
+    <string name="enable_headset_detection">Detect headset</string>
+    <string name="enable_headset_detection_summary">Detect headset insertion and removal</string>
+    <string name="enable_play_on_headset_insertion">Resume on headset insertion</string>
+    <string name="enable_play_on_headset_insertion_summary">Pause otherwise</string>
+    <string name="aout">Audio output</string>
+    <string name="aout_summary">Change the method that VLC uses to output audio</string>
+    <string name="aout_audiotrack" translatable="false">AudioTrack</string>
+    <string name="aout_opensles" translatable="false">OpenSL ES</string>
+    <string name="audio_ducking_title">Lower VLC volume on notifications</string>
+    <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
+    <string name="casting_category">Casting</string>
+    <string name="casting_switch_title">Wireless casting</string>
+    <string name="casting_passthrough_title">Audio Passthrough</string>
+    <string name="casting_passthrough_summary">Let your TV manage audio rendering</string>
+    <string name="casting_conversion_quality_title">Conversion quality</string>
+    <string name="casting_conversion_quality_summary">Select the conversion quality when casting on remote screen</string>
+    <string name="casting_quality_high">High</string>
+    <string name="casting_quality_medium">Medium</string>
+    <string name="casting_quality_low">Low</string>
+    <string name="casting_quality_lowcpu">Lowest</string>
+    <string name="casting_connected_renderer">Connected to renderer \'%1$s\'</string>
+    <string name="artists_show_all_title">Show all artists</string>
+
+    <string name="extensions_prefs_category">Extensions</string>
+    <string name="extensions_empty">No extension detected</string>
+    <string name="extension_permission_title">Activate new extension \"%1$s\"?</string>
+    <string name="extension_permission_checkbox_title">Show in %1$s</string>
+    <string name="extension_prefs_activation_title">Activate</string>
+    <string name="android_auto">Android Auto</string>
+
+    <string name="controls_prefs_category">Controls</string>
+
+    <string name="performance_prefs_category">Performance</string>
+    <string name="chroma_format">Force video chroma</string>
+    <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices (Android 2.3 and later only)</string>
+    <string name="deblocking">Deblocking filter settings</string>
+    <string name="deblocking_summary">Changing the deblocking filter settings could improve video quality (advanced users only)</string>
+    <string name="deblocking_always">Full deblocking (slowest)</string>
+    <string name="deblocking_nonref">Medium deblocking</string>
+    <string name="deblocking_nonkey">Low deblocking</string>
+    <string name="deblocking_all">No deblocking (fastest)</string>
+    <string name="enable_frame_skip">Frame skip</string>
+    <string name="enable_frame_skip_summary">Speed up decoding but could lower video quality</string>
+    <string name="enable_time_stretching_audio">Time-stretching audio</string>
+    <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device)</string>
+
+    <string name="advanced_prefs_category">Advanced</string>
+    <string name="auto_rescan">Auto rescan</string>
+    <string name="auto_rescan_summary">Automatically scan device for new or deleted media at application startup</string>
+    <string name="dump_media_db">Dump media database</string>
+    <string name="dump_media_db_summary">Copy database to internal storage root</string>
+    <string name="clear_media_db">Clear media database</string>
+    <string name="clear_media_database_summary">Clears the database to start over</string>
+    <string name="clear_history">Clear history</string>
+    <string name="set_locale">Set locale</string>
+    <string name="network_caching">Network caching value</string>
+    <string name="network_caching_summary">The amount of time to buffer network media (in ms) for software decoding\nLeave blank to reset</string>
+    <string name="resume_playback_title">Resume playback after a call</string>
+    <string name="resume_playback_summary">Stay in pause otherwise</string>
+    <string name="blurred_cover_background_title">Blurred cover background</string>
+    <string name="blurred_cover_background_summary">Blurred cover in audio player background</string>
+    <string name="network_caching_popup">This value must be between 0 and 6000 ms</string>
+    <string name="quit">Quit and restart application</string>
+    <string name="restart_message">Changes will take effect once application has restarted.\n\nRestart now?</string>
+    <string name="restart_message_OK">OK</string>
+    <string name="restart_message_Later">Later</string>
+    <string name="browser_show_all_title">Show all files</string>
+
+    <string name="developer_prefs_category">Developer</string>
+    <string name="enable_verbose_mode">Verbose</string>
+    <string name="enable_verbose_mode_summary">Increase the verbosity (logcat)</string>
+    <string name="debug_logs">Debug logs</string>
+    <string name="start_logging">Start logging</string>
+    <string name="stop_logging">Stop logging</string>
+    <string name="clear_log">Clear log</string>
+    <string name="log_service_title">VLC logs recording</string>
+    <string name="log_service_text">Open the log console</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copied_to_clipboard">Copied log to clipboard.</string>
+    <string name="dump_logcat">Dump logcat log</string>
+    <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
+    <string name="dump_logcat_failure">Failed to dump logcat.</string>
+    <string name="custom_libvlc_options">Custom libVLC options</string>
+    <string name="custom_libvlc_options_invalid">Invalid libVLC options!</string>
+
+    <string name="serious_crash">Unfortunately, a serious error has occurred and VLC had to close.</string>
+    <string name="help_us_send_log">Help us improving VLC by sending the following crash log:</string>
+    <string name="restart_vlc">Restart VLC</string>
+    <string name="send_log">Send the log</string>
+    <string name="sending_log">Sending the log…</string>
+
+    <string name="delete_sub_title">Delete subtitle</string>
+    <string name="delete_sub_message">Do you want to delete this subtitle?</string>
+    <string name="download_subtitle_title">Download Subtitle</string>
+
+    <string name="no_result">No results found</string>
+    <string name="no_internet_connection">Check your internet connection</string>
+    <string name="subs_download_error">Service unavailable. Please try again later</string>
+
+    <string name="network_browsing">Local Network</string>
+    <string name="browsing">Browsing</string>
+
+    <string name="file_size">File size</string>
+
+    <string name="audio_delay">Audio delay</string>
+    <string name="spu_delay">Subtitle delay</string>
+    <string name="network_shares_discovery">Looking for network shares</string>
+    <string name="network_empty">This directory is empty.</string>
+    <string name="network_connection_needed">No connection to local network.</string>
+    <string name="search_hint">Search media</string>
+    <string name="search_in_list_hint">Search in current list</string>
+    <string name="search_global">Search in all media library</string>
+    <string name="playlist_save">Save Playlist</string>
+    <string name="playlist_name_hint">Playlist name</string>
+    <string name="go_to_chapter">Go to chapter…</string>
+    <string name="chapter">Chapter</string>
+    <string name="resume_from_position">Resume from last position</string>
+    <string name="confirm_resume">Resume from last position?</string>
+    <string name="confirm_resume_title">Resume played videos</string>
+    <string name="tv_ui_title">Android TV interface</string>
+    <string name="tv_ui_summary">Change UI to TV adapted theme</string>
+    <string name="medialibrary">Media library</string>
+    <string name="medialibrary_directories">Media library folders</string>
+
+    <!-- Accessibility -->
+    <string name="more_actions">More Actions</string>
+    <string name="back_quit_lock">Press Back again to quit video</string>
+    <string name="stream_deleted">Stream deleted</string>
+    <string name="no_subs_found">No subtitles in this directory</string>
+    <string name="music_now_playing">Now Playing</string>
+
+    <!-- Widget -->
+    <string name="widget_name_w">VLC White Widget</string>
+    <string name="widget_name_b">VLC Dark Widget</string>
+    <string name="widget_default_text" translatable="false">VLC mini player</string>
+    <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
+    <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
+    <string name="allow_settings_access_ringtone_title">Allow VLC to set the ringtone</string>
+    <string name="allow_settings_access_ringtone_description">VLC needs you to grant this permission to set up this song as your ringtone.</string>
+    <string name="allow_settings_access_brightness_title">Allow VLC to change brightness mode</string>
+    <string name="allow_settings_access_brightness_description">VLC needs you to grant this permission to change your brightness mode.</string>
+    <string name="allow_draw_overlays_title">Allow VLC player popup over other apps</string>
+    <string name="allow_sdraw_overlays_description">VLC needs you to grant this permission display your video in a popup over other applications.</string>
+    <string name="permission_ask_again">Grant permission</string>
+    <string name="exit_app">Close VLC</string>
+    <string name="exit_app_msg">Are you sure you want to quit VLC?</string>
+
+    <!-- fast scroller -->
+    <string name="fastscroller_track">FastScroller track</string>
+    <string name="fastscroller_handle">FastScroller handle</string>
+
+    <!-- Plugins -->
+    <string name="plugins">Plugins</string>
+    <string name="download_on_device">Download</string>
+    <string name="extension_empty">No item to display, go to your extension settings to get some.</string>
+
+    <string name="opengl_title">OpenGL ES2 usage</string>
+    <string name="opengl_summary">By default, OpenGL ES2 is used for software decoding and hardware decoding when needed (360° videos)</string>
+    <string name="opengl_automatic">Automatic</string>
+    <string name="opengl_on">Force On</string>
+    <string name="opengl_off">Force Off</string>
+    <string name="chroma_format_default" translatable="false">RV16</string>
+    <string name="network_favorites">Network favorites</string>
+    <string name="network_shared_folders">Shared folders</string>
+    <string name="encryption_warning">Warning, encryption is not available for this Android version, password will be stored in a private space but not encrypted</string>
+    <string name="store_password">Remember password</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="popup_playback_title">Play video in a Pop-Up window</string>
+    <string name="popup_playback">Playing in a Pop-Up window</string>
+    <string name="popup_expand">Expand video</string>
+    <string name="download_subtitles">Download subtitles</string>
+    <string name="browse_folder">Browse folder</string>
+    <string name="listen">Listen</string>
+    <string name="save_bluetooth_delay">save delay for bluetooth device</string>
+    <string name="episodes">episodes</string>
+    <string name="movies">movies</string>
+    <string name="videos">videos</string>
+    <string name="videos_all">All videos</string>
+    <string name="clear_playback_history">Clear playback history</string>
+    <string name="ml_scanning">Scanning for media files</string>
+    <string name="ml_parse_media">Parsing media</string>
+    <string name="ml_discovering">Discovering</string>
+    <string name="resume">Resume</string>
+    <string name="length">Length</string>
+    <string name="tv_settings_hint">Long press OK button to check/uncheck directories</string>
+    <string name="ml_external_storage_title">New external storage detected</string>
+    <string name="ml_external_storage_msg">Do you want VLC to add device %1$s to your medialibrary?</string>
+    <string name="ml_external_storage_accept">Yes</string>
+    <string name="ml_external_storage_decline">No</string>
+    <string name="last_added_media">last added</string>
+    <string name="no">No</string>
+    <string name="loading_medialibrary">Loading Medialibrary…</string>
+    <string name="yes">Yes</string>
+
+    <string name="custom_set_save_title">Unsaved changes</string>
+    <string name="custom_set_save_warning">Warning: unsaved changes</string>
+    <string name="existing_custom_set_save_message">Save equalizer-set as…</string>
+    <string name="new_custom_set_save_message">Save new equalizer-set as…</string>
+    <string name="save">Save</string>
+    <string name="do_not_save">Do not save</string>
+    <string name="custom_set_deleted_message">Custom equalizer-set \"%1$s\" deleted.</string>
+    <string name="custom_set_wrong_input">Invalid name.</string>
+    <string name="custom_set_already_exist">Equalizer-set with this name already exists</string>
+    <string name="custom_set_restored">Custom equalizer-set restored.</string>
+    <string name="unsaved_set_deleted_message">Unsaved equalizer-set deleted.</string>
+    <string name="equalizer_new_preset_name">New</string>
+    <string name="settings_ml_block_scan">Medialibrary is scanning your devices right now</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="recommendations_desc">Recommendations cards on launcher</string>
+    <string name="browser_quick_access">Quick Access</string>
+    <string name="browser_storages">Storages</string>
+    <string name="msg_delete_failed">Failed to delete media %1$s</string>
+    <string name="renderer_list_title">Displays</string>
+    <string name="sdcard_permission_dialog_title">You have to grant VLC write access to your SD Card</string>
+    <string name="sdcard_permission_dialog_message">VLC cannot delete this file without write access permission.\nPlease go to your SD Card and click on \"Select\".\nYou may have to click on \"Show SD card\" first in the top-right menu</string>
+    <string name="dialog_sd_wizard">Show me</string>
+    <string name="renderers_disconnect">Disconnect</string>
+    <string name="audio_digital_failed">Failed to change Audio Digital Output state</string>
+    <string name="audio_digital_output_enabled">Audio Digital Output enabled</string>
+    <string name="audio_digital_output_disabled">Audio Digital Output disabled</string>
+    <string name="audio_digital_title">Digital audio output (passthrough)</string>
+    <string name="audio_task_cleared_title">Stop on application swipe</string>
+    <string name="audio_task_cleared_summary">Stop playback when application is dismissed</string>
+    <string name="audio_resume_card_title">Show last playlist tip</string>
+    <string name="audio_resume_card_summary">Shows a tip helping you to resume audio playback on app start</string>
+    <string name="playback_rewind">Rewind</string>
+    <string name="playback_forward">Fast forward</string>
+    <string name="ml_wizard_scan_checkbox">Scan device for media content</string>
+    <string name="ml_wizard_description">Choose whether VLC will scan your device storage to organize your media library or just use it as a simple player with an integrated browser.</string>
+    <string name="tv_my_new_videos">My new videos</string>
+    <string name="cast_option_title">Cast medias on another screen</string>
+    <string name="otg_device_title">OTG device</string>
+    <string name="browser">Browser</string>
+    <string name="ab_repeat">A-B repeat</string>
+    <string name="stop_after_this">Stop after this track</string>
+    <string name="time_category_new">New media</string>
+    <string name="time_category_current_month">This month</string>
+    <string name="time_category_current_year">This year</string>
+    <string name="time_category_last_year">Last year</string>
+    <string name="time_category_older">Older media</string>
+    <string name="rename">Rename</string>
+    <string name="rename_media">Rename %1$s</string>
+    <string name="manual_search">Manual search</string>
+    <string name="subtitle_search_name_hint">Name</string>
+    <string name="subtitle_search_episode_hint">Episode</string>
+    <string name="subtitle_search_season_hint">Season</string>
+    <string name="language_to_download">Language</string>
+    <string name="delete_the_selected">Delete selection</string>
+    <string name="download_the_selected">Download selection</string>
+    <string name="next">Next</string>
+    <string name="download">Download</string>
+    <string name="ctx_player_video_track">Select video track</string>
+    <string name="ctx_player_audio_track">Audio track</string>
+    <string name="ctx_player_subs_track">Subtitles track</string>
+    <string name="ctx_pip_title">Pop-Up player</string>
+    <string name="device_dialog_title">External device inserted</string>
+    <string name="device_dialog_message">You just plugged a new storage device to your TV box, do you want to open it with VLC?</string>
+    <string name="videos_folders_title">Videos by folders</string>
+    <string name="videos_groups_title">Video groups</string>
+    <string name="video_save_clone_mode">Automatically activate clone mode?</string>
+    <string name="video_remote_enable">Switch to remote control mode</string>
+    <string name="video_remote_disable">Duplicate screen</string>
+    <string name="removed_from_playlist_anonymous">Item(s) removed from playlist</string>
+    <string name="welcome_title">Welcome to VLC!</string>
+    <string name="welcome_subtitle">The free and open source multimedia player</string>
+    <string name="permission_media">VLC needs your permission to access media on your device</string>
+    <string name="medialibrary_scan_explanation">VLC can automatically scan your device to organize your media collection.</string>
+    <string name="onboarding_theme_title">Make yourself at home</string>
+    <string name="done">Done</string>
+    <string name="onboarding_scan_title">Auto-discover your media</string>
+    <string name="daynight_system_explanation">VLC will automatically switch to dark mode accordingly with system setting</string>
+    <string name="daynight_legacy_explanation">VLC will automatically switch to night mode at appropriate time</string>
+    <string name="onboarding_scanning_enable">Let VLC scan my device for media content</string>
+    <string name="onboarding_scan_customize">Let me choose which folders VLC will scan</string>
+    <string name="button_medialibrary_preferences">Go to Medialibrary preferences</string>
+    <string name="light_theme">Light theme</string>
+    <string name="add">Add</string>
+    <string name="add_to_new_playlist">Add to new playlist</string>
+    <string name="resume_card_message">Resume playback of %1$s?</string>
+    <string name="misc">Miscellaneous</string>
+    <string name="popup_force_legacy_title">Use custom Picture-in-Picture popup</string>
+    <string name="popup_force_legacy_summary">Use custom Picture-in-Picture resizable popup</string>
+    <string name="device_default">Device default</string>
+    <string name="track_number">%d tracks</string>
+    <string name="jump_to">Jump to</string>
+    <string name="show_video_thumbnails_summary">Show video thumbnails in lists</string>
+    <string name="show_video_thumbnails">Video thumbnails</string>
+    <string name="eq_snap_bands">Snap bands</string>
+    <string name="enable_equalizer">Enable</string>
+    <string name="preamp">Preamp</string>
+    <string name="presets">Presets</string>
+    <string name="reset">Reset</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d Track inserted</item>
+        <item quantity="other">%d Tracks inserted</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d Track appended</item>
+        <item quantity="other">%d Tracks appended</item>
+    </plurals>
+    <string name="remove_current">Remove current</string>
+    <string name="validation_delete_playlist">Are you sure you want to delete this playlist?</string>
+    <string name="validation_delete_playlist_text">This action cannot be undone.</string>
+    <string name="display_in_list">Display in list</string>
+    <string name="display_in_grid">Display in grid</string>
+    <string name="dump_db_succes">Database dumped on internal storage root</string>
+    <string name="dump_db_failure">Failed to dump database</string>
+    <string name="send_crash_title">VLC crash reporter</string>
+    <string name="send_crash_description">By sending your crash, you will help us improve VLC stability.</string>
+    <string name="send_crash_warning">Make sure you remove any sensitive data you don\'t want to send.</string>
+    <string name="include_medialib">Include your database</string>
+    <string name="vlc_reporter">VLC reporter</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Welcome in VLC beta program.\nPlease note this version may have some bugs.</string>
+    <string name="welcome_beta_description_bugs">If you notice a bug, please report it in our forum or bug tracker.</string>
+    <string name="welcome_beta_description_crashes">If you experience a crash, please use the VLC Reporter icon in your launcher to send it to us.</string>
+    <string name="send">Send</string>
+    <string name="send_crash_action_title">What do you want to do?</string>
+    <string name="report_a_bug">Report a bug</string>
+    <string name="report_a_crash">Report a crash</string>
+    <string name="describe_crash">Please describe how this crash happened</string>
+    <string name="favorite">Favorite</string>
+    <string name="always">Always</string>
+    <string name="never">Never</string>
+    <string name="ask_confirmation">Ask confirmation</string>
+    <string name="add_to_scanned">Scan this folder</string>
+    <string name="directory_not_scanned">This directory is not scanned</string>
+    <string name="scanned_directory_added">%s added to your scanned directories</string>
+    <string name="video_group_size_summary">Group by %s first letters</string>
+    <string name="url_copied_to_clipboard">Url copied to clipboard</string>
+    <string name="share">Share</string>
+    <string name="invalid_file">Invalid file. Cannot be shared.</string>
+    <string name="share_file">Share %s</string>
+    <string name="share_message">Here is %s</string>
+    <string name="find_metadata">Find metadata</string>
+    <string name="moviepedia_hint">Search metadata</string>
+    <string name="moviepedia_result">Video results</string>
+    <string name="directed_by">Directed by</string>
+    <string name="casting">Casting</string>
+    <string name="produced_by">Produced by</string>
+    <string name="written_by">Written by</string>
+    <string name="music_by">Music by</string>
+    <string name="posters">Posters</string>
+    <string name="backdrops">Backdrops</string>
+    <string name="header_tvshows">TV shows</string>
+    <string name="header_movies">Movies</string>
+    <string name="season_number">Season %s</string>
+    <string name="resume_episode">Resume (%s)</string>
+    <string name="start_over">Start over</string>
+    <string name="next_episode">Next episode</string>
+    <string name="open_network_settings">Open network settings?</string>
+    <string name="recently_played">Recently played</string>
+    <string name="recently_added">Recently added</string>
+    <string name="playback_multiple_errors">Multiple media cannot be played</string>
+    <string name="clear_media_db_warning">You will lose your progresses and the playlists you created.\n%s</string>
+    <string name="abrepeat_add_first_marker">Set start point</string>
+    <string name="abrepeat_add_second_marker">Set end point</string>
+    <string name="demux_bitrate">Demux bitrate</string>
+    <string name="input_bitrate">Input bitrate</string>
+    <string name="video_information">Video information</string>
+
+    <string name="channels">Channels</string>
+    <string name="resolution">Resolution</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate">Framerate</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Language</string>
+    <string name="track_samplerate">Sample rate</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bitrate</string>
+    <string name="codec">Codec</string>
+    <string name="text">Text</string>
+    <string name="unknown">Unknown</string>
+    <string name="audio_delay_start">Sound heard</string>
+    <string name="subtitle_delay_first">Voice heard</string>
+    <string name="audio_delay_end">Sound spotted</string>
+    <string name="subtitle_delay_end">Text seen</string>
+    <string name="track_index">Track: %s</string>
+    <string name="audio_queue_progress">Progress: %s</string>
+    <string name="sortby_track">Track</string>
+    <string name="this_folder">Add this folder</string>
+    <string name="all_subfolders">Add this folder and subfolders</string>
+    <string name="playlist_existing">Playlist %s already exists</string>
+    <string name="new_title">New title</string>
+    <string name="browse">Browse</string>
+    <string name="more">More</string>
+    <string name="favorites">Favorites</string>
+    <string name="new_stream">New stream</string>
+    <string name="add_to_group">Add to video group</string>
+    <string name="remove_from_group">Remove from video group</string>
+    <string name="rename_group">Rename video group</string>
+    <string name="ungroup">Ungroup</string>
+    <string name="group_similar">Regroup automatically</string>
+    <string name="no_favorite">No favorite</string>
+    <string name="empty_directory">Empty</string>
+    <string name="no_track">No track</string>
+
+    <string name="swipe_unlock">Swipe to unlock</string>
+    <string name="swipe_unlock_no_touch">Long press to unlock</string>
+    <string name="sub_result_by_name">Results for %s</string>
+    <string name="sub_result_by_name_season">Season %s</string>
+    <string name="sub_result_by_name_episode">Episode %s</string>
+
+    <string name="sub_result_by_file">Results for your file</string>
+</resources>

@@ -1,0 +1,70 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_menu_playlist.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector android:height="45dp"
+        android:viewportHeight="24"
+        android:viewportWidth="24"
+        android:width="45dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="evenOdd"
+            android:pathData="m15,19l0,-6l5,3z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="butt"
+            android:strokeLineJoin="miter"
+            android:strokeWidth="1" />
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="nonZero"
+            android:pathData="M4,13l9,0l0,2l-9,0z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="15" />
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="nonZero"
+            android:pathData="M4,9l15,0l0,2l-15,0z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="15" />
+    <path
+            android:fillAlpha="1"
+            android:fillColor="#757575"
+            android:fillType="nonZero"
+            android:pathData="M4,5l15,0l0,2l-15,0z"
+            android:strokeAlpha="1"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="15" />
+</vector>

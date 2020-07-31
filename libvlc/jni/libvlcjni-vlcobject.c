@@ -31,7 +31,6 @@ extern JNIEnv *jni_get_env(const char *name);
 struct vlcjni_object_owner
 {
     jweak weak;
-    jobject weakCompat;
 
     libvlc_event_manager_t *p_event_manager;
     const int *p_events;
@@ -99,18 +98,8 @@ VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
         p_obj->p_libvlc = p_libvlc;
         libvlc_retain(p_libvlc);
 
-        if (fields.VLCObject.getWeakReferenceID)
-        {
-            jobject weakCompat = (*env)->CallObjectMethod(env, thiz,
-                                               fields.VLCObject.getWeakReferenceID);
-            if (weakCompat)
-            {
-                p_obj->p_owner->weakCompat = (*env)->NewGlobalRef(env, weakCompat);
-                (*env)->DeleteLocalRef(env, weakCompat);
-            }
-        } else
-            p_obj->p_owner->weak = (*env)->NewWeakGlobalRef(env, thiz);
-        if (!p_obj->p_owner->weak && !p_obj->p_owner->weakCompat)
+        p_obj->p_owner->weak = (*env)->NewWeakGlobalRef(env, thiz);
+        if (!p_obj->p_owner->weak)
         {
             ex = VLCJNI_EX_ILLEGAL_STATE;
             p_error = "No VLCObject weak reference";
@@ -160,8 +149,6 @@ VLCJniObject_release(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
         {
             if (p_obj->p_owner->weak)
                 (*env)->DeleteWeakGlobalRef(env, p_obj->p_owner->weak);
-            else if (p_obj->p_owner->weakCompat)
-                (*env)->DeleteGlobalRef(env, p_obj->p_owner->weakCompat);
         }
 
         free(p_obj->p_owner);
@@ -178,25 +165,23 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
 
     assert(p_obj->p_libvlc);
 
-    java_event jevent = { -1, 0, 0, 0.0 };
+    java_event jevent = { -1, 0, 0, 0.0, NULL };
+
+    if (!(env = jni_get_env(THREAD_NAME)))
+        return;
 
     if (!p_obj->p_owner->pf_event_cb(p_obj, ev, &jevent))
         return;
 
-    if (!(env = jni_get_env(THREAD_NAME)))
-        return;
+    jstring string = jevent.argc1 ? (*env)->NewStringUTF(env, jevent.argc1) : NULL;
 
     if (p_obj->p_owner->weak)
         (*env)->CallVoidMethod(env, p_obj->p_owner->weak,
                                fields.VLCObject.dispatchEventFromNativeID,
                                jevent.type, jevent.arg1, jevent.arg2,
-                               jevent.argf1);
-    else
-        (*env)->CallStaticVoidMethod(env, fields.VLCObject.clazz,
-                                     fields.VLCObject.dispatchEventFromWeakNativeID,
-                                     p_obj->p_owner->weakCompat,
-                                     jevent.type, jevent.arg1, jevent.arg2,
-                                     jevent.argf1);
+                               jevent.argf1, string);
+    if (string)
+        (*env)->DeleteLocalRef(env, string);
 }
 
 void

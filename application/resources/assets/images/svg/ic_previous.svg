@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="24" height="24"
+        id="svg4682" version="1.1" inkscape:version="0.92.3 (unknown)"
+        sodipodi:docname="ic_previous_normal.svg"
+        inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+        inkscape:export-xdpi="90" inkscape:export-ydpi="90">
+    <defs id="defs4684" />
+    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
+            inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="11.2"
+            inkscape:cx="14.171334" inkscape:cy="17.700076" inkscape:document-units="px"
+            inkscape:current-layer="layer1" showgrid="true" inkscape:window-width="960"
+            inkscape:window-height="1028" inkscape:window-x="1920" inkscape:window-y="15"
+            inkscape:window-maximized="0" inkscape:snap-bbox="true" inkscape:bbox-paths="true"
+            inkscape:bbox-nodes="true" inkscape:snap-bbox-edge-midpoints="true"
+            inkscape:snap-bbox-midpoints="true" inkscape:object-paths="true"
+            inkscape:snap-intersection-paths="true" inkscape:snap-smooth-nodes="true"
+            inkscape:snap-object-midpoints="true" inkscape:snap-center="true">
+        <inkscape:grid type="xygrid" id="grid3002" />
+    </sodipodi:namedview>
+    <metadata id="metadata4687">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title />
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+            transform="translate(0,-1028.3622)">
+        <path style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#212121;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.99990106;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+                d="m 6.9999988,1046.362 c 0.554,0 1,-0.446 1,-0.9999 v -9.999 c 0,-0.554 -0.446,-0.9999 -1,-0.9999 -0.5539999,0 -0.9999999,0.4459 -0.9999999,0.9999 v 9.999 c 0,0.5539 0.446,0.9999 0.9999999,0.9999 z m 10.9804992,0 c 0.5591,0.011 1.0184,-0.4388 1.0195,-0.9979 v -9.999 c 9e-4,-0.8142 -0.9198,-1.2882 -1.582,-0.8144 l -6.999999,4.9995 c -0.5579003,0.3988 -0.5579003,1.228 0,1.6268 l 6.999999,4.9995 c 0.1644,0.1172 0.3605,0.1819 0.5625,0.1855 z"
+                id="path7957" inkscape:connector-curvature="0" />
+    </g>
+</svg>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ *************************************************************************
+  ~  playlist_option.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:orderInCategory="2"
+            android:title="@string/sortby"
+            android:icon="@drawable/ic_menu_sort"
+            android:contentDescription="@string/sortby"
+            android:id="@+id/ml_menu_sortby"
+            app:showAsAction="ifRoom|collapseActionView"
+            android:visible="false">
+        <menu>
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_track"
+                    android:title="@string/sortby_track" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_filename"
+                    android:title="@string/sortby_filename" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_artist_name"
+                    android:title="@string/sortby_artist_name"
+                    android:visible="false" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_album_name"
+                    android:title="@string/sortby_album_name"
+                    android:visible="false" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_length"
+                    android:title="@string/sortby_length"
+                    android:visible="false" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_date"
+                    android:title="@string/sortby_date"
+                    android:visible="false" />
+            <item
+                    android:orderInCategory="2"
+                    android:id="@+id/ml_menu_sortby_last_modified"
+                    android:title="@string/sortby_last_modified_date"
+                    android:visible="false" />
+        </menu>
+    </item>
+</menu>

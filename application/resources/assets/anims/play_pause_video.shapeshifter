@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "layers": {
+    "vectorLayer": {
+      "id": "591",
+      "name": "vector",
+      "type": "vector",
+      "width": 48,
+      "height": 48,
+      "children": [
+        {
+          "id": "659",
+          "name": "path_2",
+          "type": "path",
+          "pathData": "M 24 4 C 12.96 4 4 12.96 4 24 C 4 35.04 12.96 44 24 44 C 35.04 44 44 35.04 44 24 C 44 12.96 35.04 4 24 4 Z M 24 41.5 C 14.353 41.5 6.5 33.647 6.5 24 C 6.5 14.353 14.353 6.5 24 6.5 C 33.647 6.5 41.5 14.353 41.5 24 C 41.5 33.647 33.647 41.5 24 41.5 Z",
+          "fillColor": "#000",
+          "strokeWidth": 1
+        },
+        {
+          "id": "723",
+          "name": "group",
+          "type": "group",
+          "pivotX": 24,
+          "pivotY": 24,
+          "children": [
+            {
+              "id": "589",
+              "name": "path",
+              "type": "path",
+              "pathData": "M 20 33 L 32 24 L 20 15 Z",
+              "fillColor": "#000",
+              "strokeWidth": 1
+            }
+          ]
+        }
+      ]
+    },
+    "hiddenLayerIds": []
+  },
+  "timeline": {
+    "animation": {
+      "id": "663",
+      "name": "anim",
+      "duration": 300,
+      "blocks": [
+        {
+          "id": "724",
+          "layerId": "723",
+          "propertyName": "rotation",
+          "startTime": 0,
+          "endTime": 300,
+          "interpolator": "FAST_OUT_SLOW_IN",
+          "type": "number",
+          "fromValue": 0,
+          "toValue": 90
+        },
+        {
+          "id": "726",
+          "layerId": "589",
+          "propertyName": "pathData",
+          "startTime": 0,
+          "endTime": 300,
+          "interpolator": "FAST_OUT_SLOW_IN",
+          "type": "path",
+          "fromValue": "M 32 24 L 20 24.074 L 20 15 L 32 24 L 32 24 M 20 33 L 20 24.074 L 32 24 L 31.783 24.162 L 20 33 M 32 24 L 32 24 L 32 24",
+          "toValue": "M 30.667 22.333 L 17.333 22.333 L 17.333 19 L 30.667 19 L 30.667 22.333 M 17.333 29 L 17.333 25.667 L 30.667 25.667 L 30.667 29 L 17.333 29 M 32 24 L 32 24 L 32 24"
+        }
+      ]
+    }
+  }
+}

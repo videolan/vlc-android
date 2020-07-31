@@ -1,0 +1,25 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@android:id/background"
+            android:gravity="center_vertical|fill_horizontal">
+        <shape android:shape="rectangle">
+            <corners android:radius="1dp"/>
+            <size android:height="2dp"/>
+            <solid android:color="@color/audio_tv_progressbar_background"/>
+        </shape>
+    </item>
+
+    <!-- Define the progress properties like start color, end color etc -->
+    <item
+            android:id="@android:id/progress"
+            android:gravity="center">
+        <clip>
+            <shape android:shape="rectangle">
+                <corners android:radius="1dp"/>
+                <size android:height="2dp"/>
+                <solid android:color="@color/orange500" />
+            </shape>
+        </clip>
+    </item>
+</layer-list> 

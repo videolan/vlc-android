@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_browser_movie_big.xml
+  ~ **************************************************************************
+  ~ Copyright © 2019 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="96dp"
+        android:height="96dp"
+        android:viewportWidth="96"
+        android:viewportHeight="96">
+    <path
+            android:fillColor="#757575"
+            android:pathData="M78,3V13H68V3H28V13H18V3H8V93H18V83H28V93H68V83H78V93H88V3ZM28,73H18V63H28ZM28,53H18V43H28ZM28,33H18V23H28ZM78,73H68V63H78ZM78,53H68V43H78ZM78,33H68V23h10z"
+            android:strokeWidth="5" />
+</vector>

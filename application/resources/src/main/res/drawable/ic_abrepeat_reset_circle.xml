@@ -1,0 +1,45 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_abrepeat_reset_circle.xml
+  ~ **************************************************************************
+  ~ Copyright © 2019 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="48dp"
+        android:height="48dp"
+        android:viewportWidth="48"
+        android:viewportHeight="48">
+    <path
+            android:pathData="M24,24m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0"
+            android:strokeAlpha="1"
+            android:strokeLineJoin="round"
+            android:strokeWidth="15.1181097"
+            android:fillColor="@color/player_circle_background"
+            android:strokeColor="#00000000"
+            android:fillType="nonZero"
+            android:strokeLineCap="butt" />
+    <path
+            android:pathData="m31.9948,15.2435v2.0509c0,0.7693 0.8842,1.173 1.429,0.6281l3.9095,-3.9225 -3.9225,-3.9225c-0.1583,-0.1616 -0.3755,-0.2515 -0.5925,-0.2506 -0.4903,0 -0.8287,0.4196 -0.8138,0.9341v1.9825L16.0833,12.7435l2.5,2.5zM12.75,21.0769c0,0.6903 0.5597,1.25 1.25,1.25 0.6903,0 1.25,-0.5597 1.25,-1.25v-2.487l2.0833,2.0768v8.3333L19,29v-3.3333h2.5v3.3333h1.6667v-2.5l1.6653,1.6667v0.8333h0.8347l3.75,3.75h-13.4115v-2.0508c0,-0.577 -0.498,-0.9493 -0.9765,-0.8692 -0.16,0.027 -0.3163,0.105 -0.4525,0.241l-3.9095,3.929 3.9225,3.9225c0.1583,0.1617 0.3755,0.2515 0.5925,0.2507 0.4903,0 0.8287,-0.4197 0.8138,-0.9342v-1.9825h15.9212l3.75,3.75 1.6667,-1.6666 -26.6667,-26.6732 -1.6667,1.6667 3.75,3.75zM24.832,19v2.5l1.668,1.6667v-2.5L29,20.6667v2.5h-2.5l1.6667,1.6667L29,24.8335v0.8333l1.6667,1.6667v-1.6667c0,-0.9205 -0.7462,-1.6667 -1.6667,-1.6667 0.9205,0 1.6667,-0.7461 1.6667,-1.6666v-1.6667c0,-0.9205 -0.7462,-1.6667 -1.6667,-1.6667zM19,22.3334 L20.6667,24L19,24ZM35.25,26.9232c0,-0.6903 -0.5597,-1.25 -1.25,-1.25h-0.0065c-0.6903,0 -1.25,0.5597 -1.25,1.25v2.487l2.5065,2.5065z"
+            android:strokeWidth="1.66666675"
+            android:fillColor="?attr/player_icon_color"
+            android:strokeColor="#00000000"
+            android:fillAlpha="1" />
+</vector>

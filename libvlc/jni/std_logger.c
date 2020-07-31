@@ -126,7 +126,7 @@ std_logger_Open(const char *TAG)
     sys->TAG = TAG;
     sys->stop_pipe[0] = sys->stop_pipe[1] =
     sys->stdout_pipe[0] = sys->stdout_pipe[1] =
-    sys->old_stdout = sys->old_stderr = -1;
+    sys->stderr_pipe[0] = sys->stderr_pipe[1] = -1;
 
     /* save the old stdout/stderr fd to restore it when logged is closed */
     sys->old_stdout = dup(STDOUT_FILENO);
@@ -167,7 +167,7 @@ std_logger_Close(std_logger *sys)
 {
     if (sys->stop_pipe[1] != -1)
     {
-        write(sys->stop_pipe[1], "\0", 1);
+        write(sys->stop_pipe[1], "", 1);
         close(sys->stop_pipe[1]);
         sys->stop_pipe[1] = -1;
         pthread_join(sys->thread, NULL);
