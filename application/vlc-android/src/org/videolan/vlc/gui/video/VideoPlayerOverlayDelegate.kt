@@ -514,8 +514,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     fun updateHudMargins() {
         //here, we override the default Android overscan
-        val overscanHorizontal = if (player.isTv) 32.dp else 0
-        val overscanVertical = if (player.isTv) player.resources.getDimension(R.dimen.tv_overscan_vertical).toInt() else 0
+        val overscanHorizontal = if (player.isTv) 32.dp else 8.dp
+        val overscanVertical = if (player.isTv) player.resources.getDimension(R.dimen.tv_overscan_vertical).toInt() else 8.dp
         if (::hudBinding.isInitialized) {
             val largeMargin = player.resources.getDimension(R.dimen.large_margins_center)
             val smallMargin = player.resources.getDimension(R.dimen.small_margins_sides)
@@ -539,9 +539,13 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             if (player.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 hudBinding.playerSpaceLeft.setGone()
                 hudBinding.playerSpaceRight.setGone()
+                applyMargin(hudBinding.playerOverlaySeekbar, 0, true)
+                applyMargin(hudBinding.playerOverlaySeekbar, 0, false)
             } else {
                 hudBinding.playerSpaceLeft.setVisible()
                 hudBinding.playerSpaceRight.setVisible()
+                applyMargin(hudBinding.playerOverlaySeekbar, 20.dp, true)
+                applyMargin(hudBinding.playerOverlaySeekbar, 20.dp, false)
             }
         }
         if (::hudRightBinding.isInitialized) {

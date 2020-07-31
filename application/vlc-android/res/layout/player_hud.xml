@@ -229,6 +229,7 @@
                         vlc:time="@{progress.time}" />
             </FrameLayout>
 
+<!--           ⚠️ margin are set in code!!!-->
             <SeekBar
                     android:id="@+id/player_overlay_seekbar"
                     android:layout_width="0dp"
@@ -305,9 +306,9 @@
                     android:contentDescription="@string/tracks"
                     android:focusable="true"
                     android:onClick="@{player::onAudioSubClick}"
+                    android:padding="4dp"
                     android:scaleType="center"
                     tools:visibility="visible"
-                    android:padding="4dp"
                     vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_play"
                     vlc:layout_constraintEnd_toStartOf="@+id/orientation_toggle"
                     vlc:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -481,9 +482,9 @@
                     android:contentDescription="@string/advanced"
                     android:focusable="true"
                     android:onClick="@{(v) -> player.showAdvancedOptions()}"
+                    android:padding="4dp"
                     android:scaleType="center"
                     tools:visibility="visible"
-                    android:padding="4dp"
                     vlc:layout_constraintBottom_toBottomOf="@+id/player_overlay_play"
                     vlc:layout_constraintEnd_toEndOf="parent"
                     vlc:layout_constraintStart_toEndOf="@+id/player_resize"
