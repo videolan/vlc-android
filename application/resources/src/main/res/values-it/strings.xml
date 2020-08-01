@@ -720,7 +720,7 @@
     <string name="sub_result_by_file">Risultati per il tuo file</string>
     <string name="donate">Aiuta VLC</string>
     <string name="donate_desc">Supporta i volontari nella costruzione di VLC</string>
-    <string name="donate_subscribtion">Vorrei che questo fosse una sponsorizzazione mensile</string>
+    <string name="donate_subscribtion">Vorrei che questa fosse una sponsorizzazione mensile</string>
     <string name="donate_send">Inizia la tua sponsorizzazione</string>
     <string name="donation_description">La tua sponsorizzazione ci consentirà di:\nmigliorare l\'applicazione VLC per Android\nsupportare la VideoLAN Association</string>
     <string name="subscription_purchased">Sei iscritto a una sponsorizzazione mensile</string>
