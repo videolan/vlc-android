@@ -740,4 +740,17 @@
     <string name="sub_result_by_name_episode">Epizod %s</string>
 
     <string name="sub_result_by_file">Wyniki dla Twojego pliku</string>
+    <string name="donate">Pomóż VLC</string>
+    <string name="donate_desc">Wspieraj wolontariuszy tworzących VLC</string>
+    <string name="donate_subscribtion">Chciał(a)bym, żeby był to miesięczny sponsoring</string>
+    <string name="donate_send">Rozpocznij sponsorowanie</string>
+    <string name="donation_description">Twoje sponsorowanie pozwoli nam:\nUlepszyć aplikację VLC na Androida\nWspierać Stowarzyszenie VideoLAN</string>
+    <string name="subscription_purchased">Jesteś subskrybentem miesięcznego sponsorowania</string>
+    <string name="subscription_cancel">Możesz zrezygnować z subskrypcji w Sklepie Play</string>
+    <string name="subscription_cancel_tv">Jak zrezygnować z subskrypcji</string>
+    <string name="donate_unsubscribe_tv">Aby anulować subskrypcję, otwórz %s na telefonie lub komputerze albo zeskanuj ten kod:</string>
+    <string name="tip_jar">Pomóż VLC</string>
+    <string name="thank_you">Dziękujemy</string>
+    <string name="thank_you_desc">Dziękujemy za wsparcie!\nPomoże nam to w ulepszaniu VLC!</string>
+    <string name="donate_again">Ponownie zasponsoruj aplikację</string>
 </resources>
