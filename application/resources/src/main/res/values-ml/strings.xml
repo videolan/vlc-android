@@ -719,4 +719,17 @@
     <string name="sub_result_by_name_episode">എപ്പിസോഡ് %s</string>
 
     <string name="sub_result_by_file">നിങ്ങളുടെ ഫയലിനായുള്ള ഫലങ്ങൾ</string>
+    <string name="donate">VLC-യെ സഹായിക്കുക</string>
+    <string name="donate_desc">VLC നിർമ്മിക്കുന്ന സന്നദ്ധപ്രവർത്തകരെ പിന്തുണയ്ക്കുക</string>
+    <string name="donate_subscribtion">ഇത് പ്രതിമാസ സ്പോൺസർഷിപ്പ് ആകാൻ ഞാൻ ആഗ്രഹിക്കുന്നു</string>
+    <string name="donate_send">നിങ്ങളുടെ സ്പോൺസർഷിപ്പ് ആരംഭിക്കുക</string>
+    <string name="donation_description">നിങ്ങളുടെ സ്പോൺസർഷിപ്പ് ഞങ്ങളെ Android-നായുള്ള VLC അപ്ലിക്കേഷൻ മെച്ചപ്പെടുത്താൻ സഹായിക്കും\nVideoLAN അസോസിയേഷനെ പിന്തുണയ്ക്കുക</string>
+    <string name="subscription_purchased">നിങ്ങൾ പ്രതിമാസ സ്പോൺസർഷിപ്പിനായി സബ്‌സ്‌ക്രൈബുചെയ്‌തു</string>
+    <string name="subscription_cancel">നിങ്ങൾക്ക് പ്ലേ സ്റ്റോറിൽ അൺസബ്‌സ്‌ക്രൈബുചെയ്യാനാകും</string>
+    <string name="subscription_cancel_tv">അൺസബ്‌സ്‌ക്രൈബുചെയ്യുന്നതെങ്ങനെ</string>
+    <string name="donate_unsubscribe_tv">അൺസബ്‌സ്‌ക്രൈബുചെയ്യാൻ, ഒരു ഫോണിലോ കമ്പ്യൂട്ടറിലോ %s തുറക്കുക അല്ലെങ്കിൽ ഈ കോഡ് സ്‌കാൻ ചെയ്യുക:</string>
+    <string name="tip_jar">VLC-യെ സഹായിക്കുക</string>
+    <string name="thank_you">നന്ദി</string>
+    <string name="thank_you_desc">നിങ്ങളുടെ സ്പോൺസർഷിപ്പിന് നന്ദി!\n VLC മെച്ചപ്പെടുത്തുന്നതിന് ഇത് ഞങ്ങളെ ശരിക്കും സഹായിക്കും!</string>
+    <string name="donate_again">അപ്ലിക്കേഷൻ വീണ്ടും സ്പോൺസർ ചെയ്യുക</string>
 </resources>
