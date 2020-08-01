@@ -718,4 +718,17 @@
     <string name="sub_result_by_name_episode">Episòdiu %s</string>
 
     <string name="sub_result_by_file">Resurtados pro su documentu tuo</string>
+    <string name="donate">Agiuda VLC</string>
+    <string name="donate_desc">Suporta sos voluntàrios chi fraigant VLC</string>
+    <string name="donate_subscribtion">Dia chèrrere chi custa siat un\'isponsorizatzione mensile</string>
+    <string name="donate_send">Faghe incumintzare s\'isponsorizatzione tua</string>
+    <string name="donation_description">S\'isponsorizatzione nos at a permìtere de:\nmegiorare s\'aplicatzione de VLC pro Android\nsuportare sa VideoLAN Association</string>
+    <string name="subscription_purchased">Ses iscritu a un\'isponsorizatzione mensile</string>
+    <string name="subscription_cancel">Podes annullare s\'iscritzione in su Play Store</string>
+    <string name="subscription_cancel_tv">Comente annullare s\'iscritzione</string>
+    <string name="donate_unsubscribe_tv">Pro annullare s\'iscritzione, aberi %s in unu telefoneddu o un\'elaboradore o iscansi custu còdighe:</string>
+    <string name="tip_jar">Agiuda VLC</string>
+    <string name="thank_you">Gràtzias</string>
+    <string name="thank_you_desc">Ti torramus gràtzias pro s\'isponsorizatzione tua!\nNos at a a agiudare meda a megiorare VLC!</string>
+    <string name="donate_again">Isponsoriza torra s\'aplicatzione</string>
 </resources>
