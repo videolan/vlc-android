@@ -740,4 +740,17 @@
     <string name="sub_result_by_name_episode">פרק %s</string>
 
     <string name="sub_result_by_file">תוצאות לקובץ שלך</string>
+    <string name="donate">סיוע ל־VLC</string>
+    <string name="donate_desc">ניתן לתמוך במתנדבים שעושים את VLC</string>
+    <string name="donate_subscribtion">ברצוני לתרום כל חודש</string>
+    <string name="donate_send">התחלת מימון</string>
+    <string name="donation_description">המימון שלך יאפשר לנו:\nלשפר את יישומון VLC ל־Android\nלתמוך באיגוד VideoLAN</string>
+    <string name="subscription_purchased">נרשמת למימון חודשי</string>
+    <string name="subscription_cancel">ניתן לבטל את המינוי דרך חנות Play</string>
+    <string name="subscription_cancel_tv">איך לבטל מינוי</string>
+    <string name="donate_unsubscribe_tv">כדי לבטל מינוי, נא לפתוח את %s בטלפון או במחשב או לסרוק את הקוד הזה:</string>
+    <string name="tip_jar">סיוע ל־VLC</string>
+    <string name="thank_you">תודה רבה לך</string>
+    <string name="thank_you_desc">תודה על המימון\nהוא יסייע לנו מאוד בשיפור VLC!</string>
+    <string name="donate_again">לממן את היישומון שוב</string>
 </resources>
