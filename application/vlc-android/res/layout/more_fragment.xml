@@ -85,13 +85,11 @@
                         android:id="@+id/donationsButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
                         app:cardBackgroundColor="?attr/donate_card"
                         app:cardCornerRadius="4dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/aboutButton"
+                        app:layout_constraintStart_toStartOf="@+id/settingsButton"
                         app:layout_constraintTop_toBottomOf="@+id/settingsButton">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
