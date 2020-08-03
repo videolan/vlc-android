@@ -52,7 +52,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?attr/background_default"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:paddingBottom="64dp"/>
         </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
         <org.videolan.vlc.gui.view.EmptyLoadingStateView
