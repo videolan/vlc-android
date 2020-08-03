@@ -63,6 +63,7 @@ class TitleListView : ConstraintLayout {
 
     fun setOnActionClickListener(listener: (View) -> Unit) {
         this.actionClickListener = listener
+        titleContent.isEnabled = actionClickListener != null
     }
 
     constructor(context: Context) : super(context)
@@ -89,6 +90,7 @@ class TitleListView : ConstraintLayout {
                 titleContent.setOnClickListener {
                     actionClickListener?.let { listener -> listener(actionButton) }
                 }
+                titleContent.isEnabled = actionClickListener != null
                 list.isNestedScrollingEnabled = false
             } catch (e: Exception) {
                 Log.w("", e.message, e)
