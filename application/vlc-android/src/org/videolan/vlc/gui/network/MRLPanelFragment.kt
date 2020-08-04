@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.network
 
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -33,9 +34,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -114,9 +117,12 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     override fun onResume() {
         super.onResume()
-        val clipBoardManager = requireContext().getSystemService<ClipboardManager>()!!
-        val text = clipBoardManager.primaryClip?.getItemAt(0)?.text?.toString()
-        if (text.isValidUrl()) viewModel.observableSearchText.set(text)
+        //Needed after privacy changes made in Android 10
+        editText.doOnLayout {
+            val clipBoardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+            val text = clipBoardManager?.primaryClip?.getItemAt(0)?.text?.toString()
+            if (text.isValidUrl()) viewModel.observableSearchText.set(text)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
