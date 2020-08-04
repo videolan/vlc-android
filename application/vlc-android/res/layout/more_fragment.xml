@@ -22,148 +22,136 @@
   ~
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <org.videolan.vlc.gui.view.SwipeRefreshLayout
-            android:id="@+id/swipeLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal">
+            android:paddingBottom="64dp">
 
-        <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <org.videolan.vlc.gui.view.AutofitButton
+                android:id="@+id/settingsButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:text="@string/preferences"
+                app:icon="@drawable/ic_more_preferences"
+                app:iconSize="24dp"
+                app:layout_constraintEnd_toStartOf="@+id/aboutButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="200dp" />
+
+        <org.videolan.vlc.gui.view.AutofitButton
+                android:id="@+id/aboutButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:text="@string/about"
+                app:icon="@drawable/ic_more_about"
+                app:iconSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/settingsButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="200dp" />
+
+        <androidx.cardview.widget.CardView
+                android:id="@+id/donationsButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="?attr/donate_card"
+                app:cardCornerRadius="4dp"
+                app:layout_constraintEnd_toEndOf="@+id/aboutButton"
+                app:layout_constraintStart_toStartOf="@+id/settingsButton"
+                app:layout_constraintTop_toBottomOf="@+id/settingsButton">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="64dp">
+                    android:layout_height="match_parent">
 
-                <org.videolan.vlc.gui.view.AutofitButton
-                        android:id="@+id/settingsButton"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                <ImageView
+                        android:id="@+id/imageView13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_donate" />
+
+                <TextView
+                        android:id="@+id/textView17"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="8dp"
-                        android:ellipsize="middle"
-                        android:singleLine="true"
-                        android:text="@string/preferences"
-                        app:icon="@drawable/ic_more_preferences"
-                        app:iconSize="24dp"
-                        app:layout_constraintEnd_toStartOf="@+id/aboutButton"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_max="200dp" />
-
-                <org.videolan.vlc.gui.view.AutofitButton
-                        android:id="@+id/aboutButton"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:ellipsize="middle"
-                        android:singleLine="true"
-                        android:text="@string/about"
-                        app:icon="@drawable/ic_more_about"
-                        app:iconSize="24dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/settingsButton"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintWidth_max="200dp" />
-
-                <androidx.cardview.widget.CardView
-                        android:id="@+id/donationsButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        app:cardBackgroundColor="?attr/donate_card"
-                        app:cardCornerRadius="4dp"
-                        app:layout_constraintEnd_toEndOf="@+id/aboutButton"
-                        app:layout_constraintStart_toStartOf="@+id/settingsButton"
-                        app:layout_constraintTop_toBottomOf="@+id/settingsButton">
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/donate"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/textView22"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/imageView13"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                        <ImageView
-                                android:id="@+id/imageView13"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic_donate" />
-
-                        <TextView
-                                android:id="@+id/textView17"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginEnd="16dp"
-                                android:text="@string/donate"
-                                android:textColor="@color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toTopOf="@+id/textView22"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintStart_toEndOf="@+id/imageView13"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                                android:id="@+id/textView22"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_marginBottom="8dp"
-                                android:text="@string/donate_desc"
-                                android:textColor="@color/white"
-                                android:textSize="12sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintStart_toEndOf="@+id/imageView13"
-                                app:layout_constraintTop_toBottomOf="@+id/textView17" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <org.videolan.vlc.gui.view.TitleListView
-                        android:id="@+id/streams_entry"
+                <TextView
+                        android:id="@+id/textView22"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/donate_desc"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/donationsButton"
-                        app:title="@string/streams" />
-
-                <org.videolan.vlc.gui.view.TitleListView
-                        android:id="@+id/history_entry"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/streams_entry"
-                        app:title="@string/history" />
-
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/imageView13"
+                        app:layout_constraintTop_toBottomOf="@+id/textView17" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
-</FrameLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <org.videolan.vlc.gui.view.TitleListView
+                android:id="@+id/streams_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/donationsButton"
+                app:title="@string/streams" />
+
+        <org.videolan.vlc.gui.view.TitleListView
+                android:id="@+id/history_entry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/streams_entry"
+                app:title="@string/history" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

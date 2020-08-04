@@ -71,7 +71,7 @@ private const val KEY_SELECTION = "key_selection"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener,
+class MoreFragment : BaseFragment(), IRefreshable, IHistory,
         IStreamsFragmentDelegate by StreamsFragmentDelegate() {
 
     private lateinit var streamsAdapter: MRLAdapter
@@ -117,9 +117,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
                 (activity as? MainActivity)?.refreshing = it
                 if (it) historyEntry.loading.state = EmptyLoadingState.LOADING
             }
-        }
-        historyAdapter.updateEvt.observe(viewLifecycleOwner) {
-            swipeRefreshLayout.isRefreshing = false
         }
         historyAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
 
@@ -195,7 +192,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
         multiSelectHelper = historyAdapter.multiSelectHelper
         historyEntry.list.requestFocus()
         registerForContextMenu(historyEntry.list)
-        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -219,9 +215,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
 
     override fun refresh() = viewModel.refresh()
 
-    override fun onRefresh() {
-        refresh()
-    }
 
     override fun isEmpty(): Boolean {
         return historyAdapter.isEmpty()
