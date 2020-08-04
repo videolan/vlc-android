@@ -309,7 +309,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             binding.optionTitle.text = null
             binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_audiodelay))
         } else {
-            binding.optionTitle.text = String.format("%s ms", java.lang.Long.toString(audiodelay))
+            binding.optionTitle.text = String.format("%s ms", audiodelay.toString())
             binding.optionIcon.setImageResource(R.drawable.ic_audiodelay_on)
         }
     }
@@ -320,7 +320,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             binding.optionTitle.text = null
             binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_subtitledelay))
         } else {
-            binding.optionTitle.text = String.format("%s ms", java.lang.Long.toString(spudelay))
+            binding.optionTitle.text = String.format("%s ms", spudelay.toString())
             binding.optionIcon.setImageResource(R.drawable.ic_subtitledelay_on)
         }
     }

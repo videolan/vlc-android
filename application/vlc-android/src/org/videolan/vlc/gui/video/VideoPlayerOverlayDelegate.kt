@@ -182,6 +182,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * @param brightness the brightness value
      */
     fun showBrightnessBar(brightness: Int) {
+        player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_VOLUME_INFO)
         player.findViewById<ViewStubCompat>(R.id.player_brightness_stub)?.setVisible()
         playerOverlayBrightness = player.findViewById(R.id.player_overlay_brightness)
         brightnessValueText = player.findViewById(R.id.brightness_value_text)
@@ -201,6 +202,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * @param volume the volume value
      */
     fun showVolumeBar(volume: Int, fromTouch: Boolean) {
+        player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO)
         player.findViewById<ViewStubCompat>(R.id.player_volume_stub)?.setVisible()
         playerOverlayVolume = player.findViewById(R.id.player_overlay_volume)
         volumeValueText = player.findViewById(R.id.volume_value_text)
