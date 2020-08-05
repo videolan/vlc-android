@@ -56,7 +56,7 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, privat
     }
 
     override fun getItemViewType(position: Int) = when {
-        dataset[position].id < 0 -> TYPE_DUMMY
+        dataset[position] != null && dataset[position].id < 0 -> TYPE_DUMMY
         inCards -> TYPE_CARD
         else -> TYPE_LIST
     }
