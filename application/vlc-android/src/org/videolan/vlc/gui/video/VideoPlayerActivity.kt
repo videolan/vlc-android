@@ -1762,7 +1762,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             if (wasPaused && BuildConfig.DEBUG)
                 Log.d(TAG, "Video was previously paused, resuming in paused mode")
             intent.data?.let {
-               val translatedPath = FileUtils.getPathFromURI(it)
+               val translatedPath = try {
+                   FileUtils.getPathFromURI(it)
+               } catch (e: IllegalStateException) {
+                   ""
+               }
                 videoUri = if (translatedPath.isNotEmpty()) translatedPath.toUri() else it
             }
             if (extras != null) {

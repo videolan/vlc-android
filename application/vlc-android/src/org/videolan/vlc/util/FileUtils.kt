@@ -96,9 +96,9 @@ object FileUtils {
             cursor = AppContextProvider.appContext.contentResolver.query(contentUri, proj, null, null, null)
             if (cursor == null || cursor.count == 0)
                 return ""
-            val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             cursor.moveToFirst()
-            return cursor.getString(column_index)
+            return cursor.getString(columnIndex)
         } catch (e: IllegalArgumentException) {
             return ""
         } catch (e: SecurityException) {
