@@ -29,6 +29,7 @@ import android.content.IntentFilter
 import android.util.Log
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.donations.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 private const val DONATION_TIER_1 = "donation_tier_1"
 private const val DONATION_TIER_2 = "donation_tier_2"
@@ -82,15 +83,15 @@ class VLCBilling private constructor(private val context: Application) : IabBroa
             val broadcastFilter = IntentFilter(IabBroadcastReceiver.ACTION)
             context.registerReceiver(mBroadcastReceiver, broadcastFilter)
 
-            iabHelper.queryInventoryAsync(true, skuList, this)
+            if (!iabHelper.mAsyncInProgress) iabHelper.queryInventoryAsync(true, skuList, this)
         }
     }
 
     fun reloadSkus() {
-        iabHelper.queryInventoryAsync(true, skuList, this)
+        if (!iabHelper.mAsyncInProgress) iabHelper.queryInventoryAsync(true, skuList, this)
     }
 
-    override fun receivedBroadcast() { }
+    override fun receivedBroadcast() {}
 
     override fun onQueryInventoryFinished(result: IabResult?, inventory: Inventory?) {
 
@@ -111,7 +112,7 @@ class VLCBilling private constructor(private val context: Application) : IabBroa
             val details = inventory?.getSkuDetails(skuDetail)
             details?.let { if (skuDetail.contains("subscription")) subsDetails.add(it) else skuDetails.add(it) }
             if (skuDetail.contains("donation") && inventory?.hasPurchase(skuDetail) == true) {
-                iabHelper.consumeAsync(inventory.getPurchase(skuDetail)){ _, _ ->
+                iabHelper.consumeAsync(inventory.getPurchase(skuDetail)) { _, _ ->
                     if (debug) Log.d("VLCBilling", "Consumed")
                 }
             }
@@ -121,9 +122,7 @@ class VLCBilling private constructor(private val context: Application) : IabBroa
 
 
         status = BillingStatus.SKU_RETRIEVED
-
     }
-
 
     companion object : SingletonHolder<VLCBilling, Application>(::VLCBilling)
 }
