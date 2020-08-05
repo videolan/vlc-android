@@ -57,10 +57,11 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     }
 
     override fun onCreate(bundle: Bundle?) {
-        val media = requireActivity().intent.getParcelableExtra<MediaWrapper>(KEY_MEDIA)
-        if (media.uri == null ||media. uri.scheme == "http" || media.uri.scheme == "content" || media.uri.scheme == "fd") {
-            activity?.intent = null
-        }
+       requireActivity().intent?.getParcelableExtra<MediaWrapper>(KEY_MEDIA)?.let {media ->
+           if (media.uri == null || media.uri.scheme == "http" || media.uri.scheme == "content" || media.uri.scheme == "fd") {
+               activity?.intent = null
+           }
+       }
         super.onCreate(bundle)
         adapter = FilePickerAdapter(this)
     }
