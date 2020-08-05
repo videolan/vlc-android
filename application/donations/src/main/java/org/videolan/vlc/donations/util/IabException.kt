@@ -12,32 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.videolan.vlc.donations.util;
+package org.videolan.vlc.donations.util
 
 /**
  * Exception thrown when something went wrong with in-app billing.
  * An IabException has an associated IabResult (an error).
  * To get the IAB result that caused this exception to be thrown,
- * call {@link #getResult()}.
+ * call [.getResult].
  */
-public class IabException extends Exception {
-    IabResult mResult;
-
-    public IabException(IabResult r) {
-        this(r, null);
-    }
-    public IabException(int response, String message) {
-        this(new IabResult(response, message));
-    }
-    public IabException(IabResult r, Exception cause) {
-        super(r.getMessage(), cause);
-        mResult = r;
-    }
-    public IabException(int response, String message, Exception cause) {
-        this(new IabResult(response, message), cause);
-    }
-
-    /** Returns the IAB result (error) that this exception signals. */
-    public IabResult getResult() { return mResult; }
+class IabException @JvmOverloads constructor(val result: IabResult, cause: Exception? = null) : Exception(result.message, cause) {
+    constructor(response: Int, message: String?) : this(IabResult(response, message))
+    constructor(response: Int, message: String?, cause: Exception?) : this(IabResult(response, message), cause)
 }

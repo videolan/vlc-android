@@ -114,9 +114,9 @@ class VLCBillingDialog : VLCBottomSheetDialogFragment() {
             when {
                 binding.subscriptionCheckbox.isChecked -> vlcBilling.iabHelper.launchSubscriptionPurchaseFlow(requireActivity(), donationview.skuDetail.sku, 10001,
                         object : IabHelper.OnIabPurchaseFinishedListener {
-                            override fun onIabPurchaseFinished(result: IabResult, purchase: Purchase?) {
+                            override fun onIabPurchaseFinished(result: IabResult?, purchase: Purchase?) {
                                 when {
-                                    result.isFailure || purchase == null -> {
+                                    result == null || result.isFailure || purchase == null -> {
                                         Log.w("VLCBilling", "Error purchasing: $result")
                                         return
                                     }
@@ -130,9 +130,9 @@ class VLCBillingDialog : VLCBottomSheetDialogFragment() {
                 )
                 else -> vlcBilling.iabHelper.launchPurchaseFlow(requireActivity(), donationview.skuDetail.sku, 10001,
                         object : IabHelper.OnIabPurchaseFinishedListener {
-                            override fun onIabPurchaseFinished(result: IabResult, purchase: Purchase?) {
+                            override fun onIabPurchaseFinished(result: IabResult?, purchase: Purchase?) {
                                 when {
-                                    result.isFailure || purchase == null -> {
+                                    result == null || result.isFailure || purchase == null -> {
                                         Log.w("VLCBilling", "Error purchasing: $result")
                                         return
                                     }

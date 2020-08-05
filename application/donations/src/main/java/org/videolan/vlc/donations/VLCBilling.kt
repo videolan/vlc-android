@@ -112,11 +112,11 @@ class VLCBilling private constructor(private val context: Application) : IabBroa
             val details = inventory?.getSkuDetails(skuDetail)
             details?.let { if (skuDetail.contains("subscription")) subsDetails.add(it) else skuDetails.add(it) }
             if (skuDetail.contains("donation") && inventory?.hasPurchase(skuDetail) == true) {
-                iabHelper.consumeAsync(inventory.getPurchase(skuDetail)) { _, _ ->
+                iabHelper.consumeAsync(inventory.getPurchase(skuDetail)!!){ _, _ ->
                     if (debug) Log.d("VLCBilling", "Consumed")
                 }
             }
-            if (skuDetail.contains("subscription") && inventory?.hasPurchase(skuDetail) == true) purchases.add(inventory.getPurchase(skuDetail))
+            if (skuDetail.contains("subscription") && inventory?.hasPurchase(skuDetail) == true) purchases.add(inventory.getPurchase(skuDetail)!!)
             if (debug) Log.d("VLCBilling", "${details?.price}")
         }
 
