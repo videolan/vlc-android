@@ -118,7 +118,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
             updateEmptyView()
             restoreMultiSelectHelper()
-            if (viewModel.group != null && it.size < 2) requireActivity().finish()
+            if (activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
         })
 
         viewModel.provider.loading.observe(this, Observer { loading ->
