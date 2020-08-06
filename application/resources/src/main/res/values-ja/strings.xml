@@ -707,4 +707,17 @@
     <string name="sub_result_by_name_episode">エピソード %s</string>
 
     <string name="sub_result_by_file">あなたのファイルに対する結果</string>
+    <string name="donate">VLCを支援</string>
+    <string name="donate_desc">ボランティアがVLCを開発することを支援します</string>
+    <string name="donate_subscribtion">毎月の支援を希望します</string>
+    <string name="donate_send">支援を始める</string>
+    <string name="donation_description">あなたのご支援がVideoLANアソシエーションによる\nアンドロイド用VLCアプリの改善を\nサポートします</string>
+    <string name="subscription_purchased">月次の支援に申し込みました</string>
+    <string name="subscription_cancel">プレイストアで支援を停止することが可能です</string>
+    <string name="subscription_cancel_tv">支援の停止方法</string>
+    <string name="donate_unsubscribe_tv">支援を停止するには、スマートフォンまたはコンピューターから %s を開くか、このコードをスキャンしてください:</string>
+    <string name="tip_jar">VLCを支援</string>
+    <string name="thank_you">ありがとうございます</string>
+    <string name="thank_you_desc">支援の申し込みありがとうございます!\nVLCの改善に役立てさせて頂きます</string>
+    <string name="donate_again">アプリの支援を再開</string>
 </resources>
