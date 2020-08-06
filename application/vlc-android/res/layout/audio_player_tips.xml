@@ -6,6 +6,7 @@
         android:background="?attr/background_audio_tips"
         android:gravity="center"
         android:orientation="vertical"
+        android:elevation="@dimen/audio_player_elevation"
         android:weightSum="8">
 
     <TextView

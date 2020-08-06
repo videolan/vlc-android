@@ -15,4 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout="@layout/audioplayer" />
+    <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/audio_playlist_tips"
+            android:layout="@layout/audio_playlist_tips"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+
 </FrameLayout>
