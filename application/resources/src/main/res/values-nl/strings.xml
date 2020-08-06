@@ -412,6 +412,8 @@
 
     <string name="no_result">Geen resultaten gevonden</string>
     <string name="no_internet_connection">Controleer uw internetverbinding</string>
+    <string name="subs_download_error">Dienst niet beschikbaar. Probeer het later opnieuw</string>
+
     <string name="network_browsing">Lokaal netwerk</string>
     <string name="browsing">Bladeren</string>
 
@@ -707,4 +709,26 @@
     <string name="group_similar">Automatisch hergroeperen</string>
     <string name="no_favorite">Geen favoriet</string>
     <string name="empty_directory">Leeg</string>
+    <string name="no_track">Geen track</string>
+
+    <string name="swipe_unlock">Vegen om te ontgrendelen</string>
+    <string name="swipe_unlock_no_touch">Lang drukken om te ontgrendelen</string>
+    <string name="sub_result_by_name">Resultaten voor %s</string>
+    <string name="sub_result_by_name_season">Seizoen %s</string>
+    <string name="sub_result_by_name_episode">Aflevering %s</string>
+
+    <string name="sub_result_by_file">Resultaten voor uw bestand</string>
+    <string name="donate">VLC helpen</string>
+    <string name="donate_desc">Ondersteun de vrijwilligers die VLC maken</string>
+    <string name="donate_subscribtion">Ik wil dat dit een maandelijkse sponsoring wordt</string>
+    <string name="donate_send">Uw sponsoring starten</string>
+    <string name="donation_description">Uw sponsoring zal ons toelaten om:\nde VLC-app voor Android te verbeteren\nde VideoLAN-associatie te ondersteunen</string>
+    <string name="subscription_purchased">U bent ingeschreven op een maandelijkse sponsoring</string>
+    <string name="subscription_cancel">U kunt zich afmelden in de Play Store</string>
+    <string name="subscription_cancel_tv">Hoe af te melden</string>
+    <string name="donate_unsubscribe_tv">Om zich af te melden, opent u %s op een telefoon of computer of scant u deze code:</string>
+    <string name="tip_jar">VLC helpen</string>
+    <string name="thank_you">Bedankt</string>
+    <string name="thank_you_desc">Bedankt voor uw sponsoring!\nZe zal ons veel helpen bij het verbeteren van VLC!</string>
+    <string name="donate_again">De app opnieuw sponsoren</string>
 </resources>
