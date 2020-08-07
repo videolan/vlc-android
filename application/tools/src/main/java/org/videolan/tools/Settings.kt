@@ -80,6 +80,7 @@ const val LOGIN_STORE = "store_login"
 const val KEY_PLAYBACK_RATE = "playback_rate"
 const val KEY_PLAYBACK_SPEED_PERSIST = "playback_speed"
 const val KEY_VIDEO_APP_SWITCH = "video_action_switch"
+const val VIDEO_TRANSITION_SHOW = "video_transition_show"
 const val RESULT_RESCAN = Activity.RESULT_FIRST_USER + 1
 const val RESULT_RESTART = Activity.RESULT_FIRST_USER + 2
 const val RESULT_RESTART_APP = Activity.RESULT_FIRST_USER + 3

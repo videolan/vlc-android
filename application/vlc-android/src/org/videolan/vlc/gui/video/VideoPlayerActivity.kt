@@ -541,7 +541,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 overlayDelegate.playlistAdapter.currentIndex = currentMediaPosition
                 overlayDelegate.playlistContainer.setGone()
             }
-            if (settings.getBoolean("video_transition_show", true)) showTitle()
+            if (settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showTitle()
             initUI()
             lastTime = -1
             forcedTime = lastTime
