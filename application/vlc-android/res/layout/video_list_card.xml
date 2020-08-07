@@ -64,7 +64,6 @@
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:layout_constraintBottom_toBottomOf="parent"
-                android:onClick="@{holder::onImageClick}"
                 vlc:media="@{media}"
                 android:scaleType="centerCrop"
                 android:src="@{cover}" />
