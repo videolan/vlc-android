@@ -50,8 +50,8 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
             swipeRefreshLayout = it
             it.setColorSchemeResources(R.color.orange700)
         }
-        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.fab)
-        ((fab.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB()
+        val fab = requireActivity().findViewById<FloatingActionButton?>(R.id.fab)
+        ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB()
         if (hasFAB()) fabPlay = fab
     }
 
