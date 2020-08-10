@@ -191,7 +191,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="1dp"
-                    android:background="@drawable/donate_background_color"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:layout_constraintEnd_toStartOf="@+id/donation_tier_2"
                     app:layout_constraintHorizontal_bias="0.5"

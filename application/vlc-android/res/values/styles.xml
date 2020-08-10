@@ -74,7 +74,7 @@
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/grey900</item>
         <item name="donate_card">@color/orange500</item>
-        <item name="donate_item_background">@color/grey200</item>
+        <item name="donate_item_background">@drawable/donate_background_color</item>
         <item name="android:windowBackground">@color/white</item>
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
@@ -209,7 +209,7 @@
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/white</item>
         <item name="donate_card">@color/orange500transparent</item>
-        <item name="donate_item_background">@color/grey700</item>
+        <item name="donate_item_background">@drawable/donate_background_color_dark</item>
         <item name="android:windowBackground">@color/black</item>
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
