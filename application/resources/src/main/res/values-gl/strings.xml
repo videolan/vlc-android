@@ -13,6 +13,7 @@
     <string name="sortby_length">Duración</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_last_modified_date">Engadidos recentemente</string>
+    <string name="sortby_media_number">Número de multimedia</string>
     <string name="sortby_number">Núm. de pistas</string>
     <string name="searchable_hint">Buscar…</string>
     <string name="history">Historial</string>
@@ -46,6 +47,7 @@
     <string name="set_song_question">Desexa estabelecer «%1$s» como ton de chamada?</string>
     <string name="info">Información</string>
     <string name="confirm_delete">Quere eliminar o ficheiro \'%1$s\'?</string>
+    <string name="confirm_delete_album">Desexa eliminar o álbum «%1$s»?</string>
     <string name="confirm_delete_several_media">Desexa eliminar %1$d multimedia?</string>
     <string name="confirm_delete_folder">Quere eliminar o cartafol «%1$s» e todo o seu contido?</string>
     <string name="confirm_delete_playlist">Quere eliminar a lista de reprodución «%1$s»?</string>
@@ -177,6 +179,7 @@
     <string name="favorite_added">Gardados en favoritos</string>
     <string name="favorite_removed">Retirados dos favoritos</string>
 
+    <string name="streams">Fluxos</string>
     <string name="open_mrl_dialog_msg">Introduza o enderezo de rede, p.e.: http://, mms:// ou rtsp://</string>
     <string name="encountered_error_title">Erro de reprodución</string>
     <string name="encountered_error_message">O VLC encontrou un erro con este multimedia.\nProbe a actualizar a biblioteca multimedia.</string>
@@ -188,6 +191,8 @@
     <string name="playback_history_title">Historial de reprodución</string>
     <string name="playback_history_summary">Gardar todos os multimedia reproducidos na sección Historial</string>
     <string name="playback_speed_title">Gardar velocidade de reprodución</string>
+    <string name="playback_speed_summary">Manter a velocidade de reprodución entre multimedias</string>
+
     <string name="play_button">Botón de reprodución</string>
 
     <!-- Tips -->
@@ -229,6 +234,7 @@
     <string name="add_custom_path_description">Introduza un directorio persoal adicional para escanear:</string>
     <string name="remove_custom_path">Eliminar o camiño persoal</string>
     <string name="hardware_acceleration">Aceleración de hardware</string>
+    <string name="hardware_acceleration_summary">Desactivada: mellor estabilidade.\nDescodificación: pode mellorar o rendemento.\nCompleta: pode mellorar máis o rendemento</string>
     <string name="hardware_acceleration_disabled">Desactivada</string>
     <string name="hardware_acceleration_decoding">Aceleración de descodificación</string>
     <string name="hardware_acceleration_full">Aceleración completa</string>
@@ -249,7 +255,10 @@
 
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_secondary_display_category_title">Pantalla secundaria</string>
+    <string name="interface_secondary_display_category_summary">Preferencias para pantallas secundarias conectadas (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Preferir clonar</string>
+    <string name="enable_clone_mode_summary">Clonar a pantalla do dispositivo sen control remoto</string>
+
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupar vídeos</string>
     <string name="video_min_group_length_disable">Non agrupar vídeos</string>
@@ -258,11 +267,13 @@
     <string name="media_fast_seek">Busca rápida</string>
     <string name="media_fast_seek_summary">Buscar nos multimedia máis rápido pero menos preciso</string>
     <string name="video_transition_title">Transicións de vídeo</string>
-    <string name="video_transition_summary">Mostrar o título do novo vídeo durante nas transicións</string>
+    <string name="video_transition_summary">Mostrar o título do novo vídeo durante as transicións</string>
     <string name="media_seen">Mostrar o marcador de vídeo visto</string>
     <string name="media_seen_summary">Marcar vídeos como vistos cando se reproduzan ata o final</string>
     <string name="force_play_all_summary">Reproduce todos os vídeos, comezando polo que vostede premeu</string>
     <string name="force_play_all_title">Modo lista de reprodución de vídeos</string>
+    <string name="save_brightness_summary">Manter o nivel do brillo entre multimedia</string>
+    <string name="save_brightness_title">Gardar o nivel do brillo</string>
     <string name="save_audiodelay_summary">Gardar o atraso do son de cada vídeo</string>
     <string name="save_audiodelay_title">Gardar o atraso de son</string>
     <string name="enable_brightness_gesture_title">Xestos para o brillo</string>
@@ -311,6 +322,7 @@
     <string name="enable_play_on_headset_insertion">Continuar ao inserir uns auriculares</string>
     <string name="enable_play_on_headset_insertion_summary"> Do contario deter</string>
     <string name="aout">Saída de son</string>
+    <string name="aout_summary">Mudar o método que usa o VLC para a saída de son</string>
     <string name="audio_ducking_title">Baixar o volume do VLC nas notificacións</string>
     <string name="audio_ducking_summary">Axuda na escoita de notificacións de son, instrucións de navegación e para falar co asistente</string>
     <string name="casting_category">Emisión</string>
@@ -337,13 +349,18 @@
 
     <string name="performance_prefs_category">Rendemento</string>
     <string name="chroma_format">Forzar a crominancia</string>
+    <string name="chroma_format_summary">RGB 32-bit: croma predeterminada\nRGB 16-bit: mellor rendemento, mais menos calidade\nYUV: o mellor rendemento, mais non funciona en todos os dispositivos (só en Android 2.3 e superior).</string>
     <string name="deblocking">Preferencias do filtro antibloques</string>
+    <string name="deblocking_summary">Modificar a configuración do filtro antibloques pode mellorar a calidade do vídeo (só para usuarios avanzados).</string>
     <string name="deblocking_always">Filtro antibloques completo (o máis lento)</string>
     <string name="deblocking_nonref">Filtro antibloques medio</string>
     <string name="deblocking_nonkey">Filtro antibloques baixo</string>
     <string name="deblocking_all">Sen filtro antibloques (o máis rápido)</string>
     <string name="enable_frame_skip">Salto de fotograma</string>
+    <string name="enable_frame_skip_summary">Acelera a descodificación, mais pode resultar nunha menor calidade de vídeo</string>
     <string name="enable_time_stretching_audio">Activar a extensión no tempo do son</string>
+    <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
+
     <string name="advanced_prefs_category">Avanzadas</string>
     <string name="auto_rescan">Analizar automaticamente</string>
     <string name="auto_rescan_summary">Analiza automaticamente o dispositivo ao iniciar a aplicación na busca de multimedia novos ou eliminados.</string>
@@ -354,6 +371,7 @@
     <string name="clear_history">Limpar o historial</string>
     <string name="set_locale">Definir a configuración rexional</string>
     <string name="network_caching">Valor da caché de rede</string>
+    <string name="network_caching_summary">Cantidade de tempo (en ms.) a almacenar na memoria intermedia os multimedia de rede para a descodificación por software.\nDéixeo en branco para reiniciar.</string>
     <string name="resume_playback_title">Continuar despois dunha chamada</string>
     <string name="resume_playback_summary">Do contrario permanecer en pausa</string>
     <string name="blurred_cover_background_title">Fondo coa portada borrosa</string>
@@ -394,6 +412,8 @@
 
     <string name="no_result">Non hai resultados</string>
     <string name="no_internet_connection">Comprobe a conexión de internet</string>
+    <string name="subs_download_error">Servizo non dispoñíbel. Ténteo máis tarde.</string>
+
     <string name="network_browsing">Rede local</string>
     <string name="browsing">Examinando</string>
 
@@ -451,6 +471,7 @@
     <string name="extension_empty">Non hai elementos que ver. Vaia ás preferencias da extensión para mostrar algún.</string>
 
     <string name="opengl_title">Uso do OpenGL ES2</string>
+    <string name="opengl_summary">Por defecto, úsase OpenGL ES2 para decodificar mediante software e hardware cando é necesario (vídeos de 360º).</string>
     <string name="opengl_automatic">Automático</string>
     <string name="opengl_on">Forzar activado</string>
     <string name="opengl_off">Forzar desactivado</string>
@@ -481,7 +502,7 @@
     <string name="ml_external_storage_msg">Desexa que o VLC engada o dispositivo %1$s á biblioteca multimedia?</string>
     <string name="ml_external_storage_accept">Si</string>
     <string name="ml_external_storage_decline">Non</string>
-    <string name="last_added_media">última incorporación</string>
+    <string name="last_added_media">Última incorporación</string>
     <string name="no">Non</string>
     <string name="loading_medialibrary">Cargando biblioteca multimedia</string>
     <string name="yes">Si</string>
@@ -584,6 +605,14 @@
     <string name="preamp">Preamplificación</string>
     <string name="presets">Predeterminados</string>
     <string name="reset">Restabelecer</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d pista inserida</item>
+        <item quantity="other">%d pistas inseridas</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d pista anexada</item>
+        <item quantity="other">%d pistas anexadas</item>
+    </plurals>
     <string name="remove_current">Retirar a actual</string>
     <string name="validation_delete_playlist">Confirma a eliminación desta lista de reprodución?</string>
     <string name="validation_delete_playlist_text">Non é posíbel desfacer esta acción.</string>
@@ -669,4 +698,37 @@
     <string name="all_subfolders">Engadir a este cartafol e subcartafoles</string>
     <string name="playlist_existing">A lista de reprodución %s xa existe</string>
     <string name="new_title">Título novo</string>
+    <string name="browse">Examinar</string>
+    <string name="more">Máis</string>
+    <string name="favorites">Favoritos</string>
+    <string name="new_stream">Novo fluxo</string>
+    <string name="add_to_group">Engadir a grupo de vídeos</string>
+    <string name="remove_from_group">Retirar do grupo de vídeos</string>
+    <string name="rename_group">Renomear grupo de vídeos</string>
+    <string name="ungroup">Desagrupar</string>
+    <string name="group_similar">Reagrupar automaticamente</string>
+    <string name="no_favorite">Non favorito</string>
+    <string name="empty_directory">Baleiro</string>
+    <string name="no_track">Non hai pista</string>
+
+    <string name="swipe_unlock">Arrastre o dedo para desbloquear</string>
+    <string name="swipe_unlock_no_touch">Presión longa para desbloquear</string>
+    <string name="sub_result_by_name">Resultados de %s</string>
+    <string name="sub_result_by_name_season">Temporada %s</string>
+    <string name="sub_result_by_name_episode">Episodio %s</string>
+
+    <string name="sub_result_by_file">Resultados para o seu ficheiro</string>
+    <string name="donate">Axuda do VLC</string>
+    <string name="donate_desc">Apoia os voluntarios que desenvolven o VLC</string>
+    <string name="donate_subscribtion">Gustaríame que isto fose un patrocinio mensual</string>
+    <string name="donate_send">Inicie o patrocinio</string>
+    <string name="donation_description">O seu patrocinio permitiranos:\nMellorar a aplicación do VLC para Android\nApoiar a Asociación VideoLAN</string>
+    <string name="subscription_purchased">Subscribiuse a un patrocinio mensual</string>
+    <string name="subscription_cancel">Pode cancelar a subscrición na Play Store</string>
+    <string name="subscription_cancel_tv">Como cancelar a subscrición</string>
+    <string name="donate_unsubscribe_tv">Para cancelar a subscrición, abra %s nun móbil, computador ou escanee este código:</string>
+    <string name="tip_jar">Axuda do VLC</string>
+    <string name="thank_you">Grazas</string>
+    <string name="thank_you_desc">Grazas polo patrocinio!\nAxudaranos moito a mellorar o VLC.</string>
+    <string name="donate_again">Patrocinar a aplicación de novo</string>
 </resources>
