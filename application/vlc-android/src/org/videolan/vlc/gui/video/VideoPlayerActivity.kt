@@ -112,7 +112,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     private lateinit var startedScope : CoroutineScope
     var service: PlaybackService? = null
-    private lateinit var medialibrary: Medialibrary
+    lateinit var medialibrary: Medialibrary
     private var videoLayout: VLCVideoLayout? = null
     lateinit var displayManager: DisplayManager
     private var rootView: View? = null
@@ -172,7 +172,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     var isTv: Boolean = false
 
     // Tracks & Subtitles
-    private var audioTracksList: Array<MediaPlayer.TrackDescription>? = null
+    var audioTracksList: Array<MediaPlayer.TrackDescription>? = null
     private var videoTracksList: Array<MediaPlayer.TrackDescription>? = null
     var subtitleTracksList: Array<MediaPlayer.TrackDescription>? = null
 
@@ -1098,7 +1098,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 return true
             }
             KeyEvent.KEYCODE_CAPTIONS -> {
-                overlayDelegate.selectSubtitles()
+                onAudioSubClick(if (overlayDelegate.isHudBindingInitialized()) overlayDelegate.hudBinding.playerOverlayTracks else null)
                 return true
             }
             KeyEvent.KEYCODE_PLUS -> {
@@ -1230,6 +1230,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     if (menuIdx == -1 && event.esChangedType == IMedia.Track.Type.Video) {
                         handler.removeMessages(CHECK_VIDEO_TRACKS)
                         handler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000)
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            service.currentMediaWrapper?.let { mw ->
+                                val media = medialibrary.findMedia(mw)
+                                val videoTrack = media.getMetaLong(MediaWrapper.META_VIDEOTRACK).toInt()
+                                if (videoTrack != 0 && media.id != 0L) service.setVideoTrack(videoTrack)
+                            }
+                        }
                     }
                     invalidateESTracks(event.esChangedType)
                 }
@@ -1519,83 +1526,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     fun hideOptions() {
         optionsDelegate?.hide()
-    }
-
-    interface TrackSelectedListener {
-        fun onTrackSelected(trackID: Int)
-    }
-
-    fun selectTrack(tracks: Array<MediaPlayer.TrackDescription>?, currentTrack: Int, titleId: Int,
-                            listener: TrackSelectedListener?) {
-        if (listener == null)
-            throw IllegalArgumentException("listener must not be null")
-        if (tracks == null)
-            return
-        val nameList = arrayOfNulls<String>(tracks.size)
-        val idList = IntArray(tracks.size)
-        var listPosition = 0
-        for ((i, track) in tracks.withIndex()) {
-            idList[i] = track.id
-            nameList[i] = track.name
-            // map the track position to the list position
-            if (track.id == currentTrack) listPosition = i
-        }
-
-        if (!isFinishing) alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
-                .setTitle(titleId)
-                .setSingleChoiceItems(nameList, listPosition) { dialog, position ->
-                    var trackID = -1
-                    // Reverse map search...
-                    for (track in tracks) {
-                        if (idList[position] == track.id) {
-                            trackID = track.id
-                            break
-                        }
-                    }
-                    listener.onTrackSelected(trackID)
-                    dialog.dismiss()
-                }
-                .setOnDismissListener { overlayDelegate.dimStatusBar(true) }
-                .create().apply {
-                    setCanceledOnTouchOutside(true)
-                    setOwnerActivity(this@VideoPlayerActivity)
-                    show()
-                }
-    }
-
-    fun selectVideoTrack() {
-        setESTrackLists()
-        service?.let {
-            selectTrack(videoTracksList, it.videoTrack, R.string.track_video,
-                    object : TrackSelectedListener {
-                        override fun onTrackSelected(trackID: Int) {
-                            if (trackID < -1) return
-                            service?.let { service ->
-                                service.setVideoTrack(trackID)
-                                seek(service.time)
-                            }
-                        }
-                    })
-        }
-    }
-
-    fun selectAudioTrack() {
-        setESTrackLists()
-        service?.let {
-            selectTrack(audioTracksList, it.audioTrack, R.string.track_audio,
-                    object : TrackSelectedListener {
-                        override fun onTrackSelected(trackID: Int) {
-                            if (trackID < -1) return
-                            service?.let { service ->
-                                service.setAudioTrack(trackID)
-                                runIO(Runnable {
-                                    val mw = medialibrary.findMedia(service.currentMediaWrapper)
-                                    if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID.toLong())
-                                })
-                            }
-                        }
-                    })
-        }
     }
 
     @WorkerThread

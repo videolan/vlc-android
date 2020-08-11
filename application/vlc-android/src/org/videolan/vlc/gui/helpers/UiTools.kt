@@ -364,12 +364,13 @@ object UiTools {
         addToGroupDialog.show(supportFragmentManager, "fragment_add_to_group")
     }
 
-    fun FragmentActivity.showVideoTrack(menuListener:(Int) -> Unit) {
+    fun FragmentActivity.showVideoTrack(menuListener:(Int) -> Unit, trackSelectionListener:(Int, VideoTracksDialog.TrackType) -> Unit) {
         if (!isStarted()) return
         val videoTracksDialog = VideoTracksDialog()
         videoTracksDialog.arguments = bundleOf()
         videoTracksDialog.show(supportFragmentManager, "fragment_video_tracks")
         videoTracksDialog.menuItemListener = menuListener
+        videoTracksDialog.trackSelectionListener = trackSelectionListener
     }
 
     fun FragmentActivity.showDonations() {

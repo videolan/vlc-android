@@ -49,19 +49,18 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -71,6 +70,7 @@ import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_MEDIA
+import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.helpers.OnRepeatListener
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
@@ -80,7 +80,6 @@ import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
-import java.lang.Runnable
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -130,14 +129,38 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     lateinit var playlistAdapter: PlaylistAdapter
 
     fun showTracks() {
-        player.showVideoTrack{
-            when (it) {
-                R.id.audio_track_delay -> player.delayDelegate.showAudioDelaySetting()
-                R.id.subtitle_track_delay -> player.delayDelegate.showSubsDelaySetting()
-                R.id.subtitle_track_download -> downloadSubtitles()
-                R.id.subtitle_track_file -> pickSubtitles()
+        player.showVideoTrack(
+                {
+                    when (it) {
+                        R.id.audio_track_delay -> player.delayDelegate.showAudioDelaySetting()
+                        R.id.subtitle_track_delay -> player.delayDelegate.showSubsDelaySetting()
+                        R.id.subtitle_track_download -> downloadSubtitles()
+                        R.id.subtitle_track_file -> pickSubtitles()
+                    }
+                }, { trackID: Int, trackType: VideoTracksDialog.TrackType ->
+            when (trackType) {
+                VideoTracksDialog.TrackType.AUDIO -> {
+                    player.service?.let { service ->
+                        service.setAudioTrack(trackID)
+                        runIO(Runnable {
+                            val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
+                            if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID.toLong())
+                        })
+                    }
+                }
+                VideoTracksDialog.TrackType.SPU -> player.service?.setSpuTrack(trackID)
+                VideoTracksDialog.TrackType.VIDEO -> {
+                    player.service?.let { service ->
+                        player.seek(service.time)
+                        service.setVideoTrack(trackID)
+                        runIO(Runnable {
+                            val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
+                            if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_VIDEOTRACK, trackID.toLong())
+                        })
+                    }
+                }
             }
-        }
+        })
     }
 
     fun showInfo(@StringRes textId: Int, duration: Int) {
@@ -706,21 +729,6 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         player.isLocked = false
         showOverlay()
         player.lockBackButton = false
-    }
-
-
-    //SUBTITLES
-    fun selectSubtitles() {
-        player.setESTrackLists()
-        player.service?.let {
-            player.selectTrack(player.subtitleTracksList, it.spuTrack, R.string.track_text,
-                    object : VideoPlayerActivity.TrackSelectedListener {
-                        override fun onTrackSelected(trackID: Int) {
-                            if (trackID < -1 || player.service == null) return
-                            runIO(Runnable { player.setSpuTrack(trackID) })
-                        }
-                    })
-        }
     }
 
     private fun pickSubtitles() {
