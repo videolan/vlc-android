@@ -251,16 +251,18 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     }
 
     private val favoriteClickListener: (View) -> Unit = {
-        lifecycleScope.launch {
-            val mw = (item as MediaWrapper)
-            when {
-                browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
-                mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
-                else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
+        item.let {item ->
+            lifecycleScope.launch {
+                val mw = (item as MediaWrapper)
+                when {
+                    browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
+                    mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
+                    else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
+                }
+                favExists = !favExists
+                if (!isRootLevel) binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline)
+                binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
             }
-            favExists = !favExists
-            if (!isRootLevel) binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline)
-            binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
         }
     }
 
