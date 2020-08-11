@@ -386,7 +386,6 @@ VLC_MODULE_BLACKLIST="
     motiondetect
     motionblur
     export
-    smf
     podcast
     bluescreen
     erase
