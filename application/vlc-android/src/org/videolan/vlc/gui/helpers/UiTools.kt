@@ -70,6 +70,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.launchForeground
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
@@ -503,7 +504,7 @@ object UiTools {
                     .setCancelable(false)
                     .setMessage(message)
                     .setPositiveButton(R.string.ml_external_storage_accept) { _, _ ->
-                        ContextCompat.startForegroundService(activity, si)
+                        activity.launchForeground(activity, si)
                     }
                     .setNegativeButton(R.string.ml_external_storage_decline) { dialog, _ -> dialog.dismiss() }
             builder.show()
@@ -513,7 +514,7 @@ object UiTools {
                     .setCancelable(false)
                     .setMessage(message)
                     .setPositiveButton(R.string.ml_external_storage_accept) { _, _ ->
-                        ContextCompat.startForegroundService(activity, si)
+                        activity.launchForeground(activity, si)
                     }
                     .setNegativeButton(R.string.ml_external_storage_decline) { dialog, _ -> dialog.dismiss() }
             builder.show()

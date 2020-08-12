@@ -30,10 +30,10 @@ import android.content.ServiceConnection
 import android.os.*
 import android.text.format.DateFormat
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.util.launchForeground
 import org.videolan.tools.CloseableUtils
 import org.videolan.tools.Logcat
 import org.videolan.tools.getContextWithLocale
@@ -143,7 +143,7 @@ class DebugLogService : Service(), Logcat.Callback, Runnable {
         logcat = Logcat()
         logcat!!.start(this)
 
-        ContextCompat.startForegroundService(this, Intent(this, DebugLogService::class.java))
+        launchForeground(this, Intent(this, DebugLogService::class.java))
         sendMessage(MSG_STARTED, null)
     }
 
