@@ -3,6 +3,7 @@
         android:id="@+id/options_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="16dp"
         android:clickable="true"
         android:focusable="false">
 
