@@ -248,7 +248,7 @@ object MediaUtils {
                     while (index < count) {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) {
-                            provider.getPage(pageCount, index).toList()
+                            provider.getPage(pageCount, index).toList() as List<MediaWrapper>
                         }
                         if (index == 0) play(list)
                         else service.append(list)
@@ -537,7 +537,7 @@ fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medial
 private fun Array<MediaLibraryItem>.toList() = flatMap {
     if (it is VideoGroup) {
         it.media(Medialibrary.SORT_DEFAULT, false, it.mediaCount(), 0).toList()
-    } else listOf(this as MediaWrapper)
+    } else listOf(it as MediaWrapper)
 }
 
 fun MediaContentResolver.canHandle(id: String) : Boolean {
