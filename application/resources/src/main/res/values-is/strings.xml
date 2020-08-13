@@ -38,6 +38,8 @@
     <string name="insert_next">Setja inn næsta</string>
     <string name="play_all">Spila allt</string>
     <string name="append_all">Bæta öllu við</string>
+    <string name="resume_playback_short_title">Halda afspilun áfram</string>
+    <string name="resume_playback_long_title">Halda áfram afspilun síðasta spilunarlista</string>
     <string name="delete">Eyða</string>
     <string name="remove">Fjarlægja</string>
     <string name="set_song">Setja sem hringitón</string>
@@ -98,6 +100,7 @@
     <string name="please_wait">Bíddu aðeins…</string>
     <string name="nomedia">Engar margmiðlunarskrár fundust, færðu skrár yfir á tækið eða lagaðu stillingarnar þínar.</string>
     <string name="noplaylist">Enginn spilunarlisti fannst.</string>
+    <string name="nosubfolder">Engar undirmöppur</string>
     <string name="directorynotfound">Skráaslóðin \'%1$s\' fannst ekki.</string>
     <string name="nohistory">Enginn afspilunarferill er til staðar.</string>
     <string name="validation">Ertu viss?</string>
@@ -168,6 +171,7 @@
     <string name="favorite_added">Vistað í eftirlæti</string>
     <string name="favorite_removed">Fjarlægt úr eftirlætum</string>
 
+    <string name="streams">Straumar</string>
     <string name="open_mrl_dialog_msg">Settu inn netslóð: t.d. http://, mms:// eða rtsp://</string>
     <string name="encountered_error_title">Afspilunarvilla</string>
     <string name="encountered_error_message">VLC rakst á villu í þessum miðli.\nReyndu að endurlesa margmiðlunarsafnið.</string>
@@ -241,6 +245,8 @@
     <string name="interface_prefs_screen">Viðmót</string>
     <string name="interface_secondary_display_category_title">Aukaskjár</string>
     <string name="enable_clone_mode">Velja frekar klón</string>
+    <string name="enable_clone_mode_summary">Klóna skjá tækisins án fjarstýringar</string>
+
     <string name="video_prefs_category">Myndskeið</string>
     <string name="video_min_group_length_title">Hópa myndskeið</string>
     <string name="video_min_group_length_disable">Ekki hópa myndskeið</string>
@@ -254,6 +260,7 @@
     <string name="media_seen_summary">Merkja myndskeið sem séð þegar þú ert búinn að spila það til enda</string>
     <string name="force_play_all_summary">Spila öll myndskeið, byrja á því sem þú smelltir á</string>
     <string name="force_play_all_title">Hamur fyrir spilunarlista myndskeiða</string>
+    <string name="save_brightness_title">Vista birtustig</string>
     <string name="save_audiodelay_summary">Vista sérstaka töf á hljóði fyrir hvert myndskeið</string>
     <string name="save_audiodelay_title">Vista hljóðtöf</string>
     <string name="enable_brightness_gesture_title">Birtustigsbending</string>
@@ -302,6 +309,7 @@
     <string name="enable_play_on_headset_insertion">Halda áfram þegar heyrnartól eru tengd</string>
     <string name="enable_play_on_headset_insertion_summary">Annars setja í bið</string>
     <string name="aout">Hljóðúttak</string>
+    <string name="aout_summary">Breyttu aðferðinni sem VLC notar til að senda út hljóð.</string>
     <string name="audio_ducking_title">Lækka hljóðstyrk VLC við tilkynningar</string>
     <string name="audio_ducking_summary">Gerir auðveldara að heyra raddtilkynningar, leiðbeiningar við leiðsögn eða aðra raddaðstoð</string>
     <string name="casting_category">Útvörpun (casting)</string>
@@ -334,7 +342,10 @@
     <string name="deblocking_nonkey">Lítil afblokkun</string>
     <string name="deblocking_all">Engin afblokkun (hraðast)</string>
     <string name="enable_frame_skip">Rammaslepping</string>
+    <string name="enable_frame_skip_summary">Hraðari afkóðun en gæti minnkað gæði myndmerkis</string>
     <string name="enable_time_stretching_audio">Tímaaðlögun hljóðs (time streching)</string>
+    <string name="enable_time_stretching_audio_summary">Hraða og hægja hljóð án þess að breyta tónhæð (krefst hraðvirks tækis)</string>
+
     <string name="advanced_prefs_category">Nánar</string>
     <string name="auto_rescan">Sjálfvirk endurskönnun</string>
     <string name="auto_rescan_summary">Skanna tækið sjálfvirkt við ræsingu forritsins eftir nýjum eða eyddum margmiðlunargögnum</string>
