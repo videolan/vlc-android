@@ -719,7 +719,7 @@
 
     <string name="sub_result_by_file">Ergebnis für Ihre Datei</string>
     <string name="donate">VLC helfen</string>
-    <string name="donate_desc">Die Freiwilligen unterstützen, die VLC erstellen</string>
+    <string name="donate_desc">Die Freiwilligen unterstützen, die VLC entwickeln</string>
     <string name="donate_subscribtion">Ich möchte, dass dies eine monatliche Unterstützung ist</string>
     <string name="donate_send">Ihre Unterstützung starten</string>
     <string name="donation_description">Ihre Unterstützung ermöglicht es uns:\ndie VLC-App für Android zu verbessern\ndie VideoLAN Association zu unterstützen</string>
