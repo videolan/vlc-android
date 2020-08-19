@@ -707,4 +707,17 @@
     <string name="sub_result_by_name_episode">插曲 %s</string>
 
     <string name="sub_result_by_file">您檔案的結果</string>
+    <string name="donate">協助 VLC</string>
+    <string name="donate_desc">支援建立 VLC 的志願者</string>
+    <string name="donate_subscribtion">我想要讓這個變成每月的贊助</string>
+    <string name="donate_send">開始您的贊助</string>
+    <string name="donation_description">您的贊助讓我們可以：\n改善 Android 上的 VLC 應用程式\n支援 VideoLAN 協會</string>
+    <string name="subscription_purchased">您已訂閱每月贊助</string>
+    <string name="subscription_cancel">您已在 Play 商店中取消訂閱</string>
+    <string name="subscription_cancel_tv">如何取消訂閱</string>
+    <string name="donate_unsubscribe_tv">要取消訂閱，請在手機或電腦上開啟 %s，或是掃描此條碼：</string>
+    <string name="tip_jar">協助 VLC</string>
+    <string name="thank_you">謝謝</string>
+    <string name="thank_you_desc">感謝您的贊助！\n這將協助我們大大地改善 VLC！</string>
+    <string name="donate_again">再次贊助應用程式</string>
 </resources>

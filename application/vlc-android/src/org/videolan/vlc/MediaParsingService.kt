@@ -34,7 +34,6 @@ import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.lifecycle.*
@@ -50,6 +49,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.stubs.StubMedialibrary
 import org.videolan.resources.*
 import org.videolan.resources.util.dbExists
+import org.videolan.resources.util.launchForeground
 import org.videolan.tools.*
 import org.videolan.vlc.gui.SendCrashActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper
@@ -510,11 +510,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
 data class ScanProgress(val parsing: Int, val discovery: String)
 
 fun Context.reloadLibrary() {
-    ContextCompat.startForegroundService(this, Intent(ACTION_RELOAD, null, this, MediaParsingService::class.java))
+    launchForeground(this, Intent(ACTION_RELOAD, null, this, MediaParsingService::class.java))
 }
 
 fun Context.rescan() {
-    ContextCompat.startForegroundService(this, Intent(ACTION_FORCE_RELOAD, null, this, MediaParsingService::class.java))
+    launchForeground(this, Intent(ACTION_FORCE_RELOAD, null, this, MediaParsingService::class.java))
 }
 
 private sealed class MLAction

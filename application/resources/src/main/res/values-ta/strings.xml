@@ -208,6 +208,7 @@
     <string name="screen_orientation_start_lock">துவக்கத்தில் பூட்டிய</string>
     <string name="screen_orientation_portrait">உருவப்படம்</string>
     <string name="screen_orientation_landscape">இயற்கைநிலக்காட்சி</string>
+    <string name="enable_black_theme">கருப்பு பின்னணி</string>
     <string name="subtitle_text_encoding">துணைத்தலைப்பு உரை குறியாக்கம்</string>
     <string name="daynight_title">பகல் இரவு முறை</string>
     <string name="extra_prefs_category">கூடுதல் அமைவுகள்</string>
@@ -243,6 +244,7 @@
     <string name="list_title_ellipsize_middle">நடு</string>
     <string name="enable_headset_detection">தலைப்பொறி கண்டறியப்பட்டது</string>
     <string name="aout">ஒலி வெளியீடு</string>
+    <string name="casting_category">நகல் பிரதிபலிக்க</string>
     <string name="casting_quality_high">அதிகபட்சம்</string>
     <string name="casting_quality_medium">சராசரி</string>
     <string name="casting_quality_low">குறைந்த</string>

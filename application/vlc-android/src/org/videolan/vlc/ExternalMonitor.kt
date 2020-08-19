@@ -49,6 +49,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.ACTION_CHECK_STORAGES
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.getFromMl
+import org.videolan.resources.util.launchForeground
 import org.videolan.tools.*
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.vlc.gui.helpers.UiTools
@@ -142,7 +143,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             val scanOpt = if (Settings.showTvUi) ML_SCAN_ON
             else Settings.getInstance(ctx).getInt(KEY_MEDIALIBRARY_SCAN, -1)
             if (scanOpt == ML_SCAN_ON)
-                AppScope.launch { ContextCompat.startForegroundService(ctx,Intent(ACTION_CHECK_STORAGES, null, ctx, MediaParsingService::class.java)) }
+                AppScope.launch { ctx.launchForeground(ctx,Intent(ACTION_CHECK_STORAGES, null, ctx, MediaParsingService::class.java)) }
         }
         val usbManager = ctx.getSystemService<UsbManager>() ?: return
         devices.add(ArrayList(usbManager.deviceList.values))

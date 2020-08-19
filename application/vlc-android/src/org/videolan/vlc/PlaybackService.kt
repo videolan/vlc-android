@@ -64,6 +64,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
+import org.videolan.resources.util.launchForeground
 import org.videolan.tools.*
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
@@ -527,7 +528,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        forceForeground()
+        forceForeground(intent?.extras?.getBoolean("foreground", false) ?: false)
         dispatcher.onServicePreSuperOnStart()
         setupScope()
         when (intent?.action) {
@@ -590,10 +591,14 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         }
 
     @TargetApi(Build.VERSION_CODES.O)
-    private fun forceForeground() {
+    private fun forceForeground(launchedInForeground:Boolean = false) {
         if (!AndroidUtil.isOOrLater || isForeground) return
         val ctx = applicationContext
         val stopped = PlayerController.playbackState == PlaybackStateCompat.STATE_STOPPED || PlayerController.playbackState == PlaybackStateCompat.STATE_NONE
+        if (stopped && !launchedInForeground) {
+            if (BuildConfig.DEBUG) Log.i("PlaybackService", "Service not in foreground and player is stopped. Skipping the notification")
+            return
+        }
         val notification = if (this::notification.isInitialized && !stopped) notification
         else {
             val pi = if (::playlistManager.isInitialized) sessionPendingIntent else null
@@ -1330,12 +1335,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         fun start(context: Context) {
             if (instance != null) return
             val serviceIntent = Intent(context, PlaybackService::class.java)
-            ContextCompat.startForegroundService(context, serviceIntent)
+            context.launchForeground(context, serviceIntent)
         }
 
         fun loadLastAudio(context: Context) {
             val i = Intent(ACTION_REMOTE_LAST_PLAYLIST, null, context, PlaybackService::class.java)
-            ContextCompat.startForegroundService(context, i)
+            context.launchForeground(context, i)
         }
 
         fun hasRenderer() = renderer.value != null

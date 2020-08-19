@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <nl.dionsegijn.konfetti.KonfettiView
+                    android:id="@+id/konfetti"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                    android:id="@+id/donate_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/icon" />
+
+            <TextView
+                    android:id="@+id/donations_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/tip_jar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="?attr/font_default"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/donate_logo" />
+
+            <TextView
+                    android:id="@+id/donations_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/donation_description"
+                    android:textColor="?attr/font_default"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/donations_title" />
+
+            <TextView
+                    android:id="@+id/alreadySubscribed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/subscription_purchased"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/donations_description" />
+
+            <TextView
+                    android:id="@+id/cancelSubscription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/donate_text_background"
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@string/subscription_cancel"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/alreadySubscribed" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/tv_unsubscribe"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/rectangle_grey_700"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cancelSubscription"
+                    tools:visibility="visible">
+
+                <TextView
+                        android:id="@+id/tv_unsubscribe_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/donate_unsubscribe_tv"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                        android:id="@+id/imageView14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/qr_unsubscribe"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_unsubscribe_description" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                    android:id="@+id/donation_emoji_tier_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/donation_emoji_tier_3"
+                    app:layout_constraintEnd_toEndOf="@+id/donation_tier_1"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="@+id/donation_tier_1"
+                    app:layout_constraintTop_toTopOf="@+id/donation_emoji_tier_3"
+                    app:srcCompat="@drawable/ic_emoji_thumb_up" />
+
+            <ImageView
+                    android:id="@+id/donation_emoji_tier_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/donation_emoji_tier_3"
+                    app:layout_constraintEnd_toEndOf="@+id/donation_tier_4"
+                    app:layout_constraintStart_toEndOf="@+id/donation_emoji_tier_3"
+                    app:layout_constraintStart_toStartOf="@+id/donation_tier_4"
+                    app:layout_constraintTop_toTopOf="@+id/donation_emoji_tier_3"
+                    app:srcCompat="@drawable/ic_emoji_eyes_heart" />
+
+            <ImageView
+                    android:id="@+id/donation_emoji_tier_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/donation_emoji_tier_3"
+                    app:layout_constraintEnd_toEndOf="@+id/donation_tier_5"
+                    app:layout_constraintStart_toStartOf="@+id/donation_tier_5"
+                    app:layout_constraintTop_toTopOf="@+id/donation_emoji_tier_3"
+                    app:srcCompat="@drawable/ic_emoji_party" />
+
+            <ImageView
+                    android:id="@+id/donation_emoji_tier_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@+id/donation_tier_3"
+                    app:layout_constraintStart_toEndOf="@+id/donation_emoji_tier_2"
+                    app:layout_constraintStart_toStartOf="@+id/donation_tier_3"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_unsubscribe"
+                    app:layout_goneMarginTop="24dp"
+                    app:srcCompat="@drawable/ic_emoji_eyes_star" />
+
+            <ImageView
+                    android:id="@+id/donation_emoji_tier_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/donation_emoji_tier_3"
+                    app:layout_constraintEnd_toEndOf="@+id/donation_tier_2"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/donation_emoji_tier_1"
+                    app:layout_constraintStart_toStartOf="@+id/donation_tier_2"
+                    app:layout_constraintTop_toTopOf="@+id/donation_emoji_tier_3"
+                    app:srcCompat="@drawable/ic_emoji_clap_hands" />
+
+            <org.videolan.vlc.gui.view.DonationSkuView
+                    android:id="@+id/donation_tier_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="1dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:layout_constraintEnd_toStartOf="@+id/donation_tier_2"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/donation_tier_3"
+                    tools:text="0.59€" />
+
+            <org.videolan.vlc.gui.view.DonationSkuView
+                    android:id="@+id/donation_tier_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:layout_constraintEnd_toStartOf="@+id/donation_tier_3"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/donation_tier_1"
+                    app:layout_constraintTop_toTopOf="@+id/donation_tier_3"
+                    tools:text="1.19€" />
+
+            <org.videolan.vlc.gui.view.DonationSkuView
+                    android:id="@+id/donation_tier_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="1dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:layout_constraintEnd_toStartOf="@+id/donation_tier_4"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/donation_tier_2"
+                    app:layout_constraintTop_toBottomOf="@+id/donation_emoji_tier_3"
+                    tools:text="2.29€" />
+
+            <org.videolan.vlc.gui.view.DonationSkuView
+                    android:id="@+id/donation_tier_4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:layout_constraintEnd_toStartOf="@+id/donation_tier_5"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/donation_tier_3"
+                    app:layout_constraintTop_toTopOf="@+id/donation_tier_3"
+                    tools:text="5.59€" />
+
+            <org.videolan.vlc.gui.view.DonationSkuView
+                    android:id="@+id/donation_tier_5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/donation_tier_4"
+                    app:layout_constraintTop_toTopOf="@+id/donation_tier_3"
+                    tools:text="10.99€" />
+
+            <CheckBox
+                    android:id="@+id/subscriptionCheckbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/donate_subscribtion"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/donation_tier_3" />
+
+            <TextView
+                    android:id="@+id/sendDonation"
+                    style="@style/DonateButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:enabled="false"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/donate_send"
+                    app:cornerRadius="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/subscriptionCheckbox" />
+
+            <TextView
+                    android:id="@+id/anotherDonation"
+                    style="@style/DonateButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/donate_again"
+                    android:visibility="gone"
+                    app:cornerRadius="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/subscriptionCheckbox" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

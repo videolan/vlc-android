@@ -44,7 +44,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
         if (dbExists(coroutineContextProvider)) prefs.putSingle(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON)
     }
     val intent = Intent(ACTION_INIT).setClassName(applicationContext, MEDIAPARSING_SERVICE)
-    ContextCompat.startForegroundService(this@startMedialibrary, intent
+    launchForeground(this@startMedialibrary, intent
             .putExtra(EXTRA_FIRST_RUN, firstRun)
             .putExtra(EXTRA_UPGRADE, upgrade)
             .putExtra(EXTRA_REMOVE_DEVICE, removeDevices)
@@ -53,4 +53,13 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
 
 suspend fun Context.dbExists(coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) = withContext(coroutineContextProvider.IO) {
     File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
+}
+
+fun Context.launchForeground(context: Context, intent: Intent) {
+    try {
+        context.startService(intent)
+    } catch (e: IllegalStateException) {
+        intent.putExtra("foreground", true)
+        ContextCompat.startForegroundService(context, intent)
+    }
 }

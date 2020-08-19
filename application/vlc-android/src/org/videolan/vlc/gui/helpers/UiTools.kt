@@ -70,6 +70,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.*
+import org.videolan.resources.util.launchForeground
 import org.videolan.tools.KEY_APP_THEME
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
@@ -80,6 +81,7 @@ import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.AddToGroupDialog
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.VLCBillingDialog
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
@@ -363,12 +365,19 @@ object UiTools {
         addToGroupDialog.show(supportFragmentManager, "fragment_add_to_group")
     }
 
-    fun FragmentActivity.showVideoTrack(menuListener:(Int) -> Unit) {
+    fun FragmentActivity.showVideoTrack(menuListener:(Int) -> Unit, trackSelectionListener:(Int, VideoTracksDialog.TrackType) -> Unit) {
         if (!isStarted()) return
         val videoTracksDialog = VideoTracksDialog()
         videoTracksDialog.arguments = bundleOf()
         videoTracksDialog.show(supportFragmentManager, "fragment_video_tracks")
         videoTracksDialog.menuItemListener = menuListener
+        videoTracksDialog.trackSelectionListener = trackSelectionListener
+    }
+
+    fun FragmentActivity.showDonations() {
+        if (!isStarted()) return
+        val videoTracksDialog = VLCBillingDialog()
+        videoTracksDialog.show(supportFragmentManager, "fragment_donations")
     }
 
     fun FragmentActivity.showMediaInfo(mediaWrapper: MediaWrapper) {
@@ -495,7 +504,7 @@ object UiTools {
                     .setCancelable(false)
                     .setMessage(message)
                     .setPositiveButton(R.string.ml_external_storage_accept) { _, _ ->
-                        ContextCompat.startForegroundService(activity, si)
+                        activity.launchForeground(activity, si)
                     }
                     .setNegativeButton(R.string.ml_external_storage_decline) { dialog, _ -> dialog.dismiss() }
             builder.show()
@@ -505,7 +514,7 @@ object UiTools {
                     .setCancelable(false)
                     .setMessage(message)
                     .setPositiveButton(R.string.ml_external_storage_accept) { _, _ ->
-                        ContextCompat.startForegroundService(activity, si)
+                        activity.launchForeground(activity, si)
                     }
                     .setNegativeButton(R.string.ml_external_storage_decline) { dialog, _ -> dialog.dismiss() }
             builder.show()
@@ -692,6 +701,7 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
             HEADER_TV_SHOW -> R.drawable.ic_browser_tvshow_big
             ID_SETTINGS -> R.drawable.ic_menu_preferences_big
             ID_ABOUT_TV, ID_LICENCE -> R.drawable.ic_default_cone
+            ID_SPONSOR -> R.drawable.ic_donate_big
             CATEGORY_ARTISTS -> R.drawable.ic_artist_big
             CATEGORY_ALBUMS -> R.drawable.ic_album_big
             CATEGORY_GENRES -> R.drawable.ic_genre_big

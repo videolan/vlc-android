@@ -44,10 +44,13 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.tools.*
 import org.videolan.vlc.R
+import org.videolan.vlc.donations.BillingStatus
+import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_REQUEST_CODE
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.network.IStreamsFragmentDelegate
 import org.videolan.vlc.gui.network.KeyboardListener
 import org.videolan.vlc.gui.network.MRLAdapter
@@ -68,7 +71,7 @@ private const val KEY_SELECTION = "key_selection"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener,
+class MoreFragment : BaseFragment(), IRefreshable, IHistory,
         IStreamsFragmentDelegate by StreamsFragmentDelegate() {
 
     private lateinit var streamsAdapter: MRLAdapter
@@ -115,9 +118,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
                 if (it) historyEntry.loading.state = EmptyLoadingState.LOADING
             }
         }
-        historyAdapter.updateEvt.observe(viewLifecycleOwner) {
-            swipeRefreshLayout.isRefreshing = false
-        }
         historyAdapter.events.onEach { it.process() }.launchWhenStarted(lifecycleScope)
 
         streamsEntry = view.findViewById(R.id.streams_entry)
@@ -153,6 +153,18 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
             i.putExtra("fragment", SecondaryActivity.ABOUT)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
+        VLCBilling.getInstance(requireActivity().application).addStatusListener {
+            manageDonationVisibility()
+        }
+        manageDonationVisibility()
+        donationsButton.setOnClickListener {
+            requireActivity().showDonations()
+        }
+    }
+
+    private fun manageDonationVisibility() {
+        if (activity == null) return
+         if (VLCBilling.getInstance(requireActivity().application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(requireActivity().application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
     }
 
     override fun onStart() {
@@ -180,7 +192,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
         multiSelectHelper = historyAdapter.multiSelectHelper
         historyEntry.list.requestFocus()
         registerForContextMenu(historyEntry.list)
-        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -204,9 +215,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, SwipeRefreshLayout.
 
     override fun refresh() = viewModel.refresh()
 
-    override fun onRefresh() {
-        refresh()
-    }
 
     override fun isEmpty(): Boolean {
         return historyAdapter.isEmpty()

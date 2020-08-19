@@ -327,7 +327,7 @@
                 android:padding="0dp"
                 android:progressDrawable="@drawable/po_seekbar"
                 android:splitTrack="false"
-                android:thumb="@drawable/ic_seekbar_thumb"
+                android:thumb="@drawable/ic_seekbar_thumb_audio"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="8dp"
@@ -439,7 +439,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:elevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout="@layout/player_options" />
 

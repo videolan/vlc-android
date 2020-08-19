@@ -740,4 +740,17 @@
     <string name="sub_result_by_name_episode">Епізод %s</string>
 
     <string name="sub_result_by_file">Результати для вашого файла</string>
+    <string name="donate">Довідка VLC</string>
+    <string name="donate_desc">Підтримати добровільну збірку VLC</string>
+    <string name="donate_subscribtion">Я б хотів, щоби це була місячна підтримка</string>
+    <string name="donate_send">Розпочати вашу підтримку</string>
+    <string name="donation_description">Ваша підтримка дозволить нам:\nПокращити програму VLC app для Android\nПідтримати асоціацію VideoLAN</string>
+    <string name="subscription_purchased">Ви підписані на місячну підтримку</string>
+    <string name="subscription_cancel">Ви можете відписатися у крамниці Play</string>
+    <string name="subscription_cancel_tv">Як відписатися</string>
+    <string name="donate_unsubscribe_tv">Щоб відписатися, будь ласка, відкрийте %s на телефоні або комп\'ютері чи відскайнуйте цей код:</string>
+    <string name="tip_jar">Довідка VLC</string>
+    <string name="thank_you">Дякуємо вам</string>
+    <string name="thank_you_desc">Дякуємо вам за вашу фінансову підтримку!\nВона допоможе нам покращувати VLC!</string>
+    <string name="donate_again">Підтримати знову програму</string>
 </resources>

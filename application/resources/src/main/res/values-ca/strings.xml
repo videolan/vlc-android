@@ -718,4 +718,17 @@
     <string name="sub_result_by_name_episode">Episodi %s</string>
 
     <string name="sub_result_by_file">Resultats del vostre fitxer</string>
+    <string name="donate">ajut VLC</string>
+    <string name="donate_desc">Donar suport als voluntaris en la creació de VLC</string>
+    <string name="donate_subscribtion">M\'agradaria que fos un patrocini mensual</string>
+    <string name="donate_send">Inicia el teu patrocini</string>
+    <string name="donation_description">El vostre patrocini ens permetrà: \nMillorar l’aplicació VLC per a Android\nDonar suport a l\'associació VideoLAN</string>
+    <string name="subscription_purchased">Esteu subscrit a un patrocini mensual</string>
+    <string name="subscription_cancel">Podeu donar-vos de baixa a Play Store</string>
+    <string name="subscription_cancel_tv">Com donar-se de baixa</string>
+    <string name="donate_unsubscribe_tv">Per donar-se de baixa, si us plau obriu el %s en un telèfon o ordinador o escanejar aquest codi:</string>
+    <string name="tip_jar">Ajut VLC</string>
+    <string name="thank_you">Gràcies</string>
+    <string name="thank_you_desc">Gràcies pel vostre patrocini! \nIt ens ajudarà molt a millorar VLC!</string>
+    <string name="donate_again">Patrocinen l\'aplicació de nou</string>
 </resources>

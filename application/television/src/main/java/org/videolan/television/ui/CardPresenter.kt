@@ -59,6 +59,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
     private var sDefaultCardImage: Drawable? = VectorDrawableCompat.create(context.resources, R.drawable.ic_default_cone, context.theme)
 
     private val imageDefaultWidth: Float by lazy { context.resources.getDimension(R.dimen.tv_grid_card_thumb_width) }
+    private val seenDrawable: Drawable? by lazy { VectorDrawableCompat.create(context.resources, R.drawable.ic_seen_tv_normal, context.theme) }
 
     init {
         mIsSeenMediaMarkerVisible = Settings.getInstance(context).getBoolean("media_seen", true)
@@ -146,7 +147,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                 if (mIsSeenMediaMarkerVisible
                         && item.type == MediaWrapper.TYPE_VIDEO
                         && item.seen > 0L)
-                    holder.cardView.badgeImage = ContextCompat.getDrawable(context, R.drawable.ic_seen_tv_normal)
+                    holder.cardView.badgeImage = seenDrawable
                 holder.view.setOnLongClickListener { v ->
                     TvUtil.showMediaDetail(v.context, item)
                     true
@@ -199,13 +200,13 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                         if (mediaWrapper.time <= 0) {
                             if (mIsSeenMediaMarkerVisible && item.type == MediaWrapper.TYPE_VIDEO
                                     && item.seen > 0L)
-                                holder.cardView.badgeImage = ContextCompat.getDrawable(context, R.drawable.ic_seen_tv_normal)
+                                holder.cardView.badgeImage = seenDrawable
                         }
                     }
                     UPDATE_SEEN -> {
                         val mw = item as MediaWrapper
                         if (mIsSeenMediaMarkerVisible && mw.type == MediaWrapper.TYPE_VIDEO && mw.seen > 0L)
-                            holder.cardView.badgeImage = ContextCompat.getDrawable(context, R.drawable.ic_seen_tv_normal)
+                            holder.cardView.badgeImage = seenDrawable
                     }
                 }
             }

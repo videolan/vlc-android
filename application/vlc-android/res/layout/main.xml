@@ -65,11 +65,6 @@
             app:layout_insetEdge="bottom"
             app:menu="@menu/bottom_navigation" />
 
-    <androidx.appcompat.widget.ViewStubCompat
-            android:id="@+id/audio_playlist_tips"
-            android:layout="@layout/audio_playlist_tips"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent" />
 
     <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/audio_player_tips"

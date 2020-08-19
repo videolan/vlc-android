@@ -183,7 +183,6 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         menu.findItem(R.id.ml_menu_sortby).isVisible = viewModel.canSortByName()
         menu.findItem(R.id.ml_menu_sortby_filename).isVisible = viewModel.canSortByFileNameName()
         menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = viewModel.canSortByArtist()
-        menu.findItem(R.id.ml_menu_sortby_album_name).isVisible = viewModel.canSortByAlbum()
         menu.findItem(R.id.ml_menu_sortby_length).isVisible = viewModel.canSortByDuration()
         menu.findItem(R.id.ml_menu_sortby_date).isVisible = viewModel.canSortByReleaseDate()
         menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = viewModel.canSortByLastModified()

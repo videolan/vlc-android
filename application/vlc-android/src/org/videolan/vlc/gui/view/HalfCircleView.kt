@@ -52,7 +52,7 @@ class HalfCircleView : View {
         if (!Settings.showTvUi) {
             val cx = if (isLeft) -width else width * 2
             val cy = height / 2
-            canvas?.drawCircle(cx.toFloat(), cy.toFloat(), height.toFloat(), paint)
+            canvas?.drawCircle(cx.toFloat(), cy.toFloat(), width.toFloat()*2, paint)
         }
         super.onDraw(canvas)
     }

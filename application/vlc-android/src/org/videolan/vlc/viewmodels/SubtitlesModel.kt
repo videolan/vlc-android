@@ -5,6 +5,7 @@ import android.net.Uri
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
+import android.util.Log
 import androidx.core.text.HtmlCompat
 import androidx.core.text.toSpanned
 import androidx.databinding.Observable
@@ -163,6 +164,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, va
                 if (isActive) apiResultLiveData.postValue(subs)
                 if (subs.isEmpty()) observableMessage.set(context.getString(R.string.no_result))
             } catch (e: Exception) {
+                Log.e("SubtitlesModel", e.message, e)
                 if (e is NoConnectivityException)
                     observableMessage.set(context.getString(R.string.no_internet_connection))
                 else

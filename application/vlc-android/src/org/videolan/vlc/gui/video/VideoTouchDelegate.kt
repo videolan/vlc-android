@@ -515,11 +515,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 val cx = if (seekForward) container.width * 2 else -container.width
                 val cy = container.height / 2
                 animatorSet = AnimatorSet()
-                val circularReveal = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.width.toFloat() * 2)
-                val backgroundColorAnimator = ObjectAnimator.ofObject(container,
-                        CircularRevealWidget.CircularRevealScrimColorProperty.CIRCULAR_REVEAL_SCRIM_COLOR.name,
-                        ArgbEvaluator(),
-                        Color.TRANSPARENT, ContextCompat.getColor(player, R.color.ripple_white), Color.TRANSPARENT)
+                val backgroundColorAnimator = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.width.toFloat() * 2)
+                backgroundColorAnimator.duration = 750
 
                 val containerBackgroundAnim = ObjectAnimator.ofFloat(containerBackground, "alpha", 0f, 1f)
                 containerBackgroundAnim.duration = 300
@@ -530,7 +527,6 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 val anims: ArrayList<Animator> = arrayListOf(firstImageAnim, secondImageAnim)
                 if (!isTv) {
                     anims.add(backgroundColorAnimator)
-                    anims.add(circularReveal)
                 }
                 if (!seekAnimRunning) {
                     anims.add(containerBackgroundAnim)
@@ -558,7 +554,9 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 player.handler.removeMessages(VideoPlayerActivity.HIDE_SEEK)
                 player.handler.sendEmptyMessageDelayed(VideoPlayerActivity.HIDE_SEEK, SEEK_TIMEOUT)
 
-                container.visibility = View.VISIBLE
+                if (!isTv) {
+                    container.visibility = View.VISIBLE
+                }
                 seekAnimatorSet.start()
             }
             textView.text = sb.toString()

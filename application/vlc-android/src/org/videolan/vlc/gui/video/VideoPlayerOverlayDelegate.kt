@@ -49,19 +49,18 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.AndroidDevices
-import org.videolan.resources.util.getFromMl
 import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -71,6 +70,7 @@ import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_MEDIA
+import org.videolan.vlc.gui.dialogs.VideoTracksDialog
 import org.videolan.vlc.gui.helpers.OnRepeatListener
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
@@ -80,7 +80,6 @@ import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
-import java.lang.Runnable
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -130,14 +129,38 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     lateinit var playlistAdapter: PlaylistAdapter
 
     fun showTracks() {
-        player.showVideoTrack{
-            when (it) {
-                R.id.audio_track_delay -> player.delayDelegate.showAudioDelaySetting()
-                R.id.subtitle_track_delay -> player.delayDelegate.showSubsDelaySetting()
-                R.id.subtitle_track_download -> downloadSubtitles()
-                R.id.subtitle_track_file -> pickSubtitles()
+        player.showVideoTrack(
+                {
+                    when (it) {
+                        R.id.audio_track_delay -> player.delayDelegate.showAudioDelaySetting()
+                        R.id.subtitle_track_delay -> player.delayDelegate.showSubsDelaySetting()
+                        R.id.subtitle_track_download -> downloadSubtitles()
+                        R.id.subtitle_track_file -> pickSubtitles()
+                    }
+                }, { trackID: Int, trackType: VideoTracksDialog.TrackType ->
+            when (trackType) {
+                VideoTracksDialog.TrackType.AUDIO -> {
+                    player.service?.let { service ->
+                        service.setAudioTrack(trackID)
+                        runIO(Runnable {
+                            val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
+                            if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID.toLong())
+                        })
+                    }
+                }
+                VideoTracksDialog.TrackType.SPU -> player.service?.setSpuTrack(trackID)
+                VideoTracksDialog.TrackType.VIDEO -> {
+                    player.service?.let { service ->
+                        player.seek(service.time)
+                        service.setVideoTrack(trackID)
+                        runIO(Runnable {
+                            val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
+                            if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_VIDEOTRACK, trackID.toLong())
+                        })
+                    }
+                }
             }
-        }
+        })
     }
 
     fun showInfo(@StringRes textId: Int, duration: Int) {
@@ -182,6 +205,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * @param brightness the brightness value
      */
     fun showBrightnessBar(brightness: Int) {
+        player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_VOLUME_INFO)
         player.findViewById<ViewStubCompat>(R.id.player_brightness_stub)?.setVisible()
         playerOverlayBrightness = player.findViewById(R.id.player_overlay_brightness)
         brightnessValueText = player.findViewById(R.id.brightness_value_text)
@@ -201,6 +225,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
      * @param volume the volume value
      */
     fun showVolumeBar(volume: Int, fromTouch: Boolean) {
+        player.handler.sendEmptyMessage(VideoPlayerActivity.FADE_OUT_BRIGHTNESS_INFO)
         player.findViewById<ViewStubCompat>(R.id.player_volume_stub)?.setVisible()
         playerOverlayVolume = player.findViewById(R.id.player_overlay_volume)
         volumeValueText = player.findViewById(R.id.volume_value_text)
@@ -364,7 +389,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
                     hudBinding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
                     service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
-                    showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT)
+                    if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT)
                 })
                 service.playlistManager.abRepeatOn.observe(player, Observer {
                     hudBinding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
@@ -392,7 +417,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 updateOrientationIcon()
                 overlayBackground = player.findViewById(R.id.player_overlay_background)
                 if (!AndroidDevices.isChromeBook && !player.isTv
-                        && Settings.getInstance(player).getBoolean("enable_casting", true)) {
+                        && player.settings.getBoolean("enable_casting", true)) {
                     PlaybackService.renderer.observe(player, Observer { rendererItem -> hudRightBinding.videoRenderer.setImageDrawable(AppCompatResources.getDrawable(player, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_player_renderer_on)) })
                     RendererDelegate.renderers.observe(player, Observer<List<RendererItem>> { rendererItems -> updateRendererVisibility() })
                 }
@@ -514,8 +539,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     fun updateHudMargins() {
         //here, we override the default Android overscan
-        val overscanHorizontal = if (player.isTv) 32.dp else 0
-        val overscanVertical = if (player.isTv) player.resources.getDimension(R.dimen.tv_overscan_vertical).toInt() else 0
+        val overscanHorizontal = if (player.isTv) 32.dp else 8.dp
+        val overscanVertical = if (player.isTv) player.resources.getDimension(R.dimen.tv_overscan_vertical).toInt() else 8.dp
         if (::hudBinding.isInitialized) {
             val largeMargin = player.resources.getDimension(R.dimen.large_margins_center)
             val smallMargin = player.resources.getDimension(R.dimen.small_margins_sides)
@@ -539,9 +564,13 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             if (player.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 hudBinding.playerSpaceLeft.setGone()
                 hudBinding.playerSpaceRight.setGone()
+                applyMargin(hudBinding.playerOverlaySeekbar, 0, true)
+                applyMargin(hudBinding.playerOverlaySeekbar, 0, false)
             } else {
                 hudBinding.playerSpaceLeft.setVisible()
                 hudBinding.playerSpaceRight.setVisible()
+                applyMargin(hudBinding.playerOverlaySeekbar, 20.dp, true)
+                applyMargin(hudBinding.playerOverlaySeekbar, 20.dp, false)
             }
         }
         if (::hudRightBinding.isInitialized) {
@@ -700,21 +729,6 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         player.isLocked = false
         showOverlay()
         player.lockBackButton = false
-    }
-
-
-    //SUBTITLES
-    fun selectSubtitles() {
-        player.setESTrackLists()
-        player.service?.let {
-            player.selectTrack(player.subtitleTracksList, it.spuTrack, R.string.track_text,
-                    object : VideoPlayerActivity.TrackSelectedListener {
-                        override fun onTrackSelected(trackID: Int) {
-                            if (trackID < -1 || player.service == null) return
-                            runIO(Runnable { player.setSpuTrack(trackID) })
-                        }
-                    })
-        }
     }
 
     private fun pickSubtitles() {

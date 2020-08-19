@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -15,6 +16,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.TAG_ITEM
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 
 abstract class BaseFragment : Fragment(), ActionMode.Callback {
@@ -48,7 +50,9 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
             swipeRefreshLayout = it
             it.setColorSchemeResources(R.color.orange700)
         }
-        if (hasFAB()) fabPlay = requireActivity().findViewById(R.id.fab)
+        val fab = requireActivity().findViewById<FloatingActionButton?>(R.id.fab)
+        ((fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? FloatingActionButtonBehavior)?.shouldNeverShow = !hasFAB()
+        if (hasFAB()) fabPlay = fab
     }
 
     override fun onStart() {
@@ -83,8 +87,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
 
     open fun setFabPlayVisibility(enable: Boolean) {
         fabPlay?.run {
-            if (enable) show()
-            else hide()
+            if (enable) show() else hide()
         }
     }
 

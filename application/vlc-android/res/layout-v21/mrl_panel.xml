@@ -66,7 +66,7 @@
                         android:layout_marginEnd="16dp"
                         android:contentDescription="@string/play_button"
                         android:scaleType="center"
-                        android:src="@drawable/ic_send"
+                        app:srcCompat="@drawable/ic_send"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         app:layout_constraintBottom_toBottomOf="@+id/mrl_edit"
                         app:layout_constraintEnd_toEndOf="parent"

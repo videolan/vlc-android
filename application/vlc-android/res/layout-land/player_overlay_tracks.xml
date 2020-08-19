@@ -31,60 +31,65 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/player_overlay_tracks"
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-
-        <include
-                android:id="@+id/audio_tracks"
-                layout="@layout/player_overlay_track_item"
-                android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/player_overlay_tracks"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@+id/tracks_separator_2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:orientation="horizontal">
 
-        <View
-                android:id="@+id/tracks_separator_2"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="@color/white_transparent_10"
-                android:focusable="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/subtitle_tracks"
-                app:layout_constraintStart_toEndOf="@+id/audio_tracks"
-                app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-                android:id="@+id/subtitle_tracks"
-                layout="@layout/player_overlay_track_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@+id/tracks_separator_3"
-                app:layout_constraintStart_toEndOf="@+id/tracks_separator_2"
-                app:layout_constraintTop_toTopOf="parent" />
+            <include
+                    android:id="@+id/audio_tracks"
+                    layout="@layout/player_overlay_track_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/tracks_separator_2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-                android:id="@+id/tracks_separator_3"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="@color/white_transparent_10"
-                android:focusable="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/video_tracks"
-                app:layout_constraintStart_toEndOf="@+id/subtitle_tracks"
-                app:layout_constraintTop_toTopOf="parent" />
+            <View
+                    android:id="@+id/tracks_separator_2"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="@color/white_transparent_10"
+                    android:focusable="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/subtitle_tracks"
+                    app:layout_constraintStart_toEndOf="@+id/audio_tracks"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-                android:id="@+id/video_tracks"
-                layout="@layout/player_overlay_track_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tracks_separator_3"
-                app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <include
+                    android:id="@+id/subtitle_tracks"
+                    layout="@layout/player_overlay_track_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@+id/tracks_separator_3"
+                    app:layout_constraintStart_toEndOf="@+id/tracks_separator_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                    android:id="@+id/tracks_separator_3"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="@color/white_transparent_10"
+                    android:focusable="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/video_tracks"
+                    app:layout_constraintStart_toEndOf="@+id/subtitle_tracks"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                    android:id="@+id/video_tracks"
+                    layout="@layout/player_overlay_track_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tracks_separator_3"
+                    app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

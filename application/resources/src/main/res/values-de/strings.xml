@@ -718,4 +718,17 @@
     <string name="sub_result_by_name_episode">Episode %s</string>
 
     <string name="sub_result_by_file">Ergebnis für Ihre Datei</string>
+    <string name="donate">VLC helfen</string>
+    <string name="donate_desc">Die Freiwilligen unterstützen, die VLC entwickeln</string>
+    <string name="donate_subscribtion">Ich möchte, dass dies eine monatliche Unterstützung ist</string>
+    <string name="donate_send">Ihre Unterstützung starten</string>
+    <string name="donation_description">Ihre Unterstützung ermöglicht es uns:\ndie VLC-App für Android zu verbessern\ndie VideoLAN Association zu unterstützen</string>
+    <string name="subscription_purchased">Sie haben eine monatliche Unterstützung abonniert</string>
+    <string name="subscription_cancel">Sie können die Unterstützung im PlayStore beenden</string>
+    <string name="subscription_cancel_tv">Wie wird die Unterstützung beendet</string>
+    <string name="donate_unsubscribe_tv">Zum Beenden, bitte %s auf einem Computer oder Handy öffnen und diesen Code scannen:</string>
+    <string name="tip_jar">VLC helfen</string>
+    <string name="thank_you">Vielen Dank</string>
+    <string name="thank_you_desc">Danke für Ihre Unterstützung!\nDies wird uns bei der Verbesserung von VLC helfen.</string>
+    <string name="donate_again">Die App nochmals unterstützen</string>
 </resources>

@@ -320,7 +320,7 @@
                 android:paddingEnd="8dp"
                 android:progressDrawable="@drawable/po_seekbar"
                 android:splitTrack="false"
-                android:thumb="@drawable/ic_seekbar_thumb"
+                android:thumb="@drawable/ic_seekbar_thumb_audio"
                 app:layout_constraintStart_toStartOf="parent" />
 
         <TextView

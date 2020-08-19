@@ -718,4 +718,17 @@
     <string name="sub_result_by_name_episode">Episod %s</string>
 
     <string name="sub_result_by_file">Resultat för din fil</string>
+    <string name="donate">Hjälp VLC</string>
+    <string name="donate_desc">Stöd volontärerna som bygger VLC</string>
+    <string name="donate_subscribtion">Jag vill att detta ska vara en månadssponsring</string>
+    <string name="donate_send">Inled din sponsring</string>
+    <string name="donation_description">Din sponsring låter oss att:\nFörbättra VLC-appen för Android\nStödja VideoLAN-associationen</string>
+    <string name="subscription_purchased">Du prenumererar på en månadssponsring</string>
+    <string name="subscription_cancel">Du kan avsluta din prenumeration på Play Butik</string>
+    <string name="subscription_cancel_tv">Hur man avslutar prenumerationen</string>
+    <string name="donate_unsubscribe_tv">Öppna %s på en telefon eller dator eller skanna denna kod för att avsluta prenumerationen:</string>
+    <string name="tip_jar">Hjälp VLC</string>
+    <string name="thank_you">Tack</string>
+    <string name="thank_you_desc">Tack för din sponsring!/nDen kommer hjälpa oss att förbättra VLC!</string>
+    <string name="donate_again">Sponsra appen igen</string>
 </resources>

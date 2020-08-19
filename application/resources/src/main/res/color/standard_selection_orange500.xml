@@ -26,5 +26,6 @@
     <item android:state_selected="true" android:color="@color/orange300" />
     <item android:state_pressed="true" android:color="@color/orange300" />
     <item android:state_focused="true" android:color="@color/orange300" />
+    <item android:state_enabled="false" android:color="@color/grey700" />
     <item android:color="@color/orange500" />
 </selector>

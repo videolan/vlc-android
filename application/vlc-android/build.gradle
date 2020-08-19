@@ -153,6 +153,8 @@ dependencies {
     api project(':application:resources')
     api project(':application:mediadb')
     api project(':application:live-plot-graph')
+    api project(':application:donations')
+
 
     // AppCompat
     api "androidx.activity:activity-ktx:$rootProject.ext.androidxActivityVersion"
@@ -181,6 +183,8 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
+
+    implementation 'nl.dionsegijn:konfetti:1.2.2'
 
     // Tests
     androidTestApi "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
