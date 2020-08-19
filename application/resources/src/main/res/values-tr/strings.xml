@@ -718,4 +718,17 @@
     <string name="sub_result_by_name_episode">%s. bölüm</string>
 
     <string name="sub_result_by_file">Dosyanızın sonuçları</string>
+    <string name="donate">VLC projesine destek olun</string>
+    <string name="donate_desc">VLC projesindeki gönüllüleri destekleyin</string>
+    <string name="donate_subscribtion">Aylık destek olmak istiyorum</string>
+    <string name="donate_send">Desteğinizi başlatın</string>
+    <string name="donation_description">Desteğiniz sayesinde:\nAndroid için VLC uygulaması geliştirilecek\nVideoLAN kuruluşu desteklenecek</string>
+    <string name="subscription_purchased">Aylık destek abonesi oldunuz</string>
+    <string name="subscription_cancel">Aboneliğinizi Play Store üzerinden sona erdirebilirsiniz</string>
+    <string name="subscription_cancel_tv">Aboneliğimi nasıl sona erdirebilirim</string>
+    <string name="donate_unsubscribe_tv">Aboneliğinizi sona erdirmek için bir telefon ya da bilgisayar üzerinde %s uygulamasını açtıktan sonra şu kodu tarayın:</string>
+    <string name="tip_jar">VLC Projesini Destekleyin</string>
+    <string name="thank_you">Teşekkürler</string>
+    <string name="thank_you_desc">Desteğiniz için teşekkürler!\nVLC uygulamasının geliştirilmesine çok yardımınız olacak!</string>
+    <string name="donate_again">Uygulamaya yeniden destek olun</string>
 </resources>
