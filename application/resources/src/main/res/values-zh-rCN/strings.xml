@@ -403,6 +403,8 @@
 
     <string name="no_result">未找到结果</string>
     <string name="no_internet_connection">请检查网络连接</string>
+    <string name="subs_download_error">服务不可用，请稍后再试</string>
+
     <string name="network_browsing">本地网络</string>
     <string name="browsing">浏览</string>
 
@@ -700,4 +702,22 @@
 
     <string name="swipe_unlock">滑动解锁</string>
     <string name="swipe_unlock_no_touch">长按解锁</string>
+    <string name="sub_result_by_name">结果为%s</string>
+    <string name="sub_result_by_name_season">第%s季</string>
+    <string name="sub_result_by_name_episode">第%s集</string>
+
+    <string name="sub_result_by_file">文件结果</string>
+    <string name="donate">帮助 VLC</string>
+    <string name="donate_desc">支持志愿者建立VLC</string>
+    <string name="donate_subscribtion">我希望这是每月的赞助</string>
+    <string name="donate_send">开始赞助</string>
+    <string name="donation_description">您的赞助将使我们能够：\n改进适用于Android的VLC应用程序\n支持VideoLAN协会</string>
+    <string name="subscription_purchased">您已订阅每月赞助</string>
+    <string name="subscription_cancel">您可以在Play商店中退订</string>
+    <string name="subscription_cancel_tv">如何退订</string>
+    <string name="donate_unsubscribe_tv">要取消订阅，请在手机或计算机上打开%s或扫描以下代码：</string>
+    <string name="tip_jar">帮助 VLC</string>
+    <string name="thank_you">感谢</string>
+    <string name="thank_you_desc">感谢您的赞助！\n这将帮助我们大大改善VLC！</string>
+    <string name="donate_again">再次赞助该应用</string>
 </resources>
