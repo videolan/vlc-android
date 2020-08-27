@@ -692,4 +692,19 @@
     <string name="group_similar">Ail-grwpio yn awtomatig</string>
     <string name="no_favorite">Dim ffefrynnau</string>
     <string name="empty_directory">Gwag</string>
+    <string name="sub_result_by_name">Canlyniadau ar gyfer %s</string>
+    <string name="sub_result_by_name_season">Cyfres %s</string>
+    <string name="sub_result_by_name_episode">Pennod %s</string>
+
+    <string name="sub_result_by_file">Canlyniadau ar gyfer dy ffeil</string>
+    <string name="donate">Helpu VLC</string>
+    <string name="donate_desc">Cefnogi\'r gwirfoddolwyr sy\'n adeiladu VLC</string>
+    <string name="donate_subscribtion">Hoffwn i hyn fod yn danysgrifiad misol</string>
+    <string name="donate_send">Dechrau dy nawdd</string>
+    <string name="donation_description">Bydd dy nawd yn ain caniatáu i:\nWella ap VLC ar gyfer Android\nGefnogi Cymdeithas VideoLAN </string>
+    <string name="subscription_purchased">Rwyt wedi tanysgrifio i nawdd misol</string>
+    <string name="tip_jar">Helpu VLC</string>
+    <string name="thank_you">Diolch yn fawr</string>
+    <string name="thank_you_desc">Diolch yn fawr am dy nawdd!\nMi fydd yn ein helpu\'n fawr i wella VLC!</string>
+    <string name="donate_again">Noddi\'r ap eto</string>
 </resources>
