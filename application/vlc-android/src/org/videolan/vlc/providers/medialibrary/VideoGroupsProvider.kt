@@ -28,5 +28,5 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
 }
 
 private fun Array<VideoGroup>.extractSingles() = map {
-    if (it.mediaCount() == 1) it.media(Medialibrary.SORT_DEFAULT, false, 1, 0)[0] else it
+    if (it.mediaCount() == 1) it.media(Medialibrary.SORT_DEFAULT, false, 1, 0).getOrNull(0) ?: it else it
 }.toTypedArray()
