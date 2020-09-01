@@ -195,7 +195,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         if (provider.loading.hasObservers()) return
         provider.pagedList.observe(viewLifecycleOwner, Observer { items ->
             @Suppress("UNCHECKED_CAST")
-            if (items != null) adapters[index].submitList(items as PagedList<MediaLibraryItem>?)
+            if (items != null) adapters.getOrNull(index)?.submitList(items as PagedList<MediaLibraryItem>?)
             updateEmptyView()
             restorePositions.get(index)?.let {
                 lists[index].scrollToPosition(it)
