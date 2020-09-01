@@ -2005,7 +2005,11 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     }
                 }
                 val interactive = service?.mediaplayer?.let {
-                    (it.titles[it.title])?.isInteractive ?: false
+                    try {
+                        (it.titles[it.title])?.isInteractive ?: false
+                    } catch (e: NullPointerException) {
+                        false
+                    }
                 } ?: false
                 isNavMenu = menuIdx == currentIdx || interactive
             }
