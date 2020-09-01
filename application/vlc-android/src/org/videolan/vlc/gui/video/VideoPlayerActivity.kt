@@ -876,6 +876,9 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             delayDelegate.endPlaybackSetting()
         } else if (isTv && isShowing && !isLocked) {
             overlayDelegate.hideOverlay(true)
+        } else if (isShowing && service?.playlistManager?.videoStatsOn?.value == true) {
+            //hides video stats if they are displayed
+            service?.playlistManager?.videoStatsOn?.postValue(false)
         } else {
             exitOK()
             super.onBackPressed()
