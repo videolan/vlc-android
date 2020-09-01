@@ -50,7 +50,7 @@ public class Extensions {
         final String[] subtitlesExtensions = {
                 ".idx", ".sub",  ".srt", ".ssa", ".ass",  ".smi", ".utf", ".utf8", ".utf-8",
                 ".rt",   ".aqt", ".txt", ".usf", ".jss",  ".cdg", ".psb", ".mpsub",".mpl2",
-                ".pjs", ".dks", ".stl", ".vtt", ".ttml" };
+                ".pjs", ".dks", ".stl", ".vtt", ".ttml", ".mks" };
 
         final String[] playlistExtensions = {".m3u", ".asx",  ".b4s",  ".pls", ".xspf"/*,  ".zip"*/};
 
