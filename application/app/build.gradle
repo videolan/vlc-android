@@ -22,6 +22,12 @@ android {
         exclude '**/*.txt'
     }
 
+    task luaModuleCopy(type: Copy) {
+        from '../../vlc/share/lua/modules'
+        into 'src/main/assets/lua/modules'
+        exclude '**/*.txt'
+    }
+
     task luaMetaCopy(type: Copy) {
         from '../../vlc/share/lua/meta'
         into 'src/main/assets/lua/meta'
@@ -64,6 +70,7 @@ android {
                 task.dependsOn hrtfsCopy
                 task.dependsOn luaPlaylistCopy
                 task.dependsOn luaMetaCopy
+                task.dependsOn luaModuleCopy
             }
         }
     }
