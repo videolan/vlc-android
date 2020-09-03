@@ -688,7 +688,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         previousMediaPath = null
         addedExternalSubs.clear()
         medialibrary.resumeBackgroundOperations()
-        service?.playlistManager?.videoStatsOn?.postValue(false)
     }
 
     private fun saveBrightness() {
