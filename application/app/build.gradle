@@ -11,29 +11,6 @@ android {
         pickFirst 'lib/x86_64/libc++_shared.so'
     }
 
-    task hrtfsCopy(type: Copy) {
-        from '../../vlc/share/hrtfs'
-        into 'src/main/assets/hrtfs'
-    }
-
-    task luaPlaylistCopy(type: Copy) {
-        from '../../vlc/share/lua/playlist'
-        into 'src/main/assets/lua/playlist'
-        exclude '**/*.txt'
-    }
-
-    task luaModuleCopy(type: Copy) {
-        from '../../vlc/share/lua/modules'
-        into 'src/main/assets/lua/modules'
-        exclude '**/*.txt'
-    }
-
-    task luaMetaCopy(type: Copy) {
-        from '../../vlc/share/lua/meta'
-        into 'src/main/assets/lua/meta'
-        exclude '**/*.txt'
-    }
-
     dexOptions {
         maxProcessCount 8
         javaMaxHeapSize "4g"
@@ -64,15 +41,6 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        tasks.whenTaskAdded { task ->
-            if (task.name.startsWith('merge')) {
-                task.dependsOn hrtfsCopy
-                task.dependsOn luaPlaylistCopy
-                task.dependsOn luaMetaCopy
-                task.dependsOn luaModuleCopy
-            }
-        }
     }
 
     signingConfigs {

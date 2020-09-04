@@ -18,6 +18,15 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
         resValue "string", "build_vlc_revision", vlcRevision()
+        tasks.whenTaskAdded { task ->
+            if (task.name.startsWith('merge')) {
+                task.dependsOn hrtfsCopy
+                task.dependsOn luaPlaylistCopy
+                task.dependsOn luaMetaCopy
+                task.dependsOn luaModuleCopy
+            }
+        }
+
     }
 
     sourceSets {
@@ -54,6 +63,30 @@ android {
                 output.outputFileName = "libvlc-${abi}-${library_version}.aar"
             }
         }
+    }
+
+    task hrtfsCopy(type: Copy) {
+        project.logger.lifecycle('hrtfsCopy')
+        from '../vlc/share/hrtfs'
+        into 'assets/hrtfs'
+    }
+
+    task luaPlaylistCopy(type: Copy) {
+        from '../vlc/share/lua/playlist'
+        into 'assets/lua/playlist'
+        exclude '**/*.txt'
+    }
+
+    task luaModuleCopy(type: Copy) {
+        from '../vlc/share/lua/modules'
+        into 'assets/lua/modules'
+        exclude '**/*.txt'
+    }
+
+    task luaMetaCopy(type: Copy) {
+        from '../vlc/share/lua/meta'
+        into 'assets/lua/meta'
+        exclude '**/*.txt'
     }
 }
 
