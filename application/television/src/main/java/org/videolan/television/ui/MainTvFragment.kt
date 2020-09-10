@@ -53,6 +53,7 @@ import org.videolan.television.viewmodel.MainTvModel.Companion.getMainTvModel
 import org.videolan.vlc.donations.BillingStatus
 import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
+import org.videolan.vlc.gui.video.VideoPlayerActivity
 
 private const val TAG = "VLC/MainTvFragment"
 
@@ -322,6 +323,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             HEADER_NOW_PLAYING -> {
                 if ((item as DummyItem).id == CATEGORY_NOW_PLAYING) { //NOW PLAYING CARD
                     activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
+                } else if (item.id == CATEGORY_NOW_PLAYING_PIP) { //NOW PLAYING CARD in PiP Mode
+                    activity.startActivity(Intent(activity, VideoPlayerActivity::class.java))
                 }
             }
             else -> {
