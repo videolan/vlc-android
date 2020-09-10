@@ -130,6 +130,7 @@ const val CATEGORY_ALBUMS = 22L
 const val CATEGORY_GENRES = 23L
 const val CATEGORY_SONGS = 24L
 const val CATEGORY_VIDEOS = 25L
+const val CATEGORY_NOW_PLAYING_PIP = 26L
 
 const val CATEGORY = "category"
 const val ITEM = "item"
