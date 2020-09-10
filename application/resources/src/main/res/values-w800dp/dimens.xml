@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_content_width">800dp</dimen>
-    <dimen name="file_picker_width">720dp</dimen>
+    <dimen name="file_picker_width">600dp</dimen>
 </resources>

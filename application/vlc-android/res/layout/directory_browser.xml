@@ -39,7 +39,7 @@
 
         <org.videolan.vlc.gui.view.SwipeRefreshLayout
                 android:id="@+id/swipeLayout"
-                android:layout_width="@dimen/default_content_width"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHeight_default="spread"
@@ -53,6 +53,7 @@
                     android:layout_height="match_parent"
                     android:background="?attr/background_default"
                     android:visibility="gone"
+                    android:clipToPadding="false"
                     android:paddingBottom="64dp"/>
         </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
