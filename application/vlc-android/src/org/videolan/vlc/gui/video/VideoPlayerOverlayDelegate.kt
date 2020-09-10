@@ -392,6 +392,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT)
                 })
                 service.playlistManager.abRepeatOn.observe(player, Observer {
+                    abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
                     hudBinding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
                     if (it) showOverlay(true)
                     if (it) {
