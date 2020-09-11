@@ -318,6 +318,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 skipMedia()
                 return
             }
+            //PiP TV
+            if (AndroidDevices.isTv && isVideoPlaying) {
+                VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
+            }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = "$uri#$title".toUri()
             val start = getStartTime(mw)
