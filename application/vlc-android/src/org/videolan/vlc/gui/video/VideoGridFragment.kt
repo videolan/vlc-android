@@ -433,12 +433,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_REMOVE_GROUP -> viewModel.removeFromGroup(media)
                 CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media))
                 CTX_GROUP_SIMILAR -> lifecycleScope.launch { viewModel.groupSimilar(media) }
-
+                CTX_MARK_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
             }
             is Folder -> when (option) {
                 CTX_PLAY -> viewModel.play(position)
                 CTX_APPEND -> viewModel.append(position)
                 CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
+                CTX_MARK_ALL_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
             }
             is VideoGroup -> when (option) {
                 CTX_PLAY_ALL -> viewModel.play(position)
@@ -447,6 +448,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
                 CTX_RENAME_GROUP -> renameGroup(media)
                 CTX_UNGROUP -> viewModel.ungroup(media)
+                CTX_MARK_ALL_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
             }
         }
     }

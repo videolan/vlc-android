@@ -205,6 +205,19 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
     suspend fun groupSimilar(media: MediaWrapper) = withContext(Dispatchers.IO) {
         medialibrary.regroup(media.id)
     }
+
+    suspend fun markAsPlayed(media: MediaLibraryItem) = withContext(Dispatchers.IO) {
+        when (media) {
+            is VideoGroup -> media.getAll().forEach {
+                it.setLongMeta(MediaWrapper.META_SEEN, it.seen + 1)
+            }
+            is Folder -> media.getAll().forEach {
+                it.setLongMeta(MediaWrapper.META_SEEN, it.seen + 1)
+            }
+            is MediaWrapper -> media.setLongMeta(MediaWrapper.META_SEEN, media.seen + 1)
+            else -> {}
+        }
+    }
 }
 
 enum class VideoGroupingType {
