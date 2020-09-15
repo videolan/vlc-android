@@ -453,24 +453,14 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RENAME_DIALOG_REQUEST_CODE) {
-            data?.let {
-
-                val media = it.getParcelableExtra<VideoGroup>(RENAME_DIALOG_MEDIA)
-                val newName = it.getStringExtra(RENAME_DIALOG_NEW_NAME)
-                viewModel.renameGroup(media, newName)
-                (activity as? AppCompatActivity)?.run {
-                    supportActionBar?.title = newName
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     private fun renameGroup(media: VideoGroup) {
         val dialog = RenameDialog.newInstance(media)
-        dialog.setTargetFragment(this, RENAME_DIALOG_REQUEST_CODE)
+        dialog.setListener { media, name ->
+            viewModel.renameGroup(media as VideoGroup, name)
+                (activity as? AppCompatActivity)?.run {
+                    supportActionBar?.title = name
+                }
+        }
         dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
     }
 

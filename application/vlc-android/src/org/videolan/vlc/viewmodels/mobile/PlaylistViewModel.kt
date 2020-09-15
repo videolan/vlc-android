@@ -24,9 +24,12 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.Album
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.PlaylistActivity
@@ -54,6 +57,11 @@ class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : Medi
             @Suppress("UNCHECKED_CAST")
             return PlaylistViewModel(context.applicationContext, playlist) as T
         }
+    }
+
+    suspend fun rename(media: MediaWrapper, name:String) {
+        withContext(Dispatchers.IO) { (media as? MediaWrapper)?.rename(name) }
+        refresh()
     }
 }
 
