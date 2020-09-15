@@ -277,7 +277,7 @@
     <string name="enable_double_tap_seek_summary">Ketik dua kali pada pinggir skrin untuk menjangkau sebanyak 10 saat</string>
     <string name="popup_keepscreen_title">Kekalkan skrin HIDUP dalam mod Timbul</string>
     <string name="popup_keepscreen_summary">Sentiasa kekalkan skrin HIDUP ketika Kotak Timbul dipaparkan, walaupun ketika video dijeda.</string>
-    <string name="browser_show_hidden_files_title">Tunjukk fail tersembunyi</string>
+    <string name="browser_show_hidden_files_title">Tunjuk fail tersembunyi</string>
 
     <string name="subtitles_prefs_category">Sarikata</string>
     <string name="subtitles_size_title">Saiz Sarikata</string>
@@ -319,14 +319,14 @@
     <string name="casting_category">Casting</string>
     <string name="casting_switch_title">Penyiaran tanpa wayar</string>
     <string name="casting_passthrough_title">Passthrough Audio</string>
-    <string name="casting_passthrough_summary">Biarkan TV anda mengurus penerapan audio</string>
+    <string name="casting_passthrough_summary">Biarkan TV anda mengurus pengemasgabungan audio</string>
     <string name="casting_conversion_quality_title">Kualiti penukaran</string>
     <string name="casting_conversion_quality_summary">Pilih kualiti penukaran ketika casting pada skrin jauh</string>
     <string name="casting_quality_high">Tinggi</string>
     <string name="casting_quality_medium">Sederhana</string>
     <string name="casting_quality_low">Rendah</string>
     <string name="casting_quality_lowcpu">Paling Rendah</string>
-    <string name="casting_connected_renderer">Bersambung dengan penerap \'%1$s\'</string>
+    <string name="casting_connected_renderer">Bersambung dengan pengemas gabung \'%1$s\'</string>
     <string name="artists_show_all_title">Tunjuk semua artis</string>
 
     <string name="extensions_prefs_category">Sambungan</string>
@@ -720,4 +720,5 @@
     <string name="thank_you">Terima kasih</string>
     <string name="thank_you_desc">Terima kasih atas penajaan anda!\nIa dapat bantu kami menambah baik VLC!</string>
     <string name="donate_again">Taja apl sekali lagi</string>
+
 </resources>
