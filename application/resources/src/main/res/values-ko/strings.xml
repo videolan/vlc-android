@@ -403,6 +403,8 @@
 
     <string name="no_result">검색된 결과가 없습니다</string>
     <string name="no_internet_connection">인터넷 연결 상태를 확인하세요</string>
+    <string name="subs_download_error">현재 서비스를 이용할 수 없습니다. 다시 시도해주세요</string>
+
     <string name="network_browsing">로컬 네트워크</string>
     <string name="browsing">찾는 중</string>
 
@@ -700,4 +702,22 @@
 
     <string name="swipe_unlock">밀어서 잠금 해제하세요</string>
     <string name="swipe_unlock_no_touch">길게 눌러서 잠금 해제하세요</string>
+    <string name="sub_result_by_name">%s에 대한 결과</string>
+    <string name="sub_result_by_name_season">시즌 %s</string>
+    <string name="sub_result_by_name_episode">에피소드 %s</string>
+
+    <string name="sub_result_by_file">파일에 대한 결과</string>
+    <string name="donate">VLC에 도움 주기</string>
+    <string name="donate_desc">VLC 개발 자원자들을 지원하기</string>
+    <string name="donate_send">당신의 후원을 시작하세요</string>
+    <string name="donation_description">당신의 후원은 우리가:\nAndroid VLC 앱을 개선하고\nVideoLAN Association을 지원에 도움을 줄 것입니다</string>
+    <string name="subscription_purchased">월간 구독에 가입되어 있습니다</string>
+    <string name="subscription_cancel">Play Store에서 구독을 중단할 수 있습니다</string>
+    <string name="subscription_cancel_tv">구독을 중단하는 방법</string>
+    <string name="donate_unsubscribe_tv">구독을 중단하려면, %s을 휴대전화나 컴퓨터에서 여시거나 다음 코드를 스캔하세요:</string>
+    <string name="tip_jar">VLC에 도움 주기</string>
+    <string name="thank_you">감사합니다</string>
+    <string name="thank_you_desc">구독해주셔서 감사합니다!\nVLC를 개선하는 데에 많은 도움이 될 것입니다!</string>
+    <string name="donate_again">앱 다시 후원하기</string>
+
 </resources>
