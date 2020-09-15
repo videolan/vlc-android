@@ -731,4 +731,8 @@
     <string name="thank_you">Gràtzias</string>
     <string name="thank_you_desc">Ti torramus gràtzias pro s\'isponsorizatzione tua!\nNos at a a agiudare meda a megiorare VLC!</string>
     <string name="donate_again">Isponsoriza torra s\'aplicatzione</string>
+
+    <string name="mark_as_played">Marca comente riproduidu</string>
+    <string name="mark_all_as_played">Marca totu comente riproduidu</string>
+
 </resources>
