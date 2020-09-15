@@ -731,4 +731,8 @@
     <string name="thank_you">Tack</string>
     <string name="thank_you_desc">Tack för din sponsring!/nDen kommer hjälpa oss att förbättra VLC!</string>
     <string name="donate_again">Sponsra appen igen</string>
+
+    <string name="mark_as_played">Markera som uppspelad</string>
+    <string name="mark_all_as_played">Markera alla som uppspelade</string>
+
 </resources>
