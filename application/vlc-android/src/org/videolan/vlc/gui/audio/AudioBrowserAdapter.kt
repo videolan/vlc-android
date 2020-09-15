@@ -361,7 +361,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(
                     oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem): Boolean {
                 return if (preventNextAnim) {
                     true
-                } else oldMedia === newMedia || oldMedia.itemType == newMedia.itemType && oldMedia.tracksCount == newMedia.tracksCount && oldMedia.equals(newMedia)
+                } else oldMedia === newMedia || oldMedia.title == newMedia.title && oldMedia.itemType == newMedia.itemType && oldMedia.tracksCount == newMedia.tracksCount && oldMedia.equals(newMedia)
             }
 
             override fun areContentsTheSame(

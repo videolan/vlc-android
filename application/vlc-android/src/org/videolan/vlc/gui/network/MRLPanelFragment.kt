@@ -22,7 +22,6 @@ package org.videolan.vlc.gui.network
 
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.KeyEvent
@@ -32,13 +31,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,16 +43,12 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.Settings
 import org.videolan.tools.isValidUrl
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.MainActivity
-import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
-import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
-import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_REQUEST_CODE
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.viewmodels.StreamsModel
@@ -123,18 +116,6 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
             val text = clipBoardManager?.primaryClip?.getItemAt(0)?.text?.toString()
             if (text.isValidUrl()) viewModel.observableSearchText.set(text)
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RENAME_DIALOG_REQUEST_CODE) {
-            data?.let {
-
-                val media = it.getParcelableExtra<MediaWrapper>(RENAME_DIALOG_MEDIA)
-                val newName = it.getStringExtra(RENAME_DIALOG_NEW_NAME)
-                viewModel.rename(media, newName)
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onStart() {
