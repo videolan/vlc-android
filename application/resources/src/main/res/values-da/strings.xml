@@ -189,6 +189,8 @@
     <string name="playback_history_title">Afspilningshistorik</string>
     <string name="playback_history_summary">Gem alle afspillede medier i Historik</string>
     <string name="playback_speed_title">Gem afspilningshastighed</string>
+    <string name="playback_speed_summary">Bevar afspilningshastighed mellem medier</string>
+
     <string name="play_button">Afspil-knap</string>
 
     <!-- Tips -->
@@ -264,6 +266,8 @@
     <string name="media_seen_summary">Mærk en video som set når du afspiller den til slutningen</string>
     <string name="force_play_all_summary">Afspil alle videoer, startende med den du klikkede på</string>
     <string name="force_play_all_title">Videospilleliste-tilstand</string>
+    <string name="save_brightness_summary">Bevar lysstyrke mellem medier</string>
+    <string name="save_brightness_title">Gem niveau for lysstyrke</string>
     <string name="save_audiodelay_summary">Gem individuel lydforsinkelse for hver video</string>
     <string name="save_audiodelay_title">Gem lydforsinkelse</string>
     <string name="enable_brightness_gesture_title">Lysstyrke-gestus</string>
@@ -312,6 +316,7 @@
     <string name="enable_play_on_headset_insertion">Genoptag ved indsættelse af hovedtelefoner</string>
     <string name="enable_play_on_headset_insertion_summary">Ellers sæt på pause</string>
     <string name="aout">Lydoutput</string>
+    <string name="aout_summary">Skift metoden som VLC anvender til at udsende lyd med</string>
     <string name="audio_ducking_title">Lavere VLC-lydstyrke ved notifikationer</string>
     <string name="audio_ducking_summary">Hjælper med at høre lydnotifikationer, navigationsinstruktioner eller assisterende tale</string>
     <string name="casting_category">Udsendelse</string>
@@ -682,4 +687,7 @@
     <string name="more">Mere</string>
     <string name="favorites">Favoritter</string>
     <string name="new_stream">Ny stream</string>
+    <string name="empty_directory">Tom</string>
+    <string name="no_track">Ingen spor</string>
+
 </resources>
