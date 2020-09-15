@@ -753,4 +753,8 @@
     <string name="thank_you">Dziękujemy</string>
     <string name="thank_you_desc">Dziękujemy za wsparcie!\nPomoże nam to w ulepszaniu VLC!</string>
     <string name="donate_again">Ponownie zasponsoruj aplikację</string>
+
+    <string name="mark_as_played">Oznacz jako odtwarzany</string>
+    <string name="mark_all_as_played">Oznacz wszystkie jako odtwarzane</string>
+
 </resources>
