@@ -731,4 +731,8 @@
     <string name="thank_you">Vielen Dank</string>
     <string name="thank_you_desc">Danke für Ihre Unterstützung!\nDies wird uns bei der Verbesserung von VLC helfen.</string>
     <string name="donate_again">Die App nochmals unterstützen</string>
+
+    <string name="mark_as_played">Als gespielt markieren</string>
+    <string name="mark_all_as_played">Alle als gespielt markieren</string>
+
 </resources>
