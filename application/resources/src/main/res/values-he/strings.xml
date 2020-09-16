@@ -753,4 +753,8 @@
     <string name="thank_you">תודה רבה לך</string>
     <string name="thank_you_desc">תודה על המימון\nהוא יסייע לנו מאוד בשיפור VLC!</string>
     <string name="donate_again">לממן את היישומון שוב</string>
+
+    <string name="mark_as_played">לסמן כהתנגן</string>
+    <string name="mark_all_as_played">לסמן הכול כהתנגן</string>
+
 </resources>
