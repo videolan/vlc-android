@@ -730,4 +730,8 @@
     <string name="thank_you">Gracias a ti</string>
     <string name="thank_you_desc">¡Gracias por tu patrocinio!\n¡Nos ayudará mucho a mejorar VLC!</string>
     <string name="donate_again">Patrocinar la app nuevamente</string>
+
+    <string name="mark_as_played">Marcar como visto</string>
+    <string name="mark_all_as_played">Marcar todo como visto</string>
+
 </resources>
