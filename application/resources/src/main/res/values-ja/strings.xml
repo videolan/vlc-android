@@ -720,4 +720,8 @@
     <string name="thank_you">ありがとうございます</string>
     <string name="thank_you_desc">支援の申し込みありがとうございます!\nVLCの改善に役立てさせて頂きます</string>
     <string name="donate_again">アプリの支援を再開</string>
+
+    <string name="mark_as_played">再生済みとしてマーク</string>
+    <string name="mark_all_as_played">すべてを再生済みとしてマーク</string>
+
 </resources>
