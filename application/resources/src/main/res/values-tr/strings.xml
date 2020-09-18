@@ -731,4 +731,8 @@
     <string name="thank_you">Teşekkürler</string>
     <string name="thank_you_desc">Desteğiniz için teşekkürler!\nVLC uygulamasının geliştirilmesine çok yardımınız olacak!</string>
     <string name="donate_again">Uygulamaya yeniden destek olun</string>
+
+    <string name="mark_as_played">Oynatılmış olarak işaretle</string>
+    <string name="mark_all_as_played">Tümünü oynatılmış olarak işaretle</string>
+
 </resources>
