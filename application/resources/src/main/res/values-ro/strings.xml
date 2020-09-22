@@ -379,6 +379,7 @@
     <string name="set_locale">Stabiliţi localizarea</string>
     <string name="network_caching">Valoarea cache-ului rețelei</string>
     <string name="resume_playback_title">Reluați redarea după un apel telefonic</string>
+    <string name="resume_playback_summary">Rămâi pe pauză în caz contrar</string>
     <string name="blurred_cover_background_title">Copertă neclară în fundal</string>
     <string name="blurred_cover_background_summary">Coperta neclară în fundalul playerului audio</string>
     <string name="network_caching_popup">Valoarea trebuie să fie cuprinsă între 0 și 6000 ms</string>
@@ -417,6 +418,8 @@
 
     <string name="no_result">Nici un rezultat găsit</string>
     <string name="no_internet_connection">Verificați conexiunea la internet</string>
+    <string name="subs_download_error">Serviciul este indisponibil. Te rog încearcă mai târziu.</string>
+
     <string name="network_browsing">Rețea locală</string>
     <string name="browsing">Răsfoire</string>
 
@@ -424,12 +427,14 @@
 
     <string name="audio_delay">Întârziere audio</string>
     <string name="spu_delay">Întârzierea subtitrării</string>
+    <string name="network_shares_discovery">Caut rețele partajate</string>
     <string name="network_empty">Acest director este gol.</string>
     <string name="network_connection_needed">Nu există nicio conexiune la rețeaua locală.</string>
     <string name="search_hint">Cautare media</string>
     <string name="search_in_list_hint">Căutare în lista curentă</string>
     <string name="search_global">Caută în toate bibliotecile media</string>
     <string name="playlist_save">Salvare Playlist</string>
+    <string name="playlist_name_hint">Numele listei de redare</string>
     <string name="go_to_chapter">Dute la capitolul…</string>
     <string name="chapter">Capitol</string>
     <string name="resume_from_position">Reia de la ultima poziție</string>
