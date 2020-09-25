@@ -70,7 +70,7 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context) {
     override fun refresh() {
         artistsProvider.showAll = settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false)
         viewModelScope.launch {
-            providers[currentTab].awaitRefresh()
+            if (currentTab < providers.size) providers[currentTab].awaitRefresh()
             for ((index, provider) in providers.withIndex()) {
                 if (index != currentTab && provider.loading.hasObservers()) provider.awaitRefresh()
             }
