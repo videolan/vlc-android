@@ -471,7 +471,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         overlayDelegate.playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause_video)!!
         overlayDelegate.pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play_video)!!
-        overlayDelegate.vibrator = getSystemService<Vibrator>()!!
     }
 
     override fun afterTextChanged(s: Editable?) {
