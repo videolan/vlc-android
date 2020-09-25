@@ -132,7 +132,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         suspend fun FragmentActivity.getStoragePermission(write: Boolean = false) : Boolean {
             if (isFinishing) return false
             val model : PermissionViewmodel by viewModels()
-            if (model.isCompleted) return model.deferredGrant.getCompleted()
+            if (model.isCompleted && storageAccessGranted.value == true) return model.deferredGrant.getCompleted()
             if (!model.permissionPending) {
                 model.setupDeferred()
                 val fragment = StoragePermissionsDelegate().apply {
