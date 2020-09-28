@@ -33,7 +33,7 @@
     <string name="play_as_video">Reproducir como vídeo</string>
     <string name="video_app_switch_title">Modo segundo plano/PiP</string>
     <string name="video_app_switch_summary">Seleccione o comportamento do VLC cando cambie a outro aplicativo desde a reprodución de vídeo.</string>
-    <string name="play_pip_title">Reproducir vídeos en modo imaxe-a-imaxe</string>
+    <string name="play_pip_title">Reproducir vídeos en modo pantalla sobre pantalla</string>
     <string name="play_as_audio_background">Reproducir os vídeos en segundo plano</string>
     <string name="append">Anexar</string>
     <string name="insert_next">Inserir seguinte</string>
@@ -593,8 +593,8 @@
     <string name="add_to_new_playlist">Engadir a unha nova lista</string>
     <string name="resume_card_message">Desexa continuar a reprodución de %1$s?</string>
     <string name="misc">Outros</string>
-    <string name="popup_force_legacy_title">No modo imaxe-a-imaxe usar xanela emerxente personalizada</string>
-    <string name="popup_force_legacy_summary">No modo imaxe-a-imaxe usar a xanela emerxente personalizada redimensionábel.</string>
+    <string name="popup_force_legacy_title">No modo pantalla sobre pantalla usar xanela emerxente personalizada</string>
+    <string name="popup_force_legacy_summary">No modo pantalla sobre pantalla usar a xanela emerxente personalizada redimensionábel.</string>
     <string name="device_default">Dispositivo predeterminado</string>
     <string name="track_number">%d pistas</string>
     <string name="jump_to">Ir a</string>
@@ -731,4 +731,8 @@
     <string name="thank_you">Grazas</string>
     <string name="thank_you_desc">Grazas polo patrocinio!\nAxudaranos moito a mellorar o VLC.</string>
     <string name="donate_again">Patrocinar a aplicación de novo</string>
+
+    <string name="mark_as_played">Marcar como reproducido</string>
+    <string name="mark_all_as_played">Marcar todos como reproducidos</string>
+
 </resources>
