@@ -131,7 +131,7 @@
     <string name="surface_fit_screen">Képernyőhöz igazítás</string>
     <string name="surface_fill">Kitöltés</string>
     <string name="surface_original">Középre</string>
-    <string name="unseekable_stream">Nem lehet tekerni ebben a folyamban</string>
+    <string name="unseekable_stream">Nem lehet tekerni ebben a közvetítésben</string>
     <string name="refresh">Frissítés</string>
     <string name="track_audio">Hangsáv</string>
     <string name="track_video">Videosáv</string>
@@ -179,7 +179,7 @@
     <string name="favorite_added">Mentve a kedvencek közé</string>
     <string name="favorite_removed">Eltávolítva a kedvencek közül</string>
 
-    <string name="streams">Folyamok</string>
+    <string name="streams">Közvetítések</string>
     <string name="open_mrl_dialog_msg">Írja be a hálózati címet: pl. http://, mms:// vagy rtsp://</string>
     <string name="encountered_error_title">Lejátszási hiba</string>
     <string name="encountered_error_message">A VLC hibát tapasztalt ezzel a médiával.\nPróbálja meg frissíteni a médiatárat.</string>
@@ -442,7 +442,7 @@
     <!-- Accessibility -->
     <string name="more_actions">További műveletek</string>
     <string name="back_quit_lock">Nyomja meg a visszát még egyszer a videóból kilépéshez</string>
-    <string name="stream_deleted">Folyam törölve</string>
+    <string name="stream_deleted">Közvetítés törölve</string>
     <string name="no_subs_found">Nincs felirat ebben a könyvtárban</string>
     <string name="music_now_playing">Most játszott</string>
 
@@ -701,7 +701,7 @@
     <string name="browse">Tallózás</string>
     <string name="more">Több</string>
     <string name="favorites">Kedvencek</string>
-    <string name="new_stream">Új folyam</string>
+    <string name="new_stream">Új közvetítés</string>
     <string name="add_to_group">Hozzáadása videócsoporthoz</string>
     <string name="remove_from_group">Eltávolítás a videócsoporttól</string>
     <string name="rename_group">Videócsoport átnevezése</string>
@@ -718,4 +718,21 @@
     <string name="sub_result_by_name_episode">%s. epizód</string>
 
     <string name="sub_result_by_file">Találatok a fájlhoz</string>
+    <string name="donate">Segítse a VLC-t</string>
+    <string name="donate_desc">Támogassa a VLC-t készítő önkénteseket</string>
+    <string name="donate_subscribtion">Szeretném, hogy ez egy havi támogatás legyen</string>
+    <string name="donate_send">Kezdje le a támogatását</string>
+    <string name="donation_description">A támogatása lehetővé teszi:\nAz androidos VLC alkalmazás fejlesztését\nA VideoLAN Association támogatását</string>
+    <string name="subscription_purchased">Feliratkozott egy havi támogatásra</string>
+    <string name="subscription_cancel">A Play Store-ban iratkozhat le</string>
+    <string name="subscription_cancel_tv">Hogyan iratkozzon le</string>
+    <string name="donate_unsubscribe_tv">A leiratkozáshoz nyissa meg a %s alkalmazást a telefonján vagy számítógépén, vagy olvassa le ezt a kódot:</string>
+    <string name="tip_jar">Segítse a VLC-t</string>
+    <string name="thank_you">Köszönjük</string>
+    <string name="thank_you_desc">Köszönjük a támogatását!\nSokat fog nekünk segíteni a VLC fejlesztésében!</string>
+    <string name="donate_again">Támogassa újra az alkalmazást</string>
+
+    <string name="mark_as_played">Megjelölés lejátszottként</string>
+    <string name="mark_all_as_played">Összes megjelölése lejátszottként</string>
+
 </resources>
