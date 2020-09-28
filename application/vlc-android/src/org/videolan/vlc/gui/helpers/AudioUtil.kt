@@ -169,7 +169,7 @@ object AudioUtil {
         if (path.startsWith("http")) return runBlocking(Dispatchers.Main) {
             HttpImageLoader.downloadBitmap(path)
         }
-        return BitmapCache.getBitmapFromMemCache(path.substringAfter("file://")) ?: fetchCoverBitmap(path, width)
+        return BitmapCache.getBitmapFromMemCache(path.substringAfter("file://")+"_$width") ?: fetchCoverBitmap(path, width)
     }
 
     @WorkerThread
@@ -188,7 +188,7 @@ object AudioUtil {
 
             // Find the best decoding scale for the bitmap
             if (width > 0) {
-                while (options.outWidth / options.inSampleSize > width)
+                while (options.outWidth / (options.inSampleSize + 1) > width)
                     options.inSampleSize = options.inSampleSize * 2
             }
 
