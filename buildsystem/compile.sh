@@ -269,7 +269,7 @@ fi
 # Fetch VLC source #
 ####################
 
-TESTED_HASH=820ac2382b0597610ab41c80f42ecefd822e203f
+TESTED_HASH=b5c0d65b661e0a710075c9fcbfae7fd6d0d9dee0
 VLC_REPOSITORY=https://git.videolan.org/git/vlc/vlc-3.0.git
 if [ ! -d "vlc" ]; then
     diagnostic "VLC sources: not found, cloning"
