@@ -1,3 +1,14 @@
+Changes between 3.3.0 and 3.3.1 Beta 1:
+------------------
+
+Application:
+ * Video: mark as played
+ * Audio: chapter selection for audio books
+ * TV: improve PiP behavior
+ * Video player: increase icons' size
+ * Thumbnails: fix quality issue
+ * Crash fixes
+
 Changes between 3.3.0-RC4 and 3.3.0:
 ------------------
 
