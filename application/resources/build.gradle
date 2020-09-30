@@ -66,6 +66,8 @@ dependencies {
     api "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
 
     api "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
+    testApi "androidx.test:core:$rootProject.ext.testCore"
+    androidTestApi "androidx.test.ext:junit:$rootProject.ext.supportTest"
 }
 repositories {
     mavenCentral()

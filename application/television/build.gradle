@@ -45,4 +45,6 @@ android {
 dependencies {
     implementation project(':application:vlc-android')
     api project(':application:moviepedia')
+    testApi "androidx.test:core:$rootProject.ext.testCore"
+    androidTestApi "androidx.test.ext:junit:$rootProject.ext.supportTest"
 }

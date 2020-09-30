@@ -73,7 +73,6 @@ class MainActivity : ContentActivity(),
 {
     var refreshing: Boolean = false
         set(value) {
-            mainLoading.visibility = if (value) View.VISIBLE else View.GONE
             field = value
         }
     private lateinit var mediaLibrary: Medialibrary
@@ -96,11 +95,6 @@ class MainActivity : ContentActivity(),
         if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
         mediaLibrary = Medialibrary.getInstance()
 
-        val color = TypedValue().run {
-            theme.resolveAttribute(R.attr.progress_indeterminate_tint, this, true)
-            data
-        }
-        mainLoadingProgress.indeterminateDrawable.setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN)
         VLCBilling.getInstance(application).retrieveSkus()
     }
 
