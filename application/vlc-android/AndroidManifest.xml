@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.videolan.vlc">
 
-    <uses-sdk tools:overrideLibrary="com.jraska.livedata.ktx, com.jraska.livedata"/>
+    <uses-sdk tools:overrideLibrary="com.jraska.livedata.ktx, com.jraska.livedata, tools.fastlane.screengrab, android_libs.ub_uiautomator"/>
 
     <uses-permission
         android:name="android.permission.READ_LOGS"

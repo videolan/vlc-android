@@ -22,12 +22,12 @@ class HistoryModelTest : BaseTest() {
     override fun beforeTest() {
         super.beforeTest()
         mediaLibrary.clearHistory()
-        historyModel = HistoryModel(context, TestCoroutineContextProvider())
+        historyModel = HistoryModel(context, org.videolan.vlc.util.TestCoroutineContextProvider())
     }
 
     @Test
     fun whenRefreshCalled_ListIsUpdated() {
-        val fakeMediaStrings = TestUtil.createLocalUris(2)
+        val fakeMediaStrings = org.videolan.vlc.util.TestUtil.createLocalUris(2)
 
         historyModel.refresh()
 
@@ -54,7 +54,7 @@ class HistoryModelTest : BaseTest() {
 
     @Test
     fun whenListHasTwoItemsAndLastIsMovedUp_ListHasUpdatedItemsOrder() {
-        val fakeMediaStrings = TestUtil.createLocalUris(2)
+        val fakeMediaStrings = org.videolan.vlc.util.TestUtil.createLocalUris(2)
 
         val result = fakeMediaStrings.map {
             val media = MLServiceLocator.getAbstractMediaWrapper(it.toUri()).apply { type = MediaWrapper.TYPE_VIDEO }

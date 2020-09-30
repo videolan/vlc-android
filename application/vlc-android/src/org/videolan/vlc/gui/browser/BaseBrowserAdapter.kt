@@ -183,7 +183,7 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    internal inner class MediaViewHolder(val bindingContainer: BrowserItemBindingContainer) : ViewHolder<ViewDataBinding>(bindingContainer.binding), MarqueeViewHolder {
+    inner class MediaViewHolder(val bindingContainer: BrowserItemBindingContainer) : ViewHolder<ViewDataBinding>(bindingContainer.binding), MarqueeViewHolder {
         override val titleView: TextView? = bindingContainer.title
         var job : Job? = null
 

@@ -1,0 +1,84 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy_release do |options|
+    upload_to_play_store(skip_upload_changelogs:true, skip_upload_images:true, skip_upload_screenshots:true, release_status:"draft", apk_paths:["VLC-Android-"+options[:version]+"-arm64-v8a.apk", "VLC-Android-"+options[:version]+"-armeabi-v7a.apk", "VLC-Android-"+options[:version]+"-x86.apk", "VLC-Android-"+options[:version]+"-x86_64.apk"])
+    slack(message: 'Successfully created a new draft for '+options[:version])
+  end
+
+  lane :deploy_screenshots do
+    upload_to_play_store(skip_upload_changelogs:true, skip_upload_images:true, skip_upload_apk:true, release_status:"draft", apk_paths:["VLC-Android-3.3.0-arm64-v8a.apk", "VLC-Android-3.3.0-armeabi-v7a.apk", "VLC-Android-3.3.0-x86.apk", "VLC-Android-3.3.0-x86_64.apk"])
+    slack(message: 'Successfully uploaded screenshots to Play Store')
+  end
+
+  lane :deploy_beta do |options|
+    upload_to_play_store(skip_upload_changelogs:true, track: 'beta', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", apk_paths:["VLC-Android-"+options[:version]+"-arm64-v8a.apk", "VLC-Android-"+options[:version]+"-armeabi-v7a.apk", "VLC-Android-"+options[:version]+"-x86.apk", "VLC-Android-"+options[:version]+"-x86_64.apk"])
+    slack(message: 'Successfully created a new beta draft for '+options[:version])
+  end
+
+  lane :screenshots do
+    gradle(task: 'assemble', build_type: 'Debug', project_dir:'../..')
+    gradle(task: ':application:app:assemble', build_type: 'DebugAndroidTest', project_dir:'../..')
+    capture_android_screenshots(app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-3.3.0-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
+  end
+
+  lane :screenshots_seven do
+    gradle(task: 'assemble', build_type: 'Debug', project_dir:'../..')
+    gradle(task: ':application:app:assemble', build_type: 'DebugAndroidTest', project_dir:'../..')
+    capture_android_screenshots(device_type:"sevenInch" ,app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-3.3.0-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
+  end
+
+  lane :screenshots_ten do
+    gradle(task: 'assemble', build_type: 'Debug', project_dir:'../..')
+    gradle(task: ':application:app:assemble', build_type: 'DebugAndroidTest', project_dir:'../..')
+    capture_android_screenshots(device_type:"tenInch" ,app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-3.3.0-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
+  end
+
+  lane :screenshots_tv do
+    gradle(task: 'assemble', build_type: 'Debug', project_dir:'../..')
+    gradle(task: ':application:app:assemble', build_type: 'DebugAndroidTest', project_dir:'../..')
+    capture_android_screenshots(device_type:"tv",use_tests_in_classes:'org.videolan.vlc.TvScreenhotsInstrumentedTest', app_apk_path:"../../application/app/build/outputs/apk/debug/VLC-Android-3.3.0-debug-all.apk", tests_apk_path:"../../application/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk")
+  end
+
+  lane :huawei_info do
+      huawei_appgallery_connect_get_app_info(
+          client_id: ENV["HUAWEI_CLIENT_ID"],
+          client_secret: ENV["HUAWEI_CLIENT_SECRET"],
+          app_id: ENV["HUAWEI_APP_ID"]
+      )
+    end
+
+  lane :deploy_huawei do |options|
+    #gradle(task: 'assemble', build_type: 'Release')
+    huawei_appgallery_connect(
+        client_id: ENV["HUAWEI_CLIENT_ID"],
+        client_secret: ENV["HUAWEI_CLIENT_SECRET"],
+        app_id: ENV["HUAWEI_APP_ID"],
+        apk_path: "VLC-Android-"+options[:version]+"-arm64-v8a.apk",
+        submit_for_review: false,
+    )
+    slack(message: 'Successfully created a new draft for '+options[:version]+' on Huawei AppGallery')
+  end
+
+end
