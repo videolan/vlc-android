@@ -41,7 +41,6 @@ import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
@@ -497,7 +496,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
         keyguardManager = getSystemService()!!
         renderer.observe(this, Observer { setRenderer(it) })
-        restartPlayer.observe(this, Observer { restartMediaPlayer() })
+        restartPlayer.observe(this, Observer { restartPlaylistManager() })
         headSetDetection.observe(this, Observer { detectHeadset(it) })
         equalizer.observe(this, Observer { setEqualizer(it) })
         serviceFlow.value = this
@@ -1034,7 +1033,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     @MainThread
     fun removeCallback(cb: Callback) = cbActor.safeOffer(CbRemove(cb))
 
-    fun restartMediaPlayer() = playlistManager.restart()
+    private fun restartPlaylistManager() = playlistManager.restart()
+    fun restartMediaPlayer() = playlistManager.player.restart()
 
     fun saveMediaMeta() = playlistManager.saveMediaMeta()
 
