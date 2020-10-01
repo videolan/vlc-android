@@ -103,6 +103,8 @@ object FileUtils {
             return ""
         } catch (e: SecurityException) {
             return ""
+        } catch (e: NullPointerException) {
+            return ""
         } finally {
             if (cursor != null && !cursor.isClosed) cursor.close()
         }
