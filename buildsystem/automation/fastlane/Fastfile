@@ -28,7 +28,7 @@ platform :android do
   end
 
   lane :deploy_screenshots do
-    upload_to_play_store(skip_upload_changelogs:true, skip_upload_images:true, skip_upload_apk:true, release_status:"draft", apk_paths:["VLC-Android-3.3.0-arm64-v8a.apk", "VLC-Android-3.3.0-armeabi-v7a.apk", "VLC-Android-3.3.0-x86.apk", "VLC-Android-3.3.0-x86_64.apk"])
+    upload_to_play_store(skip_upload_changelogs:true, skip_upload_images:true, skip_upload_apk:true, release_status:"draft")
     slack(message: 'Successfully uploaded screenshots to Play Store')
   end
 
@@ -79,6 +79,47 @@ platform :android do
         submit_for_review: false,
     )
     slack(message: 'Successfully created a new draft for '+options[:version]+' on Huawei AppGallery')
+  end
+
+  lane :deploy_ftp do |options|
+    #gradle(task: 'assemble', build_type: 'Release')
+    ftp(
+        host: ENV["VIDEOLAN_FTP_HOST"],
+        username: 'anonymous',
+        password: '',
+        upload:{
+            src: "./VLC-Android-"+options[:version]+"-arm64-v8a.apk",
+            dest: "/incoming/"+options[:version]
+        }
+    )
+    ftp(
+        host: ENV["VIDEOLAN_FTP_HOST"],
+        username: 'anonymous',
+        password: '',
+        upload:{
+            src: "./VLC-Android-"+options[:version]+"-armeabi-v7a.apk",
+            dest: "/incoming/"+options[:version]
+        }
+    )
+    ftp(
+        host: ENV["VIDEOLAN_FTP_HOST"],
+        username: 'anonymous',
+        password: '',
+        upload:{
+            src: "./VLC-Android-"+options[:version]+"-x86.apk",
+            dest: "/incoming/"+options[:version]
+        }
+    )
+    ftp(
+        host: ENV["VIDEOLAN_FTP_HOST"],
+        username: 'anonymous',
+        password: '',
+        upload:{
+            src: "./VLC-Android-"+options[:version]+"-x86_64.apk",
+            dest: "/incoming/"+options[:version]
+        }
+    )
+    slack(message: 'Successfully uploaded '+options[:version]+' to FTP')
   end
 
 end

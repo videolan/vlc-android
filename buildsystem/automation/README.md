@@ -61,12 +61,23 @@ VLC-Android-3.3.1-Beta-1-x86_64.apk
 
 **Prerequisites**:
 
-you need to export 3 env variables: HUAWEI_CLIENT_ID, HUAWEI_CLIENT_SECRET and HUAWEI_APP_ID
+You need to export 3 env variables: HUAWEI_CLIENT_ID, HUAWEI_CLIENT_SECRET and HUAWEI_APP_ID
 
 - `deploy_huawei` sends a release to the Huawei AppGallery in draft
 
 Options: `version` is the version string in the apk name.
 
+#### FTP
+
+**Prerequisites**:
+
+You need to export 1 env variable: VIDEOLAN_FTP_HOST
+
+- `deploy_ftp`
+
+Options: `version` is the version string in the apk name.
+
+The 4 apks will be uploaded in the `/incoming/[version]` folder of the FTP with anonymous credentials
 
 ### Screenshots
 
