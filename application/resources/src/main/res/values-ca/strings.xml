@@ -731,4 +731,8 @@
     <string name="thank_you">Gràcies</string>
     <string name="thank_you_desc">Gràcies pel vostre patrocini! \nIt ens ajudarà molt a millorar VLC!</string>
     <string name="donate_again">Patrocinen l\'aplicació de nou</string>
+
+    <string name="mark_as_played">Marca-ho com a reproduït</string>
+    <string name="mark_all_as_played">Marca-ho tot com a reproduït</string>
+
 </resources>
