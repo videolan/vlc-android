@@ -732,4 +732,8 @@
     <string name="thank_you">നന്ദി</string>
     <string name="thank_you_desc">നിങ്ങളുടെ സ്പോൺസർഷിപ്പിന് നന്ദി!\n VLC മെച്ചപ്പെടുത്തുന്നതിന് ഇത് ഞങ്ങളെ ശരിക്കും സഹായിക്കും!</string>
     <string name="donate_again">അപ്ലിക്കേഷൻ വീണ്ടും സ്പോൺസർ ചെയ്യുക</string>
+
+    <string name="mark_as_played">പ്രവർത്തപ്പിച്ചതായി രേഖപ്പെടുത്തുക</string>
+    <string name="mark_all_as_played">എല്ലാം പ്രവർത്തപ്പിച്ചതായി രേഖപ്പെടുത്തുക</string>
+
 </resources>
