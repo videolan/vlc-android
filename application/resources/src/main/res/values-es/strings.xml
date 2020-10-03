@@ -718,4 +718,21 @@
     <string name="sub_result_by_name_episode">Episodio %s</string>
 
     <string name="sub_result_by_file">Resultados para su archivo</string>
+    <string name="donate">Ayudar a VLC</string>
+    <string name="donate_desc">Apoyar a los voluntarios contruyendo VLC</string>
+    <string name="donate_subscribtion">Me gustaría que este fuera un patrocinio mensual</string>
+    <string name="donate_send">Iniciar su patrocinio</string>
+    <string name="donation_description">Su patrocinio nos ayudará a:\nMejorar la app de VLC para Android\nApoyar la VideoLAN Association</string>
+    <string name="subscription_purchased">Está suscrito al patrocinio mensual</string>
+    <string name="subscription_cancel">Puede desuscribirse en la Play Store</string>
+    <string name="subscription_cancel_tv">Como desuscribirse</string>
+    <string name="donate_unsubscribe_tv">Para desuscribirse, abra %s en un teléfono, en un ordenador o escanee este código:</string>
+    <string name="tip_jar">Ayudar a VLC</string>
+    <string name="thank_you">Gracias</string>
+    <string name="thank_you_desc">Gracias por su patrocinio\nNos ayudará mucho a mejorar VLC!</string>
+    <string name="donate_again">Patrocinar la app de nuevo</string>
+
+    <string name="mark_as_played">Marcar como reproducido</string>
+    <string name="mark_all_as_played">Marcar todo como reproducido</string>
+
 </resources>
