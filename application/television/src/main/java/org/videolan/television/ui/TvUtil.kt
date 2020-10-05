@@ -143,13 +143,13 @@ object TvUtil {
                 }
                 item.type == MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
                 item.type == MediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
                     val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
                     intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
@@ -165,14 +165,14 @@ object TvUtil {
             is DummyItem -> when {
                 item.id == HEADER_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }
                 item.id == HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 else -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, item.id)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                     activity.startActivity(intent)
                 }
             }
@@ -191,13 +191,13 @@ object TvUtil {
                 }
                 item.type == MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
                 item.type == MediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
                     val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
                     intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
@@ -213,14 +213,14 @@ object TvUtil {
             is DummyItem -> when {
                 item.id == HEADER_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }
                 item.id == HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 else -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, item.id)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                     activity.startActivity(intent)
                 }
             }
@@ -241,13 +241,13 @@ object TvUtil {
                 }
                 item.type == MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
                 item.type == MediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
                     val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
                     intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
@@ -263,14 +263,14 @@ object TvUtil {
             is DummyItem -> when {
                 item.id == HEADER_STREAM -> {
                     val intent = Intent(activity, TVActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
                     activity.startActivity(intent)
                 }
                 item.id == HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 else -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, item.id)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                     activity.startActivity(intent)
                 }
             }
@@ -278,16 +278,17 @@ object TvUtil {
         }
     }
 
-    fun showMediaDetail(activity: Context, mediaWrapper: MediaWrapper) {
-        val intent = Intent(activity, org.videolan.television.ui.DetailsActivity::class.java)
+    fun showMediaDetail(activity: Context, mediaWrapper: MediaWrapper, fromHistory:Boolean = false) {
+        val intent = Intent(activity, DetailsActivity::class.java)
         intent.putExtra("media", mediaWrapper)
-        intent.putExtra("item", org.videolan.television.ui.MediaItemDetails(mediaWrapper.title, mediaWrapper.artist, mediaWrapper.album, mediaWrapper.location, mediaWrapper.artworkURL))
+        intent.putExtra("item", MediaItemDetails(mediaWrapper.title, mediaWrapper.artist, mediaWrapper.album, mediaWrapper.location, mediaWrapper.artworkURL))
+        if (fromHistory) intent.putExtra(EXTRA_FROM_HISTORY, fromHistory)
         activity.startActivity(intent)
     }
 
     fun browseFolder(activity: Activity, type: Long, uri: Uri) {
         val intent = Intent(activity, VerticalGridActivity::class.java)
-        intent.putExtra(org.videolan.television.ui.MainTvActivity.BROWSER_TYPE, type)
+        intent.putExtra(MainTvActivity.BROWSER_TYPE, type)
         intent.data = uri
         activity.startActivity(intent)
     }

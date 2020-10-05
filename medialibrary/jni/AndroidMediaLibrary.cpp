@@ -185,11 +185,12 @@ AndroidMediaLibrary::setProgress(int64_t mediaId, float progress)
     return false;
 }
 
-void
+bool
 AndroidMediaLibrary::removeMediaFromHistory(int64_t mediaId)
 {
     auto media = p_ml->media(mediaId);
-    if (media != nullptr) media->removeFromHistory();
+    if (media != nullptr) return media->removeFromHistory();
+    return false;
 }
 
 std::vector<medialibrary::MediaPtr>
