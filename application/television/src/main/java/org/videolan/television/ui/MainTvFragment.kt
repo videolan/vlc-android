@@ -24,6 +24,7 @@ package org.videolan.television.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
@@ -171,7 +172,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         miscRow = ListRow(miscHeader, otherAdapter)
         rowsAdapter.add(miscRow)
 
-        historyAdapter = ArrayObjectAdapter(CardPresenter(requireActivity()))
+        historyAdapter = ArrayObjectAdapter(CardPresenter(requireActivity(), fromHistory = true))
         val historyHeader = HeaderItem(HEADER_HISTORY, getString(R.string.history))
         historyRow = ListRow(historyHeader, historyAdapter)
 

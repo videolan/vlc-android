@@ -134,6 +134,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public abstract void setThumbnail(String mrl);
     public abstract void requestThumbnail(int width, float position);
     public abstract void requestBanner(int width, float position);
+    public abstract boolean removeFromHistory();
 
     /**
      * Create a new MediaWrapper

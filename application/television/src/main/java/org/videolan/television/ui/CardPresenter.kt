@@ -53,7 +53,7 @@ import org.videolan.vlc.gui.helpers.*
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class CardPresenter(private val context: Activity, private val isPoster: Boolean = false) : Presenter() {
+class CardPresenter(private val context: Activity, private val isPoster: Boolean = false, private val fromHistory:Boolean = false) : Presenter() {
 
     private var mIsSeenMediaMarkerVisible = true
     private var sDefaultCardImage: Drawable? = VectorDrawableCompat.create(context.resources, R.drawable.ic_default_cone, context.theme)
@@ -149,7 +149,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                         && item.seen > 0L)
                     holder.cardView.badgeImage = seenDrawable
                 holder.view.setOnLongClickListener { v ->
-                    TvUtil.showMediaDetail(v.context, item)
+                    TvUtil.showMediaDetail(v.context, item, fromHistory)
                     true
                 }
             }

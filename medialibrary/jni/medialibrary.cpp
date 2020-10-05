@@ -245,10 +245,10 @@ setProgress(JNIEnv* env, jobject thiz, jlong id, jfloat progress)
     return MediaLibrary_getInstance(env, thiz)->setProgress((int64_t)id, (float)progress);
 }
 
-void
+jboolean
 removeMediaFromHistory(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
-    MediaLibrary_getInstance(env, medialibrary)->removeMediaFromHistory((int64_t)id);
+    return MediaLibrary_getInstance(env, medialibrary)->removeMediaFromHistory((int64_t)id);
 }
 
 jobjectArray
@@ -2140,7 +2140,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
     {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
     {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
-    {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)V", (void*)removeMediaFromHistory },
+    {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaFromHistory },
     {"nativeRequestThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIIIF)V", (void*)requestThumbnail },
 };
 

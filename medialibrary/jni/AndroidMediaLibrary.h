@@ -52,7 +52,7 @@ public:
     void forceParserRetry();
     void forceRescan();
     bool setProgress(int64_t mediaId, float progress);
-    void removeMediaFromHistory(int64_t mediaId);
+    bool removeMediaFromHistory(int64_t mediaId);
     /* History */
     std::vector<medialibrary::MediaPtr> lastMediaPlayed();
     bool addToHistory( const std::string& mrl, const std::string& title );
