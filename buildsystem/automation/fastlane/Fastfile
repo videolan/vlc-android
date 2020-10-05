@@ -16,6 +16,39 @@
 default_platform(:android)
 
 platform :android do
+
+    @variants = ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
+
+    def checkAPKFileExists(version, checkSha)
+        allExist = true
+        @variants.each { |variant|
+            file_name = "VLC-Android-"+version+"-"+variant+".apk"
+            # checking apks
+            if (!File.file?("../"+file_name))
+               allExist = false
+               UI.error "File "+file_name+" doesn't exist"
+            end
+            if checkSha
+                # checking sha256
+                if (!File.file?("../"+file_name+".sha256"))
+                   allExist = false
+                   UI.error "File "+file_name+".sha256 doesn't exist"
+                end
+            end
+        }
+        if !allExist
+            UI.user_error!("Missing files to upload. See above")
+        end
+    end
+
+    def getFileList(version)
+        files = Array.new
+        @variants.each { |variant|
+            files.push("VLC-Android-"+version+"-"+variant+".apk")
+        }
+        return files
+    end
+
   desc "Runs all the tests"
   lane :test do
     gradle(task: "test")
@@ -23,7 +56,8 @@ platform :android do
 
   desc "Deploy a new version to the Google Play"
   lane :deploy_release do |options|
-    upload_to_play_store(skip_upload_changelogs:true, skip_upload_images:true, skip_upload_screenshots:true, release_status:"draft", apk_paths:["VLC-Android-"+options[:version]+"-arm64-v8a.apk", "VLC-Android-"+options[:version]+"-armeabi-v7a.apk", "VLC-Android-"+options[:version]+"-x86.apk", "VLC-Android-"+options[:version]+"-x86_64.apk"])
+    checkAPKFileExists options[:version], false
+    upload_to_play_store(skip_upload_changelogs:true, skip_upload_images:true, skip_upload_screenshots:true, release_status:"draft", apk_paths:getFileList(options[:version]))
     slack(message: 'Successfully created a new draft for '+options[:version])
   end
 
@@ -33,7 +67,8 @@ platform :android do
   end
 
   lane :deploy_beta do |options|
-    upload_to_play_store(skip_upload_changelogs:true, track: 'beta', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", apk_paths:["VLC-Android-"+options[:version]+"-arm64-v8a.apk", "VLC-Android-"+options[:version]+"-armeabi-v7a.apk", "VLC-Android-"+options[:version]+"-x86.apk", "VLC-Android-"+options[:version]+"-x86_64.apk"])
+    checkAPKFileExists options[:version], false
+    upload_to_play_store(skip_upload_changelogs:true, track: 'beta', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", apk_paths:getFileList(options[:version]))
     slack(message: 'Successfully created a new beta draft for '+options[:version])
   end
 
@@ -70,7 +105,6 @@ platform :android do
     end
 
   lane :deploy_huawei do |options|
-    #gradle(task: 'assemble', build_type: 'Release')
     huawei_appgallery_connect(
         client_id: ENV["HUAWEI_CLIENT_ID"],
         client_secret: ENV["HUAWEI_CLIENT_SECRET"],
@@ -82,43 +116,31 @@ platform :android do
   end
 
   lane :deploy_ftp do |options|
-    #gradle(task: 'assemble', build_type: 'Release')
-    ftp(
-        host: ENV["VIDEOLAN_FTP_HOST"],
-        username: 'anonymous',
-        password: '',
-        upload:{
-            src: "./VLC-Android-"+options[:version]+"-arm64-v8a.apk",
-            dest: "/incoming/"+options[:version]
-        }
-    )
-    ftp(
-        host: ENV["VIDEOLAN_FTP_HOST"],
-        username: 'anonymous',
-        password: '',
-        upload:{
-            src: "./VLC-Android-"+options[:version]+"-armeabi-v7a.apk",
-            dest: "/incoming/"+options[:version]
-        }
-    )
-    ftp(
-        host: ENV["VIDEOLAN_FTP_HOST"],
-        username: 'anonymous',
-        password: '',
-        upload:{
-            src: "./VLC-Android-"+options[:version]+"-x86.apk",
-            dest: "/incoming/"+options[:version]
-        }
-    )
-    ftp(
-        host: ENV["VIDEOLAN_FTP_HOST"],
-        username: 'anonymous',
-        password: '',
-        upload:{
-            src: "./VLC-Android-"+options[:version]+"-x86_64.apk",
-            dest: "/incoming/"+options[:version]
-        }
-    )
+
+    checkAPKFileExists options[:version]
+
+    puts "All files are here. Uploading to FTP"
+    @variants.each { |variant|
+        ftp(
+            host: ENV["VIDEOLAN_FTP_HOST"],
+            username: 'anonymous',
+            password: '',
+            upload:{
+                src: "./VLC-Android-"+options[:version]+"-"+variant+".apk",
+                dest: "/incoming/"+options[:version]
+            }
+        )
+        ftp(
+            host: ENV["VIDEOLAN_FTP_HOST"],
+            username: 'anonymous',
+            password: '',
+            upload:{
+                src: "./VLC-Android-"+options[:version]+"-"+variant+".apk.sha256",
+                dest: "/incoming/"+options[:version]
+            }
+        )
+    }
+
     slack(message: 'Successfully uploaded '+options[:version]+' to FTP')
   end
 

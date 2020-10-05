@@ -77,7 +77,7 @@ You need to export 1 env variable: VIDEOLAN_FTP_HOST
 
 Options: `version` is the version string in the apk name.
 
-The 4 apks will be uploaded in the `/incoming/[version]` folder of the FTP with anonymous credentials
+The 4 apks and the 4 `.sha256` files will be uploaded in the `/incoming/[version]` folder of the FTP with anonymous credentials
 
 ### Screenshots
 
