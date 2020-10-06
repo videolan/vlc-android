@@ -197,14 +197,14 @@ class IabHelper(ctx: Context, base64PublicKey: String?) {
         }
         val serviceIntent = Intent("com.android.vending.billing.InAppBillingService.BIND")
         serviceIntent.setPackage("com.android.vending")
-        if (mContext!!.packageManager.queryIntentServices(serviceIntent, 0).isNotEmpty()) {
-            // service available to handle that Intent
-            mContext!!.bindService(serviceIntent, mServiceConn!!, Context.BIND_AUTO_CREATE)
-        } else {
+        if (mContext!!.packageManager.queryIntentServices(serviceIntent, 0).isNullOrEmpty()) {
             // no service available to handle that Intent
             listener.invoke(
                     IabResult(BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE,
                             "Billing service unavailable on device."))
+        } else {
+            // service available to handle that Intent
+            mContext!!.bindService(serviceIntent, mServiceConn!!, Context.BIND_AUTO_CREATE)
         }
     }
 
