@@ -6,34 +6,50 @@
         <import type="android.view.View" />
 
         <variable
-                name="option"
-                type="org.videolan.vlc.gui.dialogs.CtxOption" />
+            name="option"
+            type="org.videolan.vlc.gui.dialogs.CtxOption" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/half_default_margin"
-            android:layout_marginBottom="@dimen/default_margin"
-            android:focusable="true">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp">
 
         <ImageView
-                android:id="@+id/context_option_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:visibility="@{option.icon != 0 ? View.VISIBLE : View.GONE, default=gone}"
-                android:tint="@color/grey600" />
+            android:id="@+id/context_option_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{option.icon != 0 ? View.VISIBLE : View.GONE, default=gone}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/grey600"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_ctx_play_normal"
+            tools:visibility="visible" />
 
         <TextView
-                android:id="@+id/context_option_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center|start"
-                android:paddingStart="@dimen/default_margin"
-                android:paddingLeft="@dimen/default_margin"
-                android:text="@{option.title}"
-                style="@style/VLC.CtxTitle" />
-    </LinearLayout>
+            android:id="@+id/context_option_title"
+            style="@style/VLC.CtxTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{option.title}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/context_option_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginStart="0dp"
+            tools:text="Play" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
