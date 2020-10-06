@@ -72,6 +72,12 @@ platform :android do
     slack(message: 'Successfully created a new beta draft for '+options[:version])
   end
 
+  lane :deploy_internal do |options|
+    checkAPKFileExists options[:version], false
+    upload_to_play_store(skip_upload_changelogs:true, track: 'internal', skip_upload_images:true, skip_upload_screenshots:true, skip_upload_apk:false, release_status:"draft", apk_paths:getFileList(options[:version]))
+    slack(message: 'Successfully created a new internal draft for '+options[:version])
+  end
+
   lane :screenshots do
     gradle(task: 'assemble', build_type: 'Debug', project_dir:'../..')
     gradle(task: ':application:app:assemble', build_type: 'DebugAndroidTest', project_dir:'../..')
