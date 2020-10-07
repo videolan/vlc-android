@@ -123,7 +123,7 @@ platform :android do
 
   lane :deploy_ftp do |options|
 
-    checkAPKFileExists options[:version]
+    checkAPKFileExists options[:version], true
 
     puts "All files are here. Uploading to FTP"
     @variants.each { |variant|
