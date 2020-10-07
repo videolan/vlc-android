@@ -861,10 +861,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     id = internalMedia.id
                 else {
                     internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) {
-                        medialibrary.addStream(Uri.decode(entryUrl ?: mw.uri.toString()), mw.title).also {
+                        medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
                             entryUrl = null
                         }
-                    } else medialibrary.addMedia(Uri.decode(mw.uri.toString()))
+                    } else medialibrary.addMedia(mw.uri.toString())
                     if (internalMedia != null) id = internalMedia.id
                 }
             }
