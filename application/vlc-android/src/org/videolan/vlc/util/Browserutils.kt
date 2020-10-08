@@ -36,6 +36,11 @@ fun String?.isSchemeNetwork() = when(this) {
     else -> false
 }
 
+fun String?.isSchemeFile() = when(this) {
+    "file", null -> true
+    else -> false
+}
+
 fun convertFavorites(browserFavs: List<BrowserFav>?) = browserFavs?.filter {
     it.uri.scheme != "file" || File(it.uri.path).exists()
 }?.map { (uri, _, title, iconUrl) ->
