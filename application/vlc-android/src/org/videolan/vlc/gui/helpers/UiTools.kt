@@ -358,11 +358,12 @@ object UiTools {
         savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
     }
 
-    fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>) {
+    fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>, newGroupListener: ()->Unit) {
         if (!isStarted()) return
         val addToGroupDialog = AddToGroupDialog()
         addToGroupDialog.arguments = bundleOf(AddToGroupDialog.KEY_TRACKS to tracks.toTypedArray())
         addToGroupDialog.show(supportFragmentManager, "fragment_add_to_group")
+        addToGroupDialog.newGroupListener = newGroupListener
     }
 
     fun FragmentActivity.showVideoTrack(menuListener:(Int) -> Unit, trackSelectionListener:(Int, VideoTracksDialog.TrackType) -> Unit) {

@@ -382,13 +382,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     R.id.action_group_similar -> lifecycleScope.launch { viewModel.groupSimilar(selection.getAll().first()) }
                     R.id.action_ungroup -> viewModel.ungroup(selection.first() as VideoGroup)
                     R.id.action_rename -> renameGroup(selection.first() as VideoGroup)
-                    R.id.action_add_to_group -> lifecycleScope.launch {
-                        if (selection.size > 1) {
-                            viewModel.createGroup(selection.getAll())?.let {
-                                activity?.open(it)
+                    R.id.action_add_to_group -> requireActivity().addToGroup(selection.getAll()) {
+                            lifecycleScope.launch {
+                                viewModel.createGroup(selection.getAll())?.let {
+                                    activity?.open(it)
+                                }
                             }
-                        } else requireActivity().addToGroup(selection.getAll())
-                    }
+                        }
                     else -> return false
                 }
             }
@@ -431,7 +431,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 }
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media) }
                 CTX_REMOVE_GROUP -> viewModel.removeFromGroup(media)
-                CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media))
+                CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media)) {}
                 CTX_GROUP_SIMILAR -> lifecycleScope.launch { viewModel.groupSimilar(media) }
                 CTX_MARK_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
             }

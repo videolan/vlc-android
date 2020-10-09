@@ -35,7 +35,9 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.VideoGroup
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.DUMMY_NEW_GROUP
 import org.videolan.tools.AppScope
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.DependencyProvider
@@ -51,6 +53,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
 
     override fun needToManageOrientation(): Boolean = false
 
+    lateinit var newGroupListener: () -> Unit
     private var isLoading: Boolean = false
         set(value) {
             field = value
@@ -96,8 +99,15 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         binding.list.layoutManager = LinearLayoutManager(view.context)
         binding.list.adapter = adapter
         val viewModel = ViewModelProvider(requireActivity(), VideosViewModel.Factory(requireContext(), VideoGroupingType.NAME, null, null)).get(VideosViewModel::class.java)
-        viewModel.provider.pagedList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            adapter.submitList(it.filter { group -> group is VideoGroup && group.mediaCount() > 1 }.apply { forEach { it.description = resources.getQuantityString(R.plurals.media_quantity, it.tracksCount, it.tracksCount) } })
+        viewModel.provider.pagedList.observe(viewLifecycleOwner, {
+
+            adapter.submitList(it.filter { group -> group is VideoGroup && group.mediaCount() > 1 }.apply {
+                forEach { mediaLibraryItem -> mediaLibraryItem.description = resources.getQuantityString(R.plurals.media_quantity, mediaLibraryItem.tracksCount, mediaLibraryItem.tracksCount) }
+            }.toMutableList().apply {
+                if (newTrack.size > 1) {
+                    this.add(0, DummyItem(DUMMY_NEW_GROUP, getString(R.string.new_group), getString(R.string.new_group_desc)))
+                }
+            })
             updateEmptyView()
         })
         updateEmptyView()
@@ -132,7 +142,14 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
     }
 
     override fun onClick(item: MediaLibraryItem) {
-        addToGroup(item as VideoGroup)
+        when (item) {
+            is DummyItem -> {
+                newGroupListener.invoke()
+                dismiss()
+            }
+            else -> addToGroup(item as VideoGroup)
+
+        }
     }
 
     companion object : DependencyProvider<Any>() {
