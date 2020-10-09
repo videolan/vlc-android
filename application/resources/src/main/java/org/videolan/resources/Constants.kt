@@ -159,6 +159,9 @@ const val SELECTED_ITEM = "selected"
 const val CURRENT_BROWSER_LIST = "CURRENT_BROWSER_LIST"
 const val CURRENT_BROWSER_MAP = "CURRENT_BROWSER_MAP"
 
+//Dummy items
+const val DUMMY_NEW_GROUP = 0L
+
 // Context options
 const val CTX_PLAY_ALL = 1L
 const val CTX_APPEND = 1L shl 1

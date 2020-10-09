@@ -28,8 +28,10 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.DUMMY_NEW_GROUP
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.tools.BitmapCache
@@ -141,6 +143,11 @@ fun getBitmapFromDrawable(context: Context, @DrawableRes drawableId: Int): Bitma
 fun getMediaIconDrawable(context: Context, type: Int): BitmapDrawable? = when (type) {
     MediaWrapper.TYPE_VIDEO -> UiTools.getDefaultVideoDrawable(context)
     else -> UiTools.getDefaultAudioDrawable(context)
+}
+
+fun getDummyItemIcon(context: Context, item:DummyItem) = when (item.id) {
+    DUMMY_NEW_GROUP -> BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_add_to_group))
+    else -> null
 }
 
 private var placeholderTvBg: Drawable? = null
