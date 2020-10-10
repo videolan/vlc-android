@@ -7,10 +7,13 @@
     <string name="other">อื่นๆ</string>
     <string name="sortby">จัดเรียงโดย…</string>
     <string name="sortby_name">ชื่อ</string>
+    <string name="sortby_filename">ชื่อไฟล์</string>
     <string name="sortby_artist_name">ชื่อศิลปิน</string>
     <string name="sortby_album_name">ชื่ออัลบั้ม</string>
     <string name="sortby_length">ความยาว</string>
     <string name="sortby_date">วันที่</string>
+    <string name="sortby_last_modified_date">ที่เพิ่มเมื่อล่าสุด</string>
+    <string name="sortby_media_number">หมายเลขสื่อ</string>
     <string name="sortby_number">หมายเลขแทร็ก</string>
     <string name="searchable_hint">ค้นหา…</string>
     <string name="history">ประวัติ</string>
@@ -35,20 +38,30 @@
     <string name="insert_next">แทรกถัดไป</string>
     <string name="play_all">เล่นทั้งหมด</string>
     <string name="append_all">ผนวกทั้งหมด</string>
+    <string name="resume_playback_short_title">เล่นต่อ</string>
+    <string name="resume_playback_long_title">เล่นเพลย์ลิสต์ล่าสุดต่อ</string>
     <string name="delete">ลบ</string>
     <string name="remove">ลบออก</string>
     <string name="set_song">ใช้เป็นเสียงเรียกเข้า</string>
+    <string name="set_song_question">ตั้ง \'%1$s\' เป็นเสียงเรียกเข้าหรือไม่</string>
     <string name="info">ข้อมูล</string>
     <string name="confirm_delete">ลบไฟล์ \'%1$s\' หรือไม่</string>
+    <string name="confirm_delete_album">ลบอัลบั้ม \'%1$s\' หรือไม่</string>
+    <string name="confirm_delete_several_media">ลบสื่อ %1$d รายการเหล่านี้หรือไม่</string>
     <string name="confirm_delete_folder">ลบโฟลเดอร์ \'%1$s\' รวมถึงเนื้อหาทั้งหมดภายในโฟลเดอร์หรือไม่</string>
     <string name="confirm_delete_playlist">ลบเพลย์ลิสต์ \'%1$s\' หรือไม่</string>
+    <string name="confirm_remove_from_playlist">เอา \'%1$s\' ออกจากเพลย์ลิสต์หรือไม่</string>
     <string name="ringtone_set">ไฟล์ \'%1$s\' ได้ถูกใช้เป็นเสียงเรียกเข้า</string>
     <string name="ringtone_error">เกิดข้อผิดพลาดขณะตั้งค่าเสียงเรียกเข้า</string>
     <string name="pause">พัก</string>
     <string name="unknown_artist">ไม่ทราบศิลปิน</string>
     <string name="unknown_album">ไม่ทราบอัลบั้ม</string>
     <string name="unknown_genre">ไม่ทราบประเภท</string>
+    <string name="songs">เพลง</string>
+    <string name="track_info_copied_to_clipboard">คัดลอกข้อมูลแทร็กไปยังคลิปบอร์ดแล้ว</string>
+
     <string name="artists">ศิลปิน</string>
+    <string name="albums">อัลบั้ม</string>
     <string name="tracks">แทร็ก</string>
 
     <plurals name="albums_quantity">
@@ -57,12 +70,22 @@
     <plurals name="subfolders_quantity">
         <item quantity="other">%d โฟลเดอร์ย่อย</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="other">สื่อ %d รายการ</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="other">%d ไฟล์สื่อ</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="other">%d วิดีโอ</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="other">ภาพยนตร์ %d เรื่อง</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="other">รายการทีวี %d รายการ</item>
+    </plurals>
+
     <string name="internal_memory">หน่วยความจำภายใน</string>
     <string name="audio">เสียง</string>
     <string name="video">วิดีโอ</string>
@@ -77,11 +100,13 @@
     <string name="please_wait">กรุณารอสักครู่…</string>
     <string name="nomedia">ไม่พบไฟล์สื่อ กรุณาถ่ายโอนไฟล์สื่อเข้าไปยังอุปกรณ์ หรือปรับการตั้งค่าของคุณ</string>
     <string name="noplaylist">ไม่พบเพลย์ลิสต์</string>
+    <string name="nosubfolder">ไม่มีโฟลเดอร์ย่อย</string>
     <string name="directorynotfound">ไม่พบเส้นทางไดเรกทอรี \'%1$s\'</string>
     <string name="nohistory">ยังไม่มีประวัติการเล่นของคุณ</string>
     <string name="validation">คุณแน่ใจหรือไม่</string>
 
     <string name="cover_art">ภาพหน้าปก</string>
+    <string name="shuffle_all_title">เล่นทั้งหมดแบบสลับ</string>
     <string name="shuffle_title">โหมดสุ่มเล่น</string>
     <string name="shuffle">โหมดสุ่มเล่นปิด</string>
     <string name="shuffle_on">โหมดสุ่มเล่นเปิด</string>
@@ -145,6 +170,7 @@
     <string name="favorite_added">บันทึกลงในรายการโปรดแล้ว</string>
     <string name="favorite_removed">เอาออกจากรายการโปรดแล้ว</string>
 
+    <string name="streams">สตรีม</string>
     <string name="open_mrl_dialog_msg">ป้อนที่อยู่เครือข่าย: เช่น http://, mms:// หรือ rtsp://</string>
     <string name="encountered_error_title">ข้อผิดพลาดการเล่น</string>
     <string name="encountered_error_message">VLC พบว่าสื่อนี้มีข้อผิดพลาด\nกรุณาลองรีเฟรชคลังสื่ออีกครั้ง</string>
@@ -156,6 +182,9 @@
     <string name="playback_history_title">ประวัติการเล่น</string>
     <string name="playback_history_summary">บันทึกสื่อทั้งหมดที่เล่นไว้ในส่วน \"ประวัติ\"</string>
     <string name="playback_speed_title">บันทึกความเร็วในการเล่น</string>
+    <string name="playback_speed_summary">จดจำความเร็วในการเล่นระหว่างสื่อ</string>
+
+    <string name="play_button">ปุ่มเล่น</string>
 
     <!-- Tips -->
     <string name="video_player_tips">คำแนะนำโปรแกรมเล่นวิดีโอ:</string>
@@ -186,6 +215,7 @@
     <string name="about_text">VLC สำหรับ Android™ เป็นแขนงหนึ่งของโปรแกรมเล่นสื่อ VLC ซึ่งเป็นโปรแกรมเล่นสื่อยอดนิยมแบบโอเพนซอร์ส โดยในเวอร์ชัน Android™ สามารถอ่านไฟล์และสตรีมเครือข่ายได้แทบทุกรูปแบบ</string>
     <string name="vlc_authors">และผู้จัดทำ VLC</string>
     <string name="compiled_by">VLC เวอร์ชันนี้คอมไพล์โดย:</string>
+    <string name="feedback_forum">ฟอรัมคำติชม</string>
 
     <!-- Preferences -->
     <string name="preferences">การตั้งค่า</string>
@@ -206,8 +236,11 @@
     <string name="screen_orientation_start_lock">ล็อกตั้งแต่เริ่มต้น</string>
     <string name="screen_orientation_portrait">แนวตั้ง</string>
     <string name="screen_orientation_landscape">แนวนอน</string>
+    <string name="enable_black_theme">ธีมสีดำ</string>
     <string name="subtitle_text_encoding">การเข้ารหัสข้อความคำบรรยาย</string>
     <string name="daynight_title">โหมดกลางวัน/กลางคืน</string>
+    <string name="daynight_follow_system_title">ใช้ตามโหมดของระบบ</string>
+
     <string name="extra_prefs_category">การตั้งค่าพิเศษ</string>
 
     <string name="interface_prefs_screen">อินเทอร์เฟซ</string>
@@ -215,16 +248,26 @@
     <string name="enable_clone_mode">ตั้งค่าการโคลน</string>
     <string name="video_prefs_category">วิดีโอ</string>
     <string name="video_min_group_length_title">จัดกลุ่มวิดีโอ</string>
+    <string name="video_min_group_length_disable">ไม่ต้องจัดกลุ่มวิดีโอ</string>
+    <string name="video_min_group_length_folder">จัดกลุ่มตามโฟลเดอร์</string>
+    <string name="video_min_group_length_name">จัดกลุ่มตามชื่อ</string>
+    <string name="media_fast_seek">การกรอแบบเร็ว</string>
+    <string name="media_fast_seek_summary">การกรอในสื่อจะเร็วขึ้น แต่จะแม่นยำน้อยลง</string>
+    <string name="video_transition_title">การเปลี่ยนวิดีโอ</string>
+    <string name="video_transition_summary">แสดงชื่อเรื่องวิดีโอใหม่เมื่อเปลี่ยน</string>
     <string name="media_seen">แสดงเครื่องหมายว่าวิดีโอนี้ดูแล้ว</string>
     <string name="media_seen_summary">ทำเครื่องหมายวิดีโอว่าดูแล้วเมื่อคุณเปิดเล่นวิดีโอจนจบ</string>
     <string name="force_play_all_summary">เล่นวิดีโอทั้งหมด โดยเริ่มจากวิดีโอที่คุณคลิกเลือก</string>
     <string name="force_play_all_title">โหมดเพลย์ลิสต์วิดีโอ</string>
+    <string name="save_brightness_summary">จำระดับความสว่างระหว่างสื่อ</string>
+    <string name="save_brightness_title">บันทึกระดับความสว่าง</string>
     <string name="save_audiodelay_summary">บันทึกการหน่วงเวลาเสียงแต่ละรายการสำหรับวิดีโอแต่ละรายการ</string>
     <string name="save_audiodelay_title">บันทึกการหน่วงเวลาเสียง</string>
     <string name="enable_brightness_gesture_title">ปรับความสว่างด้วยท่าทาง</string>
     <string name="enable_brightness_gesture_summary">ควบคุมความสว่างด้วยท่าทางในขณะที่กำลังเล่นวิดีโออยู่</string>
     <string name="enable_volume_gesture_title">ปรับระดับเสียงด้วยท่าทาง</string>
     <string name="enable_volume_gesture_summary">ควบคุมระดับเสียงด้วยท่าทางในขณะที่กำลังเล่นวิดีโออยู่</string>
+    <string name="enable_seek_buttons">ปุ่มกรอ</string>
     <string name="enable_seek_buttons_summary">แสดงปุ่มย้อนกลับและไปข้างหน้าบนอินเทอร์เฟซวิดีโอ</string>
     <string name="enable_double_tap_seek_title">แตะสองครั้งเพื่อค้นหา</string>
     <string name="enable_double_tap_seek_summary">แตะสองครั้งบริเวณขอบหน้าจอเพื่อกรอ 10 วินาที</string>
@@ -252,16 +295,24 @@
     <string name="audio_prefs_category">เสียง</string>
     <string name="lockscreen_cover_title">แสดงปกอัลบั้มบนฟน้าจอล็อก</string>
     <string name="lockscreen_cover_summary">เมื่อพร้อมใช้งาน ให้ตั้งปกอัลบั้มสื่อปัจจุบันเป็นภาพพื้นหลังของหน้าจอล็อก</string>
+    <string name="list_title_ellipsize_default">ค่าเริ่มต้น</string>
+    <string name="list_title_ellipsize_left">ซ้าย</string>
+    <string name="list_title_ellipsize_right">ขวา</string>
+    <string name="list_title_ellipsize_middle">กลาง</string>
+    <string name="list_title_ellipsize_marquee">ตัวอักษรวิ่ง</string>
     <string name="audio_boost_title">การเพิ่มเสียง</string>
+    <string name="audio_boost_summary">อนุญาตการปรับระดับเสียงสูงสุด 200%</string>
     <string name="headset_prefs_category">ชุดหูฟัง</string>
     <string name="enable_headset_detection">ตรวจหาชุดหูฟัง</string>
     <string name="enable_headset_detection_summary">ตรวจจับการเสียบและถอดชุดหูฟัง</string>
     <string name="enable_play_on_headset_insertion">เล่นต่อหลังจากเสียบชุดหูฟัง</string>
     <string name="enable_play_on_headset_insertion_summary">พักต่อไป</string>
     <string name="aout">เอาต์พุตเสียง</string>
+    <string name="aout_summary">เปลี่ยนวิธีที่ VLC ใช้ในการแสดงผลเสียง</string>
     <string name="audio_ducking_title">ลดระดับเสียง VLC เมื่อมีการแจ้งเตือน</string>
     <string name="audio_ducking_summary">ช่วยให้ได้ยินเสียงการแจ้งเตือน การนำทาง หรือเสียงผู้ช่วยได้ชัดเจนขึ้น</string>
     <string name="casting_category">การแคสต์</string>
+    <string name="casting_switch_title">การแคสต์แบบไร้สาย</string>
     <string name="casting_passthrough_title">การส่งผ่านเสียง</string>
     <string name="casting_passthrough_summary">ให้ทีวีของคุณจัดการการแสดงผลเสียง</string>
     <string name="casting_conversion_quality_title">คุณภาพในการแปลง</string>
@@ -284,22 +335,40 @@
 
     <string name="performance_prefs_category">ประสิทธิภาพการทำงาน</string>
     <string name="chroma_format">บังคับค่าความสดสีวิดีโอ</string>
+    <string name="chroma_format_summary">RGB แบบ 32 บิต: ความสดสีเริ่มต้น\nRGB แบบ 16 บิต: เพื่อประสิทธิภาพที่ดีกว่า แต่อาจลดคุณภาพได้\nYUV: เพื่อประสิทธิภาพที่ดีที่สุด แต่ใช้ไม่ได้กับทุกอุปกรณ์ (จำเป็นต้องใช้ Android 2.3 หรือเวอร์ชั่นใหม่กว่าเท่านั้น)</string>
     <string name="deblocking">การตั้งค่าตัวกรองการดีบล็อก</string>
+    <string name="deblocking_summary">เปลี่ยนการตั้งค่าตัวกรองการดีบล็อก สามารถช่วยเพิ่มคุณภาพวิดีโอ (เฉพาะผู้ใช้ขั้นสูงเท่านั้น)</string>
     <string name="deblocking_always">การดีบล็อกเต็มที่ (ช้าที่สุด)</string>
     <string name="deblocking_nonref">การดีบล็อกปานกลาง</string>
     <string name="deblocking_nonkey">การดีบล็อกต่ำ</string>
     <string name="deblocking_all">ไม่มีการดีบล็อก (เร็วที่สุด)</string>
+    <string name="enable_frame_skip">การข้ามเฟรม</string>
+    <string name="enable_frame_skip_summary">เพิ่มความเร็วในการถอดรหัส แต่อาจลดคุณภาพวิดีโอได้</string>
     <string name="enable_time_stretching_audio">เปิดใช้งานการยืดเสียง</string>
+    <string name="enable_time_stretching_audio_summary">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้อุปกรณ์ที่ประมวลผลเร็ว)</string>
+
     <string name="advanced_prefs_category">ขั้นสูง</string>
     <string name="auto_rescan">สแกนใหม่อัตโนมัติ</string>
     <string name="auto_rescan_summary">สแกนอุปกรณ์ว่ามีสื่อใดเพิ่มหรือถูกลบออกไปโดยอัตโนมัติเมื่อเปิดแอปพลิเคชัน</string>
+    <string name="dump_media_db">บันทึกฐานข้อมูลสื่อจากหน่วยความจำ</string>
+    <string name="dump_media_db_summary">คัดลอกฐานข้อมูลไปยังรากที่เก็บข้อมูลภายใน</string>
     <string name="clear_media_db">ล้างฐานข้อมูลสื่อ</string>
+    <string name="clear_media_database_summary">ล้างฐานข้อมูลเพื่อเริ่มใหม่</string>
+    <string name="clear_history">ล้างประวัติ</string>
     <string name="set_locale">ตั้งภาษา</string>
     <string name="network_caching">ค่าการทำแคชเครือข่าย</string>
+    <string name="network_caching_summary">ระยะเวลาที่ใช้ทำบัฟเฟอร์สื่อทางเครือข่าย (เป็นมิลลิวินาที) สำหรับการถอดรหัสด้วยซอฟต์แวร์\nปล่อยว่างไว้เพื่อรีเซ็ต</string>
     <string name="resume_playback_title">เล่นต่อหลังจากวางสาย</string>
     <string name="resume_playback_summary">พักต่อไป</string>
+    <string name="blurred_cover_background_title">พื้นหลังปกแบบเบลอ</string>
+    <string name="blurred_cover_background_summary">ปกแบบเบลอในพื้นหลังของโปรแกรมเล่นเสียง</string>
     <string name="network_caching_popup">ค่านี้ต้องอยู่ระหว่าง 0 ถึง 6000 มิลลิวินาที</string>
     <string name="quit">ออกและเริ่มแอปพลิเคชันใหม่</string>
+    <string name="restart_message">การเปลี่ยนแปลงจะมีผลเมื่อเริ่มการทำงานแอปพลิเคชันใหม่\n\nเริ่มการทำงานใหม่ตอนนี้หรือไม่</string>
+    <string name="restart_message_OK">ตกลง</string>
+    <string name="restart_message_Later">ภายหลัง</string>
+    <string name="browser_show_all_title">แสดงไฟล์ทั้งหมด</string>
+
     <string name="developer_prefs_category">นักพัฒนา</string>
     <string name="enable_verbose_mode">รายละเอียด</string>
     <string name="enable_verbose_mode_summary">เพิ่มรายละเอียด (บันทึก)</string>
@@ -314,26 +383,43 @@
     <string name="dump_logcat">ถ่ายโอนข้อมูลไฟล์บันทึก logcat</string>
     <string name="dump_logcat_success">ถ่ายโอนข้อมูลของ Logcat ไปยัง %1$s สำเร็จแล้ว!</string>
     <string name="dump_logcat_failure">การถ่ายโอนข้อมูล Logcat ล้มเหลว</string>
+    <string name="custom_libvlc_options">ตัวเลือก libVLC ที่กำหนดเอง</string>
+    <string name="custom_libvlc_options_invalid">ตัวเลือก libVLC ไม่ถูกต้อง!</string>
+
     <string name="serious_crash">ขออภัย เกิดข้อผิดพลาดร้ายแรงขึ้นซึ่งทำให้ VLC ต้องปิดไป</string>
     <string name="help_us_send_log">ช่วยเราปรับปรุง VLC ได้โดยการส่งไฟล์บันทึกความล้มเหลวดังกล่าวมาให้เรา:</string>
     <string name="restart_vlc">เปิด VLC ใหม่</string>
     <string name="send_log">ส่งไฟล์บันทึก</string>
     <string name="sending_log">กำลังส่งไฟล์บันทึก…</string>
 
+    <string name="delete_sub_title">ลบบทบรรยาย</string>
+    <string name="delete_sub_message">คุณต้องการลบบทบรรยายนี้หรือไม่</string>
+    <string name="download_subtitle_title">ดาวน์โหลดบทบรรยาย</string>
+
+    <string name="no_result">ไม่พบผลลัพธ์</string>
+    <string name="no_internet_connection">ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ</string>
+    <string name="subs_download_error">บริการไม่พร้อมใช้งาน โปรดลองอีกครั้งภายหลัง</string>
+
     <string name="network_browsing">เครือข่ายเฉพาะที่</string>
     <string name="browsing">เรียกดู</string>
 
+    <string name="file_size">ขนาดไฟล์</string>
+
     <string name="audio_delay">หน่วงเวลาเสียง</string>
     <string name="spu_delay">หน่วงเวลาคำบรรยาย</string>
+    <string name="network_shares_discovery">กำลังมองหาการแชร์ทางเครือข่าย</string>
     <string name="network_empty">ไดเรกทอรีนี้ว่างเปล่า</string>
     <string name="network_connection_needed">ไม่มีการเชื่อมต่อเครือข่ายเฉพาะที่</string>
     <string name="search_hint">ค้นหาสื่อ</string>
+    <string name="search_in_list_hint">ค้นหาในรายการปัจจุบัน</string>
     <string name="search_global">ค้นหาในคลังสื่อทั้งหมด</string>
     <string name="playlist_save">บันทึกเพลย์ลิสต์</string>
+    <string name="playlist_name_hint">ชื่อเพลย์ลิสต์</string>
     <string name="go_to_chapter">ไปที่ตอน…</string>
     <string name="chapter">ตอน</string>
     <string name="resume_from_position">เล่นต่อจากตำแหน่งที่เล่นล่าสุด</string>
     <string name="confirm_resume">เล่นต่อจากตำแหน่งล่าสุดหรือไม่</string>
+    <string name="confirm_resume_title">เล่นวิดีโอที่ค้างไว้ต่อ</string>
     <string name="tv_ui_title">อินเทอร์เฟซสำหรับ Android TV</string>
     <string name="tv_ui_summary">เปลี่ยนธีมอินเทอร์เฟซเป็นแบบเดียวกับค่าเริ่มต้นของทีวี</string>
     <string name="medialibrary">คลังสื่อ</string>
@@ -342,6 +428,7 @@
     <!-- Accessibility -->
     <string name="more_actions">การกระทำเพิ่มเติม</string>
     <string name="back_quit_lock">กดปุ่มกลับอีกครั้งเพื่อออกจากวิดีโอ</string>
+    <string name="stream_deleted">ลบสตรีมแล้ว</string>
     <string name="no_subs_found">ไม่มีคำบรรยายในไดเรกทอรีนี้</string>
     <string name="music_now_playing">กำลังเล่นอยู่</string>
 
@@ -370,6 +457,7 @@
     <string name="extension_empty">ไม่มีรายการที่จะแสดง ไปที่การตั้งค่าส่วนขยายเพื่อรับส่วนขยายเพิ่มเติม</string>
 
     <string name="opengl_title">การใช้ OpenGL ES2</string>
+    <string name="opengl_summary">ตามค่าเริ่มต้นแล้ว OpenGL ES2 ใช้สำหรับการถอดรหัสด้วยซอฟต์แวร์และการถอดรหัสด้วยฮาร์ดแวร์เมื่อจำเป็น (วิดีโอ 360°)</string>
     <string name="opengl_automatic">อัตโนมัติ</string>
     <string name="opengl_on">บังคับเปิด</string>
     <string name="opengl_off">บังคับปิด</string>
@@ -388,6 +476,7 @@
     <string name="episodes">ตอน</string>
     <string name="movies">ภาพยนตร์</string>
     <string name="videos">วิดีโอ</string>
+    <string name="videos_all">วิดีโอทั้งหมด</string>
     <string name="clear_playback_history">ล้างประวัติการเล่น</string>
     <string name="ml_scanning">กำลังสแกนไฟล์สื่อ</string>
     <string name="ml_parse_media">กำลังแยกวิเคราะห์สื่อ</string>
@@ -427,5 +516,113 @@
     <string name="sdcard_permission_dialog_message">VLC ไม่สามารถลบไฟล์นี้ได้โดยไม่ได้เขียนสิทธิ์การเข้าถึง\nกรุณาไปที่ SD การ์ดของคุณและคลิก \"เลือก\"\nคุณอาจต้องคลิก \"แสดง SD การ์ด\" ในเมนูบนขวาก่อน</string>
     <string name="dialog_sd_wizard">แสดงวิธีการ</string>
     <string name="renderers_disconnect">ยกเลิกการเชื่อมต่อ</string>
+    <string name="audio_digital_failed">ไม่สามารถเปลี่ยนสถานะของเอาต์พุตดิจิทัลเสียงได้</string>
+    <string name="audio_digital_output_enabled">เปิดใช้งานเอาต์พุตดิจิทัลเสียงแล้ว</string>
+    <string name="audio_digital_output_disabled">ปิดใช้งานเอาต์พุตดิจิทัลเสียงแล้ว</string>
+    <string name="audio_digital_title">เอาต์พุตเสียงดิจิทัล (แบบส่งผ่าน)</string>
+    <string name="audio_task_cleared_summary">หยุดเล่นเมื่อปิดแอปพลิเคชัน</string>
+    <string name="playback_rewind">กรอกลับ</string>
+    <string name="playback_forward">กรอไปข้างหน้า</string>
+    <string name="ml_wizard_scan_checkbox">สแกนอุปกรณ์สำหรับเนื้อหาสื่อ</string>
+    <string name="ml_wizard_description">เลือกว่าจะให้ VLC สแกนที่เก็บข้อมูลอุปกรณ์ของคุณเพื่อจัดระเบียบไลบรารีสื่อของคุณหรือใช้เป็นเพียงโปรแกรมเล่นอย่างง่ายที่มีเบราว์เซอร์แบบรวม</string>
+    <string name="tv_my_new_videos">วิดีโอใหม่ของฉัน</string>
+    <string name="cast_option_title">แคสต์สื่อบนหน้าจออื่น</string>
+    <string name="otg_device_title">อุปกรณ์ OTG</string>
+    <string name="browser">เบราว์เซอร์</string>
+    <string name="ab_repeat">เล่นซ้ำแบบ A-B</string>
+    <string name="stop_after_this">หยุดหลังจากแทร็กนี้</string>
+    <string name="time_category_new">สื่อใหม่</string>
+    <string name="time_category_current_month">เดือนนี้</string>
+    <string name="time_category_current_year">ปีนี้</string>
+    <string name="time_category_last_year">ปีที่แล้ว</string>
+    <string name="time_category_older">สื่อที่เก่ากว่า</string>
+    <string name="rename">เปลี่ยนชื่อ</string>
+    <string name="rename_media">เปลี่ยนชื่อ %1$s</string>
+    <string name="manual_search">การค้นหาด้วยตนเอง</string>
+    <string name="subtitle_search_name_hint">ชื่อ</string>
+    <string name="subtitle_search_episode_hint">ตอน</string>
+    <string name="subtitle_search_season_hint">ซีซัน</string>
+    <string name="language_to_download">ภาษา</string>
+    <string name="delete_the_selected">ลบส่วนที่เลือก</string>
+    <string name="download_the_selected">ดาวน์โหลดส่วนที่เลือก</string>
     <string name="next">ถัดไป</string>
+    <string name="download">ดาวน์โหลด</string>
+    <string name="ctx_player_video_track">เลือกแทร็กวิดีโอ</string>
+    <string name="ctx_player_audio_track">แทร็กเสียง</string>
+    <string name="ctx_player_subs_track">แทร็กบทบรรยาย</string>
+    <string name="ctx_pip_title">โปรแกรมเล่นแบบผุดขึ้น</string>
+    <string name="device_dialog_title">ใส่อุปกรณ์ภายนอกแล้ว</string>
+    <string name="videos_folders_title">วิดีโอตามโฟลเดอร์</string>
+    <string name="videos_groups_title">กลุ่มวิดีโอ</string>
+    <string name="welcome_title">ยินดีต้อนรับสู่ VLC!</string>
+    <string name="welcome_subtitle">โปรแกรมเล่นสื่อฟรีและโอเพนซอร์ส</string>
+    <string name="permission_media">VLC จำเป็นต้องมีสิทธิอนุญาตของคุณเพื่อเข้าถึงไฟล์สื่อบนอุปกรณ์ของคุณ</string>
+    <string name="onboarding_theme_title">ทำตัวตามสบาย</string>
+    <string name="done">เสร็จสิ้น</string>
+    <string name="onboarding_scan_title">ค้นพบสื่อของคุณอัตโนมัติ</string>
+    <string name="onboarding_scanning_enable">ให้ VLC สแกนอุปกรณ์ของฉันสำหรับเนื้อหาสื่</string>
+    <string name="onboarding_scan_customize">ให้ฉันเลือกโฟลเดอร์ที่ VLC จะสแกน</string>
+    <string name="button_medialibrary_preferences">ไปยังค่ากำหนดไลบรารีสื่อ</string>
+    <string name="light_theme">ธีมสว่าง</string>
+    <string name="add">เพิ่</string>
+    <string name="add_to_new_playlist">เพิ่มลงในเพลย์ลิสต์ใหม่</string>
+    <string name="resume_card_message">เล่น %1$s ต่อหรือไม่</string>
+    <string name="misc">เบ็ดเตล็ด</string>
+    <string name="show_video_thumbnails_summary">แสดงรูปขนาดย่อของวิดีโอในรายการ</string>
+    <string name="show_video_thumbnails">รูปขนาดย่อของวิดีโอ</string>
+    <string name="enable_equalizer">เปิดใช้งาน</string>
+    <string name="reset">รีเซ็ต</string>
+    <string name="remove_current">เอารายการปัจจุบันออก</string>
+    <string name="validation_delete_playlist">คุณแน่ใจหรือไม่ว่าคุณต้องการลบเพลย์ลิสต์นี้</string>
+    <string name="validation_delete_playlist_text">การกระทำนี้ไม่สามารถยกเลิกได้</string>
+    <string name="dump_db_failure">ไม่สามารถถ่ายโอนฐานข้อมูลได้</string>
+    <string name="send_crash_title">โปรแกรมรายงานข้อขัดข้องของ VLC</string>
+    <string name="send_crash_description">การส่งข้อขัดข้องของคุณจะช่วยเราปรับปรุงความเสถียรของ VLC ได้</string>
+    <string name="send_crash_warning">ตรวจสอบให้แน่ใจว่าคุณเอาข้อมูลที่ละเอียดอ่อนใด ๆ ที่คุณไม่ต้องการส่งออกแล้ว</string>
+    <string name="include_medialib">รวมฐานข้อมูลของคุณ</string>
+    <string name="vlc_reporter">โปรแกรมรายงานของ VLC</string>
+    <string name="welcome_beta_title">VLC เบต้า</string>
+    <string name="welcome_beta_description">ยินดีต้อนรับสู่โปรแกรมเบต้าของ VLC\nโปรดทราบว่ารุ่นนี้อาจมีจุดบกพร่องบางประการ</string>
+    <string name="welcome_beta_description_bugs">หากคุณพบจุดบกพร่อง โปรดรายงานในฟอรัมของเราหรือโปรแกรมติดตามจุดบกพร่อง</string>
+    <string name="welcome_beta_description_crashes">หากคุณพบข้อขัดข้อง โปรดใช้ไอคอนโปรแกรมรายงานของ VLC ในตัวเปิดใช้งานของคุณเพื่อส่งถึงเรา</string>
+    <string name="send">ส่ง</string>
+    <string name="send_crash_action_title">คุณต้องการทำอะไร</string>
+    <string name="report_a_bug">รายงานจุดบกพร่อง</string>
+    <string name="report_a_crash">รายงานข้อขัดข้อ</string>
+    <string name="describe_crash">โปรดอธิบายว่าข้อขัดข้องนี้เกิดขึ้นอย่างไร</string>
+    <string name="favorite">รายการโปรด</string>
+    <string name="always">เสมอ</string>
+    <string name="never">ไม่ต้อง</string>
+    <string name="ask_confirmation">ถามก่อน</string>
+    <string name="add_to_scanned">สแกนโฟลเดอร์นี</string>
+    <string name="directory_not_scanned">ไม่ได้สแกนไดเรกทอรีนี้</string>
+    <string name="scanned_directory_added">เพิ่ม %s ลงในไดเรกทอรีที่สแกนของคุณแล้ว</string>
+    <string name="video_group_size_summary">จัดกลุ่มตามอักษร %s ตัวแรก</string>
+    <string name="url_copied_to_clipboard">คัดลอก URL ไปยังคลิปบอร์ดแล้ว</string>
+    <string name="share">แชร์</string>
+    <string name="invalid_file">ไฟล์ไม่ถูกต้อง ไม่สามารถแชร์ได้</string>
+    <string name="share_file">แชร์ %s</string>
+    <string name="share_message">ที่นี่คือ %s</string>
+    <string name="find_metadata">ค้นหาข้อมูลกำกับ</string>
+    <string name="moviepedia_hint">ค้นหาข้อมูลกำกับ</string>
+    <string name="moviepedia_result">ผลลัพธ์วิดีโอ</string>
+    <string name="directed_by">กำกับโดย</string>
+    <string name="casting">นักแสดง</string>
+    <string name="produced_by">ผลิตโดย</string>
+    <string name="written_by">เขียนโดย</string>
+    <string name="music_by">เพลงโดย</string>
+    <string name="posters">โปสเตอร์</string>
+    <string name="backdrops">ฉากหลัง</string>
+    <string name="header_tvshows">รายการทีวี</string>
+    <string name="header_movies">ภาพยนตร์</string>
+    <string name="season_number">ซีซัน %s</string>
+    <string name="resume_episode">เล่นต่อ (%s)</string>
+    <string name="start_over">เริ่มเล่นใหม่</string>
+    <string name="next_episode">ตอนถัดไป</string>
+    <string name="open_network_settings">เปิดการตั้งค่าเครือข่ายหรือไม่</string>
+    <string name="recently_played">ที่เล่นเมื่อล่าสุด</string>
+    <string name="recently_added">ที่เพิ่มเมื่อล่าสุด</string>
+    <string name="playback_multiple_errors">ไม่สามารถเล่นสื่อหลายรายการได้</string>
+    <string name="abrepeat_add_first_marker">ตั้งค่าจุดเริ่มต้น</string>
+    <string name="abrepeat_add_second_marker">ตั้งค่าจุดสิ้นสุด</string>
 </resources>
