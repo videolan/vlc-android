@@ -846,7 +846,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 putString(MediaMetadataCompat.METADATA_KEY_ARTIST, MediaUtils.getMediaArtist(ctx, media))
                 putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MediaUtils.getMediaReferenceArtist(ctx, media))
                 putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MediaUtils.getMediaAlbum(ctx, media))
-                putLong(MediaMetadataCompat.METADATA_KEY_DURATION, length)
+                putLong(MediaMetadataCompat.METADATA_KEY_DURATION, if (length != 0L) length else -1L)
             }
             if (coverOnLockscreen) {
                 val cover = AudioUtil.readCoverBitmap(Uri.decode(media.artworkMrl), 512)
