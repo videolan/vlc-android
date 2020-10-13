@@ -181,7 +181,10 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         val list = mutableListOf<MediaLibraryItem>()
         PlaybackService.instance?.run {
             currentMediaWrapper?.let {
-                DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artist).apply { setArtWork(coverArt) }
+                if (this.playlistManager.player.isVideoPlaying())
+                    DummyItem(CATEGORY_NOW_PLAYING_PIP, it.title, it.artist).apply { setArtWork(coverArt) }
+                else
+                    DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artist).apply { setArtWork(coverArt) }
             }
         }?.let { list.add(0, it) }
         (nowPlaying as MutableLiveData).value = list

@@ -1,0 +1,15 @@
+# remove the leading '#' to uncomment lines
+
+ app_package_name("org.videolan.vlc.debug")
+ use_tests_in_classes(['org.videolan.vlc.PhoneScreenhotsInstrumentedTest'])
+
+use_adb_root(true)
+test_instrumentation_runner("org.videolan.vlc.MultidexTestRunner")
+#locales(['en-US', 'fr-FR', 'it-IT', 'ko-KR', 'ja-JP'])
+locales(['en-US', 'fr-FR', 'it-IT'])
+
+# clear all previously generated screenshots in your local output directory before creating new ones
+clear_previous_screenshots(true)
+
+# For more information about all available options run
+#   fastlane screengrab --help

@@ -754,4 +754,8 @@
     <string name="thank_you">Ďakujeme</string>
     <string name="thank_you_desc">Ďakujeme Vám za sponzorovanie!\nVeľmi nám pomáha pri vylepšovaní VLC!</string>
     <string name="donate_again">Znovu sponzorsky podporiť aplikáciu</string>
+
+    <string name="mark_as_played">Označiť ako prehrané</string>
+    <string name="mark_all_as_played">Označiť všetko ako prehrané</string>
+
 </resources>

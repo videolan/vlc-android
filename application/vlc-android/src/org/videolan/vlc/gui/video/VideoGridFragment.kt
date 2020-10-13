@@ -433,12 +433,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_REMOVE_GROUP -> viewModel.removeFromGroup(media)
                 CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media))
                 CTX_GROUP_SIMILAR -> lifecycleScope.launch { viewModel.groupSimilar(media) }
-
+                CTX_MARK_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
             }
             is Folder -> when (option) {
                 CTX_PLAY -> viewModel.play(position)
                 CTX_APPEND -> viewModel.append(position)
                 CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
+                CTX_MARK_ALL_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
             }
             is VideoGroup -> when (option) {
                 CTX_PLAY_ALL -> viewModel.play(position)
@@ -447,28 +448,19 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_ADD_TO_PLAYLIST -> viewModel.addItemToPlaylist(requireActivity(), position)
                 CTX_RENAME_GROUP -> renameGroup(media)
                 CTX_UNGROUP -> viewModel.ungroup(media)
+                CTX_MARK_ALL_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
             }
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RENAME_DIALOG_REQUEST_CODE) {
-            data?.let {
-
-                val media = it.getParcelableExtra<VideoGroup>(RENAME_DIALOG_MEDIA)
-                val newName = it.getStringExtra(RENAME_DIALOG_NEW_NAME)
-                viewModel.renameGroup(media, newName)
-                (activity as? AppCompatActivity)?.run {
-                    supportActionBar?.title = newName
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun renameGroup(media: VideoGroup) {
         val dialog = RenameDialog.newInstance(media)
-        dialog.setTargetFragment(this, RENAME_DIALOG_REQUEST_CODE)
+        dialog.setListener { media, name ->
+            viewModel.renameGroup(media as VideoGroup, name)
+                (activity as? AppCompatActivity)?.run {
+                    supportActionBar?.title = name
+                }
+        }
         dialog.show(requireActivity().supportFragmentManager, RenameDialog::class.simpleName)
     }
 

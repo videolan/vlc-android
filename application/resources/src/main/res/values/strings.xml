@@ -750,4 +750,8 @@
     <string name="thank_you">Thank you</string>
     <string name="thank_you_desc">Thank you for your sponsorship!\nIt will help us a lot improving VLC!</string>
     <string name="donate_again">Sponsor the app again</string>
+
+    <string name="mark_as_played">Mark as played</string>
+    <string name="mark_all_as_played">Mark all as played</string>
+
 </resources>

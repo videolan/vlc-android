@@ -1,13 +1,15 @@
-From 30a515f551c3531931ab624f8c1b5ffa9b4e4c36 Mon Sep 17 00:00:00 2001
-Message-Id: <30a515f551c3531931ab624f8c1b5ffa9b4e4c36.1593695247.git.thomas@gllm.fr>
-In-Reply-To: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
-References: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
+From 1decddc1682a0923b619a0d1e4ada808134aaf8b Mon Sep 17 00:00:00 2001
+Message-Id: <1decddc1682a0923b619a0d1e4ada808134aaf8b.1601374253.git.nicolas@videolabs.io>
+In-Reply-To: <4b80ba0cb27cadee99cf18b8f13fd7d16f19066b.1601374253.git.nicolas@videolabs.io>
+References: <4b80ba0cb27cadee99cf18b8f13fd7d16f19066b.1601374253.git.nicolas@videolabs.io>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Thu, 2 Jul 2020 15:05:01 +0200
-Subject: [PATCH 6/6] input: es_out: set video exclusive
+Subject: [PATCH 6/8] input: es_out: set video exclusive
 
 Since there can be only one video at a time for now (only one Surface is
 supported).
+Message-Id: <30a515f551c3531931ab624f8c1b5ffa9b4e4c36.1593695247.git.thomas@gllm.fr>
+Message-Id: <d767224cec28af8642d9fca53c4aef459979d6d3.1599040437.git.nicolas@videolabs.io>
 ---
  src/input/es_out.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -26,5 +28,5 @@ index 5a2b194688..c700f31db5 100644
      EsOutPropsInit( &p_sys->audio, true, p_input, ES_OUT_ES_POLICY_EXCLUSIVE,
                      "audio-track-id", "audio-track", "audio-language", "audio" );
 -- 
-2.20.1
+2.25.1
 

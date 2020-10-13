@@ -47,8 +47,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.donations.BillingStatus
 import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
-import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_NEW_NAME
-import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_REQUEST_CODE
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.network.IStreamsFragmentDelegate
@@ -199,18 +197,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory,
             outState.putParcelable(KEY_SELECTION, SparseBooleanArrayParcelable(it.selectionMap))
         }
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RENAME_DIALOG_REQUEST_CODE) {
-            data?.let {
-
-                val media = it.getParcelableExtra<MediaWrapper>(RENAME_DIALOG_MEDIA)
-                val newName = it.getStringExtra(RENAME_DIALOG_NEW_NAME)
-                streamsViewModel.rename(media, newName)
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun refresh() = viewModel.refresh()

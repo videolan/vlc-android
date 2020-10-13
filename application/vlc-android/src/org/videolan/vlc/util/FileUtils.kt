@@ -98,10 +98,12 @@ object FileUtils {
                 return ""
             val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             cursor.moveToFirst()
-            return cursor.getString(columnIndex)
+            return Uri.fromFile(File(cursor.getString(columnIndex))).toString()
         } catch (e: IllegalArgumentException) {
             return ""
         } catch (e: SecurityException) {
+            return ""
+        } catch (e: NullPointerException) {
             return ""
         } finally {
             if (cursor != null && !cursor.isClosed) cursor.close()

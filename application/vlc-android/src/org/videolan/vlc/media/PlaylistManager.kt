@@ -318,6 +318,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 skipMedia()
                 return
             }
+            //PiP TV
+            if (AndroidDevices.isTv && isVideoPlaying) {
+                VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
+            }
             val title = mw.getMetaLong(MediaWrapper.META_TITLE)
             if (title > 0) uri = "$uri#$title".toUri()
             val start = getStartTime(mw)
@@ -857,10 +861,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     id = internalMedia.id
                 else {
                     internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) {
-                        medialibrary.addStream(Uri.decode(entryUrl ?: mw.uri.toString()), mw.title).also {
+                        medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
                             entryUrl = null
                         }
-                    } else medialibrary.addMedia(Uri.decode(mw.uri.toString()))
+                    } else medialibrary.addMedia(mw.uri.toString())
                     if (internalMedia != null) id = internalMedia.id
                 }
             }

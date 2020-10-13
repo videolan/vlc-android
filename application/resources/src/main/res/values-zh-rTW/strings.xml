@@ -720,4 +720,8 @@
     <string name="thank_you">謝謝</string>
     <string name="thank_you_desc">感謝您的贊助！\n這將協助我們大大地改善 VLC！</string>
     <string name="donate_again">再次贊助應用程式</string>
+
+    <string name="mark_as_played">標記為已播放</string>
+    <string name="mark_all_as_played">全部標記為已播放</string>
+
 </resources>

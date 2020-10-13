@@ -343,6 +343,10 @@ class BenchActivity : ShallowVideoPlayer() {
         val metric: Int
         val drops = service!!.lastStats!!.lostPictures
         when {
+            (direction != 0 && speed >= 9 && drops >= 50) -> {
+                errorFinish("Failed speed test")
+                return false
+            }
             (direction == 0 && drops > 0) -> return true
             (direction != 0 && speed >= 1.0) -> {
                 metric = lateFrameCounter
@@ -373,7 +377,7 @@ class BenchActivity : ShallowVideoPlayer() {
             hasLimit = findLimit(goBack)
         }
         converge(goBack)
-        if (speedIteration == SPEED_TEST_ITERATION_LIMIT || speed == 0f) {
+        if (speedIteration == SPEED_TEST_ITERATION_LIMIT || speed == 0f || speed >= 10) {
             service!!.playlistManager.setRepeatType(oldRepeating)
             finish()
         }

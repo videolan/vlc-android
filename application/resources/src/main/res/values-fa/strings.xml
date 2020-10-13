@@ -7,7 +7,7 @@
     <string name="other">دیگر</string>
     <string name="sortby">مرتب سازی بر پایه…</string>
     <string name="sortby_name">نام</string>
-    <string name="sortby_filename">نام پرونده</string>
+    <string name="sortby_filename">نام فایل</string>
     <string name="sortby_artist_name">نام هنرمند</string>
     <string name="sortby_album_name">نام آلبوم</string>
     <string name="sortby_length">مدت</string>
@@ -320,6 +320,9 @@
     <string name="enable_play_on_headset_insertion">با وصل شدن هدست، پخش ادامه یابد</string>
     <string name="aout">خروجی صوتی</string>
     <string name="audio_ducking_title">صدای VLC در زمان دریافت اعلانات کاهش یابد</string>
+    <string name="casting_category">در حال نمایش دادن</string>
+    <string name="casting_switch_title">نمایش بیسیم</string>
+    <string name="casting_passthrough_summary">اجازه دهید تلویزیون شما پردازش صدا را مدیریت کند</string>
     <string name="casting_conversion_quality_title">کیفیت تبدیل</string>
     <string name="casting_conversion_quality_summary">کیفیت تبدیل را در زمان پخش روی صفحه نمایش راه دور انتخاب کنید</string>
     <string name="casting_quality_high">بالا</string>
@@ -345,16 +348,21 @@
     <string name="deblocking_nonkey">بلاک شکنی ضعیف</string>
     <string name="deblocking_all">بلاک شکنی نشود (سریعترین)</string>
     <string name="enable_frame_skip">رد کردن فریم</string>
+    <string name="enable_frame_skip_summary">سرعت پردازش تصویر بالا میرود ولی ممکن است کیفیت تصویر شما کاهش پیدا کند.</string>
     <string name="enable_time_stretching_audio">زمان - کش دادن صوت</string>
     <string name="advanced_prefs_category">پیشرفته</string>
     <string name="auto_rescan">پویش دوباره خودکار</string>
     <string name="auto_rescan_summary">جستوجوی خودکار دستگاه برای رسانه‌‌های جدید و حذف شده در ابتدای اجرای برنامه</string>
+    <string name="dump_media_db">استخراج پایگاه داده رسانه</string>
+    <string name="dump_media_db_summary">کپی پایگاه داده به حافظه داخلی root</string>
     <string name="clear_media_db">پاک کردن بانک اطلاعاتی رسانه</string>
     <string name="clear_media_database_summary">پاک‌سازی پایگاه داده برای آغاز دوباره</string>
     <string name="clear_history">پاک‌سازی تاریخچه</string>
     <string name="set_locale">تغییر‌ زبان</string>
     <string name="network_caching">مقدار کش کردن شبکه</string>
     <string name="resume_playback_title">ادامه بازپخش بعد از تماس</string>
+    <string name="resume_playback_summary">در هر حال، روی حالت مکث بمان</string>
+    <string name="blurred_cover_background_title">پس زمینه بلوری</string>
     <string name="quit">خروج و شروع مجدد برنامه</string>
     <string name="restart_message_OK">باشه</string>
     <string name="restart_message_Later">بعد</string>
@@ -374,6 +382,9 @@
     <string name="dump_logcat">گزارش نسخه برداری logcat</string>
     <string name="dump_logcat_success">logcat با موفقیت نسخه برداری شد در %1$s!</string>
     <string name="dump_logcat_failure">خطا در نسخه برداری Logcat.</string>
+    <string name="custom_libvlc_options">تنظیمات دستی libVLC</string>
+    <string name="custom_libvlc_options_invalid">تنظیمات  libVLC اشتباه است!</string>
+
     <string name="serious_crash">متاسفانه، یک خطای جدی رخ داده و برنامه بسته میشود</string>
     <string name="help_us_send_log">با ارسال گزارش خرابی میتوانید برای بهبودی VLC به ما کمک کنید:</string>
     <string name="restart_vlc">راه اندازی مجدد VLC</string>
@@ -433,13 +444,20 @@
     <string name="exit_app">بستن VLC</string>
     <string name="exit_app_msg">آیا برای بستن VLC اطمینان داری؟</string>
 
+    <!-- fast scroller -->
+    <string name="fastscroller_track">دنبال کننده پیمایش سریع</string>
+
     <!-- Plugins -->
     <string name="plugins">افزونه‌ها</string>
     <string name="download_on_device">دانلود</string>
     <string name="extension_empty">موردی برای نمایش وجوذ ندارد، به تنظیمات توسعه رفته و چندتا بگیر.</string>
 
     <string name="opengl_automatic">خودکار</string>
+    <string name="opengl_on">روشن شدن سریع</string>
+    <string name="opengl_off">خاموش شدن سریع</string>
+    <string name="network_favorites">علاقه مندی های شبکه</string>
     <string name="network_shared_folders">پوشه‌های هم‌رسانی شده</string>
+    <string name="encryption_warning">اخطار، رمزنگاری برای این نسخه از Android موجود نمیباشد، گذرواژه بر روی یک محل امن ذخیره می شود ولی رمزگذاری نشده است.</string>
     <string name="store_password">به خاطر سپردن گذرواژه</string>
     <string name="add_to_playlist">افزودن به فهرست پخش</string>
     <string name="popup_playback_title">پخش ویدیو در پنجره پاپ آپ</string>
@@ -459,6 +477,7 @@
     <string name="ml_discovering">درحال جستوجو</string>
     <string name="resume">ادامه</string>
     <string name="length">طول</string>
+    <string name="tv_settings_hint">برای چک نشانه گذاری فولدرها ،  دکمه OK را نگه دارید</string>
     <string name="ml_external_storage_title">محل ذخیره بیرونی تازه شناسایی شد</string>
     <string name="ml_external_storage_accept">بله</string>
     <string name="ml_external_storage_decline">نه</string>
@@ -469,13 +488,21 @@
 
     <string name="custom_set_save_title">تغییرات ذخیره نشده</string>
     <string name="custom_set_save_warning">هشدار: تغییرات ذخیره نشده</string>
+    <string name="existing_custom_set_save_message">ذخیره تنظیمات صدا را با فرمت...</string>
+    <string name="new_custom_set_save_message">ذخیره جدید تنظیمات صدا را با فرمت...</string>
     <string name="save">ذخیره</string>
     <string name="do_not_save">عدم ذخیره</string>
     <string name="custom_set_wrong_input">نام نامعتبر</string>
+    <string name="custom_set_already_exist">تنظیمات صدا به این نام قبلا ذخیره شده است</string>
+    <string name="custom_set_restored">تنظیمات صدا دستی بازگردانده شد</string>
+    <string name="unsaved_set_deleted_message">تنظیمات صدا ذخیره نشده پاک شد.</string>
     <string name="equalizer_new_preset_name">جدید</string>
+    <string name="settings_ml_block_scan">سیستم در حال جستجو دستگاه شما می باشد.</string>
     <string name="recommendations">پیشنهادها</string>
     <string name="browser_quick_access">دسترسی سریع</string>
+    <string name="browser_storages">محل های ذخیره</string>
     <string name="msg_delete_failed">حذف رسانه %1$s ناموفق بود</string>
+    <string name="renderer_list_title">نمایش</string>
     <string name="sdcard_permission_dialog_title">بایستی به VLC اجازه‌ی دسترسی به فایل‌های حافظه‌ی دستگاه‌تان را بدهید.</string>
     <string name="dialog_sd_wizard">نشانم بده</string>
     <string name="renderers_disconnect">قطع شدن</string>

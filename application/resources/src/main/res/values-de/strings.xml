@@ -47,7 +47,7 @@
     <string name="set_song_question">\'%1$s\' als Klingelton festlegen?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei \'%1$s\' löschen?</string>
-    <string name="confirm_delete_album">Das Album  \'%1$s\' löschen?</string>
+    <string name="confirm_delete_album">Das Album \'%1$s\' löschen?</string>
     <string name="confirm_delete_several_media">%1$d wirklich löschen?</string>
     <string name="confirm_delete_folder">Den Ordner \'%1$s\' mit dem gesamten Inhalt löschen?</string>
     <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
@@ -538,7 +538,7 @@
     <string name="audio_task_cleared_summary">Wiedergabe wird gestoppt, wenn VLC aus der Liste der letzten Anwendungen entfernt wurde</string>
     <string name="audio_resume_card_title">Letzte Wiedergabe-Hinweis anzeigen</string>
     <string name="audio_resume_card_summary">Zeigt einen Hinweis, mit dem Sie die Audiowiedergabe beim Start der App fortsetzen können</string>
-    <string name="playback_rewind">Zurückspulen </string>
+    <string name="playback_rewind">Zurückspulen</string>
     <string name="playback_forward">Schnell vorspulen</string>
     <string name="ml_wizard_scan_checkbox">Gerät nach Medieninhalten durchsuchen</string>
     <string name="ml_wizard_description">Wählen Sie aus, ob VLC den Gerätespeicher durchsuchen soll, um Ihre Medienbibliothek zu organisieren, oder verwenden Sie VLC als einfachen Player mit integriertem Browser.</string>
@@ -731,4 +731,8 @@
     <string name="thank_you">Vielen Dank</string>
     <string name="thank_you_desc">Danke für Ihre Unterstützung!\nDies wird uns bei der Verbesserung von VLC helfen.</string>
     <string name="donate_again">Die App nochmals unterstützen</string>
+
+    <string name="mark_as_played">Als gespielt markieren</string>
+    <string name="mark_all_as_played">Alle als gespielt markieren</string>
+
 </resources>

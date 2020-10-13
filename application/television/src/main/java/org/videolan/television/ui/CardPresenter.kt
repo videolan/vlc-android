@@ -170,7 +170,7 @@ class CardPresenter(private val context: Activity, private val isPoster: Boolean
                 holder.updateCardViewImage(sDefaultCardImage)
             }
         }
-        if (item is DummyItem && item.id == CATEGORY_NOW_PLAYING) {
+        if (item is DummyItem && (item.id == CATEGORY_NOW_PLAYING || item.id == CATEGORY_NOW_PLAYING_PIP)) {
             val badge = AnimatedVectorDrawableCompat.create(context, R.drawable.anim_now_playing)!!
             holder.cardView.badgeImage = badge
             badge.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {

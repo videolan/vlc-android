@@ -1,10 +1,10 @@
-From a90ead426217722818e46a40281ca8581969749e Mon Sep 17 00:00:00 2001
-Message-Id: <a90ead426217722818e46a40281ca8581969749e.1593695247.git.thomas@gllm.fr>
-In-Reply-To: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
-References: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
+From 6bfd70a03bee179e762df24697b4c2df9107a71d Mon Sep 17 00:00:00 2001
+Message-Id: <6bfd70a03bee179e762df24697b4c2df9107a71d.1601374253.git.nicolas@videolabs.io>
+In-Reply-To: <4b80ba0cb27cadee99cf18b8f13fd7d16f19066b.1601374253.git.nicolas@videolabs.io>
+References: <4b80ba0cb27cadee99cf18b8f13fd7d16f19066b.1601374253.git.nicolas@videolabs.io>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Fri, 29 Mar 2019 10:56:26 +0100
-Subject: [PATCH 3/6] network: tls: Handle errors from older kernels
+Subject: [PATCH 3/8] network: tls: Handle errors from older kernels
 
 If MSG_FASTOPEN is defined, but turns out to be unimplemented by the
 underlying kernel (as is the case on android where the NDK claims to
@@ -16,6 +16,8 @@ and sendmsg will propagate that error.
 Treating EPIPE as a synonym for EOPNOTSUPP here allows for the
 connection to proceed, and the first call to sendmsg to complete as
 expected.
+Message-Id: <a90ead426217722818e46a40281ca8581969749e.1593695247.git.thomas@gllm.fr>
+Message-Id: <6d461a59b74aab4637ea73ccfb0e5b8936eb9b60.1599040437.git.nicolas@videolabs.io>
 ---
  src/network/tls.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
@@ -38,5 +40,5 @@ index 56e04d6ce7..3c3c083c30 100644
  #else
      tls->writev = vlc_tls_SocketWrite;
 -- 
-2.20.1
+2.25.1
 

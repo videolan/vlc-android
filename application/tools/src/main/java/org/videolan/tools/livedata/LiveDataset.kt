@@ -82,7 +82,8 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
     }
 
     fun move(item: T, newIndex: Int) {
-        move(internalList.indexOf(item), newIndex)
+        val from = internalList.indexOf(item)
+        if (from > 0) move(from, newIndex)
     }
 
     fun move(from: Int, to: Int) {

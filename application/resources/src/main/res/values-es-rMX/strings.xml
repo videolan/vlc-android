@@ -234,6 +234,7 @@
     <string name="add_custom_path_description">Introducir carpetas personales adicionales a examinar:</string>
     <string name="remove_custom_path">Eliminar ruta personalizada</string>
     <string name="hardware_acceleration">Aceleración de Hardware</string>
+    <string name="hardware_acceleration_summary">Desactivado: Más estable\nDecoding: puede mejorar rendimiento\nFull: puede dar un rendimiento mayor</string>
     <string name="hardware_acceleration_disabled">Deshabilitado</string>
     <string name="hardware_acceleration_decoding">Aceleración de decodificación</string>
     <string name="hardware_acceleration_full">Aceleración completa</string>
@@ -254,7 +255,10 @@
 
     <string name="interface_prefs_screen">Interfaz</string>
     <string name="interface_secondary_display_category_title">Pantalla secundaria</string>
+    <string name="interface_secondary_display_category_summary">Preferencias si hay pantalla secundaria (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Preferir clonar</string>
+    <string name="enable_clone_mode_summary">Clonar la pantalla del dispositivo sin control remoto</string>
+
     <string name="video_prefs_category">Vídeo</string>
     <string name="video_min_group_length_title">Agrupar videos</string>
     <string name="video_min_group_length_disable">No agrupar videos</string>
@@ -318,6 +322,7 @@
     <string name="enable_play_on_headset_insertion">Reaundar al conectar auriculares</string>
     <string name="enable_play_on_headset_insertion_summary">Si no, pausar</string>
     <string name="aout">Salida de audio</string>
+    <string name="aout_summary">Cambiar el método que usa VLC para la salida de audio</string>
     <string name="audio_ducking_title">Reducir volumen en notificaciones</string>
     <string name="audio_ducking_summary">Ayuda a oír las notificaciones de audio, instrucciones de navegación o asistente de voz</string>
     <string name="casting_category">Emisión</string>
@@ -344,22 +349,29 @@
 
     <string name="performance_prefs_category">Rendimiento</string>
     <string name="chroma_format">Forzar chroma</string>
+    <string name="chroma_format_summary">RGB 32-bit: por defecto\nRGB 16-bit: mejor rendimiento, calidad más baja \nYUV: mejor rendimiento pero no funciona en todos los dispositivos (sólo Android 2.3 y superior)</string>
     <string name="deblocking">Preferencias del filtro de desbloqueo</string>
+    <string name="deblocking_summary">Cambiar las preferencias del filtro de \'deblocking\' puede mejorar la calidad del vídeo (Sólo usuarios avanzados)</string>
     <string name="deblocking_always">Desbloqueo completo (el más lento)</string>
     <string name="deblocking_nonref">Desbloqueo medio</string>
     <string name="deblocking_nonkey">Desbloqueo bajo</string>
     <string name="deblocking_all">Sin desbloqueo (el más rápido)</string>
     <string name="enable_frame_skip">Salto de fotogramas</string>
+    <string name="enable_frame_skip_summary">Decodificación más rápida pero puede perder calidad de vídeo.</string>
     <string name="enable_time_stretching_audio">Habilitar \'time-stretching\' del audio</string>
+    <string name="enable_time_stretching_audio_summary">Aumentar y reducir la velocidad del audio sin cambiar el tono (requiere un dispositivo rápido)</string>
+
     <string name="advanced_prefs_category">Avanzado</string>
     <string name="auto_rescan">Auto reescanear</string>
     <string name="auto_rescan_summary">Escanear el disposiivo al iniciar VLC en busca de archivos nuevos o eliminados</string>
     <string name="dump_media_db">Exportar base de datos de medios</string>
     <string name="dump_media_db_summary">Copiar base de datos al almacenamiento interno</string>
     <string name="clear_media_db">Limpiar base de datos de medios</string>
+    <string name="clear_media_database_summary">Borra base de datos para empezar de nuevo</string>
     <string name="clear_history">Limpiar historial</string>
     <string name="set_locale">Establecer idioma</string>
     <string name="network_caching">Valor de cache de red</string>
+    <string name="network_caching_summary">La cantidad de tiempo (en ms) de búfer para decodificar medios de red. Dejar vació para restablecer</string>
     <string name="resume_playback_title">Reanudar reproducción al fin de llamada</string>
     <string name="resume_playback_summary">Desmarcar para mantener pausa</string>
     <string name="blurred_cover_background_title">Portada borrosa de fondo</string>
@@ -400,6 +412,8 @@
 
     <string name="no_result">Sin resultados</string>
     <string name="no_internet_connection">Verificar tu conexión a internet</string>
+    <string name="subs_download_error">Servicio no disponible. Intente más tarde</string>
+
     <string name="network_browsing">Red local</string>
     <string name="browsing">Explorando</string>
 
@@ -457,6 +471,7 @@
     <string name="extension_empty">Sin elementos que mostrar, vaya a configuración de extensiones para agregar.</string>
 
     <string name="opengl_title">Uso de OpenGL ES2</string>
+    <string name="opengl_summary">Por defecto, OpenGL ES2 es el decodificador de software si se necesita (videos 360°).</string>
     <string name="opengl_automatic">Automático</string>
     <string name="opengl_on">Siempre activo</string>
     <string name="opengl_off">Siempre inactivo</string>
@@ -568,6 +583,8 @@
     <string name="onboarding_theme_title">Siéntete como en casa</string>
     <string name="done">Listo</string>
     <string name="onboarding_scan_title">Auto encontrar medios</string>
+    <string name="daynight_system_explanation">VLC cambia a modo noche según preferencias del sistema</string>
+    <string name="daynight_legacy_explanation">VLC cambia a modo noche a la hora apropiada</string>
     <string name="onboarding_scanning_enable">Permitir a VLC buscar medios en el dispositivo</string>
     <string name="onboarding_scan_customize">Elegir que carpetas escaneará VLC</string>
     <string name="button_medialibrary_preferences">Ir a preferencia de biblioteca</string>
@@ -588,6 +605,14 @@
     <string name="preamp">Preamp</string>
     <string name="presets">Predefinidos</string>
     <string name="reset">Restablecer</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">%d Pista agregada</item>
+        <item quantity="other">%d Pistas agregadas</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">%d Pista adjuntada</item>
+        <item quantity="other">%d Pistas adjuntadas</item>
+    </plurals>
     <string name="remove_current">Borrar actual</string>
     <string name="validation_delete_playlist">¿Realmente quiere borrar la lista?</string>
     <string name="validation_delete_playlist_text">Esta acción no se puede deshacer</string>
@@ -622,11 +647,17 @@
     <string name="invalid_file">Archivo no válido. No se puede compartir.</string>
     <string name="share_file">Compartir %s</string>
     <string name="share_message">Aquí está %s</string>
+    <string name="find_metadata">Encontrar metadatos</string>
+    <string name="moviepedia_hint">Buscar metadatos</string>
+    <string name="moviepedia_result">Resultados de vídeo</string>
     <string name="directed_by">Director</string>
     <string name="casting">Reparto</string>
     <string name="produced_by">Productor</string>
     <string name="written_by">Escrito por</string>
     <string name="music_by">Música por</string>
+    <string name="posters">Póster</string>
+    <string name="backdrops">Fondos</string>
+    <string name="header_tvshows">Programas de TV</string>
     <string name="header_movies">Películas</string>
     <string name="season_number">Temporada %s</string>
     <string name="resume_episode">Reanudar (%s)</string>
@@ -637,6 +668,8 @@
     <string name="recently_added">Agregado recientemente</string>
     <string name="playback_multiple_errors">No se pueden ver múltiples medios </string>
     <string name="clear_media_db_warning">Perderás el progreso y la lista creada.\n%s</string>
+    <string name="abrepeat_add_first_marker">Establecer punto inicial</string>
+    <string name="abrepeat_add_second_marker">Establecer punto final</string>
     <string name="demux_bitrate">Tasa de bits de Demux</string>
     <string name="input_bitrate">Tasa de bits de entrada</string>
     <string name="video_information">Información del vídeo</string>
@@ -649,10 +682,14 @@
     <string name="bitrate_value">%1$s/s</string>
     <string name="language">Idioma</string>
     <string name="track_samplerate">Tasa de muestreo</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
     <string name="bitrate">Tasa de bits</string>
     <string name="codec">Códec</string>
     <string name="text">Texto</string>
     <string name="unknown">Desconocido</string>
+    <string name="audio_delay_start">Sonido escuchado</string>
+    <string name="subtitle_delay_first">Voz escuchada</string>
+    <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progreso: %s</string>
     <string name="sortby_track">Pista</string>
@@ -671,4 +708,30 @@
     <string name="group_similar">Reagrupar automáticamente</string>
     <string name="no_favorite">Sin favorito</string>
     <string name="empty_directory">Vacío</string>
+    <string name="no_track">Sin pista</string>
+
+    <string name="swipe_unlock">Deslizar para desbloquear</string>
+    <string name="swipe_unlock_no_touch">Mantener presionado para desbloquear</string>
+    <string name="sub_result_by_name">Resultados de %s</string>
+    <string name="sub_result_by_name_season">Temporada %s</string>
+    <string name="sub_result_by_name_episode">Episodio %s</string>
+
+    <string name="sub_result_by_file">Resultados de tu archivo</string>
+    <string name="donate">Ayuda de VLC</string>
+    <string name="donate_desc">Apoyar a los voluntarios que desarrollan VLC</string>
+    <string name="donate_subscribtion">Me gustaría que este fuera un patrocinio mensual</string>
+    <string name="donate_send">Iniciar tu patrocinio</string>
+    <string name="donation_description">Tu patrocinio nos permite:\nMejorar VLC para Android\nApoya la asociación VideoLAN</string>
+    <string name="subscription_purchased">Estás suscrito a un patrocinio mensual</string>
+    <string name="subscription_cancel">Puedes cancelar suscripción en Play Store</string>
+    <string name="subscription_cancel_tv">Cómo cancelar suscripción</string>
+    <string name="donate_unsubscribe_tv">Para cancelar suscripción, por favor abre %s en tu teléfono o PC o escanea el código:</string>
+    <string name="tip_jar">Ayuda de VLC</string>
+    <string name="thank_you">Gracias a ti</string>
+    <string name="thank_you_desc">¡Gracias por tu patrocinio!\n¡Nos ayudará mucho a mejorar VLC!</string>
+    <string name="donate_again">Patrocinar la app nuevamente</string>
+
+    <string name="mark_as_played">Marcar como visto</string>
+    <string name="mark_all_as_played">Marcar todo como visto</string>
+
 </resources>

@@ -216,7 +216,7 @@
     <!-- Tips -->
     <string name="video_player_tips">Tipy přehrávače videa:</string>
     <string name="seek">Posun</string>
-    <string name="subtitles">Titulky</string>
+    <string name="subtitles">TITULKY</string>
     <string name="audio_sub">Zvukové stopy\na titulky</string>
     <string name="resize">Změnit velikost</string>
     <string name="options">Volby</string>
@@ -728,7 +728,7 @@
     <string name="remove_from_group">Odstranit ze skupiny videí</string>
     <string name="rename_group">Přejmenovat název skupiny videí</string>
     <string name="ungroup">Žádné seskupení</string>
-    <string name="group_similar">Automaticky přeskupit</string>
+    <string name="group_similar">Automaticky seskupit</string>
     <string name="no_favorite">Žádné oblíbené položky</string>
     <string name="empty_directory">Prázdný adresář</string>
     <string name="no_track">Žádné stopy</string>
@@ -753,4 +753,8 @@
     <string name="thank_you">Poděkování</string>
     <string name="thank_you_desc">Děkujeme za Vaše příspěvky!\nPomůžou nám vylepšit aplikaci VLC!</string>
     <string name="donate_again">Přispět VLC znovu</string>
+
+    <string name="mark_as_played">Označit jako přehrané</string>
+    <string name="mark_all_as_played">Označit vše jako přehrané</string>
+
 </resources>

@@ -105,11 +105,13 @@ public abstract class MediaLibraryItem implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(mId);
         parcel.writeString(mTitle);
+        parcel.writeInt(mFlags);
     }
 
     protected MediaLibraryItem(Parcel in) {
         mId = in.readLong();
         mTitle = in.readString();
+        mFlags = in.readInt();
     }
 
     @Override

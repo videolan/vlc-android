@@ -731,4 +731,8 @@
     <string name="thank_you">Bedankt</string>
     <string name="thank_you_desc">Bedankt voor uw sponsoring!\nZe zal ons veel helpen bij het verbeteren van VLC!</string>
     <string name="donate_again">De app opnieuw sponsoren</string>
+
+    <string name="mark_as_played">Markeren als afgespeeld</string>
+    <string name="mark_all_as_played">Alles markeren als afgespeeld</string>
+
 </resources>

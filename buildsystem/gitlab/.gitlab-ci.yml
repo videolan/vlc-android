@@ -20,16 +20,17 @@ cache:
 # Rebuilds libvlc JNI
 .build-libvlc-base:
     extends: .build-all-base
-    only:
-        refs:
-            - master@videolan/vlc-android
-            - merge_requests
+    rules:
+        # Explicitely refuse to build anything that would also trigger
+        # a medialib build
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
         changes:
-            # For build script, we rely on the .build-ml-base config
-            # which will also build libvlc
-            - libvlc/**/*
-    except:
-        - schedules
+          - medialibrary/**/*
+          - buildsystem/**/*
+        when: never
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        changes:
+          - libvlc/**/*
     variables:
         EXTRA_BUILD_PARAM: -l
 
@@ -37,15 +38,11 @@ cache:
 # This implies rebuilding VLC beforehand
 .build-ml-base:
     extends: .build-all-base
-    only:
-        refs:
-            - master@videolan/vlc-android
-            - merge_requests
+    rules:
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
         changes:
-            - medialibrary/**/*
-            - buildsystem/**/*
-    except:
-        - schedules
+          - medialibrary/**/*
+          - buildsystem/**/*
     variables:
         EXTRA_BUILD_PARAM: -ml
 
@@ -55,20 +52,8 @@ continuous-app-build:
     script:
         - ./buildsystem/compile.sh --init
         - ./gradlew assembleDebug
-    only:
-        refs:
-            - master@videolan/vlc-android
-            - merge_requests
-        changes:
-            - "**/*"
-            - buildsystem/gitlab/.gitlab-ci.yml
-    except:
-        refs:
-            - schedules
-        changes:
-            - buildsystem/*
-            - libvlc/**/*
-            - medialibrary/**/*
+    rules:
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 #################################
 # Template config instantiation #
@@ -117,8 +102,8 @@ build-ml-x86_64:
 # Nightly builds: build native & app code, and ship the APK as artifact
 nightly-arm64:
     extends: .build-all-base
-    only: 
-        - schedules
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule"'
     variables:
         ARCH: arm64
     artifacts:
@@ -128,8 +113,8 @@ nightly-arm64:
 
 nightly-armv7:
     extends: .build-all-base
-    only: 
-        - schedules
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule"'
     variables:
         ARCH: arm
     artifacts:
@@ -139,8 +124,8 @@ nightly-armv7:
 
 nightly-x86:
     extends: .build-all-base
-    only: 
-        - schedules
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule"'
     variables:
         ARCH: x86
     artifacts:
@@ -150,8 +135,8 @@ nightly-x86:
 
 nightly-x86_64:
     extends: .build-all-base
-    only: 
-        - schedules
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule"'
     variables:
         ARCH: x86_64
     artifacts:
@@ -161,10 +146,8 @@ nightly-x86_64:
 
 publish_libs:
     extends: .build-all-base
-    only:
-        - /^libvlc-.*$/
-    except:
-        - branches
+    rules:
+        - if: '$CI_COMMIT_TAG =~ /^libvlc-.*$/'
     variables:
         ARCH: all
     script:

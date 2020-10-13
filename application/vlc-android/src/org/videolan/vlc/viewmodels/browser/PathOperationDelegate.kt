@@ -43,7 +43,7 @@ class PathOperationDelegate : IPathOperationDelegate {
      */
     override fun appendPathToUri(path: String, uri: Uri.Builder) {
         var newPath = path
-        for (i in 0..storages.size()) if (storages.valueAt(i) == newPath) newPath = storages.keyAt(i)
+        for (i in 0 until storages.size()) if (storages.valueAt(i) == newPath) newPath = storages.keyAt(i)
         newPath.split('/').forEach {
             uri.appendPath(it)
         }
@@ -57,7 +57,7 @@ class PathOperationDelegate : IPathOperationDelegate {
      */
     override fun replaceStoragePath(path: String): String {
         try {
-            if (storages.size() > 0) for (i in 0..storages.size()) if (path.startsWith(storages.keyAt(i))) return path.replace(storages.keyAt(i), storages.valueAt(i))
+            if (storages.size() > 0) for (i in 0 until storages.size()) if (path.startsWith(storages.keyAt(i))) return path.replace(storages.keyAt(i), storages.valueAt(i))
         } catch (e: IllegalStateException) {
         }
         return path

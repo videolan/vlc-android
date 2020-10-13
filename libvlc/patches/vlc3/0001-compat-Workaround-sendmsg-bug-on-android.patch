@@ -1,10 +1,12 @@
-From b75b490465c538e50780039dc796724974033db0 Mon Sep 17 00:00:00 2001
-Message-Id: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
+From 4b80ba0cb27cadee99cf18b8f13fd7d16f19066b Mon Sep 17 00:00:00 2001
+Message-Id: <4b80ba0cb27cadee99cf18b8f13fd7d16f19066b.1601374253.git.nicolas@videolabs.io>
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 28 Mar 2019 15:23:48 +0100
-Subject: [PATCH 1/6] compat: Workaround sendmsg bug on android
+Subject: [PATCH 1/8] compat: Workaround sendmsg bug on android
 
 This only happens on 64bits builds, see compat/sendmsg.c comments
+Message-Id: <b75b490465c538e50780039dc796724974033db0.1593695247.git.thomas@gllm.fr>
+Message-Id: <87030933b1aae776c8446cf765589f8ac8b5ba7c.1599040437.git.nicolas@videolabs.io>
 ---
  compat/sendmsg.c      | 24 ++++++++++++++++++++++++
  configure.ac          |  3 +++
@@ -47,7 +49,7 @@ index 0f42e782f8..8d69048746 100644
  #else
  #error sendmsg not implemented on your platform!
 diff --git a/configure.ac b/configure.ac
-index 50f40e2d98..2449d33184 100644
+index 1f74566008..569dad1512 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -405,6 +405,9 @@ AS_IF([test "$SYS" = linux],[
@@ -78,5 +80,5 @@ index 010454a01c..1b36e3d574 100644
  }
  # endif
 -- 
-2.20.1
+2.25.1
 

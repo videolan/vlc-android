@@ -25,6 +25,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import kotlinx.coroutines.DEBUG_PROPERTY_NAME
+import kotlinx.coroutines.DEBUG_PROPERTY_VALUE_ON
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.Dialog
@@ -69,6 +71,7 @@ class AppSetupDelegate : AppDelegate,
         Log.i("AppSetupDelegate", "Registering factories")
         FactoryManager.registerFactory(IMediaFactory.factoryId, MediaFactory())
         FactoryManager.registerFactory(ILibVLCFactory.factoryId, LibVLCFactory())
+        System.setProperty(DEBUG_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
 
         if (BuildConfig.DEBUG) {
             Settings.getInstance(this)

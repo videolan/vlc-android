@@ -31,8 +31,6 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
@@ -94,7 +92,6 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
     var info: TextView? = null
     var overlayInfo: View? = null
     lateinit var playerUiContainer:RelativeLayout
-    lateinit var vibrator: Vibrator
 
     lateinit var hudBinding: PlayerHudBinding
     lateinit var hudRightBinding: PlayerHudRightBinding
@@ -210,7 +207,6 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         playerOverlayBrightness = player.findViewById(R.id.player_overlay_brightness)
         brightnessValueText = player.findViewById(R.id.brightness_value_text)
         playerBrightnessProgress = player.findViewById(R.id.playerBrightnessProgress)
-        if (playerOverlayBrightness.visibility != View.VISIBLE) hapticFeedback()
         playerOverlayBrightness.setVisible()
         brightnessValueText.text = "$brightness%"
         playerBrightnessProgress.setValue(brightness)
@@ -230,7 +226,6 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         playerOverlayVolume = player.findViewById(R.id.player_overlay_volume)
         volumeValueText = player.findViewById(R.id.volume_value_text)
         playerVolumeProgress = player.findViewById(R.id.playerVolumeProgress)
-        if (playerOverlayVolume.visibility != View.VISIBLE && fromTouch)  hapticFeedback()
         volumeValueText.text = "$volume%"
         playerVolumeProgress.isDouble = player.isAudioBoostEnabled
         playerVolumeProgress.setValue(volume)
@@ -266,12 +261,6 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (AndroidDevices.hasNavBar)
             visibility = visibility or navbar
         player.window.decorView.systemUiVisibility = visibility
-    }
-
-    @Suppress("DEPRECATION")
-    private fun hapticFeedback() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)  vibrator.vibrate(VibrationEffect.createOneShot(50, 80))
-        else vibrator.vibrate(50)
     }
 
     /**
@@ -392,6 +381,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT)
                 })
                 service.playlistManager.abRepeatOn.observe(player, Observer {
+                    abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
                     hudBinding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
                     if (it) showOverlay(true)
                     if (it) {

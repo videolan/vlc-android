@@ -104,7 +104,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
 
         fun needsWritePermission(uri: Uri) : Boolean {
             val path = uri.path ?: return false
-            return AndroidUtil.isLolliPopOrLater && "file" == uri.scheme
+            return AndroidUtil.isLolliPopOrLater && ("file" == uri.scheme || uri.scheme == null)
                     && path.isNotEmpty() && path.startsWith('/')
                     && !path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
                     && !(FileUtils.findFile(uri)?.canWrite() ?: false)
