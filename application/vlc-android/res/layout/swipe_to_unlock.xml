@@ -32,7 +32,7 @@
             android:id="@+id/swipe_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
+            android:layout_marginStart="76dp"
             android:layout_marginEnd="24dp"
             android:text="@string/swipe_unlock"
             android:textAllCaps="true"
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="18dp" />
+            app:layout_constraintGuide_begin="28dp" />
 
     <ImageView
             android:id="@+id/swipe_icon"
