@@ -11,7 +11,7 @@ import android.os.Build
 import android.util.Log
 import android.view.Surface
 import kotlinx.coroutines.*
-import org.videolan.libvlc.FactoryManager
+import org.videolan.libvlc.AppFactoryProvider
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.resources.AppContextProvider
@@ -30,7 +30,7 @@ private const val TAG = "PreviewInputService"
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope() {
 
-    internal val mFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+    internal val factory by lazy { (applicationContext as AppFactoryProvider).mediaFactory as IMediaFactory }
 
     override fun onCreateSession(inputId: String): TvInputService.Session? {
         return PreviewSession(this)
@@ -64,7 +64,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope()
                     return@launch
                 }
                 try {
-                    val media = mFactory.getFromUri(VLCInstance.getInstance(this@PreviewVideoInputService), mw.uri)
+                    val media = factory.getFromUri(VLCInstance.getInstance(this@PreviewVideoInputService), mw.uri)
                     val start = if (mw.length <= 0L) 0L else mw.length.random()
                     media.addOption(":start-time=${start/1000L}")
                     awaitSurface()
