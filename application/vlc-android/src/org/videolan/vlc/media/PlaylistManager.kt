@@ -13,6 +13,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import org.videolan.libvlc.AppFactoryProvider
 import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -75,7 +76,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     val videoStatsOn by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Boolean>().apply { value = false } }
     val delayValue by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<DelayValues>().apply { value = DelayValues() } }
 
-    private val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+    private val mediaFactory by lazy { (ctx as AppFactoryProvider).mediaFactory as IMediaFactory }
 
     fun hasCurrentMedia() = isValidPosition(currentIndex)
 

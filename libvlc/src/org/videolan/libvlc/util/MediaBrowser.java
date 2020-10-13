@@ -22,16 +22,17 @@ package org.videolan.libvlc.util;
 
 import android.net.Uri;
 import android.os.Handler;
-import androidx.annotation.MainThread;
 import android.util.Log;
 
-import org.videolan.libvlc.FactoryManager;
-import org.videolan.libvlc.interfaces.IMediaFactory;
+import androidx.annotation.MainThread;
+
+import org.videolan.libvlc.AppFactoryProvider;
+import org.videolan.libvlc.MediaDiscoverer;
+import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.interfaces.ILibVLC;
 import org.videolan.libvlc.interfaces.IMedia;
-import org.videolan.libvlc.MediaDiscoverer;
+import org.videolan.libvlc.interfaces.IMediaFactory;
 import org.videolan.libvlc.interfaces.IMediaList;
-import org.videolan.libvlc.MediaList;
 
 import java.util.ArrayList;
 
@@ -92,7 +93,7 @@ public class MediaBrowser {
      * With this constructor, callbacks will be executed in the main thread
      */
     public MediaBrowser(ILibVLC libvlc, EventListener listener) {
-        mFactory = ((IMediaFactory) FactoryManager.getFactory(IMediaFactory.factoryId));
+        mFactory = ((AppFactoryProvider)libvlc.getAppContext() ).getMediaFactory();
         mILibVlc = libvlc;
         mILibVlc.retain();
         mEventListener = listener;
