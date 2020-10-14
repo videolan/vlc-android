@@ -734,5 +734,7 @@
 
     <string name="mark_as_played">Marcar como reproduzido</string>
     <string name="mark_all_as_played">Marcar todos como reproduzidos</string>
+    <string name="new_group">Novo grupo</string>
+    <string name="new_group_desc">Criar um novo grupo</string>
 
 </resources>
