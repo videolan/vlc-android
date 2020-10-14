@@ -108,7 +108,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     internal lateinit var mediaSession: MediaSessionCompat
     @Volatile
     private var notificationShowing = false
-
+    private var lastTime = 0L
     private var widget = 0
     /**
      * Last widget position update timestamp
@@ -169,6 +169,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Playing")
                 executeUpdate()
                 publishState()
+                lastTime = time
                 audioFocusHelper.changeAudioFocus(true)
                 if (!wakeLock.isHeld) wakeLock.acquire()
                 showNotification()
@@ -182,7 +183,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 if (wakeLock.isHeld) wakeLock.release()
             }
             MediaPlayer.Event.EncounteredError -> executeUpdate()
-            MediaPlayer.Event.PositionChanged -> if (widget != 0) updateWidgetPosition(event.positionChanged)
+            MediaPlayer.Event.PositionChanged -> {
+                if (time < 1000L && time < lastTime) publishState()
+                lastTime = time
+                if (widget != 0) updateWidgetPosition(event.positionChanged)
+            }
             MediaPlayer.Event.ESAdded -> if (event.esChangedType == IMedia.Track.Type.Video && (playlistManager.videoBackground || !playlistManager.switchToVideo())) {
                 /* CbAction notification content intent: resume video or resume audio activity */
                 updateMetadata()
