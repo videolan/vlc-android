@@ -756,5 +756,7 @@
 
     <string name="mark_as_played">Oznacz jako odtwarzany</string>
     <string name="mark_all_as_played">Oznacz wszystkie jako odtwarzane</string>
+    <string name="new_group">Nowa grupa</string>
+    <string name="new_group_desc">Utwórz nową grupę</string>
 
 </resources>
