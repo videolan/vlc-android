@@ -757,5 +757,7 @@
 
     <string name="mark_as_played">Označiť ako prehrané</string>
     <string name="mark_all_as_played">Označiť všetko ako prehrané</string>
+    <string name="new_group">Nová skupina</string>
+    <string name="new_group_desc">Vytvoriť novú skupinu</string>
 
 </resources>
