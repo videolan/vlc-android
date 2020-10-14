@@ -1,15 +1,16 @@
-From 0bb4737b520e5d4edd0dd50e48f747fff90b8df2 Mon Sep 17 00:00:00 2001
-Message-Id: <0bb4737b520e5d4edd0dd50e48f747fff90b8df2.1601374253.git.nicolas@videolabs.io>
-In-Reply-To: <4b80ba0cb27cadee99cf18b8f13fd7d16f19066b.1601374253.git.nicolas@videolabs.io>
-References: <4b80ba0cb27cadee99cf18b8f13fd7d16f19066b.1601374253.git.nicolas@videolabs.io>
+From 7ed2885b6a960e0f3d3d40b758b40dcbccaf9ba4 Mon Sep 17 00:00:00 2001
+Message-Id: <7ed2885b6a960e0f3d3d40b758b40dcbccaf9ba4.1602659942.git.nicolas@videolabs.io>
+In-Reply-To: <7911214e6bde9e4c74765cea26c5944e8e78ca98.1602659942.git.nicolas@videolabs.io>
+References: <7911214e6bde9e4c74765cea26c5944e8e78ca98.1602659942.git.nicolas@videolabs.io>
 From: Francois Cartegnie <fcvlcdev@free.fr>
 Date: Mon, 28 Sep 2020 17:52:16 +0200
-Subject: [PATCH 8/8] httpd: update activity time before processing timeout
+Subject: [PATCH 8/9] httpd: update activity time before processing timeout
  (#25151)
 
 as connection state handling block has moved in
 67cdaeea58641d6d515728596f8b194f52538e2b
 sockets can now timeout when still active.
+Message-Id: <0bb4737b520e5d4edd0dd50e48f747fff90b8df2.1601374253.git.nicolas@videolabs.io>
 ---
  src/network/httpd.c | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)

@@ -1,0 +1,880 @@
+From f8872e9c1060888a7234b00988d98277560e6aa4 Mon Sep 17 00:00:00 2001
+Message-Id: <f8872e9c1060888a7234b00988d98277560e6aa4.1602659942.git.nicolas@videolabs.io>
+In-Reply-To: <7911214e6bde9e4c74765cea26c5944e8e78ca98.1602659942.git.nicolas@videolabs.io>
+References: <7911214e6bde9e4c74765cea26c5944e8e78ca98.1602659942.git.nicolas@videolabs.io>
+From: Thomas Guillem <thomas@gllm.fr>
+Date: Fri, 9 Oct 2020 14:51:05 +0200
+Subject: [PATCH 9/9] contrib: smb2: update to master
+
+---
+ .../0001-md5-prefix-symbols-with-smb2_.patch  | 189 +++++++++++++++
+ ...ssp-add-support-for-Anonymous-logins.patch | 219 ------------------
+ .../0002-Fix-indent-and-white-spaces.patch    |  97 --------
+ .../src/smb2/0003-Fix-getlogin-usage.patch    |  70 ------
+ ...troy_context-fix-possible-null-deref.patch |  48 ----
+ ...re_async-don-t-return-ENOMEM-if-conn.patch | 152 ------------
+ contrib/src/smb2/SHA512SUMS                   |   2 +-
+ contrib/src/smb2/rules.mak                    |  16 +-
+ 8 files changed, 196 insertions(+), 597 deletions(-)
+ create mode 100644 contrib/src/smb2/0001-md5-prefix-symbols-with-smb2_.patch
+ delete mode 100644 contrib/src/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch
+ delete mode 100644 contrib/src/smb2/0002-Fix-indent-and-white-spaces.patch
+ delete mode 100644 contrib/src/smb2/0003-Fix-getlogin-usage.patch
+ delete mode 100644 contrib/src/smb2/0004-smb2_destroy_context-fix-possible-null-deref.patch
+ delete mode 100644 contrib/src/smb2/0005-smb2_connect_share_async-don-t-return-ENOMEM-if-conn.patch
+
+diff --git a/contrib/src/smb2/0001-md5-prefix-symbols-with-smb2_.patch b/contrib/src/smb2/0001-md5-prefix-symbols-with-smb2_.patch
+new file mode 100644
+index 0000000000..49ad03e0c1
+--- /dev/null
++++ b/contrib/src/smb2/0001-md5-prefix-symbols-with-smb2_.patch
+@@ -0,0 +1,189 @@
++From a10e5d67a2e2419da26072175b586bdfeb99ec64 Mon Sep 17 00:00:00 2001
++From: Thomas Guillem <thomas@gllm.fr>
++Date: Tue, 13 Oct 2020 17:09:36 +0200
++Subject: [PATCH] md5: prefix symbols with smb2_
++
++---
++ lib/hmac-md5.c | 22 +++++++++++-----------
++ lib/md5.c      | 24 ++++++++++++------------
++ lib/md5.h      | 12 ++++++------
++ 3 files changed, 29 insertions(+), 29 deletions(-)
++
++diff --git a/lib/hmac-md5.c b/lib/hmac-md5.c
++index 4168697..b60a64e 100644
++--- a/lib/hmac-md5.c
+++++ b/lib/hmac-md5.c
++@@ -41,9 +41,9 @@ smb2_hmac_md5(unsigned char *text, int text_len, unsigned char *key, int key_len
++         if (key_len > 64) {
++ 		struct MD5Context tctx;
++ 
++-                MD5Init(&tctx);
++-                MD5Update(&tctx, key, key_len);
++-                MD5Final(tk, &tctx);
+++                smb2_MD5Init(&tctx);
+++                smb2_MD5Update(&tctx, key, key_len);
+++                smb2_MD5Final(tk, &tctx);
++ 
++                 key = tk;
++                 key_len = 16;
++@@ -73,18 +73,18 @@ smb2_hmac_md5(unsigned char *text, int text_len, unsigned char *key, int key_len
++         /*
++          * perform inner MD5
++          */
++-        MD5Init(&context);                   /* init context for 1st
+++        smb2_MD5Init(&context);                   /* init context for 1st
++                                               * pass */
++-        MD5Update(&context, k_ipad, 64);     /* start with inner pad */
++-        MD5Update(&context, text, text_len); /* then text of datagram */
++-        MD5Final(digest, &context);          /* finish up 1st pass */
+++        smb2_MD5Update(&context, k_ipad, 64);     /* start with inner pad */
+++        smb2_MD5Update(&context, text, text_len); /* then text of datagram */
+++        smb2_MD5Final(digest, &context);          /* finish up 1st pass */
++         /*
++          * perform outer MD5
++          */
++-        MD5Init(&context);                   /* init context for 2nd
+++        smb2_MD5Init(&context);                   /* init context for 2nd
++                                               * pass */
++-        MD5Update(&context, k_opad, 64);     /* start with outer pad */
++-        MD5Update(&context, digest, 16);     /* then results of 1st
+++        smb2_MD5Update(&context, k_opad, 64);     /* start with outer pad */
+++        smb2_MD5Update(&context, digest, 16);     /* then results of 1st
++                                               * hash */
++-        MD5Final(digest, &context);          /* finish up 2nd pass */
+++        smb2_MD5Final(digest, &context);          /* finish up 2nd pass */
++ }
++diff --git a/lib/md5.c b/lib/md5.c
++index 8ba0c74..19ab172 100644
++--- a/lib/md5.c
+++++ b/lib/md5.c
++@@ -11,8 +11,8 @@
++  * with every copy.
++  *
++  * To compute the message digest of a chunk of bytes, declare an
++- * MD5Context structure, pass it to MD5Init, call MD5Update as
++- * needed on buffers full of bytes, and then call MD5Final, which
+++ * MD5Context structure, pass it to smb2_MD5Init, call smb2_MD5Update as
+++ * needed on buffers full of bytes, and then call smb2_MD5Final, which
++  * will fill a supplied 16-byte array with the digest.
++  *
++  * Changed so as no longer to depend on Colin Plumb's `usual.h' header
++@@ -36,7 +36,7 @@
++ #include "md5.h"
++ 
++ #ifdef WORDS_BIGENDIAN
++-void
+++static void
++ byteSwap(UWORD32 *buf, unsigned words)
++ {
++ 	md5byte *p = (md5byte *)buf;
++@@ -56,7 +56,7 @@ byteSwap(UWORD32 *buf, unsigned words)
++  * initialization constants.
++  */
++ void
++-MD5Init(struct MD5Context *ctx)
+++smb2_MD5Init(struct MD5Context *ctx)
++ {
++ 	ctx->buf[0] = 0x67452301;
++ 	ctx->buf[1] = 0xefcdab89;
++@@ -72,7 +72,7 @@ MD5Init(struct MD5Context *ctx)
++  * of bytes.
++  */
++ void
++-MD5Update(struct MD5Context *ctx, md5byte const *buf, unsigned len)
+++smb2_MD5Update(struct MD5Context *ctx, md5byte const *buf, unsigned len)
++ {
++ 	UWORD32 t;
++ 
++@@ -90,7 +90,7 @@ MD5Update(struct MD5Context *ctx, md5byte const *buf, unsigned len)
++ 	/* First chunk is an odd size */
++ 	memcpy((md5byte *)ctx->in + 64 - t, buf, t);
++ 	byteSwap(ctx->in, 16);
++-	MD5Transform(ctx->buf, ctx->in);
+++	smb2_MD5Transform(ctx->buf, ctx->in);
++ 	buf += t;
++ 	len -= t;
++ 
++@@ -98,7 +98,7 @@ MD5Update(struct MD5Context *ctx, md5byte const *buf, unsigned len)
++ 	while (len >= 64) {
++ 		memcpy(ctx->in, buf, 64);
++ 		byteSwap(ctx->in, 16);
++-		MD5Transform(ctx->buf, ctx->in);
+++		smb2_MD5Transform(ctx->buf, ctx->in);
++ 		buf += 64;
++ 		len -= 64;
++ 	}
++@@ -112,7 +112,7 @@ MD5Update(struct MD5Context *ctx, md5byte const *buf, unsigned len)
++  * 1 0* (64-bit count of bits processed, MSB-first)
++  */
++ void
++-MD5Final(md5byte digest[16], struct MD5Context *ctx)
+++smb2_MD5Final(md5byte digest[16], struct MD5Context *ctx)
++ {
++ 	int count = ctx->bytes[0] & 0x3f;	/* Number of bytes in ctx->in */
++ 	md5byte *p = (md5byte *)ctx->in + count;
++@@ -126,7 +126,7 @@ MD5Final(md5byte digest[16], struct MD5Context *ctx)
++ 	if (count < 0) {	/* Padding forces an extra block */
++ 		memset(p, 0, count + 8);
++ 		byteSwap(ctx->in, 16);
++-		MD5Transform(ctx->buf, ctx->in);
+++		smb2_MD5Transform(ctx->buf, ctx->in);
++ 		p = (md5byte *)ctx->in;
++ 		count = 56;
++ 	}
++@@ -136,7 +136,7 @@ MD5Final(md5byte digest[16], struct MD5Context *ctx)
++ 	/* Append length in bits and transform */
++ 	ctx->in[14] = ctx->bytes[0] << 3;
++ 	ctx->in[15] = ctx->bytes[1] << 3 | ctx->bytes[0] >> 29;
++-	MD5Transform(ctx->buf, ctx->in);
+++	smb2_MD5Transform(ctx->buf, ctx->in);
++ 
++ 	byteSwap(ctx->buf, 4);
++ 	memcpy(digest, ctx->buf, 16);
++@@ -159,11 +159,11 @@ MD5Final(md5byte digest[16], struct MD5Context *ctx)
++ 
++ /*
++  * The core of the MD5 algorithm, this alters an existing MD5 hash to
++- * reflect the addition of 16 longwords of new data.  MD5Update blocks
+++ * reflect the addition of 16 longwords of new data.  smb2_MD5Update blocks
++  * the data and converts bytes into longwords for this routine.
++  */
++ void
++-MD5Transform(UWORD32 buf[4], UWORD32 const in[16])
+++smb2_MD5Transform(UWORD32 buf[4], UWORD32 const in[16])
++ {
++ 	register UWORD32 a, b, c, d;
++ 
++diff --git a/lib/md5.h b/lib/md5.h
++index c32c783..b2ada83 100644
++--- a/lib/md5.h
+++++ b/lib/md5.h
++@@ -10,8 +10,8 @@
++  * with every copy.
++  *
++  * To compute the message digest of a chunk of bytes, declare an
++- * MD5Context structure, pass it to MD5Init, call MD5Update as
++- * needed on buffers full of bytes, and then call MD5Final, which
+++ * MD5Context structure, pass it to smb2_MD5Init, call smb2_MD5Update as
+++ * needed on buffers full of bytes, and then call smb2_MD5Final, which
++  * will fill a supplied 16-byte array with the digest.
++  *
++  * Changed so as no longer to depend on Colin Plumb's `usual.h'
++@@ -58,10 +58,10 @@ struct MD5Context {
++ 	UWORD32 in[16];
++ };
++ 
++-void MD5Init(struct MD5Context *context);
++-void MD5Update(struct MD5Context *context, md5byte const *buf, unsigned len);
++-void MD5Final(unsigned char digest[16], struct MD5Context *context);
++-void MD5Transform(UWORD32 buf[4], UWORD32 const in[16]);
+++void smb2_MD5Init(struct MD5Context *context);
+++void smb2_MD5Update(struct MD5Context *context, md5byte const *buf, unsigned len);
+++void smb2_MD5Final(unsigned char digest[16], struct MD5Context *context);
+++void smb2_MD5Transform(UWORD32 buf[4], UWORD32 const in[16]);
++ 
++ 
++ #ifdef __cplusplus
++-- 
++2.28.0
++
+diff --git a/contrib/src/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch b/contrib/src/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch
+deleted file mode 100644
+index 3be16c99ff..0000000000
+--- a/contrib/src/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch
++++ /dev/null
+@@ -1,219 +0,0 @@
+-From 1bf49f51d27e87230d826b6f482db312c693586f Mon Sep 17 00:00:00 2001
+-From: Ronnie Sahlberg <ronniesahlberg@gmail.com>
+-Date: Tue, 6 Aug 2019 13:30:51 +1000
+-Subject: [PATCH 1/4] ntlmssp: add support for Anonymous logins
+-
+-Signed-off-by: Ronnie Sahlberg <ronniesahlberg@gmail.com>
+----
+- lib/ntlmssp.c | 131 +++++++++++++++++++++++++++++---------------------
+- 1 file changed, 77 insertions(+), 54 deletions(-)
+-
+-diff --git a/lib/ntlmssp.c b/lib/ntlmssp.c
+-index 646a511..a34d119 100644
+---- a/lib/ntlmssp.c
+-+++ b/lib/ntlmssp.c
+-@@ -96,6 +96,7 @@ struct auth_data {
+- #define NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY         0x00080000
+- #define NTLMSSP_TARGET_TYPE_SERVER                         0x00020000
+- #define NTLMSSP_NEGOTIATE_ALWAYS_SIGN                      0x00008000
+-+#define NTLMSSP_NEGOTIATE_ANONYMOUS                        0x00000800
+- #define NTLMSSP_NEGOTIATE_NTLM                             0x00000200
+- #define NTLMSSP_NEGOTIATE_SIGN                             0x00000010
+- #define NTLMSSP_REQUEST_TARGET                             0x00000004
+-@@ -320,7 +321,7 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
+-         struct ucs2 *ucs2_domain = NULL;
+-         struct ucs2 *ucs2_user = NULL;
+-         struct ucs2 *ucs2_workstation = NULL;
+--        int NTChallengeResponse_len;
+-+        int NTChallengeResponse_len = 0;
+-         unsigned char NTProofStr[16];
+-         unsigned char LMStr[16];
+-         uint64_t t;
+-@@ -330,14 +331,15 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
+-         uint32_t u32;
+-         uint32_t server_neg_flags;
+-         unsigned char key_exch[SMB2_KEY_SIZE];
+-+        uint8_t anonymous = 0;
+- 
+-         tv.tv_sec = ti;
+-         tv.tv_usec = 0;
+-         t = timeval_to_win(&tv);
+- 
+-         if (auth_data->password == NULL) {
+--                smb2_set_error(smb2, "No password set, can not use NTLM\n");
+--                goto finished;
+-+                anonymous = 1;
+-+                goto encode;
+-         }
+- 
+-         /*
+-@@ -383,6 +385,7 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
+-         smb2_hmac_md5(NTProofStr, 16, ResponseKeyNT, 16, key_exch);
+-         memcpy(auth_data->exported_session_key, key_exch, 16);
+- 
+-+ encode:
+-         /*
+-          * Generate AUTHENTICATE_MESSAGE
+-          */
+-@@ -393,14 +396,20 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
+-         encoder(&u32, 4, auth_data);
+- 
+-         /* lm challenge response fields */
+--        memcpy(&lm_buf[0], server_challenge, 8);
+--        memcpy(&lm_buf[8], auth_data->client_challenge, 8);
+--        smb2_hmac_md5(&lm_buf[0], 16,
+--                 ResponseKeyNT, 16, LMStr);
+--        u32 = htole32(0x00180018);
+--        encoder(&u32, 4, auth_data);
+--        u32 = 0;
+--        encoder(&u32, 4, auth_data);
+-+        if (!anonymous) {
+-+                memcpy(&lm_buf[0], server_challenge, 8);
+-+                memcpy(&lm_buf[8], auth_data->client_challenge, 8);
+-+                smb2_hmac_md5(&lm_buf[0], 16,
+-+                              ResponseKeyNT, 16, LMStr);
+-+                u32 = htole32(0x00180018);
+-+                encoder(&u32, 4, auth_data);
+-+                u32 = 0;
+-+                encoder(&u32, 4, auth_data);
+-+        } else {
+-+                u32 = 0;
+-+                encoder(&u32, 4, auth_data);
+-+                encoder(&u32, 4, auth_data);
+-+        }
+- 
+-         /* nt challenge response fields */
+-         u32 = htole32((NTChallengeResponse_len<<16)|
+-@@ -410,7 +419,7 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
+-         encoder(&u32, 4, auth_data);
+- 
+-         /* domain name fields */
+--        if (auth_data->domain) {
+-+        if (!anonymous && auth_data->domain) {
+-                 ucs2_domain = utf8_to_ucs2(auth_data->domain);
+-                 if (ucs2_domain == NULL) {
+-                         goto finished;
+-@@ -427,18 +436,24 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
+-         }
+- 
+-         /* user name fields */
+--        ucs2_user = utf8_to_ucs2(auth_data->user);
+--        if (ucs2_user == NULL) {
+--                goto finished;
+-+        if (!anonymous) {
+-+                ucs2_user = utf8_to_ucs2(auth_data->user);
+-+                if (ucs2_user == NULL) {
+-+                        goto finished;
+-+                }
+-+                u32 = ucs2_user->len * 2;
+-+                u32 = htole32((u32 << 16) | u32);
+-+                encoder(&u32, 4, auth_data);
+-+                u32 = 0;
+-+                encoder(&u32, 4, auth_data);
+-+        } else {
+-+                u32 = 0;
+-+                encoder(&u32, 4, auth_data);
+-+                encoder(&u32, 4, auth_data);
+-         }
+--        u32 = ucs2_user->len * 2;
+--        u32 = htole32((u32 << 16) | u32);
+--        encoder(&u32, 4, auth_data);
+--        u32 = 0;
+--        encoder(&u32, 4, auth_data);
+- 
+-         /* workstation name fields */
+--        if (auth_data->workstation) {
+-+        if (!anonymous && auth_data->workstation) {
+-                 ucs2_workstation = utf8_to_ucs2(auth_data->workstation);
+-                 if (ucs2_workstation == NULL) {
+-                         goto finished;
+-@@ -460,45 +475,53 @@ encode_ntlm_auth(struct smb2_context *smb2, time_t ti,
+-         encoder(&u32, 4, auth_data);
+- 
+-         /* negotiate flags */
+--        u32 = htole32(NTLMSSP_NEGOTIATE_56|NTLMSSP_NEGOTIATE_128|
+--                      NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY|
+--                      //NTLMSSP_NEGOTIATE_ALWAYS_SIGN|
+--                      NTLMSSP_NEGOTIATE_NTLM|
+--                      //NTLMSSP_NEGOTIATE_SIGN|
+--                      NTLMSSP_REQUEST_TARGET|NTLMSSP_NEGOTIATE_OEM|
+--                      NTLMSSP_NEGOTIATE_UNICODE);
+-+        u32 = NTLMSSP_NEGOTIATE_56|NTLMSSP_NEGOTIATE_128|
+-+                NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY|
+-+                //NTLMSSP_NEGOTIATE_ALWAYS_SIGN|
+-+                NTLMSSP_NEGOTIATE_NTLM|
+-+                //NTLMSSP_NEGOTIATE_SIGN|
+-+                NTLMSSP_REQUEST_TARGET|NTLMSSP_NEGOTIATE_OEM|
+-+                NTLMSSP_NEGOTIATE_UNICODE;
+-+        if (anonymous)
+-+                u32 |= NTLMSSP_NEGOTIATE_ANONYMOUS;
+-+        u32 = htole32(u32);
+-         encoder(&u32, 4, auth_data);
+- 
+--        /* append domain */
+--        u32 = htole32(auth_data->len);
+--        memcpy(&auth_data->buf[32], &u32, 4);
+--        if (ucs2_domain) {
+--                encoder(ucs2_domain->val, ucs2_domain->len * 2, auth_data);
+--        }
+-+        if (!anonymous) {
+-+                /* append domain */
+-+                u32 = htole32(auth_data->len);
+-+                memcpy(&auth_data->buf[32], &u32, 4);
+-+                if (ucs2_domain) {
+-+                        encoder(ucs2_domain->val, ucs2_domain->len * 2,
+-+                                auth_data);
+-+                }
+- 
+--        /* append user */
+--        u32 = htole32(auth_data->len);
+--        memcpy(&auth_data->buf[40], &u32, 4);
+--        encoder(ucs2_user->val, ucs2_user->len * 2, auth_data);
+-+                /* append user */
+-+                u32 = htole32(auth_data->len);
+-+                memcpy(&auth_data->buf[40], &u32, 4);
+-+                encoder(ucs2_user->val, ucs2_user->len * 2, auth_data);
+-+
+-+                /* append workstation */
+-+                u32 = htole32(auth_data->len);
+-+                memcpy(&auth_data->buf[48], &u32, 4);
+-+                if (ucs2_workstation) {
+-+                        encoder(ucs2_workstation->val,
+-+                                ucs2_workstation->len * 2, auth_data);
+-+                }
+- 
+--        /* append workstation */
+--        u32 = htole32(auth_data->len);
+--        memcpy(&auth_data->buf[48], &u32, 4);
+--        if (ucs2_workstation) {
+--                encoder(ucs2_workstation->val, ucs2_workstation->len * 2, auth_data);
+-+                /* append LMChallengeResponse */
+-+                u32 = htole32(auth_data->len);
+-+                memcpy(&auth_data->buf[16], &u32, 4);
+-+                encoder(LMStr, 16, auth_data);
+-+                encoder(auth_data->client_challenge, 8, auth_data);
+-+
+-+                /* append NTChallengeResponse */
+-+                u32 = htole32(auth_data->len);
+-+                memcpy(&auth_data->buf[24], &u32, 4);
+-+                encoder(NTChallengeResponse_buf, NTChallengeResponse_len,
+-+                        auth_data);
+-         }
+- 
+--        /* append LMChallengeResponse */
+--        u32 = htole32(auth_data->len);
+--        memcpy(&auth_data->buf[16], &u32, 4);
+--        encoder(LMStr, 16, auth_data);
+--        encoder(auth_data->client_challenge, 8, auth_data);
+--
+--        /* append NTChallengeResponse */
+--        u32 = htole32(auth_data->len);
+--        memcpy(&auth_data->buf[24], &u32, 4);
+--        encoder(NTChallengeResponse_buf, NTChallengeResponse_len, auth_data);
+--
+-         ret = 0;
+- finished:
+-         free(ucs2_domain);
+--- 
+-2.20.1
+-
+diff --git a/contrib/src/smb2/0002-Fix-indent-and-white-spaces.patch b/contrib/src/smb2/0002-Fix-indent-and-white-spaces.patch
+deleted file mode 100644
+index 66a97508c7..0000000000
+--- a/contrib/src/smb2/0002-Fix-indent-and-white-spaces.patch
++++ /dev/null
+@@ -1,97 +0,0 @@
+-From 13800418c0c2a8c1b26bf1acb0810004fb874213 Mon Sep 17 00:00:00 2001
+-From: Thomas Guillem <thomas@gllm.fr>
+-Date: Tue, 30 Jul 2019 17:46:49 +0200
+-Subject: [PATCH 2/4] Fix indent and white spaces
+-
+-No functional changes.
+----
+- lib/init.c | 34 +++++++++++++++++-----------------
+- 1 file changed, 17 insertions(+), 17 deletions(-)
+-
+-diff --git a/lib/init.c b/lib/init.c
+-index e6cf1e5..eab69a5 100644
+---- a/lib/init.c
+-+++ b/lib/init.c
+-@@ -69,12 +69,12 @@ smb2_parse_args(struct smb2_context *smb2, const char *args)
+-         while (args && *args != 0) {
+-                 char *next, *value;
+- 
+--		next = strchr(args, '&');
+-+                next = strchr(args, '&');
+-                 if (next) {
+-                         *(next++) = '\0';
+-                 }
+- 
+--		value = strchr(args, '=');
+-+                value = strchr(args, '=');
+-                 if (value) {
+-                         *(value++) = '\0';
+-                 }
+-@@ -135,7 +135,7 @@ struct smb2_url *smb2_parse_url(struct smb2_context *smb2, const char *url)
+-                 smb2_set_error(smb2, "URL is too long");
+-                 return NULL;
+-         }
+--	strncpy(str, url + 6, MAX_URL_SIZE);
+-+        strncpy(str, url + 6, MAX_URL_SIZE);
+- 
+-         args = strchr(str, '?');
+-         if (args) {
+-@@ -165,7 +165,7 @@ struct smb2_url *smb2_parse_url(struct smb2_context *smb2, const char *url)
+-                 *(tmp++) = '\0';
+-                 u->user = strdup(ptr);
+-                 ptr = tmp;
+--	}
+-+        }
+-         /* server */
+-         if ((tmp = strchr(ptr, '/')) != NULL) {
+-                 *(tmp++) = '\0';
+-@@ -287,7 +287,7 @@ void smb2_destroy_context(struct smb2_context *smb2)
+- void smb2_free_iovector(struct smb2_context *smb2, struct smb2_io_vectors *v)
+- {
+-         int i;
+--        
+-+
+-         for (i = 0; i < v->niov; i++) {
+-                 if (v->iov[i].free) {
+-                         v->iov[i].free(v->iov[i].buf);
+-@@ -316,25 +316,25 @@ struct smb2_iovec *smb2_add_iovector(struct smb2_context *smb2,
+- 
+- void smb2_set_error(struct smb2_context *smb2, const char *error_string, ...)
+- {
+--	va_list ap;
+--	char errstr[MAX_ERROR_SIZE] = {0};
+-+        va_list ap;
+-+        char errstr[MAX_ERROR_SIZE] = {0};
+- 
+--	va_start(ap, error_string);
+--	if (vsnprintf(errstr, MAX_ERROR_SIZE, error_string, ap) < 0) {
+--		strncpy(errstr, "could not format error string!",
+-+        va_start(ap, error_string);
+-+        if (vsnprintf(errstr, MAX_ERROR_SIZE, error_string, ap) < 0) {
+-+                strncpy(errstr, "could not format error string!",
+-                         MAX_ERROR_SIZE);
+--	}
+--	va_end(ap);
+--	if (smb2 != NULL) {
+--		strncpy(smb2->error_string, errstr, MAX_ERROR_SIZE);
+--	}
+-+        }
+-+        va_end(ap);
+-+        if (smb2 != NULL) {
+-+                strncpy(smb2->error_string, errstr, MAX_ERROR_SIZE);
+-+        }
+- }
+- 
+- const char *smb2_get_error(struct smb2_context *smb2)
+- {
+--	return smb2 ? smb2->error_string : "";
+-+        return smb2 ? smb2->error_string : "";
+- }
+--        
+-+
+- const char *smb2_get_client_guid(struct smb2_context *smb2)
+- {
+-         return smb2->client_guid;
+--- 
+-2.20.1
+-
+diff --git a/contrib/src/smb2/0003-Fix-getlogin-usage.patch b/contrib/src/smb2/0003-Fix-getlogin-usage.patch
+deleted file mode 100644
+index 91776d9f5f..0000000000
+--- a/contrib/src/smb2/0003-Fix-getlogin-usage.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 434a880dc7f304eafb2377e26d47d93187109b14 Mon Sep 17 00:00:00 2001
+-From: Thomas Guillem <thomas@gllm.fr>
+-Date: Tue, 30 Jul 2019 18:02:14 +0200
+-Subject: [PATCH 3/4] Fix getlogin() usage
+-
+-Use the reentrant version (the getlogin() string was statically allocated and
+-could be overwritten on subsequent calls).
+-
+-Also check for error and use "Guest" as a fallback.
+----
+- lib/init.c | 20 ++++++++++++++++----
+- 1 file changed, 16 insertions(+), 4 deletions(-)
+-
+-diff --git a/lib/init.c b/lib/init.c
+-index eab69a5..4387cd0 100644
+---- a/lib/init.c
+-+++ b/lib/init.c
+-@@ -52,17 +52,27 @@
+- #define MAX_URL_SIZE 256
+- 
+- #ifdef _MSC_VER
+--#define getlogin() "Guest"
+-+#include <errno.h>
+-+#define getlogin_r(a,b) ENXIO
+- #define random rand
+- #define getpid GetCurrentProcessId
+- #endif // _MSC_VER
+- 
+- #ifdef ESP_PLATFORM
+-+#include <errno.h>
+- #include <esp_system.h>
+- #define random esp_random
+--#define getlogin() "Guest"
+-+#define getlogin_r(a,b) ENXIO
+- #endif
+- 
+-+#ifdef __ANDROID__
+-+#include <errno.h>
+-+// getlogin_r() was added in API 28
+-+#if __ANDROID_API__ < 28
+-+#define getlogin_r(a,b) ENXIO
+-+#endif
+-+#endif // __ANDROID__
+-+
+- static int
+- smb2_parse_args(struct smb2_context *smb2, const char *args)
+- {
+-@@ -206,7 +216,8 @@ void smb2_destroy_url(struct smb2_url *url)
+- struct smb2_context *smb2_init_context(void)
+- {
+-         struct smb2_context *smb2;
+--        int i;
+-+        char buf[1024];
+-+        int i, ret;
+- 
+-         smb2 = malloc(sizeof(struct smb2_context));
+-         if (smb2 == NULL) {
+-@@ -214,7 +225,8 @@ struct smb2_context *smb2_init_context(void)
+-         }
+-         memset(smb2, 0, sizeof(struct smb2_context));
+- 
+--        smb2_set_user(smb2, getlogin());
+-+        ret = getlogin_r(buf, sizeof(buf));
+-+        smb2_set_user(smb2, ret == 0 ? buf : "Guest");
+-         smb2->fd = -1;
+-         smb2->sec = SMB2_SEC_UNDEFINED;
+-         smb2->version = SMB2_VERSION_ANY;
+--- 
+-2.20.1
+-
+diff --git a/contrib/src/smb2/0004-smb2_destroy_context-fix-possible-null-deref.patch b/contrib/src/smb2/0004-smb2_destroy_context-fix-possible-null-deref.patch
+deleted file mode 100644
+index ec8f9331b3..0000000000
+--- a/contrib/src/smb2/0004-smb2_destroy_context-fix-possible-null-deref.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 6e2126a854292621548948a3d30e6023943d7c99 Mon Sep 17 00:00:00 2001
+-From: Thomas Guillem <thomas@gllm.fr>
+-Date: Thu, 8 Aug 2019 15:18:31 +0200
+-Subject: [PATCH 4/4] smb2_destroy_context: fix possible null-deref
+-
+-This could happen when the smb2_close_async() command was aborted
+-(smb2_service() not being called).
+----
+- lib/init.c | 16 ++++++++--------
+- 1 file changed, 8 insertions(+), 8 deletions(-)
+-
+-diff --git a/lib/init.c b/lib/init.c
+-index 4387cd0..03903fb 100644
+---- a/lib/init.c
+-+++ b/lib/init.c
+-@@ -255,14 +255,6 @@ void smb2_destroy_context(struct smb2_context *smb2)
+-                 smb2->fd = -1;
+-         }
+- 
+--        if (smb2->fhs) {
+--                smb2_free_all_fhs(smb2);
+--        }
+--
+--        if (smb2->dirs) {
+--                smb2_free_all_dirs(smb2);
+--        }
+--
+-         while (smb2->outqueue) {
+-                 struct smb2_pdu *pdu = smb2->outqueue;
+- 
+-@@ -283,6 +275,14 @@ void smb2_destroy_context(struct smb2_context *smb2)
+-                 smb2->pdu = NULL;
+-         }
+- 
+-+        if (smb2->fhs) {
+-+                smb2_free_all_fhs(smb2);
+-+        }
+-+
+-+        if (smb2->dirs) {
+-+                smb2_free_all_dirs(smb2);
+-+        }
+-+
+-         free(smb2->session_key);
+-         smb2->session_key = NULL;
+- 
+--- 
+-2.20.1
+-
+diff --git a/contrib/src/smb2/0005-smb2_connect_share_async-don-t-return-ENOMEM-if-conn.patch b/contrib/src/smb2/0005-smb2_connect_share_async-don-t-return-ENOMEM-if-conn.patch
+deleted file mode 100644
+index dad6b752ae..0000000000
+--- a/contrib/src/smb2/0005-smb2_connect_share_async-don-t-return-ENOMEM-if-conn.patch
++++ /dev/null
+@@ -1,152 +0,0 @@
+-From d876dcd536fbb9111cf6d910095f93f9a98ffd03 Mon Sep 17 00:00:00 2001
+-From: Thomas Guillem <thomas@gllm.fr>
+-Date: Thu, 24 Oct 2019 17:49:16 +0200
+-Subject: [PATCH 5/5] smb2_connect_share_async: don't return ENOMEM if connect
+- fails
+-
+----
+- include/smb2/libsmb2.h |  2 +-
+- lib/libsmb2.c          |  6 ++++--
+- lib/socket.c           | 40 +++++++++++++++++++++++++++++++---------
+- 3 files changed, 36 insertions(+), 12 deletions(-)
+-
+-diff --git a/include/smb2/libsmb2.h b/include/smb2/libsmb2.h
+-index 4352ea3..a7a0160 100644
+---- a/include/smb2/libsmb2.h
+-+++ b/include/smb2/libsmb2.h
+-@@ -176,7 +176,7 @@ const char *smb2_get_client_guid(struct smb2_context *smb2);
+-  * status can be either of :
+-  *    0     : Connection was successful. Command_data is NULL.
+-  *
+-- *   <0     : Failed to establish the connection. Command_data is NULL.
+-+ *   -errno : Failed to establish the connection. Command_data is NULL.
+-  */
+- int smb2_connect_async(struct smb2_context *smb2, const char *server,
+-                        smb2_command_cb cb, void *cb_data);
+-diff --git a/lib/libsmb2.c b/lib/libsmb2.c
+-index 7ff78c8..afe00a6 100644
+---- a/lib/libsmb2.c
+-+++ b/lib/libsmb2.c
+-@@ -822,6 +822,7 @@ smb2_connect_share_async(struct smb2_context *smb2,
+-                          smb2_command_cb cb, void *cb_data)
+- {
+-         struct connect_data *c_data;
+-+        int err;
+- 
+-         if (smb2->server) {
+-                 free(discard_const(smb2->server));
+-@@ -879,9 +880,10 @@ smb2_connect_share_async(struct smb2_context *smb2,
+-         c_data->cb = cb;
+-         c_data->cb_data = cb_data;
+- 
+--        if (smb2_connect_async(smb2, server, connect_cb, c_data) != 0) {
+-+        err = smb2_connect_async(smb2, server, connect_cb, c_data);
+-+        if (err != 0) {
+-                 free_c_data(smb2, c_data);
+--                return -ENOMEM;
+-+                return err;
+-         }
+- 
+-         return 0;
+-diff --git a/lib/socket.c b/lib/socket.c
+-index 5e4beb1..4a7bf98 100644
+---- a/lib/socket.c
+-+++ b/lib/socket.c
+-@@ -579,19 +579,19 @@ smb2_connect_async(struct smb2_context *smb2, const char *server,
+-         struct addrinfo *ai = NULL;
+-         struct sockaddr_storage ss;
+-         socklen_t socksize;
+--        int family;
+-+        int family, err;
+- 
+-         if (smb2->fd != -1) {
+-                 smb2_set_error(smb2, "Trying to connect but already "
+-                                "connected.");
+--                return -1;
+-+                return -EINVAL;
+-         }
+- 
+-         addr = strdup(server);
+-         if (addr == NULL) {
+-                 smb2_set_error(smb2, "Out-of-memory: "
+-                                "Failed to strdup server address.");
+--                return -1;
+-+                return -ENOMEM;
+-         }
+-         host = addr;
+-         port = host;
+-@@ -606,7 +606,7 @@ smb2_connect_async(struct smb2_context *smb2, const char *server,
+-                         free(addr);
+-                         smb2_set_error(smb2, "Invalid address:%s  "
+-                                 "Missing ']' in IPv6 address", server);
+--                        return -1;
+-+                        return -EINVAL;
+-                 }
+-                 *str = 0;
+-                 port = str + 1;
+-@@ -620,11 +620,33 @@ smb2_connect_async(struct smb2_context *smb2, const char *server,
+-         }
+- 
+-         /* is it a hostname ? */
+--        if (getaddrinfo(host, port, NULL, &ai) != 0) {
+-+        err = getaddrinfo(host, port, NULL, &ai);
+-+        if (err != 0) {
+-                 free(addr);
+-                 smb2_set_error(smb2, "Invalid address:%s  "
+-                                "Can not resolv into IPv4/v6.", server);
+--                return -1;
+-+                switch (err) {
+-+                    case EAI_AGAIN:
+-+                        return -EAGAIN;
+-+                    case EAI_NONAME:
+-+#if EAI_NODATA != EAI_NONAME /* Equal in MSCV */
+-+                    case EAI_NODATA:
+-+#endif
+-+                    case EAI_SERVICE:
+-+                    case EAI_FAIL:
+-+#ifdef EAI_ADDRFAMILY /* Not available in MSVC */
+-+                    case EAI_ADDRFAMILY:
+-+#endif
+-+                        return -EIO;
+-+                    case EAI_MEMORY:
+-+                        return -ENOMEM;
+-+#ifdef EAI_SYSTEM /* Not available in MSVC */
+-+                    case EAI_SYSTEM:
+-+                        return -errno;
+-+#endif
+-+                    default:
+-+                        return -EINVAL;
+-+                }
+-         }
+-         free(addr);
+- 
+-@@ -651,7 +673,7 @@ smb2_connect_async(struct smb2_context *smb2, const char *server,
+-                                 "Only IPv4/IPv6 supported so far.",
+-                                 ai->ai_family);
+-                 freeaddrinfo(ai);
+--                return -1;
+-+                return -EINVAL;
+- 
+-         }
+-         family = ai->ai_family;
+-@@ -665,7 +687,7 @@ smb2_connect_async(struct smb2_context *smb2, const char *server,
+- 	if (smb2->fd == -1) {
+- 		smb2_set_error(smb2, "Failed to open smb2 socket. "
+-                                "Errno:%s(%d).", strerror(errno), errno);
+--		return -1;
+-+		return -EIO;
+- 	}
+- 
+- 	set_nonblocking(smb2->fd);
+-@@ -681,7 +703,7 @@ smb2_connect_async(struct smb2_context *smb2, const char *server,
+- 			"%s(%d)", strerror(errno), errno);
+- 		close(smb2->fd);
+- 		smb2->fd = -1;
+--		return -1;
+-+		return -EIO;
+- 	}
+- 
+-         return 0;
+--- 
+-2.20.1
+-
+diff --git a/contrib/src/smb2/SHA512SUMS b/contrib/src/smb2/SHA512SUMS
+index 668b39e377..746fa1c8f9 100644
+--- a/contrib/src/smb2/SHA512SUMS
++++ b/contrib/src/smb2/SHA512SUMS
+@@ -1 +1 @@
+-08f421182a08f54d7a50afbfd83609093c1a62b24f7abe2a56ec833a36570916b20c8f046fcdb5ba8c8ed0311a19e8338b75839cd7cf752fc5b33a1367cf839f  libsmb2-3.0.0.tar.gz
++7be05179a220fac24c399508633af81453548dbbeb7e6047415ef656587e2625afa1f820a1905f872b68b83bfd3ac3f17371e6d15079c7b038278effaaaaeca5  libsmb2-4d2a5bf965fa5703e4d30ba8562a4fcbfc8c6688.zip
+diff --git a/contrib/src/smb2/rules.mak b/contrib/src/smb2/rules.mak
+index a81da949ec..7128d06ff5 100644
+--- a/contrib/src/smb2/rules.mak
++++ b/contrib/src/smb2/rules.mak
+@@ -1,23 +1,19 @@
+ # SMB2
+-SMB2_VERSION := 3.0.0
+-SMB2_URL := https://github.com/sahlberg/libsmb2/archive/v$(SMB2_VERSION).tar.gz
++SMB2_VERSION := 4d2a5bf965fa5703e4d30ba8562a4fcbfc8c6688
++SMB2_URL := https://github.com/sahlberg/libsmb2/archive/$(SMB2_VERSION).zip
+ 
+ ifeq ($(call need_pkg,"smb2"),)
+ PKGS_FOUND += smb2
+ endif
+ 
+-$(TARBALLS)/libsmb2-$(SMB2_VERSION).tar.gz:
++$(TARBALLS)/libsmb2-$(SMB2_VERSION).zip:
+ 	$(call download_pkg,$(SMB2_URL),smb2)
+ 
+-.sum-smb2: libsmb2-$(SMB2_VERSION).tar.gz
++.sum-smb2: libsmb2-$(SMB2_VERSION).zip
+ 
+-smb2: libsmb2-$(SMB2_VERSION).tar.gz .sum-smb2
++smb2: libsmb2-$(SMB2_VERSION).zip .sum-smb2
+ 	$(UNPACK)
+-	$(APPLY) $(SRC)/smb2/0001-ntlmssp-add-support-for-Anonymous-logins.patch
+-	$(APPLY) $(SRC)/smb2/0002-Fix-indent-and-white-spaces.patch
+-	$(APPLY) $(SRC)/smb2/0003-Fix-getlogin-usage.patch
+-	$(APPLY) $(SRC)/smb2/0004-smb2_destroy_context-fix-possible-null-deref.patch
+-	$(APPLY) $(SRC)/smb2/0005-smb2_connect_share_async-don-t-return-ENOMEM-if-conn.patch
++	$(APPLY) $(SRC)/smb2/0001-md5-prefix-symbols-with-smb2_.patch
+ 	$(MOVE)
+ 
+ .smb2: smb2
+-- 
+2.25.1
+
