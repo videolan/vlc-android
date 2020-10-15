@@ -734,5 +734,7 @@
 
     <string name="mark_as_played">Oynatılmış olarak işaretle</string>
     <string name="mark_all_as_played">Tümünü oynatılmış olarak işaretle</string>
+    <string name="new_group">Grup ekle</string>
+    <string name="new_group_desc">Yeni bir grup ekler</string>
 
 </resources>
