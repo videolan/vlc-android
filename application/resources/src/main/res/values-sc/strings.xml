@@ -734,5 +734,7 @@
 
     <string name="mark_as_played">Marca comente riproduidu</string>
     <string name="mark_all_as_played">Marca totu comente riproduidu</string>
+    <string name="new_group">Grupu nou</string>
+    <string name="new_group_desc">Crea unu grupu nou</string>
 
 </resources>
