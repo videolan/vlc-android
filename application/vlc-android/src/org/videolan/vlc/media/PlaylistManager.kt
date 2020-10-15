@@ -145,7 +145,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (mlUpdate) {
             service.awaitMedialibraryStarted()
             mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() })
-            executeUpdate()
+            service.onMediaListChanged()
             service.showNotification()
         }
     }
