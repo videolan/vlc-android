@@ -63,7 +63,7 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as? AppCompatActivity)?.supportActionBar?.title = "VLC ${BuildConfig.VERSION_NAME}"
+        (activity as? AppCompatActivity)?.supportActionBar?.title = "VLC ${BuildConfig.VLC_VERSION_NAME}"
 
         requireActivity().findViewById<FloatingActionButton>(R.id.fab).setGone()
         val aboutMain = view.findViewById<NestedScrollView>(R.id.about_main)
