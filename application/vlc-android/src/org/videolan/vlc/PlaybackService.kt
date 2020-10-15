@@ -906,6 +906,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         if (playlistManager.canShuffle())
             pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), if (isShuffling) R.drawable.ic_auto_shuffle_pressed else R.drawable.ic_auto_shuffle_normal)
         pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId)
+        mediaSession.setExtras(Bundle().apply {
+            putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT, true)
+            putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV, true)
+        });
 
         val mediaIsActive = state != PlaybackStateCompat.STATE_STOPPED
         val update = mediaSession.isActive != mediaIsActive

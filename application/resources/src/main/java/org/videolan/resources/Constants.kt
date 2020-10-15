@@ -60,6 +60,8 @@ const val ACTION_CAR_MODE_EXIT = "android.app.action.EXIT_CAR_MODE"
 const val PLAYLIST_TYPE_AUDIO = 0
 const val PLAYLIST_TYPE_VIDEO = 1
 const val MEDIALIBRARY_PAGE_SIZE = 500
+const val PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT = "android.media.playback.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_NEXT"
+const val PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV = "android.media.playback.ALWAYS_RESERVE_SPACE_FOR.ACTION_SKIP_TO_PREVIOUS"
 
 // MediaParsingService
 const val ACTION_INIT = "medialibrary_init"
