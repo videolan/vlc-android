@@ -756,5 +756,7 @@
 
     <string name="mark_as_played">Позначити як відтворене</string>
     <string name="mark_all_as_played">Позначии усе як відтворене</string>
+    <string name="new_group">Нова група</string>
+    <string name="new_group_desc">Створити нову групу</string>
 
 </resources>
