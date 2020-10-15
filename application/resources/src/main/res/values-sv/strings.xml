@@ -734,5 +734,7 @@
 
     <string name="mark_as_played">Markera som uppspelad</string>
     <string name="mark_all_as_played">Markera alla som uppspelade</string>
+    <string name="new_group">Ny grupp</string>
+    <string name="new_group_desc">Skapa en ny grupp</string>
 
 </resources>
