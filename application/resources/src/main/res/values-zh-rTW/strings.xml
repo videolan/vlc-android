@@ -723,5 +723,7 @@
 
     <string name="mark_as_played">標記為已播放</string>
     <string name="mark_all_as_played">全部標記為已播放</string>
+    <string name="new_group">新群組</string>
+    <string name="new_group_desc">建立新群組</string>
 
 </resources>
