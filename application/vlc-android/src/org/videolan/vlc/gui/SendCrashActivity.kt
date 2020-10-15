@@ -119,7 +119,7 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 }
                 val appData = StringBuilder()
                 try {
-                    appData.append("App version: ${BuildConfig.VERSION_NAME}<br/>App version code: ${BuildConfig.VERSION_CODE}<br/>")
+                    appData.append("App version: ${BuildConfig.VLC_VERSION_NAME}<br/>App version code: ${BuildConfig.VLC_VERSION_CODE}<br/>")
                 } catch (e: PackageManager.NameNotFoundException) {
 
                 }
@@ -141,8 +141,8 @@ class SendCrashActivity : AppCompatActivity(), DebugLogService.Client.Callback {
                 val body = "<p>Here are my crash logs for VLC</strong></p><p style=3D\"color:#16171A;\"> [$describeCrash]</p><p>$appData</p>"
                 val htmlBody = HtmlCompat.fromHtml(body, HtmlCompat.FROM_HTML_MODE_LEGACY)
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("vlc.crashreport+androidcrash@gmail.com"))
-                val subject = if (::errMsg.isInitialized) "[${BuildConfig.VERSION_NAME}] Medialibrary uncaught exception!"
-                else "[${BuildConfig.VERSION_NAME}] Crash logs for VLC"
+                val subject = if (::errMsg.isInitialized) "[${BuildConfig.VLC_VERSION_NAME}] Medialibrary uncaught exception!"
+                else "[${BuildConfig.VLC_VERSION_NAME}] Crash logs for VLC"
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
                 emailIntent.putExtra(Intent.EXTRA_TEXT, htmlBody)
                 emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
