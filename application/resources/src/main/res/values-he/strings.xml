@@ -756,5 +756,7 @@
 
     <string name="mark_as_played">לסמן כהתנגן</string>
     <string name="mark_all_as_played">לסמן הכול כהתנגן</string>
+    <string name="new_group">קבוצה חדשה</string>
+    <string name="new_group_desc">יצירת קבוצה חדשה</string>
 
 </resources>
