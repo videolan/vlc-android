@@ -364,6 +364,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun enableSearchOption() = !isRootDirectory
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        getMultiHelper()?.toggleActionMode(true, adapter.itemCount)
         mode.menuInflater.inflate(R.menu.action_mode_browser_file, menu)
         return true
     }
@@ -406,6 +407,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
+        getMultiHelper()?.toggleActionMode(false, adapter.itemCount)
         actionMode = null
         adapter.multiSelectHelper.clearSelection()
     }

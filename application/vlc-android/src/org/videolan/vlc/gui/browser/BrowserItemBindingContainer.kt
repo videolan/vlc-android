@@ -97,6 +97,7 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
     var itemIcon: ImageView
     var browserCheckbox: ThreeStatesCheckbox
     var text: TextView
+    var moreIcon: ImageView
 
     init {
         if (binding !is CardBrowserItemBinding && binding !is BrowserItemBinding) throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
@@ -106,12 +107,14 @@ class BrowserItemBindingContainer(val binding: ViewDataBinding) {
                 title = binding.title
                 itemIcon = binding.itemIcon
                 browserCheckbox = binding.browserCheckbox
+                moreIcon = binding.itemMore
             }
             is BrowserItemBinding -> {
                 text = binding.text
                 title = binding.title
                 itemIcon = binding.itemIcon
                 browserCheckbox = binding.browserCheckbox
+                moreIcon = binding.itemMore
             }
             else -> throw IllegalStateException("Binding should be either a CardBrowserItemBinding or BrowserItemBinding")
         }

@@ -300,6 +300,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        audioBrowserAdapter.multiSelectHelper.toggleActionMode(true, audioBrowserAdapter.itemCount)
         mode.menuInflater.inflate(R.menu.action_mode_audio_browser, menu)
         return true
     }
@@ -356,6 +357,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     }
 
     override fun onDestroyActionMode(mode: ActionMode) {
+        audioBrowserAdapter.multiSelectHelper.toggleActionMode(false, audioBrowserAdapter.itemCount)
         actionMode = null
         audioBrowserAdapter.multiSelectHelper.clearSelection()
     }

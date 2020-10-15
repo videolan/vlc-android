@@ -304,6 +304,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             VideoGroupingType.FOLDER -> mode.menuInflater.inflate(R.menu.action_mode_folder, menu)
             VideoGroupingType.NAME -> mode.menuInflater.inflate(R.menu.action_mode_video_group, menu)
         }
+        multiSelectHelper.toggleActionMode(true, videoListAdapter.itemCount)
         return true
     }
 
@@ -401,6 +402,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         actionMode = null
         setFabPlayVisibility(true)
         multiSelectHelper.clearSelection()
+        multiSelectHelper.toggleActionMode(false, videoListAdapter.itemCount)
     }
 
     fun updateSeenMediaMarker() {
