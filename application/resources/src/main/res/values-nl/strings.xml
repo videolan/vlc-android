@@ -734,5 +734,7 @@
 
     <string name="mark_as_played">Markeren als afgespeeld</string>
     <string name="mark_all_as_played">Alles markeren als afgespeeld</string>
+    <string name="new_group">Nieuwe groep</string>
+    <string name="new_group_desc">Nieuwe groep aanmaken</string>
 
 </resources>
