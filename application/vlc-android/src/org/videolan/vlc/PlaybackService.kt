@@ -853,6 +853,8 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 if (cover?.config != null)
                 //In case of format not supported
                     bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.config, false))
+                else
+                    bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, ctx.getBitmapFromDrawable(R.drawable.ic_no_media, 512, 512))
             }
             bob.putLong("shuffle", 1L)
             bob.putLong("repeat", repeatType.toLong())
