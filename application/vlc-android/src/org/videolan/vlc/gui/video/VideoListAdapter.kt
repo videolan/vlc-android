@@ -193,6 +193,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
     inner class ViewHolder(binding: ViewDataBinding) : SelectorViewHolder<ViewDataBinding>(binding) {
         val overlay: ImageView = itemView.findViewById(R.id.ml_item_overlay)
         val title : TextView = itemView.findViewById(R.id.ml_item_title)
+        val more : ImageView = itemView.findViewById(R.id.item_more)
 
         init {
             binding.setVariable(BR.holder, this)
@@ -228,6 +229,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
             overlay.setImageResource(if (selected) R.drawable.ic_action_mode_select_1610 else if (isListMode) 0 else R.drawable.black_gradient)
             if (isListMode) overlay.visibility = if (selected) View.VISIBLE else View.GONE
             super.selectView(selected)
+            more.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
         }
 
         override fun isSelected() = multiSelectHelper.isSelected(layoutPosition)

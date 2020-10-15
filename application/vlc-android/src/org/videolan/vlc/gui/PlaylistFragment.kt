@@ -118,6 +118,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        adapter?.itemCount?.let { getMultiHelper()?.toggleActionMode(true, it)}
         mode.menuInflater.inflate(R.menu.action_mode_audio_browser, menu)
         menu.findItem(R.id.action_mode_audio_add_playlist).isVisible = false
         return true

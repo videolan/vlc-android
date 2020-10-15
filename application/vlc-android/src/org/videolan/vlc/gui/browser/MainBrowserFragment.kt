@@ -103,11 +103,13 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        currentAdapterActionMode?.itemCount?.let { currentAdapterActionMode?.multiSelectHelper?.toggleActionMode(true, it) }
         mode?.menuInflater?.inflate(R.menu.action_mode_browser_file, menu)
         return true
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
+        currentAdapterActionMode?.itemCount?.let { currentAdapterActionMode?.multiSelectHelper?.toggleActionMode(false, it) }
         actionMode = null
         currentAdapterActionMode?.multiSelectHelper?.clearSelection()
         currentAdapterActionMode = null

@@ -9,6 +9,7 @@ import kotlin.math.min
 class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val payloadvalue: Any = 0) {
 
     val selectionMap = SparseBooleanArray()
+    var inActionMode = false
 
     fun getSelection(): List<T> {
         val list = ArrayList<T>(selectionMap.size())
@@ -18,6 +19,11 @@ class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val paylo
 
     @MainThread
     fun getSelectionCount() = selectionMap.size()
+
+    fun toggleActionMode(inActionMode:Boolean, itemCount:Int) {
+        this.inActionMode = inActionMode
+        adapter.notifyItemRangeChanged(0, itemCount, payloadvalue)
+    }
 
     fun toggleSelection(position: Int, forceShift: Boolean = false) {
         if ((KeyHelper.isShiftPressed || forceShift) && selectionMap.size() != 0) {
