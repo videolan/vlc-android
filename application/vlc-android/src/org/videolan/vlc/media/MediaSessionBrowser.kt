@@ -185,7 +185,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         item = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_SHUFFLE_ALL)
                                 .setTitle(res.getString(R.string.shuffle_all_title))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_audio_normal}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_shuffle_all}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                         //Last added
                         item = MediaDescriptionCompat.Builder()
