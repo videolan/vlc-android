@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_genre_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="m9.3611,4.0077c-0.5452,-0.042 -0.9609,0.082 -1.1426,0.4609 -4.0126,8.3746 -3.8128,13.3303 -0.9004,15.0118 2.9124,1.6814 7.3046,-0.6229 12.5508,-8.2852 0.95,-1.3876 -3.5282,-3.9796 -4.9844,-4.8203 -1.0921,-0.6306 -3.8879,-2.2412 -5.5234,-2.3672zM11.7459,8.4471c0.1111,0.9219 -0.5448,1.76 -1.4668,1.8711 -0.922,0.111 -1.76,-0.5468 -1.8711,-1.4688 1.1383,0.454 2.2552,0.4323 3.3379,-0.4023zM14.658,10.1288c-0.1327,1.2756 0.316,2.3027 1.3223,3.0918 -0.854,0.3648 -1.8422,-0.031 -2.207,-0.8848 -0.3648,-0.854 0.0308,-1.8422 0.8848,-2.207zM8.4022,14.7811c0.4846,-0.034 0.9851,0.071 1.4375,0.3321 1.2064,0.6965 1.6203,2.2389 0.9238,3.4453 -0.9045,-1.7963 -2.35,-2.6578 -4.3691,-2.5235 0.4353,-0.7539 1.2002,-1.1968 2.0078,-1.2539z"
+      android:fillColor="#757575"
+      android:strokeColor="#00000000"/>
+</vector>
