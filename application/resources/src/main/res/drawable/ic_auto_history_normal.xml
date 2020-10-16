@@ -1,0 +1,36 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_history_normal.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="m12,4c-4.4183,0 -8,3.5817 -8,8l-2,0 3,3 3,-3 -2,0c0,-3.3137 2.6863,-6 6,-6 3.3137,0 6,2.6863 6,6 0,3.3137 -2.6863,6 -6,6 -1.6489,0 -3.1342,-0.7046 -4.2188,-1.7812l-0.0312,0 -1.4063,1.4375c1.4477,1.4477 3.4471,2.3437 5.6563,2.3437 4.4183,0 8,-3.5817 8,-8 0,-4.4183 -3.5817,-8 -8,-8zM11,7.5 L11,12.2813 11,12.4063 11.0937,12.5002 13.7812,15.1565 15.1874,13.7502 12.9999,11.594 12.9999,7.5002 10.9999,7.5002z"
+      android:strokeWidth="0.5"
+      android:fillColor="#757575"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
+</vector>
