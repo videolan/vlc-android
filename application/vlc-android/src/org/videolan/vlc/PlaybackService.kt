@@ -42,6 +42,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -1079,14 +1080,18 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private fun updateMediaQueue() = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
         val ctx = this@PlaybackService
+        val defaultCoverUri = "android.resource://${BuildConfig.APP_ID}/drawable/${R.drawable.ic_no_song}".toUri()
         val queue = withContext(Dispatchers.Default) {
             LinkedList<MediaSessionCompat.QueueItem>().also {
                 for ((position, media) in playlistManager.getMediaList().withIndex()) {
                     val title: String = media.nowPlaying ?: media.title
+                    val coverUri = if (!media.artworkMrl.isNullOrEmpty() && isPathValid(media.artworkMrl))
+                        getFileUri(media.artworkMrl) else defaultCoverUri
                     val builder = MediaDescriptionCompat.Builder()
-                    builder.setTitle(title)
-                            .setDescription(getMediaDescription(MediaUtils.getMediaArtist(ctx, media), MediaUtils.getMediaAlbum(ctx, media)))
-                            .setIconBitmap(BitmapUtil.getPictureFromCache(media))
+                            .setTitle(title)
+                            .setSubtitle(MediaUtils.getMediaArtist(ctx, media))
+                            .setDescription(MediaUtils.getMediaAlbum(ctx, media))
+                            .setIconUri(coverUri)
                             .setMediaUri(media.uri)
                             .setMediaId(MediaSessionBrowser.generateMediaId(media))
                     it.add(MediaSessionCompat.QueueItem(builder.build(), position.toLong()))
