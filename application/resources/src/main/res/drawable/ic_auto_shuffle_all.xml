@@ -1,0 +1,35 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_shuffle_all.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:pathData="M5.8984,7 L5,7.8796l3.2227,3.221 0.8984,-0.8795zM11.875,7 L12.9883,8.1115 5.3516,15.75L5,16.1006 5.8789,17 6.25,16.6295 13.8672,8.991 15,10.1282v-3.1282zM11.7772,12.8796 L10.8788,13.7592 13.0076,15.8688 11.8748,17.0001h3.125v-3.1217l-1.1133,1.1109z"
+      android:strokeWidth="0.312501"
+      android:fillColor="#757575"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
+</vector>
