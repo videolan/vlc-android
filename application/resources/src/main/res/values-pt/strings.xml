@@ -357,6 +357,7 @@
     <string name="dump_media_db">Limpar base de dados multimédia</string>
     <string name="dump_media_db_summary">Copiar base de dados para raiz do armazenamento interno</string>
     <string name="clear_media_db">Limpar base de dados de multimédia</string>
+    <string name="clear_media_database_summary">Limpar base de dados para recomeçar</string>
     <string name="clear_history">Limpar histórico</string>
     <string name="set_locale">Definir idioma</string>
     <string name="network_caching">Valor da cache da rede</string>
@@ -400,6 +401,8 @@
 
     <string name="no_result">Não existem resultados</string>
     <string name="no_internet_connection">Verifique a sua ligação à Internet</string>
+    <string name="subs_download_error">Serviço indisponível. Por favor tente mais tarde</string>
+
     <string name="network_browsing">Rede local</string>
     <string name="browsing">Navegação</string>
 
@@ -457,6 +460,7 @@
     <string name="extension_empty">Sem itens, aceda as definições da extensão para obter alguns.</string>
 
     <string name="opengl_title">Utilização OpenGL ES2</string>
+    <string name="opengl_summary">Por definição, OpenGL ES2 é utilizado se for necessário para a descodificação de software e hardware (vídeos 360º)</string>
     <string name="opengl_automatic">Automático</string>
     <string name="opengl_on">Sim</string>
     <string name="opengl_off">Não</string>
@@ -648,6 +652,8 @@
     <string name="recently_added">Adicionado recentemente</string>
     <string name="abrepeat_add_first_marker">Definir ponto de início</string>
     <string name="abrepeat_add_second_marker">Definir ponto de fim</string>
+    <string name="demux_bitrate">Taxa de bits de demultiplexagem</string>
+    <string name="input_bitrate">Taxa de bits de entrada</string>
     <string name="video_information">Informação do vídeo</string>
 
     <string name="channels">Canais</string>
@@ -687,4 +693,16 @@
 
     <string name="swipe_unlock">Deslizar para desbloquear</string>
     <string name="swipe_unlock_no_touch">Pressionar longo para desbloquear</string>
+    <string name="sub_result_by_name">Resultados para %s</string>
+    <string name="sub_result_by_name_season">Temporada %s</string>
+    <string name="sub_result_by_name_episode">Episódio %s</string>
+
+    <string name="sub_result_by_file">Resultados para o ficheiro</string>
+    <string name="donate">Ajudar o VLC</string>
+    <string name="donate_desc">Ajudar os voluntários a construir o VLC</string>
+    <string name="donate_subscribtion">Quero que isto seja um patrocínio mensal</string>
+    <string name="donate_send">Começar o patrocínio</string>
+    <string name="donation_description">O seu patrocínio irá ajudar-nos a melhorar a aplicação VLC para Android\n Suportar a VideoLAN Association</string>
+    <string name="subscription_purchased">Você está subscrito a um patrocínio mensal</string>
+    <string name="subscription_cancel">Pode retirar a subscrição na Play Store</string>
 </resources>
