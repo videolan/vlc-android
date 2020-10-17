@@ -733,5 +733,7 @@
 
     <string name="mark_as_played">Marcar como visto</string>
     <string name="mark_all_as_played">Marcar todo como visto</string>
+    <string name="new_group">Nuevo grupo</string>
+    <string name="new_group_desc">Crear un nuevo grupo</string>
 
 </resources>
