@@ -734,5 +734,7 @@
 
     <string name="mark_as_played">Marca-ho com a reproduït</string>
     <string name="mark_all_as_played">Marca-ho tot com a reproduït</string>
+    <string name="new_group">Grup nou</string>
+    <string name="new_group_desc">Crear un grup nou</string>
 
 </resources>
