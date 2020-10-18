@@ -723,5 +723,7 @@
 
     <string name="mark_as_played">再生済みとしてマーク</string>
     <string name="mark_all_as_played">すべてを再生済みとしてマーク</string>
+    <string name="new_group">新しいグループ</string>
+    <string name="new_group_desc">新しいグループを作成</string>
 
 </resources>
