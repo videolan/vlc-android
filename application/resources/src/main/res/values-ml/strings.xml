@@ -735,5 +735,7 @@
 
     <string name="mark_as_played">പ്രവർത്തപ്പിച്ചതായി രേഖപ്പെടുത്തുക</string>
     <string name="mark_all_as_played">എല്ലാം പ്രവർത്തപ്പിച്ചതായി രേഖപ്പെടുത്തുക</string>
+    <string name="new_group">പുതിയ വിഭാഗം</string>
+    <string name="new_group_desc">പുതിയ വിഭാഗം ഉണ്ടാക്കുക</string>
 
 </resources>
