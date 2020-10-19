@@ -77,11 +77,11 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory,
     private val historyAdapter: HistoryAdapter = HistoryAdapter(true)
     override fun hasFAB() = false
     fun getMultiHelper(): MultiSelectHelper<HistoryModel>? = historyAdapter.multiSelectHelper as? MultiSelectHelper<HistoryModel>
-    private var savedSelection = SparseBooleanArray()
+    private var savedSelection = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (savedInstanceState?.getParcelable<SparseBooleanArrayParcelable>(KEY_SELECTION))?.let { savedSelection = it.data }
+        (savedInstanceState?.getIntegerArrayList(KEY_SELECTION))?.let { savedSelection = it }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -190,7 +190,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory,
 
     override fun onSaveInstanceState(outState: Bundle) {
         getMultiHelper()?.let {
-            outState.putParcelable(KEY_SELECTION, SparseBooleanArrayParcelable(it.selectionMap))
+            outState.putIntegerArrayList(KEY_SELECTION, it.selectionMap)
         }
         super.onSaveInstanceState(outState)
     }
@@ -248,12 +248,12 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory,
     private fun restoreMultiSelectHelper() {
         getMultiHelper()?.let {
 
-            if (savedSelection.size() > 0) {
+            if (savedSelection.size > 0) {
                 var hasOneSelected = false
-                for (i in 0 until savedSelection.size()) {
+                for (i in 0 until savedSelection.size) {
 
-                    it.selectionMap.append(savedSelection.keyAt(i), savedSelection.valueAt(i))
-                    if (savedSelection.valueAt(i)) hasOneSelected = true
+                    it.selectionMap.addAll(savedSelection)
+                    hasOneSelected = savedSelection.isNotEmpty()
                 }
                 if (hasOneSelected) startActionMode()
                 savedSelection.clear()

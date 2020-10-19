@@ -339,10 +339,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             Toast.makeText(this, "DOWN !", Toast.LENGTH_SHORT).show()
             return true
         }
-        val indexes = ArrayList<Int>()
-        for (i in 0 until audioBrowserAdapter.multiSelectHelper.selectionMap.size()) {
-            indexes.add(audioBrowserAdapter.multiSelectHelper.selectionMap.keyAt(i))
-        }
+        val indexes = audioBrowserAdapter.multiSelectHelper.selectionMap
 
         stopActionMode()
         when (item.itemId) {
