@@ -66,7 +66,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
 
     private lateinit var searchButtonView: View
     lateinit var mediaLibrary: Medialibrary
-    private var savedSelection = SparseBooleanArray()
+    private var savedSelection = ArrayList<Int>()
     private val transition = ChangeBounds().apply {
         interpolator = AccelerateDecelerateInterpolator()
         duration = 300
@@ -80,7 +80,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mediaLibrary = Medialibrary.getInstance()
-        (savedInstanceState?.getParcelable<SparseBooleanArrayParcelable>(KEY_SELECTION))?.let { savedSelection = it.data }
+        (savedInstanceState?.getIntegerArrayList(KEY_SELECTION))?.let { savedSelection = it }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -113,7 +113,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
 
     override fun onSaveInstanceState(outState: Bundle) {
         getMultiHelper()?.let {
-            outState.putParcelable(KEY_SELECTION, SparseBooleanArrayParcelable(it.selectionMap))
+            outState.putIntegerArrayList(KEY_SELECTION, it.selectionMap)
         }
         super.onSaveInstanceState(outState)
     }
@@ -229,12 +229,12 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
     fun restoreMultiSelectHelper() {
         getMultiHelper()?.let {
 
-            if (savedSelection.size() > 0) {
+            if (savedSelection.size > 0) {
                 var hasOneSelected = false
-                for (i in 0 until savedSelection.size()) {
+                for (i in 0 until savedSelection.size) {
 
-                    it.selectionMap.append(savedSelection.keyAt(i), savedSelection.valueAt(i))
-                    if (savedSelection.valueAt(i)) hasOneSelected = true
+                    it.selectionMap.addAll(savedSelection)
+                    hasOneSelected = savedSelection.isNotEmpty()
                 }
                 if (hasOneSelected) startActionMode()
                 savedSelection.clear()
