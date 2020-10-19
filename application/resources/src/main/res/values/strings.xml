@@ -521,7 +521,7 @@
     <string name="ml_external_storage_msg">Do you want VLC to add device %1$s to your medialibrary?</string>
     <string name="ml_external_storage_accept">Yes</string>
     <string name="ml_external_storage_decline">No</string>
-    <string name="last_added_media">last added</string>
+    <string name="auto_last_added_media">Last added</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Loading Medialibrary…</string>
     <string name="yes">Yes</string>

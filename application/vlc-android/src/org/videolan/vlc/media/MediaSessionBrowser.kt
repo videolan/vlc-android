@@ -191,7 +191,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         //Last added
                         item = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_LAST_ADDED)
-                                .setTitle(res.getString(R.string.last_added_media))
+                                .setTitle(res.getString(R.string.auto_last_added_media))
                                 .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_new}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //History
