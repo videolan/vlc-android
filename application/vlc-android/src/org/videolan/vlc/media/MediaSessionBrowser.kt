@@ -51,6 +51,7 @@ import org.videolan.vlc.extensions.ExtensionManagerService.ExtensionManagerActiv
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
+import org.videolan.vlc.gui.helpers.UiTools.getDefaultAudioAutoDrawable
 import org.videolan.vlc.gui.helpers.UiTools.getDefaultAudioDrawable
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.media.MediaUtils.getMediaSubtitle
@@ -185,44 +186,44 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         item = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_SHUFFLE_ALL)
                                 .setTitle(res.getString(R.string.shuffle_all_title))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_shuffle_all}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_shuffle}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                         //Last added
                         item = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_LAST_ADDED)
                                 .setTitle(res.getString(R.string.last_added_media))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_history_normal}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_new}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //History
                         item = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_HISTORY)
                                 .setTitle(res.getString(R.string.history))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_history_normal}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_history}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Playlists
                         item.setMediaId(ID_PLAYLISTS)
                                 .setTitle(res.getString(R.string.playlists))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_playlist_normal}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_playlist}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Artists
                         item.setMediaId(ID_ARTISTS)
                                 .setTitle(res.getString(R.string.artists))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_artist_normal}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_artist}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Albums
                         item.setMediaId(ID_ALBUMS)
                                 .setTitle(res.getString(R.string.albums))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_album_normal}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_album}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Songs
                         item.setMediaId(ID_SONGS)
                                 .setTitle(res.getString(R.string.songs))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_audio_normal}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_audio}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         //Genres
                         item.setMediaId(ID_GENRES)
                                 .setTitle(res.getString(R.string.genres))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_genre_normal}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_genre}".toUri())
                         results.add(MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         return results
                     }
@@ -253,7 +254,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                     for (libraryItem in list) {
                         if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (libraryItem as MediaWrapper).type != MediaWrapper.TYPE_AUDIO) continue
                         var cover = readCoverBitmap(Uri.decode(libraryItem.artworkMrl), 256)
-                        if (cover == null) cover = getDefaultAudioDrawable(context).bitmap
+                        if (cover == null) cover = getDefaultAudioAutoDrawable(context).bitmap
                         item.setTitle(libraryItem.title)
                                 .setMediaId(generateMediaId(libraryItem))
                         item.setIconBitmap(cover)
