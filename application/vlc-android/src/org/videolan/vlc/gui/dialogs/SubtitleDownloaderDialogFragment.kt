@@ -10,10 +10,8 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,7 +20,6 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloaderDialogBinding
-import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.deleteSubtitleDialog
 import org.videolan.vlc.gui.view.OnItemSelectListener
@@ -164,15 +161,15 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.result.observe(viewLifecycleOwner, Observer {
+        viewModel.result.observe(viewLifecycleOwner, {
             downloadAdapter.setList(it)
             if (it.isNotEmpty()) focusOnView(binding.scrollView)
         })
-        viewModel.isApiLoading.observe(viewLifecycleOwner, Observer {
+        viewModel.isApiLoading.observe(viewLifecycleOwner, {
             binding.subDownloadLoading.visibility = if (it) View.VISIBLE else View.GONE
         })
 
-        viewModel.history.observe(this, Observer {
+        viewModel.history.observe(this, {
             historyAdapter.setList(it)
         })
     }

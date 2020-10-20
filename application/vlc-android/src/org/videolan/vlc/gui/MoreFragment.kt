@@ -29,11 +29,8 @@ import android.os.Bundle
 import android.util.SparseBooleanArray
 import android.view.*
 import androidx.appcompat.view.ActionMode
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.more_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -46,7 +43,6 @@ import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.donations.BillingStatus
 import org.videolan.vlc.donations.VLCBilling
-import org.videolan.vlc.gui.dialogs.RENAME_DIALOG_MEDIA
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.network.IStreamsFragmentDelegate
@@ -98,7 +94,7 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory,
         super.onViewCreated(view, savedInstanceState)
         historyEntry = view.findViewById(R.id.history_entry)
         viewModel = ViewModelProvider(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaWrapper>> { list ->
+        viewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {
                 historyAdapter.update(it)
                 if (list.isEmpty()) historyEntry.setGone() else {
@@ -130,12 +126,12 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory,
             i.putExtra("fragment", SecondaryActivity.STREAMS)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
-        streamsViewModel.dataset.observe(requireActivity(), Observer {
+        streamsViewModel.dataset.observe(requireActivity(), {
             streamsAdapter.update(it)
             streamsEntry.loading.state = EmptyLoadingState.NONE
 
         })
-        streamsViewModel.loading.observe(requireActivity(), Observer {
+        streamsViewModel.loading.observe(requireActivity(), {
             lifecycleScope.launchWhenStarted {
                 if (it) delay(300L)
                 (activity as? MainActivity)?.refreshing = it

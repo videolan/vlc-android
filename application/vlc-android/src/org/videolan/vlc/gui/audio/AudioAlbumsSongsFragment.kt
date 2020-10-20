@@ -24,7 +24,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -130,27 +129,27 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
 
         }
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
-        viewModel.albumsProvider.pagedList.observe(requireActivity(), Observer { albums ->
+        viewModel.albumsProvider.pagedList.observe(requireActivity(), { albums ->
             @Suppress("UNCHECKED_CAST")
             (albums as? PagedList<MediaLibraryItem>)?.let { albumsAdapter.submitList(it) }
             if (viewModel.albumsProvider.loading.value == false && empty && !viewModel.isFiltering()) currentTab = 1
         })
-        viewModel.tracksProvider.pagedList.observe(requireActivity(), Observer { tracks ->
+        viewModel.tracksProvider.pagedList.observe(requireActivity(), { tracks ->
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { songsAdapter.submitList(it) }
         })
         for (i in 0..1) setupLayoutManager(viewModel.providersInCard[i], lists[i], viewModel.providers[i] as MedialibraryProvider<MediaLibraryItem>, adapters[i], spacing)
-        viewModel.albumsProvider.loading.observe(requireActivity(), Observer { loading ->
+        viewModel.albumsProvider.loading.observe(requireActivity(), { loading ->
             if (!loading) {
                 fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
             }
             setRefreshing(loading)
         })
 
-        viewModel.albumsProvider.liveHeaders.observe(viewLifecycleOwner, Observer {
+        viewModel.albumsProvider.liveHeaders.observe(viewLifecycleOwner, {
             lists[0].invalidateItemDecorations()
         })
-        viewModel.tracksProvider.liveHeaders.observe(viewLifecycleOwner, Observer {
+        viewModel.tracksProvider.liveHeaders.observe(viewLifecycleOwner, {
             lists[1].invalidateItemDecorations()
         })
     }

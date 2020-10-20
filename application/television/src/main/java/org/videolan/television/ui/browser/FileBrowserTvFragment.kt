@@ -9,7 +9,6 @@ import android.view.View
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -95,8 +94,8 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (viewModel as BrowserModel).dataset.observe(viewLifecycleOwner, Observer { items ->
-            if (items == null) return@Observer
+        (viewModel as BrowserModel).dataset.observe(viewLifecycleOwner, { items ->
+            if (items == null) return@observe
             val lm = binding.list.layoutManager as LinearLayoutManager
             val selectedItem = lm.focusedChild
             submitList(items)
@@ -117,16 +116,16 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             headerAdapter.sortType = (viewModel as BrowserModel).sort
         })
 
-        viewModel.provider.liveHeaders.observe(viewLifecycleOwner, Observer {
+        viewModel.provider.liveHeaders.observe(viewLifecycleOwner, {
             updateHeaders(it)
             binding.list.invalidateItemDecorations()
         })
 
-        (viewModel.provider as BrowserProvider).loading.observe(viewLifecycleOwner, Observer {
+        (viewModel.provider as BrowserProvider).loading.observe(viewLifecycleOwner, {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
         })
 
-        (viewModel as BrowserModel).getDescriptionUpdate().observe(viewLifecycleOwner, Observer { pair ->
+        (viewModel as BrowserModel).getDescriptionUpdate().observe(viewLifecycleOwner, { pair ->
             if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first, pair.second)
         })
     }

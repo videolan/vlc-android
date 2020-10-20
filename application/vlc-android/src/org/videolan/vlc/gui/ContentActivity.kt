@@ -31,10 +31,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.libvlc.RendererItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService
@@ -59,12 +57,12 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         super.initAudioPlayerContainerActivity()
         if (!AndroidDevices.isChromeBook && !AndroidDevices.isAndroidTv
                 && Settings.getInstance(this).getBoolean("enable_casting", true)) {
-            PlaybackService.renderer.observe(this, Observer {
-                val item = toolbar.menu.findItem(R.id.ml_menu_renderers) ?: return@Observer
+            PlaybackService.renderer.observe(this, {
+                val item = toolbar.menu.findItem(R.id.ml_menu_renderers) ?: return@observe
                 item.isVisible = showRenderers
                 item.setIcon(if (!PlaybackService.hasRenderer()) R.drawable.ic_am_renderer else R.drawable.ic_am_renderer_on)
             })
-            RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems ->
+            RendererDelegate.renderers.observe(this, { rendererItems ->
                 showRenderers = !rendererItems.isNullOrEmpty()
                 val item = toolbar.menu.findItem(R.id.ml_menu_renderers)
                 if (item != null) item.isVisible = showRenderers

@@ -4,7 +4,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import org.videolan.libvlc.Dialog
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog
@@ -27,7 +26,7 @@ interface IDialogManager {
 class DialogDelegate : IDialogDelegate {
 
     override fun observeDialogs(lco: LifecycleOwner, manager: IDialogManager) {
-        dialogEvt.observe(lco, Observer {
+        dialogEvt.observe(lco, {
             when(it) {
                 is Show -> manager.fireDialog(it.dialog)
                 is Cancel -> manager.dialogCanceled(it.dialog)

@@ -52,7 +52,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -111,14 +110,14 @@ class MediaScrapingTvFragment : SearchSupportFragment(), SearchSupportFragment.S
                 ?: "", MediaScrapingModel::class.java)
         val cp = CardPresenter(requireActivity(), true)
         val videoAdapter = ArrayObjectAdapter(cp)
-        viewModel.apiResult.observe(this, Observer {
+        viewModel.apiResult.observe(this, {
             val medias = it.getAllResults()
             videoAdapter.clear()
             videoAdapter.addAll(0, medias)
             rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.moviepedia_result)), videoAdapter))
             updateEmptyView(medias.isEmpty())
         })
-        viewModel.exceptionLiveData.observe(this, Observer { e ->
+        viewModel.exceptionLiveData.observe(this, { e ->
             e?.let {
                 requireActivity().manageHttpException(it)
                 lifecycleScope.launchWhenStarted {

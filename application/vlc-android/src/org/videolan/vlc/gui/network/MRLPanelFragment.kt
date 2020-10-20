@@ -34,7 +34,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -104,8 +103,8 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.dataset.observe(requireActivity(), Observer { adapter.update(it) })
-        viewModel.loading.observe(requireActivity(), Observer { (activity as? MainActivity)?.refreshing = it })
+        viewModel.dataset.observe(requireActivity(), { adapter.update(it) })
+        viewModel.loading.observe(requireActivity(), { (activity as? MainActivity)?.refreshing = it })
     }
 
     override fun onResume() {

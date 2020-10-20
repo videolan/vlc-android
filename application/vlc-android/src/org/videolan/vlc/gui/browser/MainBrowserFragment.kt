@@ -28,7 +28,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
@@ -133,7 +132,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         localEntry.list.adapter = storageBrowserAdapter
         localViewModel = getBrowserModel(category = TYPE_FILE, url = null, showHiddenFiles = false)
         containerAdapterAssociation[storageBbrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
-        localViewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaLibraryItem>> { list ->
+        localViewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {
                 storageBrowserAdapter.update(it)
                 localEntry.loading.state = when {
@@ -143,11 +142,11 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 }
             }
         })
-        localViewModel.loading.observe(viewLifecycleOwner, Observer {
+        localViewModel.loading.observe(viewLifecycleOwner, {
             if (it) localEntry.loading.state = EmptyLoadingState.LOADING
         })
         localViewModel.browseRoot()
-        localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner, Observer { pair ->
+        localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner, { pair ->
             if (pair != null) storageBrowserAdapter.notifyItemChanged(pair.first, pair.second)
         })
 
@@ -159,7 +158,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         favoritesEntry.list.adapter = favoritesAdapter
         favoritesViewModel = BrowserFavoritesModel(requireContext())
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
-        favoritesViewModel.favorites.observe(viewLifecycleOwner, Observer { list ->
+        favoritesViewModel.favorites.observe(viewLifecycleOwner, { list ->
             list.let {
                 if (list.isEmpty()) favoritesEntry.setGone() else   favoritesEntry.setVisible()
                 favoritesAdapter.update(it)
@@ -170,10 +169,10 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 }
             }
         })
-        favoritesViewModel.provider.loading.observe(viewLifecycleOwner, Observer {
+        favoritesViewModel.provider.loading.observe(viewLifecycleOwner, {
             if (it) localEntry.loading.state = EmptyLoadingState.LOADING
         })
-        favoritesViewModel.provider.descriptionUpdate.observe(viewLifecycleOwner, Observer { pair ->
+        favoritesViewModel.provider.descriptionUpdate.observe(viewLifecycleOwner, { pair ->
             if (pair != null) favoritesAdapter.notifyItemChanged(pair.first, pair.second)
         })
 
@@ -185,14 +184,14 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         networkEntry.list.adapter = networkAdapter
         networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
         containerAdapterAssociation[networkBrowserContainer] = Pair(networkAdapter, networkViewModel)
-        networkViewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaLibraryItem>> { list ->
+        networkViewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {
                 networkAdapter.update(it)
                 updateNetworkEmptyView(networkEntry.loading)
                 if (networkViewModel.loading.value == false) networkEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             }
         })
-        networkViewModel.loading.observe(viewLifecycleOwner, Observer {
+        networkViewModel.loading.observe(viewLifecycleOwner, {
             if (it) networkEntry.loading.state = EmptyLoadingState.LOADING
             updateNetworkEmptyView(networkEntry.loading)
         })

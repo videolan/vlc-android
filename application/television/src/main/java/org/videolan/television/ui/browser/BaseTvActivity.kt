@@ -34,7 +34,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -42,6 +41,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.util.startMedialibrary
+import org.videolan.television.R
 import org.videolan.television.ui.SearchActivity
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity
 import org.videolan.television.ui.registerTimeView
@@ -50,7 +50,6 @@ import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.MediaParsingService
-import org.videolan.television.R
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.gui.helpers.UiTools
 
@@ -121,16 +120,16 @@ abstract class BaseTvActivity : FragmentActivity() {
     protected open fun onParsingServiceFinished() {}
 
     private fun registerLiveData() {
-        MediaParsingService.progress.observe(this, Observer { scanProgress -> if (scanProgress != null) onParsingServiceProgress(scanProgress) })
-        Medialibrary.getState().observe(this, Observer { started ->
-            if (started == null) return@Observer
+        MediaParsingService.progress.observe(this, { scanProgress -> if (scanProgress != null) onParsingServiceProgress(scanProgress) })
+        Medialibrary.getState().observe(this,  { started ->
+            if (started == null) return@observe
             if (started)
                 onParsingServiceStarted()
             else
                 onParsingServiceFinished()
         })
-        MediaParsingService.newStorages.observe(this, Observer<List<String>> { devices ->
-            if (devices == null) return@Observer
+        MediaParsingService.newStorages.observe(this, { devices ->
+            if (devices == null) return@observe
             for (device in devices) UiTools.newStorageDetected(this@BaseTvActivity, device)
             MediaParsingService.newStorages.value = null
         })

@@ -45,7 +45,6 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,7 +53,6 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaWrapperImpl
@@ -372,7 +370,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 hudBinding.player = player
                 hudBinding.progress = service.playlistManager.player.progress
                 abRepeatAddMarker = hudBinding.abRepeatContainer.findViewById(R.id.ab_repeat_add_marker)
-                service.playlistManager.abRepeat.observe(player, Observer { abvalues ->
+                service.playlistManager.abRepeat.observe(player, { abvalues ->
                     hudBinding.abRepeatA = if (abvalues.start == -1L) -1F else abvalues.start / service.playlistManager.player.getLength().toFloat()
                     hudBinding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / service.playlistManager.player.getLength().toFloat()
                     hudBinding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
@@ -380,7 +378,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                     service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                     if (player.settings.getBoolean(VIDEO_TRANSITION_SHOW, true)) showOverlayTimeout(if (abvalues.start == -1L || abvalues.stop == -1L) VideoPlayerActivity.OVERLAY_INFINITE else VideoPlayerActivity.OVERLAY_TIMEOUT)
                 })
-                service.playlistManager.abRepeatOn.observe(player, Observer {
+                service.playlistManager.abRepeatOn.observe(player, {
                     abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
                     hudBinding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
                     if (it) showOverlay(true)
@@ -392,10 +390,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
                     service.manageAbRepeatStep(hudBinding.abRepeatReset, hudBinding.abRepeatStop, hudBinding.abRepeatContainer, abRepeatAddMarker)
                 })
-                service.playlistManager.delayValue.observe(player, Observer {
+                service.playlistManager.delayValue.observe(player, {
                     player.delayDelegate.delayChanged(it, service)
                 })
-                service.playlistManager.videoStatsOn.observe(player, Observer {
+                service.playlistManager.videoStatsOn.observe(player, {
                     if (it) showOverlay(true)
                     player.statsDelegate.container = hudBinding.statsContainer
                     player.statsDelegate.initPlotView(hudBinding)
@@ -408,8 +406,8 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 overlayBackground = player.findViewById(R.id.player_overlay_background)
                 if (!AndroidDevices.isChromeBook && !player.isTv
                         && player.settings.getBoolean("enable_casting", true)) {
-                    PlaybackService.renderer.observe(player, Observer { rendererItem -> hudRightBinding.videoRenderer.setImageDrawable(AppCompatResources.getDrawable(player, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_player_renderer_on)) })
-                    RendererDelegate.renderers.observe(player, Observer<List<RendererItem>> { rendererItems -> updateRendererVisibility() })
+                    PlaybackService.renderer.observe(player, { rendererItem -> hudRightBinding.videoRenderer.setImageDrawable(AppCompatResources.getDrawable(player, if (rendererItem == null) R.drawable.ic_player_renderer else R.drawable.ic_player_renderer_on)) })
+                    RendererDelegate.renderers.observe(player, { rendererItems -> updateRendererVisibility() })
                 }
 
                 hudRightBinding.playerOverlayTitle.text = service.currentMediaWrapper?.title
