@@ -46,7 +46,6 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.lifecycle.lifecycleScope
 import androidx.media.MediaBrowserServiceCompat
@@ -65,9 +64,11 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.*
 import org.videolan.resources.util.launchForeground
-import org.videolan.tools.*
+import org.videolan.tools.Settings
+import org.videolan.tools.WeakHandler
+import org.videolan.tools.getContextWithLocale
+import org.videolan.tools.safeOffer
 import org.videolan.vlc.gui.helpers.AudioUtil
-import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 import org.videolan.vlc.gui.video.PopupManager
@@ -501,10 +502,10 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         registerReceiver(receiver, filter)
 
         keyguardManager = getSystemService()!!
-        renderer.observe(this, Observer { setRenderer(it) })
-        restartPlayer.observe(this, Observer { restartPlaylistManager() })
-        headSetDetection.observe(this, Observer { detectHeadset(it) })
-        equalizer.observe(this, Observer { setEqualizer(it) })
+        renderer.observe(this, { setRenderer(it) })
+        restartPlayer.observe(this, { restartPlaylistManager() })
+        headSetDetection.observe(this, { detectHeadset(it) })
+        equalizer.observe(this, { setEqualizer(it) })
         serviceFlow.value = this
     }
 

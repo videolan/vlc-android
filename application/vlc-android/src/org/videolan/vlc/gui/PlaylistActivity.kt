@@ -37,7 +37,6 @@ import android.widget.Toast
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -56,7 +55,10 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistActivityBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
@@ -109,13 +111,13 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         isPlaylist = playlist.itemType == MediaLibraryItem.TYPE_PLAYLIST
         binding.playlist = playlist
         viewModel = getViewModel(playlist)
-        viewModel.tracksProvider.pagedList.observe(this, Observer { tracks ->
+        viewModel.tracksProvider.pagedList.observe(this, { tracks ->
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { audioBrowserAdapter.submitList(it) }
             menu.let { UiTools.updateSortTitles(it, viewModel.tracksProvider) }
         })
 
-        viewModel.tracksProvider.liveHeaders.observe(this, Observer {
+        viewModel.tracksProvider.liveHeaders.observe(this, {
             binding.songs.invalidateItemDecorations()
         })
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)

@@ -22,10 +22,8 @@ package org.videolan.vlc.gui
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.history_list.*
@@ -63,7 +61,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaWrapper>> { list ->
+        viewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {
                 historyAdapter.update(it)
                 updateEmptyView()

@@ -48,7 +48,10 @@ import org.videolan.vlc.databinding.VideoGridBinding
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToGroup
@@ -114,14 +117,14 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun setDataObservers() {
         videoListAdapter.dataType = viewModel.groupingType
-        viewModel.provider.pagedList.observe(requireActivity(), Observer {
+        viewModel.provider.pagedList.observe(requireActivity(), {
             (it as? PagedList<MediaLibraryItem>)?.let { videoListAdapter.submitList(it) }
             updateEmptyView()
             restoreMultiSelectHelper()
             if (activity?.isFinishing == false && viewModel.group != null && it.size < 2) requireActivity().finish()
         })
 
-        viewModel.provider.loading.observe(this, Observer { loading ->
+        viewModel.provider.loading.observe(this, { loading ->
             setRefreshing(loading) { refresh ->
                 if (!refresh) {
                     setFabPlayVisibility(true)

@@ -27,7 +27,6 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -53,7 +52,7 @@ class RenderersDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        RendererDelegate.renderers.observe(this, Observer {
+        RendererDelegate.renderers.observe(this, {
             if (it !== null) {
                 renderers = it
                 mAdapter.update(it)

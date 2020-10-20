@@ -32,7 +32,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.widget.*
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -130,11 +129,11 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         mediaMetadataModel = ViewModelProviders.of(this, MediaMetadataModel.Factory(requireActivity(), mlId = media.id)).get(media.uri.path
                 ?: "", MediaMetadataModel::class.java)
 
-        mediaMetadataModel.updateLiveData.observe(this, Observer {
+        mediaMetadataModel.updateLiveData.observe(this, {
             updateMetadata(it)
         })
 
-        mediaMetadataModel.nextEpisode.observe(this, Observer {
+        mediaMetadataModel.nextEpisode.observe(this, {
             if (it != null) {
                 actionsAdapter.set(ID_NEXT_EPISODE, Action(ID_NEXT_EPISODE.toLong(), getString(R.string.next_episode)))
                 actionsAdapter.notifyArrayItemRangeChanged(0, actionsAdapter.size())

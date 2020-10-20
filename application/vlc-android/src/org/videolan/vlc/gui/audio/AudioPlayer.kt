@@ -41,7 +41,6 @@ import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -111,7 +110,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
-        playlistModel.progress.observe(this@AudioPlayer, Observer { it?.let { updateProgress(it) } })
+        playlistModel.progress.observe(this@AudioPlayer, { it?.let { updateProgress(it) } })
         playlistAdapter.setModel(playlistModel)
         playlistModel.dataset.asFlow().conflate().onEach {
             doUpdate()
@@ -160,14 +159,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
         onSlide(0f)
         abRepeatAddMarker = binding.abRepeatContainer.findViewById<Button>(R.id.ab_repeat_add_marker)
-        playlistModel.service?.playlistManager?.abRepeat?.observe(viewLifecycleOwner, Observer { abvalues ->
+        playlistModel.service?.playlistManager?.abRepeat?.observe(viewLifecycleOwner, { abvalues ->
             binding.abRepeatA = if (abvalues.start == -1L) -1F else abvalues.start / playlistModel.service!!.playlistManager.player.getLength().toFloat()
             binding.abRepeatB = if (abvalues.stop == -1L) -1F else abvalues.stop / playlistModel.service!!.playlistManager.player.getLength().toFloat()
             binding.abRepeatMarkerA.visibility = if (abvalues.start == -1L) View.GONE else View.VISIBLE
             binding.abRepeatMarkerB.visibility = if (abvalues.stop == -1L) View.GONE else View.VISIBLE
             playlistModel.service?.manageAbRepeatStep(binding.abRepeatReset, binding.abRepeatStop, binding.abRepeatContainer, abRepeatAddMarker)
         })
-        playlistModel.service?.playlistManager?.abRepeatOn?.observe(viewLifecycleOwner, Observer {
+        playlistModel.service?.playlistManager?.abRepeatOn?.observe(viewLifecycleOwner, {
             binding.abRepeatMarkerGuidelineContainer.visibility = if (it) View.VISIBLE else View.GONE
             abRepeatAddMarker.visibility = if (it) View.VISIBLE else View.GONE
 
