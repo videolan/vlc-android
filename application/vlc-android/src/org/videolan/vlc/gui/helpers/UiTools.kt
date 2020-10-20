@@ -93,6 +93,7 @@ object UiTools {
     private val TAG = "VLC/UiTools"
     private var DEFAULT_COVER_VIDEO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_DRAWABLE: BitmapDrawable? = null
+    private var DEFAULT_COVER_AUDIO_AUTO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ALBUM_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ARTIST_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_MOVIE_DRAWABLE: BitmapDrawable? = null
@@ -122,6 +123,13 @@ object UiTools {
             DEFAULT_COVER_AUDIO_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_no_song))
         }
         return DEFAULT_COVER_AUDIO_DRAWABLE!!
+    }
+
+    fun getDefaultAudioAutoDrawable(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_AUDIO_AUTO_DRAWABLE == null) {
+            DEFAULT_COVER_AUDIO_AUTO_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_auto_nothumb))
+        }
+        return DEFAULT_COVER_AUDIO_AUTO_DRAWABLE!!
     }
 
     fun getDefaultFolderDrawable(context: Context): BitmapDrawable {
