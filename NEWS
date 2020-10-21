@@ -1,3 +1,15 @@
+Changes between 3.3.1 and 3.3.2 Beta 1:
+------------------
+
+Application:
+ * Allow adding multiple videos to a new group
+ * SMB fixes
+ * Fix landscape video orientation
+ * Fix progression save
+ * Fix subtitles picking on SD cards
+ * Android Auto improvements and fixes
+ * Crash fixes
+
 Changes between 3.3.1 Beta 2 and 3.3.1:
 ------------------
 
