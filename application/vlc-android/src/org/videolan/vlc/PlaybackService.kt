@@ -850,6 +850,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MediaUtils.getMediaAlbum(ctx, media))
                 putLong(MediaMetadataCompat.METADATA_KEY_DURATION, if (length != 0L) length else -1L)
             }
+            if (AndroidDevices.isCarMode(ctx)) {
+                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, title)
+                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, MediaUtils.getDisplaySubtitle(ctx, media, currentMediaPosition, mediaListSize))
+                bob.putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, MediaUtils.getMediaAlbum(ctx, media))
+            }
             if (coverOnLockscreen) {
                 val cover = AudioUtil.readCoverBitmap(Uri.decode(media.artworkMrl), 512)
                 if (cover?.config != null)
