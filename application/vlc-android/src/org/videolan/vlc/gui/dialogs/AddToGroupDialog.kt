@@ -28,9 +28,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -48,6 +49,8 @@ import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import java.util.*
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHandler {
     override fun getDefaultState(): Int = STATE_EXPANDED
 
@@ -98,7 +101,8 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
 
         binding.list.layoutManager = LinearLayoutManager(view.context)
         binding.list.adapter = adapter
-        val viewModel = ViewModelProvider(requireActivity(), VideosViewModel.Factory(requireContext(), VideoGroupingType.NAME, null, null)).get(VideosViewModel::class.java)
+        //we have to create the viewmodel that way to avoid the cache from ViewModelProvider which will send the model from the calling activity that may have a different groupingType
+        val viewModel = VideosViewModel.Factory(requireContext(), VideoGroupingType.NAME, null, null).create(VideosViewModel::class.java)
         viewModel.provider.pagedList.observe(viewLifecycleOwner, {
 
             adapter.submitList(it.filter { group -> group is VideoGroup && group.mediaCount() > 1 }.apply {

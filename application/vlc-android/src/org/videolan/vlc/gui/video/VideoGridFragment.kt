@@ -322,6 +322,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 menu.findItem(R.id.action_video_append).isVisible = PlaylistManager.hasMedia()
                 menu.findItem(R.id.action_video_info).isVisible = count == 1
                 menu.findItem(R.id.action_remove_from_group).isVisible = viewModel.group != null
+                menu.findItem(R.id.action_add_to_group).isVisible = viewModel.group != null && count > 1
             }
             VideoGroupingType.NAME -> {
                 menu.findItem(R.id.action_ungroup).isVisible = !multiSelectHelper.getSelection().any { it !is VideoGroup }
@@ -358,6 +359,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                         R.id.action_video_delete -> removeItems(list)
                         R.id.action_remove_from_group -> viewModel.removeFromGroup(list)
                         R.id.action_ungroup -> viewModel.ungroup(list)
+                        R.id.action_add_to_group -> addToGroup(list)
                         else -> {
                             stopActionMode()
                             return false
@@ -386,19 +388,25 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     R.id.action_group_similar -> lifecycleScope.launch { viewModel.groupSimilar(selection.getAll().first()) }
                     R.id.action_ungroup -> viewModel.ungroup(selection.first() as VideoGroup)
                     R.id.action_rename -> renameGroup(selection.first() as VideoGroup)
-                    R.id.action_add_to_group -> requireActivity().addToGroup(selection.getAll()) {
-                            lifecycleScope.launch {
-                                viewModel.createGroup(selection.getAll())?.let {
-                                    activity?.open(it)
-                                }
-                            }
-                        }
+                    R.id.action_add_to_group -> addToGroup(selection)
                     else -> return false
                 }
             }
         }
         stopActionMode()
         return true
+    }
+
+    private fun addToGroup(selection: List<MediaLibraryItem>) {
+        requireActivity().addToGroup(selection.getAll()) {
+            lifecycleScope.launch {
+                viewModel.createGroup(selection.getAll())?.let {
+                    // we already are in a group. Finishing to avoid stacking multiple group activities
+                    if (viewModel.groupingType == VideoGroupingType.NONE) requireActivity().finish()
+                    activity?.open(it)
+                }
+            }
+        }
     }
 
     override fun onDestroyActionMode(mode: ActionMode) {
