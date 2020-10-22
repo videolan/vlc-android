@@ -348,6 +348,25 @@ object MediaUtils {
         return subtitle
     }
 
+    fun getMediaDescription(artist: String?, album: String?): String {
+        val hasArtist = !artist.isNullOrEmpty()
+        val hasAlbum = !album.isNullOrEmpty()
+        if (!hasAlbum && !hasArtist) return ""
+        val contentBuilder = StringBuilder(artist ?: "")
+        if (hasArtist && hasAlbum) contentBuilder.append(" - ")
+        if (hasAlbum) contentBuilder.append(album)
+        return contentBuilder.toString()
+    }
+
+    fun getDisplaySubtitle(ctx: Context, media: MediaWrapper, mediaPosition: Int, mediaSize: Int): String {
+        val sb = StringBuilder()
+        if (mediaSize > 1) sb.append("${mediaPosition + 1} / $mediaSize")
+        val desc = getMediaDescription(MediaUtils.getMediaArtist(ctx, media), MediaUtils.getMediaAlbum(ctx, media))
+        sb.append(if (desc.isNotEmpty()) (if (sb.isNotEmpty()) " • $desc" else desc) else "")
+        //Replace full-spaces with thin-spaces (Unicode 2009)
+        return sb.toString().replace(" ", "\u2009")
+    }
+
     fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title
             ?: FileUtils.getFileNameFromPath(mediaWrapper.location)
 

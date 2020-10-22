@@ -21,8 +21,10 @@
 package org.videolan.resources
 
 import android.annotation.TargetApi
+import android.app.UiModeManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Build.VERSION_CODES
@@ -164,6 +166,11 @@ object AndroidDevices {
 
     fun canUseSystemNightMode(): Boolean {
         return Build.VERSION.SDK_INT > VERSION_CODES.P || Build.VERSION.SDK_INT == VERSION_CODES.P && "samsung" == Build.MANUFACTURER.toLowerCase(Locale.US)
+    }
+
+    fun isCarMode(ctx: Context): Boolean {
+        val uiModeManager = ctx.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+        return uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_CAR
     }
 
     private fun hasPlayServices(pm: PackageManager): Boolean {

@@ -37,8 +37,8 @@ import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.*
 import org.videolan.tools.getContextWithLocale
-import org.videolan.tools.getMediaDescription
 import org.videolan.vlc.R
+import org.videolan.vlc.media.MediaUtils.getMediaDescription
 
 private const val MEDIALIBRRARY_CHANNEL_ID = "vlc_medialibrary"
 private const val PLAYBACK_SERVICE_CHANNEL_ID = "vlc_playback"
