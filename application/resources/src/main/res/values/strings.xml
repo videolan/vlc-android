@@ -756,4 +756,11 @@
     <string name="new_group">New group</string>
     <string name="new_group_desc">Create a new group</string>
 
+    <string name="air_action_rewind">Rewind 10 sec</string>
+    <string name="air_action_forward">Seek forward 10 sec</string>
+    <string name="air_action_play_pause">Pause/Resume playback</string>
+    <string name="air_action_volume_up">Volume up</string>
+    <string name="air_action_volume_down">Volume down</string>
+    <string name="air_action_next">Next item in playback</string>
+    <string name="air_action_previous">Previous item in playback</string>
 </resources>
