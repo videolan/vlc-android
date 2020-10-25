@@ -230,6 +230,7 @@ avlc_pkgconfig()
 {
     # Enforce pkg-config files coming from VLC contribs
     PKG_CONFIG_PATH="$VLC_CONTRIB/lib/pkgconfig/" \
+    PKG_CONFIG_LIBDIR="$VLC_CONTRIB/lib/pkgconfig/" \
     pkg-config "$@"
 }
 
