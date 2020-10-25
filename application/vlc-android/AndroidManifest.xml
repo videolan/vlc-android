@@ -508,7 +508,15 @@
             android:launchMode="singleTask"
             android:resizeableActivity="true"
             android:supportsPictureInPicture="true"
-            android:theme="@style/Theme.VLC.Player"/>
+            android:theme="@style/Theme.VLC.Player">
+
+            <intent-filter>
+                <action android:name="com.samsung.android.support.REMOTE_ACTION" />
+            </intent-filter>
+            <meta-data android:name="com.samsung.android.support.REMOTE_ACTION"
+                android:resource="@xml/air_actions"/>
+
+        </activity>
         <activity
             android:name=".gui.DialogActivity"
             android:configChanges="orientation|screenSize"
