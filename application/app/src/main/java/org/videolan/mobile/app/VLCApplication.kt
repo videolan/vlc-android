@@ -27,9 +27,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.libvlc.*
-import org.videolan.libvlc.interfaces.ILibVLCFactory
-import org.videolan.libvlc.interfaces.IMediaFactory
+import org.videolan.libvlc.Dialog
 import org.videolan.tools.BitmapCache
 import org.videolan.vlc.util.DialogDelegate
 
@@ -37,7 +35,7 @@ private const val TAG = "VLC/VLCApplication"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate, AppDelegate by AppSetupDelegate(), AppFactoryProvider {
+class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate, AppDelegate by AppSetupDelegate() {
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
@@ -67,23 +65,5 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
         super.onTrimMemory(level)
         Log.w(TAG, "onTrimMemory, level: $level")
         BitmapCache.clear()
-    }
-
-    override fun getMediaFactory(): IMediaFactory {
-        try {
-            return FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
-        } catch (e: Exception) {
-            FactoryManager.registerFactory(IMediaFactory.factoryId, MediaFactory())
-        }
-        return FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
-    }
-
-    override fun getLibVLCFactory(): ILibVLCFactory {
-        try {
-            return FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory
-        } catch (e: Exception) {
-            FactoryManager.registerFactory(ILibVLCFactory.factoryId, LibVLCFactory())
-        }
-        return FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory
     }
 }

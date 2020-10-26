@@ -11,7 +11,7 @@ import android.os.Build
 import android.util.Log
 import android.view.Surface
 import kotlinx.coroutines.*
-import org.videolan.libvlc.AppFactoryProvider
+import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.resources.AppContextProvider
@@ -30,7 +30,7 @@ private const val TAG = "PreviewInputService"
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope() {
 
-    internal val factory by lazy { (applicationContext as AppFactoryProvider).mediaFactory as IMediaFactory }
+    internal val factory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
     override fun onCreateSession(inputId: String): TvInputService.Session? {
         return PreviewSession(this)

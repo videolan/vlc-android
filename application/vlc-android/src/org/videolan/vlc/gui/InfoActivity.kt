@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
-import org.videolan.libvlc.AppFactoryProvider
+import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.Extensions
@@ -31,7 +31,6 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.AppContextProvider
 import org.videolan.resources.TAG_ITEM
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.readableFileSize
@@ -241,7 +240,7 @@ class InfoModel : ViewModel() {
     internal val mediaTracks = MutableLiveData<List<IMedia.Track>>()
     internal val sizeText = MutableLiveData<String>()
     internal val cover = MutableLiveData<Bitmap>()
-    internal val mediaFactory by lazy { (AppContextProvider.appContext as AppFactoryProvider).mediaFactory as IMediaFactory }
+    internal val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
     internal fun getCover(mrl: String?, width: Int) = viewModelScope.launch {
         cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.fetchCoverBitmap(Uri.decode(it), width) } }
