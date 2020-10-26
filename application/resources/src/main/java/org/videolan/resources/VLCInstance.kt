@@ -26,13 +26,13 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.libvlc.FactoryManager
 import org.videolan.libvlc.interfaces.ILibVLC
 import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.util.VLCUtil
 import org.videolan.resources.VLCInstance.init
 import org.videolan.resources.util.VLCCrashHandler
 import org.videolan.tools.SingletonHolder
-import org.videolan.libvlc.AppFactoryProvider
 
 @ObsoleteCoroutinesApi
 object VLCInstance : SingletonHolder<ILibVLC, Context>({ init(it.applicationContext) }) {
@@ -41,17 +41,16 @@ object VLCInstance : SingletonHolder<ILibVLC, Context>({ init(it.applicationCont
     @SuppressLint("StaticFieldLeak")
     private lateinit var sLibVLC: ILibVLC
 
-    private lateinit var libVLCFactory: ILibVLCFactory
+    private val libVLCFactory= FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory
 
     @Throws(IllegalStateException::class)
-    fun init(ctx: Context): ILibVLC {
+    fun init(ctx: Context) : ILibVLC {
         Thread.setDefaultUncaughtExceptionHandler(VLCCrashHandler())
 
         if (!VLCUtil.hasCompatibleCPU(ctx)) {
             Log.e(TAG, VLCUtil.getErrorMsg())
             throw IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg())
         }
-        libVLCFactory = (ctx.applicationContext as AppFactoryProvider).libVLCFactory
 
         // TODO change LibVLC signature to accept a List instead of an ArrayList
         sLibVLC = libVLCFactory.getFromOptions(ctx, VLCOptions.libOptions)
