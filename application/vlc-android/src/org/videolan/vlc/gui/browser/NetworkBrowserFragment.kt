@@ -27,6 +27,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
@@ -38,6 +39,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.CTX_FAV_ADD
 import org.videolan.tools.NetworkMonitor
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.IDialogManager
@@ -61,6 +63,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
         super.onCreate(bundle)
         dialogsDelegate.observeDialogs(this, this)
         networkMonitor = NetworkMonitor.getInstance(requireContext())
+        (requireActivity() as? SecondaryActivity)?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -28,6 +28,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -42,6 +43,7 @@ import org.videolan.resources.CTX_FAV_ADD
 import org.videolan.tools.removeFileProtocole
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
 import org.videolan.vlc.gui.helpers.hf.requestOtgRoot
@@ -60,6 +62,11 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
     override fun createFragment(): Fragment {
         return FileBrowserFragment()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (requireActivity() as? SecondaryActivity)?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_up)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
