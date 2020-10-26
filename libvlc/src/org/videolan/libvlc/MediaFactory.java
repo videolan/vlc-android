@@ -10,9 +10,6 @@ import org.videolan.libvlc.interfaces.IMediaFactory;
 import java.io.FileDescriptor;
 
 public class MediaFactory implements IMediaFactory {
-    static {
-        FactoryManager.registerFactory(IMediaFactory.factoryId, new MediaFactory());
-    }
 
     @Override
     public IMedia getFromLocalPath(ILibVLC ILibVLC, String path) {
