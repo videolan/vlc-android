@@ -99,6 +99,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     internal lateinit var settings: SharedPreferences
     private val binder = LocalBinder()
     internal lateinit var medialibrary: Medialibrary
+    private lateinit var artworkMap: MutableMap<String, Uri>
 
     private val callbacks = mutableListOf<Callback>()
     private lateinit var cbActor : SendChannel<CbAction>
@@ -110,6 +111,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     internal lateinit var mediaSession: MediaSessionCompat
     @Volatile
     private var notificationShowing = false
+    private var prevUpdateInCarMode = true
     private var lastTime = 0L
     private var widget = 0
     /**
@@ -478,6 +480,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         Util.checkCpuCompatibility(this)
 
         medialibrary = Medialibrary.getInstance()
+        artworkMap = HashMap<String,Uri>()
 
         detectHeadset = settings.getBoolean("enable_headset_detection", true)
 
@@ -917,10 +920,11 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         mediaSession.setExtras(Bundle().apply {
             putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT, true)
             putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_PREV, true)
-        });
+        })
 
         val mediaIsActive = state != PlaybackStateCompat.STATE_STOPPED
         val update = mediaSession.isActive != mediaIsActive
+        updateMediaQueueSlidingWindow()
         mediaSession.setPlaybackState(pscb.build())
         mediaSession.isActive = mediaIsActive
         mediaSession.setQueueTitle(getString(R.string.music_now_playing))
@@ -1085,26 +1089,69 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     private fun updateMediaQueue() = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
+        artworkMap = HashMap<String, Uri>().also {
+            val artworkToUriCache = HashMap<String, Uri>()
+            for (media in playlistManager.getMediaList()) {
+                if (!media.artworkMrl.isNullOrEmpty() && isPathValid(media.artworkMrl)) {
+                    val artworkUri = artworkToUriCache.getOrPut(media.artworkMrl, {getFileUri(media.artworkMrl)})
+                    val key = MediaSessionBrowser.generateMediaId(media)
+                    it[key] = artworkUri
+                }
+            }
+            artworkToUriCache.clear()
+        }
+        updateMediaQueueSlidingWindow(true)
+    }
+
+    /**
+     * Set the mediaSession queue to a sliding window of fifteen tracks max, with the current song
+     * centered in the queue (when possible). Fifteen tracks are used instead of seventeen to
+     * prevent the "Search By Name" bar from appearing on the top of the window.
+     * If Android Auto is exited, set the entire queue on the next update so that Bluetooth
+     * headunits that report the track number show the correct value in the playlist.
+     */
+    private fun updateMediaQueueSlidingWindow(mediaListChanged: Boolean = false) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
+        if (AndroidDevices.isCarMode(this@PlaybackService)) {
+            val mediaList = playlistManager.getMediaList()
+            val halfWindowSize = 7
+            val windowSize = 2 * halfWindowSize + 1
+            val songNum = currentMediaPosition + 1
+            var fromIndex = 0
+            var toIndex = (mediaList.size).coerceAtMost(windowSize)
+            if (songNum > halfWindowSize) {
+                toIndex = (songNum + halfWindowSize).coerceAtMost(mediaList.size)
+                fromIndex = (toIndex - windowSize).coerceAtLeast(0)
+            }
+            buildQueue(mediaList, fromIndex, toIndex)
+            prevUpdateInCarMode = true
+        } else if (mediaListChanged || prevUpdateInCarMode) {
+            buildQueue(playlistManager.getMediaList())
+            prevUpdateInCarMode = false
+        }
+    }
+
+    private fun buildQueue(mediaList: List<MediaWrapper>, fromIndex: Int = 0, toIndex: Int = mediaList.size) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
+        if (!this@PlaybackService.lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED)) return@launch
         val ctx = this@PlaybackService
-        val defaultCoverUri = "android.resource://${BuildConfig.APP_ID}/drawable/${R.drawable.ic_no_song}".toUri()
+        val defaultCoverUri = "android.resource://${BuildConfig.APP_ID}/drawable/${R.drawable.ic_auto_nothumb}".toUri()
         val queue = withContext(Dispatchers.Default) {
-            LinkedList<MediaSessionCompat.QueueItem>().also {
-                for ((position, media) in playlistManager.getMediaList().withIndex()) {
+            ArrayList<MediaSessionCompat.QueueItem>(toIndex - fromIndex).also {
+                for ((position, media) in mediaList.subList(fromIndex, toIndex).withIndex()) {
                     val title: String = media.nowPlaying ?: media.title
-                    val coverUri = if (!media.artworkMrl.isNullOrEmpty() && isPathValid(media.artworkMrl))
-                        getFileUri(media.artworkMrl) else defaultCoverUri
-                    val builder = MediaDescriptionCompat.Builder()
+                    val mediaId = MediaSessionBrowser.generateMediaId(media)
+                    val mediaDesc = MediaDescriptionCompat.Builder()
                             .setTitle(title)
                             .setSubtitle(MediaUtils.getMediaArtist(ctx, media))
                             .setDescription(MediaUtils.getMediaAlbum(ctx, media))
-                            .setIconUri(coverUri)
+                            .setIconUri(artworkMap[mediaId] ?: defaultCoverUri)
                             .setMediaUri(media.uri)
-                            .setMediaId(MediaSessionBrowser.generateMediaId(media))
-                    it.add(MediaSessionCompat.QueueItem(builder.build(), position.toLong()))
+                            .setMediaId(mediaId)
+                            .build()
+                    it.add(MediaSessionCompat.QueueItem(mediaDesc, (fromIndex + position).toLong()))
                 }
             }
         }
-        if (this@PlaybackService.lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED)) mediaSession.setQueue(queue)
+        mediaSession.setQueue(queue)
     }
 
     @MainThread
