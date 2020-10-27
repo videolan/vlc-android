@@ -55,7 +55,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
 
     private val coroutineContextProvider: CoroutineContextProvider
 
-    override fun initialFocusedView(): View = binding.tracksSeparator2
+    override fun initialFocusedView(): View = binding.subtitleTracks.trackMore
 
     lateinit var menuItemListener:(Int) -> Unit
     lateinit var trackSelectionListener:(Int, TrackType) -> Unit

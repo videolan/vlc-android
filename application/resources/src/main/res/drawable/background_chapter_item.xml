@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true" android:drawable="@color/orange500" />
-    <item android:state_activated="true" android:drawable="@color/orange500" />
-    <item android:state_focused="true" android:drawable="@color/orange300" />
-    <item android:state_pressed="true" android:drawable="@color/orange500" />
-</selector>
-
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <selector>
+            <item android:state_selected="true">
+                <color android:color="@color/orange500"/>
+            </item>
+            <item>
+                <color android:color="@android:color/transparent"/>
+            </item>
+        </selector>
+    </item>
+    <item android:drawable="?attr/selectableItemBackground"/>
+</layer-list>
