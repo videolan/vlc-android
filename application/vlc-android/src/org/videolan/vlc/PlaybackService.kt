@@ -573,7 +573,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     }
 
     override fun onTaskRemoved(rootIntent: Intent) {
-        if (settings.getBoolean("audio_task_removed", false)) stopService(Intent(applicationContext, PlaybackService.javaClass))
+        if (settings.getBoolean("audio_task_removed", false)) stop()
     }
 
     override fun onDestroy() {
