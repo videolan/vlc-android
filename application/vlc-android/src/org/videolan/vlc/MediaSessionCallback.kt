@@ -16,6 +16,7 @@ import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.MediaSessionBrowser
+import org.videolan.vlc.media.MediaSessionBrowser.Companion.MAX_HISTORY_SIZE
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import java.util.*
@@ -61,15 +62,41 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         playbackService.lifecycleScope.launch {
             val context = playbackService.applicationContext
             when {
+                mediaId == MediaSessionBrowser.ID_NO_MEDIA -> playbackService.displayPlaybackError(R.string.search_no_result)
+                mediaId == MediaSessionBrowser.ID_NO_PLAYLIST -> playbackService.displayPlaybackError(R.string.noplaylist)
                 mediaId == MediaSessionBrowser.ID_SHUFFLE_ALL -> {
                     val tracks = context.getFromMl { audio }
                     if (tracks.isNotEmpty() && isActive) {
                         playbackService.load(tracks, Random().nextInt(min(tracks.size, MEDIALIBRARY_PAGE_SIZE)))
                         if (!playbackService.isShuffling) playbackService.shuffle()
+                    } else {
+                        playbackService.displayPlaybackError(R.string.search_no_result)
+                    }
+                }
+                mediaId == MediaSessionBrowser.ID_LAST_ADDED -> {
+                    val tracks = context.getFromMl { recentAudio }
+                    if (tracks.isNotEmpty() && isActive) {
+                        val mediaList = tracks.copyOfRange(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
+                        playbackService.load(mediaList, 0)
+                    }
+                }
+                mediaId == MediaSessionBrowser.ID_HISTORY -> {
+                    val tracks = context.getFromMl { lastMediaPlayed() }
+                    if (tracks.isNotEmpty() && isActive) {
+                        val mediaList = tracks.copyOfRange(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
+                        playbackService.load(mediaList, 0)
                     }
                 }
                 mediaId.startsWith(MediaSessionBrowser.ALBUM_PREFIX) -> {
                     val tracks = context.getFromMl { getAlbum(mediaId.extractId())?.tracks }
+                    if (isActive) tracks?.let { playbackService.load(it, 0) }
+                }
+                mediaId.startsWith(MediaSessionBrowser.ARTIST_PREFIX) -> {
+                    val tracks = context.getFromMl { getArtist(mediaId.extractId())?.tracks }
+                    if (isActive) tracks?.let { playbackService.load(it, 0) }
+                }
+                mediaId.startsWith(MediaSessionBrowser.GENRE_PREFIX) -> {
+                    val tracks = context.getFromMl { getGenre(mediaId.extractId())?.tracks }
                     if (isActive) tracks?.let { playbackService.load(it, 0) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.PLAYLIST_PREFIX) -> {

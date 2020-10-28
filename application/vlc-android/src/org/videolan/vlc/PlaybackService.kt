@@ -39,6 +39,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.getSystemService
@@ -1133,7 +1134,6 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private fun buildQueue(mediaList: List<MediaWrapper>, fromIndex: Int = 0, toIndex: Int = mediaList.size) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {
         if (!this@PlaybackService.lifecycle.currentState.isAtLeast(Lifecycle.State.CREATED)) return@launch
         val ctx = this@PlaybackService
-        val defaultCoverUri = "android.resource://${BuildConfig.APP_ID}/drawable/${R.drawable.ic_auto_nothumb}".toUri()
         val queue = withContext(Dispatchers.Default) {
             ArrayList<MediaSessionCompat.QueueItem>(toIndex - fromIndex).also {
                 for ((position, media) in mediaList.subList(fromIndex, toIndex).withIndex()) {
@@ -1143,7 +1143,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                             .setTitle(title)
                             .setSubtitle(MediaUtils.getMediaArtist(ctx, media))
                             .setDescription(MediaUtils.getMediaAlbum(ctx, media))
-                            .setIconUri(artworkMap[mediaId] ?: defaultCoverUri)
+                            .setIconUri(artworkMap[mediaId] ?: MediaSessionBrowser.DEFAULT_TRACK_ICON)
                             .setMediaUri(media.uri)
                             .setMediaId(mediaId)
                             .build()
@@ -1152,6 +1152,19 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             }
         }
         mediaSession.setQueue(queue)
+    }
+
+    fun displayPlaybackError(@StringRes resId: Int) {
+        if (!this@PlaybackService::mediaSession.isInitialized) initMediaSession()
+        val ctx = this@PlaybackService
+        if (isPlaying) {
+            stop()
+        }
+        val playbackState = PlaybackStateCompat.Builder()
+                .setState(PlaybackStateCompat.STATE_ERROR, 0, 0f)
+                .setErrorMessage(PlaybackStateCompat.ERROR_CODE_NOT_SUPPORTED, ctx.getString(resId))
+                .build()
+        mediaSession.setPlaybackState(playbackState)
     }
 
     @MainThread
@@ -1369,7 +1382,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
      */
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
-        return if (Permissions.canReadStorage(this@PlaybackService)) BrowserRoot(MediaSessionBrowser.ID_ROOT, null) else null
+        return if (Permissions.canReadStorage(this@PlaybackService)) {
+            BrowserRoot(MediaSessionBrowser.ID_ROOT, MediaSessionBrowser.getContentStyle(CONTENT_STYLE_LIST_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE))
+        } else null
     }
 
     override fun onLoadChildren(parentId: String, result: Result<List<MediaBrowserCompat.MediaItem>>) {
