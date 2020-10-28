@@ -522,6 +522,8 @@
     <string name="ml_external_storage_accept">Yes</string>
     <string name="ml_external_storage_decline">No</string>
     <string name="auto_last_added_media">Last added</string>
+    <string name="auto_my_library">My library</string>
+    <string name="auto_home">Home</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Loading Medialibrary…</string>
     <string name="yes">Yes</string>
