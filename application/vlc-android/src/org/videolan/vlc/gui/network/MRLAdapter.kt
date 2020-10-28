@@ -27,6 +27,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.Settings
@@ -42,6 +44,8 @@ private const val TYPE_LIST = 0
 private const val TYPE_CARD = 1
 private const val TYPE_DUMMY = 2
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, private val inCards: Boolean = false) : DiffUtilAdapter<MediaWrapper, RecyclerView.ViewHolder>() {
     private var dummyClickListener: (() -> Unit)? = null
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
@@ -56,13 +60,13 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, privat
     }
 
     override fun getItemViewType(position: Int) = when {
-        dataset[position] != null && dataset[position].id < 0 -> TYPE_DUMMY
+        dataset.getOrNull(position)?.id ?: 0 < 0 -> TYPE_DUMMY
         inCards -> TYPE_CARD
         else -> TYPE_LIST
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = dataset[position]
+        val item = dataset.getOrNull(position) ?: return
         when (holder) {
             is ListViewHolder -> {
                 holder.binding.mrlItemUri.text = Uri.decode(item.location)
@@ -128,7 +132,7 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, privat
         }
 
         override fun onClick(v: View) {
-            dataset[layoutPosition].let { eventActor.offer(Playmedia(it)) }
+            dataset.getOrNull(layoutPosition)?.let { eventActor.offer(Playmedia(it)) }
         }
 
         fun recycle() {}
@@ -143,7 +147,7 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>, privat
         }
 
         override fun onClick(v: View) {
-            dataset[layoutPosition].let { eventActor.offer(Playmedia(it)) }
+            dataset.getOrNull(layoutPosition)?.let { eventActor.offer(Playmedia(it)) }
         }
 
         fun recycle() {
