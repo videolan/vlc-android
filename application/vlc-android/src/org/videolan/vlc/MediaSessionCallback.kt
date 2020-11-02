@@ -16,7 +16,6 @@ import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.getFromMl
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.MediaSessionBrowser
-import org.videolan.vlc.media.MediaSessionBrowser.Companion.MAX_HISTORY_SIZE
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.awaitMedialibraryStarted
 import java.util.*
@@ -74,16 +73,16 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     }
                 }
                 mediaId == MediaSessionBrowser.ID_LAST_ADDED -> {
-                    val tracks = context.getFromMl { recentAudio }
-                    if (tracks.isNotEmpty() && isActive) {
-                        val mediaList = tracks.copyOfRange(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
+                    val tracks = context.getFromMl { recentAudio?.toList() }
+                    if (!tracks.isNullOrEmpty() && isActive) {
+                        val mediaList = tracks.subList(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
                         playbackService.load(mediaList, 0)
                     }
                 }
                 mediaId == MediaSessionBrowser.ID_HISTORY -> {
-                    val tracks = context.getFromMl { lastMediaPlayed() }
-                    if (tracks.isNotEmpty() && isActive) {
-                        val mediaList = tracks.copyOfRange(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
+                    val tracks = context.getFromMl { lastMediaPlayed()?.toList() }
+                    if (!tracks.isNullOrEmpty() && isActive) {
+                        val mediaList = tracks.subList(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
                         playbackService.load(mediaList, 0)
                     }
                 }
