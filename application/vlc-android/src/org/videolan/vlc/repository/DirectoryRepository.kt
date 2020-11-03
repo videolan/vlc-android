@@ -1,9 +1,7 @@
 package org.videolan.vlc.repository
 
 import android.content.Context
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -17,6 +15,8 @@ import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) : IOScopedObject() {
 
     fun addCustomDirectory(path: String): Job = launch {
@@ -27,7 +27,7 @@ class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) :
         try {
             customDirectoryDao.getAll()
         } catch (e: Exception) {
-            emptyList<org.videolan.vlc.mediadb.models.CustomDirectory>()
+            emptyList()
         }
     }
 

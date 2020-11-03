@@ -114,27 +114,6 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         viewModel.browseRoot()
     }
 
-    override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (item.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            val mw = item as MediaWrapper
-            if ("otg://" == mw.location) {
-                val title = getString(R.string.otg_device_title)
-                val rootUri = OtgAccess.otgRoot.value
-                if (rootUri != null && ExternalMonitor.devices.size == 1) {
-                    browseOtgDevice(rootUri, title)
-                } else {
-                    lifecycleScope.launchWhenStarted {
-                        val uri = OtgAccess.otgRoot.filterNotNull().first()
-                        browseOtgDevice(uri, title)
-                    }
-                    requireActivity().requestOtgRoot()
-                }
-                return
-            }
-        }
-        super.onClick(v, position, item)
-    }
-
     override fun onCtxAction(position: Int, option: Long) {
         val mw = this.adapter.getItem(position) as MediaWrapper?
         when (option) {
@@ -175,10 +154,4 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         }
     }
 
-    private fun browseOtgDevice(uri: Uri, title: String) {
-        val mw = MLServiceLocator.getAbstractMediaWrapper(uri)
-        mw.type = MediaWrapper.TYPE_DIR
-        mw.title = title
-        handler.post { browse(mw, true) }
-    }
 }

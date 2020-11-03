@@ -763,4 +763,6 @@
     <string name="air_action_volume_down">Volume down</string>
     <string name="air_action_next">Next item in playback</string>
     <string name="air_action_previous">Previous item in playback</string>
+    <string name="allow_otg">Allow OTG access</string>
+    <string name="allow_otg_description">Please select your OTG drive to allow access to VLC.</string>
 </resources>
