@@ -80,7 +80,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     }
                 }
                 mediaId == MediaSessionBrowser.ID_HISTORY -> {
-                    val tracks = context.getFromMl { lastMediaPlayed()?.toList() }
+                    val tracks = context.getFromMl { lastMediaPlayed()?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
                     if (!tracks.isNullOrEmpty() && isActive) {
                         val mediaList = tracks.subList(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
                         playbackService.load(mediaList, 0)
