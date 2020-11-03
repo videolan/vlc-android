@@ -28,9 +28,13 @@ import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.vlc.R
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class FilePickerActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +57,5 @@ class FilePickerActivity : AppCompatActivity() {
 
     fun onCloseClick(v:View) {
         finish()
-    }
-
-    companion object {
     }
 }

@@ -69,13 +69,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     }
 
     override fun setupBrowser() {
-        //if scheme is not file, we want to allow picking anywhere
-        val url = try {
-            if (Uri.parse(mrl).scheme.isSchemeFile()) mrl else null
-        } catch (e: Exception) {
-            mrl
-        }
-        viewModel = ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), url, TYPE_PICKER, false)).get(BrowserModel::class.java)
+        viewModel = ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), mrl, TYPE_PICKER, false)).get(BrowserModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
