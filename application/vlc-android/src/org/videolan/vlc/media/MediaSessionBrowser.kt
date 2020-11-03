@@ -258,12 +258,14 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         results.add(MediaBrowserCompat.MediaItem(lastAddedMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         /* History */
                         if (Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) {
-                            val lastMediaPlayed = ml.lastMediaPlayed();
-                            val historyCover: Bitmap? = getHomeImage("history", lastMediaPlayed)
-                            val historyMediaDesc = getPlayAllBuilder(res, ID_HISTORY, lastMediaPlayed.size.coerceAtMost(MAX_HISTORY_SIZE), historyCover)
-                                    .setTitle(res.getString(R.string.history))
-                                    .build()
-                            results.add(MediaBrowserCompat.MediaItem(historyMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
+                            val lastMediaPlayed = ml.lastMediaPlayed()?.toList()?.filter { isMediaAudio(it) }
+                            if (!lastMediaPlayed.isNullOrEmpty()) {
+                                val historyCover: Bitmap? = getHomeImage("history", lastMediaPlayed.toTypedArray())
+                                val historyMediaDesc = getPlayAllBuilder(res, ID_HISTORY, lastMediaPlayed.size.coerceAtMost(MAX_HISTORY_SIZE), historyCover)
+                                        .setTitle(res.getString(R.string.history))
+                                        .build()
+                                results.add(MediaBrowserCompat.MediaItem(historyMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
+                            }
                         }
                     }
                     ID_LIBRARY -> {
@@ -314,7 +316,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                     }
                     ID_HISTORY -> {
                         limitSize = true
-                        list = ml.lastMediaPlayed()
+                        list = ml.lastMediaPlayed()?.toList()?.filter { isMediaAudio(it) }?.toTypedArray()
                         if (list != null && list.size > 1) {
                             val playAllMediaDesc = getPlayAllBuilder(res, parentId, list.size.coerceAtMost(MAX_HISTORY_SIZE)).build()
                             results.add(MediaBrowserCompat.MediaItem(playAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
@@ -471,6 +473,10 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                 else -> return libraryItem.id.toString()
             }
             return "${prefix}_${libraryItem.id}"
+        }
+
+        fun isMediaAudio(libraryItem: MediaLibraryItem): Boolean {
+            return libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (libraryItem as MediaWrapper).type == MediaWrapper.TYPE_AUDIO
         }
 
         private fun getPlayAllBuilder(res: Resources, mediaId: String, trackCount: Int, cover: Bitmap? = null): MediaDescriptionCompat.Builder {
