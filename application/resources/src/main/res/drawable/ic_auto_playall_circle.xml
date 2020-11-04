@@ -1,6 +1,6 @@
 <!--
   ~ *************************************************************************
-  ~  ic_auto_new.xml
+  ~  ic_auto_playall_circle.xml
   ~ **************************************************************************
   ~ Copyright © 2020 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -25,9 +25,21 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
+    android:viewportWidth="64"
+    android:viewportHeight="64">
   <path
-      android:pathData="M17,30L14.6,30L9.5,23L9.5,30L7,30L7,18l2.5,0l5,7L14.5,18L17,18ZM27,20.52L22,20.52l0,2.24l5,0l0,2.52L22,25.28l0,2.22l5,0L27,30l-8,0L19,18l8,0zM41,28c0,1.1 -0.9,2 -2,2l-8,0c-1.1,0 -2,-0.9 -2,-2L29,18l2.5,0l0,9.02l2.26,0L33.76,19.98l2.5,0l0,7.02l2.24,0L38.5,18l2.5,0z"
-      android:fillColor="#000000"/>
+      android:pathData="M32,32m-31.9999,0a31.9999,31.9999 0,1 1,63.9999 0a31.9999,31.9999 0,1 1,-63.9999 0"
+      android:strokeLineJoin="round"
+      android:strokeWidth="3.84306884"
+      android:fillColor="#aa000000"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M23.5507,16.0009C22.7033,15.9723 22.0006,16.651 21.9999,17.4989L21.9999,46.4979c0.0002,1.1616 1.2638,1.8822 2.2637,1.291l24.5,-14.4995c0.9815,-0.5808 0.9815,-2.0011 0,-2.5819l-24.5,-14.4995C24.0471,16.0803 23.8019,16.0091 23.5507,16.0009Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2.99994707"
+      android:fillColor="#ffffff"
+      android:strokeColor="#00000000"
+      android:fillType="evenOdd"
+      android:strokeLineCap="butt"/>
 </vector>
