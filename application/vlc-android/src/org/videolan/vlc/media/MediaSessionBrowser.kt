@@ -210,7 +210,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         val homeMediaDesc = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_HOME)
                                 .setTitle(res.getString(R.string.auto_home))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_browser_home_normal}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_home}".toUri())
                                 .setExtras(getContentStyle(CONTENT_STYLE_GRID_ITEM_HINT_VALUE, CONTENT_STYLE_GRID_ITEM_HINT_VALUE))
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(homeMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
@@ -244,14 +244,14 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         /* Show cover art from the whole library */
                         val offset = Random().nextInt((audioCount - MAX_COVER_ART_ITEMS).coerceAtLeast(0))
                         val allAudio = ml.getPagedAudio(Medialibrary.SORT_ALPHA, false, MAX_COVER_ART_ITEMS, offset)
-                        val shuffleAllCover: Bitmap? = getHomeImage("shuffleAll", allAudio)
+                        val shuffleAllCover: Bitmap? = getHomeImage(context, "shuffleAll", allAudio)
                         val shuffleAllMediaDesc = getPlayAllBuilder(res, ID_SHUFFLE_ALL, audioCount, shuffleAllCover)
                                 .setTitle(res.getString(R.string.shuffle_all_title))
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(shuffleAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                         /* Last Added */
                         val recentAudio = ml.recentAudio
-                        val lastAddedCover: Bitmap? = getHomeImage("lastAdded", recentAudio)
+                        val lastAddedCover: Bitmap? = getHomeImage(context, "lastAdded", recentAudio)
                         val lastAddedMediaDesc = getPlayAllBuilder(res, ID_LAST_ADDED, recentAudio.size.coerceAtMost(MAX_HISTORY_SIZE), lastAddedCover)
                                 .setTitle(res.getString(R.string.auto_last_added_media))
                                 .build()
@@ -260,7 +260,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         if (Settings.getInstance(context).getBoolean(PLAYBACK_HISTORY, true)) {
                             val lastMediaPlayed = ml.lastMediaPlayed()?.toList()?.filter { isMediaAudio(it) }
                             if (!lastMediaPlayed.isNullOrEmpty()) {
-                                val historyCover: Bitmap? = getHomeImage("history", lastMediaPlayed.toTypedArray())
+                                val historyCover: Bitmap? = getHomeImage(context, "history", lastMediaPlayed.toTypedArray())
                                 val historyMediaDesc = getPlayAllBuilder(res, ID_HISTORY, lastMediaPlayed.size.coerceAtMost(MAX_HISTORY_SIZE), historyCover)
                                         .setTitle(res.getString(R.string.history))
                                         .build()
@@ -336,7 +336,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                             ARTIST_PREFIX -> {
                                 list = ml.getArtist(id).albums
                                 if (list != null && list.size > 1) {
-                                    var cover: Bitmap? = getPlayAllImage("artist:${id}", ml.getArtist(id))
+                                    var cover: Bitmap? = getPlayAllImage(context,"artist:${id}", ml.getArtist(id))
                                     val playAllMediaDesc = getPlayAllBuilder(res, parentId, ml.getArtist(id).tracksCount, cover).build()
                                     results.add(MediaBrowserCompat.MediaItem(playAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                                 }
@@ -344,7 +344,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                             GENRE_PREFIX -> {
                                 list = ml.getGenre(id).albums
                                 if (list != null && list.size > 1) {
-                                    var cover: Bitmap? = getPlayAllImage("genre:${id}", ml.getGenre(id))
+                                    var cover: Bitmap? = getPlayAllImage(context, "genre:${id}", ml.getGenre(id))
                                     val playAllMediaDesc = getPlayAllBuilder(res, parentId, ml.getGenre(id).tracksCount, cover).build()
                                     results.add(MediaBrowserCompat.MediaItem(playAllMediaDesc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE))
                                 }
@@ -485,10 +485,10 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                     .setTitle(res.getString(R.string.play_all))
                     .setSubtitle(res.getString(R.string.track_number, trackCount))
                     .setIconBitmap(cover)
-                    .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_tv_list_play}".toUri())
+                    .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_playall}".toUri())
         }
 
-        private fun getPlayAllImage(key: String, mediaItem: MediaLibraryItem): Bitmap? {
+        private fun getPlayAllImage(context: Context, key: String, mediaItem: MediaLibraryItem): Bitmap? {
             val tracks = mediaItem.tracks.toList()
             val albums = when (mediaItem.itemType) {
                 MediaLibraryItem.TYPE_ARTIST -> (mediaItem as Artist).albums
@@ -498,26 +498,32 @@ class MediaSessionBrowser : ExtensionManagerActivity {
             var cover: Bitmap? = null
             if (albums.any { it.artworkMrl != null && it.artworkMrl.isNotEmpty() }) {
                 cover = runBlocking(Dispatchers.IO) {
-                    ThumbnailsProvider.getPlaylistImage(key, tracks, 256)
+                    ThumbnailsProvider.getPlaylistImage(key, tracks, 256, getBitmapFromDrawable(context, R.drawable.ic_auto_playall_circle))
                 }
             }
             return cover
         }
 
-        private fun getHomeImage(key: String, list: Array<MediaWrapper>?): Bitmap? {
+        private fun getHomeImage(context: Context, key: String, list: Array<MediaWrapper>?): Bitmap? {
             var cover: Bitmap? = null
             val tracks: ArrayList<MediaWrapper> = ArrayList<MediaWrapper>()
             list?.let { list ->
                 tracks.ensureCapacity(list.size.coerceAtMost(MAX_COVER_ART_ITEMS))
                 for (libraryItem in list) {
-                    if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (libraryItem as MediaWrapper).type != MediaWrapper.TYPE_AUDIO)
+                    if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && libraryItem.type != MediaWrapper.TYPE_AUDIO)
                         continue
-                    tracks.add(libraryItem as MediaWrapper)
+                    tracks.add(libraryItem)
                     if (tracks.size == MAX_COVER_ART_ITEMS) break
                 }
                 if (tracks.any { it.artworkMrl != null && it.artworkMrl.isNotEmpty() }) {
                     cover = runBlocking(Dispatchers.IO) {
-                        ThumbnailsProvider.getPlaylistImage(key, tracks, 256)
+                        val iconAddtion = when (key) {
+                            "shuffleAll"-> getBitmapFromDrawable(context, R.drawable.ic_auto_shuffle_circle)
+                            "lastAdded"-> getBitmapFromDrawable(context, R.drawable.ic_auto_new_circle)
+                            "history"-> getBitmapFromDrawable(context, R.drawable.ic_auto_history_circle)
+                            else -> null
+                        }
+                        ThumbnailsProvider.getPlaylistImage(key, tracks, 256, iconAddtion)
                     }
                 }
             }

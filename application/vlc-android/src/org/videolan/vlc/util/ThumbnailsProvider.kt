@@ -1,9 +1,7 @@
 package org.videolan.vlc.util
 
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Rect
+import android.graphics.*
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.MediaStore
@@ -106,8 +104,8 @@ object ThumbnailsProvider {
         return bitmap
     }
 
-    suspend fun getPlaylistImage(key: String, mediaList: List<MediaWrapper>, width: Int) =
-            (BitmapCache.getBitmapFromMemCache(key) ?: composePlaylistImage(mediaList, width))?.also {
+    suspend fun getPlaylistImage(key: String, mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap? = null) =
+            (BitmapCache.getBitmapFromMemCache(key) ?: composePlaylistImage(mediaList, width, iconAddition))?.also {
                 BitmapCache.addBitmapToMemCache(key, it)
             }
 
@@ -116,7 +114,7 @@ object ThumbnailsProvider {
      * @param mediaList The track list of the playlist
      * @return a Bitmap object
      */
-    private suspend fun composePlaylistImage(mediaList: List<MediaWrapper>, width: Int): Bitmap? {
+    private suspend fun composePlaylistImage(mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap?): Bitmap? {
         if (mediaList.isEmpty()) return null
         val url = mediaList[0].artworkURL
         val isAllSameImage = !mediaList.any { it.artworkURL != url }
@@ -172,6 +170,10 @@ object ThumbnailsProvider {
         comboImage.drawBitmap(images[1], Rect(0, 0, images[1].width, images[1].height), Rect(width / 2, 0, width, width / 2), null)
         comboImage.drawBitmap(images[2], Rect(0, 0, images[2].width, images[2].height), Rect(0, width / 2, width / 2, width), null)
         comboImage.drawBitmap(images[3], Rect(0, 0, images[3].width, images[3].height), Rect(width / 2, width / 2, width, width), null)
+
+        iconAddition?.let {
+            comboImage.drawBitmap(iconAddition, (comboImage.width.toFloat() - iconAddition.width) / 2, (comboImage.height.toFloat() - iconAddition.height) / 2, null)
+        }
 
         return cs
     }

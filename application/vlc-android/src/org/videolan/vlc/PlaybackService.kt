@@ -916,7 +916,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         mediaSession.setShuffleMode(if (isShuffling) PlaybackStateCompat.SHUFFLE_MODE_ALL else PlaybackStateCompat.SHUFFLE_MODE_NONE)
         val repeatResId = if (repeatType == PlaybackStateCompat.REPEAT_MODE_ALL) R.drawable.ic_auto_repeat_pressed else if (repeatType == PlaybackStateCompat.REPEAT_MODE_ONE) R.drawable.ic_auto_repeat_one_pressed else R.drawable.ic_auto_repeat_normal
         if (playlistManager.canShuffle())
-            pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), if (isShuffling) R.drawable.ic_auto_shuffle_pressed else R.drawable.ic_auto_shuffle_normal)
+            pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), if (isShuffling) R.drawable.ic_auto_shuffle_enabled else R.drawable.ic_auto_shuffle_disabled)
         pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId)
         mediaSession.setExtras(Bundle().apply {
             putBoolean(PLAYBACK_SLOT_RESERVATION_SKIP_TO_NEXT, true)
