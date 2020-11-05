@@ -262,7 +262,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
     override fun onRemove(position: Int, item: MediaLibraryItem) {
         val tracks = ArrayList(listOf(*item.tracks))
-        removeFromPlaylist(tracks, ArrayList(Arrays.asList(position)))
+        removeFromPlaylist(tracks, ArrayList(listOf(position)))
     }
 
     override fun onMove(oldPosition: Int, newPosition: Int) {
@@ -272,7 +272,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {
-        MediaUtils.openList(this, Arrays.asList(*item.tracks), 0)
+        MediaUtils.openList(this, listOf(*item.tracks), 0)
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
@@ -287,7 +287,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             binding.fab.show()
     }
 
-    fun startActionMode() {
+    private fun startActionMode() {
         actionMode = startSupportActionMode(this)
     }
 
@@ -444,7 +444,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             withContext(Dispatchers.IO) {
                 for (index in indexes) playlist.remove(index)
             }
-            UiTools.snackerWithCancel(binding.root, getString(R.string.removed_from_playlist_anonymous), null, Runnable {
+            UiTools.snackerWithCancel(findViewById(android.R.id.content), getString(R.string.removed_from_playlist_anonymous), null, {
                 for ((key, value) in itemsRemoved) {
                     playlist.add(value, key)
                 }
