@@ -214,6 +214,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         }
+        if (repeating == PlaybackStateCompat.REPEAT_MODE_ONE) {
+            mediaList.getMedia(currentIndex)?.addFlags(MediaWrapper.MEDIA_FROM_START)
+        }
         launch { playIndex(currentIndex) }
     }
 
