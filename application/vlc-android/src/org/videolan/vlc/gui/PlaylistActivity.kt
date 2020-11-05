@@ -82,6 +82,7 @@ import java.util.*
 @ExperimentalCoroutinesApi
 open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
 
+    private lateinit var itemTouchHelperCallback: SwipeDragItemTouchHelperCallback
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
     private val mediaLibrary = Medialibrary.getInstance()
     private lateinit var binding: PlaylistActivityBinding
@@ -115,6 +116,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { audioBrowserAdapter.submitList(it) }
             menu.let { UiTools.updateSortTitles(it, viewModel.tracksProvider) }
+            itemTouchHelperCallback.swipeEnabled = true
         })
 
         viewModel.tracksProvider.liveHeaders.observe(this, {
@@ -122,7 +124,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         })
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
         if (isPlaylist) {
-            itemTouchHelper = ItemTouchHelper(SwipeDragItemTouchHelperCallback(audioBrowserAdapter))
+            itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter)
+            itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
             itemTouchHelper!!.attachToRecyclerView(binding.songs)
         } else {
             binding.songs.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
@@ -341,7 +344,6 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         }
         val indexes = audioBrowserAdapter.multiSelectHelper.selectionMap
 
-        stopActionMode()
         when (item.itemId) {
             R.id.action_mode_audio_play -> MediaUtils.openList(this, tracks, 0)
             R.id.action_mode_audio_append -> MediaUtils.appendMedia(this, tracks)
@@ -349,9 +351,10 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             R.id.action_mode_audio_info -> showInfoDialog(list[0] as MediaWrapper)
             R.id.action_mode_audio_share -> lifecycleScope.launch { share(list.map { it as MediaWrapper }) }
             R.id.action_mode_audio_set_song -> setRingtone(list[0] as MediaWrapper)
-            R.id.action_mode_audio_delete -> if (isPlaylist) removeFromPlaylist(tracks, indexes) else removeItems(tracks)
+            R.id.action_mode_audio_delete -> if (isPlaylist) removeFromPlaylist(tracks, indexes.toMutableList()) else removeItems(tracks)
             else -> return false
         }
+        stopActionMode()
         return true
     }
 
@@ -432,6 +435,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         val itemsRemoved = HashMap<Int, Long>()
         val playlist = viewModel.playlist as? Playlist
                 ?: return
+
+        itemTouchHelperCallback.swipeEnabled = false
         lifecycleScope.launchWhenStarted {
             val tracks = withContext(Dispatchers.IO) { playlist.tracks }
             for (mediaItem in list) {
@@ -442,7 +447,9 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                 }
             }
             withContext(Dispatchers.IO) {
-                for (index in indexes) playlist.remove(index)
+                for ((index, playlistIndex) in indexes.sortedBy { it }.withIndex()) {
+                    playlist.remove(playlistIndex - index)
+                }
             }
             UiTools.snackerWithCancel(findViewById(android.R.id.content), getString(R.string.removed_from_playlist_anonymous), null, {
                 for ((key, value) in itemsRemoved) {

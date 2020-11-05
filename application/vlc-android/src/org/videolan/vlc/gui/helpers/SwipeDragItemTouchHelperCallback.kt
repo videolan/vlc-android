@@ -30,6 +30,7 @@ import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdapter, private val longPressDragEnable: Boolean = false) : ItemTouchHelper.Callback() {
     private var dragFrom = -1
     private var dragTo = -1
+    var swipeEnabled = true
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
@@ -65,8 +66,9 @@ class SwipeDragItemTouchHelperCallback(private val mAdapter: SwipeDragHelperAdap
         super.clearView(recyclerView, viewHolder)
     }
 
+    override fun isItemViewSwipeEnabled() = swipeEnabled
+
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         mAdapter.onItemDismiss(viewHolder.layoutPosition)
     }
-
 }
