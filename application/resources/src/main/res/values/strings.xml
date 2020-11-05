@@ -767,4 +767,10 @@
     <string name="air_action_previous">Previous item in playback</string>
     <string name="allow_otg">Allow OTG access</string>
     <string name="allow_otg_description">Please select your OTG drive to allow access to VLC.</string>
+    <string name="timeout_infinite">Infinite</string>
+    <string name="timeout_short">Short</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Long</string>
+    <string name="video_hud_timeout">Video player controls hiding delay</string>
+
 </resources>

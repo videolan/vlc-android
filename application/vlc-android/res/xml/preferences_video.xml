@@ -87,6 +87,16 @@
                 android:key="popup_keepscreen"
                 android:summary="@string/popup_keepscreen_summary"
                 android:title="@string/popup_keepscreen_title"/>
+
+        <ListPreference
+                app:singleLineTitle="false"
+                android:defaultValue="2"
+                android:key="video_hud_timeout"
+                android:entries="@array/video_hud_timeout_entries"
+                android:entryValues="@array/video_hud_timeout_values"
+                android:summary="%s"
+                android:title="@string/video_hud_timeout"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

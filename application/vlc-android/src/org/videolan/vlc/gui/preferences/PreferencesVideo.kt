@@ -22,18 +22,18 @@
 
 package org.videolan.vlc.gui.preferences
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.tools.*
 import org.videolan.vlc.R
-import org.videolan.tools.POPUP_FORCE_LEGACY
-import org.videolan.tools.POPUP_KEEPSCREEN
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PreferencesVideo : BasePreferenceFragment() {
+class PreferencesVideo : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener  {
 
     override fun getXml() = R.xml.preferences_video
 
@@ -43,5 +43,24 @@ class PreferencesVideo : BasePreferenceFragment() {
         super.onCreate(savedInstanceState)
         findPreference<Preference>(POPUP_KEEPSCREEN)?.isVisible = !AndroidUtil.isOOrLater
         findPreference<Preference>(POPUP_FORCE_LEGACY)?.isVisible = AndroidUtil.isOOrLater
+    }
+
+    override fun onStart() {
+        super.onStart()
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        preferenceScreen.sharedPreferences
+                .unregisterOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        when (key) {
+            VIDEO_HUD_TIMEOUT -> {
+                Settings.videoHudDelay = sharedPreferences.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
+            }
+        }
     }
 }
