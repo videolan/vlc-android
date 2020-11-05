@@ -517,13 +517,13 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                 }
                 if (tracks.any { it.artworkMrl != null && it.artworkMrl.isNotEmpty() }) {
                     cover = runBlocking(Dispatchers.IO) {
-                        val iconAddtion = when (key) {
+                        val iconAddition = when (key) {
                             "shuffleAll"-> getBitmapFromDrawable(context, R.drawable.ic_auto_shuffle_circle)
                             "lastAdded"-> getBitmapFromDrawable(context, R.drawable.ic_auto_new_circle)
                             "history"-> getBitmapFromDrawable(context, R.drawable.ic_auto_history_circle)
                             else -> null
                         }
-                        ThumbnailsProvider.getPlaylistImage(key, tracks, 256, iconAddtion)
+                        ThumbnailsProvider.getPlaylistImage(key, tracks, 256, iconAddition)
                     }
                 }
             }
