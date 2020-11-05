@@ -279,8 +279,14 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             initOverlay()
             if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
+                Settings.videoHudDelay == -2 -> VideoPlayerActivity.OVERLAY_INFINITE
                 timeout != 0 -> timeout
-                service.isPlaying -> VideoPlayerActivity.OVERLAY_TIMEOUT
+                service.isPlaying -> when (Settings.videoHudDelay) {
+                    -1 -> VideoPlayerActivity.OVERLAY_INFINITE
+                    1 -> VideoPlayerActivity.OVERLAY_TIMEOUT / 2
+                    3 -> VideoPlayerActivity.OVERLAY_TIMEOUT * 2
+                    else -> VideoPlayerActivity.OVERLAY_TIMEOUT
+                }
                 else -> VideoPlayerActivity.OVERLAY_INFINITE
             }
             if (player.isNavMenu) {

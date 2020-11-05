@@ -423,4 +423,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="video_hud_timeout_entries">
+        <item>@string/timeout_infinite</item>
+        <item>@string/timeout_short</item>
+        <item>@string/timeout_normal</item>
+        <item>@string/timeout_long</item>
+    </string-array>
+
+    <string-array name="video_hud_timeout_values">
+        <item>-1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 </resources>
