@@ -31,6 +31,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
@@ -58,9 +59,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.AndroidDevices
 import org.videolan.tools.*
-import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.R
-import org.videolan.vlc.RendererDelegate
+import org.videolan.vlc.*
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.audio.PlaylistAdapter
@@ -72,7 +71,6 @@ import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
-import org.videolan.vlc.manageAbRepeatStep
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -143,7 +141,15 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                         })
                     }
                 }
-                VideoTracksDialog.TrackType.SPU -> player.service?.setSpuTrack(trackID)
+                VideoTracksDialog.TrackType.SPU -> {
+                    player.service?.let { service ->
+                        service.setSpuTrack(trackID)
+                        runIO(Runnable {
+                            val mw = player.medialibrary.findMedia(service.currentMediaWrapper)
+                            if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID.toLong())
+                        })
+                    }
+                }
                 VideoTracksDialog.TrackType.VIDEO -> {
                     player.service?.let { service ->
                         player.seek(service.time)

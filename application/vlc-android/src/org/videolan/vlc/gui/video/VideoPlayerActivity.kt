@@ -1224,6 +1224,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                     addNextTrack = false
                                 } else if (spuTrack != 0 || currentSpuTrack != -2) {
                                     service.setSpuTrack(if (media.id == 0L) currentSpuTrack else spuTrack)
+                                    lastSpuTrack = -2
                                 }
                             }
                         }
@@ -1527,13 +1528,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     fun hideOptions() {
         optionsDelegate?.hide()
-    }
-
-    @WorkerThread
-    fun setSpuTrack(trackID: Int) {
-        runOnMainThread(Runnable { service?.setSpuTrack(trackID) })
-        val mw = medialibrary.findMedia(service?.currentMediaWrapper) ?: return
-        if (mw.id != 0L) mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID.toLong())
     }
 
     private fun showNavMenu() {
