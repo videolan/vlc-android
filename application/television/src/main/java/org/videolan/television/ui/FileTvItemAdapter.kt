@@ -167,7 +167,13 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
             if (item is MediaWrapper) {
                 if (item.type == MediaWrapper.TYPE_VIDEO) {
                     resolution = generateResolutionClass(item.width, item.height) ?: ""
-                    description = if (item.time == 0L) Tools.millisToString(item.length) else Tools.getProgressText(item)
+                    description = when {
+                        item.description?.isNotEmpty() == true -> item.description
+                        item.time != 0L -> Tools.getProgressText(item)
+                        item.time == 0L && item.length != 0L -> Tools.millisToString(item.length)
+                        else -> ""
+
+                    }
                     binding.badge = resolution
                     seen = item.seen
                     var max = 0
