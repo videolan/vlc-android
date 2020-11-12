@@ -90,7 +90,6 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         }
 
         forbidNewGroup = try {
-            @Suppress("UNCHECKED_CAST")
             requireArguments().getBoolean(FORBID_NEW_GROUP)
         } catch (e: Exception) {
             true
