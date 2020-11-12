@@ -197,6 +197,7 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
             val newGroup = medialibrary.createVideoGroup(medias.map { it.id }.toLongArray())
             if (newGroup.title.isNullOrBlank()) {
                 newGroup.rename(medias[0].title)
+                newGroup.title = medias[0].title
             }
             newGroup
         }
