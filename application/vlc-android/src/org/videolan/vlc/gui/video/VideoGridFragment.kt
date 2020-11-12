@@ -328,7 +328,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 menu.findItem(R.id.action_ungroup).isVisible = !multiSelectHelper.getSelection().any { it !is VideoGroup }
                 menu.findItem(R.id.action_rename).isVisible = count == 1 && !multiSelectHelper.getSelection().any { it !is VideoGroup }
                 menu.findItem(R.id.action_group_similar).isVisible = count == 1 && multiSelectHelper.getSelection().filterIsInstance<VideoGroup>().isEmpty()
-                menu.findItem(R.id.action_add_to_group).isVisible = multiSelectHelper.getSelection().filterIsInstance<VideoGroup>().isEmpty()
             }
             else -> {}
         }
@@ -346,10 +345,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                         R.id.action_video_append -> MediaUtils.appendMedia(activity, list)
                         R.id.action_video_share -> requireActivity().share(list)
                         R.id.action_video_info -> showInfoDialog(list[0])
-                        //            case R.id.action_video_delete:
-                        //                for (int position : rowsAdapter.getSelectedPositions())
-                        //                    removeVideo(position, rowsAdapter.getItem(position));
-                        //                break;
                         R.id.action_video_download_subtitles -> MediaUtils.getSubs(requireActivity(), list)
                         R.id.action_video_play_audio -> {
                             for (media in list) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
@@ -398,7 +393,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     private fun addToGroup(selection: List<MediaLibraryItem>) {
-        requireActivity().addToGroup(selection.getAll()) {
+        requireActivity().addToGroup(selection.getAll(), selection.size == 1) {
             lifecycleScope.launch {
                 viewModel.createGroup(selection.getAll())?.let {
                     // we already are in a group. Finishing to avoid stacking multiple group activities
@@ -444,7 +439,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 }
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media) }
                 CTX_REMOVE_GROUP -> viewModel.removeFromGroup(media)
-                CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media)) {}
+                CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media), true) {}
                 CTX_GROUP_SIMILAR -> lifecycleScope.launch { viewModel.groupSimilar(media) }
                 CTX_MARK_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
             }
