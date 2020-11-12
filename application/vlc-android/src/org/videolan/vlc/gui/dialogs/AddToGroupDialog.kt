@@ -56,6 +56,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
 
     override fun needToManageOrientation(): Boolean = false
 
+    private var forbidNewGroup: Boolean = true
     lateinit var newGroupListener: () -> Unit
     private var isLoading: Boolean = false
         set(value) {
@@ -87,6 +88,13 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         } catch (e: Exception) {
             emptyArray()
         }
+
+        forbidNewGroup = try {
+            @Suppress("UNCHECKED_CAST")
+            requireArguments().getBoolean(FORBID_NEW_GROUP)
+        } catch (e: Exception) {
+            true
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -108,7 +116,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
             adapter.submitList(it.filter { group -> group is VideoGroup && group.mediaCount() > 1 }.apply {
                 forEach { mediaLibraryItem -> mediaLibraryItem.description = resources.getQuantityString(R.plurals.media_quantity, mediaLibraryItem.tracksCount, mediaLibraryItem.tracksCount) }
             }.toMutableList().apply {
-                if (newTrack.size > 1) {
+                if (newTrack.size > 1 && !forbidNewGroup) {
                     this.add(0, DummyItem(DUMMY_NEW_GROUP, getString(R.string.new_group), getString(R.string.new_group_desc)))
                 }
             })
@@ -161,6 +169,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
         val TAG = "VLC/SavePlaylistDialog"
 
         const val KEY_TRACKS = "ADD_TO_GROUP_TRACKS"
+        const val FORBID_NEW_GROUP = "FORBID_NEW_GROUP"
     }
 }
 
