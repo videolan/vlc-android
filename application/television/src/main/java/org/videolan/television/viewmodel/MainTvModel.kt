@@ -58,6 +58,7 @@ import org.videolan.vlc.mediadb.models.BrowserFav
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.convertFavorites
+import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.util.scanAllowed
 
 private const val NUM_ITEMS_PREVIEW = 5
@@ -75,7 +76,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
     private val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
-    private var updatedFavoritList: List<MediaWrapper> = listOf()
+    private var updatedFavoriteList: List<MediaWrapper> = listOf()
     var showHistory = false
         private set
     // LiveData
@@ -100,7 +101,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     private val favObserver = Observer<List<BrowserFav>> { list ->
-        updatedFavoritList = convertFavorites(list)
+        updatedFavoriteList = convertFavorites(list)
         if (!updateActor.isClosedForSend) updateActor.offer(Unit)
     }
 
@@ -221,7 +222,12 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
             list.add(DummyItem(HEADER_NETWORK, context.getString(R.string.network_browsing), null))
             list.add(DummyItem(HEADER_STREAM, context.getString(R.string.streams), null))
             list.add(DummyItem(HEADER_SERVER, context.getString(R.string.server_add_title), null))
-            updatedFavoritList.forEach {
+            updatedFavoriteList.forEach {
+                it.description = it.uri.scheme
+                list.add(it)
+            }
+        } else {
+            updatedFavoriteList.filter { it.uri.scheme.isSchemeFile() }.forEach {
                 it.description = it.uri.scheme
                 list.add(it)
             }
