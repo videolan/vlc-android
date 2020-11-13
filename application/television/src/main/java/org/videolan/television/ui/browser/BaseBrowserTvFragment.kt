@@ -42,7 +42,6 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,6 +52,7 @@ import kotlinx.coroutines.yield
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.SELECTED_ITEM
 import org.videolan.resources.util.HeadersIndex
 import org.videolan.television.R
 import org.videolan.television.databinding.SongBrowserBinding
@@ -70,7 +70,7 @@ import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
-import java.util.ArrayList
+import java.util.*
 
 private const val TAG = "MediaBrowserTvFragment"
 
@@ -101,6 +101,7 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
     private var inGrid = true
     protected var restarted = false
         private set
+    private var previouslySelectedItem:Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = SongBrowserBinding.inflate(inflater, container, false)
@@ -195,6 +196,18 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                 override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean) = false
 
                 override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
+                override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+                    super.onLayoutChildren(recycler, state)
+                    if (previouslySelectedItem != -1) {
+                        for (i in 0 until childCount) {
+                            if (i == previouslySelectedItem) {
+                                getChildAt(i)?.requestFocus()
+                                scrollToPosition(getPosition(getChildAt(i)!!))
+                                previouslySelectedItem = -1
+                            }
+                        }
+                    }
+                }
             }
             (gridLayoutManager as? GridLayoutManager)?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
@@ -216,10 +229,29 @@ abstract class BaseBrowserTvFragment<T> : Fragment(), BrowserFragmentInterface, 
                 }
             }
         } else {
-            gridLayoutManager = LinearLayoutManager(requireActivity())
+            gridLayoutManager = object : LinearLayoutManager(requireActivity()) {
+                override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+                    super.onLayoutChildren(recycler, state)
+                    if (previouslySelectedItem != -1) {
+                        for (i in 0 until childCount) {
+                            if (i == previouslySelectedItem) {
+                                getChildAt(i)?.requestFocus()
+                                scrollToPosition(getPosition(getChildAt(i)!!))
+                                previouslySelectedItem = -1
+                            }
+                        }
+                    }
+                }
+            }
         }
         recyclerSectionItemGridDecoration.isList = !inGrid
         binding.list.layoutManager = gridLayoutManager
+    }
+
+    override fun onPause() {
+        val lm = binding.list.layoutManager as LinearLayoutManager
+        previouslySelectedItem = lm.focusedChild?.let { lm.getPosition(it) } ?: 0
+        super.onPause()
     }
 
 
