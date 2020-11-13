@@ -116,7 +116,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { audioBrowserAdapter.submitList(it) }
             menu.let { UiTools.updateSortTitles(it, viewModel.tracksProvider) }
-            itemTouchHelperCallback.swipeEnabled = true
+            if (::itemTouchHelperCallback.isInitialized) itemTouchHelperCallback.swipeEnabled = true
         })
 
         viewModel.tracksProvider.liveHeaders.observe(this, {
