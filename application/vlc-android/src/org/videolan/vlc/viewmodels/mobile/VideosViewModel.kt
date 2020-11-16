@@ -127,11 +127,11 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
         MediaUtils.appendMedia(context, list)
     }
 
-    internal fun playVideo(context: Activity?, mw: MediaWrapper, position: Int, fromStart: Boolean = false) {
+    internal fun playVideo(context: Activity?, mw: MediaWrapper, position: Int, fromStart: Boolean = false, forceAll:Boolean = false) {
         if (context === null) return
         mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         val settings = Settings.getInstance(context)
-        if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
+        if (!fromStart && (settings.getBoolean(FORCE_PLAY_ALL, false) || forceAll)) {
             when(val prov = provider) {
                 is VideosProvider -> MediaUtils.playAll(context, prov, position, false)
                 is FoldersProvider -> MediaUtils.playAllTracks(context, prov, position, false)
