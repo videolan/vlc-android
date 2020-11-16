@@ -60,6 +60,7 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.launchWhenStarted
@@ -421,9 +422,10 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val activity = activity ?: return
         when (val media = videoListAdapter.getItem(position)) {
             is MediaWrapper -> when (option) {
-                CTX_PLAY_FROM_START -> viewModel.playVideo(activity, media, position, true)
+                CTX_PLAY_FROM_START -> viewModel.playVideo(activity, media, position, fromStart = true)
                 CTX_PLAY_AS_AUDIO -> viewModel.playAudio(activity, media)
-                CTX_PLAY_ALL -> viewModel.play(position)
+                CTX_PLAY_ALL -> viewModel.playVideo(activity, media, position, forceAll = true)
+                CTX_PLAY -> viewModel.play(position)
                 CTX_INFORMATION -> showInfoDialog(media)
                 CTX_DELETE -> removeItem(media)
                 CTX_APPEND -> MediaUtils.appendMedia(activity, media)
@@ -493,7 +495,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             is VideoCtxClick -> {
                 when (item) {
                     is Folder -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS)
-                    is VideoGroup -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS or CTX_RENAME_GROUP or CTX_UNGROUP or CTX_PLAY_ALL)
+                    is VideoGroup -> showContext(requireActivity(), this@VideoGridFragment, position, item.title, CTX_FOLDER_FLAGS or CTX_RENAME_GROUP or CTX_UNGROUP or CTX_PLAY_ALL and CTX_PLAY.inv())
                     is MediaWrapper -> {
                         val group = item.type == MediaWrapper.TYPE_GROUP
                         var flags = if (group) CTX_VIDEO_GROUP_FLAGS else CTX_VIDEO_FLAGS
