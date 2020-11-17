@@ -810,6 +810,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     } ?: return
                     if (newMedia) {
                         loadMediaMeta(mw)
+                        mw.length = player.getLength()
                         saveMediaList()
                         savePosition(reset = true)
                         saveCurrentMedia()
@@ -867,7 +868,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         medialibrary.addStream(entryUrl ?: mw.uri.toString(), mw.title).also {
                             entryUrl = null
                         }
-                    } else medialibrary.addMedia(mw.uri.toString())
+                    } else medialibrary.addMedia(mw.uri.toString(), mw.length)
                     if (internalMedia != null) id = internalMedia.id
                 }
             }

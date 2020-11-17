@@ -341,9 +341,9 @@ AndroidMediaLibrary::media(const std::string& mrl)
 }
 
 medialibrary::MediaPtr
-AndroidMediaLibrary::addMedia(const std::string& mrl)
+AndroidMediaLibrary::addMedia(const std::string& mrl, long duration)
 {
-    return p_ml->addExternalMedia(mrl);
+    return p_ml->addExternalMedia(mrl, duration);
 }
 
 bool
