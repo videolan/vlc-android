@@ -49,6 +49,7 @@ abstract class VlcDialog<T : Dialog, B : ViewDataBinding> : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): android.app.Dialog {
+        retainInstance = true
         val dialog = AppCompatDialog(activity, theme)
         dialog.setCancelable(true)
         dialog.setCanceledOnTouchOutside(true)
