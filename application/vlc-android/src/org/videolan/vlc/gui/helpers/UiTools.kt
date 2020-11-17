@@ -695,7 +695,8 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
         when (mw.type) {
             MediaWrapper.TYPE_VIDEO -> R.drawable.ic_browser_video_big_normal
             MediaWrapper.TYPE_DIR -> if (mw.uri.scheme == "file") R.drawable.ic_menu_folder_big else R.drawable.ic_menu_network_big
-            else -> R.drawable.ic_song_big
+            MediaWrapper.TYPE_AUDIO -> R.drawable.ic_song_big
+            else -> R.drawable.ic_browser_unknown_big_normal
         }
     }
     MediaLibraryItem.TYPE_DUMMY -> {
