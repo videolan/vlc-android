@@ -439,9 +439,9 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     @Nullable
-    public MediaWrapper addMedia(String mrl) {
+    public MediaWrapper addMedia(String mrl, long duration) {
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
-        return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddMedia(vlcMrl) : null;
+        return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddMedia(vlcMrl, duration) : null;
     }
 
     public boolean removeExternalMedia(long id) {
@@ -592,7 +592,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native  boolean nativeClearHistory();
     private native MediaWrapper nativeGetMedia(long id);
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
-    private native MediaWrapper nativeAddMedia(String mrl);
+    private native MediaWrapper nativeAddMedia(String mrl, long duration);
     private native boolean nativeRemoveExternalMedia(long id);
     private native MediaWrapper nativeAddStream(String mrl, String title);
     private native MediaWrapper[] nativeGetVideos();

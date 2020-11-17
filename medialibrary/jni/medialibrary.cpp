@@ -739,10 +739,10 @@ getMediaFromMrl(JNIEnv* env, jobject thiz, jstring mrl) {
 }
 
 jobject
-addMedia(JNIEnv* env, jobject thiz, jstring mrl) {
+addMedia(JNIEnv* env, jobject thiz, jstring mrl, jlong duration) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *char_mrl = env->GetStringUTFChars(mrl, JNI_FALSE);
-    jobject mw = mediaToMediaWrapper(env, &ml_fields, aml->addMedia(char_mrl));
+    jobject mw = mediaToMediaWrapper(env, &ml_fields, aml->addMedia(char_mrl, duration));
     env->ReleaseStringUTFChars(mrl, char_mrl);
     return mw;
 }
@@ -2088,7 +2088,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetPlaylistSearchCount", "(Ljava/lang/String;)I", (void*)getPlaylistSearchCount },
     {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMedia },
     {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromMrl },
-    {"nativeAddMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)addMedia },
+    {"nativeAddMedia", "(Ljava/lang/String;J)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)addMedia },
     {"nativeRemoveExternalMedia", "(J)Z", (void*)removeExternalMedia },
     {"nativeAddStream", "(Ljava/lang/String;Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)addStream },
     {"nativeGetVideoCount", "()I", (void*)getVideoCount },

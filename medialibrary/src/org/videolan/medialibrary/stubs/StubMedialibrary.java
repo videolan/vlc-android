@@ -443,7 +443,7 @@ public class StubMedialibrary extends Medialibrary {
 
     /* TODO maybe add a list of medias not in the medialibrary which can be retrieved with mrl to
      * simulate adding a media from system */
-    public MediaWrapper addMedia(String mrl) {
+    public MediaWrapper addMedia(String mrl, long duration) {
         return null;
     }
 

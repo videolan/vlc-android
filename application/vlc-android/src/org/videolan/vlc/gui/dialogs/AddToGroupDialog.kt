@@ -139,7 +139,7 @@ class AddToGroupDialog : VLCBottomSheetDialogFragment(), SimpleAdapter.ClickHand
                     if (media != null)
                         ids.add(media.id)
                     else {
-                        media = medialibrary.addMedia(mw.location)
+                        media = medialibrary.addMedia(mw.location, -1L)
                         if (media != null) ids.add(media.id)
                     }
                 } else
