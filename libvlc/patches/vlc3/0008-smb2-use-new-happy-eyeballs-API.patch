@@ -1,0 +1,1047 @@
+From 1dbf4d1e30c973e8c25976eeb69adede487233af Mon Sep 17 00:00:00 2001
+Message-Id: <1dbf4d1e30c973e8c25976eeb69adede487233af.1605701951.git.nicolas@videolabs.io>
+In-Reply-To: <fcaa38ed543fd88a73fa3c6766a8f86b8b053fb6.1605701951.git.nicolas@videolabs.io>
+References: <fcaa38ed543fd88a73fa3c6766a8f86b8b053fb6.1605701951.git.nicolas@videolabs.io>
+From: Thomas Guillem <thomas@gllm.fr>
+Date: Mon, 9 Nov 2020 18:06:58 +0100
+Subject: [PATCH 8/8] smb2: use new happy eyeballs API
+
+Connect to all resolved addresses in parallel, waiting 100ms between
+each new connection.
+
+This resolves very long timeout or error when the host resolve to IPv4
+and IPv6 addresses but the samba service handle only one protocol (or a
+firewall is dropping one address family).
+---
+ ...mb2-implement-rfc8305-Happy-Eyeballs.patch | 832 ++++++++++++++++++
+ contrib/src/smb2/SHA512SUMS                   |   2 +-
+ contrib/src/smb2/rules.mak                    |   3 +-
+ modules/access/smb2.c                         |  85 +-
+ 4 files changed, 903 insertions(+), 19 deletions(-)
+ create mode 100644 contrib/src/smb2/0001-smb2-implement-rfc8305-Happy-Eyeballs.patch
+
+diff --git a/contrib/src/smb2/0001-smb2-implement-rfc8305-Happy-Eyeballs.patch b/contrib/src/smb2/0001-smb2-implement-rfc8305-Happy-Eyeballs.patch
+new file mode 100644
+index 0000000000..fd239d8921
+--- /dev/null
++++ b/contrib/src/smb2/0001-smb2-implement-rfc8305-Happy-Eyeballs.patch
+@@ -0,0 +1,832 @@
++From 24e28fc05b3c558423d5951ca42d65efe86950bc Mon Sep 17 00:00:00 2001
++From: Thomas Guillem <thomas@gllm.fr>
++Date: Tue, 10 Nov 2020 20:04:00 +0100
++Subject: [PATCH] smb2: implement rfc8305, Happy Eyeballs
++
++The 2 new functions: smb2_get_fds() and smb2_service_fd() allow to
++connect to all resolved addresses in parallel, waiting 100ms between
++each new connection.
++
++This resolves very long timeout or error when the host resolve to IPv4
++and IPv6 addresses but the SMB service handle only one protocol (or a
++firewall is dropping one address family).
++---
++ include/libsmb2-private.h |   9 +-
++ include/smb2/libsmb2.h    |  34 +++++
++ lib/dcerpc.c              |  46 +++---
++ lib/init.c                |  10 ++
++ lib/libsmb2.c             |  25 ++--
++ lib/libsmb2.syms          |   2 +
++ lib/socket.c              | 301 +++++++++++++++++++++++++++++---------
++ lib/sync.c                |   4 +-
++ 8 files changed, 325 insertions(+), 106 deletions(-)
++
++diff --git a/include/libsmb2-private.h b/include/libsmb2-private.h
++index 25a02b9..fc79473 100644
++--- a/include/libsmb2-private.h
+++++ b/include/libsmb2-private.h
++@@ -123,7 +123,12 @@ enum smb2_sec {
++ struct smb2_context {
++ 
++         t_socket fd;
++-        int is_connected;
+++
+++        t_socket *connecting_fds;
+++        size_t connecting_fds_count;
+++        struct addrinfo *addrinfos;
+++        const struct addrinfo *next_addrinfo;
+++
++         int timeout;
++ 
++         enum smb2_sec sec;
++@@ -286,6 +291,8 @@ uint64_t timeval_to_win(struct smb2_timeval *tv);
++ void smb2_set_error(struct smb2_context *smb2, const char *error_string,
++                     ...);
++ 
+++void smb2_close_connecting_fds(struct smb2_context *smb2);
+++
++ void *smb2_alloc_init(struct smb2_context *smb2, size_t size);
++ void *smb2_alloc_data(struct smb2_context *smb2, void *memctx, size_t size);
++ 
++diff --git a/include/smb2/libsmb2.h b/include/smb2/libsmb2.h
++index 675e9f8..9be72b7 100644
++--- a/include/smb2/libsmb2.h
+++++ b/include/smb2/libsmb2.h
++@@ -128,6 +128,23 @@ t_socket smb2_get_fd(struct smb2_context *smb2);
++  * Returns which events that we need to poll for for the smb2 file descriptor.
++  */
++ int smb2_which_events(struct smb2_context *smb2);
+++
+++/*
+++ * Returns file descriptors that libsmb2 use or is trying to connect to
+++ *
+++ * This function should be used when trying to connect with more than one
+++ * addresses in parallel, cf. rfc8305: Happy Eyeballs.
+++ *
+++ * The timeout, in ms, is valid during the socket connection step. The caller
+++ * should call smb2_service_fd() with fd = -1 when the timeout is reached.
+++ * This will trigger a new socket connection on the next resolved address. All
+++ * connecting fds will be closed when the first fd is connected. The timeout
+++ * will be -1 (infinite) once connected or if there is no next addresses to
+++ * connect to.
+++ */
+++const t_socket *
+++smb2_get_fds(struct smb2_context *smb2, size_t *fd_count, int *timeout);
+++
++ /*
++  * A much more scalable way to use smb2_fd_event_callbacks() to register
++  * callbacks for libsmb2 to call anytime a filedescriptor is changed or when
++@@ -161,6 +178,23 @@ void smb2_fd_event_callbacks(struct smb2_context *smb2,
++  */
++ int smb2_service(struct smb2_context *smb2, int revents);
++ 
+++/*
+++ * Called to process the events when events become available for the smb2
+++ * file descriptor.
+++ *
+++ * Behave like smb2_service() with some differences:
+++ *  - must be called with a fd returned by smb2_get_fd() or smb2_get_fds(),
+++ *  - passing -1 as fd will trigger a new connection attempt on the next
+++ *  resolved address, cf. smb2_get_fds().
+++ *
+++ * Returns:
+++ *  0 : Success
+++ * <0 : Unrecoverable failure. At this point the context can no longer be
+++ *      used and must be freed by calling smb2_destroy_context().
+++ *
+++ */
+++int smb2_service_fd(struct smb2_context *smb2, int fd, int revents);
+++
++ /*
++  * Set the timeout in seconds after which a command will be aborted with
++  * SMB2_STATUS_IO_TIMEOUT.
++diff --git a/lib/dcerpc.c b/lib/dcerpc.c
++index fa18174..d04a535 100644
++--- a/lib/dcerpc.c
+++++ b/lib/dcerpc.c
++@@ -1405,6 +1405,17 @@ dce_unfragment_ioctl(struct dcerpc_context *dce, struct smb2_iovec *iov)
++         iov->len = unfragment_len;
++ }
++ 
+++static void
+++dcerpc_send_pdu_cb_and_free(struct dcerpc_context *dce, struct dcerpc_pdu *pdu,
+++                            int status, void *command_data)
+++{
+++        dcerpc_cb pdu_cb = pdu->cb;
+++        void *pdu_cb_data = pdu->cb_data;
+++
+++        dcerpc_free_pdu(dce, pdu);
+++        pdu_cb(dce, status, command_data, pdu_cb_data);
+++}
+++
++ static void
++ dcerpc_call_cb(struct smb2_context *smb2, int status,
++                void *command_data, void *private_data)
++@@ -1413,13 +1424,13 @@ dcerpc_call_cb(struct smb2_context *smb2, int status,
++         struct dcerpc_context *dce = pdu->dce;
++         struct smb2_iovec iov;
++         struct smb2_ioctl_reply *rep = command_data;
+++        void *payload;
++         int ret;
++ 
++         pdu->direction = DCERPC_DECODE;
++ 
++         if (status != SMB2_STATUS_SUCCESS) {
++-                pdu->cb(dce, -nterror_to_errno(status), NULL, pdu->cb_data);
++-                dcerpc_free_pdu(dce, pdu);
+++                dcerpc_send_pdu_cb_and_free(dce, pdu, -nterror_to_errno(status), NULL);
++                 return;
++         }
++ 
++@@ -1428,8 +1439,7 @@ dcerpc_call_cb(struct smb2_context *smb2, int status,
++ 
++         pdu->payload = smb2_alloc_init(dce->smb2, pdu->decode_size);
++         if (pdu->payload == NULL) {
++-                pdu->cb(dce, -ENOMEM, NULL, pdu->cb_data);
++-                dcerpc_free_pdu(dce, pdu);
+++                dcerpc_send_pdu_cb_and_free(dce, pdu, -ENOMEM, NULL);
++                 return;
++         }
++ 
++@@ -1441,23 +1451,21 @@ dcerpc_call_cb(struct smb2_context *smb2, int status,
++ 
++         ret = dcerpc_decode_pdu(dce, pdu, &iov);
++         if (ret < 0) {
++-                pdu->cb(dce, -EINVAL, NULL, pdu->cb_data);
++                 smb2_free_data(dce->smb2, rep->output);
++-                dcerpc_free_pdu(dce, pdu);
+++                dcerpc_send_pdu_cb_and_free(dce, pdu, -EINVAL, NULL);
++                 return;
++         }
++         smb2_free_data(dce->smb2, rep->output);
++ 
++         if (pdu->hdr.PTYPE != PDU_TYPE_RESPONSE) {
++                 smb2_set_error(dce->smb2, "DCERPC response was not a RESPONSE");
++-                pdu->cb(dce, -EINVAL, NULL, pdu->cb_data);
++-                dcerpc_free_pdu(dce, pdu);
+++                dcerpc_send_pdu_cb_and_free(dce, pdu, -EINVAL, NULL);
++                 return;
++         }
++ 
++-        pdu->cb(dce, 0, pdu->payload, pdu->cb_data);
+++        payload = pdu->payload;
++         pdu->payload = NULL;
++-        dcerpc_free_pdu(dce, pdu);
+++        dcerpc_send_pdu_cb_and_free(dce, pdu, 0, payload);
++ }
++ 
++ int
++@@ -1559,8 +1567,7 @@ smb2_bind_cb(struct smb2_context *smb2, int status,
++         pdu->direction = DCERPC_DECODE;
++ 
++         if (status != SMB2_STATUS_SUCCESS) {
++-                pdu->cb(dce, -nterror_to_errno(status), NULL, pdu->cb_data);
++-                dcerpc_free_pdu(dce, pdu);
+++                dcerpc_send_pdu_cb_and_free(dce, pdu, -nterror_to_errno(status), NULL);
++                 return;
++         }
++ 
++@@ -1568,24 +1575,21 @@ smb2_bind_cb(struct smb2_context *smb2, int status,
++         iov.len = rep->output_count;
++         iov.free = NULL;
++         if (dcerpc_decode_pdu(dce, pdu, &iov) < 0) {
++-                pdu->cb(dce, -EINVAL, NULL, pdu->cb_data);
++                 smb2_free_data(dce->smb2, rep->output);
++-                dcerpc_free_pdu(dce, pdu);
+++                dcerpc_send_pdu_cb_and_free(dce, pdu, -EINVAL, NULL);
++                 return;
++         }
++         smb2_free_data(dce->smb2, rep->output);
++ 
++         if (pdu->hdr.PTYPE != PDU_TYPE_BIND_ACK) {
++                 smb2_set_error(dce->smb2, "DCERPC response was not a BIND_ACK");
++-                pdu->cb(dce, -EINVAL, NULL, pdu->cb_data);
++-                dcerpc_free_pdu(dce, pdu);
+++                dcerpc_send_pdu_cb_and_free(dce, pdu, -EINVAL, NULL);
++                 return;
++         }
++ 
++         if (pdu->bind_ack.num_results < 1) {
++                 smb2_set_error(smb2, "No results in BIND ACK");
++-                pdu->cb(dce, -EINVAL, NULL, pdu->cb_data);
++-                dcerpc_free_pdu(dce, pdu);
+++                dcerpc_send_pdu_cb_and_free(dce, pdu, -EINVAL, NULL);
++                 return;
++         }
++         for (i = 0; i < pdu->bind_ack.num_results; i++) {
++@@ -1609,13 +1613,11 @@ smb2_bind_cb(struct smb2_context *smb2, int status,
++         }
++         if (i == pdu->bind_ack.num_results) {
++                 smb2_set_error(smb2, "Bind rejected all contexts");
++-                pdu->cb(dce, -EINVAL, NULL, pdu->cb_data);
++-                dcerpc_free_pdu(dce, pdu);
+++                dcerpc_send_pdu_cb_and_free(dce, pdu, -EINVAL, NULL);
++                 return;
++         }
++ 
++-        pdu->cb(dce, 0, NULL, pdu->cb_data);
++-        dcerpc_free_pdu(dce, pdu);
+++        dcerpc_send_pdu_cb_and_free(dce, pdu, 0, NULL);
++ }
++ 
++ static int
++diff --git a/lib/init.c b/lib/init.c
++index 8b4ff01..493dcd8 100644
++--- a/lib/init.c
+++++ b/lib/init.c
++@@ -44,6 +44,7 @@
++ #include <stdarg.h>
++ #include <stdio.h>
++ #include <time.h>
+++#include <assert.h>
++ 
++ #ifndef PS2_EE_PLATFORM
++ #include <sys/socket.h>
++@@ -274,6 +275,10 @@ struct smb2_context *smb2_init_context(void)
++         ret = getlogin_r(buf, sizeof(buf));
++         smb2_set_user(smb2, ret == 0 ? buf : "Guest");
++         smb2->fd = -1;
+++        smb2->connecting_fds = NULL;
+++        smb2->connecting_fds_count = 0;
+++        smb2->addrinfos = NULL;
+++        smb2->next_addrinfo = NULL;
++         smb2->sec = SMB2_SEC_UNDEFINED;
++         smb2->version = SMB2_VERSION_ANY;
++         smb2->ndr = 1;
++@@ -299,12 +304,17 @@ void smb2_destroy_context(struct smb2_context *smb2)
++         }
++ 
++         if (smb2->fd != -1) {
+++                assert(smb2->connecting_fds == NULL);
+++                assert(smb2->addrinfos == NULL);
++                 if (smb2->change_fd) {
++                         smb2->change_fd(smb2, smb2->fd, SMB2_DEL_FD);
++                 }
++                 close(smb2->fd);
++                 smb2->fd = -1;
++         }
+++        else {
+++                smb2_close_connecting_fds(smb2);
+++        }
++ 
++         while (smb2->outqueue) {
++                 struct smb2_pdu *pdu = smb2->outqueue;
++diff --git a/lib/libsmb2.c b/lib/libsmb2.c
++index 1f1d63d..8f42613 100644
++--- a/lib/libsmb2.c
+++++ b/lib/libsmb2.c
++@@ -57,6 +57,7 @@
++ #include <fcntl.h>
++ #include <stdio.h>
++ #include <time.h>
+++#include <assert.h>
++ 
++ #ifndef PS2_EE_PLATFORM
++ #include <sys/socket.h>
++@@ -161,17 +162,15 @@ struct smb2fh {
++ static void
++ smb2_close_context(struct smb2_context *smb2)
++ {
++-        if (smb2 == NULL){
++-                return;
++-        }
++-        if (smb2->fd != -1) {
++-                if (smb2->change_fd) {
++-                        smb2->change_fd(smb2, smb2->fd, SMB2_DEL_FD);
++-                }
++-                close(smb2->fd);
++-                smb2->fd = -1;
+++        assert(smb2 != NULL);
+++
+++        assert(smb2->fd != -1);
+++        if (smb2->change_fd) {
+++                smb2->change_fd(smb2, smb2->fd, SMB2_DEL_FD);
++         }
++-        smb2->is_connected = 0;
+++        close(smb2->fd);
+++        smb2->fd = -1;
+++
++         smb2->message_id = 0;
++         smb2->session_id = 0;
++         smb2->tree_id = 0;
++@@ -942,12 +941,11 @@ connect_cb(struct smb2_context *smb2, int status,
++         req.security_mode = smb2->security_mode;
++         switch (smb2->version) {
++         case SMB2_VERSION_ANY:
++-                req.dialect_count = 5;
+++                req.dialect_count = 4;
++                 req.dialects[0] = SMB2_VERSION_0202;
++                 req.dialects[1] = SMB2_VERSION_0210;
++                 req.dialects[2] = SMB2_VERSION_0300;
++                 req.dialects[3] = SMB2_VERSION_0302;
++-                req.dialects[4] = SMB2_VERSION_0311;
++                 break;
++         case SMB2_VERSION_ANY2:
++                 req.dialect_count = 2;
++@@ -955,10 +953,9 @@ connect_cb(struct smb2_context *smb2, int status,
++                 req.dialects[1] = SMB2_VERSION_0210;
++                 break;
++         case SMB2_VERSION_ANY3:
++-                req.dialect_count = 3;
+++                req.dialect_count = 2;
++                 req.dialects[0] = SMB2_VERSION_0300;
++                 req.dialects[1] = SMB2_VERSION_0302;
++-                req.dialects[2] = SMB2_VERSION_0311;
++                 break;
++         case SMB2_VERSION_0202:
++         case SMB2_VERSION_0210:
++diff --git a/lib/libsmb2.syms b/lib/libsmb2.syms
++index ed42ea0..1089d34 100644
++--- a/lib/libsmb2.syms
+++++ b/lib/libsmb2.syms
++@@ -43,6 +43,7 @@ smb2_ftruncate_async
++ smb2_get_client_guid
++ smb2_get_error
++ smb2_get_fd
+++smb2_get_fds
++ smb2_get_file_id
++ smb2_get_max_read_size
++ smb2_get_max_write_size
++@@ -71,6 +72,7 @@ smb2_rmdir_async
++ smb2_lseek
++ smb2_seekdir
++ smb2_service
+++smb2_service_fd
++ smb2_set_authentication
++ smb2_set_security_mode
++ smb2_set_version
++diff --git a/lib/socket.c b/lib/socket.c
++index 1233fc5..d80b500 100644
++--- a/lib/socket.c
+++++ b/lib/socket.c
++@@ -74,6 +74,7 @@
++ #include "portable-endian.h"
++ #include <errno.h>
++ #include <fcntl.h>
+++#include <assert.h>
++ 
++ #ifndef PS2_EE_PLATFORM
++ #include <sys/socket.h>
++@@ -89,6 +90,41 @@
++ 
++ #define MAX_URL_SIZE 1024
++ 
+++/* Timeout in ms between 2 consecutive socket connection.
+++ * The rfc8305 recommends a timeout of 250ms and a minimum timeout of 100ms.
+++ * Since the smb is most likely used on local network, use an aggressive
+++ * timeout of 100ms. */
+++#define HAPPY_EYEBALLS_TIMEOUT 100
+++
+++static int
+++smb2_connect_async_next_addr(struct smb2_context *smb2, const struct addrinfo *base);
+++
+++void
+++smb2_close_connecting_fds(struct smb2_context *smb2)
+++{
+++        for (size_t i = 0; i < smb2->connecting_fds_count; ++i) {
+++                int fd = smb2->connecting_fds[i];
+++
+++                /* Don't close the connected fd */
+++                if (fd == smb2->fd || fd == -1)
+++                        continue;
+++
+++                if (smb2->change_fd) {
+++                        smb2->change_fd(smb2, fd, SMB2_DEL_FD);
+++                }
+++                close(fd);
+++        }
+++        free(smb2->connecting_fds);
+++        smb2->connecting_fds = NULL;
+++        smb2->connecting_fds_count = 0;
+++
+++        if (smb2->addrinfos != NULL) {
+++                freeaddrinfo(smb2->addrinfos);
+++                smb2->addrinfos = NULL;
+++        }
+++        smb2->next_addrinfo = NULL;
+++}
+++
++ static int
++ smb2_get_credit_charge(struct smb2_context *smb2, struct smb2_pdu *pdu)
++ {
++@@ -105,7 +141,7 @@ smb2_get_credit_charge(struct smb2_context *smb2, struct smb2_pdu *pdu)
++ int
++ smb2_which_events(struct smb2_context *smb2)
++ {
++-        int events = smb2->is_connected ? POLLIN : POLLOUT;
+++        int events = smb2->fd != -1 ? POLLIN : POLLOUT;
++ 
++         if (smb2->outqueue != NULL &&
++             smb2_get_credit_charge(smb2, smb2->outqueue) <= smb2->credits) {
++@@ -117,7 +153,28 @@ smb2_which_events(struct smb2_context *smb2)
++ 
++ t_socket smb2_get_fd(struct smb2_context *smb2)
++ {
++-        return smb2->fd;
+++        if (smb2->fd != -1) {
+++                return smb2->fd;
+++        } else if (smb2->connecting_fds_count > 0) {
+++                return smb2->connecting_fds[0];
+++        } else {
+++                return -1;
+++        }
+++}
+++
+++const t_socket *
+++smb2_get_fds(struct smb2_context *smb2, size_t *fd_count, int *timeout)
+++{
+++        if (smb2->fd != -1) {
+++                assert(smb2->connecting_fds == NULL);
+++                *fd_count = 1;
+++                *timeout = -1;
+++                return &smb2->fd;
+++        } else {
+++                *fd_count = smb2->connecting_fds_count;
+++                *timeout = smb2->next_addrinfo != NULL ? HAPPY_EYEBALLS_TIMEOUT : -1;
+++                return smb2->connecting_fds;
+++        }
++ }
++ 
++ static int
++@@ -492,27 +549,6 @@ read_more_data:
++                 return 0;
++         }
++ 
++-        /* We don't yet have the signing key until later, once session
++-         * setup has completed, so we can not yet verify the signature
++-         * of the final leg of session setup.
++-         */
++-        if (smb2->sign &&
++-            (smb2->hdr.flags & SMB2_FLAGS_SIGNED) &&
++-            (smb2->hdr.command != SMB2_SESSION_SETUP) ) {
++-                uint8_t signature[16];
++-                memcpy(&signature[0], &smb2->in.iov[1].buf[48], 16);
++-                if (smb2_calc_signature(smb2, &smb2->in.iov[1].buf[48],
++-                                        &smb2->in.iov[1],
++-                                        smb2->in.niov - 1) < 0) {
++-                        return -1;
++-                }
++-                if (memcmp(&signature[0], &smb2->in.iov[1].buf[48], 16)) {
++-                        smb2_set_error(smb2, "Wrong signature in received "
++-                                       "PDU");
++-                        return -1;
++-                }
++-        }
++-
++         is_chained = smb2->hdr.next_command;
++ 
++         pdu->cb(smb2, smb2->hdr.status, pdu->payload, pdu->cb_data);
++@@ -583,20 +619,68 @@ smb2_read_from_buf(struct smb2_context *smb2)
++         return smb2_read_data(smb2, smb2_readv_from_buf);
++ }
++ 
+++static void
+++smb2_close_connecting_fd(struct smb2_context *smb2, int fd)
+++{
+++        close(fd);
+++        /* Remove the fd from the connecting_fds array */
+++        for (size_t i = 0; i < smb2->connecting_fds_count; ++i) {
+++                if (fd == smb2->connecting_fds[i]) {
+++                        memmove(&smb2->connecting_fds[i],
+++                                &smb2->connecting_fds[i + 1],
+++                                smb2->connecting_fds_count - i - 1);
+++                        smb2->connecting_fds_count--;
+++                        return;
+++                }
+++        }
+++        assert(!"unreachable");
+++}
+++
++ int
++-smb2_service(struct smb2_context *smb2, int revents)
+++smb2_service_fd(struct smb2_context *smb2, int fd, int revents)
++ {
++         int ret = 0;
++ 
++-        if (smb2->fd < 0) {
+++        if (fd == -1) {
+++                /* Connect to a new addr in parallel */
+++                if (smb2->next_addrinfo != NULL) {
+++                    int err = smb2_connect_async_next_addr(smb2,
+++                                                           smb2->next_addrinfo);
+++                    return err == 0 ? 0 : -1;
+++                }
++                 goto out;
+++        } else if (fd != smb2->fd) {
+++                int fd_found = 0;
+++                for (size_t i = 0; i < smb2->connecting_fds_count; ++i) {
+++                        if (fd == smb2->connecting_fds[i])
+++                        {
+++                                fd_found = 1;
+++                                break;
+++                        }
+++                }
+++                if (fd_found == 0) {
+++                        /* Not an error, this can happen if more than one
+++                         * connecting fds had POLLOUT events. In that case,
+++                         * only the first one is connected and all other FDs
+++                         * are dropped. */
+++                        return 0;
+++                }
++         }
++ 
++         if (revents & POLLERR) {
++                 int err = 0;
++                 socklen_t err_size = sizeof(err);
++ 
++-                if (getsockopt(smb2->fd, SOL_SOCKET, SO_ERROR,
+++                if (smb2->fd == -1 && smb2->next_addrinfo != NULL) {
+++                        /* Connecting fd failed, try to connect to the next addr */
+++                        smb2_close_connecting_fd(smb2, fd);
+++
+++                        err = smb2_connect_async_next_addr(smb2, smb2->next_addrinfo);
+++                        /* error already set by connect_async_ai() */
+++                        if (err == 0) {
+++                                return 0;
+++                        }
+++                } else if (getsockopt(fd, SOL_SOCKET, SO_ERROR,
++                                (char *)&err, &err_size) != 0 || err != 0) {
++                         if (err == 0) {
++                                 err = errno;
++@@ -623,18 +707,29 @@ smb2_service(struct smb2_context *smb2, int revents)
++                 goto out;
++         }
++ 
++-        if (smb2->is_connected == 0 && revents & POLLOUT) {
+++        if (smb2->fd == -1 && revents & POLLOUT) {
++                 int err = 0;
++                 socklen_t err_size = sizeof(err);
++ 
++-                if (getsockopt(smb2->fd, SOL_SOCKET, SO_ERROR,
+++                if (getsockopt(fd, SOL_SOCKET, SO_ERROR,
++                                (char *)&err, &err_size) != 0 || err != 0) {
++                         if (err == 0) {
++                                 err = errno;
++                         }
++-                        smb2_set_error(smb2, "smb2_service: socket error "
++-                                        "%s(%d) while connecting.",
++-                                        strerror(err), err);
+++                        if (smb2->next_addrinfo != NULL) {
+++                                /* Connecting fd failed, try to connect to the next addr */
+++                                smb2_close_connecting_fd(smb2, fd);
+++
+++                                err = smb2_connect_async_next_addr(smb2, smb2->next_addrinfo);
+++                                /* error already set by connect_async_ai() */
+++                                if (err == 0) {
+++                                        return 0;
+++                                }
+++                        } else {
+++                                smb2_set_error(smb2, "smb2_service: socket error "
+++                                                "%s(%d) while connecting.",
+++                                                strerror(err), err);
+++                        }
++                         if (smb2->connect_cb) {
++                                 smb2->connect_cb(smb2, err,
++                                                  NULL, smb2->connect_data);
++@@ -644,7 +739,10 @@ smb2_service(struct smb2_context *smb2, int revents)
++                         goto out;
++                 }
++ 
++-                smb2->is_connected = 1;
+++                smb2->fd = fd;
+++
+++                smb2_close_connecting_fds(smb2);
+++
++                 smb2_change_events(smb2, smb2->fd, smb2_which_events(smb2));
++                 if (smb2->connect_cb) {
++                         smb2->connect_cb(smb2, 0, NULL,        smb2->connect_data);
++@@ -674,6 +772,16 @@ smb2_service(struct smb2_context *smb2, int revents)
++         return ret;
++ }
++ 
+++int
+++smb2_service(struct smb2_context *smb2, int revents)
+++{
+++        if (smb2->connecting_fds_count > 0) {
+++                return smb2_service_fd(smb2, smb2->connecting_fds[0], revents);
+++        } else {
+++                return smb2_service_fd(smb2, smb2->fd, revents);
+++        }
+++}
+++
++ static void
++ set_nonblocking(t_socket fd)
++ {
++@@ -707,10 +815,9 @@ set_tcp_sockopt(t_socket sockfd, int optname, int value)
++ }
++ 
++ static int
++-connect_async_ai(struct smb2_context *smb2, struct addrinfo *ai,
++-                 smb2_command_cb cb, void *private_data)
+++connect_async_ai(struct smb2_context *smb2, const struct addrinfo *ai, int *fd_out)
++ {
++-        int family;
+++        int family, fd;
++         socklen_t socksize;
++         struct sockaddr_storage ss;
++ 
++@@ -739,20 +846,17 @@ connect_async_ai(struct smb2_context *smb2, struct addrinfo *ai,
++         }
++         family = ai->ai_family;
++ 
++-        smb2->fd = socket(family, SOCK_STREAM, 0);
++-        if (smb2->fd == -1) {
+++        fd = socket(family, SOCK_STREAM, 0);
+++        if (fd == -1) {
++                 smb2_set_error(smb2, "Failed to open smb2 socket. "
++                                "Errno:%s(%d).", strerror(errno), errno);
++                 return -EIO;
++         }
++ 
++-        smb2->connect_cb   = cb;
++-        smb2->connect_data = private_data;
++-
++-        set_nonblocking(smb2->fd);
++-        set_tcp_sockopt(smb2->fd, TCP_NODELAY, 1);
+++        set_nonblocking(fd);
+++        set_tcp_sockopt(fd, TCP_NODELAY, 1);
++ 
++-        if (connect(smb2->fd, (struct sockaddr *)&ss, socksize) != 0
+++        if (connect(fd, (struct sockaddr *)&ss, socksize) != 0
++ #ifndef _MSC_VER
++                   && errno != EINPROGRESS) {
++ #else
++@@ -760,21 +864,72 @@ connect_async_ai(struct smb2_context *smb2, struct addrinfo *ai,
++ #endif
++                 smb2_set_error(smb2, "Connect failed with errno : "
++                         "%s(%d)", strerror(errno), errno);
++-                close(smb2->fd);
++-                smb2->fd = -1;
++-                smb2->connect_cb = NULL;
++-                smb2->connect_data = NULL;
+++                close(fd);
++                 return -EIO;
++         }
++ 
++-        if (smb2->fd != -1 && smb2->change_fd) {
++-                smb2->change_fd(smb2, smb2->fd, SMB2_ADD_FD);
++-        }
++-        if (smb2->fd != -1 && smb2->change_fd) {
++-                smb2_change_events(smb2, smb2->fd, POLLOUT);
+++        *fd_out = fd;
+++        return 0;
+++}
+++
+++static int
+++smb2_connect_async_next_addr(struct smb2_context *smb2, const struct addrinfo *base)
+++{
+++        assert(base);
+++
+++        int err = -1;
+++        for (const struct addrinfo *ai = base; ai != NULL; ai = ai->ai_next) {
+++                int fd;
+++                err = connect_async_ai(smb2, ai, &fd);
+++
+++                if (err == 0) {
+++                        /* clear the error that could be set by a previous ai
+++                         * connection */
+++                        smb2_set_error(smb2, "");
+++                        smb2->connecting_fds[smb2->connecting_fds_count++] = fd;
+++                        if (smb2->change_fd) {
+++                                smb2->change_fd(smb2, fd, SMB2_ADD_FD);
+++                                smb2_change_events(smb2, fd, POLLOUT);
+++                        }
+++
+++                        smb2->next_addrinfo = ai->ai_next;
+++                        break;
+++                }
++         }
++ 
++-        return 0;
+++        return err;
+++}
+++
+++/* Copied from FFmpeg: libavformat/network.c */
+++static void interleave_addrinfo(struct addrinfo *base)
+++{
+++        struct addrinfo **next = &base->ai_next;
+++        while (*next) {
+++                struct addrinfo *cur = *next;
+++                // Iterate forward until we find an entry of a different family.
+++                if (cur->ai_family == base->ai_family) {
+++                        next = &cur->ai_next;
+++                        continue;
+++                }
+++                if (cur == base->ai_next) {
+++                        // If the first one following base is of a different family, just
+++                        // move base forward one step and continue.
+++                        base = cur;
+++                        next = &base->ai_next;
+++                        continue;
+++                }
+++                // Unchain cur from the rest of the list from its current spot.
+++                *next = cur->ai_next;
+++                // Hook in cur directly after base.
+++                cur->ai_next = base->ai_next;
+++                base->ai_next = cur;
+++                // Restart with a new base. We know that before moving the cur element,
+++                // everything between the previous base and cur had the same family,
+++                // different from cur->ai_family. Therefore, we can keep next pointing
+++                // where it was, and continue from there with base at the one after
+++                // cur.
+++                base = cur->ai_next;
+++        }
++ }
++ 
++ int
++@@ -782,8 +937,8 @@ smb2_connect_async(struct smb2_context *smb2, const char *server,
++                    smb2_command_cb cb, void *private_data)
++ {
++         char *addr, *host, *port;
++-        struct addrinfo *ai_res = NULL;
++         int err;
+++        size_t addr_count = 0;
++ 
++         if (smb2->fd != -1) {
++                 smb2_set_error(smb2, "Trying to connect but already "
++@@ -824,7 +979,7 @@ smb2_connect_async(struct smb2_context *smb2, const char *server,
++         }
++ 
++         /* is it a hostname ? */
++-        err = getaddrinfo(host, port, NULL, &ai_res);
+++        err = getaddrinfo(host, port, NULL, &smb2->addrinfos);
++         if (err != 0) {
++                 free(addr);
++ #ifdef _WINDOWS
++@@ -867,19 +1022,31 @@ smb2_connect_async(struct smb2_context *smb2, const char *server,
++         }
++         free(addr);
++ 
++-        for (struct addrinfo *ai = ai_res; ai != NULL; ai = ai->ai_next)
++-        {
++-            err = connect_async_ai(smb2, ai, cb, private_data);
+++        interleave_addrinfo(smb2->addrinfos);
++ 
++-            if (err == 0)
++-            {
++-                /* clear the error that could be set by a previous ai
++-                 * connection */
++-                smb2_set_error(smb2, "");
++-                break;
++-            }
+++        /* Allocate connecting fds array */
+++        for (const struct addrinfo *ai = smb2->addrinfos; ai != NULL; ai = ai->ai_next)
+++                addr_count++;
+++        smb2->connecting_fds = malloc(sizeof(int) * addr_count);
+++        if (smb2->connecting_fds == NULL) {
+++                freeaddrinfo(smb2->addrinfos);
+++                smb2->addrinfos = NULL;
+++                return -ENOMEM;
+++        }
+++
+++        err = smb2_connect_async_next_addr(smb2, smb2->addrinfos);
+++
+++        if (err == 0) {
+++                smb2->connect_cb   = cb;
+++                smb2->connect_data = private_data;
+++        } else {
+++                free(smb2->connecting_fds);
+++                smb2->connecting_fds = NULL;
+++
+++                freeaddrinfo(smb2->addrinfos);
+++                smb2->addrinfos = NULL;
+++                smb2->next_addrinfo = NULL;
++         }
++-        freeaddrinfo(ai_res);
++ 
++         return err;
++ }
++@@ -891,7 +1058,7 @@ void smb2_change_events(struct smb2_context *smb2, int fd, int events)
++         }
++ 
++         if (smb2->change_events) {
++-                smb2->change_events(smb2, smb2->fd, events);
+++                smb2->change_events(smb2, fd, events);
++                 smb2->events = events;
++         }
++ }
++diff --git a/lib/sync.c b/lib/sync.c
++index 591cbb7..126b41e 100644
++--- a/lib/sync.c
+++++ b/lib/sync.c
++@@ -77,7 +77,7 @@ static int wait_for_reply(struct smb2_context *smb2,
++                 if (smb2->timeout) {
++                         smb2_timeout_pdus(smb2);
++                 }
++-		if ((!smb2->is_connected) && ((time(NULL) - t) > (smb2->timeout)))
+++		if (smb2->fd == -1 && ((time(NULL) - t) > (smb2->timeout)))
++ 		{
++ 			smb2_set_error(smb2, "Timeout expired and no connection exists\n");
++ 			return -1;
++@@ -855,7 +855,7 @@ int smb2_echo(struct smb2_context *smb2)
++         struct sync_cb_data *cb_data;
++         int rc = 0;
++ 
++-        if (smb2->is_connected == 0) {
+++        if (smb2->fd == -1) {
++                 smb2_set_error(smb2, "Not Connected to Server");
++                 return -ENOMEM;
++         }
++-- 
++2.28.0
++
+diff --git a/contrib/src/smb2/SHA512SUMS b/contrib/src/smb2/SHA512SUMS
+index 9a4a0f2963..31aaf96dbe 100644
+--- a/contrib/src/smb2/SHA512SUMS
++++ b/contrib/src/smb2/SHA512SUMS
+@@ -1 +1 @@
+-5ab686e3a34dc96c47e968a653e5e44946d8ea234362d7cbd264c7b8bf2b94632c382d11485f325a772c170f52ab18761eaacd587ef3c335a28c075be836d013  libsmb2-4a842524407b0c0b87b1f62fe792d569d92cd34d.tar.gz
++96ea34fe1faaab886427c100a45602d2b49cc81350f1061a30e46f985ce5b06513d353b308a94c3395431d4a8f8758de01b3067404cca18be9bca10e2935fee3  libsmb2-7e525c2c8f5d4a512e5307a7c94153f0078f8c27.tar.gz
+diff --git a/contrib/src/smb2/rules.mak b/contrib/src/smb2/rules.mak
+index e915f0608c..7b281c8de7 100644
+--- a/contrib/src/smb2/rules.mak
++++ b/contrib/src/smb2/rules.mak
+@@ -1,5 +1,5 @@
+ # SMB2
+-SMB2_VERSION := 4a842524407b0c0b87b1f62fe792d569d92cd34d
++SMB2_VERSION := 7e525c2c8f5d4a512e5307a7c94153f0078f8c27
+ SMB2_URL := https://github.com/sahlberg/libsmb2/archive/$(SMB2_VERSION).tar.gz
+ 
+ ifeq ($(call need_pkg,"smb2"),)
+@@ -13,6 +13,7 @@ $(TARBALLS)/libsmb2-$(SMB2_VERSION).tar.gz:
+ 
+ smb2: libsmb2-$(SMB2_VERSION).tar.gz .sum-smb2
+ 	$(UNPACK)
++	$(APPLY) $(SRC)/smb2/0001-smb2-implement-rfc8305-Happy-Eyeballs.patch
+ 	$(MOVE)
+ 
+ .smb2: smb2
+diff --git a/modules/access/smb2.c b/modules/access/smb2.c
+index b2747f172e..ae037eca5c 100644
+--- a/modules/access/smb2.c
++++ b/modules/access/smb2.c
+@@ -50,10 +50,10 @@
+ #ifdef HAVE_DSM
+ # include <bdsm/netbios_ns.h>
+ # include <bdsm/netbios_defs.h>
++#endif
+ 
+-# ifdef HAVE_ARPA_INET_H
+-#  include <arpa/inet.h>
+-# endif
++#ifdef HAVE_ARPA_INET_H
++# include <arpa/inet.h>
+ #endif
+ 
+ #include "smb_common.h"
+@@ -161,12 +161,21 @@ vlc_smb2_mainloop(stream_t *access, bool teardown)
+     sys->res_done = false;
+     while (sys->error_status == 0 && !sys->res_done)
+     {
+-        struct pollfd p_fds[1];
+-        int ret;
+-        p_fds[0].fd = smb2_get_fd(sys->smb2);
+-        p_fds[0].events = smb2_which_events(sys->smb2);
++        int ret, smb2_timeout;
++        size_t fd_count;
++        const t_socket *fds = smb2_get_fds(sys->smb2, &fd_count, &smb2_timeout);
++        int events = smb2_which_events(sys->smb2);
++
++        struct pollfd p_fds[fd_count];
++        for (size_t i = 0; i < fd_count; ++i)
++        {
++            p_fds[i].events = events;
++            p_fds[i].fd = fds[i];
++        }
++        if (smb2_timeout != -1)
++            timeout = smb2_timeout;
+ 
+-        if (p_fds[0].fd == -1 || (ret = poll_func(p_fds, 1, timeout)) < 0)
++        if (fds == NULL || (ret = poll_func(p_fds, fd_count, timeout)) < 0)
+         {
+             if (errno == EINTR)
+             {
+@@ -189,10 +198,21 @@ vlc_smb2_mainloop(stream_t *access, bool teardown)
+             }
+         }
+         else if (ret == 0)
+-            sys->error_status = -ETIMEDOUT;
+-        else if (ret > 0 && p_fds[0].revents
+-             && smb2_service(sys->smb2, p_fds[0].revents) < 0)
+-            VLC_SMB2_SET_ERROR(access, "smb2_service", 1);
++        {
++            if (teardown)
++                sys->error_status = -ETIMEDOUT;
++            else if (smb2_service_fd(sys->smb2, -1, 0) < 0)
++                VLC_SMB2_SET_ERROR(access, "smb2_service", 1);
++        }
++        else
++        {
++            for (size_t i = 0; i < fd_count; ++i)
++            {
++                if (p_fds[i].revents
++                 && smb2_service_fd(sys->smb2, p_fds[i].fd, p_fds[i].revents) < 0)
++                    VLC_SMB2_SET_ERROR(access, "smb2_service", 1);
++            }
++        }
+     }
+ 
+     int ret = sys->error_status == 0 ? 0 : -1;
+@@ -483,6 +503,38 @@ smb2_share_enum_cb(struct smb2_context *smb2, int status, void *data,
+     sys->share_enum = data;
+ }
+ 
++static void
++vlc_smb2_print_addr(stream_t *access)
++{
++    struct access_sys *sys = access->p_sys;
++
++    struct sockaddr_storage addr;
++    if (getsockname(smb2_get_fd(sys->smb2), (struct sockaddr *)&addr,
++                    &(socklen_t){ sizeof(addr) }) != 0)
++        return;
++
++    void *sin_addr;
++    switch (addr.ss_family)
++    {
++        case AF_INET6:
++            sin_addr = &((struct sockaddr_in6 *)&addr)->sin6_addr;
++            break;
++        case AF_INET:
++            sin_addr = &((struct sockaddr_in *)&addr)->sin_addr;
++            break;
++        default:
++            return;
++    }
++    char ip[INET6_ADDRSTRLEN];
++    if (inet_ntop(addr.ss_family, sin_addr, ip, sizeof(ip)) == NULL)
++        return;
++
++    if (strcmp(ip, sys->encoded_url.psz_host) == 0)
++        return;
++
++    msg_Warn(access, "%s: connected from %s\n", sys->encoded_url.psz_host, ip);
++}
++
+ static int
+ vlc_smb2_open_share(stream_t *access, const char *url,
+                     const vlc_credential *credential)
+@@ -532,6 +584,8 @@ vlc_smb2_open_share(stream_t *access, const char *url,
+         goto error;
+     sys->smb2_connected = true;
+ 
++    vlc_smb2_print_addr(access);
++
+     int ret;
+     if (do_enum)
+         ret = smb2_share_enum_async(sys->smb2, smb2_share_enum_cb, access);
+@@ -613,7 +667,7 @@ vlc_smb2_resolve(stream_t *access, const char *host, unsigned port)
+     uint32_t ip4_addr;
+     if (netbios_ns_resolve(ns, host, NETBIOS_FILESERVER, &ip4_addr) == 0)
+     {
+-        char ip[] = "xxx.xxx.xxx.xxx";
++        char ip[INET_ADDRSTRLEN];
+         if (inet_ntop(AF_INET, &ip4_addr, ip, sizeof(ip)))
+             out_host = strdup(ip);
+     }
+@@ -645,7 +699,6 @@ Open(vlc_object_t *p_obj)
+ 
+     char *resolved_host = vlc_smb2_resolve(access, sys->encoded_url.psz_host,
+                                            sys->encoded_url.i_port);
+-    const char *host;
+ 
+     /* smb2_* functions need a decoded url. Re compose the url from the
+      * modified sys->encoded_url (with the resolved host). */
+@@ -655,12 +708,10 @@ Open(vlc_object_t *p_obj)
+         vlc_url_t resolved_url = sys->encoded_url;
+         resolved_url.psz_host = resolved_host;
+         url = vlc_uri_compose(&resolved_url);
+-        host = resolved_host;
+     }
+     else
+     {
+         url = vlc_uri_compose(&sys->encoded_url);
+-        host = sys->encoded_url.psz_host;
+     }
+     if (!vlc_uri_decode(url))
+     {
+@@ -685,7 +736,7 @@ Open(vlc_object_t *p_obj)
+         && (!sys->error_status || VLC_SMB2_STATUS_DENIED(sys->error_status))
+         && vlc_credential_get(&credential, access, "smb-user", "smb-pwd",
+                               SMB_LOGIN_DIALOG_TITLE, SMB_LOGIN_DIALOG_TEXT,
+-                              host))
++                              sys->encoded_url.psz_host))
+     {
+         sys->error_status = 0;
+         ret = vlc_smb2_open_share(access, url, &credential);
+-- 
+2.25.1
+
