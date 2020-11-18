@@ -772,5 +772,7 @@
     <string name="timeout_normal">Normal</string>
     <string name="timeout_long">Long</string>
     <string name="video_hud_timeout">Video player controls hiding delay</string>
+    <string name="prefersmbv1">Prefer SMB 1</string>
+    <string name="prefersmbv1_summary">Uncheck this setting if you have some difficulties browsing your SMB server</string>
 
 </resources>
