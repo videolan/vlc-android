@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.KeyEvent
 import android.view.View
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -15,9 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -53,7 +52,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     private var favExists: Boolean = false
     private var isRootLevel = false
     private lateinit var browserFavRepository: BrowserFavRepository
-    private var item: MediaLibraryItem? = null
+    private var currentItem: MediaLibraryItem? = null
     override lateinit var adapter: TvItemAdapter
     private val dialogsDelegate by lazy(LazyThreadSafetyMode.NONE) { DialogDelegate() }
 
@@ -75,15 +74,15 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        item = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(ITEM) as? MediaLibraryItem
+        currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(ITEM) as? MediaLibraryItem
         else arguments?.getParcelable(ITEM) as? MediaLibraryItem
 
         isRootLevel = arguments?.getBoolean("rootLevel") ?: false
-        (item as? MediaWrapper)?.run { mrl = location }
+        (currentItem as? MediaWrapper)?.run { mrl = location }
         val category = arguments?.getLong(CATEGORY, TYPE_FILE) ?: TYPE_FILE
         viewModel = getBrowserModel(category = category, url = mrl, showHiddenFiles = false)
 
-        viewModel.currentItem = item
+        viewModel.currentItem = currentItem
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
 
         if (getCategory() == TYPE_NETWORK) {
@@ -198,7 +197,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
             animationDelegate.setVisibility(binding.favoriteButton, if (isRootLevel) View.GONE else View.VISIBLE)
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
-            favExists = (item as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
+            favExists = (currentItem as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
         }
@@ -209,7 +208,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
 
     override fun onResume() {
         super.onResume()
-        if (item == null) (viewModel.provider as BrowserProvider).browseRoot()
+        if (currentItem == null) (viewModel.provider as BrowserProvider).browseRoot()
         else if (restarted) refresh()
         (viewModel as IPathOperationDelegate).getAndRemoveDestination()?.let {
             browse(it, true)
@@ -217,7 +216,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(ITEM, item)
+        outState.putParcelable(ITEM, currentItem)
         outState.putLong(CATEGORY, getCategory())
         super.onSaveInstanceState(outState)
     }
@@ -249,16 +248,30 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
         ft.commit()
     }
 
+    override fun onKeyPressed(keyCode: Int): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BOOKMARK) {
+            togglefavorite()
+            return true
+        }
+        return super.onKeyPressed(keyCode)
+    }
+
     private val favoriteClickListener: (View) -> Unit = {
-        item.let {item ->
+        togglefavorite()
+    }
+
+    private fun togglefavorite() {
+        currentItem.let { item ->
             lifecycleScope.launch {
                 val mw = (item as MediaWrapper)
-                when {
-                    browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
-                    mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
-                    else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
+                withContext(Dispatchers.IO) {
+                    when {
+                        browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
+                        mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
+                        else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
+                    }
                 }
-                favExists = !favExists
+                favExists = browserFavRepository.browserFavExists(mw.uri)
                 if (!isRootLevel) binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline)
                 binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
             }
