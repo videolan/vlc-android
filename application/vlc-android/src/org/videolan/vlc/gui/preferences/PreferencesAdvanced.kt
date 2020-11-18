@@ -150,8 +150,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         UiTools.snacker(requireView(), R.string.network_caching_popup)
                     }
                 }
-                VLCInstance.restart()
-                (activity as? PreferencesActivity)?.restartMediaPlayer()
+                restartLibVLC()
             }
             // No break because need VLCInstance.restart();
             "custom_libvlc_options" -> {
@@ -163,12 +162,16 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 } finally {
                     (activity as? PreferencesActivity)?.restartMediaPlayer()
                 }
-
+                restartLibVLC()
             }
-            "opengl", "chroma_format", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
+            "opengl", "chroma_format", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode", "prefer_smbv1" -> {
                 VLCInstance.restart()
                 (activity as? PreferencesActivity)?.restartMediaPlayer()
             }
         }
+    }
+    fun restartLibVLC() {
+        VLCInstance.restart()
+        (activity as? PreferencesActivity)?.restartMediaPlayer()
     }
 }
