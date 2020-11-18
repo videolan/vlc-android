@@ -101,8 +101,11 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 (fragment as DetailsFragment).showDetails()
                 return true
             }
-            if ((fragment as? OnKeyPressedListener)?.onKeyPressed(keyCode) == true) {
+            try {
+                if ((supportFragmentManager.fragments[0] as? OnKeyPressedListener)?.onKeyPressed(keyCode) == true) {
                     return true
+                }
+            } catch (e: IndexOutOfBoundsException) {
             }
         }
         return super.onKeyDown(keyCode, event)
