@@ -194,14 +194,14 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         lifecycleScope.launch {
-            animationDelegate.setVisibility(binding.favoriteButton, if (isRootLevel) View.GONE else View.VISIBLE)
+            animationDelegate.setVisibility(binding.favoriteButton, View.VISIBLE)
             animationDelegate.setVisibility(binding.imageButtonFavorite, View.VISIBLE)
             animationDelegate.setVisibility(binding.favoriteDescription, View.VISIBLE)
             favExists = (currentItem as? MediaWrapper)?.let { browserFavRepository.browserFavExists(it.uri) } ?: false
             binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline)
             binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
         }
-        if (!isRootLevel) binding.favoriteButton.setOnClickListener(favoriteClickListener)
+        binding.favoriteButton.setOnClickListener(favoriteClickListener)
         binding.imageButtonFavorite.setOnClickListener(favoriteClickListener)
         binding.emptyLoading.showNoMedia = false
     }
@@ -272,7 +272,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
                     }
                 }
                 favExists = browserFavRepository.browserFavExists(mw.uri)
-                if (!isRootLevel) binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline)
+                binding.favoriteButton.setImageResource(if (favExists) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline)
                 binding.imageButtonFavorite.setImageResource(if (favExists) R.drawable.ic_fabtvmini_bookmark else R.drawable.ic_fabtvmini_bookmark_outline)
             }
         }
