@@ -53,10 +53,6 @@ captures/
 *.files
 *.includes
 
-#gradle
-gradlew.bat
-gradlew
-gradle*/
 .gradle/
 build/
 vlc-android/build/

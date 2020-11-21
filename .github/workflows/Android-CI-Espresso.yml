@@ -1,0 +1,17 @@
+name: Github CI
+
+on: [pull_request]
+
+jobs:
+  build:
+    name: Build
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Android SDK
+        uses: hannesa2/action-android/install-sdk@0.0.7.7
+      - name: Prepare build
+        run: echo "bintray.user=user" > "local.properties" && echo "bintray.apikey=apikey" >> "local.properties"
+      - name: Build project
+        run: ./gradlew assembleDebug
