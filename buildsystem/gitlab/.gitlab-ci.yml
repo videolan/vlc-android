@@ -8,7 +8,7 @@ cache:
         - gradlew
 
 .build-all-base:
-    image: registry.videolan.org/vlc-debian-android:20200311171937
+    image: registry.videolan.org/vlc-debian-android:20200529135226
     tags:
         - amd64
         - docker
