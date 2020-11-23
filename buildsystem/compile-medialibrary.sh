@@ -67,6 +67,7 @@ cd "build-$ANDROID_ABI";
 if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
   ../configure \
     --host=$TARGET_TUPLE \
+    --enable-force-attachments-api \
     --disable-shared \
     CFLAGS="${VLC_CFLAGS}" \
     CXXFLAGS="${VLC_CFLAGS} ${VLC_CXXFLAGS}" \
