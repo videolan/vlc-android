@@ -520,7 +520,9 @@
     <string name="ml_external_storage_msg">להנחות את VLC להוסיף את ההתקן %1$s לתיקיית המדיה שלך?</string>
     <string name="ml_external_storage_accept">כן</string>
     <string name="ml_external_storage_decline">לא</string>
-    <string name="last_added_media">תוספת אחרונה</string>
+    <string name="auto_last_added_media">האחרון שנוסף</string>
+    <string name="auto_my_library">הספריה שלי</string>
+    <string name="auto_home">בית</string>
     <string name="no">לא</string>
     <string name="loading_medialibrary">ספריית המדיה נטענת…</string>
     <string name="yes">כן</string>
@@ -758,5 +760,23 @@
     <string name="mark_all_as_played">לסמן הכול כהתנגן</string>
     <string name="new_group">קבוצה חדשה</string>
     <string name="new_group_desc">יצירת קבוצה חדשה</string>
+
+    <string name="air_action_rewind">10 שניות אחורה</string>
+    <string name="air_action_forward">10 שניות קדימה</string>
+    <string name="air_action_play_pause">להשהות/להמשיך נגינה</string>
+    <string name="air_action_volume_up">הגברת עצמת השמע</string>
+    <string name="air_action_volume_down">הנמכת עצמת השמע</string>
+    <string name="air_action_next">הפריט הבא לנגינה</string>
+    <string name="air_action_previous">הפריט הקודם לנגינה</string>
+    <string name="allow_otg">לאפשר גישה ל־OTG</string>
+    <string name="allow_otg_description">נא לבחור את כונן ה־OTG כדי לאפשר גישה ל־VLC.</string>
+    <string name="timeout_infinite">אינסופי</string>
+    <string name="timeout_short">קצר</string>
+    <string name="timeout_normal">רגיל</string>
+    <string name="timeout_long">ארוך</string>
+    <string name="video_hud_timeout">השהיית הסתרת פקדי נגן וידאו</string>
+    <string name="remove_from_history">הסרה מההיסטוריה</string>
+    <string name="prefersmbv1">להעדיף SMB 1</string>
+    <string name="prefersmbv1_summary">יש לבטל את ההגדרה הזאת אם נתקלת בתקלות בגלישה בשרת ה־SMB שלך</string>
 
 </resources>
