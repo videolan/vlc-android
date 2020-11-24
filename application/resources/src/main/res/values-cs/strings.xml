@@ -520,7 +520,9 @@
     <string name="ml_external_storage_msg">Chcete, aby VLC přehrávač přidal médium \'%1$s\' do Vaší Knihovny médií?</string>
     <string name="ml_external_storage_accept">Ano</string>
     <string name="ml_external_storage_decline">Ne</string>
-    <string name="last_added_media">Naposledy přidané</string>
+    <string name="auto_last_added_media">Naposledy přidáné</string>
+    <string name="auto_my_library">Knihovna</string>
+    <string name="auto_home">Domů</string>
     <string name="no">Ne</string>
     <string name="loading_medialibrary">Načítání Knihovny médií…</string>
     <string name="yes">Ano</string>
@@ -758,5 +760,23 @@
     <string name="mark_all_as_played">Označit vše jako přehrané</string>
     <string name="new_group">Nová skupina</string>
     <string name="new_group_desc">Vytvořit novou skupinu</string>
+
+    <string name="air_action_rewind">Přetočit o 10 sekund zpět</string>
+    <string name="air_action_forward">Přetočit o 10 sekund vpřed</string>
+    <string name="air_action_play_pause">Pozastavit/Spustit přehrávání</string>
+    <string name="air_action_volume_up">Zvýšit hlasitost</string>
+    <string name="air_action_volume_down">Snížit hlasitost</string>
+    <string name="air_action_next">Přehrát další položku</string>
+    <string name="air_action_previous">Přehrát předchozí položku</string>
+    <string name="allow_otg">Povolit přístup OTG</string>
+    <string name="allow_otg_description">Vyberte svůj disk OTG pro přístup VLC.</string>
+    <string name="timeout_infinite">Trvale</string>
+    <string name="timeout_short">Krátké</string>
+    <string name="timeout_normal">Normální</string>
+    <string name="timeout_long">Dlouhé</string>
+    <string name="video_hud_timeout">Skrytí zpoždění přehrávače videa</string>
+    <string name="remove_from_history">Odstranit z Historie</string>
+    <string name="prefersmbv1">Povolit SMB 1</string>
+    <string name="prefersmbv1_summary">Zakázat, pokud jsou potíže s procházením serveru SMB.</string>
 
 </resources>
