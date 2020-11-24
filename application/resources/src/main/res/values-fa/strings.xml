@@ -481,7 +481,6 @@
     <string name="ml_external_storage_title">محل ذخیره بیرونی تازه شناسایی شد</string>
     <string name="ml_external_storage_accept">بله</string>
     <string name="ml_external_storage_decline">نه</string>
-    <string name="last_added_media">آخرین افزوده شده</string>
     <string name="no">خیر</string>
     <string name="loading_medialibrary">در حال بارگذاری کتابخانه رسانه‌ای</string>
     <string name="yes">بله</string>
