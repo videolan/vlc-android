@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">Wilt u dat VLC apparaat %1$s aan uw mediabibliotheek toevoegt?</string>
     <string name="ml_external_storage_accept">Ja</string>
     <string name="ml_external_storage_decline">Nee</string>
-    <string name="last_added_media">laatst toegevoegd</string>
+    <string name="auto_last_added_media">Laatst toegevoegd</string>
+    <string name="auto_my_library">Mijn bibliotheek</string>
+    <string name="auto_home">Home</string>
     <string name="no">Nee</string>
     <string name="loading_medialibrary">Mediabibliotheek laden…</string>
     <string name="yes">Ja</string>
@@ -736,5 +738,22 @@
     <string name="mark_all_as_played">Alles markeren als afgespeeld</string>
     <string name="new_group">Nieuwe groep</string>
     <string name="new_group_desc">Nieuwe groep aanmaken</string>
+
+    <string name="air_action_rewind">10 sec terug</string>
+    <string name="air_action_forward">10 sec vooruit</string>
+    <string name="air_action_play_pause">Afspelen pauzeren/hervatten</string>
+    <string name="air_action_volume_up">Volume omhoog</string>
+    <string name="air_action_volume_down">Volume omlaag</string>
+    <string name="air_action_next">Volgend item in het afspelen</string>
+    <string name="air_action_previous">Vorig item in het afspelen</string>
+    <string name="allow_otg">OTG-toegang toestaan</string>
+    <string name="allow_otg_description">Selecteer uw OTG-schijf om toegang te verlenen aan VLC.</string>
+    <string name="timeout_infinite">Oneindig</string>
+    <string name="timeout_short">Kort</string>
+    <string name="timeout_normal">Normaal</string>
+    <string name="timeout_long">Lang</string>
+    <string name="video_hud_timeout">Vertraging voor verbergen van videospeler-bediening</string>
+    <string name="prefersmbv1">Voorkeur voor SMB 1</string>
+    <string name="prefersmbv1_summary">Vink deze instelling uit als u problemen ondervindt bij het bladeren op uw SMB-server.</string>
 
 </resources>
