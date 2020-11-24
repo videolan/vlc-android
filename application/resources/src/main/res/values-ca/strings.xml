@@ -502,7 +502,7 @@
     <string name="ml_external_storage_msg">Vols que el VLC afegeix el dispositiu %1$s a la teva Mediateca?</string>
     <string name="ml_external_storage_accept">Sí</string>
     <string name="ml_external_storage_decline">No</string>
-    <string name="last_added_media">afegit l\'últim</string>
+    <string name="auto_home">Inici</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Carregant Mediateca...</string>
     <string name="yes">Sí</string>
@@ -737,4 +737,6 @@
     <string name="new_group">Grup nou</string>
     <string name="new_group_desc">Crear un grup nou</string>
 
+    <string name="air_action_volume_up">Apujar volum</string>
+    <string name="allow_otg">Permeteu l\'accés a la memòria externa</string>
 </resources>
