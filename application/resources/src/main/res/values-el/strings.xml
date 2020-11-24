@@ -466,7 +466,6 @@
     <string name="ml_external_storage_msg">Θέλετε το VLC να προσθέσει τη συσκευή %1$sστη βιβλιοθήκη μέσων σας;</string>
     <string name="ml_external_storage_accept">Ναι</string>
     <string name="ml_external_storage_decline">Όχι</string>
-    <string name="last_added_media">τελευταία προσθήκη</string>
     <string name="no">Όχι</string>
     <string name="loading_medialibrary">Φόρτωση βιβλιοθήκης μέσων</string>
     <string name="yes">ναι</string>
