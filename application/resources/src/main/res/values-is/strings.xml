@@ -478,7 +478,6 @@
     <string name="ml_external_storage_msg">Vilt þú að VLC bæti %1$s tækinu í margmiðlunarsafnið þitt?</string>
     <string name="ml_external_storage_accept">Já</string>
     <string name="ml_external_storage_decline">Nei</string>
-    <string name="last_added_media">síðast bætt við</string>
     <string name="no">Nei</string>
     <string name="loading_medialibrary">Hleð inn margmiðunarsafni…</string>
     <string name="yes">Já</string>
