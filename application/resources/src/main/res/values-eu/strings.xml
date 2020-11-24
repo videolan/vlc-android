@@ -479,7 +479,6 @@
     <string name="ml_external_storage_msg">VLCk %1$s gailua zure multimedia-liburutegian gehitzea nahi duzu?</string>
     <string name="ml_external_storage_accept">Bai</string>
     <string name="ml_external_storage_decline">Ez</string>
-    <string name="last_added_media">gehitutako azkena</string>
     <string name="no">Ez</string>
     <string name="loading_medialibrary">Multimedia-liburutegia kargatzen…</string>
     <string name="yes">Bai</string>
