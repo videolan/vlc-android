@@ -387,7 +387,6 @@
     <string name="ml_external_storage_msg">VLC  %1$s җайланмасын медиаханәгезгә өстәсенме?</string>
     <string name="ml_external_storage_accept">Әйе</string>
     <string name="ml_external_storage_decline">Юк</string>
-    <string name="last_added_media">соңгы өстәү</string>
     <string name="no">Юк</string>
     <string name="loading_medialibrary">Медиаханәне йөкләү…</string>
     <string name="yes">Әйе</string>
