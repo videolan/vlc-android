@@ -502,7 +502,7 @@
     <string name="ml_external_storage_msg">Szeretné, hogy a VLC hozzáadja a(z) %1$s eszközt a médiatárához?</string>
     <string name="ml_external_storage_accept">Igen</string>
     <string name="ml_external_storage_decline">Nem</string>
-    <string name="last_added_media">legutóbb hozzáadva</string>
+    <string name="auto_last_added_media">Legutóbb hozzáadva</string>
     <string name="no">Nem</string>
     <string name="loading_medialibrary">Médiatár betöltése…</string>
     <string name="yes">Igen</string>
@@ -734,5 +734,14 @@
 
     <string name="mark_as_played">Megjelölés lejátszottként</string>
     <string name="mark_all_as_played">Összes megjelölése lejátszottként</string>
+    <string name="new_group">Új csoport</string>
+    <string name="new_group_desc">Új csoport létrehozása</string>
 
+    <string name="air_action_rewind">Visszatekerés 10 másodperccel</string>
+    <string name="air_action_forward">Tekerés előre 10 másodperccel</string>
+    <string name="air_action_play_pause">Lejátszás szüneteltetése/folytatása</string>
+    <string name="air_action_volume_up">Hangerő fel</string>
+    <string name="air_action_volume_down">Hangerő le</string>
+    <string name="air_action_next">Következő lejátszási elem</string>
+    <string name="air_action_previous">Előző lejátszási elem</string>
 </resources>
