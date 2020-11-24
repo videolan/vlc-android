@@ -130,7 +130,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private set
     private var isPlaying = false
     private var loadingImageView: ImageView? = null
-    private var navMenu: ImageView? = null
     var enableCloneMode: Boolean = false
     lateinit var orientationMode: PlayerOrientationMode
 
@@ -2014,7 +2013,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 overlayDelegate.hideOverlay(false)
             } else if (menuIdx != -1) setESTracks()
 
-            navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.GONE)
+            if (overlayDelegate.isHudRightBindingInitialized()) overlayDelegate.hudRightBinding.playerOverlayNavmenu.setVisibility(if (menuIdx >= 0) View.VISIBLE else View.GONE)
             supportInvalidateOptionsMenu()
         }
     }
