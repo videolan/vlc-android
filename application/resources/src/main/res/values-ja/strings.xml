@@ -493,7 +493,9 @@
     <string name="ml_external_storage_msg">デバイス %1$s をメディアライブラリに追加しますか?</string>
     <string name="ml_external_storage_accept">はい</string>
     <string name="ml_external_storage_decline">いいえ</string>
-    <string name="last_added_media">最近の追加</string>
+    <string name="auto_last_added_media">最後の追加</string>
+    <string name="auto_my_library">マイライブラリ</string>
+    <string name="auto_home">ホーム</string>
     <string name="no">いいえ</string>
     <string name="loading_medialibrary">メディアライブラリーを読み込んでいます…</string>
     <string name="yes">はい</string>
@@ -725,5 +727,22 @@
     <string name="mark_all_as_played">すべてを再生済みとしてマーク</string>
     <string name="new_group">新しいグループ</string>
     <string name="new_group_desc">新しいグループを作成</string>
+
+    <string name="air_action_rewind">10秒戻す</string>
+    <string name="air_action_forward">10秒進める</string>
+    <string name="air_action_play_pause">一時停止/再開</string>
+    <string name="air_action_volume_up">音量を上げる</string>
+    <string name="air_action_volume_down">音量を下げる</string>
+    <string name="air_action_next">次の項目を再生</string>
+    <string name="air_action_previous">前の項目を再生</string>
+    <string name="allow_otg">OTGアクセスの許可</string>
+    <string name="allow_otg_description">VLCに対してアクセスを許可するOTGドライブを選択してください。</string>
+    <string name="timeout_infinite">無限</string>
+    <string name="timeout_short">短い</string>
+    <string name="timeout_normal">通常</string>
+    <string name="timeout_long">長い</string>
+    <string name="video_hud_timeout">ビデオプレイヤーが隠れた遅延を制御</string>
+    <string name="prefersmbv1">SMB1を採用</string>
+    <string name="prefersmbv1_summary">SMBサーバーのブラウジングに何らかの問題がある場合は、チェックを外してください</string>
 
 </resources>
