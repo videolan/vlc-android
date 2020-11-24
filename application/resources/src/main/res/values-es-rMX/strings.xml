@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">¿Deseas que VLC añada dispositivo %1$s a tu biblioteca?</string>
     <string name="ml_external_storage_accept">Sí</string>
     <string name="ml_external_storage_decline">No</string>
-    <string name="last_added_media">último agregado</string>
+    <string name="auto_last_added_media">Último agregado</string>
+    <string name="auto_my_library">Mi biblioteca</string>
+    <string name="auto_home">Inicio</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Cargando biblioteca...</string>
     <string name="yes">Sí</string>
@@ -735,5 +737,22 @@
     <string name="mark_all_as_played">Marcar todo como visto</string>
     <string name="new_group">Nuevo grupo</string>
     <string name="new_group_desc">Crear un nuevo grupo</string>
+
+    <string name="air_action_rewind">Rebobinar 10 segundos</string>
+    <string name="air_action_forward">Adelantar 10 segundos</string>
+    <string name="air_action_play_pause">Pausar/Reanudar reproducción</string>
+    <string name="air_action_volume_up">Subir volumen</string>
+    <string name="air_action_volume_down">Bajar volumen</string>
+    <string name="air_action_next">Siguiente elemento en reproducción</string>
+    <string name="air_action_previous">Anterior elemento en reproducción</string>
+    <string name="allow_otg">Permitir acceso OTG</string>
+    <string name="allow_otg_description">Por favor, selecciona tu unidad OTG para que VLC pueda acceder</string>
+    <string name="timeout_infinite">Infinito</string>
+    <string name="timeout_short">Corto</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Largo</string>
+    <string name="video_hud_timeout">Tiempo para ocultar controles del reproductor de vídeo</string>
+    <string name="prefersmbv1">Preferir SMB 1</string>
+    <string name="prefersmbv1_summary">Desactivar esto si tiene problemas para encontrar su servidor SMB</string>
 
 </resources>
