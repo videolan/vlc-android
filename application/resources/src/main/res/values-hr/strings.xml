@@ -441,7 +441,6 @@
     <string name="ml_external_storage_msg">Želite li dodati uređaj %1$s u vašu medijsku zbirku?</string>
     <string name="ml_external_storage_accept">Da</string>
     <string name="ml_external_storage_decline">Ne</string>
-    <string name="last_added_media">posljednje dodano</string>
     <string name="no">Ne</string>
     <string name="loading_medialibrary">Učitavanje medijske zbirke…</string>
     <string name="yes">Da</string>
