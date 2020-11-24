@@ -488,7 +488,6 @@
     <string name="ml_external_storage_msg">คุณต้องการให้ VLC เพิ่มอุปกรณ์ %1$s ลงในคลังสื่อของคุณหรือไม่</string>
     <string name="ml_external_storage_accept">ใช่</string>
     <string name="ml_external_storage_decline">ไม่ใช่</string>
-    <string name="last_added_media">เพิ่มล่าสุด</string>
     <string name="no">ไม่ใช่</string>
     <string name="loading_medialibrary">กำลังโหลดคลังสื่อ…</string>
     <string name="yes">ใช่</string>
