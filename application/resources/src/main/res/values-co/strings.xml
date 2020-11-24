@@ -502,7 +502,6 @@
     <string name="ml_external_storage_msg">Vulete chì VLC aghjunghji l’apparechju %1$s à a vostra bibliuteca di media ?</string>
     <string name="ml_external_storage_accept">Iè</string>
     <string name="ml_external_storage_decline">Innò</string>
-    <string name="last_added_media">ultimu aghjuntu</string>
     <string name="no">Innò</string>
     <string name="loading_medialibrary">Caricamentu di a Bibliuteca di Media…</string>
     <string name="yes">Iè</string>
