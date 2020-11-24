@@ -491,7 +491,6 @@
     <string name="ml_external_storage_msg">Deseja que o VLC adicione o dispositivo %1$s à sua mediateca?</string>
     <string name="ml_external_storage_accept">Sim</string>
     <string name="ml_external_storage_decline">Não</string>
-    <string name="last_added_media">últimas adições</string>
     <string name="no">Não</string>
     <string name="loading_medialibrary">A carregar mediateca…</string>
     <string name="yes">Sim</string>
