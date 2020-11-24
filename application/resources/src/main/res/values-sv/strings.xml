@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">Vill du att VLC lägger till enheten %1$s i ditt mediabibliotek?</string>
     <string name="ml_external_storage_accept">Ja</string>
     <string name="ml_external_storage_decline">Nej</string>
-    <string name="last_added_media">senast tillagt</string>
+    <string name="auto_last_added_media">Lades senast till</string>
+    <string name="auto_my_library">Mitt bibliotek</string>
+    <string name="auto_home">Hem</string>
     <string name="no">Nej</string>
     <string name="loading_medialibrary">Läser in mediabibliotek…</string>
     <string name="yes">Ja</string>
@@ -736,5 +738,23 @@
     <string name="mark_all_as_played">Markera alla som uppspelade</string>
     <string name="new_group">Ny grupp</string>
     <string name="new_group_desc">Skapa en ny grupp</string>
+
+    <string name="air_action_rewind">Spola tillbaka 10 s</string>
+    <string name="air_action_forward">Hoppa framåt 10 s</string>
+    <string name="air_action_play_pause">Pausa/återuppta uppspelning</string>
+    <string name="air_action_volume_up">Höj volymen</string>
+    <string name="air_action_volume_down">Sänk volymen</string>
+    <string name="air_action_next">Nästa objekt i spellistan</string>
+    <string name="air_action_previous">Föregående objekt i spellistan</string>
+    <string name="allow_otg">Tillåt OTG-åtkomst</string>
+    <string name="allow_otg_description">Välj din OTG-enhet att ge åtkomst till VLC.</string>
+    <string name="timeout_infinite">Oändlig</string>
+    <string name="timeout_short">Kort</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Lång</string>
+    <string name="video_hud_timeout">Fördröjning innan videospelarens kontroller döljs</string>
+    <string name="remove_from_history">Ta bort från historiken</string>
+    <string name="prefersmbv1">Föredra SMB 1</string>
+    <string name="prefersmbv1_summary">Avmarkera denna inställning om du har problem med att bläddra i din SMB-server</string>
 
 </resources>
