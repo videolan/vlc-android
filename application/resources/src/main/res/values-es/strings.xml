@@ -502,7 +502,7 @@
     <string name="ml_external_storage_msg">¿Desea que VLC añada el dispositivo %1$s a su biblioteca?</string>
     <string name="ml_external_storage_accept">Sí</string>
     <string name="ml_external_storage_decline">No</string>
-    <string name="last_added_media">último añadido</string>
+    <string name="auto_last_added_media">Último añadido</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Cargando blbliteca…</string>
     <string name="yes">Sí</string>
@@ -734,5 +734,16 @@
 
     <string name="mark_as_played">Marcar como reproducido</string>
     <string name="mark_all_as_played">Marcar todo como reproducido</string>
+    <string name="new_group">Nuevo grupo</string>
+    <string name="new_group_desc">Crear nuevo grupo</string>
 
+    <string name="air_action_rewind">Retroceder 10 seg</string>
+    <string name="air_action_forward">Avanzar 10 seg</string>
+    <string name="air_action_play_pause">Pausar/continuar reproducción</string>
+    <string name="air_action_volume_up">Subir volumen</string>
+    <string name="air_action_volume_down">Bajar volumen</string>
+    <string name="air_action_next">Siguiente elemento en reproducción</string>
+    <string name="air_action_previous">Anterior elemento en reproducción</string>
+    <string name="allow_otg">Permitir acceso OTG</string>
+    <string name="allow_otg_description">Seleccione su unidad OTG para permitir acceso a VLC.</string>
 </resources>
