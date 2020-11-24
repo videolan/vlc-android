@@ -437,7 +437,6 @@
     <string name="ml_external_storage_msg">Ali želite dodati napravo %1$s v zbirko predstavnih predmetov?</string>
     <string name="ml_external_storage_accept">Da</string>
     <string name="ml_external_storage_decline">Ne</string>
-    <string name="last_added_media">nazadnje dodano</string>
     <string name="no">Ne</string>
     <string name="loading_medialibrary">Poteka nalaganje predstavne knjižnice …</string>
     <string name="yes">Da</string>
