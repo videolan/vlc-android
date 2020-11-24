@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">Vuoi che VLC aggiunga il dispositivo %1$s alla tua raccolta multimediale?</string>
     <string name="ml_external_storage_accept">Sì</string>
     <string name="ml_external_storage_decline">No</string>
-    <string name="last_added_media">Ultime aggiunte</string>
+    <string name="auto_last_added_media">Ultimi aggiunti</string>
+    <string name="auto_my_library">La mia raccolta</string>
+    <string name="auto_home">Home</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Caricamento raccolta multimediale…</string>
     <string name="yes">Sì</string>
@@ -736,5 +738,23 @@
     <string name="mark_all_as_played">Marca tutti come riprodotti</string>
     <string name="new_group">Nuovo gruppo</string>
     <string name="new_group_desc">Crea un nuovo gruppo</string>
+
+    <string name="air_action_rewind">Riavvolgi 10 sec</string>
+    <string name="air_action_forward">Posiziona in avanti 10 sec</string>
+    <string name="air_action_play_pause">Sospendi/Riprendi riproduzione</string>
+    <string name="air_action_volume_up">Aumenta volume</string>
+    <string name="air_action_volume_down">Riduci volume</string>
+    <string name="air_action_next">Elemento successivo in riproduzione</string>
+    <string name="air_action_previous">Elemento precedente in riproduzione</string>
+    <string name="allow_otg">Consenti accesso OTG</string>
+    <string name="allow_otg_description">Seleziona il tuo drive OTG per consentire l\'accesso a VLC.</string>
+    <string name="timeout_infinite">Infinito</string>
+    <string name="timeout_short">Breve</string>
+    <string name="timeout_normal">Normale</string>
+    <string name="timeout_long">Lungo</string>
+    <string name="video_hud_timeout">Ritardo di occultamento dei controlli del lettore video</string>
+    <string name="remove_from_history">Rimuovi dalla cronologia</string>
+    <string name="prefersmbv1">Preferisci SMB 1</string>
+    <string name="prefersmbv1_summary">Deseleziona questa impostazione se hai difficoltà a sfogliare il tuo server SMB</string>
 
 </resources>
