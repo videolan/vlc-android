@@ -489,7 +489,6 @@
     <string name="ml_external_storage_msg">Vil du have at VLC skal tilføje enheden %1$s til dit mediebibliotek?</string>
     <string name="ml_external_storage_accept">Ja</string>
     <string name="ml_external_storage_decline">Nej</string>
-    <string name="last_added_media">sidst tilføjet</string>
     <string name="no">Nej</string>
     <string name="loading_medialibrary">Indlæser mediebibliotek…</string>
     <string name="yes">Ja</string>
