@@ -503,7 +503,9 @@
     <string name="ml_external_storage_msg">%1$s ഉപകരണം വിഎൽസി മീഡിയ ലൈബ്രറിയിലേക്ക് ചേർക്കുവാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവോ ?</string>
     <string name="ml_external_storage_accept">അതെ</string>
     <string name="ml_external_storage_decline">ഇല്ല</string>
-    <string name="last_added_media">അവസാനം ചേര്‍ത്തവ</string>
+    <string name="auto_last_added_media">അവസാനം ചേർത്തത്</string>
+    <string name="auto_my_library">എന്റെ ശേഖരം</string>
+    <string name="auto_home">പൂമുഖം</string>
     <string name="no">അല്ല</string>
     <string name="loading_medialibrary">മീഡിയ ലൈബ്രറി ലോഡ് ചെയ്തുകൊണ്ടിരിക്കുന്നു...</string>
     <string name="yes">അതെ</string>
@@ -735,7 +737,24 @@
 
     <string name="mark_as_played">പ്രവർത്തപ്പിച്ചതായി രേഖപ്പെടുത്തുക</string>
     <string name="mark_all_as_played">എല്ലാം പ്രവർത്തപ്പിച്ചതായി രേഖപ്പെടുത്തുക</string>
-    <string name="new_group">പുതിയ വിഭാഗം</string>
-    <string name="new_group_desc">പുതിയ വിഭാഗം ഉണ്ടാക്കുക</string>
+    <string name="new_group">പുതിയ കൂട്ടായ്മ</string>
+    <string name="new_group_desc">പുതിയ കൂട്ടായ്മ ഉണ്ടാക്കുക</string>
+
+    <string name="air_action_rewind">10 സെക്കന്റ് പുറകോട്ട്</string>
+    <string name="air_action_forward">10 സെക്കന്റ് മുന്നോട്ട് നീക്കുക </string>
+    <string name="air_action_play_pause">പ്ലേബാക്ക് തത്കാലം നിർത്തുക / തുടരുക</string>
+    <string name="air_action_volume_up">ശബ്ദം കൂട്ടുക</string>
+    <string name="air_action_volume_down">ശബ്ദം കുറയ്ക്കുക</string>
+    <string name="air_action_next">പ്ലേബാക്കിലെ അടുത്ത ഇനം</string>
+    <string name="air_action_previous">പ്ലേബാക്കിലെ മുമ്പത്തെ ഇനം</string>
+    <string name="allow_otg">ഓടിജി അനുമതി നൽകുക</string>
+    <string name="allow_otg_description">വി‌എൽ‌സിയിലേക്ക് പ്രവേശനം അനുവദിക്കുന്നതിന് ദയവായി നിങ്ങളുടെ ഒടിജി ഡ്രൈവ് തിരഞ്ഞെടുക്കുക.</string>
+    <string name="timeout_infinite">അനന്തമായ</string>
+    <string name="timeout_short">ഹ്രസ്വം</string>
+    <string name="timeout_normal">സാധാരണ</string>
+    <string name="timeout_long">നീളമുള്ള</string>
+    <string name="video_hud_timeout">വീഡിയോ പ്ലെയർ മറയ്ക്കൽ കാലതാമസം നിയന്ത്രിക്കുന്നു</string>
+    <string name="prefersmbv1">SMB 1 തിരഞ്ഞെടുക്കുക</string>
+    <string name="prefersmbv1_summary">നിങ്ങളുടെ SMB സെർവർ ബ്രൗസുചെയ്യുന്നതിന് എന്തെങ്കിലും ബുദ്ധിമുട്ടുകൾ ഉണ്ടെങ്കിൽ ഈ ക്രമീകരണം നിരാകരിക്കുക ചെയ്യുക</string>
 
 </resources>
