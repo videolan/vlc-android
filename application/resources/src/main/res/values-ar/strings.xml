@@ -499,7 +499,6 @@
     <string name="ml_external_storage_msg">هل تريد من VLC إضافة الجهاز %1$s إلى ماسح الوسائط؟</string>
     <string name="ml_external_storage_accept">نعم</string>
     <string name="ml_external_storage_decline">لا</string>
-    <string name="last_added_media">آخِر إضافة</string>
     <string name="no">لا</string>
     <string name="loading_medialibrary">تحميل ماسح الوسائط...</string>
     <string name="yes">نعم</string>
