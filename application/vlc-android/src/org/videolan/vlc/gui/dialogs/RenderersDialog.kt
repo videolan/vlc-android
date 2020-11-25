@@ -109,7 +109,7 @@ class RenderersDialog : DialogFragment() {
             dismissAllowingStateLoss()
             item?.run {
                 activity?.window?.findViewById<View>(R.id.audio_player_container)?.let {
-                    UiTools.snacker(it, getString(R.string.casting_connected_renderer, displayName))
+                    UiTools.snacker(requireActivity(), getString(R.string.casting_connected_renderer, displayName))
                 }
             }
         }

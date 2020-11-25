@@ -127,7 +127,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
             return
         }
         val v = view ?: return
-        lifecycleScope.snackerConfirm(v,getString(R.string.confirm_delete_several_media, items.size)) {
+        lifecycleScope.snackerConfirm(requireActivity(), getString(R.string.confirm_delete_several_media, items.size)) {
             for (item in items) {
                 if (!isStarted()) break
                 when(item) {
@@ -142,7 +142,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
         val view = view ?: return false
         when (item) {
-            is Playlist -> lifecycleScope.snackerConfirm(view, getString(R.string.confirm_delete_playlist, item.title)) { MediaUtils.deletePlaylist(item) }
+            is Playlist -> lifecycleScope.snackerConfirm(requireActivity(), getString(R.string.confirm_delete_playlist, item.title)) { MediaUtils.deletePlaylist(item) }
             is MediaWrapper-> {
                 val deleteAction = Runnable {
                     if (isStarted()) lifecycleScope.launch {
@@ -150,7 +150,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                     }
                 }
                 val resid = if (item.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-                lifecycleScope.snackerConfirm(view, getString(resid, item.getTitle())) { if (Permissions.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() }
+                lifecycleScope.snackerConfirm(requireActivity(), getString(resid, item.getTitle())) { if (Permissions.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() }
             }
             is Album -> {
                 val deleteAction = Runnable {
@@ -159,7 +159,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
                     }
                 }
                 val resid = R.string.confirm_delete_album
-                lifecycleScope.snackerConfirm(view, getString(resid, item.getTitle())) { if (item.tracks.any { Permissions.checkWritePermission(requireActivity(), it, deleteAction) }) deleteAction.run() }
+                lifecycleScope.snackerConfirm(requireActivity(), getString(resid, item.getTitle())) { if (item.tracks.any { Permissions.checkWritePermission(requireActivity(), it, deleteAction) }) deleteAction.run() }
             }
             else -> return false
         }
@@ -167,7 +167,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : BaseFragment(), Filtera
     }
 
     private fun onDeleteFailed(item: MediaLibraryItem) {
-        if (isAdded) view?.let { UiTools.snacker(it, getString(R.string.msg_delete_failed, item.title)) }
+        if (isAdded) UiTools.snacker(requireActivity(), getString(R.string.msg_delete_failed, item.title))
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

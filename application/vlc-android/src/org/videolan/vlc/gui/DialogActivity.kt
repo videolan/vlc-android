@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui
 
 import android.os.Bundle
+import android.view.View
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Dialog
@@ -36,6 +37,7 @@ import org.videolan.vlc.util.showVlcDialog
 
 @ExperimentalCoroutinesApi
 class DialogActivity : BaseActivity() {
+    override fun getSnackAnchorView(): View? = findViewById<View>(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

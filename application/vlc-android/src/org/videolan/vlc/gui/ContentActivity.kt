@@ -118,8 +118,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
                 if (!PlaybackService.hasRenderer() && RendererDelegate.renderers.size == 1) {
                     val renderer = RendererDelegate.renderers.value[0]
                     PlaybackService.renderer.value = renderer
-                    val v = findViewById<View>(R.id.audio_player_container)
-                    if (v != null) UiTools.snacker(v, getString(R.string.casting_connected_renderer, renderer.displayName))
+                    UiTools.snacker(this, getString(R.string.casting_connected_renderer, renderer.displayName))
                 } else if (supportFragmentManager.findFragmentByTag("renderers") == null)
                     RenderersDialog().show(supportFragmentManager, "renderers")
                 return true

@@ -22,6 +22,7 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var settings: SharedPreferences
 
     open val displayTitle = false
+    abstract fun getSnackAnchorView(): View?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         settings = Settings.getInstance(this)
