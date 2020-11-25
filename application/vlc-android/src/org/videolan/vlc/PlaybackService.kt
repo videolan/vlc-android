@@ -92,6 +92,7 @@ private const val TAG = "VLC/PlaybackService"
 class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
+    internal var enabledActions = PLAYBACK_BASE_ACTIONS
     lateinit var playlistManager: PlaylistManager
         private set
     val mediaplayer: MediaPlayer
@@ -927,6 +928,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         val update = mediaSession.isActive != mediaIsActive
         updateMediaQueueSlidingWindow()
         mediaSession.setPlaybackState(pscb.build())
+        enabledActions = actions
         mediaSession.isActive = mediaIsActive
         mediaSession.setQueueTitle(getString(R.string.music_now_playing))
         if (update) {
