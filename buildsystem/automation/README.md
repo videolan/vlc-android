@@ -30,7 +30,7 @@ Available lanes:
 
 ### Deployment
 
-Once the build is done by the CI and signed, copy the apks into this directory
+Once the build is done by the CI and signed, copy the apks into this directory or you can use the `FASTLANE_APK_PATH` env var to tell fastlane the path to use (relative path only) 
 
 #### Play Store:
 
