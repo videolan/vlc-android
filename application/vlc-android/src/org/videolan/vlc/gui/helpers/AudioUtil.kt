@@ -64,7 +64,7 @@ object AudioUtil {
             return
         }
         val view = window.decorView.findViewById(R.id.coordinator) ?: window.decorView
-        lifecycleScope.snackerConfirm(view, getString(R.string.set_song_question, song.title)) {
+        lifecycleScope.snackerConfirm(this, getString(R.string.set_song_question, song.title)) {
             val newRingtone = AndroidUtil.UriToFile(song.uri)
             if (!withContext(Dispatchers.IO) { newRingtone.exists() }) {
                 Toast.makeText(applicationContext, getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show()

@@ -411,7 +411,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
             state.update(0, true)
             binding.equalizerPresets.setSelection(0)
             val message = getString(org.videolan.vlc.R.string.custom_set_deleted_message, oldName)
-            UiTools.snackerWithCancel(binding.root, message, null, cancelAction)
+            UiTools.snackerWithCancel(requireActivity(), message, null, cancelAction)
         }
     }
 
@@ -442,7 +442,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
             getString(org.videolan.vlc.R.string.custom_set_restored)
         else
             getString(org.videolan.vlc.R.string.unsaved_set_deleted_message)
-        UiTools.snackerWithCancel(binding.root, message, null, cancelAction)
+        UiTools.snackerWithCancel(requireActivity(), message, null, cancelAction)
     }
 
     private fun updateEqualizer(pos: Int) = lifecycleScope.launch(start = CoroutineStart.UNDISPATCHED) {

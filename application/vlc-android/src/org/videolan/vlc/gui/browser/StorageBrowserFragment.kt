@@ -257,7 +257,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Brows
             val path = input.text.toString().trim { it <= ' ' }
             val f = File(path)
             if (!f.exists() || !f.isDirectory) {
-                UiTools.snacker(view!!, getString(R.string.directorynotfound, path))
+                UiTools.snacker(requireActivity(), getString(R.string.directorynotfound, path))
                 return@OnClickListener
             }
 

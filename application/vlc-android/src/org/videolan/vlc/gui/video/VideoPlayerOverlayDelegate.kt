@@ -370,7 +370,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
                 it.setVisible()
                 hudRightBinding = DataBindingUtil.bind(player.findViewById(R.id.hud_right_overlay)) ?: return
                 if (!player.isBenchmark && player.enableCloneMode && !player.settings.contains("enable_clone_mode")) {
-                    UiTools.snackerConfirm(hudRightBinding.videoSecondaryDisplay, player.getString(R.string.video_save_clone_mode), Runnable { player.settings.putSingle("enable_clone_mode", true) })
+                    UiTools.snackerConfirm(player, player.getString(R.string.video_save_clone_mode)) { player.settings.putSingle("enable_clone_mode", true) }
                 }
             }
 

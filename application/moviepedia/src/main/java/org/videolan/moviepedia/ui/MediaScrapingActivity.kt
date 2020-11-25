@@ -52,6 +52,7 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
     private lateinit var media: MediaWrapper
     private lateinit var binding: MoviepediaActivityBinding
     private val clickHandler = ClickHandler()
+    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

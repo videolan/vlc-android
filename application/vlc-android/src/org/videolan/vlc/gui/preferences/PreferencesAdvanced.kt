@@ -117,7 +117,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             }
             "dump_media_db" -> {
                 if (Medialibrary.getInstance().isWorking)
-                    view?.let { UiTools.snacker(it, getString(R.string.settings_ml_block_scan)) }
+                    UiTools.snacker(requireActivity(), getString(R.string.settings_ml_block_scan))
                 else {
                     val dst = File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)
                     lifecycleScope.launch {
@@ -147,7 +147,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         putInt("network_caching_value", 0)
                         val networkCachingPref = findPreference<EditTextPreference>(key)
                         networkCachingPref?.text = ""
-                        UiTools.snacker(requireView(), R.string.network_caching_popup)
+                        UiTools.snacker(requireActivity(), R.string.network_caching_popup)
                     }
                 }
                 restartLibVLC()
@@ -157,7 +157,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 try {
                     VLCInstance.restart()
                 } catch (e: IllegalStateException){
-                    view?.let { UiTools.snacker(it, R.string.custom_libvlc_options_invalid) }
+                    UiTools.snacker(requireActivity(), R.string.custom_libvlc_options_invalid)
                     sharedPreferences.putSingle("custom_libvlc_options", "")
                 } finally {
                     (activity as? PreferencesActivity)?.restartMediaPlayer()

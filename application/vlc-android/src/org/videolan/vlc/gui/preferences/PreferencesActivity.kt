@@ -41,6 +41,7 @@ class PreferencesActivity : BaseActivity() {
 
     private var mAppBarLayout: AppBarLayout? = null
     override val displayTitle = true
+    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

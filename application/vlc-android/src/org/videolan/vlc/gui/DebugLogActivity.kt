@@ -81,7 +81,7 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
         val clipboard = applicationContext.getSystemService<ClipboardManager>()!!
         clipboard.setPrimaryClip(ClipData.newPlainText(null, buffer))
 
-        UiTools.snacker(v.rootView, R.string.copied_to_clipboard)
+        UiTools.snacker(this, R.string.copied_to_clipboard)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
