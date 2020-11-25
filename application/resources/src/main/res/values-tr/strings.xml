@@ -42,7 +42,7 @@
     <string name="resume_playback_short_title">Oynatmayı sürdür</string>
     <string name="resume_playback_long_title">Son oynatma listesini oynatmayı sürdürür</string>
     <string name="delete">Sil</string>
-    <string name="remove">Ç:ıkar</string>
+    <string name="remove">Çıkar</string>
     <string name="set_song">Zil sesi olarak ayarla</string>
     <string name="set_song_question">\'%1$s\' zil sesi olarak ayarlansın mı?</string>
     <string name="info">Bilgiler</string>
@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">%1$s aygıtının ortam kitaplığı olarak eklenmesini ister misiniz?</string>
     <string name="ml_external_storage_accept">Evet</string>
     <string name="ml_external_storage_decline">Hayır</string>
-    <string name="last_added_media">son eklenen</string>
+    <string name="auto_last_added_media">Son eklenen</string>
+    <string name="auto_my_library">Kitaplığım</string>
+    <string name="auto_home">Ana sayfa</string>
     <string name="no">Hayır</string>
     <string name="loading_medialibrary">Ortam Kitaplığı Yükleniyor…</string>
     <string name="yes">Evet</string>
@@ -736,5 +738,23 @@
     <string name="mark_all_as_played">Tümünü oynatılmış olarak işaretle</string>
     <string name="new_group">Grup ekle</string>
     <string name="new_group_desc">Yeni bir grup ekler</string>
+
+    <string name="air_action_rewind">10 saniye geri atla</string>
+    <string name="air_action_forward">10 saniye ileri atla</string>
+    <string name="air_action_play_pause">Oynatmayı Duraklat/Sürdür</string>
+    <string name="air_action_volume_up">Sesi aç</string>
+    <string name="air_action_volume_down">Sesi kıs</string>
+    <string name="air_action_next">Oynatma listesinde sonraki öge</string>
+    <string name="air_action_previous">Oynatma listesinde önceki öge</string>
+    <string name="allow_otg">OTG erişimi kullanılsın</string>
+    <string name="allow_otg_description">VLC tarafından erişilmesini istediğiniz OTG sürücüsünü seçin.</string>
+    <string name="timeout_infinite">Sonsuz</string>
+    <string name="timeout_short">Kısa</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Uzun</string>
+    <string name="video_hud_timeout">Görüntü oynatıcı denetimlerini gizleme gecikmesi</string>
+    <string name="remove_from_history">Geçmiş kaydını sil</string>
+    <string name="prefersmbv1">SMB 1 yeğlensin</string>
+    <string name="prefersmbv1_summary">SMB sunucunuza erişmekte sorun yaşıyorsanız bu seçeneği devre dışı bırakın</string>
 
 </resources>
