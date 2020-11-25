@@ -268,7 +268,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             if (!isFinishing && fromUser && service?.isSeekable == true) {
-                seek(progress.toLong())
+                seek(progress.toLong(), fromUser)
                 overlayDelegate.showInfo(Tools.millisToString(progress.toLong()), 1000)
             }
             if (fromUser) {
@@ -1545,15 +1545,15 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    fun seek(position: Long) {
-        service?.let { seek(position, it.length) }
+    fun seek(position: Long, fromUser: Boolean = false) {
+        service?.let { seek(position, it.length, fromUser) }
     }
 
-    internal fun seek(position: Long, length: Long) {
+    internal fun seek(position: Long, length: Long, fromUser: Boolean = false) {
         service?.let { service ->
             forcedTime = position
             lastTime = service.time
-            service.seek(position, length.toDouble())
+            service.seek(position, length.toDouble(), fromUser)
             service.playlistManager.player.updateProgress(position)
         }
     }
