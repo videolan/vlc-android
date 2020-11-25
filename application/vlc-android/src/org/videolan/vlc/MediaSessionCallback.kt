@@ -1,10 +1,12 @@
 package org.videolan.vlc
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import android.view.KeyEvent
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
@@ -23,10 +25,12 @@ import kotlin.math.min
 
 @Suppress("unused")
 private const val TAG = "VLC/MediaSessionCallback"
+private const val TEN_SECONDS = 10000L
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 internal class MediaSessionCallback(private val playbackService: PlaybackService) : MediaSessionCompat.Callback() {
+    private var prevActionSeek = false
 
     override fun onPlay() {
         if (playbackService.hasMedia()) playbackService.play()
@@ -42,7 +46,58 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 true
             } else false
         }
+        /**
+         * Implement fast forward and rewind behavior by directly handling the previous and next button events.
+         * Normally the buttons are triggered on ACTION_DOWN; however, we ignore the ACTION_DOWN event when
+         * isAndroidAutoHardKey returns true, and perform the operation on the ACTION_UP event instead. If the previous or
+         * next button is held down, a callback occurs with the long press flag set. When a long press is received,
+         * invoke the onFastForward() or onRewind() methods, and set the prevActionSeek flag. The ACTION_UP event
+         * action is bypassed if the flag is set. The prevActionSeek flag is reset to false for the next invocation.
+         */
+        if (isAndroidAutoHardKey(keyEvent) && (keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS || keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_NEXT)) {
+            when (keyEvent.action) {
+                KeyEvent.ACTION_DOWN -> {
+                    if (playbackService.isSeekable && keyEvent.isLongPress) {
+                        when (keyEvent.keyCode) {
+                            KeyEvent.KEYCODE_MEDIA_NEXT -> onFastForward()
+                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> onRewind()
+                        }
+                        prevActionSeek = true
+                    }
+                }
+                KeyEvent.ACTION_UP -> {
+                    if (!prevActionSeek) {
+                        val enabledActions = playbackService.enabledActions
+                        when (keyEvent.keyCode) {
+                            KeyEvent.KEYCODE_MEDIA_NEXT -> if ((enabledActions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT) != 0L) onSkipToNext()
+                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> if ((enabledActions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS) != 0L) onSkipToPrevious()
+                        }
+                    }
+                    prevActionSeek = false
+                }
+            }
+            return true
+        }
         return super.onMediaButtonEvent(mediaButtonEvent)
+    }
+
+    /**
+     * This function is based on the following KeyEvent captures. This may need to be updated if the behavior changes in the future.
+     *
+     * KeyEvent from Media Control UI:
+     * {action=ACTION_DOWN, keyCode=KEYCODE_MEDIA_NEXT, scanCode=0, metaState=0, flags=0x0, repeatCount=0, eventTime=0, downTime=0, deviceId=-1, source=0x0, displayId=0}
+     *
+     * KeyEvent from Android Auto Steering Wheel Control:
+     * {action=ACTION_DOWN, keyCode=KEYCODE_MEDIA_NEXT, scanCode=0, metaState=0, flags=0x4, repeatCount=0, eventTime=0, downTime=0, deviceId=0, source=0x0, displayId=0}
+     *
+     * KeyEvent from Android Auto Steering Wheel Control, Holding Switch (Long Press):
+     * {action=ACTION_DOWN, keyCode=KEYCODE_MEDIA_NEXT, scanCode=0, metaState=0, flags=0x84, repeatCount=1, eventTime=0, downTime=0, deviceId=0, source=0x0, displayId=0}
+     */
+    @SuppressLint("LongLogTag")
+    private fun isAndroidAutoHardKey(keyEvent: KeyEvent): Boolean {
+        val carMode = AndroidDevices.isCarMode(playbackService.applicationContext)
+        if (carMode) Log.i(TAG, "Android Auto Key Press: $keyEvent")
+        return carMode && keyEvent.deviceId == 0 && (keyEvent.flags and KeyEvent.FLAG_KEEP_TOUCH_MODE != 0)
     }
 
     override fun onCustomAction(action: String?, extras: Bundle?) {
@@ -162,9 +217,9 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onSeekTo(pos: Long) = playbackService.seek(if (pos < 0) playbackService.time + pos else pos, fromUser = true)
 
-    override fun onFastForward() = playbackService.seek(Math.min(playbackService.length, playbackService.time + 5000))
+    override fun onFastForward() = playbackService.seek((playbackService.time + TEN_SECONDS).coerceAtMost(playbackService.length), fromUser = true)
 
-    override fun onRewind() = playbackService.seek(Math.max(0, playbackService.time - 5000))
+    override fun onRewind() = playbackService.seek((playbackService.time - TEN_SECONDS).coerceAtLeast(0), fromUser = true)
 
     override fun onSkipToQueueItem(id: Long) {
         playbackService.playIndex(id.toInt())
