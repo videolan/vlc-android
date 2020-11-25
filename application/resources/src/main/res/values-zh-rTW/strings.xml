@@ -493,7 +493,9 @@
     <string name="ml_external_storage_msg">是否同意 VLC 將裝置 %1$s 加到媒體櫃？</string>
     <string name="ml_external_storage_accept">是</string>
     <string name="ml_external_storage_decline">否</string>
-    <string name="last_added_media">最近加入</string>
+    <string name="auto_last_added_media">最近加入</string>
+    <string name="auto_my_library">我的媒體櫃</string>
+    <string name="auto_home">Home</string>
     <string name="no">否</string>
     <string name="loading_medialibrary">正在載入媒體櫃...</string>
     <string name="yes">是</string>
@@ -725,5 +727,23 @@
     <string name="mark_all_as_played">全部標記為已播放</string>
     <string name="new_group">新群組</string>
     <string name="new_group_desc">建立新群組</string>
+
+    <string name="air_action_rewind">倒帶10秒</string>
+    <string name="air_action_forward">快轉10秒</string>
+    <string name="air_action_play_pause">暫停／繼續播放</string>
+    <string name="air_action_volume_up">音量上升</string>
+    <string name="air_action_volume_down">音量下降</string>
+    <string name="air_action_next">播放中的下一項</string>
+    <string name="air_action_previous">播放中的前一項</string>
+    <string name="allow_otg">允許 OTG 存取</string>
+    <string name="allow_otg_description">請選取您的 OTG 磁碟以允許 VLC 存取。</string>
+    <string name="timeout_infinite">無限</string>
+    <string name="timeout_short">短</string>
+    <string name="timeout_normal">正常</string>
+    <string name="timeout_long">長</string>
+    <string name="video_hud_timeout">影片播放器控制介面隱藏延遲</string>
+    <string name="remove_from_history">從歷史紀錄中移除</string>
+    <string name="prefersmbv1">偏好 SMB 1</string>
+    <string name="prefersmbv1_summary">如果您在瀏覽您的 SMB 伺服器時遇到一些問題，請取消勾選此設定</string>
 
 </resources>
