@@ -493,7 +493,9 @@
     <string name="ml_external_storage_msg">%1$s 장치를 VLC의 미디어 라이브러리에 추가할까요?</string>
     <string name="ml_external_storage_accept">예</string>
     <string name="ml_external_storage_decline">아니오</string>
-    <string name="last_added_media">마지막에 추가됨</string>
+    <string name="auto_last_added_media">최근 추가</string>
+    <string name="auto_my_library">내 라이브러리</string>
+    <string name="auto_home">홈</string>
     <string name="no">아니오</string>
     <string name="loading_medialibrary">미디어 라이브러리 불러오는 중…</string>
     <string name="yes">예</string>
@@ -709,6 +711,7 @@
     <string name="sub_result_by_file">파일에 대한 결과</string>
     <string name="donate">VLC에 도움 주기</string>
     <string name="donate_desc">VLC 개발 자원자들을 지원하기</string>
+    <string name="donate_subscribtion">월간 후원을 하고 싶습니다</string>
     <string name="donate_send">당신의 후원을 시작하세요</string>
     <string name="donation_description">당신의 후원은 우리가:\nAndroid VLC 앱을 개선하고\nVideoLAN Association을 지원에 도움을 줄 것입니다</string>
     <string name="subscription_purchased">월간 구독에 가입되어 있습니다</string>
@@ -719,5 +722,28 @@
     <string name="thank_you">감사합니다</string>
     <string name="thank_you_desc">구독해주셔서 감사합니다!\nVLC를 개선하는 데에 많은 도움이 될 것입니다!</string>
     <string name="donate_again">앱 다시 후원하기</string>
+
+    <string name="mark_as_played">재생함으로 표시</string>
+    <string name="mark_all_as_played">모두 재생함으로 표시</string>
+    <string name="new_group">새 그룹</string>
+    <string name="new_group_desc">새 그룹 만들기</string>
+
+    <string name="air_action_rewind">10초 되감기</string>
+    <string name="air_action_forward">10초 앞으로 탐색</string>
+    <string name="air_action_play_pause">재생 일시정지/재개</string>
+    <string name="air_action_volume_up">볼륨 높임</string>
+    <string name="air_action_volume_down">볼륨 낮춤</string>
+    <string name="air_action_next">다음 재생 항목</string>
+    <string name="air_action_previous">이전 재생 항목</string>
+    <string name="allow_otg">OTG 접근 허용</string>
+    <string name="allow_otg_description">VLC가 접근할 OTG 드라이브를 선택해 주세요.</string>
+    <string name="timeout_infinite">무한</string>
+    <string name="timeout_short">짧게</string>
+    <string name="timeout_normal">보통</string>
+    <string name="timeout_long">길게</string>
+    <string name="video_hud_timeout">비디오 플레이어 제어 숨기기 지연 시간</string>
+    <string name="remove_from_history">히스토리 제거하기</string>
+    <string name="prefersmbv1">SMB 1 선호</string>
+    <string name="prefersmbv1_summary">SMB 서버를 탐색하는 데에 문제가 있다면 이 설정을 해제하세요</string>
 
 </resources>
