@@ -115,6 +115,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
     private var notificationShowing = false
     private var prevUpdateInCarMode = true
     private var lastTime = 0L
+    private var lastLength = 0L
     private var widget = 0
     /**
      * Last widget position update timestamp
@@ -189,6 +190,12 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 if (wakeLock.isHeld) wakeLock.release()
             }
             MediaPlayer.Event.EncounteredError -> executeUpdate()
+            MediaPlayer.Event.LengthChanged -> {
+                if (lastLength == 0L) {
+                    executeUpdate()
+                    publishState()
+                }
+            }
             MediaPlayer.Event.PositionChanged -> {
                 if (time < 1000L && time < lastTime) publishState()
                 lastTime = time
@@ -842,6 +849,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         if (!this::mediaSession.isInitialized) initMediaSession()
         val ctx = this
         val length = length
+        lastLength = length
         val bob = withContext(Dispatchers.Default) {
             val title = media.nowPlaying ?: media.title
             val coverOnLockscreen = settings.getBoolean("lockscreen_cover", true)
@@ -870,9 +878,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             }
             bob.putLong("shuffle", 1L)
             bob.putLong("repeat", repeatType.toLong())
-            return@withContext bob
+            return@withContext bob.build()
         }
-        if (this@PlaybackService::mediaSession.isInitialized) mediaSession.setMetadata(bob.build())
+        if (this@PlaybackService::mediaSession.isInitialized) mediaSession.setMetadata(bob)
     }
 
     private fun publishState(position: Long? = null) {
