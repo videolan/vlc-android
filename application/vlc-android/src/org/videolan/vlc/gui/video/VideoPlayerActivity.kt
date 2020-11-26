@@ -170,11 +170,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
     var isTv: Boolean = false
 
-    // Tracks & Subtitles
-    var audioTracksList: Array<MediaPlayer.TrackDescription>? = null
-    private var videoTracksList: Array<MediaPlayer.TrackDescription>? = null
-    var subtitleTracksList: Array<MediaPlayer.TrackDescription>? = null
-
     /**
      * Flag to indicate whether the media should be paused once loaded
      * (e.g. lock screen, or to restore the pause state)
@@ -1206,7 +1201,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     if (menuIdx == -1) {
                         val mw = service.currentMediaWrapper ?: return
                         if (event.esChangedType == IMedia.Track.Type.Audio) {
-                            setESTrackLists()
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
                                 val audioTrack = media.getMetaLong(MediaWrapper.META_AUDIOTRACK).toInt()
@@ -1214,7 +1208,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                     service.setAudioTrack(if (media.id == 0L) currentAudioTrack else audioTrack)
                             }
                         } else if (event.esChangedType == IMedia.Track.Type.Text) {
-                            setESTrackLists()
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
                                 val spuTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()
@@ -1240,14 +1233,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             }
                         }
                     }
-                    invalidateESTracks(event.esChangedType)
                 }
                 MediaPlayer.Event.ESDeleted -> {
                     if (menuIdx == -1 && event.esChangedType == IMedia.Track.Type.Video) {
                         handler.removeMessages(CHECK_VIDEO_TRACKS)
                         handler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000)
                     }
-                    invalidateESTracks(event.esChangedType)
                 }
                 MediaPlayer.Event.ESSelected -> if (event.esChangedType == IMedia.Track.Type.Video) {
                     val vt = service.currentVideoTrack
@@ -1589,13 +1580,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         window.decorView.systemUiVisibility = visibility
     }
 
-    private fun invalidateESTracks(type: Int) {
-        when (type) {
-            IMedia.Track.Type.Audio -> audioTracksList = null
-            IMedia.Track.Type.Text -> subtitleTracksList = null
-        }
-    }
-
     private fun setESTracks() {
         if (lastAudioTrack >= -1) {
             service?.setAudioTrack(lastAudioTrack)
@@ -1604,18 +1588,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (lastSpuTrack >= -1) {
             service?.setSpuTrack(lastSpuTrack)
             lastSpuTrack = -2
-        }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun setESTrackLists() {
-        service?.let { service ->
-            if (audioTracksList == null && service.audioTracksCount > 0)
-                audioTracksList = service.audioTracks as Array<MediaPlayer.TrackDescription>?
-            if (subtitleTracksList == null && service.spuTracksCount > 0)
-                subtitleTracksList = service.spuTracks as Array<MediaPlayer.TrackDescription>?
-            if (videoTracksList == null && service.videoTracksCount > 0)
-                videoTracksList = service.videoTracks as Array<MediaPlayer.TrackDescription>?
         }
     }
 
