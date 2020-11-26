@@ -109,8 +109,8 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         get() = isAudioPlayerReady && playerBehavior.state == STATE_EXPANDED
 
     override fun getSnackAnchorView(): View? {
-      return  if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && playerBehavior.state == STATE_COLLAPSED)
-          audioPlayerContainer else if (playerBehavior.state == STATE_EXPANDED) findViewById(android.R.id.content) else findViewById(R.id.coordinator) ?: findViewById(android.R.id.content)
+      return  if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && ::playerBehavior.isInitialized && playerBehavior.state == STATE_COLLAPSED)
+          audioPlayerContainer else if (::playerBehavior.isInitialized && playerBehavior.state == STATE_EXPANDED) findViewById(android.R.id.content) else findViewById(R.id.coordinator) ?: findViewById(android.R.id.content)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
