@@ -331,6 +331,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         }
         withContext(Dispatchers.IO) { for (device in missingDevices) {
             val uri = device.toUri()
+            Log.i("MediaParsingService", "Storage management: storage missing: ${uri.path}")
             medialibrary.removeDevice(uri.lastPathSegment, uri.path)
         } }
         serviceLock = false
