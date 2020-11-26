@@ -32,7 +32,7 @@ import android.content.IntentFilter
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.net.Uri
-import androidx.core.content.ContextCompat
+import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -70,6 +70,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         for (action in channel) when (action){
             is MediaMounted -> {
                 if (action.uuid.isEmpty()) return@actor
+                Log.i("ExternalMonitor", "Storage management: mount: ${action.uuid} - ${action.path}")
                 val isNew = ctx.getFromMl {
                     val isNewForMl = !isDeviceKnown(action.uuid, action.path, true)
                     addDevice(action.uuid, action.path, true)
@@ -79,6 +80,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             }
             is MediaUnmounted -> {
                 delay(100L)
+                Log.i("ExternalMonitor", "Storage management: unmount: ${action.uuid} - ${action.path}")
                 Medialibrary.getInstance().removeDevice(action.uuid, action.path)
                 storageChannel.safeOffer(action)
             }
