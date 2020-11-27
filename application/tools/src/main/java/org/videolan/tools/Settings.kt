@@ -97,6 +97,8 @@ const val PLAYBACK_HISTORY = "playback_history"
 const val RESUME_PLAYBACK = "resume_playback"
 const val AUDIO_DUCKING = "audio_ducking"
 
+const val AUDIO_DELAY_GLOBAL = "audio_delay_global"
+
 class DeviceInfo(context: Context) {
     val pm = context.packageManager
     val tm = context.getSystemService<TelephonyManager>()!!
