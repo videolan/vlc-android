@@ -754,6 +754,7 @@
     <string name="timeout_normal">സാധാരണ</string>
     <string name="timeout_long">നീളമുള്ള</string>
     <string name="video_hud_timeout">വീഡിയോ പ്ലെയർ മറയ്ക്കൽ കാലതാമസം നിയന്ത്രിക്കുന്നു</string>
+    <string name="remove_from_history">ചരിത്രത്തിൽ നിന്ന് നീക്കം ചെയ്യുക</string>
     <string name="prefersmbv1">SMB 1 തിരഞ്ഞെടുക്കുക</string>
     <string name="prefersmbv1_summary">നിങ്ങളുടെ SMB സെർവർ ബ്രൗസുചെയ്യുന്നതിന് എന്തെങ്കിലും ബുദ്ധിമുട്ടുകൾ ഉണ്ടെങ്കിൽ ഈ ക്രമീകരണം നിരാകരിക്കുക ചെയ്യുക</string>
 
