@@ -1,7 +1,6 @@
 package org.videolan.vlc.media
 
 import android.content.Intent
-import android.net.Uri
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.widget.Toast
@@ -484,8 +483,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private fun loadMediaMeta(media: MediaWrapper) {
         if (media.id == 0L) return
         if (player.canSwitchToVideo()) {
-            if (settings.getBoolean("save_individual_audio_delay", true))
-                player.setAudioDelay(media.getMetaLong(MediaWrapper.META_AUDIODELAY))
+            val savedDelay = media.getMetaLong(MediaWrapper.META_AUDIODELAY)
+            val globalDelay = Settings.getInstance(AppContextProvider.appContext).getLong(AUDIO_DELAY_GLOBAL, 0L)
+            if (savedDelay == 0L && globalDelay != 0L) {
+                player.setAudioDelay(globalDelay)
+            } else if (settings.getBoolean("save_individual_audio_delay", true)) {
+                player.setAudioDelay(savedDelay)
+            }
+
             player.setSpuTrack(media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt())
             player.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY))
             val rateString = media.getMetaString(MediaWrapper.META_SPEED)

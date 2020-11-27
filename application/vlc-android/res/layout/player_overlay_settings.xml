@@ -3,10 +3,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/delay_container"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
 
     <TextView
             android:id="@+id/delay_title"
@@ -43,9 +43,9 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
+                android:nextFocusRight="@+id/player_delay_plus"
                 android:padding="0dp"
                 android:visibility="invisible"
-                android:nextFocusRight="@+id/player_delay_plus"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/delay_textinfo"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -78,9 +78,9 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:focusable="true"
+                android:nextFocusLeft="@+id/player_delay_minus"
                 android:padding="0dp"
                 android:visibility="invisible"
-                android:nextFocusLeft="@+id/player_delay_minus"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -96,10 +96,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:nextFocusRight="@+id/delay_second_button"
             android:textColor="@color/white"
             app:backgroundTint="@color/player_delay_button_background_tint"
             app:icon="@drawable/ic_delay_done"
-            android:nextFocusRight="@+id/delay_second_button"
             app:iconTint="@color/grey400transparent"
             app:layout_constraintEnd_toStartOf="@+id/delay_second_button"
             app:layout_constraintTop_toBottomOf="@+id/delay_info_container" />
@@ -110,12 +110,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:nextFocusLeft="@+id/delay_first_button"
+            android:nextFocusRight="@+id/delay_reset_button"
             android:textColor="@color/white"
             app:backgroundTint="@color/player_delay_button_background_tint"
             app:icon="@drawable/ic_delay_done"
             app:iconTint="@color/grey400transparent"
-            android:nextFocusLeft="@+id/delay_first_button"
-            android:nextFocusRight="@+id/delay_reset_button"
             app:layout_constraintEnd_toStartOf="@+id/delay_reset_button"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintTop_toBottomOf="@+id/delay_info_container" />
@@ -125,11 +125,27 @@
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/reset"
             android:nextFocusLeft="@+id/delay_second_button"
+            android:text="@string/reset"
             android:textColor="@color/white"
             app:backgroundTint="@color/player_delay_button_background_tint"
             app:iconTint="@color/grey400transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/delay_info_container" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/delay_apply_all"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:nextFocusLeft="@+id/delay_second_button"
+            android:text="@string/apply_to_all"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/player_delay_button_background_tint"
+            app:iconTint="@color/grey400transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/delay_reset_button" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
