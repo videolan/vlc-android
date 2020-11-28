@@ -316,6 +316,8 @@
     <string name="deblocking_nonkey">Nizko odstranjevanje kock</string>
     <string name="deblocking_all">Brez odstranjevanja kock (najhitrejše)</string>
     <string name="enable_time_stretching_audio">Časovno raztegovanje zvoka</string>
+    <string name="enable_time_stretching_audio_summary">Pohitri ali upočasni zvok brez spremembe višine (zahteva zmogljivo napravo)</string>
+
     <string name="advanced_prefs_category">Napredno</string>
     <string name="auto_rescan">Samodejno iskanje</string>
     <string name="auto_rescan_summary">Ob zagonu programa samodejno preišči mape za novo oziroma odstranjeno predstavno vsebino</string>
