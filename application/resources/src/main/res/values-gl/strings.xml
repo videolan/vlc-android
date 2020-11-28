@@ -748,4 +748,13 @@
     <string name="air_action_previous">Elemento anterior a reproducir</string>
     <string name="allow_otg">Permitir acceso OTG</string>
     <string name="allow_otg_description">Seleccione o dispositivo OTG que acceda ao VLC.</string>
+    <string name="timeout_infinite">Infinito</string>
+    <string name="timeout_short">Curto</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Longo</string>
+    <string name="video_hud_timeout">Atraso no ocultamento dos controis do reprodutor</string>
+    <string name="remove_from_history">Retirar do historial</string>
+    <string name="prefersmbv1">Preferir SMB 1</string>
+    <string name="prefersmbv1_summary">Desmarcar este axuste se ten dificultades para navegar polo servidor SMB</string>
+
 </resources>
