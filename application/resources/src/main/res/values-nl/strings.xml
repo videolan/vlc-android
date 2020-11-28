@@ -753,6 +753,7 @@
     <string name="timeout_normal">Normaal</string>
     <string name="timeout_long">Lang</string>
     <string name="video_hud_timeout">Vertraging voor verbergen van videospeler-bediening</string>
+    <string name="remove_from_history">Verwijderen uit geschiedenis</string>
     <string name="prefersmbv1">Voorkeur voor SMB 1</string>
     <string name="prefersmbv1_summary">Vink deze instelling uit als u problemen ondervindt bij het bladeren op uw SMB-server.</string>
 
