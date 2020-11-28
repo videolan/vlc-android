@@ -752,6 +752,7 @@
     <string name="timeout_normal">Normal</string>
     <string name="timeout_long">Largo</string>
     <string name="video_hud_timeout">Tiempo para ocultar controles del reproductor de vídeo</string>
+    <string name="remove_from_history">Quitar del historial</string>
     <string name="prefersmbv1">Preferir SMB 1</string>
     <string name="prefersmbv1_summary">Desactivar esto si tiene problemas para encontrar su servidor SMB</string>
 
