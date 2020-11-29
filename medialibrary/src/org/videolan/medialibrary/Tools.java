@@ -19,11 +19,14 @@ import java.util.regex.Pattern;
 public class Tools {
 
     private static final String TAG = "VLC/Tools";
-    private static StringBuilder sb = new StringBuilder();
-    private static DecimalFormat format = (DecimalFormat) NumberFormat.getInstance(Locale.US);
-    static {
-        format.applyPattern("00");
-    }
+    private static final ThreadLocal<NumberFormat> TWO_DIGITS = new ThreadLocal<NumberFormat>() {
+        @Override
+        protected NumberFormat initialValue() {
+            NumberFormat fmt = NumberFormat.getInstance(Locale.US);
+            if (fmt instanceof DecimalFormat) ((DecimalFormat) fmt).applyPattern("00");
+            return fmt;
+        }
+    };
 
     /*
      * Convert file:// uri from real path to emulated FS path.
@@ -105,7 +108,7 @@ public class Tools {
     }
 
     public static String millisToString(long millis, boolean text, boolean seconds, boolean large) {
-        sb.setLength(0);
+        StringBuilder sb = new StringBuilder();
         if (millis < 0) {
             millis = -millis;
             sb.append("-");
@@ -127,9 +130,9 @@ public class Tools {
                 sb.append(sec).append("s").append(large ? " " : "");
         } else {
             if (hours > 0)
-                sb.append(hours).append(':').append(large ? " " : "").append(format.format(min)).append(':').append(large ? " " : "").append(format.format(sec));
+                sb.append(hours).append(':').append(large ? " " : "").append(TWO_DIGITS.get().format(min)).append(':').append(large ? " " : "").append(TWO_DIGITS.get().format(sec));
             else
-                sb.append(min).append(':').append(large ? " " : "").append(format.format(sec));
+                sb.append(min).append(':').append(large ? " " : "").append(TWO_DIGITS.get().format(sec));
         }
         return sb.toString();
     }
