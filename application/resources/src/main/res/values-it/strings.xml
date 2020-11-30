@@ -756,5 +756,7 @@
     <string name="remove_from_history">Rimuovi dalla cronologia</string>
     <string name="prefersmbv1">Preferisci SMB 1</string>
     <string name="prefersmbv1_summary">Deseleziona questa impostazione se hai difficoltà a sfogliare il tuo server SMB</string>
+    <string name="apply_to_all">Applica a tutti i video</string>
+    <string name="audio_delay_global">Ritardo audio impostato a %s ms per tutti i video</string>
 
 </resources>
