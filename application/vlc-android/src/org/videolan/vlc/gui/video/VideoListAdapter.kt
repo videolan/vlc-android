@@ -169,7 +169,7 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                             progress = (lastTime / 1000).toInt()
                         }
                         if (isListMode && resolution !== null) {
-                            "${Tools.millisToText(item.length)} | $resolution"
+                            "${Tools.millisToText(item.length)}  •  $resolution"
                         } else Tools.millisToText(item.length)
                     } else null
                 }
