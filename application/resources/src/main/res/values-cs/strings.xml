@@ -770,13 +770,15 @@
     <string name="air_action_previous">Přehrát předchozí položku</string>
     <string name="allow_otg">Povolit přístup OTG</string>
     <string name="allow_otg_description">Vyberte svůj disk OTG pro přístup VLC.</string>
-    <string name="timeout_infinite">Trvale</string>
+    <string name="timeout_infinite">Nekonečné</string>
     <string name="timeout_short">Krátké</string>
     <string name="timeout_normal">Normální</string>
     <string name="timeout_long">Dlouhé</string>
-    <string name="video_hud_timeout">Skrytí zpoždění přehrávače videa</string>
+    <string name="video_hud_timeout">Zpoždění skrytí ovladačů přehrávače videa</string>
     <string name="remove_from_history">Odstranit z Historie</string>
     <string name="prefersmbv1">Povolit SMB 1</string>
     <string name="prefersmbv1_summary">Zakázat, pokud jsou potíže s procházením serveru SMB.</string>
+    <string name="apply_to_all">Použít na všechna videa</string>
+    <string name="audio_delay_global">Zpoždění zvuku u všech videí nastaveno na %s ms</string>
 
 </resources>
