@@ -756,5 +756,7 @@
     <string name="remove_from_history">Aus dem Verlauf entfernen</string>
     <string name="prefersmbv1">SMB 1 bevorzugen</string>
     <string name="prefersmbv1_summary">Wenn Sie Probleme beim Durchsuchen Ihres SMB-Servers haben, bitte diese Einstellung deaktivieren</string>
+    <string name="apply_to_all">Auf alle Videos anwenden</string>
+    <string name="audio_delay_global">Tonverzögerung für alle Videos auf %s ms gesetzt</string>
 
 </resources>
