@@ -110,6 +110,7 @@ import kotlin.math.roundToInt
 @ExperimentalCoroutinesApi
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher {
 
+    private var subtitlesExtraPath: String? = null
     private lateinit var startedScope : CoroutineScope
     var service: PlaybackService? = null
     lateinit var medialibrary: Medialibrary
@@ -1189,7 +1190,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             when (event.type) {
                 MediaPlayer.Event.Playing -> onPlaying()
                 MediaPlayer.Event.Paused -> overlayDelegate.updateOverlayPausePlay()
-                MediaPlayer.Event.Opening -> forcedTime = -1
+                MediaPlayer.Event.Opening -> {
+                    forcedTime = -1
+                    if (!subtitlesExtraPath.isNullOrEmpty()) {
+                        service.addSubtitleTrack(subtitlesExtraPath!!, true)
+                        subtitlesExtraPath = null
+                    }
+                }
                 MediaPlayer.Event.Vout -> {
                     updateNavStatus()
                     if (event.voutCount > 0)
@@ -1682,8 +1689,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
                 positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1)
 
-                val path = extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION)
-                if (!path.isNullOrEmpty()) service.addSubtitleTrack(path, true)
+                subtitlesExtraPath = extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION)
+                if (!subtitlesExtraPath.isNullOrEmpty()) service.addSubtitleTrack(subtitlesExtraPath!!, true)
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
                     itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE)
             }
