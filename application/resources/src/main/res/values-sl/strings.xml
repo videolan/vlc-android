@@ -33,22 +33,26 @@
     <string name="play_from_start">Predvajaj od začetka</string>
     <string name="play_as_audio">Predvajaj kot zvok</string>
     <string name="play_as_video">Predvajaj kot video</string>
-    <string name="video_app_switch_title">Ozadnje/Način S-v-S</string>
-    <string name="video_app_switch_summary">Izbor načina delovanja programa VLC med preklopom na drug program ob dejavnem predvajanju</string>
-    <string name="play_pip_title">Predvajaj posnetke v načinu slika-v-sliki</string>
+    <string name="video_app_switch_title">V ozadju/slika v sliki</string>
+    <string name="video_app_switch_summary">Določite obnašanje VLC med preklopom na drugo aplikacijo, ko se predvaja video.</string>
+    <string name="play_pip_title">Predvajaj video v načinu slika-v-sliki</string>
     <string name="play_as_audio_background">Predvajaj video posnetke v ozadju</string>
     <string name="append">Dodaj</string>
     <string name="insert_next">Vstavi naslednjega</string>
     <string name="play_all">Predvajaj vse</string>
     <string name="append_all">Dodaj vse</string>
+    <string name="resume_playback_short_title">Nadaljuj predvajanje</string>
+    <string name="resume_playback_long_title">Nadaljuje predvajanje z zadnjega seznama predvajanj</string>
     <string name="delete">Izbriši</string>
     <string name="remove">Odstrani</string>
     <string name="set_song">Nastavi kot zvok zvonjenja</string>
+    <string name="set_song_question">Nastavi \'%1$s\' kot zvonjenje</string>
     <string name="info">Podatki</string>
     <string name="confirm_delete">Ali želite izbrisati datoteko »%1$s«?</string>
+    <string name="confirm_delete_album">Ali želite izbrisati album \'%1$s\'?</string>
     <string name="confirm_delete_several_media">Izbrišem teh %1$d vsebin?</string>
-    <string name="confirm_delete_folder">Ali želite izbrisati mapo »%1$s« z vso vsebino?</string>
-    <string name="confirm_delete_playlist">Ali želite izbrisati seznam predvajanja »%1$s«?</string>
+    <string name="confirm_delete_folder">Ali želite izbrisati mapo \'%1$s\' i njeno vsae?</string>
+    <string name="confirm_delete_playlist">Ali želite izbrisati seznam predvajanja \'%1$s«?</string>
     <string name="confirm_remove_from_playlist">Odstranim %1$s iz seznama predvajanja?</string>
     <string name="ringtone_set">Datoteka »%1$s« je nastavljena kot zvok zvonjenja.</string>
     <string name="ringtone_error">Pri nastavljanju zvoka za zvonjenje je prišlo do napake.</string>
@@ -57,6 +61,8 @@
     <string name="unknown_album">Neznan album</string>
     <string name="unknown_genre">Neznana zvrst</string>
     <string name="songs">Skladbe</string>
+    <string name="track_info_copied_to_clipboard">Podatki o posnetku so kopirani na odložišče</string>
+
     <string name="artists">Izvajalci</string>
     <string name="albums">Albumi</string>
     <string name="tracks">Posnetki</string>
@@ -86,11 +92,24 @@
         <item quantity="other">%d predstavnih datotek</item>
     </plurals>
     <plurals name="videos_quantity">
-        <item quantity="one">%d video</item>
+        <item quantity="one">1 video</item>
         <item quantity="two">%d videa</item>
         <item quantity="few">%d videi</item>
         <item quantity="other">%d videov</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 film</item>
+        <item quantity="two">%d filma</item>
+        <item quantity="few">%dfilmi</item>
+        <item quantity="other">%dfilmov</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV oddaja</item>
+        <item quantity="two">%d TV oddaji</item>
+        <item quantity="few">%d TV oddaje</item>
+        <item quantity="other">%d TV oddaj</item>
+    </plurals>
+
     <string name="internal_memory">Notranji pomnilnik</string>
     <string name="audio">Zvok</string>
     <string name="video">Video</string>
@@ -150,7 +169,7 @@
         <item quantity="other">%1$d kanalov\n</item>
     </plurals>
 
-    <string name="track_samplerate_info">Hitrost vzorčenja: %1$d Hz\n</string>
+    <string name="track_samplerate_info">Frekvenca vzorčenja: %1$d Hz\n</string>
     <string name="track_resolution_info">Ločljivost: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Hitrost predvajanja: %1$.3f\n</string>
 
@@ -520,5 +539,7 @@
     <string name="preamp">Predokrepitev</string>
     <string name="presets">Prednastavljeno</string>
     <string name="reset">Ponastavi</string>
+    <string name="header_tvshows">TV oddaje</string>
     <string name="playback_multiple_errors">Ni mogoče predvajati več predstavnih vsebin hkrati</string>
+    <string name="track_samplerate">Frekvenca vzorčenja</string>
 </resources>
