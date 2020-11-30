@@ -1147,11 +1147,13 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
                 for ((position, media) in mediaList.subList(fromIndex, toIndex).withIndex()) {
                     val title: String = media.nowPlaying ?: media.title
                     val mediaId = MediaSessionBrowser.generateMediaId(media)
+                    val iconUri = if (isSchemeHttpOrHttps(media.artworkMrl)) Uri.parse(media.artworkMrl)
+                    else artworkMap[mediaId] ?: MediaSessionBrowser.DEFAULT_TRACK_ICON
                     val mediaDesc = MediaDescriptionCompat.Builder()
                             .setTitle(title)
                             .setSubtitle(MediaUtils.getMediaArtist(ctx, media))
                             .setDescription(MediaUtils.getMediaAlbum(ctx, media))
-                            .setIconUri(artworkMap[mediaId] ?: MediaSessionBrowser.DEFAULT_TRACK_ICON)
+                            .setIconUri(iconUri)
                             .setMediaUri(media.uri)
                             .setMediaId(mediaId)
                             .build()
