@@ -779,5 +779,7 @@
     <string name="remove_from_history">Odstrániť z histórie</string>
     <string name="prefersmbv1">Uprednostniť SMB 1</string>
     <string name="prefersmbv1_summary">Ak máte nejaké ťažkosti pri prehliadaní vášho SMB servera, odznačte toto nastavenie</string>
+    <string name="apply_to_all">Použiť pri všetkých videách</string>
+    <string name="audio_delay_global">Oneskorenie zvuku nastaviť na %s ms pre všetky videá</string>
 
 </resources>
