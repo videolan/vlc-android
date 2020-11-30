@@ -756,5 +756,7 @@
     <string name="remove_from_history">Boga dae sa cronologia</string>
     <string name="prefersmbv1">Preferi SMB 1</string>
     <string name="prefersmbv1_summary">Boga s\'ischerta a custa impostatzione si tenes dificultades cun sa navigatzione in su serbidore SMB tuo</string>
+    <string name="apply_to_all">Àplica a totu sos vìdeos</string>
+    <string name="audio_delay_global">Ritardu àudio impostadu a %s ms pro totu sos vìdeos</string>
 
 </resources>
