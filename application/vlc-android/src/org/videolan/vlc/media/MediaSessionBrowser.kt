@@ -67,6 +67,7 @@ import org.videolan.vlc.media.MediaUtils.getMediaArtist
 import org.videolan.vlc.media.MediaUtils.getMediaDescription
 import org.videolan.vlc.media.MediaUtils.getMediaSubtitle
 import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.util.isSchemeStreaming
 import java.util.*
 import java.util.concurrent.Semaphore
 
@@ -357,10 +358,8 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                     results.ensureCapacity(list.size.coerceAtMost(MAX_RESULT_SIZE))
                     for (libraryItem in list) {
                         if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA
-                                && ((libraryItem as MediaWrapper).type == MediaWrapper.TYPE_STREAM
-                                        || (libraryItem as MediaWrapper).uri.scheme?.startsWith("http") == true)) {
-                            val media = libraryItem as MediaWrapper
-                            media.type = MediaWrapper.TYPE_STREAM
+                                && ((libraryItem as MediaWrapper).type == MediaWrapper.TYPE_STREAM || isSchemeStreaming(libraryItem.uri.scheme))) {
+                            libraryItem.type = MediaWrapper.TYPE_STREAM
                         } else if (libraryItem.itemType == MediaLibraryItem.TYPE_MEDIA && (libraryItem as MediaWrapper).type != MediaWrapper.TYPE_AUDIO)
                             continue
 

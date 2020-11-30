@@ -252,8 +252,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode == null) {
             var flags = CTX_PLAYLIST_ITEM_FLAGS
-            (item as? MediaWrapper)?.let {media ->
-                if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && media.uri.scheme?.startsWith("http") == true)) flags = flags  or CTX_RENAME
+            (item as? MediaWrapper)?.let { media ->
+                if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme))) flags = flags or CTX_RENAME
             }
             showContext(this, this, position, item.title, flags)
         }
