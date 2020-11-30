@@ -41,7 +41,7 @@
                 android:id="@+id/artist"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{MediaUtils.INSTANCE.getMediaArtist(context, media)}"
+                android:text="@{MediaUtils.INSTANCE.getMediaSubtitle(media)}"
                 android:textColor="@color/grey50"
                 tools:text="Beethoven"
                 app:layout_constraintBottom_toBottomOf="parent"

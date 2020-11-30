@@ -276,9 +276,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         @MainThread
         get() {
             val media = playlistManager.getCurrentMedia()
-            return if (media != null) media.nowPlaying
-                    ?: MediaUtils.getMediaArtist(this@PlaybackService, media)
-            else null
+            return if (media != null) MediaUtils.getMediaArtist(this@PlaybackService, media) else null
         }
 
     val artistPrev: String?
