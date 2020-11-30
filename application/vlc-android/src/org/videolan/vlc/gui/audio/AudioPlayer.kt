@@ -313,11 +313,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
                 if (playlistModel.currentMediaPosition == -1) return@withContext ""
                 val elapsedTracksTime = playlistModel.previousTotalTime ?: return@withContext ""
                 val totalTime = elapsedTracksTime + progress.time
-                val currentProgressText = if (totalTime == 0L) "0s" else Tools.millisToString(totalTime, true, false, false)
+                val totalTimeText = Tools.millisToString(totalTime, true, false, false)
+                val currentProgressText = if (totalTimeText.isNullOrEmpty()) "0s" else totalTimeText
 
                 val textTrack = getString(R.string.track_index, "${playlistModel.currentMediaPosition + 1} / ${medias.size}")
-                val textProgress = getString(R.string.audio_queue_progress, "$currentProgressText / ${playlistModel.totalTime}")
-                "$textTrack • $textProgress"
+                val textProgress = getString(R.string.audio_queue_progress,
+                        if (playlistModel.totalTime.isNullOrEmpty()) "$currentProgressText" else "$currentProgressText / ${playlistModel.totalTime}")
+                "$textTrack  •  $textProgress"
             }
             binding.audioPlayProgress.text = text
         }
