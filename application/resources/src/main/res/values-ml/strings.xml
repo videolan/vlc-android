@@ -757,5 +757,7 @@
     <string name="remove_from_history">ചരിത്രത്തിൽ നിന്ന് നീക്കം ചെയ്യുക</string>
     <string name="prefersmbv1">SMB 1 തിരഞ്ഞെടുക്കുക</string>
     <string name="prefersmbv1_summary">നിങ്ങളുടെ SMB സെർവർ ബ്രൗസുചെയ്യുന്നതിന് എന്തെങ്കിലും ബുദ്ധിമുട്ടുകൾ ഉണ്ടെങ്കിൽ ഈ ക്രമീകരണം നിരാകരിക്കുക ചെയ്യുക</string>
+    <string name="apply_to_all">എല്ലാ വീഡിയോകൾക്കും പ്രയോഗിക്കുക</string>
+    <string name="audio_delay_global">എല്ലാ വീഡിയോകൾക്കും ഓഡിയോ കാലതാമസം %s ms ആയി സജ്ജമാക്കി</string>
 
 </resources>
