@@ -756,5 +756,7 @@
     <string name="remove_from_history">Ta bort från historiken</string>
     <string name="prefersmbv1">Föredra SMB 1</string>
     <string name="prefersmbv1_summary">Avmarkera denna inställning om du har problem med att bläddra i din SMB-server</string>
+    <string name="apply_to_all">Tillämpa på alla videor</string>
+    <string name="audio_delay_global">Ljudfördröjningen ändrades till%s ms för alla videor</string>
 
 </resources>
