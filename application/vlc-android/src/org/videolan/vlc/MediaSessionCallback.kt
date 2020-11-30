@@ -121,7 +121,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 mediaId == MediaSessionBrowser.ID_SHUFFLE_ALL -> {
                     val tracks = context.getFromMl { audio }
                     if (tracks.isNotEmpty() && isActive) {
-                        playbackService.load(tracks, Random().nextInt(min(tracks.size, MEDIALIBRARY_PAGE_SIZE)))
+                        loadMedia(tracks.toList(), Random().nextInt(min(tracks.size, MEDIALIBRARY_PAGE_SIZE)))
                         if (!playbackService.isShuffling) playbackService.shuffle()
                     } else {
                         playbackService.displayPlaybackError(R.string.search_no_result)
@@ -131,42 +131,50 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     val tracks = context.getFromMl { recentAudio?.toList() }
                     if (!tracks.isNullOrEmpty() && isActive) {
                         val mediaList = tracks.subList(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
-                        playbackService.load(mediaList, 0)
+                        loadMedia(mediaList)
                     }
                 }
                 mediaId == MediaSessionBrowser.ID_HISTORY -> {
                     val tracks = context.getFromMl { lastMediaPlayed()?.toList()?.filter { MediaSessionBrowser.isMediaAudio(it) } }
                     if (!tracks.isNullOrEmpty() && isActive) {
                         val mediaList = tracks.subList(0, tracks.size.coerceAtMost(MediaSessionBrowser.MAX_HISTORY_SIZE))
-                        playbackService.load(mediaList, 0)
+                        loadMedia(mediaList)
                     }
                 }
                 mediaId.startsWith(MediaSessionBrowser.ALBUM_PREFIX) -> {
                     val tracks = context.getFromMl { getAlbum(mediaId.extractId())?.tracks }
-                    if (isActive) tracks?.let { playbackService.load(it, 0) }
+                    if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.ARTIST_PREFIX) -> {
                     val tracks = context.getFromMl { getArtist(mediaId.extractId())?.tracks }
-                    if (isActive) tracks?.let { playbackService.load(it, 0) }
+                    if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.GENRE_PREFIX) -> {
                     val tracks = context.getFromMl { getGenre(mediaId.extractId())?.tracks }
-                    if (isActive) tracks?.let { playbackService.load(it, 0) }
+                    if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.PLAYLIST_PREFIX) -> {
                     val tracks = context.getFromMl { getPlaylist(mediaId.extractId())?.tracks }
-                    if (isActive) tracks?.let { playbackService.load(it, 0) }
+                    if (isActive) tracks?.let { loadMedia(it.toList()) }
                 }
                 mediaId.startsWith(ExtensionsManager.EXTENSION_PREFIX) -> {
                     val id = mediaId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1] + "_", "")
                     onPlayFromUri(id.toUri(), null)
                 }
                 else -> try {
-                    context.getFromMl { getMedia(mediaId.toLong()) }?.let { if (isActive) playbackService.load(it) }
+                    context.getFromMl { getMedia(mediaId.toLong()) }?.let { if (isActive) loadMedia(listOf(it)) }
                 } catch (e: NumberFormatException) {
                     if (isActive) playbackService.loadLocation(mediaId)
                 }
             }
+        }
+    }
+
+    private fun loadMedia(mediaList: List<MediaWrapper>?, position: Int = 0) {
+        mediaList?.let { mediaList ->
+            if (AndroidDevices.isCarMode(playbackService.applicationContext))
+                mediaList.forEach { if (it.type == MediaWrapper.TYPE_VIDEO) it.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO) }
+            playbackService.load(mediaList, position)
         }
     }
 
@@ -203,7 +211,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             }
             if (!isActive) return@launch
             if (tracks.isNullOrEmpty() && !items.isNullOrEmpty()) tracks = items[0].tracks
-            if (!tracks.isNullOrEmpty()) playbackService.load(tracks, 0)
+            if (!tracks.isNullOrEmpty()) loadMedia(tracks?.toList())
         }
     }
 
@@ -221,7 +229,5 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onRewind() = playbackService.seek((playbackService.time - TEN_SECONDS).coerceAtLeast(0), fromUser = true)
 
-    override fun onSkipToQueueItem(id: Long) {
-        playbackService.playIndex(id.toInt())
-    }
+    override fun onSkipToQueueItem(id: Long) = playbackService.playIndex(id.toInt())
 }
