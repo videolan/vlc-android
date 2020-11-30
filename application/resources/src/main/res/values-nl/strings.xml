@@ -756,5 +756,7 @@
     <string name="remove_from_history">Verwijderen uit geschiedenis</string>
     <string name="prefersmbv1">Voorkeur voor SMB 1</string>
     <string name="prefersmbv1_summary">Vink deze instelling uit als u problemen ondervindt bij het bladeren op uw SMB-server.</string>
+    <string name="apply_to_all">Toepassen op alle video\'s</string>
+    <string name="audio_delay_global">Audiovertraging ingesteld op %s ms voor alle video\'s</string>
 
 </resources>
