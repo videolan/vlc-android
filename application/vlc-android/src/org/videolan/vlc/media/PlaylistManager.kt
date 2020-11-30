@@ -788,7 +788,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         when (event.type) {
             IMedia.Event.MetaChanged -> {
                 /* Update Meta if file is already parsed */
-                if (parsed && player.updateCurrentMeta(event.metaId, getCurrentMedia())) service.executeUpdate()
+                if (parsed && player.updateCurrentMeta(event.metaId, getCurrentMedia())) service.onMediaListChanged()
                 if (BuildConfig.DEBUG) Log.i(TAG, "Media.Event.MetaChanged: " + event.metaId)
             }
             IMedia.Event.ParsedChanged -> {
