@@ -37,7 +37,8 @@ import kotlinx.coroutines.flow.onEach
 import org.videolan.tools.formatRateString
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.OnRepeatListener
+import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
+import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
 import org.videolan.vlc.util.launchWhenStarted
 
 @ObsoleteCoroutinesApi
@@ -105,8 +106,10 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
         playbackSpeedPlus.setOnClickListener(speedUpListener)
         playbackSpeedMinus.setOnClickListener(speedDownListener)
         speedValue.setOnClickListener(resetListener)
-        playbackSpeedMinus.setOnTouchListener(OnRepeatListener(speedDownListener))
-        playbackSpeedPlus.setOnTouchListener(OnRepeatListener(speedUpListener))
+        playbackSpeedMinus.setOnTouchListener(OnRepeatListenerTouch(speedDownListener))
+        playbackSpeedPlus.setOnTouchListener(OnRepeatListenerTouch(speedUpListener))
+        playbackSpeedMinus.setOnKeyListener(OnRepeatListenerKey(speedDownListener))
+        playbackSpeedPlus.setOnKeyListener(OnRepeatListenerKey(speedUpListener))
 
         textColor = speedValue.currentTextColor
 
