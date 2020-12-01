@@ -42,7 +42,7 @@ fun isSchemeSupported(scheme: String?) = when(scheme) {
     else -> false
 }
 fun String?.isSchemeNetwork() = when(this) {
-    "smb", "ssh", "nfs", "ftp", "ftps" -> true
+    "smb", "ssh", "nfs", "ftp", "ftps", "upnp" -> true
     else -> false
 }
 
