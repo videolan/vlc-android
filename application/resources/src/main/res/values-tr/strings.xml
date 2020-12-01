@@ -756,5 +756,7 @@
     <string name="remove_from_history">Geçmiş kaydını sil</string>
     <string name="prefersmbv1">SMB 1 yeğlensin</string>
     <string name="prefersmbv1_summary">SMB sunucunuza erişmekte sorun yaşıyorsanız bu seçeneği devre dışı bırakın</string>
+    <string name="apply_to_all">Tüm görüntülere uygula</string>
+    <string name="audio_delay_global">Tüm görüntüler için ses gecikmesi %s ms olarak ayarlandı</string>
 
 </resources>
