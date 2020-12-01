@@ -135,6 +135,9 @@ class BenchActivity : ShallowVideoPlayer() {
             oldRate = service!!.rate
             oldRepeating = service.playlistManager.repeating
             service.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_ONE)
+        } else if (!isSpeed && this.service != null) {
+            oldRepeating = service!!.playlistManager.repeating
+            service.playlistManager.setRepeatType(PlaybackStateCompat.REPEAT_MODE_NONE)
         }
     }
 
@@ -537,6 +540,8 @@ class BenchActivity : ShallowVideoPlayer() {
             }
             if (isSpeed) {
                 service!!.setRate(oldRate, true)
+            } else {
+                service!!.playlistManager.setRepeatType(oldRepeating)
             }
             VLCInstance.restart()
         }
