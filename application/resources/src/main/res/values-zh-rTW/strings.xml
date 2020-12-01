@@ -745,5 +745,7 @@
     <string name="remove_from_history">從歷史紀錄中移除</string>
     <string name="prefersmbv1">偏好 SMB 1</string>
     <string name="prefersmbv1_summary">如果您在瀏覽您的 SMB 伺服器時遇到一些問題，請取消勾選此設定</string>
+    <string name="apply_to_all">套用到所有影片</string>
+    <string name="audio_delay_global">所有影片的音訊延遲設定為 %s 毫秒</string>
 
 </resources>
