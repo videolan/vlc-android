@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.helpers
 
 import android.os.Message
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 
 import org.videolan.tools.WeakHandler
@@ -37,9 +36,9 @@ import org.videolan.vlc.BuildConfig
  * @param normalInterval Normal interval in millis
  * @param clickListener The OnClickListener to trigger
  */
-open class OnRepeatListener(private val initialInterval: Int, private val normalInterval: Int, private val clickListener: View.OnClickListener) {
+open class OnRepeatListener(private val initialInterval: Int, private val normalInterval: Int, private val speedUpDelay: Int, private val clickListener: View.OnClickListener) {
     var downView: View? = null
-
+    var initialTime: Long = -1L
     private val handler = OnRepeatHandler(this)
 
     init {
@@ -53,6 +52,7 @@ open class OnRepeatListener(private val initialInterval: Int, private val normal
         handler.removeMessages(ACTION_ONCLICK)
         handler.sendEmptyMessageDelayed(ACTION_ONCLICK, initialInterval.toLong())
         downView = view
+        initialTime = System.currentTimeMillis()
         clickListener.onClick(view)
         view.isPressed = true
         if (BuildConfig.DEBUG) Log.d("Delay", "onTouch: ACTION_DOWN")
@@ -61,6 +61,7 @@ open class OnRepeatListener(private val initialInterval: Int, private val normal
     fun stopRepeating(view: View) {
         handler.removeMessages(ACTION_ONCLICK)
         downView = null
+        initialTime = -1L
         view.isPressed = false
         if (BuildConfig.DEBUG) Log.d("Delay", "onTouch: ACTION_UP")
     }
@@ -70,7 +71,8 @@ open class OnRepeatListener(private val initialInterval: Int, private val normal
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 ACTION_ONCLICK -> {
-                    sendEmptyMessageDelayed(ACTION_ONCLICK, owner!!.normalInterval.toLong())
+                    val interval = if (owner!!.initialTime > -1L && System.currentTimeMillis() - owner!!.initialTime > owner!!.speedUpDelay) owner!!.normalInterval.toLong() / 3 else owner!!.normalInterval.toLong()
+                    sendEmptyMessageDelayed(ACTION_ONCLICK, interval)
                     owner!!.clickListener.onClick(owner!!.downView)
                 }
             }
@@ -84,5 +86,6 @@ open class OnRepeatListener(private val initialInterval: Int, private val normal
         //Default values in milliseconds
         const val DEFAULT_INITIAL_DELAY = 500
         const val DEFAULT_NORMAL_DELAY = 150
+        const val DEFAULT_SPEEDUP_DELAY = 2000
     }
 }
