@@ -503,6 +503,7 @@
     <string name="ml_external_storage_accept">Igen</string>
     <string name="ml_external_storage_decline">Nem</string>
     <string name="auto_last_added_media">Legutóbb hozzáadva</string>
+    <string name="auto_my_library">Saját médiatár</string>
     <string name="auto_home">Kezdőlap</string>
     <string name="no">Nem</string>
     <string name="loading_medialibrary">Médiatár betöltése…</string>
@@ -755,5 +756,7 @@
     <string name="remove_from_history">Eltávolítás az előzményekből</string>
     <string name="prefersmbv1">SMB 1 előnyben részesítése</string>
     <string name="prefersmbv1_summary">Kapcsolja ki ezt a beállítást, ha problémákba ütközik az SMB szerverek böngészésekor</string>
+    <string name="apply_to_all">Alkalmazás az összes videóra</string>
+    <string name="audio_delay_global">Hangkésleltetés %s ms-ra állítva az összes videónál</string>
 
 </resources>
