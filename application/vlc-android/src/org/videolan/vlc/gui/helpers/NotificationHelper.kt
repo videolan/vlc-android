@@ -27,6 +27,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -72,6 +73,7 @@ object NotificationHelper {
                 .setOngoing(playing)
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setDeleteIntent(piStop)
+                .setColor(Color.BLACK)
                 .addAction(NotificationCompat.Action(
                         R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous),
                         MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
