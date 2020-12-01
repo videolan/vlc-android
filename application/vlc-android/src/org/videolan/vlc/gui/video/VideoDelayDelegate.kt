@@ -29,6 +29,7 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.res.ColorStateList
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
@@ -42,9 +43,11 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.tools.*
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.OnRepeatListener
+import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
+import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoPlayerActivity.Companion.KEY_BLUETOOTH_DELAY
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
@@ -106,8 +109,10 @@ class VideoDelayDelegate(private val player: VideoPlayerActivity) : View.OnClick
         delaySecondButton.setOnClickListener(this)
         delayResetButton.setOnClickListener(this)
         delayApplyAll.setOnClickListener(this)
-        playbackSettingMinus.setOnTouchListener(OnRepeatListener(this))
-        playbackSettingPlus.setOnTouchListener(OnRepeatListener(this))
+        playbackSettingMinus.setOnTouchListener(OnRepeatListenerTouch(this))
+        playbackSettingPlus.setOnTouchListener(OnRepeatListenerTouch(this))
+        playbackSettingMinus.setOnKeyListener(OnRepeatListenerKey(this))
+        playbackSettingPlus.setOnKeyListener(OnRepeatListenerKey(this))
         playbackSettingMinus.setVisible()
         playbackSettingPlus.setVisible()
         delayFirstButton.setVisible()
