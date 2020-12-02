@@ -67,6 +67,18 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         setFabPlayVisibility(false)
     }
 
+    override fun onResume() {
+        updateAudioPlayerMargin()
+        super.onResume()
+    }
+
+    fun updateAudioPlayerMargin() {
+        val activity = activity as AudioPlayerContainerActivity? ?: return
+        view?.let {
+            it.setPadding(0,0,0,activity.getAudioMargin())
+        }
+    }
+
     fun startActionMode() {
         val activity = activity as AppCompatActivity? ?: return
         actionMode = activity.startSupportActionMode(this)

@@ -30,8 +30,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="64dp">
+            android:layout_height="match_parent">
 
         <org.videolan.vlc.gui.view.AutofitButton
                 android:id="@+id/settingsButton"
