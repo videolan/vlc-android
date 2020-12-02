@@ -396,7 +396,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         val screenOrientationSetting = Integer.valueOf(settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
         orientationMode = when (screenOrientationSetting) {
             99 -> PlayerOrientationMode(false)
-            101 -> PlayerOrientationMode(true, if (windowManager.defaultDisplay.rotation == Surface.ROTATION_90) ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE)
+            101 -> PlayerOrientationMode(true, if (windowManager.defaultDisplay.rotation == Surface.ROTATION_270) ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
             102 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
             else -> PlayerOrientationMode(true, getOrientationForLock())
         }
