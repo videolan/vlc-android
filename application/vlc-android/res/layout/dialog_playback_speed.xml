@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -67,7 +68,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:focusable="true"
             android:indeterminate="false"
             android:max="200"
@@ -79,7 +79,6 @@
             android:progressDrawable="@drawable/po_seekbar"
             android:splitTrack="false"
             android:thumb="@drawable/ic_seekbar_thumb"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/playback_speed_minus"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/playback_speed_value" />
@@ -89,27 +88,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            app:backgroundTint="@color/transparent"
             android:layout_marginBottom="8dp"
-            android:padding="0dp"
             android:nextFocusUp="@+id/playback_speed_seek"
             android:nextFocusDown="@+id/playback_speed_minus"
-            app:srcCompat="@drawable/ic_up_on_circle_dialog"
+            android:padding="0dp"
+            app:backgroundTint="@color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/playback_speed_minus"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/playback_speed_value"
+            app:srcCompat="@drawable/ic_up_on_circle_dialog" />
 
     <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/playback_speed_minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:nextFocusUp="@+id/playback_speed_plus"
             android:nextFocusDown="@+id/playback_speed_icon"
-            app:backgroundTint="@color/transparent"
             android:padding="0dp"
-            app:srcCompat="@drawable/ic_down_on_circle_dialog"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:backgroundTint="@color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/stream_warning"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/playback_speed_plus"
+            app:srcCompat="@drawable/ic_down_on_circle_dialog" />
+
+    <TextView
+            android:id="@+id/stream_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_corners_bottom_orange_500"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/warning_stream_speed"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/playback_speed_minus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/playback_speed_seek"
+            tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
