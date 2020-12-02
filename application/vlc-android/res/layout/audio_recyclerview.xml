@@ -8,7 +8,6 @@
             android:layout_width="@dimen/default_content_width"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:clipToPadding="false"
-            android:paddingBottom="64dp"/>
+            android:clipToPadding="false"/>
 
 </FrameLayout>
