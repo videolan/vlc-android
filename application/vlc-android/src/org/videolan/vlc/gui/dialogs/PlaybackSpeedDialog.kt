@@ -39,6 +39,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
 import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
+import org.videolan.vlc.util.isSchemeStreaming
 import org.videolan.vlc.util.launchWhenStarted
 
 @ObsoleteCoroutinesApi
@@ -47,6 +48,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var speedValue: TextView
     private lateinit var seekSpeed: SeekBar
+    private lateinit var streamWarning: TextView
 
     private var playbackService: PlaybackService? = null
     private var textColor: Int = 0
@@ -99,6 +101,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
         val view = inflater.inflate(R.layout.dialog_playback_speed, container)
         speedValue = view.findViewById(R.id.playback_speed_value)
         seekSpeed = view.findViewById(R.id.playback_speed_seek)
+        streamWarning = view.findViewById(R.id.stream_warning)
         val playbackSpeedPlus = view.findViewById<ImageView>(R.id.playback_speed_plus)
         val playbackSpeedMinus = view.findViewById<ImageView>(R.id.playback_speed_minus)
 
@@ -151,6 +154,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment() {
         } else {
             speedValue.setTextColor(textColor)
         }
+        streamWarning.visibility = if (isSchemeStreaming(playbackService?.currentMediaLocation) && rate > 1) View.VISIBLE else View.INVISIBLE
 
     }
 
