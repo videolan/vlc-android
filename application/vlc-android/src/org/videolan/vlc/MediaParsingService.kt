@@ -84,7 +84,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
     private var serviceLock = false
     @Volatile
     private var discoverTriggered = false
-    internal val sb = StringBuilder()
     private lateinit var actions : SendChannel<MLAction>
     private lateinit var notificationActor : SendChannel<Notification>
 
@@ -343,13 +342,11 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         if (lastNotificationTime == -1L || currentTime - lastNotificationTime < NOTIFICATION_DELAY) return
         lastNotificationTime = currentTime
         val discovery = withContext(Dispatchers.Default) {
-            sb.setLength(0)
-            when {
-                parsing > 0 -> sb.append(getString(R.string.ml_parse_media)).append(' ').append(parsing).append("%")
-                currentDiscovery != null -> sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(currentDiscovery?.removeFileProtocole()))
-                else -> sb.append(getString(R.string.ml_parse_media))
+            val progressText = when {
+                parsing > 0 -> getString(R.string.ml_parse_media) + " " + parsing + "%"
+                currentDiscovery != null -> getString(R.string.ml_discovering) + " " + Uri.decode(currentDiscovery?.removeFileProtocole())
+                else -> getString(R.string.ml_parse_media)
             }
-            val progressText = sb.toString()
             if (!isActive) return@withContext ""
             if (lastNotificationTime != -1L) {
                 try {
