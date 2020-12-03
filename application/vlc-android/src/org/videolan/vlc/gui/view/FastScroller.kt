@@ -97,7 +97,6 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
     private var lastVerticalOffset: Int = 0
     private var tryCollapseAppbarOnNextScroll = false
     private var tryExpandAppbarOnNextScroll = false
-    private val sb = StringBuilder()
 
     private val handler = object : WeakHandler<FastScroller>(this) {
         override fun handleMessage(msg: Message) {
@@ -349,18 +348,12 @@ class FastScroller : LinearLayout, Observer<HeadersIndex> {
 
     private val actor = scope.actor<Unit>(capacity = Channel.CONFLATED) {
         for (evt in channel) if (fastScrolling) {
-            sb.setLength(0)
             //ItemDecoration has to be taken into account so we add 1 for the sticky header
             val position = layoutManager.findFirstVisibleItemPosition() + 1
             if (BuildConfig.DEBUG) Log.d(TAG, "findFirstVisibleItemPosition $position")
             val pos = provider.getPositionForSection(position)
             val sectionforPosition = provider.getSectionforPosition(pos)
-            if (sectionforPosition.isNotEmpty()) bubble.text = withContext(Dispatchers.Default) {
-                sb.append(' ')
-                        .append(sectionforPosition)
-                        .append(' ')
-                        .toString()
-            }
+            if (sectionforPosition.isNotEmpty()) bubble.text = " $sectionforPosition "
             delay(100L)
         }
     }
