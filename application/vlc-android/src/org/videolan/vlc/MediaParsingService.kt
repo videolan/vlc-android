@@ -134,7 +134,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsigService")
 
         if (lastNotificationTime == 5L) stopService(Intent(applicationContext, MediaParsingService::class.java))
-        Medialibrary.getState().observe(this, Observer<Boolean> { running ->
+        Medialibrary.getState().observe(this, { running ->
             if (!running && !scanPaused) {
                 exitCommand()
             }
@@ -331,6 +331,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
         }
         withContext(Dispatchers.IO) { for (device in missingDevices) {
             val uri = device.toUri()
+            Log.i("MediaParsingService", "Storage management: storage missing: ${uri.path}")
             medialibrary.removeDevice(uri.lastPathSegment, uri.path)
         } }
         serviceLock = false

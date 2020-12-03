@@ -110,6 +110,7 @@ import kotlin.math.roundToInt
 @ExperimentalCoroutinesApi
 open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, TextWatcher {
 
+    private var subtitlesExtraPath: String? = null
     private lateinit var startedScope : CoroutineScope
     var service: PlaybackService? = null
     lateinit var medialibrary: Medialibrary
@@ -130,7 +131,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private set
     private var isPlaying = false
     private var loadingImageView: ImageView? = null
-    private var navMenu: ImageView? = null
     var enableCloneMode: Boolean = false
     lateinit var orientationMode: PlayerOrientationMode
 
@@ -170,11 +170,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
     val delayDelegate: VideoDelayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoDelayDelegate(this@VideoPlayerActivity) }
     val overlayDelegate: VideoPlayerOverlayDelegate by lazy(LazyThreadSafetyMode.NONE) { VideoPlayerOverlayDelegate(this@VideoPlayerActivity) }
     var isTv: Boolean = false
-
-    // Tracks & Subtitles
-    var audioTracksList: Array<MediaPlayer.TrackDescription>? = null
-    private var videoTracksList: Array<MediaPlayer.TrackDescription>? = null
-    var subtitleTracksList: Array<MediaPlayer.TrackDescription>? = null
 
     /**
      * Flag to indicate whether the media should be paused once loaded
@@ -269,7 +264,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             if (!isFinishing && fromUser && service?.isSeekable == true) {
-                seek(progress.toLong())
+                seek(progress.toLong(), fromUser)
                 overlayDelegate.showInfo(Tools.millisToString(progress.toLong()), 1000)
             }
             if (fromUser) {
@@ -401,7 +396,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         val screenOrientationSetting = Integer.valueOf(settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
         orientationMode = when (screenOrientationSetting) {
             99 -> PlayerOrientationMode(false)
-            101 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+            101 -> PlayerOrientationMode(true, if (windowManager.defaultDisplay.rotation == Surface.ROTATION_270) ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
             102 -> PlayerOrientationMode(true, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
             else -> PlayerOrientationMode(true, getOrientationForLock())
         }
@@ -1054,6 +1049,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 return true
             }
             KeyEvent.KEYCODE_K -> {
+                delayDelegate.showDelayControls()
                 delayDelegate.delayAudioOrSpu(delta = 50000L, delayState = IPlaybackSettingsController.DelayState.AUDIO)
                 handler.removeMessages(HIDE_SETTINGS)
                 handler.sendEmptyMessageDelayed(HIDE_SETTINGS, 4000L)
@@ -1194,7 +1190,13 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             when (event.type) {
                 MediaPlayer.Event.Playing -> onPlaying()
                 MediaPlayer.Event.Paused -> overlayDelegate.updateOverlayPausePlay()
-                MediaPlayer.Event.Opening -> forcedTime = -1
+                MediaPlayer.Event.Opening -> {
+                    forcedTime = -1
+                    if (!subtitlesExtraPath.isNullOrEmpty()) {
+                        service.addSubtitleTrack(subtitlesExtraPath!!, true)
+                        subtitlesExtraPath = null
+                    }
+                }
                 MediaPlayer.Event.Vout -> {
                     updateNavStatus()
                     if (event.voutCount > 0)
@@ -1206,7 +1208,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                     if (menuIdx == -1) {
                         val mw = service.currentMediaWrapper ?: return
                         if (event.esChangedType == IMedia.Track.Type.Audio) {
-                            setESTrackLists()
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
                                 val audioTrack = media.getMetaLong(MediaWrapper.META_AUDIOTRACK).toInt()
@@ -1214,7 +1215,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                     service.setAudioTrack(if (media.id == 0L) currentAudioTrack else audioTrack)
                             }
                         } else if (event.esChangedType == IMedia.Track.Type.Text) {
-                            setESTrackLists()
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val media = medialibrary.findMedia(mw)
                                 val spuTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()
@@ -1224,6 +1224,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                                     addNextTrack = false
                                 } else if (spuTrack != 0 || currentSpuTrack != -2) {
                                     service.setSpuTrack(if (media.id == 0L) currentSpuTrack else spuTrack)
+                                    lastSpuTrack = -2
                                 }
                             }
                         }
@@ -1239,14 +1240,12 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             }
                         }
                     }
-                    invalidateESTracks(event.esChangedType)
                 }
                 MediaPlayer.Event.ESDeleted -> {
                     if (menuIdx == -1 && event.esChangedType == IMedia.Track.Type.Video) {
                         handler.removeMessages(CHECK_VIDEO_TRACKS)
                         handler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000)
                     }
-                    invalidateESTracks(event.esChangedType)
                 }
                 MediaPlayer.Event.ESSelected -> if (event.esChangedType == IMedia.Track.Type.Video) {
                     val vt = service.currentVideoTrack
@@ -1529,13 +1528,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         optionsDelegate?.hide()
     }
 
-    @WorkerThread
-    fun setSpuTrack(trackID: Int) {
-        runOnMainThread(Runnable { service?.setSpuTrack(trackID) })
-        val mw = medialibrary.findMedia(service?.currentMediaWrapper) ?: return
-        if (mw.id != 0L) mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID.toLong())
-    }
-
     private fun showNavMenu() {
         if (menuIdx >= 0) service?.titleIdx = menuIdx
     }
@@ -1551,15 +1543,15 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         }
     }
 
-    fun seek(position: Long) {
-        service?.let { seek(position, it.length) }
+    fun seek(position: Long, fromUser: Boolean = false) {
+        service?.let { seek(position, it.length, fromUser) }
     }
 
-    internal fun seek(position: Long, length: Long) {
+    internal fun seek(position: Long, length: Long, fromUser: Boolean = false) {
         service?.let { service ->
             forcedTime = position
             lastTime = service.time
-            service.seek(position, length.toDouble())
+            service.seek(position, length.toDouble(), fromUser)
             service.playlistManager.player.updateProgress(position)
         }
     }
@@ -1595,13 +1587,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         window.decorView.systemUiVisibility = visibility
     }
 
-    private fun invalidateESTracks(type: Int) {
-        when (type) {
-            IMedia.Track.Type.Audio -> audioTracksList = null
-            IMedia.Track.Type.Text -> subtitleTracksList = null
-        }
-    }
-
     private fun setESTracks() {
         if (lastAudioTrack >= -1) {
             service?.setAudioTrack(lastAudioTrack)
@@ -1610,18 +1595,6 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (lastSpuTrack >= -1) {
             service?.setSpuTrack(lastSpuTrack)
             lastSpuTrack = -2
-        }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun setESTrackLists() {
-        service?.let { service ->
-            if (audioTracksList == null && service.audioTracksCount > 0)
-                audioTracksList = service.audioTracks as Array<MediaPlayer.TrackDescription>?
-            if (subtitleTracksList == null && service.spuTracksCount > 0)
-                subtitleTracksList = service.spuTracks as Array<MediaPlayer.TrackDescription>?
-            if (videoTracksList == null && service.videoTracksCount > 0)
-                videoTracksList = service.videoTracks as Array<MediaPlayer.TrackDescription>?
         }
     }
 
@@ -1716,8 +1689,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 }
                 positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1)
 
-                val path = extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION)
-                if (!path.isNullOrEmpty()) service.addSubtitleTrack(path, true)
+                subtitlesExtraPath = extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION)
+                if (!subtitlesExtraPath.isNullOrEmpty()) service.addSubtitleTrack(subtitlesExtraPath!!, true)
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
                     itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE)
             }
@@ -2020,7 +1993,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 overlayDelegate.hideOverlay(false)
             } else if (menuIdx != -1) setESTracks()
 
-            navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.GONE)
+            if (overlayDelegate.isHudRightBindingInitialized()) overlayDelegate.hudRightBinding.playerOverlayNavmenu.setVisibility(if (menuIdx >= 0) View.VISIBLE else View.GONE)
             supportInvalidateOptionsMenu()
         }
     }

@@ -23,6 +23,9 @@ package org.videolan.vlc.viewmodels
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.tools.CoroutineContextProvider
@@ -38,6 +41,15 @@ class HistoryModel(context: Context, coroutineContextProvider: CoroutineContextP
     fun moveUp(media: MediaWrapper) = dataset.move(media, 0)
 
     fun clearHistory() = dataset.clear()
+    fun removeFromHistory(media: MediaWrapper) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                media.removeFromHistory()
+            }
+            refresh()
+        }
+
+    }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

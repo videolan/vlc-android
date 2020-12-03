@@ -28,12 +28,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
-import androidx.lifecycle.Observer
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.*
 import org.videolan.tools.NetworkMonitor
 import org.videolan.tools.isStarted
@@ -49,6 +50,8 @@ import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylistAsync
 import org.videolan.vlc.gui.helpers.UiTools.showMediaInfo
 import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
+import org.videolan.vlc.gui.helpers.hf.OtgAccess
+import org.videolan.vlc.gui.helpers.hf.requestOtgRoot
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.gui.view.EmptyLoadingStateView
 import org.videolan.vlc.gui.view.TitleListView
@@ -75,6 +78,8 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     private var currentAdapterActionMode: BaseBrowserAdapter? = null
 
     private val containerAdapterAssociation = HashMap<MainBrowserContainer, Pair<BaseBrowserAdapter, ViewModel>>()
+
+    private var requiringOtg = false
 
     override fun hasFAB() = true
 
@@ -103,11 +108,13 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        currentAdapterActionMode?.itemCount?.let { currentAdapterActionMode?.multiSelectHelper?.toggleActionMode(true, it) }
         mode?.menuInflater?.inflate(R.menu.action_mode_browser_file, menu)
         return true
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
+        currentAdapterActionMode?.itemCount?.let { currentAdapterActionMode?.multiSelectHelper?.toggleActionMode(false, it) }
         actionMode = null
         currentAdapterActionMode?.multiSelectHelper?.clearSelection()
         currentAdapterActionMode = null
@@ -131,7 +138,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         localEntry.list.adapter = storageBrowserAdapter
         localViewModel = getBrowserModel(category = TYPE_FILE, url = null, showHiddenFiles = false)
         containerAdapterAssociation[storageBbrowserContainer] = Pair(storageBrowserAdapter, localViewModel)
-        localViewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaLibraryItem>> { list ->
+        localViewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {
                 storageBrowserAdapter.update(it)
                 localEntry.loading.state = when {
@@ -141,11 +148,11 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 }
             }
         })
-        localViewModel.loading.observe(viewLifecycleOwner, Observer {
+        localViewModel.loading.observe(viewLifecycleOwner, {
             if (it) localEntry.loading.state = EmptyLoadingState.LOADING
         })
         localViewModel.browseRoot()
-        localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner, Observer { pair ->
+        localViewModel.getDescriptionUpdate().observe(viewLifecycleOwner, { pair ->
             if (pair != null) storageBrowserAdapter.notifyItemChanged(pair.first, pair.second)
         })
 
@@ -157,7 +164,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         favoritesEntry.list.adapter = favoritesAdapter
         favoritesViewModel = BrowserFavoritesModel(requireContext())
         containerAdapterAssociation[favoritesBrowserContainer] = Pair(favoritesAdapter, favoritesViewModel)
-        favoritesViewModel.favorites.observe(viewLifecycleOwner, Observer { list ->
+        favoritesViewModel.favorites.observe(viewLifecycleOwner, { list ->
             list.let {
                 if (list.isEmpty()) favoritesEntry.setGone() else   favoritesEntry.setVisible()
                 favoritesAdapter.update(it)
@@ -168,10 +175,10 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                 }
             }
         })
-        favoritesViewModel.provider.loading.observe(viewLifecycleOwner, Observer {
+        favoritesViewModel.provider.loading.observe(viewLifecycleOwner, {
             if (it) localEntry.loading.state = EmptyLoadingState.LOADING
         })
-        favoritesViewModel.provider.descriptionUpdate.observe(viewLifecycleOwner, Observer { pair ->
+        favoritesViewModel.provider.descriptionUpdate.observe(viewLifecycleOwner, { pair ->
             if (pair != null) favoritesAdapter.notifyItemChanged(pair.first, pair.second)
         })
 
@@ -183,18 +190,31 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         networkEntry.list.adapter = networkAdapter
         networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
         containerAdapterAssociation[networkBrowserContainer] = Pair(networkAdapter, networkViewModel)
-        networkViewModel.dataset.observe(viewLifecycleOwner, Observer<List<MediaLibraryItem>> { list ->
+        networkViewModel.dataset.observe(viewLifecycleOwner, { list ->
             list?.let {
                 networkAdapter.update(it)
                 updateNetworkEmptyView(networkEntry.loading)
                 if (networkViewModel.loading.value == false) networkEntry.loading.state = if (list.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
             }
         })
-        networkViewModel.loading.observe(viewLifecycleOwner, Observer {
+        networkViewModel.loading.observe(viewLifecycleOwner, {
             if (it) networkEntry.loading.state = EmptyLoadingState.LOADING
             updateNetworkEmptyView(networkEntry.loading)
         })
         networkViewModel.browseRoot()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (requiringOtg && OtgAccess.otgRoot.value != null) {
+            val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
+            val otgMedia = MediaWrapperImpl("otg://".toUri())
+            otgMedia.title = getString(R.string.otg_device_title)
+            intent.putExtra(KEY_MEDIA, otgMedia)
+            intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)
+            startActivity(intent)
+        }
+        requiringOtg = false
     }
 
     private fun updateNetworkEmptyView(emptyLoading: EmptyLoadingStateView) {
@@ -282,6 +302,16 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
                     invalidateActionMode()
                 }
             } else {
+                if (item.itemType == MediaLibraryItem.TYPE_MEDIA) {
+                    if ("otg://" == item.location) {
+                        val rootUri = OtgAccess.otgRoot.value
+                        if (rootUri == null) {
+                            requiringOtg = true
+                            requireActivity().requestOtgRoot()
+                            return
+                        }
+                    }
+                }
                 val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
                 intent.putExtra(KEY_MEDIA, item)
                 intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)

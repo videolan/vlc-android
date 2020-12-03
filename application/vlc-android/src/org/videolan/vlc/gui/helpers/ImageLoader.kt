@@ -28,8 +28,10 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.Folder
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
+import org.videolan.resources.DUMMY_NEW_GROUP
 import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.tools.BitmapCache
@@ -40,6 +42,7 @@ import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
+import org.videolan.vlc.util.isSchemeHttpOrHttps
 import org.videolan.vlc.util.scope
 
 private val sMedialibrary = Medialibrary.getInstance()
@@ -143,6 +146,11 @@ fun getMediaIconDrawable(context: Context, type: Int): BitmapDrawable? = when (t
     else -> UiTools.getDefaultAudioDrawable(context)
 }
 
+fun getDummyItemIcon(context: Context, item:DummyItem) = when (item.id) {
+    DUMMY_NEW_GROUP -> BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_add_to_group))
+    else -> null
+}
+
 private var placeholderTvBg: Drawable? = null
 @MainThread
 @BindingAdapter("placeholder")
@@ -181,7 +189,7 @@ fun imageCardViewContent(v: View, content: String?) {
 
 @BindingAdapter(value = ["imageUri", "tv" ], requireAll = false)
 fun downloadIcon(v: View, imageUri: Uri?, tv: Boolean = true) {
-    if (imageUri?.scheme == "http" || imageUri?.scheme == "https") {
+    if (isSchemeHttpOrHttps(imageUri?.scheme)) {
         v.scope.takeIf { it.isActive }?.launch {
             val image = HttpImageLoader.downloadBitmap(imageUri.toString())
             updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)
@@ -193,7 +201,7 @@ fun downloadIcon(v: View, imageUri: Uri?, tv: Boolean = true) {
 fun downloadIcon(v: View, imageUrl: String?, tv: Boolean = true) {
     if (imageUrl.isNullOrEmpty()) return
     val imageUri = imageUrl.toUri()
-    if (imageUri.scheme in arrayOf("http", "https")) {
+    if (isSchemeHttpOrHttps(imageUri.scheme)) {
         v.scope.takeIf { it.isActive }?.launch {
             val image = HttpImageLoader.downloadBitmap(imageUri.toString())
             updateImageView(image, v, DataBindingUtil.findBinding(v), tv = tv)

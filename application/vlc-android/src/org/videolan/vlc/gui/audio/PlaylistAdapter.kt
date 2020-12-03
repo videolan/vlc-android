@@ -177,9 +177,8 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
         val media = getItem(position)
         val message = String.format(AppContextProvider.appResources.getString(R.string.remove_playlist_item), media.title)
         if (player is Fragment) {
-            val v = (player as Fragment).view
             val cancelAction = Runnable { model?.run { insertMedia(position, media) } }
-            UiTools.snackerWithCancel(v!!, message, null, cancelAction)
+            UiTools.snackerWithCancel(player.requireActivity(), message, null, cancelAction)
         } else if (player is Context) {
             Toast.makeText(AppContextProvider.appContext, message, Toast.LENGTH_SHORT).show()
         }

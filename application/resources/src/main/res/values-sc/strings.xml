@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">Cheres chi VLC annangat su dispositivu %1$s a sa biblioteca multimediale tua?</string>
     <string name="ml_external_storage_accept">Eja</string>
     <string name="ml_external_storage_decline">Nono</string>
-    <string name="last_added_media">Ùrtimas annantas</string>
+    <string name="auto_last_added_media">Ùrtimos annànghidos</string>
+    <string name="auto_my_library">Sa biblioteca mea</string>
+    <string name="auto_home">Pàgina printzipale</string>
     <string name="no">Nono</string>
     <string name="loading_medialibrary">Carrighende sa biblioteca multimediale…</string>
     <string name="yes">Eja</string>
@@ -734,5 +736,27 @@
 
     <string name="mark_as_played">Marca comente riproduidu</string>
     <string name="mark_all_as_played">Marca totu comente riproduidu</string>
+    <string name="new_group">Grupu nou</string>
+    <string name="new_group_desc">Crea unu grupu nou</string>
+
+    <string name="air_action_rewind">Torra in segus de 10 seg.</string>
+    <string name="air_action_forward">Bae a in antis de 10 seg.</string>
+    <string name="air_action_play_pause">Pone in pàusa/Sighi cun sa riprodutzione</string>
+    <string name="air_action_volume_up">Àrtzia su volume</string>
+    <string name="air_action_volume_down">Abbassa su volume</string>
+    <string name="air_action_next">Elementu imbeniente in riprodutzione</string>
+    <string name="air_action_previous">Elementu antepostu in riprodutzione</string>
+    <string name="allow_otg">Permite s\'atzessu OTG</string>
+    <string name="allow_otg_description">Pro praghere ischerta su dispositivu OTG tuo pro permìtere s\'atzessu a VLC.</string>
+    <string name="timeout_infinite">Infinidu</string>
+    <string name="timeout_short">Curtzu</string>
+    <string name="timeout_normal">Normale</string>
+    <string name="timeout_long">Longu</string>
+    <string name="video_hud_timeout">Ritardu de cuadura de sos controllos de su riproduidore de vìdeos</string>
+    <string name="remove_from_history">Boga dae sa cronologia</string>
+    <string name="prefersmbv1">Preferi SMB 1</string>
+    <string name="prefersmbv1_summary">Boga s\'ischerta a custa impostatzione si tenes dificultades cun sa navigatzione in su serbidore SMB tuo</string>
+    <string name="apply_to_all">Àplica a totu sos vìdeos</string>
+    <string name="audio_delay_global">Ritardu àudio impostadu a %s ms pro totu sos vìdeos</string>
 
 </resources>

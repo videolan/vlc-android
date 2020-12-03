@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Log
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
@@ -33,6 +34,7 @@ class StoragesMonitor : BroadcastReceiver() {
         for (action in channel) when (action){
             is Mount -> {
                 if (action.uuid.isEmpty()) return@actor
+                Log.i("StoragesMonitor", "Storage management: mount: ${action.uuid} - ${action.path}")
                 if (action.path.scanAllowed()) {
                     val isNew = action.ctx.getFromMl {
                         val isNewForML = !isDeviceKnown(action.uuid, action.path, true)
@@ -52,6 +54,7 @@ class StoragesMonitor : BroadcastReceiver() {
                 }
             }
             is Unmount -> {
+                Log.i("StoragesMonitor", "Storage management: unmount: ${action.uuid} - ${action.path}")
                 delay(100L)
                 Medialibrary.getInstance().removeDevice(action.uuid, action.path)
             }

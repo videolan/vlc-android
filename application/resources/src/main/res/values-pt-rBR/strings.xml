@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">Deseja que o VLC adicione o dispositivo %1$s à sua biblioteca de mídias?</string>
     <string name="ml_external_storage_accept">Sim</string>
     <string name="ml_external_storage_decline">Não</string>
-    <string name="last_added_media">último adicionado</string>
+    <string name="auto_last_added_media">Último adicionado</string>
+    <string name="auto_my_library">Minha biblioteca</string>
+    <string name="auto_home">Início</string>
     <string name="no">Não</string>
     <string name="loading_medialibrary">Carregando Biblioteca de Mídias...</string>
     <string name="yes">Sim</string>
@@ -734,5 +736,27 @@
 
     <string name="mark_as_played">Marcar como reproduzido</string>
     <string name="mark_all_as_played">Marcar todos como reproduzidos</string>
+    <string name="new_group">Novo grupo</string>
+    <string name="new_group_desc">Criar um novo grupo</string>
+
+    <string name="air_action_rewind">Retroceder 10 seg.</string>
+    <string name="air_action_forward">Pesquisar avançando 10 seg.</string>
+    <string name="air_action_play_pause">Pausar/Retomar a reprodução</string>
+    <string name="air_action_volume_up">Aumentar volume</string>
+    <string name="air_action_volume_down">Diminuir o volume</string>
+    <string name="air_action_next">Próximo item da reprodução</string>
+    <string name="air_action_previous">Item anterior da reprodução</string>
+    <string name="allow_otg">Permitir acesso OTG</string>
+    <string name="allow_otg_description">Por favor, selecione sua unidade OTG para permitir acesso ao VLC.</string>
+    <string name="timeout_infinite">Infinito</string>
+    <string name="timeout_short">Curto</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Extenso</string>
+    <string name="video_hud_timeout">Controles do reprodutor de vídeo ocultando o atraso</string>
+    <string name="remove_from_history">Remover do histórico</string>
+    <string name="prefersmbv1">Priorizar SMB 1</string>
+    <string name="prefersmbv1_summary">Desmarque esta configuração se tiver alguma dificuldade em navegar em seu servidor SMB</string>
+    <string name="apply_to_all">Aplicar a todos os vídeos</string>
+    <string name="audio_delay_global">Definir atraso em %s ms para todos os vídeos</string>
 
 </resources>

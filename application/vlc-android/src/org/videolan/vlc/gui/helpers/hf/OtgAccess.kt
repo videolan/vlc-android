@@ -27,18 +27,21 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.util.Log
 import androidx.annotation.WorkerThread
+import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.vlc.R
 
 const val SAF_REQUEST = 85
 const val TAG = "OtgAccess"
 
-const val OTG_CONTENT_AUTHORITY = "com.android.externalstorage.documents"
 const val OTG_SCHEME = "otg"
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -46,13 +49,25 @@ class OtgAccess : BaseHeadlessFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (savedInstanceState == null) {
-            val safIntent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-            try {
-                startActivityForResult(safIntent, SAF_REQUEST)
-            } catch (e: ActivityNotFoundException) {
-                exit()
-            }
+            AlertDialog.Builder(requireActivity())
+                    .setTitle(resources.getString(R.string.allow_otg))
+                    .setMessage(resources.getString(R.string.allow_otg_description))
+
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        val safIntent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                        try {
+                            startActivityForResult(safIntent, SAF_REQUEST)
+                        } catch (e: ActivityNotFoundException) {
+                            exit()
+                        }
+                    }
+
+                    .setOnCancelListener {
+                        exit()
+                    }
+                    .show()
         }
     }
 
@@ -74,10 +89,6 @@ fun FragmentActivity.requestOtgRoot() {
 @WorkerThread
 fun getDocumentFiles(context: Context, path: String) : List<MediaWrapper>? {
     val rootUri = OtgAccess.otgRoot.value ?: return null
-//    else Uri.Builder().scheme("content")
-//            .authority(OTG_CONTENT_AUTHORITY)
-//            .path(path.substringBefore(':'))
-//            .build()
     var documentFile = DocumentFile.fromTreeUri(context, rootUri)
 
     val parts = path.substringAfterLast(':').split("/".toRegex()).dropLastWhile { it.isEmpty() }

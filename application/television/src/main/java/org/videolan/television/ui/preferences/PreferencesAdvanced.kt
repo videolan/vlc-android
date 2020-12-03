@@ -148,8 +148,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         activity?.let { Toast.makeText(it, R.string.network_caching_popup, Toast.LENGTH_SHORT).show() }
                     }
                 }
-                VLCInstance.restart()
-                (activity as? PreferencesActivity)?.restartMediaPlayer()
+                restartLibVLC()
             }
             "custom_libvlc_options" -> {
                 try {
@@ -160,12 +159,16 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 } finally {
                     (activity as? PreferencesActivity)?.restartMediaPlayer()
                 }
+                restartLibVLC()
             }
-            // No break because need VLCInstance.restart();
-            "opengl", "chroma_format", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode" -> {
-                VLCInstance.restart()
-                (activity as? PreferencesActivity)?.restartMediaPlayer()
+            "opengl", "chroma_format", "deblocking", "enable_frame_skip", "enable_time_stretching_audio", "enable_verbose_mode", "prefer_smbv1" -> {
+                restartLibVLC()
             }
         }
+    }
+
+    fun restartLibVLC() {
+        VLCInstance.restart()
+        (activity as? PreferencesActivity)?.restartMediaPlayer()
     }
 }

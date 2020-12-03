@@ -69,7 +69,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         when (preference.key) {
             "directories" -> {
                 when {
-                    Medialibrary.getInstance().isWorking -> UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
+                    Medialibrary.getInstance().isWorking -> UiTools.snacker(requireActivity(), getString(R.string.settings_ml_block_scan))
                     Permissions.canReadStorage(requireContext()) -> {
                         val activity = requireActivity()
                         val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)

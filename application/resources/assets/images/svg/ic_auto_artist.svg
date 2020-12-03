@@ -9,17 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="24"
-   height="24"
-   id="svg4682"
+   width="48px"
+   height="48px"
+   viewBox="0 0 48 48"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="ic_auto_shuffle_pressed.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   id="SVGRoot"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="ic_auto_artist.svg">
   <defs
-     id="defs4684" />
+     id="defs7678" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,55 +25,53 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="-16.02852"
-     inkscape:cy="15.371192"
+     inkscape:zoom="8.0000004"
+     inkscape:cx="35.557653"
+     inkscape:cy="27.443804"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:snap-global="true"
+     inkscape:grid-bbox="true"
      inkscape:snap-bbox="true"
      inkscape:bbox-paths="true"
-     inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:bbox-nodes="true"
      inkscape:snap-bbox-midpoints="true"
-     inkscape:snap-nodes="true"
      inkscape:object-paths="true"
-     inkscape:object-nodes="true"
+     inkscape:snap-intersection-paths="true"
      inkscape:snap-smooth-nodes="true"
      inkscape:snap-midpoints="true"
      inkscape:snap-object-midpoints="true"
      inkscape:snap-center="true">
     <inkscape:grid
        type="xygrid"
-       id="grid2983" />
+       id="grid8234" />
   </sodipodi:namedview>
   <metadata
-     id="metadata4687">
+     id="metadata7681">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-1028.3622)">
+     id="layer1">
     <path
        inkscape:connector-curvature="0"
-       id="path7632"
-       d="M 5.4375,1032.3622 4,1033.7685 l 5.1563,5.1562 1.4375,-1.4062 -5.1563,-5.1563 z m 9.5625,0 1.7813,1.7813 -12.2188,12.2187 -0.5625,0.5625 1.4063,1.4375 0.5937,-0.5937 12.1875,-12.2188 1.8125,1.8125 0,-5 -5,0 z m -0.1562,9.4063 -1.4375,1.4062 3.4062,3.375 -1.8125,1.8125 5,0 0,-5 -1.7812,1.7813 -3.375,-3.375 z"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;enable-background:accumulate" />
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.54330707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="m 29,8 a 8,8 0 0 0 -8,8 8,8 0 0 0 8,8 8,8 0 0 0 8,-8 8,8 0 0 0 -8,-8 z m -18,7 c -1.662,0 -3,1.338 -3,3 v 6 c 0,1.662 1.338,3 3,3 1.662,0 3,-1.338 3,-3 v -6 c 0,-1.662 -1.338,-3 -3,-3 z m -6,8 a 1,1 0 0 0 -1,1 1,1 0 0 0 0.0039,0.0879 c 0.04695,3.43855 2.583785,6.33951 5.996094,6.83203 v 9.08008 h 2 v -9.08008 c 3.44016,-0.49654 5.99492,-3.44215 6,-6.91797 a 1,1 0 0 0 0,-0.002 1,1 0 0 0 -1,-1 1,1 0 0 0 -1,1 c 0,2.76142 -2.23858,5.00195 -5,5.00195 -2.76142,0 -5,-2.24053 -5,-5.00195 a 1,1 0 0 0 -1,-1 z m 24,5 c 0,0 -15,0 -15,7 v 3 a 2,2 0 0 0 2,2 h 26 a 2,2 0 0 0 2,-2 V 35 C 44,28 29,28 29,28 Z"
+       id="path1936" />
   </g>
 </svg>

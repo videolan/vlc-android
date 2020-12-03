@@ -247,7 +247,6 @@
     <string name="ml_scanning">मिडिया फाइलहरूको लागि स्क्यान गर्दै</string>
     <string name="ml_external_storage_accept">हो</string>
     <string name="ml_external_storage_decline">हैन</string>
-    <string name="last_added_media">अन्तिमपटक थपिएको</string>
     <string name="no">हैन</string>
     <string name="yes">हो</string>
 

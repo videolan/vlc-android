@@ -4,7 +4,7 @@
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=03031cd1605ab07f61738b71a782831ea31c36b5
+MEDIALIBRARY_HASH=8bb0bfb4b4db9587bead04dd69c930a4f155fcda
 
 while [ $# -gt 0 ]; do
   case $1 in
@@ -67,6 +67,7 @@ cd "build-$ANDROID_ABI";
 if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
   ../configure \
     --host=$TARGET_TUPLE \
+    --enable-force-attachments-api \
     --disable-shared \
     CFLAGS="${VLC_CFLAGS}" \
     CXXFLAGS="${VLC_CFLAGS} ${VLC_CXXFLAGS}" \

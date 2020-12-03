@@ -14,7 +14,6 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
@@ -104,10 +103,10 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
             if (model.sizeText.value === null) model.checkFile(item)
             if (model.mediaTracks.value === null) model.parseTracks(this, item)
         }
-        model.hasSubs.observe(this, Observer { if (it) binding.infoSubtitles.visibility = View.VISIBLE })
-        model.mediaTracks.observe(this, Observer { adapter.setTracks(it) })
-        model.sizeText.observe(this, Observer { binding.sizeValueText = it })
-        model.cover.observe(this, Observer {
+        model.hasSubs.observe(this, { if (it) binding.infoSubtitles.visibility = View.VISIBLE })
+        model.mediaTracks.observe(this, { adapter.setTracks(it) })
+        model.sizeText.observe(this, { binding.sizeValueText = it })
+        model.cover.observe(this, {
             if (it != null) {
                 binding.cover = BitmapDrawable(this@InfoActivity.resources, it)
                 lifecycleScope.launch {
@@ -241,7 +240,7 @@ class InfoModel : ViewModel() {
     internal val mediaTracks = MutableLiveData<List<IMedia.Track>>()
     internal val sizeText = MutableLiveData<String>()
     internal val cover = MutableLiveData<Bitmap>()
-    internal val mMediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+    internal val mediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
     internal fun getCover(mrl: String?, width: Int) = viewModelScope.launch {
         cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.fetchCoverBitmap(Uri.decode(it), width) } }
@@ -250,7 +249,7 @@ class InfoModel : ViewModel() {
     internal fun parseTracks(context: Context, mw: MediaWrapper) = viewModelScope.launch {
         val media = withContext(Dispatchers.IO) {
             val libVlc = VLCInstance.getInstance(context)
-            mMediaFactory.getFromUri(libVlc, mw.uri).apply { parse() }
+            mediaFactory.getFromUri(libVlc, mw.uri).apply { parse() }
         }
         if (!isActive) return@launch
         var subs = false

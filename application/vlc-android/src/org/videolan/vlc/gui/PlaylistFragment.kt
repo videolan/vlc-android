@@ -26,7 +26,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +36,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.resources.CTX_PLAY_ALL
+import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistsFragmentBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
@@ -48,9 +50,6 @@ import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
-import org.videolan.resources.CTX_PLAY_ALL
-import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
@@ -101,15 +100,15 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.provider.pagedList.observe(requireActivity(), Observer {
+        viewModel.provider.pagedList.observe(requireActivity(), {
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
             binding.empty.visibility = if (it.isEmpty())View.VISIBLE else View.GONE
         })
-        viewModel.provider.loading.observe(requireActivity(), Observer { loading ->
+        viewModel.provider.loading.observe(requireActivity(), { loading ->
             setRefreshing(loading) {  }
         })
 
-        viewModel.provider.liveHeaders.observe(requireActivity(), Observer {
+        viewModel.provider.liveHeaders.observe(requireActivity(), {
             playlists.invalidateItemDecorations()
         })
 
@@ -118,6 +117,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        adapter?.itemCount?.let { getMultiHelper()?.toggleActionMode(true, it)}
         mode.menuInflater.inflate(R.menu.action_mode_audio_browser, menu)
         menu.findItem(R.id.action_mode_audio_add_playlist).isVisible = false
         return true

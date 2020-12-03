@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">Souhaitez-vous que VLC ajoute le périphérique %1$s à votre médiathèque ?</string>
     <string name="ml_external_storage_accept">Oui</string>
     <string name="ml_external_storage_decline">Non</string>
-    <string name="last_added_media">Derniers ajouts</string>
+    <string name="auto_last_added_media">Dernier ajout</string>
+    <string name="auto_my_library">Ma médiathèque</string>
+    <string name="auto_home">Accueil</string>
     <string name="no">Non</string>
     <string name="loading_medialibrary">Chargement de la médiathèque…</string>
     <string name="yes">Oui</string>
@@ -734,5 +736,27 @@
 
     <string name="mark_as_played">Marquer comme vu</string>
     <string name="mark_all_as_played">Marquer tout comme vu</string>
+    <string name="new_group">Nouveau groupe</string>
+    <string name="new_group_desc">Créer un nouveau groupe</string>
+
+    <string name="air_action_rewind">Rembobiner 10s</string>
+    <string name="air_action_forward">Chercher 10s en avant</string>
+    <string name="air_action_play_pause">Pause/reprise de la lecture</string>
+    <string name="air_action_volume_up">Augmenter le volume</string>
+    <string name="air_action_volume_down">Baisser le volume</string>
+    <string name="air_action_next">Élément suivant en lecture</string>
+    <string name="air_action_previous">Élément précédent en lecture</string>
+    <string name="allow_otg">Autoriser l\'accès OTG</string>
+    <string name="allow_otg_description">Veuillez sélectionner votre périphérique OTG pour y autoriser l\'accès a VLC.</string>
+    <string name="timeout_infinite">Infini</string>
+    <string name="timeout_short">Court</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Long</string>
+    <string name="video_hud_timeout">Lecteur vidéo controle le délai de masquage</string>
+    <string name="remove_from_history">Retirer de l\'historique</string>
+    <string name="prefersmbv1">Préfère SMB 1</string>
+    <string name="prefersmbv1_summary">Décochez ce paramètre si vous avez des difficultés à naviguer sur votre serveur SMB</string>
+    <string name="apply_to_all">Appliquer à toutes les vidéos</string>
+    <string name="audio_delay_global">Délai audio défini à %sms pour toutes les vidéos</string>
 
 </resources>

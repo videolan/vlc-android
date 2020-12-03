@@ -1,0 +1,45 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_playall_circle.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+  <path
+      android:pathData="M32,32m-31.9999,0a31.9999,31.9999 0,1 1,63.9999 0a31.9999,31.9999 0,1 1,-63.9999 0"
+      android:strokeLineJoin="round"
+      android:strokeWidth="3.84306884"
+      android:fillColor="#aa000000"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M23.5507,16.0009C22.7033,15.9723 22.0006,16.651 21.9999,17.4989L21.9999,46.4979c0.0002,1.1616 1.2638,1.8822 2.2637,1.291l24.5,-14.4995c0.9815,-0.5808 0.9815,-2.0011 0,-2.5819l-24.5,-14.4995C24.0471,16.0803 23.8019,16.0091 23.5507,16.0009Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2.99994707"
+      android:fillColor="#ffffff"
+      android:strokeColor="#00000000"
+      android:fillType="evenOdd"
+      android:strokeLineCap="butt"/>
+</vector>

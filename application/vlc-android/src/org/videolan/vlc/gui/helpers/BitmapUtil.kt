@@ -116,7 +116,7 @@ object BitmapUtil {
 
     }
 
-    fun getBitmapFromVectorDrawable(context: Context, @DrawableRes drawableId: Int): Bitmap? {
+    fun getBitmapFromVectorDrawable(context: Context, @DrawableRes drawableId: Int, width: Int = -1, height: Int = -1): Bitmap? {
         var drawable: Drawable = ContextCompat.getDrawable(context, drawableId) ?: return null
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             drawable = DrawableCompat.wrap(drawable).mutate()
@@ -124,7 +124,10 @@ object BitmapUtil {
         return when (drawable) {
             is BitmapDrawable -> drawable.bitmap
             is VectorDrawableCompat, is VectorDrawable -> {
-                val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+                val bitmap = if (width > 0 && height > 0)
+                    Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                else
+                    Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(bitmap)
                 drawable.setBounds(0, 0, canvas.width, canvas.height)
                 drawable.draw(canvas)
@@ -135,7 +138,7 @@ object BitmapUtil {
     }
 }
 
-fun Context.getBitmapFromDrawable(@DrawableRes drawableId: Int): Bitmap? {
+fun Context.getBitmapFromDrawable(@DrawableRes drawableId: Int, width: Int = -1, height: Int = -1): Bitmap? {
     var drawable: Drawable = try {
         ContextCompat.getDrawable(this, drawableId) ?: return null
     } catch (e: Resources.NotFoundException) {
@@ -147,7 +150,10 @@ fun Context.getBitmapFromDrawable(@DrawableRes drawableId: Int): Bitmap? {
     return when {
         drawable is BitmapDrawable -> drawable.bitmap
         drawable is VectorDrawableCompat || (AndroidUtil.isLolliPopOrLater && drawable is VectorDrawable) -> {
-            val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            val bitmap = if (width > 0 && height > 0)
+                Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            else
+                Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             drawable.setBounds(0, 0, canvas.width, canvas.height)
             drawable.draw(canvas)

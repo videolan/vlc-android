@@ -24,6 +24,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
+import android.util.Log
 import androidx.collection.SimpleArrayMap
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
@@ -42,13 +43,12 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.util.HeaderProvider
-import org.videolan.tools.AppScope
-import org.videolan.tools.CoroutineContextProvider
-import org.videolan.tools.DependencyProvider
-import org.videolan.tools.Settings
+import org.videolan.tools.*
 import org.videolan.tools.livedata.LiveDataset
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.util.*
+import java.io.File
 
 const val TAG = "VLC/BrowserProvider"
 
@@ -255,7 +255,18 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                     val current = when (item.itemType) {
                         MediaLibraryItem.TYPE_MEDIA -> {
                             val mw = item as MediaWrapper
-                            if (mw.type != MediaWrapper.TYPE_DIR && mw.type != MediaWrapper.TYPE_PLAYLIST) continue@loop
+                            if (mw.type != MediaWrapper.TYPE_DIR && mw.type != MediaWrapper.TYPE_PLAYLIST){
+                                if (mw.length == 0L) {
+                                    parseMediaSize(mw)?.let {
+                                        withContext(coroutineContextProvider.Main) {
+                                            item.description = if (it == 0L) "" else it.readableFileSize()
+                                            descriptionUpdate.value = Pair(currentParsedPosition, item.description)
+                                        }
+                                    }
+
+                                }
+                                continue@loop
+                            }
                             if (mw.uri.scheme == "otg" || mw.uri.scheme == "content") continue@loop
                             mw
                         }
@@ -292,6 +303,13 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         parsingJob = null
     }
 
+    private fun parseMediaSize(mw:MediaWrapper):Long? {
+        mw.uri?.path?.let {
+            return File(it).length()
+        }
+        return null
+    }
+
     fun hasSubfolders(media: MediaWrapper): Boolean = foldersContentMap.get(media)?.map { it as MediaWrapper }?.filter { it.type == MediaWrapper.TYPE_DIR }?.size ?: 0 > 0
     fun hasMedias(media: MediaWrapper): Boolean = foldersContentMap.get(media)?.map { it as MediaWrapper }?.filter { it.type != MediaWrapper.TYPE_DIR }?.size ?: 0 > 0
 
@@ -317,8 +335,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             else if (!showAll) return null
         }
         val uri = mw.uri
-        if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)
-                && "file" == uri.scheme) return withContext(coroutineContextProvider.IO) {
+        if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)) return withContext(coroutineContextProvider.IO) {
             medialibrary.getMedia(uri) ?: mw
         }
         return mw

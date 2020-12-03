@@ -93,6 +93,7 @@ object UiTools {
     private val TAG = "VLC/UiTools"
     private var DEFAULT_COVER_VIDEO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_DRAWABLE: BitmapDrawable? = null
+    private var DEFAULT_COVER_AUDIO_AUTO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ALBUM_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_ARTIST_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_MOVIE_DRAWABLE: BitmapDrawable? = null
@@ -122,6 +123,13 @@ object UiTools {
             DEFAULT_COVER_AUDIO_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_no_song))
         }
         return DEFAULT_COVER_AUDIO_DRAWABLE!!
+    }
+
+    fun getDefaultAudioAutoDrawable(context: Context): BitmapDrawable {
+        if (DEFAULT_COVER_AUDIO_AUTO_DRAWABLE == null) {
+            DEFAULT_COVER_AUDIO_AUTO_DRAWABLE = BitmapDrawable(context.resources, getBitmapFromDrawable(context, R.drawable.ic_auto_nothumb))
+        }
+        return DEFAULT_COVER_AUDIO_AUTO_DRAWABLE!!
     }
 
     fun getDefaultFolderDrawable(context: Context): BitmapDrawable {
@@ -208,10 +216,14 @@ object UiTools {
         return DEFAULT_COVER_FOLDER_DRAWABLE_BIG!!
     }
 
+    private fun getSnackAnchorView(activity: Activity)=
+        if (activity is BaseActivity && activity.getSnackAnchorView() != null) activity.getSnackAnchorView() else activity.findViewById(android.R.id.content)
+
     /**
      * Print an on-screen message to alert the user
      */
-    fun snacker(view: View, stringId: Int) {
+    fun snacker(activity:Activity, stringId: Int) {
+        val view = getSnackAnchorView(activity) ?: return
         val snack = Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT)
 //        snack.setAnchorView()
                 snack.show()
@@ -221,7 +233,8 @@ object UiTools {
      * Print an on-screen message to alert the user
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snacker(view: View, message: String) {
+    fun snacker(activity:Activity, message: String) {
+        val view = getSnackAnchorView(activity) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
@@ -232,7 +245,8 @@ object UiTools {
      * Print an on-screen message to alert the user, with undo action
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerConfirm(view: View, message: String, action: Runnable) {
+    fun snackerConfirm(activity:Activity, message: String, action: Runnable) {
+        val view = getSnackAnchorView(activity) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction(R.string.ok) { action.run() }
         if (AndroidUtil.isLolliPopOrLater)
@@ -241,7 +255,8 @@ object UiTools {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun CoroutineScope.snackerConfirm(view: View, message: String, action: suspend() -> Unit) {
+    fun CoroutineScope.snackerConfirm(activity:Activity, message: String, action: suspend() -> Unit) {
+        val view = getSnackAnchorView(activity) ?: return
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction(R.string.ok) { launch { action.invoke() } }
         if (AndroidUtil.isLolliPopOrLater)
@@ -254,7 +269,8 @@ object UiTools {
      * Print an on-screen message to alert the user, with undo action
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun snackerWithCancel(view: View, message: String, action: Runnable?, cancelAction: Runnable?) {
+    fun snackerWithCancel(activity:Activity, message: String, action: Runnable?, cancelAction: Runnable?) {
+        val view = getSnackAnchorView(activity) ?: return
         @SuppressLint("WrongConstant") val snack = Snackbar.make(view, message, DELETE_DURATION)
                 .setAction(R.string.cancel) {
                     if (action != null)
@@ -358,11 +374,12 @@ object UiTools {
         savePlaylistDialog.show(supportFragmentManager, "fragment_add_to_playlist")
     }
 
-    fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>) {
+    fun FragmentActivity.addToGroup(tracks: List<MediaWrapper>, forbidNewGroup:Boolean , newGroupListener: ()->Unit) {
         if (!isStarted()) return
         val addToGroupDialog = AddToGroupDialog()
-        addToGroupDialog.arguments = bundleOf(AddToGroupDialog.KEY_TRACKS to tracks.toTypedArray())
+        addToGroupDialog.arguments = bundleOf(AddToGroupDialog.KEY_TRACKS to tracks.toTypedArray(), AddToGroupDialog.FORBID_NEW_GROUP to forbidNewGroup)
         addToGroupDialog.show(supportFragmentManager, "fragment_add_to_group")
+        addToGroupDialog.newGroupListener = newGroupListener
     }
 
     fun FragmentActivity.showVideoTrack(menuListener:(Int) -> Unit, trackSelectionListener:(Int, VideoTracksDialog.TrackType) -> Unit) {
@@ -686,7 +703,8 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
         when (mw.type) {
             MediaWrapper.TYPE_VIDEO -> R.drawable.ic_browser_video_big_normal
             MediaWrapper.TYPE_DIR -> if (mw.uri.scheme == "file") R.drawable.ic_menu_folder_big else R.drawable.ic_menu_network_big
-            else -> R.drawable.ic_song_big
+            MediaWrapper.TYPE_AUDIO -> R.drawable.ic_song_big
+            else -> R.drawable.ic_browser_unknown_big_normal
         }
     }
     MediaLibraryItem.TYPE_DUMMY -> {

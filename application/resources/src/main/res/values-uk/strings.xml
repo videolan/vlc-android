@@ -520,7 +520,9 @@
     <string name="ml_external_storage_msg">Хочете, щоби VLC додала пристрій %1$s до вашої бібліотеки медіа?</string>
     <string name="ml_external_storage_accept">Так</string>
     <string name="ml_external_storage_decline">Ні</string>
-    <string name="last_added_media">останнє додане</string>
+    <string name="auto_last_added_media">Останнє додане</string>
+    <string name="auto_my_library">Моя бібліотека</string>
+    <string name="auto_home">Головна</string>
     <string name="no">Ні</string>
     <string name="loading_medialibrary">Завантажується бібліотека медіа…</string>
     <string name="yes">Так</string>
@@ -756,5 +758,27 @@
 
     <string name="mark_as_played">Позначити як відтворене</string>
     <string name="mark_all_as_played">Позначии усе як відтворене</string>
+    <string name="new_group">Нова група</string>
+    <string name="new_group_desc">Створити нову групу</string>
+
+    <string name="air_action_rewind">Перемотати 10 с</string>
+    <string name="air_action_forward">Пошук вперед на 10 с</string>
+    <string name="air_action_play_pause">Пауза/Відновлення відтворення</string>
+    <string name="air_action_volume_up">Голосніше</string>
+    <string name="air_action_volume_down">Тихіше</string>
+    <string name="air_action_next">Наступний елемент у відтворенні</string>
+    <string name="air_action_previous">Попередній елемент у відтворенні</string>
+    <string name="allow_otg">Дозволити доступ через  OTG</string>
+    <string name="allow_otg_description">Будь ласка, виберіть ваш носій OTG, щоб дозволити доступ для VLC.</string>
+    <string name="timeout_infinite">Нескінченна</string>
+    <string name="timeout_short">Коротка</string>
+    <string name="timeout_normal">Нормальна</string>
+    <string name="timeout_long">Довга</string>
+    <string name="video_hud_timeout">Відео програвач управляє затримкою</string>
+    <string name="remove_from_history">Вилучити з історії</string>
+    <string name="prefersmbv1">Віддати перевагу SMB 1</string>
+    <string name="prefersmbv1_summary">Вимкніть цей параметр, якщо у вас наявні труднощі при перегляді вашого сервера SMB.</string>
+    <string name="apply_to_all">Застосувати до всіх відео</string>
+    <string name="audio_delay_global">Затримку аудіо задати на %s мс для всіх відео</string>
 
 </resources>

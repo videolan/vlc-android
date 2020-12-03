@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">Szeretné, hogy a VLC hozzáadja a(z) %1$s eszközt a médiatárához?</string>
     <string name="ml_external_storage_accept">Igen</string>
     <string name="ml_external_storage_decline">Nem</string>
-    <string name="last_added_media">legutóbb hozzáadva</string>
+    <string name="auto_last_added_media">Legutóbb hozzáadva</string>
+    <string name="auto_my_library">Saját médiatár</string>
+    <string name="auto_home">Kezdőlap</string>
     <string name="no">Nem</string>
     <string name="loading_medialibrary">Médiatár betöltése…</string>
     <string name="yes">Igen</string>
@@ -734,5 +736,27 @@
 
     <string name="mark_as_played">Megjelölés lejátszottként</string>
     <string name="mark_all_as_played">Összes megjelölése lejátszottként</string>
+    <string name="new_group">Új csoport</string>
+    <string name="new_group_desc">Új csoport létrehozása</string>
+
+    <string name="air_action_rewind">Visszatekerés 10 másodperccel</string>
+    <string name="air_action_forward">Tekerés előre 10 másodperccel</string>
+    <string name="air_action_play_pause">Lejátszás szüneteltetése/folytatása</string>
+    <string name="air_action_volume_up">Hangerő fel</string>
+    <string name="air_action_volume_down">Hangerő le</string>
+    <string name="air_action_next">Következő lejátszási elem</string>
+    <string name="air_action_previous">Előző lejátszási elem</string>
+    <string name="allow_otg">OTG hozzáférés bekapcsolása</string>
+    <string name="allow_otg_description">Válassza ki az OTG eszközt, hogy hozzáférést kérjen a VLC-hez</string>
+    <string name="timeout_infinite">Végtelen</string>
+    <string name="timeout_short">Rövid</string>
+    <string name="timeout_normal">Normál</string>
+    <string name="timeout_long">Hosszú</string>
+    <string name="video_hud_timeout">Videó vezérlők elrejtési késleltetése</string>
+    <string name="remove_from_history">Eltávolítás az előzményekből</string>
+    <string name="prefersmbv1">SMB 1 előnyben részesítése</string>
+    <string name="prefersmbv1_summary">Kapcsolja ki ezt a beállítást, ha problémákba ütközik az SMB szerverek böngészésekor</string>
+    <string name="apply_to_all">Alkalmazás az összes videóra</string>
+    <string name="audio_delay_global">Hangkésleltetés %s ms-ra állítva az összes videónál</string>
 
 </resources>

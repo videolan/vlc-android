@@ -136,7 +136,7 @@ class StartActivity : FragmentActivity() {
         // Start application
         /* Get the current version from package */
         val settings = Settings.getInstance(this)
-        val currentVersionNumber = BuildConfig.VERSION_CODE
+        val currentVersionNumber = BuildConfig.VLC_VERSION_CODE
         val savedVersionNumber = settings.getInt(PREF_FIRST_RUN, -1)
         /* Check if it's the first run */
         val firstRun = savedVersionNumber == -1

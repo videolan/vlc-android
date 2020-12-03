@@ -198,6 +198,10 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
             }
         }
 
+        override fun selectView(selected: Boolean) {
+            super.selectView(selected)
+            bindingContainer.moreIcon.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
+        }
 
         override fun onCheckBoxClick(v: View) {
             if (getItem(layoutPosition).itemType == TYPE_STORAGE)

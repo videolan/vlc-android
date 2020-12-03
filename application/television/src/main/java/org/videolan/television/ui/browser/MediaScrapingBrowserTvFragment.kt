@@ -28,7 +28,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -86,7 +85,7 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
         viewModel = getMoviepediaBrowserModel(arguments?.getLong(CATEGORY, HEADER_MOVIES)
                 ?: HEADER_MOVIES)
 
-        (viewModel.provider as MediaScrapingProvider).pagedList.observe(this, Observer { items ->
+        (viewModel.provider as MediaScrapingProvider).pagedList.observe(this, { items ->
             binding.emptyLoading.post {
                 submitList(items)
 
@@ -100,12 +99,12 @@ class MediaScrapingBrowserTvFragment : BaseBrowserTvFragment<MediaMetadataWithIm
             }
         })
 
-        viewModel.provider.liveHeaders.observe(this, Observer {
+        viewModel.provider.liveHeaders.observe(this, {
             updateHeaders(it)
             binding.list.invalidateItemDecorations()
         })
 
-        (viewModel.provider as MediaScrapingProvider).loading.observe(this, Observer {
+        (viewModel.provider as MediaScrapingProvider).loading.observe(this, {
             if (it) binding.emptyLoading.state = EmptyLoadingState.LOADING
         })
     }

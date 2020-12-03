@@ -40,7 +40,6 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -108,6 +107,11 @@ open class AudioPlayerContainerActivity : BaseActivity() {
 
     val isAudioPlayerExpanded: Boolean
         get() = isAudioPlayerReady && playerBehavior.state == STATE_EXPANDED
+
+    override fun getSnackAnchorView(): View? {
+      return  if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && ::playerBehavior.isInitialized && playerBehavior.state == STATE_COLLAPSED)
+          audioPlayerContainer else if (::playerBehavior.isInitialized && playerBehavior.state == STATE_EXPANDED) findViewById(android.R.id.content) else findViewById(R.id.coordinator) ?: findViewById(android.R.id.content)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
@@ -353,24 +357,24 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     protected open fun onPlayerStateChanged(bottomSheet: View, newState: Int) {}
 
     private fun registerLiveData() {
-        PlaylistManager.showAudioPlayer.observe(this, Observer { showPlayer ->
+        PlaylistManager.showAudioPlayer.observe(this, { showPlayer ->
             if (showPlayer == true) showAudioPlayer()
             else {
                 hideAudioPlayer()
                 if (isAudioPlayerReady) playerBehavior.lock(true)
             }
         })
-        MediaParsingService.progress.observe(this, Observer { scanProgress ->
+        MediaParsingService.progress.observe(this, { scanProgress ->
             if (scanProgress == null || !Medialibrary.getInstance().isWorking) {
                 updateProgressVisibility(false)
-                return@Observer
+                return@observe
             }
             updateProgressVisibility(true, scanProgress.discovery, scanProgress.parsing)
             scanProgressText?.text = scanProgress.discovery
             scanProgressBar?.progress = scanProgress.parsing
         })
-        MediaParsingService.newStorages.observe(this, Observer<List<String>> { devices ->
-            if (devices == null) return@Observer
+        MediaParsingService.newStorages.observe(this, { devices ->
+            if (devices == null) return@observe
             for (device in devices) UiTools.newStorageDetected(this@AudioPlayerContainerActivity, device)
             MediaParsingService.newStorages.setValue(null)
         })

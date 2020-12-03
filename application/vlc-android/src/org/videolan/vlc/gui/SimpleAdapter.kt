@@ -1,13 +1,20 @@
 package org.videolan.vlc.gui
 
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.ab_repeat_controls.view.*
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.dp
+import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SimpleItemBinding
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
+import org.videolan.vlc.gui.helpers.getDummyItemIcon
 
 private val cb = object : DiffUtil.ItemCallback<MediaLibraryItem>() {
     override fun areItemsTheSame(oldItem: MediaLibraryItem, newItem: MediaLibraryItem) = oldItem == newItem
@@ -15,6 +22,7 @@ private val cb = object : DiffUtil.ItemCallback<MediaLibraryItem>() {
 }
 
 class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, SimpleAdapter.ViewHolder>(cb) {
+
 
     interface ClickHandler {
         fun onClick(item: MediaLibraryItem)
@@ -30,6 +38,9 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.item = getItem(position)
         holder.binding.imageWidth = 48.dp
+        (getItem(position) as? DummyItem)?.let {
+            holder.binding.cover =  getDummyItemIcon(holder.itemView.context, it)
+        }
     }
 
     fun isEmpty() = itemCount == 0

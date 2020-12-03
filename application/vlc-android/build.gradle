@@ -24,6 +24,9 @@ android {
         resValue "string", "build_revision", revision()
         resValue 'string', 'tv_provider_authority', "\"${rootProject.ext.appId}\".tv"
         buildConfigField "String", "APP_ID", "\"${rootProject.ext.appId}\""
+        buildConfigField 'int', 'VLC_VERSION_CODE', "${rootProject.ext.versionCode}"
+        buildConfigField 'String', 'VLC_VERSION_NAME', "\"${rootProject.ext.versionName}\""
+        buildConfigField 'String[]', 'TRANSLATION_ARRAY', generateTranslation()
 
         testInstrumentationRunner "org.videolan.vlc.MultidexTestRunner"
         // The following argument makes the Android Test Orchestrator run its
@@ -113,32 +116,29 @@ android {
     }
 }
 
+def generateTranslation() {
+    def foundLocales = new StringBuilder()
+    foundLocales.append("new String[]{")
+
+    fileTree("../resources/src/main/res").visit { FileVisitDetails details ->
+        println 'details: ' + details
+        if (details.file.path.endsWith("strings.xml")) {
+            def languageCode = details.file.parentFile.name.replaceAll('values-', '').replaceAll('-r', '-')
+            languageCode = (languageCode == "values") ? "en" : languageCode
+            foundLocales.append("\"").append(languageCode).append("\"").append(",")
+        }
+    }
+
+    foundLocales.append("}")
+    //Don't forget to remove the trailing comma
+    def foundLocalesString = foundLocales.toString().replaceAll(',}', '}')
+    return foundLocalesString
+}
+
 task generateSources(type: Jar) {
     classifier = 'sources'
     from android.sourceSets.main.java.srcDirs
 }
-
-task buildTranslationArray {
-    doLast {
-        def foundLocales = new StringBuilder()
-        foundLocales.append("new String[]{")
-
-        fileTree("../resources/src/main/res").visit { FileVisitDetails details ->
-            println 'details: ' + details
-            if (details.file.path.endsWith("strings.xml")) {
-                def languageCode = details.file.parentFile.name.replaceAll('values-', '').replaceAll('-r', '-')
-                languageCode = (languageCode == "values") ? "en" : languageCode
-                foundLocales.append("\"").append(languageCode).append("\"").append(",")
-            }
-        }
-
-        foundLocales.append("}")
-        //Don't forget to remove the trailing comma
-        def foundLocalesString = foundLocales.toString().replaceAll(',}', '}')
-        android.defaultConfig.buildConfigField "String[]", "TRANSLATION_ARRAY", foundLocalesString
-    }
-}
-preBuild.dependsOn buildTranslationArray
 
 dependencies {
     devApi project(':libvlc')

@@ -493,7 +493,9 @@
     <string name="ml_external_storage_msg">是否希望 VLC 将设备「%1$s」添加到您的媒体库?</string>
     <string name="ml_external_storage_accept">是</string>
     <string name="ml_external_storage_decline">否</string>
-    <string name="last_added_media">添加时间</string>
+    <string name="auto_last_added_media">上次添加</string>
+    <string name="auto_my_library">我的库</string>
+    <string name="auto_home">主页</string>
     <string name="no">否</string>
     <string name="loading_medialibrary">正在加载媒体库…</string>
     <string name="yes">是</string>
@@ -723,5 +725,27 @@
 
     <string name="mark_as_played">标记为已播放</string>
     <string name="mark_all_as_played">标记所有为已播放</string>
+    <string name="new_group">新组别</string>
+    <string name="new_group_desc">创建一个新组别</string>
+
+    <string name="air_action_rewind">倒退10秒</string>
+    <string name="air_action_forward">向前10秒</string>
+    <string name="air_action_play_pause">暂停/恢复播放</string>
+    <string name="air_action_volume_up">调高音量</string>
+    <string name="air_action_volume_down">调低音量</string>
+    <string name="air_action_next">下一个播放项目</string>
+    <string name="air_action_previous">上一个播放项目</string>
+    <string name="allow_otg">允许 OTG 访问</string>
+    <string name="allow_otg_description">请选择允许访问VLC的OTG驱动器。</string>
+    <string name="timeout_infinite">无限</string>
+    <string name="timeout_short">短</string>
+    <string name="timeout_normal">正常</string>
+    <string name="timeout_long">长</string>
+    <string name="video_hud_timeout">视频播放器控件隐藏延迟</string>
+    <string name="remove_from_history">从历史记录中删除</string>
+    <string name="prefersmbv1">优先使用SMB 1协议</string>
+    <string name="prefersmbv1_summary">如您浏览SMB服务器有困难，请取消选中这个设置</string>
+    <string name="apply_to_all">应用到所有视频</string>
+    <string name="audio_delay_global">所有视频的音频延迟设置为 %s ms</string>
 
 </resources>

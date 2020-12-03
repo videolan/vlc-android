@@ -104,7 +104,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                             filesText = resources.getQuantityString(R.plurals.media_quantity, newTrack.size, newTrack.size)
                         }
                     } else {
-                        viewModel.dataset.observe(this, androidx.lifecycle.Observer { mediaLibraryItems ->
+                        viewModel.dataset.observe(this, { mediaLibraryItems ->
                             newTrack = mediaLibraryItems.asSequence().map { it as MediaWrapper }.filter { it.type != MediaWrapper.TYPE_DIR }.toList().toTypedArray()
                             isLoading = false
                             filesText = resources.getQuantityString(R.plurals.media_quantity, newTrack.size, newTrack.size)
@@ -175,7 +175,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                     if (media != null)
                         ids.add(media.id)
                     else {
-                        media = medialibrary.addMedia(mw.location)
+                        media = medialibrary.addMedia(mw.location, -1L)
                         if (media != null) ids.add(media.id)
                     }
                 } else

@@ -520,7 +520,7 @@
     <string name="ml_external_storage_msg">Wyt ti am i VLC ychwanegu\'r ddyfais %1$s i dy lyfrgell cyfryngau?</string>
     <string name="ml_external_storage_accept">Ie</string>
     <string name="ml_external_storage_decline">Na</string>
-    <string name="last_added_media">ychwanegwyd diwethaf</string>
+    <string name="auto_last_added_media">Ychwanegwyd diwethaf</string>
     <string name="no">Na</string>
     <string name="loading_medialibrary">Yn llwytho\'r llyfgrell cyfryngau…</string>
     <string name="yes">Ie.</string>
@@ -756,5 +756,7 @@
 
     <string name="mark_as_played">Nodi fel wedi\'i chwarae</string>
     <string name="mark_all_as_played">Nodi pob un fel wedi\'i chwarae</string>
+    <string name="new_group">Grŵp newydd</string>
+    <string name="new_group_desc">Creu grŵp newydd</string>
 
 </resources>

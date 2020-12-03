@@ -40,11 +40,13 @@ import org.videolan.tools.safeOffer
 import org.videolan.vlc.databinding.HistoryItemBinding
 import org.videolan.vlc.databinding.HistoryItemCardBinding
 import org.videolan.vlc.gui.helpers.*
+import org.videolan.vlc.interfaces.IListEventsHandler
+import org.videolan.vlc.interfaces.SwipeDragHelperAdapter
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class HistoryAdapter(private val inCards: Boolean = false) : DiffUtilAdapter<MediaWrapper, HistoryAdapter.ViewHolder>(),
-        MultiSelectAdapter<MediaWrapper>, IEventsSource<Click> by EventsSource() {
+class HistoryAdapter(private val inCards: Boolean = false, private val listEventsHandler: IListEventsHandler? = null) : DiffUtilAdapter<MediaWrapper, HistoryAdapter.ViewHolder>(),
+        MultiSelectAdapter<MediaWrapper>, IEventsSource<Click> by EventsSource(), SwipeDragHelperAdapter {
 
     val updateEvt : LiveData<Unit> = MutableLiveData()
     private lateinit var layoutInflater: LayoutInflater
@@ -148,4 +150,13 @@ class HistoryAdapter(private val inCards: Boolean = false) : DiffUtilAdapter<Med
 
         const val TAG = "VLC/HistoryAdapter"
     }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {    }
+
+    override fun onItemDismiss(position: Int) {
+        val item = getItem(position)
+        listEventsHandler?.onRemove(position, item)
+    }
+
+    override fun onItemMoved(dragFrom: Int, dragTo: Int) {    }
 }

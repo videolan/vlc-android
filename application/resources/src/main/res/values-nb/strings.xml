@@ -398,6 +398,8 @@
 
     <string name="no_result">Ingen resultater funnet</string>
     <string name="no_internet_connection">Sjekk nettverkstilkoblingen</string>
+    <string name="subs_download_error">Tjenesten er ikke tilgjengelig. Vennligst forsøk igjen senere</string>
+
     <string name="network_browsing">Lokalnettverk</string>
     <string name="browsing">Utforsker</string>
 
@@ -485,7 +487,8 @@
     <string name="ml_external_storage_msg">Ønsker du at VLC skal legge enheten %1$s til i ditt mediabibliotek?</string>
     <string name="ml_external_storage_accept">Ja</string>
     <string name="ml_external_storage_decline">Nei</string>
-    <string name="last_added_media">sist lagt til</string>
+    <string name="auto_my_library">Mitt bibliotek</string>
+    <string name="auto_home">Hjem</string>
     <string name="no">Nei</string>
     <string name="loading_medialibrary">Laster mediabibliotek…</string>
     <string name="yes">Ja</string>
@@ -690,4 +693,28 @@
     <string name="ungroup">Del opp</string>
     <string name="group_similar">Grupper på nytt automatisk</string>
     <string name="no_favorite">Ingen favoritt</string>
+    <string name="no_track">Ingen spor</string>
+
+    <string name="swipe_unlock">Sveip for å låse opp</string>
+    <string name="swipe_unlock_no_touch">Trykk lenge for å låse opp</string>
+    <string name="sub_result_by_name_episode">Episode %s</string>
+
+    <string name="donate">Hjelp VLC</string>
+    <string name="subscription_cancel">Du kan avslutte abonnementet i Play-Store</string>
+    <string name="subscription_cancel_tv">Slik avslutter du abonnementet</string>
+    <string name="tip_jar">Hjelp VLC</string>
+    <string name="thank_you">Takk</string>
+    <string name="mark_as_played">Merk som avspilt</string>
+    <string name="mark_all_as_played">Merk alle som avspilt</string>
+    <string name="new_group">Ny gruppe</string>
+    <string name="new_group_desc">Opprett en ny gruppe</string>
+
+    <string name="air_action_rewind">Tilbake 10 sek</string>
+    <string name="air_action_forward">Fremover 10 sek</string>
+    <string name="air_action_play_pause">Pause/gjenoppta avspilling</string>
+    <string name="air_action_volume_up">Høyere lyd</string>
+    <string name="air_action_volume_down">Lavere lyd</string>
+    <string name="timeout_short">Kort</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Lang</string>
 </resources>

@@ -8,28 +8,34 @@ import kotlin.math.min
 
 class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val payloadvalue: Any = 0) {
 
-    val selectionMap = SparseBooleanArray()
+    val selectionMap = ArrayList<Int>()
+    var inActionMode = false
 
     fun getSelection(): List<T> {
-        val list = ArrayList<T>(selectionMap.size())
-        for (i in 0 until selectionMap.size()) adapter.getItem(selectionMap.keyAt(i))?.let { list.add(it) }
+        val list = ArrayList<T>(selectionMap.size)
+        for (i in 0 until selectionMap.size) adapter.getItem(selectionMap[i])?.let { list.add(it) }
         return list
     }
 
     @MainThread
-    fun getSelectionCount() = selectionMap.size()
+    fun getSelectionCount() = selectionMap.size
+
+    fun toggleActionMode(inActionMode:Boolean, itemCount:Int) {
+        this.inActionMode = inActionMode
+        adapter.notifyItemRangeChanged(0, itemCount, payloadvalue)
+    }
 
     fun toggleSelection(position: Int, forceShift: Boolean = false) {
-        if ((KeyHelper.isShiftPressed || forceShift) && selectionMap.size() != 0) {
+        if ((KeyHelper.isShiftPressed || forceShift) && selectionMap.size != 0) {
             val positions = HashSet<Int>()
-            for (i in 0 until selectionMap.size()) {
-                positions.add(selectionMap.keyAt(i))
+            for (i in 0 until selectionMap.size) {
+                positions.add(selectionMap[i])
             }
-            val firstPosition = selectionMap.keyAt(0)
+            val firstPosition = selectionMap[0]
             selectionMap.clear()
 
             for (i in min(firstPosition, position)..max(firstPosition, position)) {
-                selectionMap.append(i, true)
+                selectionMap.add(i)
                 positions.add(i)
             }
 
@@ -38,20 +44,20 @@ class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val paylo
             }
             return
         }
-        if (isSelected(position)) selectionMap.delete(position)
-        else selectionMap.append(position, true)
+        if (isSelected(position)) selectionMap.remove(position)
+        else selectionMap.add(position)
         adapter.notifyItemChanged(position, payloadvalue)
     }
 
     fun clearSelection() {
-        if (selectionMap.size() == 0) return
-        val start = selectionMap.keyAt(0)
-        val count = selectionMap.keyAt(selectionMap.size() - 1) - start + 1
+        if (selectionMap.size == 0) return
+        val start = selectionMap.minOrNull()
+        val count = selectionMap.maxOrNull()
         selectionMap.clear()
-        adapter.notifyItemRangeChanged(start, count, payloadvalue)
+        adapter.notifyItemRangeChanged(start ?: 0, count ?: 0, payloadvalue)
     }
 
-    fun isSelected(position: Int) = selectionMap.get(position, false)
+    fun isSelected(position: Int) = selectionMap.contains(position)
 }
 
 interface MultiSelectAdapter<T> {

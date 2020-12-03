@@ -1,9 +1,7 @@
 package org.videolan.vlc.util
 
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Rect
+import android.graphics.*
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.MediaStore
@@ -106,8 +104,8 @@ object ThumbnailsProvider {
         return bitmap
     }
 
-    suspend fun getPlaylistImage(key: String, mediaList: List<MediaWrapper>, width: Int) =
-            (BitmapCache.getBitmapFromMemCache(key) ?: composePlaylistImage(mediaList, width))?.also {
+    suspend fun getPlaylistImage(key: String, mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap? = null) =
+            (BitmapCache.getBitmapFromMemCache(key) ?: composePlaylistImage(mediaList, width, iconAddition))?.also {
                 BitmapCache.addBitmapToMemCache(key, it)
             }
 
@@ -116,62 +114,74 @@ object ThumbnailsProvider {
      * @param mediaList The track list of the playlist
      * @return a Bitmap object
      */
-    private suspend fun composePlaylistImage(mediaList: List<MediaWrapper>, width: Int): Bitmap? {
+    private suspend fun composePlaylistImage(mediaList: List<MediaWrapper>, width: Int, iconAddition: Bitmap?): Bitmap? {
         if (mediaList.isEmpty()) return null
         val url = mediaList[0].artworkURL
         val isAllSameImage = !mediaList.any { it.artworkURL != url }
 
-        if (isAllSameImage) {
-
-            return obtainBitmap(mediaList[0], width)
-        }
-
-        val artworks = ArrayList<MediaWrapper>()
-        for (mediaWrapper in mediaList) {
-
-            val artworkAlreadyHere = artworks.any { it.artworkURL == mediaWrapper.artworkURL }
-
-            if (mediaWrapper.artworkURL != null && mediaWrapper.artworkURL.isNotBlank() && !artworkAlreadyHere) {
-                artworks.add(mediaWrapper)
-            }
-            if (artworks.size > 3) {
-                break
-            }
-        }
-
-        if (artworks.size == 2) {
-            artworks.add(artworks[1])
-            artworks.add(artworks[0])
-        } else if (artworks.size == 3) {
-            artworks.add(artworks[0])
-        }
-
-
-        val images = ArrayList<Bitmap>(4)
-        artworks.forEach {
-            val image = obtainBitmap(it, width / 2)
-            if (image != null) {
-                images.add(image)
-            }
-            if (images.size >= 4) {
-                return@forEach
-            }
-
-        }
-
-
-        for (i in 0..3) {
-            if (images.size < i + 1) {
-                images.add(UiTools.getDefaultAudioDrawable(AppContextProvider.appContext).bitmap)
-            }
-        }
+        val sameImage = if (isAllSameImage) obtainBitmap(mediaList[0], width)
+                ?: return null else null
 
         val cs = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888)
         val comboImage = Canvas(cs)
-        comboImage.drawBitmap(images[0], Rect(0, 0, images[0].width, images[0].height), Rect(0, 0, width / 2, width / 2), null)
-        comboImage.drawBitmap(images[1], Rect(0, 0, images[1].width, images[1].height), Rect(width / 2, 0, width, width / 2), null)
-        comboImage.drawBitmap(images[2], Rect(0, 0, images[2].width, images[2].height), Rect(0, width / 2, width / 2, width), null)
-        comboImage.drawBitmap(images[3], Rect(0, 0, images[3].width, images[3].height), Rect(width / 2, width / 2, width, width), null)
+
+        if (sameImage != null) {
+            /* Scale the cover art, as obtainBitmap may return a larger or smaller image size */
+            comboImage.drawBitmap(sameImage, Rect(0, 0, sameImage.width, sameImage.height), Rect(0, 0, width, width), null)
+        } else {
+            val artworks = ArrayList<MediaWrapper>()
+            for (mediaWrapper in mediaList) {
+
+                val artworkAlreadyHere = artworks.any { it.artworkURL == mediaWrapper.artworkURL }
+
+                if (mediaWrapper.artworkURL != null && mediaWrapper.artworkURL.isNotBlank() && !artworkAlreadyHere) {
+                    artworks.add(mediaWrapper)
+                }
+                if (artworks.size > 3) {
+                    break
+                }
+            }
+
+            if (artworks.size == 2) {
+                artworks.add(artworks[1])
+                artworks.add(artworks[0])
+            } else if (artworks.size == 3) {
+                artworks.add(artworks[0])
+            }
+
+
+            val images = ArrayList<Bitmap>(4)
+            artworks.forEach {
+                val image = obtainBitmap(it, width / 2)
+                if (image != null) {
+                    images.add(image)
+                }
+                if (images.size >= 4) {
+                    return@forEach
+                }
+
+            }
+
+
+            for (i in 0..3) {
+                if (images.size < i + 1) {
+                    images.add(UiTools.getDefaultAudioDrawable(AppContextProvider.appContext).bitmap)
+                    /* Place the first image on the diagonal */
+                    if (images.size == 3) {
+                        images.add(images[0])
+                    }
+                }
+            }
+
+            comboImage.drawBitmap(images[0], Rect(0, 0, images[0].width, images[0].height), Rect(0, 0, width / 2, width / 2), null)
+            comboImage.drawBitmap(images[1], Rect(0, 0, images[1].width, images[1].height), Rect(width / 2, 0, width, width / 2), null)
+            comboImage.drawBitmap(images[2], Rect(0, 0, images[2].width, images[2].height), Rect(0, width / 2, width / 2, width), null)
+            comboImage.drawBitmap(images[3], Rect(0, 0, images[3].width, images[3].height), Rect(width / 2, width / 2, width, width), null)
+        }
+
+        iconAddition?.let {
+            comboImage.drawBitmap(iconAddition, (comboImage.width.toFloat() - iconAddition.width) / 2, (comboImage.height.toFloat() - iconAddition.height) / 2, null)
+        }
 
         return cs
     }

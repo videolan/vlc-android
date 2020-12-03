@@ -30,7 +30,7 @@ private const val TAG = "PreviewInputService"
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope() {
 
-    internal val mFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
+    internal val factory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
     override fun onCreateSession(inputId: String): TvInputService.Session? {
         return PreviewSession(this)
@@ -64,7 +64,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope by MainScope()
                     return@launch
                 }
                 try {
-                    val media = mFactory.getFromUri(VLCInstance.getInstance(this@PreviewVideoInputService), mw.uri)
+                    val media = factory.getFromUri(VLCInstance.getInstance(this@PreviewVideoInputService), mw.uri)
                     val start = if (mw.length <= 0L) 0L else mw.length.random()
                     media.addOption(":start-time=${start/1000L}")
                     awaitSurface()

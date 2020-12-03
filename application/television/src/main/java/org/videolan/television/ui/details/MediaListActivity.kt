@@ -7,7 +7,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.leanback.app.BackgroundManager
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.ITEM
@@ -28,11 +26,10 @@ import org.videolan.television.ui.dialogs.ConfirmationTvActivity.Companion.CONFI
 import org.videolan.television.ui.dialogs.ConfirmationTvActivity.Companion.CONFIRMATION_DIALOG_TITLE
 import org.videolan.television.ui.updateBackground
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.interfaces.ITVEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
-import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -93,7 +90,7 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
 
         if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
             viewModel = getViewModel(item)
-            viewModel.tracksProvider.pagedList.observe(this, Observer { tracks ->
+            viewModel.tracksProvider.pagedList.observe(this, { tracks ->
                 if (tracks != null) {
                     adapter.update(tracks)
                 }

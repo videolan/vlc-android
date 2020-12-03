@@ -439,9 +439,9 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     @Nullable
-    public MediaWrapper addMedia(String mrl) {
+    public MediaWrapper addMedia(String mrl, long duration) {
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
-        return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddMedia(vlcMrl) : null;
+        return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddMedia(vlcMrl, duration) : null;
     }
 
     public boolean removeExternalMedia(long id) {
@@ -466,8 +466,8 @@ public class MedialibraryImpl extends Medialibrary {
         return mIsInitiated ? nativeGetFoldersCount(type) : 0;
     }
 
-    public boolean increasePlayCount(long mediaId) {
-        return mIsInitiated && mediaId > 0 && nativeIncreasePlayCount(mediaId);
+    public boolean setProgress(long mediaId, float progress) {
+        return mIsInitiated && mediaId > 0 && nativeSetProgress(mediaId, progress);
     }
 
     // If media is not in ML, find it with its path
@@ -592,7 +592,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native  boolean nativeClearHistory();
     private native MediaWrapper nativeGetMedia(long id);
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
-    private native MediaWrapper nativeAddMedia(String mrl);
+    private native MediaWrapper nativeAddMedia(String mrl, long duration);
     private native boolean nativeRemoveExternalMedia(long id);
     private native MediaWrapper nativeAddStream(String mrl, String title);
     private native MediaWrapper[] nativeGetVideos();
@@ -641,7 +641,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native void nativeReload(String entryPoint);
     private native void nativeForceParserRetry();
     private native void nativeForceRescan();
-    private native boolean nativeIncreasePlayCount(long mediaId);
+    private native boolean nativeSetProgress(long mediaId, float progress);
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);
     private native SearchAggregate nativeSearch(String query);

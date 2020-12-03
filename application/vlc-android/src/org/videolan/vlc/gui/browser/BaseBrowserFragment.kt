@@ -34,7 +34,6 @@ import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -152,12 +151,12 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         binding.networkList.layoutManager = layoutManager
         binding.networkList.adapter = adapter
         registerSwiperRefreshlayout()
-        viewModel.dataset.observe(viewLifecycleOwner, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems ->
+        viewModel.dataset.observe(viewLifecycleOwner, { mediaLibraryItems ->
             adapter.update(mediaLibraryItems!!)
             if (::addPlaylistFolderOnly.isInitialized) addPlaylistFolderOnly.isVisible = adapter.mediaCount > 0
         })
-        viewModel.getDescriptionUpdate().observe(viewLifecycleOwner, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
-        viewModel.loading.observe(viewLifecycleOwner, Observer { loading ->
+        viewModel.getDescriptionUpdate().observe(viewLifecycleOwner, { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
+        viewModel.loading.observe(viewLifecycleOwner, { loading ->
             swipeRefreshLayout.isRefreshing = loading
             updateEmptyView()
         })
@@ -343,7 +342,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
         }
         val resId = if (mw.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-        UiTools.snackerConfirm(view, getString(resId, mw.title), Runnable { if (Permissions.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run() })
+        UiTools.snackerConfirm(requireActivity(), getString(resId, mw.title), Runnable { if (Permissions.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run() })
         return true
     }
 
@@ -364,6 +363,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun enableSearchOption() = !isRootDirectory
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        getMultiHelper()?.toggleActionMode(true, adapter.itemCount)
         mode.menuInflater.inflate(R.menu.action_mode_browser_file, menu)
         return true
     }
@@ -406,6 +406,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
+        getMultiHelper()?.toggleActionMode(false, adapter.itemCount)
         actionMode = null
         adapter.multiSelectHelper.clearSelection()
     }

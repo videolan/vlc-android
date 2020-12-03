@@ -27,7 +27,6 @@ import android.os.Bundle
 import android.util.SparseArray
 import android.view.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
@@ -193,7 +192,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
     private fun setupProvider(index: Int = viewModel.currentTab) {
         val provider = viewModel.providers[index.coerceIn(0, viewModel.providers.size-1)]
         if (provider.loading.hasObservers()) return
-        provider.pagedList.observe(viewLifecycleOwner, Observer { items ->
+        provider.pagedList.observe(viewLifecycleOwner, { items ->
             @Suppress("UNCHECKED_CAST")
             if (items != null) adapters.getOrNull(index)?.submitList(items as PagedList<MediaLibraryItem>?)
             updateEmptyView()
@@ -202,8 +201,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 restorePositions.delete(index)
             }
         })
-        provider.loading.observe(viewLifecycleOwner, Observer { loading ->
-            if (loading == null || currentTab != index) return@Observer
+        provider.loading.observe(viewLifecycleOwner, { loading ->
+            if (loading == null || currentTab != index) return@observe
             setRefreshing(loading) { refresh ->
                 if (refresh) updateEmptyView()
                 else {
@@ -212,7 +211,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 }
             }
         })
-        provider.liveHeaders.observe(viewLifecycleOwner, Observer {
+        provider.liveHeaders.observe(viewLifecycleOwner, {
             lists[currentTab].invalidateItemDecorations()
         })
     }

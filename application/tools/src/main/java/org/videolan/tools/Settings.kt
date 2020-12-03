@@ -21,6 +21,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var tvUI = false
     var listTitleEllipsize = 0
     var overrideTvUI = false
+    var videoHudDelay = 2
     lateinit var device : DeviceInfo
         private set
 
@@ -29,6 +30,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showVideoThumbs = prefs.getBoolean(SHOW_VIDEO_THUMBNAILS, true)
         tvUI = prefs.getBoolean(PREF_TV_UI, false)
         listTitleEllipsize = prefs.getString(LIST_TITLE_ELLIPSIZE, "0")?.toInt() ?: 0
+        videoHudDelay = prefs.getString(VIDEO_HUD_TIMEOUT, "2")?.toInt() ?: 2
         device = DeviceInfo(context)
         return prefs
     }
@@ -81,6 +83,7 @@ const val KEY_PLAYBACK_RATE = "playback_rate"
 const val KEY_PLAYBACK_SPEED_PERSIST = "playback_speed"
 const val KEY_VIDEO_APP_SWITCH = "video_action_switch"
 const val VIDEO_TRANSITION_SHOW = "video_transition_show"
+const val VIDEO_HUD_TIMEOUT = "video_hud_timeout"
 const val RESULT_RESCAN = Activity.RESULT_FIRST_USER + 1
 const val RESULT_RESTART = Activity.RESULT_FIRST_USER + 2
 const val RESULT_RESTART_APP = Activity.RESULT_FIRST_USER + 3
@@ -93,6 +96,8 @@ const val CRASH_DONT_ASK_AGAIN = "crash_dont_ask_again"
 const val PLAYBACK_HISTORY = "playback_history"
 const val RESUME_PLAYBACK = "resume_playback"
 const val AUDIO_DUCKING = "audio_ducking"
+
+const val AUDIO_DELAY_GLOBAL = "audio_delay_global"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

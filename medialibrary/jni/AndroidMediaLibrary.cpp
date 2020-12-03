@@ -177,19 +177,20 @@ AndroidMediaLibrary::forceRescan()
 }
 
 bool
-AndroidMediaLibrary::increasePlayCount(int64_t mediaId)
+AndroidMediaLibrary::setProgress(int64_t mediaId, float progress)
 {
     auto media = p_ml->media(mediaId);
     if (media != nullptr)
-        return media->increasePlayCount();
+        return media->setProgress( progress );
     return false;
 }
 
-void
+bool
 AndroidMediaLibrary::removeMediaFromHistory(int64_t mediaId)
 {
     auto media = p_ml->media(mediaId);
-    if (media != nullptr) media->removeFromHistory();
+    if (media != nullptr) return media->removeFromHistory();
+    return false;
 }
 
 std::vector<medialibrary::MediaPtr>
@@ -340,9 +341,9 @@ AndroidMediaLibrary::media(const std::string& mrl)
 }
 
 medialibrary::MediaPtr
-AndroidMediaLibrary::addMedia(const std::string& mrl)
+AndroidMediaLibrary::addMedia(const std::string& mrl, long duration)
 {
-    return p_ml->addExternalMedia(mrl);
+    return p_ml->addExternalMedia(mrl, duration);
 }
 
 bool

@@ -1,3 +1,59 @@
+Changes between 3.3.2 and 3.3.3 Beta 3:
+------------------
+
+ * Remove a single media from history
+ * Android TV: fixes and improvements
+ * Fix audio thumbnails detection
+ * Fix DVD menu
+ * Update medialibrary
+ * Crash fixes
+
+Changes between 3.3.2 Beta 4 and 3.3.2:
+------------------
+
+none
+
+Changes between 3.3.2 Beta 3 and 3.3.2 Beta 4:
+------------------
+
+Application:
+ * SMB fixes
+ * Crash fixes
+
+Changes between 3.3.2 Beta 2 and 3.3.2 Beta 3:
+------------------
+
+Application:
+ * Android Auto new navigation
+ * Samba network fixes
+ * Video group improvements
+ * Fix playlist items remove
+ * Crash fixes
+
+Changes between 3.3.2 Beta 1 and 3.3.2 Beta 2:
+------------------
+
+Application:
+ * Video player: fix focus issue
+ * Video group improvements
+ * SMB fixes
+ * Android Auto improvements
+ * Fix picking subtitles for network videos
+ * Fix OTG
+ * Crash fixes
+
+Changes between 3.3.1 and 3.3.2 Beta 1:
+------------------
+
+Application:
+ * Allow adding multiple videos to a new group
+ * SMB fixes
+ * Fix landscape video orientation
+ * Fix progression save
+ * Fix subtitles picking on SD cards
+ * Android Auto improvements and fixes
+ * Crash fixes
+
 Changes between 3.3.1 Beta 2 and 3.3.1:
 ------------------
 

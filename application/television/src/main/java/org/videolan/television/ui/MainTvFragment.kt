@@ -24,12 +24,12 @@ package org.videolan.television.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -38,22 +38,21 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.resources.*
-import org.videolan.resources.AndroidDevices
-import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.R
-import org.videolan.vlc.RecommendationsService
 import org.videolan.television.ui.TvUtil.diffCallback
 import org.videolan.television.ui.TvUtil.metadataDiffCallback
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.television.ui.preferences.PreferencesActivity
-import org.videolan.vlc.reloadLibrary
 import org.videolan.television.viewmodel.MainTvModel
 import org.videolan.television.viewmodel.MainTvModel.Companion.getMainTvModel
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.R
+import org.videolan.vlc.RecommendationsService
 import org.videolan.vlc.donations.BillingStatus
 import org.videolan.vlc.donations.VLCBilling
 import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.reloadLibrary
 
 private const val TAG = "VLC/MainTvFragment"
 
@@ -163,7 +162,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
         otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_menu_preferences_big, R.color.tv_card_content_dark))
         otherAdapter.add(GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_menu_tv_scan, R.color.tv_card_content_dark))
-        otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content_dark))
+        otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VLC_VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content_dark))
         otherAdapter.add(GenericCardItem(ID_LICENCE, getString(R.string.licence), "", R.drawable.ic_menu_open_source, R.color.tv_card_content_dark))
         val donateCard = GenericCardItem(ID_SPONSOR, getString(R.string.tip_jar), "", R.drawable.ic_donate_big, R.color.tv_card_content_dark)
         VLCBilling.getInstance(requireActivity().application).addStatusListener {
@@ -173,7 +172,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         miscRow = ListRow(miscHeader, otherAdapter)
         rowsAdapter.add(miscRow)
 
-        historyAdapter = ArrayObjectAdapter(CardPresenter(requireActivity()))
+        historyAdapter = ArrayObjectAdapter(CardPresenter(requireActivity(), fromHistory = true))
         val historyHeader = HeaderItem(HEADER_HISTORY, getString(R.string.history))
         historyRow = ListRow(historyHeader, historyAdapter)
 
@@ -191,36 +190,36 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private fun registerDatasets() {
-        model.browsers.observe(requireActivity(), Observer {
+        model.browsers.observe(requireActivity(), {
             browserAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_NETWORK)
         })
-        model.audioCategories.observe(requireActivity(), Observer {
+        model.audioCategories.observe(requireActivity(), {
             categoriesAdapter.setItems(it.toList(), diffCallback)
             addAndCheckLoadedLines(HEADER_CATEGORIES)
         })
-        model.videos.observe(requireActivity(), Observer {
+        model.videos.observe(requireActivity(), {
             videoAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_VIDEO)
         })
-        model.nowPlaying.observe(requireActivity(), Observer {
+        model.nowPlaying.observe(requireActivity(), {
             displayNowPlaying = it.isNotEmpty()
             nowPlayingAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_NOW_PLAYING)
         })
-        model.recentlyPlayed.observe(requireActivity(), Observer {
+        model.recentlyPlayed.observe(requireActivity(), {
             displayRecentlyPlayed = it.isNotEmpty()
             recentlyPlayedAdapter.setItems(it, metadataDiffCallback)
             resetLines()
             addAndCheckLoadedLines(HEADER_RECENTLY_PLAYED)
         })
-        model.recentlyAdded.observe(requireActivity(), Observer {
+        model.recentlyAdded.observe(requireActivity(), {
             displayRecentlyAdded = it.isNotEmpty()
             recentlyAddedAdapter.setItems(it, metadataDiffCallback)
             resetLines()
             addAndCheckLoadedLines(HEADER_RECENTLY_ADDED)
         })
-        model.history.observe(requireActivity(), Observer {
+        model.history.observe(requireActivity(), {
             displayHistory = it.isNotEmpty()
             if (it.isNotEmpty()) {
                 historyAdapter.setItems(it, diffCallback)
@@ -229,7 +228,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             addAndCheckLoadedLines(HEADER_HISTORY)
         })
 
-        model.playlist.observe(requireActivity(), Observer {
+        model.playlist.observe(requireActivity(), {
             displayPlaylist = it.isNotEmpty()
             playlistAdapter.setItems(it, diffCallback)
             resetLines()

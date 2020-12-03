@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">Möchten Sie, dass VLC das Gerät %1$s zu Ihrer Medienbibliothek hinzufügt?</string>
     <string name="ml_external_storage_accept">Ja</string>
     <string name="ml_external_storage_decline">Nein</string>
-    <string name="last_added_media">Zuletzt hinzugefügt</string>
+    <string name="auto_last_added_media">Zuletzt hinzugefügt</string>
+    <string name="auto_my_library">Meine Medienbibliothek</string>
+    <string name="auto_home">Startseite</string>
     <string name="no">Nein</string>
     <string name="loading_medialibrary">Medienbibliothek wird geladen…</string>
     <string name="yes">Ja</string>
@@ -734,5 +736,27 @@
 
     <string name="mark_as_played">Als gespielt markieren</string>
     <string name="mark_all_as_played">Alle als gespielt markieren</string>
+    <string name="new_group">Neue Gruppe</string>
+    <string name="new_group_desc">Neue Gruppe erstellen</string>
+
+    <string name="air_action_rewind">10 Sek. zurückspulen</string>
+    <string name="air_action_forward">10 Sek. vorspulen</string>
+    <string name="air_action_play_pause">Wiedergabe pausieren/fortsetzen</string>
+    <string name="air_action_volume_up">Lauter</string>
+    <string name="air_action_volume_down">Leiser</string>
+    <string name="air_action_next">Nächster Eintrag in der Wiedergabeliste</string>
+    <string name="air_action_previous">Vorheriger Eintrag in der Wiedergabeliste</string>
+    <string name="allow_otg">OTG-Zugriff erlauben</string>
+    <string name="allow_otg_description">Bitte wählen Sie Ihr OTG-Laufwerk aus, um den Zugriff auf VLC zu ermöglichen</string>
+    <string name="timeout_infinite">Unendlich</string>
+    <string name="timeout_short">Kurz</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Lang</string>
+    <string name="video_hud_timeout">Der Video-Player steuert die Verzögerung beim Ausblenden</string>
+    <string name="remove_from_history">Aus dem Verlauf entfernen</string>
+    <string name="prefersmbv1">SMB 1 bevorzugen</string>
+    <string name="prefersmbv1_summary">Wenn Sie Probleme beim Durchsuchen Ihres SMB-Servers haben, bitte diese Einstellung deaktivieren</string>
+    <string name="apply_to_all">Auf alle Videos anwenden</string>
+    <string name="audio_delay_global">Tonverzögerung für alle Videos auf %s ms gesetzt</string>
 
 </resources>

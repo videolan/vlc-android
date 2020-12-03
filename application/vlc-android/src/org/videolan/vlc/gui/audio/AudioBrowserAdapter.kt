@@ -253,6 +253,11 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             binding.imageWidth = listImageWidth
         }
 
+        override fun selectView(selected: Boolean) {
+            super.selectView(selected)
+            binding.itemMore.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
+        }
+
         override fun setItem(item: MediaLibraryItem?) {
             binding.item = item
         }
@@ -290,6 +295,11 @@ class AudioBrowserAdapter @JvmOverloads constructor(
             binding.imageWidth = cardSize
             binding.container.layoutParams.width = cardSize
 
+        }
+
+        override fun selectView(selected: Boolean) {
+            super.selectView(selected)
+            binding.itemMore.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
         }
 
         override fun setItem(item: MediaLibraryItem?) {

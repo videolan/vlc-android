@@ -90,4 +90,9 @@ public class StubMediaWrapper extends MediaWrapper {
 
     }
 
+    @Override
+    public boolean removeFromHistory() {
+        return true;
+    }
+
 }

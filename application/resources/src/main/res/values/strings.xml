@@ -521,7 +521,9 @@
     <string name="ml_external_storage_msg">Do you want VLC to add device %1$s to your medialibrary?</string>
     <string name="ml_external_storage_accept">Yes</string>
     <string name="ml_external_storage_decline">No</string>
-    <string name="last_added_media">last added</string>
+    <string name="auto_last_added_media">Last added</string>
+    <string name="auto_my_library">My library</string>
+    <string name="auto_home">Home</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Loading Medialibrary…</string>
     <string name="yes">Yes</string>
@@ -753,5 +755,27 @@
 
     <string name="mark_as_played">Mark as played</string>
     <string name="mark_all_as_played">Mark all as played</string>
+    <string name="new_group">New group</string>
+    <string name="new_group_desc">Create a new group</string>
+
+    <string name="air_action_rewind">Rewind 10 sec</string>
+    <string name="air_action_forward">Seek forward 10 sec</string>
+    <string name="air_action_play_pause">Pause/Resume playback</string>
+    <string name="air_action_volume_up">Volume up</string>
+    <string name="air_action_volume_down">Volume down</string>
+    <string name="air_action_next">Next item in playback</string>
+    <string name="air_action_previous">Previous item in playback</string>
+    <string name="allow_otg">Allow OTG access</string>
+    <string name="allow_otg_description">Please select your OTG drive to allow access to VLC.</string>
+    <string name="timeout_infinite">Infinite</string>
+    <string name="timeout_short">Short</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Long</string>
+    <string name="video_hud_timeout">Video player controls hiding delay</string>
+    <string name="remove_from_history">Remove from history</string>
+    <string name="prefersmbv1">Prefer SMB 1</string>
+    <string name="prefersmbv1_summary">Uncheck this setting if you have some difficulties browsing your SMB server</string>
+    <string name="apply_to_all">Apply to all videos</string>
+    <string name="audio_delay_global">Audio delay set to %s ms for all videos</string>
 
 </resources>

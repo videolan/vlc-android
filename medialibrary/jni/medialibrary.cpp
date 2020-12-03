@@ -240,15 +240,15 @@ forceRescan(JNIEnv* env, jobject thiz)
 }
 
 jboolean
-increasePlayCount(JNIEnv* env, jobject thiz, jlong id)
+setProgress(JNIEnv* env, jobject thiz, jlong id, jfloat progress)
 {
-    return MediaLibrary_getInstance(env, thiz)->increasePlayCount((int64_t)id);
+    return MediaLibrary_getInstance(env, thiz)->setProgress((int64_t)id, (float)progress);
 }
 
-void
+jboolean
 removeMediaFromHistory(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
-    MediaLibrary_getInstance(env, medialibrary)->removeMediaFromHistory((int64_t)id);
+    return MediaLibrary_getInstance(env, medialibrary)->removeMediaFromHistory((int64_t)id);
 }
 
 jobjectArray
@@ -739,10 +739,10 @@ getMediaFromMrl(JNIEnv* env, jobject thiz, jstring mrl) {
 }
 
 jobject
-addMedia(JNIEnv* env, jobject thiz, jstring mrl) {
+addMedia(JNIEnv* env, jobject thiz, jstring mrl, jlong duration) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *char_mrl = env->GetStringUTFChars(mrl, JNI_FALSE);
-    jobject mw = mediaToMediaWrapper(env, &ml_fields, aml->addMedia(char_mrl));
+    jobject mw = mediaToMediaWrapper(env, &ml_fields, aml->addMedia(char_mrl, duration));
     env->ReleaseStringUTFChars(mrl, char_mrl);
     return mw;
 }
@@ -2088,7 +2088,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetPlaylistSearchCount", "(Ljava/lang/String;)I", (void*)getPlaylistSearchCount },
     {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMedia },
     {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromMrl },
-    {"nativeAddMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)addMedia },
+    {"nativeAddMedia", "(Ljava/lang/String;J)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)addMedia },
     {"nativeRemoveExternalMedia", "(J)Z", (void*)removeExternalMedia },
     {"nativeAddStream", "(Ljava/lang/String;Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)addStream },
     {"nativeGetVideoCount", "()I", (void*)getVideoCount },
@@ -2119,7 +2119,7 @@ static JNINativeMethod methods[] = {
     {"nativeReload", "(Ljava/lang/String;)V", (void*)reloadEntryPoint },
     {"nativeForceParserRetry", "()V", (void*)forceParserRetry },
     {"nativeForceRescan", "()V", (void*)forceRescan },
-    {"nativeIncreasePlayCount", "(J)Z", (void*)increasePlayCount },
+    {"nativeSetProgress", "(JF)Z", (void*)setProgress },
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
     {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)playlistCreate },
@@ -2140,7 +2140,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
     {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
     {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
-    {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)V", (void*)removeMediaFromHistory },
+    {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)Z", (void*)removeMediaFromHistory },
     {"nativeRequestThumbnail", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIIIF)V", (void*)requestThumbnail },
 };
 

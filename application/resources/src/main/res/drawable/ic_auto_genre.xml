@@ -1,0 +1,35 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_genre.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M19.4416,6.0178C18.215,5.9233 17.2794,6.2023 16.8708,7.055 7.8426,25.8971 8.2921,37.0475 14.8449,40.8306 21.3978,44.6141 31.2801,39.4293 43.0838,22.1892 45.2213,19.0671 35.1455,13.2357 31.8691,11.3439 29.4117,9.9251 23.1212,6.3013 19.4416,6.0178ZM24.8069,16.0063c0.252,2.0745 -1.2258,3.9599 -3.2998,4.2101 -2.0745,0.2475 -3.9604,-1.2303 -4.2101,-3.3047 2.5614,1.0215 5.0741,0.9724 7.5099,-0.9054zM31.3592,19.7898c-0.297,2.8701 0.711,5.1812 2.9749,6.9564 -1.9215,0.8208 -4.1449,-0.0675 -4.9657,-1.9903 -0.8208,-1.9215 0.0675,-4.1453 1.9908,-4.9661zM17.2839,30.2576c1.0903,-0.0765 2.2162,0.1575 3.2341,0.747 2.7144,1.5673 3.6458,5.0377 2.0785,7.752 -2.0349,-4.0414 -5.287,-5.98 -9.8301,-5.6776 0.9792,-1.6965 2.7,-2.6932 4.5175,-2.8215z"
+      android:strokeWidth="2.24996543"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"/>
+</vector>

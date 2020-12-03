@@ -9,17 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="24"
-   height="24"
-   id="svg4682"
+   width="48px"
+   height="48px"
+   viewBox="0 0 48 48"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="ic_auto_shuffle_normal.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   id="SVGRoot"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="ic_auto_audio.svg">
   <defs
-     id="defs4684" />
+     id="defs7678" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,36 +25,35 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="-16.02852"
-     inkscape:cy="15.371192"
+     inkscape:zoom="22.627418"
+     inkscape:cx="45.327807"
+     inkscape:cy="24.537556"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
+     inkscape:window-height="1016"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="1107"
      inkscape:window-maximized="1"
-     inkscape:snap-global="true"
+     inkscape:grid-bbox="true"
      inkscape:snap-bbox="true"
      inkscape:bbox-paths="true"
-     inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:bbox-nodes="true"
      inkscape:snap-bbox-midpoints="true"
-     inkscape:snap-nodes="true"
      inkscape:object-paths="true"
-     inkscape:object-nodes="true"
+     inkscape:snap-intersection-paths="true"
      inkscape:snap-smooth-nodes="true"
      inkscape:snap-midpoints="true"
      inkscape:snap-object-midpoints="true"
      inkscape:snap-center="true">
     <inkscape:grid
        type="xygrid"
-       id="grid2983" />
+       id="grid8234" />
   </sodipodi:namedview>
   <metadata
-     id="metadata4687">
+     id="metadata7681">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -70,13 +67,12 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-1028.3622)">
+     id="layer1">
     <path
-       sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccc"
+       style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 36,6 17.80664,13.2773 C 16.71435,13.7522 16.00033,14.8267 16,16.0234 V 17 32.1015 h -0.006 c -0.32721,-0.067 -0.66025,-0.1 -0.99414,-0.1 -2.76142,0 -5,2.2385 -5,5 C 9.99986,39.7629 12.23858,42 15,42 c 2.76142,0 4.99986,-2.2371 4.99986,-4.9985 V 19.4019 l 12,-4.8008 V 28.103 h -0.006 c -0.32721,-0.066 -0.66025,-0.1 -0.99414,-0.1 -2.76142,0 -5,2.2385 -5,5 0,2.7614 2.23858,5 5,5 2.76142,0 5,-2.2386 5,-5 z"
+       id="path2232"
        inkscape:connector-curvature="0"
-       id="path7609"
-       d="M 6.11914,1032.3622 4,1034.4813 l 4.52536,4.528 2.12109,-2.1211 z m 9.82031,1.9395 L 4,1046.2411 l 2.12109,2.1211 11.93946,-11.9394 1.93945,1.9394 0,-6 -6,0 z m -9.81836,12.6464 -0.70703,-0.707 11.93946,-11.9394 -0.93946,-0.9395 2.58594,0 0,2.5879 -0.93945,-0.9414 z m -0.002,-13.1718 3.11325,3.1119 -0.70703,0.707 -3.11325,-3.1119 z m 11.9395,10.5254 -2.58372,-2.5851 -2.1211,2.1211 2.58373,2.5851 -1.9375,1.9394 6,0 0,-6 z m -3.2908,-0.464 0.70708,-0.707 2.58568,2.585 0.93945,-0.9394 0,2.5859 -2.58789,0 0.94141,-0.9394 z"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+       sodipodi:nodetypes="cccccccssscccccsscc" />
   </g>
 </svg>

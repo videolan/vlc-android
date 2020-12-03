@@ -507,8 +507,8 @@
     <string name="save_bluetooth_delay">zapisz opóźnienie urządzenia bluetooth</string>
     <string name="episodes">epizody</string>
     <string name="movies">filmy</string>
-    <string name="videos">klipy wideo</string>
-    <string name="videos_all">Wszystkie klipy wideo</string>
+    <string name="videos">filmy</string>
+    <string name="videos_all">Wszystkie filmy</string>
     <string name="clear_playback_history">Wyczyść historię odtwarzania</string>
     <string name="ml_scanning">Wyszukiwanie plików multimedialnych</string>
     <string name="ml_parse_media">Parsowanie mediów</string>
@@ -520,7 +520,9 @@
     <string name="ml_external_storage_msg">Czy chcesz, by VLC dodał urządzenie %1$s do biblioteki mediów?</string>
     <string name="ml_external_storage_accept">Tak</string>
     <string name="ml_external_storage_decline">Nie</string>
-    <string name="last_added_media">ostatnio dodane</string>
+    <string name="auto_last_added_media">Ostatnio dodane</string>
+    <string name="auto_my_library">Moja Biblioteka</string>
+    <string name="auto_home">Strona główna</string>
     <string name="no">Nie</string>
     <string name="loading_medialibrary">Ładowanie biblioteki mediów…</string>
     <string name="yes">Tak</string>
@@ -756,5 +758,27 @@
 
     <string name="mark_as_played">Oznacz jako odtwarzany</string>
     <string name="mark_all_as_played">Oznacz wszystkie jako odtwarzane</string>
+    <string name="new_group">Nowa grupa</string>
+    <string name="new_group_desc">Utwórz nową grupę</string>
+
+    <string name="air_action_rewind">Cofnij 10 sek</string>
+    <string name="air_action_forward">Przewiń 10 sek</string>
+    <string name="air_action_play_pause">Wstrzymaj/wznów odtwarzanie</string>
+    <string name="air_action_volume_up">Głośniej</string>
+    <string name="air_action_volume_down">Ciszej</string>
+    <string name="air_action_next">Poprzedni element w odtwarzaniu</string>
+    <string name="air_action_previous">Następny element w odtwarzaniu</string>
+    <string name="allow_otg">Zezwól na dostęp do OTG</string>
+    <string name="allow_otg_description">Wybierz swój dysk OTG, aby umożliwić dostęp do VLC</string>
+    <string name="timeout_infinite">Nieskończoność</string>
+    <string name="timeout_short">Krótko</string>
+    <string name="timeout_normal">Normalnie</string>
+    <string name="timeout_long">Długo</string>
+    <string name="video_hud_timeout">Opóźnienie ukrywania kontroli odtwarzacza wideo</string>
+    <string name="remove_from_history">Usuń z historii</string>
+    <string name="prefersmbv1">Preferuj SMB 1</string>
+    <string name="prefersmbv1_summary">Wyłącz to ustawienie, jeśli masz problemy z przeglądaniem serwera SMB</string>
+    <string name="apply_to_all">Zastosuj do wszystkich filmów</string>
+    <string name="audio_delay_global">Opóźnienie dźwięku ustawione na %s ms dla wszystkich filmów</string>
 
 </resources>

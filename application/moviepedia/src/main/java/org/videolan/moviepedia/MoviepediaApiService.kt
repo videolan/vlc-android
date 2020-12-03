@@ -59,7 +59,7 @@ private class UserAgentInterceptor(val userAgent: String) : Interceptor {
         val userAgentRequest: Request = request.newBuilder()
                 .header("User-Agent", userAgent)
                 .header("Client", "vlc-android")
-                .header("Client-Version", BuildConfig.VERSION_CODE.toString())
+                .header("Client-Version", BuildConfig.VLC_VERSION_CODE.toString())
                 .header("Client-Type", BuildConfig.BUILD_TYPE)
                 .build()
         return chain.proceed(userAgentRequest)

@@ -27,12 +27,27 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.mediadb.models.BrowserFav
 import java.io.File
 
+fun isSchemeStreaming(scheme: String?): Boolean = when {
+    scheme.isNullOrEmpty() -> false
+    isSchemeHttpOrHttps(scheme) -> true
+    scheme.startsWith("mms") -> true
+    scheme.startsWith("rtsp") -> true
+    else -> false
+}
+
+fun isSchemeHttpOrHttps(scheme: String?): Boolean = scheme?.startsWith("http") == true
+
 fun isSchemeSupported(scheme: String?) = when(scheme) {
     "file", "smb", "ssh", "nfs", "ftp", "ftps", "content" -> true
     else -> false
 }
 fun String?.isSchemeNetwork() = when(this) {
-    "smb", "ssh", "nfs", "ftp", "ftps" -> true
+    "smb", "ssh", "nfs", "ftp", "ftps", "upnp" -> true
+    else -> false
+}
+
+fun String?.isSchemeFile() = when(this) {
+    "file", null -> true
     else -> false
 }
 

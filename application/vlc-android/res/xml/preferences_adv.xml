@@ -11,6 +11,13 @@
             android:summary="@string/network_caching_summary"
             android:title="@string/network_caching"/>
 
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:defaultValue="true"
+            android:key="prefer_smbv1"
+            android:summary="@string/prefersmbv1_summary"
+            android:title="@string/prefersmbv1"/>
+
     <Preference
             android:enabled="true"
             android:key="dump_media_db"

@@ -520,7 +520,9 @@
     <string name="ml_external_storage_msg">Chcete, aby VLC pridal zariadenie %1$s do vašej knižnice s médiami?</string>
     <string name="ml_external_storage_accept">Áno</string>
     <string name="ml_external_storage_decline">Nie</string>
-    <string name="last_added_media">naposledy pridané</string>
+    <string name="auto_last_added_media">Naposledy pridané</string>
+    <string name="auto_my_library">Moja knižnica</string>
+    <string name="auto_home">Domov</string>
     <string name="no">Nie</string>
     <string name="loading_medialibrary">Načítavanie knižnice s médiami…</string>
     <string name="yes">Áno</string>
@@ -757,5 +759,27 @@
 
     <string name="mark_as_played">Označiť ako prehrané</string>
     <string name="mark_all_as_played">Označiť všetko ako prehrané</string>
+    <string name="new_group">Nová skupina</string>
+    <string name="new_group_desc">Vytvoriť novú skupinu</string>
+
+    <string name="air_action_rewind">Previnúť 10 sekúnd</string>
+    <string name="air_action_forward">Vyhľadávať 10 sekúnd dopredu</string>
+    <string name="air_action_play_pause">Pozastaviť/pokračovať v prehrávaní</string>
+    <string name="air_action_volume_up">Zvýšiť hlasitosť</string>
+    <string name="air_action_volume_down">Znížiť hlasitosť</string>
+    <string name="air_action_next">Ďalšia položka v prehrávaní</string>
+    <string name="air_action_previous">Predchádzajúca položka v prehrávaní</string>
+    <string name="allow_otg">Povoliť prístup OTG</string>
+    <string name="allow_otg_description">Prosím vyberte jednotku OTG pre umožnenie prístupu k VLC.</string>
+    <string name="timeout_infinite">Nekonečno</string>
+    <string name="timeout_short">Krátko</string>
+    <string name="timeout_normal">Normálne</string>
+    <string name="timeout_long">Dlho</string>
+    <string name="video_hud_timeout">Oneskorenie skrytia ovládačov prehrávača videa</string>
+    <string name="remove_from_history">Odstrániť z histórie</string>
+    <string name="prefersmbv1">Uprednostniť SMB 1</string>
+    <string name="prefersmbv1_summary">Ak máte nejaké ťažkosti pri prehliadaní vášho SMB servera, odznačte toto nastavenie</string>
+    <string name="apply_to_all">Použiť pri všetkých videách</string>
+    <string name="audio_delay_global">Oneskorenie zvuku nastaviť na %s ms pre všetky videá</string>
 
 </resources>

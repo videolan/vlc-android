@@ -27,6 +27,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.AssetManager
 import android.database.Cursor
+import android.database.sqlite.SQLiteException
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.os.storage.StorageManager
@@ -102,6 +103,8 @@ object FileUtils {
         } catch (e: IllegalArgumentException) {
             return ""
         } catch (e: SecurityException) {
+            return ""
+        } catch (e: SQLiteException) {
             return ""
         } catch (e: NullPointerException) {
             return ""

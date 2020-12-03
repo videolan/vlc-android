@@ -1,40 +1,14 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_auto_repeat_normal.xml
-  ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
         android:width="48dp"
         android:height="48dp"
         android:viewportWidth="24"
         android:viewportHeight="24">
     <path
-            android:pathData="m17,2 l0,3 -9,0 -3,0 0,6.0009 3,0 0,-3.0009 9,0 0,3 4.5,-4.5039zM18,4.4141 L20.0859,6.498 18,8.5879 18,7 7,7 7,10.0009 6,10.0009 6,7 6,6 7,6 18,6zM16,13.0009 L16,16 7,16 7,13 2.5,17.5039 7,22 7,19 16,19 19,19 19,13.0009zM17,14.0009 L18,14.0009 18,17 18,18 17,18 6,18 6,19.5859 3.9141,17.5021 6,15.4122 6,17.0001 17,17.0001z"
-            android:strokeAlpha="1"
-            android:strokeLineJoin="round"
-            android:strokeWidth="0.5"
-            android:fillColor="#000000"
+            android:fillColor="#88000000"
+            android:fillType="evenOdd"
+            android:pathData="m17.0493,2.6632c-0.1452,0 -0.2902,0.061 -0.3977,0.1757 -0.1001,0.1002 -0.151,0.2407 -0.1516,0.3824v2.0281L8.625,5.2494c-1.864,0 -3.375,1.5109 -3.375,3.375v1.125c-0.0113,0.6342 0.5083,1.1503 1.1426,1.1404 0.6204,-0.011 1.116,-0.5199 1.1074,-1.1404v-1.125c0,-0.6214 0.5037,-1.125 1.125,-1.125L11.8022,7.4994 16.5,7.4994v2.0302c0.0002,0.4967 0.6001,0.7445 0.9514,0.3933L21,6.3744 17.4514,2.8258c-0.111,-0.1114 -0.2569,-0.1653 -0.4021,-0.1626zM17.6074,13.1089c-0.6204,0.011 -1.116,0.5199 -1.1074,1.1405v1.125c0,0.6213 -0.5037,1.125 -1.125,1.125L12.1978,16.4994 7.5,16.4994v-2.0281c-0.0002,-0.4967 -0.6001,-0.7466 -0.9514,-0.3955L3,17.6266l3.5486,3.5486c0.2221,0.2221 0.5826,0.2142 0.7976,-0.016 0.1001,-0.1001 0.1532,-0.2383 0.1538,-0.3801v-2.0303h7.875c1.864,0 3.375,-1.511 3.375,-3.375v-1.125c0.0113,-0.6343 -0.5083,-1.1503 -1.1426,-1.1404z"
+            android:strokeWidth="2.25"
             android:strokeColor="#00000000"
-            android:fillType="nonZero"
-            android:fillAlpha="1"
-            android:strokeLineCap="round" />
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
 </vector>

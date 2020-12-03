@@ -1,0 +1,34 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_nothumb.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="M4,0C1.7909,0 0,1.7909 0,4v40c0,2.2091 1.7909,4 4,4h40c2.2091,0 4,-1.7909 4,-4L48,4C48,1.7909 46.2091,0 44,0ZM34,8v24.0039c0,2.4853 -2.0147,4.5 -4.5,4.5 -2.4853,0 -4.5,-2.0147 -4.5,-4.5 0,-2.4853 2.0147,-4.5 4.5,-4.5 0.1671,0.001 0.334,0.011 0.5,0.031L30,16.0036l-10,4v15.5c0,2.4853 -2.0147,4.4961 -4.5,4.4961 -2.4853,0 -4.5,-2.0108 -4.5,-4.4961 0,-2.4853 2.0147,-4.5 4.5,-4.5 0.1671,0.001 0.334,0.011 0.5,0.031L16,17.3002c-0.0002,-0.7905 0.4652,-1.5069 1.1875,-1.8281z"
+      android:strokeWidth="2"
+      android:fillColor="#88ffffff"/>
+</vector>

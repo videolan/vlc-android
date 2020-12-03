@@ -493,7 +493,9 @@
     <string name="ml_external_storage_msg">Anda mahu VLC menambah peranti %1$s ke dalam pustaka media anda?</string>
     <string name="ml_external_storage_accept">Ya</string>
     <string name="ml_external_storage_decline">Tidak</string>
-    <string name="last_added_media">terakhir ditambah</string>
+    <string name="auto_last_added_media">Terakhir ditambah</string>
+    <string name="auto_my_library">Perpustakaan saya</string>
+    <string name="auto_home">Laman utama</string>
     <string name="no">Tidak</string>
     <string name="loading_medialibrary">Memuatkan Pustaka Media…</string>
     <string name="yes">Ya</string>
@@ -723,5 +725,21 @@
 
     <string name="mark_as_played">Tanda sebagai telah dimainkan</string>
     <string name="mark_all_as_played">Tanda semua sebagai telah dimainkan</string>
+    <string name="new_group">Kumpulan baharu</string>
+    <string name="new_group_desc">Cipta satu kumpulan baharu</string>
 
+    <string name="air_action_rewind">Mandir 10 saatr</string>
+    <string name="air_action_forward">Jangkau maju 10 saat</string>
+    <string name="air_action_play_pause">Jeda/Sambung semula main balik</string>
+    <string name="air_action_volume_up">Volum naik</string>
+    <string name="air_action_volume_down">Volum turun</string>
+    <string name="air_action_next">Item berikutnya dalam main balik</string>
+    <string name="air_action_previous">Item terdahulu dalam main balik</string>
+    <string name="allow_otg">Membenarkan akses OTG</string>
+    <string name="allow_otg_description">Silah pilih pemacu OTG untuk membenarkan akses ke VLC</string>
+    <string name="timeout_infinite">Tidak terhingga</string>
+    <string name="timeout_short">Pendek</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Panjang</string>
+    <string name="video_hud_timeout">Pemain video mengawal penyembunyian kelewatan</string>
 </resources>

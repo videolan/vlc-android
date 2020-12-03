@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<remote-actions version="1.2">
+    <action
+        id="play_pause"
+        label="@string/air_action_play_pause"
+        priority="1"
+        trigger_key="MEDIA_PLAY_PAUSE">
+        <preference
+            name="gesture"
+            value="click" />
+        <preference
+            name="button_only"
+            value="true" />
+    </action>
+
+    <!-- Basic gestures -->
+
+    <action
+        id="next"
+        label="@string/air_action_next"
+        priority="2"
+        trigger_key="MEDIA_NEXT">
+        <preference
+            name="gesture"
+            value="swipe_right" />
+    </action>
+
+    <action
+        id="previous"
+        label="@string/air_action_previous"
+        priority="3"
+        trigger_key="MEDIA_PREVIOUS">
+        <preference
+            name="gesture"
+            value="swipe_left" />
+    </action>
+
+    <!-- Volume gestures -->
+
+    <action
+        id="volume_down"
+        label="@string/air_action_volume_down"
+        priority="4"
+        trigger_key="VOLUME_DOWN">
+        <preference
+            name="gesture"
+            value="swipe_down" />
+        <preference
+            name="motion_only"
+            value="true" />
+    </action>
+    <action
+        id="volume_up"
+        label="@string/air_action_volume_up"
+        priority="5"
+        trigger_key="VOLUME_UP">
+        <preference
+            name="gesture"
+            value="swipe_up" />
+        <preference
+            name="motion_only"
+            value="true" />
+    </action>
+
+    <!-- Seek gestures -->
+
+    <action
+        id="rewind"
+        label="@string/air_action_rewind"
+        priority="6"
+        trigger_key="MEDIA_REWIND">
+        <preference
+            name="gesture"
+            value="circle_ccw" />
+    </action>
+    <action
+        id="seek_forward"
+        label="@string/air_action_forward"
+        priority="7"
+        trigger_key="MEDIA_FAST_FORWARD">
+        <preference
+            name="gesture"
+            value="circle_cw" />
+    </action>
+</remote-actions>

@@ -65,11 +65,12 @@ public class MediaWrapperImpl extends MediaWrapper {
         if (mId != 0 && ml.isInitiated()) nativeSetMediaTitle(ml, mId, name);
     }
 
-    public void removeFromHistory() {
+    public boolean removeFromHistory() {
         if (mId != 0L) {
             final Medialibrary ml = Medialibrary.getInstance();
-            if (ml.isInitiated()) nativeRemoveFromHistory(ml, mId);
+            if (ml.isInitiated()) return nativeRemoveFromHistory(ml, mId);
         }
+        return false;
     }
 
     public void setArtist(String artist) {
@@ -266,7 +267,7 @@ public class MediaWrapperImpl extends MediaWrapper {
     private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
     private native void nativeSetMediaLongMetadata(Medialibrary ml, long id, int metaDataType, long metadataValue);
     private native void nativeSetMediaTitle(Medialibrary ml, long id, String name);
-    private native void nativeRemoveFromHistory(Medialibrary ml, long id);
+    private native boolean nativeRemoveFromHistory(Medialibrary ml, long id);
     private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
     private native void nativeRequestThumbnail(Medialibrary ml, long mediaId, int type, int width, int height, float position);
 }

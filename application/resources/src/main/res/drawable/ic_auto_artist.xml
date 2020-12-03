@@ -1,0 +1,38 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_artist.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="m29,8a8,8 0,0 0,-8 8,8 8,0 0,0 8,8 8,8 0,0 0,8 -8,8 8,0 0,0 -8,-8zM11,15c-1.662,0 -3,1.338 -3,3v6c0,1.662 1.338,3 3,3 1.662,0 3,-1.338 3,-3v-6c0,-1.662 -1.338,-3 -3,-3zM5,23a1,1 0,0 0,-1 1,1 1,0 0,0 0.0039,0.0879c0.047,3.4385 2.5838,6.3395 5.9961,6.832v9.0801h2v-9.0801c3.4402,-0.4965 5.9949,-3.4422 6,-6.918a1,1 0,0 0,0 -0.002,1 1,0 0,0 -1,-1 1,1 0,0 0,-1 1c0,2.7614 -2.2386,5.0019 -5,5.0019 -2.7614,0 -5,-2.2405 -5,-5.0019a1,1 0,0 0,-1 -1zM29,28c0,0 -15,0 -15,7v3a2,2 0,0 0,2 2h26a2,2 0,0 0,2 -2L44,35C44,28 29,28 29,28Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="3.54330707"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:strokeLineCap="round"/>
+</vector>

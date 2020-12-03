@@ -1,0 +1,38 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_playlist.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+  <path
+      android:pathData="m36,11.998c-1.108,0 -2,0.892 -2,2v14.3536a6,6 0,0 0,-2 -0.3516,6 6,0 0,0 -6,6 6,6 0,0 0,6 6,6 6,0 0,0 6,-6v-16.998h4c1.108,0 2,-0.892 2,-2v-3zM6,11.998v4h24v-4zM6,19.998v4h24v-4zM6,27.998v4h16v-4z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="3"
+      android:fillColor="#88ffffff"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:strokeLineCap="round"/>
+</vector>

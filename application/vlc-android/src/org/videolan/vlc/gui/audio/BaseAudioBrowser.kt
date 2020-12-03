@@ -239,6 +239,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        getCurrentAdapter()?.itemCount?.let { getMultiHelper()?.toggleActionMode(true, it) }
         mode.menuInflater.inflate(R.menu.action_mode_audio_browser, menu)
         return true
     }
@@ -289,6 +290,7 @@ abstract class BaseAudioBrowser<T : MedialibraryViewModel> : MediaBrowserFragmen
     }
 
     internal fun onDestroyActionMode(adapter: AudioBrowserAdapter?) {
+        adapter?.itemCount?.let { getMultiHelper()?.toggleActionMode(false, it) }
         setFabPlayVisibility(true)
         actionMode = null
         adapter?.multiSelectHelper?.clearSelection()

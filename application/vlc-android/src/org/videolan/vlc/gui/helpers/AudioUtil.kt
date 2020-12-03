@@ -46,6 +46,7 @@ import org.videolan.tools.HttpImageLoader
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.isSchemeHttpOrHttps
 import java.io.*
 import java.lang.Runnable
 
@@ -64,7 +65,7 @@ object AudioUtil {
             return
         }
         val view = window.decorView.findViewById(R.id.coordinator) ?: window.decorView
-        lifecycleScope.snackerConfirm(view, getString(R.string.set_song_question, song.title)) {
+        lifecycleScope.snackerConfirm(this, getString(R.string.set_song_question, song.title)) {
             val newRingtone = AndroidUtil.UriToFile(song.uri)
             if (!withContext(Dispatchers.IO) { newRingtone.exists() }) {
                 Toast.makeText(applicationContext, getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show()
@@ -166,7 +167,7 @@ object AudioUtil {
     @WorkerThread
     fun readCoverBitmap(path: String?, width: Int): Bitmap? {
         val path = path ?: return null
-        if (path.startsWith("http")) return runBlocking(Dispatchers.Main) {
+        if (isSchemeHttpOrHttps(path)) return runBlocking(Dispatchers.Main) {
             HttpImageLoader.downloadBitmap(path)
         }
         return BitmapCache.getBitmapFromMemCache(path.substringAfter("file://")+"_$width") ?: fetchCoverBitmap(path, width)

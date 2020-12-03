@@ -9,17 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="24"
-   height="24"
-   id="svg4682"
+   width="48px"
+   height="48px"
+   viewBox="0 0 48 48"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="ic_auto_repeat_pressed.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   id="SVGRoot"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="ic_auto_new.svg">
   <defs
-     id="defs4684" />
+     id="defs7678" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,55 +25,67 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="-38.307459"
-     inkscape:cy="15.799324"
+     inkscape:zoom="16.000001"
+     inkscape:cx="19.192361"
+     inkscape:cy="28.80259"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
+     inkscape:window-height="1016"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="1107"
      inkscape:window-maximized="1"
-     inkscape:snap-global="true"
+     inkscape:grid-bbox="true"
      inkscape:snap-bbox="true"
      inkscape:bbox-paths="true"
-     inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:bbox-nodes="true"
      inkscape:snap-bbox-midpoints="true"
-     inkscape:snap-nodes="true"
      inkscape:object-paths="true"
-     inkscape:object-nodes="true"
+     inkscape:snap-intersection-paths="true"
      inkscape:snap-smooth-nodes="true"
      inkscape:snap-midpoints="true"
      inkscape:snap-object-midpoints="true"
      inkscape:snap-center="true">
     <inkscape:grid
        type="xygrid"
-       id="grid2983" />
+       id="grid8234" />
   </sodipodi:namedview>
   <metadata
-     id="metadata4687">
+     id="metadata7681">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-1028.3622)">
-    <path
-       id="path7634"
-       d="m 17,1030.3622 0,3 -10,0 -2,0 0,6 2,0 0,-4 10,0 0,3 4,-4 -4,-4 z m 0,11 0,4 -10,0 0,-3 -4,4 4,4 0,-3 10,0 2,0 0,-6 -2,0 z"
-       style="fill:#000000;fill-opacity:1;stroke:none"
-       inkscape:connector-curvature="0" />
+     id="layer1">
+    <g
+       transform="matrix(2,0,0,2,0,-3.4e-5)"
+       id="g12-2"
+       style="fill:#000000;fill-opacity:1">
+      <g
+         id="g10-2"
+         style="fill:#000000;fill-opacity:1">
+        <g
+           id="g8-4"
+           style="fill:#000000;fill-opacity:1">
+          <path
+             inkscape:connector-curvature="0"
+             d="M 8.5,15 H 7.3 L 4.75,11.5 V 15 H 3.5 V 9 h 1.25 l 2.5,3.5 V 9 H 8.5 Z m 5,-4.74 H 11 v 1.12 h 2.5 v 1.26 H 11 v 1.11 h 2.5 V 15 h -4 V 9 h 4 z m 7,3.74 c 0,0.55 -0.45,1 -1,1 h -4 c -0.55,0 -1,-0.45 -1,-1 V 9 h 1.25 v 4.51 h 1.13 V 9.99 h 1.25 v 3.51 h 1.12 V 9 h 1.25 z"
+             id="path6-4-7"
+             style="fill:#000000;fill-opacity:1"
+             sodipodi:nodetypes="ccccccccccccccccccccccccssssccccccccccs" />
+        </g>
+      </g>
+    </g>
   </g>
 </svg>

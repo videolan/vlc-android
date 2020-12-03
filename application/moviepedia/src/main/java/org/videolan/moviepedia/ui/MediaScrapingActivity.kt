@@ -32,7 +32,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
@@ -53,6 +52,7 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
     private lateinit var media: MediaWrapper
     private lateinit var binding: MoviepediaActivityBinding
     private val clickHandler = ClickHandler()
+    override fun getSnackAnchorView(): View? = findViewById(android.R.id.content)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +72,7 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
         binding.searchEditText.setOnEditorActionListener(this)
         viewModel = ViewModelProviders.of(this).get(media.uri.path
                 ?: "", MediaScrapingModel::class.java)
-        viewModel.apiResult.observe(this, Observer {
+        viewModel.apiResult.observe(this, {
             mediaScrapingResultAdapter.setItems(it.getAllResults())
         })
         viewModel.search(media.uri)

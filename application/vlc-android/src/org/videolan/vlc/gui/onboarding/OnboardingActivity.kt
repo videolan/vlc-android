@@ -113,7 +113,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
     private fun completeOnBoarding() {
         setResult(RESULT_RESTART)
         Settings.getInstance(this).edit {
-            putInt(PREF_FIRST_RUN, BuildConfig.VERSION_CODE)
+            putInt(PREF_FIRST_RUN, BuildConfig.VLC_VERSION_CODE)
             putBoolean(ONBOARDING_DONE_KEY, true)
             putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
             putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)

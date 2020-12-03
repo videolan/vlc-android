@@ -27,7 +27,6 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -53,7 +52,7 @@ class RenderersDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        RendererDelegate.renderers.observe(this, Observer {
+        RendererDelegate.renderers.observe(this, {
             if (it !== null) {
                 renderers = it
                 mAdapter.update(it)
@@ -110,7 +109,7 @@ class RenderersDialog : DialogFragment() {
             dismissAllowingStateLoss()
             item?.run {
                 activity?.window?.findViewById<View>(R.id.audio_player_container)?.let {
-                    UiTools.snacker(it, getString(R.string.casting_connected_renderer, displayName))
+                    UiTools.snacker(requireActivity(), getString(R.string.casting_connected_renderer, displayName))
                 }
             }
         }

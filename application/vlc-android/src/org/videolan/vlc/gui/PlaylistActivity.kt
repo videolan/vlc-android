@@ -37,7 +37,6 @@ import android.widget.Toast
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -56,7 +55,10 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistActivityBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.RenameDialog
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.AudioUtil.setRingtone
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
@@ -80,6 +82,7 @@ import java.util.*
 @ExperimentalCoroutinesApi
 open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<MediaLibraryItem>, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
 
+    private lateinit var itemTouchHelperCallback: SwipeDragItemTouchHelperCallback
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
     private val mediaLibrary = Medialibrary.getInstance()
     private lateinit var binding: PlaylistActivityBinding
@@ -109,18 +112,20 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         isPlaylist = playlist.itemType == MediaLibraryItem.TYPE_PLAYLIST
         binding.playlist = playlist
         viewModel = getViewModel(playlist)
-        viewModel.tracksProvider.pagedList.observe(this, Observer { tracks ->
+        viewModel.tracksProvider.pagedList.observe(this, { tracks ->
             @Suppress("UNCHECKED_CAST")
             (tracks as? PagedList<MediaLibraryItem>)?.let { audioBrowserAdapter.submitList(it) }
             menu.let { UiTools.updateSortTitles(it, viewModel.tracksProvider) }
+            if (::itemTouchHelperCallback.isInitialized) itemTouchHelperCallback.swipeEnabled = true
         })
 
-        viewModel.tracksProvider.liveHeaders.observe(this, Observer {
+        viewModel.tracksProvider.liveHeaders.observe(this, {
             binding.songs.invalidateItemDecorations()
         })
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
         if (isPlaylist) {
-            itemTouchHelper = ItemTouchHelper(SwipeDragItemTouchHelperCallback(audioBrowserAdapter))
+            itemTouchHelperCallback = SwipeDragItemTouchHelperCallback(audioBrowserAdapter)
+            itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
             itemTouchHelper!!.attachToRecyclerView(binding.songs)
         } else {
             binding.songs.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
@@ -247,8 +252,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode == null) {
             var flags = CTX_PLAYLIST_ITEM_FLAGS
-            (item as? MediaWrapper)?.let {media ->
-                if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && media.uri.scheme?.startsWith("http") == true)) flags = flags  or CTX_RENAME
+            (item as? MediaWrapper)?.let { media ->
+                if (media.type == MediaWrapper.TYPE_STREAM || (media.type == MediaWrapper.TYPE_ALL && isSchemeHttpOrHttps(media.uri.scheme))) flags = flags or CTX_RENAME
             }
             showContext(this, this, position, item.title, flags)
         }
@@ -260,7 +265,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
 
     override fun onRemove(position: Int, item: MediaLibraryItem) {
         val tracks = ArrayList(listOf(*item.tracks))
-        removeFromPlaylist(tracks, ArrayList(Arrays.asList(position)))
+        removeFromPlaylist(tracks, ArrayList(listOf(position)))
     }
 
     override fun onMove(oldPosition: Int, newPosition: Int) {
@@ -270,7 +275,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {
-        MediaUtils.openList(this, Arrays.asList(*item.tracks), 0)
+        MediaUtils.openList(this, listOf(*item.tracks), 0)
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
@@ -285,7 +290,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             binding.fab.show()
     }
 
-    fun startActionMode() {
+    private fun startActionMode() {
         actionMode = startSupportActionMode(this)
     }
 
@@ -300,6 +305,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        audioBrowserAdapter.multiSelectHelper.toggleActionMode(true, audioBrowserAdapter.itemCount)
         mode.menuInflater.inflate(R.menu.action_mode_audio_browser, menu)
         return true
     }
@@ -336,12 +342,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             Toast.makeText(this, "DOWN !", Toast.LENGTH_SHORT).show()
             return true
         }
-        val indexes = ArrayList<Int>()
-        for (i in 0 until audioBrowserAdapter.multiSelectHelper.selectionMap.size()) {
-            indexes.add(audioBrowserAdapter.multiSelectHelper.selectionMap.keyAt(i))
-        }
+        val indexes = audioBrowserAdapter.multiSelectHelper.selectionMap
 
-        stopActionMode()
         when (item.itemId) {
             R.id.action_mode_audio_play -> MediaUtils.openList(this, tracks, 0)
             R.id.action_mode_audio_append -> MediaUtils.appendMedia(this, tracks)
@@ -349,13 +351,15 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             R.id.action_mode_audio_info -> showInfoDialog(list[0] as MediaWrapper)
             R.id.action_mode_audio_share -> lifecycleScope.launch { share(list.map { it as MediaWrapper }) }
             R.id.action_mode_audio_set_song -> setRingtone(list[0] as MediaWrapper)
-            R.id.action_mode_audio_delete -> if (isPlaylist) removeFromPlaylist(tracks, indexes) else removeItems(tracks)
+            R.id.action_mode_audio_delete -> if (isPlaylist) removeFromPlaylist(tracks, indexes.toMutableList()) else removeItems(tracks)
             else -> return false
         }
+        stopActionMode()
         return true
     }
 
     override fun onDestroyActionMode(mode: ActionMode) {
+        audioBrowserAdapter.multiSelectHelper.toggleActionMode(false, audioBrowserAdapter.itemCount)
         actionMode = null
         audioBrowserAdapter.multiSelectHelper.clearSelection()
     }
@@ -393,15 +397,15 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
     private fun removeItem(position: Int, media: MediaWrapper) {
         val resId = if (isPlaylist) R.string.confirm_remove_from_playlist else R.string.confirm_delete
         if (isPlaylist) {
-            snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
+            snackerConfirm(this, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
         } else {
             val deleteAction = Runnable { deleteMedia(media) }
-            snackerConfirm(binding.root, getString(resId, media.title), Runnable { if (Permissions.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
+            snackerConfirm(this, getString(resId, media.title), Runnable { if (Permissions.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
         }
     }
 
     private fun removeItems(items: List<MediaWrapper>) {
-        lifecycleScope.snackerConfirm(binding.root,getString(R.string.confirm_delete_several_media, items.size)) {
+        lifecycleScope.snackerConfirm(this, getString(R.string.confirm_delete_several_media, items.size)) {
             for (item in items) {
                 if (!isStarted()) break
                 if (getWritePermission(item.uri)) deleteMedia(item)
@@ -418,7 +422,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
             if (parentPath != null && FileUtils.deleteFile(path) && media.id > 0L && !foldersToReload.contains(parentPath)) {
                 foldersToReload.add(parentPath)
             } else
-                UiTools.snacker(binding.root, getString(R.string.msg_delete_failed, media.title))
+                UiTools.snacker(this@PlaylistActivity, getString(R.string.msg_delete_failed, media.title))
         }
         for (folder in foldersToReload) mediaLibrary.reload(folder)
     }
@@ -431,6 +435,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
         val itemsRemoved = HashMap<Int, Long>()
         val playlist = viewModel.playlist as? Playlist
                 ?: return
+
+        itemTouchHelperCallback.swipeEnabled = false
         lifecycleScope.launchWhenStarted {
             val tracks = withContext(Dispatchers.IO) { playlist.tracks }
             for (mediaItem in list) {
@@ -441,9 +447,11 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler<Med
                 }
             }
             withContext(Dispatchers.IO) {
-                for (index in indexes) playlist.remove(index)
+                for ((index, playlistIndex) in indexes.sortedBy { it }.withIndex()) {
+                    playlist.remove(playlistIndex - index)
+                }
             }
-            UiTools.snackerWithCancel(binding.root, getString(R.string.removed_from_playlist_anonymous), null, Runnable {
+            UiTools.snackerWithCancel(this@PlaylistActivity, getString(R.string.removed_from_playlist_anonymous), null, {
                 for ((key, value) in itemsRemoved) {
                     playlist.add(value, key)
                 }

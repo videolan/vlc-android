@@ -18,11 +18,12 @@ default_platform(:android)
 platform :android do
 
     @variants = ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
+    @apkPath = ENV["FASTLANE_APK_PATH"]
 
     def checkAPKFileExists(version, checkSha)
         allExist = true
         @variants.each { |variant|
-            file_name = "VLC-Android-"+version+"-"+variant+".apk"
+            file_name = @apkPath+"VLC-Android-"+version+"-"+variant+".apk"
             # checking apks
             if (!File.file?("../"+file_name))
                allExist = false
@@ -44,7 +45,7 @@ platform :android do
     def getFileList(version)
         files = Array.new
         @variants.each { |variant|
-            files.push("VLC-Android-"+version+"-"+variant+".apk")
+            files.push(@apkPath+"VLC-Android-"+version+"-"+variant+".apk")
         }
         return files
     end
@@ -59,6 +60,15 @@ platform :android do
     checkAPKFileExists options[:version], false
     upload_to_play_store(skip_upload_changelogs:true, skip_upload_images:true, skip_upload_screenshots:true, release_status:"draft", apk_paths:getFileList(options[:version]))
     slack(message: 'Successfully created a new draft for '+options[:version])
+  end
+
+  lane :test_files do |options|
+    sh("pwd")
+    checkAPKFileExists options[:version], false
+    getFileList(options[:version]).each { |version|
+        UI.message version
+    }
+
   end
 
   lane :deploy_screenshots do
@@ -115,7 +125,7 @@ platform :android do
         client_id: ENV["HUAWEI_CLIENT_ID"],
         client_secret: ENV["HUAWEI_CLIENT_SECRET"],
         app_id: ENV["HUAWEI_APP_ID"],
-        apk_path: "VLC-Android-"+options[:version]+"-arm64-v8a.apk",
+        apk_path: @apkPath+"VLC-Android-"+options[:version]+"-arm64-v8a.apk",
         submit_for_review: false,
     )
     slack(message: 'Successfully created a new draft for '+options[:version]+' on Huawei AppGallery')
@@ -132,7 +142,7 @@ platform :android do
             username: 'anonymous',
             password: '',
             upload:{
-                src: "./VLC-Android-"+options[:version]+"-"+variant+".apk",
+                src: @apkPath+"VLC-Android-"+options[:version]+"-"+variant+".apk",
                 dest: "/incoming/"+options[:version]
             }
         )
@@ -141,7 +151,7 @@ platform :android do
             username: 'anonymous',
             password: '',
             upload:{
-                src: "./VLC-Android-"+options[:version]+"-"+variant+".apk.sha256",
+                src: @apkPath+"VLC-Android-"+options[:version]+"-"+variant+".apk.sha256",
                 dest: "/incoming/"+options[:version]
             }
         )

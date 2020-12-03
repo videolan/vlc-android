@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -72,7 +71,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
 
         viewModel = getMediaBrowserModel(arguments?.getLong(CATEGORY, CATEGORY_SONGS) ?: CATEGORY_SONGS, currentItem)
 
-        (viewModel.provider as MedialibraryProvider<*>).pagedList.observe(this, Observer { items ->
+        (viewModel.provider as MedialibraryProvider<*>).pagedList.observe(this, { items ->
             submitList(items)
 
             binding.emptyLoading.state = if (items.isEmpty()) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
@@ -84,12 +83,12 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>() {
             headerAdapter.sortType = (viewModel as MediaBrowserViewModel).sort
         })
 
-        viewModel.provider.liveHeaders.observe(this, Observer {
+        viewModel.provider.liveHeaders.observe(this, {
             updateHeaders(it)
             binding.list.invalidateItemDecorations()
         })
 
-        (viewModel.provider as MedialibraryProvider<*>).loading.observe(this, Observer {
+        (viewModel.provider as MedialibraryProvider<*>).loading.observe(this, {
             binding.emptyLoading.state = when {
                 it -> EmptyLoadingState.LOADING
                 viewModel.isEmpty() && adapter.isEmpty() -> EmptyLoadingState.EMPTY

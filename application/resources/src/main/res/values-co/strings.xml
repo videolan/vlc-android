@@ -502,7 +502,9 @@
     <string name="ml_external_storage_msg">Vulete chì VLC aghjunghji l’apparechju %1$s à a vostra bibliuteca di media ?</string>
     <string name="ml_external_storage_accept">Iè</string>
     <string name="ml_external_storage_decline">Innò</string>
-    <string name="last_added_media">ultimu aghjuntu</string>
+    <string name="auto_last_added_media">Ultimu aghjuntu</string>
+    <string name="auto_my_library">A mo bibliuteca</string>
+    <string name="auto_home">Accolta</string>
     <string name="no">Innò</string>
     <string name="loading_medialibrary">Caricamentu di a Bibliuteca di Media…</string>
     <string name="yes">Iè</string>
@@ -553,8 +555,8 @@
     <string name="time_category_current_year">St’annu</string>
     <string name="time_category_last_year">Annu</string>
     <string name="time_category_older">Media più vechju</string>
-    <string name="rename">Rinumà</string>
-    <string name="rename_media">Rinumà %1$s</string>
+    <string name="rename">Rinuminà</string>
+    <string name="rename_media">Rinuminà %1$s</string>
     <string name="manual_search">Ricerca manuale</string>
     <string name="subtitle_search_name_hint">Nome</string>
     <string name="subtitle_search_episode_hint">Episodiu</string>
@@ -704,7 +706,7 @@
     <string name="new_stream">Novu flussu</string>
     <string name="add_to_group">Aghjunghje à u gruppu video</string>
     <string name="remove_from_group">Caccià da u gruppu video</string>
-    <string name="rename_group">Rinumà u gruppu video</string>
+    <string name="rename_group">Rinuminà u gruppu video</string>
     <string name="ungroup">Disunisce</string>
     <string name="group_similar">Raggruppà autumaticamente</string>
     <string name="no_favorite">Alcunu favuritu</string>
@@ -718,4 +720,43 @@
     <string name="sub_result_by_name_episode">Episodiu %s</string>
 
     <string name="sub_result_by_file">Risultati per u vostru schedariu</string>
+    <string name="donate">Aiutà VLC</string>
+    <string name="donate_desc">Sustinite i vuluntarii chì custruiscenu VLC</string>
+    <string name="donate_subscribtion">Vogliu ch’ella sia un finanziamentu misincu</string>
+    <string name="donate_send">Principià u vostru finanziamentu</string>
+    <string name="donation_description">U vostru finanziamentu ci permetterà di :\nAmendà l’appiecazione VLC per Android\nSustene l’associu VideoLAN</string>
+    <string name="subscription_purchased">Avete sottuscrittu à un finanziamentu misincu</string>
+    <string name="subscription_cancel">Pudete disabbunavvi in u Play Store</string>
+    <string name="subscription_cancel_tv">Cumu disabbunassi</string>
+    <string name="donate_unsubscribe_tv">Per disabbunassi, ci vole à apre %s nant’à un telefonu o un urdinatore o analizà stu codice :</string>
+    <string name="tip_jar">Aiutà VLC</string>
+    <string name="thank_you">Vi ringraziemu</string>
+    <string name="thank_you_desc">Vi ringraziemu per u vostru finanziamentu !\nQuè ci aiuterà assai à amendà VLC !</string>
+    <string name="donate_again">Finanzià torna l’appiecazione</string>
+
+    <string name="mark_as_played">Marcà cum’è issendu vistu</string>
+    <string name="mark_all_as_played">Tuttu marcà cum’è issendu vistu</string>
+    <string name="new_group">Novu gruppu</string>
+    <string name="new_group_desc">Creà un novu gruppu</string>
+
+    <string name="air_action_rewind">Rivene 10 seconde nanzu</string>
+    <string name="air_action_forward">Circà 10 seconde dopu</string>
+    <string name="air_action_play_pause">Interrompe / Cuntinuà a ripruduzzione</string>
+    <string name="air_action_volume_up">Aumentà u vulume</string>
+    <string name="air_action_volume_down">Calà u vulume</string>
+    <string name="air_action_next">Elementu seguente in lettura</string>
+    <string name="air_action_previous">Elementu precedente in lettura</string>
+    <string name="allow_otg">Permette l’accessu OTG</string>
+    <string name="allow_otg_description">Ci vole à selezziunà u vostru apparechju OTG per permetteci l’accessu à VLC.</string>
+    <string name="timeout_infinite">Infinitu</string>
+    <string name="timeout_short">Cortu</string>
+    <string name="timeout_normal">Nurmale</string>
+    <string name="timeout_long">Longu</string>
+    <string name="video_hud_timeout">U lettore video cuntrolleghja u cumportu di maschera</string>
+    <string name="remove_from_history">Caccià da a cronolugia</string>
+    <string name="prefersmbv1">Preferisce SMB 1</string>
+    <string name="prefersmbv1_summary">Disattivà st’ozzione s’è vò avete qualchì difficultà à navigà nant’à u vostru servitore SMB</string>
+    <string name="apply_to_all">Appiecà à tutte e video</string>
+    <string name="audio_delay_global">Cumportu audio definitu à %s ms per tutte e video</string>
+
 </resources>

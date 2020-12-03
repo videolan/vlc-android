@@ -226,6 +226,14 @@ Libs: -l$1
 Cflags:" > contrib/${TARGET_TUPLE}/lib/pkgconfig/$(echo $1|tr 'A-Z' 'a-z').pc
 }
 
+avlc_pkgconfig()
+{
+    # Enforce pkg-config files coming from VLC contribs
+    PKG_CONFIG_PATH="$VLC_CONTRIB/lib/pkgconfig/" \
+    PKG_CONFIG_LIBDIR="$VLC_CONTRIB/lib/pkgconfig/" \
+    pkg-config "$@"
+}
+
 avlc_build()
 {
 ###########################
@@ -636,7 +644,15 @@ rm ${REDEFINED_VLC_MODULES_DIR}/syms
 ###########################
 
 VLC_MODULES=$(avlc_find_modules ${REDEFINED_VLC_MODULES_DIR})
-VLC_CONTRIB_LDFLAGS=$(for i in $(/bin/ls $VLC_CONTRIB/lib/pkgconfig/*.pc); do PKG_CONFIG_PATH="$VLC_CONTRIB/lib/pkgconfig/" pkg-config --libs $i; done |xargs)
+VLC_CONTRIB_LDFLAGS=$(for i in $(/bin/ls $VLC_CONTRIB/lib/pkgconfig/*.pc); do avlc_pkgconfig --libs $i; done |xargs)
+
+# Lua contrib doesn't expose a pkg-config file with libvlc 3.x and is
+# not probed by the previous command in VLC_CONTRIB_LDFLAGS, so probe
+# whether it was detected or add it manually to the LDFLAGS.
+if ! avlc_pkgconfig --exists lua; then
+    VLC_CONTRIB_LDFLAGS="$VLC_CONTRIB_LDFLAGS '$VLC_CONTRIB/lib/liblua.a'"
+fi
+
 echo -e "ndk-build vlc"
 
 touch $VLC_OUT_PATH/dummy.cpp
@@ -658,7 +674,6 @@ LOCAL_LDLIBS := \
     $(VLC_CONTRIB_LDFLAGS) \
     -ldl -lz -lm -llog \
     -la52 -ljpeg \
-    -llua \
     $(VLC_LDFLAGS)
 LOCAL_CXXFLAGS := -std=c++11
 include $(BUILD_SHARED_LIBRARY)

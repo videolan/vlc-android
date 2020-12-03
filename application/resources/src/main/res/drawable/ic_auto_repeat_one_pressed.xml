@@ -1,35 +1,14 @@
-<!--
-  ~ *************************************************************************
-  ~  ic_auto_repeat_one_pressed.xml
-  ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
-  ~ Author: Nicolas POMEPUY
-  ~ This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation; either version 2 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program; if not, write to the Free Software
-  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
-  ~ ***************************************************************************
-  ~
-  ~
-  -->
-
-<vector android:height="48dp"
-        android:viewportHeight="24"
-        android:viewportWidth="24"
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
         android:width="48dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:height="48dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
     <path
-            android:fillAlpha="1"
             android:fillColor="#000000"
-            android:pathData="m17,2 l0,3 -10,0 -2,0 0,6 2,0 0,-4 10,0 0,3 4,-4 -4,-4zM12.7441,9.5 L10.25,10.25 10.256,11 11.256,11 11.256,15 12.7501,15 12.7441,9.5zM17,13 L17,17 7,17 7,14 3,18 7,22 7,19 17,19 19,19 19,13 17,13z"
-            android:strokeColor="#00000000" />
+            android:fillType="evenOdd"
+            android:pathData="m17.0493,2.6631c-0.1452,0 -0.2903,0.061 -0.3977,0.1757 -0.1001,0.1002 -0.1511,0.2407 -0.1516,0.3824v2.0281L8.625,5.2493c-1.864,0 -3.375,1.5109 -3.375,3.375v1.125c-0.0113,0.6342 0.5083,1.1503 1.1426,1.1404 0.6204,-0.011 1.116,-0.5199 1.1074,-1.1404v-1.125c0,-0.6214 0.5037,-1.125 1.125,-1.125L11.8022,7.4993 16.5,7.4993v2.0302c0.0002,0.4967 0.6001,0.7445 0.9514,0.3933L21,6.3743l-3.5486,-3.5486c-0.1114,-0.1114 -0.257,-0.1653 -0.4021,-0.1626zM11.9868,9.457c-0.1758,0 -0.3327,0.075 -0.4878,0.1648l-1.448,0.7559c-0.6651,0.3485 -0.1421,1.346 0.5229,0.9975l0.5823,-0.3054v2.6192c-0.0158,1.141 1.7036,1.141 1.6875,0v-3.375c0.0113,-0.4763 -0.3806,-0.8644 -0.8569,-0.857zM17.6074,13.1089c-0.6204,0.011 -1.116,0.5199 -1.1074,1.1405v1.125c0,0.6213 -0.5037,1.125 -1.125,1.125L12.1978,16.4994 7.5,16.4994v-2.0281c-0.0002,-0.4967 -0.6001,-0.7466 -0.9514,-0.3955L3,17.6265l3.5486,3.5486c0.2221,0.2221 0.5826,0.2145 0.7976,-0.016 0.1001,-0.1001 0.1532,-0.2383 0.1538,-0.3801v-2.0303h7.875c1.864,0 3.375,-1.511 3.375,-3.375v-1.125c0.0113,-0.6343 -0.5083,-1.1503 -1.1426,-1.1404z"
+            android:strokeWidth="2.25"
+            android:strokeColor="#00000000"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
 </vector>

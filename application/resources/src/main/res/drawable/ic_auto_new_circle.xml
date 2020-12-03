@@ -1,0 +1,40 @@
+<!--
+  ~ *************************************************************************
+  ~  ic_auto_new_circle.xml
+  ~ **************************************************************************
+  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Author: Nicolas POMEPUY
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+  ~ ***************************************************************************
+  ~
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+  <path
+      android:pathData="M32,32m-31.9999,0a31.9999,31.9999 0,1 1,63.9999 0a31.9999,31.9999 0,1 1,-63.9999 0"
+      android:strokeLineJoin="round"
+      android:strokeWidth="3.84306884"
+      android:fillColor="#aa000000"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="round"/>
+  <path
+      android:pathData="M25,38.0001L22.6,38.0001L17.5,31.0001L17.5,38.0001L15,38.0001L15,26.0001l2.5,0l5,7L22.5,26.0001L25,26.0001ZM35,28.5201L30,28.5201l0,2.24l5,0l0,2.52L30,33.2801l0,2.22l5,0L35,38.0001l-8,0L27,26.0001l8,0zM49,36.0001c0,1.1 -0.9,2 -2,2l-8,0c-1.1,0 -2,-0.9 -2,-2L37,26.0001l2.5,0l0,9.02l2.26,0L41.76,27.9801l2.5,0l0,7.02l2.24,0L46.5,26.0001l2.5,0z"
+      android:fillColor="#ffffff"/>
+</vector>

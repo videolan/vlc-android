@@ -24,7 +24,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import kotlinx.coroutines.DEBUG_PROPERTY_NAME
 import kotlinx.coroutines.DEBUG_PROPERTY_VALUE_ON
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +44,6 @@ import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.SendCrashActivity
-import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.SettingsMigration
@@ -68,7 +66,6 @@ class AppSetupDelegate : AppDelegate,
         NotificationHelper.createNotificationChannels(this)
 
         // Service loaders
-        Log.i("AppSetupDelegate", "Registering factories")
         FactoryManager.registerFactory(IMediaFactory.factoryId, MediaFactory())
         FactoryManager.registerFactory(ILibVLCFactory.factoryId, LibVLCFactory())
         System.setProperty(DEBUG_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
@@ -83,24 +80,21 @@ class AppSetupDelegate : AppDelegate,
                 setupIndexers()
             }
         }
+        AppContextProvider.setLocale(Settings.getInstance(this).getString("set_locale", ""))
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         backgroundInit()
     }
 
     // init operations executed in background threads
-    private fun Context.backgroundInit() {
-        Thread(Runnable {
-            AppContextProvider.setLocale(Settings.getInstance(this).getString("set_locale", ""))
+    private fun Context.backgroundInit() = AppScope.launch {
+        launch(Dispatchers.IO) {
+            if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@launch
+            Dialog.setCallbacks(VLCInstance.getInstance(this@backgroundInit), DialogDelegate)
+        }
+        packageManager.setComponentEnabledSetting(ComponentName(this@backgroundInit, SendCrashActivity::class.java),
+                if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+        SettingsMigration.migrateSettings(this@backgroundInit)
 
-            AppScope.launch(Dispatchers.IO) {
-
-                if (!VLCInstance.testCompatibleCPU(AppContextProvider.appContext)) return@launch
-                Dialog.setCallbacks(VLCInstance.getInstance(this@backgroundInit), DialogDelegate)
-            }
-            packageManager.setComponentEnabledSetting(ComponentName(this, SendCrashActivity::class.java),
-                    if (BuildConfig.BETA) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
-            SettingsMigration.migrateSettings(this)
-        }).start()
     }
 }

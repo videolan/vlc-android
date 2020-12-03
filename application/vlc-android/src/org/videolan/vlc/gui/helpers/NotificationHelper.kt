@@ -27,6 +27,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -37,8 +38,8 @@ import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.resources.*
 import org.videolan.tools.getContextWithLocale
-import org.videolan.tools.getMediaDescription
 import org.videolan.vlc.R
+import org.videolan.vlc.media.MediaUtils.getMediaDescription
 
 private const val MEDIALIBRRARY_CHANNEL_ID = "vlc_medialibrary"
 private const val PLAYBACK_SERVICE_CHANNEL_ID = "vlc_playback"
@@ -72,6 +73,7 @@ object NotificationHelper {
                 .setOngoing(playing)
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setDeleteIntent(piStop)
+                .setColor(Color.BLACK)
                 .addAction(NotificationCompat.Action(
                         R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous),
                         MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
