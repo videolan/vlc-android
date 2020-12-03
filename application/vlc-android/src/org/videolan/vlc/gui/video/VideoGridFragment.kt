@@ -60,7 +60,6 @@ import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
-import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.launchWhenStarted
@@ -324,16 +323,24 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 menu.findItem(R.id.action_video_info).isVisible = count == 1
                 menu.findItem(R.id.action_remove_from_group).isVisible = viewModel.group != null
                 menu.findItem(R.id.action_add_to_group).isVisible = viewModel.group != null && count > 1
+                menu.findItem(R.id.action_mode_go_to_folder).isVisible = checkFolderToParent(count)
             }
             VideoGroupingType.NAME -> {
                 menu.findItem(R.id.action_ungroup).isVisible = !multiSelectHelper.getSelection().any { it !is VideoGroup }
                 menu.findItem(R.id.action_rename).isVisible = count == 1 && !multiSelectHelper.getSelection().any { it !is VideoGroup }
                 menu.findItem(R.id.action_group_similar).isVisible = count == 1 && multiSelectHelper.getSelection().filterIsInstance<VideoGroup>().isEmpty()
+                menu.findItem(R.id.action_mode_go_to_folder).isVisible = checkFolderToParent(count)
             }
             else -> {}
         }
         return true
     }
+
+    private fun checkFolderToParent(count: Int) = if (count == 1)
+        (multiSelectHelper.getSelection().first() as? MediaWrapper)?.let {
+            if (it.type != MediaWrapper.TYPE_VIDEO) false
+            it.uri.retrieveParent() != null
+        } ?: false else false
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         if (!isStarted()) return false
@@ -345,7 +352,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                         R.id.action_video_play -> MediaUtils.openList(activity, list, 0)
                         R.id.action_video_append -> MediaUtils.appendMedia(activity, list)
                         R.id.action_video_share -> requireActivity().share(list)
-                        R.id.action_video_info -> showInfoDialog(list[0])
+                        R.id.action_video_info -> showInfoDialog(list.first())
                         R.id.action_video_download_subtitles -> MediaUtils.getSubs(requireActivity(), list)
                         R.id.action_video_play_audio -> {
                             for (media in list) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
@@ -356,6 +363,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                         R.id.action_remove_from_group -> viewModel.removeFromGroup(list)
                         R.id.action_ungroup -> viewModel.ungroup(list)
                         R.id.action_add_to_group -> addToGroup(list)
+                        R.id.action_mode_go_to_folder -> (list.first() as? MediaWrapper)?.let { showParentFolder(it) }
                         else -> {
                             stopActionMode()
                             return false
@@ -385,6 +393,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     R.id.action_ungroup -> viewModel.ungroup(selection.first() as VideoGroup)
                     R.id.action_rename -> renameGroup(selection.first() as VideoGroup)
                     R.id.action_add_to_group -> addToGroup(selection)
+                    R.id.action_mode_go_to_folder -> (selection.first() as? MediaWrapper)?.let { showParentFolder(it) }
                     else -> return false
                 }
             }
@@ -444,6 +453,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media), true) {}
                 CTX_GROUP_SIMILAR -> lifecycleScope.launch { viewModel.groupSimilar(media) }
                 CTX_MARK_AS_PLAYED -> lifecycleScope.launch { viewModel.markAsPlayed(media) }
+                CTX_GO_TO_FOLDER -> showParentFolder(media)
             }
             is Folder -> when (option) {
                 CTX_PLAY -> viewModel.play(position)
@@ -502,6 +512,8 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                         var flags = if (group) CTX_VIDEO_GROUP_FLAGS else CTX_VIDEO_FLAGS
                         if (item.time != 0L && !group) flags = flags or CTX_PLAY_FROM_START
                         if (viewModel.groupingType == VideoGroupingType.NAME || viewModel.group != null) flags = flags or if (viewModel.group != null) CTX_REMOVE_GROUP else flags or CTX_ADD_GROUP or CTX_GROUP_SIMILAR
+                        //go to folder
+                        if (item.uri.retrieveParent() != null) flags = flags or CTX_GO_TO_FOLDER
                         showContext(requireActivity(), this@VideoGridFragment, position, item.getTitle(), flags)
                     }
                 }

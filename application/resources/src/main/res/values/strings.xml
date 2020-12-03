@@ -777,5 +777,6 @@
     <string name="prefersmbv1_summary">Uncheck this setting if you have some difficulties browsing your SMB server</string>
     <string name="apply_to_all">Apply to all videos</string>
     <string name="audio_delay_global">Audio delay set to %s ms for all videos</string>
+    <string name="go_to_folder">Browse parent</string>
 
 </resources>

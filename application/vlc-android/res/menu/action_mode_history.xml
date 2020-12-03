@@ -17,4 +17,9 @@
         android:title="@string/append"
             android:icon="@drawable/ic_am_append"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_go_to_folder"
+        android:title="@string/go_to_folder"
+            android:icon="@drawable/ic_am_folder"
+        app:showAsAction="always" />
 </menu>

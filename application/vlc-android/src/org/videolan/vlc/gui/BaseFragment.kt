@@ -12,10 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import org.videolan.medialibrary.MLServiceLocator
+import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.TAG_ITEM
+import org.videolan.tools.retrieveParent
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 
@@ -107,6 +111,16 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
         val i = Intent(activity, InfoActivity::class.java)
         i.putExtra(TAG_ITEM, item)
         startActivity(i)
+    }
+
+    protected fun showParentFolder(media: MediaWrapper) {
+        val parent = MLServiceLocator.getAbstractMediaWrapper(media.uri.retrieveParent()).apply {
+            type = MediaWrapper.TYPE_DIR
+        }
+        val intent = Intent(requireActivity().applicationContext, SecondaryActivity::class.java)
+        intent.putExtra(KEY_MEDIA, parent)
+        intent.putExtra("fragment", SecondaryActivity.FILE_BROWSER)
+        startActivity(intent)
     }
 
     protected fun setRefreshing(refreshing: Boolean, action: ((loading: Boolean) -> Unit)? = null) {

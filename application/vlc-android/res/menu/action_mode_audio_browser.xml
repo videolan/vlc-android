@@ -52,4 +52,11 @@
             android:visible="false"
                 app:showAsAction="ifRoom" />
     </group>
+
+    <item
+            android:id="@+id/action_mode_go_to_folder"
+            android:title="@string/go_to_folder"
+            android:icon="@drawable/ic_am_folder"
+            android:visible="false"
+            app:showAsAction="ifRoom" />
 </menu>
