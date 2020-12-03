@@ -254,7 +254,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 true
             }
             R.id.artists_show_all_title -> {
-                item.isChecked = !Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, true)
+                item.isChecked = !Settings.getInstance(requireActivity()).getBoolean(KEY_ARTISTS_SHOW_ALL, false)
                 Settings.getInstance(requireActivity()).putSingle(KEY_ARTISTS_SHOW_ALL, item.isChecked)
                 viewModel.artistsProvider.showAll = item.isChecked
                 viewModel.refresh()
