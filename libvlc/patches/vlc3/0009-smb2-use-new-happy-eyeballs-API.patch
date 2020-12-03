@@ -1,10 +1,10 @@
-From 1dbf4d1e30c973e8c25976eeb69adede487233af Mon Sep 17 00:00:00 2001
-Message-Id: <1dbf4d1e30c973e8c25976eeb69adede487233af.1605701951.git.nicolas@videolabs.io>
-In-Reply-To: <fcaa38ed543fd88a73fa3c6766a8f86b8b053fb6.1605701951.git.nicolas@videolabs.io>
-References: <fcaa38ed543fd88a73fa3c6766a8f86b8b053fb6.1605701951.git.nicolas@videolabs.io>
+From ed327ee46723c819ace14fbf6e4afc9dd9c8f269 Mon Sep 17 00:00:00 2001
+Message-Id: <ed327ee46723c819ace14fbf6e4afc9dd9c8f269.1607001652.git.nicolas@videolabs.io>
+In-Reply-To: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
+References: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Mon, 9 Nov 2020 18:06:58 +0100
-Subject: [PATCH 8/8] smb2: use new happy eyeballs API
+Subject: [PATCH 09/10] smb2: use new happy eyeballs API
 
 Connect to all resolved addresses in parallel, waiting 100ms between
 each new connection.
@@ -12,6 +12,7 @@ each new connection.
 This resolves very long timeout or error when the host resolve to IPv4
 and IPv6 addresses but the samba service handle only one protocol (or a
 firewall is dropping one address family).
+Message-Id: <1dbf4d1e30c973e8c25976eeb69adede487233af.1605701951.git.nicolas@videolabs.io>
 ---
  ...mb2-implement-rfc8305-Happy-Eyeballs.patch | 832 ++++++++++++++++++
  contrib/src/smb2/SHA512SUMS                   |   2 +-
