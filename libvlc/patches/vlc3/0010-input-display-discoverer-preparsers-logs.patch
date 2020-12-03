@@ -1,0 +1,28 @@
+From 6b6571e1c1999271bf484459195446ec756f1028 Mon Sep 17 00:00:00 2001
+Message-Id: <6b6571e1c1999271bf484459195446ec756f1028.1607001652.git.nicolas@videolabs.io>
+In-Reply-To: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
+References: <7505e758ab3f173e530063cea6a221862fb83ab2.1607001652.git.nicolas@videolabs.io>
+From: Thomas Guillem <thomas@gllm.fr>
+Date: Thu, 3 Dec 2020 09:56:05 +0100
+Subject: [PATCH 10/10] input: display discoverer/preparsers logs
+
+---
+ src/input/input.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/input/input.c b/src/input/input.c
+index f4337f586f..eba9147049 100644
+--- a/src/input/input.c
++++ b/src/input/input.c
+@@ -364,7 +364,7 @@ static input_thread_t *Create( vlc_object_t *p_parent, input_item_t *p_item,
+             p_item->i_preparse_depth = -1;
+     }
+     else
+-        p_input->obj.flags |= OBJECT_FLAGS_QUIET | OBJECT_FLAGS_NOINTERACT;
++        p_input->obj.flags |= OBJECT_FLAGS_NOINTERACT;
+ 
+     /* Make sure the interaction option is honored */
+     if( !var_InheritBool( p_input, "interact" ) )
+-- 
+2.25.1
+
