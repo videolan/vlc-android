@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">Aceutar</string>
+    <string name="cancel">Encaboxar</string>
+    <string name="sortby">Ordenar por…</string>
+    <string name="sortby_name">Nome</string>
+    <string name="sortby_filename">Nome de ficheru</string>
+    <string name="sortby_length">Duración</string>
+    <string name="sortby_date">Data</string>
+    <string name="sortby_last_modified_date">Data d\'amiestu</string>
+    <string name="searchable_hint">Buscar...</string>
+    <string name="history">Historial</string>
+
+    <string name="play">Reproducir</string>
+    <string name="playback">Reproducción</string>
+    <string name="play_as_audio">Reproducir como audiu</string>
+    <string name="video_app_switch_title">Mou en segundu planu / Picture-in-Picture</string>
+    <string name="video_app_switch_summary">Esbilla\'l comportamientu pa cuando cambies a otra aplicación dende la reproducción de vídeos</string>
+    <string name="resume_playback_short_title">Siguir cola reproducción</string>
+    <string name="delete">Desaniciar</string>
+    <string name="set_song">Afitar como timbre</string>
+    <string name="set_song_question">¿Afitar «%1$s» como timbre?</string>
+    <string name="info">Información</string>
+    <string name="confirm_delete">¿Desaniciar el ficheru «%1$s»?</string>
+    <string name="confirm_delete_folder">¿Desaniciar la carpeta «%1$s» y tol conteníu de so?</string>
+    <string name="confirm_delete_playlist">¿Desaniciar la llista de reproducción «%1$s»?</string>
+    <string name="confirm_remove_from_playlist">¿Desaniciar «%1$s» de la llista de reproducción?</string>
+    <string name="ringtone_set">El ficheru «%1$s» afitóse como timbre.</string>
+    <string name="ringtone_error">Asocedió un fallu mentanto s\'afitaba\'l timbre.</string>
+    <string name="songs">Canciones</string>
+    <string name="artists">Artistes</string>
+    <string name="albums">Álbumes</string>
+    <string name="tracks">Pistes</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 álbum</item>
+        <item quantity="other">%d álbumes</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 socarpeta</item>
+        <item quantity="other">%d socarpetes</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 ficheru multimedia</item>
+        <item quantity="other">%d ficheros multimedia</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 videu</item>
+        <item quantity="other">%d vídeos</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 película</item>
+        <item quantity="other">%d películes</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 programa de TV</item>
+        <item quantity="other">%d programes de TV</item>
+    </plurals>
+
+    <string name="internal_memory">Memoria interna</string>
+    <string name="audio">Audiu</string>
+    <string name="video">Videu</string>
+    <string name="bookmarks">Marcadores</string>
+    <string name="equalizer">Ecualizador</string>
+    <string name="all_albums">Tolos álbumes</string>
+    <string name="genres">Xéneros</string>
+    <string name="playlists">Llistes</string>
+    <string name="title">Títulu</string>
+    <string name="directories">Direutorios</string>
+    <string name="loading">Cargando</string>
+    <string name="please_wait">Espera...</string>
+    <string name="nomedia">Nun s\'alcontró nengún ficheru multimedia. Tresfier dalgún al preséu o axusta les preferencies.</string>
+    <string name="noplaylist">Nun s\'alcontró nenguna llista de reproducción.</string>
+    <string name="directorynotfound">Nun s\'alcontró\'l camín al direutoriu «%1$s»</string>
+    <string name="validation">¿De xuru?</string>
+
+    <string name="repeat_title">Mou de repitición</string>
+    <string name="refresh">Refrescar</string>
+    <string name="track_audio">Pista d\'audiu</string>
+    <string name="track_video">Pista de videu</string>
+    <string name="track_codec_info">Códec: %1$s\n</string>
+    <string name="track_language_info">Llingua: %1$s\n</string>
+    <string name="volume">Volume</string>
+    <string name="brightness">Brilléu</string>
+    <string name="advanced">opciones avanzaes</string>
+    <string name="audio_boost_warning">Volvi eslizar pa perpasar el 100%</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 canal\n</item>
+        <item quantity="other">%1$d canales\n</item>
+    </plurals>
+
+    <string name="track_resolution_info">Resolución: %1$dx%2$d\n</string>
+    <string name="playback_speed">Velocidá de reproducción</string>
+    <string name="sleep_title">Temporizador</string>
+    <string name="jump_to_time">Dir al minutu...</string>
+    <string name="server_username_hint">Nome d\'usuariu</string>
+    <string name="server_port">Puertu:</string>
+    <string name="password">Contraseña</string>
+
+    <string name="favorites_remove">Desaniciar de Favoritos</string>
+    <string name="streams">Fluxos</string>
+    <string name="open_mrl_dialog_msg">Introduz una direición de rede, por exemplu https://, mms:// o rtsp://</string>
+    <string name="invalid_location">L\'allugamientu %1$s nun pue reproducise.</string>
+
+    <string name="playback_speed_title">Guardar la velocidá de reproducción</string>
+    <string name="subtitles">Sotítulos</string>
+    <string name="options">Opciones</string>
+    <string name="lock">Bloquiar</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC p\'Android</string>
+    <string name="licence">Llicencia</string>
+    <string name="revision">Revisión</string>
+    <string name="about_text">VLC p\'Android™ ye una versión adautada de VLC, el reproductor multimedia y popular de códigu llibre. Esta versión pue lleer la mayoría de ficheros y fluxos de rede.</string>
+    <string name="vlc_authors">y los autores de VLC.</string>
+    <string name="compiled_by">Esta versión de VLC ta compilada por:</string>
+    <string name="feedback_forum">Foru de comentarios</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Axustes</string>
+
+    <string name="directories_summary">Esbilla de direutorios a incluyir na biblioteca de medios</string>
+    <string name="add_custom_path">Amestar un camín personalizáu</string>
+    <string name="hardware_acceleration">Aceleración per hardware</string>
+    <string name="hardware_acceleration_full">Aceleración completa</string>
+    <string name="dev_hardware_decoder">Descodificador avanzáu per hardware</string>
+    <string name="screen_orientation_sensor">Automática (sensor)</string>
+    <string name="screen_orientation_portrait">Vertical</string>
+    <string name="screen_orientation_landscape">Horizonal</string>
+    <string name="enable_black_theme">Estilu escuru</string>
+    <string name="subtitle_text_encoding">Codificación</string>
+    <string name="daynight_follow_system_title">Siguir el mou del sistema</string>
+
+    <string name="extra_prefs_category">Axustes adicionales</string>
+
+    <string name="interface_prefs_screen">Interfaz</string>
+    <string name="interface_secondary_display_category_title">Pantalla secundaria</string>
+    <string name="video_prefs_category">Videu</string>
+    <string name="video_min_group_length_title">Agrupamientu de vídeos</string>
+    <string name="video_min_group_length_disable">Nun lo facer</string>
+    <string name="video_min_group_length_folder">Agrupalos pola carpeta</string>
+    <string name="browser_show_hidden_files_title">Amosar ficheros anubríos</string>
+
+    <string name="subtitles_prefs_category">Sotítulos</string>
+    <string name="subtitles_size_title">Tamañu</string>
+    <string name="subtitles_size_small">Pequeñu</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Grande</string>
+    <string name="subtitles_size_huge">Escomanáu</string>
+    <string name="subtitles_color_title">Color</string>
+    <string name="subtitles_color_white">Blancu</string>
+    <string name="subtitles_color_gray">Buxu</string>
+    <string name="subtitles_color_pink">Rosa</string>
+    <string name="subtitles_color_blue">Azul</string>
+    <string name="subtitles_color_yellow">Mariellu</string>
+    <string name="subtitles_color_green">Verde</string>
+    <string name="subtitles_background_title">Fondu</string>
+    <string name="subtitles_bold_title">En negrina</string>
+    <string name="subtitles_autoload_title">Carga automática</string>
+
+    <string name="audio_prefs_category">Audiu</string>
+    <string name="headset_prefs_category">Auriculares</string>
+    <string name="aout_summary">Camuda\'l métodu qu\'usa VLC pa la salida del audiu</string>
+    <string name="audio_ducking_title">Baxar el volume de VLC al haber avisos</string>
+    <string name="audio_ducking_summary">Ayuda a oyer los avisos d\'audiu, les instrucciones de navegación o l\'asistente per voz</string>
+    <string name="casting_conversion_quality_title">Calidá de la conversión</string>
+    <string name="artists_show_all_title">Amosar tolos artistes</string>
+
+    <string name="extensions_prefs_category">Estensiones</string>
+    <string name="extensions_empty">Nun se deteutó nenguna estensión</string>
+    <string name="extension_permission_title">¿Activar la estensicón nueva «%1$s»?</string>
+    <string name="android_auto">Android Auto</string>
+
+    <string name="performance_prefs_category">Rindimientu</string>
+    <string name="enable_frame_skip">Saltu de cuadros</string>
+    <string name="set_locale">Afitar una locale</string>
+    <string name="network_caching_popup">Esti valor ha tar ente 0 y 6000 ms</string>
+    <string name="quit">Colar y reaniciar l\'aplicación</string>
+    <string name="restart_message">Los cambeos van facer efeutu namás que se reanicie l\'aplicación.\n\n¿Reaniciar agora?</string>
+    <string name="restart_message_OK">Sí</string>
+    <string name="restart_message_Later">Dempués</string>
+    <string name="browser_show_all_title">Amosar tolos ficheros</string>
+
+    <string name="debug_logs">Rexistros de depuración</string>
+    <string name="start_logging">Aniciar el rexistru</string>
+    <string name="stop_logging">Parar el rexistru</string>
+    <string name="clear_log">Llimpiar el rexistru</string>
+    <string name="log_service_title">Grabación de los rexistros de VLC</string>
+    <string name="log_service_text">Abrir la consola del rexistru</string>
+    <string name="dump_logcat">Volquiar el rexistru</string>
+    <string name="dump_logcat_success">¡El rexistru volquióse con ésitu en %1$s!</string>
+    <string name="dump_logcat_failure">Fallu al volquiar el rexistru.</string>
+    <string name="custom_libvlc_options">Personalizar les opciones de libVLC</string>
+    <string name="serious_crash">Desafortunadamente, asocedió un fallu grabe y VLC tuvo de zarrase.</string>
+    <string name="sending_log">Unviando\'l rexistru...</string>
+
+    <string name="delete_sub_message">¿Quies desaniciar esti sotítulu?</string>
+    <string name="no_result">Nun s\'alcontraron resultaos</string>
+    <string name="network_browsing">Rede llocal</string>
+    <string name="browsing">Restolar</string>
+
+    <string name="network_shares_discovery">Guetando comparticiones de rede</string>
+    <string name="network_empty">Esti direutoriu ta baleru.</string>
+    <string name="search_in_list_hint">Buscar na llista actual</string>
+    <string name="playlist_name_hint">Nome de la llista de reproducción</string>
+    <string name="confirm_resume">¿Siguir dende la última posición?</string>
+    <string name="tv_ui_title">Interfaz d\'Android TV</string>
+    <string name="medialibrary">Biblioteca multimedia</string>
+
+    <!-- Accessibility -->
+    <string name="more_actions">Más aiciones</string>
+
+    <!-- Widget -->
+    <string name="widget_name_w">Widget blancu de VLC</string>
+    <string name="widget_name_b">Widget prietu de VLC</string>
+    <string name="allow_storage_access_title">Accesu a los ficheros per parte de VLC</string>
+    <string name="allow_storage_access_description">VLC precisa que-y deas laude p\'acceder a los ficheros d\'esti preséu.</string>
+    <string name="allow_settings_access_ringtone_description">VLC precisa que-y deas laude p\'afitar esta canción como timbre.</string>
+    <string name="allow_settings_access_brightness_title">Cambéu del brilléu per parte de VLC</string>
+    <string name="allow_settings_access_brightness_description">VLC precisa que-y deas laude pa camudar el mou del brilléu.</string>
+    <string name="allow_sdraw_overlays_description">VLC precisa que-y deas laude p\'amosar vídeos nun ventanu enriba d\'otres aplicaciones.</string>
+    <string name="permission_ask_again">Dar laude</string>
+    <string name="exit_app_msg">¿De xuru que quies colar de VLC?</string>
+
+    <!-- Plugins -->
+    <string name="plugins">Plugins</string>
+    <string name="opengl_title">Usu d\'OpenGL ES2</string>
+    <string name="opengl_automatic">Automáticu</string>
+    <string name="opengl_on">Forciar l\'activación</string>
+    <string name="opengl_off">Forciar la desactivación</string>
+    <string name="network_shared_folders">Carpetes compartíes</string>
+    <string name="download_subtitles">Baxar sotítulos</string>
+    <string name="episodes">episodios</string>
+    <string name="movies">películes</string>
+    <string name="videos">vídeos</string>
+    <string name="videos_all">Tolos vídeos</string>
+    <string name="clear_playback_history">Llimpiar l\'historial de reproducciones</string>
+    <string name="ml_scanning">Escanéu de ficheros</string>
+    <string name="ml_parse_media">Analizando ficheros:</string>
+    <string name="ml_discovering">Descubriendo:</string>
+    <string name="length">Duración</string>
+    <string name="ml_external_storage_accept">Sí</string>
+    <string name="ml_external_storage_decline">Non</string>
+    <string name="no">Non</string>
+    <string name="loading_medialibrary">Cargando Medialibrary…</string>
+    <string name="yes">Sí</string>
+
+    <string name="save">Guardar</string>
+    <string name="do_not_save">Nun guardar</string>
+    <string name="recommendations">Recomendaciones</string>
+    <string name="browser_quick_access">Accesu rápidu</string>
+    <string name="browser_storages">Almacenamientos</string>
+    <string name="audio_digital_failed">Fallu al camudar l\'estáu de la salida d\'audiu dixital</string>
+    <string name="tv_my_new_videos">Vídeos nuevos de mio</string>
+    <string name="otg_device_title">Preséu OTG</string>
+    <string name="browser">Restolador</string>
+    <string name="stop_after_this">Parar dempués d\'esta pista</string>
+    <string name="time_category_current_month">Esti mes</string>
+    <string name="time_category_current_year">Esti añu</string>
+    <string name="time_category_last_year">L\'últimu añu</string>
+    <string name="manual_search">Busca manual</string>
+    <string name="subtitle_search_name_hint">Nome</string>
+    <string name="subtitle_search_episode_hint">Episodiu</string>
+    <string name="subtitle_search_season_hint">Temporada</string>
+    <string name="language_to_download">Llingua</string>
+    <string name="ctx_player_audio_track">Pista d\'audiu</string>
+    <string name="ctx_pip_title">Ventanu emerxente</string>
+    <string name="welcome_title">¡Afáyate en VLC!</string>
+    <string name="welcome_subtitle">El reproductor multimedia de códigu abiertu</string>
+    <string name="permission_media">VLC precisa\'l to permisu p\'acceder a los ficheros del preséu</string>
+    <string name="medialibrary_scan_explanation">VLC pue escaniar automáticamente\'l preséu pa organizar la to coleición multimedia.</string>
+    <string name="onboarding_theme_title">Siéntite como en casa</string>
+    <string name="done">Fecho</string>
+    <string name="onboarding_scan_title">Autodescubrición de ficheros</string>
+    <string name="daynight_system_explanation">VLC va cambiar automáticamente al estilu escuru según l\'axuste del sistema</string>
+    <string name="daynight_legacy_explanation">VLC va cambiar automáticamente al mou nocherniegu na hora afayadiza</string>
+    <string name="onboarding_scan_customize">Escoyer les carpetes que VLC va escaniar</string>
+    <string name="light_theme">Estilu claru</string>
+    <string name="resume_card_message">¿Siguir cola reproducción de %1$s?</string>
+    <string name="misc">Miscelánea</string>
+    <string name="track_number">%d pistes</string>
+    <string name="validation_delete_playlist">¿De xuru que quies desaniciar esta llista de reproducción?</string>
+    <string name="validation_delete_playlist_text">Esta aición nun pue desfacese.</string>
+    <string name="display_in_list">Vista de llista</string>
+    <string name="display_in_grid">Vista de rexáu</string>
+    <string name="dump_db_failure">Fallu al volquiar la base de datos</string>
+    <string name="send_crash_title">Informador de casques de VLC</string>
+    <string name="send_crash_description">Al unviar el casque vas ayudanos a ameyorar la estabilidá de VLC.</string>
+    <string name="vlc_reporter">Informador de VLC</string>
+    <string name="welcome_beta_title">VLC Beta</string>
+    <string name="welcome_beta_description">Afáyate nel programa beta de VLC.\n Decátate qu\'esta versión podría tener dalgún fallu.</string>
+    <string name="send_crash_action_title">¿Qué quies facer?</string>
+    <string name="describe_crash">Describi cómo asocedió esti casque</string>
+    <string name="always">Siempres</string>
+    <string name="never">Enxamás</string>
+    <string name="url_copied_to_clipboard">La URL copióse al cartafueyu</string>
+    <string name="share">Compartir</string>
+    <string name="share_file">Compartición de %s</string>
+    <string name="header_tvshows">Programes de TV</string>
+    <string name="header_movies">Películes</string>
+    <string name="next_episode">Episodiu siguiente</string>
+    <string name="recently_played">Reprodúxose apocayá</string>
+    <string name="recently_added">Amestóse apocayá</string>
+    <string name="video_information">Información</string>
+
+    <string name="channels">Canales</string>
+    <string name="resolution">Resolución</string>
+    <string name="resolution_value">%1$dx%2$d</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Llingua</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="codec">Códec</string>
+    <string name="track_index">Pista: %s</string>
+    <string name="audio_queue_progress">Progresu: %s</string>
+    <string name="playlist_existing">La llista de reproducción %s yá esiste</string>
+    <string name="new_title">Títulu nuevu</string>
+    <string name="browse">Restolar</string>
+    <string name="more">Más</string>
+    <string name="new_stream">Fluxu nuevu</string>
+    <string name="thank_you">Gracies</string>
+    <string name="new_group">Grupu nuevu</string>
+</resources>
