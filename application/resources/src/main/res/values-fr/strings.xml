@@ -758,5 +758,7 @@
     <string name="prefersmbv1_summary">Décochez ce paramètre si vous avez des difficultés à naviguer sur votre serveur SMB</string>
     <string name="apply_to_all">Appliquer à toutes les vidéos</string>
     <string name="audio_delay_global">Délai audio défini à %sms pour toutes les vidéos</string>
+    <string name="warning_stream_speed">L\'augmentation de la vitesse de lecture au-dessus de 1 pour les flux peut provoquer des saccades.</string>
+    <string name="go_to_folder">Parcourir le parent</string>
 
 </resources>
