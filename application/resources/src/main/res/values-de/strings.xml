@@ -758,5 +758,7 @@
     <string name="prefersmbv1_summary">Wenn Sie Probleme beim Durchsuchen Ihres SMB-Servers haben, bitte diese Einstellung deaktivieren</string>
     <string name="apply_to_all">Auf alle Videos anwenden</string>
     <string name="audio_delay_global">Tonverzögerung für alle Videos auf %s ms gesetzt</string>
+    <string name="warning_stream_speed">Die Erhöhung der Wiedergabegeschwindigkeit für Streams auf über 1 kann zum Stottern führen</string>
+    <string name="go_to_folder">Übergeordnetes Verzeichnis durchsuchen</string>
 
 </resources>
