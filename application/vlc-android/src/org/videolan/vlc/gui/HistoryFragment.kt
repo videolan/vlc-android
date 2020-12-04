@@ -166,6 +166,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        multiSelectHelper.toggleActionMode(true, historyAdapter.itemCount)
         mode.menuInflater.inflate(R.menu.action_mode_history, menu)
         return true
     }
@@ -202,6 +203,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onDestroyActionMode(mode: ActionMode) {
+        multiSelectHelper.toggleActionMode(false, historyAdapter.itemCount)
         actionMode = null
         multiSelectHelper.clearSelection()
     }
