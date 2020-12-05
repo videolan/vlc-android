@@ -780,5 +780,7 @@
     <string name="prefersmbv1_summary">Zakázat, pokud jsou potíže s procházením serveru SMB.</string>
     <string name="apply_to_all">Použít na všechna videa</string>
     <string name="audio_delay_global">Zpoždění zvuku u všech videí nastaveno na %s ms</string>
+    <string name="warning_stream_speed">Zvýšení rychlosti přehrávání streamů o více jak 1 může způsobit zadrhávání.</string>
+    <string name="go_to_folder">Procházet zdrojové složky</string>
 
 </resources>
