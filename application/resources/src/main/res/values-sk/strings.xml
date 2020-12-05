@@ -781,5 +781,7 @@
     <string name="prefersmbv1_summary">Ak máte nejaké ťažkosti pri prehliadaní vášho SMB servera, odznačte toto nastavenie</string>
     <string name="apply_to_all">Použiť pri všetkých videách</string>
     <string name="audio_delay_global">Oneskorenie zvuku nastaviť na %s ms pre všetky videá</string>
+    <string name="warning_stream_speed">Zvýšenie rýchlosti prehrávania streamov na viac ako 1 môže spôsobiť výpadky</string>
+    <string name="go_to_folder">Prehľadávať rodičovský priečinok</string>
 
 </resources>
