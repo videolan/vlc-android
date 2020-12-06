@@ -780,5 +780,7 @@
     <string name="prefersmbv1_summary">Wyłącz to ustawienie, jeśli masz problemy z przeglądaniem serwera SMB</string>
     <string name="apply_to_all">Zastosuj do wszystkich filmów</string>
     <string name="audio_delay_global">Opóźnienie dźwięku ustawione na %s ms dla wszystkich filmów</string>
+    <string name="warning_stream_speed">Zwiększenie prędkości odtwarzania strumieni powyżej 1 może powodować zacinanie się</string>
+    <string name="go_to_folder">Przeglądaj katalog nadrzędny</string>
 
 </resources>
