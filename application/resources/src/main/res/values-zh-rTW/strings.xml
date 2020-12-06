@@ -747,5 +747,7 @@
     <string name="prefersmbv1_summary">如果您在瀏覽您的 SMB 伺服器時遇到一些問題，請取消勾選此設定</string>
     <string name="apply_to_all">套用到所有影片</string>
     <string name="audio_delay_global">所有影片的音訊延遲設定為 %s 毫秒</string>
+    <string name="warning_stream_speed">增加串流的播放速度超過 1 可能造成間斷</string>
+    <string name="go_to_folder">瀏覽上一層</string>
 
 </resources>
