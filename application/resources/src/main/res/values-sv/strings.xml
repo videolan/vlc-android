@@ -758,5 +758,7 @@
     <string name="prefersmbv1_summary">Avmarkera denna inställning om du har problem med att bläddra i din SMB-server</string>
     <string name="apply_to_all">Tillämpa på alla videor</string>
     <string name="audio_delay_global">Ljudfördröjningen ändrades till%s ms för alla videor</string>
+    <string name="warning_stream_speed">Om uppspelningshastigheten för strömmar är över 1 kan de bli ryckiga</string>
+    <string name="go_to_folder">Bläddra i överordnad</string>
 
 </resources>
