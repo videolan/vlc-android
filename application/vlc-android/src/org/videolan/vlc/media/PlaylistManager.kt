@@ -455,8 +455,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 media.setLongMeta(MediaWrapper.META_PROGRESS, media.time)
                 //todo verify that this info is persisted in DB
                 if (media.length <= 0 && length > 0) media.length = length
+                medialibrary.setProgress(media.id, progress)
             }
             media.setStringMeta(MediaWrapper.META_SPEED, rate.toString())
+
         }
     }
 
