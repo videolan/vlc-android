@@ -1,3 +1,15 @@
+Changes between 3.3.3 Beta 3 and 3.3.3 Beta 4:
+------------------
+
+ * Global audio delay for videos
+ * Addition of an option to browse the folder of a media
+ * TV : improve DPAD input in video player
+ * Improve descriptions for Android Auto and streams
+ * Fix default orientation for videos
+ * Allow favorites for UPNP servers
+ * A lot of UI fixes
+ * Crash fixes
+
 Changes between 3.3.2 and 3.3.3 Beta 3:
 ------------------
 
