@@ -96,7 +96,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     }
 
     fun refresh(): Boolean {
-        if (medialibrary.isWorking || !medialibrary.isStarted || !this::dataSource.isInitialized) return false
+        if ((isRefreshing && medialibrary.isWorking) || !medialibrary.isStarted || !this::dataSource.isInitialized) return false
         privateHeaders.clear()
         if (!dataSource.isInvalid) {
             isRefreshing = true
