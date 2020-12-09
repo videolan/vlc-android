@@ -83,9 +83,9 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
         uris = savedInstanceState?.getParcelableArrayList<Uri>(MEDIA_PATHS)?.toList()
                 ?: arguments?.getParcelableArrayList<Uri>(MEDIA_PATHS)?.toList() ?: listOf()
-        if (uris.isEmpty()) dismiss()
 
         viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0])).get(uris[0].path!!, SubtitlesModel::class.java)
+        if (uris.isEmpty()) dismiss()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
