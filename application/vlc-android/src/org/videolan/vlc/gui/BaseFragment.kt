@@ -2,6 +2,7 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.TAG_ITEM
 import org.videolan.tools.retrieveParent
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
@@ -102,6 +104,7 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
     protected open fun hasFAB() = ::swipeRefreshLayout.isInitialized
 
     open fun setFabPlayVisibility(enable: Boolean) {
+        if (BuildConfig.DEBUG) Log.d("FAB", "setFabPlayVisibility $enable", NullPointerException())
         fabPlay?.run {
             if (enable) show() else hide()
         }
