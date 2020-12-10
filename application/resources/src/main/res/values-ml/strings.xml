@@ -759,5 +759,7 @@
     <string name="prefersmbv1_summary">നിങ്ങളുടെ SMB സെർവർ ബ്രൗസുചെയ്യുന്നതിന് എന്തെങ്കിലും ബുദ്ധിമുട്ടുകൾ ഉണ്ടെങ്കിൽ ഈ ക്രമീകരണം നിരാകരിക്കുക ചെയ്യുക</string>
     <string name="apply_to_all">എല്ലാ വീഡിയോകൾക്കും പ്രയോഗിക്കുക</string>
     <string name="audio_delay_global">എല്ലാ വീഡിയോകൾക്കും ഓഡിയോ കാലതാമസം %s ms ആയി സജ്ജമാക്കി</string>
+    <string name="warning_stream_speed">സ്ട്രീമുകൾക്കായി പ്ലേബാക്ക് വേഗത 1 ൽ കൂടുതലാകുന്നത് തടസ്സത്തിന് കാരണമായേക്കാം</string>
+    <string name="go_to_folder">വന്ന ഇടത്തു തേടുക</string>
 
 </resources>
