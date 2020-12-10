@@ -200,6 +200,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
                 lists[index].scrollToPosition(it)
                 restorePositions.delete(index)
             }
+            setFabPlayShuffleAllVisibility(items.isNotEmpty())
         })
         provider.loading.observe(viewLifecycleOwner, { loading ->
             if (loading == null || currentTab != index) return@observe
@@ -272,8 +273,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
         MediaUtils.playAll(activity, viewModel.tracksProvider, 0, true)
     }
 
-    private fun setFabPlayShuffleAllVisibility() {
-        setFabPlayVisibility(songsAdapter.itemCount > 2)
+    private fun setFabPlayShuffleAllVisibility(force: Boolean = false) {
+        setFabPlayVisibility(force || songsAdapter.itemCount > 2)
     }
 
     override fun getTitle(): String = getString(R.string.audio)
@@ -282,7 +283,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>() {
 
     private fun updateEmptyView() {
         empty_loading.state = if (viewModel.providers[currentTab].loading.value == true && empty) EmptyLoadingState.LOADING else  if (empty) EmptyLoadingState.EMPTY else EmptyLoadingState.NONE
-        setFabPlayShuffleAllVisibility()
     }
 
     override fun onPageSelected(position: Int) {
