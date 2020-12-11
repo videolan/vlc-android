@@ -124,11 +124,12 @@
     <string name="please_wait">Počakajte trenutek …</string>
     <string name="nomedia">Predstavne vsebine niso bile najdene; prenesite jih na svojo napravo ali spremenite nastavitve.</string>
     <string name="noplaylist">Seznama predvajanja ni mogoče najti.</string>
+    <string name="nosubfolder">Ni podmape</string>
     <string name="directorynotfound">Mape »%1$s« ni mogoče najti.</string>
-    <string name="nohistory">Trenutno ni zgodovine predvajanja.</string>
+    <string name="nohistory">Trenutno še ni zgodovine predvajanja.</string>
     <string name="validation">Ali ste prepričani?</string>
 
-    <string name="cover_art">Ovitek</string>
+    <string name="cover_art">Naslovnica</string>
     <string name="shuffle_all_title">Premešaj vse</string>
     <string name="shuffle_title">Premešani način</string>
     <string name="shuffle">Premešani način je izključen</string>
@@ -146,7 +147,7 @@
     <string name="surface_fit_screen">Prilagojeno zaslonu</string>
     <string name="surface_fill">Zapolnjen zaslon</string>
     <string name="surface_original">Sredinska postavitev</string>
-    <string name="unseekable_stream">Po pretoku ni mogoče iskati</string>
+    <string name="unseekable_stream">Pretoka ni mogoče prevrtavati</string>
     <string name="refresh">Osveži</string>
     <string name="track_audio">Zvočni posnetek</string>
     <string name="track_video">Video posnetek</string>
@@ -174,8 +175,8 @@
     <string name="track_framerate_info">Hitrost predvajanja: %1$.3f\n</string>
 
     <string name="playback_speed">Hitrost predvajanja</string>
-    <string name="sleep_title">Časomer mirovanja</string>
-    <string name="sleep_in">Postavi v stanje mirovanja čez:</string>
+    <string name="sleep_title">Časovnik mirovanja</string>
+    <string name="sleep_in">Obmiruj čez</string>
     <string name="jump_to_time">Skoči na čas</string>
     <string name="subtitle_select">Izbor datoteke s podnapisi</string>
 
@@ -196,6 +197,7 @@
     <string name="favorite_added">Shranjeno med priljubljene</string>
     <string name="favorite_removed">Odstranjeno iz priljubljenih</string>
 
+    <string name="streams">Pretoki</string>
     <string name="open_mrl_dialog_msg">Omrežni naslov http://, mms:// ali rtsp://.</string>
     <string name="encountered_error_title">Napaka pri predvajanju</string>
     <string name="encountered_error_message">VLC je naletel na napako za to vsebino.\nPoskusite osvežiti knjižnico predstavnih vsebin.</string>
@@ -212,8 +214,8 @@
     <string name="play_button">Gumb Predvajaj</string>
 
     <!-- Tips -->
-    <string name="video_player_tips">Namigi predvajalnika:</string>
-    <string name="seek">Išči</string>
+    <string name="video_player_tips">Namigi za video predvajalnik:</string>
+    <string name="seek">Prevrti</string>
     <string name="subtitles">Podnapisi</string>
     <string name="audio_sub">Zvočne sledi\nin podnapisi</string>
     <string name="resize">Spremeni velikost</string>
@@ -221,7 +223,7 @@
     <string name="lock">Zakleni</string>
     <string name="ok_got_it">Razumem, umakni opozorilo</string>
 
-    <string name="playlist_tips">Namigi seznama predvajanja</string>
+    <string name="playlist_tips">Namigi za seznam predvajanja</string>
     <string name="remove_song">Odstrani skladbo</string>
     <string name="remove_playlist_item">Posnetek %1$s je odstranjen s seznama predvajanja.</string>
     <string name="rearrange_order">Spremeni vrstni red</string>
@@ -229,12 +231,12 @@
 
     <string name="audio_player_tips">Namigi za zvočni predvajalnik</string>
     <string name="previous_next_song">Predhodna/Naslednja skladba</string>
-    <string name="show_playlist">Pokaži seznam predvajanja</string>
+    <string name="show_playlist">Prikaži seznam predvajanja</string>
     <string name="hold_to_stop">Zadržite pritisk za zaustavitev</string>
 
     <!-- About -->
     <string name="app_name_full">VLC za Android</string>
-    <string name="licence">Dovoljenje</string>
+    <string name="licence">Licenca</string>
     <string name="revision">Predelava</string>
     <string name="about">O programu</string>
     <string name="about_text">VLC za Android™ je prilagojena različica VLC predvajalnika, priljubljenega odprto-kodnega predvajalnika predstavnih vsebin. Različica za Android™ omogoča predvajanje večine vrst predstavnih datotek in omrežnih pretokov.</string>
