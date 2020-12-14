@@ -3,11 +3,11 @@
 
     <!-- Main VLC Interface -->
     <string name="ok">باشه</string>
-    <string name="cancel">بی‌خیال</string>
+    <string name="cancel">لغو</string>
     <string name="other">دیگر</string>
     <string name="sortby">مرتب سازی بر پایه…</string>
     <string name="sortby_name">نام</string>
-    <string name="sortby_filename">نام فایل</string>
+    <string name="sortby_filename">نام پرونده</string>
     <string name="sortby_artist_name">نام هنرمند</string>
     <string name="sortby_album_name">نام آلبوم</string>
     <string name="sortby_length">مدت</string>
@@ -20,7 +20,7 @@
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d نتیجه جستجو</item>
-        <item quantity="other">%d نتیجه جستجو</item>
+        <item quantity="other">%d نتیجه یافته شد</item>
     </plurals>
 
     <string name="play">پخش</string>
@@ -111,7 +111,7 @@
     <string name="nosubfolder">زیرشاخه‌ای موجود نیست</string>
     <string name="directorynotfound">مسیر پوشه \'%1$s\' یافت نشد.</string>
     <string name="nohistory">هنوز هیچ سابقه پخشی نداری.</string>
-    <string name="validation">آیا مطمئنی؟</string>
+    <string name="validation">آیا مطمئنید؟</string>
 
     <string name="cover_art">جلد هنری</string>
     <string name="shuffle_all_title">پخش تصادفی همه</string>
@@ -312,6 +312,7 @@
     <string name="list_title_ellipsize_left">چپ</string>
     <string name="list_title_ellipsize_right">راست</string>
     <string name="list_title_ellipsize_middle">وسط</string>
+    <string name="list_title_ellipsize_marquee">سایبان</string>
     <string name="audio_boost_title">تقویت صدا</string>
     <string name="audio_boost_summary">اجازه افزایش صدا تا ۲۰۰٪</string>
     <string name="headset_prefs_category">هدست</string>
@@ -363,7 +364,10 @@
     <string name="resume_playback_title">ادامه بازپخش بعد از تماس</string>
     <string name="resume_playback_summary">در هر حال، روی حالت مکث بمان</string>
     <string name="blurred_cover_background_title">پس زمینه بلوری</string>
+    <string name="blurred_cover_background_summary">پوشش تار در پس زمینه پخش کننده صوتی</string>
+    <string name="network_caching_popup">مقدار باید بین 0 و 6000 ms باشد</string>
     <string name="quit">خروج و شروع مجدد برنامه</string>
+    <string name="restart_message">تغییرات بعد راه‌اندازی دوباره برنامه اثر خواهد کرد.\n\nاکنون راه‌اندازی شود؟</string>
     <string name="restart_message_OK">باشه</string>
     <string name="restart_message_Later">بعد</string>
     <string name="browser_show_all_title">نمایش همه پرونده‌ها</string>
@@ -397,6 +401,8 @@
 
     <string name="no_result">هیچ نتیجه‌ای یافت نشد</string>
     <string name="no_internet_connection">اتصال اینترنت خود را بررسی کنید</string>
+    <string name="subs_download_error">سرویس در دسترس نیست. لطفا بعدا دوباره تلاش کنید</string>
+
     <string name="network_browsing">شبکه محلی</string>
     <string name="browsing">مرور</string>
 
@@ -452,6 +458,7 @@
     <string name="download_on_device">دانلود</string>
     <string name="extension_empty">موردی برای نمایش وجوذ ندارد، به تنظیمات توسعه رفته و چندتا بگیر.</string>
 
+    <string name="opengl_title">مصرف OpenGL ES2</string>
     <string name="opengl_automatic">خودکار</string>
     <string name="opengl_on">روشن شدن سریع</string>
     <string name="opengl_off">خاموش شدن سریع</string>
@@ -481,6 +488,9 @@
     <string name="ml_external_storage_title">محل ذخیره بیرونی تازه شناسایی شد</string>
     <string name="ml_external_storage_accept">بله</string>
     <string name="ml_external_storage_decline">نه</string>
+    <string name="auto_last_added_media">آخرین افزوده شده</string>
+    <string name="auto_my_library">کتابخانه من</string>
+    <string name="auto_home">خانه</string>
     <string name="no">خیر</string>
     <string name="loading_medialibrary">در حال بارگذاری کتابخانه رسانه‌ای</string>
     <string name="yes">بله</string>
@@ -498,6 +508,7 @@
     <string name="equalizer_new_preset_name">جدید</string>
     <string name="settings_ml_block_scan">سیستم در حال جستجو دستگاه شما می باشد.</string>
     <string name="recommendations">پیشنهادها</string>
+    <string name="recommendations_desc">کارت‌های پیشنهاد در راه انداز</string>
     <string name="browser_quick_access">دسترسی سریع</string>
     <string name="browser_storages">محل های ذخیره</string>
     <string name="msg_delete_failed">حذف رسانه %1$s ناموفق بود</string>
@@ -509,13 +520,17 @@
     <string name="audio_digital_output_enabled">خروجی صوتی دیجیتال فعال شده است.</string>
     <string name="audio_digital_output_disabled">خروجی صوتی دیجیتال غیرفعال شده است.</string>
     <string name="audio_digital_title">خروجی صوتی دیجیتال (passthrough)</string>
+    <string name="audio_task_cleared_title">هنگام کشیدن برنامه متوقف کن</string>
     <string name="audio_resume_card_title">نمایش آخرین راهنمای فهرست پخش</string>
     <string name="playback_rewind">باز پیچی</string>
+    <string name="playback_forward">جلو روی سریع</string>
     <string name="ml_wizard_scan_checkbox">پویش دستگاه برای یافتن محتوای رسانه‌ای</string>
     <string name="ml_wizard_description">انتخاب کنید که آیا مایلید VLC با جستوجوی حافظه‌ی دستگاه شما محتوای رسانه‌ای ‌تان را مرتب کند یا می‌خواهید صرفا به عنوان یک پلیر ساده با بروزر داخلی استفاده کنید.</string>
     <string name="tv_my_new_videos">ویدیو‌های جدید من</string>
     <string name="otg_device_title">دستگاه OTG</string>
     <string name="browser">بروزر</string>
+    <string name="ab_repeat">تکرار A-B</string>
+    <string name="stop_after_this">بعد از این قطعه متوقف شو</string>
     <string name="time_category_new">رسانه تازه</string>
     <string name="time_category_current_month">این ماه</string>
     <string name="time_category_current_year">این سال</string>
@@ -532,18 +547,24 @@
     <string name="download_the_selected">انتخاب بارگیری</string>
     <string name="next">بعدی</string>
     <string name="download">بارگیری</string>
+    <string name="ctx_player_video_track">انتخاب قطعه ویدئویی</string>
     <string name="ctx_player_audio_track">قطعه صدا</string>
     <string name="ctx_player_subs_track">قطعه زیرنویس</string>
     <string name="ctx_pip_title">پخش کننده پاپ آپ</string>
     <string name="device_dialog_title">دستگاه بیرونی وارد شد</string>
+    <string name="videos_folders_title">ویدیوها بر اساس پوشه‌ها</string>
     <string name="videos_groups_title">گروه‌های ویدیو</string>
+    <string name="video_remote_enable">تغییر به حالت کنترل از راه دور</string>
     <string name="removed_from_playlist_anonymous">مورد(ها) از فهرست پخش حذف شدند</string>
     <string name="welcome_title">به VLC خوش آمدید!</string>
     <string name="welcome_subtitle">پخش کننده چند رسانه‌ای رایگان و منبع باز</string>
     <string name="permission_media">VLC به اجازه شما برای دسترسی به رسانه بر روی دستگاه شما نیاز دارد</string>
+    <string name="medialibrary_scan_explanation">VLC می‌تواند برای سازماندهی مجموعه رسانه شما، دستگاهتان را خودکار پویش کند.</string>
     <string name="onboarding_theme_title">راحت باش انگار که خانه خودته</string>
     <string name="done">انجام شد</string>
     <string name="onboarding_scan_title">یافتن خودکار رسانه شما</string>
+    <string name="daynight_system_explanation">VLC بر اساس تنظیمات سیستم به طور خودکار به حالت تاریک تغییر خواهد کرد</string>
+    <string name="daynight_legacy_explanation">VLC در زمان مناسب خودکار به حالت شب تغییر خواهد یافت</string>
     <string name="onboarding_scanning_enable">بگذار VLC دستگاه من را برای محتوای رسانه پویش کند</string>
     <string name="onboarding_scan_customize">بگذار من انتخاب کنم که VLC کدام پوشه را پویش خواهد کرد</string>
     <string name="button_medialibrary_preferences">رفتن به تنظیمات کتابخانه رسانه‌ای</string>
@@ -551,23 +572,32 @@
     <string name="add">افزودن</string>
     <string name="add_to_new_playlist">افزودن به فهرست پخش جدید</string>
     <string name="resume_card_message">بازپخش %1$s ادامه داده شود؟</string>
+    <string name="misc">متفرقه</string>
     <string name="device_default">پیش‌فرض دستگاه</string>
     <string name="track_number">%dقطعه</string>
     <string name="jump_to">پرش به زمان</string>
     <string name="show_video_thumbnails">بندانگشت‌های ویدیو</string>
     <string name="enable_equalizer">روشن</string>
+    <string name="preamp">پیش درآمد</string>
+    <string name="presets">پیش تنظیم‌ها</string>
     <string name="reset">بازنشانی</string>
     <string name="remove_current">حذف کنونی</string>
     <string name="validation_delete_playlist">مطمئنید که می‌خواهید این فهرست پخش را حذف کنید؟</string>
     <string name="display_in_list">نمایش در فهرست</string>
+    <string name="display_in_grid">نمایش در شبکه</string>
+    <string name="dump_db_failure">تخلیه پایگاه داده شکست خورد</string>
     <string name="send_crash_title">گزارشگر خرابی VLC</string>
+    <string name="send_crash_description">با ارسال خرابی، به ما در بهبود ثبات VLC کمک خواهید کرد.</string>
     <string name="include_medialib">شامل کردن پایگاه داده شما</string>
     <string name="vlc_reporter">گزارشگر VLC</string>
     <string name="welcome_beta_title">VLC بتا</string>
+    <string name="welcome_beta_description_bugs">اگر باگی مشاهده کردید، لطفا آن را در انجمن یا ردیاب باگ ما گزارش دهید.</string>
+    <string name="welcome_beta_description_crashes">اگر با خرابی روبه‌رو شدید ، لطفا از نماد گزارشگر VLC در راه اندازتان استفاده کنید تا آن را برای ما ارسال کند.</string>
     <string name="send">فرستادن</string>
     <string name="send_crash_action_title">می‌خواهید چه کار کنید؟</string>
     <string name="report_a_bug">گزارش اشکال</string>
     <string name="report_a_crash">گزارش خرابی</string>
+    <string name="describe_crash">لطفا نحوه وقوع این خرابی را شرح دهید</string>
     <string name="favorite">مورد علاقه</string>
     <string name="always">همیشه</string>
     <string name="never">هرگز</string>
@@ -577,6 +607,7 @@
     <string name="scanned_directory_added">%sبه مسیرهای پویش شده شما افزوده شد</string>
     <string name="url_copied_to_clipboard">نشانی به کلیپ بورد کپی شد</string>
     <string name="share">هم‌رسانی</string>
+    <string name="invalid_file">پرونده نامعتبر است. نمی‌تواند هم‌رسانی شود.</string>
     <string name="share_file">هم‌رسانی %s</string>
     <string name="find_metadata">یافتن فراداده</string>
     <string name="moviepedia_hint">جستجوی فراداده</string>
@@ -629,10 +660,46 @@
     <string name="more">بیشتر</string>
     <string name="favorites">مورد علاقه‌ها</string>
     <string name="new_stream">جریان جدید</string>
+    <string name="add_to_group">افزودن به گروه ویدیو</string>
+    <string name="remove_from_group">حذف از گروه ویدیو</string>
+    <string name="rename_group">تغییرنام گروه ویدیو</string>
     <string name="no_favorite">بدون مورد علاقه</string>
     <string name="empty_directory">خالی</string>
     <string name="no_track">بدون قطعه</string>
 
     <string name="swipe_unlock">برای بازکردن بکشید</string>
     <string name="swipe_unlock_no_touch">برای بازکردن طولانی فشار دهید</string>
+    <string name="sub_result_by_name">نتایج برای %s</string>
+    <string name="sub_result_by_name_season">فصل %s</string>
+    <string name="sub_result_by_name_episode">قسمت %s</string>
+
+    <string name="sub_result_by_file">نتایج برای پرونده‌تان</string>
+    <string name="donate">کمک به VLC</string>
+    <string name="donate_desc">از داوطلبان ساخت VLC پشتیبانی کنید</string>
+    <string name="donate_subscribtion">می‌خواهم حامی مالی ماهانه باشم</string>
+    <string name="donate_send">حمایت مالی خود را آغاز کنید</string>
+    <string name="subscription_purchased">شما مشترک حمایت مالی ماهانه هستید</string>
+    <string name="subscription_cancel">می‌توانید اشتراک خود را در فروشگاه پلی لغو کنید</string>
+    <string name="subscription_cancel_tv">چگونه اشتراک را لغو کنیم</string>
+    <string name="tip_jar">کمک به VLC</string>
+    <string name="thank_you">ممنون</string>
+    <string name="thank_you_desc">برای حمایت مالیتان متشکریم!\n این در بهبود VLC به ما بسیار کمک خواهد کرد!</string>
+    <string name="donate_again">حمایت مالی دوباره از برنامه</string>
+
+    <string name="mark_as_played">نشان‌گذاری به‌عنوان پخش شده</string>
+    <string name="mark_all_as_played">نشان‌گذاری همه به‌عنوان پخش شده</string>
+    <string name="new_group">گروه جدید</string>
+    <string name="new_group_desc">ساخت گروه جدید</string>
+
+    <string name="air_action_play_pause">توقف/ادامه بازپخش</string>
+    <string name="air_action_volume_up">افزایش صدا</string>
+    <string name="air_action_volume_down">کاهش صدا</string>
+    <string name="air_action_next">مورد بعدی در بازپخش</string>
+    <string name="air_action_previous">مورد قبلی در بازپخش</string>
+    <string name="allow_otg">اجازه به دسترسی OTG</string>
+    <string name="allow_otg_description">لطفا درایو OTG خود را برای دسترسی VLC انتخاب کنید.</string>
+    <string name="timeout_infinite">بی‌‌پایان</string>
+    <string name="timeout_short">کوتاه</string>
+    <string name="timeout_normal">معمولی</string>
+    <string name="timeout_long">طولانی</string>
 </resources>
