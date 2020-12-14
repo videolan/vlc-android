@@ -242,6 +242,7 @@
     <string name="about_text">VLC za Android™ je prilagojena različica VLC predvajalnika, priljubljenega odprto-kodnega predvajalnika predstavnih vsebin. Različica za Android™ omogoča predvajanje večine vrst predstavnih datotek in omrežnih pretokov.</string>
     <string name="vlc_authors">in avtorji programa VLC.</string>
     <string name="compiled_by">Kodni prevod različice VLC:</string>
+    <string name="feedback_forum">Forum odzivov</string>
 
     <!-- Preferences -->
     <string name="preferences">Nastavitve</string>
@@ -251,6 +252,7 @@
     <string name="add_custom_path_description">Vnesite pot do nove mape za preiskovanje:</string>
     <string name="remove_custom_path">Odstrani pot po meri</string>
     <string name="hardware_acceleration">Strojno pospeševanje</string>
+    <string name="hardware_acceleration_summary">Onemogočeno: boljša stabilnost\nOdkodiranje: lahko izboljša zmogljivost\nPolno: Lahko še bolj izboljša zmogljivost</string>
     <string name="hardware_acceleration_disabled">Onemogočeno</string>
     <string name="hardware_acceleration_decoding">Pospeševanje odkodiranja</string>
     <string name="hardware_acceleration_full">Polno pospeševanje</string>
@@ -269,16 +271,25 @@
 
     <string name="interface_prefs_screen">Vmesnik</string>
     <string name="interface_secondary_display_category_title">Pomožni zaslon</string>
+    <string name="interface_secondary_display_category_summary">Nastavitve ob priključenem drugem zaslonu (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Prednost ima kloniranje</string>
+    <string name="enable_clone_mode_summary">Podvoji zaslona naprave brez upravljanja na daljavo</string>
+
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Združuj posnetke v skupine</string>
+    <string name="video_min_group_length_disable">Ne združuj videov</string>
+    <string name="video_min_group_length_folder">Združi po mapi</string>
+    <string name="video_min_group_length_name">Združi po imenu</string>
     <string name="media_fast_seek">Hitro iskanje</string>
     <string name="media_fast_seek_summary">Pregledovanje vsebine je hitrejše a manj natančno</string>
+    <string name="video_transition_title">Prehodi med videi</string>
+    <string name="video_transition_summary">Prikaži naslov novega videa ob prehodu</string>
     <string name="media_seen">Pokaži oznako že videne vsebine</string>
     <string name="media_seen_summary">Označi posnetek kot že ogledan, kadar je predvajan do konca posnetka.</string>
     <string name="force_play_all_summary">Program predvaja vse posnetke, začne s tistim, ki je prvi izbran</string>
     <string name="force_play_all_title">Predvajaj po seznamu</string>
     <string name="save_brightness_summary">Ohrani nivo svetlosti med vsebinami</string>
+    <string name="save_brightness_title">Shrani nivo svetosti</string>
     <string name="save_audiodelay_summary">Program shrani zamik zvoka za vsak video posnetek</string>
     <string name="save_audiodelay_title">Shrani zamik zvoka</string>
     <string name="enable_brightness_gesture_title">Poteza za svetlost</string>
@@ -312,6 +323,10 @@
     <string name="audio_prefs_category">Zvok</string>
     <string name="lockscreen_cover_title">Naslovnico vsebine na zaklenjenem zaslonu</string>
     <string name="lockscreen_cover_summary">Če je naslovnica vsebine na voljo, jo določi za ozadje zaklenjenega zaslona.</string>
+    <string name="list_title_ellipsize_default">Privzeto</string>
+    <string name="list_title_ellipsize_left">Levo</string>
+    <string name="list_title_ellipsize_right">Desno</string>
+    <string name="list_title_ellipsize_middle">Sredina</string>
     <string name="audio_boost_title">Povečaj glasnost čez omejitev</string>
     <string name="audio_boost_summary">Dovoli glasnost do 200 %.</string>
     <string name="headset_prefs_category">Slušalke</string>
@@ -320,9 +335,13 @@
     <string name="enable_play_on_headset_insertion">Nadaljuj ob priklopu slušalk</string>
     <string name="enable_play_on_headset_insertion_summary">Drugače začasno ustavi</string>
     <string name="aout">Odvod zvoka</string>
+    <string name="aout_summary">Spremeni metodo, ki jo VLC uporablja za predvajanje zvoka</string>
     <string name="audio_ducking_title">Zmanjšaj glasnost ob prejemu sporočila</string>
     <string name="audio_ducking_summary">Možnost omogoča prilagajanje glasnosti obvestil, navigacijskega vodenja in drugih zvokov.</string>
+    <string name="casting_category">Avdicija</string>
+    <string name="casting_switch_title">Brezžična avdicija</string>
     <string name="casting_passthrough_title">Zvočni prehod</string>
+    <string name="casting_passthrough_summary">Naj televizor skrbi za oblikovanje zvoka</string>
     <string name="casting_conversion_quality_title">Kakovost pretvorbe</string>
     <string name="casting_conversion_quality_summary">Izbor kakovosti pretvorbe med pošiljanjem slike na oddaljen zaslon</string>
     <string name="casting_quality_high">Visoka</string>
@@ -343,6 +362,7 @@
 
     <string name="performance_prefs_category">Možnosti delovanja</string>
     <string name="chroma_format">Vsili barve videa</string>
+    <string name="chroma_format_summary">RGB 32-bitno: privzete barve\nRGB 16 bitno: boljša zmogljivost, slabša kakovost\nYUV: najboljša zmogljivost, a ne deluje na vseh napravah (Android 2.3 ali novejši)</string>
     <string name="deblocking">Nastavitve filtra za odstranjevanje kock</string>
     <string name="deblocking_always">Polno odstranjevanje kock (najpočasnejše)</string>
     <string name="deblocking_nonref">Srednje odstranjevanje kock</string>
@@ -356,15 +376,21 @@
     <string name="auto_rescan_summary">Ob zagonu programa samodejno preišči mape za novo oziroma odstranjeno predstavno vsebino</string>
     <string name="dump_media_db">Kopiraj bazo predstavnih vsebin</string>
     <string name="clear_media_db">Počisti podatkovno zbirko predstavnih vsebin</string>
+    <string name="clear_history">Počisti zgodovino</string>
     <string name="set_locale">Nastavitev jezikovnega področja</string>
     <string name="network_caching">Vrednost omrežnega predpomnjenja</string>
     <string name="network_caching_summary">Čas za medpomnjenje omrežne vsebine (v ms) za programsko odkodiranje\nPustite prazno za ponastavitev</string>
     <string name="resume_playback_title">Po klicu nadaljuj s predvajanjem</string>
     <string name="resume_playback_summary">Če možnost ni izbrana, ostane predvajanje v premoru.</string>
+    <string name="blurred_cover_background_title">Zmehčana naslovnica za ozadje</string>
+    <string name="blurred_cover_background_summary">Zmehčana naslovnica v ozadju predvajalnika zvoka</string>
     <string name="network_caching_popup">Vrednost mora biti podana med 0 in 6000 ms.</string>
     <string name="quit">Končaj in ponovno zaženi program</string>
+    <string name="restart_message">Spremembe bodo upoštevane ob naslednjem zagonu aplikacije.\n\nPonovni zagon?</string>
     <string name="restart_message_OK">V redu</string>
     <string name="restart_message_Later">Pozneje</string>
+    <string name="browser_show_all_title">Prikaži vse datoteke</string>
+
     <string name="developer_prefs_category">Razvijalec</string>
     <string name="enable_verbose_mode">Podrobno</string>
     <string name="enable_verbose_mode_summary">Povečaj podrobnost izpisa (logcat)</string>
@@ -379,6 +405,9 @@
     <string name="dump_logcat">Odloži dnevnik logcat</string>
     <string name="dump_logcat_success">Dnevnik logcat je uspešno odložen v %1$s!</string>
     <string name="dump_logcat_failure">Odlaganje dnevnika logcat je spodletelo.</string>
+    <string name="custom_libvlc_options">Prilagojene možnosti za libVLC</string>
+    <string name="custom_libvlc_options_invalid">Neveljavne možnosti za libVLC!</string>
+
     <string name="serious_crash">Prišlo do resne programske napake in predvajalnik VLC se je zaprl.</string>
     <string name="help_us_send_log">Pomagajte izboljšati program VLC in pošljite poročilo o sesutju:</string>
     <string name="restart_vlc">Ponovno zaženi VLC</string>
@@ -391,6 +420,8 @@
 
     <string name="no_result">Ni najdenih zadetkov</string>
     <string name="no_internet_connection">Preverite internetno povezavo</string>
+    <string name="subs_download_error">Storitev ni na voljo. Poskusite kasneje</string>
+
     <string name="network_browsing">Krajevno omrežje</string>
     <string name="browsing">Brskanje</string>
 
@@ -398,9 +429,11 @@
 
     <string name="audio_delay">Zamik zvoka</string>
     <string name="spu_delay">Zamik podnapisov</string>
+    <string name="network_shares_discovery">Iskanje omrežnih mest v skupni rabi</string>
     <string name="network_empty">Mapa je prazna.</string>
     <string name="network_connection_needed">Ni povezave s krajevnim omrežjem.</string>
     <string name="search_hint">Poišči vsebino</string>
+    <string name="search_in_list_hint">Iskanje v trenutnem seznamu</string>
     <string name="search_global">Preišči celotno knjižnico predstavnih vsebin</string>
     <string name="playlist_save">Shrani seznam predvajanja</string>
     <string name="playlist_name_hint">ime seznama predvajanja</string>
@@ -416,6 +449,7 @@
     <!-- Accessibility -->
     <string name="more_actions">Več dejanj</string>
     <string name="back_quit_lock">Ponovno pritisnite gumb za nazaj za končanje videa</string>
+    <string name="stream_deleted">Pretok je izbrisan</string>
     <string name="no_subs_found">V tej mapi ni datotek s podnapisi</string>
     <string name="music_now_playing">Trenutno se predvaja</string>
 
@@ -474,6 +508,9 @@
     <string name="ml_external_storage_msg">Ali želite dodati napravo %1$s v knjižnico predstavnih vsebin?</string>
     <string name="ml_external_storage_accept">Da</string>
     <string name="ml_external_storage_decline">Ne</string>
+    <string name="auto_last_added_media">Nazadnje dodano</string>
+    <string name="auto_my_library">Moja knjižnica</string>
+    <string name="auto_home">Domov</string>
     <string name="no">Ne</string>
     <string name="loading_medialibrary">Poteka nalaganje knjižnice predstavnih vsebin …</string>
     <string name="yes">Da</string>
@@ -497,8 +534,15 @@
     <string name="browser_storages">Shrambe</string>
     <string name="msg_delete_failed">Brisanje vsebine %1$s je spodletelo.</string>
     <string name="renderer_list_title">Zasloni</string>
+    <string name="sdcard_permission_dialog_title">VLC potrebuje dovoljenje za dostop do SD kartice</string>
+    <string name="sdcard_permission_dialog_message">VLC ne more izbrisati te datoteke, če nima pravice pisanja na kartico.\nPojdite na SD kartico in kliknite na \"Izberi\".\nMorda boste morali najprej klikniti na \"Prikaži SD kartico\" v meniju zgoraj desno.</string>
     <string name="dialog_sd_wizard">Pokaži</string>
     <string name="renderers_disconnect">Prekini povezavo</string>
+    <string name="audio_digital_failed">Sprememba stanja digitalnega izhoda zvoka ni uspela</string>
+    <string name="audio_digital_output_enabled">Digitalni zvočni izhod je vklopljen</string>
+    <string name="audio_digital_output_disabled">Digitalni zvočni izhod je izklopljen</string>
+    <string name="audio_digital_title">Digitalni zvočni izhod (prehod)</string>
+    <string name="playback_rewind">Previj nazaj</string>
     <string name="playback_forward">Naprej</string>
     <string name="ml_wizard_scan_checkbox">Poišči predstavne vsebine na napravi</string>
     <string name="ml_wizard_description">Izberite ali bo VLC pregledal podatkovne nosilce vaše naprave, da uredi knjižnico predstavnih vsebin, ali ga boste  uporabljali zgolj kot preprost predvajalnik z vgrajenim brskalnikom.</string>
@@ -507,9 +551,11 @@
     <string name="otg_device_title">Naprava OTG</string>
     <string name="browser">Brskalnik</string>
     <string name="ab_repeat">Ponavajanje A-B</string>
+    <string name="stop_after_this">Zaustavi po tej skadbi</string>
     <string name="time_category_new">Nova vsebina</string>
     <string name="time_category_current_month">Ta mesec</string>
     <string name="time_category_current_year">To leto</string>
+    <string name="time_category_last_year">Lansko leto</string>
     <string name="time_category_older">Starejša vsebina</string>
     <string name="rename">Preimenuj</string>
     <string name="rename_media">Preimenuj %1$s</string>
@@ -522,8 +568,17 @@
     <string name="download_the_selected">Prenesi izbrano</string>
     <string name="next">Naslednji</string>
     <string name="download">Prenesi</string>
+    <string name="ctx_player_video_track">Izberi video stezo</string>
     <string name="ctx_player_audio_track">Zvočni posnetek</string>
+    <string name="ctx_player_subs_track">Steza s podnapisi</string>
+    <string name="ctx_pip_title">Prikazni predvajalnik</string>
+    <string name="device_dialog_title">Vstavljena je zunanja naprava</string>
+    <string name="videos_folders_title">Videi po mapah</string>
+    <string name="videos_groups_title">Video skupine</string>
+    <string name="video_save_clone_mode">Samodejni vklop načina podvajanja?</string>
+    <string name="video_remote_enable">Preklopi na daljinsko upravljanje</string>
     <string name="video_remote_disable">Podvoji zaslon</string>
+    <string name="removed_from_playlist_anonymous">Predmet(i) so bili odstranjeni s seznama predvajanja</string>
     <string name="welcome_title">Dobrodošli v VLC!</string>
     <string name="welcome_subtitle">Brezplačen, odprtokodni večpredstavni predvajalnik</string>
     <string name="permission_media">VLC potrebuje dovoljenje za dostop do vsebin na vaši napravi</string>
@@ -536,12 +591,162 @@
     <string name="light_theme">Svetla tema</string>
     <string name="add">Dodaj</string>
     <string name="add_to_new_playlist">Dodaj na nov seznam predvajanja</string>
+    <string name="misc">Različno</string>
+    <string name="popup_force_legacy_title">Uporabi prilagojen prikaz slike v sliki</string>
+    <string name="popup_force_legacy_summary">Uporabi prilagojen prikaz slike v sliki s spremenljivo velikostjo</string>
+    <string name="device_default">Privzeto za napravo</string>
+    <string name="track_number">%d vsebin</string>
     <string name="jump_to">Skoči na</string>
+    <string name="show_video_thumbnails_summary">V seznamu prikaži sličice</string>
+    <string name="show_video_thumbnails">Sličice videa</string>
     <string name="enable_equalizer">Omogoči</string>
     <string name="preamp">Predokrepitev</string>
     <string name="presets">Prednastavljeno</string>
     <string name="reset">Ponastavi</string>
+    <plurals name="tracks_inserted">
+        <item quantity="one">Vrinjena je %d vsebina</item>
+        <item quantity="two">Vrinjeni sta %d vsebini</item>
+        <item quantity="few">Vrinjene so %d vsebine</item>
+        <item quantity="other">Vrinjenih je %d vsebin</item>
+    </plurals>
+    <plurals name="tracks_appended">
+        <item quantity="one">Dodana je %d vsebina</item>
+        <item quantity="two">Dodani sta %d vsebini</item>
+        <item quantity="few">Dodane so %d vsebine</item>
+        <item quantity="other">Dodanih je %d vsebin</item>
+    </plurals>
+    <string name="remove_current">Odstrani trenutno</string>
+    <string name="validation_delete_playlist">Ali ste prepričani, da želite izbrisati ta seznam predvajanja?</string>
+    <string name="validation_delete_playlist_text">Tega dejanja ni mogoče razveljaviti.</string>
+    <string name="display_in_list">Prikaži v seznamu</string>
+    <string name="display_in_grid">Prikaži v mreži</string>
+    <string name="send_crash_title">VLC javljalnik sesutja</string>
+    <string name="send_crash_description">S pošiljanjem podatkov o sesutju nam pomagate izboljšati zanesljivost delovanja VLC.</string>
+    <string name="send_crash_warning">Poskrbite, da odstranite občutljive podatke, ki jih ne želite poslati.</string>
+    <string name="include_medialib">Vključi podatkovno bazo</string>
+    <string name="vlc_reporter">VLC javljalnik</string>
+    <string name="welcome_beta_title">VLC beta</string>
+    <string name="welcome_beta_description">Dobrodošli v programu VLC beta.\nProsimo upoštevajte, da ima lahko ta različica nekatere hrošče.</string>
+    <string name="welcome_beta_description_bugs">Če opazite hrošča, ga prosim javite na našem forumu ali v sledilniku hroščev.</string>
+    <string name="send">Pošlji</string>
+    <string name="send_crash_action_title">Kaj želite storiti?</string>
+    <string name="report_a_bug">Prijavi hrošča</string>
+    <string name="report_a_crash">Prijavi sesutje</string>
+    <string name="describe_crash">Opišite, kako je prišlo do sesutja</string>
+    <string name="favorite">Priljulbjeno</string>
+    <string name="always">Vedno</string>
+    <string name="never">Nikoli</string>
+    <string name="ask_confirmation">Zahtevaj potrditev</string>
+    <string name="add_to_scanned">Preišči to mapo</string>
+    <string name="directory_not_scanned">Ta mapa ni bila preiskana</string>
+    <string name="scanned_directory_added">%s dodanih med preiskane mape</string>
+    <string name="video_group_size_summary">Združi po prvih %s znakih</string>
+    <string name="url_copied_to_clipboard">URL naslov je kopiran na odložišče</string>
+    <string name="share">Deli</string>
+    <string name="invalid_file">Neveljavna datoteka. Ni je mogoče deliti.</string>
+    <string name="share_file">Deli %s</string>
+    <string name="share_message">Tukaj je %s</string>
+    <string name="find_metadata">Najdi metapodatke</string>
+    <string name="moviepedia_hint">iskanje metapodatkov</string>
+    <string name="moviepedia_result">Video rezultati</string>
+    <string name="directed_by">Režija</string>
+    <string name="casting">Igra</string>
+    <string name="produced_by">Produkcija</string>
+    <string name="written_by">Scenarij</string>
+    <string name="music_by">Glasba</string>
+    <string name="posters">Plakat</string>
     <string name="header_tvshows">TV oddaje</string>
+    <string name="header_movies">Filmi</string>
+    <string name="season_number">Sezona %s</string>
+    <string name="resume_episode">Nadaljuj (%s)</string>
+    <string name="start_over">Začni znova</string>
+    <string name="next_episode">Naslednji del</string>
+    <string name="open_network_settings">Odprem omrežne nastavitve?</string>
+    <string name="recently_played">Nedavno predvajano</string>
+    <string name="recently_added">Nedavno dodano</string>
     <string name="playback_multiple_errors">Ni mogoče predvajati več predstavnih vsebin hkrati</string>
+    <string name="clear_media_db_warning">Izgubili boste napredek in sezname predvajanj, ki ste jih ustvarili.\n%s</string>
+    <string name="abrepeat_add_first_marker">Določi začetno točko</string>
+    <string name="abrepeat_add_second_marker">Določi končno točko</string>
+    <string name="video_information">Podatki o videu</string>
+
+    <string name="channels">Kanali</string>
+    <string name="resolution">Ločljivost</string>
+    <string name="resolution_value">%1$d×%2$d</string>
+    <string name="framerate">Hitrost</string>
+    <string name="framerate_value">%1$.3f</string>
+    <string name="bitrate_value">%1$s/s</string>
+    <string name="language">Jezik</string>
     <string name="track_samplerate">Frekvenca vzorčenja</string>
+    <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="codec">Kodek</string>
+    <string name="text">Besedilo</string>
+    <string name="unknown">Neznano</string>
+    <string name="audio_delay_start">Slišan zvok</string>
+    <string name="subtitle_delay_first">Slišan glas</string>
+    <string name="audio_delay_end">Opažen zvok</string>
+    <string name="subtitle_delay_end">Videno besedilo</string>
+    <string name="track_index">Vsebina: %s</string>
+    <string name="audio_queue_progress">Predvajano: %s</string>
+    <string name="sortby_track">Vsebina</string>
+    <string name="this_folder">Dodaj to mapo</string>
+    <string name="all_subfolders">Dodaj to mapo in podmape</string>
+    <string name="playlist_existing">Seznam predvajanja %s že obstaja</string>
+    <string name="new_title">Nov naslov</string>
+    <string name="browse">Brskaj</string>
+    <string name="more">Več</string>
+    <string name="favorites">Priljubljeno</string>
+    <string name="new_stream">Nov pretok</string>
+    <string name="add_to_group">Dodaj v video skupino</string>
+    <string name="remove_from_group">Odstrani iz video skupine</string>
+    <string name="rename_group">Preimenuj video skupino</string>
+    <string name="ungroup">Razdruži</string>
+    <string name="group_similar">Samodejno ponovno združi</string>
+    <string name="no_favorite">Ni priljubljenih</string>
+    <string name="empty_directory">Prazno</string>
+    <string name="no_track">Ni vsebin</string>
+
+    <string name="swipe_unlock_no_touch">Dolg pritisk za odklepanje</string>
+    <string name="sub_result_by_name">Rezultati za %s</string>
+    <string name="sub_result_by_name_season">Sezona %s</string>
+    <string name="sub_result_by_name_episode">Epizoda %s</string>
+
+    <string name="sub_result_by_file">Rezultati za datoteko</string>
+    <string name="donate">Pomgajte VLC</string>
+    <string name="donate_desc">Podprite prostovoljce, ki ustvarjajo VLC</string>
+    <string name="donate_subscribtion">Želim, da je to mesečno sponzorstvo</string>
+    <string name="donate_send">Začni sponzorstvo</string>
+    <string name="donation_description">Vaše sponzorstvo na bo omogočila:\nizboljšati aplikacijo VLC za Android\nPodpreti združenje VideoLAN</string>
+    <string name="subscription_purchased">Naročeni ste na mesečno sponzorstvo</string>
+    <string name="subscription_cancel">Odjavite se lahko v Trgovini Play</string>
+    <string name="subscription_cancel_tv">Kako se odjaviti?</string>
+    <string name="donate_unsubscribe_tv">Za odjavo odprite %s na telefonu ali računalniku, ali pa preberite to kodo:</string>
+    <string name="tip_jar">Pomagajte VLC</string>
+    <string name="thank_you">Hvala</string>
+    <string name="thank_you_desc">Hvala za vaše sponzorstvo!\nPomagalo nam bo izboljšati VLC!</string>
+    <string name="donate_again">Ponovno sponzoriraj aplikacijo</string>
+
+    <string name="mark_as_played">Označi kot predvajano</string>
+    <string name="mark_all_as_played">Označi vse kot predvajano</string>
+    <string name="new_group">Nova skupina</string>
+    <string name="new_group_desc">Ustvari novo skupino</string>
+
+    <string name="air_action_rewind">Nazaj za 10 s</string>
+    <string name="air_action_forward">Naprej za 10 s</string>
+    <string name="air_action_play_pause">Premor/nadaljuj s predvajanjem</string>
+    <string name="air_action_volume_up">Glasneje</string>
+    <string name="air_action_volume_down">Tišje</string>
+    <string name="air_action_next">Naslednji predmet predvajanja</string>
+    <string name="air_action_previous">Prejšnji predmet predvajanja</string>
+    <string name="allow_otg">Dovoli OTG dostop</string>
+    <string name="allow_otg_description">Izberite OTG pogon, da dovolite dostop VLCju.</string>
+    <string name="timeout_infinite">Neskončno</string>
+    <string name="timeout_short">Kratko</string>
+    <string name="timeout_normal">Navadno</string>
+    <string name="timeout_long">Dolgo</string>
+    <string name="video_hud_timeout">Zamik pred skritjem upravljalnika za predvajanje</string>
+    <string name="remove_from_history">Odstrani iz zgodovine</string>
+    <string name="prefersmbv1">Prednost za SMB 1</string>
+    <string name="apply_to_all">Uporabi za vse videe</string>
+    <string name="audio_delay_global">Zamik zvoka je nastavljen na %s ms za vse videe</string>
 </resources>
