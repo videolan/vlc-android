@@ -347,7 +347,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/list"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         vlc:layout_constraintTop_toBottomOf="@+id/extra_icon"
                         vlc:layout_constraintStart_toStartOf="parent"
                         vlc:layout_constraintEnd_toEndOf="parent"
