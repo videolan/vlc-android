@@ -337,7 +337,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     private fun checkFolderToParent(count: Int) = if (count == 1)
-        (multiSelectHelper.getSelection().first() as? MediaWrapper)?.let {
+        (multiSelectHelper.getSelection().firstOrNull() as? MediaWrapper)?.let {
             if (it.type != MediaWrapper.TYPE_VIDEO) false
             it.uri.retrieveParent() != null
         } ?: false else false
