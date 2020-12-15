@@ -1,3 +1,12 @@
+Changes between 3.3.3 Beta 4 and 3.3.3:
+------------------
+
+ * Fix scrolling issues
+ * Fix media not updated during a scan
+ * Fix the action button visibility
+ * Improve descriptions for Android Auto and streams
+ * Crash fixes
+
 Changes between 3.3.3 Beta 3 and 3.3.3 Beta 4:
 ------------------
 
