@@ -56,7 +56,7 @@ private typealias MediaContentResolver = SimpleArrayMap<String, IMediaContentRes
 @ExperimentalCoroutinesApi
 object MediaUtils {
     fun getSubs(activity: FragmentActivity, mediaList: List<MediaWrapper>) {
-        if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri })
+        if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri }, mediaList.map { it.title })
         else {
             val intent = Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SUBS_DL)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -68,9 +68,9 @@ object MediaUtils {
 
     fun getSubs(activity: FragmentActivity, media: MediaWrapper) = getSubs(activity, listOf(media))
 
-    fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaUris: List<Uri>) {
+    fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaUris: List<Uri>, mediaTitles:List<String>) {
         val callBack = java.lang.Runnable {
-            SubtitleDownloaderDialogFragment.newInstance(mediaUris).show(activity.supportFragmentManager, "Subtitle_downloader")
+            SubtitleDownloaderDialogFragment.newInstance(mediaUris, mediaTitles).show(activity.supportFragmentManager, "Subtitle_downloader")
         }
         if (Permissions.canWriteStorage()) callBack.run()
         else Permissions.askWriteStoragePermission(activity, false, callBack)

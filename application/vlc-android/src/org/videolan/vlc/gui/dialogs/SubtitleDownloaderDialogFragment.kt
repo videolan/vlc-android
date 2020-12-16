@@ -28,7 +28,7 @@ import org.videolan.vlc.util.VLCDownloadManager
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
 private const val MEDIA_PATHS = "MEDIA_PATHS"
-const val MEDIA_PATH = "MEDIA_PATH"
+private const val MEDIA_NAMES = "MEDIA_NAMES"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -44,6 +44,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     private lateinit var historyAdapter: SubtitlesAdapter
     private lateinit var binding: SubtitleDownloaderDialogBinding
     private lateinit var uris: List<Uri>
+    private lateinit var names: List<String>
     private lateinit var viewModel: SubtitlesModel
     private lateinit var toast: Toast
 
@@ -83,8 +84,10 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
         uris = savedInstanceState?.getParcelableArrayList<Uri>(MEDIA_PATHS)?.toList()
                 ?: arguments?.getParcelableArrayList<Uri>(MEDIA_PATHS)?.toList() ?: listOf()
+        names = savedInstanceState?.getStringArrayList(MEDIA_NAMES)?.toList()
+                ?: arguments?.getStringArrayList(MEDIA_NAMES)?.toList() ?: listOf()
 
-        viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0])).get(uris[0].path!!, SubtitlesModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), SubtitlesModel.Factory(requireContext(), uris[0], names[0])).get(uris[0].path!!, SubtitlesModel::class.java)
         if (uris.isEmpty()) dismiss()
     }
 
@@ -99,11 +102,11 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
 
         binding.subDownloadNext.setOnClickListener {
             if (uris.size > 1)
-                MediaUtils.showSubtitleDownloaderDialogFragment(requireActivity(), uris.takeLast(uris.size - 1))
+                MediaUtils.showSubtitleDownloaderDialogFragment(requireActivity(), uris.takeLast(uris.size - 1), names.takeLast(names.size - 1))
             dismiss()
         }
 
-        binding.movieName.text = uris[0].lastPathSegment
+        binding.movieName.text = names.firstOrNull() ?: uris[0].lastPathSegment
         state = SubDownloadDialogState.Download
 
         downloadAdapter = SubtitlesAdapter(listEventActor)
@@ -182,6 +185,7 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(MEDIA_PATHS, ArrayList(uris))
+        outState.putStringArrayList(MEDIA_NAMES, ArrayList(names))
     }
 
     private fun focusOnView(scrollView: NestedScrollView) {
@@ -189,9 +193,9 @@ class SubtitleDownloaderDialogFragment : VLCBottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(mediaUris: List<Uri>): SubtitleDownloaderDialogFragment {
+        fun newInstance(mediaUris: List<Uri>, mediaTitles:List<String>): SubtitleDownloaderDialogFragment {
             return SubtitleDownloaderDialogFragment().apply {
-                arguments = bundleOf(MEDIA_PATHS to ArrayList(mediaUris))
+                arguments = bundleOf(MEDIA_PATHS to ArrayList(mediaUris), MEDIA_NAMES to mediaTitles)
             }
         }
     }
