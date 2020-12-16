@@ -27,12 +27,13 @@ import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.resources.opensubtitles.OpenSubtitleRepository
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.putSingle
+import org.videolan.vlc.BuildConfig
 import java.io.File
 import java.util.*
 
 private const val LAST_USED_LANGUAGES = "last_used_subtitles"
 
-class SubtitlesModel(private val context: Context, private val mediaUri: Uri, val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : ViewModel() {
+class SubtitlesModel(private val context: Context, private val mediaUri: Uri, private val name:String, val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : ViewModel() {
     val observableSearchName = ObservableField<String>()
     val observableSearchEpisode = ObservableField<String>()
     val observableSearchSeason = ObservableField<String>()
@@ -111,6 +112,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, va
     }
 
     private suspend fun getSubtitleByName(name: String, episode: Int?, season: Int?, languageIds: List<String>?): List<OpenSubtitle> {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Getting subs by name with $name")
         val builder = StringBuilder(context.getString(R.string.sub_result_by_name, "<i>$name</i>"))
         season?.let { builder.append(" - ").append(context.getString(R.string.sub_result_by_name_season, "<i>$it</i>")) }
         episode?.let { builder.append(" - ").append(context.getString(R.string.sub_result_by_name_episode, "<i>$it</i>")) }
@@ -120,6 +122,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, va
     }
 
     private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?): List<OpenSubtitle> {
+        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Getting subs by hash with $movieHash")
         manualSearchEnabled.set(false)
         observableResultDescription.set(context.getString(R.string.sub_result_by_file).toSpanned())
         return OpenSubtitleRepository.getInstance().queryWithHash(movieByteSize, movieHash, languageIds)
@@ -152,7 +155,7 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, va
                             // No result for hash. Falling back to name search
                             if (hashSubs.isEmpty()) getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get()) else hashSubs
                         } else {
-                            getSubtitleByName(videoFile.name, null, null, observableSearchLanguage.get())
+                            getSubtitleByName(name, null, null, observableSearchLanguage.get())
                         }
 
                     }
@@ -190,10 +193,10 @@ class SubtitlesModel(private val context: Context, private val mediaUri: Uri, va
 
     fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).putSingle(LAST_USED_LANGUAGES, lastUsedLanguages)
 
-    class Factory(private val context: Context, private val mediaUri: Uri) : ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context, private val mediaUri: Uri, private val name: String) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return SubtitlesModel(context.applicationContext, mediaUri) as T
+            return SubtitlesModel(context.applicationContext, mediaUri, name) as T
         }
     }
 
