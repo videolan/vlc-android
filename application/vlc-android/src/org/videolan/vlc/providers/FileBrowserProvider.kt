@@ -126,6 +126,7 @@ open class FileBrowserProvider(
                 }
                 loading.postValue(false)
             }
+            url == "root" -> launch { browseRootImpl() }
             else -> super.browse(url)
         }
     }
