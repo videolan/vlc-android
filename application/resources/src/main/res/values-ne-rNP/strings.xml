@@ -12,6 +12,8 @@
     <string name="sortby_album_name">सङ्ग्रह नाम</string>
     <string name="sortby_length">लम्बाइ</string>
     <string name="sortby_date">मिति</string>
+    <string name="sortby_last_modified_date">हालसालै थपिएको</string>
+    <string name="sortby_media_number">मिडिया नम्बर</string>
     <string name="sortby_number">Nb ट्र्याकहरू</string>
     <string name="searchable_hint">खोज्नुहोस…</string>
     <string name="history">इतिहास</string>
@@ -30,19 +32,26 @@
     <string name="play_as_audio">अडियो सरी बजाउनुहोस</string>
     <string name="play_as_video">भिडियो सरी बजाउनुहोस</string>
     <string name="video_app_switch_title">पृष्ठभूमि/PiP ढाँचा</string>
+    <string name="video_app_switch_summary">VLC व्यवहार चयन गर्नुहोस् जब तपाईं भिडियो प्लेब्याकबाट अन्य अनुप्रयोगमा स्विच गर्नुहुन्छ</string>
     <string name="play_pip_title">तस्वीर-मा-तस्वीर प्रणालीमा चलदृश्य बजाउनुहोस्</string>
     <string name="play_as_audio_background">भिडियोहरू पृष्ठभूमिमा बजाउनुहोस्</string>
     <string name="append">थप्नुहोस</string>
     <string name="insert_next">अर्को घुसाउनुहोस्</string>
     <string name="play_all">सबै बजाउनुहोस्</string>
     <string name="append_all">सबै थप्नुहोस्</string>
+    <string name="resume_playback_short_title">प्लेब्याक पुनःसुरु गर्नुहोस्</string>
+    <string name="resume_playback_long_title">अन्तिम प्लेसूचीको प्लेब्याक पुनःसुरु गर्नुहोस्</string>
     <string name="delete">रद्द गर्नुहोस्</string>
     <string name="remove">रद्द गर्नुहोस्</string>
     <string name="set_song">रिङटोनको रुपमा राख्ने</string>
+    <string name="set_song_question">%1$s रिंगटोनको रूपमा सेट गर्नुहुन्छ?</string>
     <string name="info">जानकारी</string>
     <string name="confirm_delete">\'%1$s\' फाइल  रद्द गर्न चाहनुहुन्छ ?</string>
+    <string name="confirm_delete_album">%1$sएल्बम मेटाउने हो?</string>
+    <string name="confirm_delete_several_media">%1$dयी मिडिया मेटाउने हो?</string>
     <string name="confirm_delete_folder">\'%1$s\' फोल्डरका साथै यस भित्रको सबै सामाग्रीहरू मेटाउनुहोस्?</string>
     <string name="confirm_delete_playlist">बजाउनेसूची \'%1$s\' मेटाउन चाहनुहुन्छ?</string>
+    <string name="confirm_remove_from_playlist">%1$sप्लेसूचीबाट हटाउने हो?</string>
     <string name="ringtone_set">\'%1$s\' लाई रिङटोनको रुपमा स्थापित गरियो।</string>
     <string name="ringtone_error">रिङटोनको रुपमा स्थापित गर्ने क्रममा त्रुटि भयो ।</string>
     <string name="pause">पौज गर्नुहोस</string>
@@ -50,6 +59,8 @@
     <string name="unknown_album">अज्ञात एलबम</string>
     <string name="unknown_genre">अज्ञात शैली</string>
     <string name="songs">गीतहरू</string>
+    <string name="track_info_copied_to_clipboard">ट्र्याक जानकारी क्लिपबोर्डमा प्रतिलिपि गरियो</string>
+
     <string name="artists">कलाकारहरू</string>
     <string name="albums">संग्रहहरू</string>
     <string name="tracks">ट्र्याकहरू</string>
@@ -62,6 +73,10 @@
         <item quantity="one">१ सहफोल्डर</item>
         <item quantity="other">%d सहफोल्डरहरू</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 media</item>
+        <item quantity="other">%dमिडिया</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">१ मेडिया फाईल</item>
         <item quantity="other">%d मेडिया फाईलहरु</item>
@@ -70,6 +85,15 @@
         <item quantity="one">1 वीडियो</item>
         <item quantity="other">%d वीडियो</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 movie</item>
+        <item quantity="other">%dचलचित्रहरू</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV show</item>
+        <item quantity="other">%dटिभी कार्यक्रमहरू</item>
+    </plurals>
+
     <string name="internal_memory">आन्तरिक भन्डारण</string>
     <string name="audio">अडियो</string>
     <string name="video">भिडियो</string>
@@ -84,11 +108,16 @@
     <string name="please_wait">कृपया प्रतिक्ष्य गर्नुहोस …</string>
     <string name="nomedia">कुनै पनि सामग्री फाइल भेटिएन , कृपया केही फाइलहरू तपाईको डिभाइसमा सार्नुहोस् या अभिरुचीहरू मिलाउनुहोस् ।</string>
     <string name="noplaylist">कुनै पनि बजाउने भेटिएन।</string>
+    <string name="nosubfolder">कुनै सबफोल्डर छैन</string>
     <string name="directorynotfound">डाइरेक्टरी पाथ \'%1$s\' भेटिएन।</string>
     <string name="nohistory">अहिले सम्म तपाईँसँग बजाएको इतिहास छैन ।</string>
     <string name="validation">तपाई पक्का हुनुहुन्छ?</string>
 
     <string name="cover_art">खोल चित्र</string>
+    <string name="shuffle_all_title">सबै फेरबदल गर्नुहोस्</string>
+    <string name="shuffle_title">फेरबदल मोड</string>
+    <string name="shuffle">फेरबदल बन्द गर्नुहोस्</string>
+    <string name="shuffle_on">फेरबदल सुरु गर्नुहोस्</string>
     <string name="repeat_title">दोहोर्याउने रीत</string>
     <string name="repeat">कुनै पनि नदोहोर्‍याउने</string>
     <string name="repeat_single">एउटैलाई दोहोर्याउनुहोस्</string>
@@ -116,6 +145,13 @@
     <string name="sound_off">आवाज बन्द</string>
     <string name="brightness">चमक</string>
     <string name="advanced">उन्नत विकल्पहरू</string>
+    <string name="audio_boost_warning">१००% पार गर्न फेरि माथि स्लाइड गर्नुहोस्</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 channel\n</item>
+        <item quantity="other">%1$dच्यानलहरू\n</item>
+    </plurals>
+
     <string name="track_samplerate_info">स्याम्पल दर: %1$d हर्ट्ज\n</string>
     <string name="track_resolution_info">रिजोल्युसन: %1$dx%2$d\n</string>
     <string name="track_framerate_info">फ्रेम दर: %1$.3f\n</string>
