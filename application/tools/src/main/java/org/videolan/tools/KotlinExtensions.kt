@@ -8,6 +8,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
+import android.net.Uri
+import android.util.Log
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
@@ -29,7 +31,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.yield
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
-
 
 fun <T> List<T>.getposition(target: T): Int {
     for ((index, item) in withIndex()) if (item == target) return index
@@ -77,11 +78,10 @@ fun Context.copy(label: String, text: String) {
     }
 }
 
-suspend fun retry (
+suspend fun retry(
         times: Int = 3,
         delayTime: Long = 500L,
-        block: suspend () -> Boolean): Boolean
-{
+        block: suspend () -> Boolean): Boolean {
     repeat(times - 1) {
         if (block()) return true
         if (delayTime > 0L) delay(delayTime)
@@ -89,7 +89,7 @@ suspend fun retry (
     return block() // last attempt
 }
 
-suspend fun Context.awaitAppIsForegroung() : Boolean {
+suspend fun Context.awaitAppIsForegroung(): Boolean {
     val activityManager = applicationContext.getSystemService<ActivityManager>() ?: return false
     repeat(times = 2) {
         if (activityManager.isAppForeground()) return true
@@ -101,7 +101,7 @@ suspend fun Context.awaitAppIsForegroung() : Boolean {
 private fun ActivityManager.isAppForeground() = runningAppProcesses[0].importance <= RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 
 @UseExperimental(ExperimentalContracts::class)
-fun String?.isValidUrl() : Boolean {
+fun String?.isValidUrl(): Boolean {
     contract {
         returns(true) implies (this@isValidUrl != null)
     }
@@ -118,6 +118,7 @@ fun <E> SendChannel<E>.safeOffer(value: E) = !isClosedForSend && try {
 } catch (e: CancellationException) {
     false
 }
+
 @SuppressLint("MissingPermission")
 fun Context.isConnected(): Boolean {
     return getSystemService<ConnectivityManager>()?.activeNetworkInfo?.isConnected == true
@@ -125,3 +126,16 @@ fun Context.isConnected(): Boolean {
 
 val Context.localBroadcastManager: LocalBroadcastManager
     get() = LocalBroadcastManager.getInstance(this)
+
+fun Uri?.retrieveParent(): Uri? {
+    try {
+        if (this == null) return null
+        val builder = Uri.Builder().scheme(scheme).authority(authority)
+        pathSegments.dropLast(1).forEach {
+            if (it != lastPathSegment) builder.appendPath(it)
+        }
+        return builder.build()
+    } catch (e: Exception) {
+    }
+    return null
+}

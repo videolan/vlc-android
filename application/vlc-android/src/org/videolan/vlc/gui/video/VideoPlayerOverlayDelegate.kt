@@ -31,7 +31,6 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
@@ -66,13 +65,16 @@ import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
-import org.videolan.vlc.gui.helpers.OnRepeatListener
+import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
+import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.isSchemeFile
+import org.videolan.vlc.util.isSchemeNetwork
 import org.videolan.vlc.viewmodels.PlaylistModel
 
 @ExperimentalCoroutinesApi
@@ -498,8 +500,10 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (!::hudBinding.isInitialized) return
         hudBinding.playerOverlayRewind.setOnClickListener(player)
         hudBinding.playerOverlayForward.setOnClickListener(player)
-        hudBinding.playerOverlayRewind.setOnTouchListener(OnRepeatListener(player))
-        hudBinding.playerOverlayForward.setOnTouchListener(OnRepeatListener(player))
+        hudBinding.playerOverlayRewind.setOnTouchListener(OnRepeatListenerTouch(player))
+        hudBinding.playerOverlayForward.setOnTouchListener(OnRepeatListenerTouch(player))
+        hudBinding.playerOverlayRewind.setOnKeyListener(OnRepeatListenerKey(player))
+        hudBinding.playerOverlayForward.setOnKeyListener(OnRepeatListenerKey(player))
     }
 
     fun updateOrientationIcon() {
@@ -733,7 +737,7 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
 
     private fun pickSubtitles() {
         val uri = player.videoUri ?: return
-        val media = MediaWrapperImpl(FileUtils.getParent(uri.toString())!!.toUri())
+        val media = if (uri.scheme.isSchemeFile() || uri.scheme.isSchemeNetwork()) MediaWrapperImpl(FileUtils.getParent(uri.toString())!!.toUri()) else null
         player.isShowingDialog = true
         val filePickerIntent = Intent(player, FilePickerActivity::class.java)
         filePickerIntent.putExtra(KEY_MEDIA, media)

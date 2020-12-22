@@ -100,6 +100,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
             adapter = MediaInfoAdapter()
             binding.list.layoutManager = LinearLayoutManager(binding.root.context)
             binding.list.adapter = adapter
+            binding.list.isNestedScrollingEnabled = false
             if (model.sizeText.value === null) model.checkFile(item)
             if (model.mediaTracks.value === null) model.parseTracks(this, item)
         }

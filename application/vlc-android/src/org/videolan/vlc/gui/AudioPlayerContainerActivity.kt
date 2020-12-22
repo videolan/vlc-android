@@ -92,6 +92,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     private lateinit var resumeCard: Snackbar
 
     private var preventRescan = false
+    private var playerShown = false
 
     protected val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_placeholder)
@@ -153,6 +154,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View> }
                 ?: null
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
+        updateFragmentMargins()
         playerBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 audioPlayer.onSlide(slideOffset)
@@ -169,10 +171,20 @@ open class AudioPlayerContainerActivity : BaseActivity() {
                 onPlayerStateChanged(bottomSheet, newState)
                 audioPlayer.onStateChanged(newState)
                 if (newState == STATE_COLLAPSED || newState == STATE_HIDDEN) removeTipViewIfDisplayed()
+                updateFragmentMargins(newState)
             }
         })
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
     }
+
+    fun updateFragmentMargins(state: Int = STATE_COLLAPSED) {
+        playerShown = state != STATE_HIDDEN
+        supportFragmentManager.fragments.forEach { fragment ->
+            if (fragment is BaseFragment) fragment.updateAudioPlayerMargin()
+        }
+    }
+
+    fun getAudioMargin() = if (playerShown) resources.getDimensionPixelSize(R.dimen.player_peek_height) else 0
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(BOTTOM_IS_HIDDEN, bottomBar?.let { it.translationY != 0F }

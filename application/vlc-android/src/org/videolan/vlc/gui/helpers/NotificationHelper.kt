@@ -48,8 +48,6 @@ private const val RECOMMENDATION_CHANNEL_ID = "vlc_recommendations"
 
 object NotificationHelper {
     const val TAG = "VLC/NotificationHelper"
-
-    private val sb = StringBuilder()
     const val VLC_DEBUG_CHANNEL = "vlc_debug"
 
     private val notificationIntent = Intent()
@@ -61,14 +59,12 @@ object NotificationHelper {
 
         val piStop = MediaButtonReceiver.buildMediaButtonPendingIntent(ctx, PlaybackStateCompat.ACTION_STOP)
         val builder = NotificationCompat.Builder(ctx, PLAYBACK_SERVICE_CHANNEL_ID)
-        sb.setLength(0)
-        sb.append(title).append(" - ").append(artist)
         builder.setSmallIcon(if (video) R.drawable.ic_notif_video else R.drawable.ic_notif_audio)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(title)
                 .setContentText(getMediaDescription(artist, album))
                 .setLargeIcon(cover)
-                .setTicker(sb.toString())
+                .setTicker("$title - $artist")
                 .setAutoCancel(!playing)
                 .setOngoing(playing)
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)

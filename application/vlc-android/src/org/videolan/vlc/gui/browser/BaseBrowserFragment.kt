@@ -179,6 +179,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun backTo(tag: String) {
+        if (tag == "root") {
+            requireActivity().finish()
+            return
+        }
         val supportFragmentManager = requireActivity().supportFragmentManager
         var poped = false
         for (i in 0 until supportFragmentManager.backStackEntryCount) {

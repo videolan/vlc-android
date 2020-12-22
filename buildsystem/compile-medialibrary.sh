@@ -4,7 +4,7 @@
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=8bb0bfb4b4db9587bead04dd69c930a4f155fcda
+MEDIALIBRARY_HASH=ad5bdbc179f57763c4d0e5d71644cd979b615b09
 
 while [ $# -gt 0 ]; do
   case $1 in

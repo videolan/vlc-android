@@ -131,7 +131,8 @@ object VLCOptions {
                 val optionsArray = customOptions.split("\\r?\\n".toRegex()).toTypedArray()
                 if (!optionsArray.isNullOrEmpty()) Collections.addAll(options, *optionsArray)
             }
-            options.add("--smb-force-v1")
+            if (pref.getBoolean("prefer_smbv1", true))
+                options.add("--smb-force-v1")
             if (!Settings.showTvUi) {
                 //Ambisonic
                 val hstfDir = context.getDir("vlc", Context.MODE_PRIVATE)

@@ -38,6 +38,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.tools.isStarted
+import org.videolan.tools.retrieveParent
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.helpers.*
@@ -165,6 +166,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        multiSelectHelper.toggleActionMode(true, historyAdapter.itemCount)
         mode.menuInflater.inflate(R.menu.action_mode_history, menu)
         return true
     }
@@ -177,6 +179,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         }
         menu.findItem(R.id.action_history_info).isVisible = selectionCount == 1
         menu.findItem(R.id.action_history_append).isVisible = PlaylistManager.hasMedia()
+        menu.findItem(R.id.action_go_to_folder).isVisible = selectionCount == 1 && multiSelectHelper.getSelection().first().uri.retrieveParent() != null
         return true
     }
 
@@ -187,7 +190,8 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
             when (item.itemId) {
                 R.id.action_history_play -> MediaUtils.openList(activity, selection, 0)
                 R.id.action_history_append -> MediaUtils.appendMedia(activity, selection)
-                R.id.action_history_info -> showInfoDialog(selection[0])
+                R.id.action_history_info -> showInfoDialog(selection.first())
+                R.id.action_go_to_folder -> showParentFolder(selection.first())
                 else -> {
                     stopActionMode()
                     return false
@@ -199,6 +203,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onDestroyActionMode(mode: ActionMode) {
+        multiSelectHelper.toggleActionMode(false, historyAdapter.itemCount)
         actionMode = null
         multiSelectHelper.clearSelection()
     }

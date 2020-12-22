@@ -261,7 +261,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment<MediaLibraryItem>(), PathAda
     }
 
     private fun togglefavorite() {
-        currentItem.let { item ->
+        currentItem?.let { item ->
             lifecycleScope.launch {
                 val mw = (item as MediaWrapper)
                 withContext(Dispatchers.IO) {

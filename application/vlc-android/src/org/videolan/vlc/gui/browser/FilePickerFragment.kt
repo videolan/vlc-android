@@ -30,6 +30,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -44,7 +45,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_PICKER
 
@@ -90,6 +90,19 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
         else
             pickFile(media)
 
+    }
+
+    override fun backTo(tag: String) {
+        if (tag == "root") {
+            val supportFragmentManager = requireActivity().supportFragmentManager
+            for (i in 0 until supportFragmentManager.backStackEntryCount) {
+                supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
+            viewModel.setDestination(MLServiceLocator.getAbstractMediaWrapper(tag.toUri()))
+            supportFragmentManager.beginTransaction().detach(this).attach(this).commit()
+            return
+        }
+        super.backTo(tag)
     }
 
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}

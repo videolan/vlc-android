@@ -742,7 +742,12 @@
     <string name="timeout_normal">通常</string>
     <string name="timeout_long">長い</string>
     <string name="video_hud_timeout">ビデオプレイヤーが隠れた遅延を制御</string>
+    <string name="remove_from_history">履歴からの削除</string>
     <string name="prefersmbv1">SMB1を採用</string>
     <string name="prefersmbv1_summary">SMBサーバーのブラウジングに何らかの問題がある場合は、チェックを外してください</string>
+    <string name="apply_to_all">すべてのビデオに適用</string>
+    <string name="audio_delay_global">すべてのビデオのオーディオに %s ミリ秒の遅延を適用</string>
+    <string name="warning_stream_speed">再生速度を1以上にすると音声の途切れが発生することがあります</string>
+    <string name="go_to_folder">親をブラウズ</string>
 
 </resources>

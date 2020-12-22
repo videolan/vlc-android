@@ -24,10 +24,11 @@
 package org.videolan.vlc.gui.helpers
 
 import android.os.Message
-import android.view.MotionEvent
+import android.util.Log
 import android.view.View
 
 import org.videolan.tools.WeakHandler
+import org.videolan.vlc.BuildConfig
 
 /**
  *
@@ -35,9 +36,9 @@ import org.videolan.tools.WeakHandler
  * @param normalInterval Normal interval in millis
  * @param clickListener The OnClickListener to trigger
  */
-class OnRepeatListener(private val initialInterval: Int, private val normalInterval: Int, private val clickListener: View.OnClickListener) : View.OnTouchListener {
-    private var downView: View? = null
-
+open class OnRepeatListener(private val initialInterval: Int, private val normalInterval: Int, private val speedUpDelay: Int, private val clickListener: View.OnClickListener) {
+    var downView: View? = null
+    var initialTime: Long = -1L
     private val handler = OnRepeatHandler(this)
 
     init {
@@ -45,30 +46,24 @@ class OnRepeatListener(private val initialInterval: Int, private val normalInter
             throw IllegalArgumentException("negative interval")
     }
 
-    /**
-     *
-     * @param clickListener The OnClickListener to trigger
-     */
-    constructor(clickListener: View.OnClickListener) : this(DEFAULT_INITIAL_DELAY, DEFAULT_NORMAL_DELAY, clickListener)
 
-    override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        when (motionEvent.action) {
-            MotionEvent.ACTION_DOWN -> {
-                handler.removeMessages(ACTION_ONCLICK)
-                handler.sendEmptyMessageDelayed(ACTION_ONCLICK, initialInterval.toLong())
-                downView = view
-                clickListener.onClick(view)
-                view.isPressed = true
-                return true
-            }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                handler.removeMessages(ACTION_ONCLICK)
-                downView = null
-                view.isPressed = false
-                return true
-            }
-        }
-        return false
+
+    fun startRepeating(view: View) {
+        handler.removeMessages(ACTION_ONCLICK)
+        handler.sendEmptyMessageDelayed(ACTION_ONCLICK, initialInterval.toLong())
+        downView = view
+        initialTime = System.currentTimeMillis()
+        clickListener.onClick(view)
+        view.isPressed = true
+        if (BuildConfig.DEBUG) Log.d("Delay", "onTouch: ACTION_DOWN")
+    }
+
+    fun stopRepeating(view: View) {
+        handler.removeMessages(ACTION_ONCLICK)
+        downView = null
+        initialTime = -1L
+        view.isPressed = false
+        if (BuildConfig.DEBUG) Log.d("Delay", "onTouch: ACTION_UP")
     }
 
     private class OnRepeatHandler(owner: OnRepeatListener) : WeakHandler<OnRepeatListener>(owner) {
@@ -76,7 +71,8 @@ class OnRepeatListener(private val initialInterval: Int, private val normalInter
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 ACTION_ONCLICK -> {
-                    sendEmptyMessageDelayed(ACTION_ONCLICK, owner!!.normalInterval.toLong())
+                    val interval = if (owner!!.initialTime > -1L && System.currentTimeMillis() - owner!!.initialTime > owner!!.speedUpDelay) owner!!.normalInterval.toLong() / 3 else owner!!.normalInterval.toLong()
+                    sendEmptyMessageDelayed(ACTION_ONCLICK, interval)
                     owner!!.clickListener.onClick(owner!!.downView)
                 }
             }
@@ -88,7 +84,8 @@ class OnRepeatListener(private val initialInterval: Int, private val normalInter
         private const val ACTION_ONCLICK = 0
 
         //Default values in milliseconds
-        private const val DEFAULT_INITIAL_DELAY = 500
-        private const val DEFAULT_NORMAL_DELAY = 150
+        const val DEFAULT_INITIAL_DELAY = 500
+        const val DEFAULT_NORMAL_DELAY = 150
+        const val DEFAULT_SPEEDUP_DELAY = 2000
     }
 }

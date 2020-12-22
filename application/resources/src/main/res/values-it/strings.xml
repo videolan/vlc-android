@@ -758,5 +758,7 @@
     <string name="prefersmbv1_summary">Deseleziona questa impostazione se hai difficoltà a sfogliare il tuo server SMB</string>
     <string name="apply_to_all">Applica a tutti i video</string>
     <string name="audio_delay_global">Ritardo audio impostato a %s ms per tutti i video</string>
+    <string name="warning_stream_speed">L\'aumento della velocità di riproduzione oltre 1 per i flussi potrebbe causare una sequenza non costante di fotogrammi </string>
+    <string name="go_to_folder">Sfoglia superiore</string>
 
 </resources>
