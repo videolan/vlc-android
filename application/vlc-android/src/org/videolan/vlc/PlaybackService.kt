@@ -1483,7 +1483,11 @@ private object UpdateMeta : CbAction()
 
 fun PlaybackService.manageAbRepeatStep(abRepeatReset: View, abRepeatStop: View, abRepeatContainer: View, abRepeatAddMarker: TextView) {
     when {
-        playlistManager.abRepeatOn.value != true -> abRepeatContainer.visibility = View.GONE
+        playlistManager.abRepeatOn.value != true -> {
+            abRepeatReset.visibility = View.GONE
+            abRepeatStop.visibility = View.GONE
+            abRepeatContainer.visibility = View.GONE
+        }
         playlistManager.abRepeat.value?.start != -1L && playlistManager.abRepeat.value?.stop != -1L -> {
             abRepeatReset.visibility = View.VISIBLE
             abRepeatStop.visibility = View.VISIBLE
