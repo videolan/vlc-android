@@ -41,6 +41,7 @@ class HalfCircleView : View {
 
     private fun initialize() {
         paint.color = ContextCompat.getColor(context, R.color.blacktransparent)
+        paint.isAntiAlias = true
         if (Settings.showTvUi) {
             background = ContextCompat.getDrawable(context, if (isLeft) R.drawable.half_circle_tv_left else R.drawable.half_circle_tv_right)
         } else {
