@@ -254,6 +254,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
+                    android:layoutDirection="ltr"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     vlc:layout_constraintBottom_toTopOf="@+id/player_overlay_seekbar"
