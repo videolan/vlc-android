@@ -164,6 +164,7 @@ dependencies {
     api "com.google.android.material:material:$rootProject.ext.androidxMaterialVersion"
     api "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
     api "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
+    api "androidx.viewpager2:viewpager2:$rootProject.ext.viewPager2Version"
     api 'androidx.multidex:multidex:2.0.1'
     api "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycleVersion"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.lifecycleVersion"
@@ -173,6 +174,7 @@ dependencies {
     api "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
     api "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
+
 
     //TV
     api "androidx.leanback:leanback:$rootProject.ext.androidxLeanbackVersion"
