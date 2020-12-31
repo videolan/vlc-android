@@ -1,35 +1,52 @@
 package org.videolan.vlc.gui.onboarding
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.PagerAdapter
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class OnboardingFragmentPagerAdapter(private val fragmentManager: FragmentManager, private var count: Int) : FragmentStatePagerAdapter(fragmentManager) {
+class OnboardingFragmentPagerAdapter(fragmentActivity: FragmentActivity, private var count: Int) : FragmentStateAdapter(fragmentActivity) {
 
-    private var fragments = ArrayList<Fragment>()
-    private var folderFragment: OnboardingFoldersFragment = OnboardingFoldersFragment.newInstance()
-
-    init {
-        fragments.add(OnboardingWelcomeFragment.newInstance())
-        fragments.add(OnboardingScanningFragment.newInstance())
-        fragments.add(OnboardingThemeFragment.newInstance())
-    }
+    private var fragmentList: MutableList<FragmentName> = mutableListOf(
+            FragmentName.WELCOME,
+            FragmentName.SCAN,
+            FragmentName.THEME
+    )
 
     fun onCustomizedChanged(customizeEnabled: Boolean) {
         count = if (customizeEnabled) {
-            fragments.add(2, folderFragment)
+            fragmentList.add(2, FragmentName.FOLDERS)
             4
         } else {
-            fragments.remove(folderFragment)
+            fragmentList.remove(FragmentName.FOLDERS)
             3
         }
         notifyDataSetChanged()
     }
 
-    override fun getItemPosition(obj: Any)= PagerAdapter.POSITION_NONE
+    override fun getItemCount(): Int = count
 
-    override fun getItem(position: Int) = fragments[position]
+    override fun getItemId(position: Int): Long {
+        return fragmentList[position].ordinal.toLong()
+    }
 
-    override fun getCount() = count
+    override fun containsItem(itemId: Long): Boolean {
+        val fragment = FragmentName.values()[itemId.toInt()]
+        return fragmentList.contains(fragment)
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return when (fragmentList[position]) {
+            FragmentName.WELCOME -> OnboardingWelcomeFragment.newInstance()
+            FragmentName.SCAN -> OnboardingScanningFragment.newInstance()
+            FragmentName.FOLDERS -> OnboardingFoldersFragment.newInstance()
+            FragmentName.THEME -> OnboardingThemeFragment.newInstance()
+        }
+    }
+
+    enum class FragmentName {
+        WELCOME,
+        SCAN,
+        FOLDERS,
+        THEME
+    }
 }
