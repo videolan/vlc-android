@@ -37,7 +37,9 @@ class JumpToTimeDialog : PickTimeFragment() {
         val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
         val minutes = if (minutes != "") java.lang.Long.parseLong(minutes) * MINUTES_IN_MICROS else 0L
         val seconds = if (seconds != "") java.lang.Long.parseLong(seconds) * SECONDS_IN_MICROS else 0L
-        playbackService.time = (hours + minutes + seconds) / 1000L //Time in ms
+        val newTime = (hours + minutes + seconds) / 1000L //Time in ms
+        playbackService.time = newTime
+        playbackService.playlistManager.player.updateProgress(newTime)
         dismiss()
     }
 
