@@ -521,6 +521,8 @@
     <string name="ml_external_storage_accept">Да</string>
     <string name="ml_external_storage_decline">Нет</string>
     <string name="auto_last_added_media">Недавно добавленное</string>
+    <string name="auto_my_library">Моя медиатека</string>
+    <string name="auto_home">Главная</string>
     <string name="no">Нет</string>
     <string name="loading_medialibrary">Загрузка медиатеки…</string>
     <string name="yes">Да</string>
@@ -768,4 +770,17 @@
     <string name="air_action_previous">Воспроизведение предыдущего</string>
     <string name="allow_otg">Разрешить доступ к OTG</string>
     <string name="allow_otg_description">Выберите OTG-устройство, чтобы разрешить VLC доступ к нему.</string>
+    <string name="timeout_infinite">Бесконечный</string>
+    <string name="timeout_short">Короткий</string>
+    <string name="timeout_normal">Обычный</string>
+    <string name="timeout_long">Длинный</string>
+    <string name="video_hud_timeout">Период отображения элементов управления видео</string>
+    <string name="remove_from_history">Удалить из истории</string>
+    <string name="prefersmbv1">Предпочитать SMB 1</string>
+    <string name="prefersmbv1_summary">Снимите этот флажок, если вы испытываете трудности при обращении к серверу SMB</string>
+    <string name="apply_to_all">Применить ко всем видео</string>
+    <string name="audio_delay_global">Для всех видео установлена задержка звука %s мс</string>
+    <string name="warning_stream_speed">При выборе скорости больше 1 при воспроизведении потоков возможно заикание</string>
+    <string name="go_to_folder">Перейти наверх</string>
+
 </resources>
