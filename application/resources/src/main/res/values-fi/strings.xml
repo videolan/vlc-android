@@ -12,6 +12,9 @@
     <string name="sortby_album_name">Albumin nimi</string>
     <string name="sortby_length">Pituus</string>
     <string name="sortby_date">Päiväys</string>
+    <string name="sortby_last_modified_date">Viimeksi lisätyt</string>
+    <string name="sortby_media_number">Kappaleen numero</string>
+    <string name="sortby_number">Nb raidat</string>
     <string name="searchable_hint">Etsi…</string>
     <string name="history">Historia</string>
 
@@ -36,13 +39,19 @@
     <string name="insert_next">Lisää seuraava</string>
     <string name="play_all">Toista kaikki</string>
     <string name="append_all">Lisää kaikki loppuun</string>
+    <string name="resume_playback_short_title">Jatka toistoa</string>
+    <string name="resume_playback_long_title">Jatka toistoa viimeisestä soittolistasta</string>
     <string name="delete">Poista</string>
     <string name="remove">Irroita</string>
     <string name="set_song">Aseta soittoääneksi</string>
+    <string name="set_song_question">Aseta \"%1$s\" soittoääneksi?</string>
     <string name="info">Tietoja</string>
     <string name="confirm_delete">Poista tiedosto \'%1$s\'?</string>
+    <string name="confirm_delete_album">Poistetaanko albumi \"%1$s\"?</string>
+    <string name="confirm_delete_several_media">Poistetaanko nämä \"%1$d\" kappaletta?</string>
     <string name="confirm_delete_folder">Poista kansio ´%1$s´ ja kaikki sen sisältämät tiedostot?</string>
     <string name="confirm_delete_playlist">Poista soittolista ´%1$s´?</string>
+    <string name="confirm_remove_from_playlist">Poistetaanko \"%1$s\" soittolistasta?</string>
     <string name="ringtone_set">Tiedosto \'%1$s\' asetettiin soittoääneksi.</string>
     <string name="ringtone_error">Virhe asetettaessa soittoääntä.</string>
     <string name="pause">Tauota</string>
@@ -50,6 +59,8 @@
     <string name="unknown_album">Tuntematon albumi</string>
     <string name="unknown_genre">Tuntematon genre</string>
     <string name="songs">Kappaleet</string>
+    <string name="track_info_copied_to_clipboard">Kappaleen tiedot kopioitu leikepöydälle</string>
+
     <string name="artists">Esittäjät</string>
     <string name="albums">Albumit</string>
     <string name="tracks">Kappaleet</string>
@@ -62,6 +73,10 @@
         <item quantity="one">1 alihakemisto</item>
         <item quantity="other">%d alihakemistoa</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 media</item>
+        <item quantity="other">%d mediaa</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 mediatiedosto</item>
         <item quantity="other">%d mediatiedostot</item>
@@ -70,6 +85,15 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d videot</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 elokuvat</item>
+        <item quantity="other">%d elokuvat</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 TV-ohjelmat</item>
+        <item quantity="other">%d TV-ohjelmat</item>
+    </plurals>
+
     <string name="internal_memory">Sisäinen muisti</string>
     <string name="audio">Ääni</string>
     <string name="video">Video</string>
@@ -84,6 +108,7 @@
     <string name="please_wait">Odota hetki…</string>
     <string name="nomedia">Yhtäkään mediatiedostoa ei löydetty, siirrä tiedostoja laitteeseesi tai muuta asetuksia.</string>
     <string name="noplaylist">Soittolistaa ei löytynyt.</string>
+    <string name="nosubfolder">Ei alikansiota</string>
     <string name="directorynotfound">Hakemiston polkua \'%1$s\' ei löytynyt.</string>
     <string name="nohistory">Sinulla ei ole vielä toistohistoriaa.</string>
     <string name="validation">Oletko varma?</string>
