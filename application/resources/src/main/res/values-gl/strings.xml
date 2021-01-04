@@ -358,8 +358,8 @@
     <string name="deblocking_all">Sen filtro antibloques (o máis rápido)</string>
     <string name="enable_frame_skip">Salto de fotograma</string>
     <string name="enable_frame_skip_summary">Acelera a descodificación, mais pode resultar nunha menor calidade de vídeo</string>
-    <string name="enable_time_stretching_audio">Activar a extensión no tempo do son</string>
-    <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do audio sen mudar o ton (require un dispositivo rápido)</string>
+    <string name="enable_time_stretching_audio">Cambio da velocidade do son</string>
+    <string name="enable_time_stretching_audio_summary">Acelera e diminúe a velocidade do son sen mudar o ton (require un dispositivo rápido)</string>
 
     <string name="advanced_prefs_category">Avanzadas</string>
     <string name="auto_rescan">Analizar automaticamente</string>
@@ -491,7 +491,7 @@
     <string name="movies">películas</string>
     <string name="videos">vídeos</string>
     <string name="videos_all">Todos os vídeos</string>
-    <string name="clear_playback_history">Limpar historial de reproducións</string>
+    <string name="clear_playback_history">Limpar o historial de reproducións</string>
     <string name="ml_scanning">Buscando ficheiros multimedia</string>
     <string name="ml_parse_media">Analizando multimedia</string>
     <string name="ml_discovering">Descubrir</string>
@@ -539,7 +539,7 @@
     <string name="audio_task_cleared_title">Parar ao esvarar o dedo pola aplicación</string>
     <string name="audio_task_cleared_summary">Parar a reprodución cando se saia da aplicación</string>
     <string name="audio_resume_card_title">Mostrar suxestión da última lista</string>
-    <string name="audio_resume_card_summary">Mostra unha suxestión para continuar a reprodución de audio ao iniciar a aplicación</string>
+    <string name="audio_resume_card_summary">Mostra unha suxestión para continuar a reprodución do son ao iniciar a aplicación</string>
     <string name="playback_rewind">Rebobinar</string>
     <string name="playback_forward">Avance rápido</string>
     <string name="ml_wizard_scan_checkbox">Buscar no dispositivo contidos multimedia</string>
@@ -756,5 +756,4 @@
     <string name="remove_from_history">Retirar do historial</string>
     <string name="prefersmbv1">Preferir SMB 1</string>
     <string name="prefersmbv1_summary">Desmarcar este axuste se ten dificultades para navegar polo servidor SMB</string>
-
 </resources>
