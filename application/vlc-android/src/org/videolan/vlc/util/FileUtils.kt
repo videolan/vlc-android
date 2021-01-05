@@ -399,19 +399,19 @@ object FileUtils {
                     //                        returnCursor.close();
                     //                    }
                 } catch (e: FileNotFoundException) {
-                    Log.e(TAG, "Couldn't understand the intent")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 } catch (e: IllegalArgumentException) {
-                    Log.e(TAG, "Couldn't understand the intent")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 } catch (e: IllegalStateException) {
-                    Log.e(TAG, "Couldn't understand the intent")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 } catch (e: NullPointerException) {
-                    Log.e(TAG, "Couldn't understand the intent")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 } catch (e: SecurityException) {
-                    Log.e(TAG, "Permission is no longer valid")
+                    Log.e(TAG, "${e.message} for $data", e)
                     return null
                 }
             }// Media or MMS URI
