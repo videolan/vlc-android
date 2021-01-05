@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">Başe</string>
+    <string name="cancel">Betal bike</string>
+    <string name="other">Yên din</string>
+    <string name="sortby">Rêzkirin</string>
+    <string name="sortby_name">Nav</string>
+    <string name="sortby_filename">Navê dosyeyê</string>
+    <string name="sortby_artist_name">Navê hunermend</string>
+    <string name="sortby_album_name">Navê albûmê</string>
+    <string name="sortby_length">Dirêjî</string>
+    <string name="sortby_date">Tarîx</string>
+    <string name="sortby_last_modified_date">Tevlîbûna dawî</string>
+    <string name="sortby_media_number">Hejmara medyayê</string>
+    <string name="sortby_number">Hejmara tomarê</string>
+    <string name="searchable_hint">Lêgerîn</string>
+    <string name="history">Raborî</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d encam hat dîtin</item>
+        <item quantity="other">%d encam hatin dîtin</item>
+    </plurals>
+
+    <string name="play">Bilîzîne</string>
+    <string name="playback">Lêdan</string>
+    <string name="playback_controls">Kontrolên lêdanê</string>
+    <string name="medialibrary_scan">Pişkînîna medyagehê</string>
+    <string name="Medialibrary_progress">Hildemandinên pêşveçûna pişkînîna medyagehê</string>
+    <string name="play_from_start">Ji destpêkê lêde</string>
+    <string name="play_as_audio">Wekî deng lêde</string>
+    <string name="play_as_video">Wekî vîdyo lêde</string>
+    <string name="video_app_switch_title">Moda Pip/Paşxanê</string>
+    <string name="video_app_switch_summary">Dema ku tu ji lêdana vîdyoyê derbasî sepaneke din bû, bila VLC çi bike</string>
+    <string name="play_pip_title">Bila vîdyoyan bi wêneyî di moda wêneyê de lêde</string>
+    <string name="play_as_audio_background">Bila vîdyo di paşxanê de bên lêdan</string>
+    <string name="append">Tevlî bike</string>
+    <string name="insert_next">Yan din tevlî bike</string>
+    <string name="play_all">Gişî lêde</string>
+    <string name="append_all">Gişî tevlî bike</string>
+    <string name="resume_playback_short_title">Lêdanê bidomîne</string>
+    <string name="resume_playback_long_title">Lîsteya dawîn a lêdanê bidomîne</string>
+    <string name="delete">Jê bibe</string>
+    <string name="remove">Rake</string>
+    <string name="set_song">Wekî dengê telefonê saz bike</string>
+    <string name="set_song_question">\'%1$s\'ê wekî dengê telefonê saz bike?</string>
+    <string name="info">Agahî</string>
+    <string name="confirm_delete">Dosyeya \'%1$s\'ê jê bibe?</string>
+    <string name="confirm_delete_album">Albûma \'%1$s\'ê jê bibe?</string>
+    <string name="confirm_delete_several_media">Medyaya %1$d\'ê jê bibe?</string>
+    <string name="confirm_delete_folder">Peldanka \'%1$s\'ê û hemû naverokên wê jê bibe?</string>
+    <string name="confirm_delete_playlist">Lîsteya lêdanê ya \'%1$s\'ê jê bibe?</string>
+    <string name="confirm_remove_from_playlist">Bila \'%1$s\' ji lîsteya lêdanê bê rakirin?</string>
+    <string name="ringtone_set">Dosyeya \'%1$s\'ê wekî dengê telefonê hat sazkirin.</string>
+    <string name="ringtone_error">Di sazkirina dengê telefonê de çewtî derket.</string>
+    <string name="pause">Bisekinîne</string>
+    <string name="unknown_artist">Hunermendê nenas</string>
+    <string name="unknown_album">Albûma nenas</string>
+    <string name="unknown_genre">Cureya nenas</string>
+    <string name="songs">Stran</string>
+    <string name="track_info_copied_to_clipboard">Agahiyên tomarê li panoyê hat kopîkirin</string>
+
+    <string name="artists">Hunermend</string>
+    <string name="albums">Albûm</string>
+    <plurals name="albums_quantity">
+        <item quantity="one">albûmek</item>
+        <item quantity="other">%d albûm</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">bin-peldankek</item>
+        <item quantity="other">%d bin-peldank</item>
+    </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">medyayek</item>
+        <item quantity="other">%d medya</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">dosyeyek medyayê</item>
+        <item quantity="other">%d dosyeya medyayê</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">vîdyoyek</item>
+        <item quantity="other">%d vîdyo</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">filîmek</item>
+        <item quantity="other">%d filîm</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">Rêzefilîmek</item>
+        <item quantity="other">%d Rêzefilîm</item>
+    </plurals>
+
+    <string name="internal_memory">bîrdanka navxweyî</string>
+    <string name="audio">Deng</string>
+    <string name="video">Vîdyo</string>
+    <string name="bookmarks">Cihnîşan</string>
+    <string name="equalizer">Ekolîzer</string>
+    <string name="all_albums">Hemû albûm</string>
+    <string name="genres">Cure</string>
+    <string name="playlists">Lîsteyên lêdanê</string>
+    <string name="title">Sernav</string>
+    <string name="directories">Peldank</string>
+    <string name="loading">Tê barkirin</string>
+    <string name="please_wait">Ji kerema xwe bisekine...</string>
+    <string name="nomedia">Ti dosyeyên medyayê nehat dîtin, ji kerema xwe hin dosyeyan veguhêze cîhaza xwe an jî tercîhên xwe biguherîne.</string>
+    <string name="noplaylist">Lîsteya lêdanê nehat dîtin.</string>
+    <string name="nosubfolder">Bin-peldank tune</string>
+    <string name="directorynotfound">Rêya peldanka \'%1$s\'ê nehat dîtin.</string>
+    <string name="nohistory">Heta niha ti raboriya te muzîklêdanê tune ye.</string>
+    <string name="validation">Bi rastî jî?</string>
+
+    <string name="cover_art">Wêneyê bergê</string>
+    <string name="shuffle_all_title">Gişî tevlî hev bike</string>
+    <string name="shuffle_title">Moda tevlihevkirinê</string>
+    <string name="shuffle">Tevlihevkirin Girtî</string>
+    <string name="shuffle_on">Tevlihevkirin Vekirî</string>
+    <string name="repeat_title">Moda dubarekirinê</string>
+    <string name="repeat">Dubarekirin tune</string>
+    <string name="repeat_single">Stranê dubare bike</string>
+    <string name="repeat_all">Gişî dubare bike</string>
+    <string name="previous">Ya berî vê</string>
+    <string name="stop">Rawestîne</string>
+    <string name="firstsong">Strana yekem a lîsteya lêdanê</string>
+    <string name="lastsong">Strana dawî ya lîsteya lêdanê</string>
+
+    <string name="surface_best_fit">Herî guncav</string>
+    <string name="surface_fit_screen">Li gorî ekranê</string>
+    <string name="surface_fill">Dagire</string>
+    <string name="surface_original">Navend bike</string>
+    <string name="unseekable_stream">Herika lê nayê gerîn</string>
+    <string name="refresh">Nû bike</string>
+    <string name="track_audio">Qeyda dengî</string>
+    <string name="track_video">Qeyda vîdyoyê</string>
+    <string name="track_text">Qeyda jêrnivîsê</string>
+    <string name="track_unknown">Qeyda nenas</string>
+    <string name="track_bitrate_info">Leza bîtê: %1$s/s\n</string>
+    <string name="track_codec_info">Kodek: %1$s\n</string>
+    <string name="track_language_info">Ziman: %1$s\n</string>
+    <string name="volume">Piledeng</string>
+    <string name="sound_on">Deng Vekirî</string>
+    <string name="sound_off">Deng Girtî</string>
+    <string name="brightness">Ronahî</string>
+    <string name="advanced">vebijarkên pêşketî</string>
+    <string name="audio_boost_warning">Dîsa bişemitîne da ku ji 100% derbas bibe</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">kanalek\n</item>
+        <item quantity="other">%1$d kanal\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Rêjeya mînakê: %1$d Hz\n</string>
+    <string name="track_resolution_info">Çareserî: %1$d x %2$d\n</string>
+    <string name="track_framerate_info">Rêjeya çarçoveyê: %1$.3f\n</string>
+
+    <string name="playback_speed">Leza xwendinê</string>
+    <string name="sleep_title">Demjimêrê xewê</string>
+    <string name="sleep_in">Di xew de</string>
+    <string name="subtitle_select">Pelê jêrnivîs hilbijêre</string>
+
+    <string name="server_add_title">Pêşkêşkarek nû li bijareyan zêde bike</string>
+    <string name="server_username_hint">Navê bikarhêner</string>
+    <string name="feedback_forum">Forûma paşragihandinê</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Sazkarî</string>
+
+    <string name="add_custom_path">Peldanka taybet tevlî bike</string>
+    <string name="subtitles_prefs_category">Jêrnivîs</string>
+    <string name="subtitles_size_title">Mezinahiya jêrnivîsê</string>
+    <string name="subtitles_size_small">Biçûk</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Mezin</string>
+    <string name="subtitles_size_huge">Pir mezin</string>
+    <string name="subtitles_color_title">Rengê jêrnivîsê</string>
+    <string name="subtitles_color_white">Spî</string>
+    <string name="subtitles_color_gray">Gewr</string>
+    <string name="subtitles_color_pink">Pembe</string>
+    <string name="subtitles_color_blue">Şîn</string>
+    <string name="subtitles_color_yellow">Zer</string>
+    <string name="subtitles_color_green">Kesk</string>
+    <string name="subtitles_background_title">Paşxana jêrnivîsê</string>
+    <string name="subtitles_bold_title">Jêrnivîsên tarî</string>
+    <string name="subtitles_autoload_title">Jêrnivîsan bixweber tevlî bike</string>
+
+    <string name="audio_prefs_category">Deng</string>
+    <string name="lockscreen_cover_title">Berga medyayê li ser ekrana kilîdê</string>
+    <string name="list_title_ellipsize_default">Jixweber</string>
+    <string name="list_title_ellipsize_left">Li çepê</string>
+    <string name="list_title_ellipsize_right">Li rastê</string>
+    <string name="list_title_ellipsize_middle">Li navînê</string>
+    <string name="list_title_ellipsize_marquee">Marka</string>
+    <string name="audio_boost_title">Bihêzkirina-dengî</string>
+    <string name="audio_boost_summary">Bila deng %200 zêde bibe</string>
+    <string name="headset_prefs_category">Berguhk</string>
+    <string name="casting_quality_high">Bilind</string>
+    <string name="casting_quality_medium">Navîn</string>
+    <string name="casting_quality_low">Lawaz</string>
+    <string name="casting_quality_lowcpu">Lawaztir</string>
+    <string name="extensions_prefs_category">Pêvek</string>
+    <string name="extension_prefs_activation_title">Çalak bike</string>
+    <string name="set_locale">Ziman</string>
+    <string name="ml_external_storage_accept">Erê</string>
+    <string name="ml_external_storage_decline">Na</string>
+    <string name="auto_last_added_media">Vê dawiyê tevlîbûyî</string>
+    <string name="auto_my_library">Medyageha min</string>
+    <string name="auto_home">Serrûpel</string>
+    <string name="no">Na</string>
+    <string name="loading_medialibrary">Medyageh tê barkirin...</string>
+    <string name="yes">Erê</string>
+
+    <string name="custom_set_save_title">Guhertinên netomarkirî hene</string>
+    <string name="custom_set_save_warning">Hişyarî: guhertinên netomarkirî hene</string>
+    <string name="existing_custom_set_save_message">Sazkariyên ekolîzerê tomar bike wekî...</string>
+    <string name="new_custom_set_save_message">Sazkariyên ekolîzera nû tomar bike wekî...</string>
+    <string name="save">Tomar bike</string>
+    <string name="do_not_save">Tomar neke</string>
+    <string name="custom_set_deleted_message">Sazkariyên taybet ên \"%1$s\"ê hatin jêbirin.</string>
+    <string name="custom_set_wrong_input">Nav nederbasdar e.</string>
+    <string name="custom_set_already_exist">Jixwe bi heman navî sazkariya ekolîzerê heye</string>
+    <string name="custom_set_restored">Sazkariya ekolîzera taybet hat vegerandin.</string>
+    <string name="unsaved_set_deleted_message">Sazkariya ekolîzerê ya netomarkirî hat jêbirin.</string>
+    <string name="equalizer_new_preset_name">Nû</string>
+    <string name="settings_ml_block_scan">Medyageh aniha cîhaza te dipişkînîne</string>
+    <string name="recommendations">Pêşniyar</string>
+    <string name="recommendations_desc">Li ser destpêkerê pêşniyaran nîşan dide</string>
+    <string name="browser_quick_access">Gihîna Bilez</string>
+    <string name="browser_storages">Bîrgeh</string>
+    <string name="msg_delete_failed">Medyaya %1$s\'ê nehat jêbirin</string>
+    <string name="renderer_list_title">Ekran</string>
+    <string name="playback_rewind">Paşve bibe</string>
+    <string name="playback_forward">Pêşve bibe</string>
+    <string name="browser">Gerok</string>
+    <string name="ab_repeat">Dubarekirin A-B</string>
+    <string name="stop_after_this">Piştî vê tomarê rawestîne</string>
+    <string name="time_category_new">Medyaya nû</string>
+    <string name="time_category_current_month">Ev meh</string>
+    <string name="time_category_current_year">Îsal</string>
+    <string name="time_category_last_year">Sala borî</string>
+    <string name="time_category_older">Medyayên kevintir</string>
+    <string name="rename">Dîsa bi nav bike</string>
+    <string name="rename_media">%1$s\'ê dîsa bi nav bike</string>
+    <string name="manual_search">Lêgerîna manûel</string>
+    <string name="subtitle_search_name_hint">Nav</string>
+    <string name="subtitle_search_episode_hint">Beş</string>
+    <string name="subtitle_search_season_hint">Sezon</string>
+    <string name="language_to_download">Ziman</string>
+    <string name="delete_the_selected">Bijartinê jê bibe</string>
+    <string name="download_the_selected">Bijartinê daxîne</string>
+    <string name="next">Pêşve</string>
+    <string name="download">Daxîne</string>
+    <string name="ctx_player_video_track">Tomara vîdyoyê hilbijêre</string>
+    <string name="ctx_player_audio_track">Tomara dengî</string>
+    <string name="ctx_player_subs_track">Tomara jêrnivîsê</string>
+    <string name="timeout_infinite">Bêdawî</string>
+    <string name="timeout_normal">Asayî</string>
+    <string name="timeout_long">Dirêj</string>
+    <string name="video_hud_timeout">Lêdera vîdyo derengmayîna maskekirin kontrol dike</string>
+    <string name="remove_from_history">Ji dîrokê rake</string>
+    <string name="prefersmbv1_summary">Heke hûn di lêgerîna pêşkêşkera SMB-ya xwe de zehmetiyê dikişînin vê mîhengê vebijêre</string>
+    <string name="apply_to_all">Ji bo hemû vîdyoyan bicî bike</string>
+</resources>
