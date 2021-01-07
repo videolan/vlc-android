@@ -33,31 +33,16 @@
     <attr name="bottom_navigation_color" format="reference|color" />
     <attr name="background_default_darker" format="reference|color" />
     <attr name="background_actionbar" format="reference|color" />
-    <attr name="background_menu_divider" format="reference|color" />
-    <attr name="background_menu" format="reference|color" />
-    <attr name="background_menu_selected" format="reference|color" />
-    <attr name="background_player" format="reference|color" />
     <attr name="background_audio_tips" format="reference|color" />
     <attr name="font_default" format="reference|color" />
     <attr name="font_audio_light" format="reference|color" />
     <attr name="font_light" format="reference|color" />
-    <attr name="font_actionbar" format="reference|color" />
-    <attr name="font_actionbar_selected" format="reference|color" />
-    <attr name="navigationview_item_color" format="reference|color" />
-    <attr name="advanced_options_divider" format="reference|color" />
-    <attr name="advanced_options_background" format="reference|color" />
     <attr name="audio_browser_separator" format="reference|color" />
-    <attr name="playlist_item_drag_shadow" format="reference|color" />
     <attr name="audio_player_header_time" format="reference|color" />
-    <attr name="audio_player_transparent" format="reference|color"/>
-    <attr name="list_menu" format="reference|color" />
     <attr name="list_subtitle" format="reference|color" />
-    <attr name="list_title_last" format="reference|color" />
     <attr name="list_title" format="reference|color" />
-    <attr name="color_menu_button" format="reference|color" />
     <attr name="audio_player_background_tint" format="reference|color" />
     <attr name="progress_background" format="reference|color" />
-    <attr name="progress_indeterminate_tint" format="reference|color" />
     <attr name="ariane_text_color" format="reference|color"/>
     <attr name="ariane_text_size" format="dimension" />
     <attr name="card_background" format="color"/>
@@ -69,17 +54,12 @@
     <attr name="donate_item_background" format="reference" />
 
     <!--Main Icons-->
-    <attr name="ic_down_style" format="reference" />
-    <attr name="ic_up_style" format="reference" />
     <attr name="ic_playlist" format="reference" />
     <attr name="ic_playlist_on" format="reference" />
     <attr name="ic_menu_search" format="reference" />
     <attr name="ic_previous" format="reference" />
     <attr name="ic_next" format="reference" />
-    <attr name="ic_close" format="reference" />
     <attr name="ic_save" format="reference" />
-    <attr name="ic_trash" format="reference" />
-    <attr name="ic_reset" format="reference" />
     <attr name="gridview_progressbar" format="reference" />
     <attr name="toolbar_popup_style" format="reference" />
     <attr name="progress_mini_player" format="reference" />
@@ -93,28 +73,17 @@
     <attr name="ic_audiodelay" format="reference" />
     <attr name="ic_playasaudio_off" format="reference" />
     <attr name="ic_playasaudio_on" format="reference" />
-    <attr name="ic_popup_expand" format="reference" />
     <attr name="ic_popup_dim" format="reference" />
     <attr name="ic_passthrough" format="reference" />
     <attr name="ic_abrepeat" format="reference" />
     <attr name="ic_abrepeat_reset" format="reference" />
-    <attr name="ic_abrepeat_seta" format="reference" />
-    <attr name="ic_abrepeat_setb" format="reference" />
     <attr name="ic_video_stats" format="reference" />
     <attr name="ic_lock_player" format="reference" />
-    <attr name="ic_crop_player" format="reference" />
-    <attr name="ic_dial" format="reference" />
     <attr name="player_icon_color" format="reference" />
     <attr name="dialog_circle_background" format="reference"/>
-    <attr name="rounded_background" format="reference" />
 
 
-    <attr name="advanced_options_style" format="reference" />
     <attr name="advanced_options_bg" format="reference"/>
-
-    <declare-styleable name="SlidingPaneLayout">
-        <attr name="overhangSize" format="dimension" />
-    </declare-styleable>
 
     <declare-styleable name="MiniVisualizer">
         <attr name="bar_color" format="reference"/>
