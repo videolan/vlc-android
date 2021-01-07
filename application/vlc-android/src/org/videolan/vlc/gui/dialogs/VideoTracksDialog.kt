@@ -131,7 +131,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
 
 
         binding.audioTracks.options.addView(generateSeparator())
-        binding.audioTracks.options.addView(generateOptionItem(getString(R.string.audio_delay), R.drawable.ic_audiodelay, VideoTrackOption.AUDIO_DELAY))
+        binding.audioTracks.options.addView(generateOptionItem(getString(R.string.audio_delay), R.drawable.ic_delay, VideoTrackOption.AUDIO_DELAY))
         binding.audioTracks.options.addView(generateSeparator(true))
         binding.audioTracks.options.setAnimationUpdateListener {
             binding.audioTracks.trackMore.rotation = if (binding.audioTracks.options.isCollapsed) 180F - (180F * it) else 180F * it
@@ -139,9 +139,9 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
 
 
         binding.subtitleTracks.options.addView(generateSeparator())
-        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.spu_delay), R.drawable.ic_subtitledelay, VideoTrackOption.SUB_DELAY))
-        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.subtitle_select), R.drawable.ic_subtitle_open_w, VideoTrackOption.SUB_PICK))
-        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.download_subtitles), R.drawable.ic_am_downsub, VideoTrackOption.SUB_DOWNLOAD))
+        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.spu_delay), R.drawable.ic_delay, VideoTrackOption.SUB_DELAY))
+        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.subtitle_select), R.drawable.ic_subtitles_file, VideoTrackOption.SUB_PICK))
+        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.download_subtitles), R.drawable.ic_download, VideoTrackOption.SUB_DOWNLOAD))
         binding.subtitleTracks.options.addView(generateSeparator(true))
         binding.subtitleTracks.options.setAnimationUpdateListener {
             binding.subtitleTracks.trackMore.rotation = if (binding.subtitleTracks.options.isCollapsed) 180F - (180F * it) else 180F * it
