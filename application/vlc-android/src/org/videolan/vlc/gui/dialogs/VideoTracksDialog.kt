@@ -25,8 +25,12 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.os.Bundle
-import android.view.*
-import androidx.appcompat.widget.PopupMenu
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,14 +39,12 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.MediaPlayer
-import org.videolan.tools.CoroutineContextProvider
-import org.videolan.tools.DependencyProvider
-import org.videolan.tools.setGone
-import org.videolan.tools.setVisible
+import org.videolan.tools.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOverlayTracksBinding
 import org.videolan.vlc.gui.dialogs.adapters.TrackAdapter
+import org.videolan.vlc.gui.view.VideoTrackOption
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -57,8 +59,8 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
 
     override fun initialFocusedView(): View = binding.subtitleTracks.emptyView
 
-    lateinit var menuItemListener:(Int) -> Unit
-    lateinit var trackSelectionListener:(Int, TrackType) -> Unit
+    lateinit var menuItemListener: (VideoTrackOption) -> Unit
+    lateinit var trackSelectionListener: (Int, TrackType) -> Unit
 
     init {
         VideoTracksDialog.registerCreator { CoroutineContextProvider() }
@@ -127,28 +129,54 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
         binding.tracksSeparator3.isEnabled = false
         binding.tracksSeparator2.isEnabled = false
 
+
+        binding.audioTracks.options.addView(generateSeparator())
+        binding.audioTracks.options.addView(generateOptionItem(getString(R.string.audio_delay), R.drawable.ic_audiodelay, VideoTrackOption.AUDIO_DELAY))
+        binding.audioTracks.options.addView(generateSeparator(true))
+        binding.audioTracks.options.setAnimationUpdateListener {
+            binding.audioTracks.trackMore.rotation = if (binding.audioTracks.options.isCollapsed) 180F - (180F * it) else 180F * it
+        }
+
+
+        binding.subtitleTracks.options.addView(generateSeparator())
+        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.spu_delay), R.drawable.ic_subtitledelay, VideoTrackOption.SUB_DELAY))
+        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.subtitle_select), R.drawable.ic_subtitle_open_w, VideoTrackOption.SUB_PICK))
+        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.download_subtitles), R.drawable.ic_am_downsub, VideoTrackOption.SUB_DOWNLOAD))
+        binding.subtitleTracks.options.addView(generateSeparator(true))
+        binding.subtitleTracks.options.setAnimationUpdateListener {
+            binding.subtitleTracks.trackMore.rotation = if (binding.subtitleTracks.options.isCollapsed) 180F - (180F * it) else 180F * it
+        }
+
         binding.audioTracks.trackMore.setOnClickListener {
-            val popup = PopupMenu(requireActivity(), binding.audioTracks.trackMore)
-            popup.menuInflater.inflate(R.menu.audio_track_menu, popup.menu)
-            popup.show()
-            popup.setOnMenuItemClickListener {
-                menuItemListener.invoke(it.itemId)
-                dismiss()
-                true
-            }
+            binding.audioTracks.options.toggle()
+            binding.subtitleTracks.options.collapse()
         }
 
         binding.subtitleTracks.trackMore.setOnClickListener {
-            val popup = PopupMenu(requireActivity(), binding.subtitleTracks.trackMore, Gravity.END)
-            popup.menuInflater.inflate(R.menu.subtitle_track_menu, popup.menu)
-            popup.show()
-            popup.setOnMenuItemClickListener {
-                menuItemListener.invoke(it.itemId)
-                dismiss()
-                true
-            }
+            binding.subtitleTracks.options.toggle()
+            binding.audioTracks.options.collapse()
         }
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun generateSeparator(margin: Boolean = false) = View(context).apply {
+        setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white_transparent_50))
+        val lp = LinearLayout.LayoutParams(-1, 1.dp)
+
+        lp.marginStart = if (margin) 56.dp else 16.dp
+        lp.marginEnd = 16.dp
+        lp.topMargin = 8.dp
+        lp.bottomMargin = 8.dp
+        layoutParams = lp
+    }
+
+    private fun generateOptionItem(title: String, @DrawableRes icon: Int, optionId: VideoTrackOption) = VideoTrackOption(requireContext()).apply {
+        setIcon(icon)
+        setTitle(title)
+        setOnClickListener {
+            menuItemListener.invoke(optionId)
+            dismiss()
+        }
     }
 
     companion object : DependencyProvider<Any>() {
@@ -158,6 +186,10 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
 
     enum class TrackType {
         VIDEO, AUDIO, SPU
+    }
+
+    enum class VideoTrackOption {
+        SUB_DELAY, SUB_PICK, SUB_DOWNLOAD, AUDIO_DELAY
     }
 }
 
