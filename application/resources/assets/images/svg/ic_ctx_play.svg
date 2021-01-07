@@ -9,17 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="20"
-   height="20"
-   id="svg4682"
+   width="40"
+   height="40"
+   viewBox="0 0 40 40"
    version="1.1"
-   inkscape:version="0.92.3 (unknown)"
-   sodipodi:docname="ic_ctx_play_normal.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   id="SVGRoot"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="ic_ctx_play_normal.svg">
   <defs
-     id="defs4684" />
+     id="defs7678" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,42 +25,45 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="44.8"
-     inkscape:cx="1.405426"
-     inkscape:cy="11.941855"
+     inkscape:zoom="11.313708"
+     inkscape:cx="31.693955"
+     inkscape:cy="19.718994"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1052"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="1107"
      inkscape:window-maximized="1"
+     inkscape:grid-bbox="true"
+     inkscape:snap-page="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:snap-center="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-paths="true"
      inkscape:snap-bbox="true"
-     inkscape:bbox-nodes="true"
      inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
      inkscape:snap-bbox-edge-midpoints="true"
      inkscape:snap-bbox-midpoints="true"
-     inkscape:object-paths="true"
-     inkscape:snap-intersection-paths="true"
-     inkscape:object-nodes="true"
-     inkscape:snap-smooth-nodes="true"
-     inkscape:snap-midpoints="true"
-     inkscape:snap-object-midpoints="true"
-     inkscape:snap-center="true">
+     inkscape:snap-grids="true">
     <inkscape:grid
        type="xygrid"
-       id="grid3002" />
+       id="grid8234" />
   </sodipodi:namedview>
   <metadata
-     id="metadata4687">
+     id="metadata7681">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,14 +71,15 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1032.3622)">
+     transform="translate(0,-8)">
+    <g
+       id="g973"
+       transform="translate(-7.9997993,-31.999861)" />
     <path
-       sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
-       id="path5080"
-       d="m 13.42859,1042.3622 -9.42859,6 v -12 z"
-       inkscape:transform-center-x="-1.5155556"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#151515;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.92346394;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker:none;enable-background:accumulate"
-       inkscape:transform-center-y="1.9730948e-06" />
+       id="path8077"
+       d="m 9.500014,17.499905 v 21.00019 l 18.0002,-10.50009 z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:3.00002789;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>

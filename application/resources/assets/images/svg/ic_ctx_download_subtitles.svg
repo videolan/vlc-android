@@ -15,7 +15,7 @@
    version="1.1"
    id="SVGRoot"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="ic_ctx_delete.svg">
+   sodipodi:docname="ic_ctx_download_subtitles_normal.svg">
   <defs
      id="defs7678" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.0000003"
-     inkscape:cx="16.409197"
-     inkscape:cy="-5.9315222"
+     inkscape:zoom="22.627418"
+     inkscape:cx="12.993099"
+     inkscape:cy="13.825558"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -62,7 +62,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -72,9 +72,9 @@
      id="layer1"
      transform="translate(0,-8)">
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.4142133;marker:none;enable-background:accumulate"
-       d="m 16,16 a 2,2 0 0 0 -2,2 h -4 v 3 h 20 v -3 h -4 a 2,2 0 0 0 -2,-2 z m -4,7 v 15 a 1.9999948,2 0 0 0 2,2 h 12 a 2,1.9999948 0 0 0 2,-2 V 23 Z"
-       id="path8017"
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 11,18 c -1.662,0 -3,1.338 -3,3 v 14 c 0,1.662 1.338,3 3,3 h 18 c 1.662,0 3,-1.338 3,-3 V 21 c 0,-1.662 -1.338,-3 -3,-3 h -7.5 v 4 h 2 c 0.44532,1.7e-4 0.668306,0.538516 0.353516,0.853516 l -3.5,3.5 c -0.19527,0.19519 -0.511762,0.19519 -0.707032,0 l -3.5,-3.5 C 15.831694,22.538516 16.05467,22.00017 16.5,22 h 2 v -4 z m 1,11 h 2 c 0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1 h -2 c -0.554,0 -1,-0.446 -1,-1 0,-0.554 0.446,-1 1,-1 z m 6,0 h 10 c 0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1 H 18 c -0.554,0 -1,-0.446 -1,-1 0,-0.554 0.446,-1 1,-1 z m -6,4 h 10 c 0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1 H 12 c -0.554,0 -1,-0.446 -1,-1 0,-0.554 0.446,-1 1,-1 z m 14,0 h 2 c 0.554,0 1,0.446 1,1 0,0.554 -0.446,1 -1,1 h -2 c -0.554,0 -1,-0.446 -1,-1 0,-0.554 0.446,-1 1,-1 z"
+       id="rect8150"
        inkscape:connector-curvature="0" />
   </g>
 </svg>
