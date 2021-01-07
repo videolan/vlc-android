@@ -132,7 +132,6 @@ class SwipeToUnlockView : ConstraintLayout {
     }
 
     private fun animateBack(currentX: Int) {
-        if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "animateBack", RuntimeException("gime a stack"))
         val animation = ValueAnimator.ofInt(currentX, extremum)
         animation.duration = 250 // milliseconds
 
