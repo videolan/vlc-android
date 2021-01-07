@@ -92,7 +92,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
         if (flags and CTX_PLAY_AS_AUDIO != 0L) add(Simple(CTX_PLAY_AS_AUDIO, getString(R.string.play_as_audio), R.drawable.ic_ctx_play_as_audio))
         if (flags and CTX_APPEND != 0L) add(Simple(CTX_APPEND, getString(R.string.append), R.drawable.ic_ctx_append))
         if (flags and CTX_INFORMATION != 0L) add(Simple(CTX_INFORMATION, getString(R.string.info), R.drawable.ic_ctx_information))
-        if (flags and CTX_DOWNLOAD_SUBTITLES != 0L) add(Simple(CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_ctx_download_subtitles))
+        if (flags and CTX_DOWNLOAD_SUBTITLES != 0L) add(Simple(CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_ctx_download))
         if (flags and CTX_PLAY_NEXT != 0L) add(Simple(CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_ctx_play_next))
         if (flags and CTX_ADD_TO_PLAYLIST != 0L) add(Simple(CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_ctx_add_to_playlist))
         if (flags and CTX_SET_RINGTONE != 0L && AndroidDevices.isPhone) add(Simple(CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_ctx_set_ringtone))
