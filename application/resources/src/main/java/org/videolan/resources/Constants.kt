@@ -192,7 +192,6 @@ const val CTX_STOP_AFTER_THIS = 1L shl 18
 const val CTX_RENAME = 1L shl 19
 const val CTX_AUDIO_TRACK = 1L shl 20
 const val CTX_SUBS_TRACK = 1L shl 21
-const val CTX_PICK_SUBS = 1L shl 22
 const val CTX_VIDEO_TRACK = 1L shl 23
 const val CTX_DOWNLOAD_SUBTITLES_PLAYER = 1L shl 24
 const val CTX_ADD_SCANNED = 1L shl 25
