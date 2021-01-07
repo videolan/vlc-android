@@ -145,7 +145,7 @@
     <string name="sound_off">Apaga el so</string>
     <string name="brightness">Brillantor</string>
     <string name="advanced">opcions avançades</string>
-    <string name="audio_boost_warning">Torna a llisca cap a dalt per superar 100%</string>
+    <string name="audio_boost_warning">Llisqueu novament cap a dalt per superar el 100%</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
@@ -182,7 +182,7 @@
     <string name="streams">Fluxos de dades</string>
     <string name="open_mrl_dialog_msg">Introdueix l\'adreça de xarxa: p. ex. http://, mms:// o rtsp://</string>
     <string name="encountered_error_title">Error de reproducció</string>
-    <string name="encountered_error_message">VLC ha trobat un error en aquest suport.\nSi us plau, refresca la Mediateca</string>
+    <string name="encountered_error_message">VLC ha trobat un error en aquest suport.\nActualitzeu la llibreria multimèdia.</string>
     <string name="invalid_location">No es pot reproduir la ruta %1$s.</string>
 
     <string name="search">Cerca</string>
@@ -214,7 +214,7 @@
     <string name="audio_player_tips">Consell del reproductor d\'àudio</string>
     <string name="previous_next_song">Cançó anterior/següent</string>
     <string name="show_playlist">Mostra la llista de reproducció</string>
-    <string name="hold_to_stop">Manté apretat per aturar</string>
+    <string name="hold_to_stop">Mantingueu premut per aturar</string>
 
     <!-- About -->
     <string name="app_name_full">VLC per a l\'Android</string>
@@ -229,7 +229,7 @@
     <!-- Preferences -->
     <string name="preferences">Configuració</string>
 
-    <string name="directories_summary">Selecciona els directoris a incloure a la Mediateca</string>
+    <string name="directories_summary">Seleccioneu quines carpetes incloure a la llibreria multimèdia</string>
     <string name="add_custom_path">Afegeix un camí personalitzat</string>
     <string name="add_custom_path_description">Introduïu un directori personalitzat addicional on cercar:</string>
     <string name="remove_custom_path">Elimina el camí personalitzat</string>
@@ -502,6 +502,8 @@
     <string name="ml_external_storage_msg">Vols que el VLC afegeix el dispositiu %1$s a la teva Mediateca?</string>
     <string name="ml_external_storage_accept">Sí</string>
     <string name="ml_external_storage_decline">No</string>
+    <string name="auto_last_added_media">Afegit recentment</string>
+    <string name="auto_my_library">Llibreria personal</string>
     <string name="auto_home">Inici</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Carregant Mediateca...</string>
@@ -737,6 +739,26 @@
     <string name="new_group">Grup nou</string>
     <string name="new_group_desc">Crear un grup nou</string>
 
+    <string name="air_action_rewind">Enrere 10s</string>
+    <string name="air_action_forward">Endavant 10s</string>
+    <string name="air_action_play_pause">Pausa/Continua</string>
     <string name="air_action_volume_up">Apujar volum</string>
+    <string name="air_action_volume_down">Volum avall</string>
+    <string name="air_action_next">Element següent de la llista</string>
+    <string name="air_action_previous">Element anterior de la llista</string>
     <string name="allow_otg">Permeteu l\'accés a la memòria externa</string>
+    <string name="allow_otg_description">Seleccioneu la unitat OTG per permetre l\'accés al VLC.</string>
+    <string name="timeout_infinite">Infinit</string>
+    <string name="timeout_short">Curt</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Llarg</string>
+    <string name="video_hud_timeout">Retard per amagar els controls de vídeo</string>
+    <string name="remove_from_history">Suprimeix de l\'historial</string>
+    <string name="prefersmbv1">Preferit SMB 1</string>
+    <string name="prefersmbv1_summary">Desmarqueu aquesta opció si teniu problemes en accedir al servidor SMB</string>
+    <string name="apply_to_all">Aplica a tots els vídeos</string>
+    <string name="audio_delay_global">El retard d\'àudio s\'ha definit a %sms per a tots els vídeos</string>
+    <string name="warning_stream_speed">Incrementar la velocitat de reproducció a les retransmissions per sobre d\'1, pot generar talls intermitents</string>
+    <string name="go_to_folder">Carpeta pare</string>
+
 </resources>
