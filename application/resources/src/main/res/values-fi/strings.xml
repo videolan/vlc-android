@@ -114,6 +114,7 @@
     <string name="validation">Oletko varma?</string>
 
     <string name="cover_art">Kansikuva</string>
+    <string name="shuffle_all_title">Sekoita kaikki</string>
     <string name="shuffle_title">Satunnaistoisto käytössä?</string>
     <string name="shuffle">Satunnaistoisto Pois</string>
     <string name="shuffle_on">Satunnaistoisto Päällä</string>
@@ -177,6 +178,7 @@
     <string name="favorite_added">Tallennettu suosikkeihin</string>
     <string name="favorite_removed">Poistettu suosikeista</string>
 
+    <string name="streams">Suoratoistot</string>
     <string name="open_mrl_dialog_msg">Kirjoita verkko-osoite: esim. http://, mms:// tai rtsp://</string>
     <string name="encountered_error_title">Toistovirhe</string>
     <string name="encountered_error_message">VLC kohtasi virheen tämän median kanssa.\nKokeilethan mediakirjastosi päivittämistä.</string>
@@ -188,6 +190,9 @@
     <string name="playback_history_title">Toistohistoria</string>
     <string name="playback_history_summary">Tallenna kaikki soitettu media Historia-sektioon</string>
     <string name="playback_speed_title">Tallenna toiston nopeus</string>
+    <string name="playback_speed_summary">Pidä toistonopeus medioiden välillä</string>
+
+    <string name="play_button">Toista painike</string>
 
     <!-- Tips -->
     <string name="video_player_tips">Videosoittimen vinkit:</string>
@@ -218,6 +223,7 @@
     <string name="about_text">VLC Android™:lle on käännös VLC-mediatoistimesta, joka on tunnettu avoimen lähdekoodin mediasoitin. Android™-versio pystyy toistamaan suurimman osan tiedostoista ja streameista.</string>
     <string name="vlc_authors">ja VLC:n tekijät</string>
     <string name="compiled_by">Tämän VLC-version on koonnut:</string>
+    <string name="feedback_forum">Palaute foorumi</string>
 
     <!-- Preferences -->
     <string name="preferences">Asetukset</string>
@@ -227,6 +233,9 @@
     <string name="add_custom_path_description">Syötä lisähakemisto jonka haluat tutkia:</string>
     <string name="remove_custom_path">Poista mukautettu polku</string>
     <string name="hardware_acceleration">Laitteistokiihdytys</string>
+    <string name="hardware_acceleration_summary">Poistettu käytöstä: parempi vakaus.
+Purkukiihdytys: voi parantaa suorituskykyä.
+Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="hardware_acceleration_disabled">Poistettu käytöstä</string>
     <string name="hardware_acceleration_decoding">Purkukiihdytys</string>
     <string name="hardware_acceleration_full">Täysi kiihdytys</string>
@@ -241,17 +250,41 @@
     <string name="enable_black_theme">Musta teema</string>
     <string name="subtitle_text_encoding">Tekstityksen merkistökoodaus</string>
     <string name="daynight_title">PäiväYö tila</string>
+    <string name="daynight_follow_system_title">Noudata järjestelmän tilaa</string>
+
     <string name="extra_prefs_category">Lisäasetukset</string>
 
     <string name="interface_prefs_screen">Käyttöliittymä</string>
     <string name="interface_secondary_display_category_title">Toissijainen näyttö</string>
+    <string name="interface_secondary_display_category_summary">Asetukset, kun lisänäyttö on kytketty (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Käytä kloonia</string>
+    <string name="enable_clone_mode_summary">Kloonaa laitteen näyttö ilman kaukosäädintä</string>
+
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Ryhmitä videot</string>
+    <string name="video_min_group_length_disable">Älä ryhmitä videoita</string>
+    <string name="video_min_group_length_folder">Ryhmittele kansion mukaan</string>
+    <string name="video_min_group_length_name">Ryhmittele nimen mukaan</string>
     <string name="media_fast_seek">Nopea haku</string>
+    <string name="media_fast_seek_summary">Mediasta etsiminen on nopeampaa, mutta vähemmän tarkkaa</string>
+    <string name="video_transition_title">Videoiden muuntaminen</string>
+    <string name="video_transition_summary">Näytä uusi videonimi muunnosvaiheessa</string>
+    <string name="media_seen">Näytä videon nähty merkintä</string>
+    <string name="media_seen_summary">Merkitse video katsotuksi, kun toistat sen loppuun asti</string>
     <string name="force_play_all_summary">Toista kaikki videot, aloittaen siitä minkä käynnistit</string>
     <string name="force_play_all_title">Video soittolista</string>
+    <string name="save_brightness_summary">Pidä sama kirkkaustaso medioiden välillä</string>
+    <string name="save_brightness_title">Tallenna kirkkauden taso</string>
+    <string name="save_audiodelay_summary">Tallenna ääniviive jokaiselle videolle</string>
+    <string name="save_audiodelay_title">Tallenna ääniviive</string>
+    <string name="enable_brightness_gesture_title">Kirkkausele</string>
     <string name="enable_brightness_gesture_summary">Hallitse kirkkautta eleellä videon toiston aikana</string>
+    <string name="enable_volume_gesture_title">Äänenvoimakkuuden ele</string>
+    <string name="enable_volume_gesture_summary">Säädä äänenvoimakkuutta eleellä videotoiston aikana</string>
+    <string name="enable_seek_buttons">Kelauksen painikkeet</string>
+    <string name="enable_seek_buttons_summary">Näytä videon liittymässä kelaus- ja eteenpäin-painikkeet</string>
+    <string name="enable_double_tap_seek_title">Kelaa kaksoisnapauttamalla</string>
+    <string name="enable_double_tap_seek_summary">Kaksoisnapauta näytön reunalla, kelaa 10 sekunnilla</string>
     <string name="subtitles_size_title">Tekstityksen koko</string>
     <string name="subtitles_size_small">Pieni</string>
     <string name="subtitles_size_normal">Normaali</string>
