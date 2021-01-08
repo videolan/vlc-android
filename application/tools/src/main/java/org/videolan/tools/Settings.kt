@@ -55,6 +55,7 @@ const val LIST_TITLE_ELLIPSIZE = "list_title_ellipsize"
 
 
 // AudioPlayer
+const val SHOW_REMAINING_TIME = "show_remaining_time"
 const val PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown"
 const val PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown"
 const val KEY_MEDIALIBRARY_SCAN = "ml_scan"
