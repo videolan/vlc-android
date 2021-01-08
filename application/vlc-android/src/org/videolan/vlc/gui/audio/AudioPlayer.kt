@@ -107,6 +107,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         savedInstanceState?.let {
             playerState = it.getInt("player_state")
             wasPlaying = it.getBoolean("was_playing")
+            showRemainingTime = it.getBoolean("show_remaining_time")
         }
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
@@ -183,6 +184,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     override fun onResume() {
         onStateChanged(playerState)
+        showRemainingTime = Settings.getInstance(requireContext()).getBoolean(SHOW_REMAINING_TIME, false)
         super.onResume()
     }
 
@@ -190,6 +192,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
         super.onSaveInstanceState(outState)
         outState.putInt("player_state", playerState)
         outState.putBoolean("was_playing", wasPlaying)
+        outState.putBoolean("show_remaining_time", showRemainingTime)
     }
 
     private val ctxReceiver: CtxActionReceiver = object : CtxActionReceiver {
@@ -338,6 +341,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, IAudioPlay
 
     fun onTimeLabelClick(view: View) {
         showRemainingTime = !showRemainingTime
+        Settings.getInstance(requireContext()).edit().putBoolean(SHOW_REMAINING_TIME, showRemainingTime).apply()
         playlistModel.progress.value?.let { updateProgress(it) }
     }
 
