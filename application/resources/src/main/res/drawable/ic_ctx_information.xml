@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_ctx_append_normal.xml
+  ~  ic_ctx_information.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2021 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,18 +23,16 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="38dp"
-        android:height="38dp"
-        android:viewportWidth="20"
-        android:viewportHeight="20">
-    <path
-            android:fillAlpha="1"
-            android:fillColor="#212121"
-            android:fillType="nonZero"
-            android:pathData="m4,4v8l6,-4zM12.5,10.5v2h-2v1.5h2v2L14,16v-2h2v-1.5h-2v-2z"
-            android:strokeWidth="7.49997759"
-            android:strokeAlpha="1"
-            android:strokeColor="#00000000"
-            android:strokeLineCap="round"
-            android:strokeLineJoin="round" />
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="M20,8A12,12 0,0 0,8 20,12 12,0 0,0 20,32 12,12 0,0 0,32 20,12 12,0 0,0 20,8ZM20,11a9,9 0,0 1,9 9,9 9,0 0,1 -9,9 9,9 0,0 1,-9 -9,9 9,0 0,1 9,-9zM20,14A1.5,1.5 0,0 0,18.5 15.5,1.5 1.5,0 0,0 20,17 1.5,1.5 0,0 0,21.5 15.5,1.5 1.5,0 0,0 20,14ZM20,18.5c-0.831,0 -1.5,0.669 -1.5,1.5v4.5c0,0.831 0.669,1.5 1.5,1.5 0.831,0 1.5,-0.669 1.5,-1.5L21.5,20c0,-0.831 -0.669,-1.5 -1.5,-1.5z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="15"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:strokeLineCap="round"/>
 </vector>

@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_ctx_download_subtitles_normal.xml
+  ~  ic_ctx_append.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2021 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,18 +23,16 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-        android:width="38dp"
-        android:height="38dp"
-        android:viewportWidth="20"
-        android:viewportHeight="20">
-    <path
-            android:fillAlpha="1"
-            android:fillColor="#212121"
-            android:fillType="nonZero"
-            android:pathData="m5.5,5c-0.831,0 -1.5,0.669 -1.5,1.5v7c0,0.831 0.669,1.5 1.5,1.5h9c0.831,0 1.5,-0.669 1.5,-1.5v-7c0,-0.831 -0.669,-1.5 -1.5,-1.5h-3.75v2h1.75l-2.5,2.5 -2.5,-2.5h1.75v-2zM5.5,10.5h2v1h-2zM8.5,10.5h6v1h-6zM5.5,12.5h6v1h-6zM12.5,12.5h2v1h-2z"
-            android:strokeWidth="0.75"
-            android:strokeAlpha="1"
-            android:strokeColor="#00000000"
-            android:strokeLineCap="round"
-            android:strokeLineJoin="round" />
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="M9.0273,8C8.4644,7.9847 7.9998,8.4369 8,9v14c0.0005,0.7715 0.8374,1.2519 1.5039,0.8633l12,-7c0.6602,-0.3862 0.6602,-1.3404 0,-1.7266l-12,-7C9.359,8.0519 9.1952,8.0049 9.0273,8ZM26.5,21A1.5,1.5 0,0 0,25 22.5L25,25L22.5,25A1.5,1.5 0,0 0,21 26.5,1.5 1.5,0 0,0 22.5,28L25,28v2.5A1.5,1.5 0,0 0,26.5 32,1.5 1.5,0 0,0 28,30.5L28,28h2.5A1.5,1.5 0,0 0,32 26.5,1.5 1.5,0 0,0 30.5,25L28,25L28,22.5A1.5,1.5 0,0 0,26.5 21Z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="2"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"
+      android:strokeLineCap="round"/>
 </vector>

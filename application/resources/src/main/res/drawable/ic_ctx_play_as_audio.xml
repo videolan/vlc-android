@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_ctx_fav_add_normal.xml
+  ~  ic_ctx_play_as_audio.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2021 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -22,15 +22,15 @@
   ~
   -->
 
-<vector android:height="38dp"
-        android:viewportHeight="20"
-        android:viewportWidth="20"
-        android:width="38dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    <path
-            android:fillAlpha="1"
-            android:fillColor="#212121"
-            android:pathData="m10,4 l4,12L4,8.6667h12l-10,7.3333z"
-            android:strokeColor="#00000000"
-            android:strokeWidth="0.66666675" />
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="M9.0273,8C8.4644,7.9847 7.9998,8.4369 8,9v14c0.0005,0.7715 0.8374,1.2519 1.5039,0.8633l12,-7c0.6602,-0.3862 0.6602,-1.3404 0,-1.7266l-12,-7C9.359,8.0519 9.1952,8.0049 9.0273,8ZM28,12a2,2 0,0 0,-2 2v9.998,0.1328c-0.3264,-0.0862 -0.6624,-0.131 -1,-0.1328 -2.2091,0 -4,1.7909 -4,4 0,2.2091 1.7909,4 4,4 2.2091,0 4,-1.7909 4,-4L29,15h1c1.1046,0 2,-0.8954 2,-2v-1z"
+      android:strokeWidth="1.5"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
+      android:fillType="nonZero"/>
 </vector>

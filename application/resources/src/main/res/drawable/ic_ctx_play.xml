@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_ctx_play_normal.xml
+  ~  ic_ctx_play.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2021 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -22,18 +22,17 @@
   ~
   -->
 
-<vector android:height="38dp"
-        android:viewportHeight="20"
-        android:viewportWidth="20"
-        android:width="38dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    <path
-            android:fillAlpha="1"
-            android:fillColor="#151515"
-            android:fillType="nonZero"
-            android:pathData="m13.4286,10 l-9.4286,6v-12z"
-            android:strokeAlpha="1"
-            android:strokeColor="#00000000"
-            android:strokeLineJoin="round"
-            android:strokeWidth="0.92346394" />
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+  <path
+      android:pathData="m9.5,9.4999v21.0002l18.0002,-10.5001z"
+      android:strokeLineJoin="round"
+      android:strokeWidth="3.00002789"
+      android:fillColor="#000000"
+      android:strokeColor="#000000"
+      android:fillType="nonZero"
+      android:strokeLineCap="round"/>
 </vector>
