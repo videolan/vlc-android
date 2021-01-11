@@ -1,3 +1,11 @@
+Changes between 3.3.3 and 3.3.4 Beta 1:
+------------------
+
+ * Fix some RTL issues
+ * Improve playback resume
+ * Persist audio player time mode
+ * Crash fixes
+
 Changes between 3.3.3 Beta 4 and 3.3.3:
 ------------------
 
