@@ -28,7 +28,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,7 +46,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOverlayTracksBinding
 import org.videolan.vlc.gui.dialogs.adapters.TrackAdapter
-import org.videolan.vlc.gui.view.VideoTrackOption
+import org.videolan.vlc.gui.helpers.getBitmapFromDrawable
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -130,19 +132,20 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
         binding.tracksSeparator2.isEnabled = false
 
 
-        binding.audioTracks.options.addView(generateSeparator())
-        binding.audioTracks.options.addView(generateOptionItem(getString(R.string.audio_delay), R.drawable.ic_delay, VideoTrackOption.AUDIO_DELAY))
-        binding.audioTracks.options.addView(generateSeparator(true))
+
+        generateSeparator(binding.audioTracks.options)
+        generateOptionItem(binding.audioTracks.options, getString(R.string.audio_delay), R.drawable.ic_delay, VideoTrackOption.AUDIO_DELAY)
+        generateSeparator(binding.audioTracks.options, true)
         binding.audioTracks.options.setAnimationUpdateListener {
             binding.audioTracks.trackMore.rotation = if (binding.audioTracks.options.isCollapsed) 180F - (180F * it) else 180F * it
         }
 
 
-        binding.subtitleTracks.options.addView(generateSeparator())
-        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.spu_delay), R.drawable.ic_delay, VideoTrackOption.SUB_DELAY))
-        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.subtitle_select), R.drawable.ic_subtitles_file, VideoTrackOption.SUB_PICK))
-        binding.subtitleTracks.options.addView(generateOptionItem(getString(R.string.download_subtitles), R.drawable.ic_download, VideoTrackOption.SUB_DOWNLOAD))
-        binding.subtitleTracks.options.addView(generateSeparator(true))
+        generateSeparator(binding.subtitleTracks.options)
+        generateOptionItem(binding.subtitleTracks.options, getString(R.string.spu_delay), R.drawable.ic_delay, VideoTrackOption.SUB_DELAY)
+        generateOptionItem(binding.subtitleTracks.options, getString(R.string.subtitle_select), R.drawable.ic_subtitles_file, VideoTrackOption.SUB_PICK)
+        generateOptionItem(binding.subtitleTracks.options, getString(R.string.download_subtitles), R.drawable.ic_download, VideoTrackOption.SUB_DOWNLOAD)
+        generateSeparator(binding.subtitleTracks.options, true)
         binding.subtitleTracks.options.setAnimationUpdateListener {
             binding.subtitleTracks.trackMore.rotation = if (binding.subtitleTracks.options.isCollapsed) 180F - (180F * it) else 180F * it
         }
@@ -159,24 +162,28 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun generateSeparator(margin: Boolean = false) = View(context).apply {
-        setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white_transparent_50))
+    private fun generateSeparator(parent: ViewGroup, margin: Boolean = false) {
+        val view = View(context)
+        view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white_transparent_50))
         val lp = LinearLayout.LayoutParams(-1, 1.dp)
 
         lp.marginStart = if (margin) 56.dp else 16.dp
         lp.marginEnd = 16.dp
         lp.topMargin = 8.dp
         lp.bottomMargin = 8.dp
-        layoutParams = lp
+        view.layoutParams = lp
+        parent.addView(view)
     }
 
-    private fun generateOptionItem(title: String, @DrawableRes icon: Int, optionId: VideoTrackOption) = VideoTrackOption(requireContext()).apply {
-        setIcon(icon)
-        setTitle(title)
-        setOnClickListener {
+    private fun generateOptionItem(parent: ViewGroup, title: String, @DrawableRes icon: Int, optionId: VideoTrackOption) {
+        val view = layoutInflater.inflate(R.layout.player_overlay_track_option_item, null)
+        view.findViewById<TextView>(R.id.option_title).text = title
+        view.findViewById<ImageView>(R.id.option_icon).setImageBitmap(requireContext().getBitmapFromDrawable(icon))
+        view.setOnClickListener {
             menuItemListener.invoke(optionId)
             dismiss()
         }
+        parent.addView(view)
     }
 
     companion object : DependencyProvider<Any>() {
