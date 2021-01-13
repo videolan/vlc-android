@@ -30,6 +30,7 @@ import android.text.TextUtils;
 import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.Medialibrary;
+import org.videolan.medialibrary.interfaces.media.Bookmark;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 import java.util.Locale;
@@ -228,6 +229,26 @@ public class MediaWrapperImpl extends MediaWrapper {
         return mId == 0 || !ml.isInitiated() ? null : nativeGetMediaStringMetadata(ml, mId, metaDataType);
     }
 
+    public Bookmark[] getBookmarks() {
+        Medialibrary ml = Medialibrary.getInstance();
+        return mId == 0 || !ml.isInitiated() ? null : nativeGetBookmarks(ml, mId);
+    }
+
+    public Bookmark addBookmark(long time) {
+        Medialibrary ml = Medialibrary.getInstance();
+        return mId == 0 || !ml.isInitiated() ? null : nativeAddBookmark(ml, mId, time);
+    }
+
+    public boolean removeBookmark(long time) {
+        Medialibrary ml = Medialibrary.getInstance();
+        return mId == 0 || !ml.isInitiated() ? null : nativeRemoveBookmark(ml, mId, time);
+    }
+
+    public boolean removeAllBookmarks() {
+        Medialibrary ml = Medialibrary.getInstance();
+        return mId == 0 || !ml.isInitiated() ? null : nativeRemoveAllBookmarks(ml, mId);
+    }
+
     public boolean setLongMeta(int metaDataType, long metadataValue) {
         Medialibrary ml = Medialibrary.getInstance();
         if (mId != 0 && ml.isInitiated())
@@ -270,4 +291,8 @@ public class MediaWrapperImpl extends MediaWrapper {
     private native boolean nativeRemoveFromHistory(Medialibrary ml, long id);
     private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
     private native void nativeRequestThumbnail(Medialibrary ml, long mediaId, int type, int width, int height, float position);
+    private native Bookmark[] nativeGetBookmarks(Medialibrary ml, long id);
+    private native Bookmark nativeAddBookmark(Medialibrary ml, long id, long time);
+    private native boolean nativeRemoveBookmark(Medialibrary ml, long id, long time);
+    private native boolean nativeRemoveAllBookmarks(Medialibrary ml, long id);
 }

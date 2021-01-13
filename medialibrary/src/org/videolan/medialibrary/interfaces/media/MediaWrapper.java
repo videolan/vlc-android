@@ -135,6 +135,10 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
     public abstract void requestThumbnail(int width, float position);
     public abstract void requestBanner(int width, float position);
     public abstract boolean removeFromHistory();
+    public abstract Bookmark[] getBookmarks();
+    public abstract Bookmark addBookmark(long time);
+    public abstract boolean removeBookmark(long time);
+    public abstract boolean removeAllBookmarks();
 
     /**
      * Create a new MediaWrapper
