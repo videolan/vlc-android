@@ -33,15 +33,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.videolan.libvlc.MediaPlayer
-import org.videolan.tools.*
+import org.videolan.tools.DependencyProvider
+import org.videolan.tools.dp
+import org.videolan.tools.setGone
+import org.videolan.tools.setVisible
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlayerOverlayTracksBinding
@@ -57,22 +60,10 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
 
     private lateinit var binding: PlayerOverlayTracksBinding
 
-    private val coroutineContextProvider: CoroutineContextProvider
-
     override fun initialFocusedView(): View = binding.subtitleTracks.emptyView
 
     lateinit var menuItemListener: (VideoTrackOption) -> Unit
     lateinit var trackSelectionListener: (Int, TrackType) -> Unit
-
-    init {
-        VideoTracksDialog.registerCreator { CoroutineContextProvider() }
-        coroutineContextProvider = VideoTracksDialog.get(0)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(MainScope())
-        super.onCreate(savedInstanceState)
-    }
 
     private fun onServiceChanged(service: PlaybackService?) {
         service?.let { playbackService ->
@@ -160,6 +151,7 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
             binding.audioTracks.options.collapse()
         }
         super.onViewCreated(view, savedInstanceState)
+        PlaybackService.serviceFlow.onEach { onServiceChanged(it) }.launchIn(lifecycleScope)
     }
 
     private fun generateSeparator(parent: ViewGroup, margin: Boolean = false) {
