@@ -9,6 +9,7 @@ import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.Album;
 import org.videolan.medialibrary.interfaces.media.Artist;
 import org.videolan.libvlc.interfaces.IMedia;
+import org.videolan.medialibrary.interfaces.media.Bookmark;
 import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 
 public class StubMediaWrapper extends MediaWrapper {
@@ -68,6 +69,26 @@ public class StubMediaWrapper extends MediaWrapper {
 
     public String getMetaString(int metaDataType) {
         return mMetaString.get(metaDataType);
+    }
+
+    @Override
+    public Bookmark[] getBookmarks() {
+        return new Bookmark[0];
+    }
+
+    @Override
+    public Bookmark addBookmark(long time) {
+        return null;
+    }
+
+    @Override
+    public boolean removeBookmark(long time) {
+        return false;
+    }
+
+    @Override
+    public boolean removeAllBookmarks() {
+        return false;
     }
 
     public boolean setLongMeta(int metaDataType, long metadataValue) {

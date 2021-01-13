@@ -328,6 +328,12 @@ AndroidMediaLibrary::searchArtists(const std::string& query, const medialibrary:
     return p_ml->searchArtists(query, medialibrary::ArtistIncluded::All, params);
 }
 
+medialibrary::BookmarkPtr
+AndroidMediaLibrary::bookmark(long id)
+{
+    return p_ml->bookmark(id);
+}
+
 medialibrary::MediaPtr
 AndroidMediaLibrary::media(long id)
 {

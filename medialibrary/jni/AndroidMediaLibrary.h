@@ -77,7 +77,8 @@ public:
     medialibrary::Query<medialibrary::IFolder> searchFolders( const std::string& query, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IMedia> searchFromFolder( int64_t folderId, const std::string& query, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IMediaGroup> searchVideoGroups( const std::string& query, const medialibrary::QueryParameters* params = nullptr );
-        medialibrary::MediaPtr media(long id);
+    medialibrary::BookmarkPtr bookmark(long id);
+    medialibrary::MediaPtr media(long id);
     medialibrary::MediaPtr media(const std::string& mrl);
     medialibrary::MediaPtr addMedia(const std::string& mrl, long duration);
     bool removeExternalMedia(long id);

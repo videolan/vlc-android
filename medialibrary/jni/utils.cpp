@@ -167,6 +167,17 @@ convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr
 }
 
 jobject
+convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr const& bookmarkPtr)
+{
+    jstring name = env->NewStringUTF(bookmarkPtr->name().c_str());
+    jstring description = env->NewStringUTF(bookmarkPtr->description().c_str());
+    jobject item = env->NewObject(fields->Bookmark.clazz, fields->Bookmark.initID,
+                          (jlong) bookmarkPtr->id(), name, description, (jlong) bookmarkPtr->mediaId(), (jlong) bookmarkPtr->time());
+    env->DeleteLocalRef(name);
+    return item;
+}
+
+jobject
 convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr)
 {
     //Albums
