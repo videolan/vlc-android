@@ -36,6 +36,7 @@
 #include <medialibrary/IMetadata.h>
 #include<medialibrary/filesystem/IDevice.h>
 #include <medialibrary/IMediaGroup.h>
+#include <medialibrary/IBookmark.h>
 #include <medialibrary/filesystem/Errors.h>
 
 #define VLC_JNI_VERSION JNI_VERSION_1_2
@@ -122,6 +123,10 @@ struct fields {
         jclass clazz;
         jmethodID initID;
     } VideoGroup;
+    struct Bookmark {
+        jclass clazz;
+        jmethodID initID;
+    } Bookmark;
 };
 
 jobject mediaToMediaWrapper(JNIEnv*, fields*, const medialibrary::MediaPtr &);
@@ -131,6 +136,7 @@ jobject convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr c
 jobject convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& genrePtr);
 jobject convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr, int count);
 jobject convertVideoGroupObject(JNIEnv* env, fields *fields, medialibrary::MediaGroupPtr const& videogroupPtr);
+jobject convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr const& bookmarkPtr);
 jobject convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr);
 jobjectArray filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount = -1);
 
