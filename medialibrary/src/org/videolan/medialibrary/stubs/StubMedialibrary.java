@@ -224,7 +224,7 @@ public class StubMedialibrary extends Medialibrary {
     private Artist[] getAlbumArtists() {
         ArrayList<Artist> results = new ArrayList<>();
         for (Album album : dt.mAlbums) {
-            Artist artist = album.getAlbumArtist();
+            Artist artist = album.retrieveAlbumArtist();
             if (!checkForArtist(results, artist)) {
                 results.add(artist);
             }
