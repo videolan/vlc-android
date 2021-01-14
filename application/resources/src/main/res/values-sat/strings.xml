@@ -423,7 +423,7 @@
     <string name="spu_delay">ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱜᱷᱟᱹᱬᱤᱡ</string>
     <string name="network_shares_discovery">ᱱᱮᱴᱣᱟᱨᱠ ᱦᱟᱹᱴᱤᱧᱠᱚ ᱧᱮᱞᱚᱜ ᱠᱟᱱᱟ</string>
     <string name="network_empty">ᱱᱚᱶᱟ ᱰᱟᱭᱨᱮᱠᱴᱚᱨᱭ ᱫᱚ ᱠᱷᱟᱹᱞᱤ ᱜᱮᱭᱟ ᱾</string>
-    <string name="network_connection_needed">No connection to local network.</string>
+    <string name="network_connection_needed">ᱞᱳᱠᱟᱞ ᱱᱮᱴᱣᱟᱨᱠ ᱥᱟᱶ ᱡᱚᱯᱨᱟᱣ ᱵᱟᱹᱱᱩᱜᱼᱟ᱾</string>
     <string name="search_hint">ᱢᱤᱰᱤᱭᱟ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮᱸ</string>
     <string name="search_in_list_hint">ᱱᱤᱛᱚᱜᱽᱟᱜ ᱞᱤᱥᱴ ᱨᱮ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮ</string>
     <string name="search_global">ᱡᱷᱚᱛᱚ ᱢᱮᱰᱤᱭᱟ ᱞᱟᱭᱵᱨᱮᱨᱭ ᱨᱮ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮ</string>
@@ -432,23 +432,23 @@
     <string name="go_to_chapter">ᱪᱟᱯᱴᱟᱹᱨ ᱛᱮ ᱪᱟᱞᱟᱜ ᱢᱮ…</string>
     <string name="chapter">ᱪᱟᱯᱴᱟᱹᱨ</string>
     <string name="resume_from_position">ᱢᱩᱪᱟᱹᱫ ᱡᱟᱭᱜᱟ ᱠᱷᱚᱱ ᱞᱟᱦᱟᱜ ᱢᱮ</string>
-    <string name="confirm_resume">Resume from last position?</string>
-    <string name="confirm_resume_title">Resume played videos</string>
-    <string name="tv_ui_title">Android TV interface</string>
+    <string name="confirm_resume">ᱢᱟᱲᱟᱝ ᱡᱟᱭᱜᱟ ᱠᱷᱚᱱ ᱞᱟᱦᱟᱭ ᱢᱮ?</string>
+    <string name="confirm_resume_title">ᱯᱮᱞ ᱟᱠᱟᱱᱟ ᱣᱤᱰᱤᱭᱚ ᱠᱚ ᱞᱟᱦᱟᱭ ᱢᱮ</string>
+    <string name="tv_ui_title">Android TV ᱤᱱᱴᱚᱨᱯᱷᱮᱥ</string>
     <string name="tv_ui_summary">Change UI to TV adapted theme</string>
     <string name="medialibrary">ᱢᱤᱰᱤᱭᱟ ᱚᱲᱟᱜ</string>
     <string name="medialibrary_directories">ᱢᱤᱰᱤᱭᱟ ᱚᱲᱟᱜ ᱯᱚᱴᱚᱢ ᱠᱚ</string>
 
     <!-- Accessibility -->
-    <string name="more_actions">More Actions</string>
+    <string name="more_actions">ᱟᱨᱦᱚᱸ ᱠᱟᱹᱢᱤ ᱠᱚ</string>
     <string name="back_quit_lock">Press Back again to quit video</string>
     <string name="stream_deleted">Stream deleted</string>
     <string name="no_subs_found">No subtitles in this directory</string>
-    <string name="music_now_playing">Now Playing</string>
+    <string name="music_now_playing">ᱱᱤᱛᱚᱜ ᱯᱞᱮᱜ ᱠᱟᱱᱟ</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC White Widget</string>
-    <string name="widget_name_b">VLC Dark Widget</string>
+    <string name="widget_name_w">VLC ᱯᱩᱸᱰ ᱣᱤᱡᱮᱴ</string>
+    <string name="widget_name_b">VLC ᱧᱩᱛ ᱣᱤᱡᱮᱴ</string>
     <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
     <string name="allow_settings_access_ringtone_title">Allow VLC to set the ringtone</string>
@@ -466,19 +466,19 @@
     <string name="fastscroller_handle">FastScroller handle</string>
 
     <!-- Plugins -->
-    <string name="plugins">Plugins</string>
+    <string name="plugins">ᱯᱞᱟᱹᱜᱤᱱᱠᱚ</string>
     <string name="download_on_device">ᱰᱟᱩᱱᱞᱳᱰ</string>
     <string name="extension_empty">No item to display, go to your extension settings to get some.</string>
 
-    <string name="opengl_title">OpenGL ES2 usage</string>
+    <string name="opengl_title">OpenGL ES2 ᱵᱮᱵᱷᱟᱨ</string>
     <string name="opengl_summary">By default, OpenGL ES2 is used for software decoding and hardware decoding when needed (360° videos)</string>
     <string name="opengl_automatic">ᱟᱡᱽᱛᱮ</string>
-    <string name="opengl_on">Force On</string>
-    <string name="opengl_off">Force Off</string>
-    <string name="network_favorites">Network favorites</string>
+    <string name="opengl_on">ᱡᱩᱨ ᱮᱢ</string>
+    <string name="opengl_off">ᱡᱩᱨ ᱵᱟᱹᱰ</string>
+    <string name="network_favorites">ᱱᱮᱴᱣᱟᱨᱠ ᱠᱩᱥᱤᱠᱚ</string>
     <string name="network_shared_folders">ᱦᱟᱹᱴᱤᱧ ᱦᱩᱭᱠᱟᱱ ᱯᱚᱴᱚᱢ ᱠᱚ</string>
     <string name="encryption_warning">Warning, encryption is not available for this Android version, password will be stored in a private space but not encrypted</string>
-    <string name="store_password">Remember password</string>
+    <string name="store_password">ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫ ᱢᱚᱱᱮ ᱫᱚᱦᱚᱭ ᱢᱮ</string>
     <string name="add_to_playlist">ᱯᱞᱮᱞᱤᱥᱴ ᱛᱮ ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
     <string name="popup_playback_title">Play video in a Pop-Up window</string>
     <string name="popup_playback">Playing in a Pop-Up window</string>
@@ -487,7 +487,7 @@
     <string name="browse_folder">ᱯᱚᱴᱚᱢ ᱵᱨᱟᱩᱡ ᱢᱮᱸ</string>
     <string name="listen">ᱟᱧᱡᱚᱢ ᱢᱮᱸ</string>
     <string name="save_bluetooth_delay">save delay for bluetooth device</string>
-    <string name="episodes">episodes</string>
+    <string name="episodes">ᱮᱯᱤᱥᱚᱰᱠᱚ</string>
     <string name="movies">ᱥᱤᱱᱮᱢᱟ ᱠᱚ</string>
     <string name="videos">ᱣᱤᱰᱤᱭᱚ ᱠᱚ</string>
     <string name="videos_all">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚ ᱠᱚ</string>
@@ -530,7 +530,7 @@
     <string name="renderer_list_title">Displays</string>
     <string name="sdcard_permission_dialog_title">You have to grant VLC write access to your SD Card</string>
     <string name="sdcard_permission_dialog_message">VLC cannot delete this file without write access permission.\nPlease go to your SD Card and click on \"Select\".\nYou may have to click on \"Show SD card\" first in the top-right menu</string>
-    <string name="dialog_sd_wizard">Show me</string>
+    <string name="dialog_sd_wizard">ᱩᱫᱩᱜᱟᱹᱧᱟ ᱢᱮ</string>
     <string name="renderers_disconnect">Disconnect</string>
     <string name="audio_digital_failed">Failed to change Audio Digital Output state</string>
     <string name="audio_digital_output_enabled">Audio Digital Output enabled</string>
@@ -742,10 +742,10 @@
     <string name="air_action_rewind">Rewind 10 sec</string>
     <string name="air_action_forward">Seek forward 10 sec</string>
     <string name="air_action_play_pause">Pause/Resume playback</string>
-    <string name="air_action_volume_up">Volume up</string>
-    <string name="air_action_volume_down">Volume down</string>
-    <string name="air_action_next">Next item in playback</string>
-    <string name="air_action_previous">Previous item in playback</string>
+    <string name="air_action_volume_up">ᱣᱚᱞᱭᱩᱢ ᱪᱮᱛᱟᱱ</string>
+    <string name="air_action_volume_down">ᱣᱚᱞᱭᱩᱢ ᱞᱟᱛᱟᱨ</string>
+    <string name="air_action_next">ᱯᱞᱮᱵᱮᱠ ᱨᱮᱭᱟᱜ ᱤᱱᱟᱹ ᱛᱟᱭᱚᱱ ᱡᱤᱱᱤᱥ</string>
+    <string name="air_action_previous">ᱯᱞᱮᱵᱮᱠ ᱨᱮᱭᱟᱜ ᱢᱟᱲᱟᱝ ᱟᱭᱴᱟᱹᱢ</string>
     <string name="allow_otg">OTG ᱟᱫᱮᱨ ᱪᱷᱚᱭ ᱢᱮᱸ</string>
     <string name="allow_otg_description">VLC ᱛᱮ ᱟᱫᱮᱨ ᱪᱷᱚ ᱞᱟᱹᱜᱤᱫᱽ ᱫᱚᱭᱟᱠᱟᱛᱮ OTG ᱰᱨᱟᱭᱤᱵᱷ ᱪᱚᱭᱚᱱ ᱢᱮᱸ ᱾</string>
     <string name="timeout_infinite">ᱚᱦᱤᱥᱟᱹᱵᱽ</string>
@@ -760,5 +760,4 @@
     <string name="audio_delay_global">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚᱠᱚ ᱞᱟᱹᱫᱜᱤᱹᱫ %s ms ᱜᱷᱟᱹᱲᱤᱡ ᱥᱟᱰᱮ ᱮᱱᱟ </string>
     <string name="warning_stream_speed">ᱥᱟᱹᱴᱨᱤᱝᱼᱚᱜ ᱠᱟᱱ ᱥᱴᱨᱤᱢ ᱠᱚ ᱞᱟᱹᱜᱤᱫ ᱑ ᱦᱟᱹᱵᱤᱡ ᱯᱞᱮᱵᱮᱠ ᱪᱟᱬᱮ ᱨᱟᱠᱟᱵ ᱮᱱᱟ</string>
     <string name="go_to_folder">ᱯᱮᱨᱮᱸᱴ ᱵᱨᱟᱩᱡᱽ </string>
-
 </resources>
