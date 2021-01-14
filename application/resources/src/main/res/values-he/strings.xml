@@ -782,5 +782,6 @@
     <string name="audio_delay_global">השהיית השמע הוגדרה ל־%s מילישניות לכל הסרטונים</string>
     <string name="warning_stream_speed">הגברת מהירות הנגינה מעבר ל־1 עבור תזרימים עשויה לגרום לגמגום</string>
     <string name="go_to_folder">עיון בהורה</string>
+    <string name="no_sub_renderer">עדיין אין תמיכה בכתוביות כחלק מתזרים</string>
 
 </resources>
