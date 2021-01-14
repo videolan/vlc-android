@@ -779,5 +779,6 @@
     <string name="audio_delay_global">Audio delay set to %s ms for all videos</string>
     <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
+    <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
 
 </resources>

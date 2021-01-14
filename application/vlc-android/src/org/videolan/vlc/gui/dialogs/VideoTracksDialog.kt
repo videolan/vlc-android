@@ -91,11 +91,17 @@ class VideoTracksDialog : VLCBottomSheetDialogFragment() {
                 binding.audioTracks.trackList.adapter = trackAdapter
             }
             playbackService.spuTracks?.let { trackList ->
-                val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.spuTrack })
-                trackAdapter.setOnTrackSelectedListener { track ->
-                    trackSelectionListener.invoke(track.id, TrackType.SPU)
+                if (!playbackService.hasRenderer()) {
+                    val trackAdapter = TrackAdapter(trackList as Array<MediaPlayer.TrackDescription>, trackList.firstOrNull { it.id == playbackService.spuTrack })
+                    trackAdapter.setOnTrackSelectedListener { track ->
+                        trackSelectionListener.invoke(track.id, TrackType.SPU)
+                    }
+                    binding.subtitleTracks.trackList.adapter = trackAdapter
+                } else {
+                    binding.subtitleTracks.emptyView.text = getString(R.string.no_sub_renderer)
+                    binding.subtitleTracks.emptyView.setVisible()
+                    binding.subtitleTracks.trackMore.setGone()
                 }
-                binding.subtitleTracks.trackList.adapter = trackAdapter
                 if (trackList.isEmpty()) binding.subtitleTracks.emptyView.setVisible()
             }
             if (playbackService.spuTracks == null) binding.subtitleTracks.emptyView.setVisible()
