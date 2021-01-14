@@ -11,6 +11,8 @@
     <string name="sortby_album_name">Nama album</string>
     <string name="sortby_length">Panjang</string>
     <string name="sortby_date">Tanggal</string>
+    <string name="sortby_last_modified_date">Baru ditambahkan</string>
+    <string name="sortby_media_number">Nomor media</string>
     <string name="searchable_hint">Mencari…</string>
     <string name="history">Riwayat</string>
 
@@ -19,23 +21,38 @@
     </plurals>
 
     <string name="play">Mainkan</string>
+    <string name="playback">Pemutaran</string>
+    <string name="playback_controls">Kontrol pemutaran</string>
+    <string name="medialibrary_scan">Pemindaian perpustakaan media</string>
     <string name="play_from_start">Putar dari awal</string>
     <string name="play_as_audio">Mainkan sebagai audio</string>
     <string name="play_as_video">Mainkan sebagai video</string>
+    <string name="play_pip_title">Putar video di mode Picture-in-picture</string>
+    <string name="play_as_audio_background">Putar video di latarbelakang</string>
     <string name="append">Tambahkan</string>
     <string name="play_all">Mainkan semua</string>
     <string name="append_all">Tambahkan semua</string>
+    <string name="resume_playback_short_title">Lanjutkan pemutaran</string>
+    <string name="resume_playback_long_title">Lanjutkan pemutaran pada playlist terakhir</string>
     <string name="delete">Hapus</string>
     <string name="remove">Buang</string>
     <string name="set_song">Atur sebagai nada dering</string>
+    <string name="set_song_question">Atur \'%1$s\' sebagai nada dering?</string>
     <string name="info">Informasi</string>
     <string name="confirm_delete">Hapus berkas \'%1$s\'?</string>
+    <string name="confirm_delete_album">Hapus album \'%1$s\'?</string>
+    <string name="confirm_delete_folder">Hapus folder \'%1$s\' dan semua isi didalamnya?</string>
+    <string name="confirm_delete_playlist">Hapus playlist \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Hapus \'%1$s\' dari playlist?</string>
     <string name="ringtone_set">Berkas \'%1$s\' dijadikan ringtone.</string>
     <string name="ringtone_error">Terjadi kesalahan ketika mengatur ringtone.</string>
     <string name="pause">Jeda</string>
     <string name="unknown_artist">Artis tak dikenal</string>
     <string name="unknown_album">Album tak dikenal</string>
     <string name="unknown_genre">Jenis musik tak dikenal</string>
+    <string name="songs">Lagu</string>
+    <string name="track_info_copied_to_clipboard">Informasi track disalin ke clipboard</string>
+
     <string name="artists">Artis</string>
     <string name="albums">Album</string>
     <string name="tracks">Trek</string>
