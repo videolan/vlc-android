@@ -43,6 +43,7 @@
                 android:layout_marginTop="24dp"
                 android:gravity="center_vertical"
                 android:text="@string/no_track"
+                android:textAlignment="center"
                 android:textColor="@color/white_transparent_50"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
