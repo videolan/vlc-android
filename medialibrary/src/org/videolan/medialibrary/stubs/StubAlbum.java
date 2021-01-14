@@ -30,7 +30,7 @@ public class StubAlbum extends Album {
         return count;
     }
 
-    public Artist getAlbumArtist() {
+    public Artist retrieveAlbumArtist() {
         Medialibrary ml = Medialibrary.getInstance();
         return ml.getArtist(this.albumArtistId);
     }
@@ -39,7 +39,7 @@ public class StubAlbum extends Album {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getAlbum().equals(this.getTitle())
-                    && media.getAlbumArtist().equals(this.getAlbumArtist().getTitle())) {
+                    && media.getAlbumArtist().equals(this.retrieveAlbumArtist().getTitle())) {
                 results.add(media);
             }
         }

@@ -37,7 +37,7 @@ public class StubArtist extends Artist {
         ArrayList<Album> results = new ArrayList<>();
         for (Album album : dt.mAlbums) {
             if (albumNames.contains(album.getTitle()) &&
-                    album.getAlbumArtist().getTitle().equals(this.getTitle())) {
+                    album.retrieveAlbumArtist().getTitle().equals(this.getTitle())) {
                 results.add(album);
             }
         }
@@ -58,7 +58,7 @@ public class StubArtist extends Artist {
         ArrayList<Album> results = new ArrayList<>();
         for (Album album : dt.mAlbums) {
             if (albumNames.contains(album.getTitle()) &&
-                    album.getAlbumArtist().getTitle().equals(this.getTitle()) &&
+                    album.retrieveAlbumArtist().getTitle().equals(this.getTitle()) &&
                     Tools.hasSubString(album.getTitle(), query)) {
                 results.add(album);
             }
@@ -71,7 +71,7 @@ public class StubArtist extends Artist {
         ArrayList<String> albumNames = getAlbumNames();
         for (Album album : dt.mAlbums) {
             if (albumNames.contains(album.getDescription()) &&
-                    album.getAlbumArtist().getTitle().equals(this.getTitle()) &&
+                    album.retrieveAlbumArtist().getTitle().equals(this.getTitle()) &&
                     Tools.hasSubString(album.getTitle(), query)) {
                 count++;
             }
