@@ -6,6 +6,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.Medialibrary.*
+import org.videolan.medialibrary.interfaces.media.Album
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -149,10 +150,10 @@ object ModelsHelper {
             }
         }
         SORT_ARTIST -> {
-            val artist = (item as MediaWrapper).artist ?: ""
+            val artist = (item as? MediaWrapper)?.artist ?: (item as? Album)?.albumArtist ?: ""
             if (aboveItem == null) artist
             else {
-                val previous = (aboveItem as MediaWrapper).artist ?: ""
+                val previous = (aboveItem as? MediaWrapper)?.artist ?: (aboveItem as? Album)?.albumArtist ?: ""
                 artist.takeIf { it != previous }
             }
         }

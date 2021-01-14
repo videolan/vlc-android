@@ -44,9 +44,9 @@ public class AlbumImpl extends Album {
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
 
-    public Artist getAlbumArtist() {
-        //TODO
-        return null;
+    public Artist retrieveAlbumArtist() {
+        Medialibrary ml = Medialibrary.getInstance();
+        return ml.getArtist(this.albumArtistId);
     }
 
     private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long mId, int sort, boolean desc);

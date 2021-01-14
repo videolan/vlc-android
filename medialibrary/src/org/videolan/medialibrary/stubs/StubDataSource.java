@@ -179,7 +179,7 @@ public class StubDataSource {
 
     int compareAlbum(Album a1, Album a2) {
         if (a1.getTitle().equals(a2.getTitle())) {
-            return compareArtist(a1.getAlbumArtist(), a2.getAlbumArtist());
+            return compareArtist(a1.retrieveAlbumArtist(), a2.retrieveAlbumArtist());
         } else if (a1.getTitle().equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
             return -1;
         } else if (a2.getTitle().equals(Album.SpecialRes.UNKNOWN_ALBUM)) {
@@ -414,7 +414,7 @@ public class StubDataSource {
             return;
         for (Album album : mAlbums) {
             if (album.getTitle().equals(newAlbum.getTitle()) &&
-                    album.getAlbumArtist().getTitle().equals(newAlbum.getAlbumArtist().getTitle()))
+                    album.retrieveAlbumArtist().getTitle().equals(newAlbum.retrieveAlbumArtist().getTitle()))
                 return;
         }
         mAlbums.add(newAlbum);
@@ -434,7 +434,7 @@ public class StubDataSource {
         if (albumName.equals(""))
             albumName = Album.SpecialRes.UNKNOWN_ALBUM;
         for (Album album : mAlbums) {
-            if (album.getTitle().equals(albumName) && album.getAlbumArtist().getId() == artistID) {
+            if (album.getTitle().equals(albumName) && album.retrieveAlbumArtist().getId() == artistID) {
                 return album;
             }
         }
@@ -444,9 +444,9 @@ public class StubDataSource {
     private void raiseAlbumDuration(Album album, long duration) {
         for (int i = 0 ; i < mAlbums.size() ; i++) {
             Album item = mAlbums.get(i);
-            Artist artist = item.getAlbumArtist();
+            Artist artist = item.retrieveAlbumArtist();
             if (item.getTitle().equals(album.getTitle()) &&
-                    item.getAlbumArtist().getTitle().equals(artist.getTitle())) {
+                    item.retrieveAlbumArtist().getTitle().equals(artist.getTitle())) {
                 mAlbums.set(i, MLServiceLocator.getAbstractAlbum(
                         album.getId(),
                         album.getTitle(),
