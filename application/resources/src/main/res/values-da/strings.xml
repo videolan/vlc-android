@@ -387,7 +387,7 @@
     <string name="dump_logcat">Logdump af logcat</string>
     <string name="dump_logcat_success">Logcat blev dumpet til %1$s!</string>
     <string name="dump_logcat_failure">Kunne ikke dumpe logcat.</string>
-    <string name="custom_libvlc_options">Bbrugerdefinerede libVLC-indstillinger</string>
+    <string name="custom_libvlc_options">Tilpasset libVLC indstillinger</string>
     <string name="custom_libvlc_options_invalid">Ugyldige libVLC-indstillinger!</string>
 
     <string name="serious_crash">Der opstod desværre en alvorlig fejl, og VLC måtte lukkes ned.</string>
@@ -489,6 +489,9 @@
     <string name="ml_external_storage_msg">Vil du have at VLC skal tilføje enheden %1$s til dit mediebibliotek?</string>
     <string name="ml_external_storage_accept">Ja</string>
     <string name="ml_external_storage_decline">Nej</string>
+    <string name="auto_last_added_media">Sidst tilføjet</string>
+    <string name="auto_my_library">Mit bibliotek</string>
+    <string name="auto_home">Hjem</string>
     <string name="no">Nej</string>
     <string name="loading_medialibrary">Indlæser mediebibliotek…</string>
     <string name="yes">Ja</string>
@@ -695,7 +698,33 @@
     <string name="empty_directory">Tom</string>
     <string name="no_track">Ingen spor</string>
 
+    <string name="swipe_unlock">Stryg for at låse op</string>
+    <string name="swipe_unlock_no_touch">Tryk og hold for at låse op</string>
+    <string name="sub_result_by_name">Resultater for %s</string>
+    <string name="sub_result_by_name_season">Sæson %s</string>
+    <string name="sub_result_by_name_episode">Episode %s</string>
+
+    <string name="sub_result_by_file">Resultater for din fil</string>
     <string name="donate">Hjælp VLC</string>
+    <string name="donate_desc">Støt de frivillige som bygger VLC</string>
+    <string name="donate_send">Start sponsorat</string>
     <string name="tip_jar">Hjælp VLC</string>
     <string name="thank_you">Tak</string>
+    <string name="mark_as_played">Marker som afspillet</string>
+    <string name="mark_all_as_played">Marker alle som afspillet</string>
+    <string name="new_group">Ny gruppe</string>
+    <string name="new_group_desc">Opret en ny gruppe</string>
+
+    <string name="air_action_play_pause">Pause/genoptag afspilning</string>
+    <string name="air_action_volume_up">Højere</string>
+    <string name="air_action_volume_down">Lavere</string>
+    <string name="allow_otg">Tillad OTG adgang</string>
+    <string name="timeout_infinite">Uendelig</string>
+    <string name="timeout_short">Kort</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Lang</string>
+    <string name="remove_from_history">Fjern fra historik</string>
+    <string name="prefersmbv1">Foretræk SMB 1</string>
+    <string name="apply_to_all">Anvend på alle videoer</string>
+    <string name="audio_delay_global">Lyd forsinkelse sat til %s ms for alle videoer</string>
 </resources>
