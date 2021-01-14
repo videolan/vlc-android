@@ -338,7 +338,7 @@
     <string name="aout_summary">Spremeni metodo, ki jo VLC uporablja za predvajanje zvoka</string>
     <string name="audio_ducking_title">Zmanjšaj glasnost ob prejemu sporočila</string>
     <string name="audio_ducking_summary">Možnost omogoča prilagajanje glasnosti obvestil, navigacijskega vodenja in drugih zvokov.</string>
-    <string name="casting_category">Avdicija</string>
+    <string name="casting_category">Zasedba</string>
     <string name="casting_switch_title">Brezžična avdicija</string>
     <string name="casting_passthrough_title">Zvočni prehod</string>
     <string name="casting_passthrough_summary">Naj televizor skrbi za oblikovanje zvoka</string>
@@ -368,6 +368,7 @@
     <string name="deblocking_nonref">Srednje odstranjevanje kock</string>
     <string name="deblocking_nonkey">Nizko odstranjevanje kock</string>
     <string name="deblocking_all">Brez odstranjevanja kock (najhitrejše)</string>
+    <string name="enable_frame_skip">Preskoči sličico</string>
     <string name="enable_time_stretching_audio">Časovno raztegovanje zvoka</string>
     <string name="enable_time_stretching_audio_summary">Pohitri ali upočasni zvok brez spremembe višine (zahteva zmogljivo napravo)</string>
 
@@ -382,8 +383,8 @@
     <string name="network_caching_summary">Čas za medpomnjenje omrežne vsebine (v ms) za programsko odkodiranje\nPustite prazno za ponastavitev</string>
     <string name="resume_playback_title">Po klicu nadaljuj s predvajanjem</string>
     <string name="resume_playback_summary">Če možnost ni izbrana, ostane predvajanje v premoru.</string>
-    <string name="blurred_cover_background_title">Zmehčana naslovnica za ozadje</string>
-    <string name="blurred_cover_background_summary">Zmehčana naslovnica v ozadju predvajalnika zvoka</string>
+    <string name="blurred_cover_background_title">Zamegljena naslovnica za ozadje</string>
+    <string name="blurred_cover_background_summary">Zamegljena naslovnica v ozadju predvajalnika zvoka</string>
     <string name="network_caching_popup">Vrednost mora biti podana med 0 in 6000 ms.</string>
     <string name="quit">Končaj in ponovno zaženi program</string>
     <string name="restart_message">Spremembe bodo upoštevane ob naslednjem zagonu aplikacije.\n\nPonovni zagon?</string>
@@ -441,6 +442,7 @@
     <string name="chapter">Poglavje</string>
     <string name="resume_from_position">Nadaljuj pri nazadnje ustavljenem mestu</string>
     <string name="confirm_resume">Ali želite nadaljevati pri nazadnje ustavljenem mestu?</string>
+    <string name="confirm_resume_title">Nadaljuj predvajanje videa</string>
     <string name="tv_ui_title">Vmesnik Android TV</string>
     <string name="tv_ui_summary">Spremeni vmesnik na temo Android TV</string>
     <string name="medialibrary">Knjižnica predstavnih vsebin</string>
@@ -542,6 +544,7 @@
     <string name="audio_digital_output_enabled">Digitalni zvočni izhod je vklopljen</string>
     <string name="audio_digital_output_disabled">Digitalni zvočni izhod je izklopljen</string>
     <string name="audio_digital_title">Digitalni zvočni izhod (prehod)</string>
+    <string name="audio_resume_card_title">Prikaži zadnji namig seznama predvajanja</string>
     <string name="playback_rewind">Previj nazaj</string>
     <string name="playback_forward">Naprej</string>
     <string name="ml_wizard_scan_checkbox">Poišči predstavne vsebine na napravi</string>
@@ -587,6 +590,7 @@
     <string name="done">Končano</string>
     <string name="onboarding_scan_title">Samodejno odkrivanje predstavnih vsebin</string>
     <string name="onboarding_scanning_enable">Naj VLC poišče predstavne vsebine na moji napravi</string>
+    <string name="onboarding_scan_customize">Izberi mape, ki jih bo VLC pregledal</string>
     <string name="button_medialibrary_preferences">Pojdite na nastavitve knjižnice predstavnih vsebin</string>
     <string name="light_theme">Svetla tema</string>
     <string name="add">Dodaj</string>
@@ -668,6 +672,7 @@
     <string name="clear_media_db_warning">Izgubili boste napredek in sezname predvajanj, ki ste jih ustvarili.\n%s</string>
     <string name="abrepeat_add_first_marker">Določi začetno točko</string>
     <string name="abrepeat_add_second_marker">Določi končno točko</string>
+    <string name="input_bitrate">Vhodna bitna hitrost</string>
     <string name="video_information">Podatki o videu</string>
 
     <string name="channels">Kanali</string>
@@ -679,6 +684,7 @@
     <string name="language">Jezik</string>
     <string name="track_samplerate">Frekvenca vzorčenja</string>
     <string name="track_samplerate_value">%1$d Hz\n</string>
+    <string name="bitrate">Bitna hitrost</string>
     <string name="codec">Kodek</string>
     <string name="text">Besedilo</string>
     <string name="unknown">Neznano</string>
@@ -706,6 +712,7 @@
     <string name="empty_directory">Prazno</string>
     <string name="no_track">Ni vsebin</string>
 
+    <string name="swipe_unlock">Podrsaj za odklep</string>
     <string name="swipe_unlock_no_touch">Dolg pritisk za odklepanje</string>
     <string name="sub_result_by_name">Rezultati za %s</string>
     <string name="sub_result_by_name_season">Sezona %s</string>
