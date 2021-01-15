@@ -760,5 +760,6 @@
     <string name="audio_delay_global">Definir atraso em %s ms para todos os vídeos</string>
     <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para fluxos pode causar engasgos</string>
     <string name="go_to_folder">Procurar na pasta pai</string>
+    <string name="no_sub_renderer">Ainda não há suporte a legendas durante uma transmissão</string>
 
 </resources>
