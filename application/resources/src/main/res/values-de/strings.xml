@@ -751,14 +751,15 @@
     <string name="timeout_infinite">Unendlich</string>
     <string name="timeout_short">Kurz</string>
     <string name="timeout_normal">Normal</string>
-    <string name="timeout_long">Lang</string>
+    <string name="timeout_long">Lange</string>
     <string name="video_hud_timeout">Der Video-Player steuert die Verzögerung beim Ausblenden</string>
     <string name="remove_from_history">Aus dem Verlauf entfernen</string>
-    <string name="prefersmbv1">SMB 1 bevorzugen</string>
-    <string name="prefersmbv1_summary">Wenn Sie Probleme beim Durchsuchen Ihres SMB-Servers haben, bitte diese Einstellung deaktivieren</string>
+    <string name="prefersmbv1">SMB 1 aktivieren</string>
+    <string name="prefersmbv1_summary">Deaktivieren Sie diese Einstellung, wenn Sie Probleme beim Durchsuchen Ihres SMB-Servers haben</string>
     <string name="apply_to_all">Auf alle Videos anwenden</string>
     <string name="audio_delay_global">Tonverzögerung für alle Videos auf %s ms gesetzt</string>
     <string name="warning_stream_speed">Die Erhöhung der Wiedergabegeschwindigkeit für Streams auf über 1 kann zum Stottern führen</string>
     <string name="go_to_folder">Übergeordnetes Verzeichnis durchsuchen</string>
+    <string name="no_sub_renderer">Untertitel werden beim Casting noch nicht unterstützt</string>
 
 </resources>
