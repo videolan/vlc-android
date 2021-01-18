@@ -255,6 +255,8 @@
     <string name="interface_prefs_screen">Brugerflade</string>
     <string name="interface_secondary_display_category_title">Sekundær skærm</string>
     <string name="enable_clone_mode">Foretræk kloning</string>
+    <string name="enable_clone_mode_summary">Klon enhedens skærm uden fjernbetjening</string>
+
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Gruppér videoer</string>
     <string name="video_min_group_length_disable">Gruppér ikke videoer</string>
@@ -351,6 +353,7 @@
     <string name="deblocking_nonkey">Lav blokdeling</string>
     <string name="deblocking_all">Ingen blokdeling (hurtigst)</string>
     <string name="enable_frame_skip">Spring billede over</string>
+    <string name="enable_frame_skip_summary">Øger afkode hastighed men kan forringe video kvalitet</string>
     <string name="enable_time_stretching_audio">Slå tidsudstrækning af lyd til</string>
     <string name="advanced_prefs_category">Avanceret</string>
     <string name="auto_rescan">Automatisk genskan</string>
@@ -402,6 +405,8 @@
 
     <string name="no_result">Ingen resultater fundet</string>
     <string name="no_internet_connection">Tjek din internetforbindelse</string>
+    <string name="subs_download_error">Tjeneste utilgængelig. Prøv igen senere.</string>
+
     <string name="network_browsing">Lokalt netværk</string>
     <string name="browsing">Gennemser</string>
 
@@ -694,6 +699,8 @@
     <string name="add_to_group">Tilføj til videogruppe</string>
     <string name="remove_from_group">Fjern fra videogruppe</string>
     <string name="rename_group">Omdøb videogruppe</string>
+    <string name="ungroup">Afgruppere</string>
+    <string name="group_similar">Omgruppere automatisk</string>
     <string name="no_favorite">Ingen favorit</string>
     <string name="empty_directory">Tom</string>
     <string name="no_track">Ingen spor</string>
@@ -707,24 +714,40 @@
     <string name="sub_result_by_file">Resultater for din fil</string>
     <string name="donate">Hjælp VLC</string>
     <string name="donate_desc">Støt de frivillige som bygger VLC</string>
+    <string name="donate_subscribtion">Skal være månedligt sponsorat</string>
     <string name="donate_send">Start sponsorat</string>
+    <string name="donation_description">Sponsoratet vil tillade os at :\nForbedre VLC programmet til Android\nStøtte VideoLAN foreningen</string>
+    <string name="subscription_cancel">Man kan afmelde i Play Butikken</string>
+    <string name="subscription_cancel_tv">Hvordan man afmelder</string>
+    <string name="donate_unsubscribe_tv">For at afmelde åben %s på en telefon eller computer eller skan denne kode:</string>
     <string name="tip_jar">Hjælp VLC</string>
     <string name="thank_you">Tak</string>
+    <string name="thank_you_desc">Tak for sponsoratet!\nDet vil hjælpe til forbedring af VLC!</string>
+    <string name="donate_again">Sponsorere programmet igen</string>
+
     <string name="mark_as_played">Marker som afspillet</string>
     <string name="mark_all_as_played">Marker alle som afspillet</string>
     <string name="new_group">Ny gruppe</string>
     <string name="new_group_desc">Opret en ny gruppe</string>
 
+    <string name="air_action_rewind">Spol 10 sek. tilbage</string>
+    <string name="air_action_forward">Søg 10 sek. fremad</string>
     <string name="air_action_play_pause">Pause/genoptag afspilning</string>
     <string name="air_action_volume_up">Højere</string>
     <string name="air_action_volume_down">Lavere</string>
+    <string name="air_action_next">Næste element i afspilning</string>
+    <string name="air_action_previous">Forrige element i afspilning</string>
     <string name="allow_otg">Tillad OTG adgang</string>
+    <string name="allow_otg_description">Vælg OTG drev for at tillade adgang til VLC.</string>
     <string name="timeout_infinite">Uendelig</string>
     <string name="timeout_short">Kort</string>
     <string name="timeout_normal">Normal</string>
     <string name="timeout_long">Lang</string>
+    <string name="video_hud_timeout">Videoafspiller kontrollerer skjul forsinkelse</string>
     <string name="remove_from_history">Fjern fra historik</string>
     <string name="prefersmbv1">Foretræk SMB 1</string>
     <string name="apply_to_all">Anvend på alle videoer</string>
     <string name="audio_delay_global">Lyd forsinkelse sat til %s ms for alle videoer</string>
+    <string name="no_sub_renderer">Undertekster understøttes endnu ikke under casting</string>
+
 </resources>
