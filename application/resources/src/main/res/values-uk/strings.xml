@@ -344,7 +344,7 @@
     <string name="audio_ducking_title">Нижча гучність VLC під час сповіщень</string>
     <string name="audio_ducking_summary">Допомагає почути звукові сповіщення, навігаційні вказівки та слова асистента</string>
     <string name="casting_category">Трансляція</string>
-    <string name="casting_switch_title">Безпровідний кастинг</string>
+    <string name="casting_switch_title">Безпровідна трансляція</string>
     <string name="casting_passthrough_title">Аудіо роз\'єм</string>
     <string name="casting_passthrough_summary">Дозвольте управляти відтворенням аудіо ТБ</string>
     <string name="casting_conversion_quality_title">Якість перетворення</string>
@@ -675,7 +675,7 @@
     <string name="moviepedia_hint">Пошук метаданих</string>
     <string name="moviepedia_result">Відео результати</string>
     <string name="directed_by">Режисер</string>
-    <string name="casting">Підбір акторів</string>
+    <string name="casting">Трансляція</string>
     <string name="produced_by">Знято</string>
     <string name="written_by">Написано</string>
     <string name="music_by">Музика</string>
@@ -782,5 +782,6 @@
     <string name="audio_delay_global">Затримку аудіо задати на %s мс для всіх відео</string>
     <string name="warning_stream_speed">Збільшення швидкості відтворення понад 1 для потоків може спричинити пригальмовування</string>
     <string name="go_to_folder">Огляд батьківської теки</string>
+    <string name="no_sub_renderer">Субтитри досі не підтримуються під час трансляції</string>
 
 </resources>
