@@ -82,6 +82,12 @@ public class StubMedialibrary extends Medialibrary {
         onDiscoveryCompleted(path);
         onBackgroundTasksIdleChanged(true);
     }
+
+    @Override
+    public boolean setDiscoverNetworkEnabled(boolean enabled) {
+        return false;
+    }
+
     public void removeFolder(@NonNull String mrl) {}
 
     public boolean removeDevice(String uuid, String path) {

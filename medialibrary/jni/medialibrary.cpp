@@ -134,6 +134,13 @@ discover(JNIEnv* env, jobject thiz, jstring storagePath)
     env->ReleaseStringUTFChars(storagePath, path);
 }
 
+jboolean
+setDiscoverNetworkEnabled(JNIEnv* env, jobject thiz, jboolean enabled)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    return aml->setDiscoverNetworkEnabled(enabled);
+}
+
 void
 removeEntryPoint(JNIEnv* env, jobject thiz, jstring storagePath)
 {
@@ -2138,6 +2145,7 @@ static JNINativeMethod methods[] = {
     {"nativeDeleteRemovableDevices", "()Z", (void*)deleteRemovableDevices },
     {"nativeDevices", "()[Ljava/lang/String;", (void*)devices },
     {"nativeDiscover", "(Ljava/lang/String;)V", (void*)discover },
+    {"nativeSetDiscoverNetworkEnabled", "(Z)Z", (void*)setDiscoverNetworkEnabled },
     {"nativeRemoveEntryPoint", "(Ljava/lang/String;)V", (void*)removeEntryPoint },
     {"nativeEntryPoints", "()[Ljava/lang/String;", (void*)entryPoints },
     {"nativeRemoveDevice", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)removeDevice },
