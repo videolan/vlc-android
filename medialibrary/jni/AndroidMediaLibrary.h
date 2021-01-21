@@ -41,6 +41,7 @@ public:
     void banFolder(const std::string& path);
     void unbanFolder(const std::string& path);
     void discover(const std::string&);
+    bool setDiscoverNetworkEnabled(bool enabled);
     void removeEntryPoint(const std::string& entryPoint);
     std::vector<medialibrary::FolderPtr> entryPoints();
     void setMediaUpdatedCbFlag(int flags);

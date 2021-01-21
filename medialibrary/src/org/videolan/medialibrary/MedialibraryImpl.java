@@ -136,6 +136,12 @@ public class MedialibraryImpl extends Medialibrary {
         if (mIsInitiated) nativeDiscover(Tools.encodeVLCMrl(path));
     }
 
+    @Override
+    public boolean setDiscoverNetworkEnabled(boolean enabled) {
+        if (mIsInitiated) return nativeSetDiscoverNetworkEnabled(enabled);
+        return false;
+    }
+
     public void removeFolder(@NonNull String mrl) {
         if (!mIsInitiated) return;
         final String[] folders = getFoldersList();
@@ -584,6 +590,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native boolean nativeDeleteRemovableDevices();
     private native String[] nativeDevices();
     private native void nativeDiscover(String path);
+    private native boolean nativeSetDiscoverNetworkEnabled(boolean enabled);
     private native void nativeRemoveEntryPoint(String path);
     private native String[] nativeEntryPoints();
     private native boolean nativeRemoveDevice(String uuid, String path);

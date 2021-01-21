@@ -115,6 +115,12 @@ AndroidMediaLibrary::discover(const std::string& libraryPath)
     p_ml->discover(libraryPath);
 }
 
+bool
+AndroidMediaLibrary::setDiscoverNetworkEnabled(bool enabled)
+{
+    return p_ml->setDiscoverNetworkEnabled(enabled);
+}
+
 void
 AndroidMediaLibrary::removeEntryPoint(const std::string& entryPoint)
 {
@@ -907,6 +913,9 @@ void AndroidMediaLibrary::onDiscoveryCompleted( const std::string& entryPoint, b
         if (m_progress)
             env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onParsingStatsUpdatedId, m_progress);
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onDiscoveryCompletedId, ep);
+    }
+    if (!success) {
+        LOGE("onDiscoveryCompleted -> ko");
     }
     env->DeleteLocalRef(ep);
 }
