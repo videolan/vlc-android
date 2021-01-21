@@ -804,5 +804,6 @@
     <string name="audio_delay_global">تم ضبط تأخير الصوت على %s مللي ثانية لكل الفيديوهات</string>
     <string name="warning_stream_speed">قد تؤدي زيادة سرعة التشغيل إلى أكثر من 1 لعمليات البث إلى حدوث تقطع</string>
     <string name="go_to_folder">تصفح الوالدين</string>
+    <string name="no_sub_renderer">لم يتم دعم الترجمات أثناء الإرسال</string>
 
 </resources>
