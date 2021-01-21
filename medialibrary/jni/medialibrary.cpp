@@ -148,7 +148,8 @@ entryPoints(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     std::vector<medialibrary::FolderPtr> entryPoints = aml->entryPoints();
-    std::vector<std::string> mrls{ entryPoints.size() };
+    std::vector<std::string> mrls;
+    mrls.reserve(entryPoints.size());
     for(medialibrary::FolderPtr& entryPoint : entryPoints) {
         try
         {
