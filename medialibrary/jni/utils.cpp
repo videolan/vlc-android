@@ -27,6 +27,8 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     medialibrary::AlbumTrackPtr p_albumTrack = mediaPtr->albumTrack();
     jstring artist = NULL, genre = NULL, album = NULL, albumArtist = NULL, mrl = NULL, title = NULL, thumbnail = NULL, filename = NULL;
     jint trackNumber = 0, discNumber = 0;
+
+    const bool isPresent = mediaPtr->isPresent();
     if (p_albumTrack)
     {
         medialibrary::ArtistPtr artistPtr = p_albumTrack->artist();
@@ -72,7 +74,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
                           title, filename, artist, genre, album,
                           albumArtist, width, height, thumbnail,
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(),
-                           seen, hasThumbnail, mediaPtr->releaseDate());
+                           seen, hasThumbnail, mediaPtr->releaseDate(), isPresent);
     if (artist != NULL)
         env->DeleteLocalRef(artist);
     if (genre != NULL)
