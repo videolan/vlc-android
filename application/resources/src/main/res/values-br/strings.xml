@@ -287,6 +287,7 @@
     <string name="aout">Ezvont aodio</string>
     <string name="audio_ducking_title">Izelaat live-son VLC da vare ar c\'hemennoù</string>
     <string name="casting_category">Skignañ</string>
+    <string name="casting_passthrough_summary">Lezit ho TV merañ ar rentañ aodio</string>
     <string name="casting_conversion_quality_title">Kalite an emdroañ</string>
     <string name="casting_quality_high">Uhel</string>
     <string name="casting_quality_medium">Etre</string>
@@ -341,10 +342,12 @@
     <string name="opengl_automatic">Emgefre</string>
     <string name="store_password">Derc\'hel soñj eus ar ger-tremen</string>
     <string name="videos">videoioù</string>
+    <string name="videos_all">An holl videoioù</string>
     <string name="length">Padelezh</string>
     <string name="tv_settings_hint">Pouezit hir war ar bouton Mat eo evit (di)gevaskañ ar c\'havlec\'hioù</string>
     <string name="ml_external_storage_accept">Ya</string>
     <string name="ml_external_storage_decline">Ket</string>
+    <string name="auto_home">Degemer</string>
     <string name="no">Ket</string>
     <string name="yes">Ya</string>
 
@@ -375,6 +378,7 @@
     <string name="share">Rannañ</string>
     <string name="casting">Skignañ</string>
     <string name="header_movies">Filmoù</string>
+    <string name="season_number">Koulzad %s</string>
     <string name="recently_added">Ouzhpennet nevez \'zo</string>
     <string name="input_bitrate">Kas binarel an enmont</string>
     <string name="channels">Chadennoù</string>
@@ -386,4 +390,12 @@
     <string name="text">Testenn</string>
     <string name="unknown">Dianav</string>
     <string name="sortby_track">Roudenn</string>
+    <string name="browse">Merdeiñ</string>
+    <string name="more">Muioc\'h</string>
+    <string name="favorites">Sinedoù</string>
+    <string name="empty_directory">Goullo</string>
+    <string name="sub_result_by_name_season">Koulzad %s</string>
+    <string name="air_action_volume_up">Uhelaat al live-son</string>
+    <string name="air_action_volume_down">Izelaat al live-son</string>
+    <string name="timeout_normal">Normal</string>
 </resources>
