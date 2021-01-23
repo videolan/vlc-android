@@ -779,6 +779,7 @@
     <string name="prefersmbv1">Ffafrio SMB 1</string>
     <string name="prefersmbv1_summary">Dad-ddewisa hyn os wyt yn cael anawsterau pori dy weinydd SMB</string>
     <string name="apply_to_all">Rhoi i bob fideo</string>
+    <string name="audio_delay_global">Oediad sain wedi\'i osod i %s me i bob fideo</string>
     <string name="warning_stream_speed">Gall gynyddu\'r cyflymder dros 1 i ffrydiau achosi iddynt chwarae yn dameidiog</string>
     <string name="go_to_folder">Pori\'r rhiant</string>
     <string name="no_sub_renderer">Dyw isdeitlau ddim eto ar gael wrth fwrw</string>
