@@ -69,6 +69,11 @@
         <item quantity="few">%d потфасцикле</item>
         <item quantity="other">%d потфасцикли</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 медиј</item>
+        <item quantity="few">%d медија</item>
+        <item quantity="other">%d медија</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 медијска датотека</item>
         <item quantity="few">%d медијске датотеке</item>
@@ -79,6 +84,17 @@
         <item quantity="few">%d видео</item>
         <item quantity="other">%d видео</item>
     </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 филм</item>
+        <item quantity="few">%d филма</item>
+        <item quantity="other">%d филмова</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 ТВ серија</item>
+        <item quantity="few">%d ТВ серије</item>
+        <item quantity="other">%d ТВ серија</item>
+    </plurals>
+
     <string name="internal_memory">Унутрашња меморија</string>
     <string name="audio">Аудио</string>
     <string name="video">Видео</string>
@@ -130,6 +146,12 @@
     <string name="sound_off">Звук искључен</string>
     <string name="brightness">Осветљење</string>
     <string name="advanced">напредне опције</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 канал\n</item>
+        <item quantity="few">%1$d канала\n</item>
+        <item quantity="other">%1$d канала\n</item>
+    </plurals>
+
     <string name="track_resolution_info">Резолуција: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Брзина кадрова: %1$.3f\n</string>
 
