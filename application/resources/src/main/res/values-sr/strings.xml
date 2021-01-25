@@ -14,6 +14,7 @@
     <string name="sortby_date">датуму</string>
     <string name="sortby_last_modified_date">недавно додатом</string>
     <string name="sortby_media_number">броју медија</string>
+    <string name="sortby_number">Број записа</string>
     <string name="searchable_hint">Претражи…</string>
     <string name="history">Историја</string>
 
@@ -26,6 +27,8 @@
     <string name="play">Пусти</string>
     <string name="playback">Репродукција</string>
     <string name="playback_controls">Контроле репродукције</string>
+    <string name="medialibrary_scan">Скенирање медијатеке</string>
+    <string name="Medialibrary_progress">Ажурирања напретка при скенирању медијатеке</string>
     <string name="play_from_start">Пусти од почетка</string>
     <string name="play_as_audio">Пусти као звук</string>
     <string name="play_as_video">Пусти као видео</string>
@@ -36,7 +39,7 @@
     <string name="append_all">Додај све</string>
     <string name="resume_playback_short_title">Настави репродукцију</string>
     <string name="resume_playback_long_title">Наставља пуштање последње листе</string>
-    <string name="delete">Обриши</string>
+    <string name="delete">Избриши</string>
     <string name="remove">Уклони</string>
     <string name="set_song">Постави као мелодију звона</string>
     <string name="set_song_question">Да „%1$s“ буде звоно телефона?</string>
@@ -95,7 +98,7 @@
         <item quantity="other">%d ТВ серија</item>
     </plurals>
 
-    <string name="internal_memory">Унутрашња меморија</string>
+    <string name="internal_memory">Интерна меморија</string>
     <string name="audio">Аудио</string>
     <string name="video">Видео</string>
     <string name="bookmarks">Обележивачи</string>
@@ -165,6 +168,7 @@
     <string name="server_domain_hint">Адреса сервера (домен или ИП)</string>
     <string name="server_folder_hint">Путања фасцикле (опционо)</string>
     <string name="server_username_hint">Корисничко име</string>
+    <string name="server_servername_hint">Назив сервера</string>
     <string name="server_port">Порт:</string>
     <string name="login">Пријава</string>
     <string name="password">Лозинка</string>
@@ -194,9 +198,12 @@
     <string name="video_player_tips">Савети за видео-плејер:</string>
     <string name="seek">Премотај</string>
     <string name="subtitles">Титлови</string>
+    <string name="audio_sub">Аудио-записи\nи титлови</string>
     <string name="resize">Промени величину</string>
     <string name="options">Опције</string>
     <string name="lock">Закључај</string>
+    <string name="ok_got_it">Одбаци</string>
+
     <string name="playlist_tips">Савети за плејлисту</string>
     <string name="remove_song">Уклони</string>
     <string name="rearrange_order">Промени редослед</string>
@@ -213,12 +220,14 @@
     <string name="revision">Ревизија</string>
     <string name="about">О апликацији</string>
     <string name="about_text">VLC за Android је порт VLC Media Player-а, популарног медијског плејера отвореног кода. Верзија за Android може да репродукује многе датотеке и мрежне токове.</string>
+    <string name="vlc_authors">и аутори VLC-а.</string>
     <string name="compiled_by">Ову верзију VLC-а је компилирао:</string>
+    <string name="feedback_forum">Форум</string>
 
     <!-- Preferences -->
     <string name="preferences">Поставке</string>
 
-    <string name="directories_summary">Изаберите фасцикле за медијску библиотеку</string>
+    <string name="directories_summary">Изаберите фасцикле за израду медијатеке</string>
     <string name="add_custom_path">Додај прилагођену путању</string>
     <string name="add_custom_path_description">Додатна прилагођена фасцикла за скенирање:</string>
     <string name="remove_custom_path">Уклони прилагођену путању</string>
@@ -243,6 +252,12 @@
     <string name="interface_prefs_screen">Сучеље</string>
     <string name="interface_secondary_display_category_title">Други екран</string>
     <string name="enable_clone_mode">Клонирање</string>
+    <string name="video_prefs_category">Видео</string>
+    <string name="video_min_group_length_title">Груписање видео-снимака</string>
+    <string name="video_min_group_length_disable">Не групиши</string>
+    <string name="video_min_group_length_folder">По фасцикли</string>
+    <string name="video_min_group_length_name">По називу</string>
+    <string name="media_fast_seek">Брзо премотавање</string>
     <string name="enable_brightness_gesture_summary">Управљајте осветљењем покретима током репродукције</string>
     <string name="enable_headset_detection">Откриј слушалице</string>
     <string name="aout">Звучни излаз</string>
@@ -277,5 +292,37 @@
     <string name="send_log">Пошаљи извештај</string>
     <string name="sending_log">Шаљем извештај…</string>
 
+    <string name="allow_storage_access_title">Дозвола за приступ датотекама</string>
+    <string name="allow_storage_access_description">VLC-у је потребна ова дозвола како би приступио медијским датотекама на уређају.</string>
+    <string name="allow_settings_access_ringtone_title">Дозвола за постављање мелодије звона</string>
+    <string name="allow_settings_access_ringtone_description">VLC-у је потребна ова дозвола како би поставио аудио-снимак као мелодију звона.</string>
+    <string name="allow_settings_access_brightness_title">Дозвола за промену режима осветљености</string>
+    <string name="allow_settings_access_brightness_description">VLC-у је потребна ова дозвола како би променио режим осветљености.</string>
+    <string name="allow_sdraw_overlays_description">VLC-у је потребна ова дозвола како би приказивао видео преко других апликација.</string>
+    <string name="permission_ask_again">Додели дозволу</string>
+    <string name="ml_external_storage_title">Откривена је нова екстерна меморија</string>
+    <string name="ml_external_storage_msg">Желите ли да додате уређај %1$s у медијатеку?</string>
+    <string name="ml_external_storage_accept">Да</string>
+    <string name="ml_external_storage_decline">Не</string>
+    <string name="no">Не</string>
+    <string name="yes">Да</string>
+
     <string name="next">Следеће</string>
+    <string name="videos_folders_title">Видео-снимци по фасциклама</string>
+    <string name="welcome_title">Добро дошли у VLC!</string>
+    <string name="welcome_subtitle">Бесплатан медијски плејер отвореног кода</string>
+    <string name="permission_media">VLC-у је потребна дозвола за приступ медијским датотекама на вашем уређају</string>
+    <string name="medialibrary_scan_explanation">VLC може да аутоматски скенира ваш уређај и направи медијатеку.</string>
+    <string name="onboarding_theme_title">Персонализација</string>
+    <string name="done">Готово</string>
+    <string name="onboarding_scan_title">Аутоматско проналажење медијских датотека</string>
+    <string name="daynight_system_explanation">VLC ће аутоматски прећи на тамни режим у складу са подешавањима система</string>
+    <string name="daynight_legacy_explanation">VLC ће аутоматски прећи на ноћни режим у одговарајуће време</string>
+    <string name="onboarding_scanning_enable">Дозволи скенирање уређаја</string>
+    <string name="onboarding_scan_customize">Желим да одаберем фасцикле које ће бити скениране</string>
+    <string name="light_theme">Светла тема</string>
+    <string name="validation_delete_playlist_text">Ова радња је неповратна.</string>
+    <string name="display_in_list">Прикажи у виду листе</string>
+    <string name="display_in_grid">Прикажи у виду мреже</string>
+    <string name="unknown">Непознато</string>
 </resources>
