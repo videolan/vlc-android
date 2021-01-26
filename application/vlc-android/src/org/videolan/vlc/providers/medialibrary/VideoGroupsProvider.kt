@@ -16,17 +16,17 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
     override fun canSortByLastModified() = true
     override fun canSortByMediaNumber() = true
 
-    override fun getAll() : Array<VideoGroup> = medialibrary.getVideoGroups(sort, desc, getTotalCount(), 0)
+    override fun getAll() : Array<VideoGroup> = medialibrary.getVideoGroups(sort, desc, includeMissing, getTotalCount(), 0)
 
     override fun getTotalCount() = medialibrary.getVideoGroupsCount(model.filterQuery)
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<MediaLibraryItem> = if (model.filterQuery.isNullOrEmpty()) {
-        medialibrary.getVideoGroups(sort, desc, loadSize, startposition)
+        medialibrary.getVideoGroups(sort, desc, includeMissing, loadSize, startposition)
     } else {
-        medialibrary.searchVideoGroups(model.filterQuery, sort, desc, loadSize, startposition)
+        medialibrary.searchVideoGroups(model.filterQuery, sort, desc, includeMissing, loadSize, startposition)
     }.extractSingles().also { if (Settings.showTvUi) completeHeaders(it, startposition) }
 }
 
 private fun Array<VideoGroup>.extractSingles() = map {
-    if (it.mediaCount() == 1) it.media(Medialibrary.SORT_DEFAULT, false, 1, 0).getOrNull(0) ?: it else it
+    if (it.mediaCount() == 1) it.media(Medialibrary.SORT_DEFAULT, false, true, 1, 0).getOrNull(0) ?: it else it
 }.toTypedArray()

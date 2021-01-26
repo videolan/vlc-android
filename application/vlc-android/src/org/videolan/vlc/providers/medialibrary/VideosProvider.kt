@@ -50,21 +50,21 @@ class VideosProvider(val folder : Folder?, val group: VideoGroup?, context: Cont
 
     override fun getPage(loadSize: Int, startposition: Int): Array<MediaWrapper> {
         val list = if (model.filterQuery == null) when {
-            folder !== null -> folder.media(Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
-            group !== null -> group.media(sort, desc, loadSize, startposition)
-            else -> medialibrary.getPagedVideos(sort, desc, loadSize, startposition)
+            folder !== null -> folder.media(Folder.TYPE_FOLDER_VIDEO, sort, desc, includeMissing, loadSize, startposition)
+            group !== null -> group.media(sort, desc, includeMissing, loadSize, startposition)
+            else -> medialibrary.getPagedVideos(sort, desc, includeMissing, loadSize, startposition)
         } else when {
-            folder !== null -> folder.searchTracks(model.filterQuery, Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
-            group !== null -> group.searchTracks(model.filterQuery, sort, desc, loadSize, startposition)
-            else -> medialibrary.searchVideo(model.filterQuery, sort, desc, loadSize, startposition)
+            folder !== null -> folder.searchTracks(model.filterQuery, Folder.TYPE_FOLDER_VIDEO, sort, desc, includeMissing, loadSize, startposition)
+            group !== null -> group.searchTracks(model.filterQuery, sort, desc, includeMissing, loadSize, startposition)
+            else -> medialibrary.searchVideo(model.filterQuery, sort, desc, includeMissing, loadSize, startposition)
         }
         model.viewModelScope.launch { completeHeaders(list, startposition) }
         return list
     }
 
     override fun getAll(): Array<MediaWrapper> = when {
-        folder !== null -> folder.getAll(Folder.TYPE_FOLDER_VIDEO, sort, desc).toTypedArray()
-        group !== null -> group.getAll(sort, desc).toTypedArray()
-        else -> medialibrary.getVideos(sort, desc)
+        folder !== null -> folder.getAll(Folder.TYPE_FOLDER_VIDEO, sort, desc, includeMissing).toTypedArray()
+        group !== null -> group.getAll(sort, desc, includeMissing).toTypedArray()
+        else -> medialibrary.getVideos(sort, desc, includeMissing)
     }
 }

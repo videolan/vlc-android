@@ -92,7 +92,7 @@ public class StubPlaylist extends Playlist {
         return false;
     }
 
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (mTracksId.contains(media.getId()) &&

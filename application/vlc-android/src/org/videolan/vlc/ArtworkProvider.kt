@@ -254,7 +254,7 @@ class ArtworkProvider : ContentProvider() {
             val audioCount = ctx.getFromMl { audioCount }
             /* Show cover art from the whole library */
             val offset = Random().nextInt((audioCount - MediaSessionBrowser.MAX_COVER_ART_ITEMS).coerceAtLeast(1))
-            val list = ctx.getFromMl { getPagedAudio(Medialibrary.SORT_ALPHA, false, MediaSessionBrowser.MAX_COVER_ART_ITEMS, offset) }
+            val list = ctx.getFromMl { getPagedAudio(Medialibrary.SORT_ALPHA, false, false, MediaSessionBrowser.MAX_COVER_ART_ITEMS, offset) }
             return@runBlocking getHomeImage(ctx, SHUFFLE_ALL, list)
         }
     }
@@ -262,7 +262,7 @@ class ArtworkProvider : ContentProvider() {
     private fun getLastAdded(ctx: Context): ByteArray? {
         return runBlocking(Dispatchers.IO) {
             /* Last Added */
-            val recentAudio = ctx.getFromMl { getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, MediaSessionBrowser.MAX_HISTORY_SIZE, 0) }
+            val recentAudio = ctx.getFromMl { getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MediaSessionBrowser.MAX_HISTORY_SIZE, 0) }
             return@runBlocking getHomeImage(ctx, LAST_ADDED, recentAudio)
         }
     }

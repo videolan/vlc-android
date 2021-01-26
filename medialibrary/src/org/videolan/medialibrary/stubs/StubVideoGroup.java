@@ -15,12 +15,12 @@ public class StubVideoGroup extends VideoGroup {
     }
 
     @Override
-    public MediaWrapper[] media(int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] media(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return new MediaWrapper[0];
     }
 
     @Override
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return new MediaWrapper[0];
     }
 

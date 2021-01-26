@@ -27,7 +27,7 @@ public abstract class Playlist extends MediaLibraryItem {
     abstract public boolean move(int oldPosition, int newPosition);
     abstract public boolean remove(int position);
     abstract public boolean delete();
-    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
 
     @Override
