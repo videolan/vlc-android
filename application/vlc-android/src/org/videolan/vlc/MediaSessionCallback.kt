@@ -129,7 +129,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     }
                 }
                 mediaId == MediaSessionBrowser.ID_LAST_ADDED -> {
-                    val tracks = context.getFromMl { getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, MediaSessionBrowser.MAX_HISTORY_SIZE, 0) }
+                    val tracks = context.getFromMl { getPagedAudio(Medialibrary.SORT_INSERTIONDATE, true, false, MediaSessionBrowser.MAX_HISTORY_SIZE, 0) }
                     if (tracks.isNotEmpty() && isActive) {
                         loadMedia(tracks.toList())
                     }

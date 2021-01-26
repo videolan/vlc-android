@@ -32,15 +32,15 @@ abstract public class Artist extends MediaLibraryItem {
         }
     }
 
-    abstract public Album[] getAlbums(int sort, boolean desc);
-    abstract public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
-    abstract public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public Album[] getAlbums(int sort, boolean desc, boolean includeMissing);
+    abstract public Album[] getPagedAlbums(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public Album[] searchAlbums(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchAlbumsCount(String query);
-    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
     abstract public int getAlbumsCount();
-    abstract public MediaWrapper[] getTracks(int sort, boolean desc);
-    abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing);
+    abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getTracksCount();
 
     public String getShortBio() {
@@ -65,12 +65,12 @@ abstract public class Artist extends MediaLibraryItem {
     }
 
     public Album[] getAlbums() {
-        return getAlbums(Medialibrary.SORT_ALPHA, false);
+        return getAlbums(Medialibrary.SORT_ALPHA, false, true);
     }
 
     @Override
     public MediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_ALBUM, false);
+        return getTracks(Medialibrary.SORT_ALBUM, false, true);
     }
 
     @Override

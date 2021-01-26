@@ -46,15 +46,15 @@ public class StubAlbum extends Album {
         return results;
     }
 
-    public MediaWrapper[] getTracks(int sort, boolean desc) {
+    public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing) {
         return dt.sortMedia(getAlbumTracks(), sort, desc);
     }
 
-    public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return dt.sortMedia(dt.secureSublist(getAlbumTracks(), offset, offset + nbItems), sort, desc);
     }
 
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getAlbum().equals(this.getTitle()) ||

@@ -22,11 +22,11 @@ public abstract class Folder extends MediaLibraryItem {
         mMediaCount = count;
     }
 
-    abstract public MediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] media(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int mediaCount(int type);
-    abstract public Folder[] subfolders(int sort, boolean desc, int nbItems, int offset);
+    abstract public Folder[] subfolders(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int subfoldersCount(int type);
-    abstract public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query, int mediaType);
 
     public String getDisplayTitle() {
