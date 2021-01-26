@@ -18,7 +18,7 @@ public class StubGenre extends Genre {
     public StubGenre(long id, String title) { super(id, title); }
     public StubGenre(Parcel in) { super(in); }
 
-    public Album[] getAlbums(int sort, boolean desc) {
+    public Album[] getAlbums(int sort, boolean desc, boolean includeMissing) {
         ArrayList<Album> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) {
@@ -33,8 +33,8 @@ public class StubGenre extends Genre {
         return dt.sortAlbum(results, sort, desc);
     }
 
-    public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
-        ArrayList<Album> results = new ArrayList<>(Arrays.asList(getAlbums(sort, desc)));
+    public Album[] getPagedAlbums(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
+        ArrayList<Album> results = new ArrayList<>(Arrays.asList(getAlbums(sort, desc, includeMissing)));
         return dt.secureSublist(results, offset, offset + nbItems).toArray(new Album[0]);
     }
 
@@ -43,7 +43,7 @@ public class StubGenre extends Genre {
         return getAlbums().length;
     }
 
-    public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
+    public Album[] searchAlbums(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<Album> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle()) &&
@@ -76,7 +76,7 @@ public class StubGenre extends Genre {
         return results.size();
     }
 
-    public Artist[] getArtists(int sort, boolean desc) {
+    public Artist[] getArtists(int sort, boolean desc, boolean includeMissing) {
         ArrayList<Artist> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) {
@@ -93,7 +93,7 @@ public class StubGenre extends Genre {
         return dt.sortArtist(results, sort, desc);
     }
 
-    public MediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc) {
+    public MediaWrapper[] getTracks(boolean withThumbnail, int sort, boolean desc, boolean includeMissing) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) results.add(media);
@@ -101,7 +101,7 @@ public class StubGenre extends Genre {
         return dt.sortMedia(results, sort, desc);
     }
 
-    public MediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle())) results.add(media);
@@ -118,7 +118,7 @@ public class StubGenre extends Genre {
     }
 
 
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (media.getGenre().equals(this.getTitle()) &&

@@ -33,6 +33,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.util.HeaderProvider
 import org.videolan.tools.Settings
+import org.videolan.tools.putSingle
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.SortModule
 import org.videolan.vlc.viewmodels.SortableModel
@@ -59,6 +60,12 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     protected open val sortKey : String = this.javaClass.simpleName
     var sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
     var desc = settings.getBoolean("${sortKey}_desc", false)
+    var includeMissing = settings.getBoolean("${sortKey}_include_missing", true)
+        set(value) {
+            field = value
+            settings.putSingle("${sortKey}_include_missing", value)
+            refresh()
+        }
 
     private val pagingConfig = Config(
             pageSize = MEDIALIBRARY_PAGE_SIZE,

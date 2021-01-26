@@ -103,14 +103,14 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     public MediaWrapper[] getVideos() {
-        return getVideos(SORT_DEFAULT, false);
+        return getVideos(SORT_DEFAULT, false, true);
     }
 
-    public MediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] getPagedVideos(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return dt.sortMedia(dt.secureSublist(dt.mVideoMediaWrappers, offset, offset + nbItems), sort, desc);
     }
 
-    public MediaWrapper[] getVideos(int sort, boolean desc) {
+    public MediaWrapper[] getVideos(int sort, boolean desc, boolean includeMissing) {
         return dt.sortMedia(dt.mVideoMediaWrappers, sort, desc);
     }
 
@@ -123,14 +123,14 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     public MediaWrapper[] getAudio() {
-        return getAudio(SORT_DEFAULT, false);
+        return getAudio(SORT_DEFAULT, false, true);
     }
 
-    public MediaWrapper[] getAudio(int sort, boolean desc) {
+    public MediaWrapper[] getAudio(int sort, boolean desc, boolean includeMissing) {
         return dt.sortMedia(dt.mAudioMediaWrappers, sort, desc);
     }
 
-    public MediaWrapper[] getPagedAudio(int sort, boolean desc, int nbitems, int offset) {
+    public MediaWrapper[] getPagedAudio(int sort, boolean desc, boolean includeMissing, int nbitems, int offset) {
         return dt.sortMedia(dt.secureSublist(dt.mAudioMediaWrappers, offset, offset + nbitems), sort, desc);
     }
 
@@ -151,7 +151,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
-    public VideoGroup[] getVideoGroups(int sort, boolean desc, int nbItems, int offset) {
+    public VideoGroup[] getVideoGroups(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return new VideoGroup[0];
     }
 
@@ -183,15 +183,15 @@ public class StubMedialibrary extends Medialibrary {
         return false;
     }
 
-    public Album[] getAlbums() {
-        return getAlbums(SORT_DEFAULT, false);
+    public Album[] getAlbums(boolean includeMissing) {
+        return getAlbums(SORT_DEFAULT, false, includeMissing);
     }
 
-    public Album[] getAlbums(int sort, boolean desc) {
+    public Album[] getAlbums(int sort, boolean desc, boolean includeMissing) {
         return dt.sortAlbum(dt.mAlbums, sort, desc);
     }
 
-    public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
+    public Album[] getPagedAlbums(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return dt.sortAlbum(dt.secureSublist(dt.mAlbums, offset, offset + nbItems), sort, desc);
     }
 
@@ -214,8 +214,9 @@ public class StubMedialibrary extends Medialibrary {
         return null;
     }
 
-    public Artist[] getArtists(boolean all) {
-        return getArtists(all, SORT_DEFAULT, false);
+    @Override
+    public Artist[] getArtists(boolean all, boolean includeMissing) {
+        return getArtists(all, SORT_DEFAULT, false, true);
     }
 
     private boolean checkForArtist(ArrayList<Artist> list, Artist newArtist) {
@@ -238,14 +239,14 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new Artist[0]);
     }
 
-    public Artist[] getArtists(boolean all, int sort, boolean desc) {
+    public Artist[] getArtists(boolean all, int sort, boolean desc, boolean includeMissing) {
         ArrayList<Artist> results;
         if (all) results = dt.mArtists;
         else results = new ArrayList<>(Arrays.asList(getAlbumArtists()));
         return dt.sortArtist(results, sort, desc);
     }
 
-    public Artist[] getPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset) {
+    public Artist[] getPagedArtists(boolean all, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<Artist> results;
         if (all) results = dt.mArtists;
         else results = new ArrayList<>(Arrays.asList(getAlbumArtists()));
@@ -274,15 +275,15 @@ public class StubMedialibrary extends Medialibrary {
         return null;
     }
 
-    public Genre[] getGenres() {
+    public Genre[] getGenres(boolean includeMissing) {
         return dt.mGenres.toArray(new Genre[0]);
     }
 
-    public Genre[] getGenres(int sort, boolean desc) {
+    public Genre[] getGenres(int sort, boolean desc, boolean includeMissing) {
         return dt.sortGenre(dt.mGenres, sort, desc);
     }
 
-    public Genre[] getPagedGenres(int sort, boolean desc, int nbItems, int offset) {
+    public Genre[] getPagedGenres(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return dt.sortGenre(dt.secureSublist(dt.mGenres, offset, offset + nbItems), sort, desc);
     }
 
@@ -309,11 +310,11 @@ public class StubMedialibrary extends Medialibrary {
         return dt.mPlaylists.toArray(new Playlist[0]);
     }
 
-    public Playlist[] getPlaylists(int sort, boolean desc) {
+    public Playlist[] getPlaylists(int sort, boolean desc, boolean includeMissing) {
         return dt.sortPlaylist(dt.mPlaylists, sort, desc);
     }
 
-    public Playlist[] getPagedPlaylists(int sort, boolean desc, int nbItems, int offset) {
+    public Playlist[] getPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return dt.sortPlaylist(dt.secureSublist(dt.mPlaylists, offset, offset + nbItems), sort, desc);
     }
 
@@ -462,7 +463,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     // TODO: Fix sorting, offset etc
-    public Folder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset) {
+    public Folder[] getFolders(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         List<Folder> folders = new ArrayList<>();
         if (type == Folder.TYPE_FOLDER_VIDEO) {
             for (Folder folder : dt.mFolders) {
@@ -483,7 +484,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     public int getFoldersCount(int type) {
-        return getFolders(type, 0, false, 0, 0).length;
+        return getFolders(type, 0, false, true, 0, 0).length;
     }
 
     public void requestThumbnail(long id) {}
@@ -523,7 +524,7 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new MediaWrapper[0]);
     }
 
-    public MediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchMedia(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>(Arrays.asList(searchMedia(query)));
         return dt.sortMedia(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
@@ -550,7 +551,7 @@ public class StubMedialibrary extends Medialibrary {
         return dt.sortMedia(results, SORT_DEFAULT, false);
     }
 
-    public MediaWrapper[] searchAudio(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchAudio(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mAudioMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
@@ -574,7 +575,7 @@ public class StubMedialibrary extends Medialibrary {
         return dt.sortMedia(results, SORT_DEFAULT, false);
     }
 
-    public MediaWrapper[] searchVideo(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchVideo(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<MediaWrapper> results = new ArrayList<>();
         for (MediaWrapper media : dt.mVideoMediaWrappers) {
             if (Tools.hasSubString(media.getTitle(), query)) results.add(media);
@@ -598,7 +599,7 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new Artist[0]);
     }
 
-    public Artist[] searchArtist(String query, int sort, boolean desc, int nbItems, int offset) {
+    public Artist[] searchArtist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<Artist> results = new ArrayList<>(Arrays.asList(searchArtist(query)));
         return dt.sortArtist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
@@ -611,7 +612,7 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new Album[0]);
     }
 
-    public Album[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset) {
+    public Album[] searchAlbum(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<Album> results = new ArrayList<>(Arrays.asList(searchAlbum(query)));
         return dt.sortAlbum(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
@@ -624,7 +625,7 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new Genre[0]);
     }
 
-    public Genre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset) {
+    public Genre[] searchGenre(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<Genre> results = new ArrayList<>(Arrays.asList(searchGenre(query)));
         return dt.sortGenre(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
@@ -637,13 +638,13 @@ public class StubMedialibrary extends Medialibrary {
         return results.toArray(new Playlist[0]);
     }
 
-    public Playlist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset) {
+    public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<Playlist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query)));
         return dt.sortPlaylist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
     @Override
-    public Folder[] searchFolders(String query, int sort, boolean desc, int nbItems, int offset) {
+    public Folder[] searchFolders(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return new Folder[0];
     }
 
@@ -653,7 +654,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
-    public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, int nbItems, int offset) {
+    public VideoGroup[] searchVideoGroups(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         return new VideoGroup[0];
     }
 
