@@ -42,13 +42,13 @@ object ThumbnailsProvider {
 
     @WorkerThread
     fun getFolderThumbnail(folder: Folder, width: Int): Bitmap? {
-        val media = folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
+        val media = folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, true,4, 0).filterNotNull()
         return getComposedImage("folder:${folder.mMrl.sanitizePath()}", media, width)
     }
 
     @WorkerThread
     fun getVideoGroupThumbnail(group: VideoGroup, width: Int): Bitmap? {
-        val media = group.media(Medialibrary.SORT_DEFAULT, true, 4, 0).filterNotNull()
+        val media = group.media(Medialibrary.SORT_DEFAULT, true, true, 4, 0).filterNotNull()
         return getComposedImage("videogroup:${group.title}", media, width)
     }
 

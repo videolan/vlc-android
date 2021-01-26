@@ -19,8 +19,8 @@ public abstract class VideoGroup extends MediaLibraryItem {
         mCount = count;
     }
 
-    abstract public MediaWrapper[] media(int sort, boolean desc, int nbItems, int offset);
-    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] media(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
     abstract public boolean add(long mediaId);
     abstract public boolean remove(long mediaId);

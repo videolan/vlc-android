@@ -244,7 +244,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         val audioCount = ml.audioCount
                         /* Show cover art from the whole library */
                         val offset = Random().nextInt((audioCount - MAX_COVER_ART_ITEMS).coerceAtLeast(1))
-                        val allAudio = ml.getPagedAudio(Medialibrary.SORT_ALPHA, false, MAX_COVER_ART_ITEMS, offset)
+                        val allAudio = ml.getPagedAudio(Medialibrary.SORT_ALPHA, false, true, MAX_COVER_ART_ITEMS, offset)
                         val shuffleAllCover: Bitmap? = getHomeImage(context, "shuffleAll", allAudio)
                         val shuffleAllMediaDesc = getPlayAllBuilder(res, ID_SHUFFLE_ALL, audioCount, shuffleAllCover)
                                 .setTitle(res.getString(R.string.shuffle_all_title))
@@ -301,9 +301,9 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         results.add(MediaBrowserCompat.MediaItem(genresMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         return results
                     }
-                    ID_ARTISTS -> list = ml.getArtists(Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false))
-                    ID_ALBUMS -> list = ml.albums
-                    ID_GENRES -> list = ml.genres
+                    ID_ARTISTS -> list = ml.getArtists(Settings.getInstance(context).getBoolean(KEY_ARTISTS_SHOW_ALL, false), false)
+                    ID_ALBUMS -> list = ml.getAlbums(false)
+                    ID_GENRES -> list = ml.getGenres(false)
                     ID_TRACKS -> list = ml.audio
                     ID_PLAYLISTS -> list = ml.playlists
                     ID_STREAMS -> list = ml.lastStreamsPlayed()

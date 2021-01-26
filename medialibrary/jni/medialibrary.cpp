@@ -335,20 +335,23 @@ getVideos(JNIEnv* env, jobject thiz)
 }
 
 jobjectArray
-getSortedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
+getSortedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria), static_cast<bool>( desc )
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     return getInternalVideos(env, thiz, &params );
 }
 
 jobjectArray
-getPagedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing, jint nbItems,  jint offset)
 {
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     return getInternalVideos(env, thiz, &params, nbItems, offset );
 }
@@ -388,30 +391,34 @@ getAudio(JNIEnv* env, jobject thiz)
 }
 
 jobjectArray
-getRecentAudio(JNIEnv* env, jobject thiz)
+getRecentAudio(JNIEnv* env, jobject thiz, jboolean includeMissing)
 {
     medialibrary::QueryParameters params {
-        medialibrary::SortingCriteria::InsertionDate, true
+        medialibrary::SortingCriteria::InsertionDate,
+        true,
+        static_cast<bool>( includeMissing )
     };
     return getInternalAudio(env, thiz, &params );
 }
 
 jobjectArray
-getSortedAudio(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
+getSortedAudio(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     return getInternalAudio(env, thiz, &params);
 }
 
 jobjectArray
-getPagedAudio(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedAudio(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     return getInternalAudio(env, thiz, &params, nbItems, offset);
 }
@@ -444,12 +451,13 @@ searchMedia(JNIEnv* env, jobject thiz, jstring query)
 }
 
 jobjectArray
-searchPagedMedia(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchPagedMedia(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchMedia(queryChar, &params);
@@ -466,12 +474,13 @@ searchPagedMedia(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCri
 }
 
 jobjectArray
-searchPagedAudio(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchPagedAudio(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAudio(queryChar, &params);
@@ -488,12 +497,13 @@ searchPagedAudio(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCri
 }
 
 jobjectArray
-searchPagedVideo(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchPagedVideo(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchVideo(queryChar, &params);
@@ -551,12 +561,13 @@ searchArtist(JNIEnv* env, jobject thiz, jstring query)
 }
 
 jobjectArray
-searchPagedArtist(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchPagedArtist(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchArtists(queryChar, &params);
@@ -598,12 +609,13 @@ searchAlbum(JNIEnv* env, jobject thiz, jstring query)
 }
 
 jobjectArray
-searchPagedAlbum(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchPagedAlbum(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAlbums(queryChar, &params);
@@ -645,12 +657,13 @@ searchGenre(JNIEnv* env, jobject thiz, jstring query)
 }
 
 jobjectArray
-searchPagedGenre(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchPagedGenre(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchGenre(queryChar, &params);
@@ -692,12 +705,13 @@ searchPlaylist(JNIEnv* env, jobject thiz, jstring query)
 }
 
 jobjectArray
-searchPagedPlaylist(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchPagedPlaylist(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchPlaylists(queryChar, &params);
@@ -773,12 +787,13 @@ addStream(JNIEnv* env, jobject thiz, jstring mrl, jstring title) {
 }
 
 jobjectArray
-getAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
+getAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     std::vector<medialibrary::AlbumPtr> albums = aml->albums( &params )->all();
     jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
@@ -792,12 +807,13 @@ getAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 }
 
 jobjectArray
-getPagedAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->albums(&params);
     std::vector<medialibrary::AlbumPtr> albums = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -825,12 +841,13 @@ getAlbum(JNIEnv* env, jobject thiz, jlong id)
 }
 
 jobjectArray
-getArtists(JNIEnv* env, jobject thiz, jboolean all, jint sortingCriteria, jboolean desc)
+getArtists(JNIEnv* env, jobject thiz, jboolean all, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     std::vector<medialibrary::ArtistPtr> artists = aml->artists(all, &params)->all();
     jobjectArray artistRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
@@ -844,12 +861,13 @@ getArtists(JNIEnv* env, jobject thiz, jboolean all, jint sortingCriteria, jboole
 }
 
 jobjectArray
-getPagedArtists(JNIEnv* env, jobject thiz, jboolean all, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedArtists(JNIEnv* env, jobject thiz, jboolean all, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->artists(all, &params);
     std::vector<medialibrary::ArtistPtr> artists = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -877,12 +895,13 @@ getArtist(JNIEnv* env, jobject thiz, jlong id)
 }
 
 jobjectArray
-getGenres(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
+getGenres(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     std::vector<medialibrary::GenrePtr> genres = aml->genres( &params )->all();
     jobjectArray genreRefs = (jobjectArray) env->NewObjectArray(genres.size(), ml_fields.Genre.clazz, NULL);
@@ -896,12 +915,13 @@ getGenres(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 }
 
 jobjectArray
-getPagedGenres(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedGenres(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->genres(&params);
     std::vector<medialibrary::GenrePtr> genres = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -929,12 +949,13 @@ getGenre(JNIEnv* env, jobject thiz, jlong id)
 }
 
 jobjectArray
-getPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
+getPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     std::vector<medialibrary::PlaylistPtr> playlists = aml->playlists(&params)->all();
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
@@ -949,12 +970,13 @@ getPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 
 
 jobjectArray
-getPagedPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->playlists(&params);
     std::vector<medialibrary::PlaylistPtr> playlists = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1005,12 +1027,13 @@ requestThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong mediaId,
 
 
 jobjectArray
-getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
+getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->tracksFromAlbum(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
@@ -1034,12 +1057,13 @@ getTracksFromAlbumCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong i
 }
 
 jobjectArray
-getPagedTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->tracksFromAlbum(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
@@ -1055,12 +1079,13 @@ getPagedTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong i
 }
 
 jobjectArray
-searchFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromAlbum(id, queryChar, &params);
@@ -1094,12 +1119,13 @@ getSearchFromAlbumCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong i
  */
 
 jobjectArray
-getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
+getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->mediaFromArtist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
@@ -1116,12 +1142,13 @@ getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, ji
 }
 
 jobjectArray
-getPagedMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->mediaFromArtist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
@@ -1137,12 +1164,13 @@ getPagedMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong i
 }
 
 jobjectArray
-searchFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromArtist(id, queryChar, &params);
@@ -1178,12 +1206,13 @@ getSearchFromArtistCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong 
 }
 
 jobjectArray
-getAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
+getAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->albumsFromArtist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
@@ -1199,12 +1228,13 @@ getAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, j
 }
 
 jobjectArray
-getPagedAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->albumsFromArtist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
@@ -1220,12 +1250,13 @@ getPagedAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong 
 }
 
 jobjectArray
-searchAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAlbumsFromArtist(id, queryChar, &params);
@@ -1266,12 +1297,13 @@ getSearchAlbumFromArtistCount(JNIEnv* env, jobject thiz, jobject medialibrary, j
  */
 
 jobjectArray
-getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc)
+getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->mediaFromGenre(id, withThumbnail, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
@@ -1289,12 +1321,13 @@ getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jbo
 }
 
 jobjectArray
-getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->mediaFromGenre(id, withThumbnail, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
@@ -1316,12 +1349,13 @@ getGenreTracksCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
 }
 
 jobjectArray
-searchMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromGenre(id, queryChar, &params);
@@ -1351,12 +1385,13 @@ getSearchMediaFromGenreCount(JNIEnv* env, jobject thiz, jobject medialibrary, jl
 }
 
 jobjectArray
-getAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
+getAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->albumsFromGenre(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
@@ -1372,12 +1407,13 @@ getAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, ji
 }
 
 jobjectArray
-getPagedAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->albumsFromGenre(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
@@ -1399,12 +1435,13 @@ getGenreAlbumsCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
 }
 
 jobjectArray
-searchAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAlbumsFromGenre(id, queryChar, &params);
@@ -1434,12 +1471,13 @@ getSearchAlbumsFromGenreCount(JNIEnv* env, jobject thiz, jobject medialibrary, j
 }
 
 jobjectArray
-getArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
+getArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->artistsFromGenre(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Artist.clazz, NULL);
@@ -1455,12 +1493,13 @@ getArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, j
 }
 
 jobjectArray
-getPagedArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->artistsFromGenre(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Artist.clazz, NULL);
@@ -1683,12 +1722,13 @@ getPlaylistTracksCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
 }
 
 jobjectArray
-searchFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromPLaylist(id, queryChar);
@@ -1769,11 +1809,12 @@ playlistDelete(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId
   * Folder methods
   */
 jobjectArray
-mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint type, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
+mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint type, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->mediaFromFolder(id, (medialibrary::IMedia::Type)type, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
@@ -1795,12 +1836,13 @@ mediaFromFolderCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, 
 }
 
 jobjectArray
-searchMediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint mediaType, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchMediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint mediaType, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromFolder(id, queryChar, (medialibrary::IMedia::Type)mediaType, &params);
@@ -1830,11 +1872,12 @@ getSearchMediaFromFolderCount(JNIEnv* env, jobject thiz, jobject medialibrary, j
 }
 
 jobjectArray
-subFolders(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
+subFolders(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->subFolders(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
@@ -1859,11 +1902,12 @@ subFoldersCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
 }
 
 jobjectArray
-folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
+folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->folders(&params, (medialibrary::IMedia::Type) type);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Folder.clazz, NULL);
@@ -1899,11 +1943,12 @@ foldersCount(JNIEnv* env, jobject thiz, jint type) {
  */
 
 jobjectArray
-videoGroups(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
+videoGroups(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing, jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->videoGroups(&params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.VideoGroup.clazz, NULL);
@@ -1926,12 +1971,13 @@ videoGroups(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint
 }
 
 jobjectArray
-searchMediaGroups(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchMediaGroups(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(queryString, JNI_FALSE);
     const auto query = aml->searchVideoGroups(queryChar, &params);
@@ -1949,12 +1995,13 @@ searchMediaGroups(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCr
 
 
 jobjectArray
-searchFolders(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchFolders(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(queryString, JNI_FALSE);
     const auto query = aml->searchFolders(queryChar, &params);
@@ -1995,12 +2042,13 @@ videoGroupsCount(JNIEnv* env, jobject thiz, jstring filterQuery) {
 }
 
 jobjectArray
-getPagedMediaFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+getPagedMediaFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const auto query = aml->mediaFromMediaGroup(id, &params);
     if (query == nullptr)
@@ -2019,12 +2067,13 @@ getPagedMediaFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jlo
 }
 
 jobjectArray
-searchFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+searchFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc )
+        static_cast<bool>( desc ),
+        static_cast<bool>( includeMissing )
     };
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromMediaGroup(id, queryChar, &params);
@@ -2156,32 +2205,32 @@ static JNINativeMethod methods[] = {
     {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },
     {"nativeClearHistory", "()Z", (void*)clearHistory },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getVideos },
-    {"nativeGetSortedVideos", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getSortedVideos },
-    {"nativeGetSortedPagedVideos", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedVideos },
+    {"nativeGetSortedVideos", "(IZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getSortedVideos },
+    {"nativeGetSortedPagedVideos", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedVideos },
     {"nativeGetRecentVideos", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getRecentVideos },
     {"nativeGetAudio", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getAudio },
-    {"nativeGetSortedAudio", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getSortedAudio },
-    {"nativeGetSortedPagedAudio", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedAudio },
+    {"nativeGetSortedAudio", "(IZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getSortedAudio },
+    {"nativeGetSortedPagedAudio", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedAudio },
     {"nativeGetRecentAudio", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getRecentAudio },
     {"nativeSearch", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/SearchAggregate;", (void*)search},
     {"nativeSearchMedia", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchMedia},
-    {"nativeSearchPagedMedia", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchPagedMedia},
-    {"nativeSearchPagedAudio", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchPagedAudio},
-    {"nativeSearchPagedVideo", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchPagedVideo},
+    {"nativeSearchPagedMedia", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchPagedMedia},
+    {"nativeSearchPagedAudio", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchPagedAudio},
+    {"nativeSearchPagedVideo", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchPagedVideo},
     {"nativeGetSearchVideoCount", "(Ljava/lang/String;)I", (void*)getSearchVideoCount },
     {"nativeGetSearchAudioCount", "(Ljava/lang/String;)I", (void*)getSearchAudioCount },
     {"nativeGetSearchMediaCount", "(Ljava/lang/String;)I", (void*)getSearchMediaCount },
     {"nativeSearchAlbum", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchAlbum },
-    {"nativeSearchPagedAlbum", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchPagedAlbum },
+    {"nativeSearchPagedAlbum", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchPagedAlbum },
     {"nativeGetAlbumSearchCount", "(Ljava/lang/String;)I", (void*)getAlbumSearchCount },
     {"nativeSearchArtist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)searchArtist },
-    {"nativeSearchPagedArtist", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)searchPagedArtist },
+    {"nativeSearchPagedArtist", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)searchPagedArtist },
     {"nativeGetArtistsSearchCount", "(Ljava/lang/String;)I", (void*)getArtistsSearchCount },
     {"nativeSearchGenre", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)searchGenre },
-    {"nativeSearchPagedGenre", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)searchPagedGenre },
+    {"nativeSearchPagedGenre", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)searchPagedGenre },
     {"nativeGetGenreSearchCount", "(Ljava/lang/String;)I", (void*)getGenreSearchCount },
     {"nativeSearchPlaylist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPlaylist },
-    {"nativeSearchPagedPlaylist", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPagedPlaylist },
+    {"nativeSearchPagedPlaylist", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPagedPlaylist },
     {"nativeGetPlaylistSearchCount", "(Ljava/lang/String;)I", (void*)getPlaylistSearchCount },
     {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMedia },
     {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromMrl },
@@ -2190,25 +2239,25 @@ static JNINativeMethod methods[] = {
     {"nativeAddStream", "(Ljava/lang/String;Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)addStream },
     {"nativeGetVideoCount", "()I", (void*)getVideoCount },
     {"nativeGetAudioCount", "()I", (void*)getAudioCount },
-    {"nativeGetAlbums", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getAlbums },
-    {"nativeGetPagedAlbums", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getPagedAlbums },
+    {"nativeGetAlbums", "(IZZ)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getAlbums },
+    {"nativeGetPagedAlbums", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getPagedAlbums },
     {"nativeGetAlbumsCount", "()I", (void*)getAlbumsCount },
     {"nativeGetAlbum", "(J)Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getAlbum },
-    {"nativeGetArtists", "(ZIZ)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getArtists },
-    {"nativeGetPagedArtists", "(ZIZII)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getPagedArtists },
+    {"nativeGetArtists", "(ZIZZ)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getArtists },
+    {"nativeGetPagedArtists", "(ZIZZII)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getPagedArtists },
     {"nativeGetArtistsCount", "(Z)I", (void*)getArtistsCount },
     {"nativeGetArtist", "(J)Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getArtist },
-    {"nativeGetGenres", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getGenres },
-    {"nativeGetPagedGenres", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getPagedGenres },
+    {"nativeGetGenres", "(IZZ)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getGenres },
+    {"nativeGetPagedGenres", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getPagedGenres },
     {"nativeGetGenresCount", "()I", (void*)getGenresCount },
     {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)getGenre },
-    {"nativeGetPlaylists", "(IZ)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylists },
-    {"nativeGetPagedPlaylists", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPagedPlaylists },
+    {"nativeGetPlaylists", "(IZZ)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylists },
+    {"nativeGetPagedPlaylists", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPagedPlaylists },
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylist },
-    {"nativeGetFolders", "(IIZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)folders },
+    {"nativeGetFolders", "(IIZZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)folders },
     {"nativeGetFoldersCount", "(I)I", (void*)foldersCount },
-    {"nativeSearchPagedFolders", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)searchFolders },
+    {"nativeSearchPagedFolders", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)searchFolders },
     {"nativeGetSearchFoldersCount", "(Ljava/lang/String;)I", (void*)getSearchFoldersCount },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
@@ -2220,10 +2269,10 @@ static JNINativeMethod methods[] = {
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
     {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)playlistCreate },
-    {"nativeGetVideoGroups", "(IZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)videoGroups },
+    {"nativeGetVideoGroups", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)videoGroups },
     {"nativeGetVideoGroupsCount", "(Ljava/lang/String;)I", (void*)videoGroupsCount },
     {"nativeCreateGroupByName", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroupByName },
-    {"nativeSearchPagedGroups", "(Ljava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)searchMediaGroups },
+    {"nativeSearchPagedGroups", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)searchMediaGroups },
     {"nativeCreateGroup", "([J)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroup },
     {"nativeRegroupAll", "()Z", (void*)regroupAll },
     {"nativeRegroup", "(J)Z", (void*)regroup },
@@ -2252,20 +2301,20 @@ static JNINativeMethod bookmark_methods[] = {
     {"nativeMove", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)bookmarkMove },
 };
 static JNINativeMethod album_methods[] = {
-    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getTracksFromAlbum },
-    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedTracksFromAlbum },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromAlbum },
+    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getTracksFromAlbum },
+    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedTracksFromAlbum },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromAlbum },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromAlbumCount },
     {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getTracksFromAlbumCount },
 };
 
 static JNINativeMethod artist_methods[] = {
-    {"nativeGetMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromArtist },
-    {"nativeGetAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getAlbumsFromArtist },
-    {"nativeGetPagedMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromArtist },
-    {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getPagedAlbumsFromArtist },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromArtist },
-    {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchAlbumsFromArtist },
+    {"nativeGetMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromArtist },
+    {"nativeGetAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZ)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getAlbumsFromArtist },
+    {"nativeGetPagedMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromArtist },
+    {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getPagedAlbumsFromArtist },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromArtist },
+    {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchAlbumsFromArtist },
     {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getArtistTracksCount },
     {"nativeGetAlbumsCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getArtistAlbumsCount },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromArtistCount },
@@ -2273,14 +2322,14 @@ static JNINativeMethod artist_methods[] = {
 };
 
 static JNINativeMethod genre_methods[] = {
-    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZIZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromGenre },
-    {"nativeGetAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getAlbumsFromGenre },
-    {"nativeGetArtists", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZ)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getArtistsFromGenre },
-    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromGenre },
-    {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getPagedAlbumsFromGenre },
-    {"nativeGetPagedArtists", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getPagedArtistsFromGenre },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchMediaFromGenre },
-    {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchAlbumsFromGenre },
+    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZIZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromGenre },
+    {"nativeGetAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZ)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getAlbumsFromGenre },
+    {"nativeGetArtists", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZ)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getArtistsFromGenre },
+    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZIZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromGenre },
+    {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getPagedAlbumsFromGenre },
+    {"nativeGetPagedArtists", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZII)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getPagedArtistsFromGenre },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchMediaFromGenre },
+    {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchAlbumsFromGenre },
     {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getGenreTracksCount },
     {"nativeGetAlbumsCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getGenreAlbumsCount },
     {"nativeGetArtistsCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getGenreArtistsCount },
@@ -2289,17 +2338,17 @@ static JNINativeMethod genre_methods[] = {
 };
 
 static JNINativeMethod folder_methods[] = {
-    {"nativeMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)mediaFromFolder },
-    {"nativeSubfolders", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)subFolders },
+    {"nativeMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIIZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)mediaFromFolder },
+    {"nativeSubfolders", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)subFolders },
     {"nativeMediaCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JI)I", (void*)mediaFromFolderCount },
     {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JI)I", (void*)subFoldersCount },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchMediaFromFolder },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IIZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchMediaFromFolder },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;I)I", (void*)getSearchMediaFromFolderCount },
 };
 
 static JNINativeMethod videogroup_methods[] = {
-    {"nativeMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromvideoGroup },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromvideoGroup },
+    {"nativeMedia", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromvideoGroup },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromvideoGroup },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromvideoGroupCount },
     {"nativeGroupAddId", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)groupAddId },
     {"nativeGroupRemoveId", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)groupRemoveId },
@@ -2314,7 +2363,7 @@ static JNINativeMethod playlist_methods[] = {
     {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromPlaylist },
     {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromPlaylist },
     {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getPlaylistTracksCount },
-    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromPlaylist },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromPlaylist },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromPlaylistCount },
     {"nativePlaylistAppend", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)playlistAppend },
     {"nativePlaylistAppendGroup", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J[J)Z", (void*)playlistAppendGroup },

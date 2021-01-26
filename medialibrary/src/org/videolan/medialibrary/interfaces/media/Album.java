@@ -49,9 +49,9 @@ public abstract class Album extends MediaLibraryItem {
     }
 
     abstract public int getRealTracksCount();
-    abstract public MediaWrapper[] getTracks(int sort, boolean desc);
-    abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
-    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing);
+    abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
+    abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
     abstract public Artist retrieveAlbumArtist();
 
@@ -88,7 +88,7 @@ public abstract class Album extends MediaLibraryItem {
 
     @Override
     public MediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_ALBUM, false);
+        return getTracks(Medialibrary.SORT_ALBUM, false, true);
     }
 
     @Override

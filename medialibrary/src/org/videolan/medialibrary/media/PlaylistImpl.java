@@ -75,9 +75,9 @@ public class PlaylistImpl extends Playlist {
         return ml.isInitiated() && nativePlaylistDelete(ml, mId);
     }
 
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, includeMissing, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     public int searchTracksCount(String query) {
@@ -88,7 +88,7 @@ public class PlaylistImpl extends Playlist {
     private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long id);
     private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long id, int nbItems, int offset);
     private native int nativeGetTracksCount(Medialibrary ml, long id);
-    private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
     private native boolean nativePlaylistAppend(Medialibrary ml, long id, long mediaId);
     private native boolean nativePlaylistAppendGroup(Medialibrary ml, long id, long[] mediaIds);
