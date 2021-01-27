@@ -115,10 +115,10 @@
 
     <string name="cover_art">Titelbild</string>
     <string name="shuffle_all_title">Alle mischen</string>
-    <string name="shuffle_title">Mischen-Modus</string>
+    <string name="shuffle_title">Zufallsmodus</string>
     <string name="shuffle">Mischen aus</string>
     <string name="shuffle_on">Mischen an</string>
-    <string name="repeat_title">Wiederholen-Modus</string>
+    <string name="repeat_title">Wiederholmodus</string>
     <string name="repeat">Nichts wiederholen</string>
     <string name="repeat_single">Einzelstück wiederholen</string>
     <string name="repeat_all">Alle wiederholen</string>
