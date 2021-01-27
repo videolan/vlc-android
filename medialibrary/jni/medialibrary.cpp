@@ -56,6 +56,20 @@ release(JNIEnv* env, jobject thiz)
     MediaLibrary_setInstance(env, thiz, NULL);
 }
 
+medialibrary::QueryParameters generateParams(medialibrary::SortingCriteria sortingCriteria, jboolean desc, jboolean includeMissing)
+{
+    medialibrary::QueryParameters params {
+       sortingCriteria,
+       static_cast<bool>( desc ),
+       static_cast<bool>( includeMissing )
+    };
+    return params;
+}
+medialibrary::QueryParameters generateParams(jint sortingCriteria, jboolean desc, jboolean includeMissing)
+{
+    return generateParams(static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc, includeMissing);
+}
+
 void
 clearDatabase(JNIEnv* env, jobject thiz, jboolean restorePlaylists) {
     MediaLibrary_getInstance(env, thiz)->clearDatabase(restorePlaylists);
@@ -337,32 +351,21 @@ getVideos(JNIEnv* env, jobject thiz)
 jobjectArray
 getSortedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     return getInternalVideos(env, thiz, &params );
 }
 
 jobjectArray
 getPagedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing, jint nbItems,  jint offset)
 {
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     return getInternalVideos(env, thiz, &params, nbItems, offset );
 }
 
 jobjectArray
 getRecentVideos(JNIEnv* env, jobject thiz)
 {
-    medialibrary::QueryParameters params {
-        medialibrary::SortingCriteria::InsertionDate,
-        true,
-    };
+    medialibrary::QueryParameters params = generateParams(medialibrary::SortingCriteria::InsertionDate, true, true);
     return getInternalVideos(env, thiz, &params);
 }
 
@@ -393,33 +396,21 @@ getAudio(JNIEnv* env, jobject thiz)
 jobjectArray
 getRecentAudio(JNIEnv* env, jobject thiz, jboolean includeMissing)
 {
-    medialibrary::QueryParameters params {
-        medialibrary::SortingCriteria::InsertionDate,
-        true,
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(medialibrary::SortingCriteria::InsertionDate, true, includeMissing);
     return getInternalAudio(env, thiz, &params );
 }
 
 jobjectArray
 getSortedAudio(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     return getInternalAudio(env, thiz, &params);
 }
 
 jobjectArray
 getPagedAudio(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     return getInternalAudio(env, thiz, &params, nbItems, offset);
 }
 
@@ -454,11 +445,7 @@ jobjectArray
 searchPagedMedia(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchMedia(queryChar, &params);
     const auto searchResult = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -477,11 +464,7 @@ jobjectArray
 searchPagedAudio(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAudio(queryChar, &params);
     const auto searchResult = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -500,11 +483,7 @@ jobjectArray
 searchPagedVideo(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchVideo(queryChar, &params);
     const auto searchResult = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -564,11 +543,7 @@ jobjectArray
 searchPagedArtist(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchArtists(queryChar, &params);
     std::vector<medialibrary::ArtistPtr> artists = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -612,11 +587,7 @@ jobjectArray
 searchPagedAlbum(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAlbums(queryChar, &params);
     std::vector<medialibrary::AlbumPtr> albums = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -660,11 +631,7 @@ jobjectArray
 searchPagedGenre(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchGenre(queryChar, &params);
     std::vector<medialibrary::GenrePtr> genres = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -708,11 +675,7 @@ jobjectArray
 searchPagedPlaylist(JNIEnv* env, jobject thiz, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchPlaylists(queryChar, &params);
     std::vector<medialibrary::PlaylistPtr> playlists = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -790,11 +753,7 @@ jobjectArray
 getAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     std::vector<medialibrary::AlbumPtr> albums = aml->albums( &params )->all();
     jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
@@ -810,11 +769,7 @@ jobjectArray
 getPagedAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->albums(&params);
     std::vector<medialibrary::AlbumPtr> albums = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
@@ -844,11 +799,7 @@ jobjectArray
 getArtists(JNIEnv* env, jobject thiz, jboolean all, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     std::vector<medialibrary::ArtistPtr> artists = aml->artists(all, &params)->all();
     jobjectArray artistRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
     int index = -1;
@@ -864,11 +815,7 @@ jobjectArray
 getPagedArtists(JNIEnv* env, jobject thiz, jboolean all, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->artists(all, &params);
     std::vector<medialibrary::ArtistPtr> artists = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray artistRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
@@ -898,11 +845,7 @@ jobjectArray
 getGenres(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     std::vector<medialibrary::GenrePtr> genres = aml->genres( &params )->all();
     jobjectArray genreRefs = (jobjectArray) env->NewObjectArray(genres.size(), ml_fields.Genre.clazz, NULL);
     int index = -1;
@@ -918,11 +861,7 @@ jobjectArray
 getPagedGenres(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->genres(&params);
     std::vector<medialibrary::GenrePtr> genres = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray genreRefs = (jobjectArray) env->NewObjectArray(genres.size(), ml_fields.Genre.clazz, NULL);
@@ -952,11 +891,7 @@ jobjectArray
 getPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     std::vector<medialibrary::PlaylistPtr> playlists = aml->playlists(&params)->all();
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
@@ -973,11 +908,7 @@ jobjectArray
 getPagedPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->playlists(&params);
     std::vector<medialibrary::PlaylistPtr> playlists = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
@@ -1030,11 +961,7 @@ jobjectArray
 getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->tracksFromAlbum(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> tracks = query->all();
@@ -1060,11 +987,7 @@ jobjectArray
 getPagedTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->tracksFromAlbum(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1082,11 +1005,7 @@ jobjectArray
 searchFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromAlbum(id, queryChar, &params);
     if (query == nullptr)
@@ -1122,11 +1041,7 @@ jobjectArray
 getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->mediaFromArtist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = query->all();
@@ -1145,11 +1060,7 @@ jobjectArray
 getPagedMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->mediaFromArtist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1167,11 +1078,7 @@ jobjectArray
 searchFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromArtist(id, queryChar, &params);
     if (query == nullptr)
@@ -1209,11 +1116,7 @@ jobjectArray
 getAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->albumsFromArtist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
     std::vector<medialibrary::AlbumPtr> albums = query->all();
@@ -1231,11 +1134,7 @@ jobjectArray
 getPagedAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->albumsFromArtist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
     std::vector<medialibrary::AlbumPtr> albums = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1253,11 +1152,7 @@ jobjectArray
 searchAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAlbumsFromArtist(id, queryChar, &params);
     if (query == nullptr)
@@ -1300,11 +1195,7 @@ jobjectArray
 getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->mediaFromGenre(id, withThumbnail, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = query->all();
@@ -1324,11 +1215,7 @@ jobjectArray
 getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean withThumbnail, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->mediaFromGenre(id, withThumbnail, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1352,11 +1239,7 @@ jobjectArray
 searchMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromGenre(id, queryChar, &params);
     if (query == nullptr)
@@ -1388,11 +1271,7 @@ jobjectArray
 getAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->albumsFromGenre(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
     std::vector<medialibrary::AlbumPtr> albums = query->all();
@@ -1410,11 +1289,7 @@ jobjectArray
 getPagedAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->albumsFromGenre(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Album.clazz, NULL);
     std::vector<medialibrary::AlbumPtr> albums = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1438,11 +1313,7 @@ jobjectArray
 searchAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchAlbumsFromGenre(id, queryChar, &params);
     if (query == nullptr)
@@ -1474,11 +1345,7 @@ jobjectArray
 getArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->artistsFromGenre(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Artist.clazz, NULL);
     std::vector<medialibrary::ArtistPtr> artists = query->all();
@@ -1496,11 +1363,7 @@ jobjectArray
 getPagedArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->artistsFromGenre(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Artist.clazz, NULL);
     std::vector<medialibrary::ArtistPtr> artists = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1725,11 +1588,7 @@ jobjectArray
 searchFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromPLaylist(id, queryChar);
     if (query == nullptr)
@@ -1811,11 +1670,7 @@ playlistDelete(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId
 jobjectArray
 mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint type, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->mediaFromFolder(id, (medialibrary::IMedia::Type)type, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1839,11 +1694,7 @@ jobjectArray
 searchMediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint mediaType, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromFolder(id, queryChar, (medialibrary::IMedia::Type)mediaType, &params);
     if (query == nullptr)
@@ -1874,11 +1725,7 @@ getSearchMediaFromFolderCount(JNIEnv* env, jobject thiz, jobject medialibrary, j
 jobjectArray
 subFolders(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->subFolders(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::FolderPtr> foldersList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1904,11 +1751,7 @@ subFoldersCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
 jobjectArray
 folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->folders(&params, (medialibrary::IMedia::Type) type);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Folder.clazz, NULL);
     std::vector<medialibrary::FolderPtr> foldersList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1945,11 +1788,7 @@ foldersCount(JNIEnv* env, jobject thiz, jint type) {
 jobjectArray
 videoGroups(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jboolean includeMissing, jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->videoGroups(&params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.VideoGroup.clazz, NULL);
     std::vector<medialibrary::MediaGroupPtr> groupsList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1974,11 +1813,7 @@ jobjectArray
 searchMediaGroups(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(queryString, JNI_FALSE);
     const auto query = aml->searchVideoGroups(queryChar, &params);
     std::vector<medialibrary::MediaGroupPtr> groups = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -1998,11 +1833,7 @@ jobjectArray
 searchFolders(JNIEnv* env, jobject thiz, jstring queryString, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(queryString, JNI_FALSE);
     const auto query = aml->searchFolders(queryChar, &params);
     std::vector<medialibrary::FolderPtr> folders = nbItems != 0 ? query->items(nbItems, offset) : query->all();
@@ -2045,11 +1876,7 @@ jobjectArray
 getPagedMediaFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const auto query = aml->mediaFromMediaGroup(id, &params);
     if (query == nullptr)
     {
@@ -2070,11 +1897,7 @@ jobjectArray
 searchFromvideoGroup(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint sortingCriteria, jboolean desc, jboolean includeMissing,  jint nbItems,  jint offset)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    medialibrary::QueryParameters params {
-        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
-        static_cast<bool>( desc ),
-        static_cast<bool>( includeMissing )
-    };
+    medialibrary::QueryParameters params = generateParams(sortingCriteria, desc, includeMissing);
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = aml->searchFromMediaGroup(id, queryChar, &params);
     if (query == nullptr)
