@@ -221,7 +221,7 @@
     <string name="licence">Licens</string>
     <string name="revision">Revision</string>
     <string name="about">Om</string>
-    <string name="about_text">VLC for Android™ er en portering af VLC VLC media player, den populære open source-medieafspiller. Android™-udgaven kan læse de fleste filer og netværksstrømme.</string>
+    <string name="about_text">VLC for Android™ er en portering af VLC media player, den populære open source-medieafspiller. Android™-udgaven kan læse de fleste filer og netværksstrømme.</string>
     <string name="vlc_authors">og VLC-forfattere.</string>
     <string name="compiled_by">Denne version af VLC er kompileret af:</string>
     <string name="feedback_forum">Feedbackforum</string>
@@ -234,6 +234,7 @@
     <string name="add_custom_path_description">Angiv endnu en brugerdefineret mappe, der skal gennemses:</string>
     <string name="remove_custom_path">Fjern brugerdefineret sti</string>
     <string name="hardware_acceleration">Hardwareacceleration</string>
+    <string name="hardware_acceleration_summary">Deaktiveret: bedre stabilitet.\nAfkodning: kan forbedre ydelsen.\nFuld: kan forbedre ydelsen yderligere.</string>
     <string name="hardware_acceleration_disabled">Deaktiveret</string>
     <string name="hardware_acceleration_decoding">Acceleration af afkodning</string>
     <string name="hardware_acceleration_full">Fuld acceleration</string>
@@ -254,6 +255,7 @@
 
     <string name="interface_prefs_screen">Brugerflade</string>
     <string name="interface_secondary_display_category_title">Sekundær skærm</string>
+    <string name="interface_secondary_display_category_summary">Indstillinger når sekundære skærme er tilsluttet (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Foretræk kloning</string>
     <string name="enable_clone_mode_summary">Klon enhedens skærm uden fjernbetjening</string>
 
@@ -400,7 +402,7 @@
     <string name="sending_log">Sender loggen …</string>
 
     <string name="delete_sub_title">Slet undertekst</string>
-    <string name="delete_sub_message">Vil du slette underteksten?</string>
+    <string name="delete_sub_message">Vil du slette underteksterne?</string>
     <string name="download_subtitle_title">Download untertekst</string>
 
     <string name="no_result">Ingen resultater fundet</string>
@@ -717,6 +719,7 @@
     <string name="donate_subscribtion">Skal være månedligt sponsorat</string>
     <string name="donate_send">Start sponsorat</string>
     <string name="donation_description">Sponsoratet vil tillade os at :\nForbedre VLC programmet til Android\nStøtte VideoLAN foreningen</string>
+    <string name="subscription_purchased">Du er tilmeldt et månedligt sponsorat </string>
     <string name="subscription_cancel">Man kan afmelde i Play Butikken</string>
     <string name="subscription_cancel_tv">Hvordan man afmelder</string>
     <string name="donate_unsubscribe_tv">For at afmelde åben %s på en telefon eller computer eller skan denne kode:</string>
@@ -746,8 +749,11 @@
     <string name="video_hud_timeout">Videoafspiller kontrollerer skjul forsinkelse</string>
     <string name="remove_from_history">Fjern fra historik</string>
     <string name="prefersmbv1">Foretræk SMB 1</string>
+    <string name="prefersmbv1_summary">Fjern dette flueben hvis du har problemer med at tilgå din SMB server</string>
     <string name="apply_to_all">Anvend på alle videoer</string>
     <string name="audio_delay_global">Lyd forsinkelse sat til %s ms for alle videoer</string>
+    <string name="warning_stream_speed">Stigende afspilningshastighed over 1 til vandløb kan medføre stammen</string>
+    <string name="go_to_folder">Gennemse forrige</string>
     <string name="no_sub_renderer">Undertekster understøttes endnu ikke under casting</string>
 
 </resources>
