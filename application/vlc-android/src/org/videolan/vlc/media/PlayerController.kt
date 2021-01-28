@@ -18,10 +18,7 @@ import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.VLCInstance
 import org.videolan.resources.VLCOptions
-import org.videolan.tools.KEY_PLAYBACK_RATE
-import org.videolan.tools.KEY_PLAYBACK_SPEED_PERSIST
-import org.videolan.tools.Settings
-import org.videolan.tools.putSingle
+import org.videolan.tools.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.repository.SlaveRepository
@@ -233,8 +230,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun setRate(rate: Float, save: Boolean) {
         if (mediaplayer.isReleased) return
         mediaplayer.rate = rate
-        if (save && settings.getBoolean(KEY_PLAYBACK_SPEED_PERSIST, false))
-            settings.putSingle(KEY_PLAYBACK_RATE, rate)
+        if (save && settings.getBoolean(if (isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false))
+            settings.putSingle(if (isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else  KEY_PLAYBACK_RATE, rate)
     }
 
     /**

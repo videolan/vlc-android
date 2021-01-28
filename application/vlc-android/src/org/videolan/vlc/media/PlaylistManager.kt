@@ -858,8 +858,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                     if (player.getCurrentTime() % 10 == 0L) savePosition()
                 }
-                MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(KEY_PLAYBACK_SPEED_PERSIST, false)) {
-                    player.setRate(settings.getFloat(KEY_PLAYBACK_RATE, 1.0f), false)
+                MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(if(player.isVideoPlaying()) KEY_PLAYBACK_SPEED_PERSIST_VIDEO else KEY_PLAYBACK_SPEED_PERSIST, false)) {
+                    player.setRate(settings.getFloat(if(player.isVideoPlaying()) KEY_PLAYBACK_RATE_VIDEO else KEY_PLAYBACK_RATE, 1.0f), false)
                 }
             }
             service.onMediaPlayerEvent(event)
