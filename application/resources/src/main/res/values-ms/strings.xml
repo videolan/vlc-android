@@ -80,7 +80,7 @@
         <item quantity="other">%d video</item>
     </plurals>
     <plurals name="movies_quantity">
-        <item quantity="other">%d cereka</item>
+        <item quantity="other">%d filem</item>
     </plurals>
     <plurals name="tvshow_quantity">
         <item quantity="other">%d Rancangan TV</item>
@@ -479,7 +479,7 @@
     <string name="listen">Dengar</string>
     <string name="save_bluetooth_delay">simpan lengah untuk peranti bluetooth</string>
     <string name="episodes">episod</string>
-    <string name="movies">cereka</string>
+    <string name="movies">filem</string>
     <string name="videos">video</string>
     <string name="videos_all">Semua video</string>
     <string name="clear_playback_history">Kosongkan sejarah main balik</string>
@@ -638,8 +638,8 @@
     <string name="invalid_file">Fail tidak sah. Tidak dapat dikongsikan.</string>
     <string name="share_file">Kongsi %s</string>
     <string name="share_message">Di sini ialah %s</string>
-    <string name="find_metadata">Cari data meta</string>
-    <string name="moviepedia_hint">Gelintar data meta</string>
+    <string name="find_metadata">Cari metadata</string>
+    <string name="moviepedia_hint">Gelintar metadata</string>
     <string name="moviepedia_result">Keputusan video</string>
     <string name="directed_by">Diarah oleh</string>
     <string name="casting">Lakonan</string>
@@ -649,7 +649,7 @@
     <string name="posters">Poster</string>
     <string name="backdrops">Balik Tabir</string>
     <string name="header_tvshows">Rancangan TV</string>
-    <string name="header_movies">Cereka</string>
+    <string name="header_movies">Filem</string>
     <string name="season_number">Musim %s</string>
     <string name="resume_episode">Sambung semula (%s)</string>
     <string name="start_over">Mula dari awal</string>
