@@ -140,6 +140,10 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 Medialibrary.getInstance().setVideoGroupsPrefixLength(goupSizeValue)
                 (activity as PreferencesActivity).setRestart()
             }
+            "include_missing" -> {
+                Settings.includeMissing = sharedPreferences.getBoolean(key, true)
+                (activity as PreferencesActivity).setRestart()
+            }
         }
     }
 
