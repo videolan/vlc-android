@@ -15,15 +15,15 @@ class VideoGroupsProvider(context: Context, model: SortableModel) : Medialibrary
     override fun canSortByLastModified() = true
     override fun canSortByMediaNumber() = true
 
-    override fun getAll() : Array<VideoGroup> = medialibrary.getVideoGroups(sort, desc, includeMissing, getTotalCount(), 0)
+    override fun getAll() : Array<VideoGroup> = medialibrary.getVideoGroups(sort, desc, Settings.includeMissing, getTotalCount(), 0)
 
     override fun getTotalCount() = medialibrary.getVideoGroupsCount(model.filterQuery)
 
     override fun getPage(loadSize: Int, startposition: Int): Array<MediaLibraryItem> {
         val medias = if (model.filterQuery.isNullOrEmpty()) {
-            medialibrary.getVideoGroups(sort, desc, includeMissing, loadSize, startposition)
+            medialibrary.getVideoGroups(sort, desc, Settings.includeMissing, loadSize, startposition)
         } else {
-        medialibrary.searchVideoGroups(model.filterQuery, sort, desc, includeMissing, loadSize, startposition)
+        medialibrary.searchVideoGroups(model.filterQuery, sort, desc, Settings.includeMissing, loadSize, startposition)
         }.extractSingles().also { if (Settings.showTvUi) completeHeaders(it, startposition) }
         model.viewModelScope.launch { completeHeaders(medias, startposition) }
         return medias

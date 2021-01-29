@@ -29,6 +29,7 @@ import org.videolan.resources.interfaces.IMediaContentResolver
 import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
+import org.videolan.tools.Settings
 import org.videolan.tools.localBroadcastManager
 import org.videolan.tools.safeOffer
 import org.videolan.vlc.PlaybackService
@@ -243,7 +244,7 @@ object MediaUtils {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
                     provider.getAll().flatMap {
-                        it.media(Medialibrary.SORT_DEFAULT, false, provider.includeMissing, it.mediaCount(), 0).toList()
+                        it.media(Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(), 0).toList()
                     }
                 })
                 else -> {
@@ -274,7 +275,7 @@ object MediaUtils {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
                     provider.getAll().flatMap {
-                        it.media(provider.type, Medialibrary.SORT_DEFAULT, false, provider.includeMissing, it.mediaCount(provider.type), 0).toList()
+                        it.media(provider.type, Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(provider.type), 0).toList()
                     }
                 })
                 else -> {
@@ -283,7 +284,7 @@ object MediaUtils {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) {
                             provider.getPage(pageCount, index).flatMap {
-                                it.media(provider.type, Medialibrary.SORT_DEFAULT, false, provider.includeMissing, it.mediaCount(provider.type), 0).toList()
+                                it.media(provider.type, Medialibrary.SORT_DEFAULT, false, Settings.includeMissing, it.mediaCount(provider.type), 0).toList()
                             }
                         }
                         if (index == 0) play(list)
