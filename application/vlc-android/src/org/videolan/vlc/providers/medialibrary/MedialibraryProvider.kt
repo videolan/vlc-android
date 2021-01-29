@@ -60,12 +60,6 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     protected open val sortKey : String = this.javaClass.simpleName
     var sort = settings.getInt(sortKey, Medialibrary.SORT_DEFAULT)
     var desc = settings.getBoolean("${sortKey}_desc", false)
-    var includeMissing = settings.getBoolean("${sortKey}_include_missing", true)
-        set(value) {
-            field = value
-            settings.putSingle("${sortKey}_include_missing", value)
-            refresh()
-        }
 
     private val pagingConfig = Config(
             pageSize = MEDIALIBRARY_PAGE_SIZE,
