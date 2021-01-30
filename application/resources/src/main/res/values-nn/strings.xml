@@ -221,6 +221,11 @@
     <string name="subtitles_color_green">Grøn</string>
     <string name="subtitles_background_title">Undertekstbakgrunn</string>
     <string name="audio_prefs_category">Lyd</string>
+    <string name="list_title_ellipsize_default">Standard</string>
+    <string name="list_title_ellipsize_left">Venstre</string>
+    <string name="list_title_ellipsize_right">Høgre</string>
+    <string name="list_title_ellipsize_middle">Midten</string>
+    <string name="list_title_ellipsize_marquee">Rulletekst</string>
     <string name="audio_boost_summary">Tillat lydstyrke opptil 200%</string>
     <string name="casting_conversion_quality_summary">Vel konverteringskvalitet for kringkasting til ein ekstern skjerm </string>
     <string name="casting_quality_high">Høg</string>
