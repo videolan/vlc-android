@@ -13,8 +13,8 @@ import org.videolan.medialibrary.interfaces.media.VideoGroup;
 public class VideoGroupImpl extends VideoGroup {
 
     @SuppressWarnings("unused") /* Used from JNI */
-    VideoGroupImpl(long id, String name, int count) {
-        super(id, name, count);
+    VideoGroupImpl(long id, String name, int count, int presentCount) {
+        super(id, name, count, presentCount);
     }
 
     public VideoGroupImpl(Parcel in) {
