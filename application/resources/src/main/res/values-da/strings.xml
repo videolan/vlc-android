@@ -349,7 +349,9 @@
 
     <string name="performance_prefs_category">Ydelse</string>
     <string name="chroma_format">Gennemtving kroma</string>
+    <string name="chroma_format_summary">RGB 32-bit: standard chroma\nRGB 16-bit: bedre ydeevne men lavere kvalitet\nYUV: bedste ydeevne, men fungerer ikke på alle enheder (Android 2.3 og nyere)</string>
     <string name="deblocking">Indstillinger for filter til blokdeling</string>
+    <string name="deblocking_summary">Ændring af af-blokerings-filterindstillinger kan forbedre video kvalitet (avancerede brugere)</string>
     <string name="deblocking_always">Fuld blokdeling (langsomst)</string>
     <string name="deblocking_nonref">Medium blokdeling</string>
     <string name="deblocking_nonkey">Lav blokdeling</string>
@@ -357,6 +359,8 @@
     <string name="enable_frame_skip">Spring billede over</string>
     <string name="enable_frame_skip_summary">Øger afkode hastighed men kan forringe video kvalitet</string>
     <string name="enable_time_stretching_audio">Slå tidsudstrækning af lyd til</string>
+    <string name="enable_time_stretching_audio_summary">Øger og sænker lydhastighed uden at ændre toneleje (kræver en hurtig enhed)</string>
+
     <string name="advanced_prefs_category">Avanceret</string>
     <string name="auto_rescan">Automatisk genskan</string>
     <string name="auto_rescan_summary">Automatisk skanning af enhed efter nye eller slettede medier ved opstart af program</string>
@@ -367,6 +371,7 @@
     <string name="clear_history">Ryd historik</string>
     <string name="set_locale">Angiv lokalitet</string>
     <string name="network_caching">Mellemlagringsværdi for netværk</string>
+    <string name="network_caching_summary">Mængde af tid for at buffer netværksmedie (i ms) til software afkodning\nLad den stå tom for at nulstille</string>
     <string name="resume_playback_title">Genoptag afspilning efter et opkald</string>
     <string name="resume_playback_summary">Bliv ellers i pause</string>
     <string name="blurred_cover_background_title">Sløret coverbaggrund</string>
@@ -466,6 +471,7 @@
     <string name="extension_empty">Intet at vise, gå til dine udvidelsesindstillinger for at hente noget.</string>
 
     <string name="opengl_title">Brug af OpenGL ES2</string>
+    <string name="opengl_summary">Som standard bruges OpenGL ES2 til software og hardware afkodning når det er nødvendigt (360° video)</string>
     <string name="opengl_automatic">Automatisk</string>
     <string name="opengl_on">Tving til</string>
     <string name="opengl_off">Tving fra</string>
