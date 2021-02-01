@@ -2348,7 +2348,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.VideoGroup.initID,
            ml_fields.VideoGroup.clazz,
-           "<init>", "(JLjava/lang/String;I)V");
+           "<init>", "(JLjava/lang/String;II)V");
 
     GET_CLASS(ml_fields.Bookmark.clazz, "org/videolan/medialibrary/media/BookmarkImpl", true);
     if (env->RegisterNatives(ml_fields.Bookmark.clazz, bookmark_methods, sizeof(bookmark_methods) / sizeof(bookmark_methods[0])) < 0) {
