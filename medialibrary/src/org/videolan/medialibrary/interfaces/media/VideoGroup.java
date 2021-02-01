@@ -13,10 +13,13 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 public abstract class VideoGroup extends MediaLibraryItem {
 
     public int mCount;
+    public int mPresentCount;
+    public boolean isNetwork = false;
 
-    public VideoGroup(long id, String name, int count) {
+    public VideoGroup(long id, String name, int count, int presentCount) {
         super(id, name);
         mCount = count;
+        mPresentCount = presentCount;
     }
 
     abstract public MediaWrapper[] media(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
@@ -38,6 +41,10 @@ public abstract class VideoGroup extends MediaLibraryItem {
         return mCount;
     }
 
+    public int getPresentCount() {
+        return mPresentCount;
+    }
+
     @Override
     public MediaWrapper[] getTracks() {
         return new MediaWrapper[0];
@@ -51,6 +58,14 @@ public abstract class VideoGroup extends MediaLibraryItem {
     @Override
     public int getItemType() {
         return TYPE_VIDEO_GROUP;
+    }
+
+    public boolean isNetwork() {
+        return isNetwork;
+    }
+
+    public void setNetwork(boolean network) {
+        isNetwork = network;
     }
 
     @Override
