@@ -101,6 +101,7 @@ const val RESUME_PLAYBACK = "resume_playback"
 const val AUDIO_DUCKING = "audio_ducking"
 
 const val AUDIO_DELAY_GLOBAL = "audio_delay_global"
+const val AUDIO_PLAY_PROGRESS_MODE = "audio_play_progress_mode"
 
 class DeviceInfo(context: Context) {
     val pm = context.packageManager

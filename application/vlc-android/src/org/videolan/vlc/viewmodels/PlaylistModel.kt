@@ -242,6 +242,13 @@ class PlaylistModel : ViewModel(), PlaybackService.Callback by EmptyPBSCallback 
         totalTime = Tools.millisToString(totalLength, true, false, false)
     }
 
+    fun getTotalTime():Long {
+            val mediaList = medias ?: return 0L
+            return mediaList.asSequence()
+                    .map { it.length }
+                    .sum()
+    }
+
     companion object {
         fun get(fragment: Fragment) = ViewModelProviders.of(fragment.requireActivity()).get(PlaylistModel::class.java)
     }
