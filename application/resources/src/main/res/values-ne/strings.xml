@@ -164,6 +164,7 @@
 
     <string name="server_add_title">नयाँ सर्वर मनपर्ने सूचीमा थप्नुहोस्</string>
     <string name="server_domain_hint">सर्भर ठेगाना (डोमेन नाम वा आईपी)</string>
+    <string name="server_share_hint">नेटवर्क शेयर नाम (वा आईपी ठेगाना)</string>
     <string name="server_folder_hint">फोल्डर पाथ (ऐच्छिक)</string>
     <string name="server_username_hint">प्रयोगकर्ता नाम</string>
     <string name="server_servername_hint">सर्भर नाम, सहजताको लागि</string>
@@ -178,8 +179,10 @@
     <string name="favorite_added">मनपर्नेको सूचीमा सङ्ग्रह गरियो</string>
     <string name="favorite_removed">मनपर्नेको सूचीबाट हटाइयो</string>
 
+    <string name="streams">स्ट्रिमहरू</string>
     <string name="open_mrl_dialog_msg">सञ्जाल ठेगाना राख्नुहोस्: उदा॰ http://, mms:// or rtsp://</string>
     <string name="encountered_error_title">बजाउँदा त्रुटि</string>
+    <string name="encountered_error_message">VLC ले यो मिडियाको साथ एक त्रुटिको सामना गर्यो।\nकृपया मिडिया लाइब्रेरीलाई ताजा गर्ने प्रयास गर्नुहोस्। </string>
     <string name="invalid_location">स्थान %1$sबजाउन सकिएन।</string>
 
     <string name="search">खोज्नुहोस</string>
@@ -187,9 +190,14 @@
 
     <string name="playback_history_title">बजाउने इतिहास</string>
     <string name="playback_history_summary">बजाइसकेका सबै मिडियाहरूलाइ इतिहास खण्डमा साँच्नुहोस्</string>
+    <string name="playback_speed_title">प्लेब्याक गति बचत गर्नुहोस्</string>
+    <string name="playback_speed_summary">मिडियाको बिच प्लेब्याक गति राख्नुहोस्</string>
+
+    <string name="play_button">प्ले बटन</string>
 
     <!-- Tips -->
     <string name="video_player_tips">भिडियो प्लेयर जानकारी:</string>
+    <string name="seek">खोज्नुहोस्</string>
     <string name="subtitles">उपशिर्षकहरु</string>
     <string name="audio_sub">ध्वनि ट्र्याकहरू\nर उपशीर्षकहरू</string>
     <string name="resize">आकार परिवर्तन</string>
