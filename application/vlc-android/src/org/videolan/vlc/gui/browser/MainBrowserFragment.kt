@@ -36,10 +36,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapperImpl
 import org.videolan.resources.*
-import org.videolan.tools.NetworkMonitor
-import org.videolan.tools.isStarted
-import org.videolan.tools.setGone
-import org.videolan.tools.setVisible
+import org.videolan.tools.*
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.BaseFragment
 import org.videolan.vlc.gui.SecondaryActivity
@@ -81,6 +78,9 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
 
     private var requiringOtg = false
 
+    private var displayInList = false
+    private val displayInListKey = "main_browser_fragment_display_mode"
+
     override fun hasFAB() = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -107,6 +107,31 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+
+        menu.findItem(R.id.ml_menu_display_grid).isVisible = displayInList
+        menu.findItem(R.id.ml_menu_display_list).isVisible = !displayInList
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.ml_menu_display_list, R.id.ml_menu_display_grid -> {
+                displayInList = item.itemId == R.id.ml_menu_display_list
+                containerAdapterAssociation.keys.forEach {
+                    it.inCards = !displayInList
+                }
+                localEntry.displayInCards = !displayInList
+                favoritesEntry.displayInCards = !displayInList
+                networkEntry.displayInCards = !displayInList
+                activity?.invalidateOptionsMenu()
+                Settings.getInstance(requireActivity()).putSingle(displayInListKey, displayInList)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         currentAdapterActionMode?.itemCount?.let { currentAdapterActionMode?.multiSelectHelper?.toggleActionMode(true, it) }
         mode?.menuInflater?.inflate(R.menu.action_mode_browser_file, menu)
@@ -131,9 +156,11 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        displayInList = Settings.getInstance(requireActivity()).getBoolean(displayInListKey, false)
+
         //local
         localEntry = view.findViewById(R.id.local_browser_entry)
-        val storageBbrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true)
+        val storageBbrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true, inCards = !displayInList)
         val storageBrowserAdapter = BaseBrowserAdapter(storageBbrowserContainer)
         localEntry.list.adapter = storageBrowserAdapter
         localViewModel = getBrowserModel(category = TYPE_FILE, url = null, showHiddenFiles = false)
@@ -159,7 +186,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         favoritesEntry = view.findViewById(R.id.fav_browser_entry)
         favoritesEntry.loading.showNoMedia = false
         favoritesEntry.loading.emptyText = R.string.no_favorite
-        val favoritesBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true)
+        val favoritesBrowserContainer = MainBrowserContainer(isNetwork = false, isFile = true, inCards = !displayInList)
         val favoritesAdapter = BaseBrowserAdapter(favoritesBrowserContainer)
         favoritesEntry.list.adapter = favoritesAdapter
         favoritesViewModel = BrowserFavoritesModel(requireContext())
@@ -185,7 +212,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
         networkEntry = view.findViewById(R.id.network_browser_entry)
         networkEntry.loading.showNoMedia = false
         networkEntry.loading.emptyText = R.string.nomedia
-        val networkBrowserContainer = MainBrowserContainer(isNetwork = true, isFile = false)
+        val networkBrowserContainer = MainBrowserContainer(isNetwork = true, isFile = false, inCards = !displayInList)
         val networkAdapter = BaseBrowserAdapter(networkBrowserContainer)
         networkEntry.list.adapter = networkAdapter
         networkViewModel = getBrowserModel(category = TYPE_NETWORK, url = null, showHiddenFiles = false)
@@ -202,6 +229,10 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
             updateNetworkEmptyView(networkEntry.loading)
         })
         networkViewModel.browseRoot()
+
+        localEntry.displayInCards = !displayInList
+        favoritesEntry.displayInCards = !displayInList
+        networkEntry.displayInCards = !displayInList
     }
 
     override fun onResume() {
@@ -271,7 +302,7 @@ class MainBrowserFragment : BaseFragment(), View.OnClickListener, CtxActionRecei
             override val isRootDirectory: Boolean = true,
             override val isNetwork: Boolean,
             override val isFile: Boolean,
-            override val inCards: Boolean = true
+            override var inCards: Boolean = true
     ) : BrowserContainer<MediaLibraryItem> by BrowserContainerImpl(scannedDirectory, mrl, isRootDirectory, isNetwork, isFile, inCards) {
         override fun containerActivity() = requireActivity()
 

@@ -51,6 +51,7 @@
             android:background="@{bgColor}"
             android:clickable="@{holder != null}"
             android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:longClickable="@{hasContextMenu || item.getItemType() == MediaLibraryItem.TYPE_STORAGE}"
             android:minHeight="48dp"
             android:onClick="@{holder::onClick}"
