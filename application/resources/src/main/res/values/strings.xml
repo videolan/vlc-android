@@ -781,5 +781,6 @@
     <string name="warning_stream_speed">Increasing playback speed over 1 for streams may cause stuttering</string>
     <string name="go_to_folder">Browse parent</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
+    <string name="enqueuing">Loading your medias</string>
 
 </resources>

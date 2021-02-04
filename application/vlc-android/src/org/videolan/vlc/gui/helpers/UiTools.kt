@@ -284,6 +284,11 @@ object UiTools {
             sHandler.postDelayed(action, DELETE_DURATION.toLong())
     }
 
+    fun snackerMessageInfinite(activity:Activity, message: String):Snackbar? {
+        val view = getSnackAnchorView(activity) ?: return null
+        return Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
+    }
+
     /**
      * Get a resource id from an attribute id.
      *
