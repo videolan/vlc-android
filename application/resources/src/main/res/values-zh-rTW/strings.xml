@@ -684,6 +684,7 @@
     <string name="subtitle_delay_end">看到的文字</string>
     <string name="track_index">軌道：%s</string>
     <string name="audio_queue_progress">進度：%s</string>
+    <string name="audio_queue_progress_finished">結束於：%s</string>
     <string name="sortby_track">軌道</string>
     <string name="this_folder">新增此資料夾</string>
     <string name="all_subfolders">新增此資料夾與子資料夾</string>
