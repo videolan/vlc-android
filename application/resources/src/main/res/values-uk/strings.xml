@@ -717,6 +717,7 @@
     <string name="subtitle_delay_end">Текст побачили</string>
     <string name="track_index">Доріжка: %s</string>
     <string name="audio_queue_progress">Поступ: %s</string>
+    <string name="audio_queue_progress_finished">Закінчується о: %s</string>
     <string name="sortby_track">Доріжка</string>
     <string name="this_folder">Додати цю теку</string>
     <string name="all_subfolders">Додати цю теку і підтеки</string>
