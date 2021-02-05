@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Text gesehen</string>
     <string name="track_index">Titel: %s</string>
     <string name="audio_queue_progress">Fortschritt: %s</string>
+    <string name="audio_queue_progress_finished">Endet um: %s</string>
     <string name="sortby_track">Titel</string>
     <string name="this_folder">Diesen Ordner hinzufügen</string>
     <string name="all_subfolders">Alle Unterordner hinzufügen</string>
