@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">ᱚᱞ ᱧᱮᱞ ᱮᱱᱟ</string>
     <string name="track_index">ᱯᱟᱸᱡᱟ: %s</string>
     <string name="audio_queue_progress">ᱞᱟᱦᱟ: %s</string>
+    <string name="audio_queue_progress_finished">ᱪᱟᱵᱟᱜ ᱚᱠᱛᱚ:%s</string>
     <string name="sortby_track">ᱯᱟᱸᱡᱟ</string>
     <string name="this_folder">ᱱᱚᱶᱟ ᱯᱚᱴᱚᱢ ᱥᱮᱞᱮᱫᱽ ᱢᱮᱸ</string>
     <string name="all_subfolders">Add this folder and subfolders</string>
@@ -760,4 +761,6 @@
     <string name="audio_delay_global">ᱡᱷᱚᱛᱚ ᱣᱤᱰᱤᱭᱚᱠᱚ ᱞᱟᱹᱫᱜᱤᱹᱫ %s ms ᱜᱷᱟᱹᱲᱤᱡ ᱥᱟᱰᱮ ᱮᱱᱟ </string>
     <string name="warning_stream_speed">ᱥᱟᱹᱴᱨᱤᱝᱼᱚᱜ ᱠᱟᱱ ᱥᱴᱨᱤᱢ ᱠᱚ ᱞᱟᱹᱜᱤᱫ ᱑ ᱦᱟᱹᱵᱤᱡ ᱯᱞᱮᱵᱮᱠ ᱪᱟᱬᱮ ᱨᱟᱠᱟᱵ ᱮᱱᱟ</string>
     <string name="go_to_folder">ᱯᱮᱨᱮᱸᱴ ᱵᱨᱟᱩᱡᱽ </string>
+    <string name="no_sub_renderer">ᱠᱟᱥᱴᱤᱝ ᱡᱷᱚᱜ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱠᱚ ᱵᱟᱭ ᱥᱟᱹᱯᱚᱴᱟᱭ</string>
+
 </resources>
