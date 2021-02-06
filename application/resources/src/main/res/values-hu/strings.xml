@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Szöveg látva</string>
     <string name="track_index">Szám: %s</string>
     <string name="audio_queue_progress">Előrehaladás: %s</string>
+    <string name="audio_queue_progress_finished">Vége %s-nél</string>
     <string name="sortby_track">Szám</string>
     <string name="this_folder">Ezen mappa hozzáadása</string>
     <string name="all_subfolders">Ezen mappa és almappa hozzáadása</string>
@@ -760,5 +761,6 @@
     <string name="audio_delay_global">Hangkésleltetés %s ms-ra állítva az összes videónál</string>
     <string name="warning_stream_speed">A lejátszási sebesség 1 fölé állítása akadozást okozhat a közvetítéseknél</string>
     <string name="go_to_folder">Szülő tallózása</string>
+    <string name="no_sub_renderer">A feliratok megjelenítése még nem támogatott vetítés közben</string>
 
 </resources>
