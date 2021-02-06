@@ -717,6 +717,7 @@
     <string name="subtitle_delay_end">נראה טקסט</string>
     <string name="track_index">רצועה: %s</string>
     <string name="audio_queue_progress">התקדמות: %s</string>
+    <string name="audio_queue_progress_finished">מסתיים ב־: %s </string>
     <string name="sortby_track">רצועה</string>
     <string name="this_folder">הוספת התיקייה הזו</string>
     <string name="all_subfolders">הוספת התיקייה הזו על תת־תיקיותיה</string>
