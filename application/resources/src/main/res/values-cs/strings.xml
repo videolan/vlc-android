@@ -717,6 +717,7 @@
     <string name="subtitle_delay_end">Viditelný text</string>
     <string name="track_index">Skladba: %s</string>
     <string name="audio_queue_progress">Průběh: %s</string>
+    <string name="audio_queue_progress_finished">Končí za: %s</string>
     <string name="sortby_track">Skladba</string>
     <string name="this_folder">Přidat tuto složku</string>
     <string name="all_subfolders">Přidat tuto složku a podsložky</string>
