@@ -696,6 +696,7 @@
     <string name="subtitle_delay_end">ടെക്‌സ്റ്റ്‌ കണ്ടു</string>
     <string name="track_index">ട്രാക്ക്: %s</string>
     <string name="audio_queue_progress">പുരോഗതി: %s</string>
+    <string name="audio_queue_progress_finished">അവസാനിക്കുന്നത്:%s</string>
     <string name="sortby_track">ട്രാക്ക്</string>
     <string name="this_folder">ഈ ഫോൾഡർ ചേർക്കുക</string>
     <string name="all_subfolders">ഈ ഫോൾഡറും സബ്ഫോൾഡറുകളും ചേർക്കുക</string>
