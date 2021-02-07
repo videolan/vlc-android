@@ -739,6 +739,7 @@
     <string name="subtitle_delay_end">رؤية النص</string>
     <string name="track_index">مسار: %s</string>
     <string name="audio_queue_progress">التقدم: %s</string>
+    <string name="audio_queue_progress_finished">ينتهي عند: %s</string>
     <string name="sortby_track">مسار</string>
     <string name="this_folder">أضف هذا المجلد</string>
     <string name="all_subfolders">أضف هذا المجلد والمجلدات الفرعية</string>
