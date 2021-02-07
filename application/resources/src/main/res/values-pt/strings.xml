@@ -704,4 +704,9 @@
     <string name="donation_description">O seu patrocínio irá ajudar-nos a melhorar a aplicação VLC para Android\n Suportar a VideoLAN Association</string>
     <string name="subscription_purchased">Você está subscrito a um patrocínio mensal</string>
     <string name="subscription_cancel">Pode retirar a subscrição na Play Store</string>
+    <string name="thank_you">Obrigado</string>
+    <string name="new_group">Novo grupo</string>
+    <string name="timeout_short">Curto</string>
+    <string name="timeout_normal">Normal</string>
+    <string name="timeout_long">Longo</string>
 </resources>
