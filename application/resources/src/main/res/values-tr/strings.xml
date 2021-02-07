@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Metin görüldü</string>
     <string name="track_index">Kayıt: %s</string>
     <string name="audio_queue_progress">İlerleme: %s</string>
+    <string name="audio_queue_progress_finished">Şurada bitiyor: %s</string>
     <string name="sortby_track">Kayıt</string>
     <string name="this_folder">Bu klasörü ekle</string>
     <string name="all_subfolders">Bu klasörü ve alt klasörlerini ekle</string>
