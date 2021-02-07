@@ -694,6 +694,7 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progreso: %s</string>
+    <string name="audio_queue_progress_finished">Termina en: %s</string>
     <string name="sortby_track">Pista</string>
     <string name="this_folder">Agregar esta carpeta</string>
     <string name="all_subfolders">Agregar esta carpeta y subcarpetas</string>
@@ -758,4 +759,6 @@
     <string name="apply_to_all">Aplicar a todos los vídeos</string>
     <string name="audio_delay_global">Retraso de audio de %s ms para todos los vídeos</string>
     <string name="warning_stream_speed">Velocidad de reproducción mayor a 1 en Transmisiones puede ocasionar pausas</string>
+    <string name="no_sub_renderer">Los subtítulos aún no son compatibles durante la transmisión</string>
+
 </resources>
