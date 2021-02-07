@@ -684,6 +684,7 @@
     <string name="subtitle_delay_end">看见的文字</string>
     <string name="track_index">轨道: %s</string>
     <string name="audio_queue_progress">进度: %s</string>
+    <string name="audio_queue_progress_finished">结束于：%s</string>
     <string name="sortby_track">轨道</string>
     <string name="this_folder">添加该文件夹</string>
     <string name="all_subfolders">添加该文件夹及其子文件夹</string>
