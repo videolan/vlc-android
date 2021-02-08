@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Testo visto</string>
     <string name="track_index">Traccia: %s</string>
     <string name="audio_queue_progress">Avanzamento: %s</string>
+    <string name="audio_queue_progress_finished">Finisce a: %s</string>
     <string name="sortby_track">Traccia</string>
     <string name="this_folder">Aggiungi questa cartella</string>
     <string name="all_subfolders">Aggiungi questa cartella e le sottocartelle</string>
@@ -761,5 +762,6 @@
     <string name="warning_stream_speed">L\'aumento della velocità di riproduzione oltre 1 per i flussi potrebbe causare una sequenza non costante di fotogrammi </string>
     <string name="go_to_folder">Sfoglia superiore</string>
     <string name="no_sub_renderer">I sottotitoli non sono ancora supportati durante la trasmissione</string>
+    <string name="enqueuing">Caricamento dei tuoi supporti</string>
 
 </resources>
