@@ -762,5 +762,6 @@
     <string name="warning_stream_speed">Om uppspelningshastigheten för strömmar är över 1 kan de bli ryckiga</string>
     <string name="go_to_folder">Bläddra i överordnad</string>
     <string name="no_sub_renderer">Det finns ännu inget stöd för att casta med undertexter</string>
+    <string name="enqueuing">Läser in dina mediafiler</string>
 
 </resources>
