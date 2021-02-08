@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Texte vu</string>
     <string name="track_index">Piste : %s</string>
     <string name="audio_queue_progress">Progression : %s</string>
+    <string name="audio_queue_progress_finished">Finit à : %s</string>
     <string name="sortby_track">Piste</string>
     <string name="this_folder">Ajouter ce dossier</string>
     <string name="all_subfolders">Ajouter ce dossier avec ces sous-dossiers</string>
@@ -761,5 +762,4 @@
     <string name="warning_stream_speed">L\'augmentation de la vitesse de lecture au-dessus de 1 pour les flux peut provoquer des saccades.</string>
     <string name="go_to_folder">Parcourir le parent</string>
     <string name="no_sub_renderer">Les sous-titres ne sont pas encore pris en charge lors du casting</string>
-
 </resources>
