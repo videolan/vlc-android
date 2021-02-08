@@ -762,5 +762,6 @@
     <string name="warning_stream_speed">Αύξηση της ταχύτητας αναπαραγωγής πάνω από 1 στις ροές μπορεί να προκαλέσει «παγώματα»</string>
     <string name="go_to_folder">Περιήγηση γονικού</string>
     <string name="no_sub_renderer">Δεν υπάρχει υποστήριξη υποτίτλων ακόμη κατά τη διανομή προβολής</string>
+    <string name="enqueuing">Φόρτωση αρχείων πολυμέσων</string>
 
 </resources>
