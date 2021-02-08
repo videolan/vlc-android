@@ -784,5 +784,6 @@
     <string name="warning_stream_speed">Zwiększenie prędkości odtwarzania strumieni powyżej 1 może powodować zacinanie się</string>
     <string name="go_to_folder">Przeglądaj katalog nadrzędny</string>
     <string name="no_sub_renderer">Napisy nie są jeszcze obsługiwane podczas transmisji</string>
+    <string name="enqueuing">Ładowanie twoich mediów</string>
 
 </resources>
