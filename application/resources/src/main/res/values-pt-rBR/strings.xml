@@ -762,5 +762,6 @@
     <string name="warning_stream_speed">Aumentar a velocidade de reprodução acima de 1 para fluxos pode causar engasgos</string>
     <string name="go_to_folder">Procurar na pasta pai</string>
     <string name="no_sub_renderer">Ainda não há suporte a legendas durante uma transmissão</string>
+    <string name="enqueuing">Carregando suas mídias</string>
 
 </resources>
