@@ -717,6 +717,7 @@
     <string name="subtitle_delay_end">Появился текст</string>
     <string name="track_index">Дорожка: %s</string>
     <string name="audio_queue_progress">Прогресс: %s</string>
+    <string name="audio_queue_progress_finished">Заканчивается на:%s</string>
     <string name="sortby_track">По дорожке</string>
     <string name="this_folder">Добавить эту папку</string>
     <string name="all_subfolders">Добавить эту папку и подпапки</string>
@@ -782,5 +783,7 @@
     <string name="audio_delay_global">Для всех видео установлена задержка звука %s мс</string>
     <string name="warning_stream_speed">При выборе скорости больше 1 при воспроизведении потоков возможно заикание</string>
     <string name="go_to_folder">Перейти наверх</string>
+    <string name="no_sub_renderer">Субтитры не подерживаются во время трансляции</string>
+    <string name="enqueuing">Загрузка ваших медиафайлов</string>
 
 </resources>
