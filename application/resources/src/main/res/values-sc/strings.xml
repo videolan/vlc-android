@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Testu bidu</string>
     <string name="track_index">Rasta: %s</string>
     <string name="audio_queue_progress">Progressu: %s</string>
+    <string name="audio_queue_progress_finished">Agabbat a: %s</string>
     <string name="sortby_track">Rasta</string>
     <string name="this_folder">Annanghe custa cartella</string>
     <string name="all_subfolders">Annanghe custa cartella e sas suta-cartellas</string>
@@ -761,5 +762,6 @@
     <string name="warning_stream_speed">Artziare sa lestresa de riprodutzione de sos flussos a prus de 1 diat pòdere causare una riprodutzione a iscatos</string>
     <string name="go_to_folder">Esplora sa cartella superiore</string>
     <string name="no_sub_renderer">Sos sutatìtulos non sunt galu a disponimentu durante sa trasmissione</string>
+    <string name="enqueuing">Carrighende sos mèdios tuos</string>
 
 </resources>
