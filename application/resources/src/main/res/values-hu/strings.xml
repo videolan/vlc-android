@@ -762,5 +762,6 @@
     <string name="warning_stream_speed">A lejátszási sebesség 1 fölé állítása akadozást okozhat a közvetítéseknél</string>
     <string name="go_to_folder">Szülő tallózása</string>
     <string name="no_sub_renderer">A feliratok megjelenítése még nem támogatott vetítés közben</string>
+    <string name="enqueuing">Médiafájlok betöltése</string>
 
 </resources>
