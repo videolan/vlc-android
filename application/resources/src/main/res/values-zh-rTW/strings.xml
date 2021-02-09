@@ -751,5 +751,6 @@
     <string name="warning_stream_speed">增加串流的播放速度超過 1 可能造成間斷</string>
     <string name="go_to_folder">瀏覽上一層</string>
     <string name="no_sub_renderer">投放時尚不支援字幕</string>
+    <string name="enqueuing">正在載入您的媒體</string>
 
 </resources>
