@@ -751,5 +751,6 @@
     <string name="warning_stream_speed">将流的回放速度加快到1以上可能会导致播放卡顿</string>
     <string name="go_to_folder">浏览父文件夹</string>
     <string name="no_sub_renderer">尚不支持投屏播放时显示字幕</string>
+    <string name="enqueuing">正在加载你的媒体文件</string>
 
 </resources>
