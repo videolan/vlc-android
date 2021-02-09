@@ -691,6 +691,7 @@
     <string name="unknown">Desconocido</string>
     <string name="audio_delay_start">Sonido escuchado</string>
     <string name="subtitle_delay_first">Voz escuchada</string>
+    <string name="audio_delay_end">Sonido manchado</string>
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progreso: %s</string>
@@ -759,6 +760,8 @@
     <string name="apply_to_all">Aplicar a todos los vídeos</string>
     <string name="audio_delay_global">Retraso de audio de %s ms para todos los vídeos</string>
     <string name="warning_stream_speed">Velocidad de reproducción mayor a 1 en Transmisiones puede ocasionar pausas</string>
+    <string name="go_to_folder">Explorar padre</string>
     <string name="no_sub_renderer">Los subtítulos aún no son compatibles durante la transmisión</string>
+    <string name="enqueuing">carga de los medios</string>
 
 </resources>
