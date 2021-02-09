@@ -46,7 +46,7 @@
         <item name="bottom_navigation_color">@color/grey700</item>
         <item name="header_background">@color/whitetransparent_ea</item>
         <item name="background_default_darker">@color/grey200</item>
-        <item name="background_actionbar">@color/white</item>
+        <item name="background_actionbar">@color/white</item>Dark
         <item name="background_audio_tips">@color/grey50transparent</item>
         <item name="audio_player_background_tint">@color/whitetransparent</item>
         <item name="audio_browser_separator">@color/orange500</item>
@@ -94,7 +94,10 @@
         <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_light</item>
     </style>
 
-    <style name="Theme.VLC.PickerDialog" parent="Theme.MaterialComponents.Dialog">
+    <style name="Theme.VLC.PickerDialog" parent="Theme.VLC.PickerDialog.Light"/>
+    <style name="Theme.VLC.PickerDialog.Dark" parent="Theme.VLC.PickerDialog.Dark.7"/>
+    <style name="Theme.VLC.PickerDialog.Light" parent="Theme.VLC.PickerDialog.Light.7"/>
+    <style name="Theme.VLC.PickerDialog.Dark.7" parent="Theme.MaterialComponents.Dialog">
         <item name="colorPrimary">@color/orange500</item>
         <item name="colorPrimaryDark">@color/orange700</item>
         <item name="colorSecondary">@color/orange500</item>
@@ -109,6 +112,24 @@
         <item name="ariane_text_color">@color/grey50</item>
         <item name="ariane_text_size">14sp</item>
         <item name="android:windowBackground">@color/grey900</item>
+        <item name="android:textViewStyle">@style/VLC.TextView</item>
+    </style>
+
+    <style name="Theme.VLC.PickerDialog.Light.7" parent="Theme.MaterialComponents.Dialog">
+        <item name="colorPrimary">@color/orange500</item>
+        <item name="colorPrimaryDark">@color/orange700</item>
+        <item name="colorSecondary">@color/orange500</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
+        <item name="background_default">@color/white</item>
+        <item name="background_default_darker">@color/grey200</item>
+        <item name="font_default">@color/black</item>
+        <item name="font_light">@color/grey300</item>
+        <item name="list_subtitle">@color/grey600</item>
+        <item name="list_title">@color/black</item>
+        <item name="ariane_text_color">@color/grey900</item>
+        <item name="ariane_text_size">14sp</item>
+        <item name="android:windowBackground">@color/grey200</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
     </style>
 

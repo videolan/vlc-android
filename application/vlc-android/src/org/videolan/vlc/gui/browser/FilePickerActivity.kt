@@ -27,17 +27,26 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.tools.KEY_APP_THEME
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.video.VideoPlayerActivity
+import kotlin.reflect.jvm.jvmName
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class FilePickerActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        if (callingActivity?.className != VideoPlayerActivity::class.jvmName)
+            AppCompatDelegate.setDefaultNightMode(Integer.valueOf(Settings.getInstance(this).getString(KEY_APP_THEME, "-1")!!))
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.file_picker_activity)
         val ft = supportFragmentManager.beginTransaction()

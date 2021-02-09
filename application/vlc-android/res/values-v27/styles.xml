@@ -30,12 +30,27 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
-  </style>
+    </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.19">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">@color/grey875</item>
-  </style>
+    </style>
+
+    <style name="Theme.VLC.PickerDialog.Dark" parent="Theme.VLC.PickerDialog.Dark.7">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/grey875</item>
+    </style>
+
+    <style name="Theme.VLC.PickerDialog.Light" parent="Theme.VLC.PickerDialog.Light.7">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
 </resources>
