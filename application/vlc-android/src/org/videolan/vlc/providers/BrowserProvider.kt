@@ -205,7 +205,9 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             override fun onMediaRemoved(index: Int, media: IMedia) {}
         }
         requestBrowsing(url, listener, interact)
-        awaitClose { if (url != null) mediabrowser?.changeEventListener(null) }
+        awaitClose { if (url != null) AppScope.launch(coroutineContextProvider.IO) {
+            mediabrowser?.changeEventListener(null) }
+        }
     }.buffer(Channel.UNLIMITED)
 
     open fun addMedia(media: MediaLibraryItem) {
