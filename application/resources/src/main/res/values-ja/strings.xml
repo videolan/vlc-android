@@ -684,6 +684,7 @@
     <string name="subtitle_delay_end">見えたテキスト</string>
     <string name="track_index">トラック: %s</string>
     <string name="audio_queue_progress">進捗: %s</string>
+    <string name="audio_queue_progress_finished">%s: で終了</string>
     <string name="sortby_track">トラック</string>
     <string name="this_folder">このフォルダーを追加</string>
     <string name="all_subfolders">このフォルダーとサブフォルダーを追加</string>
@@ -749,5 +750,7 @@
     <string name="audio_delay_global">すべてのビデオのオーディオに %s ミリ秒の遅延を適用</string>
     <string name="warning_stream_speed">再生速度を1以上にすると音声の途切れが発生することがあります</string>
     <string name="go_to_folder">親をブラウズ</string>
+    <string name="no_sub_renderer">キャスト中の字幕はまだサポートされていません</string>
+    <string name="enqueuing">メディアを読み込み中</string>
 
 </resources>
