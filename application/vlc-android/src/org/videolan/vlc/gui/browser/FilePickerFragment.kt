@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.browser
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
@@ -43,6 +42,7 @@ import org.videolan.resources.AndroidDevices
 import org.videolan.tools.removeFileProtocole
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
+import org.videolan.vlc.providers.PickerType
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -59,17 +59,20 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     }
 
     override fun onCreate(bundle: Bundle?) {
-       requireActivity().intent?.getParcelableExtra<MediaWrapper>(KEY_MEDIA)?.let {media ->
-           if (media.uri == null || media.uri.scheme == "http" || media.uri.scheme == "content" || media.uri.scheme == "fd") {
-               activity?.intent = null
-           }
-       }
+        requireActivity().intent?.getParcelableExtra<MediaWrapper>(KEY_MEDIA)?.let { media ->
+            if (media.uri == null || media.uri.scheme == "http" || media.uri.scheme == "content" || media.uri.scheme == "fd") {
+                activity?.intent = null
+            }
+        }
+        requireActivity().intent?.getIntExtra(KEY_PICKER_TYPE, 0)?.let { pickerIndex ->
+            pickerType = PickerType.values()[pickerIndex]
+        } ?: PickerType.SUBTITLE
         super.onCreate(bundle)
         adapter = FilePickerAdapter(this)
     }
 
     override fun setupBrowser() {
-        viewModel = ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), mrl, TYPE_PICKER, false)).get(BrowserModel::class.java)
+        viewModel = ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), mrl, TYPE_PICKER, false, pickerType = pickerType)).get(BrowserModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,7 +92,6 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
             browse(media, true)
         else
             pickFile(media)
-
     }
 
     override fun backTo(tag: String) {
@@ -140,6 +142,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
 
     override fun containerActivity() = requireActivity()
 
+    private lateinit var pickerType: PickerType
     override val isNetwork = false
     override val isFile = true
 }

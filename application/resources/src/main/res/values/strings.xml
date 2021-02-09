@@ -782,5 +782,7 @@
     <string name="go_to_folder">Browse parent</string>
     <string name="no_sub_renderer">Subtitles are not yet supported while casting</string>
     <string name="enqueuing">Loading your medias</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Pick a SoundFont file to play midi audio tracks</string>
 
 </resources>

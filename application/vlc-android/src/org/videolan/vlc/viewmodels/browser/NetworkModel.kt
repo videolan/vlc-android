@@ -31,7 +31,7 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.NetworkMonitor
 
-class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles, true, coroutineContextProvider) {
+class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean, coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) : BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles, true, coroutineContextProvider = coroutineContextProvider) {
 
     init {
         NetworkMonitor.getInstance(context).connectionFlow.onEach {

@@ -536,6 +536,8 @@ object FileUtils {
         fin.close()
         return ret
     }
+
+    fun getSoundFontExtensions() = arrayOf("sf2", "sf3")
 }
 
 fun String?.getParentFolder(): String? {
@@ -551,3 +553,11 @@ fun String?.getParentFolder(): String? {
     return parentPath
 }
 
+fun Uri?.isSoundFont():Boolean {
+    this?.lastPathSegment?.let { lastPathSegment ->
+        FileUtils.getSoundFontExtensions().forEach {
+            if (lastPathSegment.endsWith(it)) return true
+        }
+    }
+    return false
+}

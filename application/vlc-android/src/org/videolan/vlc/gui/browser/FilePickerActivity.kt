@@ -41,7 +41,7 @@ class FilePickerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.file_picker_activity)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_placeholder, FilePickerFragment().apply { arguments = bundleOf(KEY_MEDIA to intent.getParcelableExtra<MediaWrapper>(KEY_MEDIA)) }, "picker")
+        ft.replace(R.id.fragment_placeholder, FilePickerFragment().apply { arguments = bundleOf(KEY_MEDIA to intent.getParcelableExtra<MediaWrapper>(KEY_MEDIA), KEY_PICKER_TYPE to intent.getIntExtra(KEY_PICKER_TYPE, 0)) }, "picker")
         ft.commit()
         window.attributes.gravity = Gravity.BOTTOM
     }

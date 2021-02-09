@@ -29,10 +29,11 @@ import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.livedata.LiveDataset
+import org.videolan.vlc.util.isSoundFont
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showDummyCategory: Boolean = false) : FileBrowserProvider(context, dataset, url, true, false, showDummyCategory) {
+class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showDummyCategory: Boolean = false, private val pickerType:PickerType = PickerType.SUBTITLE) : FileBrowserProvider(context, dataset, url, true, false, showDummyCategory) {
 
     override fun getFlags(interact : Boolean) = if (interact) MediaBrowser.Flag.NoSlavesAutodetect
     else MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect
@@ -43,10 +44,15 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
     }
 
     override suspend fun findMedia(media: IMedia) = MLServiceLocator.getAbstractMediaWrapper(media)?.takeIf { mw ->
-        mw.type == MediaWrapper.TYPE_DIR || mw.type == MediaWrapper.TYPE_SUBTITLE
+        mw.type == MediaWrapper.TYPE_DIR || (pickerType == PickerType.SUBTITLE && mw.type == MediaWrapper.TYPE_SUBTITLE) || (pickerType == PickerType.SOUNDFONT && mw.uri.isSoundFont())
     }
 
     override fun computeHeaders(value: List<MediaLibraryItem>) {}
 
     override fun parseSubDirectories(list : List<MediaLibraryItem>?) {}
+}
+
+
+enum class PickerType {
+    SUBTITLE, SOUNDFONT
 }
