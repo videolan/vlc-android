@@ -14,6 +14,7 @@
     <string name="sortby_date">दिनांक</string>
     <string name="sortby_last_modified_date">हाल ही में जुड़ा</string>
     <string name="sortby_media_number">मीडिया क्रम</string>
+    <string name="sortby_number">Nb ट्रैक</string>
     <string name="searchable_hint">खोजें…</string>
     <string name="history">इतिहास</string>
 
@@ -26,6 +27,7 @@
     <string name="playback">प्रतिश्रवण</string>
     <string name="playback_controls">प्रतिश्रवण नियंत्रण</string>
     <string name="medialibrary_scan">मीडिया लाइब्रेरी में खोजें</string>
+    <string name="Medialibrary_progress">मीडिया लाइब्रेरी स्कैनिंग प्रगति अद्यतन</string>
     <string name="play_from_start">खेल से शुरूआत</string>
     <string name="play_as_audio">ऑडियो के रूप में चलाएँ</string>
     <string name="play_as_video">वीडियो के रूप में चलाएँ</string>
@@ -42,10 +44,14 @@
     <string name="delete">हटाएँ</string>
     <string name="remove">हटाए</string>
     <string name="set_song">रिंगटोन बनाएँ</string>
+    <string name="set_song_question">\'%1$s\' को रिंगटोन के रूप में सेट करें?</string>
     <string name="info">जानकारी</string>
     <string name="confirm_delete">फाइल \'%1$s\' को मिटायें</string>
+    <string name="confirm_delete_album">\'%1$s\' एल्बम हटा दें?</string>
+    <string name="confirm_delete_several_media">इन %1$d मीडिया को हटाएं?</string>
     <string name="confirm_delete_folder">फ़ोल्डर \'1%1$s\' और उसकी सभी सामग्री हटाएं?</string>
     <string name="confirm_delete_playlist">प्लेलिस्ट हटाएं \'1%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">प्लेलिस्ट से \'%1$s\' को निकाल दें?</string>
     <string name="ringtone_set">फ़ाइल \'1%1$s\' को रिंगटोन के रूप में सेट किया गया था|</string>
     <string name="ringtone_error">रिंगटोन सेट करते समय कोई त्रुटि हुई.</string>
     <string name="pause">विराम दें</string>
@@ -56,6 +62,7 @@
     <string name="track_info_copied_to_clipboard">ट्रैक जानकारी क्लिपबोर्ड में कॉपी की गई</string>
 
     <string name="artists">कलाकार</string>
+    <string name="albums">एलबम</string>
     <string name="tracks">ट्रैक</string>
 
     <plurals name="albums_quantity">
@@ -66,10 +73,27 @@
         <item quantity="one">1 सबफ़ोल्डर</item>
         <item quantity="other">%d सबफ़ोल्डर</item>
     </plurals>
+    <plurals name="media_quantity">
+        <item quantity="one">1 मीडिया</item>
+        <item quantity="other">%d मीडिया</item>
+    </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 मीडिया दस्तावेज</item>
         <item quantity="other">%d मीडिया दस्तावेजे</item>
     </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 वीडियो</item>
+        <item quantity="other">%d वीडियो</item>
+    </plurals>
+    <plurals name="movies_quantity">
+        <item quantity="one">1 सिनेमा</item>
+        <item quantity="other">%d सिनेमा</item>
+    </plurals>
+    <plurals name="tvshow_quantity">
+        <item quantity="one">1 टीवी शो</item>
+        <item quantity="other">%d टीवी शो</item>
+    </plurals>
+
     <string name="internal_memory">आन्तरिक याददाश्त</string>
     <string name="audio">ऑडियो</string>
     <string name="video">वीडियो</string>
@@ -83,29 +107,49 @@
     <string name="loading">लोड हो रहा है</string>
     <string name="please_wait">कृपया प्रतीक्षा करे…</string>
     <string name="nomedia">कोई मीडिया फाइल नहीं मिला, कृपया कोई फाइल अपने डिवाइस में ट्रांसफर करे या अपने सेटिंग्स को चेंज करे</string>
+    <string name="noplaylist">बजाने की सूची  नहीं मिली </string>
     <string name="nohistory">आपके पास अभी तक कोई प्लेबैक इतिहास नहीं है.</string>
     <string name="validation">क्या आपको यकीन है?</string>
 
     <string name="cover_art">आवरण कला</string>
+    <string name="shuffle_all_title">सबको फेंटो </string>
+    <string name="shuffle_title">फेंटना शैली </string>
+    <string name="shuffle">फेंटना बंद </string>
+    <string name="shuffle_on">फेंटना चालू </string>
+    <string name="repeat_title">आवृत्ति शैली </string>
     <string name="repeat">पुनरावृत्ति नहीं</string>
     <string name="repeat_single">एकल पुनरावृत्ति</string>
     <string name="repeat_all">समग्र पुनरावृत्ति</string>
     <string name="previous">पिछला</string>
     <string name="stop">विराम</string>
+    <string name="firstsong">बजाने  की सूची का पहला गाना </string>
+    <string name="lastsong">बजाने की सूची का आख़िरी गाना </string>
+
     <string name="surface_best_fit">बेहतरीन फिट</string>
+    <string name="surface_fit_screen">पटल पर जमाओ </string>
     <string name="surface_fill">पूर्ण</string>
     <string name="surface_original">मध्य</string>
     <string name="unseekable_stream">अन्सीकेबल धारा</string>
     <string name="refresh">तरोताज़ा करें</string>
     <string name="track_audio">ऑडीओ रील</string>
     <string name="track_video">वीडियो रील</string>
+    <string name="track_text">अनुशीर्षक ट्रैक </string>
     <string name="track_unknown">अज्ञात रील</string>
+    <string name="track_codec_info">कोडेक : %1$s\n</string>
+    <string name="track_language_info">भाषा : %1$s\n</string>
     <string name="volume">आवाज़ निर्धारक</string>
     <string name="sound_on">आवाज़ चालू</string>
     <string name="sound_off">आवाज़ बंद</string>
     <string name="brightness">चमक</string>
+    <string name="advanced">उन्नत विकल्प</string>
     <string name="audio_boost_warning">100% से आगे जाने के लिए स्लाइड को और ऊपर करें</string>
 
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 चैनल\n</item>
+        <item quantity="other">%1$d चैनल\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">नमूना दर : %1$d Hz\n</string>
     <string name="playback_speed">पार्श्व गति</string>
     <string name="sleep_title">निद्रा घड़ी</string>
     <string name="jump_to_time">कूद का समय</string>
