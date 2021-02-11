@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Testu vistu</string>
     <string name="track_index">Traccia : %s</string>
     <string name="audio_queue_progress">Prugressione : %s</string>
+    <string name="audio_queue_progress_finished">Si compie à :%s</string>
     <string name="sortby_track">Traccia</string>
     <string name="this_folder">Aghjunghje stu cartulare</string>
     <string name="all_subfolders">Aghjunghje stu cartulare è i so sottucartulari</string>
@@ -761,5 +762,6 @@
     <string name="warning_stream_speed">L’aumentu di a vitezza di ripruduzzione sopra 1 per i flussi pò cagiunà un barbagliulime</string>
     <string name="go_to_folder">Navigà à u livellu superiore</string>
     <string name="no_sub_renderer">I sottutituli ùn sò ancu accettati durante a diffusione</string>
+    <string name="enqueuing">Caricamentu di i vostri media</string>
 
 </resources>
