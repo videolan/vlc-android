@@ -285,6 +285,9 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="enable_seek_buttons_summary">Näytä videon liittymässä kelaus- ja eteenpäin-painikkeet</string>
     <string name="enable_double_tap_seek_title">Kelaa kaksoisnapauttamalla</string>
     <string name="enable_double_tap_seek_summary">Kaksoisnapauta näytön reunalla, kelaa 10 sekunnilla</string>
+    <string name="browser_show_hidden_files_title">Näytä piilotetut tiedostot</string>
+
+    <string name="subtitles_prefs_category">Tekstitykset</string>
     <string name="subtitles_size_title">Tekstityksen koko</string>
     <string name="subtitles_size_small">Pieni</string>
     <string name="subtitles_size_normal">Normaali</string>
@@ -302,8 +305,27 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="subtitles_autoload_title">Automaattisesti lataa tekstit</string>
 
     <string name="audio_prefs_category">Audio</string>
+    <string name="lockscreen_cover_summary">Kun mahdollista, aseta nykyisen mediatiedoston kuva lukitusnäytön taustakuvaksi</string>
+    <string name="list_title_ellipsize_default">Oletus</string>
+    <string name="list_title_ellipsize_left">Vasen</string>
+    <string name="list_title_ellipsize_right">Oikea</string>
+    <string name="audio_boost_title">Äänentehostus</string>
+    <string name="audio_boost_summary">Salli äänenvoimakkuus 200%:iin asti</string>
+    <string name="headset_prefs_category">Kuulokkeet</string>
     <string name="enable_headset_detection">Tunnista kuulokkeet</string>
+    <string name="enable_headset_detection_summary">Tunnista kuulokkeiden kiinnittäminen ja irrottaminen</string>
+    <string name="enable_play_on_headset_insertion">Jatka kuulokkeiden kiinnittämisen jälkeen</string>
+    <string name="enable_play_on_headset_insertion_summary">Tauota muussa tapauksessa</string>
     <string name="aout">Ääniulostulo</string>
+    <string name="aout_summary">Vaihda menetelmää, jota VLC käyttää äänen ulosantiin.</string>
+    <string name="audio_ducking_title">Alenna VLC-ilmoitusten äänenvoimakkuutta</string>
+    <string name="artists_show_all_title">Näytä kaikki artistit</string>
+
+    <string name="extensions_prefs_category">Laajennukset</string>
+    <string name="extensions_empty">Laajennusta ei havaittu</string>
+    <string name="extension_permission_title">Ota laajennus \"%1$s\" käyttöön?</string>
+    <string name="controls_prefs_category">Säätimet</string>
+
     <string name="performance_prefs_category">Suorituskyky</string>
     <string name="chroma_format">Pakota videon chroma</string>
     <string name="deblocking">Purkusuodattimen asetukset</string>
