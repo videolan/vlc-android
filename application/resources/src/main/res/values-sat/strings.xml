@@ -762,5 +762,6 @@
     <string name="warning_stream_speed">ᱥᱟᱹᱴᱨᱤᱝᱼᱚᱜ ᱠᱟᱱ ᱥᱴᱨᱤᱢ ᱠᱚ ᱞᱟᱹᱜᱤᱫ ᱑ ᱦᱟᱹᱵᱤᱡ ᱯᱞᱮᱵᱮᱠ ᱪᱟᱬᱮ ᱨᱟᱠᱟᱵ ᱮᱱᱟ</string>
     <string name="go_to_folder">ᱯᱮᱨᱮᱸᱴ ᱵᱨᱟᱩᱡᱽ </string>
     <string name="no_sub_renderer">ᱠᱟᱥᱴᱤᱝ ᱡᱷᱚᱜ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱠᱚ ᱵᱟᱭ ᱥᱟᱹᱯᱚᱴᱟᱭ</string>
+    <string name="enqueuing">ᱟᱢᱟᱜ ᱢᱤᱰᱤᱭᱟ ᱠᱚ ᱞᱟᱫᱮ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ</string>
 
 </resources>
