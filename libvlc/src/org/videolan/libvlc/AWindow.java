@@ -96,6 +96,14 @@ public class AWindow implements IVLCVout {
         @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         private void attachTextureView() {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+
+            /* The SurfaceTexture might be already available, in which case
+             * the listener won't be signalled. Check the existence right after
+             * attaching the listener and call it manually in this case. */
+            SurfaceTexture surfaceTexture = mTextureView.getSurfaceTexture();
+            if (surfaceTexture != null)
+                mSurfaceTextureListener.onSurfaceTextureAvailable(surfaceTexture,
+                        mTextureView.getWidth(), mTextureView.getHeight());
         }
 
         private void attachSurface() {
