@@ -13,27 +13,30 @@
    viewBox="0 0 108.0 108.0"
    version="1.1"
    id="SVGRoot"
-   sodipodi:docname="ic_launcher_background.svg"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+   sodipodi:docname="ic_launcher_reporter_background.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   inkscape:export-filename="./bitmap.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs1600">
     <linearGradient
        inkscape:collect="always"
        id="linearGradient2208-3">
       <stop
-         style="stop-color:#91dcc5;stop-opacity:1"
+         style="stop-color:#67bfd9;stop-opacity:1"
          offset="0"
          id="stop2234" />
       <stop
-         style="stop-color:#50c8a3;stop-opacity:1"
+         style="stop-color:#0b99c1;stop-opacity:1"
          offset="0.54000002"
          id="stop2263" />
       <stop
-         style="stop-color:#42a385;stop-opacity:1"
+         style="stop-color:#097fa0;stop-opacity:1"
          offset="0.72000003"
          id="stop2265" />
       <stop
-         style="stop-color:#26604e;stop-opacity:1"
+         style="stop-color:#08728f;stop-opacity:1"
          offset="1"
          id="stop2236" />
     </linearGradient>
@@ -55,9 +58,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="31.458471"
-     inkscape:cy="49.664795"
+     inkscape:zoom="2.8"
+     inkscape:cx="23.739457"
+     inkscape:cy="15.817969"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -94,7 +97,7 @@
        height="108"
        width="108"
        id="rect5954"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;mix-blend-mode:multiply;vector-effect:none;fill:url(#linearGradient2273);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:24.15;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.2983;stroke-opacity:1;marker:none;enable-background:accumulate"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;mix-blend-mode:multiply;vector-effect:none;fill:url(#linearGradient2273);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:24.15;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.2983;stroke-opacity:1;marker:none;enable-background:accumulate"
        transform="scale(-1)" />
   </g>
 </svg>
