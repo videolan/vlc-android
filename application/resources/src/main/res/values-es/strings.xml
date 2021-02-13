@@ -759,4 +759,9 @@
     <string name="prefersmbv1_summary">Desmarque esta preferencia si tiene dificultades la explorar su servidor SMB</string>
     <string name="apply_to_all">Aplicar a todos los vídeos</string>
     <string name="audio_delay_global">Retraso de audio establecido a %s ms para todos los vídeos</string>
+    <string name="warning_stream_speed">Incrementar la velocidad de reproducción por encima de 1 para las emisiones puede causar intermitencias</string>
+    <string name="go_to_folder">Explorar padre</string>
+    <string name="no_sub_renderer">Los subtítulos no está soportados todavía al emitir</string>
+    <string name="enqueuing">Cargando sus medios</string>
+
 </resources>
