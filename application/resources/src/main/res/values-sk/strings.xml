@@ -785,5 +785,8 @@
     <string name="warning_stream_speed">Zvýšenie rýchlosti prehrávania streamov na viac ako 1 môže spôsobiť výpadky</string>
     <string name="go_to_folder">Prehľadávať rodičovský priečinok</string>
     <string name="no_sub_renderer">Počas streamovania (castingu) ešte nie sú podporované titulky</string>
+    <string name="enqueuing">Načítavanie médií</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Vyberte súbor SoundFont na prehratie zvukových stôp MIDI</string>
 
 </resources>
