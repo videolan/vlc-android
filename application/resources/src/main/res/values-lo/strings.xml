@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">ຕົກລົງ</string>
+    <string name="cancel">ຍົກເລີກ</string>
+    <string name="other">ອື່ນໆ</string>
+    <string name="sortby">ຈັດລຽງໂດຍ…</string>
+    <string name="sortby_name">ຊື່</string>
+    <string name="sortby_artist_name">ຊື່ສິລະປິນ</string>
+    <string name="sortby_album_name">ຊື່ອາລະບ້ຳ</string>
+    <string name="sortby_length">ຄວາມຍາວ</string>
+    <string name="sortby_date">ວັນທີ</string>
+    <string name="sortby_number">ໝາຍເລກແທຣັກ</string>
+    <string name="searchable_hint">ຄົ້ນຫາ…</string>
+    <string name="history">ປະຫວັດ</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d ຜົນໄດ້ຮັບທີ່ພົບ</item>
+    </plurals>
+
+    <string name="play">ຫຼິ້ນ</string>
+    <string name="playback">ການຫຼິ້ນ</string>
+    <string name="playback_controls">ການຄວບຄຸມການຫຼິ້ນ</string>
+    <string name="medialibrary_scan">ການສະແກນຫ້ອງສະໝຸດສື່</string>
+    <string name="Medialibrary_progress">ການປັບປຸງຄວາມຄືບໜ້າການສະແກນຫ້ອງສະໝຸດສື່</string>
+    <string name="play_from_start">ຫຼິ້ນຈາກຈຸດເລີ່ມຕົ້ນ</string>
+    <string name="play_as_audio">ຫຼິ້ນໃນຮູບແບບສຽງ</string>
+    <string name="play_as_video">ຫຼິ້ນໃນຮູບແບບວິດີໂອ</string>
+    <string name="video_app_switch_title">ໂໝດພື້ນຫຼັງ/PiP</string>
+    <string name="video_app_switch_summary">ເລືອກຄຸນລັກສະນະ VLC ໃນເວລາທີ່ທ່ານປ່ຽນໄປໃຊ້ແອັບພລິເຄຊັນອື່ນຈາກການຫຼິ້ນວິດີໂອ</string>
+    <string name="play_pip_title">ຫຼິ້ນວິດີໂອໃນໂໝດ Picture-in-picture</string>
+    <string name="play_as_audio_background">ຫຼິ້ນວິດີໂອໃນພື້ນຫຼັງ</string>
+    <string name="append">ເພີ່ມ</string>
+    <string name="insert_next">ໃສ່ຕໍ່ໄປ</string>
+    <string name="play_all">ຫລີ້ນທັງຫມົດ</string>
+    <string name="append_all">ເພີ່ມທັງໝົດ</string>
+    <string name="delete">ລຶບ</string>
+    <string name="remove">ເອົາອອກ</string>
+    <string name="set_song">ຕັ້ງເປັນສຽງເອີ້ນເຂົ້າ</string>
+    <string name="info">ຂໍ້ມູນ</string>
+    <string name="confirm_delete">ລຶບໄຟລ໌ \'%1$s\' ບໍ່?</string>
+    <string name="confirm_delete_folder">ລຶບໂຟນເດີ \'%1$s\' ແລະເນື້ອຫາທັງໝົດບໍ່?</string>
+    <string name="confirm_delete_playlist">ລຶບລາຍການເພງ \'%1$s\' ບໍ່?</string>
+    <string name="ringtone_set">ໄຟລ໌ \'%1$s\' ໄດ້ຖືກຕັ້ງເປັນສຽງເອີ້ນເຂົ້າແລ້ວ.</string>
+    <string name="ringtone_error">ເກີດຂໍ້ຜິດພາດຂະນະທີ່ກຳລັງຕັ້ງຄ່າສຽງເອີ້ນເຂົ້າ.</string>
+    <string name="pause">ຢຸດຊົ່ວຄາວ</string>
+    <string name="unknown_artist">ບໍ່ຮູ້ຈັກສີລະປິນ</string>
+    <string name="unknown_album">ບໍ່ຮູ້ຈັກອາລະບ້ຳ</string>
+    <string name="unknown_genre">ບໍ່ຮູ້ຈັກປະເພດ</string>
+    <string name="artists">ສິລະປິນ</string>
+    <string name="tracks">ແທຣັກ</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="other">%d ອາລະບ້ຳ</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d ໂຟນເດີຍ່ອຍ</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d ໄຟລ໌ມີເດຍ</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d ວິດີໂອ</item>
+    </plurals>
+    <string name="internal_memory">ໜ່ວຍຄວາມຈຳພາຍໃນ</string>
+    <string name="audio">ສຽງ</string>
+    <string name="video">ວິດີໂອ</string>
+    <string name="bookmarks">ບຸກມາກ</string>
+    <string name="equalizer">ຕົວປັບແຕ່ງສຽງ</string>
+    <string name="all_albums">ອາລະບ້ຳທັງໝົດ</string>
+    <string name="genres">ປະເພດ</string>
+    <string name="playlists">ລາຍການເພງ</string>
+    <string name="title">ຫົວຂໍ້</string>
+    <string name="directories">ໄດເຣັກທໍຣີ</string>
+    <string name="loading">ກຳລັງໂຫຼດ</string>
+    <string name="please_wait">ກະລຸນາລໍຖ້າ…</string>
+    <string name="nomedia">ບໍ່ພົບໄຟລ໌ສື່, ກະລຸນາໂອນໄຟລ໌ບາງໄຟລ໌ໄປຫາອຸປະກອນຂອງທ່ານຫຼືປັບການຕັ້ງຄ່າຂອງທ່ານ.</string>
+    <string name="noplaylist">ບໍ່ພົບລາຍການເພງ.</string>
+    <string name="directorynotfound">ບໍ່ພົບເສັ້ນທາງໄດເຣັກທໍຣີ \'%1$s\'.</string>
+    <string name="nohistory">ທ່ານຍັງບໍ່ມີປະຫວັດການຫຼິ້ນເທື່ອ.</string>
+    <string name="validation">ທ່ານແນ່ໃຈບໍ່?</string>
+
+    <string name="cover_art">ຮູບພາບໜ້າປົກ</string>
+    <string name="shuffle_title">ໂໝດສະຫຼັບເພງ</string>
+    <string name="shuffle">ປິດໂໝດສະຫຼັບເພງ</string>
+    <string name="shuffle_on">ເປີດໂໝດສະຫຼັບເພງ</string>
+    <string name="repeat_title">ໂໝດຫຼິ້ນຊ້ຳ</string>
+    <string name="repeat">ປິດການຫຼິ້ນຊ້ຳ</string>
+    <string name="repeat_single">ຫຼິ້ນຊ້ຳລາຍການດຽວ</string>
+    <string name="repeat_all">ຫຼິ້ນຊ້ຳທັງໝົດ</string>
+    <string name="previous">ກ່ອນໜ້າ</string>
+    <string name="stop">ຢຸດ</string>
+    <string name="firstsong">ເພງທຳອິດຂອງລາຍການເພງ</string>
+    <string name="lastsong">ເພງສຸດທ້າຍຂອງລາຍການເພງ</string>
+
+    <string name="surface_best_fit">ພໍດີທີ່ສຸດ</string>
+    <string name="surface_fit_screen">ພໍດີໜ້າຈໍ</string>
+    <string name="surface_fill">ເຕັມຈໍ</string>
+    <string name="surface_original">ເຄິ່ງກາງ</string>
+    <string name="unseekable_stream">ສະຕຣີມທີ່ຄົ້ນຫາບໍ່ໄດ້</string>
+    <string name="refresh">ຟື້ນຟູ</string>
+    <string name="track_audio">ແທຣັກສຽງ</string>
+    <string name="track_video">ແທຣັກວິດີໂອ</string>
+    <string name="track_text">ແທຣັກຄຳບັນຍາຍ</string>
+    <string name="track_unknown">ແທຣັກທີ່ບໍ່ຮູ້ຈັກ</string>
+    <string name="volume">ລະດັບສຽງ</string>
+    <string name="sound_on">ເປີດສຽງ</string>
+    <string name="sound_off">ປິດສຽງ</string>
+    <string name="brightness">ຄວາມສະຫວ່າງ</string>
+    <string name="advanced">ຕົວເລືອກຂັ້ນສູງ</string>
+    <string name="audio_boost_warning">ເລື່ອນຂຶ້ນອີກເທື່ອໜຶ່ງເພື່ອປັບໃຫ້ເກີນ 100%</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">%1$d ຊ່ອງ\n</item>
+    </plurals>
+
+    <string name="playback_speed">ຄວາມໄວໃນການຫຼິ້ນ</string>
+    <string name="sleep_title">ຕັ້ງເວລາປິດເຄື່ອງ</string>
+    <string name="sleep_in">ປິດເຄື່ອງໃນ</string>
+    <string name="jump_to_time">ຂ້າມໄປເວລາ</string>
+    <string name="subtitle_select">ເລືອກໄຟລ໌ຄຳບັນຍາຍ</string>
+
+    <string name="server_add_title">ເພີ່ມເຊີບເວີໃໝ່ເຂົ້າໃນລາຍການທີ່ມັກ</string>
+    <string name="server_username_hint">ຊື່ຜູ້ໃຊ້</string>
+    <string name="server_port">ພອດ:</string>
+    <string name="login">ເຂົ້າສູ່ລະບົບ</string>
+    <string name="password">ລະຫັດຜ່ານ</string>
+
+    <string name="search_no_result">ບໍ່ພົບສື່</string>
+    <string name="favorites_add">ເພີ່ມເຂົ້າໃນລາຍການທີ່ມັກ</string>
+    <string name="favorites_remove">ເອົາອອກຈາກລາຍການທີ່ມັກ</string>
+    <string name="favorites_edit">ແກ້ໄຂ</string>
+    <string name="favorite_added">ບັນທຶກລົງໃນລາຍການທີ່ມັກແລ້ວ</string>
+    <string name="favorite_removed">ເອົາອອກຈາກລາຍການທີ່ມັກແລ້ວ</string>
+
+    <string name="encountered_error_title">ການຫຼິ້ນຜິດພາດ</string>
+    <string name="invalid_location">ບໍ່ສາມາດຫຼິ້ນທີ່ຕັ້ງ %1$s ໄດ້.</string>
+
+    <string name="search">ຄົ້ນຫາ</string>
+
+
+    <string name="playback_history_title">ປະຫວັດການຫຼິ້ນ</string>
+    <string name="playback_history_summary">ບັນທຶກສື່ທັງໝົດທີ່ຫຼິ້ນໃນສ່ວນປະຫວັດ</string>
+    <string name="playback_speed_title">ບັນທຶກຄວາມໄວໃນການຫຼິ້ນ</string>
+
+    <!-- Tips -->
+    <string name="video_player_tips">ຄຳແນະນຳຕົວຫຼິ້ນວິດີໂອ:</string>
+    <string name="seek">ຄົ້ນຫາ</string>
+    <string name="subtitles">ຄຳບັນຍາຍ</string>
+    <string name="resize">ປັບຂະໜາດ</string>
+    <string name="options">ຕົວເລືອກ</string>
+    <string name="lock">ລັອກ</string>
+    <string name="ok_got_it">ເຂົ້າໃຈແລ້ວ, ປິດຖິ້ມໄດ້ເລີຍ</string>
+
+    <string name="remove_song">ເອົາເພງອອກ</string>
+    <string name="rearrange_order">ຈັດລຽງລຳດັບໃໝ່</string>
+    <string name="hold_to_seek">ກົດຄ້າງໄວ້ເພື່ອຄົ້ນຫາ</string>
+
+    <string name="audio_player_tips">ຄຳແນະນຳຕົວຫຼິ້ນສຽງ</string>
+    <string name="previous_next_song">ເພງກ່ອນໜ້າ/ຕໍ່ໄປ</string>
+    <string name="show_playlist">ສະແດງລາຍການເພງ</string>
+    <string name="hold_to_stop">ກົດຄ້າງໄວ້ເພື່ອຢຸດ</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC ສຳລັບ Android</string>
+    <string name="licence">ໃບອະນຸຍາດ</string>
+    <string name="revision">ປັບປຸງໃໝ່</string>
+    <string name="about">ກ່ຽວກັບ</string>
+
+    <!-- Preferences -->
+    <string name="preferences">ການຕັ້ັ້ງຄ່າ</string>
+
+    <string name="directories_summary">ເລືອກໄດເຣັກທໍຣີທີ່ຈະລວມເຂົ້າໃນຫ້ອງສະໝຸດສື່</string>
+    <string name="hardware_acceleration_disabled">ປິດໃຊ້ງານແລ້ວ</string>
+    <string name="automatic">ອັດຕະໂນມັດ</string>
+    <string name="extra_prefs_category">ການຕັ້ງຄ່າພິເສດ</string>
+
+    <string name="interface_prefs_screen">ອິນເຕີເຟດ</string>
+    <string name="enable_volume_gesture_title">ທ່າທາງລະດັບສຽງ</string>
+    <string name="browser_show_hidden_files_title">ສະແດງໄຟລ໌ທີ່ເຊື່ອງ</string>
+
+    <string name="subtitles_prefs_category">ຄຳບັນຍາຍ</string>
+    <string name="subtitles_size_title">ຂະໜາດຄຳບັນຍາຍ</string>
+    <string name="subtitles_size_small">ນ້ອຍ</string>
+    <string name="subtitles_size_normal">ທຳມະດາ</string>
+    <string name="subtitles_size_big">ໃຫຍ່</string>
+    <string name="subtitles_size_huge">ມະຫຶມາ</string>
+    <string name="network_browsing">ເຄືອຂ່າຍທ້ອງຖິ່ນ</string>
+    <string name="allow_storage_access_title">ອະນຸຍາດໃຫ້ VLC ເຂົ້າເຖິິງໄຟລ໌ວິດີໂອແລະສຽງ</string>
+    <string name="next">ຕໍ່ໄປ</string>
+</resources>
