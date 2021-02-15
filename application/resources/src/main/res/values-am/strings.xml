@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main VLC Interface -->
+    <string name="ok">እሺ</string>
+    <string name="cancel">ሰርዝ</string>
+    <string name="other">ሌሎች</string>
+    <string name="sortby">መለያ በ…</string>
+    <string name="sortby_name">ስም</string>
+    <string name="sortby_filename">የ ፋይል ስም</string>
+    <string name="sortby_artist_name">የ ከያኒ ስም</string>
+    <string name="sortby_album_name">የ አልበም ስም</string>
+    <string name="sortby_length">እርዝመት</string>
+    <string name="sortby_date">ቀን</string>
+    <string name="sortby_number">ተረኛ የለም</string>
+    <string name="searchable_hint">መፈለጊያ…</string>
+    <string name="history">ታሪክ</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d ውጤቶች ተገኝተዋል</item>
+        <item quantity="other">%d ውጤቶች ተገኝተዋል</item>
+    </plurals>
+
+    <string name="play">ማጫወቻ</string>
+    <string name="playback">በድጋሚ ማጫወቻ</string>
+    <string name="playback_controls">በድጋሚ ማጫወቻ መቆጣጠሪያ</string>
+    <string name="medialibrary_scan">የ መገናኛ መጻህፍት ቤት ማሰሻ</string>
+    <string name="Medialibrary_progress">የ መገናኛ መጻህፍት ቤት ማሰሻ ሂደት ማሻሻያ</string>
+    <string name="play_from_start">ከ መጀመሪያው ማጫወቻ</string>
+    <string name="play_as_audio">እንደ ድምፅ ማጫወቻ</string>
+    <string name="play_as_video">እንደ ቪዲዮ ማጫወቻ</string>
+    <string name="video_app_switch_title">መደብ/PiP mode</string>
+    <string name="play_as_audio_background">ቪዲዮ ከ መደቡ ጀርባ ማጫወቻ</string>
+    <string name="append">መጨመሪያ</string>
+    <string name="insert_next">ቀጥሎ ማስገቢያ</string>
+    <string name="play_all">ሁሉንም ማጫወቻ</string>
+    <string name="append_all">ሁሉንም መጨመሪያ</string>
+    <string name="delete">ማጥፊያ</string>
+    <string name="remove">ማስወገጃ</string>
+    <string name="set_song">እንደ ስልክ መጥሪያ ማሰናጃ</string>
+    <string name="info">መረጃ</string>
+    <string name="confirm_delete">ፋይሉን ማጥፊያ \'%1$s\'?</string>
+    <string name="confirm_delete_folder">ፎልደሩን ማጥፊያ \'%1$s\' እና ሁሉንም ይዞታዎቹን በሙሉ?</string>
+    <string name="confirm_delete_playlist">የ ማጫወቻ ዝርዝር ላጥፋ \'%1$s\'?</string>
+    <string name="ringtone_set">ይህ ፋይል \'%1$s\' እንደ ስልክ መጥሪያ ተሰናድቷል</string>
+    <string name="ringtone_error">እንደ ስልክ መጥሪያ በ ማሰናዳት ላይ እንዳለ ስህተት ተፈጥሯል</string>
+    <string name="pause">ማስቆሚያ</string>
+    <string name="unknown_artist">ያልታወቀ ከያኒ</string>
+    <string name="unknown_album">ያልታወቀ አልበም</string>
+    <string name="songs">ዘፈኖች</string>
+    <string name="artists">ከያኒው</string>
+    <string name="albums">አልበሞች</string>
+    <string name="tracks">ተረኞች</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 አልበም</item>
+        <item quantity="other">%d አልበሞች</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 ንዑስ ፎልደር</item>
+        <item quantity="other">%d subfolders</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 የ መገናኛ ፋይል</item>
+        <item quantity="other">%d 1 የ መገናኛ ፋይሎች</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 ቪዲዮ</item>
+        <item quantity="other">%d ቪዲዮ</item>
+    </plurals>
+    <string name="internal_memory">የ ውስጥ ማስታወሻ</string>
+    <string name="audio">ድምፅ</string>
+    <string name="video">ቪዲዮ</string>
+    <string name="bookmarks">እልባቶች</string>
+    <string name="equalizer">ማስተካከያ</string>
+    <string name="all_albums">ሁሉንም አልበሞች</string>
+    <string name="playlists">የ ማጫወቻ ዝርዝር</string>
+    <string name="title">አርእስት</string>
+    <string name="directories">ዳይሬክቶሪዎች</string>
+    <string name="loading">በ መጫን ላይ</string>
+    <string name="please_wait">እባክዎን ይቆዩ…</string>
+    <string name="noplaylist">የ ማጫወቻ ዝርዝር የለም</string>
+    <string name="validation">እርግጠኛ ነዎት</string>
+
+    <string name="cover_art">የ ሽፋን ኪነት</string>
+    <string name="shuffle_title">መበወዣ ዘዴ</string>
+    <string name="shuffle">መበወዣ ማጥፊያ</string>
+    <string name="shuffle_on">መበወዣ ማብሪያ</string>
+    <string name="repeat_title">መድገሚያ ዘዴ</string>
+    <string name="repeat">ምንም አትድገም</string>
+    <string name="repeat_single">አንዴ መድገሚያ</string>
+    <string name="repeat_all">ሁሉንም መድገሚያ</string>
+    <string name="previous">ቀደም ያለው</string>
+    <string name="stop">ማቆሚያ</string>
+    <string name="surface_best_fit">በ ጥሩ ልክ</string>
+    <string name="surface_fit_screen">በ መመልከቻው ልክ</string>
+    <string name="surface_fill">መሙያ</string>
+    <string name="surface_original">መሀከል</string>
+    <string name="refresh">ማነቃቂያ</string>
+    <string name="track_audio">የ ድምጽ ተረኛ</string>
+    <string name="track_video">የ ቪዲዮ ተረኛ</string>
+    <string name="track_text">የ ንዑስ አርእስት ተረኛ</string>
+    <string name="track_unknown">ያልታወቀ ተረኛ</string>
+    <string name="track_language_info">ቋንቋ: %1$s\n</string>
+    <string name="volume">መጠን</string>
+    <string name="sound_on">ድምፅ ማብሪያ</string>
+    <string name="sound_off">ድምፅ ማጥፊያ</string>
+    <string name="brightness">ብሩህነት</string>
+    <string name="advanced">የ ረቀቀ ምርጫ</string>
+    <string name="track_resolution_info">ሪዞሊሽን: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">የ ክፈፍ መጠን: %1$.3f\n</string>
+
+    <string name="playback_speed">በድጋሚ ማጫወቻ ፍጥነት</string>
+    <string name="jump_to_time">ወደ ሰአት መዝለያ</string>
+    <string name="subtitle_select">የ ንዑስ አርእስት ፋይል ይምረጡ</string>
+
+    <string name="server_username_hint">የ ተጠቃሚ ስም</string>
+    <string name="server_port">Port: </string>
+    <string name="login">መግቢያ</string>
+    <string name="password">የ መግቢያ ቃል</string>
+
+    <string name="search_no_result">ምንም መገናኛ አልተገኙም</string>
+    <string name="favorites_add">ወደ የምወዳቸው ውስጥ መጨመሪያ</string>
+    <string name="favorites_remove">እኔ ከምወዳቸው ውስጥ ማስወገጃ</string>
+    <string name="favorites_edit">ማረሚያ</string>
+    <string name="favorite_added">ወደ የምወዳቸው ውስጥ ማስቀመጫ</string>
+    <string name="favorite_removed">እኔ ከምወዳቸው ውስጥ ማስወገጃ</string>
+
+    <string name="encountered_error_title">በድጋሚ ማጫወቻ ስህተት</string>
+    <string name="search">መፈለጊያ</string>
+
+
+    <string name="playback_history_title">በድጋሚ ማጫወቻ ታሪክ</string>
+    <string name="playback_speed_title">በድጋሚ ማጫወቻ ፍጥነት ማስቀመጫ</string>
+
+    <!-- Tips -->
+    <string name="video_player_tips">የ ቪዲዮ ማጫወቻ ጠቃሚ ምክር:</string>
+    <string name="seek">መፈለጊያ</string>
+    <string name="subtitles">ንዑስ እርእስቶች</string>
+    <string name="resize">እንደገና መመጠኛ</string>
+    <string name="options">ምርጫዎች</string>
+    <string name="lock">መቆለፊያ</string>
+    <string name="ok_got_it">ገብቶኛል ይህን አጥፋው</string>
+
+    <string name="playlist_tips">የ ማጫወቻ ዝርዝር ጠቃሚ ምክር</string>
+    <string name="remove_song">ዘፈን ማስወገጃ</string>
+    <string name="hold_to_seek">ተጭነው ይያዙ ለ መፈለግ</string>
+
+    <string name="audio_player_tips">የ ድምፅ ማጫወቻ ጠቃሚ ምክር:</string>
+    <string name="previous_next_song">ቀደም ያለው/የሚቀጥለው ዘፈን</string>
+    <string name="show_playlist">የ ማጫወቻ ዝርዝር ማሳያ</string>
+    <string name="hold_to_stop">ተጭነው ይያዙ ለ ማስቆም</string>
+
+    <!-- About -->
+    <string name="app_name_full">ቪኤልሲ ለ አንድሮይድ</string>
+    <string name="licence">ፍቃድ</string>
+    <string name="revision">እትም</string>
+    <string name="about">ስለ</string>
+    <string name="vlc_authors">እና የ ቪኤልሲ ደራሲዎች</string>
+
+    <!-- Preferences -->
+    <string name="preferences">ማሰናጃዎች</string>
+
+    <string name="hardware_acceleration_disabled">ተሰናክሏል</string>
+    <string name="automatic">ራሱ በራሱ</string>
+    <string name="screen_orientation">የ ቪዲዮ መመልከቻ አቅጣጫ</string>
+    <string name="screen_orientation_landscape">በ መሬት አቀማመጥ</string>
+    <string name="enable_black_theme">ጥቁር ገጽታ</string>
+    <string name="extra_prefs_category">ተጨማሪ ማሰናጃዎች</string>
+
+    <string name="interface_prefs_screen">ገጽታ</string>
+    <string name="interface_secondary_display_category_title">ሁለተኛ ማሳያ</string>
+    <string name="video_prefs_category">ቪዲዮ</string>
+    <string name="video_min_group_length_title">የ ቪዲዮዎች ቡድን</string>
+    <string name="media_fast_seek">በፍጥነት መፈለጊያ</string>
+    <string name="force_play_all_title">በ ቪዲዮ ማጫወቻ ዘዴ</string>
+    <string name="save_audiodelay_title">የ ድምፅ ማዘግያ ማስቀመጫ</string>
+    <string name="enable_seek_buttons">መፍለጊያ ቁልፎች</string>
+    <string name="subtitles_prefs_category">ንዑስ እርእስቶች</string>
+    <string name="subtitles_size_title">የ ንዑስ እርእስቶች መጠን</string>
+    <string name="subtitles_size_small">ትንሽ</string>
+    <string name="subtitles_size_normal">መደበኛ</string>
+    <string name="subtitles_size_big">ትልቅ</string>
+    <string name="subtitles_size_huge">በጣም ትልቅ</string>
+    <string name="subtitles_color_title">የ ንዑስ አርእስት ቀለም</string>
+    <string name="subtitles_color_white">ነጭ</string>
+    <string name="subtitles_color_gray">ግራጫ</string>
+    <string name="subtitles_color_pink">ሮዝ</string>
+    <string name="subtitles_color_blue">ሰማያዊ</string>
+    <string name="subtitles_color_yellow">ቢጫ</string>
+    <string name="subtitles_color_green">አረንጓዴ</string>
+    <string name="subtitles_background_title">የ ንዑስ አርእስት መደብ</string>
+    <string name="subtitles_bold_title">ደማቅ ንዑስ አርእስት</string>
+    <string name="subtitles_autoload_title">ንዑስ እርእስቶች በራሱ መጫኛ</string>
+
+    <string name="audio_prefs_category">ድምፅ</string>
+    <string name="headset_prefs_category">በጆሮ ማድመጫ</string>
+    <string name="enable_headset_detection">በጆሮ ማድመጫ ፈልጎ ማግኛ</string>
+    <string name="enable_play_on_headset_insertion_summary">ያለ በለዚያ ማስቆሚያ</string>
+    <string name="aout">የ ድምጽ ውጤት</string>
+    <string name="casting_quality_high">ከፍተኛ</string>
+    <string name="casting_quality_medium">መካከለኛ</string>
+    <string name="casting_quality_low">ዝቅተኛ</string>
+    <string name="casting_quality_lowcpu">ዝቅተኛ</string>
+    <string name="artists_show_all_title">ሁሉንም ከያኒዎች ማሳያ</string>
+
+    <string name="extensions_prefs_category">ተጨማሪዎች</string>
+    <string name="extension_permission_checkbox_title">ማሳያ በ %1$s</string>
+    <string name="extension_prefs_activation_title">ማስነሻ</string>
+    <string name="controls_prefs_category">መቆጣጠሪያ</string>
+
+    <string name="performance_prefs_category">አፈጻጸም</string>
+    <string name="enable_frame_skip">ክፈፍ መዝለያ</string>
+    <string name="auto_rescan">በራሱ እንደገና ማሰሻ</string>
+    <string name="set_locale">ቋንቋ ማሰናጃ</string>
+    <string name="restart_vlc">ቪኤልሲ እንደገና ማስጀመሪያ</string>
+    <string name="network_browsing">የ አካባቢ ኔትዎርክ</string>
+    <string name="browsing">በ መቃኘት ላይ</string>
+
+    <string name="audio_delay">ድምፅ ማዘግያ</string>
+    <string name="spu_delay">ንዑስ አርእስት ማዘግያ</string>
+    <string name="network_empty">ይህ ዳይሬክቶሪ ባዶ ነው</string>
+    <string name="search_hint">መገናኛ መፈለጊያ</string>
+    <string name="playlist_save">የ ማጫወቻ ዝርዝር ማስቀመጫ</string>
+    <string name="go_to_chapter">መሄጃ ወደ ምእራፍ…</string>
+    <string name="chapter">ምእራፍ</string>
+    <string name="medialibrary">የ መገናኛ መጻህፍት ቤት</string>
+    <string name="medialibrary_directories">የ መገናኛ መጻህፍት ቤት ፎልደሮች</string>
+
+    <!-- Accessibility -->
+    <string name="more_actions">ተጨማሪ ተግባሮች</string>
+    <string name="music_now_playing">አሁን የሚጫወተው</string>
+
+    <string name="permission_ask_again">ፍቃድ መስጫ</string>
+    <string name="exit_app">ቪኤልሲ መዝጊያ</string>
+
+    <!-- Plugins -->
+    <string name="plugins">ተሰኪዎች</string>
+    <string name="download_on_device">የወረደ</string>
+    <string name="opengl_automatic">ራሱ በራሱ</string>
+    <string name="store_password">የ መግቢያ ቃል አስታውስ</string>
+    <string name="add_to_playlist">ወደ ማጫወቻ ዝርዝር መጨመሪያ</string>
+    <string name="popup_expand">ቪዲዮ ማስፊያ</string>
+    <string name="browse_folder">ፎልደር ውስጥ መቃኛ</string>
+    <string name="listen">ያዳምጡ</string>
+    <string name="movies">ሙቪዎች</string>
+    <string name="videos">ቪዲዮዎች</string>
+    <string name="videos_all">ሁሉንም ቪዲዮዎች</string>
+    <string name="resume">ይቀጥሉ</string>
+    <string name="length">እርዝመት</string>
+    <string name="ml_external_storage_accept">አዎ</string>
+    <string name="ml_external_storage_decline">አይ</string>
+    <string name="no">አይ</string>
+    <string name="yes">አዎ</string>
+
+    <string name="save">ማስቀመጫ</string>
+    <string name="do_not_save">አታስቀምጥ</string>
+    <string name="custom_set_wrong_input">ዋጋ የሌለው ስም</string>
+    <string name="equalizer_new_preset_name">አዲስ</string>
+    <string name="browser_storages">ማጠራቀሚያ</string>
+    <string name="renderer_list_title">ማሳያ</string>
+    <string name="dialog_sd_wizard">አሳየኝ</string>
+    <string name="renderers_disconnect">መለያያ</string>
+    <string name="next">የሚቀጥለው</string>
+</resources>
