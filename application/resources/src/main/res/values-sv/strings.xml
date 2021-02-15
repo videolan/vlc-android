@@ -763,5 +763,7 @@
     <string name="go_to_folder">Bläddra i överordnad</string>
     <string name="no_sub_renderer">Det finns ännu inget stöd för att casta med undertexter</string>
     <string name="enqueuing">Läser in dina mediafiler</string>
+    <string name="soundfont">MIDI-soundfont</string>
+    <string name="soundfont_summary">Välj en soundfont-fil att spela upp midi-ljudspår</string>
 
 </resources>
