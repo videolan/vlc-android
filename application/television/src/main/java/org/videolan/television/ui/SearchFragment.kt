@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.util.getFromMl
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 
 private const val TAG = "SearchFragment"
@@ -77,7 +78,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
 
     private fun loadRows(query: String?) = lifecycleScope.launch {
         if (query == null || query.length < 3) return@launch
-        val searchAggregate = context?.getFromMl { search(query) }
+        val searchAggregate = context?.getFromMl { search(query, Settings.includeMissing) }
         val empty = searchAggregate == null || searchAggregate.isEmpty
         updateEmtyView(empty)
         if (searchAggregate == null || empty) return@launch

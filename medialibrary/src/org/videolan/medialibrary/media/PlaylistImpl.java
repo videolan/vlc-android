@@ -21,18 +21,23 @@ public class PlaylistImpl extends Playlist {
 
     @Override
     public MediaWrapper[] getTracks() {
-        final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetTracks(ml, mId) : Medialibrary.EMPTY_COLLECTION;
+        return getTracks(true);
     }
 
-    public MediaWrapper[] getPagedTracks(int nbItems, int offset) {
+    @Override
+    public MediaWrapper[] getTracks(boolean includeMissing) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeGetTracks(ml, mId, includeMissing) : Medialibrary.EMPTY_COLLECTION;
     }
 
-    public int getRealTracksCount() {
+    public MediaWrapper[] getPagedTracks(int nbItems, int offset, boolean includeMissing) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
+        return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, nbItems, offset, includeMissing) : Medialibrary.EMPTY_COLLECTION;
+    }
+
+    public int getRealTracksCount(boolean includeMissing) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml.isInitiated() ? nativeGetTracksCount(ml, mId, includeMissing) : 0;
     }
 
     public boolean append(long mediaId) {
@@ -85,9 +90,9 @@ public class PlaylistImpl extends Playlist {
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
 
-    private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long id);
-    private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long id, int nbItems, int offset);
-    private native int nativeGetTracksCount(Medialibrary ml, long id);
+    private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long id, boolean includeMissing);
+    private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long id, int nbItems, int offset, boolean includeMissing);
+    private native int nativeGetTracksCount(Medialibrary ml, long id, boolean includeMissing);
     private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
     private native boolean nativePlaylistAppend(Medialibrary ml, long id, long mediaId);

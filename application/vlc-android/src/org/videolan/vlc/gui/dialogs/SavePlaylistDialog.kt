@@ -44,6 +44,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.AppScope
 import org.videolan.tools.CoroutineContextProvider
 import org.videolan.tools.DependencyProvider
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DialogPlaylistBinding
 import org.videolan.vlc.gui.SimpleAdapter
@@ -160,7 +161,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
                 return@launch
             }
             dismiss()
-            savePlaylist(medialibrary.createPlaylist(name) ?: return@launch)
+            savePlaylist(medialibrary.createPlaylist(name, Settings.includeMissing) ?: return@launch)
         }
     }
 

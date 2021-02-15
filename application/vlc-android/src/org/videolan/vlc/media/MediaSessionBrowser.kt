@@ -385,7 +385,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
         fun search(context: Context, query: String): List<MediaBrowserCompat.MediaItem>? {
             val res = context.resources
             val results: MutableList<MediaBrowserCompat.MediaItem> = ArrayList()
-            val searchAggregate = Medialibrary.getInstance().search(query)
+            val searchAggregate = Medialibrary.getInstance().search(query, false)
             results.addAll(buildMediaItems(context, ID_PLAYLISTS, searchAggregate.playlists, res.getString(R.string.playlists)))
             results.addAll(buildMediaItems(context, ARTIST_PREFIX, searchAggregate.artists, res.getString(R.string.artists)))
             results.addAll(buildMediaItems(context, ALBUM_PREFIX, searchAggregate.albums, res.getString(R.string.albums)))
