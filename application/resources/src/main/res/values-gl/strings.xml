@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Texto visto</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progreso: %s</string>
+    <string name="audio_queue_progress_finished">Remata en: %s</string>
     <string name="sortby_track">Pista</string>
     <string name="this_folder">Engadir este cartafol</string>
     <string name="all_subfolders">Engadir este cartafol e subcartafoles</string>
@@ -761,5 +762,8 @@
     <string name="warning_stream_speed">Incrementar a velocidade de reprodución dos fluxos por riba de 1 pode causar distorsións</string>
     <string name="go_to_folder">Explorar pai</string>
     <string name="no_sub_renderer">Os subtítulos durante as emisións aínda non son compatíbeis</string>
+    <string name="enqueuing">Cargando os multimedia</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Seleccione un ficheiro de SoundFont para reproducir as pistas de son midi</string>
 
 </resources>
