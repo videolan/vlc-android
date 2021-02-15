@@ -486,10 +486,10 @@ AndroidMediaLibrary::artistsFromGenre( int64_t genreId, const medialibrary::Quer
 }
 
 medialibrary::Query<medialibrary::IMedia>
-AndroidMediaLibrary::mediaFromPlaylist( int64_t playlistId )
+AndroidMediaLibrary::mediaFromPlaylist( int64_t playlistId , const medialibrary::QueryParameters* params)
 {
     auto playlist =  p_ml->playlist(playlistId);
-    return playlist == nullptr ? nullptr : playlist->media();
+    return playlist == nullptr ? nullptr : playlist->media(params);
 }
 
 bool

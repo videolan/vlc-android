@@ -137,11 +137,16 @@ convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& ge
 }
 
 jobject
-convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& playlistPtr)
+convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr const& playlistPtr, jboolean includeMissing)
 {
     jstring name = env->NewStringUTF(playlistPtr->name().c_str());
+     medialibrary::QueryParameters params {
+           medialibrary::SortingCriteria::Default,
+           false,
+           static_cast<bool>( includeMissing )
+        };
     jobject item = env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
-                          (jlong) playlistPtr->id(), name, (jint)playlistPtr->media()->count());
+                          (jlong) playlistPtr->id(), name, (jint)playlistPtr->media(&params)->count());
     env->DeleteLocalRef(name);
     return item;
 }
@@ -181,7 +186,7 @@ convertBookmarkObject(JNIEnv* env, fields *fields, medialibrary::BookmarkPtr con
 }
 
 jobject
-convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr)
+convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAggregate const& searchAggregatePtr, jboolean includeMissing)
 {
     //Albums
     jobjectArray albums = nullptr;
@@ -222,7 +227,7 @@ convertSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::SearchAg
         index = -1;
         playlists = (jobjectArray) env->NewObjectArray(searchAggregatePtr.playlists->count(), fields->Playlist.clazz, NULL);
         for(medialibrary::PlaylistPtr const& playlist : searchAggregatePtr.playlists->all()) {
-            jobject item = convertPlaylistObject(env, fields, playlist);
+            jobject item = convertPlaylistObject(env, fields, playlist, includeMissing);
             env->SetObjectArrayElement(playlists, ++index, item);
             env->DeleteLocalRef(item);
         }

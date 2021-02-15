@@ -42,6 +42,7 @@ import org.videolan.moviepedia.database.models.tvEpisodeSubtitle
 import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.resources.CONTENT_EPISODE
 import org.videolan.resources.CONTENT_RESUME
+import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.getFileUri
@@ -102,7 +103,7 @@ class TVSearchProvider : ContentProvider() {
                     }
                 }
 
-                val searchAggregate = medialibrary.search(sanitizedQuery)
+                val searchAggregate = medialibrary.search(sanitizedQuery, Settings.includeMissing)
                         ?: return null
                 searchAggregate.artists?.filterNotNull()?.let {
                     it.forEach { media ->
