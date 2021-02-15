@@ -785,5 +785,7 @@
     <string name="go_to_folder">עיון בהורה</string>
     <string name="no_sub_renderer">עדיין אין תמיכה בכתוביות כחלק מתזרים</string>
     <string name="enqueuing">פרטי המדיה שלך נטענים</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">נא לבחור קובץ SoundFont כדי לנגן רצועות שמע מסוג MIDI</string>
 
 </resources>
