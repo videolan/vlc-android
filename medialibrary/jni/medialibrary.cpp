@@ -415,11 +415,11 @@ getPagedAudio(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jb
 }
 
 jobject
-search(JNIEnv* env, jobject thiz, jstring query)
+search(JNIEnv* env, jobject thiz, jstring query, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
-    jobject searchResult = convertSearchAggregateObject(env, &ml_fields, aml->search(queryChar));
+    jobject searchResult = convertSearchAggregateObject(env, &ml_fields, aml->search(queryChar), includeMissing);
     env->ReleaseStringUTFChars(query, queryChar);
     return searchResult;
 }
@@ -655,7 +655,7 @@ getGenreSearchCount(JNIEnv* env, jobject thiz, jstring filterQuery) {
 }
 
 jobjectArray
-searchPlaylist(JNIEnv* env, jobject thiz, jstring query)
+searchPlaylist(JNIEnv* env, jobject thiz, jstring query, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
@@ -663,7 +663,7 @@ searchPlaylist(JNIEnv* env, jobject thiz, jstring query)
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
     for(medialibrary::PlaylistPtr const& playlist : playlists) {
-        jobject item = convertPlaylistObject(env, &ml_fields, playlist);
+        jobject item = convertPlaylistObject(env, &ml_fields, playlist, includeMissing);
         env->SetObjectArrayElement(playlistRefs, ++index, item);
         env->DeleteLocalRef(item);
     }
@@ -682,7 +682,7 @@ searchPagedPlaylist(JNIEnv* env, jobject thiz, jstring filterQuery, jint sorting
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
     for(medialibrary::PlaylistPtr const& playlist : playlists) {
-        jobject item = convertPlaylistObject(env, &ml_fields, playlist);
+        jobject item = convertPlaylistObject(env, &ml_fields, playlist, includeMissing);
         env->SetObjectArrayElement(playlistRefs, ++index, item);
         env->DeleteLocalRef(item);
     }
@@ -896,7 +896,7 @@ getPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jbo
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
     for(medialibrary::PlaylistPtr const& playlist : playlists) {
-        jobject item = convertPlaylistObject(env, &ml_fields, playlist);
+        jobject item = convertPlaylistObject(env, &ml_fields, playlist, includeMissing);
         env->SetObjectArrayElement(playlistRefs, ++index, item);
         env->DeleteLocalRef(item);
     }
@@ -914,7 +914,7 @@ getPagedPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
     for(medialibrary::PlaylistPtr const& playlist : playlists) {
-        jobject item = convertPlaylistObject(env, &ml_fields, playlist);
+        jobject item = convertPlaylistObject(env, &ml_fields, playlist, includeMissing);
         env->SetObjectArrayElement(playlistRefs, ++index, item);
         env->DeleteLocalRef(item);
     }
@@ -927,21 +927,21 @@ getPlaylistsCount(JNIEnv* env, jobject thiz) {
 }
 
 jobject
-getPlaylist(JNIEnv* env, jobject thiz, jlong id)
+getPlaylist(JNIEnv* env, jobject thiz, jlong id, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::PlaylistPtr playlist = aml->playlist(id);
-    return playlist != nullptr ? convertPlaylistObject(env, &ml_fields, playlist) : nullptr;
+    return playlist != nullptr ? convertPlaylistObject(env, &ml_fields, playlist, includeMissing) : nullptr;
 }
 
 jobject
-playlistCreate(JNIEnv* env, jobject thiz, jstring name)
+playlistCreate(JNIEnv* env, jobject thiz, jstring name, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *name_cstr = env->GetStringUTFChars(name, JNI_FALSE);
     medialibrary::PlaylistPtr playlist = aml->PlaylistCreate(name_cstr);
     env->ReleaseStringUTFChars(name, name_cstr);
-    return playlist != nullptr ? convertPlaylistObject(env, &ml_fields, playlist) : nullptr;
+    return playlist != nullptr ? convertPlaylistObject(env, &ml_fields, playlist, includeMissing) : nullptr;
 }
 
 void
@@ -1543,10 +1543,11 @@ setMediaTitle(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring
  */
 
 jobjectArray
-getMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+getMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    const auto query = aml->mediaFromPlaylist(id);
+    medialibrary::QueryParameters params = generateParams(medialibrary::SortingCriteria::Default, false, includeMissing);
+    const auto query = aml->mediaFromPlaylist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
@@ -1562,10 +1563,11 @@ getMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 }
 
 jobjectArray
-getPagedMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint nbItems,  jint offset)
+getPagedMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint nbItems,  jint offset, jboolean includeMissing)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    const auto query = aml->mediaFromPlaylist(id);
+    medialibrary::QueryParameters params = generateParams(medialibrary::SortingCriteria::Default, false, includeMissing);
+    const auto query = aml->mediaFromPlaylist(id, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
@@ -1579,8 +1581,9 @@ getPagedMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong
 }
 
 jint
-getPlaylistTracksCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromPlaylist(id);
+getPlaylistTracksCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jboolean includeMissing) {
+    medialibrary::QueryParameters params = generateParams(medialibrary::SortingCriteria::Default, false, includeMissing);
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromPlaylist(id, &params);
     return (jint) (query != nullptr ? query->count() : 0);
 }
 
@@ -2035,7 +2038,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetSortedAudio", "(IZZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getSortedAudio },
     {"nativeGetSortedPagedAudio", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedAudio },
     {"nativeGetRecentAudio", "()[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getRecentAudio },
-    {"nativeSearch", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/SearchAggregate;", (void*)search},
+    {"nativeSearch", "(Ljava/lang/String;Z)Lorg/videolan/medialibrary/media/SearchAggregate;", (void*)search},
     {"nativeSearchMedia", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchMedia},
     {"nativeSearchPagedMedia", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchPagedMedia},
     {"nativeSearchPagedAudio", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchPagedAudio},
@@ -2052,7 +2055,7 @@ static JNINativeMethod methods[] = {
     {"nativeSearchGenre", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)searchGenre },
     {"nativeSearchPagedGenre", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Genre;", (void*)searchPagedGenre },
     {"nativeGetGenreSearchCount", "(Ljava/lang/String;)I", (void*)getGenreSearchCount },
-    {"nativeSearchPlaylist", "(Ljava/lang/String;)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPlaylist },
+    {"nativeSearchPlaylist", "(Ljava/lang/String;Z)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPlaylist },
     {"nativeSearchPagedPlaylist", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)searchPagedPlaylist },
     {"nativeGetPlaylistSearchCount", "(Ljava/lang/String;)I", (void*)getPlaylistSearchCount },
     {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMedia },
@@ -2077,7 +2080,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetPlaylists", "(IZZ)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylists },
     {"nativeGetPagedPlaylists", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPagedPlaylists },
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
-    {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylist },
+    {"nativeGetPlaylist", "(JZ)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)getPlaylist },
     {"nativeGetFolders", "(IIZZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)folders },
     {"nativeGetFoldersCount", "(I)I", (void*)foldersCount },
     {"nativeSearchPagedFolders", "(Ljava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Folder;", (void*)searchFolders },
@@ -2091,7 +2094,7 @@ static JNINativeMethod methods[] = {
     {"nativeSetProgress", "(JF)Z", (void*)setProgress },
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
-    {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)playlistCreate },
+    {"nativePlaylistCreate", "(Ljava/lang/String;Z)Lorg/videolan/medialibrary/interfaces/media/Playlist;", (void*)playlistCreate },
     {"nativeGetVideoGroups", "(IZZII)[Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)videoGroups },
     {"nativeGetVideoGroupsCount", "(Ljava/lang/String;)I", (void*)videoGroupsCount },
     {"nativeCreateGroupByName", "(Ljava/lang/String;)Lorg/videolan/medialibrary/interfaces/media/VideoGroup;", (void*)createMediaGroupByName },
@@ -2183,9 +2186,9 @@ static JNINativeMethod videogroup_methods[] = {
 };
 
 static JNINativeMethod playlist_methods[] = {
-    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromPlaylist },
-    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromPlaylist },
-    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getPlaylistTracksCount },
+    {"nativeGetTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getMediaFromPlaylist },
+    {"nativeGetPagedTracks", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIIZ)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)getPagedMediaFromPlaylist },
+    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JZ)I", (void*)getPlaylistTracksCount },
     {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromPlaylist },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromPlaylistCount },
     {"nativePlaylistAppend", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JJ)Z", (void*)playlistAppend },

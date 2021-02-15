@@ -727,8 +727,8 @@ abstract public class Medialibrary {
     abstract public Playlist[] getPagedPlaylists(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getPlaylistsCount();
     abstract public int getPlaylistsCount(String query);
-    abstract public Playlist getPlaylist(long playlistId);
-    abstract public Playlist createPlaylist(String name);
+    abstract public Playlist getPlaylist(long playlistId, boolean includeMissing);
+    abstract public Playlist createPlaylist(String name, boolean includeMissing);
     abstract public void pauseBackgroundOperations();
     abstract public void resumeBackgroundOperations();
     abstract public void reload();
@@ -749,7 +749,7 @@ abstract public class Medialibrary {
     abstract public Folder[] getFolders(int type, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getFoldersCount(int type);
     abstract public boolean setProgress(long mediaId, float progress);
-    abstract public SearchAggregate search(String query);
+    abstract public SearchAggregate search(String query, boolean includeMissing);
     abstract public MediaWrapper[] searchMedia(String query);
     abstract public MediaWrapper[] searchMedia(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getMediaCount(String query);
@@ -763,7 +763,7 @@ abstract public class Medialibrary {
     abstract public Album[] searchAlbum(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public Genre[] searchGenre(String query);
     abstract public Genre[] searchGenre(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    abstract public Playlist[] searchPlaylist(String query);
+    abstract public Playlist[] searchPlaylist(String query, boolean includeMissing);
     abstract public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public Folder[] searchFolders(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int getFoldersCount(String query);

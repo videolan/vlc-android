@@ -18,6 +18,7 @@ import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.SearchAggregate
 import org.videolan.resources.util.getFromMl
+import org.videolan.tools.Settings
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SearchActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
@@ -55,7 +56,7 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
 
     private fun performSearh(query: String?) {
         if (query != null && query.length > 2) lifecycleScope.launchWhenStarted {
-            val searchAggregate = getFromMl { search(query) }
+            val searchAggregate = getFromMl { search(query, Settings.includeMissing) }
             binding.searchAggregate = searchAggregate
             searchAggregate?.let { result ->
                 result.albums?.filterNotNull()?.let { (binding.albumsResults.adapter as SearchResultAdapter).add(it.toTypedArray()) }

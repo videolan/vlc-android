@@ -330,14 +330,14 @@ public class StubMedialibrary extends Medialibrary {
         return count;
     }
 
-    public Playlist getPlaylist(long playlistId) {
+    public Playlist getPlaylist(long playlistId, boolean includeMissing) {
         for (Playlist playlist : dt.mPlaylists) {
             if (playlist.getId() == playlistId) return playlist;
         }
         return null;
     }
 
-    public Playlist createPlaylist(String name) {
+    public Playlist createPlaylist(String name, boolean includeMissing) {
         Playlist playlist = MLServiceLocator.getAbstractPlaylist(dt.getUUID(), name, 0);
         dt.mPlaylists.add(playlist);
         onPlaylistsAdded();
@@ -500,13 +500,13 @@ public class StubMedialibrary extends Medialibrary {
         return true;
     }
 
-    public SearchAggregate search(String query) {
+    public SearchAggregate search(String query, boolean includeMissing) {
         MediaWrapper[] videos = searchVideo(query);
         MediaWrapper[] tracks = searchAudio(query);
         Album[] albums = searchAlbum(query);
         Artist[] artists = searchArtist(query);
         Genre[] genres = searchGenre(query);
-        Playlist[] playlists = searchPlaylist(query);
+        Playlist[] playlists = searchPlaylist(query, true);
         return new SearchAggregate(albums, artists, genres, videos, tracks, playlists);
     }
 
@@ -630,7 +630,7 @@ public class StubMedialibrary extends Medialibrary {
         return dt.sortGenre(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 
-    public Playlist[] searchPlaylist(String query) {
+    public Playlist[] searchPlaylist(String query, boolean includeMissing) {
         ArrayList<Playlist> results = new ArrayList<>();
         for (Playlist playlist : dt.mPlaylists) {
             if (Tools.hasSubString(playlist.getTitle(), query)) results.add(playlist);
@@ -639,7 +639,7 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     public Playlist[] searchPlaylist(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
-        ArrayList<Playlist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query)));
+        ArrayList<Playlist> results = new ArrayList<>(Arrays.asList(searchPlaylist(query, includeMissing)));
         return dt.sortPlaylist(dt.secureSublist(results, offset, offset + nbItems), sort, desc);
     }
 

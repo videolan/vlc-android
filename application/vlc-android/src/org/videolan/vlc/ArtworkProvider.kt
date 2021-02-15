@@ -221,7 +221,7 @@ class ArtworkProvider : ContentProvider() {
             val tracks = when (type) {
                 GENRE -> ctx.getFromMl { getGenre(id)?.albums?.flatMap { it.tracks.toList() } }
                 ARTIST -> ctx.getFromMl { getArtist(id)?.tracks?.toList() }
-                PLAYLIST -> ctx.getFromMl { getPlaylist(id)?.tracks?.toList() }
+                PLAYLIST -> ctx.getFromMl { getPlaylist(id, true)?.tracks?.toList() }
                 else -> null
             }
             val cover = tracks?.let {
