@@ -785,5 +785,7 @@
     <string name="go_to_folder">Przeglądaj katalog nadrzędny</string>
     <string name="no_sub_renderer">Napisy nie są jeszcze obsługiwane podczas transmisji</string>
     <string name="enqueuing">Ładowanie twoich mediów</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Wybierz plik SoundFont, aby odtwarzać ścieżki dźwiękowe midi</string>
 
 </resources>
