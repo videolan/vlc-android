@@ -763,5 +763,7 @@
     <string name="go_to_folder">Procurar na pasta pai</string>
     <string name="no_sub_renderer">Ainda não há suporte a legendas durante uma transmissão</string>
     <string name="enqueuing">Carregando suas mídias</string>
+    <string name="soundfont">SoundFont MIDI</string>
+    <string name="soundfont_summary">Escolha um arquivo SoundFont para reproduzir trilhas de áudio midi</string>
 
 </resources>
