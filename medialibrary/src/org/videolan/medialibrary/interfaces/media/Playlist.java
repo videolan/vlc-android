@@ -17,9 +17,9 @@ public abstract class Playlist extends MediaLibraryItem {
         mTracksCount = trackCount;
     }
 
-    abstract public MediaWrapper[] getTracks();
-    abstract public MediaWrapper[] getPagedTracks(int nbItems, int offset);
-    abstract public int getRealTracksCount();
+    abstract public MediaWrapper[] getTracks(boolean includeMissing);
+    abstract public MediaWrapper[] getPagedTracks(int nbItems, int offset, boolean includeMissing);
+    abstract public int getRealTracksCount(boolean includeMissing);
     abstract public boolean append(long mediaId);
     abstract public boolean append(long[] mediaIds);
     abstract public boolean append(List<Long> mediaIds);

@@ -309,8 +309,8 @@ object MediaUtils {
     fun openPlaylist(context: Context?, playlistId: Long, position: Int = 0, shuffle: Boolean = false) {
         if (playlistId == -1L || context == null) return
         SuspendDialogCallback(context) { service ->
-           val playlist =  context.getFromMl { getPlaylist(playlistId) }
-            service.load(playlist.getPagedTracks(playlist.realTracksCount, 0), position)
+           val playlist =  context.getFromMl { getPlaylist(playlistId, Settings.includeMissing) }
+            service.load(playlist.getPagedTracks(playlist.getRealTracksCount(Settings.includeMissing), 0, Settings.includeMissing), position)
             if (shuffle && !service.isShuffling) service.shuffle()
         }
     }
