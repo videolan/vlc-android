@@ -762,4 +762,8 @@
     <string name="warning_stream_speed">Verhogen van de afspeelsnelheid boven 1 voor streams kan leiden tot haperingen</string>
     <string name="go_to_folder">Bladeren in bovenliggende map</string>
     <string name="no_sub_renderer">Ondertitels worden nog niet ondersteund tijdens het casten</string>
+    <string name="enqueuing">Uw media laden</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Kies een SoundFont-bestand om midi-audiotracks af te spelen</string>
+
 </resources>
