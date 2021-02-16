@@ -1409,8 +1409,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))
-            } catch (ignored: RuntimeException) {
-            } //bitmap parcelization can fail
+            } catch (e: RuntimeException) {
+                Log.e(TAG, "Failed to load children for $parentId", e);
+            }
         }
     }
 
