@@ -27,15 +27,13 @@ import android.annotation.TargetApi
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.collection.SimpleArrayMap
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -45,22 +43,17 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
-import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
-import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.resources.CTX_CUSTOM_REMOVE
 import org.videolan.tools.*
-import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.dialogs.showContext
-import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.onboarding.OnboardingActivity
 import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
 import org.videolan.vlc.viewmodels.browser.getBrowserModel
 import java.io.File
@@ -69,10 +62,9 @@ const val KEY_IN_MEDIALIB = "key_in_medialib"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, BrowserContainer<MediaLibraryItem> {
+class StorageBrowserFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryItem>, IStorageFragmentDelegate by StorageFragmentDelegate() {
 
     override var scannedDirectory = false
-    private val processingFolders = SimpleArrayMap<String, CheckBox>()
     private var snack: com.google.android.material.snackbar.Snackbar? = null
     private var alertDialog: AlertDialog? = null
     override val inCards = false
@@ -90,6 +82,8 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Brows
         adapter = StorageBrowserAdapter(this)
         if (bundle == null) bundle = arguments
         if (bundle != null) scannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB)
+        withContext(requireActivity())
+        withAdapters(arrayOf(adapter as StorageBrowserAdapter))
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -107,14 +101,14 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Brows
 
     override fun onStart() {
         super.onStart()
-        Medialibrary.getInstance().addEntryPointsEventsCb(this)
+        addEntryPointsCallabck()
         snack?.show()
         lifecycleScope.launchWhenStarted { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
     }
 
     override fun onStop() {
         super.onStop()
-        Medialibrary.getInstance().removeEntryPointsEventsCb(this)
+        removeEntryPointsCallabck()
         snack?.dismiss()
         alertDialog?.let { if (it.isShowing) it.dismiss() }
     }
@@ -141,14 +135,6 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Brows
         return super.onOptionsItemSelected(item)
     }
 
-    fun browse(media: MediaWrapper, position: Int, scanned: Boolean) {
-        val ft = activity?.supportFragmentManager?.beginTransaction()
-        val next = createFragment()
-        next.arguments = bundleOf(KEY_MEDIA to media, KEY_IN_MEDIALIB to (scannedDirectory || scanned))
-        ft?.replace(R.id.fragment_placeholder, next, media.location)
-        ft?.addToBackStack(if (isRootDirectory) "root" else if (currentMedia != null) currentMedia?.uri.toString() else mrl!!)
-        ft?.commit()
-    }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (isRootDirectory) {
@@ -172,77 +158,10 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Brows
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         val mw = (item as? Storage)?.let { MLServiceLocator.getAbstractMediaWrapper(it.uri) } ?: return
         mw.type = MediaWrapper.TYPE_DIR
-        browse(mw, position, (DataBindingUtil.findBinding<BrowserItemBinding>(v))?.browserCheckbox?.state == ThreeStatesCheckbox.STATE_CHECKED)
+        browse(mw, scannedDirectory || (DataBindingUtil.findBinding<BrowserItemBinding>(v))?.browserCheckbox?.state == ThreeStatesCheckbox.STATE_CHECKED, createFragment(),if (isRootDirectory) "root" else if (currentMedia != null) currentMedia?.uri.toString() else mrl!!)
     }
 
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
-
-    fun checkBoxAction(v: View, mrl: String) {
-        val tscb = v as ThreeStatesCheckbox
-        val checked = tscb.state == ThreeStatesCheckbox.STATE_CHECKED
-        val activity = requireActivity()
-        if (activity is OnboardingActivity) {
-            val path = mrl.sanitizePath()
-            if (checked) {
-                MediaParsingService.preselectedStorages.removeAll { it.startsWith(path) }
-                MediaParsingService.preselectedStorages.add(path)
-            } else {
-                MediaParsingService.preselectedStorages.removeAll { it.startsWith(path) }
-            }
-        } else {
-            if (checked) {
-                MedialibraryUtils.addDir(mrl, v.context.applicationContext)
-                val prefs = Settings.getInstance(v.getContext())
-                if (prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_ON) prefs.putSingle(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON)
-            } else
-                MedialibraryUtils.removeDir(mrl)
-            processEvent(v as CheckBox, mrl)
-        }
-    }
-
-
-    internal fun processEvent(cbp: CheckBox, mrl: String) {
-        cbp.isEnabled = false
-        processingFolders.put(mrl, cbp)
-    }
-
-    override fun onEntryPointBanned(entryPoint: String, success: Boolean) {}
-
-    override fun onEntryPointUnbanned(entryPoint: String, success: Boolean) {}
-
-    override fun onEntryPointAdded(entryPoint: String, success: Boolean) {}
-
-    override fun onEntryPointRemoved(entryPoint: String, success: Boolean) {
-        var entryPoint = entryPoint
-        if (entryPoint.endsWith("/"))
-            entryPoint = entryPoint.substring(0, entryPoint.length - 1)
-        if (processingFolders.containsKey(entryPoint)) {
-            processingFolders.remove(entryPoint)?.let {
-                handler.post {
-                    it.isEnabled = true
-                    if (success) {
-                        (adapter as StorageBrowserAdapter).updateMediaDirs(requireContext())
-                        adapter.notifyDataSetChanged()
-                    } else
-                        it.isChecked = true
-                }
-            }
-        }
-    }
-
-    override fun onDiscoveryStarted(entryPoint: String) {}
-
-    override fun onDiscoveryProgress(entryPoint: String) {}
-
-    override fun onDiscoveryCompleted(entryPoint: String) {
-        var path = entryPoint
-        if (path.endsWith("/")) path = path.dropLast(1)
-        if (processingFolders.containsKey(path)) {
-            val finalPath = path
-            handler.post { processingFolders.get(finalPath)?.isEnabled = true }
-            (adapter as StorageBrowserAdapter).updateMediaDirs(requireContext())
-        }
-    }
 
     private fun showAddDirectoryDialog() {
         val context = activity
@@ -270,6 +189,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Brows
     }
 
     override fun containerActivity() = requireActivity()
+    override fun getStorageDelegate(): IStorageFragmentDelegate? = this
 
     override val isNetwork = false
     override val isFile = true

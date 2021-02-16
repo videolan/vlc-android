@@ -78,6 +78,7 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
     }
 
     override fun containerActivity() = requireActivity()
+    override fun getStorageDelegate(): IStorageFragmentDelegate? = null
 
     override val isNetwork = true
     override val isFile = false

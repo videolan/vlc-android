@@ -31,6 +31,7 @@ import org.videolan.vlc.interfaces.IEventsHandler
 
 interface BrowserContainer<T> : IEventsHandler<T> {
     fun containerActivity(): Activity
+    fun getStorageDelegate():IStorageFragmentDelegate?
 
     val scannedDirectory: Boolean
     val mrl: String?
@@ -49,6 +50,7 @@ class BrowserContainerImpl<T>(
         override val inCards: Boolean
 ) : BrowserContainer<T> {
     override fun containerActivity() = throw NotImplementedError()
+    override fun getStorageDelegate(): IStorageFragmentDelegate? = null
     override fun onClick(v: View, position: Int, item: T) {}
     override fun onLongClick(v: View, position: Int, item: T) = false
     override fun onImageClick(v: View, position: Int, item: T) {}
