@@ -752,5 +752,7 @@
     <string name="go_to_folder">浏览父文件夹</string>
     <string name="no_sub_renderer">尚不支持投屏播放时显示字幕</string>
     <string name="enqueuing">正在加载你的媒体文件</string>
+    <string name="soundfont">MIDI 音色库</string>
+    <string name="soundfont_summary">挑选一个音色库文件来播放 midi 音轨</string>
 
 </resources>
