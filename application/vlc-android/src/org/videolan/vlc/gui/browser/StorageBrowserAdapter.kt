@@ -37,10 +37,11 @@ import org.videolan.tools.containsPath
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.isSchemeFile
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-internal class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>) : BaseBrowserAdapter(browserContainer) {
+class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLibraryItem>) : BaseBrowserAdapter(browserContainer) {
 
     private var mediaDirsLocation: MutableList<String> = mutableListOf()
     private lateinit var customDirsLocation: List<String>
@@ -54,9 +55,12 @@ internal class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLib
         val vh = holder as MediaViewHolder
         vh.job = launch {
             var storage = getItem(position)
+            val title = storage.title
             if (storage.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
-            var storagePath = (storage as Storage).uri.path ?: ""
+            val uri = (storage as Storage).uri
+            var storagePath = if (uri.scheme.isSchemeFile()) uri.path ?: "" else uri.toString()
             if (!storagePath.endsWith("/")) storagePath += "/"
+            if (storage.title.isNullOrBlank()) storage.title = title
             vh.bindingContainer.setItem(storage)
             updateJob?.join()
             if (updateJob?.isCancelled == true) return@launch
@@ -109,6 +113,6 @@ internal class StorageBrowserAdapter(browserContainer: BrowserContainer<MediaLib
     }
 
     override fun checkBoxAction(v: View, mrl: String) {
-        (browserContainer as? StorageBrowserFragment)?.checkBoxAction(v, mrl)
+        browserContainer.getStorageDelegate()?.checkBoxAction(v, mrl)
     }
 }

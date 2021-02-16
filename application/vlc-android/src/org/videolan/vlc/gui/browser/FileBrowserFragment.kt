@@ -131,6 +131,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun containerActivity() = requireActivity()
+    override fun getStorageDelegate(): IStorageFragmentDelegate? = null
 
     override val isNetwork = false
     override val isFile = true
