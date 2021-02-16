@@ -764,5 +764,7 @@
     <string name="go_to_folder">വന്ന ഇടത്തു തേടുക</string>
     <string name="no_sub_renderer">കാസ്റ്റിങ് സമയത്തു ഉപശീർഷകങ്ങൾ തത്കാലം ലഭ്യമല്ല </string>
     <string name="enqueuing">നിങ്ങളുടെ മീഡിയകൾ ലോഡുചെയ്യുന്നു</string>
+    <string name="soundfont">മിഡി ശബ്ദ ഫോണ്ട്</string>
+    <string name="soundfont_summary">മിഡി ശബ്ദ ചാലുകൾ പ്ലേ ചെയ്യുന്നതിന് ഒരു ശബ്ദ ഫോണ്ട് ഫയൽ തിരഞ്ഞെടുക്കുക</string>
 
 </resources>
