@@ -65,10 +65,7 @@ import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.dialogs.VideoTracksDialog
-import org.videolan.vlc.gui.helpers.OnRepeatListenerKey
-import org.videolan.vlc.gui.helpers.OnRepeatListenerTouch
-import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
-import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.UiTools.showVideoTrack
 import org.videolan.vlc.gui.view.PlayerProgress
 import org.videolan.vlc.media.MediaUtils
@@ -76,6 +73,8 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.util.isSchemeNetwork
 import org.videolan.vlc.viewmodels.PlaylistModel
+import java.text.DateFormat
+import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -477,6 +476,30 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
         if (::hudRightBinding.isInitialized){
             hudRightBinding.playerOverlayNavmenu.setOnClickListener(if (enabled) player else null)
             UiTools.setViewOnClickListener(hudRightBinding.videoRenderer, if (enabled) player else null)
+            hudRightBinding.playbackSpeedQuickAction.setOnLongClickListener {
+                player.service?.setRate(1F, true)
+                showControls(true)
+                true
+            }
+            hudRightBinding.sleepQuickAction.setOnLongClickListener {
+                player.setSleep(null)
+                showControls(true)
+                true
+            }
+            hudRightBinding.audioDelayQuickAction.setOnLongClickListener {
+                player.service?.setAudioDelay(0L)
+                showControls(true)
+                true
+            }
+            hudRightBinding.spuDelayQuickAction.setOnLongClickListener {
+                player.service?.setSpuDelay(0L)
+                showControls(true)
+                true
+            }
+            hudRightBinding.quickActionsContainer.setOnTouchListener { v, event ->
+                showOverlay()
+                false
+            }
         }
     }
 
@@ -655,6 +678,19 @@ class VideoPlayerOverlayDelegate (private val player: VideoPlayerActivity) {
             hudRightBinding.videoSecondaryDisplay.contentDescription = player.resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
 
             hudRightBinding.playlistToggle.visibility = if (show && player.service?.hasPlaylist() == true) View.VISIBLE else View.GONE
+            hudRightBinding.sleepQuickAction.visibility = if (PlayerOptionsDelegate.playerSleepTime != null) View.VISIBLE else View.GONE
+            hudRightBinding.playbackSpeedQuickAction.visibility = if (player.service?.rate != 1.0F) View.VISIBLE else View.GONE
+            hudRightBinding.spuDelayQuickAction.visibility = if (player.service?.spuDelay != 0L) View.VISIBLE else View.GONE
+            hudRightBinding.audioDelayQuickAction.visibility = if (player.service?.audioDelay != 0L) View.VISIBLE else View.GONE
+
+            hudRightBinding.playbackSpeedQuickAction.text = player.service?.rate?.formatRateString()
+            val format =  DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
+            PlayerOptionsDelegate.playerSleepTime?.let {
+                hudRightBinding.sleepQuickAction.text = format.format(it.time)
+            }
+            hudRightBinding.spuDelayQuickAction.text = "${(player.service?.spuDelay ?: 0L) / 1000L} ms"
+            hudRightBinding.audioDelayQuickAction.text = "${(player.service?.audioDelay ?: 0L) / 1000L} ms"
+
         }
     }
 

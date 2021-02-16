@@ -92,7 +92,9 @@ import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.audio.EqualizerFragment
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
+import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.RenderersDialog
+import org.videolan.vlc.gui.dialogs.SleepTimerDialog
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
@@ -1500,6 +1502,26 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
             R.id.video_secondary_display -> {
                 clone = displayManager.isSecondary
                 recreate()
+            }
+            R.id.playback_speed_quick_action -> {
+                val newFragment = PlaybackSpeedDialog.newInstance()
+                newFragment.onDismissListener = DialogInterface.OnDismissListener { overlayDelegate.dimStatusBar(true) }
+                newFragment.show(supportFragmentManager, "playback_speed")
+                overlayDelegate.hideOverlay(false)
+            }
+            R.id.sleep_quick_action -> {
+                val newFragment = SleepTimerDialog.newInstance()
+                newFragment.onDismissListener = DialogInterface.OnDismissListener { overlayDelegate.dimStatusBar(true) }
+                newFragment.show(supportFragmentManager, "time")
+                overlayDelegate.hideOverlay(false)
+            }
+            R.id.audio_delay_quick_action -> {
+                delayDelegate.showAudioDelaySetting()
+                overlayDelegate.hideOverlay(false)
+            }
+            R.id.spu_delay_quick_action -> {
+                delayDelegate.showSubsDelaySetting()
+                overlayDelegate.hideOverlay(false)
             }
         }
     }

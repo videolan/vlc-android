@@ -106,6 +106,70 @@
                 app:srcCompat="@drawable/ic_player_renderer"
                 tools:visibility="visible" />
 
+        <HorizontalScrollView
+                android:id="@+id/quick_actions_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:scrollbars="none"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/player_overlay_title">
+
+            <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    app:chipSpacing="16dp">
+
+                <com.google.android.material.chip.Chip
+                        android:id="@+id/playback_speed_quick_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClick"
+                        app:chipBackgroundColor="@color/playerbackground"
+                        app:chipIcon="@drawable/ic_speed_on"
+                        app:chipIconTint="@color/white"
+                        app:iconStartPadding="8dp"
+                        tools:text="1.25x" />
+
+                <com.google.android.material.chip.Chip
+                        android:id="@+id/sleep_quick_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClick"
+                        app:chipBackgroundColor="@color/playerbackground"
+                        app:chipIcon="@drawable/ic_sleep_w"
+                        app:chipIconTint="@color/white"
+                        app:iconStartPadding="8dp"
+                        tools:text="12h55AM" />
+
+                <com.google.android.material.chip.Chip
+                        android:id="@+id/spu_delay_quick_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClick"
+                        app:chipBackgroundColor="@color/playerbackground"
+                        app:chipIcon="@drawable/ic_browser_subtitle_normal"
+                        app:chipIconTint="@color/white"
+                        app:iconStartPadding="8dp"
+                        tools:text="+3000ms" />
+
+                <com.google.android.material.chip.Chip
+                        android:id="@+id/audio_delay_quick_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onClick"
+                        app:chipBackgroundColor="@color/playerbackground"
+                        app:chipIcon="@drawable/ic_player_volume"
+                        app:chipIconTint="@color/white"
+                        app:iconStartPadding="8dp"
+                        tools:text="-2000ms" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
         <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/icon_barrier"
                 android:layout_width="wrap_content"
