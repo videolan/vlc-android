@@ -785,5 +785,7 @@
     <string name="go_to_folder">Огляд батьківської теки</string>
     <string name="no_sub_renderer">Субтитри досі не підтримуються під час трансляції</string>
     <string name="enqueuing">Завантаження ваших медіафайлів</string>
+    <string name="soundfont">Звуковий шрифт MIDI</string>
+    <string name="soundfont_summary">Підберіть файл звукового шрифту для відтворення аудіо доріжок midi</string>
 
 </resources>
