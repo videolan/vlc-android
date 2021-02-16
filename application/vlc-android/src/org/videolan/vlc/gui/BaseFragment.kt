@@ -9,6 +9,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -20,8 +21,8 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.TAG_ITEM
 import org.videolan.tools.retrieveParent
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.browser.KEY_IN_MEDIALIB
 import org.videolan.vlc.gui.browser.KEY_MEDIA
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
@@ -147,6 +148,14 @@ abstract class BaseFragment : Fragment(), ActionMode.Callback {
 
     fun invalidateActionMode() {
         actionMode?.invalidate()
+    }
+
+    fun browse(media: MediaWrapper, scanned: Boolean, next: Fragment, backstackName:String) {
+        val ft = activity?.supportFragmentManager?.beginTransaction()
+        next.arguments = bundleOf(KEY_MEDIA to media, KEY_IN_MEDIALIB to (scanned))
+        ft?.replace(R.id.fragment_placeholder, next, media.location)
+        ft?.addToBackStack(backstackName)
+        ft?.commit()
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu) = false

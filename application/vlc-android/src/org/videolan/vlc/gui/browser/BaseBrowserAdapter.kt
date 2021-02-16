@@ -204,8 +204,10 @@ open class BaseBrowserAdapter(val browserContainer: BrowserContainer<MediaLibrar
         }
 
         override fun onCheckBoxClick(v: View) {
-            if (getItem(layoutPosition).itemType == TYPE_STORAGE)
-                checkBoxAction(v, (getItem(layoutPosition) as Storage).uri.toString())
+            when (getItem(layoutPosition)) {
+                is Storage -> checkBoxAction(v, (getItem(layoutPosition) as Storage).uri.toString())
+                is MediaWrapper -> checkBoxAction(v, (getItem(layoutPosition) as MediaWrapper).uri.toString())
+            }
         }
 
         override fun getType(): Int {
