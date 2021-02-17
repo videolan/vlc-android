@@ -145,6 +145,8 @@
     <string name="subtitle_select">Pilih file terjemahan</string>
 
     <string name="server_add_title">Tambahkan server baru ke favorit</string>
+    <string name="server_domain_hint">Alamat server (nama domain atau IP)</string>
+    <string name="server_folder_hint">Letak direktori (opsional)</string>
     <string name="server_username_hint">Username</string>
     <string name="server_port">Port: </string>
     <string name="login">Masuk</string>
@@ -155,11 +157,20 @@
     <string name="favorites_remove">Hapus dari favorit</string>
     <string name="favorites_edit">Sunting</string>
     <string name="favorite_added">Simpan ke favorit</string>
+    <string name="favorite_removed">Dihapus dari favorit</string>
+
+    <string name="open_mrl_dialog_msg">Masukkan alamat jaringan: misal http://, mms:// atau rtsp://</string>
     <string name="encountered_error_title">Pemutar eror</string>
+    <string name="encountered_error_message">VLC menemui sebuah eror dengan media ini.\nTolong coba segarkan pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak bisa dimainkan.</string>
 
     <string name="search">Cari</string>
 
+
+    <string name="playback_history_title">Histori pemutaran</string>
+    <string name="playback_history_summary">Simpan semua media yang sudah diputar dalam bagian histori</string>
+    <string name="playback_speed_title">Simpan Kecepatan Pemutaran</string>
+    <string name="play_button">Tombol Putar</string>
 
     <!-- Tips -->
     <string name="video_player_tips">Tip pemutar video:</string>
@@ -169,8 +180,11 @@
     <string name="resize">Ubah ukuran</string>
     <string name="options">Pilihan</string>
     <string name="lock">Kunci</string>
+    <string name="ok_got_it">Dimengerti, singkirkan ini</string>
+
     <string name="playlist_tips">Tips daftar putar</string>
     <string name="remove_song">Buang lagu</string>
+    <string name="remove_playlist_item">%1$stelah disingkirkan dari daftar putar</string>
     <string name="rearrange_order">Atur ulang urutan</string>
     <string name="hold_to_seek">Tahan untuk mencari</string>
 
@@ -199,6 +213,7 @@
     <string name="hardware_acceleration_disabled">Dimatikan</string>
     <string name="hardware_acceleration_decoding">Akselerasi dekoding</string>
     <string name="hardware_acceleration_full">Akselerasi penuh</string>
+    <string name="dev_hardware_decoder_summary">Paksa dekoder perangkat keras, untuk pengguna tingkat lanjut saja</string>
     <string name="automatic">Otomatis</string>
     <string name="screen_orientation">Orientasi layar video</string>
     <string name="screen_orientation_sensor">Otomatis (sensor)</string>
@@ -207,11 +222,19 @@
     <string name="screen_orientation_landscape">Pemandangan</string>
     <string name="enable_black_theme">Tema gelap</string>
     <string name="subtitle_text_encoding">Pengkodean teks terjemahan</string>
+    <string name="daynight_follow_system_title">Ikuti mode sistem</string>
+
     <string name="extra_prefs_category">Pengaturan tambahan</string>
 
     <string name="interface_prefs_screen">Antarmuka</string>
+    <string name="interface_secondary_display_category_title">Tampilan sekunder</string>
+    <string name="interface_secondary_display_category_summary">Pengaturan ketika tampilan sekunder terhubung (HDMI/Chromecast)</string>
     <string name="enable_clone_mode">Pilih klon</string>
+    <string name="enable_clone_mode_summary">Salin layar perangkat tanpa remot kontrol</string>
+
     <string name="video_prefs_category">Video</string>
+    <string name="video_min_group_length_title">Grup video</string>
+    <string name="video_min_group_length_disable">Jangan grup video</string>
     <string name="media_fast_seek">Pencarian cepat</string>
     <string name="video_transition_title">video transisi</string>
     <string name="save_audiodelay_title">Simpan penundaan audio</string>
