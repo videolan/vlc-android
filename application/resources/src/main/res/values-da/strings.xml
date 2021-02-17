@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Tekst set</string>
     <string name="track_index">Spor: %s</string>
     <string name="audio_queue_progress">Forløb: %s</string>
+    <string name="audio_queue_progress_finished">Stopper efter: %s</string>
     <string name="sortby_track">Spor</string>
     <string name="this_folder">Tilføj mappen</string>
     <string name="all_subfolders">Tilføj mappen og undermapperne</string>
@@ -761,5 +762,8 @@
     <string name="warning_stream_speed">Stigende afspilningshastighed over 1 til vandløb kan medføre stammen</string>
     <string name="go_to_folder">Gennemse forrige</string>
     <string name="no_sub_renderer">Undertekster understøttes endnu ikke under casting</string>
+    <string name="enqueuing">Indlæser medier</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Vælg en SoundFont fil for at afspille MIDI lydspor</string>
 
 </resources>
