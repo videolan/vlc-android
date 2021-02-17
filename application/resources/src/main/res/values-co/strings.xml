@@ -763,5 +763,7 @@
     <string name="go_to_folder">Navigà à u livellu superiore</string>
     <string name="no_sub_renderer">I sottutituli ùn sò ancu accettati durante a diffusione</string>
     <string name="enqueuing">Caricamentu di i vostri media</string>
+    <string name="soundfont">Banca di soni SoundFont MIDI</string>
+    <string name="soundfont_summary">Sceglie un schedariu di banca di soni per leghje traccie audio midi</string>
 
 </resources>
