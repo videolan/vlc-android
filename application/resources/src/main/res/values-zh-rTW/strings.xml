@@ -752,5 +752,7 @@
     <string name="go_to_folder">瀏覽上一層</string>
     <string name="no_sub_renderer">投放時尚不支援字幕</string>
     <string name="enqueuing">正在載入您的媒體</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">挑選 SoundFont 檔案來播放 midi 音訊軌</string>
 
 </resources>
