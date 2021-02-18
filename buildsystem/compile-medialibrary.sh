@@ -57,6 +57,8 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   fi
   tar -xozf ${SQLITE_RELEASE}.tar.gz
   rm -f ${SQLITE_RELEASE}.tar.gz
+  cd ${SQLITE_RELEASE}
+  patch -1 ${SRC_DIR}/buildsystem/sqlite/sqlite-no-shell.patch
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
 if [ ! -d "build-$ANDROID_ABI" ]; then
@@ -67,6 +69,8 @@ cd "build-$ANDROID_ABI";
 if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
   ../configure \
     --host=$TARGET_TUPLE \
+    --prefix=${SRC_DIR}/medialibrary/prefix/${TARGET_TUPLE} \
+    --disable-shell \
     --enable-force-attachments-api \
     --disable-shared \
     CFLAGS="${VLC_CFLAGS}" \
@@ -76,9 +80,12 @@ if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
 fi
 
 make $MAKEFLAGS
+avlc_checkfail "sqlite build failed"
+
+make install
+avlc_checkfail "sqlite installation failed"
 
 cd ${SRC_DIR}
-avlc_checkfail "sqlite build failed"
 
 ##############################
 # FETCH MEDIALIBRARY SOURCES #
@@ -135,10 +142,9 @@ if [ ! -e ./config.h -o "$RELEASE" = "1" ]; then
     STRIP="${CROSS_TOOLS}strip" \
     RANLIB="${CROSS_TOOLS}ranlib" \
     PKG_CONFIG_LIBDIR="$SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
+    PKG_CONFIG_PATH="$SRC_DIR/medialibrary/prefix/${TARGET_TUPLE}/lib/pkgconfig" \
     LIBJPEG_LIBS="-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg" \
     LIBJPEG_CFLAGS="-I$SRC_DIR/vlc/contrib/$TARGET_TUPLE/include/" \
-    SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3" \
-    SQLITE_CFLAGS="-I$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE" \
     AR="${CROSS_TOOLS}ar"
   avlc_checkfail "medialibrary: autoconf failed"
 fi
