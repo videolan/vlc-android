@@ -71,7 +71,6 @@ if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
     --host=$TARGET_TUPLE \
     --prefix=${SRC_DIR}/medialibrary/prefix/${TARGET_TUPLE} \
     --disable-shell \
-    --enable-force-attachments-api \
     --disable-shared \
     CFLAGS="${VLC_CFLAGS}" \
     CXXFLAGS="${VLC_CFLAGS} ${VLC_CXXFLAGS}" \
