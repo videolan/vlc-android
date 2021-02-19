@@ -30,11 +30,11 @@ MediaLibrary_setInstance(JNIEnv *env, jobject thiz, AndroidMediaLibrary *p_obj);
 jint
 init(JNIEnv* env, jobject thiz, jstring dbPath, jstring thumbsPath)
 {
-    AndroidMediaLibrary *aml = new  AndroidMediaLibrary(myVm, &ml_fields, thiz);
-    MediaLibrary_setInstance(env, thiz, aml);
     const char *db_utfchars = env->GetStringUTFChars(dbPath, JNI_FALSE);
     const char *thumbs_utfchars = env->GetStringUTFChars(thumbsPath, JNI_FALSE);
-    medialibrary::InitializeResult initCode = aml->initML(db_utfchars, thumbs_utfchars);
+    AndroidMediaLibrary *aml = new  AndroidMediaLibrary(myVm, &ml_fields, thiz, db_utfchars, thumbs_utfchars);
+    MediaLibrary_setInstance(env, thiz, aml);
+    medialibrary::InitializeResult initCode = aml->initML();
     m_IsInitialized = initCode != medialibrary::InitializeResult::Failed;
     env->ReleaseStringUTFChars(dbPath, db_utfchars);
     env->ReleaseStringUTFChars(thumbsPath, thumbs_utfchars);

@@ -27,10 +27,10 @@
 class AndroidMediaLibrary : public medialibrary::IMediaLibraryCb
 {
 public:
-    AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject thiz);
+    AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject thiz, const char* dbPath, const char* thumbsPath);
     ~AndroidMediaLibrary();
 
-    medialibrary::InitializeResult initML(const std::string& dbPath, const std::string& thumbsPath);
+    medialibrary::InitializeResult initML();
     void start();
     bool isDeviceKnown(const std::string& uuid, const std::string& path, bool removable);
     bool deleteRemovableDevices();
