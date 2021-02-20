@@ -807,5 +807,7 @@
     <string name="go_to_folder">تصفح الوالدين</string>
     <string name="no_sub_renderer">لم يتم دعم الترجمات أثناء الإرسال</string>
     <string name="enqueuing">تحميل الوسائط الخاصة بك</string>
+    <string name="soundfont">خط الصوت \"SoundFont\" لـ وصلة بينيه رقمية للآلات الموسيقية \"MIDI\"</string>
+    <string name="soundfont_summary">اختر ملف خط الصوت \"SoundFont\" لتشغيل مسارات الصوت لـ وصلة بينية رقمية للآلات الموسيقية \"MIDI\"</string>
 
 </resources>
