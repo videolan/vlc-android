@@ -763,5 +763,7 @@
     <string name="go_to_folder">Üst ögeye göz at</string>
     <string name="no_sub_renderer">Henüz yayın sırasında alt yazı desteği sunulmuyor</string>
     <string name="enqueuing">Ortamlarınız yükleniyor</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">MIDI ses izlerinin oynatılması için bir SoundFont dosyası seçin</string>
 
 </resources>
