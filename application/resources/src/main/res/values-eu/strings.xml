@@ -666,4 +666,20 @@
     <string name="all_subfolders">Gehitu karpeta hau eta bere azpikarpetak</string>
     <string name="playlist_existing">%s erreprodukzio-zerrenda badago auretik</string>
     <string name="new_title">Izenburu berria</string>
+    <string name="browse">Arakatu</string>
+    <string name="more">Gehiago</string>
+    <string name="favorites">Gogokoak</string>
+    <string name="no_favorite">Gogokorik ez</string>
+    <string name="empty_directory">Hutsik</string>
+    <string name="donate">Lagundu VLC</string>
+    <string name="tip_jar">Lagundu VLC</string>
+    <string name="thank_you">Eskerrik asko</string>
+    <string name="new_group">Talde berria</string>
+    <string name="new_group_desc">Sortu talde berria</string>
+
+    <string name="air_action_volume_up">Igo bolumena</string>
+    <string name="air_action_volume_down">Jaitsi bolumena</string>
+    <string name="timeout_short">Laburra</string>
+    <string name="timeout_normal">Normala</string>
+    <string name="timeout_long">Luzea</string>
 </resources>
