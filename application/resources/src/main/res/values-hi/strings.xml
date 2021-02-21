@@ -108,6 +108,8 @@
     <string name="please_wait">कृपया प्रतीक्षा करे…</string>
     <string name="nomedia">कोई मीडिया फाइल नहीं मिला, कृपया कोई फाइल अपने डिवाइस में ट्रांसफर करे या अपने सेटिंग्स को चेंज करे</string>
     <string name="noplaylist">बजाने की सूची  नहीं मिली </string>
+    <string name="nosubfolder">कोई सबफ़ोल्डर नहीं</string>
+    <string name="directorynotfound">डायरेक्टरी पथ %1$s नहीं मिला.</string>
     <string name="nohistory">आपके पास अभी तक कोई प्लेबैक इतिहास नहीं है.</string>
     <string name="validation">क्या आपको यकीन है?</string>
 
@@ -135,6 +137,7 @@
     <string name="track_video">वीडियो रील</string>
     <string name="track_text">अनुशीर्षक ट्रैक </string>
     <string name="track_unknown">अज्ञात रील</string>
+    <string name="track_bitrate_info">बिट दर : %1$s/s\n</string>
     <string name="track_codec_info">कोडेक : %1$s\n</string>
     <string name="track_language_info">भाषा : %1$s\n</string>
     <string name="volume">आवाज़ निर्धारक</string>
@@ -150,19 +153,55 @@
     </plurals>
 
     <string name="track_samplerate_info">नमूना दर : %1$d Hz\n</string>
+    <string name="track_resolution_info">रिज़ोल्यूशन : %1$dx%2$d\n</string>
+    <string name="track_framerate_info">फ्रेम दर : %1$.3f\n</string>
+
     <string name="playback_speed">पार्श्व गति</string>
     <string name="sleep_title">निद्रा घड़ी</string>
+    <string name="sleep_in">निद्रा घड़ी</string>
     <string name="jump_to_time">कूद का समय</string>
     <string name="subtitle_select">उपशीर्षक फ़ाइल का चयन करें</string>
 
+    <string name="server_add_title">पसंदीदा में एक नया सर्वर जोड़ें</string>
+    <string name="server_domain_hint">सर्वर का पता (डोमेन नाम या आईपी)</string>
+    <string name="server_share_hint">नेटवर्क शेयर नाम (या आईपी पता)</string>
+    <string name="server_folder_hint">फ़ोल्डर पथ (वैकल्पिक)</string>
+    <string name="server_username_hint">प्रयोक्ता नाम</string>
+    <string name="server_servername_hint">सर्वर नाम, सुविधा के लिए</string>
+    <string name="server_port">द्वार :</string>
+    <string name="login">लॉगिन </string>
     <string name="password">गुप्तवचन</string>
 
+    <string name="search_no_result">कोई मीडिया नहीं मिला</string>
+    <string name="favorites_add">पसंदीदा में जोड़ें</string>
+    <string name="favorites_remove">पसंदीदा से हटाएँ</string>
+    <string name="favorites_edit">संपादन</string>
+    <string name="favorite_added">पसंदीदा में जोड़ा गया</string>
+    <string name="favorite_removed">पसंदीदा से हटाया गया</string>
+
+    <string name="streams">धाराएं</string>
+    <string name="open_mrl_dialog_msg">नेटवर्क पता बताएं : उदाहरण : http://, mms:// या rtsp://</string>
     <string name="encountered_error_title">पार्शव त्रुटि</string>
+    <string name="encountered_error_message">VLC को इस मीडिया के साथ एक त्रुटि का सामना करना पड़ा.\nकृपया मीडिया लाइब्रेरी को ताजा करें.</string>
+    <string name="invalid_location"> %1$s नामक स्थान को चलाया नहीं जा सकता</string>
+
     <string name="search">ढूंढे</string>
 
 
     <string name="playback_history_title">प्रतिश्रावणिक इतिहास</string>
+    <string name="playback_history_summary">Save all media played in History section</string>
     <string name="playback_speed_title">प्रतिश्रावणिक गति का संचय करें</string>
+    <string name="playback_speed_summary">मीडिया के बीच प्लेबैक गति कायम रखें</string>
+
+    <string name="play_button">प्ले बटन</string>
+
+    <!-- Tips -->
+    <string name="video_player_tips">वीडियो प्लेयर युक्तियाँ :</string>
+    <string name="seek">ढूंढना</string>
+    <string name="subtitles">उपशीर्षक</string>
+    <string name="audio_sub">ऑडियो ट्रैक तथा उपशीर्षक</string>
+    <string name="resize">आकार परिवर्तित करें</string>
+    <string name="options">विकल्प</string>
     <string name="show_playlist">गीतसूची दिखाएं</string>
     <string name="licence">अनुज्ञाप‍त्र</string>
     <string name="revision">संशोधन</string>
@@ -180,6 +219,7 @@
     <string name="screen_orientation_portrait">विस्तृत आलेख्य</string>
     <string name="screen_orientation_landscape">भूदृश्य</string>
     <string name="enable_brightness_gesture_summary">वीडियो प्लेबैक के दौरान चमक इशारे से नियंत्रण करें</string>
+    <string name="subtitles_prefs_category">उपशीर्षक</string>
     <string name="enable_headset_detection">हेडसेट का पता लगायें</string>
     <string name="aout">ऑडियो आउटपुट</string>
     <string name="performance_prefs_category">निष्पादन</string>
