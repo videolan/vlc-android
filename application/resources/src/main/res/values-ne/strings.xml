@@ -264,6 +264,7 @@
     <string name="network_browsing">लोकल नेटवर्क</string>
     <string name="browsing">ब्राउजिङ</string>
 
+    <string name="audio_delay">अडियो ढिलाइ</string>
     <string name="playlist_save">प्लेलिस्ट सङ्ग्रह गर्नुहोस्</string>
     <string name="go_to_chapter">च्याप्टरमा जानुहोस्</string>
     <string name="chapter">च्याप्टर</string>
@@ -307,8 +308,17 @@
     <string name="recommendations">सिफारिसहरू</string>
     <string name="browser_quick_access">छरितो पहुँच</string>
     <string name="browser_storages">भण्डारण</string>
+    <string name="tv_my_new_videos">मेरो नयाँ भिडियोहरू</string>
+    <string name="otg_device_title">OTG डिभाइस</string>
+    <string name="browser">ब्राउजर</string>
     <string name="next">पछिल्लो</string>
+    <string name="add">थप्नुहोस्</string>
+    <string name="add_to_new_playlist">नयाँ प्लेलिस्ट थप्नुहोस्</string>
+    <string name="reset">रिसेट गर्नुहोस्</string>
     <string name="favorite">मनपर्ने</string>
+    <string name="always">सधैँ</string>
+    <string name="share">साझा गर्नुहोस्</string>
+    <string name="invalid_file">अमान्य फाइल। साझा गर्न सकिँदैन।</string>
     <string name="favorites">मनपर्ने सूची</string>
     <string name="no_favorite">मनपर्नेको</string>
 </resources>
