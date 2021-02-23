@@ -60,7 +60,9 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findPreference<Preference>("extensions_category")?.isVisible = BuildConfig.DEBUG
