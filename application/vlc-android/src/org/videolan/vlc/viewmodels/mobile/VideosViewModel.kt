@@ -34,6 +34,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.FORCE_PLAY_ALL
 import org.videolan.tools.Settings
 import org.videolan.tools.isStarted
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.addToPlaylist
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.media.MediaUtils
@@ -128,6 +129,10 @@ class VideosViewModel(context: Context, type: VideoGroupingType, val folder: Fol
 
     internal fun playVideo(context: Activity?, mw: MediaWrapper, position: Int, fromStart: Boolean = false, forceAll:Boolean = false) {
         if (context === null) return
+        if (!mw.isPresent) {
+            UiTools.snackerMissing(context)
+            return
+        }
         mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         val settings = Settings.getInstance(context)
         if (!fromStart && (settings.getBoolean(FORCE_PLAY_ALL, false) || forceAll)) {

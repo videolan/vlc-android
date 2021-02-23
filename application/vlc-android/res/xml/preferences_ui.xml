@@ -41,6 +41,13 @@
             android:summary="@string/show_headers_summary"
             android:title="@string/show_headers"/>
 
+    <CheckBoxPreference
+            app:singleLineTitle="false"
+            android:key="include_missing"
+            android:defaultValue="true"
+            android:summary="@string/browser_show_missing_media_summary"
+            android:title="@string/browser_show_missing_media"/>
+
     <PreferenceCategory
             android:title="@string/video"
             android:key="ui_video_category">
