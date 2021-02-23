@@ -70,7 +70,7 @@
      id="layer1">
     <path
        inkscape:connector-curvature="0"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:normal;enable-background:accumulate"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:normal;enable-background:accumulate"
        d="m 36,11.997966 c -1.108,0 -2,0.892 -2,2 v 14.3536 a 6,6 0 0 0 -2,-0.3516 6,6 0 0 0 -6,6 6,6 0 0 0 6,6 6,6 0 0 0 6,-6 v -16.998 h 4 c 1.108,0 2,-0.892 2,-2 v -3 z m -30,0 v 4 h 24 v -4 z m 0,8 v 4 h 24 v -4 z m 0,8 v 4 h 16 v -4 z"
        id="rect2302-4" />
   </g>

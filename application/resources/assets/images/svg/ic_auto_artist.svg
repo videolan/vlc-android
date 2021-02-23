@@ -70,7 +70,7 @@
      id="layer1">
     <path
        inkscape:connector-curvature="0"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.54330707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.54330707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        d="m 29,8 a 8,8 0 0 0 -8,8 8,8 0 0 0 8,8 8,8 0 0 0 8,-8 8,8 0 0 0 -8,-8 z m -18,7 c -1.662,0 -3,1.338 -3,3 v 6 c 0,1.662 1.338,3 3,3 1.662,0 3,-1.338 3,-3 v -6 c 0,-1.662 -1.338,-3 -3,-3 z m -6,8 a 1,1 0 0 0 -1,1 1,1 0 0 0 0.0039,0.0879 c 0.04695,3.43855 2.583785,6.33951 5.996094,6.83203 v 9.08008 h 2 v -9.08008 c 3.44016,-0.49654 5.99492,-3.44215 6,-6.91797 a 1,1 0 0 0 0,-0.002 1,1 0 0 0 -1,-1 1,1 0 0 0 -1,1 c 0,2.76142 -2.23858,5.00195 -5,5.00195 -2.76142,0 -5,-2.24053 -5,-5.00195 a 1,1 0 0 0 -1,-1 z m 24,5 c 0,0 -15,0 -15,7 v 3 a 2,2 0 0 0 2,2 h 26 a 2,2 0 0 0 2,-2 V 35 C 44,28 29,28 29,28 Z"
        id="path1936" />
   </g>

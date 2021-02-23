@@ -234,7 +234,7 @@ class MediaSessionBrowser : ExtensionManagerActivity {
                         val streamsMediaDesc = MediaDescriptionCompat.Builder()
                                 .setMediaId(ID_STREAMS)
                                 .setTitle(res.getString(R.string.streams))
-                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_menu_stream}".toUri())
+                                .setIconUri("${BASE_DRAWABLE_URI}/${R.drawable.ic_auto_stream}".toUri())
                                 .build()
                         results.add(MediaBrowserCompat.MediaItem(streamsMediaDesc, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE))
                         return results

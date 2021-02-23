@@ -1,8 +1,8 @@
 <!--
   ~ *************************************************************************
-  ~  ic_auto_home.xml
+  ~  ic_auto_stream.xml
   ~ **************************************************************************
-  ~ Copyright © 2020 VLC authors and VideoLAN
+  ~ Copyright © 2021 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
   ~ This program is free software; you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -23,16 +23,14 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="48dp"
-    android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
   <path
-      android:pathData="m24,7c-0.3574,0 -0.7038,0.1244 -0.9766,0.3555l-16.4902,14c-1.0657,0.9034 -0.4263,2.6451 0.9707,2.6445h2.4961v14c0,1.1081 0.892,2 2,2h6c1.108,0 2,-0.8919 2,-2V28h8v10c0,1.1081 0.892,2 2,2h6c1.108,0 2,-0.8919 2,-2V24h2.5c1.3956,-0.0008 2.0284,-1.7491 0.9707,-2.6445l-16.5059,-14C24.6952,7.127 24.3534,7.0011 24,7Z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="2.99984193"
+      android:pathData="m12,3c-4.9706,0 -9,4.0294 -9,9l2,0c0,-3.866 3.134,-7 7,-7 3.866,0 7,3.134 7,7l2,0c0,-4.9706 -4.0294,-9 -9,-9zM11.5,7c-2.5213,0.2561 -4.5,2.4112 -4.5,5l2,0c0,-1.6568 1.3431,-3 3,-3 1.6568,0 3,1.3432 3,3l2,0c0,-2.7614 -2.2386,-5 -5,-5 -0.1726,0 -0.3319,-0.017 -0.5,0zM12,11c-0.3866,0 -0.6839,0.2375 -0.8438,0.5625l-3.0313,7.9375 -1.625,0 0,1.5C10,20.9871 14,20.9871 17.5,21l0,-1.5 -1.625,0 -3.0313,-7.9375c-0.1599,-0.325 -0.4571,-0.5625 -0.8438,-0.5625z"
+      android:strokeWidth="1"
       android:fillColor="#ffffff"
       android:strokeColor="#00000000"
-      android:fillType="evenOdd"
-      android:strokeLineCap="round"/>
+      android:fillType="nonZero"/>
 </vector>
