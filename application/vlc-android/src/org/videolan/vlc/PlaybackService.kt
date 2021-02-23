@@ -1393,7 +1393,9 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
         return if (Permissions.canReadStorage(this@PlaybackService)) {
-            BrowserRoot(MediaSessionBrowser.ID_ROOT, MediaSessionBrowser.getContentStyle(CONTENT_STYLE_LIST_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE))
+            val extras = MediaSessionBrowser.getContentStyle(CONTENT_STYLE_LIST_ITEM_HINT_VALUE, CONTENT_STYLE_LIST_ITEM_HINT_VALUE)
+            extras.putBoolean(TABS_OPT_IN_HINT, true)
+            BrowserRoot(MediaSessionBrowser.ID_ROOT, extras)
         } else null
     }
 
