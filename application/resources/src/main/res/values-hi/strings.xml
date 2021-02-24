@@ -202,22 +202,70 @@
     <string name="audio_sub">ऑडियो ट्रैक तथा उपशीर्षक</string>
     <string name="resize">आकार परिवर्तित करें</string>
     <string name="options">विकल्प</string>
+    <string name="lock">ताला</string>
+    <string name="ok_got_it">समझ गए, इसे बर्खास्त करें &#160; </string>
+
+    <string name="playlist_tips">प्लेलिस्ट सुझाव</string>
+    <string name="remove_song">गाना हटाएं</string>
+    <string name="remove_playlist_item">प्लेलिस्ट से %1$s को हटा दिया गया है</string>
+    <string name="rearrange_order">क्रम को व्यवस्थित करें</string>
+    <string name="hold_to_seek">ढूँढ़ ने  के लिए थोड़ा रुकें</string>
+
+    <string name="audio_player_tips">ऑडियो प्लेयर युक्तियाँ</string>
+    <string name="previous_next_song">पिछला / अगला गीत</string>
     <string name="show_playlist">गीतसूची दिखाएं</string>
+    <string name="hold_to_stop">रोकने के लिए पकड़ कर रखें</string>
+
+    <!-- About -->
+    <string name="app_name_full">ऐंडरॉयड के लिए VLC</string>
     <string name="licence">अनुज्ञाप‍त्र</string>
     <string name="revision">संशोधन</string>
     <string name="about">के संबंध में</string>
     <string name="about_text">VLCAndroid ™ के लिए  VLC मीडिया प्लेयर,लोकप्रिय मुक्त स्रोत मीडिया प्लेयर का एक अनुभाग है | Android ™ संस्करण ज्यादातर फ़ाइलें और संजाल धाराओं को पढ़ सकता है.</string>
+    <string name="vlc_authors">और VLC रचयिता</string>
     <string name="compiled_by">VLC का यह संस्करण इनके द्वारा संकलित किया गया है:</string>
+    <string name="feedback_forum">प्रतिक्रिया मंच</string>
+
+    <!-- Preferences -->
+    <string name="preferences">पसंद</string>
+
     <string name="directories_summary">मीडिया लाइब्रेरी में शामिल करने के लिए निर्देशिका का चयन करें</string>
     <string name="add_custom_path">एक कस्टम पथ जोड़ें</string>
     <string name="add_custom_path_description">स्कैन करने के लिए अतिरिक्त कस्टम निर्देशिका दर्ज करें:</string>
     <string name="remove_custom_path">कस्टम पथ हटाएँ</string>
+    <string name="hardware_acceleration">हार्डवेयर का त्वरण</string>
+    <string name="hardware_acceleration_summary">अक्षम : बेहतर स्थिरता\nडीकोडिंग : प्रदर्शन में सुधार कर सकता है\nपूरी तरह सक्षम : प्रदर्शन में और भी सुधार कर सकता है</string>
+    <string name="hardware_acceleration_disabled">अक्षम</string>
+    <string name="hardware_acceleration_decoding">डिकोडिंग त्वरण</string>
+    <string name="hardware_acceleration_full">पूर्ण त्वरण</string>
+    <string name="dev_hardware_decoder">उन्नत हार्डवेयर डिकोडर</string>
+    <string name="dev_hardware_decoder_summary">हमेशा हार्डवेयर डिकोडर का प्रयोग, केवल उन्नत उपयोगकर्ताओं के लिए, </string>
     <string name="automatic">स्वचालित</string>
     <string name="screen_orientation">पर्दा अनुकूलन</string>
     <string name="screen_orientation_sensor">स्वचालित (संवेदक)</string>
     <string name="screen_orientation_start_lock">शुरू में बंद कर दिया</string>
     <string name="screen_orientation_portrait">विस्तृत आलेख्य</string>
     <string name="screen_orientation_landscape">भूदृश्य</string>
+    <string name="enable_black_theme">ब्लैक थीम</string>
+    <string name="subtitle_text_encoding">उपशीर्षक टेक्सट एन्कोडिंग</string>
+    <string name="daynight_title">दिन-रात मोड</string>
+    <string name="daynight_follow_system_title">सिस्टम मोड का पालन करें</string>
+
+    <string name="extra_prefs_category">अतिरिक्त सेटिंग्स</string>
+
+    <string name="interface_prefs_screen">इंटरफेस</string>
+    <string name="interface_secondary_display_category_title">दूसरा डिसप्ले</string>
+    <string name="interface_secondary_display_category_summary">जब दूसरा डिसप्ले जुड़ा हो तो सेटिंग्स (एचडीएमआई / क्रोमकास्ट)</string>
+    <string name="enable_clone_mode">क्लोन पसंद करें</string>
+    <string name="enable_clone_mode_summary">रिमोट कंट्रोल के बिना डिवाइस स्क्रीन को क्लोन करें</string>
+
+    <string name="video_prefs_category">वीडियो</string>
+    <string name="video_min_group_length_title">ग्रुप वीडियो</string>
+    <string name="video_min_group_length_disable">वीडियो को ग्रुप न करें</string>
+    <string name="video_min_group_length_folder">फ़ोल्डर द्वारा ग्रुप बनाएं</string>
+    <string name="video_min_group_length_name">नाम से ग्रुप बनाएं</string>
+    <string name="media_fast_seek">तेज ढूँढ़ना</string>
+    <string name="media_fast_seek_summary">मीडिया में ढूँढ़ना तेज है लेकिन कम सटीक है</string>
     <string name="enable_brightness_gesture_summary">वीडियो प्लेबैक के दौरान चमक इशारे से नियंत्रण करें</string>
     <string name="subtitles_prefs_category">उपशीर्षक</string>
     <string name="enable_headset_detection">हेडसेट का पता लगायें</string>
