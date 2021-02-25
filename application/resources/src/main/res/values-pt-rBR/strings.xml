@@ -474,7 +474,7 @@
     <string name="opengl_summary">Por padrão, o OpenGL ES2 é usado para decodificação por software e por hardware, quando necessário (vídeos em 360°)</string>
     <string name="opengl_automatic">Automático</string>
     <string name="opengl_on">Impor em Ligado</string>
-    <string name="opengl_off">Import em Desligado</string>
+    <string name="opengl_off">Impor em Desligado</string>
     <string name="network_favorites">Favoritos da rede</string>
     <string name="network_shared_folders">Pastas compartilhadas</string>
     <string name="encryption_warning">Aviso, criptografia não disponível para esta versão de Android. A senha será armazenada em um espaço privado, mas não criptografado</string>
