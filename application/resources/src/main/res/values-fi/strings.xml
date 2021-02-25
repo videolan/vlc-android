@@ -167,6 +167,7 @@
     <string name="server_share_hint">Verkkojaon nimi (tai IP-osoite)</string>
     <string name="server_folder_hint">Kansioin osoite (valinnainen)</string>
     <string name="server_username_hint">Käyttäjänimi</string>
+    <string name="server_servername_hint">Palvelimen nimi, mukavuudeksi</string>
     <string name="server_port">Portti:</string>
     <string name="login">Käyttäjänimi</string>
     <string name="password">Salasana</string>
@@ -285,6 +286,8 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="enable_seek_buttons_summary">Näytä videon liittymässä kelaus- ja eteenpäin-painikkeet</string>
     <string name="enable_double_tap_seek_title">Kelaa kaksoisnapauttamalla</string>
     <string name="enable_double_tap_seek_summary">Kaksoisnapauta näytön reunalla, kelaa 10 sekunnilla</string>
+    <string name="popup_keepscreen_title">Pidä näyttö PÄÄLLÄ Pop-Up tilassa</string>
+    <string name="popup_keepscreen_summary">Pidä näyttö aina PÄÄLLÄ, kun ponnahdusikkuna on näkyvissä, vaikka video olisi tauolla. </string>
     <string name="browser_show_hidden_files_title">Näytä piilotetut tiedostot</string>
 
     <string name="subtitles_prefs_category">Tekstitykset</string>
@@ -352,6 +355,11 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="clear_history">Tyhjennä historia</string>
     <string name="set_locale">Aseta kieli</string>
     <string name="network_caching">Verkkovälimuistin arvo</string>
+    <string name="resume_playback_title">Jatka toistoa puhelun jälkeen</string>
+    <string name="resume_playback_summary">Pysy muuten tauolla</string>
+    <string name="blurred_cover_background_title">Sumea kannen tausta</string>
+    <string name="blurred_cover_background_summary">Sumea kansi soittimen taustalla</string>
+    <string name="network_caching_popup">Tämän arvon on oltava välillä 0 - 6000 ms</string>
     <string name="quit">Lopeta ja käynnistä ohjelma uudelleen</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Myöhemmin</string>
