@@ -31,7 +31,7 @@
           android:pathData="M20,12a8,8 90,1 0,-16 -0a8,8 90,1 0,16 -0z"
           android:strokeAlpha="1"
           android:strokeWidth="0.1"
-          android:fillColor="@color/standard_selection"
+          android:fillColor="@color/white"
           android:strokeColor="?attr/colorControlNormal"
           android:fillType="nonZero"
           android:fillAlpha="1" />

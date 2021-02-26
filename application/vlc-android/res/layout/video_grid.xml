@@ -43,7 +43,6 @@
                     android:fastScrollEnabled="true"
                     android:gravity="center"
                     android:numColumns="auto_fit"
-                    android:padding="@dimen/half_default_margin"
                     android:scrollbarStyle="outsideOverlay"
                     android:scrollbars="vertical"
                     android:stretchMode="none" />

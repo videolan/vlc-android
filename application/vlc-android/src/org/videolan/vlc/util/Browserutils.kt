@@ -51,6 +51,8 @@ fun String?.isSchemeFile() = when(this) {
     else -> false
 }
 
+fun String?.isSchemeDistant() = !this.isSchemeFile()
+
 fun convertFavorites(browserFavs: List<BrowserFav>?) = browserFavs?.filter {
     it.uri.scheme != "file" || File(it.uri.path).exists()
 }?.map { (uri, _, title, iconUrl) ->

@@ -61,7 +61,7 @@
         <item name="font_light">@color/grey700</item>
         <item name="font_audio_light">@color/grey700</item>
         <item name="list_subtitle">@color/list_subtitle</item>
-        <item name="list_title">@color/grey900</item>
+        <item name="list_title">@color/list_title</item>
         <item name="donate_card">@color/orange500</item>
         <item name="donate_item_background">@drawable/donate_background_color</item>
         <item name="android:windowBackground">@color/white</item>
@@ -98,6 +98,11 @@
         <item name="default_separator">@color/grey300</item>
         <item name="empty_button">@style/Widget.MaterialComponents.Button.OutlinedButton</item>
         <item name="card_border">@color/grey300</item>
+        <item name="empty_foreground">@color/grey300</item>
+        <item name="empty_background">@color/grey50</item>
+        <item name="disabled_overlay_color">@color/white_transparent_50</item>
+        <item name="video_card_background">@drawable/video_grid_card_background</item>
+        <item name="video_list_background">@drawable/video_list_background</item>
         <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_light</item>
         <item name="audio_chip_background">@color/black_transparent_75</item>
         <item name="audio_chip_text_color">@color/white_transparent_60</item>
@@ -204,8 +209,8 @@
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
         <item name="font_audio_light">@color/grey400</item>
-        <item name="list_subtitle">@color/grey400</item>
-        <item name="list_title">@color/white</item>
+        <item name="list_subtitle">@color/list_subtitle_dark</item>
+        <item name="list_title">@color/list_title_dark</item>
         <item name="donate_card">@color/orange500transparent</item>
         <item name="donate_item_background">@drawable/donate_background_color_dark</item>
         <item name="android:windowBackground">@color/black</item>
@@ -243,6 +248,11 @@
         <item name="empty_button">@style/Widget.MaterialComponents.Button.OutlinedButton</item>
 
         <item name="card_border">@color/grey800</item>
+        <item name="empty_foreground">@color/grey800</item>
+        <item name="empty_background">@color/grey900</item>
+        <item name="disabled_overlay_color">@color/black_transparent_50</item>
+        <item name="video_card_background">@drawable/video_grid_card_background_dark</item>
+        <item name="video_list_background">@drawable/video_list_background_dark</item>
         <item name="rounded_corners_bottom_default_darker">@drawable/rounded_corners_bottom_default_darker_dark</item>
         <item name="audio_chip_background">@color/white_transparent_75</item>
         <item name="audio_chip_text_color">@color/black_transparent_60</item>
@@ -678,15 +688,17 @@
     </style>
 
     <style name="VLCCardView" parent="@style/Widget.MaterialComponents.CardView">
-        <item name="strokeColor">?attr/card_border</item>
         <item name="cardCornerRadius">4dp</item>
-        <item name="cardElevation">0dp</item>
         <item name="background">?attr/card_background</item>
-        <item name="strokeWidth">1dp</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+    </style>
 
+    <style name="VLCCardView.NoShadow">
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">?attr/card_border</item>
     </style>
 
     <style name="DonateButton">
