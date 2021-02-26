@@ -264,6 +264,7 @@
         <item name="empty_button">@style/Widget.Leanback.DetailsActionButtonStyle</item>
         <item name="list_subtitle">@color/lb_basic_card_content_text_color</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme.Player</item>
+        <item name="disabled_overlay_color">@color/black_transparent_50</item>
 
     </style>
 

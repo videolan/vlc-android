@@ -48,7 +48,6 @@ import org.videolan.medialibrary.interfaces.media.Artist
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
-import org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.UPDATE_SELECTION
 import org.videolan.resources.interfaces.FocusListener
