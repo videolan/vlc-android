@@ -700,7 +700,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
                 in.readInt(),
                 in.readLong(),
                 in.readLong(),
-                in.readBoolean(),
+                in.readInt() == 1,
                 in.createTypedArray(PSlave.CREATOR));
     }
 
@@ -726,7 +726,7 @@ public abstract class MediaWrapper extends MediaLibraryItem implements Parcelabl
         dest.writeInt(getDiscNumber());
         dest.writeLong(getLastModified());
         dest.writeLong(getSeen());
-        dest.writeBoolean(isPresent());
+        dest.writeInt(isPresent() ? 1 : 0);
 
         if (mSlaves != null) {
             PSlave[] pslaves = new PSlave[mSlaves.length];
