@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,11 +29,13 @@ import org.videolan.television.databinding.MediaBrowserTvItemBinding
 import org.videolan.television.databinding.MediaBrowserTvItemListBinding
 import org.videolan.television.ui.browser.TvAdapterUtils
 import org.videolan.tools.dp
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getMediaIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.isSchemeFile
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -168,9 +171,12 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
         abstract fun recycle()
 
         abstract fun setCoverlay(selected: Boolean)
+
+        fun isPresent() = (getItem(layoutPosition) as? MediaWrapper)?.isPresent ?: true
+        fun isNetwork() = !(getItem(layoutPosition) as? MediaWrapper)?.uri?.scheme.isSchemeFile()
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemTVViewHolder(
             binding: MediaBrowserTvItemBinding,
             override val eventsHandler: IEventsHandler<MediaLibraryItem>
@@ -239,6 +245,10 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.seen = seen
             binding.description = description
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
+            binding.networkMedia.visibility = if(isNetwork() && isPresent())  View.VISIBLE else View.GONE
+            binding.networkMediaOff.visibility = if(isNetwork() && !isPresent())  View.VISIBLE else View.GONE
+            binding.networkOffOverlay.visibility = if(isNetwork() && !isPresent())  View.VISIBLE else View.GONE
+            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Card Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}")
             if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
             if (progress <= 0L) binding.progressBar.visibility = View.GONE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
@@ -316,6 +326,10 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
             binding.seen = seen
             binding.description = description
             binding.scaleType = ImageView.ScaleType.CENTER_INSIDE
+            binding.networkMedia.visibility = if(isNetwork() && isPresent())  View.VISIBLE else View.GONE
+            binding.networkMediaOff.visibility = if(isNetwork() && !isPresent())  View.VISIBLE else View.GONE
+            binding.networkOffOverlay.visibility = if(isNetwork() && !isPresent())  View.VISIBLE else View.GONE
+            if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Setting network: ${!(item as? MediaWrapper)?.uri?.scheme.isSchemeFile()}, present: ${(item as? MediaWrapper)?.isPresent ?: true} for ${item?.title}")
             if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
             if (progress <= 0L) binding.progressBar.visibility = View.GONE
             binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
