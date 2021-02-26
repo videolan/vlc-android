@@ -31,15 +31,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.libvlc.Dialog
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.resources.CTX_FAV_ADD
 import org.videolan.tools.NetworkMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.view.EmptyLoadingState
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.IDialogManager
@@ -91,7 +90,12 @@ class NetworkBrowserFragment : BaseBrowserFragment(), IDialogManager {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(mrl!!.toUri())
             item.setIcon(if (isFavorite) R.drawable.ic_menu_bookmark_w else R.drawable.ic_menu_bookmark_outline_w)
             item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
+            mrl?.let {
+                val isScanned = withContext(Dispatchers.IO) { MedialibraryUtils.isScanned(it) }
+                menu.findItem(R.id.ml_menu_scan)?.isVisible = !isRootDirectory && it.startsWith("smb") && !isScanned
+            }
         }
+
     }
 
     override fun onStart() {

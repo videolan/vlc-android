@@ -1,6 +1,6 @@
 <!--
   ~ *************************************************************************
-  ~  ic_no_thumbnail_1610.xml
+  ~  ic_emoji_network_media.xml
   ~ **************************************************************************
   ~ Copyright © 2021 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -23,22 +23,14 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    android:width="320dp"
-    android:height="200dp"
-    android:viewportWidth="160"
-    android:viewportHeight="100">
+    android:width="12dp"
+    android:height="12dp"
+    android:viewportWidth="12"
+    android:viewportHeight="12">
   <path
-      android:pathData="M-0,0l160,0l0,100l-160,0z"
-      android:strokeWidth="0.304744"
-      android:fillColor="?attr/empty_background"
+      android:pathData="M10.0005,11.5002L11,11.5002l0,-1L10.0005,10.5002ZM2.0045,7.4998l7.996,0l0,-5l-4.5013,0l-1.0116,-1L2.0005,1.4998l0.004,1zM11,7.5002c0,0.5495 -0.4495,1 -0.9995,1l-3.498,0l0,2l-0.9995,0l0,-2L2.0005,8.5002C1.45,8.5002 1,8.0498 1,7.4998l0.005,-6c0,-0.5495 0.445,-1 0.995,-1l3,0l1,1l4.0005,0c0.55,0 0.9995,0.4505 0.9995,1zM3.004,11.5002l5.997,0l0,-1L3.004,10.5002ZM1.005,11.5002l0.9995,0l0,-1L1.005,10.5002Z"
+      android:strokeWidth="1"
+      android:fillColor="?attr/list_subtitle"
+      android:fillType="evenOdd"
       android:strokeColor="#00000000"/>
-  <path
-      android:pathData="m64,34c-2.533,0 -4.571,2.038 -4.571,4.572l0,22.857c0,2.533 2.039,4.572 4.571,4.572l32,0c2.533,0 4.571,-2.038 4.571,-4.572l0,-22.857 0,-4.572l-4.571,0 -2.857,0l4,8l-6.857,0l-4,-8l-3.429,0l4,8l-6.857,0l-4,-8l-3.429,0l4,8l-6.857,0l-4,-8z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="0.333333"
-      android:fillColor="?attr/empty_foreground"
-      android:strokeColor="#00000000"
-      android:fillType="nonZero"
-      android:strokeLineCap="round"/>
 </vector>
