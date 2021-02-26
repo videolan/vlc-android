@@ -65,6 +65,14 @@
                 type="android.graphics.drawable.BitmapDrawable" />
 
         <variable
+                name="isNetwork"
+                type="boolean" />
+
+        <variable
+                name="isPresent"
+                type="boolean" />
+
+        <variable
                 name="isSquare"
                 type="Boolean" />
 
@@ -119,6 +127,16 @@
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent"
                 vlc:media="@{item}" />
+        <View
+                android:id="@+id/network_off_overlay"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{isNetwork &amp;&amp; !isPresent ? View.VISIBLE : View.GONE}"
+                android:background="?attr/disabled_overlay_color"
+                vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
+                vlc:layout_constraintEnd_toEndOf="@+id/media_cover"
+                vlc:layout_constraintStart_toStartOf="@+id/media_cover"
+                vlc:layout_constraintTop_toTopOf="@+id/media_cover" />
 
         <ImageView
                 android:id="@+id/ml_item_seen"
@@ -147,6 +165,34 @@
                 tools:visibility="visible"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 vlc:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/network_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_corners_black_more_transparent"
+                android:padding="3dp"
+                android:visibility="@{isNetwork &amp;&amp; isPresent ? View.VISIBLE : View.GONE}"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_goneMarginBottom="4dp"
+                vlc:srcCompat="@drawable/ic_network_media" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/network_media_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rounded_corners_black_more_transparent"
+                android:padding="3dp"
+                android:visibility="@{isNetwork &amp;&amp; !isPresent ? View.VISIBLE : View.GONE}"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:layout_goneMarginBottom="4dp"
+                vlc:srcCompat="@drawable/ic_network_media_off" />
 
         <TextView
                 android:id="@+id/badgeTV"
