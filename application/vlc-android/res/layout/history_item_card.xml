@@ -53,7 +53,7 @@
     <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/VLCCardView">
+            style="@style/VLCCardView.NoShadow">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"

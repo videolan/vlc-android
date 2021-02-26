@@ -54,7 +54,12 @@
     <attr name="rounded_corners_bottom_default_darker" format="reference" />
     <attr name="donate_card" format="color" />
     <attr name="donate_item_background" format="reference" />
-    <attr name="audio_chip_background" format="reference" />
+    <attr name="empty_foreground" format="color" />
+    <attr name="empty_background" format="color" />
+    <attr name="disabled_overlay_color" format="color" />
+    <attr name="video_card_background" format="reference"/>
+    <attr name="video_list_background" format="reference"/>
+    <attr name="audio_chip_background" format="color" />
     <attr name="audio_chip_text_color" format="color" />
     <attr name="audio_seek_bar" format="reference" />
     <attr name="mini_visualizer_color" format="color" />

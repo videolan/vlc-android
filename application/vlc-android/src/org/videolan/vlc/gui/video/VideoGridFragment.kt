@@ -89,7 +89,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     private fun FragmentActivity.open(item: MediaLibraryItem) {
         val i = Intent(activity, SecondaryActivity::class.java)
-        i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
+        i.putExtra(SecondaryActivity.KEY_FRAGMENT, SecondaryActivity.VIDEO_GROUP_LIST)
         if (item is Folder) i.putExtra(KEY_FOLDER, item)
         else if (item is VideoGroup) i.putExtra(KEY_GROUP, item)
         startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
@@ -286,6 +286,9 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             binding.videoGrid.columnWidth = columnWidth
             videoListAdapter.setGridCardWidth(binding.videoGrid.columnWidth)
             binding.videoGrid.addItemDecoration(gridItemDecoration!!)
+            binding.videoGrid.setPadding(4.dp, 4.dp, 4.dp, 4.dp)
+        } else {
+            binding.videoGrid.setPadding(0, 0, 0, 0)
         }
         binding.videoGrid.setNumColumns(if (listMode) 1 else -1)
         if (videoListAdapter.isListMode != listMode) videoListAdapter.isListMode = listMode

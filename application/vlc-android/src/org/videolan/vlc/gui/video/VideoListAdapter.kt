@@ -53,6 +53,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.util.generateResolutionClass
+import org.videolan.vlc.util.getPresenceDescription
+import org.videolan.vlc.util.isSchemeFile
 import org.videolan.vlc.util.scope
 import org.videolan.vlc.viewmodels.mobile.VideoGroupingType
 
@@ -91,12 +93,6 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, if (isListMode) R.layout.video_list_card else R.layout.video_grid_card, parent, false)
-        if (!isListMode) {
-            val params = binding.root.layoutParams as GridLayoutManager.LayoutParams
-            params.width = gridCardWidth
-            params.height = params.width * 10 / 16
-            binding.root.layoutParams = params
-        }
         return ViewHolder(binding)
     }
 
@@ -141,14 +137,18 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 holder.binding.setVariable(BR.max, 0)
                 val count = item.mediaCount(Folder.TYPE_FOLDER_VIDEO)
                 holder.binding.setVariable(BR.time, holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
+                holder.binding.setVariable(BR.isNetwork, false)
+                holder.binding.setVariable(BR.isPresent, false)
             }
             is VideoGroup -> holder.itemView.scope.launch {
                 val count = item.mediaCount()
-                holder.binding.setVariable(BR.time, if (count < 2) null else holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count))
+                holder.binding.setVariable(BR.time, if (count < 2) null else if (item.presentCount == item.mediaCount()) holder.itemView.context.resources.getQuantityString(R.plurals.videos_quantity, count, count) else item.getPresenceDescription())
                 holder.title.text = item.title
                 if (!isListMode) holder.binding.setVariable(BR.resolution, null)
                 holder.binding.setVariable(BR.seen, 0L)
                 holder.binding.setVariable(BR.max, 0)
+                holder.binding.setVariable(BR.isNetwork, item.isNetwork)
+                holder.binding.setVariable(BR.isPresent, item.presentCount > 0)
             }
             is MediaWrapper -> {
                 holder.title.text = if (showFilename.get()) item.fileName else item.title
@@ -157,6 +157,8 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                 var max = 0
                 var progress = 0
                 var seen = 0L
+                holder.binding.setVariable(BR.isNetwork, !item.uri.scheme.isSchemeFile())
+                holder.binding.setVariable(BR.isPresent, item.isPresent)
 
                 text = if (item.type == MediaWrapper.TYPE_GROUP) {
                     item.description
@@ -170,8 +172,8 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
                             progress = (lastTime / 1000).toInt()
                         }
                         if (isListMode && resolution !== null) {
-                            "${Tools.millisToText(item.length)}  •  $resolution"
-                        } else Tools.millisToText(item.length)
+                            "${Tools.millisToString(item.length)}  •  $resolution"
+                        } else Tools.millisToString(item.length)
                     } else null
                 }
                 holder.binding.setVariable(BR.time, text)
@@ -227,9 +229,9 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
         }
 
         override fun selectView(selected: Boolean) {
-            overlay.setImageResource(if (selected) R.drawable.ic_action_mode_select_1610 else if (isListMode) 0 else R.drawable.black_gradient)
+            binding.setVariable(BR.selected, selected)
+            overlay.setImageResource(if (selected) R.drawable.video_overlay_selected else if (isListMode) 0 else R.drawable.video_overlay_gradient)
             if (isListMode) overlay.visibility = if (selected) View.VISIBLE else View.GONE
-            super.selectView(selected)
             more.visibility = if (multiSelectHelper.inActionMode) View.INVISIBLE else View.VISIBLE
         }
 
@@ -249,11 +251,12 @@ class VideoListAdapter(private var isSeenMediaMarkerVisible: Boolean
             return if (oldItem is MediaWrapper && newItem is MediaWrapper) {
                 oldItem === newItem || (oldItem.displayTime == newItem.displayTime
                         && oldItem.artworkMrl == newItem.artworkMrl
-                        && oldItem.seen == newItem.seen)
+                        && oldItem.seen == newItem.seen
+                        && oldItem.isPresent == newItem.isPresent)
             } //else if (oldItem is FolderImpl && newItem is FolderImpl) return oldItem === newItem || (oldItem.title == newItem.title && oldItem.artworkMrl == newItem.artworkMrl)
             else if (oldItem is VideoGroup && newItem is VideoGroup) {
                 oldItem === newItem || (oldItem.title == newItem.title
-                        && oldItem.tracksCount == newItem.tracksCount)
+                        && oldItem.tracksCount == newItem.tracksCount && oldItem.presentCount != newItem.presentCount)
             }
             else oldItem.itemType == MediaLibraryItem.TYPE_FOLDER || oldItem.itemType == MediaLibraryItem.TYPE_VIDEO_GROUP
         }
