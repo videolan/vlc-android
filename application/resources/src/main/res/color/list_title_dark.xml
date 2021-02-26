@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ *************************************************************************
-  ~  ic_no_thumbnail_1610.xml
+  ~  list_title_dark.xml
   ~ **************************************************************************
   ~ Copyright © 2021 VLC authors and VideoLAN
   ~ Author: Nicolas POMEPUY
@@ -22,23 +23,7 @@
   ~
   -->
 
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    android:width="320dp"
-    android:height="200dp"
-    android:viewportWidth="160"
-    android:viewportHeight="100">
-  <path
-      android:pathData="M-0,0l160,0l0,100l-160,0z"
-      android:strokeWidth="0.304744"
-      android:fillColor="?attr/empty_background"
-      android:strokeColor="#00000000"/>
-  <path
-      android:pathData="m64,34c-2.533,0 -4.571,2.038 -4.571,4.572l0,22.857c0,2.533 2.039,4.572 4.571,4.572l32,0c2.533,0 4.571,-2.038 4.571,-4.572l0,-22.857 0,-4.572l-4.571,0 -2.857,0l4,8l-6.857,0l-4,-8l-3.429,0l4,8l-6.857,0l-4,-8l-3.429,0l4,8l-6.857,0l-4,-8z"
-      android:strokeLineJoin="round"
-      android:strokeWidth="0.333333"
-      android:fillColor="?attr/empty_foreground"
-      android:strokeColor="#00000000"
-      android:fillType="nonZero"
-      android:strokeLineCap="round"/>
-</vector>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:color="@color/grey600" />
+    <item android:color="@color/white" />
+</selector>

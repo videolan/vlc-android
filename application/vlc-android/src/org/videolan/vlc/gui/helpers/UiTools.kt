@@ -92,6 +92,7 @@ import org.videolan.vlc.util.FileUtils
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 object UiTools {
+    var currentNightMode: Int = 0
     private val TAG = "VLC/UiTools"
     private var DEFAULT_COVER_VIDEO_DRAWABLE: BitmapDrawable? = null
     private var DEFAULT_COVER_AUDIO_DRAWABLE: BitmapDrawable? = null
@@ -630,6 +631,12 @@ object UiTools {
         return presentationDisplay != null
     }
 
+    /**
+     * Invalidate the default bitmaps that are different in light and dark modes
+     */
+    fun invalidateBitmaps() {
+        DEFAULT_COVER_VIDEO_DRAWABLE = null
+    }
 
 }
 

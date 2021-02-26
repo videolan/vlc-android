@@ -17,10 +17,12 @@ import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
 import org.videolan.tools.setGone
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    private var currentNightMode: Int = 0
     private var startColor: Int = 0
     lateinit var settings: SharedPreferences
 
@@ -34,6 +36,10 @@ abstract class BaseActivity : AppCompatActivity() {
         /* Theme must be applied before super.onCreate */
         applyTheme()
         super.onCreate(savedInstanceState)
+        if (UiTools.currentNightMode != resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            UiTools.invalidateBitmaps()
+            UiTools.currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

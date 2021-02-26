@@ -43,7 +43,6 @@
                     android:fastScrollEnabled="true"
                     android:gravity="center"
                     android:numColumns="auto_fit"
-                    android:padding="@dimen/half_default_margin"
                     android:scrollbars="none"
                     android:stretchMode="none" />
         </org.videolan.vlc.gui.view.SwipeRefreshLayout>
