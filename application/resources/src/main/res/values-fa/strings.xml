@@ -708,4 +708,5 @@
     <string name="timeout_normal">معمولی </string>
     <string name="timeout_long">طولانی </string>
     <string name="remove_from_history">حذف از تاریخچه</string>
+    <string name="go_to_folder">مرور بالایی</string>
 </resources>
