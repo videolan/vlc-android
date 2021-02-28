@@ -763,5 +763,7 @@
     <string name="go_to_folder">ᱯᱮᱨᱮᱸᱴ ᱵᱨᱟᱩᱡᱽ </string>
     <string name="no_sub_renderer">ᱠᱟᱥᱴᱤᱝ ᱡᱷᱚᱜ ᱥᱟᱹᱵᱴᱟᱭᱴᱟᱹᱞ ᱠᱚ ᱵᱟᱭ ᱥᱟᱹᱯᱚᱴᱟᱭ</string>
     <string name="enqueuing">ᱟᱢᱟᱜ ᱢᱤᱰᱤᱭᱟ ᱠᱚ ᱞᱟᱫᱮ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ</string>
+    <string name="soundfont">MIDI ᱥᱟᱲᱮᱯᱷᱚᱸᱴ</string>
+    <string name="soundfont_summary">midi ᱥᱟᱲᱮ ᱴᱨᱟᱠ ᱠᱚ ᱯᱞᱮ ᱞᱟᱹᱜᱤᱫ ᱥᱟᱲᱮᱯᱷᱚᱸᱴ ᱨᱮᱫ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
 
 </resources>
