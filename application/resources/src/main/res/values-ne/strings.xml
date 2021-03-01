@@ -248,6 +248,8 @@
     <string name="audio_prefs_category">अडियो</string>
     <string name="headset_prefs_category">हेडसेट</string>
     <string name="enable_headset_detection">हेडसेट पत्तालगानुहोस</string>
+    <string name="enable_play_on_headset_insertion_summary">अन्यथा पज गर्नुहोस्</string>
+    <string name="aout">अडियो आउटपुट</string>
     <string name="extensions_prefs_category">एक्सटेन्सन</string>
     <string name="performance_prefs_category">प्रदर्शन</string>
     <string name="advanced_prefs_category">उन्नत</string>
@@ -266,18 +268,35 @@
 
     <string name="audio_delay">अडियो ढिलाइ</string>
     <string name="playlist_save">प्लेलिस्ट सङ्ग्रह गर्नुहोस्</string>
+    <string name="playlist_name_hint">प्लेसूचीको नाम</string>
     <string name="go_to_chapter">च्याप्टरमा जानुहोस्</string>
     <string name="chapter">च्याप्टर</string>
+    <string name="resume_from_position">अन्तिम स्थानबाट पुनः निरन्तरता दिनुहोस्</string>
     <string name="tv_ui_title">Android टिभी इन्टर्फेस</string>
     <string name="medialibrary">मेडिया लाइब्रेरी</string>
     <string name="medialibrary_directories">मेडिया लाइब्रेरी फोल्डरहरू</string>
 
     <!-- Accessibility -->
     <string name="more_actions">थप कार्यहरू</string>
+    <string name="back_quit_lock">भिडियो छोड्न फेरि फिर्ता थिच्नुहोस्</string>
+    <string name="stream_deleted">स्ट्रिम मेटाइयो</string>
+    <string name="no_subs_found">यस निर्देशिकामा कुनै उपशीर्षक छैन</string>
     <string name="music_now_playing">अहिले बजिरहेको</string>
 
+    <!-- Widget -->
+    <string name="widget_name_w">VLC व्हाइट विजेट</string>
+    <string name="widget_name_b">VLC डार्क विजेट</string>
+    <string name="allow_storage_access_title">VLC लाई भिडियो र अडियो फाइलहरू पहुँच गर्न अनुमति दिनुहोस्</string>
+    <string name="allow_storage_access_description">VLC लाई यो यन्त्रमा मिडिया फाइलहरू पहुँच गर्न तपाईंले अनुमति दिनु आवश्यक पर्दछ।</string>
+    <string name="allow_settings_access_ringtone_title">रिङटोन सेट गर्न VLC लाई अनुमति दिनुहोस्</string>
+    <string name="allow_settings_access_ringtone_description">VLC ले यस गीतलाई तपाईँको रिङटोनको रूपमा सेट गर्न तपाईंले यसलाई अनुमति दिनु आवश्यक पर्दछ।</string>
+    <string name="allow_settings_access_brightness_description">VLC लाई तपाईँको चमक मोड परिवर्तन गर्न तपाईँले अनुमति दिनु आवश्यक पर्दछ।</string>
+    <string name="allow_draw_overlays_title">VLC प्लेयरलाई अन्य एपहरूमा पपअपको अनुमति दिनुहोस्</string>
+    <string name="allow_sdraw_overlays_description">VLC लाई अन्य अनुप्रयोगहरूको पपअपमा तपाईँको भिडियो प्रदर्शन अनुमति दिन आवश्यक पर्दछ।</string>
     <string name="permission_ask_again">अनुमति दिनुहोस्</string>
     <string name="exit_app">VLC बन्द गर्नुहोस्</string>
+    <string name="exit_app_msg">के तपाईँ VLC छोड्न पक्का हुनुहुन्छ?</string>
+
     <string name="download_on_device">डाउनलोड</string>
     <string name="opengl_title">ओपनजीएल ईएस2 प्रयोग</string>
     <string name="opengl_automatic">स्वचालित</string>
@@ -319,6 +338,76 @@
     <string name="always">सधैँ</string>
     <string name="share">साझा गर्नुहोस्</string>
     <string name="invalid_file">अमान्य फाइल। साझा गर्न सकिँदैन।</string>
+    <string name="audio_queue_progress">प्रगति: %s</string>
+    <string name="audio_queue_progress_finished">निम्नमा समाप्त हुन्छ: %s</string>
+    <string name="sortby_track">ट्रयाक</string>
+    <string name="this_folder">यो फोल्डर थप्नुहोस्</string>
+    <string name="all_subfolders">यो फोल्डर र उपफोल्डरहरू थप्नुहोस्</string>
+    <string name="playlist_existing">प्लेलिस्ट %s पहिल्यै अवस्थित छ</string>
+    <string name="new_title">नयाँ शीर्षक</string>
+    <string name="browse">ब्राउज</string>
+    <string name="more">थप</string>
     <string name="favorites">मनपर्ने सूची</string>
-    <string name="no_favorite">मनपर्नेको</string>
+    <string name="new_stream">नयाँ स्ट्रिम</string>
+    <string name="add_to_group">भिडियो समूहमा थप्नुहोस्</string>
+    <string name="remove_from_group">भिडियो समूहबाट हटाउनुहोस्</string>
+    <string name="rename_group">भिडियो समूहको पुनः नाम दिनुहोस्</string>
+    <string name="ungroup">असमूहीकृत गर्नुहोस्</string>
+    <string name="group_similar">स्वतः पुन: समूहीकृत गर्नुहोस्</string>
+    <string name="no_favorite">कुनै मनपरेको छैन</string>
+    <string name="empty_directory">खाली</string>
+    <string name="no_track">कुनै ट्रयाक छैन</string>
+
+    <string name="swipe_unlock">अनलक गर्न स्वाइप गर्नुहोस्</string>
+    <string name="swipe_unlock_no_touch">अनलक गर्न लामो समय थिच्नुहोस्</string>
+    <string name="sub_result_by_name">%s का लागि नतिजाहरू</string>
+    <string name="sub_result_by_name_season">सिजन %s</string>
+    <string name="sub_result_by_name_episode">श्रृङ्खला %s </string>
+
+    <string name="sub_result_by_file">तपाईँको फाइलको लागि नतिजा</string>
+    <string name="donate">VLC मद्दत</string>
+    <string name="donate_desc">VLC निर्माण गर्न स्वयंसेवकहरूलाई सहायता गर्नुहोस्</string>
+    <string name="donate_subscribtion">म यो मासिक प्रायोजन भएको चाहन्छु</string>
+    <string name="donate_send">तपाईँको प्रयोजन सुरु गर्नुहोस्</string>
+    <string name="donation_description">तपाईँको प्रायोजनले हामीलाई निम्नमा अनुमति दिन्छ: \VideoLAN संघ Android\सहायताको लागि VLC एप सुधार गर्न</string>
+    <string name="subscription_purchased">तपाईँलाई मासिक प्रायोजनको सदस्यता दिइन्छ</string>
+    <string name="subscription_cancel">तपाईँले Play Store मा सदस्यता रद्द गर्न सक्नुहुन्छ</string>
+    <string name="subscription_cancel_tv">सदस्यता कसरी रद्द गर्ने</string>
+    <string name="donate_unsubscribe_tv">सदस्यता रद्द गर्न, कृपया फोन वा कम्प्युटरमा %s खोल्नुहोस् वा यो कोड स्क्यान गर्नुहोस्:</string>
+    <string name="tip_jar">VLC मद्दत</string>
+    <string name="thank_you">धन्यवाद</string>
+    <string name="thank_you_desc">तपाईँको प्रायोजनको लागि धन्यवाद!\nIt ले VLC सुधार गर्न हामीलाई धेरै मद्दत गर्नेछ!</string>
+    <string name="donate_again">एपलाई फेरि प्रायोजन गर्नुहोस्</string>
+
+    <string name="mark_as_played">प्ले गरिएको रूपमा चिन्ह लगाउनुहोस्</string>
+    <string name="mark_all_as_played">सबैलाई प्ले गरिएको रूपमा चिन्ह लगाउनुहोस्</string>
+    <string name="new_group">नयाँ समूह</string>
+    <string name="new_group_desc">नयाँ समूह सिर्जना गर्नुहोस्</string>
+
+    <string name="air_action_rewind">10 सेकेन्ड रिवाइन्ड गर्नुहोस्</string>
+    <string name="air_action_forward">10 सेकेन्ड अगाडि खोज्नुहोस्</string>
+    <string name="air_action_play_pause"> प्लेब्याक पज/रिज्युम गर्नुहोस्</string>
+    <string name="air_action_volume_up">आवाज बढाउनुहोस्</string>
+    <string name="air_action_volume_down">आवाज कम गर्नुहोस्</string>
+    <string name="air_action_next">प्लेब्याकमा भएको अर्को वस्तु</string>
+    <string name="air_action_previous">प्लेब्याकमा भएको अघिल्लो वस्तु</string>
+    <string name="allow_otg"> OTG पहुँच अनुमति दिनुहोस्</string>
+    <string name="allow_otg_description"> कृपया VLC मा पहुँच गर्न अनुमति दिन तपाईँको OTG यन्त्र छनौट गर्नुहोस्  </string>
+    <string name="timeout_infinite">असीम</string>
+    <string name="timeout_short">छोटो</string>
+    <string name="timeout_normal">सामान्य</string>
+    <string name="timeout_long">लामो</string>
+    <string name="video_hud_timeout">भिडियो प्लेयरले लुकाउने ढिलाइ नियन्त्रण गर्दछ</string>
+    <string name="remove_from_history">इतिहासबाट हटाउनुहोस्</string>
+    <string name="prefersmbv1">SMB 1 लाई प्राथमिकता दिनुहोस्</string>
+    <string name="prefersmbv1_summary">तपाईँको SMB सर्भर ब्राउज गर्न केही कठिनाई भएमा यस सेटिङ अनचेक गर्नुहोस्  </string>
+    <string name="apply_to_all">सबै भिडियोहरूमा लागू गर्नुहोस्</string>
+    <string name="audio_delay_global">सबै भिडियोहरूको लागि %s ms अडियो ढिलाइ सेट भयो</string>
+    <string name="warning_stream_speed">स्ट्रिमहरूको लागि 1 भन्दा बढी प्लेब्याक गति बढाउँदा अड्किने हुन सक्छ</string>
+    <string name="go_to_folder">प्यारेन्ट ब्राउज गर्नुहोस्</string>
+    <string name="no_sub_renderer">कास्टिङ गर्ने समयमा उपशीर्षकहरू अझै समर्थित छैनन्</string>
+    <string name="enqueuing">तपाईँको मिडियाहरू लोड गर्ने</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">मिडी अडियो ट्रयाक प्ले गर्न SoundFont फाइल रोज्नुहोस्</string>
+
 </resources>
