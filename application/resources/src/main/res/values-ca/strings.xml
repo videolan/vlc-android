@@ -695,6 +695,7 @@
     <string name="subtitle_delay_end">Vist el text</string>
     <string name="track_index">Pista: %s</string>
     <string name="audio_queue_progress">Progrés: %s</string>
+    <string name="audio_queue_progress_finished">Final: %s</string>
     <string name="sortby_track">Pista</string>
     <string name="this_folder">Afegeix aquesta carpeta</string>
     <string name="all_subfolders">Afegeix aquesta carpeta i subcarpetes</string>
@@ -761,5 +762,8 @@
     <string name="warning_stream_speed">Incrementar la velocitat de reproducció a les retransmissions per sobre d\'1, pot generar talls intermitents</string>
     <string name="go_to_folder">Carpeta pare</string>
     <string name="no_sub_renderer">Els subtítols no estan disponibles en directe. </string>
+    <string name="enqueuing">S\'estan carregant els vostres fitxers multimèdia</string>
+    <string name="soundfont">SoundFont MIDI</string>
+    <string name="soundfont_summary">Trieu un fitxer SoundFont per reproduir pistes d\'àudio MIDI</string>
 
 </resources>
