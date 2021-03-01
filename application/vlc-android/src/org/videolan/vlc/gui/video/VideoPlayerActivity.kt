@@ -1729,8 +1729,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
                     itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE)
             }
-            if (startTime == 0L && savedTime > 0L) startTime = savedTime
             val restorePlayback = hasMedia && currentMedia?.uri == videoUri
+            if (startTime == 0L && savedTime > 0L && restorePlayback) startTime = savedTime
 
             var openedMedia: MediaWrapper? = null
             val resumePlaylist = service.isValidIndex(positionInPlaylist)
@@ -1775,7 +1775,8 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
                             return
                         } else {
                             val rTime = settings.getLong(VIDEO_RESUME_TIME, -1L)
-                            if (rTime > 0) {
+                            val lastUri = settings.getString(VIDEO_RESUME_URI, "")
+                            if (rTime > 0 && service.currentMediaLocation == lastUri) {
                                 if (askResume) {
                                     showConfirmResumeDialog()
                                     return
