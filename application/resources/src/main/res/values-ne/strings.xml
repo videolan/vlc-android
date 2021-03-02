@@ -3,11 +3,11 @@
 
     <!-- Main VLC Interface -->
     <string name="ok">ठीक</string>
-    <string name="cancel">रद्द गर्नुहोस</string>
+    <string name="cancel">रद्द गर्नुहोस्</string>
     <string name="other">अन्य</string>
     <string name="sortby">क्रमान्कित  गर्नुहोस</string>
     <string name="sortby_name">नाम</string>
-    <string name="sortby_filename">फाइल नाम</string>
+    <string name="sortby_filename">फाइलको नाम</string>
     <string name="sortby_artist_name">कलाकारको नाम</string>
     <string name="sortby_album_name">सङ्ग्रह नाम</string>
     <string name="sortby_length">लम्बाइ</string>
@@ -206,6 +206,9 @@
     <string name="playlist_tips">प्लेलिस्ट जानकारीहरू</string>
     <string name="remove_song">गीत हटाउनुहोस</string>
     <string name="rearrange_order">क्रम पुन: मिलाउनुहोस्</string>
+    <string name="hold_to_seek">देखाउनको लागि होल्ड गर्नुहोस्</string>
+
+    <string name="audio_player_tips">अडियो प्लेयर सुझावहरु</string>
     <string name="previous_next_song">पछिल्लो/अघिल्लो गीत</string>
     <string name="show_playlist">वाद्यसूची देखाउनुहोस्</string>
     <string name="hold_to_stop">रोक्नको लागि थाम्नुहोस्</string>
@@ -215,7 +218,9 @@
     <string name="licence">लाइसेन्स</string>
     <string name="revision">संशोधन</string>
     <string name="about">बारे</string>
+    <string name="vlc_authors">र VLC लेखकहरु</string>
     <string name="compiled_by">भीएलसीको यो संस्करण कम्पाइल गर्ने:</string>
+    <string name="feedback_forum">पृष्टपोषण फोरुम</string>
 
     <!-- Preferences -->
     <string name="preferences">सेटिङहरू</string>
@@ -267,6 +272,9 @@
     <string name="browsing">ब्राउजिङ</string>
 
     <string name="audio_delay">अडियो ढिलाइ</string>
+    <string name="search_hint">मिडिया खोज्नुहोस्</string>
+    <string name="search_in_list_hint">बर्तमान सुचीमा खोज्नुहोस्</string>
+    <string name="search_global">सम्पुर्ण मिडिया लाइब्रेरीमा खोज्नुहोस्</string>
     <string name="playlist_save">प्लेलिस्ट सङ्ग्रह गर्नुहोस्</string>
     <string name="playlist_name_hint">प्लेसूचीको नाम</string>
     <string name="go_to_chapter">च्याप्टरमा जानुहोस्</string>
@@ -295,10 +303,19 @@
     <string name="allow_sdraw_overlays_description">VLC लाई अन्य अनुप्रयोगहरूको पपअपमा तपाईँको भिडियो प्रदर्शन अनुमति दिन आवश्यक पर्दछ।</string>
     <string name="permission_ask_again">अनुमति दिनुहोस्</string>
     <string name="exit_app">VLC बन्द गर्नुहोस्</string>
-    <string name="exit_app_msg">के तपाईँ VLC छोड्न पक्का हुनुहुन्छ?</string>
+    <string name="exit_app_msg">के तपाईँ VLC छोड्न निश्चित हुनुहुन्छ?</string>
 
+    <!-- fast scroller -->
+    <string name="fastscroller_track">FastScroller ट्रयाक</string>
+    <string name="fastscroller_handle">FastScroller ह्यान्डल</string>
+
+    <!-- Plugins -->
+    <string name="plugins">प्लगइनहरू</string>
     <string name="download_on_device">डाउनलोड</string>
+    <string name="extension_empty">प्रदर्शन गर्न कुनै वस्तु छैन, केही प्राप्त गर्न तपाईँको विस्तार सेटिङमा जानुहोस्।</string>
+
     <string name="opengl_title">ओपनजीएल ईएस2 प्रयोग</string>
+    <string name="opengl_summary">पूर्वनिर्धारितद्वारा, सफ्टवेयर डिकोडिङ र हार्डवेयर डिकोडिङको लागि आवश्यक हुँदा (360° भिडियोहरू) OpenGL ES2 प्रयोग गरिन्छ</string>
     <string name="opengl_automatic">स्वचालित</string>
     <string name="network_favorites">मनपर्ने सञ्जाल सूची</string>
     <string name="network_shared_folders">साझा फोल्डरहरू</string>
@@ -314,7 +331,10 @@
     <string name="ml_scanning">मिडिया फाइलहरूको लागि स्क्यान गर्दै</string>
     <string name="ml_external_storage_accept">हो</string>
     <string name="ml_external_storage_decline">हैन</string>
+    <string name="auto_last_added_media">अन्तिममा थपिएको</string>
+    <string name="auto_home">गृह</string>
     <string name="no">हैन</string>
+    <string name="loading_medialibrary">मिडिया लाइब्रेरी लोड हुदैछ...</string>
     <string name="yes">हो</string>
 
     <string name="custom_set_save_title">सङ्ग्रह नगरिएका परिवर्तनहरू</string>
@@ -334,10 +354,17 @@
     <string name="add">थप्नुहोस्</string>
     <string name="add_to_new_playlist">नयाँ प्लेलिस्ट थप्नुहोस्</string>
     <string name="reset">रिसेट गर्नुहोस्</string>
+    <string name="display_in_list">सुचीमा देखाउनुहोस्</string>
+    <string name="display_in_grid">ग्रिडमा देखाउनुहोस्</string>
+    <string name="send_crash_title">VLC  त्रुटि रिपोर्टर</string>
     <string name="favorite">मनपर्ने</string>
     <string name="always">सधैँ</string>
     <string name="share">साझा गर्नुहोस्</string>
     <string name="invalid_file">अमान्य फाइल। साझा गर्न सकिँदैन।</string>
+    <string name="directed_by">द्वारा निर्देशित</string>
+    <string name="text">अक्षर</string>
+    <string name="unknown">अज्ञात</string>
+    <string name="track_index">ट्राक:%s</string>
     <string name="audio_queue_progress">प्रगति: %s</string>
     <string name="audio_queue_progress_finished">निम्नमा समाप्त हुन्छ: %s</string>
     <string name="sortby_track">ट्रयाक</string>
