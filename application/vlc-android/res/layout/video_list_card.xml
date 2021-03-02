@@ -92,8 +92,8 @@
                 <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
                 <ImageView
                         android:id="@+id/ml_item_thumbnail"
-                        android:layout_width="128dp"
-                        android:layout_height="80dp"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
                         android:scaleType="centerCrop"
                         android:src="@{cover}"
                         tools:src="@tools:sample/backgrounds/scenic"
