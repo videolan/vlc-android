@@ -109,6 +109,8 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     val isAudioPlayerExpanded: Boolean
         get() = isAudioPlayerReady && playerBehavior.state == STATE_EXPANDED
 
+    var bottomIsHiddden: Boolean = false
+
     override fun getSnackAnchorView(): View? {
       return  if (::audioPlayerContainer.isInitialized && audioPlayerContainer.visibility != View.GONE && ::playerBehavior.isInitialized && playerBehavior.state == STATE_COLLAPSED)
           audioPlayerContainer else if (::playerBehavior.isInitialized && playerBehavior.state == STATE_EXPANDED) findViewById(android.R.id.content) else if (::playerBehavior.isInitialized) findViewById(R.id.coordinator) else findViewById(android.R.id.content)
@@ -117,8 +119,8 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
-
             this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
+            bottomIsHiddden = savedInstanceState.getBoolean(BOTTOM_IS_HIDDEN, false)
         }
         super.onCreate(savedInstanceState)
         volumeControlStream = AudioManager.STREAM_MUSIC
@@ -153,6 +155,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
         playerBehavior = from(audioPlayerContainer) as PlayerBehavior<*>
         val bottomBehavior = bottomBar?.let { BottomNavigationBehavior.from(it) as BottomNavigationBehavior<View> }
                 ?: null
+        if (bottomIsHiddden)  bottomBehavior?.setCollapsed()
         playerBehavior.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         updateFragmentMargins()
         playerBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
