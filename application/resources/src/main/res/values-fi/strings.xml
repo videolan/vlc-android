@@ -310,6 +310,7 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Median kansikuva lukitusnäytöllä</string>
     <string name="lockscreen_cover_summary">Kun mahdollista, aseta nykyisen mediatiedoston kuva lukitusnäytön taustakuvaksi</string>
+    <string name="list_title_ellipsize">Otsikon kolme pistettä</string>
     <string name="list_title_ellipsize_default">Oletus</string>
     <string name="list_title_ellipsize_left">Vasen</string>
     <string name="list_title_ellipsize_right">Oikea</string>
