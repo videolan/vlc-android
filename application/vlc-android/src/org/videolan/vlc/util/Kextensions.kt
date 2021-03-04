@@ -68,9 +68,9 @@ fun String.validateLocation(): Boolean {
     return true
 }
 
-inline fun <reified T : ViewModel> Fragment.getModelWithActivity() = ViewModelProviders.of(requireActivity()).get(T::class.java)
-inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
-inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
+inline fun <reified T : ViewModel> Fragment.getModelWithActivity() = ViewModelProvider(requireActivity()).get(T::class.java)
+inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProvider(this).get(T::class.java)
+inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProvider(this).get(T::class.java)
 
 fun Media?.canExpand() = this != null && (type == IMedia.Type.Directory || type == IMedia.Type.Playlist)
 suspend fun AppCompatActivity.share(media: MediaWrapper) {

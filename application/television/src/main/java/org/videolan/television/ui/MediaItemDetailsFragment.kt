@@ -33,7 +33,7 @@ import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.DetailsSupportFragment
 import androidx.leanback.widget.*
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
@@ -136,7 +136,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
         mediaStarted = false
         buildDetails()
 
-        mediaMetadataModel = ViewModelProviders.of(this, MediaMetadataModel.Factory(requireActivity(), mlId = media.id)).get(media.uri.path
+        mediaMetadataModel = ViewModelProvider(this, MediaMetadataModel.Factory(requireActivity(), mlId = media.id)).get(media.uri.path
                 ?: "", MediaMetadataModel::class.java)
 
         mediaMetadataModel.updateLiveData.observe(this, {

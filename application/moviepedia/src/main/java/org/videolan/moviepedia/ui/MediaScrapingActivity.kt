@@ -32,7 +32,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.moviepedia.R
@@ -70,7 +70,7 @@ open class MediaScrapingActivity : BaseActivity(), TextWatcher, TextView.OnEdito
 
         binding.searchEditText.addTextChangedListener(this)
         binding.searchEditText.setOnEditorActionListener(this)
-        viewModel = ViewModelProviders.of(this).get(media.uri.path
+        viewModel = ViewModelProvider(this).get(media.uri.path
                 ?: "", MediaScrapingModel::class.java)
         viewModel.apiResult.observe(this, {
             mediaScrapingResultAdapter.setItems(it.getAllResults())

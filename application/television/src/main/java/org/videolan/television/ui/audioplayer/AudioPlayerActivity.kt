@@ -32,7 +32,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,7 +75,7 @@ class AudioPlayerActivity : BaseTvActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player)
         settings = Settings.getInstance(this)
 
-        model = ViewModelProviders.of(this).get(PlaylistModel::class.java)
+        model = ViewModelProvider(this).get(PlaylistModel::class.java)
         binding.playlist.layoutManager = LinearLayoutManager(this)
         binding.playlist.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         adapter = PlaylistAdapter(this, model)

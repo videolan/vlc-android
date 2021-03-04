@@ -30,7 +30,7 @@ import android.view.View
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -72,7 +72,7 @@ class FilePickerFragment : FileBrowserFragment(), BrowserContainer<MediaLibraryI
     }
 
     override fun setupBrowser() {
-        viewModel = ViewModelProviders.of(this, BrowserModel.Factory(requireContext(), mrl, TYPE_PICKER, false, pickerType = pickerType)).get(BrowserModel::class.java)
+        viewModel = ViewModelProvider(this, BrowserModel.Factory(requireContext(), mrl, TYPE_PICKER, false, pickerType = pickerType)).get(BrowserModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

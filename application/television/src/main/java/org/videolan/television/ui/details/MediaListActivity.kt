@@ -7,7 +7,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.leanback.app.BackgroundManager
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -163,4 +163,4 @@ class MediaListActivity : BaseTvActivity(), ITVEventsHandler {
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-internal fun MediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProviders.of(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)
+internal fun MediaListActivity.getViewModel(playlist: MediaLibraryItem) = ViewModelProvider(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)
