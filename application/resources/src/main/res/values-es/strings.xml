@@ -763,5 +763,7 @@
     <string name="go_to_folder">Explorar padre</string>
     <string name="no_sub_renderer">Los subtítulos no está soportados todavía al emitir</string>
     <string name="enqueuing">Cargando sus medios</string>
+    <string name="soundfont">MIDI SoundFont</string>
+    <string name="soundfont_summary">Seleccione un archivo SoundFont para reproducir pistas de audio MIDI</string>
 
 </resources>
