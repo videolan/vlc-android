@@ -765,5 +765,6 @@
     <string name="enqueuing">Ortamlarınız yükleniyor</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">MIDI ses izlerinin oynatılması için bir SoundFont dosyası seçin</string>
+    <string name="search_prefs">Arama ayarları</string>
 
 </resources>
