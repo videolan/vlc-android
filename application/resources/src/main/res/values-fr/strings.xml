@@ -765,5 +765,6 @@
     <string name="enqueuing">Chargement de vos médias</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Sélectionnez un fichier SoundFont pour jouer les pistes audio MIDI</string>
+    <string name="search_prefs">Paramètres de recherche</string>
 
 </resources>
