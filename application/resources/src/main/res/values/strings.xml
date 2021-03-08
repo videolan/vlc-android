@@ -784,5 +784,6 @@
     <string name="enqueuing">Loading your medias</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Pick a SoundFont file to play midi audio tracks</string>
+    <string name="search_prefs">Search settings</string>
 
 </resources>

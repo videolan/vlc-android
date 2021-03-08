@@ -27,19 +27,20 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.Medialibrary
+import org.videolan.tools.PLAYBACK_HISTORY
+import org.videolan.tools.RESULT_RESTART
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.vlc.util.Permissions
-import org.videolan.tools.RESULT_RESTART
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -63,6 +64,32 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findPreference<Preference>("extensions_category")?.isVisible = BuildConfig.DEBUG
+        arguments?.getParcelable<PreferenceItem>(EXTRA_PREF_END_POINT)?.let { endPoint ->
+            when (endPoint.parentScreen) {
+                R.xml.preferences_ui -> loadFragment(PreferencesUi().apply {
+                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
+                })
+                R.xml.preferences_video -> loadFragment(PreferencesVideo().apply {
+                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
+                })
+                R.xml.preferences_subtitles -> loadFragment(PreferencesSubtitles().apply {
+                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
+                })
+                R.xml.preferences_audio -> loadFragment(PreferencesAudio().apply {
+                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
+                })
+                R.xml.preferences_extensions -> loadFragment(PreferencesExtensions().apply {
+                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
+                })
+                R.xml.preferences_adv -> loadFragment(PreferencesAdvanced().apply {
+                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
+                })
+                R.xml.preferences_casting -> loadFragment(PreferencesCasting().apply {
+                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
+                })
+            }
+            arguments = null
+        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
