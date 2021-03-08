@@ -765,5 +765,6 @@
     <string name="enqueuing">Caricamentu di i vostri media</string>
     <string name="soundfont">Banca di soni SoundFont MIDI</string>
     <string name="soundfont_summary">Sceglie un schedariu di banca di soni per leghje traccie audio midi</string>
+    <string name="search_prefs">Preferenze di ricerca</string>
 
 </resources>
