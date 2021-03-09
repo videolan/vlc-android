@@ -362,6 +362,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase?.getContextWithLocale(AppContextProvider.locale))
+        applyOverrideConfiguration(newBase?.resources?.configuration)
     }
 
     override fun getApplicationContext(): Context {
