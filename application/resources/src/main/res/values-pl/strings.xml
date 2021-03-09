@@ -787,5 +787,6 @@
     <string name="enqueuing">Ładowanie twoich mediów</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">Wybierz plik SoundFont, aby odtwarzać ścieżki dźwiękowe midi</string>
+    <string name="search_prefs">Szukaj w ustawieniach</string>
 
 </resources>
