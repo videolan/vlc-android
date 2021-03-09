@@ -25,6 +25,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -39,6 +40,7 @@ import java.util.*
 class PreferenceSearchModel(context: Context) : ViewModel() {
     val dataset = LiveDataset<PreferenceItem>()
     val filtered = LiveDataset<PreferenceItem>()
+    val showTranslations= MutableLiveData<Boolean>()
 
     init {
         viewModelScope.launch {
@@ -46,6 +48,7 @@ class PreferenceSearchModel(context: Context) : ViewModel() {
                 PreferenceParser.parsePreferences(context)
             }
         }
+        showTranslations.value = false
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
@@ -63,10 +66,16 @@ class PreferenceSearchModel(context: Context) : ViewModel() {
         if (query.isBlank())
             filtered.value = arrayListOf()
         else
-            filtered.value = dataset.getList().filter { it.summary.toLowerCase(Locale.getDefault()).contains(query) || it.title.toLowerCase(Locale.getDefault()).contains(query) }.sortedWith { i0, i1 ->
+            filtered.value = dataset.getList().filter {
+                        getTitle(it).toLowerCase(Locale.getDefault()).contains(query)
+                        || getSummary(it).toLowerCase(Locale.getDefault()).contains(query)
+            }.sortedWith { i0, i1 ->
                 score(i1, query) - score(i0, query)
             }.toMutableList()
     }
+
+    fun getSummary(item:PreferenceItem)= if (showTranslations.value == true) item.summaryEng else item.summary
+    fun getTitle(item:PreferenceItem)= if (showTranslations.value == true) item.titleEng else item.title
 
     /**
      * Determinate a score for [item] to sort the results for a [query]:
@@ -81,9 +90,15 @@ class PreferenceSearchModel(context: Context) : ViewModel() {
      */
     private fun score(item: PreferenceItem, query: String): Int {
         var score = 0
-        if (item.title.toLowerCase(Locale.getDefault()).contains(query)) score += 10
-        if (item.summary.toLowerCase(Locale.getDefault()).split(" ").any { it.startsWith(query) }) score += 100
-        if (item.title.toLowerCase(Locale.getDefault()).split(" ").any { it.startsWith(query) }) score += 1000
+        if (getSummary(item).toLowerCase(Locale.getDefault()).contains(query)) score += 1
+        if (getTitle(item).toLowerCase(Locale.getDefault()).contains(query)) score += 10
+        if (getSummary(item).toLowerCase(Locale.getDefault()).split(" ").any { it.startsWith(query) }) score += 100
+        if (getTitle(item).toLowerCase(Locale.getDefault()).split(" ").any { it.startsWith(query) }) score += 1000
         return score
+    }
+
+    fun switchTranslations(query: String) {
+        showTranslations.value = showTranslations.value == false
+        filter(query)
     }
 }

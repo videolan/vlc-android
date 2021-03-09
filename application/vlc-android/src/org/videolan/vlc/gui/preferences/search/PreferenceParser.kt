@@ -25,16 +25,18 @@
 package org.videolan.vlc.gui.preferences
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.XmlResourceParser
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import org.videolan.tools.wrap
 import org.videolan.vlc.R
 
 object PreferenceParser {
 
     fun parsePreferences(context: Context): ArrayList<PreferenceItem> {
         val result = ArrayList<PreferenceItem>()
-        arrayOf(R.xml.preferences, R.xml.preferences_adv, R.xml.preferences_audio, R.xml.preferences_casting, R.xml.preferences_dev, R.xml.preferences_perf, R.xml.preferences_subtitles, R.xml.preferences_ui, R.xml.preferences_video).forEach {
+        arrayOf(R.xml.preferences, R.xml.preferences_adv, R.xml.preferences_audio, R.xml.preferences_casting, R.xml.preferences_perf, R.xml.preferences_subtitles, R.xml.preferences_ui, R.xml.preferences_video).forEach {
             result.addAll(parsePreferences(context, it))
         }
         return result
@@ -42,11 +44,13 @@ object PreferenceParser {
 
     private fun parsePreferences(context: Context, id: Int): ArrayList<PreferenceItem> {
         var category = ""
+        var categoryEng = ""
         val result = ArrayList<PreferenceItem>()
         val parser = context.resources.getXml(id)
         var eventType = -1
         val namespace = "http://schemas.android.com/apk/res/android"
         var firstPrefScreeFound = false
+        val englishContext = ContextWrapper(context).wrap("en")
         while (eventType != XmlResourceParser.END_DOCUMENT) {
             if (eventType == XmlResourceParser.START_TAG) {
                 val element = parser.name
@@ -54,12 +58,15 @@ object PreferenceParser {
                 if (element != "PreferenceScreen" && !firstPrefScreeFound) {
                     firstPrefScreeFound = true
                     category = getValue(context, parser, namespace, "title")
+                    categoryEng = getValue(englishContext, parser, namespace, "title")
                 }
                 if (element != "PreferenceCategory" && element != "Preference") {
                     val title = getValue(context, parser, namespace, "title")
                     val summary = getValue(context, parser, namespace, "summary")
+                    val titleEng = getValue(englishContext, parser, namespace, "title")
+                    val summaryEng = getValue(englishContext, parser, namespace, "summary")
                     val key = getValue(context, parser, namespace, "key")
-                    if (key != null) result.add(PreferenceItem(key, id, title, summary, category))
+                    if (key.isNotBlank()) result.add(PreferenceItem(key, id, title, summary, titleEng, summaryEng, category, categoryEng))
                 }
             }
             eventType = parser.next()
@@ -71,10 +78,8 @@ object PreferenceParser {
         try {
             val titleResId = parser.getAttributeResourceValue(namespace, node, -1)
             return if (titleResId == -1) {
-                // Read just a string.
                 parser.getAttributeValue(namespace, node)
             } else {
-                // Get a string with a resource id
                 context.resources.getString(titleResId)
             }
         } catch (e: Exception) {
@@ -84,4 +89,4 @@ object PreferenceParser {
 }
 
 @Parcelize
-data class PreferenceItem(val key: String, val parentScreen: Int, val title: String, val summary: String, val category: String) : Parcelable
+data class PreferenceItem(val key: String, val parentScreen: Int, val title: String, val summary: String, val titleEng:String, val summaryEng: String, val category: String, val categoryEng: String) : Parcelable

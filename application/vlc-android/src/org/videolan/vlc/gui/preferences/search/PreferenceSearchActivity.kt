@@ -25,20 +25,25 @@
 package org.videolan.vlc.gui.preferences.search
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.videolan.resources.AppContextProvider
 import org.videolan.resources.buildPkgString
+import org.videolan.tools.LocaleUtils
+import org.videolan.tools.setGone
 import org.videolan.vlc.databinding.PreferencesSearchActivityBinding
 import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.preferences.EXTRA_PREF_END_POINT
 import org.videolan.vlc.gui.preferences.PreferenceItem
 import org.videolan.vlc.viewmodels.PreferenceSearchModel
+import java.util.*
 
-class PreferenceSearchActivity: BaseActivity(), TextWatcher, PreferenceItemAdapter.ClickHandler {
+class PreferenceSearchActivity : BaseActivity(), TextWatcher, PreferenceItemAdapter.ClickHandler {
     private lateinit var binding: PreferencesSearchActivityBinding
     private lateinit var viewmodel: PreferenceSearchModel
     private lateinit var adapter: PreferenceItemAdapter
@@ -59,9 +64,19 @@ class PreferenceSearchActivity: BaseActivity(), TextWatcher, PreferenceItemAdapt
         viewmodel.filtered.observe(this, {
             adapter.submitList(it)
         })
+        viewmodel.showTranslations.observe(this, {
+            adapter.showTranslation = it
+            binding.translateButton.isSelected = it
+        })
         adapter = PreferenceItemAdapter(this)
         binding.list.adapter = adapter
         binding.list.layoutManager = LinearLayoutManager(this)
+        binding.translateButton.isSelected = false
+        binding.translateButton.setOnClickListener {
+            viewmodel.switchTranslations(binding.searchText.text.toString())
+        }
+        val locale:Locale = AppContextProvider.locale?.takeIf { it.isNotBlank() }?.let {LocaleUtils.getLocaleFromString(it)} ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) resources.configuration.locales[0] else resources.configuration.locale
+        if (locale.language == "en") binding.translateButton.setGone()
     }
 
     override fun onResume() {
@@ -73,8 +88,9 @@ class PreferenceSearchActivity: BaseActivity(), TextWatcher, PreferenceItemAdapt
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        s?.let {
-            viewmodel.filter(s.toString().toLowerCase())
+        s?.toString()?.toLowerCase()?.let {
+            viewmodel.filter(it)
+            adapter.query = it
         }
     }
 

@@ -46,7 +46,7 @@ object LocaleUtils {
         return LocalePair(finalLocaleEntries.toTypedArray(), finalLocaleEntryValues.toTypedArray())
     }
 
-    private fun getLocaleFromString(string: String): Locale {
+    fun getLocaleFromString(string: String): Locale {
 
         /**
          * See [android.content.res.AssetManager.getLocales]

@@ -24,8 +24,15 @@
 
 package org.videolan.vlc.gui.preferences.search
 
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -39,20 +46,44 @@ private val cb = object : DiffUtil.ItemCallback<PreferenceItem>() {
 
 class PreferenceItemAdapter(val handler: ClickHandler) : ListAdapter<PreferenceItem, PreferenceItemAdapter.ViewHolder>(cb) {
 
-
     interface ClickHandler {
         fun onClick(item: PreferenceItem)
     }
 
-    private lateinit var inflater : LayoutInflater
+    var showTranslation: Boolean = false
+    set(value) {
+        field = value
+        notifyItemRangeChanged(0, itemCount)
+    }
+    var query: String = ""
+        set(value) {
+            field = value
+            notifyItemRangeChanged(0, itemCount)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        if (!this::inflater.isInitialized) inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(handler, PreferenceItemBinding.inflate(inflater, parent, false))
+        return ViewHolder(handler, PreferenceItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.item = getItem(position)
+        val item = getItem(position)
+        holder.binding.item = item
+        holder.binding.title = if (showTranslation) item.titleEng else item.title
+        holder.binding.description = if (showTranslation) item.summaryEng else item.summary
+        holder.binding.category = if (showTranslation) item.categoryEng else item.category
+        holder.binding.query = query
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        super.onBindViewHolder(holder, position, payloads)
+        if (payloads.isNullOrEmpty())
+            super.onBindViewHolder(holder, position, payloads)
+        else {
+            val item = getItem(position)
+            holder.binding.title = if (showTranslation) item.titleEng else item.title
+            holder.binding.description = if (showTranslation) item.summaryEng else item.summary
+            holder.binding.category = if (showTranslation) item.categoryEng else item.category
+        }
     }
 
     fun isEmpty() = itemCount == 0
@@ -62,5 +93,13 @@ class PreferenceItemAdapter(val handler: ClickHandler) : ListAdapter<PreferenceI
             binding.handler = handler
         }
     }
+}
 
+@BindingAdapter("searchText", "searchQueryString")
+fun searchText(view: TextView, text: String, query: String) {
+    val spannableStringBuilder = SpannableStringBuilder(text)
+    val indexOf = text.toLowerCase().indexOf(query.toLowerCase())
+    if (indexOf != -1) spannableStringBuilder.setSpan(StyleSpan(Typeface.BOLD), indexOf, indexOf + query.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    if (indexOf != -1) spannableStringBuilder.setSpan(UnderlineSpan(), indexOf, indexOf + query.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    view.text = spannableStringBuilder
 }
