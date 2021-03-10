@@ -156,6 +156,11 @@ setDiscoverNetworkEnabled(JNIEnv* env, jobject thiz, jboolean enabled)
 }
 
 void
+setLibVLCInstance(JNIEnv* env, jobject thiz, jlong libVLC){
+    //todo
+}
+
+void
 removeEntryPoint(JNIEnv* env, jobject thiz, jstring storagePath)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
@@ -2020,6 +2025,7 @@ static JNINativeMethod methods[] = {
     {"nativeDeleteRemovableDevices", "()Z", (void*)deleteRemovableDevices },
     {"nativeDevices", "()[Ljava/lang/String;", (void*)devices },
     {"nativeDiscover", "(Ljava/lang/String;)V", (void*)discover },
+    {"nativeSetLibVLCInstance", "(J)V", (void*)setLibVLCInstance },
     {"nativeSetDiscoverNetworkEnabled", "(Z)Z", (void*)setDiscoverNetworkEnabled },
     {"nativeRemoveEntryPoint", "(Ljava/lang/String;)V", (void*)removeEntryPoint },
     {"nativeEntryPoints", "()[Ljava/lang/String;", (void*)entryPoints },

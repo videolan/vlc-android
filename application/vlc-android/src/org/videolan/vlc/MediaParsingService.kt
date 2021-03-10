@@ -43,6 +43,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.libvlc.LibVLC
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.medialibrary.interfaces.Medialibrary
@@ -453,6 +454,7 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
                     val context = this@MediaParsingService
                     var shouldInit = !dbExists()
                     val initCode = medialibrary.init(context)
+                    medialibrary.setLibVLCInstance((VLCInstance.getInstance(context) as LibVLC).getInstance())
                     medialibrary.setDiscoverNetworkEnabled(true)
                     if (initCode != Medialibrary.ML_INIT_ALREADY_INITIALIZED) {
                         shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET) or (initCode == Medialibrary.ML_INIT_DB_CORRUPTED)

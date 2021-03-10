@@ -23,13 +23,13 @@ package org.videolan.libvlc;
 import android.os.Handler;
 import android.os.Looper;
 
-import java.lang.ref.WeakReference;
-
 import androidx.annotation.Nullable;
 
 import org.videolan.libvlc.interfaces.AbstractVLCEvent;
 import org.videolan.libvlc.interfaces.ILibVLC;
 import org.videolan.libvlc.interfaces.IVLCObject;
+
+import java.lang.ref.WeakReference;
 
 @SuppressWarnings("JniMissingFunction")
 abstract class VLCObject<T extends AbstractVLCEvent> implements IVLCObject<T> {
@@ -190,5 +190,9 @@ abstract class VLCObject<T extends AbstractVLCEvent> implements IVLCObject<T> {
         VLCObject obj = ((WeakReference<VLCObject>)weak).get();
         if (obj != null)
             obj.dispatchEventFromNative(eventType, arg1, arg2, argf1, args1);
+    }
+
+    public long getInstance() {
+        return mInstance;
     }
 }
