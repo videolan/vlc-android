@@ -655,6 +655,11 @@ AndroidMediaLibrary::requestThumbnail( int64_t media_id, medialibrary::Thumbnail
     if (media != nullptr) media->requestThumbnail(sizeType, desiredWidth, desiredHeight, position);
 }
 
+void AndroidMediaLibrary::setLibvlcInstance( libvlc_instance_t* inst )
+{
+    p_ml->setExternalLibvlcInstance( inst );
+}
+
 void
 AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList )
 {
