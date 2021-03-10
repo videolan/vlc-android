@@ -754,5 +754,6 @@
     <string name="enqueuing">正在加载你的媒体文件</string>
     <string name="soundfont">MIDI 音色库</string>
     <string name="soundfont_summary">挑选一个音色库文件来播放 midi 音轨</string>
+    <string name="search_prefs">搜索设置</string>
 
 </resources>
