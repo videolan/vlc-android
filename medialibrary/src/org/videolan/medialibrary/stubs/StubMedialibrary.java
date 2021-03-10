@@ -84,6 +84,9 @@ public class StubMedialibrary extends Medialibrary {
     }
 
     @Override
+    public void setLibVLCInstance(long libVLC) { }
+
+    @Override
     public boolean setDiscoverNetworkEnabled(boolean enabled) {
         return false;
     }

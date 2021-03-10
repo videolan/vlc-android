@@ -137,6 +137,11 @@ public class MedialibraryImpl extends Medialibrary {
     }
 
     @Override
+    public void setLibVLCInstance(long libVLC) {
+        if (mIsInitiated) nativeSetLibVLCInstance(libVLC);
+    }
+
+    @Override
     public boolean setDiscoverNetworkEnabled(boolean enabled) {
         if (mIsInitiated) return nativeSetDiscoverNetworkEnabled(enabled);
         return false;
@@ -590,6 +595,7 @@ public class MedialibraryImpl extends Medialibrary {
     private native boolean nativeDeleteRemovableDevices();
     private native String[] nativeDevices();
     private native void nativeDiscover(String path);
+    private native void nativeSetLibVLCInstance(long libVLC);
     private native boolean nativeSetDiscoverNetworkEnabled(boolean enabled);
     private native void nativeRemoveEntryPoint(String path);
     private native String[] nativeEntryPoints();
