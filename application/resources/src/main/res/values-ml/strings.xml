@@ -766,5 +766,6 @@
     <string name="enqueuing">നിങ്ങളുടെ മീഡിയകൾ ലോഡുചെയ്യുന്നു</string>
     <string name="soundfont">മിഡി ശബ്ദ ഫോണ്ട്</string>
     <string name="soundfont_summary">മിഡി ശബ്ദ ചാലുകൾ പ്ലേ ചെയ്യുന്നതിന് ഒരു ശബ്ദ ഫോണ്ട് ഫയൽ തിരഞ്ഞെടുക്കുക</string>
+    <string name="search_prefs">തിരയൽ ക്രമീകരണങ്ങൾ</string>
 
 </resources>
