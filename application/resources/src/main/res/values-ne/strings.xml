@@ -205,6 +205,7 @@
     <string name="lock">लक गर्नुहोस्</string>
     <string name="playlist_tips">प्लेलिस्ट जानकारीहरू</string>
     <string name="remove_song">गीत हटाउनुहोस</string>
+    <string name="remove_playlist_item">%1$sलाई बजाउने सुचीबाट हटाइएको छ।</string>
     <string name="rearrange_order">क्रम पुन: मिलाउनुहोस्</string>
     <string name="hold_to_seek">देखाउनको लागि होल्ड गर्नुहोस्</string>
 
@@ -225,6 +226,9 @@
     <!-- Preferences -->
     <string name="preferences">सेटिङहरू</string>
 
+    <string name="directories_summary">मिडिया पुस्तकालयमा थप्नको लागि डाइरेक्ट्रीहरु छनौट गर्नुहोस्</string>
+    <string name="add_custom_path">एउटा अनुकुलित बाटो छनौट गर्नुहोस्</string>
+    <string name="add_custom_path_description">स्कान गर्नको लागि थप अनुकुलित डाइरेक्ट्री प्रविष्ट गर्नुहोस्:</string>
     <string name="remove_custom_path">अनुकूलित बाटो हटाउनुहोस्</string>
     <string name="hardware_acceleration">हार्डवेयर प्रवेग</string>
     <string name="hardware_acceleration_disabled">अक्षम गरिएको छ</string>
@@ -235,11 +239,21 @@
     <string name="screen_orientation_start_lock">सुरुमा बन्द गरिएको</string>
     <string name="screen_orientation_portrait">पोट्रेट</string>
     <string name="screen_orientation_landscape">ल्यान्डस्केप</string>
+    <string name="enable_black_theme">कालो थिम</string>
     <string name="subtitle_text_encoding">उपशीर्षक पाठ इनकोडिङ</string>
+    <string name="daynight_title">दिनरात्री मोड</string>
+    <string name="daynight_follow_system_title">प्रणाली मोड अनुसरण गर्नुहोस्</string>
+
     <string name="extra_prefs_category">अतिरिक्त सेटिङहरू</string>
 
     <string name="interface_prefs_screen">इन्टरफेस</string>
+    <string name="interface_secondary_display_category_title">दोस्रो डिस्प्ले</string>
+    <string name="interface_secondary_display_category_summary">दोस्रो डिस्प्ले जडान हुँदा प्रयोग गरिने सेटिङ्गहरु (HDMI/Chromecast)</string>
     <string name="video_prefs_category">भिडियो</string>
+    <string name="video_min_group_length_title">सामुहिक भिडियाहरु</string>
+    <string name="video_min_group_length_disable">भिडियाहरुलाई समुहमा नराख्नुहोस्</string>
+    <string name="video_min_group_length_folder">फोल्डरका आधारमा समुह बनाउनुहोस्</string>
+    <string name="video_min_group_length_name">नामका आधारमा समुह बनाउनुहोस्</string>
     <string name="subtitles_size_small">सानो</string>
     <string name="subtitles_size_normal">सामान्य</string>
     <string name="subtitles_size_big">ठूलो</string>
@@ -436,5 +450,4 @@
     <string name="enqueuing">तपाईँको मिडियाहरू लोड गर्ने</string>
     <string name="soundfont">MIDI SoundFont</string>
     <string name="soundfont_summary">मिडी अडियो ट्रयाक प्ले गर्न SoundFont फाइल रोज्नुहोस्</string>
-
 </resources>
