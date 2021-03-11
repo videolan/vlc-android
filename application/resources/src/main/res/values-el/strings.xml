@@ -765,5 +765,6 @@
     <string name="enqueuing">Φόρτωση των πολυμέσων σας</string>
     <string name="soundfont">Αρχείο MIDI SoundFont</string>
     <string name="soundfont_summary">Επιλέξτε ένα αρχείο SoundFont για αναπαραγωγή κομματιών ήχου midi</string>
+    <string name="search_prefs">Ρυθμίσεις αναζήτησης</string>
 
 </resources>
