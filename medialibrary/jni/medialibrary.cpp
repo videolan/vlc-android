@@ -157,7 +157,8 @@ setDiscoverNetworkEnabled(JNIEnv* env, jobject thiz, jboolean enabled)
 
 void
 setLibVLCInstance(JNIEnv* env, jobject thiz, jlong libVLC){
-    //todo
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    aml->setLibvlcInstance( (libvlc_instance_t*)libVLC );
 }
 
 void
