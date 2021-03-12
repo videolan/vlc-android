@@ -227,6 +227,7 @@
     <string name="hardware_acceleration_disabled">Dimatikan</string>
     <string name="hardware_acceleration_decoding">Akselerasi dekoding</string>
     <string name="hardware_acceleration_full">Akselerasi penuh</string>
+    <string name="dev_hardware_decoder">Encoding hardware lanjutan</string>
     <string name="dev_hardware_decoder_summary">Paksa dekoder perangkat keras, untuk pengguna tingkat lanjut saja</string>
     <string name="automatic">Otomatis</string>
     <string name="screen_orientation">Orientasi layar video</string>
@@ -249,10 +250,25 @@
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Grup video</string>
     <string name="video_min_group_length_disable">Jangan grup video</string>
+    <string name="video_min_group_length_folder">Kelompokkan menurut folder</string>
+    <string name="video_min_group_length_name">Kelompokkan menurut nama</string>
     <string name="media_fast_seek">Pencarian cepat</string>
     <string name="video_transition_title">video transisi</string>
+    <string name="video_transition_summary">Tampilkan judul video baru saat transisi</string>
+    <string name="media_seen">Tampilkan penanda video sudah tertonton</string>
+    <string name="media_seen_summary">Tandai video sebagai sudah tertonton saat anda memainkannya hingga akhir</string>
+    <string name="force_play_all_title">Mode playlist video</string>
+    <string name="save_brightness_summary">Tetapkan kecerahan layar saat berpindah antar media</string>
+    <string name="save_brightness_title">Simpan tingkat kecerahan</string>
+    <string name="save_audiodelay_summary">Simpan delay audio secara individual untuk setiap video</string>
     <string name="save_audiodelay_title">Simpan penundaan audio</string>
+    <string name="enable_brightness_gesture_title">Gestur kecerahan</string>
     <string name="enable_brightness_gesture_summary">Mengendalikan kecerahan dengan gesture ketika video dimainkan</string>
+    <string name="enable_volume_gesture_title">Gestur volume</string>
+    <string name="enable_volume_gesture_summary">Kendalikan volume dengan gestur saat memutar video</string>
+    <string name="enable_seek_buttons_summary">Tampilkan tombol maju dan mundur pada antarmuka video</string>
+    <string name="browser_show_hidden_files_title">Tampilkan file tersembunyi</string>
+
     <string name="subtitles_prefs_category">Terjemahan</string>
     <string name="subtitles_size_title">Ukuran terjemahan</string>
     <string name="subtitles_size_small">Kecil</string>
@@ -261,6 +277,7 @@
     <string name="subtitles_size_huge">Sangat besar</string>
     <string name="subtitles_color_title">Warna Terjemahan</string>
     <string name="subtitles_color_white">Putih</string>
+    <string name="subtitles_color_gray">Abu - abu</string>
     <string name="subtitles_color_pink">Merah muda</string>
     <string name="subtitles_color_blue">Biru</string>
     <string name="subtitles_color_yellow">Kuning</string>
@@ -270,9 +287,19 @@
     <string name="subtitles_autoload_title">Muat otomatis terjemahan</string>
 
     <string name="audio_prefs_category">Audio</string>
+    <string name="lockscreen_cover_title">Tampilkan cover media di layar kunci</string>
+    <string name="lockscreen_cover_summary">Jika ada, set cover media yang sedang diputar sebagai wallpaper layar kunci</string>
+    <string name="list_title_ellipsize_left">Kiri</string>
+    <string name="list_title_ellipsize_right">Kanan</string>
+    <string name="list_title_ellipsize_middle">Tengah</string>
+    <string name="audio_boost_summary">Perbolehkan volume hingga 200%</string>
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Deteksi headset</string>
+    <string name="enable_headset_detection_summary">Deteksi bila headset ditancapkan dan di cabut</string>
+    <string name="enable_play_on_headset_insertion">Lanjutkan pemutaran saat headset di tancapkan</string>
     <string name="aout">Output audio</string>
+    <string name="aout_summary">Ubah metode yang digunakan VLC untuk mengeluarkan suara</string>
+    <string name="audio_ducking_title">Rendahkan volume VLC bila ada notifikasi</string>
     <string name="casting_conversion_quality_title">Kualitas konversi</string>
     <string name="casting_quality_high">Tinggi</string>
     <string name="casting_quality_medium">Sedang</string>
@@ -282,6 +309,8 @@
 
     <string name="extensions_prefs_category">Ekstensi</string>
     <string name="extensions_empty">Tidak ada ekstensi yang terdeteksi</string>
+    <string name="extension_permission_checkbox_title">Tampilkan di %1$s</string>
+    <string name="extension_prefs_activation_title">Nyalakan</string>
     <string name="performance_prefs_category">Performa</string>
     <string name="chroma_format">Paksa kroma video</string>
     <string name="deblocking">Deblocking pengaturan penyaringan</string>
@@ -291,9 +320,12 @@
     <string name="deblocking_all">Tanpa deblocking (paling cepat)</string>
     <string name="enable_time_stretching_audio">Waktu peregangan suara</string>
     <string name="advanced_prefs_category">Lanjutan</string>
+    <string name="auto_rescan">Pindai otomatis</string>
     <string name="clear_media_db">Hapus database media</string>
+    <string name="clear_history">Kosongkan riwayat</string>
     <string name="set_locale">Pilih bahasa</string>
     <string name="network_caching">Nilai cache jaringan</string>
+    <string name="resume_playback_title">Lanjutkan pemutaran setelah telepon</string>
     <string name="quit">Keluar dan restart aplikasi</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Nanti</string>
@@ -318,8 +350,11 @@
     <string name="delete_sub_message">Anda ingin menghapus terjemahan ini?</string>
     <string name="download_subtitle_title">Unduh Terjemahan</string>
 
+    <string name="no_result">Hasil tidak ditemukan</string>
     <string name="no_internet_connection">Cek koneksi internet Anda</string>
     <string name="network_browsing">Jaringan Lokal</string>
+    <string name="file_size">Ukuran file</string>
+
     <string name="audio_delay">Penundaan audio</string>
     <string name="spu_delay">Penundaan terjemahan</string>
     <string name="network_empty">Direktori ini kosong.</string>
