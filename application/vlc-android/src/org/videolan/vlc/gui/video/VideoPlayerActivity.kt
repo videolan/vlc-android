@@ -1342,7 +1342,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         if (service == null) return
         switchingView = true
         // Show the MainActivity if it is not in background.
-        if (showUI) {
+        if (showUI && intent.getBooleanExtra(FROM_EXTERNAL, false)) {
             val i = Intent().apply {
                 setClassName(applicationContext, if (isTv) TV_AUDIOPLAYER_ACTIVITY else MOBILE_MAIN_ACTIVITY)
             }
@@ -2064,6 +2064,7 @@ open class VideoPlayerActivity : AppCompatActivity(), PlaybackService.Callback, 
         private const val EXTRA_POSITION = "extra_position"
         private const val EXTRA_DURATION = "extra_duration"
         private const val EXTRA_URI = "extra_uri"
+        const val FROM_EXTERNAL = "from_external"
         private const val RESULT_CONNECTION_FAILED = Activity.RESULT_FIRST_USER + 1
         private const val RESULT_PLAYBACK_ERROR = Activity.RESULT_FIRST_USER + 2
         private const val RESULT_VIDEO_TRACK_LOST = Activity.RESULT_FIRST_USER + 3

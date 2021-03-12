@@ -216,7 +216,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         get() {
             return when {
                 playlistManager.player.isVideoPlaying() -> {//PIP
-                    val notificationIntent = Intent(this, VideoPlayerActivity::class.java)
+                    val notificationIntent = Intent(this, VideoPlayerActivity::class.java).apply { putExtra(VideoPlayerActivity.FROM_EXTERNAL, true) }
                     PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
                 }
                 playlistManager.videoBackground || canSwitchToVideo() && !currentMediaHasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) -> {//resume video playback
