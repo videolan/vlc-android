@@ -192,7 +192,5 @@ abstract class VLCObject<T extends AbstractVLCEvent> implements IVLCObject<T> {
             obj.dispatchEventFromNative(eventType, arg1, arg2, argf1, args1);
     }
 
-    public long getInstance() {
-        return mInstance;
-    }
+    public native long getInstance();
 }

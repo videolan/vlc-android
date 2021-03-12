@@ -54,6 +54,7 @@ public:
     void forceRescan();
     bool setProgress(int64_t mediaId, float progress);
     bool removeMediaFromHistory(int64_t mediaId);
+    void setLibvlcInstance(libvlc_instance_t* inst);
     /* History */
     std::vector<medialibrary::MediaPtr> lastMediaPlayed();
     bool addToHistory( const std::string& mrl, const std::string& title );
