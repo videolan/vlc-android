@@ -809,5 +809,6 @@
     <string name="enqueuing">تحميل الوسائط الخاصة بك</string>
     <string name="soundfont">خط الصوت \"SoundFont\" لـ وصلة بينيه رقمية للآلات الموسيقية \"MIDI\"</string>
     <string name="soundfont_summary">اختر ملف خط الصوت \"SoundFont\" لتشغيل مسارات الصوت لـ وصلة بينية رقمية للآلات الموسيقية \"MIDI\"</string>
+    <string name="search_prefs">إعدادات البحث</string>
 
 </resources>
