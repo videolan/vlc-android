@@ -21,14 +21,16 @@ public abstract class Album extends MediaLibraryItem {
     protected long albumArtistId;
     protected int mTracksCount;
     protected long duration;
+    public int mPresentTracksCount;
 
-    public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, long duration) {
+    public Album(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int nbPresentTracks, long duration) {
         super(id, title);
         this.releaseYear = releaseYear;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
         this.albumArtist = albumArtist != null ? albumArtist.trim(): null;
         this.albumArtistId = albumArtistId;
         this.mTracksCount = nbTracks;
+        this.mPresentTracksCount = nbPresentTracks;
         this.duration = duration;
         if (TextUtils.isEmpty(title)) mTitle = SpecialRes.UNKNOWN_ALBUM;
         if (albumArtistId == 1L) {
@@ -100,6 +102,10 @@ public abstract class Album extends MediaLibraryItem {
         return albumArtist;
     }
 
+    public int getPresentTracksCount() {
+        return mPresentTracksCount;
+    }
+
     public static Parcelable.Creator<Album> CREATOR
             = new Parcelable.Creator<Album>() {
         @Override
@@ -121,6 +127,7 @@ public abstract class Album extends MediaLibraryItem {
         parcel.writeString(albumArtist);
         parcel.writeLong(albumArtistId);
         parcel.writeInt(mTracksCount);
+        parcel.writeInt(mPresentTracksCount);
         parcel.writeLong(duration);
     }
 }

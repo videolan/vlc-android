@@ -14,8 +14,8 @@ public class StubAlbum extends Album {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public StubAlbum(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, long duration) {
-        super(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId, nbTracks, duration);
+    public StubAlbum(long id, String title, int releaseYear, String artworkMrl, String albumArtist, long albumArtistId, int nbTracks, int nbPresentTracks, long duration) {
+        super(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId, nbTracks, nbPresentTracks, duration);
     }
 
     public StubAlbum(Parcel in) {

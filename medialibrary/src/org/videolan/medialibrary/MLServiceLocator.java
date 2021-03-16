@@ -43,9 +43,13 @@ public class MLServiceLocator {
         }
         MLServiceLocator.sMode = mode;
     }
-    public static LocatorMode getLocatorMode() { return MLServiceLocator.sMode; }
+
+    public static LocatorMode getLocatorMode() {
+        return MLServiceLocator.sMode;
+    }
 
     public static String EXTRA_TEST_STUBS = "extra_test_stubs";
+
     public enum LocatorMode {
         VLC_ANDROID,
         TESTS,
@@ -119,11 +123,11 @@ public class MLServiceLocator {
     }
 
     //Artist
-    public static Artist getAbstractArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
+    public static Artist getAbstractArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new ArtistImpl(id, name, shortBio, artworkMrl, musicBrainzId);
+            return new ArtistImpl(id, name, shortBio, artworkMrl, musicBrainzId, albumsCount, tracksCount, presentTracksCount);
         } else {
-            return new StubArtist(id, name, shortBio, artworkMrl, musicBrainzId);
+            return new StubArtist(id, name, shortBio, artworkMrl, musicBrainzId, albumsCount, tracksCount, presentTracksCount);
         }
     }
 
@@ -138,9 +142,9 @@ public class MLServiceLocator {
     //Genre
     public static Genre getAbstractGenre(long id, String title) {
         if (sMode == LocatorMode.VLC_ANDROID) {
-            return new GenreImpl(id, title);
+            return new GenreImpl(id, title, 0, 0);
         } else {
-            return new StubGenre(id, title);
+            return new StubGenre(id, title, 0, 0);
         }
     }
 
@@ -154,14 +158,14 @@ public class MLServiceLocator {
 
     //Album
     public static Album getAbstractAlbum(long id, String title, int releaseYear, String artworkMrl,
-                                         String albumArtist, long albumArtistId, int nbTracks,
+                                         String albumArtist, long albumArtistId, int nbTracks, int nbPresentTracks,
                                          long duration) {
         if (sMode == LocatorMode.VLC_ANDROID) {
             return new AlbumImpl(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId,
-                    nbTracks, duration);
+                    nbTracks, nbPresentTracks, duration);
         } else {
             return new StubAlbum(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId,
-                    nbTracks, duration);
+                    nbTracks, nbPresentTracks, duration);
         }
     }
 

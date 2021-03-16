@@ -103,7 +103,7 @@ convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& al
     jlong albumArtistId = artist != nullptr ? albumPtr->albumArtist()->id() : 0;
     jstring artistName = artist != nullptr ? env->NewStringUTF(artist->name().c_str()) : NULL;
     jobject item = env->NewObject(fields->Album.clazz, fields->Album.initID,
-                          (jlong) albumPtr->id(), title, albumPtr->releaseYear(), thumbnailMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), albumPtr->duration());
+                          (jlong) albumPtr->id(), title, albumPtr->releaseYear(), thumbnailMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->nbPresentTracks(), albumPtr->duration());
     env->DeleteLocalRef(title);
     env->DeleteLocalRef(thumbnailMrl);
     env->DeleteLocalRef(artistName);
@@ -118,7 +118,7 @@ convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& 
     jstring shortBio = env->NewStringUTF(artistPtr->shortBio().c_str());
     jstring musicBrainzId = env->NewStringUTF(artistPtr->musicBrainzId().c_str());
     jobject item = env->NewObject(fields->Artist.clazz, fields->Artist.initID,
-                          (jlong) artistPtr->id(), name, shortBio, thumbnailMrl, musicBrainzId);
+                          (jlong) artistPtr->id(), name, shortBio, thumbnailMrl, musicBrainzId, (jint) artistPtr->nbAlbums(), (jint) artistPtr->nbTracks(), (jint) artistPtr->nbPresentTracks());
     env->DeleteLocalRef(name);
     env->DeleteLocalRef(thumbnailMrl);
     env->DeleteLocalRef(shortBio);
@@ -131,7 +131,7 @@ convertGenreObject(JNIEnv* env, fields *fields, medialibrary::GenrePtr const& ge
 {
     jstring name = env->NewStringUTF(genrePtr->name().c_str());
     jobject item = env->NewObject(fields->Genre.clazz, fields->Genre.initID,
-                          (jlong) genrePtr->id(), name);
+                          (jlong) genrePtr->id(), name, (jint) genrePtr->nbTracks(), (jint) genrePtr->nbPresentTracks());
     env->DeleteLocalRef(name);
     return item;
 }
