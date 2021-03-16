@@ -14,17 +14,23 @@ abstract public class Artist extends MediaLibraryItem {
     private String shortBio;
     private String artworkMrl;
     private String musicBrainzId;
+    private int tracksCount;
+    private int albumsCount;
+    private int presentTracksCount;
 
     public static class SpecialRes {
         public static String UNKNOWN_ARTIST = Medialibrary.getContext().getString(R.string.unknown_artist);
         public static String VARIOUS_ARTISTS = Medialibrary.getContext().getString(R.string.various_artists);
     }
 
-    public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
+    public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount) {
         super(id, name);
         this.shortBio = shortBio;
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
         this.musicBrainzId = musicBrainzId;
+        this.tracksCount = tracksCount;
+        this.albumsCount = albumsCount;
+        this.presentTracksCount = presentTracksCount;
         if (id == 1L) {
             mTitle = SpecialRes.UNKNOWN_ARTIST;
         } else if (id == 2L) {
@@ -38,10 +44,8 @@ abstract public class Artist extends MediaLibraryItem {
     abstract public int searchAlbumsCount(String query);
     abstract public MediaWrapper[] searchTracks(String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
-    abstract public int getAlbumsCount();
     abstract public MediaWrapper[] getTracks(int sort, boolean desc, boolean includeMissing);
     abstract public MediaWrapper[] getPagedTracks(int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    abstract public int getTracksCount();
 
     public String getShortBio() {
         return shortBio;
@@ -66,6 +70,19 @@ abstract public class Artist extends MediaLibraryItem {
 
     public Album[] getAlbums() {
         return getAlbums(Medialibrary.SORT_ALPHA, false, true);
+    }
+
+    @Override
+    public int getTracksCount() {
+        return tracksCount;
+    }
+
+    public int getAlbumsCount() {
+        return albumsCount;
+    }
+
+    public int getPresentTracksCount() {
+        return presentTracksCount;
     }
 
     @Override

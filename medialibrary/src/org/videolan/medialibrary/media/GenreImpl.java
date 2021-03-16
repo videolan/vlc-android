@@ -13,8 +13,8 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper;
 @SuppressWarnings("JniMissingFunction")
 public class GenreImpl extends Genre {
 
-    public GenreImpl(long id, String title) {
-        super(id, title);
+    public GenreImpl(long id, String title, int nbTracks, int nbPresentTracks) {
+        super(id, title, nbTracks, nbPresentTracks);
     }
 
 
@@ -42,12 +42,6 @@ public class GenreImpl extends Genre {
     public MediaWrapper[] getPagedTracks(boolean withThumbnail, int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, withThumbnail, sort, desc, includeMissing, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
-    }
-
-    @Override
-    public int getTracksCount() {
-        Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
     }
 
     public int getAlbumsCount() {
@@ -82,7 +76,6 @@ public class GenreImpl extends Genre {
     private native Album[] nativeGetPagedAlbums(Medialibrary ml, long mId, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native Artist[] nativeGetPagedArtists(Medialibrary ml, long mId, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
     private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long mId, boolean withThumbnail, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);
-    private native int nativeGetTracksCount(Medialibrary ml, long id);
     private native int nativeGetAlbumsCount(Medialibrary ml, long mId);
     private native int nativeGetArtistsCount(Medialibrary ml, long mId);
     private native Album[] nativeSearchAlbums(Medialibrary ml, long mId, String query, int sort, boolean desc, boolean includeMissing, int nbItems, int offset);

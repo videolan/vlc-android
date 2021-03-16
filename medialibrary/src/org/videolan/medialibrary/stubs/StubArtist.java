@@ -14,8 +14,8 @@ public class StubArtist extends Artist {
 
     private StubDataSource dt = StubDataSource.getInstance();
 
-    public StubArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
-        super(id, name, shortBio, artworkMrl, musicBrainzId);
+    public StubArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId, int albumsCount, int tracksCount, int presentTracksCount) {
+        super(id, name, shortBio, artworkMrl, musicBrainzId, albumsCount, tracksCount, presentTracksCount);
     }
 
     public StubArtist(Parcel in) {
@@ -44,9 +44,6 @@ public class StubArtist extends Artist {
         return dt.sortAlbum(results, sort, desc);
     }
 
-    public int getAlbumsCount() {
-        return getAlbumNames().size();
-    }
 
     public Album[] getPagedAlbums(int sort, boolean desc, boolean includeMissing, int nbItems, int offset) {
         ArrayList<Album> results = new ArrayList<>(Arrays.asList(getAlbums(sort, desc, includeMissing)));

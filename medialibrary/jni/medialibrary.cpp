@@ -1105,12 +1105,6 @@ searchFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstr
 }
 
 jint
-getArtistTracksCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromArtist(id, nullptr);
-    return (jint) (query != nullptr ? query->count() : 0);
-}
-
-jint
 getSearchFromArtistCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery) {
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = MediaLibrary_getInstance(env, medialibrary)->searchFromArtist(id, queryChar);
@@ -1179,12 +1173,6 @@ searchAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
 }
 
 jint
-getArtistAlbumsCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->albumsFromArtist(id, nullptr);
-    return (jint) (query != nullptr ? query->count() : 0);
-}
-
-jint
 getSearchAlbumFromArtistCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery) {
     const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
     const auto query = MediaLibrary_getInstance(env, medialibrary)->searchAlbumsFromArtist(id, queryChar);
@@ -1233,12 +1221,6 @@ getPagedMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
         env->DeleteLocalRef(item);
     }
     return mediaRefs;
-}
-
-jint
-getGenreTracksCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromGenre(id, false, nullptr);
-    return (jint) (query != nullptr ? query->count() : 0);
 }
 
 jobjectArray
@@ -2148,8 +2130,6 @@ static JNINativeMethod artist_methods[] = {
     {"nativeGetPagedAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)getPagedAlbumsFromArtist },
     {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchFromArtist },
     {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchAlbumsFromArtist },
-    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getArtistTracksCount },
-    {"nativeGetAlbumsCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getArtistAlbumsCount },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchFromArtistCount },
     {"nativeGetSearchAlbumCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchAlbumFromArtistCount },
 };
@@ -2163,7 +2143,6 @@ static JNINativeMethod genre_methods[] = {
     {"nativeGetPagedArtists", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JIZZII)[Lorg/videolan/medialibrary/interfaces/media/Artist;", (void*)getPagedArtistsFromGenre },
     {"nativeSearch", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/MediaWrapper;", (void*)searchMediaFromGenre },
     {"nativeSearchAlbums", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;IZZII)[Lorg/videolan/medialibrary/interfaces/media/Album;", (void*)searchAlbumsFromGenre },
-    {"nativeGetTracksCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getGenreTracksCount },
     {"nativeGetAlbumsCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getGenreAlbumsCount },
     {"nativeGetArtistsCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;J)I", (void*)getGenreArtistsCount },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/interfaces/Medialibrary;JLjava/lang/String;)I", (void*)getSearchMediaFromGenreCount },
@@ -2271,7 +2250,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Artist.initID,
            ml_fields.Artist.clazz,
-           "<init>", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+           "<init>", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;III)V");
 
     GET_CLASS(ml_fields.Album.clazz, "org/videolan/medialibrary/media/AlbumImpl", true);
     if (env->RegisterNatives(ml_fields.Album.clazz, album_methods, sizeof(album_methods) / sizeof(album_methods[0])) < 0) {
@@ -2281,7 +2260,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Album.initID,
            ml_fields.Album.clazz,
-           "<init>", "(JLjava/lang/String;ILjava/lang/String;Ljava/lang/String;JIJ)V");
+           "<init>", "(JLjava/lang/String;ILjava/lang/String;Ljava/lang/String;JIIJ)V");
 
     GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/FolderImpl", true);
     if (env->RegisterNatives(ml_fields.Folder.clazz, folder_methods, sizeof(folder_methods) / sizeof(folder_methods[0])) < 0) {
@@ -2301,7 +2280,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            ml_fields.Genre.initID,
            ml_fields.Genre.clazz,
-           "<init>", "(JLjava/lang/String;)V");
+           "<init>", "(JLjava/lang/String;II)V");
 
     GET_CLASS(ml_fields.Playlist.clazz, "org/videolan/medialibrary/media/PlaylistImpl", true);
     if (env->RegisterNatives(ml_fields.Playlist.clazz, playlist_methods, sizeof(playlist_methods) / sizeof(playlist_methods[0])) < 0) {
