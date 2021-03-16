@@ -326,42 +326,63 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="aout">Ääniulostulo</string>
     <string name="aout_summary">Vaihda menetelmää, jota VLC käyttää äänen ulosantiin.</string>
     <string name="audio_ducking_title">Alenna VLC-ilmoitusten äänenvoimakkuutta</string>
+    <string name="audio_ducking_summary">Kuulet ilmoituksia, navigointiohjeita tai avustajan puhetta</string>
     <string name="casting_category">Suoratoisto</string>
     <string name="casting_switch_title">Langaton lähetys</string>
     <string name="casting_passthrough_title">Ääni läpivienti</string>
     <string name="casting_passthrough_summary">Anna television hallita äänentoistoa</string>
     <string name="casting_conversion_quality_title">Muunnoksen laatu</string>
+    <string name="casting_conversion_quality_summary">Valitse muuntamisen laatu etänäytön suoratoistoon</string>
     <string name="casting_quality_high">Korkea</string>
     <string name="casting_quality_medium">Keskiteho</string>
     <string name="casting_quality_low">Alhainen</string>
     <string name="casting_quality_lowcpu">Matalin</string>
+    <string name="casting_connected_renderer">Renderöinti yhdistetty \"%1$s\"</string>
     <string name="artists_show_all_title">Näytä kaikki artistit</string>
 
     <string name="extensions_prefs_category">Laajennukset</string>
     <string name="extensions_empty">Laajennusta ei havaittu</string>
     <string name="extension_permission_title">Ota laajennus \"%1$s\" käyttöön?</string>
+    <string name="extension_permission_checkbox_title">Näytä %1$s</string>
     <string name="extension_prefs_activation_title">Aktivoi</string>
+    <string name="android_auto">Android automaattinen</string>
+
     <string name="controls_prefs_category">Säätimet</string>
 
     <string name="performance_prefs_category">Suorituskyky</string>
     <string name="chroma_format">Pakota videon chroma</string>
+    <string name="chroma_format_summary">RGB 32-bit: oletus chroma\nRGB 16-bit: parempi suorituskyky mutta heikompi laatu\nYUV: paras suorituskyky mutta ei toimi kaikilla laitteilla (vain Android 2.3 ja myöhemmät)</string>
     <string name="deblocking">Purkusuodattimen asetukset</string>
+    <string name="deblocking_summary">Vaihda purkusuodattimen asetuksia. Tämä voi parantaa kuvanlaatua (vain kokeneet käyttäjät)</string>
     <string name="deblocking_always">Täysi purku (hitain)</string>
     <string name="deblocking_nonref">Keskitason purku</string>
     <string name="deblocking_nonkey">Matala purku</string>
     <string name="deblocking_all">Ei purkua (nopein)</string>
+    <string name="enable_frame_skip">Ruudun ohitus</string>
+    <string name="enable_frame_skip_summary">Nopeuttaa purkua, mutta saattaa heikentää videon laatua</string>
     <string name="enable_time_stretching_audio">Aikaa venyttävä ääniraita</string>
+    <string name="enable_time_stretching_audio_summary">Nopeuta ja hidasta ääntä muuttamatta sävelkorkeutta (vaatii nopean laitteen)</string>
+
     <string name="advanced_prefs_category">Edistykselliset</string>
+    <string name="auto_rescan">Automaattihaku</string>
+    <string name="auto_rescan_summary">Skannaa laitteesta uutta tai poistettua mediaa ohjelman käynnistyksen yhteydessä</string>
+    <string name="dump_media_db">Tyhjennä mediatietokanta</string>
+    <string name="dump_media_db_summary">Kopioi tietokanta sisäisen tallennustilan pääkansioon</string>
     <string name="clear_media_db">Tyhjennä mediatietokanta</string>
+    <string name="clear_media_database_summary">Tyhjentää tietokannan ja aloittaa alusta</string>
     <string name="clear_history">Tyhjennä historia</string>
     <string name="set_locale">Aseta kieli</string>
     <string name="network_caching">Verkkovälimuistin arvo</string>
+    <string name="network_caching_summary">Aika millisekunneissa (ms) jota käytetään median puskuroinnissa verkkoon.
+Jätä tyhjäksi nollataksesi.</string>
     <string name="resume_playback_title">Jatka toistoa puhelun jälkeen</string>
     <string name="resume_playback_summary">Pysy muuten tauolla</string>
     <string name="blurred_cover_background_title">Sumea kannen tausta</string>
     <string name="blurred_cover_background_summary">Sumea kansi soittimen taustalla</string>
     <string name="network_caching_popup">Tämän arvon on oltava välillä 0 - 6000 ms</string>
     <string name="quit">Lopeta ja käynnistä ohjelma uudelleen</string>
+    <string name="restart_message">Muutokset tulevat voimaan, kun sovellus on käynnistetty uudelleen.
+Käynnistä uudelleen nyt?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Myöhemmin</string>
     <string name="browser_show_all_title">Näytä kaikki tiedostot</string>
@@ -374,11 +395,15 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="stop_logging">Pysäytä lokiin kirjaus</string>
     <string name="clear_log">Tyhjennä loki</string>
     <string name="log_service_title">VLC:n lokin tallennus</string>
+    <string name="log_service_text">Avaa lokitiedosto konsolissa</string>
     <string name="copy_to_clipboard">Kopioi leikepöydälle</string>
     <string name="copied_to_clipboard">Loki kopioitu leikepöydälle.</string>
     <string name="dump_logcat">Vedos logcat:n kautta</string>
     <string name="dump_logcat_success">Logcat:n vedos luotiin onnistuneesti kohteeseen %1$s!</string>
     <string name="dump_logcat_failure">Logcat:n vedoksen luonti epäonnistui.</string>
+    <string name="custom_libvlc_options">Mukautetut libVLC-asetukset</string>
+    <string name="custom_libvlc_options_invalid">Virheelliset libVLC-asetukset!</string>
+
     <string name="serious_crash">Valitettavasti VLC kohtasi vakavan virheen ja se suljettiin.</string>
     <string name="help_us_send_log">Auta meitä parantamaan VLC-mediasoitinta lähettämällä seuraava kaatumisloki:</string>
     <string name="restart_vlc">Käynnistä VLC uudelleen</string>
@@ -434,31 +459,45 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="allow_settings_access_ringtone_description">Sinun tarvitsee myöntää oikeudet VLC:lle asettaa tämä kappale soittoääneksi.</string>
     <string name="allow_settings_access_brightness_title">Salli VLC:n muuttaa kirkkautta</string>
     <string name="allow_settings_access_brightness_description">Sinun tarvitsee myöntää VLC:lle oikeudet vaihtaa kirkkautta.</string>
+    <string name="allow_draw_overlays_title">Salli VLC-soittimen ilmoitukset muiden sovellusten päällä</string>
+    <string name="allow_sdraw_overlays_description">Sinun tarvitsee myöntää oikeudet VLC:lle näyttää ilmoitukset muiden sovellusten päällä.</string>
     <string name="permission_ask_again">Myönnä oikeudet</string>
     <string name="exit_app">Sulje VLC</string>
     <string name="exit_app_msg">Haluatko varmasti lopettaa VLC:n?</string>
+
+    <!-- fast scroller -->
+    <string name="fastscroller_track">FastScroller ura</string>
+    <string name="fastscroller_handle">FastScroller kahva</string>
 
     <!-- Plugins -->
     <string name="plugins">Liitännäiset</string>
     <string name="download_on_device">Lataa</string>
     <string name="extension_empty">Ei näytettäviä kohteita, voit hankkia lisäosia laajennusten asetuksista.</string>
 
+    <string name="opengl_title">OpenGL ES2 käyttö</string>
+    <string name="opengl_summary">Oletuksena OpenGL ES2:ta käytetään ohjelmallisen ja laitetason purkukoodaamiseen tarvitaessa (360 ° videot)</string>
     <string name="opengl_automatic">Automaattinen</string>
     <string name="opengl_on">Pakota päälle</string>
     <string name="opengl_off">Pakota pois</string>
     <string name="network_favorites">Verkko suosikit</string>
     <string name="network_shared_folders">Jaetut kansiot</string>
+    <string name="encryption_warning">Varoitus, salaus ei ole käytettävissä tälle Android-versiolle. Salasana tallennetaan yksityiseen paikkaan, mutta ei salata</string>
     <string name="store_password">Muista salasana</string>
     <string name="add_to_playlist">Lisää soittolistaan</string>
+    <string name="popup_playback_title">Toista videota ponnahdusikkunassa</string>
+    <string name="popup_playback">Toistetaan ponnahdusikkunassa</string>
     <string name="popup_expand">Laajenna video</string>
     <string name="download_subtitles">Lataa tekstityksiä</string>
     <string name="browse_folder">Selaa kansiota</string>
     <string name="listen">Kuuntele</string>
+    <string name="save_bluetooth_delay">tallenna bluetooth -laitteen viive</string>
     <string name="episodes">jaksot</string>
     <string name="movies">elokuvat</string>
     <string name="videos">videot</string>
     <string name="videos_all">Kaikki videot</string>
     <string name="clear_playback_history">Tyhjennä toistohistoria</string>
+    <string name="ml_scanning">Mediatiedostojen etsiminen</string>
+    <string name="ml_parse_media">Luetaan mediaa</string>
     <string name="ml_discovering">Hakeminen</string>
     <string name="resume">Jatka</string>
     <string name="length">Pituus</string>
@@ -471,14 +510,28 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="auto_my_library">Minun mediakirjasto</string>
     <string name="auto_home">Koti</string>
     <string name="no">Ei</string>
+    <string name="loading_medialibrary">Ladataan mediakirjastoa...</string>
     <string name="yes">Kyllä</string>
 
+    <string name="custom_set_save_title">Tallentamattomat muutokset</string>
+    <string name="custom_set_save_warning">Varoitus: tallentamattomia muutoksia</string>
+    <string name="existing_custom_set_save_message">Tallenna taajuuskorjain nimellä...</string>
+    <string name="new_custom_set_save_message">Tallenna uusi taajuuskorjain nimellä...</string>
     <string name="save">Tallenna</string>
     <string name="do_not_save">Älä tallenna</string>
+    <string name="custom_set_deleted_message">Muokattu taajuuskorjain \"%1$s\" poistettu.</string>
     <string name="custom_set_wrong_input">Virheellinen nimi.</string>
+    <string name="custom_set_already_exist">Tämän niminen taajuuskorjain on jo olemassa</string>
+    <string name="custom_set_restored">Muokattu taajuuskorjain palautettu.</string>
+    <string name="unsaved_set_deleted_message">Tallentamaton taajuuskorjain poistettu.</string>
     <string name="equalizer_new_preset_name">Uusi</string>
+    <string name="settings_ml_block_scan">Mediakirjastoa etsitään laitteeltasi juuri nyt</string>
     <string name="recommendations">Suositukset</string>
+    <string name="browser_quick_access">Nopea pääsy</string>
+    <string name="browser_storages">Asemat</string>
+    <string name="msg_delete_failed">Median poistaminen epäonnistui %1$s</string>
     <string name="renderer_list_title">Näytöt</string>
+    <string name="sdcard_permission_dialog_title">Sinun on myönnettävä VLC:lle kirjoitusoikeus SD-kortillesi</string>
     <string name="dialog_sd_wizard">Näytä minulle</string>
     <string name="next">Seuraava</string>
     <string name="download">Lataa</string>
